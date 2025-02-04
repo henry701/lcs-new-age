@@ -16,19 +16,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@main
 
       # Note: This workflow uses the latest stable version of the Dart SDK.
       # You can specify other versions if desired, see documentation here:
       # https://github.com/dart-lang/setup-dart/blob/main/README.md
       # - uses: dart-lang/setup-dart@v1
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@main
         with:
           channel: stable
           flutter-version: 3.19.0
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Install dev dependencies
+        run: flutter pub get --dev
+
+      - name: Generate code
+        run: flutter pub run build_runner build --delete-conflicting-outputs
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
       # - name: Verify formatting
@@ -46,5 +52,11 @@ jobs:
 
       - name: Send to web
         run: flutter build web
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web
 
         

@@ -154,7 +154,6 @@ void printSiteMap(int x, int y, int z) {
       str = "The Office of the President";
     default:
       str = "";
-      break;
   }
   if (levelMap[locx][locy][locz].special != TileSpecial.none) {
     mvaddstrc(24, 67 - (str.length >> 1), white, str);
@@ -490,11 +489,17 @@ void printWall(int x, int y, int z, int px, int py) {
 
         // Corners are possible if walls nearby are blown away, although this is rare
         if ((dir == wallLeft && visible[wallUp]) ||
-            (dir == wallUp && visible[wallLeft])) mvaddstr(py, px, "+");
+            (dir == wallUp && visible[wallLeft])) {
+          mvaddstr(py, px, "+");
+        }
         if ((dir == wallRight && visible[wallUp]) ||
-            (dir == wallUp && visible[wallRight])) mvaddstr(py, px + 4, "+");
+            (dir == wallUp && visible[wallRight])) {
+          mvaddstr(py, px + 4, "+");
+        }
         if ((dir == wallLeft && visible[wallDown]) ||
-            (dir == wallDown && visible[wallLeft])) mvaddstr(py + 2, px, "+");
+            (dir == wallDown && visible[wallLeft])) {
+          mvaddstr(py + 2, px, "+");
+        }
         if ((dir == wallRight && visible[wallDown]) ||
             (dir == wallDown && visible[wallRight])) {
           mvaddstr(py + 2, px + 4, "+");

@@ -1970,7 +1970,6 @@ void addDeathMessage(Creature cr) {
             addstr("\"A plague on both your houses...\"");
           default:
             addstr("\"Better dead than liberal...\"");
-            break;
         }
     }
   }

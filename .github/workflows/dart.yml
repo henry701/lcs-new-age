@@ -18,6 +18,16 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
+      - name: Cache Pub dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ runner.os }}/.pub-cache
+            .dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
       # Note: This workflow uses the latest stable version of the Dart SDK.
       # You can specify other versions if desired, see documentation here:
       # https://github.com/dart-lang/setup-dart/blob/main/README.md
@@ -28,6 +38,7 @@ jobs:
           flutter-version: 3.27.3
 
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: flutter pub get
 
       - name: Generate code
@@ -48,7 +59,7 @@ jobs:
       #  run: flutter test
 
       - name: Send to web
-        run: flutter build web
+        run: flutter build web --release --base-href /lcs-new-age/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

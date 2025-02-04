@@ -476,7 +476,6 @@ Future<void> displayStory(
               story += "&r";
             }
           }
-          break;
       }
 
       story += generateFiller(200);

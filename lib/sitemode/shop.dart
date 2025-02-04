@@ -328,7 +328,9 @@ class Shop extends ShopOption {
       }
       //PAGE DOWN
       if ((isPageDown(c) || c == Key.downArrow || c == Key.rightArrow) &&
-          (page + 1) * 19 < availableOptions.length) page++;
+          (page + 1) * 19 < availableOptions.length) {
+        page++;
+      }
 
       if (c >= Key.a && c <= Key.s) {
         int p = page * 19 + c - Key.a;

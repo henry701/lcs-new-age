@@ -278,7 +278,9 @@ Future<void> reviewMode(ReviewMode mode) async {
       for (Skill sk in Skill.values) {
         skill += tempp.skill(sk);
         if (tempp.skillXP(sk) >= 100 + (10 * tempp.skill(sk)) &&
-            tempp.skill(sk) < tempp.skillCap(sk)) bright = true;
+            tempp.skill(sk) < tempp.skillCap(sk)) {
+          bright = true;
+        }
       }
 
       setColor(bright ? white : lightGray);
@@ -789,7 +791,9 @@ Future<void> assembleSquad(Squad? cursquad) async {
       for (Skill sk in Skill.values) {
         skill += tempp.skill(sk);
         if (tempp.skillXP(sk) >= 100 + (10 * tempp.skill(sk)) &&
-            tempp.skill(sk) < tempp.skillCap(sk)) bright = true;
+            tempp.skill(sk) < tempp.skillCap(sk)) {
+          bright = true;
+        }
       }
 
       setColor(bright ? white : lightGray);
@@ -1027,7 +1031,9 @@ Future<void> assignNewBasesToTheSquadless() async {
     }
     //PAGE DOWN (people)
     if ((isPageDown(c) || c == Key.downArrow || c == Key.rightArrow) &&
-        (pageLib + 1) * 19 < temppool.length) pageLib++;
+        (pageLib + 1) * 19 < temppool.length) {
+      pageLib++;
+    }
 
     //PAGE UP (locations)
     if (c == ','.codePoint && pageLoc > 0) pageLoc--;

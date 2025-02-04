@@ -295,7 +295,9 @@ class ConfigSiteScript extends ConfigSiteCommand {
     if ((dx <= (ROOMDIMENSION + 1) || dy <= (ROOMDIMENSION + 1)) &&
         dx < dy * 2 &&
         dy < dx * 2 &&
-        lcsRandom(2) == 0) return;
+        lcsRandom(2) == 0) {
+      return;
+    }
     // Very likely to stop iterating for small rooms
     if (dx <= ROOMDIMENSION && dy <= ROOMDIMENSION) return;
     // Guaranteed to stop iterating for hallways
@@ -703,8 +705,7 @@ class ConfigSiteLoot extends ConfigSiteCommand {
 Future<bool> readConfigFile(String filename) async {
   Configurable? object;
   String file = await rootBundle.loadString(filename);
-  Iterable<(String, String)> commands =
-      file.split("\n").map(readLine).whereNotNull();
+  Iterable<(String, String)> commands = file.split("\n").map(readLine).nonNulls;
   for (var (command, value) in commands) {
     if (command == "OBJECT") {
       object = createObject(value);

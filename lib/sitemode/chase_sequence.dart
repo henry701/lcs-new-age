@@ -93,7 +93,7 @@ Future<ChaseOutcome> carChaseSequence() async {
 
   // Add unique cars to the friendcar list
   chaseSequence!.friendcar =
-      squad.map((p) => p.car).whereNotNull().toSet().toList();
+      squad.map((p) => p.car).nonNulls.toSet().toList();
 
   mode = GameMode.carChase;
 
@@ -591,7 +591,6 @@ Future<void> evasiverun() async {
               message += "thrown to the ground, and beaten senseless!";
             }
             p.blood -= 60;
-            break;
         }
         if (p.blood <= 0) {
           p.die();

@@ -44,7 +44,7 @@ class Weapon extends Item {
   set loadedAmmoType(AmmoType? value) => loadedAmmoId = value?.idName;
   bool get empty => stackSize <= 0;
   Iterable<AmmoType> get acceptableAmmo =>
-      type.attacks.map((attack) => attack.ammoType).whereNotNull();
+      type.attacks.map((attack) => attack.ammoType).nonNulls;
 
   @override
   Item clone() {

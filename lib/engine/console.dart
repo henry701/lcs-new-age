@@ -9,7 +9,7 @@ import 'package:lcs_new_age/engine/console_graphic.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
 const CONSOLE_WIDTH = 80;
-const CONSOLE_HEIGHT = 28;
+const CONSOLE_HEIGHT = 29;
 
 class Console {
   Color currentForeground = lightGray;

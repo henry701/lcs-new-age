@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@main
 
       - name: Cache Pub dependencies
+        id: cache-restore
         uses: actions/cache@main
         with:
           path: |
@@ -38,7 +39,7 @@ jobs:
           flutter-version: 3.27.3
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache-restore.outputs.cache-hit != 'true'
         run: flutter pub get
 
       - name: Generate code

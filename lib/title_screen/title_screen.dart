@@ -62,23 +62,23 @@ void printTitleScreen(HighScores? highScores) {
       19, "and for releasing LCS as open source so the rest of us could waste");
   mvaddstrCenter(20, "all these years updating it into the game it is today.");
   setColor(black, background: lightGray);
-  mvaddstr(22, 65, "Version $gameVersion");
+  mvaddstr(24, 65, "Version $gameVersion");
   setColor(lightGray);
-  mvaddstrCenter(23,
+  mvaddstrCenter(24,
       "Press I to Import a saved game.  Any other key to Pursue your Liberal Agenda.");
-  mvaddstrCenter(24, "(click the game window to give it keyboard focus)");
+  mvaddstrCenter(25, "(click the game window to give it keyboard focus)");
 }
 
 void titleScreenFrame() {
   setColor(green, background: lightGray);
   mvaddstr(0, 0, "".padLeft(80));
-  for (int i = 1; i < 23; i++) {
+  for (int i = 1; i < 25; i++) {
     mvaddstr(i, 0, " ");
     mvaddstr(i, 1, " ");
     mvaddstr(i, 78, " ");
     mvaddstr(i, 79, " ");
   }
-  mvaddstr(22, 0, "".padLeft(80));
+  mvaddstr(24, 0, "".padLeft(80));
   setColor(lightGray);
   mvaddstr(8, 2, "".padLeft(76, emDash));
   mvaddstr(15, 2, "".padLeft(76, emDash));

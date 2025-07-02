@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:lcs_new_age/basemode/base_mode.dart';
 import 'package:lcs_new_age/basemode/liberal_agenda.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
+import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -221,10 +222,13 @@ Future<void> tryToRepealConstitution() async {
     //REAGANIFY
     HighScore yourScore;
     if (canSeeThings) {
-      execName[Exec.president] = FullName("Ronald", "", "Reagan");
-      execName[Exec.vicePresident] = FullName("Strom", "", "Thurmond");
-      execName[Exec.secretaryOfState] = FullName("Jesse", "", "Helms");
-      execName[Exec.attorneyGeneral] = FullName("Jerry", "", "Falwell");
+      execName[Exec.president] = FullName("Ronald", "", "Reagan", Gender.male);
+      execName[Exec.vicePresident] =
+          FullName("Strom", "", "Thurmond", Gender.male);
+      execName[Exec.secretaryOfState] =
+          FullName("Jesse", "", "Helms", Gender.male);
+      execName[Exec.attorneyGeneral] =
+          FullName("Jerry", "", "Falwell", Gender.male);
       for (Exec e in exec.keys) {
         exec[e] = DeepAlignment.archConservative;
       }
@@ -342,7 +346,7 @@ Future<bool> ratifyConstitutionalAmendment(DeepAlignment level,
       if (level.index == vote) yesVotesHouse++;
 
       if (l == house.length - 1) {
-        if (yesVotesHouse >= house.length * 2 / 3) {
+        if (yesVotesHouse >= house.length * 3 / 4) {
           yesWinHouse = true;
         }
       }
@@ -369,7 +373,15 @@ Future<bool> ratifyConstitutionalAmendment(DeepAlignment level,
 
       if (l % 4 == 0 && s < senate.length) {
         vote = senate[s++].index;
-        if (vote >= 1 && vote <= 3) vote += lcsRandom(3) - 1;
+        if (vote >= 1 && vote <= 3) {
+          if (politics.publicMood() < 15) {
+            vote += lcsRandom(2) - 1;
+          } else if (politics.publicMood() > 85) {
+            vote += lcsRandom(2);
+          } else {
+            vote += lcsRandom(3) - 1;
+          }
+        }
 
         if (level.index == vote) yesVotesSenate++;
       }
@@ -439,7 +451,7 @@ Future<bool> ratifyConstitutionalAmendment(DeepAlignment level,
 
     Stopwatch sw = Stopwatch()..start();
     for (int s = 0; s < states.length; s++) {
-      double smood = mood + states[s].rollMood;
+      double smood = states[s].rollMood(mood);
 
       int vote = 0;
       if (lcsRandom(100) < smood) vote++;

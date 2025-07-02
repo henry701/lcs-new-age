@@ -1,7 +1,6 @@
 /* everybody reload! */
 import 'dart:math';
 
-import 'package:lcs_new_age/common_actions/common_actions.dart';
 import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
@@ -26,7 +25,7 @@ enum UnlockTypes { door, cage, cageHard, cell, safe, armory, vault }
 
 enum BashTypes { door }
 
-enum UnlockResult { unlocked, failed, noAttempt }
+enum UnlockResult { unlocked, failed, noAttempt, bashed }
 
 enum HackTypes { supercomputer, vault }
 
@@ -61,8 +60,8 @@ Future<UnlockResult> unlock(UnlockTypes type) async {
       if (maxattack <= difficulty) {
         p.train(Skill.security, 6 * difficulty);
       }
-      clearMessageArea(false);
-      mvaddstrc(16, 1, white, "${p.name} ");
+      clearMessageArea();
+      mvaddstrc(9, 1, white, "${p.name} ");
       switch (type) {
         case UnlockTypes.door:
           addstr("unlocks the door!");
@@ -90,9 +89,9 @@ Future<UnlockResult> unlock(UnlockTypes type) async {
 
       return UnlockResult.unlocked;
     } else {
-      clearMessageArea(false);
+      clearMessageArea();
       setColor(white);
-      move(16, 1);
+      move(9, 1);
 
       int i;
       //gain some experience for failing only if you could have succeeded.
@@ -114,7 +113,7 @@ Future<UnlockResult> unlock(UnlockTypes type) async {
     }
   } else {
     clearMessageArea();
-    mvaddstrc(16, 1, white, "You can't find anyone to do the job.");
+    mvaddstrc(9, 1, white, "You can't find anyone to do the job.");
 
     await getKey();
   }
@@ -134,7 +133,7 @@ Future<UnlockResult> bash(BashTypes type) async {
         crowable = true;
       } else if (activeSite!.type != SiteType.prison &&
           activeSite!.type != SiteType.intelligenceHQ) {
-        difficulty = Difficulty.challenging; // Respectable place
+        difficulty = Difficulty.average; // Respectable place
         crowable = true;
       } else {
         difficulty = Difficulty.formidable; // Very high security
@@ -186,8 +185,8 @@ Future<UnlockResult> bash(BashTypes type) async {
   difficulty = (difficulty / maxp!.weapon.type.bashStrengthModifier).floor();
 
   if (crowable || maxp.attributeCheck(Attribute.strength, difficulty)) {
-    clearMessageArea(false);
-    mvaddstrc(16, 1, white, maxp.name);
+    clearMessageArea();
+    mvaddstrc(9, 1, white, maxp.name);
     addstr(" ");
     switch (type) {
       case BashTypes.door:
@@ -219,17 +218,17 @@ Future<UnlockResult> bash(BashTypes type) async {
             activeSite!.type == SiteType.intelligenceHQ) &&
         !siteAlarm) {
       siteAlarm = true;
-      move(17, 1);
+      move(10, 1);
       setColor(red);
       addstr("Alarms go off!");
 
       await getKey();
     }
 
-    return UnlockResult.unlocked;
+    return UnlockResult.bashed;
   } else {
-    clearMessageArea(false);
-    mvaddstrc(16, 1, white, maxp.name);
+    clearMessageArea();
+    mvaddstrc(9, 1, white, maxp.name);
     switch (type) {
       case BashTypes.door:
         if (maxp.hasWheelchair) {
@@ -252,7 +251,7 @@ Future<UnlockResult> bash(BashTypes type) async {
 Future<UnlockResult> hack(HackTypes type) async {
   int difficulty = switch (type) {
     HackTypes.supercomputer => Difficulty.heroic,
-    HackTypes.vault => Difficulty.challenging,
+    HackTypes.vault => Difficulty.hard,
   };
 
   int maxattack = -3;
@@ -274,15 +273,21 @@ Future<UnlockResult> hack(HackTypes type) async {
 
     if (maxattack > difficulty) {
       clearMessageArea();
-      mvaddstrc(16, 1, white, hacker.name);
-      if (!blind) addstr(" has");
+      mvaddstrc(9, 1, white, hacker.name);
+      if (hacker.skill(Skill.computers) < 2) {
+        addstr(" presses buttons randomly...");
+        await getKey();
+        mvaddstr(10, 1, "...and accidentally");
+      }
       switch (type) {
         case HackTypes.supercomputer:
-          addstr(" burned a disk of top secret files");
+          addstr(" burns a disk of top secret files");
         case HackTypes.vault:
-          addstr(" disabled the second layer of security");
+          addstr(" disables the second layer of security");
       }
-      if (blind) addstr(" despite being blind");
+      if (blind) {
+        addstr(" despite being blind");
+      }
       addstr("!");
 
       await getKey();
@@ -290,14 +295,34 @@ Future<UnlockResult> hack(HackTypes type) async {
       return UnlockResult.unlocked;
     } else {
       clearMessageArea();
-      mvaddstrc(16, 1, white, hacker.name);
-      addstr(" couldn't");
-      if (blind) addstr(" see how to");
-      switch (type) {
-        case HackTypes.supercomputer:
-          addstr(" bypass the supercomputer security.");
-        case HackTypes.vault:
-          addstr(" bypass the vault's electronic lock.");
+      mvaddstrc(9, 1, white, hacker.name);
+      if (hacker.skill(Skill.computers) < 2) {
+        addstr(" presses buttons randomly...");
+        await getKey();
+        mvaddstr(
+            10,
+            1,
+            [
+              "...which doesn't work. Obviously.",
+              "...but now the screen is off and won't turn on.",
+              "...and manages to install DOOM. Which is cool, but unhelpful.",
+              "...and now it's doing a virus scan and locking out input.",
+              "...until a thin line of smoke rises from the computer.",
+              "...until the computer just freezes up.",
+              "...and presses \"enable lockout\" followed by \"confirm\".",
+              "...but now the text is in wingdings.",
+              "...and now the keyboard layout is in Klingon.",
+              "...and now the computer is playing tic-tac-toe against itself.",
+            ].random);
+      } else {
+        addstr(" couldn't");
+        if (blind) addstr(" see how to");
+        switch (type) {
+          case HackTypes.supercomputer:
+            addstr(" bypass the supercomputer security.");
+          case HackTypes.vault:
+            addstr(" bypass the vault's electronic lock.");
+        }
       }
 
       await getKey();
@@ -306,7 +331,7 @@ Future<UnlockResult> hack(HackTypes type) async {
     }
   } else {
     clearMessageArea();
-    mvaddstrc(16, 1, white, "You can't find anyone to do the job.");
+    mvaddstrc(9, 1, white, "You can't find anyone to do the job.");
 
     await getKey();
   }
@@ -377,7 +402,7 @@ Future<bool> radioBroadcast() async {
 String _mediaQualityDescription(
     int segmentpower, String medium, String viewername) {
   return switch (segmentpower) {
-    < 25 => "The Squad sounds wholly insane.",
+    < 25 => "The Squad sounds utterly clueless.",
     < 35 => "The segment really sucks.",
     < 45 => "It is a very boring hour.",
     < 55 => "It is mediocre $medium.",
@@ -406,9 +431,11 @@ Future<bool> _mediaBroadcast(String takeover, View mediaView, String medium,
     return false;
   }
 
-  criminalizeparty(Crime.disturbingThePeace);
+  addPotentialCrime(squad, Crime.disturbingThePeace);
+  addPotentialCrime(squad, Crime.unlawfulSpeech);
 
   View viewhit = View.issues.random;
+  View hostageviewhit = View.issues.random;
   await encounterMessage("The Squad takes control of the $takeover and ",
       line2: "talks about ${_mediaIssueDescription(viewhit)}.");
 
@@ -420,10 +447,12 @@ Future<bool> _mediaBroadcast(String takeover, View mediaView, String medium,
       if (p.prisoner?.alive == true &&
           p.prisoner?.type.id == celebrityType &&
           p.prisoner?.align == Alignment.conservative) {
-        viewhit = View.issues.random;
+        hostageviewhit = View.issues.random;
         await encounterMessage(
             "The hostage ${p.prisoner!.name} is forced on air to ",
-            line2: "discuss ${_mediaIssueDescription(viewhit)}.");
+            line2: "discuss ${_mediaIssueDescription(hostageviewhit)}.");
+
+        addPotentialCrime(squad, Crime.terrorism);
 
         int usegmentpower = 10; //FAME BONUS
         usegmentpower += p.prisoner!.attribute(Attribute.intelligence);
@@ -431,7 +460,7 @@ Future<bool> _mediaBroadcast(String takeover, View mediaView, String medium,
         usegmentpower += p.prisoner!.attribute(Attribute.charisma);
         usegmentpower += p.prisoner!.skill(Skill.persuasion);
 
-        changePublicOpinion(viewhit, (usegmentpower / 2).round());
+        changePublicOpinion(hostageviewhit, (usegmentpower / 2).round());
 
         segmentpower += usegmentpower;
       } else {
@@ -446,11 +475,23 @@ Future<bool> _mediaBroadcast(String takeover, View mediaView, String medium,
 
   //CHECK PUBLIC OPINION
   changePublicOpinion(View.lcsKnown, 10);
-  changePublicOpinion(View.lcsLiked,
-      ((segmentpower - 50) * (publicOpinion[View.amRadio]! / 200)).round());
+  changePublicOpinion(
+      View.lcsLiked,
+      ((segmentpower - 50) * ((100 - publicOpinion[mediaView]!) / 200))
+          .round());
   changePublicOpinion(viewhit,
-      ((segmentpower - 50) * (publicOpinion[View.amRadio]! / 100)).round(),
+      ((segmentpower - 50) * ((100 - publicOpinion[mediaView]!) / 100)).round(),
       coloredByLcsOpinions: true);
+  changePublicOpinion(View.freeSpeech,
+      ((segmentpower - 50) * ((100 - publicOpinion[mediaView]!) / 100)).round(),
+      coloredByLcsOpinions: true);
+  if (squad.any((c) => c.weapon.isAGun && c.weapon.isCurrentlyLegal)) {
+    changePublicOpinion(
+        View.gunControl,
+        ((segmentpower - 50) * ((100 - publicOpinion[mediaView]!) / 100))
+            .round(),
+        coloredByLcsOpinions: true);
+  }
 
   if (siteAlienated.index >= SiteAlienation.alienatedModerates.index &&
       segmentpower >= 40) {
@@ -495,7 +536,7 @@ Future<void> partyrescue(TileSpecial special) async {
       .toList();
 
   for (Creature rescue in waitingForRescue.toList()) {
-    if (freeslots > 0 && (hostslots == 0 || oneIn(2))) {
+    if (freeslots > 0 && (hostslots == 0 || oneIn(2) && rescue.canWalk)) {
       rescue.squad = activeSquad;
       rescue.location = null;
       rescue.base = squad[0].base;
@@ -521,13 +562,20 @@ Future<void> partyrescue(TileSpecial special) async {
           printParty();
           await encounterMessage(
               "You've rescued ${rescue.name} from the Conservatives.");
-          await encounterMessage(
-              "${rescue.name} ${[
-                "was tortured recently",
-                "was beaten severely yesterday",
-                "was on a hunger strike"
-              ].random}",
-              line2: "so ${p.name} will have to haul a Liberal.");
+          if (rescue.canWalk) {
+            await encounterMessage(
+                "${rescue.name} ${[
+                  "was tortured recently",
+                  "was beaten severely yesterday",
+                  "was on a hunger strike"
+                ].random}",
+                line2:
+                    "so ${p.name} will have to haul ${rescue.gender.himHer}.");
+          } else {
+            await encounterMessage("${rescue.name} is unable to walk",
+                line2:
+                    "so ${p.name} will have to haul ${rescue.gender.himHer}.");
+          }
           waitingForRescue.remove(rescue);
           break;
         }
@@ -552,18 +600,18 @@ Future<bool> reloadparty(bool wasteful, {bool showText = false}) async {
     String message = "";
     if (p.hasThrownWeapon) {
       pReloaded = p.readyAnotherThrowingWeapon();
-      message = "${p.name} readies another ${p.weapon.getName()}.";
+      //message = "${p.name} readies another ${p.weapon.getName()}.";
     } else if (p.canReload()) {
       pReloaded = p.reload(wasteful);
-      message = "${p.name} reloads.";
+      //message = "${p.name} reloads.";
     }
     if (pReloaded) {
       didReload = true;
       if (showText && message.isNotEmpty) {
         clearMessageArea();
         printParty();
-        mvaddstrc(16, 1, white, message);
-        await getKey();
+        //mvaddstrc(9, 1, white, message);
+        //await getKey();
       }
     }
   }

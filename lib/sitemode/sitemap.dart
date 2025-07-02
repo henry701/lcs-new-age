@@ -13,7 +13,7 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 part 'sitemap.g.dart';
 
-const ENCMAX = 18;
+const ENCMAX = 10;
 const RNG_SIZE = 4;
 const MAPX = 70;
 const MAPY = 23;
@@ -167,6 +167,7 @@ class SiteTile {
   TileSpecial special = TileSpecial.none;
   int flag = 0;
   int siegeflag = 0;
+  bool inLOS = false;
 
   SiteTile? get left => levelMapTileOrNull(x - 1, y, z);
   SiteTile? get right => levelMapTileOrNull(x + 1, y, z);
@@ -190,7 +191,14 @@ class SiteTile {
   bool get alarm => flag & SITEBLOCK_ALARMED > 0;
   set alarm(bool value) => setFlag(SITEBLOCK_ALARMED, value);
   bool get bloody => flag & SITEBLOCK_BLOODY > 0;
-  set bloody(bool value) => setFlag(SITEBLOCK_BLOODY, value);
+  set bloody(bool value) {
+    setFlag(SITEBLOCK_BLOODY, value);
+    if (value) bloodCounter++;
+    if (bloodCounter > 10) {
+      setFlag(SITEBLOCK_BLOODY2, true);
+    }
+  }
+
   bool get megaBloody => flag & SITEBLOCK_BLOODY2 > 0;
   set megaBloody(bool value) => setFlag(SITEBLOCK_BLOODY2, value);
   bool get chainlink => flag & SITEBLOCK_CHAINLINK > 0;
@@ -242,6 +250,8 @@ class SiteTile {
   set siegeUnitDamaged(bool value) =>
       setSiegeFlag(SIEGEFLAG_UNIT_DAMAGED, value);
 
+  int bloodCounter = 0;
+
   void setFlag(int flag, bool value) {
     if (value) {
       this.flag |= flag;
@@ -274,6 +284,7 @@ Future<void> initsite(Site loc) async {
   if (activeSquad == null) return;
   for (Creature p in squad) {
     p.incapacitatedThisRound = false;
+    p.justAttacked = false;
   }
   groundLoot.clear();
 
@@ -371,6 +382,28 @@ Future<void> initsite(Site loc) async {
         levelMap[x][y][z].flag |= SITEBLOCK_GRAFFITI_OTHER;
         graffitiquota--;
       }
+    }
+  }
+}
+
+void floodVisitAllTiles(int startX, int startY, int startZ) {
+  List<SiteTile?> toVisit = [levelMap[startX][startY][startZ]];
+  while (toVisit.isNotEmpty) {
+    SiteTile? current = toVisit.removeLast();
+    if (current == null || current.known) continue;
+    current.known = true;
+    for (SiteTile neighbor in current.neighbors(orthogonal: false)) {
+      if (!neighbor.known && !neighbor.losObstructed) {
+        toVisit.add(neighbor);
+      } else {
+        neighbor.known = true;
+      }
+    }
+    if (current.special == TileSpecial.stairsUp) {
+      toVisit.add(current.up);
+    }
+    if (current.special == TileSpecial.stairsDown) {
+      toVisit.add(current.down);
     }
   }
 }

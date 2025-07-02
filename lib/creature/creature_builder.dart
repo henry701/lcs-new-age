@@ -11,8 +11,8 @@ import 'package:lcs_new_age/creature/hardcoded_creature_type_stuff.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
-import 'package:lcs_new_age/items/armor.dart';
-import 'package:lcs_new_age/items/armor_type.dart';
+import 'package:lcs_new_age/items/clothing.dart';
+import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
@@ -95,9 +95,9 @@ void _giveAttributes(Creature creature, CreatureType type) {
 }
 
 void _giveEquipment(Creature creature, CreatureType type) {
-  ArmorType? armorType = type.randomArmor;
-  if (armorType != null && armorType.idName != "ARMOR_NONE") {
-    creature.equippedArmor = Armor(armorType.idName);
+  ClothingType? armorType = type.randomArmor;
+  if (armorType != null && armorType.idName != "CLOTHING_NONE") {
+    creature.equippedClothing = Clothing(armorType.idName);
   }
   type.randomWeaponFor(creature);
   creature.money = type.money.roll();
@@ -111,8 +111,22 @@ void _giveGender(Creature creature, CreatureType type) {
     DeepAlignment.liberal => oneIn(2),
     DeepAlignment.eliteLiberal => false,
   };
+  bool canBeTrans = switch (laws[Law.lgbtRights]!) {
+    DeepAlignment.archConservative => false,
+    DeepAlignment.conservative => oneIn(20),
+    DeepAlignment.moderate => oneIn(5),
+    DeepAlignment.liberal => oneIn(2),
+    DeepAlignment.eliteLiberal => true,
+  };
+  int nbChance = switch (laws[Law.lgbtRights]!) {
+    DeepAlignment.archConservative => 20,
+    DeepAlignment.conservative => 20,
+    DeepAlignment.moderate => 16,
+    DeepAlignment.liberal => 12,
+    DeepAlignment.eliteLiberal => 8,
+  };
   Gender any() {
-    if (creature.isLiberal && oneIn(20)) {
+    if ((creature.isLiberal || canBeTrans) && oneIn(nbChance)) {
       return Gender.nonbinary;
     } else {
       return [Gender.male, Gender.female].random;
@@ -129,7 +143,11 @@ void _giveGender(Creature creature, CreatureType type) {
     case Gender.female:
       creature.gender = Gender.female;
     case Gender.femaleBias:
-      creature.gender = conforming ? Gender.female : any();
+      if (type.id == CreatureTypeIds.sexWorker && oneIn(4)) {
+        creature.gender = any();
+      } else {
+        creature.gender = conforming ? Gender.female : any();
+      }
     case Gender.maleBias:
       creature.gender = conforming ? Gender.male : any();
   }
@@ -137,10 +155,12 @@ void _giveGender(Creature creature, CreatureType type) {
   // Gender assigned at birth to match gender expression
   creature.genderAssignedAtBirth = creature.gender;
   // ...UNLESS
-  if (creature.isLiberal) {
+  if (creature.isLiberal || canBeTrans) {
     if (creature.gender == Gender.nonbinary) {
       creature.genderAssignedAtBirth = [Gender.male, Gender.female].random;
+      creature.cannotDetransition = true;
     } else if (oneIn(20)) {
+      creature.cannotDetransition = true;
       if (creature.gender == Gender.male) {
         creature.genderAssignedAtBirth = Gender.female;
       } else {
@@ -152,8 +172,8 @@ void _giveGender(Creature creature, CreatureType type) {
 
 void _giveSkills(Creature creature, CreatureType type) {
   for (MapEntry<Skill, (int, int)> entry in type.skillPoints.entries) {
-    creature.rawSkill[entry.key] =
-        entry.value.$1 + lcsRandom(entry.value.$2 - entry.value.$1 + 1);
+    creature.rawSkill[entry.key] = min(creature.skillCap(entry.key),
+        entry.value.$1 + lcsRandom(entry.value.$2 - entry.value.$1 + 1));
   }
   int randomskills = lcsRandom(4) + 4;
   if (creature.age > 20) {

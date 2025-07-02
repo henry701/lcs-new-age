@@ -1,14 +1,17 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart' as material;
+import 'package:flutter/services.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/items/ammo.dart';
-import 'package:lcs_new_age/items/armor.dart';
+import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/weapon.dart';
 import 'package:lcs_new_age/items/weapon_type.dart';
@@ -41,14 +44,11 @@ Future<void> equip(List<Item>? loot) async {
 
     int x = 1, y = 10;
     for (int l = page * 18; l < loot.length && l < page * 18 + 18; l++) {
-      String s = loot[l].equipTitle();
-
-      if (loot[l].stackSize > 1 && !loot[l].type.isMoney) {
-        s += " x${loot[l].stackSize}";
-      }
       String let = letterAPlus(l - page * 18, capitalize: true);
-
-      mvaddstr(y, x, "$let - $s");
+      addOptionText(y, x, let, "$let - ${loot[l].equipTitle()}");
+      if (loot[l].stackSize > 1 && !loot[l].type.isMoney) {
+        addstrc(lightGray, " x${loot[l].stackSize}");
+      }
 
       x += 26;
       if (x > 53) {
@@ -69,20 +69,23 @@ Future<void> equip(List<Item>? loot) async {
     mvaddstrc(19, 1, lightGray, "Press a letter to equip a Liberal item");
     mvaddstr(20, 1,
         "Press a number to drop that Squad member's Conservative weapon");
-    mvaddstr(21, 1, "S - Liberally Strip a Squad member");
-    mvaddstr(22, 1, "Cursors - Increase or decrease ammo allocation");
+    addOptionText(21, 1, "S", "S - Liberally Strip a Squad member");
+    addOptionText(
+        22, 1, "Cursors", "Cursors - Increase or decrease ammo allocation");
 
-    if (site != null && site.controller == SiteController.lcs) {
+    if (site != null &&
+        site.controller == SiteController.lcs &&
+        loot != site.loot) {
       setColorConditional(site.loot.isNotEmpty);
-      mvaddstr(23, 1, "Y - Get things from ");
+      addOptionText(23, 1, "Y", "Y - Get things from ");
       addstr(site.getName(short: true));
 
       setColorConditional(loot.isNotEmpty);
-      mvaddstr(23, 40, "Z - Stash things at ");
+      addOptionText(23, 40, "Z", "Z - Stash things at ");
       addstr(site.getName(short: true));
     }
 
-    mvaddstrc(24, 1, lightGray, "Enter - Done");
+    addOptionText(24, 1, "Enter", "Enter - Done");
 
     int c = await getKey();
 
@@ -98,7 +101,7 @@ Future<void> equip(List<Item>? loot) async {
         if (slot < 0 || slot >= loot.length) continue; // Out of range.
 
         bool isWeapon = loot[slot] is Weapon;
-        bool isArmor = loot[slot] is Armor;
+        bool isArmor = loot[slot] is Clothing;
         bool isAmmo =
             squad.any((m) => m.weapon.acceptableAmmo.contains(loot[slot].type));
         if (!isWeapon && !isArmor && !isAmmo) {
@@ -131,7 +134,7 @@ Future<void> equip(List<Item>? loot) async {
           if (decreaseammo) {
             Item? ammo = squaddie.spareAmmo;
             if (ammo != null) {
-              loot.add(ammo.split(1));
+              loot.add(ammo.split(squaddie.weapon.type.ammoCapacity));
               if (ammo.stackSize == 0) squaddie.spareAmmo = null;
             } else if (!squaddie.weapon.type.usesAmmo) {
               errmsg = "No ammo to drop!";
@@ -176,10 +179,10 @@ Future<void> equip(List<Item>? loot) async {
             squaddie.giveWeapon(w, loot);
 
             if (page * 18 >= loot.length && page != 0) page--;
-          } else if (loot[slot] is Armor) {
+          } else if (loot[slot] is Clothing) {
             debugPrint(
                 "Giving armor ${loot[slot].type.name} to ${squaddie.name}");
-            Armor a = loot[slot] as Armor;
+            Clothing a = loot[slot] as Clothing;
             squaddie.giveArmor(a, loot);
 
             if (loot[slot].stackSize == 0) loot.removeAt(slot);
@@ -187,7 +190,8 @@ Future<void> equip(List<Item>? loot) async {
             if (page * 18 >= loot.length && page != 0) page--;
           } else if (squaddie.weapon.acceptableAmmo.contains(loot[slot].type) &&
               armok > 0) {
-            int space = 9 - (squaddie.spareAmmo?.stackSize ?? 0);
+            int space = 9 * squaddie.weapon.type.ammoCapacity -
+                (squaddie.spareAmmo?.stackSize ?? 0);
 
             if (!squaddie.weapon.type.usesAmmo) {
               errmsg = "Can't carry ammo without a gun.";
@@ -204,6 +208,10 @@ Future<void> equip(List<Item>? loot) async {
               if (loot[slot].stackSize > 1 && !increaseammo) {
                 amount =
                     await promptAmount(0, min(loot[slot].stackSize, space));
+              }
+              if (increaseammo) {
+                amount = min(
+                    loot[slot].stackSize, squaddie.weapon.type.ammoCapacity);
               }
 
               squaddie.takeAmmo(loot[slot] as Ammo, loot, amount);
@@ -239,7 +247,9 @@ Future<void> equip(List<Item>? loot) async {
       return;
     }
 
-    if (site != null && site.controller == SiteController.lcs) {
+    if (site != null &&
+        site.controller == SiteController.lcs &&
+        loot != site.loot) {
       if (c == Key.y && site.loot.isNotEmpty) {
         await moveLoot(loot, site.loot);
       }
@@ -255,7 +265,7 @@ Future<void> equip(List<Item>? loot) async {
     }
 
     //PAGE UP
-    if ((isPageUp(c) || c == Key.upArrow || c == Key.leftArrow) && page > 0) {
+    if ((isPageUp(c) || c == Key.leftArrow) && page > 0) {
       page--;
     }
     //PAGE DOWN
@@ -282,10 +292,13 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
     int x = 1, y = 10;
 
     for (int l = page * 18; l < source.length && l < page * 18 + 18; l++) {
-      setColor(selected[l] > 0 ? lightGreen : lightGray);
+      String str = letterAPlus(l - page * 18, capitalize: true);
+      mvaddstrc(y, x, lightGray, "$str - ");
 
-      String s = source[l].equipTitle();
+      Color baseColor = selected[l] > 0 ? lightGreen : lightGray;
+      source[l].printEquipTitle(baseColor: baseColor);
 
+      String s = "";
       if (source[l].stackSize > 1) {
         s += " ";
         if (selected[l] > 0) {
@@ -295,10 +308,7 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
         }
         s += source[l].stackSize.toString();
       }
-
-      String str = letterAPlus(l - page * 18, capitalize: true);
-
-      mvaddstr(y, x, "$str - $s");
+      addstrc(baseColor, s);
 
       x += 26;
       if (x > 53) {
@@ -318,7 +328,7 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
     }
 
     mvaddstrc(23, 1, lightGray, "Press a letter to select an item.");
-    mvaddstr(24, 1, "Enter - Done");
+    addOptionText(24, 1, "Enter", "Enter - Done");
 
     int c = await getKey();
 
@@ -344,6 +354,9 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
     }
     //PAGE DOWN
     if ((isPageDown(c) || c == Key.downArrow || c == Key.rightArrow) &&
+        (page + 1) * 18 < source.length) {
+      page++;
+    }
         (page + 1) * 18 < source.length) {
       page++;
     }
@@ -397,9 +410,9 @@ Future<void> equipmentBaseAssign() async {
     for (p = pageLoot * 19;
         p < items.length && p < pageLoot * 19 + 19;
         p++, y++) {
-      mvaddstrc(
-          y, 0, lightGray, "${letterAPlus(y - 2)} - ${items[p].equipTitle()}");
-      mvaddstr(y, 25,
+      addOptionText(y, 0, "${letterAPlus(y - 2)} - ",
+          "${letterAPlus(y - 2)} - ${items[p].equipTitle()}${items[p].stackSize > 1 ? " x${items[p].stackSize}" : ""}");
+      mvaddstrc(y, 25, lightGray,
           siteFromItem[items[p]]!.getName(short: true, includeCity: true));
     }
 
@@ -410,31 +423,29 @@ Future<void> equipmentBaseAssign() async {
       } else {
         setColor(lightGray);
       }
-      mvaddstr(y, 51,
-          "${y - 1} - ${bases[p].getName(short: true, includeCity: true)}");
+      addOptionText(y, 51, "${y - 1}",
+          "${y - 1} - ${bases[p].getName(short: true, includeCity: true)}",
+          baseColorKey:
+              p == selectedbase ? ColorKey.white : ColorKey.lightGray);
+    }
+    if (bases.length > 9) {
+      addOptionText(12, 51, "0", "0 - More Bases");
     }
 
     mvaddstrc(22, 0, lightGray,
         "Press a Letter to assign a base.  Press a Number to select a base.");
-    move(23, 0);
+    mvaddstr(23, 0, "Shift and a Number will move ALL items!");
     if (sortbytype) {
-      addstr("T to sort by location.");
+      addOptionText(24, 0, "T", "T - Sort by location");
     } else {
-      addstr("T to sort by type.");
-    }
-    addstr("  Shift and a Number will move ALL items!");
-
-    move(24, 0); // location for either viewing other base pages or loot pages
-    if (bases.length > 9) {
-      addstr(",. to view other base pages.");
-      move(24,
-          34); // we have base pages, so different location for viewing other loot pages
+      addOptionText(24, 0, "T", "T - Sort by type");
     }
     if (items.length > 19) {
-      addstr(pageStr);
+      addPageButtons(y: 24, x: console.x + 5);
     }
 
-    int c = await getKey();
+    material.KeyEvent keyEvent = await getKeyEvent();
+    int c = keyEventToString(keyEvent).codePoint;
 
     //PAGE UP (items)
     if ((isPageUp(c) || c == Key.upArrow || c == Key.leftArrow) &&
@@ -450,7 +461,9 @@ Future<void> equipmentBaseAssign() async {
     //PAGE UP (locations)
     if (c == ','.codePoint && pageLoc > 0) pageLoc--;
     //PAGE DOWN (locations)
-    if (c == '.'.codePoint && (pageLoc + 1) * 9 < bases.length) pageLoc++;
+    if (c == Key.num0 && (pageLoc + 1) * 9 < bases.length) {
+      pageLoc = (pageLoc + 1) % (bases.length / 9).ceil();
+    }
 
     //Toggle sorting method
     if (c == Key.t) {
@@ -486,27 +499,62 @@ Future<void> equipmentBaseAssign() async {
       int p = pageLoc * 9 + c - '1'.codePoint;
       if (p < bases.length) selectedbase = p;
     }
+    String upnums = "!@#\$%^&*()_+";
     // Check if the player wants to move all items to a new location,
-    // using Shift + a number key.
-    String upnums = "!@#\$%^&*(";
-    for (int upnumi = 0; upnumi < upnums.length; upnumi++) {
-      if (c == upnums.codeUnitAt(upnumi)) {
-        // Set base location
-        int basechoice = pageLoc * 9 + upnumi;
-        if (basechoice < bases.length) {
-          selectedbase = basechoice;
+    // using Shift + a number key. Since this varies by keyboard layout,
+    // we have to check the physical key.
+    Map<int, int> shiftMap = {
+      0x7001e: 0,
+      0x7001f: 1,
+      0x70020: 2,
+      0x70021: 3,
+      0x70022: 4,
+      0x70023: 5,
+      0x70024: 6,
+      0x70025: 7,
+      0x70026: 8,
+      0x70059: 0,
+      0x7005a: 1,
+      0x7005b: 2,
+      0x7005c: 3,
+      0x7005d: 4,
+      0x7005e: 5,
+      0x7005f: 6,
+      0x70060: 7,
+      0x70061: 8,
+    };
+    if (HardwareKeyboard.instance.isShiftPressed) {
+      debugPrint(
+          "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}");
+    }
+    int index = -1;
+    if (HardwareKeyboard.instance.isShiftPressed &&
+        shiftMap.containsKey(keyEvent.physicalKey.usbHidUsage)) {
+      index = shiftMap[keyEvent.physicalKey.usbHidUsage]!;
+    } else if (upnums.contains(keyEvent.character ?? "false")) {
+      index = upnums.indexOf(keyEvent.character!);
+    }
+
+    if (index >= 0 && index < 9) {
+      // Set base location
+      int basechoice = pageLoc * 9 + index;
+      if (basechoice < bases.length) {
+        selectedbase = basechoice;
+        Site newsite = bases[selectedbase];
+        List<Item> newloot = newsite.loot;
+        // Search through the old base's stuff for this item
+        for (int p = 0; p < items.length; p++) {
+          Site oldsite = siteFromItem[items[p]]!;
+          if (oldsite == newsite) continue;
+          List<Item> oldloot = oldsite.loot;
           // Search through the old base's stuff for this item
-          for (int p = 0; p < items.length; p++) {
-            // Search through the old base's stuff for this item
-            for (int l2 = 0; l2 < siteFromItem[items[p]]!.loot.length; l2++) {
-              // Remove it from that inventory and move it to the new one
-              if (siteFromItem[items[p]]!.loot[l2] == items[p]) {
-                siteFromItem[items[p]]!.loot.removeAt(l2);
-                bases[selectedbase].loot.add(items[p]);
-                siteFromItem[items[p]] = bases[selectedbase];
-              }
-            }
+          for (int l2 = 0; l2 < oldloot.length; l2++) {
+            // Remove it from that inventory and move it to the new one
+            Item item = oldloot[l2];
+            newloot.add(item);
+            siteFromItem[item] = newsite;
           }
+          oldsite.loot.clear();
         }
       }
     }

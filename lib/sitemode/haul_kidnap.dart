@@ -4,10 +4,12 @@ import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/conversion.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
-import 'package:lcs_new_age/daily/interrogation.dart';
+import 'package:lcs_new_age/daily/hostages/tend_hostage.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
+import 'package:lcs_new_age/location/location_type.dart';
+import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/sitemode/advance.dart';
 import 'package:lcs_new_age/sitemode/fight.dart';
@@ -54,7 +56,9 @@ Future<void> kidnapattempt() async {
     if (e.alive &&
         e.align == Alignment.conservative &&
         (!e.type.animal || animalsArePeopleToo) &&
-        (!e.weapon.type.protectsAgainstKidnapping || e.blood <= 20) &&
+        (!e.weapon.type.protectsAgainstKidnapping ||
+            e.blood <= 20 ||
+            e.nonCombatant) &&
         !e.type.tank) {
       viableTargets.add(e);
     }
@@ -72,9 +76,8 @@ Future<void> kidnapattempt() async {
 
       int x = 1, y = 11;
       for (int t2 = 0; t2 < viableTargets.length; t2++) {
-        mvaddchar(y++, x, letterAPlus(t2));
-        addstr(" - ");
-        addstr(viableTargets[t2].name);
+        String letter = letterAPlus(t2);
+        addOptionText(y++, x, letter, "$letter - ${viableTargets[t2].name}");
 
         if (y == 17) {
           y = 11;
@@ -99,7 +102,7 @@ Future<void> kidnapattempt() async {
 
       //BASIC ROLL
       int aroll = kidnapper.skillRoll(Skill.martialArts);
-      int droll = target.attributeRoll(Attribute.agility);
+      int droll = target.attributeRoll(Attribute.agility, take10: true);
 
       kidnapper.train(Skill.martialArts, droll);
 
@@ -108,7 +111,7 @@ Future<void> kidnapattempt() async {
       //HIT!
       if (aroll > droll) {
         setColor(white);
-        move(16, 1);
+        move(9, 1);
         addstr(kidnapper.name);
         addstr(" snatches ");
         addstr(target.name);
@@ -119,7 +122,7 @@ Future<void> kidnapattempt() async {
         await getKey();
 
         setColor(red);
-        move(17, 1);
+        move(10, 1);
         addstr(target.name);
         addstr(" is struggling and screaming!");
 
@@ -135,21 +138,55 @@ Future<void> kidnapattempt() async {
       clearMessageArea();
 
       setColor(white);
-      move(16, 1);
+      move(9, 1);
       addstr(kidnapper.name);
       addstr(" shows ");
       addstr(target.name);
       addstr(" the ");
       addstr(kidnapper.weapon.getName(sidearm: true));
       addstr(" ");
-      move(17, 1);
+      move(10, 1);
       addstr("and says, ");
       setColor(lightGreen);
-      if (noProfanity) {
-        addstr("\"[Please], be cool.\"");
-      } else {
-        addstr("\"Bitch, be cool.\"");
-      }
+      addstr("\"${[
+        "Please, be cool.",
+        "No sudden moves now.",
+        "Nobody needs to get hurt.",
+        "Stay cool, now.",
+        "You're coming with me.",
+        "This is for your own good.",
+        "I'll keep you safe.",
+        "Walk calmly.",
+        "One foot in front of the other.",
+        "Yep, you're walking with me.",
+        "It's cool, it's cool.",
+        "I'm gonna need you to come with me.",
+        "Let's go for a walk.",
+        "Let's hang out for a bit.",
+        "Fancy meeting you here.",
+        "Care to step outside?",
+        "Why don't you come with me?",
+        "Today is your lucky day.",
+        "After you.",
+        "Let's go.",
+        "Let's be friends.",
+        "You and me are buddies now.",
+        "Time to go.",
+        "We're friends now.",
+        "You're my friend now.",
+        "It's taco night, and you're invited.",
+        "I have someone I'd like you to meet.",
+        "Don't worry. You've never been safer.",
+        "Hello, friend...",
+        "You and me are gonna be great friends.",
+        "I just know we're gonna get along great.",
+        "Ever considered a career in politics?",
+        "Ever thought about being an activist?",
+        "I think you'd enjoy being a Liberal.",
+        "You might like direct action.",
+        "I prefer the term 'activist' myself.",
+        "Don't worry, I'm not a cop.",
+      ].random}\"");
 
       kidnapper.prisoner = target;
 
@@ -175,12 +212,13 @@ Future<void> kidnapattempt() async {
         await alienationCheck(false);
         siteAlarm = true;
         siteCrime += 5;
-        criminalizeAll(squad, Crime.kidnapping);
-        if (target.type.preciousToHicks) offendedHicks = true;
+        addPotentialCrime(squad, Crime.kidnapping,
+            reasonKey: target.id.toString());
+        if (target.type.preciousToAngryRuralMobs) offendedAngryRuralMobs = true;
       }
     }
 
-    if (siteAlarm) await enemyattack();
+    if (siteAlarm) await enemyattack(encounter);
     await creatureadvance();
   } else {
     await encounterMessage("All of the targets are too dangerous.");
@@ -196,10 +234,9 @@ Future<void> releasehostage() async {
   if (!activeSquad!.livingMembers.any(
       (e) => e.prisoner != null && e.prisoner!.align != Alignment.liberal)) {
     setColor(white);
-    move(16, 1);
-    addstr("No hostages are being held.       ");
-    move(17, 1);
-    addstr("                                  ");
+    clearMessageArea();
+    move(9, 1);
+    addstr("No hostages are being held.");
 
     await getKey();
 
@@ -232,11 +269,9 @@ Future<void> releasehostage() async {
 
   if (!siteAlarm) {
     setColor(white);
-    move(16, 1);
-    addstr("The hostage shouts for help!      ");
-    //Next message.
-    move(17, 1);
-    addstr("                                  ");
+    clearMessageArea();
+    move(9, 1);
+    addstr("The hostage shouts for help!");
 
     await getKey();
 
@@ -270,7 +305,7 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
     } else if (situation == FreeHostageMessage.newLine) {
       clearMessageArea();
       setColor(white);
-      move(16, 1);
+      move(9, 1);
       if (prisoner.hireId == null) {
         addstr("A hostage escapes!");
       } else {
@@ -317,7 +352,7 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
         p.prisoner != null) {
       clearMessageArea();
       setColor(yellow);
-      move(16, 1);
+      move(9, 1);
       addstr(p.name);
       addstr(" can no longer handle ");
       addstr(p.prisoner!.name);
@@ -338,7 +373,7 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
           if (!p.alive) {
             clearMessageArea();
             setColor(yellow);
-            move(16, 1);
+            move(9, 1);
             addstr("Nobody can carry Martyr ");
             addstr(p.name);
             addstr(".");
@@ -351,7 +386,7 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
           } else {
             clearMessageArea();
             setColor(yellow);
-            move(16, 1);
+            move(9, 1);
             addstr(p.name);
             addstr(" is left to be captured.");
 
@@ -367,7 +402,7 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
 
               clearMessageArea();
               setColor(yellow);
-              move(16, 1);
+              move(9, 1);
               addstr(p2.name);
               addstr(" hauls ");
               addstr(p.name);
@@ -394,15 +429,18 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
 }
 
 /* names the new hostage and stashes them in your base */
-Future<void> kidnaptransfer(Creature cr) async {
+Future<void> kidnaptransfer(Creature cr, {Creature? kidnapper}) async {
   cr.nameCreature();
 
-  cr.location = squad[0].base;
-  cr.base = squad[0].base;
+  Site? base = kidnapper?.base ??
+      activeSquad?.members[0].base ??
+      findSiteInSameCity(cr.location?.city, SiteType.homelessEncampment);
+  cr.location = base;
+  cr.base = base;
   cr.missing = true;
 
   //disarm them and stash their weapon back at the base
-  cr.dropWeaponAndAmmo(lootPile: cr.site!.loot);
+  cr.dropWeaponAndAmmo(lootPile: cr.site?.loot);
 
   //Create interrogation data
   interrogationSessions.add(InterrogationSession(cr.id));

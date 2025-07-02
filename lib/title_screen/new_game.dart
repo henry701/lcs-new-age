@@ -1,4 +1,5 @@
 import 'package:lcs_new_age/creature/attributes.dart';
+import 'package:lcs_new_age/creature/conversion.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
@@ -7,7 +8,10 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/items/item.dart';
+import 'package:lcs_new_age/items/item_type.dart';
 import 'package:lcs_new_age/location/city.dart';
+import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
@@ -18,16 +22,23 @@ import 'package:lcs_new_age/title_screen/title_screen.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
+const bool debugPresidentSleeper = false;
+const bool debugSiege = false;
+const bool debugMartialArtsMaster = false;
+const bool debugEliteLiberalPublicOpinion = false;
+const bool debugPartyRescue = false;
+const bool debugAllItems = false;
+
 Future<void> setupNewGame() async {
   gameState = GameState();
   bool classicmode = false;
   bool strongccs = false;
   bool nightmarelaws = false;
 
-  void checkBoxOption(int y, bool ticked, String text,
+  void checkBoxOption(int y, bool ticked, String key, String text,
       {bool disabled = false}) {
-    mvaddstrc(
-        y, 0, disabled ? darkGray : lightGray, "[${ticked ? "X" : " "}] $text");
+    addOptionText(y, 0, key, "[${ticked ? "X" : " "}] $key - $text",
+        enabledWhen: !disabled);
   }
 
   erase();
@@ -35,14 +46,14 @@ Future<void> setupNewGame() async {
     mvaddstrc(4, 6, white,
         "New Game of Liberal Crime Squad: Advanced Gameplay Options");
     checkBoxOption(
-        7, classicmode, "A - Classic Mode: No Conservative Crime Squad.");
-    checkBoxOption(9, strongccs,
-        "B - We Didn't Start The Fire: The CCS starts active and extremely strong.",
+        7, classicmode, "A", "Classic Mode: No Conservative Crime Squad.");
+    checkBoxOption(9, strongccs, "B",
+        "We Didn't Start The Fire: The CCS starts active and extremely strong.",
         disabled: classicmode);
-    checkBoxOption(11, nightmarelaws,
-        "C - Nightmare Mode: Liberalism is forgotten. Is it too late to fight back?");
+    checkBoxOption(11, nightmarelaws, "C",
+        "Nightmare Mode: Liberalism is forgotten. Is it too late to fight back?");
 
-    mvaddstr(15, 0, "Press any other key to continue...");
+    addOptionText(15, 0, "Any Other Key", "Any Other Key - Continue...");
 
     int c = await getKey();
 
@@ -108,6 +119,11 @@ Future<void> setupNewGame() async {
   } else if (strongccs) {
     ccsState = CCSStrength.attacks;
   }
+  if (debugEliteLiberalPublicOpinion) {
+    for (int v = 0; v < View.values.length; v++) {
+      politics.publicOpinion[View.values[v]] = 100;
+    }
+  }
 }
 
 Future<void> makeCharacter() async {
@@ -143,7 +159,7 @@ Future<void> makeCharacter() async {
     Gender.female,
     Gender.nonbinary
   ];
-  founder.giveArmorType("ARMOR_CLOTHES");
+  founder.giveClothingType("CLOTHING_CLOTHES");
   String sexDesc() {
     return switch (sex) {
       Gender.male => "Male",
@@ -155,26 +171,39 @@ Future<void> makeCharacter() async {
   while (true) {
     erase();
     mvaddstrc(4, 6, white, "The Founder of the Liberal Crime Squad");
+
     mvaddstrc(7, 2, lightGray, "Given Name: ");
     addstrc(white, first[sex]!);
-    mvaddstrc(7, 34, darkGray, "(Press A to have your parents reconsider)");
+    addOptionText(7, 34, "A", "(A to have your parents reconsider)",
+        baseColorKey: ColorKey.midGray);
+
     mvaddstrc(9, 2, lightGray, "Family Name: ");
     addstrc(white, last);
-    mvaddstrc(9, 34, darkGray, "(Press B to be born to a different family)");
+    addOptionText(9, 34, "B", "(B to be born to a different family)",
+        baseColorKey: ColorKey.midGray);
+
     mvaddstrc(11, 2, lightGray, "Sex at Birth: ");
     addstrc(white, sexDesc());
-    mvaddstrc(11, 34, darkGray, "(Press C to have the doctor check again)");
+    addOptionText(11, 34, "C", "(C to have the doctor check again)",
+        baseColorKey: ColorKey.midGray);
+
     mvaddstrc(13, 2, lightGray, "Tragic Origin: ");
     if (letMeChoose) {
       addstrc(lightGreen, "Let Me Choose");
     } else {
       addstrc(red, "Let Fate Decide");
     }
-    mvaddstrc(13, 34, darkGray, "(Press D to toggle choice or fate)");
+    addOptionText(13, 34, "D", "(D to toggle choice or fate)",
+        baseColorKey: ColorKey.midGray);
+
     mvaddstrc(15, 2, lightGray, "City: ");
     addstrc(white, startingCity.getName(includeCity: true));
-    mvaddstrc(15, 34, darkGray, "(Press E to move at a young age)");
-    mvaddstr(19, 2, "Press any other key when ready to begin...");
+    addOptionText(15, 34, "E", "(E to move at a young age)",
+        baseColorKey: ColorKey.midGray);
+
+    addOptionText(
+        19, 2, "Any Other Key", "Press any other key when ready to begin...",
+        baseColorKey: ColorKey.midGray);
 
     int c = await getKey();
     if (c == Key.a) {
@@ -205,7 +234,75 @@ Future<void> makeCharacter() async {
       (l) => l.city == startingCity && l.controller == SiteController.lcs);
   founder.base = founder.site;
 
+  if (debugSiege) {
+    founder.base =
+        findSiteInSameCity(founder.location!.city, SiteType.warehouse);
+    founder.base?.siege.timeUntilCops = 0;
+    founder.base?.compound.fortified = true;
+    founder.base?.compound.rations = 1000;
+    founder.base?.compound.aaGun = true;
+    founder.base?.compound.bollards = true;
+    founder.base?.compound.boobyTraps = true;
+    founder.base?.compound.cameras = true;
+    founder.base?.compound.generator = true;
+    founder.base?.compound.diesel = 1000;
+    founder.base?.compound.hackerDen = true;
+    founder.base?.compound.videoRoom = true;
+    founder.base?.heat = 9000;
+    founder.juice = 1000;
+    founder.rawSkill[Skill.firearms] = founder.skillCap(Skill.firearms);
+    founder.rawSkill[Skill.dodge] = founder.skillCap(Skill.dodge);
+    founder.giveWeaponAndAmmo("WEAPON_M7", 9);
+
+    for (int i = 0; i < 10; i++) {
+      Creature c = Creature.fromId(CreatureTypeIds.agent);
+      liberalize(c);
+      c.nameCreature();
+      c.juice = 1000;
+      c.rawSkill[Skill.firearms] = c.skillCap(Skill.firearms);
+      c.rawSkill[Skill.dodge] = c.skillCap(Skill.dodge);
+      c.hireId = founder.id;
+      c.base = founder.base;
+      c.location = founder.location;
+      c.giveWeaponAndAmmo("WEAPON_M7", 9);
+      pool.add(c);
+      if (founder.squad!.members.length < 6) {
+        c.squad = founder.squad;
+      }
+    }
+  }
+
   await characterCreationQuestions(founder, letMeChoose);
+
+  if (debugMartialArtsMaster) {
+    founder.rawAttributes[Attribute.heart] = 15;
+    founder.rawAttributes[Attribute.agility] = 15;
+    founder.rawAttributes[Attribute.strength] = 15;
+    founder.juice = 1000;
+    founder.rawSkill[Skill.martialArts] = founder.skillCap(Skill.martialArts);
+    founder.rawSkill[Skill.dodge] = founder.skillCap(Skill.dodge);
+  }
+
+  if (debugPartyRescue) {
+    for (int i = 0; i < 20; i++) {
+      Creature c = Creature.fromId(CreatureTypeIds.collegeStudent);
+      liberalize(c);
+      c.nameCreature();
+      c.location =
+          findSiteInSameCity(founder.location?.city, SiteType.policeStation);
+      pool.add(c);
+    }
+
+    founder.rawAttributes[Attribute.agility] = 15;
+    founder.rawAttributes[Attribute.intelligence] = 15;
+    founder.juice = 1000;
+    founder.rawSkill[Skill.security] = founder.skillCap(Skill.security);
+    founder.rawSkill[Skill.stealth] = founder.skillCap(Skill.stealth);
+  }
+
+  if (debugAllItems) {
+    founder.base?.loot.addAll(itemTypes.values.map((e) => Item(e.idName)));
+  }
 
   await aNewConservativeEra();
 
@@ -251,4 +348,14 @@ Future<void> aNewConservativeEra() async {
   mvaddstr(19, 2, "In this dark time, the Liberal Crime Squad is born...");
 
   await getKey();
+
+  // If debug flag is enabled, make the President a sleeper agent
+  if (debugPresidentSleeper) {
+    uniqueCreatures.president.sleeperAgent = true;
+    uniqueCreatures.president.hireId = pool[0].id;
+    liberalize(uniqueCreatures.president);
+    uniqueCreatures.president.juice = 1000;
+    pool.add(uniqueCreatures.president);
+    exec[Exec.president] = DeepAlignment.eliteLiberal;
+  }
 }

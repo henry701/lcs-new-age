@@ -7,7 +7,7 @@ import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/creature/sort_creatures.dart';
 import 'package:lcs_new_age/creature/unique_creatures.dart';
 import 'package:lcs_new_age/daily/dating.dart';
-import 'package:lcs_new_age/daily/interrogation.dart';
+import 'package:lcs_new_age/daily/hostages/tend_hostage.dart';
 import 'package:lcs_new_age/daily/recruitment.dart';
 import 'package:lcs_new_age/gamestate/crime_squad.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
@@ -15,6 +15,7 @@ import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/gamestate/stats.dart';
 import 'package:lcs_new_age/items/item.dart';
+import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/district.dart';
 import 'package:lcs_new_age/location/location.dart';
@@ -57,7 +58,8 @@ class GameState {
   List<DatingSession> datingSessions = [];
   List<InterrogationSession> interrogationSessions = [];
 
-  bool offendedHicks = false;
+  @JsonKey(defaultValue: false)
+  bool offendedAngryRuralMobs = false;
   bool offendedCia = false;
   bool offendedCorps = false;
 
@@ -84,6 +86,9 @@ class GameState {
   Map<SortingScreens, CreatureSortMethod> activeSortingChoice = {
     for (var screen in SortingScreens.values) screen: CreatureSortMethod.none
   };
+
+  @JsonKey(defaultValue: [])
+  List<NewsStory> newsArchive = [];
 
   // Non-persisting variables (don't include in to/from JSON)
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -130,6 +135,26 @@ class GameState {
   List<Item> groundLoot = [];
   @JsonKey(includeFromJson: false, includeToJson: false)
   CantSeeReason cantSeeReason = CantSeeReason.none;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<NewsStory> newsStories = [];
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Map<String, Site>? _siteMap;
+  Map<String, Site> get siteMap {
+    _siteMap ??= {for (var site in sites) site.idString: site};
+    return _siteMap!;
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Map<String, Location>? _locationMap;
+  Map<String, Location> get locationMap {
+    _locationMap ??= {
+      for (var location in allLocations) location.idString: location
+    };
+    return _locationMap!;
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<CrimeData> potentialCrimes = [];
 }
 
 enum CCSStrength {
@@ -156,10 +181,14 @@ Iterable<Creature> get poolAndProspects => pool
     .followedBy(datingSessions.expand((d) => d.dates))
     .followedBy(recruitmentSessions.map((r) => r.recruit));
 List<Site> get sites => gameState.sites;
+Map<String, Site> get siteMap => gameState.siteMap;
+
 Iterable<Location> get allLocations =>
     Iterable.castFrom<Site, Location>(gameState.sites)
         .followedBy(gameState.districts)
         .followedBy(gameState.cities);
+Map<String, Location> get locationMap => gameState.locationMap;
+
 int get month => gameState.date.month;
 int get day => gameState.date.day;
 int get year => gameState.date.year;
@@ -261,9 +290,12 @@ bool get corporateFeudalism =>
     laws[Law.corporate] == DeepAlignment.archConservative &&
     laws[Law.taxes] == DeepAlignment.archConservative &&
     laws[Law.labor] == DeepAlignment.archConservative;
+bool get utterNightmare =>
+    !laws.values.any((a) => a != DeepAlignment.archConservative);
 
-bool get offendedHicks => gameState.offendedHicks;
-set offendedHicks(bool value) => gameState.offendedHicks = value;
+bool get offendedAngryRuralMobs => gameState.offendedAngryRuralMobs;
+set offendedAngryRuralMobs(bool value) =>
+    gameState.offendedAngryRuralMobs = value;
 bool get offendedCia => gameState.offendedCia;
 set offendedCia(bool value) => gameState.offendedCia = value;
 bool get offendedCorps => gameState.offendedCorps;
@@ -275,10 +307,14 @@ void changePublicOpinion(
   int power, {
   bool coloredByLcsOpinions = false,
   bool coloredByCcsOpinions = false,
+  int extraMoralAuthority = 0,
+  bool noPublicInterest = false,
 }) =>
     gameState.politics.changePublicOpinion(view, power,
         coloredByLcsOpinions: coloredByLcsOpinions,
-        coloredByCcsOpinions: coloredByCcsOpinions);
+        coloredByCcsOpinions: coloredByCcsOpinions,
+        extraMoralAuthority: extraMoralAuthority,
+        noPublicInterest: noPublicInterest);
 
 UniqueCreatures get uniqueCreatures => gameState.uniqueCreatures;
 
@@ -295,10 +331,10 @@ set lcsGotM249(bool value) => gameState.lcsGotM249 = value;
 bool get ccsActive =>
     ccsState != CCSStrength.inHiding && ccsState != CCSStrength.defeated;
 
-bool get ccscherrybusted => gameState.ccscherrybusted;
-set ccscherrybusted(bool value) => gameState.ccscherrybusted = value;
-bool get lcscherrybusted => gameState.lcscherrybusted;
-set lcscherrybusted(bool value) => gameState.lcscherrybusted = value;
+bool get ccsInPublicEye => gameState.ccscherrybusted;
+set ccsInPublicEye(bool value) => gameState.ccscherrybusted = value;
+bool get lcsInPublicEye => gameState.lcscherrybusted;
+set lcsInPublicEye(bool value) => gameState.lcscherrybusted = value;
 
 List<RecruitmentSession> get recruitmentSessions =>
     gameState.recruitmentSessions;
@@ -329,7 +365,7 @@ int get ccsSiegeConverts => gameState.ccsSiegeConverts;
 set ccsSiegeConverts(int value) => gameState.ccsSiegeConverts = value;
 int get ccsBossConverts => gameState.ccsBossConverts;
 set ccsBossConverts(int value) => gameState.ccsBossConverts = value;
-List<NewsStory> newsStories = [];
+List<NewsStory> get newsStories => gameState.newsStories;
 int locx = 0;
 int locy = 0;
 int locz = 0;

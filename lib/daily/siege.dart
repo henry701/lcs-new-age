@@ -8,8 +8,10 @@ import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/common_actions/common_actions.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
+import 'package:lcs_new_age/creature/body.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
+import 'package:lcs_new_age/creature/dice.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
@@ -18,9 +20,11 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
+import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/siege.dart';
 import 'package:lcs_new_age/location/site.dart';
+import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
@@ -58,444 +62,562 @@ Future<void> siegeCheck() async {
     }
   }
 
+  Creature? ceoSleeper = pool.firstWhereOrNull(
+      (p) => p.sleeperAgent && p.type.id == CreatureTypeIds.corporateCEO);
   //FIRST, THE COPS
   int numpres;
-  for (Site l in sites) {
-    if (l.controller != SiteController.lcs) continue;
+  for (City c in cities) {
+    List<Site> sites = c.sites.toList();
+    Site? policeStation =
+        sites.firstWhereOrNull((s) => s.type == SiteType.policeStation);
+    if (policeStation == null) continue;
     bool policeChiefCompromised = pool.any((p) =>
         p.sleeperAgent &&
-        p.site?.type == SiteType.policeStation &&
-        p.site?.city == l.city &&
+        p.locationId == policeStation.idString &&
         p.type.id == CreatureTypeIds.policeChief);
-    if (findSiteInSameCity(l.city, SiteType.policeStation)!.isClosed) {
-      l.heat = (l.heat * 0.95).floor();
-      continue;
-    }
-    if (l.siege.underSiege) continue;
-    if (policeChiefCompromised) {
-      l.heat = (l.heat * 0.95).floor();
-    }
-    numpres = 0;
-    // CHECK FOR CRIMINALS AT THIS BASE
-    int crimes = 0;
-    for (Creature p in pool) {
-      // Sleepers and people not at this base don't count
-      if (p.site != l || p.sleeperAgent || p.inHiding) continue;
-
-      // Corpses attract attention
-      if (!p.alive) {
-        crimes += 5;
-        continue;
+    List<Site> safehouses =
+        sites.where((s) => s.controller == SiteController.lcs).toList();
+    for (Site l in safehouses) {
+      if (l.siege.underSiege) continue;
+      if (policeChiefCompromised || policeStation.isClosed) {
+        l.heat = (l.heat * 0.95).floor();
       }
+      numpres = 0;
+      // CHECK FOR CRIMINALS AT THIS BASE
+      int crimes = 0;
+      for (Creature p in l.creaturesPresent) {
+        // Sleepers and people not at this base don't count
+        if (p.sleeperAgent || p.inHiding) continue;
 
-      // Kidnapped persons increase heat
-      if (p.kidnapped && p.align != Alignment.liberal) {
-        crimes += 5 * p.daysSinceJoined;
-        continue;
-      }
-
-      // Non-liberals don't count other than that
-      if (p.align != Alignment.liberal) continue;
-
-      numpres++;
-
-      // Accumulate heat from liberals who have it,
-      // but let them bleed it off in the process
-      if (p.heat > 0) {
-        crimes += (p.heat / 10).ceil();
-        p.heat -= min(max(4, p.heat ~/ 200), p.heat);
-      }
-    }
-
-    // Update location heat
-    l.heat += ((crimes - l.heat - l.heatProtection) / 10).ceil();
-    if (l.heat < 0) l.heat = 0;
-
-    int huntingSpeed = 0;
-    if (l.heat > l.heatProtection) {
-      if (l.heatProtection == 0) {
-        huntingSpeed = 5;
-      } else {
-        huntingSpeed = max(1, min(l.heat ~/ l.heatProtection, 5));
-      }
-      if (policeChiefCompromised) {
-        huntingSpeed = 1;
-      }
-    }
-    if (l.siege.timeUntilCops > 0) {
-      l.siege.timeUntilCops = l.siege.timeUntilCops - 1;
-    } else if (l.siege.timeUntilCops < -1) {
-      // Reduce the cooldown between raids
-      l.siege.timeUntilCops = l.siege.timeUntilCops + 1;
-    } else if (l.siege.timeUntilCops == -1) {
-      // Begin planning siege if high heat on location
-      if (huntingSpeed > 0 && (oneIn(60 ~/ huntingSpeed))) {
-        // Set time until siege is carried out
-        l.siege.timeUntilCops += 2 + lcsRandom(6);
-
-        bool policeSleeperWarning = pool.any((p) =>
-            p.sleeperAgent &&
-            p.site?.type == SiteType.policeStation &&
-            p.site?.city == l.city);
-
-        if (policeSleeperWarning) {
-          erase();
-          mvaddstrc(8, 1, white,
-              "You have received advance warning from one of your agents regarding ");
-          mvaddstr(9, 1,
-              "a government raid on the ${l.getName(includeCity: true)}.");
-
-          int y = 11;
-          if (l.siege.escalationState == SiegeEscalation.police) {
-            if (deathSquadsActive) {
-              mvaddstr(y++, 1,
-                  "The police are planning to deploy heavily armed Death Squad units.");
-              mvaddstr(y++, 1,
-                  "They are ready to use lethal force if there is any hint of resistance.");
-            } else {
-              mvaddstr(y++, 1,
-                  "The police are planning to deploy heavily armed SWAT units.");
-              mvaddstr(y++, 1,
-                  "Anyone present not suspected of a crime will be processed and released.");
-              mvaddstr(y++, 1,
-                  "Resistance will be met with lethal force if necessary.");
-            }
-          } else if (l.siege.escalationState == SiegeEscalation.nationalGuard) {
-            mvaddstr(y++, 1,
-                "The police have handed over planning to the National Guard.");
-            mvaddstr(y++, 1,
-                "They are planning to surround the compound with soldiers.");
-          } else {
-            mvaddstr(y++, 1,
-                "The National Guard is mustering additional resources.");
-          }
-          if (l.siege.escalationState.index >= SiegeEscalation.tanks.index) {
-            mvaddstr(y++, 1,
-                "An M1 Abrams Tank will be deployed to enforce the siege.");
-          }
-          if (l.siege.escalationState.index >= SiegeEscalation.bombers.index) {
-            mvaddstr(y++, 1,
-                "Aircraft will bomb the compound to weaken the defenses.");
-            mvaddstr(y++, 1,
-                "Special forces will be brought in handle the final assault.");
-          }
-
-          y++;
-          mvaddstr(y++, 1,
-              "The operation is scheduled to take place some time in the next week.");
-          mvaddstr(y++, 1, "Press Esc to ponder the situation...");
-          int c;
-          do {
-            c = await getKey();
-          } while (c != Key.x && c != Key.escape);
-        }
-      }
-    }
-
-    //COPS RAID THIS LOCATION
-    if (l.siege.timeUntilCops == 0) {
-      l.siege.timeUntilCops = -5;
-      l.heat = 0;
-
-      if (numpres > 0) {
-        erase();
-        if (l.type == SiteType.homelessEncampment) {
-          mvaddstrc(8, 1, white, "The police are sweeping the ${l.getName()}!");
-          l.siege.underAttack = true;
-        } else {
-          mvaddstrc(
-              8, 1, white, "The police have surrounded the ${l.getName()}!");
-          l.siege.underAttack = false;
+        // Corpses attract attention
+        if (!p.alive) {
+          crimes += 5;
+          continue;
         }
 
-        await getKey();
+        // Kidnapped persons increase heat
+        if (p.kidnapped && p.align != Alignment.liberal) {
+          crimes += 2 * p.daysSinceJoined;
+          continue;
+        }
 
-        //MENTION ESCALATION STATE
+        // Non-liberals don't count other than that
+        if (p.align != Alignment.liberal) continue;
+
+        numpres++;
+
+        // Accumulate heat from liberals who have it,
+        // but let them bleed it off in the process
+        if (p.heat > 0) {
+          debugPrint(
+              "Heat from ${p.name}: ${p.heat} -> ${sqrt(p.heat).ceil()}");
+          crimes += sqrt(p.heat).ceil();
+          p.heat -= min(max(1, p.heat ~/ 100), p.heat);
+        }
+      }
+
+      // Update location heat
+      int beforeCrimes = crimes;
+      crimes = max(0, crimes - l.heatProtection) +
+          max(0, pow(min(crimes, l.heatProtection), 0.75).ceil());
+      int beforeHeat = l.heat;
+      double delta = (crimes - l.heat) / 10;
+      if (delta > 0) {
+        l.heat += delta.ceil();
+      } else if (delta < 0) {
+        l.heat += delta.floor();
+      }
+      if (l.heat > 0) {
+        debugPrint(
+            "Heat for ${l.getName()}: $beforeHeat -> ${l.heat} ($beforeCrimes -> $crimes)");
+      }
+      if (l.heat < 0) l.heat = 0;
+
+      int huntingSpeed = 0;
+      if (l.heat > l.heatProtection) {
         if (l.siege.escalationState.index >=
             SiegeEscalation.nationalGuard.index) {
-          mvaddstr(
-              9, 1, "National Guard troops are replacing normal SWAT units.");
-          await getKey();
+          huntingSpeed = 30;
+        } else if (l.creaturesPresent
+            .any((p) => p.kidnapped && p.align == Alignment.conservative)) {
+          huntingSpeed = 30;
+        } else if (l.heatProtection == 0) {
+          huntingSpeed = 5;
+        } else {
+          huntingSpeed = max(1, min(l.heat ~/ l.heatProtection, 5));
         }
-        if (l.siege.escalationState.index >= SiegeEscalation.tanks.index) {
-          move(10, 1);
-          if (l.compound.bollards) {
-            addstr("An M1 Abrams Tank is stopped by the tank traps.");
+        if (policeChiefCompromised &&
+            l.siege.escalationState.index <
+                SiegeEscalation.nationalGuard.index) {
+          huntingSpeed = (huntingSpeed / 5).ceil();
+        }
+      }
+      if (l.siege.timeUntilCops > 0) {
+        l.siege.timeUntilCops = l.siege.timeUntilCops - 1;
+        if (l.siege.timeUntilCops == 1) {
+          bool policeSleeperWarning = pool.any(
+              (p) => p.sleeperAgent && p.locationId == policeStation.idString);
+
+          if (policeSleeperWarning) {
+            erase();
+            mvaddstrc(8, 1, white,
+                "You have received advance warning from one of your agents regarding ");
+            mvaddstr(9, 1,
+                "a government raid on the ${l.getName(includeCity: true)}.");
+
+            int y = 11;
+            if (l.siege.escalationState == SiegeEscalation.police) {
+              if (deathSquadsActive) {
+                mvaddstr(y++, 1,
+                    "The police are planning to deploy heavily armed Death Squad units.");
+                mvaddstr(y++, 1,
+                    "They are ready to use lethal force if there is any hint of resistance.");
+              } else {
+                mvaddstr(y++, 1,
+                    "The police are planning to deploy heavily armed SWAT units.");
+                mvaddstr(y++, 1,
+                    "Anyone present not suspected of a crime will be processed and released.");
+                mvaddstr(y++, 1,
+                    "Resistance will be met with lethal force if necessary.");
+              }
+            } else if (l.siege.escalationState ==
+                SiegeEscalation.nationalGuard) {
+              mvaddstr(y++, 1,
+                  "The police have handed over planning to the National Guard.");
+              mvaddstr(y++, 1,
+                  "They are planning to surround the compound with soldiers.");
+            } else {
+              mvaddstr(y++, 1,
+                  "The National Guard is mustering additional resources.");
+            }
+            if (l.siege.escalationState.index >= SiegeEscalation.tanks.index) {
+              mvaddstr(y++, 1,
+                  "An M1 Abrams Tank will be deployed to enforce the siege.");
+            }
+            if (l.siege.escalationState.index >=
+                SiegeEscalation.bombers.index) {
+              mvaddstr(y++, 1,
+                  "Aircraft will bomb the compound to weaken the defenses.");
+              mvaddstr(y++, 1,
+                  "Special forces will be brought in to handle the final assault.");
+            }
+
+            y++;
+            mvaddstr(y++, 1,
+                "The operation is scheduled to take place some time in the next week.");
+            addOptionText(y++, 1, "X", "Press X to ponder the situation...");
+            int c;
+            do {
+              c = await getKey();
+            } while (c != Key.x && c != Key.escape);
+          }
+        }
+      } else if (l.siege.timeUntilCops < -1) {
+        // Reduce the cooldown between raids
+        l.siege.timeUntilCops = l.siege.timeUntilCops + 1;
+      } else if (l.siege.timeUntilCops == -1) {
+        // Begin planning siege if high heat on location
+        if (huntingSpeed > 0 && (oneIn(60 ~/ huntingSpeed))) {
+          // Set time until siege is carried out
+          l.siege.timeUntilCops += 2 + lcsRandom(6);
+        }
+      }
+
+      //COPS RAID THIS LOCATION
+      if (l.siege.timeUntilCops == 0) {
+        l.siege.timeUntilCops = -5;
+        l.heat = 0;
+
+        if (numpres > 0) {
+          erase();
+          if (l.type == SiteType.homelessEncampment) {
+            mvaddstrc(
+                8, 1, white, "The police are sweeping the ${l.getName()}!");
+            l.siege.underAttack = true;
           } else {
-            addstr("An M1 Abrams Tank takes up position outside the compound.");
+            mvaddstrc(
+                8, 1, white, "The police have surrounded the ${l.getName()}!");
+            l.siege.underAttack = false;
+          }
+
+          await getKey();
+
+          //MENTION ESCALATION STATE
+          if (l.siege.escalationState.index >=
+              SiegeEscalation.nationalGuard.index) {
+            mvaddstr(
+                9, 1, "National Guard troops are replacing normal SWAT units.");
+            await getKey();
+          }
+          if (l.siege.escalationState.index >= SiegeEscalation.tanks.index) {
+            move(10, 1);
+            if (l.compound.bollards) {
+              addstr("An M1 Abrams Tank is stopped by the tank traps.");
+            } else {
+              addstr(
+                  "An M1 Abrams Tank takes up position outside the compound.");
+            }
+            await getKey();
+          }
+          if (l.siege.escalationState.index >= SiegeEscalation.bombers.index) {
+            mvaddstr(11, 1, "You hear jet bombers streak overhead.");
+            await getKey();
+          }
+
+          // "You are wanted for blahblah and other crimes."
+          await stateBrokenLaws(l);
+          l.siege.activeSiegeType = SiegeType.police;
+          l.siege.lightsOff = false;
+          l.siege.camerasOff = false;
+        } else {
+          erase();
+          if (l.type == SiteType.homelessEncampment) {
+            mvaddstrc(8, 1, white,
+                "The cops have raided the ${l.getName()}.  No LCS members were present.");
+          } else {
+            mvaddstrc(8, 1, white,
+                "The cops have raided the ${l.getName()}, an unoccupied safehouse.");
+          }
+          await getKey();
+
+          int y = 9;
+          for (Creature p in l.creaturesPresent.toList()) {
+            if (!p.alive) {
+              move(y++, 1);
+              addstr("${p.name}'s corpse has been recovered.");
+              await getKey();
+              pool.remove(p);
+              continue;
+            }
+            if (p.align != Alignment.liberal) {
+              move(y++, 1);
+              addstr("${p.name} has been rescued.");
+              await getKey();
+              pool.remove(p);
+              p.location = p.workLocation;
+              continue;
+            }
+          }
+          l.loot.clear();
+          vehiclePool.removeWhere((v) => v.location == l);
+        }
+      }
+
+      //OTHER OFFENDABLE ENTITIES
+      //CORPS
+      int targetHeatFromCorps =
+          l.creaturesPresent.fold(0, (t, c) => t + c.offendedCorps);
+      if (l.extraHeatFromCorps < targetHeatFromCorps) {
+        l.extraHeatFromCorps++;
+      } else if (l.extraHeatFromCorps > targetHeatFromCorps) {
+        l.extraHeatFromCorps--;
+      }
+      if (l.heat + l.extraHeatFromCorps > l.heatProtection &&
+          l.siege.timeuntilcorps == -1 &&
+          !l.siege.underSiege &&
+          offendedCorps &&
+          oneIn(30) &&
+          numpres > 0) {
+        l.siege.timeuntilcorps = lcsRandom(3) + 1;
+
+        // CEO sleepers may give a warning before corp raids
+        if (ceoSleeper != null || oneIn(5)) {
+          erase();
+          mvaddstrc(8, 1, white, "You have received ");
+          if (ceoSleeper != null) {
+            addstr("a warning from ${ceoSleeper.name} ");
+          } else {
+            addstr("an anonymous tip");
+          }
+          addstr(" that several Corporations ");
+          mvaddstr(9, 1, "are hiring mercenaries to attack ");
+          if (ceoSleeper != null) {
+            addstr(l.getName(includeCity: true));
+          } else {
+            addstr("the LCS.");
           }
           await getKey();
         }
-        if (l.siege.escalationState.index >= SiegeEscalation.bombers.index) {
-          mvaddstr(11, 1, "You hear jet bombers streak overhead.");
-          await getKey();
-        }
+      } else if ((l.siege.timeuntilcorps > 0) && !l.siege.underSiege) {
+        // Corp raid countdown!
+        l.siege.timeuntilcorps--;
+      } else if (l.siege.timeuntilcorps == 0 &&
+          !l.siege.underSiege &&
+          offendedCorps &&
+          numpres > 0) {
+        // Corps raid!
+        erase();
+        setColor(white);
+        addparagraph(
+            6,
+            1,
+            "In a groundbreaking act of synergy, the Corporations have decided "
+            "to diversify their operations into a micro-targeted deplatforming "
+            "campaign with the goal of downsizing the LCS "
+            "into a fine red mist.");
+        await getKey();
+        setColor(white);
+        addparagraph(
+            console.y + 1,
+            1,
+            "Leveraging their unparalleled expertise in tactical engagement "
+            "and displacement logistics, a globally recognized private "
+            "military company has initiated a daylight operation against the "
+            "${l.getName()} to seamlessly deliver live munitions into your "
+            "skull.");
+        await getKey();
+        mvaddstrc(console.y + 1, 1, red,
+            "You have been found redundant and will now be terminated.");
+        mvaddstrc(console.y + 1, 1, red,
+            "Corporate mercenaries are moving to liquidate the ${l.getName()}.");
+        await getKey();
 
-        // "You are wanted for blahblah and other crimes."
-        await stateBrokenLaws(l);
-        l.siege.activeSiegeType = SiegeType.police;
+        l.siege.activeSiegeType = SiegeType.corporateMercs;
+        l.siege.underAttack = true;
         l.siege.lightsOff = false;
         l.siege.camerasOff = false;
-      } else {
-        erase();
-        if (l.type == SiteType.homelessEncampment) {
-          mvaddstrc(8, 1, white,
-              "The cops have raided the ${l.getName()}.  No LCS members were present.");
-        } else {
-          mvaddstrc(8, 1, white,
-              "The cops have raided the ${l.getName()}, an unoccupied safehouse.");
+        offendedCorps = false;
+        l.siege.timeuntilcorps = -1;
+        l.extraHeatFromCorps = 0;
+        for (Creature p in pool) {
+          p.offendedCorps = 0;
         }
-        await getKey();
-
-        int y = 9;
-        for (Creature p in pool.where((p) => p.site == l).toList()) {
-          if (!p.alive) {
-            move(y++, 1);
-            addstr("${p.name}'s corpse has been recovered.");
-            await getKey();
-            pool.remove(p);
-            continue;
-          }
-          if (p.align != Alignment.liberal) {
-            move(y++, 1);
-            addstr("${p.name} has been rescued.");
-            await getKey();
-            pool.remove(p);
-            p.location = p.workLocation;
-            continue;
-          }
-        }
-        l.loot.clear();
-        vehiclePool.removeWhere((v) => v.location == l);
+      } else if (l.siege.timeuntilcorps == 0) {
+        // Silently call off foiled corp raids
+        l.siege.timeuntilcorps = -1;
       }
-    }
 
-    //OTHER OFFENDABLE ENTITIES
-    //CORPS
-    if (l.heat > l.heatProtection &&
-        l.siege.timeuntilcorps == -1 &&
-        !l.siege.underSiege &&
-        offendedCorps &&
-        oneIn(60) &&
-        numpres > 0) {
-      l.siege.timeuntilcorps = lcsRandom(3) + 1;
-
-      // CEO sleepers may give a warning before corp raids
-      Creature? ceoSleeper = pool.firstWhereOrNull(
-          (p) => p.sleeperAgent && p.type.id == CreatureTypeIds.corporateCEO);
-      if (ceoSleeper != null || oneIn(5)) {
-        erase();
-        mvaddstrc(8, 1, white, "You have received ");
-        if (ceoSleeper != null) {
-          addstr("a warning from ${ceoSleeper.name} ");
-        } else {
-          addstr("an anonymous tip");
+      //CONSERVATIVE CRIME SQUAD
+      if (ccsActive) {
+        if (l.extraHeatFromCCS < l.extraHeatFromCCSTarget) {
+          l.extraHeatFromCCS++;
+        } else if (l.extraHeatFromCCS > l.extraHeatFromCCSTarget) {
+          l.extraHeatFromCCS--;
         }
-        addstr(" that several Corporations ");
-        mvaddstr(9, 1, "are hiring mercenaries to attack ");
-        if (ceoSleeper != null) {
-          addstr(l.getName(includeCity: true));
-        } else {
-          addstr("the LCS.");
-        }
-        await getKey();
-      }
-    } else if ((l.siege.timeuntilcorps > 0) && !l.siege.underSiege) {
-      // Corp raid countdown!
-      l.siege.timeuntilcorps--;
-    } else if (l.siege.timeuntilcorps == 0 &&
-        !l.siege.underSiege &&
-        offendedCorps &&
-        numpres > 0) {
-      // Corps raid!
-      erase();
-      mvaddstrc(
-          8, 1, white, "Corporate mercenaries are raiding the ${l.getName()}!");
-      await getKey();
-
-      l.siege.activeSiegeType = SiegeType.corporateMercs;
-      l.siege.underAttack = true;
-      l.siege.lightsOff = false;
-      l.siege.camerasOff = false;
-      offendedCorps = false;
-      l.siege.timeuntilcorps = -1;
-    } else if (l.siege.timeuntilcorps == 0) {
-      // Silently call off foiled corp raids
-      l.siege.timeuntilcorps = -1;
-    }
-
-    //CONSERVATIVE CRIME SQUAD
-    if (ccsActive && ccsState.index >= CCSStrength.sieges.index) {
-      if (l.heat > l.heatProtection &&
-          l.siege.timeuntilccs == -1 &&
-          !l.siege.underSiege &&
-          oneIn(60) &&
-          numpres > 0) {
-        l.siege.timeuntilccs = lcsRandom(3) + 1;
-        // CCS sleepers may give a warning before raids
-        Creature? ccsSleeper =
-            pool.firstWhereOrNull((p) => p.sleeperAgent && p.type.ccsMember);
-        if (ccsSleeper != null) {
-          erase();
-          mvaddstrc(8, 1, white,
-              "You have received warning from ${ccsSleeper.name} that the CCS ");
-          mvaddstr(9, 1, "is gearing up to attack ${l.name}.");
-          await getKey();
-        }
-      } else if (l.siege.timeuntilccs > 0) {
-        // CCS raid countdown!
-        l.siege.timeuntilccs--;
-      } else if (l.siege.timeuntilccs == 0 &&
-          !l.siege.underSiege &&
-          numpres > 0) {
-        l.siege.timeuntilccs = -1;
-        // CCS raid!
-        erase();
-        mvaddstrc(
-            8, 1, white, "A screeching truck pulls up to ${l.getName()}!");
-        await getKey();
-
-        if (!l.compound.bollards && oneIn(5)) {
-          // CCS Carbombs safehouse!!
+        if (l.heat + l.extraHeatFromCCS > l.heatProtection &&
+            l.siege.timeuntilccs == -1 &&
+            !l.siege.underSiege &&
+            oneIn(60) &&
+            numpres > 0) {
+          l.siege.timeuntilccs = lcsRandom(3) + 1;
+          // CCS sleepers may give a warning before raids
+          Creature? ccsSleeper =
+              pool.firstWhereOrNull((p) => p.sleeperAgent && p.type.ccsMember);
+          if (ccsSleeper != null) {
+            erase();
+            addparagraph(
+                8,
+                1,
+                "You have received warning from ${ccsSleeper.name} that the CCS "
+                "is gearing up to attack ${l.getName()} in ${l.city.name}.");
+            await getKey();
+          }
+        } else if (l.siege.timeuntilccs > 0) {
+          // CCS raid countdown!
+          l.siege.timeuntilccs--;
+        } else if (l.siege.timeuntilccs == 0 &&
+            !l.siege.underSiege &&
+            numpres > 0) {
+          l.extraHeatFromCCS = 0;
+          l.siege.timeuntilccs = -1;
+          // CCS raid!
           erase();
           mvaddstrc(
-              8, 1, red, "The truck plows into the building and explodes!");
+              8, 1, white, "A screeching truck pulls up to ${l.getName()}!");
           await getKey();
 
-          erase();
-          mvaddstrc(0, 1, white, "CCS CAR BOMBING CASUALTY REPORT");
+          if (!l.compound.bollards && oneIn(5)) {
+            // CCS Carbombs safehouse!!
+            erase();
+            mvaddstrc(
+                8, 1, red, "The truck plows into the building and explodes!");
+            await getKey();
 
-          mvaddstr(2, 1, "KILLED: ");
-          int killedY = 2;
-          int killedX = 9;
+            erase();
+            mvaddstrc(0, 1, white, "CCS CAR BOMBING CASUALTY REPORT");
 
-          mvaddstr(6, 1, "INJURED: ");
-          int injuredY = 6;
-          int injuredX = 10;
+            mvaddstr(2, 1, "KILLED: ");
+            int killedY = 2;
+            int killedX = 9;
 
-          for (int i = 0; i < pool.length; i++) {
-            if (pool[i].location == l) {
-              if (oneIn(2)) {
-                int namelength = pool[i].name.length;
-                pool[i].blood -=
-                    lcsRandom(max(1, 101 - pool[i].juice ~/ 10)) + 10;
-                if (pool[i].blood < 0) {
-                  if (killedX + namelength > 78) {
-                    killedY++;
-                    killedX = 1;
-                    //Add limit for killed_y.
+            mvaddstr(6, 1, "INJURED: ");
+            int injuredY = 6;
+            int injuredX = 10;
+
+            for (int i = 0; i < pool.length; i++) {
+              if (pool[i].location == l) {
+                if (oneIn(2)) {
+                  int namelength = pool[i].name.length;
+                  pool[i].blood -=
+                      lcsRandom(max(1, 101 - pool[i].juice ~/ 10)) + 10;
+                  if (pool[i].blood < 0) {
+                    if (killedX + namelength > 78) {
+                      killedY++;
+                      killedX = 1;
+                      //Add limit for killed_y.
+                    }
+                    move(killedY, killedX);
+                    pool[i].die();
+                    setColor(pool[i].align.color);
+                    addstr("${pool[i].name}, ");
+                    killedX += namelength + 2;
+                  } else {
+                    if (injuredX + namelength > 78) {
+                      injuredY++;
+                      injuredX = 1;
+                      //Add limit for injured_y.
+                    }
+                    move(injuredY, injuredX);
+                    setColor(pool[i].align.color);
+                    addstr("${pool[i].name}, ");
+                    injuredX += namelength + 2;
                   }
-                  move(killedY, killedX);
-                  pool[i].die();
-                  setColor(pool[i].align.color);
-                  addstr("${pool[i].name}, ");
-                  killedX += namelength + 2;
-                } else {
-                  if (injuredX + namelength > 78) {
-                    injuredY++;
-                    injuredX = 1;
-                    //Add limit for injured_y.
-                  }
-                  move(injuredY, injuredX);
-                  setColor(pool[i].align.color);
-                  addstr("${pool[i].name}, ");
-                  injuredX += namelength + 2;
                 }
               }
             }
+
+            await getKey();
+          } else {
+            // CCS Raids safehouse
+            erase();
+            mvaddstrc(8, 1, red,
+                "CCS members pour out of the truck and shoot in the front doors!");
+            await getKey();
+
+            l.siege.activeSiegeType = SiegeType.ccs;
+            l.siege.underAttack = true;
+            l.siege.lightsOff = false;
+            l.siege.camerasOff = false;
           }
-
-          await getKey();
-        } else {
-          // CCS Raids safehouse
-          erase();
-          mvaddstrc(8, 1, red,
-              "CCS members pour out of the truck and shoot in the front doors!");
-          await getKey();
-
-          l.siege.activeSiegeType = SiegeType.ccs;
-          l.siege.underAttack = true;
-          l.siege.lightsOff = false;
-          l.siege.camerasOff = false;
+        } else if (l.siege.timeuntilccs == 0) {
+          l.siege.timeuntilccs = -1; // Silently call off foiled ccs raids
         }
-      } else if (l.siege.timeuntilccs == 0) {
-        l.siege.timeuntilccs = -1; // Silently call off foiled ccs raids
       }
-    }
 
-    //CIA
-    if (l.heat > l.heatProtection / 2 &&
-        l.siege.timeuntilcia == -1 &&
-        !l.siege.underSiege &&
-        offendedCia &&
-        oneIn(60) &&
-        numpres > 0) {
-      l.siege.timeuntilcia = lcsRandom(3) + 1;
-      Creature? agentsleeper = pool.firstWhereOrNull(
-          (p) => p.sleeperAgent && p.type.id == CreatureTypeIds.agent);
-      if (agentsleeper != null) {
+      //CIA
+      int targetHeatFromCIA =
+          l.creaturesPresent.fold(0, (t, c) => t + c.offendedCIA);
+      if (l.extraHeatFromCIA < targetHeatFromCIA) {
+        l.extraHeatFromCIA++;
+      } else if (l.extraHeatFromCIA > targetHeatFromCIA) {
+        l.extraHeatFromCIA--;
+      }
+      if (l.heat + l.extraHeatFromCIA > l.heatProtection / 2 &&
+          l.siege.timeuntilcia == -1 &&
+          !l.siege.underSiege &&
+          offendedCia &&
+          oneIn(30) &&
+          numpres > 0) {
+        l.siege.timeuntilcia = lcsRandom(3) + 1;
+        Creature? agentsleeper = pool.firstWhereOrNull(
+            (p) => p.sleeperAgent && p.type.id == CreatureTypeIds.agent);
+        if (agentsleeper != null) {
+          erase();
+          mvaddstrc(8, 1, white,
+              "${agentsleeper.name} has sent word that the CIA is planning ");
+          mvaddstr(9, 1, "to launch an attack on ${l.getName()}!");
+          await getKey();
+        }
+      } else if (l.siege.timeuntilcia > 0) {
+        l.siege.timeuntilcia--; // CIA raid countdown!
+      } else if (l.siege.timeuntilcia == 0 &&
+          !l.siege.underSiege &&
+          offendedCia &&
+          numpres > 0) {
+        l.siege.timeuntilcia = -1;
+        // CIA raids!
         erase();
-        mvaddstrc(8, 1, white,
-            "${agentsleeper.name} has sent word that the CIA is planning ");
-        mvaddstr(9, 1, "to launch an attack on ${l.getName()}!");
+        setColor(red);
+        addparagraph(
+            6,
+            1,
+            "In the dead of the night, a column of unmarked black vans with "
+            "tinted windows surrounds the ${l.getName()}.");
         await getKey();
-      }
-    } else if (l.siege.timeuntilcia > 0) {
-      l.siege.timeuntilcia--; // CIA raid countdown!
-    } else if (l.siege.timeuntilcia == 0 &&
-        !l.siege.underSiege &&
-        offendedCia &&
-        numpres > 0) {
-      l.siege.timeuntilcia = -1;
-      // CIA raids!
-      erase();
-      mvaddstrc(8, 1, white,
-          "In the dead of the night, a column of unmarked black vans surround the ${l.getName()}.");
-      int y = 10;
-      await getKey();
-      mvaddstr(y++, 1,
-          "Hair stands on end... the air is charged with the sound of silence.");
-      if (l.compound.cameras) {
-        mvaddstr(y++, 1, "The camera feeds are dead.");
-      }
-      if (l.compound.generator) {
-        mvaddstr(y++, 1, "The generator won't start.");
-      }
-      if (l.compound.solarPanels) {
-        mvaddstr(
-            y++, 1, "The solar batteries are suddenly reporting no charge.");
-      }
-      mvaddstr(y++, 1,
-          "The compound is plunged into darkness as the doors spontaneously unlock.");
-      y++;
-      mvaddstr(y++, 1, "The CIA has arrived.");
-      await getKey();
+        mvaddstrc(console.y + 1, 1, white,
+            "Hair stands on end... the air is charged with the sound of silence.");
+        await getKey();
+        if (l.compound.cameras) {
+          mvaddstr(console.y + 2, 1, "The camera feeds are dead.");
+          await getKey();
+        }
+        if (l.compound.generator) {
+          mvaddstr(console.y + 2, 1, "The generator won't start.");
+          await getKey();
+        }
+        if (l.compound.solarPanels) {
+          mvaddstr(console.y + 2, 1,
+              "The solar batteries are suddenly reporting no charge.");
+          await getKey();
+        }
+        mvaddstr(console.y + 2, 1,
+            "The compound is plunged into darkness as the doors spontaneously unlock.");
+        await getKey();
+        mvaddstrc(console.y + 2, 1, red, "The CIA has arrived.");
+        await getKey();
 
-      l.siege.activeSiegeType = SiegeType.cia;
-      l.siege.underAttack = true;
-      l.siege.lightsOff = true;
-      l.siege.camerasOff = true;
-    } else if (l.siege.timeuntilcia == 0) {
-      l.siege.timeuntilcia = -1; // Silently call off foiled cia raids
-    }
+        l.siege.activeSiegeType = SiegeType.cia;
+        l.siege.underAttack = true;
+        l.siege.lightsOff = true;
+        l.siege.camerasOff = true;
+        l.extraHeatFromCIA = 0;
+        offendedCia = false;
+        for (Creature p in pool) {
+          p.offendedCIA = 0;
+        }
+      } else if (l.siege.timeuntilcia == 0) {
+        l.siege.timeuntilcia = -1; // Silently call off foiled cia raids
+      }
 
-    //HICKS
-    if (l.heat > l.heatProtection &&
-        !l.siege.underSiege &&
-        offendedHicks &&
-        oneIn(120) &&
-        numpres > 0) {
-      erase();
-      mvaddstrc(8, 1, white,
-          "Masses dissatisfied with your lack of respect for right-wing media");
-      mvaddstr(9, 1, "are storming the ${l.getName()}!");
-      await getKey();
+      //RURAL MOB
+      int targetHeatFromRuralMobs =
+          l.creaturesPresent.fold(0, (t, c) => t + c.offendedAngryRuralMobs);
+      if (l.extraHeatFromRuralMobs < targetHeatFromRuralMobs) {
+        l.extraHeatFromRuralMobs++;
+      } else if (l.extraHeatFromRuralMobs > targetHeatFromRuralMobs) {
+        l.extraHeatFromRuralMobs--;
+      }
+      if (l.heat + l.extraHeatFromRuralMobs > l.heatProtection &&
+          !l.siege.underSiege &&
+          offendedAngryRuralMobs &&
+          oneIn(30) &&
+          numpres > 0) {
+        erase();
+        setColor(red);
+        addparagraph(
+            6,
+            1,
+            "A loosely-organized column of pickup trucks sporting gun racks "
+            "and Confederate flags is approaching the ${l.getName()}.");
+        await getKey();
+        setColor(white);
+        addparagraph(
+            console.y + 1,
+            1,
+            "Overnight, a fringe far-right social media account published a "
+            "detailed conspiracy theory about a building where an enclave of "
+            "hundreds of Liberal elites were supposedly generating forgeries, "
+            "deepfakes, and committing unspeakable crimes against innocent "
+            "children.");
+        await getKey();
+        addparagraph(
+            console.y + 1,
+            1,
+            "Rallied by misguided calls to violence that swept through social "
+            "media, the Conservative masses are pouring into ${l.district.name} "
+            "to assault the ${l.getName()}!");
+        await getKey();
 
-      l.siege.activeSiegeType = SiegeType.hicks;
-      l.siege.underAttack = true;
-      l.siege.lightsOff = false;
-      l.siege.camerasOff = false;
-      offendedHicks = false;
+        l.siege.activeSiegeType = SiegeType.angryRuralMob;
+        l.siege.underAttack = true;
+        l.siege.lightsOff = false;
+        l.siege.camerasOff = false;
+        l.extraHeatFromRuralMobs = 0;
+        offendedAngryRuralMobs = false;
+        for (Creature p in pool) {
+          p.offendedAngryRuralMobs = 0;
+        }
+      }
     }
   }
 }
@@ -658,7 +780,7 @@ Future<void> siegeTurn() async {
           if (hit) {
             await showMessage("Explosions rock the compound!");
 
-            if (hasAAGun && oneIn(3)) {
+            if (hasAAGun && oneIn(5)) {
               await showMessage("The anti-aircraft gun takes a direct hit!");
               await showMessage("There's nothing left but smoking wreckage...");
               l.compound.aaGun = false;
@@ -669,7 +791,7 @@ Future<void> siegeTurn() async {
                 l.siege.lightsOff = true;
               }
               l.compound.solarPanels = false;
-            } else if (hasGenerator && oneIn(3)) {
+            } else if (hasGenerator && oneIn(5)) {
               await showMessage("The generator takes a direct hit!");
               if (!hasSolarPanels) {
                 await showMessage("The lights fade and all goes dark...");
@@ -688,8 +810,19 @@ Future<void> siegeTurn() async {
                   }
                   victim.squad = null;
                   victim.die();
-                } else {
+                } else if (oneIn(2)) {
                   await showMessage("${victim.name} narrowly avoids death!");
+                } else {
+                  await showMessage("${victim.name} is injured in the blast!");
+                  victim.blood -= min(lcsRandom(50) + 50, victim.blood ~/ 2);
+                  for (BodyPart bp in victim.body.parts) {
+                    if (oneIn(2)) {
+                      bp.bleeding++;
+                      bp.cut = true;
+                    } else {
+                      bp.bruised = true;
+                    }
+                  }
                 }
               }
             } else {
@@ -700,7 +833,7 @@ Future<void> siegeTurn() async {
 
         if (l.compound.bollards &&
             l.siege.escalationState.index >= SiegeEscalation.tanks.index &&
-            oneIn(15)) {
+            oneIn(5)) {
           nothingBadHappened = false;
 
           //ENGINEERS
@@ -714,7 +847,7 @@ Future<void> siegeTurn() async {
         //NEED GOOD THINGS TO BALANCE THE BAD
 
         // ELITE REPORTER SNEAKS IN
-        if (oneIn(20) && nothingBadHappened && liberalcount > 0) {
+        if (oneIn(10) && nothingBadHappened && liberalcount > 0) {
           FullName repname = generateFullName();
           String newsType = [
             "news program",
@@ -736,61 +869,71 @@ Future<void> siegeTurn() async {
 
           erase();
           setColor(lightGray);
-          mvaddstr(
-              1, 1, "Elite Journalist ${repname.firstLast} from the $newsType");
-          mvaddstr(
-              2, 1, "$newsNameA $newsNameB got into the compound somehow!");
+          String publicationName = "$newsNameA $newsNameB";
+          String newsBody =
+              "Elite Journalist ${repname.firstLast} from the $newsType $publicationName "
+              "got into the compound somehow!";
+          addparagraph(1, 1, newsBody);
           await getKey();
 
+          NewsStory ns = NewsStory.unpublished(NewsStories.majorEvent);
+          ns.loc = l;
+          ns.byline = "By ${repname.firstLast}";
+          ns.publicationName = publicationName;
+          ns.publicationAlignment = DeepAlignment.moderate;
+          ns.headline = "INTERVIEW: LCS UNDER SIEGE";
+
           int best = 0;
-          for (int i = 0, bestvalue = -1000; i < pool.length; i++) {
+          int bestvalue = -1000;
+          for (int i = 0; i < pool.length; i++) {
             Creature p = pool[i];
             if (!p.alive || p.align != Alignment.liberal || p.location != l) {
               continue;
             }
 
             int sum = p.attribute(Attribute.intelligence) +
-                p.attribute(Attribute.heart) +
                 p.skill(Skill.persuasion) +
-                p.juice;
+                p.skill(Skill.business) +
+                p.skill(Skill.science) +
+                p.skill(Skill.religion) +
+                p.skill(Skill.law) +
+                p.juice ~/ 20;
 
             if (sum > bestvalue) {
               best = i;
-              bestvalue = sum;
+              bestvalue = sum - p.juice ~/ 20;
             }
           }
 
-          mvaddstr(4, 1, "${pool[best].name} decides to give an interview.");
+          String paragraph = "${pool[best].name} decides to give an interview.";
+          newsBody += "\n\n$paragraph";
+          addparagraph(console.y + 1, 1, paragraph);
           await getKey();
 
-          mvaddstr(6, 1,
-              "The interview is wide-ranging, covering a variety of topics.");
+          paragraph =
+              "The interview is wide-ranging, covering a variety of topics.";
+          newsBody += "\n\n$paragraph";
+          addparagraph(console.y + 1, 1, paragraph);
           await getKey();
 
-          int segmentpower = pool[best].attributeRoll(Attribute.intelligence) +
-              pool[best].attributeRoll(Attribute.heart) +
-              pool[best].skillRoll(Skill.business, take10: true) +
-              pool[best].skillRoll(Skill.religion, take10: true) +
-              pool[best].skillRoll(Skill.law, take10: true) +
-              pool[best].skillRoll(Skill.science, take10: true) +
-              pool[best].skillRoll(Skill.persuasion) +
-              pool[best].skillRoll(Skill.persuasion);
+          debugPrint("bestvalue: $bestvalue");
 
-          move(8, 1);
-          if (segmentpower < 35) {
+          int segmentpower = bestvalue + Dice.d20.roll();
+          debugPrint("segmentpower: $segmentpower");
+          bool itsAboutDrugs = false;
+
+          if (segmentpower < 15) {
             String playName = "${[
-              "Flaming",
-              "Dumb",
-              "Retarded",
-              "Insane",
-              "Crazy",
-              "Loopy",
-              "Idiot",
+              "Ridiculous",
+              "Oblivious",
+              "Clueless",
+              "Inept",
+              "The Wrong",
+              "Semiconscious",
               "Empty-Headed",
-              "Nutty",
               "Half-Baked",
               "Pot-Smoking",
-              "Stoner",
+              "Stoned",
             ].random} ${[
               "Liberal",
               "Socialist",
@@ -798,45 +941,82 @@ Future<void> siegeTurn() async {
               "Communist",
               "Marxist",
               "Green",
-              "Elite",
+              "Leftist",
               "Guerrilla",
-              "Commando",
-              "Soldier",
+              "Rebel",
+              "Radical",
+              "Stoner",
             ].random}";
-            addstr(repname.firstLast);
-            addstr(" canceled the interview halfway through");
-            mvaddstr(
-                9, 1, "and later used the material for a Broadway play called");
-            mvaddstr(10, 1, "$playName.");
-          } else if (segmentpower < 40) {
-            addstr(
-                "But the interview is so boring that ${repname.firstLast} falls asleep.");
-          } else if (segmentpower < 45) {
-            addstr("But ${pool[best].name} stutters nervously the whole time.");
+            ns.headline = playName.toUpperCase();
+            ns.publicationName = "On Broadway";
+            newsBody = "&G${pool[best].name.toUpperCase()} (singing):\n"
+                "&wBarricaded tight, my snacks running low,\n"
+                "They're banging at the door, yelling \"Time to go!\"\n"
+                "The revolution's here, and the fight's at my door,\n"
+                "But I'd rather just get high and let my mind explore";
+            String paragraph =
+                "${repname.firstLast} canceled the interview halfway through "
+                "and later used the material for a Broadway play called "
+                "$playName.";
+            addparagraph(console.y + 1, 1, paragraph);
+            itsAboutDrugs = true;
+          } else if (segmentpower < 20) {
+            String paragraph =
+                "But the interview is so boring that ${repname.firstLast} falls asleep.";
+            newsBody += "\n\n$paragraph";
+            addparagraph(console.y + 1, 1, paragraph);
+          } else if (segmentpower < 25) {
+            String paragraph =
+                "But ${pool[best].name} stutters nervously the whole time.";
+            newsBody += "\n\n$paragraph";
+            addparagraph(console.y + 1, 1, paragraph);
+          } else if (segmentpower < 30) {
+            String paragraph =
+                "${pool[best].name}'s verbal finesse leaves something to be desired.";
+            newsBody += "\n\n$paragraph";
+            addparagraph(console.y + 1, 1, paragraph);
+          } else if (segmentpower < 35) {
+            String paragraph = "${pool[best].name} represents the LCS well.";
+            newsBody += "\n\n$paragraph";
+            addparagraph(console.y + 1, 1, paragraph);
           } else if (segmentpower < 50) {
-            addstr(
-                "${pool[best].name}'s verbal finesse leaves something to be desired.");
-          } else if (segmentpower < 65) {
-            addstr("${pool[best].name} represents the LCS well.");
-          } else if (segmentpower < 80) {
-            addstr("The discussion was exciting and dynamic.");
-            mvaddstr(9, 1,
-                "Even the Cable News and AM Radio spend days talking about it.");
+            String paragraph = "The discussion was exciting and dynamic. "
+                "Even the Cable News and AM Radio spend days talking about it.";
+            newsBody += "\n\n$paragraph";
+            addparagraph(console.y + 1, 1, paragraph);
           } else {
-            addstr(
-                "${repname.firstLast} later went on to win a Pulitzer for it.");
-            mvaddstr(9, 1,
-                "Virtually everyone in America was moved by ${pool[best].name}'s words.");
+            String paragraph =
+                "${repname.firstLast} later went on to win a Pulitzer for it. "
+                "Virtually everyone in America was moved by ${pool[best].name}'s words.";
+            newsBody += "\n\n$paragraph";
+            addparagraph(console.y + 1, 1, paragraph);
           }
 
           await getKey();
 
           //CHECK PUBLIC OPINION
+          Map<View, double> before =
+              Map.fromEntries(politics.publicOpinion.entries);
           changePublicOpinion(View.lcsKnown, 20);
-          changePublicOpinion(View.lcsLiked, (segmentpower - 45) ~/ 2);
-          for (int v = 0; v < 5; v++) {
-            changePublicOpinion(View.issues.random, (segmentpower - 45) ~/ 2);
+          changePublicOpinion(View.lcsLiked, (segmentpower - 25) ~/ 2);
+          if (!itsAboutDrugs) {
+            for (int v = 0; v < 5; v++) {
+              changePublicOpinion(View.issues.random, (segmentpower - 25) ~/ 2);
+            }
+          } else {
+            changePublicOpinion(View.drugs, -25);
           }
+          Map<View, double> after =
+              Map.fromEntries(politics.publicOpinion.entries);
+          Map<View, double> changes = {};
+          for (View v in before.keys) {
+            if (after[v] != before[v]) {
+              changes[v] = after[v]! - before[v]!;
+            }
+          }
+          ns.effects = changes;
+          ns.body = newsBody;
+          archiveNewsStory(ns);
         }
       }
       // single blank line after every siege day
@@ -879,8 +1059,8 @@ Future<void> siegeDefeat() async {
       if (p.missing && p.align == Alignment.conservative) {
         kcount++;
         kname = p.properName;
-        if (p.type.preciousToHicks) {
-          offendedHicks = true;
+        if (p.type.preciousToAngryRuralMobs) {
+          offendedAngryRuralMobs = true;
         }
         p.activity = Activity.none();
       }
@@ -931,10 +1111,11 @@ Future<void> siegeDefeat() async {
       if (ledger.funds <= 2000) {
         mvaddstr(8, 1, "Fortunately, your funds remain intact.");
       } else {
-        int confiscated = lcsRandom(lcsRandom(ledger.funds - 2000) + 1) + 1000;
+        int confiscated = lcsRandom(lcsRandom(ledger.funds - 3000) + 1) + 1000;
         if (ledger.funds - confiscated > 50000) {
           confiscated += ledger.funds - 30000 - lcsRandom(20000) - confiscated;
         }
+        if (confiscated > ledger.funds) confiscated = ledger.funds;
         mvaddstr(8, 1,
             "Law enforcement has confiscated \$$confiscated in LCS funds.");
         ledger.subtractFunds(confiscated, Expense.confiscated);
@@ -1038,10 +1219,14 @@ Future<SallyForthResult> sallyForthPart3(Site loc) async {
 
   encounter.clear();
 
+  // M1 Tank
+  if (siege.escalationState.index >= SiegeEscalation.tanks.index) {
+    encounter.add(Creature.fromId(CreatureTypeIds.tank));
+  }
   if (siege.escalationState == SiegeEscalation.police) {
     if (loc.type == SiteType.homelessEncampment) {
       // Regular cops sweeping the homeless camp
-      for (int e = 0; e < ENCMAX - 9; e++) {
+      for (int e = 0; e < 6; e++) {
         if (deathSquadsActive) {
           encounter.add(Creature.fromId(CreatureTypeIds.deathSquad));
         } else if (gangUnitsActive) {
@@ -1051,28 +1236,34 @@ Future<SallyForthResult> sallyForthPart3(Site loc) async {
         }
       }
       // Bystanders that might help out
-      prepareEncounter(loc.type, false, addToExisting: true);
-      prepareEncounter(loc.type, false, addToExisting: true);
-      for (int e = ENCMAX - 9; e < encounter.length; e++) {
+      prepareEncounter(loc.type, false, addToExisting: true, num: 4);
+      if (encounter.length < ENCMAX) {
+        prepareEncounter(loc.type, true,
+            addToExisting: true, num: encounter.length - ENCMAX);
+      }
+      for (int e = 6; e < encounter.length; e++) {
         encounter[e].align = Alignment.liberal;
       }
     } else {
       // SWAT teams
-      for (int e = 0; e < ENCMAX - 9; e++) {
+      for (int e = 0; e < ENCMAX; e++) {
         encounter.add(Creature.fromId(CreatureTypeIds.swat));
       }
     }
   } else if (siege.escalationState.index >=
       SiegeEscalation.nationalGuard.index) {
     // Military
-    for (int e = 0; e < ENCMAX - 9; e++) {
-      encounter.add(Creature.fromId(CreatureTypeIds.soldier));
+    for (int e = 0; e < ENCMAX; e++) {
+      if (siege.escalationState.index >= SiegeEscalation.bombers.index) {
+        if (e < 2) {
+          encounter.add(Creature.fromId(CreatureTypeIds.tank));
+        } else {
+          encounter.add(Creature.fromId(CreatureTypeIds.soldier));
+        }
+      } else {
+        encounter.add(Creature.fromId(CreatureTypeIds.soldier));
+      }
     }
-  }
-  // M1 Tank
-  if (siege.escalationState.index >= SiegeEscalation.tanks.index &&
-      !loc.compound.bollards) {
-    encounter.add(Creature.fromId(CreatureTypeIds.tank));
   }
 
   chaseSequence = ChaseSequence(loc);
@@ -1171,15 +1362,9 @@ Future<void> sallyForthPart2(Site loc) async {
         Crime.resistingArrest);
   }
 
-  //DELETE ALL SQUADS IN THIS AREA UNLESS THEY ARE THE activeSquad
-  for (Squad s in squads
-      .where((s) => s != activeSquad && s.members.any((p) => p.location == loc))
-      .toList()) {
-    for (Creature c in s.members.toList()) {
-      c.squad = null;
-    }
-    squads.remove(s);
-  }
+  // Select a squad to use
+  activeSquad ??= squads.firstWhereOrNull(
+      (s) => s.members.isNotEmpty && s.members.first.location == loc);
 
   // No squads at the location? Form a new one.
   if (activeSquad == null) {
@@ -1203,7 +1388,7 @@ Future<void> sallyForthPart2(Site loc) async {
 
   //START FIGHTING
   sitestory = NewsStory.prepare(NewsStories.squadEscapedSiege)
-    ..positive = 1
+    ..liberalSpin = true
     ..loc = loc
     ..siegetype = loc.siege.activeSiegeType;
   SallyForthResult result = await sallyForthPart3(loc);
@@ -1271,21 +1456,9 @@ Future<void> escapeOrEngage() async {
         Crime.resistingArrest);
   }
 
-  //DELETE ALL SQUADS IN THIS AREA UNLESS THEY ARE THE activeSquad
-  for (int sq = squads.length - 1; sq >= 0; sq--) {
-    if (squads[sq] != activeSquad && squads[sq].members.isNotEmpty) {
-      if (squads[sq].members.first.location == loc) {
-        if (activeSquad != null) {
-          for (Creature p in activeSquad!.members.toList()) {
-            p.squad = null;
-          }
-          squads.removeAt(sq);
-        } else {
-          activeSquad = squads[sq];
-        }
-      }
-    }
-  }
+  // Select a squad to use
+  activeSquad ??= squads.firstWhereOrNull(
+      (s) => s.members.isNotEmpty && s.members.first.location == loc);
 
   // No squads at the location? Form a new one.
   if (activeSquad == null) {
@@ -1309,7 +1482,7 @@ Future<void> escapeOrEngage() async {
   sitestory = NewsStory.prepare(loc.siege.underAttack
       ? NewsStories.squadFledAttack
       : NewsStories.squadEscapedSiege)
-    ..positive = 1
+    ..liberalSpin = true
     ..loc = loc
     ..siegetype = loc.siege.activeSiegeType;
   await siteMode(loc);
@@ -1395,9 +1568,9 @@ Future<void> escapeSiege(bool won) async {
     await initsite(activeSite!);
   }
 
-  //SET UP NEW SIEGE CHARACTERISTICS, INCLUDING TIMING
+  // If you won, increase the heat and escalate the siege
   if (won && activeSite!.siege.activeSiegeType == SiegeType.police) {
-    activeSite!.siege.timeUntilCops = lcsRandom(4) + 4;
+    activeSite!.heat += 1000;
     activeSite!.siege.escalationState =
         activeSite!.siege.escalationState.escalate();
   }
@@ -1411,20 +1584,20 @@ Future<void> conquerText() async {
   erase();
   mvaddstrc(1, 26, lightGreen, "* * * * *   VICTORY   * * * * *");
 
+  String text;
   if (activeSite!.siege.activeSiegeType == SiegeType.police) {
-    mvaddstrc(3, 16, lightGray,
-        "The Conservative automatons have been driven back —— for ");
-    mvaddstr(4, 11,
-        "the time being.  While they are regrouping, you might consider ");
-    mvaddstr(5, 11, "abandoning this safe house for a safer location.");
+    text =
+        "The authorities have been driven back——for now.  While they are regrouping, "
+        "you might consider abandoning this safe house for a safer location.";
   } else {
-    mvaddstrc(3, 16, lightGray,
-        "The Conservative automatons have been driven back.  ");
-    mvaddstr(4, 11, "Unfortunately, you will never truly be safe from ");
-    mvaddstr(5, 11, "this filth until the Liberal Agenda is realized.");
+    text = "The Conservative automatons have been driven back.  Unfortunately, "
+        "you will never truly be safe from these extremists until the "
+        "Liberal Agenda is realized.";
   }
+  setColor(lightGray);
+  addparagraph(3, 11, x2: 69, text);
 
-  mvaddstr(7, 19, "Press C to Continue Liberally.");
+  addOptionText(7, 19, "C", "Press C to Continue Liberally.");
 
   while (await getKey() != Key.c) {}
 }
@@ -1435,77 +1608,71 @@ Future<void> conquerTextCCS() async {
   erase();
   mvaddstrc(1, 26, lightGreen, "* * * * *   VICTORY   * * * * *");
 
+  String text = "";
   if (ccsBaseKills < 3) {
-    setColor(lightGray);
-    move(3, 16);
     if (ccsSiegeConverts > 10) {
-      addstr("Music still ringing in their ears, the squad revels in ");
-      mvaddstr(4, 11, "their victory.  ");
+      text += "Music still ringing in their ears, the squad revels in "
+          "their victory.\n\n";
     } else if (ccsBossConverts > 0) {
-      addstr("The CCS Lieutenant lost in self-realization, the squad ");
-      mvaddstr(4, 11, "slips away.  ");
+      text += "The CCS Lieutenant lost in self-realization, the squad "
+          "slips away.\n\n";
     } else if (ccsSiegeKills > 10) {
-      addstr("Gunfire still ringing in their ears, the squad revels in ");
-      mvaddstr(4, 11, "their victory.  ");
+      text += "Gunfire still ringing in their ears, the squad revels in "
+          "their victory.\n\n";
     } else {
-      addstr("The CCS Lieutenant lying dead at their feet, the squad ");
-      mvaddstr(4, 11, "slips away.  ");
+      text += "The CCS Lieutenant lying dead at their feet, the squad "
+          "slips away.\n\n";
     }
-    addstr("The CCS Founder wasn't here, but for now, their ");
-    mvaddstr(5, 11,
-        "power has been severely weakened.  Once the safehouse cools off, ");
-    mvaddstr(
-        6, 11, "this will make a fine base for future Liberal operations.");
+    text += "The CCS Founder wasn't here, but for now, their power has been "
+        "severely weakened.  Once the safehouse cools off, this will make a "
+        "fine base for our future Liberal operations.";
   } else {
-    move(3, 16);
     bool pacifist = false;
     if (ccsSiegeConverts > 10) {
-      addstr("Music still ringing in their ears, the squad revels in ");
-      mvaddstr(4, 11, "their final victory.  ");
-
-      mvaddstr(6, 16,
-          "As your Liberals speak to the former CCS members, it is increasingly ");
-      mvaddstr(7, 11, "clear that this was the CCS's last safehouse.");
+      text += "Music still ringing in their ears, the squad revels in "
+          "their final victory.\n\n"
+          "As your Liberals speak to the former CCS members, it is increasingly "
+          "clear that this was the CCS's last safehouse.\n\n";
       pacifist = true;
     } else if (ccsBossConverts > 0) {
-      addstr("The CCS Founder lost in self-realization, the squad ");
-      mvaddstr(4, 11, "slips away.");
-
-      mvaddstr(6, 16,
-          "With even its Founder swearing off Conservatism forever, the last ");
-      mvaddstr(4, 11, "of the CCS's morale and confidence is shattered.");
+      text += "The CCS Founder lost in self-realization, the squad "
+          "slips away.\n\n"
+          "With even its Founder swearing off Conservatism forever, the last "
+          "of the CCS's morale and confidence is shattered.\n\n";
       pacifist = true;
     } else if (ccsSiegeKills > 10) {
-      addstr("Gunfire still ringing in their ears, the squad revels in ");
-      mvaddstr(4, 11, "their final victory.");
-
-      mvaddstr(6, 16,
-          "As your Liberals pick through the remains of the safehouse, ");
-      mvaddstr(7, 11,
-          "it is increasingly clear that this was the CCS's last safehouse.");
+      text += "Gunfire still ringing in their ears, the squad revels in their "
+          "final victory.\n\n"
+          "As your Liberals pick through the remains of the safehouse, it is "
+          "increasingly clear that this was the CCS's last safehouse.\n\n";
     } else {
-      addstr("The CCS Founder lying dead at their feet, the squad ");
-      mvaddstr(4, 11, "slips away.");
-
-      mvaddstr(
-          6, 16, "With its Founder killed in the heart of their own base, ");
-      mvaddstr(
-          7, 11, "the last of the enemy's morale and confidence is shattered.");
+      text += "The CCS Founder lying dead at their feet, the squad "
+          "slips away.\n\n"
+          "With its leadership crushed by the forces of Liberalism, the last "
+          "of the CCS's morale and confidence is shattered.\n\n";
     }
 
-    mvaddstr(9, 16,
-        "The CCS has been completely ${pacifist ? "neutralized" : "destroyed"}.  Now wasn't there a ");
-    mvaddstr(10, 16, "revolution to attend to?");
-
-    mvaddstr(12, 5,
-        "+200 JUICE TO EVERYONE FOR ${pacifist ? "CONVERTING" : "ERADICATING"} THE CONSERVATIVE CRIME SQUAD");
+    text +=
+        "The CCS has been completely ${pacifist ? "neutralized" : "destroyed"}.  Now wasn't there a "
+        "revolution to attend to?\n\n";
+    text +=
+        "+200 JUICE TO EVERYONE FOR ${pacifist ? "CONVERTING" : "ERADICATING"} THE CONSERVATIVE CRIME SQUAD";
 
     for (Creature p in pool) {
       addjuice(p, 200, 1000);
     }
+    for (Site s in sites) {
+      if (s.controller == SiteController.ccs) {
+        s.controller = SiteController.lcs;
+        initSiteName(s);
+      }
+    }
   }
 
-  mvaddstr(15, 19, "Press C to Continue Liberally.");
+  setColor(lightGray);
+  addparagraph(3, 11, x2: 69, text);
+
+  addOptionText(15, 19, "C", "Press C to Continue Liberally.");
 
   while (await getKey() != Key.c) {}
 }
@@ -1516,9 +1683,12 @@ Future<void> stateBrokenLaws(Site loc) async {
   int kidnapped = 0;
   String? kname;
 
+  List<Creature> hostages = [];
+
   for (Creature p in pool) {
     if (!p.alive || p.location != loc) continue;
     if (p.kidnapped) {
+      hostages.add(p);
       kname = p.properName;
       kidnapped++;
     }
@@ -1527,6 +1697,11 @@ Future<void> stateBrokenLaws(Site loc) async {
         brokenLaws.add(c);
       }
     }
+  }
+  bool kidnappedThePresident =
+      hostages.firstWhereOrNull((h) => h == uniqueCreatures.president) != null;
+  if (kidnappedThePresident) {
+    kname = "President ${uniqueCreatures.president.properName.split(" ").last}";
   }
   int typenum = brokenLaws.length;
 
@@ -1542,7 +1717,7 @@ Future<void> stateBrokenLaws(Site loc) async {
 
   move(3, 1);
   if (loc.siege.escalationState.index >= SiegeEscalation.tanks.index &&
-      politics.publicMood() < 20) {
+      (politics.publicMood() < 20 || kidnappedThePresident || utterNightmare)) {
     addstr("In the name of God, your campaign of terror ends here!");
   } else if (loc.type == SiteType.homelessEncampment) {
     addstr("Everyone in the camp is under arrest!");
@@ -1561,7 +1736,7 @@ Future<void> stateBrokenLaws(Site loc) async {
     String crimeName = Crime.values
             .firstWhereOrNull((c) => brokenLaws.contains(c))
             ?.wantedFor ??
-        "harboring a fugitive from justice";
+        "questioning";
     addstr("You are wanted for $crimeName");
     if (typenum > 1) addstr(" and other crimes");
     addstr("!");

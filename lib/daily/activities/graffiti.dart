@@ -36,9 +36,8 @@ Future<void> doActivityGraffiti(List<Creature> graffiti) async {
         await showMessage(
             "${graffiti[s].name} grabbed a ${sprayPaint.getName()} from ${graffiti[s].base!.name}.");
         graffiti[s].giveWeapon(sprayPaint, graffiti[s].base!.loot);
-      } else if (sprayType != null &&
-          ledger.funds >= sprayType.fenceValue * 2) {
-        ledger.subtractFunds(20, Expense.shopping);
+      } else if (sprayType != null && ledger.funds >= sprayType.price) {
+        ledger.subtractFunds(sprayType.price, Expense.shopping);
         await showMessage(
             "${graffiti[s].name} bought spraypaint for graffiti.");
         graffiti[s]
@@ -86,10 +85,12 @@ Future<void> doActivityGraffiti(List<Creature> graffiti) async {
         graffiti[s].activity.view = null;
         addjuice(graffiti[s], power, power * 20);
         graffiti[s].train(Skill.art, 10);
+        graffiti[s].train(Skill.streetSmarts, 5);
       } else {
         await showMessage(
             "${graffiti[s].name} works through the night on a large mural.");
         graffiti[s].train(Skill.art, 10);
+        graffiti[s].train(Skill.streetSmarts, 5);
       }
     } else if (oneIn(max(30 - graffiti[s].skill(Skill.art) * 2, 5))) {
       issue = View.issues.random;
@@ -99,20 +100,21 @@ Future<void> doActivityGraffiti(List<Creature> graffiti) async {
       graffiti[s].activity.view = issue;
       power = 0;
       graffiti[s].train(Skill.art, 10);
+      graffiti[s].train(Skill.streetSmarts, 5);
     } else {
       addjuice(graffiti[s], 1, 50);
+      graffiti[s].train(Skill.art, 5);
+      graffiti[s].train(Skill.streetSmarts, 5);
     }
 
     graffiti[s].train(Skill.art, 4);
     if (issue == View.lcsKnown) {
       changePublicOpinion(View.lcsKnown, lcsRandom(2));
       changePublicOpinion(View.lcsLiked, oneIn(8) ? 1 : 0);
-      politics.publicInterest.update(issue, (a) => a + power);
     } else {
       changePublicOpinion(View.lcsKnown, 1);
       changePublicOpinion(View.lcsLiked, 1);
-      politics.publicInterest.update(issue, (a) => a + power);
-      politics.backgroundInfluence.update(issue, (a) => a + power);
+      politics.addBackgroundInfluence(issue, power);
     }
   }
 }

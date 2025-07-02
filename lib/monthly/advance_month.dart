@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/basemode/disbanding.dart';
 import 'package:lcs_new_age/basemode/liberal_agenda.dart';
@@ -9,7 +11,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/advance_day.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
-import 'package:lcs_new_age/items/armor.dart';
+import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/loot_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/justice/prison.dart';
@@ -43,7 +45,9 @@ Future<void> advanceMonth() async {
           s.controller = SiteController.ccs;
         }
         ccsState = CCSStrength.active;
-        publicOpinion[View.ccsHated] = 100 - politics.publicMood();
+        if (!ccsInPublicEye) {
+          publicOpinion[View.ccsHated] = politics.publicMood();
+        }
       }
     case CCSStrength.active:
       if (politics.publicMood() > 80) {
@@ -108,27 +112,16 @@ Future<void> advanceMonth() async {
           l.changes[c].flag ==
               SITEBLOCK_GRAFFITI_OTHER) // Find changes that refer specifically to graffiti
       {
-        int power = 0;
-        Alignment align = Alignment.moderate;
-
-        if (l.changes[c].flag == SITEBLOCK_GRAFFITI) align = Alignment.liberal;
-        if (l.changes[c].flag == SITEBLOCK_GRAFFITI_CCS) {
-          align = Alignment.conservative;
-        }
-
-        //Purge graffiti from more secure sites (or from non-secure
-        //sites about once every five years), but these will
-        //influence people more for the current month
+        // Purge graffiti from more secure sites
         if (securityable(l.type) > 0) {
           l.changes.removeAt(c);
-          power = 5;
         } else {
+          // Some occasional changes to graffiti in less secure sites
           if (l.controller == SiteController.ccs) {
             l.changes[c].flag = SITEBLOCK_GRAFFITI_CCS; // Convert to CCS tags
           } else if (l.controller == SiteController.lcs) {
             l.changes[c].flag = SITEBLOCK_GRAFFITI; // Convert to LCS tags
           } else {
-            power = 1;
             if (oneIn(10)) {
               l.changes[c].flag =
                   SITEBLOCK_GRAFFITI_OTHER; // Convert to other tags
@@ -141,13 +134,6 @@ Future<void> advanceMonth() async {
             }
           }
         }
-        if (align == Alignment.liberal) {
-          politics.backgroundInfluence.update(View.lcsKnown, (a) => a + power);
-          politics.backgroundInfluence.update(View.ccsHated, (a) => a + power);
-        } else if (align == Alignment.conservative) {
-          politics.backgroundInfluence.update(View.lcsKnown, (a) => a - power);
-          politics.backgroundInfluence.update(View.ccsHated, (a) => a - power);
-        }
       }
     }
   }
@@ -159,14 +145,12 @@ Future<void> advanceMonth() async {
     politics.backgroundInfluence[v] =
         ((politics.backgroundInfluence[v] ?? 0) * 0.66).round();
 
-    if (v == View.lcsLiked) continue;
     if (v == View.lcsKnown) continue;
     //if(v==View.POLITICALVIOLENCE)
     //{
     //   changePublicOpinion(View.POLITICALVIOLENCE,-1,0);
     //   continue;
     //}
-    if (v == View.ccsHated) continue;
     if (v != View.amRadio && v != View.cableNews) {
       double balance = libpower[v]! - conspower;
 
@@ -186,17 +170,23 @@ Future<void> advanceMonth() async {
     // opinion over time -- if left unchecked, their subtle influence
     // on society will become a self-perpetuating Conservative nightmare!
     else if (v == View.amRadio || v == View.cableNews) {
-      if (politics.publicMood() - 10 < publicOpinion[v]!) {
-        changePublicOpinion(v, -1);
-      }
+      // If the public is much more liberal than the media, slowly shift
+      // away from watching Conservative media
       if (politics.publicMood() - 20 > publicOpinion[v]!) {
         changePublicOpinion(v, 1);
+      }
+      // When disbanding and public opinion is very liberal, don't allow
+      // the Conservative media to gain traction (it's just annoying)
+      if (politics.publicMood() > 90 && disbanding) continue;
+      // Otherwise, slowly shift in favor of Conservative media
+      if (politics.publicMood() - 10 < publicOpinion[v]!) {
+        changePublicOpinion(v, -1);
       }
     }
   }
 
   // Seduction monthly experience stipends for those liberals
-  // who have been getting it on with their love slaves/masters
+  // who have been getting it on with their romantic partners
   // in the background
   for (int s = 0; s < pool.length; s++) {
     int stipendsize = 0;
@@ -264,28 +254,27 @@ Future<void> advanceMonth() async {
         continue;
       } else {
         //TRY TO GET RACKETEERING CHARGE
-        int copstrength = switch (laws[Law.policeReform]) {
+        int maxCopStrength = switch (laws[Law.policeReform]) {
           DeepAlignment.archConservative => 200,
           DeepAlignment.conservative => 150,
           DeepAlignment.liberal => 75,
           DeepAlignment.eliteLiberal => 50,
           _ => 100,
         };
-        int libstrength = 100;
 
-        copstrength = (copstrength * p.heat) ~/ 4 +
-            p.wantedForCrimes.values.reduce((a, b) => a + b) * 5;
+        int copstrength = min(maxCopStrength, 10 * p.heat);
 
         if (laws[Law.deathPenalty] == DeepAlignment.archConservative) {
-          copstrength += 200;
+          copstrength = 200;
         }
 
         if (copstrength > 200) copstrength = 200;
 
-        libstrength = p.juice +
+        int libstrength = p.juice +
             (p.attribute(Attribute.heart) * 5) -
             (p.attribute(Attribute.wisdom) * 5) +
-            (p.skill(Skill.psychology) * 5);
+            (p.skill(Skill.psychology) * 5) +
+            (p.skill(Skill.law) * 5);
 
         if (p.brainwashed) libstrength = 0;
 
@@ -326,7 +315,7 @@ Future<void> advanceMonth() async {
         await showMessage("${p.name} is moved to the courthouse for trial.");
 
         p.location = findSiteInSameCity(p.site!.city, SiteType.courthouse);
-        Armor prisoner = Armor("ARMOR_PRISONER");
+        Clothing prisoner = Clothing("CLOTHING_PRISONER");
         p.giveArmor(prisoner, null);
       }
     } else if (p.site?.type == SiteType.courthouse) {
@@ -470,13 +459,13 @@ void renameBuildingsAfterLawChanges(
     Map<Law, DeepAlignment> law, Map<Law, DeepAlignment> oldlaw) {
   void update(
       SiteType siteType, List<Law> lawsToCheck, DeepAlignment alignment) {
-    if (law.entries
-            .where((e) => lawsToCheck.contains(e.key))
-            .every((e) => e.value == alignment) ||
-        oldlaw.entries
+    if ((law.entries
                 .where((e) => lawsToCheck.contains(e.key))
-                .every((e) => e.value == alignment) &&
-            lawsToCheck.any((l) => law[l] != oldlaw[l])) {
+                .every((e) => e.value == alignment) ||
+            oldlaw.entries
+                .where((e) => lawsToCheck.contains(e.key))
+                .every((e) => e.value == alignment)) &&
+        lawsToCheck.any((l) => law[l] != oldlaw[l])) {
       sites
           .where(
               (l) => l.type == siteType && l.controller != SiteController.lcs)

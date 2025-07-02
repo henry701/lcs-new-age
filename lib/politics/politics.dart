@@ -127,6 +127,8 @@ class Politics {
       presidentParty = PoliticalParty.democrat;
     }
     uniqueCreatures.newPresident();
+    fillCabinetPost(Exec.vicePresident);
+    execTerm = 1;
   }
 
   void fillCabinetPost(Exec position) {
@@ -147,29 +149,33 @@ class Politics {
     });
   }
 
+  void addBackgroundInfluence(View view, int power) {
+    backgroundInfluence.update(view, (v) => v + power);
+    power = power.abs();
+    if (power / 10 > publicInterest[view]!) {
+      publicInterest[view] = publicInterest[view]! + 1;
+    }
+  }
+
   void changePublicOpinion(
     View view,
     num power, {
     bool coloredByLcsOpinions = false,
     bool coloredByCcsOpinions = false,
+    int extraMoralAuthority = 0,
+    bool noPublicInterest = false,
   }) {
     double existingView = publicOpinion[view]!;
     int existingInterest = publicInterest[view]!;
-    if (view.index < View.amRadio.index) {
-      backgroundInfluence[view] =
-          ((backgroundInfluence[view] ?? 0) + power * 10).round();
-    }
     if (coloredByLcsOpinions) {
-      // Power from people who haven't heard of the LCS or don't care
-      double rawPower = power * ((100 - publicOpinion[View.lcsKnown]!) / 100);
       // Power from people who have opinions about the LCS
-      double affectedPower = power - rawPower;
-      double lcsPopularity = publicOpinion[View.lcsLiked]!;
-      double moralAuthority = lcsPopularity - existingView;
-      affectedPower = affectedPower * (100 + moralAuthority) / 100;
-      power = rawPower + affectedPower;
+      double lcsPopularity = lcsApproval();
+      double moralAuthority = lcsPopularity + extraMoralAuthority;
+      power = power * (20 + moralAuthority) / 100;
     } else if (coloredByCcsOpinions) {
-      power = power * (100 - publicOpinion[View.ccsHated]!) / 100;
+      power = power *
+          (100 - publicOpinion[View.ccsHated]! + extraMoralAuthority) /
+          100;
     }
     if (view == View.lcsKnown) {
       power = power.clamp(-5, 50);
@@ -178,13 +184,15 @@ class Politics {
     } else if (view == View.ccsHated) {
       power = power.clamp(-10, 25);
     }
-    power = (power * min(2, 1 + existingInterest / 50)).round();
-    power = power.clamp(-75, 75);
-    for (int i = 0; i < power; i++) {
-      if (i % (publicInterest[view]! ~/ power) == 0) {
+    if (!noPublicInterest) {
+      int remainingPower = (power * 5).round().abs();
+      while (remainingPower > 0) {
         publicInterest[view] = publicInterest[view]! + 1;
+        remainingPower -= publicInterest[view]!;
       }
     }
+    power = (power * min(2, 1 + existingInterest / 16)).round();
+    power = power.clamp(-75, 75);
     if (power > 0) {
       publicOpinion[view] = existingView + ((100 - existingView) * power / 100);
     } else {
@@ -342,7 +350,16 @@ enum Exec {
   president,
   vicePresident,
   secretaryOfState,
-  attorneyGeneral,
+  attorneyGeneral;
+
+  String get displayName {
+    return switch (this) {
+      president => "President",
+      vicePresident => "Vice President",
+      secretaryOfState => "Secretary of State",
+      attorneyGeneral => "Attorney General",
+    };
+  }
 }
 
 enum PoliticalParty {

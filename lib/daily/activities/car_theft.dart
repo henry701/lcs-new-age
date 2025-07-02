@@ -63,16 +63,18 @@ class CarTheftScene {
         mvaddstrc(
             10, 0, lightGray, "${cr.name} stands by the ${v.fullName()}.");
       }
-      mvaddstrc(12, 0, lightGray, "A - Pick the lock.");
-      mvaddstrc(13, 0, lightGray, "B - Break the window.");
+      addOptionText(12, 0, "A", "A - Pick the lock.");
+      addOptionText(13, 0, "B", "B - Break the window.");
       move(14, 0);
       if (!senseAlarm) {
-        addstr("Enter - Call it a day.");
+        addInlineOptionText("Enter", "Enter - Call it a day.");
       } else {
         if (!alarmOn) {
-          addstr("Enter - The Viper?   ${cr.name} is deterred.");
+          addInlineOptionText(
+              "Enter", "Enter - The Viper?   ${cr.name} is deterred.");
         } else {
-          addstr("Enter - Yes, the Viper has deterred ${cr.name}.");
+          addInlineOptionText(
+              "Enter", "Enter - Yes, the Viper has deterred ${cr.name}.");
         }
       }
 
@@ -100,13 +102,11 @@ class CarTheftScene {
       }
       //BREAK WINDOW
       if (c == Key.b) {
-        int difficulty =
-            (Difficulty.easy ~/ cr.weapon.type.bashStrengthModifier) -
-                windowDamage;
+        int difficulty = Difficulty.easy - windowDamage;
 
         if (cr.attributeCheck(Attribute.strength, difficulty)) {
           mvaddstrc(16, 0, white, "${cr.name} smashes the window");
-          if (cr.weapon.type.bashStrengthModifier > 1) {
+          if ((cr.weapon.type.meleeAttack?.damage ?? 0) > 10) {
             addstr(" with a ");
             addstr(cr.weapon.getName(sidearm: true));
           }
@@ -117,7 +117,7 @@ class CarTheftScene {
         } else {
           mvaddstrc(16, 0, white, cr.name);
           addstr(" cracks the window");
-          if (cr.weapon.type.bashStrengthModifier > 1) {
+          if ((cr.weapon.type.meleeAttack?.damage ?? 0) > 10) {
             addstr(" with a ${cr.weapon.getName(sidearm: true)}");
           }
           addstr(" but it is still somewhat intact.");
@@ -181,15 +181,14 @@ class CarTheftScene {
         // Key in ignition; notice them instantly upon entering the car
         c = Key.b;
       } else {
-        mvaddstrc(y++, 0, lightGray, "A - Hotwire the car.");
-        mvaddstrc(y++, 0, lightGray, "B - Desperately search for keys.");
+        addOptionText(y++, 0, "A", "A - Hotwire the car.");
+        addOptionText(y++, 0, "B", "B - Desperately search for keys.");
         move(y++, 0);
         if (!senseAlarm) {
-          addstr("Enter - Call it a day.");
+          addInlineOptionText("Enter", "Enter - Call it a day.");
         } else {
-          addstr("Enter - The Viper has finally deterred ");
-          addstr(cr.name);
-          addstr(".");
+          addInlineOptionText(
+              "Enter", "Enter - The Viper has finally deterred ${cr.name}.");
         }
         y++;
         do {
@@ -397,8 +396,8 @@ class CarTheftScene {
     _addCarTheftHeader();
     mvaddstrc(10, 0, lightGray,
         "${cr.name} looks from a distance at an empty ${v.fullName()}.");
-    mvaddstr(12, 0, "A - Approach the driver's side door.");
-    mvaddstr(13, 0, "Enter - Call it a day.");
+    addOptionText(12, 0, "A", "A - Approach the driver's side door.");
+    addOptionText(13, 0, "Enter", "Enter - Call it a day.");
 
     while (true) {
       int c = await getKey();
@@ -414,6 +413,7 @@ class CarTheftScene {
     List<VehicleType> cart =
         vehicleTypes.values.where((v) => v.difficultyToFind < 10).toList();
     bailed = true;
+    erase();
     await pagedInterface(
       headerPrompt:
           "What type of car will ${cr.name} try to find and steal today?",
@@ -425,9 +425,10 @@ class CarTheftScene {
         mvaddstrc(y, 0, lightGray, "$key - ${v.longName}");
         addDifficultyText(y, 49, v.difficultyToFind);
       },
-      onChoice: (index) {
+      onChoice: (index) async {
         bailed = false;
         cartype = cart[index];
+        return true;
       },
     );
     if (bailed) cr.activity = Activity.none();

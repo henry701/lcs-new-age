@@ -32,15 +32,18 @@ Future<bool> liberalAgenda([AgendaVibe vibe = AgendaVibe.ongoing]) async {
     if (vibe == AgendaVibe.liberalVictory) {
       mvaddstrc(0, 0, lightGreen, "The Triumph of the Liberal Agenda");
       mvaddstr(23, 0, "The country has achieved Elite Liberal status!");
-      mvaddstr(24, 0, "Press L to view the high score list.");
+      addPageButtons(y: 24, x: 0);
+      addOptionText(24, console.x + 4, "L", "L - View the high score list");
     } else if (vibe == AgendaVibe.conservativeVictory) {
       mvaddstrc(0, 0, red, "The Abject Failure of the Liberal Agenda");
       mvaddstr(23, 0, "The country has been Reaganified.");
-      mvaddstr(24, 0, "Press L to view the high score list.");
+      addPageButtons(y: 24, x: 0);
+      addOptionText(24, console.x + 4, "L", "L - View the high score list");
     } else {
       mvaddstrc(0, 0, white, "The Status of the Liberal Agenda");
-      mvaddstr(24, 0,
-          "Press D to disband and wait. $pageStrShort. Any other key to exit.");
+      addOptionText(24, 0, "D", "D - Disband and Wait");
+      addPageButtons(y: 24, x: console.x + 4, short: true);
+      addOptionText(24, console.x + 4, "Any other key", "Any Other Key - Exit");
     }
     _agendaPage(page, vibe);
     if (vibe == AgendaVibe.ongoing) {
@@ -48,16 +51,14 @@ Future<bool> liberalAgenda([AgendaVibe vibe = AgendaVibe.ongoing]) async {
     }
     int c = await getKey();
     if (isPageUp(c) || c == Key.leftArrow) {
-      page = AgendaPage
-          .values[(page.index - 1).clamp(0, AgendaPage.values.length - 1)];
+      page = AgendaPage.values[(page.index - 1) % (AgendaPage.values.length)];
     } else if (isPageDown(c) || c == Key.rightArrow) {
-      page = AgendaPage
-          .values[(page.index + 1).clamp(0, AgendaPage.values.length - 1)];
+      page = AgendaPage.values[(page.index + 1) % (AgendaPage.values.length)];
     } else if (c == Key.l && vibe != AgendaVibe.ongoing) {
       break;
     } else if (c == Key.d && vibe == AgendaVibe.ongoing) {
       return _confirmDisband();
-    } else {
+    } else if (vibe == AgendaVibe.ongoing) {
       break;
     }
   }
@@ -137,7 +138,7 @@ Future<bool> _confirmDisband() async {
   }
   for (int i = pool.length - 1; i >= 0; i--) {
     Creature p = pool[i];
-    if (!p.alive || p.missing || p.kidnapped) {
+    if (!p.alive || p.align != Alignment.liberal) {
       pool.removeAt(i);
     } else {
       p.squad = null;
@@ -206,7 +207,7 @@ void _executives(AgendaVibe vibe) {
   } else if (politics.execTerm == 1) {
     president = "President (1st Term):";
   } else if (politics.execTerm == 2) {
-    president = "Persident (2nd Term):";
+    president = "President (2nd Term):";
   } else {
     president = "President:";
   }
@@ -312,7 +313,7 @@ void _pollsPage(int start) {
         "$president ${execName[Exec.president]!.firstLast}");
     addstrc(lightGray, ".");
     String concern = "";
-    if (politics.publicInterest[maxView]! < 10) {
+    if (politics.publicInterest[maxView]! < 5) {
       concern = "a recent sports scandal";
     } else {
       concern = _concernString(maxView);
@@ -332,16 +333,18 @@ void _pollsPage(int start) {
     }
     mvaddstrc(y, 4, lightGray, "".padRight(57, "."));
     int interest = politics.publicInterest[v]!;
-    if (interest > 100) {
-      addstr("Very High");
-    } else if (interest > 50) {
-      addstr("High");
-    } else if (interest > 10) {
-      addstr("Moderate");
+    if (interest > 16) {
+      addstrc(red, "Huge");
+    } else if (interest > 8) {
+      addstrc(orange, "High");
+    } else if (interest > 4) {
+      addstrc(yellow, "Moderate");
+    } else if (interest > 2) {
+      addstrc(lightGray, "Low");
     } else if (interest > 0) {
-      addstr("Low");
+      addstrc(midGray, "Minimal");
     } else {
-      addstr("Minimal");
+      addstrc(darkGray, "None");
     }
 
     double survey = politics.publicOpinion[v]!;
@@ -378,7 +381,7 @@ void _pollsPage(int start) {
       case View.torture:
         addstr("want stronger measures to prevent torture");
       case View.intelligence:
-        addstr("want to stop government mass surveilance");
+        addstr("want to stop government mass surveillance");
       case View.freeSpeech:
         addstr("believe in unfettered free speech");
       case View.genetics:
@@ -418,9 +421,9 @@ void _pollsPage(int start) {
       case View.lcsKnown:
         addstr("have heard of the Liberal Crime Squad");
       case View.lcsLiked:
-        addstr("support the Liberal Crime Squad");
+        addstr("consider the Liberal Crime Squad a force for good");
       case View.ccsHated:
-        addstr("hate the Conservative Crime Squad");
+        addstr("want the Conservative Crime Squad brought to justice");
     }
   }
 }
@@ -487,9 +490,9 @@ String _concernString(View view) {
       }
     case View.intelligence:
       if (publicOpinion[view]! > 50) {
-        return "ending mass surveilance";
+        return "ending mass surveillance";
       } else {
-        return "government mass surveilance";
+        return "government mass surveillance";
       }
     case View.freeSpeech:
       if (publicOpinion[view]! > 50) {

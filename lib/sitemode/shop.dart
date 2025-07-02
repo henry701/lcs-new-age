@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:lcs_new_age/basemode/base_mode.dart';
 import 'package:lcs_new_age/common_actions/equipment.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
@@ -10,8 +12,10 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/items/ammo.dart';
-import 'package:lcs_new_age/items/armor.dart';
-import 'package:lcs_new_age/items/armor_type.dart';
+import 'package:lcs_new_age/items/ammo_type.dart';
+import 'package:lcs_new_age/items/attack.dart';
+import 'package:lcs_new_age/items/clothing.dart';
+import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/item_type.dart';
 import 'package:lcs_new_age/items/loot.dart';
@@ -46,15 +50,21 @@ class ShopItem extends ShopOption {
   final int _price;
   int price(bool sleeper) {
     int scale = 1;
+    int basePrice = sleeper ? sleeperprice : _price;
+    if (basePrice == 0 && itemClass == "WEAPON") {
+      basePrice = weaponTypes[itemId]!.price;
+    }
+    if (basePrice == 0 && itemClass == "AMMO") {
+      basePrice = ammoTypes[itemId]!.boxPrice;
+    }
     if (parentShop.increasePricesWithIllegality && itemClass == "WEAPON") {
       WeaponType weaponType = weaponTypes[itemId]!;
-      scale = laws[Law.gunControl]!.index - (weaponType.legality + 1);
+      scale = laws[Law.gunControl]!.index -
+          (weaponType.bannedAtGunControl?.index ?? 3) +
+          2;
       if (scale < 1) scale = 1;
     }
-    if (sleeper) {
-      return sleeperprice * scale;
-    }
-    return _price * scale;
+    return basePrice * scale;
   }
 
   final Shop parentShop;
@@ -72,7 +82,18 @@ class ShopItem extends ShopOption {
   bool isAvailable() {
     if (parentShop.onlySellLegalItems) {
       if (itemClass == "WEAPON") {
-        if (weaponTypes[itemId]!.legality + 2 < laws[Law.gunControl]!.index) {
+        if ((weaponTypes[itemId]!.bannedAtGunControl?.index ?? 99) <=
+            laws[Law.gunControl]!.index) {
+          return false;
+        }
+      }
+      if (itemClass == "AMMO") {
+        bool legal = weaponTypes.values
+            .where((w) => w.acceptableAmmo.contains(ammoTypes[itemId]!))
+            .any((w) =>
+                (w.bannedAtGunControl?.index ?? 99) >
+                laws[Law.gunControl]!.index);
+        if (!legal) {
           return false;
         }
       }
@@ -92,10 +113,11 @@ class ShopItem extends ShopOption {
         case "AMMO":
         case "CLIP":
           Ammo i = Ammo(itemId);
-          buyer.takeAmmo(i, buyer.base?.loot, 1);
+          i.stackSize = i.type.boxSize;
+          buyer.takeAmmo(i, buyer.base?.loot, i.stackSize);
           if (i.stackSize > 0) buyer.base?.loot.add(i);
         case "ARMOR":
-          Armor i = Armor(itemId);
+          Clothing i = Clothing(itemId);
           buyer.giveArmor(i, buyer.base?.loot);
         case "LOOT":
           Loot i = Loot(itemId);
@@ -104,6 +126,8 @@ class ShopItem extends ShopOption {
     }
   }
 }
+
+enum ShopUI { standard, fullscreen, weapons, ammo, clothes }
 
 class Shop extends ShopOption {
   factory Shop(String id) {
@@ -114,7 +138,7 @@ class Shop extends ShopOption {
   factory Shop.departmentOf(Shop parent) {
     Shop department = Shop._()
       ..onlySellLegalItems = parent.onlySellLegalItems
-      ..fullscreen = parent.fullscreen
+      ..ui = parent.ui
       ..increasePricesWithIllegality = parent.increasePricesWithIllegality;
     return department;
   }
@@ -122,7 +146,8 @@ class Shop extends ShopOption {
 
   String id = "";
   bool onlySellLegalItems = true;
-  bool fullscreen = false;
+
+  ShopUI ui = ShopUI.standard;
   bool increasePricesWithIllegality = false;
   bool allowSelling = false;
   bool sellMasks = false;
@@ -139,10 +164,17 @@ class Shop extends ShopOption {
   }
 
   Future<void> enter(Squad customers, {Creature? buyer}) async {
-    if (fullscreen) {
-      await browseFullscreen(customers, buyer);
-    } else {
-      await browseHalfscreen(customers, buyer);
+    switch (ui) {
+      case ShopUI.standard:
+        await browseHalfscreen(customers, buyer);
+      case ShopUI.fullscreen:
+        await browseFullscreen(customers, buyer);
+      case ShopUI.weapons:
+        await browseWeapons(customers, buyer);
+      case ShopUI.ammo:
+        await browseAmmo(customers, buyer);
+      case ShopUI.clothes:
+        await browseClothes(customers, buyer);
     }
   }
 
@@ -179,9 +211,7 @@ class Shop extends ShopOption {
           move(y, 40);
         }
 
-        if (availableOptions[p].letter != null) {
-          addchar(availableOptions[p].letter!.toUpperCase());
-        } else {
+        if (availableOptions[p].letter == null) {
           // Find an available letter to use for this ware.
           bool done = false;
           while (takenLetters < 27 && !done) {
@@ -204,15 +234,15 @@ class Shop extends ShopOption {
               }
             }
           }
-          availableOptions[p].letter = letterAPlus(takenLetters);
-          addchar(letterAPlus(takenLetters++));
+          availableOptions[p].letter = letterAPlus(takenLetters++);
         }
-
-        addstr(" - ");
-        addstr(availableOptions[p].halfscreenDescription());
+        String letter = availableOptions[p].letter!.toUpperCase();
+        String desc = availableOptions[p].halfscreenDescription();
         if (availableOptions[p] is ShopItem) {
-          addstr(" (\$${(availableOptions[p] as ShopItem).price(false)})");
+          desc += " (\$${(availableOptions[p] as ShopItem).price(false)})";
         }
+        addInlineOptionText(letter, "$letter - $desc");
+
         if (x == 1) {
           x = 2;
         } else {
@@ -221,37 +251,30 @@ class Shop extends ShopOption {
         }
       }
       if (sellMasks) {
+        setColor(lightGray);
         move(y, 1 + (x - 1) * 39);
-        if (ledger.funds >= 15) {
-          setColor(lightGray);
-        } else {
-          setColor(darkGray);
-        }
-        addstr("M - Buy a Mask (\$15)");
+        addInlineOptionText("M", "M - Buy a Mask (\$15)",
+            enabledWhen: ledger.funds >= 15);
       }
       if (x == 2) y++;
 
-      mvaddstrc(y++, 1, lightGray, "E - Look over Equipment");
+      addOptionText(y++, 1, "E", "E - Look over Equipment");
 
       if (allowSelling) {
-        move(y++, 1);
-        if (customers.members[0].base?.loot.isNotEmpty == true) {
-          setColor(lightGray);
-        } else {
-          setColor(darkGray);
-        }
-        addstr("S - Sell something");
+        setColor(lightGray);
+        addOptionText(y++, 1, "S", "S - Sell something",
+            enabledWhen: customers.members[0].base?.loot.isNotEmpty == true);
       }
 
-      setColorConditional(activeSquadMemberIndex != -1);
-      mvaddstr(++y, 1, "0 - Show the squad's Liberal status");
+      addOptionText(++y, 1, "0", "0 - Show the squad's Liberal status",
+          enabledWhen: activeSquadMemberIndex != -1);
       setColorConditional(
           partysize > 0 && (activeSquadMemberIndex == -1 || partysize > 1));
       mvaddstr(y++, 40, "# - Check the status of a squad Liberal");
-      setColorConditional(partysize >= 2);
-      mvaddstr(y, 1, "B - Choose a buyer");
+      addOptionText(y, 1, "B", "B - Choose a buyer",
+          enabledWhen: partysize >= 2);
 
-      mvaddstrc(y, 40, lightGray, "Enter - $exitText");
+      addOptionText(y, 40, "Enter", "Enter - $exitText");
 
       int c = await getKey();
 
@@ -289,29 +312,90 @@ class Shop extends ShopOption {
 
   Future<void> browseFullscreen(Squad customers, Creature? buyer) async {
     buyer ??= customers.members[0];
-    int page = 0;
-
     List<ShopOption> availableOptions =
         options.where((o) => o.display()).toList();
+    ShopOption? chosenOption;
+    erase();
+    await pagedInterface(
+      headerPrompt: "What will ${buyer.name} buy?",
+      headerKey: {4: "PRODUCT NAME", 39: "PRICE"},
+      footerPrompt: "Press a Letter to select an Option",
+      count: availableOptions.length,
+      lineBuilder: (y, key, index) {
+        setColorConditional(availableOptions[index].isAvailable());
+        String letter = letterAPlus(y - 2);
+        addOptionText(y, 0, letter,
+            "$letter - ${availableOptions[index].fullscreenDescription()}");
+        if (availableOptions[index] is ShopItem) {
+          move(y, 39);
+          addstr("\$${(availableOptions[index] as ShopItem).price(false)}");
+        }
+      },
+      onChoice: (index) async {
+        if (index < availableOptions.length &&
+            availableOptions[index].isAvailable()) {
+          chosenOption = availableOptions[index];
+          return true;
+        }
+        return false;
+      },
+    );
+    if (chosenOption != null) {
+      await chosenOption!.choose(customers, buyer, false);
+    }
+  }
 
-    while (true) {
+  Future<void> browseWeapons(Squad customers, Creature? buyer) async {
+    buyer ??= customers.members[0];
+    List<ShopOption> availableOptions =
+        options.where((o) => o.display()).toList();
+    bool fullscreen = false;
+    /*
+    if (availableOptions.length > 5) {
+      fullscreen = true;
       erase();
-      mvaddstrc(0, 0, lightGray, "What will ");
-      addstr(buyer.name);
-      addstr(" buy?");
-      addHeader({4: "PRODUCT NAME", 39: "PRICE"});
-
-      //Write wares and prices
-      for (int p = page * 19, y = 2;
-          p < availableOptions.length && p < page * 19 + 19;
-          p++, y++) {
-        setColorConditional(availableOptions[p].isAvailable());
-        move(y, 0);
-        addchar(letterAPlus(y - 2));
-        addstr(" - ");
-        addstr(availableOptions[p].fullscreenDescription());
-        if (availableOptions[p] is ShopItem) {
-          addstr(" (\$${(availableOptions[p] as ShopItem).price(false)})");
+    }
+    */
+    await pagedInterface(
+      headerPrompt: "What will ${buyer.name} buy?",
+      headerKey: {4: "NAME", 20: "AMMO TYPE", 47: "DAMAGE", 59: "PRICE"},
+      footerPrompt: "Press a Letter to buy a Sufficiently Liberal Weapon",
+      count: availableOptions.length * 2,
+      topY: fullscreen ? 0 : 9, // ignore: dead_code
+      pageSize: fullscreen ? 20 : 12, // ignore: dead_code
+      linesPerOption: 2,
+      lineBuilder: (y, key, index) {
+        int i = index ~/ 2;
+        bool descriptionLine = index % 2 == 1;
+        WeaponType weapon =
+            weaponTypes[(availableOptions[i] as ShopItem).itemId]!;
+        if (descriptionLine) {
+          setColor(midGray);
+          move(y, 4);
+          addstr(weapon.description ?? "");
+        } else {
+          setColor(lightGray);
+          addOptionText(y, 0, key, "$key - ${weapon.name}",
+              enabledWhen: availableOptions[i].isAvailable());
+          move(y, 20);
+          AmmoType? ammo = weapon.acceptableAmmo.firstOrNull;
+          if (ammo != null && weapon.ammoCapacity > 0) {
+            addstr("(${weapon.ammoCapacity}) ");
+          }
+          addstr(ammo?.name ?? "N/A");
+          move(y, 47);
+          Attack attack = weapon.attacks.first;
+          if (attack.usesAmmo) {
+            addstr(ammo?.damage.toString() ?? attack.damage.toString());
+          } else {
+            addstr(attack.damage.toString());
+          }
+          int hits = attack.numberOfAttacks * (ammo?.multihit ?? 1);
+          if (hits > 1) {
+            addstr("x$hits");
+          }
+          move(y, 59);
+          addstr("\$${(availableOptions[i] as ShopItem).price(false)}");
         }
       }
 
@@ -356,20 +440,20 @@ class Shop extends ShopOption {
       Site base = customers.members[0].base!;
       bool lootAvailable = base.loot.isNotEmpty;
 
-      mvaddstrc(10, 1, lightGray, "E - Look over Equipment");
+      addOptionText(10, 1, "E", "E - Look over Equipment");
       setColorConditional(lootAvailable);
-      mvaddstr(10, 40, "F - Pawn Selectively");
-      mvaddstr(11, 1, "W - Pawn all Weapons");
-      mvaddstr(11, 40, "A - Pawn all Ammunition");
-      mvaddstr(12, 1, "C - Pawn all Clothes");
-      mvaddstr(12, 40, "L - Pawn all Loot");
+      addOptionText(10, 40, "F", "F - Pawn Selectively");
+      addOptionText(11, 1, "W", "W - Pawn all Weapons");
+      addOptionText(11, 40, "A", "A - Pawn all Ammunition");
+      addOptionText(12, 1, "C", "C - Pawn all Clothes");
+      addOptionText(12, 40, "L", "L - Pawn all Loot");
       setColorConditional(activeSquadMember != null);
-      mvaddstr(15, 1, "0 - Show the squad's Liberal status");
+      addOptionText(15, 1, "0", "0 - Show the squad's Liberal status");
       setColorConditional(
           partysize > 0 && (activeSquadMemberIndex == -1 || partysize > 1));
       mvaddstr(15, 40, "# - Check the status of a squad Liberal");
 
-      mvaddstrc(16, 40, lightGray, "Enter - Done pawning");
+      addOptionText(16, 40, "Enter", "Enter - Done pawning");
 
       int c = await getKey();
 
@@ -405,17 +489,17 @@ class Shop extends ShopOption {
         } else {
           for (Item loot in base.loot.where((i) => i.isForSale).toList()) {
             if (c == Key.w && loot.isWeapon) {
-              fenceamount += loot.stackFenceValue;
+              fenceamount += loot.stackFenceValue.round();
               base.loot.remove(loot);
-            } else if (c == Key.c && loot.isArmor) {
-              fenceamount += loot.stackFenceValue;
+            } else if (c == Key.c && loot.isClothing) {
+              fenceamount += loot.stackFenceValue.round();
               base.loot.remove(loot);
             } else if (c == Key.a && loot.isAmmo) {
-              fenceamount += loot.stackFenceValue;
+              fenceamount += loot.stackFenceValue.round();
               base.loot.remove(loot);
             } else if (c == Key.l && loot.isLoot) {
               if (!(loot as Loot).type.noQuickFencing) {
-                fenceamount += loot.stackFenceValue;
+                fenceamount += loot.stackFenceValue.round();
                 base.loot.remove(loot);
               }
             }
@@ -454,29 +538,27 @@ class Shop extends ShopOption {
       printParty();
 
       int x = 1, y = 10;
-      String outstr, itemstr;
 
       for (int l = page * 18; l < base.loot.length && l < page * 18 + 18; l++) {
+        Color baseColor;
         if (selected[l] > 0) {
-          setColor(lightGreen);
+          baseColor = lightGreen;
         } else if (base.loot[l].isForSale) {
-          setColor(lightGray);
+          baseColor = lightGray;
         } else {
-          setColor(darkGray);
+          baseColor = darkGray;
         }
-        itemstr = base.loot[l].equipTitle();
+        mvaddstrc(y, x, baseColor, "${letterAPlus(l - page * 18)} - ");
+        base.loot[l].printEquipTitle(baseColor: baseColor);
+        setColor(baseColor);
         if (base.loot[l].stackSize > 1) {
           if (selected[l] > 0) {
-            itemstr += " ${selected[l]}/";
+            addstr(" ${selected[l]}/");
           } else {
-            itemstr += " x";
+            addstr(" x");
           }
-          itemstr += base.loot[l].stackSize.toString();
+          addstr(base.loot[l].stackSize.toString());
         }
-
-        outstr = "${letterAPlus(l - page * 18)} - $itemstr";
-
-        mvaddstr(y, x, outstr);
 
         x += 26;
         if (x > 53) {
@@ -496,7 +578,7 @@ class Shop extends ShopOption {
       }
 
       mvaddstrc(23, 1, lightGray, "Press a letter to select an item to sell.");
-      mvaddstr(24, 1, "Enter - Done");
+      addOptionText(24, 1, "Enter", "Enter - Done");
 
       int c = await getKey();
 
@@ -505,7 +587,7 @@ class Shop extends ShopOption {
 
         if (slot >= 0 && slot < base.loot.length) {
           if (selected[slot] > 0) {
-            ret -= base.loot[slot].fenceValue * selected[slot];
+            ret -= (base.loot[slot].fenceValue * selected[slot]).round();
             selected[slot] = 0;
           } else {
             if (base.loot[slot].isForSale) {
@@ -515,7 +597,7 @@ class Shop extends ShopOption {
               } else {
                 selected[slot] = 1;
               }
-              ret += base.loot[slot].fenceValue * selected[slot];
+              ret += (base.loot[slot].fenceValue * selected[slot]).round();
             }
           }
         }
@@ -545,10 +627,10 @@ class Shop extends ShopOption {
   }
 
   Future<void> maskselect(Creature buyer) async {
-    ArmorType? mask;
+    ClothingType? mask;
 
-    List<ArmorType> masktype =
-        armorTypes.values.where((a) => a.mask && !a.surpriseMask).toList();
+    List<ClothingType> masktype =
+        clothingTypes.values.where((a) => a.mask && !a.surpriseMask).toList();
 
     int page = 0;
 
@@ -569,7 +651,7 @@ class Shop extends ShopOption {
       mvaddstrc(22, 0, lightGray, "Press a Letter to select a Mask");
       move(23, 0);
       addstr(pageStr);
-      mvaddstr(24, 0, "Z - Surprise ");
+      addOptionText(24, 0, "Z", "Z - Surprise ");
       addstr(buyer.name);
       addstr(" With a Random Mask");
 
@@ -593,7 +675,8 @@ class Shop extends ShopOption {
         }
       }
       if (c == Key.z) {
-        mask = armorTypes.values.where((a) => a.mask && a.surpriseMask).random;
+        mask =
+            clothingTypes.values.where((a) => a.mask && a.surpriseMask).random;
         break;
       }
 
@@ -601,7 +684,7 @@ class Shop extends ShopOption {
     }
 
     if (mask != null && ledger.funds >= 15) {
-      Armor a = Armor(mask.idName);
+      Clothing a = Clothing(mask.idName);
       buyer.giveArmor(a, buyer.base?.loot);
       ledger.subtractFunds(15, Expense.shopping);
     }

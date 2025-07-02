@@ -46,8 +46,8 @@ Future<void> doActivityRecruit(Creature cr) async {
     return;
   } else if (recruitCount == 1) {
     mvaddstr(11, 0, "${cr.name} managed to set up a meeting with ");
-    addstrc(encounter[0].align.color, encounter[0].name);
-    printCreatureAgeAndGender(encounter[0]);
+    addstrc(encounter[0].align.color,
+        "${encounter[0].name} ${creatureAgeAndGender(encounter[0])}");
     addstrc(lightGray, ".");
     await getKey();
 
@@ -66,12 +66,12 @@ Future<void> doActivityRecruit(Creature cr) async {
       mvaddstrc(10, 0, lightGray,
           "${cr.name} was able to get information on multiple people.");
       for (int i = 0; i < recruitCount; i++) {
-        mvaddstrc(12 + i, 0, lightGray, "${letterAPlus(i)} - ");
-        addstrc(encounter[i].align.color, encounter[i].name);
-        printCreatureAgeAndGender(encounter[i]);
+        String letter = letterAPlus(i);
+        addOptionText(12 + i, 0, letter,
+            "$letter - &${ColorKey.fromColor(encounter[i].align.color)}${encounter[i].name} ${creatureAgeAndGender(encounter[i])}");
       }
-      mvaddstrc(12 + recruitCount + 1, 0, lightGray,
-          "Press enter or escape to call it a day.");
+      addOptionText(12 + recruitCount + 1, 0, "Enter/Escape",
+          "Enter/Escape - Call it a day");
 
       int c = await getKey();
 
@@ -126,9 +126,11 @@ List<RecruitData> get recruitableCreatures {
       } else if (mutantsPossible) {
         recruitData[i].difficulty = 6;
       } else {
-        recruitData[i].difficulty = 9;
+        recruitData.removeAt(i--);
       }
     }
   }
+  recruitData.sort(
+      (a, b) => (a.difficulty - b.difficulty) * 2 + a.name.compareTo(b.name));
   return recruitData;
 }

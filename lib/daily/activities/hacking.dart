@@ -25,7 +25,7 @@ Future<void> doActivityHacking(List<Creature> hack) async {
 
   void loot(String type) => hack[0].site!.loot.add(Loot(type));
 
-  if (Difficulty.formidable > hackTeamSkill) return;
+  if (Difficulty.hard > hackTeamSkill) return;
 
   View issue = View.issues.random;
   Crime crime;
@@ -39,7 +39,7 @@ Future<void> doActivityHacking(List<Creature> hack) async {
     msg += " has ";
   }
 
-  if (Difficulty.heroic <= hackTeamSkill) {
+  if (Difficulty.formidable <= hackTeamSkill) {
     // Major hack
     trackdif = Difficulty.heroic;
     juiceval = 10;
@@ -51,14 +51,14 @@ Future<void> doActivityHacking(List<Creature> hack) async {
         loot("LOOT_CORPFILES");
       case 1:
         msg += "caused a scare by breaking into a CIA network.";
-        trackdif = Difficulty.superHeroic;
+        trackdif = Difficulty.mythic;
         crime = Crime.cyberTerrorism;
         juiceval = 25;
-        changePublicOpinion(View.intelligence, 5);
+        changePublicOpinion(View.intelligence, 5, coloredByLcsOpinions: true);
       case 2:
         msg += "sabotaged a genetics research company's network.";
         crime = Crime.cyberVandalism;
-        changePublicOpinion(View.genetics, 5);
+        changePublicOpinion(View.genetics, 5, coloredByLcsOpinions: true);
       case 3:
         msg += "intercepted internal media emails.";
         if (oneIn(2)) {
@@ -71,7 +71,7 @@ Future<void> doActivityHacking(List<Creature> hack) async {
         trackdif = Difficulty.superHeroic;
         crime = Crime.cyberTerrorism;
         juiceval = 25;
-        changePublicOpinion(View.military, 5);
+        changePublicOpinion(View.military, 5, coloredByLcsOpinions: true);
         changePublicOpinion(View.lcsKnown, 5);
       case 5:
         msg += "uncovered information on dangerous research.";
@@ -100,10 +100,12 @@ Future<void> doActivityHacking(List<Creature> hack) async {
     changePublicOpinion(issue, 1);
   }
 
-  if (trackdif > hackSkill + lcsRandom(5) - 2) {
-    for (int h = 0; h < hack.length; h++) {
-      criminalize(hack[h], crime);
-    }
+  int trackEvade = hackSkill - lcsRandom(5);
+
+  debugPrint("Hacking: $msg, $crime, $trackdif, $trackEvade");
+
+  if (trackdif > trackEvade) {
+    criminalizeAll(hack, crime, splitHeat: true);
   }
 
   // Award juice to the hacking team for a job well done
@@ -132,7 +134,7 @@ Future<void> doActivityCCFraud(List<Creature> cc) async {
   ledger.addFunds(fundgain, Income.creditCardFraud);
   for (int h = 0; h < cc.length; h++) {
     cc[h].income = fundgain ~/ cc.length;
-    if (fundgain / 25 > lcsRandom(hackSkill + 1)) {
+    if (fundgain / 10 > lcsRandom(hackSkill + 1) / 2 + hackSkill / 2) {
       criminalize(cc[h], Crime.creditCardFraud);
     }
   }

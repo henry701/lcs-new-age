@@ -34,7 +34,8 @@ class Siege {
   bool camerasOff = false;
   int timeUntilCops = -1;
   int timeuntilcorps = -1;
-  int timeuntilhicks = -1;
+  @JsonKey(defaultValue: -1)
+  int timeuntilRuralMob = -1;
   int timeuntilccs = -1;
   int timeuntilcia = -1;
 }
@@ -43,7 +44,7 @@ enum SiegeType {
   none,
   police,
   cia,
-  hicks,
+  angryRuralMob,
   corporateMercs,
   ccs,
 }
@@ -123,7 +124,7 @@ Future<void> surrenderAndDie(Site loc) async {
       await checkForDefeat(Ending.policeSiege);
     case SiegeType.cia:
       await checkForDefeat(Ending.ciaSiege);
-    case SiegeType.hicks:
+    case SiegeType.angryRuralMob:
       await checkForDefeat(Ending.hicksSiege);
     case SiegeType.corporateMercs:
       await checkForDefeat(Ending.corporateSiege);
@@ -180,8 +181,10 @@ Future<void> surrenderToAuthorities(Site loc) async {
     }
   }
 
-  // Enable enraged redneck sieges if hostage precious to them was found
-  if (rescued.any((e) => e.type.preciousToHicks)) offendedHicks = true;
+  // Enable angry mob sieges if hostage precious to them was found
+  if (rescued.any((e) => e.type.preciousToAngryRuralMobs)) {
+    offendedAngryRuralMobs = true;
+  }
 
   int y = 1;
   Iterable<Creature> arrested = loc.type == SiteType.homelessEncampment
@@ -214,6 +217,7 @@ Future<void> surrenderToAuthorities(Site loc) async {
         confiscated +=
             ledger.funds - confiscated - 30000 - lcsRandom(20000) - confiscated;
       }
+      if (confiscated > ledger.funds) confiscated = ledger.funds;
       mvaddstr(y += 2, 1,
           "Law enforcement has confiscated \$$confiscated in LCS funds.");
       ledger.subtractFunds(confiscated, Expense.confiscated);

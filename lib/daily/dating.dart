@@ -8,6 +8,7 @@ import 'package:lcs_new_age/common_display/print_creature_info.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
+import 'package:lcs_new_age/creature/dice.dart';
 import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/recruitment.dart';
@@ -15,7 +16,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/items/ammo.dart';
-import 'package:lcs_new_age/items/armor.dart';
+import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/weapon.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
@@ -119,7 +120,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
   erase();
   setColor(white);
   move(0, 0);
-  String message = "${p.name} has ";
+  String message = "&W${p.name} &whas ";
   if (d.dates.length == 1) {
     if (p.clinicMonthsLeft > 0 || city == null) {
       message += "a \"hot\" date with ";
@@ -131,22 +132,22 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
   }
   for (int ei = 0; ei < d.dates.length; ei++) {
     Creature e = d.dates[ei];
-    message += e.name;
+    message += "&W${e.name}";
 
     if (ei <= d.dates.length - 3) {
-      message += ", ";
+      message += "&w, ";
     } else if (ei == d.dates.length - 2) {
-      message += " and ";
+      message += "&w and ";
     } else {
       if (p.clinicMonthsLeft > 0) {
-        message += " at ${p.location?.name}";
+        message += "&w at &W${p.location?.name}";
       } else if (city == null) {
-        message += " over video chat";
+        message += "&w over video chat";
       }
-      message += ".";
+      message += "&w.";
     }
   }
-  addparagraph(1, 1, console.height - 2, console.width - 2, message);
+  addparagraph(1, 1, x2: console.width - 2, message);
 
   await getKey();
 
@@ -156,32 +157,32 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
   if (dateCount > 1 && lcsRandom(dateCount > 2 ? 4 : 6) == 0) {
     switch (lcsRandom(3)) {
       case 0:
-        move(2, 0);
+        move(console.y + 1, 0);
         if (dateCount > 2) {
           addstr(
               "Unfortunately, they all know each other and had been discussing");
         } else {
           addstr("Unfortunately, they know each other and had been discussing");
         }
-        move(3, 0);
+        move(console.y + 1, 0);
         addstr(p.name);
         addstr(".  An ambush was set for the lying dog...");
 
         await getKey();
       case 1:
-        move(2, 0);
+        move(console.y + 1, 0);
         if (dateCount > 2) {
           addstr("Unfortunately, they all turn up at the same time.");
         } else {
           addstr("Unfortunately, they turn up at the same time.");
         }
 
-        move(3, 0);
+        move(console.y + 1, 0);
         addstr("Ruh roh...");
 
         await getKey();
       default:
-        move(2, 0);
+        move(console.y + 1, 0);
         addstr(p.name);
         if (d.dates.length > 2) {
           if (city != null) {
@@ -198,7 +199,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           addstr(d.dates[1].name);
           addstr(".");
         }
-        move(3, 0);
+        move(console.y + 1, 0);
         addstr("Things go downhill fast.");
 
         await getKey();
@@ -226,7 +227,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       " gets lit up on social media."
     ];
     List<String> dateFailList = city == null ? dateFailOnline : dateFail;
-    move(5, 0);
+    move(console.y + 1, 0);
     addstr(p.name);
     addstr(dateFailList.random);
 
@@ -254,7 +255,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
 
     List<Item> temp = [];
     e.dropWeaponAndAmmo(lootPile: temp);
-    e.giveArmor(Armor("ARMOR_CLOTHES"), temp);
+    e.giveArmor(Clothing("CLOTHING_CLOTHES"), temp);
 
     printCreatureInfo(e, showCarPrefs: ShowCarPrefs.onFoot);
     makeDelimiter();
@@ -263,83 +264,76 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       if (temp.last is Weapon) {
         e.giveWeapon(temp.last as Weapon, null);
       } //casts -XML
-      else if (temp.last is Armor) {
-        e.giveArmor(temp.last as Armor, null);
+      else if (temp.last is Clothing) {
+        e.giveArmor(temp.last as Clothing, null);
       } else if (e.weapon.acceptableAmmo.contains(temp.last.type)) {
         e.takeAmmo(temp.last as Ammo, null, temp.last.stackSize);
       }
       temp.removeAt(temp.length - 1);
     }
 
-    move(10, 0);
-    addstr("How should ");
-    addstr(p.name);
-    addstr(" approach the situation?");
+    mvaddstr(10, 0, "How should ");
+    addstrc(white, p.name);
+    addstrc(lightGray, " approach the situation?");
 
-    if (ledger.funds >= 100 &&
+    bool canPay100 = ledger.funds >= 100 &&
         p.clinicMonthsLeft == 0 &&
-        (sameCity || eIsSexworker)) {
-      setColor(lightGray);
-    } else {
-      setColor(darkGray);
-    }
-    move(11, 0);
+        (sameCity || eIsSexworker);
+    String payText;
     if (sameCity) {
       if (eIsSexworker) {
-        addstr("A - Pay \$100 for a night together.");
+        payText = "A - Pay \$100 for a night together.";
       } else {
-        addstr(
-            "A - Spend a hundred bucks to take ${e.name.split(' ').first} out on the town.");
+        payText =
+            "A - Spend a hundred bucks to take ${e.name.split(' ').first} out on the town.";
       }
     } else {
       if (eIsSexworker) {
-        addstr("A - Pay \$100 for a one-on-one video call.");
+        payText = "A - Pay \$100 for a one-on-one video call.";
       } else {
-        addstr("A - There is no expectation to spend money on this date.");
+        payText = "A - There is no expectation to spend money on this date.";
       }
     }
+    addOptionText(11, 0, "A", payText, enabledWhen: canPay100);
+
+    bool canAvoidPaying = !eIsSexworker;
+    String avoidPayingText;
     move(12, 0);
     if (eIsSexworker) {
-      addstrc(darkGray,
-          "B - ${e.name} expects to be paid for ${e.gender.hisHer} time.");
+      avoidPayingText =
+          "B - ${e.name} expects to be paid for ${e.gender.hisHer} time.";
+    } else if (sameCity) {
+      avoidPayingText =
+          "B - Try to get through the evening without spending a penny.";
     } else {
-      if (sameCity) {
-        addstrc(lightGray,
-            "B - Try to get through the evening without spending a penny.");
-      } else {
-        addstrc(lightGray,
-            "B - Try to charm ${e.gender.himHer} with online dating.");
-      }
+      avoidPayingText =
+          "B - Try to charm ${e.gender.himHer} with online dating.";
     }
-    if (p.clinicMonthsLeft == 0 &&
+    addOptionText(12, 0, "B", avoidPayingText, enabledWhen: canAvoidPaying);
+
+    bool canGoOnVacation = p.clinicMonthsLeft == 0 &&
         p.blood == p.maxBlood &&
-        ledger.funds >= vacationPrice) {
-      setColor(lightGray);
-    } else {
-      setColor(darkGray);
-    }
-    move(13, 0);
+        ledger.funds >= vacationPrice;
+    String vacationText;
     if (p.blood == p.maxBlood) {
       if (sameCity) {
-        addstr(
-            "C - Spend a week and \$$vacationPrice on a cheap vacation (stands up other dates).");
+        vacationText =
+            "C - Spend a week and \$$vacationPrice on a cheap vacation (stands up other dates).";
       } else {
-        addstr(
-            "C - Spend \$$vacationPrice to visit ${e.name.split(' ').first} for a week (stands up other dates).");
+        vacationText =
+            "C - Spend \$$vacationPrice to visit ${e.name.split(' ').first} for a week (stands up other dates).";
       }
     } else {
-      addstr(
-          "C - Spend a week and \$$vacationPrice on a cheap vacation (must be uninjured).");
+      vacationText =
+          "C - Spend a week and \$$vacationPrice on a cheap vacation (must be uninjured).";
     }
-    setColor(lightGray);
-    move(14, 0);
-    addstr("D - Break it off.");
+    addOptionText(13, 0, "C", vacationText, enabledWhen: canGoOnVacation);
+
+    addOptionText(14, 0, "D", "D - Break it off.");
     if (e.align == Alignment.conservative &&
         p.clinicMonthsLeft == 0 &&
         sameCity) {
-      setColor(lightGray);
-      move(15, 0);
-      addstr("E - Just kidnap the Conservative bitch.");
+      addOptionText(15, 0, "E", "E - Just kidnap the Conservative.");
     }
 
     int thingsincommon = countCommonInterests(p, e);
@@ -351,7 +345,10 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
 
       bool shouldDoDate = false;
       aroll += thingsincommon * 3;
-      if (c == Key.a && ledger.funds >= 100 && p.clinicMonthsLeft == 0) {
+      if (c == Key.a &&
+          ledger.funds >= 100 &&
+          p.clinicMonthsLeft == 0 &&
+          (sameCity || eIsSexworker)) {
         ledger.subtractFunds(100, Expense.dating);
         aroll += lcsRandom(10);
         shouldDoDate = true;
@@ -385,6 +382,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           ledger.funds >= vacationPrice &&
           p.clinicMonthsLeft == 0 &&
           p.blood == p.maxBlood) {
+        ledger.subtractFunds(vacationPrice, Expense.dating);
         for (int e2 = d.dates.length - 1; e2 >= 0; e2--) {
           if (e2 == ei) continue;
           d.dates.removeAt(e2);
@@ -419,8 +417,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
 
         if (p.weapon.type.rangedAttack != null) {
           weapon = p.weapon.getName(sidearm: true);
-          addstr(" comes back from the bathroom toting the ");
-          addstr(weapon);
+          addstr(" comes back from the bathroom toting the $weapon");
           move(18, 0);
           addstr("and threatens to blow the Conservative's brains out!");
 
@@ -428,8 +425,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           ranged = true;
         } else if (p.equippedWeapon != null) {
           weapon = p.weapon.getName(sidearm: true);
-          addstr(" grabs the Conservative from behind, holding the ");
-          addstr(weapon);
+          addstr(" grabs the Conservative from behind, holding the $weapon");
           move(18, 0);
           addstr("to the corporate slave's throat!");
 
@@ -442,7 +438,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             unseriousWeapon = true;
           }
         } else {
-          addstr(" seizes the Conservative swine from behind and warns it");
+          addstr(" seizes ${e.name} from behind and warns ${e.gender.himHer}");
           move(18, 0);
           if (!noProfanity) {
             addstr("not to fuck around!");
@@ -450,17 +446,36 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             addstr("not to [resist]!");
           }
 
-          bonus += p.skill(Skill.martialArts) - 1;
+          bonus += min(5, p.skill(Skill.martialArts) - 1);
         }
 
         await getKey();
+
+        Future<void> successfulKidnap(int y) async {
+          move(y++, 0);
+          addstr(p.name);
+          addstr(" kidnaps the Conservative!");
+
+          await getKey();
+
+          //Kidnapped wearing normal clothes and no weapon
+          e.dropWeaponAndAmmo();
+          Clothing clothes = Clothing("CLOTHING_CLOTHES");
+          e.giveArmor(clothes, null);
+
+          await kidnaptransfer(e, kidnapper: p);
+
+          stats.kidnappings++;
+          d.dates.remove(e);
+        }
 
         // Kidnap probably succeeds if the conservative isn't very dangerous,
         // but fails 15 times as often if the conservative is tough stuff.
         if ((!e.type.kidnapResistant && lcsRandom(15) > 0) ||
             lcsRandom(2 + bonus) > 0) {
+          int y = 19;
           setColor(lightGreen);
-          move(19, 0);
+          move(y++, 0);
           addstr(e.name);
           if (bonus > 0) {
             addstr(" doesn't resist.");
@@ -470,21 +485,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
 
           await getKey();
 
-          move(20, 0);
-          addstr(p.name);
-          addstr(" kidnaps the Conservative!");
-
-          await getKey();
-
-          //Kidnapped wearing normal clothes and no weapon
-          e.dropWeaponAndAmmo();
-          Armor clothes = Armor("ARMOR_CLOTHES");
-          e.giveArmor(clothes, null);
-
-          await kidnaptransfer(e);
-
-          stats.kidnappings++;
-          d.dates.remove(e);
+          await successfulKidnap(y);
           break;
         } else {
           int y = 19;
@@ -507,7 +508,22 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           }
           await getKey();
 
-          if (lcsRandom(p.skill(Skill.martialArts) + 1) > 0) {
+          int martialArtsDiff =
+              p.skill(Skill.martialArts) - e.skill(Skill.martialArts);
+          int strengthDiff =
+              p.attribute(Attribute.strength) - e.attribute(Attribute.strength);
+          int roll = Dice.r2d6.roll() + martialArtsDiff + strengthDiff;
+
+          if (roll > Difficulty.easy) {
+            // Success: Conservative kidnapped by winning the fight
+            setColor(lightGreen);
+            move(y++, 0);
+            addstr("${p.name} overpowers ${e.name} after a struggle.");
+            await getKey();
+            await successfulKidnap(y);
+            break;
+          } else if (roll > Difficulty.automatic) {
+            // Failure: Kidnap failed
             setColor(yellow);
             move(y++, 0);
             addstr("${p.name} breaks free after a wild struggle.");
@@ -522,6 +538,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             d.dates.remove(e);
             break;
           } else {
+            // Critical failure: Kidnapper overpowered and arrested
             move(y++, 0);
             if (weapon != "" && !unseriousWeapon) {
               addstrc(
@@ -750,23 +767,12 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
       else if (e.workSite?.mapped == false &&
           lcsRandom(e.attribute(Attribute.wisdom)) == 0) {
         y++;
-        move(y++, 0);
-        addstr(
+        mvaddstr(y++, 0,
             "${e.name} turns the topic of discussion to the ${e.workSite!.name}.");
-
-        move(y++, 0);
-        if (e.workSite!.mapped) {
-          addstr(p.name);
-          addstr(
-              " was able to create a map of the site with this information.");
-
-          y++;
-        } else {
-          addstr("${p.name} doesn't learn anything new.");
-
-          y++;
-        }
-        e.workSite!.mapped = false;
+        mvaddstr(y++, 0,
+            "${p.name} is able to create a map of the site from this information.");
+        y++;
+        e.workSite!.mapped = true;
         e.workSite!.hidden = false;
       }
 

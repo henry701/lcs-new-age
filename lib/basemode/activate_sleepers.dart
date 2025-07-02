@@ -44,9 +44,8 @@ Future<void> activateSleepers() async {
     int y = 2;
     for (Creature tempp in temppool.skip(page * 9).take(9)) {
       setColor(lightGray);
-      mvaddchar(y, 0, letterAPlus((y - 2) ~/ 2));
-      addstr(" - ");
-      addstr(tempp.name);
+      String letter = letterAPlus((y - 2) ~/ 2);
+      addOptionText(y, 0, letter, "$letter - ${tempp.name}");
 
       mvaddstr(y, 24, tempp.type.name);
 
@@ -77,9 +76,12 @@ Future<void> activateSleepers() async {
     }
 
     mvaddstrc(22, 0, lightGray, "Press a Letter to Assign an Activity.");
-    move(23, 0);
-    addstr(pageStr);
-    addstr(" T to sort people.");
+    addPageButtons(y: 23, x: 0);
+    addOptionText(24, 0, "T", "T - Sorting options");
+    console.x += 2;
+    addInlineOptionText("Z", "Z - Assign tasks in bulk");
+    console.x += 2;
+    addInlineOptionText("Enter", "Enter - Done");
 
     setColor(lightGray);
 
@@ -107,6 +109,10 @@ Future<void> activateSleepers() async {
       sortLiberals(temppool, SortingScreens.activateSleepers);
     }
 
+    if (c == Key.z) {
+      await activateSleepersBulk();
+    }
+
     if (isBackKey(c)) break;
   }
 }
@@ -128,55 +134,56 @@ Future<void> activateSleeper(Creature cr) async {
 
     makeDelimiter();
 
-    setColor(state == Key.a ? white : lightGray);
-    mvaddstr(10, 1, "A - Communication and Advocacy");
+    addOptionText(10, 1, "A", "A - Communication and Advocacy",
+        baseColorKey: state == Key.a ? ColorKey.white : ColorKey.lightGray);
+    addOptionText(11, 1, "B", "B - Espionage",
+        baseColorKey: state == Key.b ? ColorKey.white : ColorKey.lightGray);
+    addOptionText(12, 1, "C", "C - Join the Active LCS",
+        baseColorKey: cr.activity.type == ActivityType.sleeperJoinLcs
+            ? ColorKey.white
+            : ColorKey.lightGray);
 
-    setColor(state == Key.b ? white : lightGray);
-    mvaddstr(11, 1, "B - Espionage");
-
-    setColor(state == Key.c ? white : lightGray);
-    mvaddstr(12, 1, "C - Join the Active LCS");
-
-    mvaddstrc(20, 40, lightGray, "Enter - Confirm Selection");
+    addOptionText(20, 40, "Enter", "Enter - Confirm Selection");
 
     switch (state) {
       case Key.a:
-        setColor(cr.activity.type == ActivityType.none ? white : lightGray);
-        mvaddstr(10, 40, "1 - Lay Low");
-
-        setColor(cr.activity.type == ActivityType.sleeperLiberal
-            ? white
-            : lightGray);
-        mvaddstr(11, 40, "2 - Advocate Liberalism");
-
-        move(12, 40);
-        if (cr.subordinatesLeft > 0) {
-          setColor(cr.activity.type == ActivityType.sleeperRecruit
-              ? white
-              : lightGray);
-          addstr("3 - Expand Sleeper Network");
-        } else {
-          setColor(darkGray);
+        addOptionText(10, 40, "1", "1 - Lay Low",
+            baseColorKey: cr.activity.type == ActivityType.none
+                ? ColorKey.white
+                : ColorKey.lightGray);
+        addOptionText(11, 40, "2", "2 - Advocate Liberalism",
+            baseColorKey: cr.activity.type == ActivityType.sleeperLiberal
+                ? ColorKey.white
+                : ColorKey.lightGray);
+        bool canRecruit = true;
+        String recruitText = "3 - Expand Sleeper Network";
+        if (cr.subordinatesLeft <= 0) {
+          canRecruit = false;
           if (cr.brainwashed) {
-            addstr("3 - [Enlightened Can't Recruit]");
+            recruitText = "3 - [Enlightened Can't Recruit]";
           } else {
-            addstr("3 - [Need More Juice to Recruit]");
+            recruitText = "3 - [Need More Juice to Recruit]";
           }
         }
+        addOptionText(12, 40, "3", recruitText,
+            enabledWhen: canRecruit,
+            baseColorKey: cr.activity.type == ActivityType.sleeperRecruit
+                ? ColorKey.white
+                : ColorKey.lightGray);
 
       case Key.b:
-        setColor(
-            cr.activity.type == ActivityType.sleeperSpy ? white : lightGray);
-        mvaddstr(10, 40, "1 - Uncover Secrets");
-
-        setColor(cr.activity.type == ActivityType.sleeperEmbezzle
-            ? white
-            : lightGray);
-        mvaddstr(11, 40, "2 - Embezzle Funds");
-
-        setColor(
-            cr.activity.type == ActivityType.sleeperSteal ? white : lightGray);
-        mvaddstr(12, 40, "3 - Steal Equipment");
+        addOptionText(10, 40, "1", "1 - Uncover Secrets",
+            baseColorKey: cr.activity.type == ActivityType.sleeperSpy
+                ? ColorKey.white
+                : ColorKey.lightGray);
+        addOptionText(11, 40, "2", "2 - Embezzle Funds",
+            baseColorKey: cr.activity.type == ActivityType.sleeperEmbezzle
+                ? ColorKey.white
+                : ColorKey.lightGray);
+        addOptionText(12, 40, "3", "3 - Steal Equipment",
+            baseColorKey: cr.activity.type == ActivityType.sleeperSteal
+                ? ColorKey.white
+                : ColorKey.lightGray);
     }
 
     setColor(lightGray);
@@ -201,7 +208,11 @@ Future<void> activateSleeper(Creature cr) async {
       case ActivityType.sleeperSteal:
         mvaddstr(22, 3, cr.name);
         addstr(" will steal equipment and send it to the Camp.");
+      case ActivityType.sleeperJoinLcs:
+        mvaddstr(22, 3, cr.name);
+        addstr(" will join the active LCS.");
       default:
+        mvaddstrc(22, 3, red, "${cr.name} will dig around in the bugfield.");
         debugPrint("Unexpected sleeper activity type: "
             "${cr.activity.type.name}");
     }
@@ -248,5 +259,132 @@ Future<void> activateSleeper(Creature cr) async {
     if (c == Key.enter || c == Key.escape || c == Key.space) {
       break;
     }
+  }
+}
+
+Future<void> activateSleepersBulk() async {
+  List<Creature> temppool = pool
+      .where((p) =>
+          p.alive &&
+          p.sleeperAgent &&
+          p.align == Alignment.liberal &&
+          !p.inHiding &&
+          p.clinicMonthsLeft == 0 &&
+          p.vacationDaysLeft == 0)
+      .toList();
+
+  if (temppool.isEmpty) return;
+
+  int page = 0, selectedactivity = 0;
+
+  while (true) {
+    erase();
+    setColor(lightGray);
+    printFunds();
+
+    mvaddstr(0, 0, "Activate Sleeper Agents in Bulk");
+    addHeader({
+      4: "CODE NAME",
+      20: "JOB",
+      35: "EFF",
+      40: "CURRENT",
+      58: "BULK ACTIVITY"
+    });
+
+    void addOption(int i, String name, {bool enabled = true}) {
+      addOptionText(i + 1, 58, "$i", "$i - $name",
+          baseColorKey: selectedactivity == i - 1 ? "W" : "w",
+          enabledWhen: enabled);
+    }
+
+    addOption(1, "Lay Low");
+    addOption(2, "Advocate Liberalism");
+    addOption(3, "Uncover Secrets");
+    addOption(4, "Embezzle Funds");
+    addOption(5, "Steal Equipment");
+    addOption(6, "Expand Network");
+    addOption(7, "Join LCS");
+
+    int y = 2;
+    for (int p = page * 19;
+        p < temppool.length && p < page * 19 + 19;
+        p++, y++) {
+      Creature tempp = temppool[p];
+      String letter = letterAPlus(p - page * 19);
+      addOptionText(y, 0, letter, "$letter - ${tempp.name}");
+      setColor(lightGray);
+      mvaddstr(y, 20, tempp.type.name);
+
+      // Show infiltration level with color coding
+      if (tempp.infiltration > 0.8) {
+        setColor(red);
+      } else if (tempp.infiltration > 0.6) {
+        setColor(purple);
+      } else if (tempp.infiltration > 0.4) {
+        setColor(yellow);
+      } else if (tempp.infiltration > 0.2) {
+        setColor(white);
+      } else if (tempp.infiltration > 0.1) {
+        setColor(lightGray);
+      } else {
+        setColor(green);
+      }
+      mvaddstr(y, 35, "${(tempp.infiltration * 100).ceil()}%");
+
+      // Show current activity (first word only if long)
+      move(y, 40);
+      setColor(tempp.activity.type.color);
+      String activityLabel = tempp.activity.type.label;
+      if (activityLabel.length > 17) {
+        addstr(activityLabel.split(" ").first);
+      } else {
+        addstr(activityLabel);
+      }
+    }
+
+    mvaddstrc(22, 0, lightGray,
+        "Press a Letter to Assign an Activity.  Press a Number to select an Activity.");
+    addPageButtons(y: 23, x: 0);
+
+    int c = await getKey();
+
+    // Handle page navigation
+    if ((isPageUp(c) || c == Key.upArrow || c == Key.leftArrow) && page > 0) {
+      page--;
+    }
+    if ((isPageDown(c) || c == Key.downArrow || c == Key.rightArrow) &&
+        (page + 1) * 19 < temppool.length) {
+      page++;
+    }
+
+    if (c >= Key.a && c <= Key.s) {
+      int p = page * 19 + c - Key.a;
+      if (p < temppool.length) {
+        Creature tempp = temppool[p];
+        switch (selectedactivity) {
+          case 0: // Lay Low
+            tempp.activity = Activity.none();
+          case 1: // Advocate Liberalism
+            tempp.activity = Activity(ActivityType.sleeperLiberal);
+          case 2: // Uncover Secrets
+            tempp.activity = Activity(ActivityType.sleeperSpy);
+          case 3: // Embezzle Funds
+            tempp.activity = Activity(ActivityType.sleeperEmbezzle);
+          case 4: // Steal Equipment
+            tempp.activity = Activity(ActivityType.sleeperSteal);
+          case 5: // Expand Network
+            if (tempp.subordinatesLeft > 0 && !tempp.brainwashed) {
+              tempp.activity = Activity(ActivityType.sleeperRecruit);
+            }
+          case 6: // Join LCS
+            tempp.activity = Activity(ActivityType.sleeperJoinLcs);
+        }
+      }
+    }
+    if (c >= Key.num1 && c <= Key.num8) {
+      selectedactivity = c - Key.num1;
+    }
+
+    if (isBackKey(c)) break;
   }
 }

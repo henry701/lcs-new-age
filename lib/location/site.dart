@@ -51,6 +51,30 @@ class Site extends Location {
   bool newRental = false;
   @JsonKey()
   int heat = 0;
+  @JsonKey(defaultValue: 0)
+  int extraHeatFromRuralMobs = 0;
+  @JsonKey(defaultValue: 0)
+  int extraHeatFromCorps = 0;
+  @JsonKey(defaultValue: 0)
+  int extraHeatFromCIA = 0;
+  @JsonKey(defaultValue: 0)
+  int extraHeatFromCCS = 0;
+  int get extraHeatFromCCSTarget {
+    if (!ccsActive || !lcsInPublicEye) return 0;
+    int ccsReach = ccsState.index;
+    if (!city.sites.any((s) => s.controller == SiteController.ccs)) {
+      ccsReach -= 2;
+    }
+    if (ccsReach < 0) ccsReach = 0;
+    int target = ccsReach *
+        creaturesPresent.where((e) => e.isCriminal && e.isActiveLiberal).length;
+    if ([SiteType.barAndGrill, SiteType.bombShelter, SiteType.bunker]
+        .contains(type)) {
+      target *= 3;
+    }
+    return target;
+  }
+
   @JsonKey()
   bool hasFlag = false;
   @JsonKey(includeToJson: true, includeFromJson: true, defaultValue: false)
@@ -147,7 +171,7 @@ class Site extends Location {
   }
 
   Iterable<Creature> get creaturesPresent =>
-      pool.where((element) => element.location == this);
+      pool.where((element) => element.locationId == idString);
 
   int get numberEating => creaturesPresent
       .where((e) => e.alive && e.align == Alignment.liberal)
@@ -198,7 +222,9 @@ class Site extends Location {
 
   /* add all items from a list to a location, and deal with money properly */
   void addLootAndProcessMoney(List<Item> loot) {
-    for (Item l in loot) {
+    List<Item> lootCopy = loot.toList();
+    loot.clear();
+    for (Item l in lootCopy) {
       if (l is Money) {
         ledger.addFunds(l.stackSize, Income.thievery);
       } else {
@@ -206,7 +232,6 @@ class Site extends Location {
         this.loot.add(l);
       }
     }
-    loot.clear();
   }
 }
 
@@ -396,26 +421,32 @@ void initSiteName(Site loc) {
       loc.name = "${lastName()} Garment Makers";
       loc.shortName = "Sweatshop";
     case SiteType.drugHouse:
-      do {
-        String name = lastName();
-        loc.name = "$name St. ";
-        if (laws[Law.drugs] == DeepAlignment.eliteLiberal) {
-          switch (lcsRandom(4)) {
-            case 0:
-              loc.name += "Recreational Drugs Center";
-              loc.shortName = "Drug Shop";
-            case 1:
-              loc.name += "Cannabis Lounge";
-              loc.shortName = "Pot Lounge";
-            case 2:
-              loc.name += "Marijuana Dispensary";
-              loc.shortName = "Dispensary";
+      if (loc.controller == SiteController.lcs) {
+        String name = loc.name.split(" ").first;
+        loc.name = "$name St. Safehouse";
+        loc.shortName = "Safehouse";
+      } else {
+        do {
+          String name = lastName();
+          loc.name = "$name St. ";
+          if (laws[Law.drugs] == DeepAlignment.eliteLiberal) {
+            switch (lcsRandom(4)) {
+              case 0:
+                loc.name += "Recreational Drugs Center";
+                loc.shortName = "Drug Shop";
+              case 1:
+                loc.name += "Cannabis Lounge";
+                loc.shortName = "Pot Lounge";
+              case 2:
+                loc.name += "Marijuana Dispensary";
+                loc.shortName = "Dispensary";
+            }
+          } else {
+            loc.name += "Drug House";
+            loc.shortName = "Drug House";
           }
-        } else {
-          loc.name += "Drug House";
-          loc.shortName = "Drug House";
-        }
-      } while (loc.isDuplicateLocation());
+        } while (loc.isDuplicateLocation());
+      }
     case SiteType.juiceBar:
       const adj = ["Natural", "Harmonious", "Restful", "Healthy", "New You"];
       const noun = ["Diet", "Methods", "Plan", "Orange", "Carrot"];
@@ -439,6 +470,22 @@ void initSiteName(Site loc) {
     case SiteType.publicPark:
       loc.name = "${lastName()} Park";
       loc.shortName = "Park";
+    case SiteType.barAndGrill:
+      if (loc.controller == SiteController.lcs) {
+        loc.name = "Vegan Bar & Grill";
+        loc.shortName = "Vegan Bar";
+      } else {
+        loc.name = "Desert Eagle Bar & Grill";
+        loc.shortName = "Deagle Bar";
+      }
+    case SiteType.bunker:
+      if (loc.controller == SiteController.lcs) {
+        loc.name = "Liberation Bunker";
+        loc.shortName = "Bunker";
+      } else {
+        loc.name = "Robert E. Lee Bunker";
+        loc.shortName = "Bunker";
+      }
     default:
       break;
   }

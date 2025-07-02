@@ -13,12 +13,19 @@ Liberal Crime Squad: New Age is a complete rewrite and fork of Liberal Crime Squ
 
 * Jonathan Stickles / Jonathan S. Fox (jonathansfox@gmail.com)
 
+## Contributors to New Age:
+
+* Userlog2 (2024) - edits to news story text
+* bnormoyle (2024) - improvements to hijacking media broadcasts
+* odinhb (2025) - improved backup save file naming convention
+* Karel-Koreze (2025) - UI improvements and bug fixes, updated readme with compiling instructions
+
 ## Branches of Liberal Crime Squad that New Age was based on:
 
-* IssacG's GitHub Fork - https://github.com/King-Drake/Liberal-Crime-Squad
+* IsaacG's GitHub Fork - https://github.com/King-Drake/Liberal-Crime-Squad
 * SlatersQuest's Terra Vitae Mod
 
-## Contributors prior to IssacG's fork (2007-2015):
+## Contributors prior to IsaacG's fork (2007-2015):
 
 * Addie MacGruer / addiemacgruer (2013) - made the Android port
 * Ari Rahikkala / arirahikkala (2009-2011) - direct contributor to main project
@@ -27,7 +34,7 @@ Liberal Crime Squad: New Age is a complete rewrite and fork of Liberal Crime Squ
 * Callum Davies (2012) - contributed code and Linux install instructions thru forums
 * calrogman (2013) - direct contributor to main project
 * Carlos Gustavos / blomkvist (2010-2015) - direct contributor to main project
-* Chris Johnson / grundee (2007-2008) - did most of the coding when the project was revived in 2007 and listed as retired maintainer
+* Chris Johnson / grundee (2007-2008) - refactored the code base from its original monolithic source code file and helped establish the old Subversion repository, one of the original open-source maintainers
 * Christian Sergelius / cribozai (2011) - contributed Linux install instructions thru forums
 * Ciprian Ilies / Addictgamer (2012-2013) - direct contributor to main project
 * coronelniel (2011) - direct contributor to main project
@@ -78,7 +85,7 @@ Tarn Adams / Toady One (2002-2004) - original creator of the game
 * wisq (2008) - direct contributor to main project
 * zaroth (2014) - co-maintainer of the GitHub fork with Lasica
 
-## Contributors after IssacG's fork (2016+):
+## Contributors after IsaacG's fork (2016+):
 
 * Alien_AV - contributed to GitHub fork
 * ArrowThunder - contributed to GitHub fork

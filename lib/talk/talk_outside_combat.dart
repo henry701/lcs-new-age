@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:lcs_new_age/common_actions/common_actions.dart';
 import 'package:lcs_new_age/common_display/print_creature_info.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -7,6 +6,7 @@ import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/shopsnstuff.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
@@ -27,34 +27,76 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
   bool nude = a.indecent;
   String whileNaked = nude ? " while naked" : "";
-  clearCommandArea();
-  clearMessageArea();
-  clearMapArea();
-  mvaddstrc(9, 1, white, "${a.name} talks to ");
+  clearSceneAreas();
+  mvaddstrc(9, 1, white, a.name);
+  addstrc(lightGray, " talks to ");
   addstrc(tk.align.color, tk.name);
   setColor(white);
-  printCreatureAgeAndGender(tk);
+  addstr(" ${creatureAgeAndGender(tk)}");
   addstr(":");
 
-  mvaddstrc(11, 1, lightGray,
+  addOptionText(console.y + 2, 1, "A",
       "A - Strike up a conversation about politics$whileNaked.");
-  setColorConditional(tk.canDate(a));
-  mvaddstr(12, 1, "B - Drop a pickup line$whileNaked.");
-  mvaddstrc(13, 1, lightGray,
+  addOptionText(console.y + 1, 1, "B", "B - Drop a pickup line$whileNaked.",
+      enabledWhen: tk.canDate(a));
+  addOptionText(console.y + 1, 1, "C",
       "C - On second thought, don't say anything$whileNaked.");
 
   if (tk.type.id == CreatureTypeIds.landlord) {
     if (activeSite?.controller == SiteController.unaligned) {
-      mvaddstr(14, 1, "D - Rent a room$whileNaked.");
+      addOptionText(14, 1, "D", "D - Rent a room$whileNaked.");
     } else if (activeSite?.controller == SiteController.lcs) {
-      mvaddstr(14, 1, "D - Stop renting a room$whileNaked.");
+      addOptionText(14, 1, "D", "D - Stop renting a room$whileNaked.");
     }
   } else if (tk.type.id == CreatureTypeIds.gangMember ||
       tk.type.id == CreatureTypeIds.merc) {
-    mvaddstr(14, 1, "D - Buy weapons$whileNaked.");
+    addOptionText(14, 1, "D", "D - Buy weapons$whileNaked.");
   } else if (tk.type.id == CreatureTypeIds.bankTeller) {
-    mvaddstr(14, 1, "D - Rob the bank$whileNaked.");
+    addOptionText(14, 1, "D", "D - Rob the bank$whileNaked.");
   }
+
+  // relationship/recruits status
+  String recruitOverview = "";
+  if (a.subordinatesLeft <= 0) {
+    recruitOverview +=
+        "&m${a.name} cannot manage any${a.maxSubordinates > 0 ? " more " : " "}subordinates";
+    if (a.scheduledMeetings > 0) {
+      recruitOverview +=
+          ", but still has &W${a.scheduledMeetings}&m meeting${a.scheduledMeetings > 1 ? "s" : ""} scheduled";
+    }
+  } else {
+    recruitOverview +=
+        "&w${a.name} can manage &W${a.subordinatesLeft}&w more subordinate${a.subordinatesLeft > 1 ? "s" : ""}";
+    if (a.scheduledMeetings > 0) {
+      recruitOverview +=
+          ", and has &W${a.scheduledMeetings}&w meeting${a.scheduledMeetings > 1 ? "s" : ""} scheduled";
+    }
+  }
+  recruitOverview += ". ";
+  if (a.scheduldeDates > 0 || a.scheduledMeetings > 0) {
+    recruitOverview += "&m${a.gender.heSheCap} ";
+  }
+  if (a.relationshipsLeft <= 0) {
+    recruitOverview +=
+        "&m${a.gender.heSheCap} cannot maintain any${a.maxRelationships > 0 ? " more " : " "}relationships";
+    if (a.scheduldeDates > 0) {
+      recruitOverview +=
+          ", but still has &W${a.scheduldeDates}&m hot date${a.scheduldeDates > 1 ? "s" : ""} lined up. ";
+    } else {
+      recruitOverview += ". ";
+    }
+  } else {
+    recruitOverview +=
+        "&w${a.gender.heSheCap} can maintain &W${a.relationshipsLeft}&w more relationship${a.relationshipsLeft > 1 ? "s" : ""}";
+    if (a.scheduldeDates == 0) {
+      recruitOverview += ". ";
+    } else {
+      recruitOverview +=
+          ", and has &W${a.scheduldeDates}&w hot date${a.scheduldeDates > 1 ? "s" : ""} lined up. ";
+    }
+  }
+
+  addparagraph(console.y + 2, 1, recruitOverview);
 
   while (true) {
     int c = await getKey();
@@ -84,10 +126,7 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
 }
 
 Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
-  clearCommandArea();
-  clearMessageArea();
-  clearMapArea();
-
+  clearSceneAreas();
   mvaddstrc(9, 1, white, "${a.name} says, ");
   mvaddstrc(10, 1, lightGreen, "\"Do you want to hear something disturbing?\"");
 
@@ -100,6 +139,7 @@ Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
   }
 
   if ((tk.type.animal &&
+          !a.type.animal &&
           tk.align != Alignment.liberal &&
           !animalsArePeopleToo) ||
       tk.type.tank) {
@@ -186,9 +226,9 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
     int c = Key.a;
 
     setColor(ledger.funds >= rent ? white : darkGray);
-    mvaddstr(11, 1, "A - Accept.");
-    mvaddstrc(12, 1, white, "B - Decline.");
-    mvaddstr(13, 1, "C - Threaten the landlord.");
+    addOptionText(11, 1, "A", "A - Accept.");
+    addOptionText(12, 1, "B", "B - Decline.");
+    addOptionText(13, 1, "C", "C - Threaten the landlord.");
 
     c = await getKey();
 
@@ -265,14 +305,14 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
         int roll = a.skillRoll(Skill.persuasion);
         int difficulty = Difficulty.formidable;
 
-        if (!lcscherrybusted) {
-          difficulty += 6;
+        if (!lcsInPublicEye) {
+          difficulty += DifficultyModifier.aLittleHarder;
         }
         if (armedLiberal == null) {
-          difficulty += 6;
+          difficulty += DifficultyModifier.aLittleHarder;
         }
 
-        if (roll < difficulty - 1) {
+        if (roll < difficulty - 4) {
           mvaddstrc(12, 1, white, tk.name);
           addstr(" responds, ");
           mvaddstrc(13, 1, lightBlue, "\"I think you'd better leave.\"");
@@ -294,7 +334,7 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
 
           // Either he calls the cops or it's yours for free
           if (roll < difficulty) {
-            criminalizeparty(Crime.extortion);
+            addPotentialCrime(squad, Crime.extortion);
             activeSite!.siege.timeUntilCops = 2;
             rent = 100000000000000; // 100 trillion to guarantee eviction
           } else {
@@ -375,7 +415,7 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
     await getKey();
     return true;
   }
-  if (a.armor.type.police) {
+  if (a.clothing.type.police) {
     mvaddstrc(12, 1, white, tk.name);
     addstr(" responds, ");
     mvaddstrc(13, 1, lightBlue, "\"I don't sell guns, officer.\"");
@@ -389,7 +429,9 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
     await getKey();
     return true;
   }
-  switch (activeSite?.type) {
+  SiteType? siteType = activeSite?.type;
+  if (mode != GameMode.site) siteType = null;
+  switch (siteType) {
     case SiteType.bunker:
     case SiteType.drugHouse:
     case SiteType.barAndGrill:
@@ -397,23 +439,31 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
     case SiteType.tenement:
     case SiteType.bombShelter:
     case SiteType.homelessEncampment:
+    case SiteType.warehouse:
     case null:
       mvaddstrc(12, 1, white, tk.name);
       addstr(" responds, ");
       mvaddstrc(13, 1, lightBlue, "\"What exactly do you need?\"");
       await getKey();
       Squad? oldSquad;
+      Squad? newSquad;
       if (activeSquad == null) {
         oldSquad = tk.squad;
-        tk.squad = Squad();
+        newSquad = Squad();
+        squads.add(newSquad);
+        tk.squad = newSquad;
         activeSquad = tk.squad;
       }
       await armsdealer(activeSite ??
           Site(SiteType.armsDealer, tk.base!.city, tk.base!.district)
         ..name = "Secluded Alley");
+      if (newSquad != null) {
+        squads.remove(newSquad);
+      }
       if (oldSquad != null) {
         tk.squad = oldSquad;
         activeSquad = null;
+        newSquad = null;
       }
       return true;
     default:
@@ -428,13 +478,14 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
 Future<bool> talkToBankTeller(Creature a, Creature tk) async {
   clearSceneAreas();
   setColor(lightGray);
-  mvaddstr(11, 1, "A - Quietly pass the teller a robbery note");
+  addOptionText(11, 1, "A", "A - Quietly pass the teller a robbery note");
   if (a.indecent) addstr(" while naked");
   addstr(".");
-  mvaddstr(12, 1, "B - Threaten bystanders and demand access to the vault");
+  addOptionText(
+      12, 1, "B", "B - Threaten bystanders and demand access to the vault");
   if (a.indecent) addstr(" while naked");
   addstr(".");
-  mvaddstr(13, 1, "C - On second thought, don't rob the bank");
+  addOptionText(13, 1, "C", "C - On second thought, don't rob the bank");
   if (a.indecent) addstr(" while naked");
   addstr(".");
 
@@ -495,13 +546,13 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
         await getKey();
 
         siteAlarm = true;
-        criminalizeparty(Crime.bankRobbery);
+        addPotentialCrime(squad, Crime.bankRobbery);
         addDramaToSiteStory(Drama.bankTellerRobbery);
         siteCrime += 30;
-        encounter.add(Creature.fromId("CREATURE_MERC"));
-        encounter.add(Creature.fromId("CREATURE_MERC"));
-        encounter.add(Creature.fromId("CREATURE_MERC"));
-        encounter.add(Creature.fromId("CREATURE_MERC"));
+        encounter.add(Creature.fromId(CreatureTypeIds.merc));
+        encounter.add(Creature.fromId(CreatureTypeIds.merc));
+        encounter.add(Creature.fromId(CreatureTypeIds.merc));
+        encounter.add(Creature.fromId(CreatureTypeIds.merc));
       } else {
         mvaddstrc(11, 1, white, "The bank teller reads the note, ");
         switch (lcsRandom(5)) {
@@ -510,18 +561,18 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
           case 1:
             addstr("looks startled, ");
           case 2:
-            addstr("bites her lip, ");
+            addstr("inhales sharply, ");
           case 3:
-            addstr("grimaces, ");
+            addstr("sets the paper aside, ");
           case 4:
-            addstr("frowns, ");
+            addstr("looks up, ");
         }
         mvaddstr(
             12, 1, "and slips several bricks of cash into the squad's bag.");
 
         await getKey();
 
-        criminalizeparty(Crime.bankRobbery);
+        addPotentialCrime(squad, Crime.bankRobbery);
         addDramaToSiteStory(Drama.bankTellerRobbery);
         siteCrime += 30;
         siteAlarmTimer = 0;
@@ -535,17 +586,13 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
       Creature? armedLiberal =
           squad.firstWhereOrNull((p) => p.weapon.type.threatening);
       if (armedLiberal != null) {
-        mvaddstr(9, 1, armedLiberal.name);
-        addstr(" brandishes the ");
-        addstr(armedLiberal.weapon.getName(sidearm: true));
-        addstr(".");
+        String weaponName = armedLiberal.weapon.getName(sidearm: true);
+        mvaddstr(9, 1, "${armedLiberal.name} brandishes the $weaponName.");
         await getKey();
         clearMessageArea();
       }
-      mvaddstr(10, 1, a.name);
-      addstr(" says, ");
-      mvaddstrc(11, 1, lightGreen, "\"");
-      addstr(slogan);
+      mvaddstr(10, 1, "${a.name} says, ");
+      mvaddstrc(11, 1, lightGreen, "\"$slogan");
       mvaddstr(12, 1, "OPEN THE VAULT, NOW!\"");
 
       await getKey();
@@ -554,10 +601,10 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
       int difficulty = Difficulty.veryEasy;
 
       if (armedLiberal == null) {
-        difficulty += 12;
+        difficulty += DifficultyModifier.aLotHarder;
       }
       if (activeSite!.hasHighSecurity) {
-        difficulty += 12;
+        difficulty += DifficultyModifier.aLotHarder;
       }
 
       clearSceneAreas();
@@ -569,8 +616,7 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
         await getKey();
 
         siteAlarm = true;
-        siteAlienated = SiteAlienation.alienatedEveryone;
-        criminalizeparty(Crime.bankRobbery);
+        addPotentialCrime(squad, Crime.bankRobbery);
         addDramaToSiteStory(Drama.bankStickup);
         siteCrime += 50;
         String guard = CreatureTypeIds.securityGuard;
@@ -584,11 +630,10 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
         mvaddstr(10, 1, "The vault is open!");
         await getKey();
 
-        criminalizeparty(Crime.bankRobbery);
+        addPotentialCrime(squad, Crime.bankRobbery);
         addDramaToSiteStory(Drama.bankStickup);
         siteCrime += 50;
         siteAlarm = true;
-        siteAlienated = SiteAlienation.alienatedEveryone;
 
         for (SiteTile t in levelMap.all) {
           t.locked = false;

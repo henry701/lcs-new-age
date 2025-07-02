@@ -19,6 +19,16 @@ enum Alignment {
   }
 
   String get label => name;
+  String get ism {
+    switch (this) {
+      case liberal:
+        return "Liberalism";
+      case moderate:
+        return "moderation";
+      case conservative:
+        return "Conservatism";
+    }
+  }
 }
 
 enum DeepAlignment implements Comparable<DeepAlignment> {
@@ -40,6 +50,21 @@ enum DeepAlignment implements Comparable<DeepAlignment> {
         return purple;
       case archConservative:
         return red;
+    }
+  }
+
+  String get colorKey {
+    switch (this) {
+      case eliteLiberal:
+        return ColorKey.lightGreen;
+      case liberal:
+        return ColorKey.lightBlue;
+      case moderate:
+        return ColorKey.yellow;
+      case conservative:
+        return ColorKey.purple;
+      case archConservative:
+        return ColorKey.red;
     }
   }
 

@@ -6,7 +6,8 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/activities/recruiting.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
-import 'package:lcs_new_age/items/armor_type.dart';
+import 'package:lcs_new_age/items/armor_upgrade.dart';
+import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -32,9 +33,12 @@ class Activity {
   View? view;
 
   RecruitData? get recruitData =>
-      recruitableCreatures.firstWhere((e) => e.type.id == idString);
+      recruitableCreatures.firstWhereOrNull((e) => e.type.id == idString);
   Creature? get creature => pool.firstWhereOrNull((e) => e.id == idInt);
-  ArmorType? get armorType => armorTypes[idString];
+  ClothingType? get clothingType =>
+      clothingTypes[idString?.split(":ARMOR").firstOrNull];
+  ArmorUpgrade? get armorUpgrade => clothingType?.allowedArmor.elementAtOrNull(
+      int.tryParse(idString?.split(":ARMOR").lastOrNull ?? "0") ?? 0);
   Site? get location =>
       gameState.sites.firstWhereOrNull((e) => e.idString == idString);
 
@@ -42,12 +46,14 @@ class Activity {
     switch (type) {
       case ActivityType.interrogation:
         return "Tending to ${creature?.name ?? "a bug"}";
-      case ActivityType.makeArmor:
-        return "Making ${armorType?.shortName ?? "a bug"}";
+      case ActivityType.makeClothing:
+        return "Making ${clothingType?.shortName ?? "a bug"}";
       case ActivityType.visit:
         return "Visiting ${location?.name ?? "a bug"}";
       case ActivityType.study:
-        return "Studying ${skill?.displayName ?? "a bug"}";
+        return "Practice ${skill?.displayName ?? "a bug"}";
+      case ActivityType.takeClass:
+        return "Learning ${skill?.displayName ?? "a bug"}";
       default:
         return type.label;
     }
@@ -71,7 +77,7 @@ enum ActivityType {
   prostitution("Prostitution", red),
   ccfraud("Credit Card Fraud", red),
   hacking("Hacking", lightGreen),
-  makeArmor("Tailoring", lightBlue),
+  makeClothing("Tailoring", lightBlue),
   stealCars("Stealing a Car", lightBlue),
   wheelchair("Procuring a Wheelchair", lightBlue),
   bury("Burying Dead", darkGray),
@@ -80,7 +86,7 @@ enum ActivityType {
   teachLiberalArts("Teaching Liberal Arts", purple),
   teachFighting("Teaching Fighting", purple),
   teachCovert("Teaching Covert Ops", purple),
-  study("Studying", pink),
+  study("Practicing", pink),
   takeClass("Taking a Class", pink),
   clinic("Going to the Hospital", red),
   sleeperLiberal("Promoting Liberalism", lightGreen),

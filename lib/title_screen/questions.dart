@@ -7,6 +7,9 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/items/armor_upgrade.dart';
+import 'package:lcs_new_age/items/clothing.dart';
+import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -161,11 +164,14 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
     ]),
     _Question("In middle school...", [
       _Option("I broke into lockers and was into punk rock.",
-          "+2 Security, +1 Agility, Black Leather Jacket", () {
-        founder.adjustSkill(Skill.security, 1);
+          "+2 Security, +1 Agility, Punk Jacket", () {
+        founder.adjustSkill(Skill.security, 2);
         founder.adjustSkill(Skill.music, 1);
         founder.adjustAttribute(Attribute.agility, 1);
-        founder.giveArmorType("ARMOR_LEATHER", lootPile: founder.base?.loot);
+        founder.giveArmor(Clothing.fromType(
+          clothingTypes["CLOTHING_PUNK_JACKET"]!,
+          armorUpgrades["ARMOR_LEATHER"]!,
+        ));
       }),
       _Option(
           "I was obsessed with Japanese swords and started lifting weights.",
@@ -222,14 +228,12 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
           "+2 Tailoring, +1 Disguise, Black Formalwear", () {
         founder.adjustSkill(Skill.tailoring, 2);
         founder.adjustSkill(Skill.disguise, 1);
-        if (founder.armor.type.idName == "ARMOR_CLOTHES") {
-          if (founder.gender != Gender.male) {
-            founder.giveArmorType("ARMOR_BLACKDRESS",
-                lootPile: founder.base?.loot);
-          } else {
-            founder.giveArmorType("ARMOR_BLACKSUIT",
-                lootPile: founder.base?.loot);
-          }
+        if (founder.gender != Gender.male) {
+          founder.giveClothingType("CLOTHING_BLACKDRESS",
+              lootPile: founder.base?.loot);
+        } else {
+          founder.giveClothingType("CLOTHING_BLACKSUIT",
+              lootPile: founder.base?.loot);
         }
       }),
     ]),
@@ -293,7 +297,7 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
               "${forceGenderBinary(Gender.nonbinary).heSheCap} didn't even come close.",
           "+2 Persuasion, +1 Law, +1 Charisma", () {
         founder.adjustSkill(Skill.persuasion, 2);
-        founder.adjustSkill(Skill.streetSmarts, 1);
+        founder.adjustSkill(Skill.law, 1);
         founder.adjustAttribute(Attribute.charisma, 1);
       }),
       _Option("I let people pay me for sex.  I needed the money to survive.",
@@ -312,10 +316,10 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
         vehiclePool.add(v);
         founder.preferredCarId = v.id;
       }),
-      _Option("I bought myself an assault rifle.  An AK-47.  Fully automatic.",
-          "+1 Firearms, AK-47", () {
+      _Option("I bought myself an assault rifle.  An AK-102.  Fully automatic.",
+          "+1 Firearms, AK-102", () {
         founder.adjustSkill(Skill.firearms, 1);
-        founder.giveWeaponAndAmmo("WEAPON_AUTORIFLE_AK47", 9);
+        founder.giveWeaponAndAmmo("WEAPON_AK102", 9);
       }),
       _Option(
           "I celebrated.  I'd saved a thousand bucks!", "+1 Business, \$1000",
@@ -327,9 +331,12 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
           "I started wearing a security uniform to explore major buildings downtown.",
           "+1 Disguise, Security Uniform, Downtown Maps", () {
         founder.adjustSkill(Skill.disguise, 1);
-        founder.giveArmorType("ARMOR_SECURITYUNIFORM",
+        founder.giveClothingType("CLOTHING_SECURITYUNIFORM",
             lootPile: founder.base?.loot);
-        for (Site site in founder.base?.city.districts.first.sites ?? []) {
+        Iterable<Site> downtownSites = founder.base?.city.districts[1].sites
+                .where((s) => s.type != SiteType.oubliette) ??
+            [];
+        for (Site site in downtownSites) {
           site.mapped = true;
         }
       }),
@@ -340,8 +347,40 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
           founder.adjustSkill(Skill.seduction, 1);
           Creature lawyer =
               Creature.fromId(CreatureTypeIds.lawyer, align: Alignment.liberal);
+          // Cap strength and agility at 3, and wisdom at 1...
+          int spare = 0;
+          if (lawyer.rawAttributes[Attribute.strength]! > 3) {
+            spare += lawyer.rawAttributes[Attribute.strength]! - 3;
+            lawyer.rawAttributes[Attribute.strength] = 3;
+          }
+          if (lawyer.rawAttributes[Attribute.agility]! > 3) {
+            spare += lawyer.rawAttributes[Attribute.agility]! - 3;
+            lawyer.rawAttributes[Attribute.agility] = 3;
+          }
+          if (lawyer.rawAttributes[Attribute.wisdom]! > 1) {
+            spare += lawyer.rawAttributes[Attribute.wisdom]! - 1;
+            lawyer.rawAttributes[Attribute.wisdom] = 1;
+          }
+          // ...and move the excess to intelligence, charisma, and heart
+          while (spare > 0) {
+            lawyer.adjustAttribute(
+                [Attribute.intelligence, Attribute.charisma, Attribute.heart]
+                    .random,
+                1);
+            spare--;
+          }
+          // Force competence in law and persuasion
+          while (lawyer.skill(Skill.law) < lawyer.skillCap(Skill.law) - 1) {
+            lawyer.adjustSkill(Skill.law, 1);
+          }
+          while (lawyer.skill(Skill.persuasion) <
+              lawyer.skillCap(Skill.persuasion) - 1) {
+            lawyer.adjustSkill(Skill.persuasion, 1);
+          }
+          // Finally, add juice to boost stats even further
+          lawyer.juice = 100;
           lawyer.birthDate = gameState.date
-              .subtract(Duration(days: 257 * 25 + lcsRandom(256)));
+              .subtract(Duration(days: 365 * 25 + lcsRandom(365)));
           if (gay) {
             lawyer.genderAssignedAtBirth = lawyer.gender = founder.gender;
           } else {
@@ -356,6 +395,7 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
           lawyer.hireId = founder.id;
           lawyer.workLocation =
               findSiteInSameCity(founder.base?.city, SiteType.courthouse);
+          lawyer.location = lawyer.workLocation;
           lawyer.nameCreature();
           pool.add(lawyer);
         },
@@ -372,6 +412,10 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
         founder.adjustSkill(Skill.computers, 2);
         founder.adjustSkill(Skill.disguise, 2);
         founder.type = creatureTypes[CreatureTypeIds.thief]!;
+        if (founder.clothing.type.idName == "CLOTHING_CLOTHES") {
+          founder.giveClothingType("CLOTHING_BLACKCLOTHES",
+              lootPile: founder.base?.loot);
+        }
       }),
       _Option(
           "a violent gang leader.  Nothing can change me, or stand in my way.",
@@ -384,6 +428,9 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
         founder.adjustSkill(Skill.firstAid, 1);
         founder.type = creatureTypes[CreatureTypeIds.gangMember]!;
         recruits = Recruits.gang;
+        if (founder.clothing.type.idName == "CLOTHING_CLOTHES") {
+          founder.giveClothingType("CLOTHING_STREETWEAR");
+        }
       }),
       _Option(
           "taking college courses.  I'm starting to understand what needs to be done.",
@@ -436,7 +483,12 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
     for (int i = 0; i < question.answers.length; i++) {
       if (!choose && i != highlight) continue;
       _Option option = question.answers[i];
-      mvaddstrc(y++, 0, lightGray, "${letterAPlus(i)} - ${option.option}");
+      String letter = letterAPlus(i);
+      if (choose) {
+        addOptionText(y++, 0, letter, "$letter - ${option.option}");
+      } else {
+        mvaddstrc(y++, 4, lightGray, option.option);
+      }
       mvaddstrc(y++, 4, darkGray, option.description);
     }
 
@@ -462,10 +514,16 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
       for (int i = 0; i < 4; i++) {
         Creature recruit = Creature.fromId(CreatureTypeIds.gangMember,
             align: Alignment.liberal);
-        if (recruit.weapon.type.idName == "WEAPON_AUTORIFLE_AK47" ||
-            recruit.weapon.type.idName == "WEAPON_SMG_MP5" ||
+        if (recruit.weapon.type.idName == "WEAPON_AK102" ||
+            recruit.weapon.type.idName == "WEAPON_MP5" ||
             recruit.equippedWeapon == null) {
-          recruit.giveWeaponAndAmmo("WEAPON_SEMIPISTOL_9MM", 4);
+          recruit.giveWeaponAndAmmo("WEAPON_9MM_HANDGUN", 4);
+        }
+        while (recruit.rawAttributes[Attribute.wisdom]! > 1) {
+          recruit.adjustAttribute(Attribute.wisdom, -1);
+          recruit.adjustAttribute(
+              [Attribute.heart, Attribute.agility, Attribute.strength].random,
+              1);
         }
         recruit.nameCreature();
         recruit.location = founder.base;

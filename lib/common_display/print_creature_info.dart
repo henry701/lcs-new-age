@@ -41,7 +41,7 @@ void printCreatureInfo(
 
   setColorForArmor(cr);
   mvaddstr(7, 0, "Clothes: ");
-  addstr(cr.armor.shortName);
+  addstr(cr.clothing.shortName);
 
   printTopSkills(2, 31, cr, 5, knowledge: knowledge);
 
@@ -105,19 +105,20 @@ void setWeaponColor(Creature cr) {
 
 void printWeapon(Creature cr) {
   addstr(cr.weapon.type.shortName);
+  setColor(lightGray);
   if (cr.weapon.type.usesAmmo) {
     if (cr.weapon.ammo > 0) {
-      addstr(" (${cr.weapon.ammo})");
+      addstr(" ${cr.weapon.ammo}/${cr.spareAmmo?.stackSize ?? 0}");
     } else {
       setColor(darkGray);
       if ((cr.spareAmmo?.stackSize ?? 0) > 0) {
-        addstr(" (${cr.spareAmmo!.stackSize})");
+        addstr(" ${cr.spareAmmo!.stackSize}");
       } else {
-        addstr(" (XX)");
+        addstr(" 0");
       }
     }
   } else if (cr.weapon.type.thrown) {
-    addstr(" (${cr.weapon.stackSize})");
+    addstr(" ${cr.weapon.stackSize}");
   }
 }
 
@@ -179,7 +180,7 @@ void printTopSkills(int y, int x, Creature cr, int numberToPrint,
 void printWounds(Creature cr, {int y = 2, int x = 49}) {
   for (int i = 0; i < cr.body.parts.length; i++) {
     BodyPart p = cr.body.parts[i];
-    setColor(p.bleeding ? red : lightGray);
+    setColor(p.bleeding > 0 ? red : lightGray);
     mvaddstr(y + i, x, "${p.name}: ");
     move(y + i, x + 12);
     if (p.nastyOff) {
@@ -188,7 +189,11 @@ void printWounds(Creature cr, {int y = 2, int x = 49}) {
       addstr("Clean sever");
     } else if (!p.wounded) {
       setColor(lightGreen);
-      addstr(cr.align == Alignment.liberal ? "Liberal" : "Healthy");
+      if (cr.type.animal) {
+        addstr("Animal");
+      } else {
+        addstr(cr.align == Alignment.liberal ? "Liberal" : "Healthy");
+      }
     } else {
       List<String> injuries = [];
       if (p.shot) injuries.add("Sht");
@@ -198,26 +203,31 @@ void printWounds(Creature cr, {int y = 2, int x = 49}) {
       if (p.burned) injuries.add("Brn");
       addstr(injuries.join(","));
     }
+    if (!p.cleanOff && !p.nastyOff) {
+      int armor = cr.clothing.getArmorForLocation(p);
+      if (armor > 0) {
+        addstrc(lightBlue, "+$armor");
+      }
+    }
   }
 }
 
-void printCreatureAgeAndGender(Creature person) {
-  {
-    String age;
-    if (person.body is! HumanoidBody) {
-      // Animals and machines; +-2
-      age = "${person.age + person.birthDate.day % 5 - 2}?";
-    } else if (person.age < 20) {
-      // Children and teens; +-1
-      age = "${person.age + person.birthDate.day % 3 - 1}?";
-    } else {
-      // Adults; just assess a decade
-      age = "${person.age - (person.age % 10)}s";
-    }
-
-    // Assess their gender Liberally
-    addstr(" ($age, ${capitalize(person.gender.name)})");
+String creatureAgeAndGender(Creature person) {
+  String age;
+  if (person.body is! HumanoidBody) {
+    // Animals and machines; +-2
+    age = "${person.age + person.birthDate.day % 5 - 2}?";
+  } else if (person.age < 20) {
+    // Children and teens; +-1
+    age = "${person.age + person.birthDate.day % 3 - 1}?";
+  } else {
+    // Adults; just assess a decade
+    age = "${person.age - (person.age % 10)}s";
   }
+
+  // Assess their gender Liberally
+  String trans = person.gender != person.genderAssignedAtBirth ? ", Trans" : "";
+  return "($age, ${capitalize(person.gender.name)}$trans)";
 }
 
 /* full character sheet with surrounding interface */
@@ -238,26 +248,30 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
     if (page == 1) printFullCreatureSkills(cr);
     if (page == 2) printFullCreatureCrimes(cr);
 
-    move(23, 0);
-    addstr("N - Change Name           G - Change Gender");
+    addOptionText(23, 0, "N", "N - Change Name");
+    addOptionText(23, 26, "G", "G - Change Gender");
     if ((activeSquad?.members.length ?? 0) > 1) {
-      addstr("    LEFT/RIGHT - Other Liberals");
+      addOptionText(23, 50, "LEFT", "LEFT");
+      addstr(" / ");
+      addOptionText(23, 57, "RIGHT", "RIGHT - Other Liberals");
     }
-    move(24, 0);
-    addstr("Press any other key to continue the Struggle");
-    addstr("    UP/DOWN  - More Info");
+    mvaddstr(24, 0, "Any Other Key - Continue the Struggle");
+    addOptionText(24, 52, "UP", "UP");
+    addstr(" / ");
+    addOptionText(24, 57, "DOWN", "DOWN - More Info");
 
     int c = await getKey();
 
     if ((activeSquad?.members.length ?? 0) > 1 &&
-        ((c == Key.leftArrow) || (c == Key.rightArrow))) {
-      int sx = (c == Key.leftArrow) ? -1 : 1;
+        ((c == Key.leftArrow || c == Key.a) ||
+            (c == Key.rightArrow || c == Key.d))) {
+      int sx = (c == Key.leftArrow || c == Key.a) ? -1 : 1;
       int index = squad.indexOf(cr) + sx;
       cr = squad[index % squad.length];
-    } else if (c == Key.downArrow) {
+    } else if (c == Key.downArrow || c == Key.x) {
       page++;
       page %= pagenum;
-    } else if (c == Key.upArrow) {
+    } else if (c == Key.upArrow || c == Key.w) {
       page--;
       if (page < 0) page = pagenum - 1;
       page %= pagenum;
@@ -271,6 +285,9 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
       cr.name = await enterName(24, 0, cr.name);
     } else if (c == Key.g) {
       List<Gender> genders = [Gender.male, Gender.female, Gender.nonbinary];
+      if (cr.cannotDetransition) {
+        genders.remove(cr.genderAssignedAtBirth);
+      }
       int index;
       if (genders.contains(cr.gender)) {
         index = genders.indexOf(cr.gender);
@@ -311,7 +328,7 @@ void printFullCreatureSkills(Creature cr) {
 }
 
 void printSkillValue(Creature cr, Skill skill, int y, int x,
-    {bool emphasizePotential = false}) {
+    {bool emphasizePotential = false, bool showCap = true}) {
   move(y, x);
   addstr("{:2d}.".format(cr.skill(skill)));
   int xpPercent =
@@ -329,17 +346,19 @@ void printSkillValue(Creature cr, Skill skill, int y, int x,
     addstr("99+");
   }
 
-  if (emphasizePotential) {
-    if (cr.skillCap(skill) > cr.skill(skill)) {
-      setColor(white);
+  if (showCap) {
+    if (emphasizePotential) {
+      if (cr.skillCap(skill) > cr.skill(skill)) {
+        setColor(white);
+      }
+    } else {
+      if (cr.skillCap(skill) == 0 || cr.skill(skill) < cr.skillCap(skill)) {
+        setColor(darkGray);
+      }
     }
-  } else {
-    if (cr.skillCap(skill) == 0 || cr.skill(skill) < cr.skillCap(skill)) {
-      setColor(darkGray);
-    }
+    move(y, x + 6);
+    addstr("{:2d}.00".format(cr.skillCap(skill)));
   }
-  move(y, x + 6);
-  addstr("{:2d}.00".format(cr.skillCap(skill)));
 }
 
 /* full screen character sheet */
@@ -359,9 +378,13 @@ void printFullCreatureStats(Creature cr,
   } else {
     addstr("Nonbinary");
   }
-  addstr(")");
-
-  move(3, 46);
+  addstr(", ");
+  if (cr.gender != cr.genderAssignedAtBirth) {
+    addstr("Transgender");
+  } else {
+    addstr("Cisgender");
+  }
+  addstr(") ");
   printWantedFor(cr);
   setColor(lightGray);
 
@@ -452,21 +475,23 @@ void printFullCreatureStats(Creature cr,
     }
   }
 
+  // Add task
+  mvaddstrc(12, 0, lightGray, "Task: ");
+  setColor(cr.activity.color);
+  addparagraph(12, 6, cr.activity.description, y2: 14, x2: 26);
   setColor(lightGray);
+  // addstrc(cr.activity.color, cr.activity.description);
 
   // Add weapon
-  move(13, 0);
-  addstr("Weapon: ");
+  mvaddstrc(console.y, 0, lightGray, "Weapon: ");
   printWeapon(cr);
 
   // Add clothing
-  move(14, 0);
-  addstr("Clothes: ");
-  addstr(cr.armor.equipTitle(full: true));
+  mvaddstrc(console.y + 1, 0, lightGray, "Clothes: ");
+  cr.clothing.printEquipTitle(full: true, armor: false);
 
   // Add vehicle
-  move(15, 0);
-  addstr("Car: ");
+  mvaddstrc(console.y + 1, 0, lightGray, "Car: ");
   Vehicle? v;
   if (showCarPrefs == ShowCarPrefs.showPreferences) {
     v = cr.preferredCar;
@@ -495,23 +520,23 @@ void printFullCreatureStats(Creature cr,
 
   // Add recruit stats
   if (!cr.brainwashed) {
-    move(18, 0);
+    move(19, 0);
     addstr((cr.maxSubordinates - cr.subordinatesLeft).toString());
     addstr(" Recruits / ");
     addstr(cr.maxSubordinates.toString());
     addstr(" Max");
   } else {
-    move(18, 0);
+    move(19, 0);
     addstr("Enlightened Can't Recruit");
   }
   // Any meetings with potential recruits scheduled?
   if (cr.scheduledMeetings > 0) {
-    move(18, 55);
+    move(19, 55);
     addstr("Scheduled Meetings: ");
     addstr(cr.scheduledMeetings.toString());
   }
   // Add seduction stats
-  move(19, 0);
+  move(20, 0);
   int lovers = cr.relationships.length;
   int maxLovers = cr.maxRelationships;
   addstr("$lovers Lover");
@@ -519,49 +544,13 @@ void printFullCreatureStats(Creature cr,
   addstr(" / $maxLovers Max");
   // Any dates with potential love interests scheduled?
   if (cr.scheduldeDates > 0) {
-    move(19, 55);
+    move(20, 55);
     addstr("Scheduled Dates:    ");
     addstr(cr.scheduldeDates.toString());
   }
 
   // Add wound status
-  for (int w = 0; w < cr.body.parts.length; w++) {
-    BodyPart part = cr.body.parts[w];
-    if (part.bleeding) {
-      setColor(red);
-    } else {
-      setColor(lightGray);
-    }
-
-    move(5 + w, 55);
-    addstr("${part.name}:");
-
-    move(5 + w, 66);
-    if (part.nastyOff) {
-      addstr("Ripped off");
-    } else if (part.cleanOff) {
-      addstr("Severed");
-    } else {
-      List<String> wounds = [];
-
-      if (part.shot) wounds.add("Shot");
-      if (part.cut) wounds.add("Cut");
-      if (part.bruised) wounds.add("Bruised");
-      if (part.burned) wounds.add("Burned");
-      if (part.torn) wounds.add("Torn");
-
-      if (wounds.isEmpty) {
-        setColor(lightGreen);
-        if (cr.type.animal) {
-          addstr("Animal");
-        } else {
-          addstr("Liberal");
-        }
-      } else {
-        addstr(wounds.join(","));
-      }
-    }
-  }
+  printWounds(cr, y: 5, x: 55);
   setColor(lightGray);
 
   //SPECIAL WOUNDS
@@ -586,21 +575,21 @@ void printFullCreatureCrimes(Creature cr) {
     if (cr.site?.type == SiteType.prison) {
       mvaddstr(3, 0, "On DEATH ROW");
     } else {
-      mvaddstr(3, 0, "Sentenced to DEATH");
+      mvaddstr(3, 0, "Escaped prisoner sentenced to DEATH");
     }
   } else if (cr.sentence < 0) {
     setColor(red);
     if (cr.site?.type == SiteType.prison) {
       mvaddstr(3, 0, "Serving life in prison");
     } else {
-      mvaddstr(3, 0, "Sentenced to life in prison");
+      mvaddstr(3, 0, "Escaped prisoner sentenced to life in prison");
     }
   } else if (cr.sentence > 0) {
     setColor(yellow);
     if (cr.site?.type == SiteType.prison) {
       mvaddstr(3, 0, "Serving ");
     } else {
-      mvaddstr(3, 0, "Sentenced to ");
+      mvaddstr(3, 0, "Escaped prisoner sentenced to ");
     }
     addstr("${cr.sentence} months in prison.");
   }
@@ -716,7 +705,7 @@ void printWantedFor(Creature cr) {
   } else if (wanted[Crime.harboring] == true) {
     addstr(laws[Law.immigration]! < DeepAlignment.liberal
         ? "HIRING ILLEGAL ALIENS"
-        : "HIRING UNDOCUMENTED WORKERS");
+        : "HIRING UNDOCUMENTED");
   } else if (wanted[Crime.cyberTerrorism] == true) {
     addstr("CYBER TERRORISM");
   } else if (wanted[Crime.dataTheft] == true) {

@@ -20,11 +20,11 @@ Future<void> setVehicles() async {
     setColor(lightGray);
     //PAGE UP
     if (page > 0) {
-      mvaddstr(17, 1, previousPageStr);
+      addOptionText(17, 1, previousPageStr.split(" ").first, previousPageStr);
     }
     //PAGE DOWN
     if ((page + 1) * carsPerPage < vehiclePool.length) {
-      mvaddstr(17, 53, nextPageStr);
+      addOptionText(17, 53, nextPageStr.split(" ").first, nextPageStr);
     }
 
     mvaddstr(18, 1,
@@ -38,7 +38,7 @@ Future<void> setVehicles() async {
         "       Vehicles in red have been selected by both this squad and another.");
     mvaddstr(23, 1,
         "       These cars may be used by both squads but not on the same day.");
-    mvaddstr(24, 1, "Enter - Done");
+    addOptionText(24, 1, "Enter", "Enter - Done");
 
     String rawKey = await getKeyCaseSensitive();
     int input = rawKey.codePoint;
@@ -56,7 +56,7 @@ Future<void> setVehicles() async {
             "Choose a Liberal to ${driver ? "drive it" : "be a passenger"}.");
         c = (await getKey()) - '1'.codePoint;
       }
-      if (c >= 0 && c <= 5) {
+      if (c >= 0 && c < squad.length) {
         Creature p = squad[c];
         p.preferredCarId = vehiclePool[carIndex].id;
         if (driver) {
@@ -90,21 +90,18 @@ void printCars(int page) {
     bool anotherSquad = pool
         .where((p) => !(activeSquad?.members.contains(p) ?? false))
         .any((p) => p.preferredCarId == vehiclePool[l].id);
+    String colorKey = ColorKey.lightGray;
     if (thisSquad && anotherSquad) {
-      setColor(red);
+      colorKey = ColorKey.red;
     } else if (anotherSquad) {
-      setColor(yellow);
+      colorKey = ColorKey.yellow;
     } else if (thisSquad) {
-      setColor(lightGreen);
-    } else {
-      setColor(lightGray);
+      colorKey = ColorKey.lightGreen;
     }
 
-    String str =
-        String.fromCharCode('A'.codePoint + (l - (page * carsPerPage)));
-    //str[1] = '\x0';
-    str += " - ${vehiclePool[l].fullName()}";
-    mvaddstr(y, x, str);
+    String key = letterAPlus(l - (page * carsPerPage));
+    addOptionText(y, x, key, "$key - ${vehiclePool[l].fullName()}",
+        baseColorKey: colorKey);
     x += 26;
     if (x > 53) {
       x = 1;

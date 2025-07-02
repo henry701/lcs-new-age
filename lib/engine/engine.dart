@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
+import 'package:lcs_new_age/engine/changelog.dart';
 import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 
 Future<int> getKey() async => (await console.getkey()).codePoint;
+Future<KeyEvent> getKeyEvent() async => await console.getKeyEvent();
 Future<String> getKeyCaseSensitive() async => console.getkey();
-String checkKey() => console.checkkey().toLowerCase();
+int checkKey() => console.checkkey().codePoint;
 String checkKeyCaseSensitive() => console.checkkey();
 void setColor(Color foreground, {Color background = black}) =>
     console.setColor(foreground, background);
@@ -14,36 +16,161 @@ void addchar(String c) => console.addchar(c);
 void mvaddchar(int y, int x, String c) => console.mvaddchar(y, x, c);
 
 void addstr(String s) => console.addstr(s);
-void addstrc(Color fg, String s) {
-  setColor(fg);
+void addstrc(Color fg, String s, {Color? bg}) {
+  setColor(fg, background: bg ?? black);
   addstr(s);
 }
 
-void addparagraph(int y1, int x1, int y2, int x2, String s) {
+void addparagraph(
+  int y1,
+  int x1,
+  String s, {
+  int y2 = CONSOLE_HEIGHT - 1,
+  int x2 = CONSOLE_WIDTH - 1,
+}) {
   console.move(y1, x1);
   List<String> lines = s.split("\n");
   for (int i = 0; i < lines.length; i++) {
     List<String> words = lines[i].split(" ");
     for (int j = 0; j < words.length; j++) {
-      if (console.x + words[j].length + 1 > x2) {
+      if (console.x + strLenX(words[j]) + 1 > x2) {
         console.move(console.y + 1, x1);
         if (console.y > y2) return;
         if (words[j].isEmpty) continue;
       } else if (j != 0) {
         addstr(" ");
       }
-      addstr(words[j]);
+      addstrx(words[j], restoreOldColor: false);
     }
     move(console.y + 1, x1);
     if (console.y > y2) return;
   }
 }
 
+int strLenX(String s) {
+  int len = 0;
+  for (int i = 0; i < s.length; i++) {
+    if ((s[i] == "&" || s[i] == "^") &&
+        (i + 1 < s.length && colorMap.containsKey(s[i + 1]))) {
+      i++;
+    } else {
+      len++;
+    }
+  }
+  return len;
+}
+
+void addInlineOptionText(
+  String key,
+  String text, {
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+}) {
+  key = key.toUpperCase();
+  String mouseClickKey = key;
+  if (key.length > 1) {
+    if (key.toLowerCase().startsWith("any") ||
+        key.toLowerCase().startsWith("enter")) {
+      mouseClickKey = String.fromCharCode(Key.enter);
+    } else if (key.toLowerCase().startsWith("backspace")) {
+      mouseClickKey = String.fromCharCode(Key.backspace);
+    } else if (key.toLowerCase().startsWith("tab")) {
+      mouseClickKey = String.fromCharCode(Key.tab);
+    } else if (key.toLowerCase().startsWith("shift")) {
+      mouseClickKey = String.fromCharCode(Key.shift);
+    } else if (key.toLowerCase().startsWith("up")) {
+      mouseClickKey = String.fromCharCode(Key.upArrow);
+    } else if (key.toLowerCase().startsWith("down")) {
+      mouseClickKey = String.fromCharCode(Key.downArrow);
+    } else if (key.toLowerCase().startsWith("right")) {
+      mouseClickKey = String.fromCharCode(Key.rightArrow);
+    } else if (key.toLowerCase().startsWith("left")) {
+      mouseClickKey = String.fromCharCode(Key.leftArrow);
+    } else if (key.toLowerCase().startsWith("space")) {
+      mouseClickKey = String.fromCharCode(Key.space);
+    } else if (key.toLowerCase().startsWith("esc")) {
+      mouseClickKey = String.fromCharCode(Key.escape);
+    }
+  }
+  String beforeKey = "";
+  String afterKey = "";
+  int keyIndex = text.toUpperCase().indexOf(key);
+  if (keyIndex == -1) {
+    key = text[0];
+    keyIndex = 0;
+  }
+  key = text.substring(keyIndex, keyIndex + key.length);
+  beforeKey = text.substring(0, keyIndex);
+  afterKey = text.substring(keyIndex + key.length);
+  if (enabledWhen) {
+    addstrx(
+        "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
+        mouseClickKey: mouseClickKey);
+  } else {
+    addstrx("&$disabledColorKey$text");
+  }
+}
+
+void registerFullScreenMouseRegion(String key) {
+  console.registerMouseRegion(0, 0, CONSOLE_WIDTH, CONSOLE_HEIGHT, key,
+      noHighlight: true);
+}
+
+void registerMouseRegion(int y, int x, int width, int height, String key) {
+  console.registerMouseRegion(y, x, width, height, key);
+}
+
+void addOptionText(
+  int y,
+  int x,
+  String key,
+  String text, {
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+}) {
+  move(y, x);
+  addInlineOptionText(key, text,
+      enabledWhen: enabledWhen,
+      baseColorKey: baseColorKey,
+      highlightColorKey: highlightColorKey,
+      disabledColorKey: disabledColorKey);
+}
+
+void addCenteredOptionText(
+  int y,
+  String key,
+  String text, {
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+}) {
+  int x = centerString(text);
+  move(y, x);
+  addInlineOptionText(key, text,
+      enabledWhen: enabledWhen,
+      baseColorKey: baseColorKey,
+      highlightColorKey: highlightColorKey,
+      disabledColorKey: disabledColorKey);
+}
+
 void mvaddstr(int y, int x, String s) => console.mvaddstr(y, x, s);
-void mvaddstrc(int y, int x, Color fg, String s) {
-  setColor(fg);
+void mvaddstrc(int y, int x, Color fg, String s, {Color? bg}) {
+  setColor(fg, background: bg ?? black);
   mvaddstr(y, x, s);
 }
+
+void addstrx(String s, {bool restoreOldColor = true, String? mouseClickKey}) =>
+    console.addstrx(s,
+        restoreOldColor: restoreOldColor, mouseClickKey: mouseClickKey);
+void mvaddstrx(int y, int x, String s,
+        {bool restoreOldColor = true, String? mouseClickKey}) =>
+    console.mvaddstrx(y, x, s,
+        restoreOldColor: restoreOldColor, mouseClickKey: mouseClickKey);
 
 void mvaddstrCenter(int y, String s, {int x = 39}) =>
     mvaddstr(y, centerString(s, x: x), s);
@@ -73,6 +200,11 @@ void setColorConditional(bool active,
 Future<void> pause(int milliseconds) async {
   refresh();
   await Future.delayed(Duration(milliseconds: milliseconds));
+}
+
+Future<void> showChangelog() async {
+  String content = await rootBundle.loadString('assets/changelog.md');
+  ChangelogWidget.globalKey.currentState?.show(content);
 }
 
 Console console = Console();
@@ -127,6 +259,8 @@ abstract class Key {
   static const int questionMark = 63;
   static const int plus = 43;
   static const int minus = 45;
+  static const int rightAngleBracket = 62;
+  static const int leftAngleBracket = 60;
 }
 
 extension CodePointExtension on String {

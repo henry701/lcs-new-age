@@ -1,6 +1,7 @@
 /* news - show major news story */
 
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
@@ -25,8 +26,8 @@ import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
-Future<void> displayStory(
-    NewsStory ns, bool liberalguardian, View? header) async {
+Future<void> displayStory(NewsStory ns, View? header) async {
+  bool liberalguardian = ns.publication == Publication.liberalGuardian;
   erase();
   preparePage(ns, liberalguardian);
 
@@ -57,7 +58,7 @@ Future<void> displayStory(
       int y = 2;
       if ((!liberalguardian && ns.page == 1) ||
           (liberalguardian && ns.guardianpage == 1)) {
-        y = displayStoryHeader(ns, liberalguardian, header);
+        y = displayStoryHeader(ns, header);
       }
 
       story = city;
@@ -178,7 +179,7 @@ Future<void> displayStory(
           bool ccs = ns.type == NewsStories.ccsKilledInSiteAction ||
               ns.type == NewsStories.ccsSiteAction;
 
-          story += squadStoryTextOpening(ns, liberalguardian, ccs);
+          story += squadStoryTextOpening(ns, ccs);
 
           bool did(Drama d) => drama[d]! > 0;
 
@@ -200,6 +201,9 @@ Future<void> displayStory(
                     Drama.carChase,
                     Drama.carCrash,
                     Drama.footChase,
+                    Drama.hijackedBroadcast,
+                    Drama.legalGunUsed,
+                    Drama.illegalGunUsed,
                   ].contains(entry.key))
               .length;
 
@@ -345,6 +349,17 @@ Future<void> displayStory(
                   "&r";
             }
           }
+          if (did(Drama.hijackedBroadcast)) {
+            if (!liberalguardian) {
+              story += "  The Liberal Crime Squad hijacked a news broadcast, "
+                  "interrupting regular programming."
+                  "&r";
+            } else {
+              story +=
+                  "  The Liberal Crime Squad delivered its message to the masses today."
+                  "&r";
+            }
+          }
 
           if (liberalguardian && !ccs) {
             if (did(Drama.killedSomebody)) typesum--;
@@ -375,7 +390,7 @@ Future<void> displayStory(
                 story += ", ";
               } else if (typesum == 2) {
                 if (drama.contains(" and ") || (liberalguardian && !ccs)) {
-                  story += ", and";
+                  story += ", and ";
                 } else {
                   story += " and ";
                 }
@@ -415,6 +430,10 @@ Future<void> displayStory(
             if (did(Drama.unlockedDoor)) {
               addDrama("unlawful entry", "picked locks");
             }
+            if (did(Drama.musicalRampage)) {
+              addDrama("a musical rampage", "performed an impromptu concert");
+            }
+
             story += "."
                 "&r";
           }
@@ -451,6 +470,36 @@ Future<void> displayStory(
             }
             story += "&r";
           }
+
+          String culprit = ccs ? "CCS" : "LCS";
+          if (ns.publicationAlignment == DeepAlignment.archConservative) {
+            if (ns.type == NewsStories.squadKilledInSiteAction) {
+              story +=
+                  "  A prominent gun advocacy group remarked that it was only "
+                  "thanks to the bravery of people carrying guns that this "
+                  "didn't turn out worse, and those who stood by and did nothing "
+                  "were just as guilty as the ones who committed the crime.&r";
+            } else {
+              if (ccs) {
+                story +=
+                    "  A prominent gun advocacy group noted that increased "
+                    "gun ownership would help to bring violence like this to "
+                    "an end.&r";
+              } else {
+                story += "  A prominent gun advocacy group noted that it was "
+                    "unfortunate that there weren't more armed citizens in "
+                    "the area to stop this from happening.&r";
+              }
+            }
+          } else if (did(Drama.legalGunUsed)) {
+            story +=
+                "  The $culprit was seen to use firearms that are commonly "
+                "sold in the state.&r";
+          } else if (did(Drama.illegalGunUsed)) {
+            story += "  The $culprit was seen to use firearms that are "
+                "illegal for civilians to own in this state.&r";
+          }
+
           if (!ccs) {
             if (oneIn(8)) {
               if (did(Drama.tagging)) {
@@ -479,27 +528,27 @@ Future<void> displayStory(
       }
 
       story += generateFiller(200);
-      displayNewsStory(story, storyXStart, storyXEnd, y);
+      displayNewsStory(story, storyXStart, storyXEnd, y, ns);
 
       if (ns.type == NewsStories.ccsSiteAction ||
           ns.type == NewsStories.ccsKilledInSiteAction) {
-        ccscherrybusted = true;
-      } else if (!lcscherrybusted) {
-        lcscherrybusted = true;
+        ccsInPublicEye = true;
+      } else if (!lcsInPublicEye) {
+        lcsInPublicEye = true;
       }
 
     case NewsStories.massacre:
       int y = 3;
       if (ns.page == 1) {
-        y = 21;
+        y = 19;
         if (ns.siegetype == SiegeType.ccs) {
-          displayCenteredNewsFont("CCS MASSACRE", 5);
+          displayCenteredNewsFont("CCS MASSACRE", 5, ns);
         } else if (!liberalguardian) {
-          displayCenteredNewsFont("MYSTERIOUS", 5);
-          displayCenteredNewsFont("MASSACRE", 13);
+          displayCenteredNewsFont("MYSTERIOUS", 5, ns);
+          displayCenteredNewsFont("MASSACRE", 10, ns);
         } else {
-          displayCenteredNewsFont("CONSERVATIVE", 5);
-          displayCenteredNewsFont("MASSACRE", 13);
+          displayCenteredNewsFont("CONSERVATIVE", 5, ns);
+          displayCenteredNewsFont("MASSACRE", 10, ns);
         }
       }
 
@@ -548,7 +597,7 @@ Future<void> displayStory(
             }
             story += "fingerprints.  Like, it was all smooth.  ";
             if (noProfanity) {
-              story += "[Craziest] thing I've ever seen";
+              story += "[Strangest] thing I've ever seen";
             } else if (laws[Law.freeSpeech] == DeepAlignment.eliteLiberal) {
               story += "Damnedest thing I've ever seen";
             } else {
@@ -573,10 +622,9 @@ Future<void> displayStory(
                 "this kind of government-condoned violence is stopped.  We will not be "
                 "intimidated, and we will not be silenced";
           }
-        case SiegeType.hicks:
+        case SiegeType.angryRuralMob:
           if (!liberalguardian) {
-            story +=
-                "Burned...  stabbed with, maybe, pitchforks.  There may have "
+            story += "...  stabbed with, maybe, pitchforks.  There may have "
                 "been bite marks.  Nothing recognizable left.  Complete carnage.";
           } else {
             story += "We have reason to believe that this brutal massacre was "
@@ -608,50 +656,59 @@ Future<void> displayStory(
           "&r";
 
       story += generateFiller(200);
-      displayNewsStory(story, storyXStart, storyXEnd, y);
+      displayNewsStory(story, storyXStart, storyXEnd, y, ns);
     case NewsStories.kidnapReport:
       int y = 2;
 
       if (ns.page == 1) {
-        y = 21;
+        y = 19;
         if (liberalguardian) {
-          displayCenteredNewsFont("LCS DENIES", 5);
-          displayCenteredNewsFont("KIDNAPPING", 13);
+          displayCenteredNewsFont("LCS DENIES", 5, ns);
+          displayCenteredNewsFont("KIDNAPPING", 10, ns);
         } else {
           switch (ns.cr!.type.id) {
             case CreatureTypeIds.president:
-              displayCenteredNewsFont("PRESIDENT", 5);
-              displayCenteredNewsFont("KIDNAPPED", 13);
+              displayCenteredNewsFont("PRESIDENT", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
+              // Instantly bring a max military siege to the site
+              if (ns.cr!.typeId == CreatureTypeIds.president) {
+                ns.cr!.heat += 1000;
+                ns.cr!.site?.heat += 1000 + lcsRandom(1000);
+                ns.cr!.site?.siege.timeUntilCops = lcsRandom(3) + 1;
+                ns.cr!.site?.siege.escalationState = SiegeEscalation.bombers;
+              }
             case CreatureTypeIds.corporateCEO:
-              displayCenteredNewsFont("CEO", 5);
-              displayCenteredNewsFont("KIDNAPPED", 13);
+              displayCenteredNewsFont("CEO", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
             case CreatureTypeIds.radioPersonality:
-              displayCenteredNewsFont("RADIO HOST", 5);
-              displayCenteredNewsFont("KIDNAPPED", 13);
+              displayCenteredNewsFont("RADIO HOST", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
             case CreatureTypeIds.newsAnchor:
-              displayCenteredNewsFont("NEWS ANCHOR", 5);
-              displayCenteredNewsFont("KIDNAPPED", 13);
+              displayCenteredNewsFont("NEWS ANCHOR", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
             case CreatureTypeIds.eminentScientist:
-              displayCenteredNewsFont("SCIENTIST", 5);
-              displayCenteredNewsFont("KIDNAPPED", 13);
+              displayCenteredNewsFont("SCIENTIST", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
             case CreatureTypeIds.liberalJudge:
             case CreatureTypeIds.conservativeJudge:
-              displayCenteredNewsFont("JUDGE", 5);
-              displayCenteredNewsFont("KIDNAPPED", 13);
+              displayCenteredNewsFont("JUDGE", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
             case CreatureTypeIds.policeChief:
-              displayCenteredNewsFont("TOP COP", 5);
-              displayCenteredNewsFont("KIDNAPPED", 13);
+              displayCenteredNewsFont("POLICE CHIEF", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
             case CreatureTypeIds.cop:
             case CreatureTypeIds.gangUnit:
+              displayCenteredNewsFont("POLICE", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
             case CreatureTypeIds.deathSquad:
-              displayCenteredNewsFont("COP", 5);
-              displayCenteredNewsFont("KIDNAPPED", 13);
+              displayCenteredNewsFont("DEATH COP", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
             case CreatureTypeIds.actor:
-              displayCenteredNewsFont("ACTOR", 5);
-              displayCenteredNewsFont("KIDNAPPED", 13);
+              displayCenteredNewsFont("ACTOR", 5, ns);
+              displayCenteredNewsFont("KIDNAPPED", 10, ns);
             default:
-              displayCenteredNewsFont("SUSPECTED", 5);
-              displayCenteredNewsFont("KIDNAPPING", 13);
+              displayCenteredNewsFont("SUSPECTED", 5, ns);
+              displayCenteredNewsFont("KIDNAPPING", 10, ns);
           }
         }
       }
@@ -679,11 +736,11 @@ Future<void> displayStory(
           "&r";
 
       story += generateFiller(200);
-      displayNewsStory(story, storyXStart, storyXEnd, y);
+      displayNewsStory(story, storyXStart, storyXEnd, y, ns);
 
     default:
       story = "The news is not yet written. Report this as a bug.&r";
-      displayNewsStory(story, storyXStart, storyXEnd, 3);
+      displayNewsStory(story, storyXStart, storyXEnd, 3, ns);
   }
 
   int c;
@@ -692,13 +749,19 @@ Future<void> displayStory(
   } while (!isBackKey(c));
 }
 
-void displayCenteredNewsFont(String str, int y) {
+void displayCenteredNewsFont(String str, int y, NewsStory ns,
+    {bool? useBigFont}) {
+  if (ns.headline == "") {
+    ns.headline = str;
+  } else {
+    ns.headline += " $str";
+  }
   int width = -1;
   int s;
   bool isLetter(String letter) =>
       letter.codePoint >= 'A'.codePoint && letter.codePoint <= 'Z'.codePoint;
   for (s = 0; s < str.length; s++) {
-    if (isLetter(str[s])) {
+    if (isLetter(str[s].toUpperCase())) {
       width += 6;
     } else if (str[s] == '\'') {
       width += 4;
@@ -709,50 +772,68 @@ void displayCenteredNewsFont(String str, int y) {
 
   int x = 39 - width ~/ 2;
 
-  for (s = 0; s < str.length; s++) {
-    if (isLetter(str[s]) || str[s] == '\'') {
-      int p;
-      if (isLetter(str[s])) {
-        p = str[s].codePoint - 'A'.codePoint;
-      } else {
-        p = 26;
-      }
-      int lim = 6;
-      if (str[s] == '\'') lim = 4;
-      if (s == str.length - 1) lim--;
-      for (int x2 = 0; x2 < lim; x2++) {
-        for (int y2 = 0; y2 < 7; y2++) {
-          move(y + y2, x + x2);
-          if (x2 == 5) {
-            setColor(lightGray, background: lightGray);
-            addchar(' ');
-          } else {
-            drawCPCGlyph(bigletters[p][x2][y2]);
+  if (useBigFont == true) {
+    for (s = 0; s < str.length; s++) {
+      if (isLetter(str[s]) || str[s] == '\'') {
+        int p;
+        if (isLetter(str[s])) {
+          p = str[s].codePoint - 'A'.codePoint;
+        } else {
+          p = 26;
+        }
+        int lim = 6;
+        if (str[s] == '\'') lim = 4;
+        if (s == str.length - 1) lim--;
+        for (int x2 = 0; x2 < lim; x2++) {
+          for (int y2 = 0; y2 < 7; y2++) {
+            move(y + y2, x + x2);
+            if (x2 == 5) {
+              setColor(ns.publication.backgroundColor,
+                  background: ns.publication.backgroundColor);
+              addchar(' ');
+            } else {
+              drawCPCGlyph(bigletters[p][x2][y2],
+                  remapLightGray: ns.publication.backgroundColor);
+            }
           }
         }
-      }
-      x += lim;
-    } else {
-      setColor(lightGray, background: lightGray);
-      for (int x2 = 0; x2 < 3; x2++) {
-        for (int y2 = 0; y2 < 7; y2++) {
-          move(y + y2, x + x2);
-          addchar(' ');
+        refresh();
+        x += lim;
+      } else {
+        setColor(ns.publication.backgroundColor,
+            background: ns.publication.backgroundColor);
+        for (int x2 = 0; x2 < 3; x2++) {
+          for (int y2 = 0; y2 < 7; y2++) {
+            move(y + y2, x + x2);
+            addchar(' ');
+          }
         }
+        x += 3;
       }
-      x += 3;
     }
+  } else {
+    // Print using 4x5 font
+    setColor(black, background: ns.publication.backgroundColor);
+    print5x5NewsText(y, x, str);
   }
 }
 
-void displayCenteredSmallNews(String str, int y) {
+void displayCenteredSmallNews(String str, int y, NewsStory ns) {
+  ns.body = str;
   int x = 39 - ((str.length - 1) >> 1);
   move(y, x);
-  setColor(black, background: lightGray);
+  setColor(black, background: ns.publication.backgroundColor);
   addstr(str);
 }
 
-void displayNewsPicture(int p, int y, [bool remapSkinTones = false]) {
+void displayNewsPicture(int p, int y, NewsStory ns,
+    [bool remapSkinTones = false]) {
+  ns.newspaperPhotoId = p;
+  ns.remapSkinTones = remapSkinTones;
+  renderNewsPic(p, y, remapSkinTones);
+}
+
+void renderNewsPic(int p, int y, [bool remapSkinTones = false]) {
   for (int x2 = 0; x2 < 78; x2++) {
     for (int y2 = 0; y2 < 15; y2++) {
       if (y + y2 > 24) break;
@@ -763,8 +844,9 @@ void displayNewsPicture(int p, int y, [bool remapSkinTones = false]) {
 }
 
 /* news - draws the specified block of text to the screen */
-void displayNewsStory(
-    String story, List<int> storyXStart, List<int> storyXEnd, int y) {
+void displayNewsStory(String story, List<int> storyXStart, List<int> storyXEnd,
+    int y, NewsStory? ns) {
+  ns?.body = newsprintToWebFormat(story);
   List<String> text = [];
   List<bool> centered = [];
 
@@ -787,8 +869,9 @@ void displayNewsStory(
         while (spacesNeeded > 0) {
           for (int i = 0; i < line.length - 1; i++) {
             int remainingInLine = line.length - 1 - i;
-            if (spacesNeeded > remainingInLine ||
-                lcsRandom(remainingInLine) <= spacesNeeded) {
+            if (line[i] != " " &&
+                (spacesNeeded > remainingInLine ||
+                    lcsRandom(remainingInLine) <= spacesNeeded)) {
               line[i] += " ";
               spacesNeeded--;
               if (spacesNeeded == 0) break;
@@ -808,7 +891,8 @@ void displayNewsStory(
     centered.add(isCentered);
   }
 
-  setColor(black, background: lightGray);
+  Color bgColor = (ns?.publication ?? Publication.times).backgroundColor;
+  setColor(black, background: bgColor);
   for (int cury = y; cury < 25; cury++) {
     if (lines.isEmpty) break;
     if (lines.first.isEmpty) {
@@ -828,7 +912,7 @@ void displayNewsStory(
     centered.removeAt(0);
   }
 
-  setColor(black, background: lightGray);
+  setColor(black, background: bgColor);
   for (int t = 0; t < text.length; t++) {
     if (y + t >= 25) break;
     if (text[t].endsWith(' ')) {
@@ -844,4 +928,13 @@ void displayNewsStory(
     }
   }
   text.clear();
+}
+
+void archiveNewsStory(NewsStory ns) {
+  ns.date = gameState.date.copyWith();
+  if (gameState.newsArchive.contains(ns)) return;
+  gameState.newsArchive.add(ns);
+  if (gameState.newsArchive.length > 51) {
+    gameState.newsArchive.removeAt(0);
+  }
 }

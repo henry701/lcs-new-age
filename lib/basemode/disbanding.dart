@@ -26,8 +26,8 @@ Future<bool> showDisbandingScreen() async {
 
   printMood();
 
-  mvaddstrc(24, 0, lightGray,
-      "R - Recreate the Liberal Crime Squad                  Any Other Key - Next Month");
+  addOptionText(24, 0, "R", "R - Recreate the Liberal Crime Squad");
+  addOptionText(24, 54, "Any Other Key", "Any Other Key - Next Month");
 
   return await getKey() != Key.r;
 }
@@ -120,7 +120,7 @@ List<int> summarizePoliticalBody(List<DeepAlignment> body) {
 }
 
 void setPoliticalBodyColor(List<int> body) {
-  int majority = (body.fold(0, (a, b) => a + b) / 2).round();
+  int majority = (body.fold(0, (a, b) => a + b) / 2).floor() + 1;
   DeepAlignment align;
   if (body[0] >= majority) {
     align = DeepAlignment.archConservative;

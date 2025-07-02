@@ -14,7 +14,6 @@ import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/utils/colors.dart';
-import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 part 'recruitment.g.dart';
@@ -186,40 +185,29 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
         addstr(" kind of regrets agreeing to this.");
       }
   }
-  move(11, 0);
-  addstr("How should ");
-  addstr(p.name);
-  addstr(" approach the situation?");
+  mvaddstr(11, 0, "How should ");
+  addstrc(white, p.name);
+  addstrc(lightGray, " approach the situation?");
 
-  move(13, 0);
-  if (ledger.funds < 50) setColor(darkGray);
-  addstr(
-      "A - Spend \$50 on props and a ${inPerson ? "" : "e-"}book for them to keep afterward.");
-  setColor(lightGray);
-  move(14, 0);
-  addstr("B - Just casually chat with them and discuss politics.");
+  addOptionText(13, 0, "A",
+      "A - Spend \$50 on props and a${inPerson ? " " : "n e-"}book for them to keep.",
+      enabledWhen: ledger.funds >= 50);
+  addOptionText(
+      14, 0, "B", "B - Just casually chat with them and discuss politics.");
 
-  move(15, 0);
+  bool canRecruit = false;
+  String recruitmentText = "C - ";
   if (p.subordinatesLeft > 0 && r.eagerness >= 4) {
-    addstr("C - Offer to let ");
-    addstr(r.recruit.name);
-    addstr(" join the LCS as a full member.");
+    canRecruit = true;
+    recruitmentText += "Offer to let ${r.recruit.name} join the LCS.";
   } else if (p.subordinatesLeft <= 0) {
-    setColor(darkGray);
-    addstr("C - ");
-    addstr(p.name);
-    addstr(" needs more Juice to recruit.");
-    setColor(lightGray);
+    recruitmentText += "${p.name} needs more Juice to recruit.";
   } else {
-    setColor(darkGray);
-    addstr("C - ");
-    addstr(r.recruit.name);
-    addstr(" isn't ready to join the LCS.");
-    setColor(lightGray);
+    recruitmentText += "${r.recruit.name} isn't ready to join the LCS.";
   }
+  addOptionText(15, 0, "C", recruitmentText, enabledWhen: canRecruit);
 
-  move(16, 0);
-  addstr("D - Break off the meetings.");
+  addOptionText(16, 0, "D", "D - Break off the meetings.");
 
   int y = 18;
 
@@ -227,45 +215,40 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     int c = await getKey();
 
     if (c == Key.c && p.subordinatesLeft > 0 && r.eagerness >= 4) {
-      move(y, 0);
-      addstr(p.name);
-      addstr(" offers to let ");
-      addstr(r.recruit.name);
-      addstr(" join the Liberal Crime Squad.");
-
+      mvaddstr(y, 0, "${p.name} offers to let ${r.recruit.name} join the LCS.");
       await getKey();
 
-      setColor(lightGreen);
-      move(y += 2, 0);
-
-      addstr(r.recruit.name);
-      addstr(" accepts, and is eager to get started.");
-
+      mvaddstrc(y += 2, 0, lightGreen,
+          "${r.recruit.name} accepts, and is eager to get started.");
+      r.recruit.hireId = p.id;
       liberalize(r.recruit);
-
       await getKey();
 
       pool.add(r.recruit);
-
       erase();
       await sleeperizePrompt(r.recruit, p, 6);
-
-      r.recruit.hireId = p.id;
 
       p.train(Skill.persuasion, 25);
       recruitmentSessions.remove(r);
       stats.recruits++;
-
       return true;
     }
     if (c == Key.b || (c == Key.a && ledger.funds >= 50)) {
       if (c == Key.a) ledger.subtractFunds(50, Expense.recruitment);
 
       p.train(Skill.persuasion, 25);
-      p.train(Skill.science, r.recruit.skill(Skill.science));
-      p.train(Skill.religion, r.recruit.skill(Skill.religion));
-      p.train(Skill.law, r.recruit.skill(Skill.law));
-      p.train(Skill.business, r.recruit.skill(Skill.business));
+      if (r.recruit.skill(Skill.science) > p.skill(Skill.science)) {
+        p.train(Skill.science, r.recruit.skill(Skill.science));
+      }
+      if (r.recruit.skill(Skill.religion) > p.skill(Skill.religion)) {
+        p.train(Skill.religion, r.recruit.skill(Skill.religion));
+      }
+      if (r.recruit.skill(Skill.law) > p.skill(Skill.law)) {
+        p.train(Skill.law, r.recruit.skill(Skill.law));
+      }
+      if (r.recruit.skill(Skill.business) > p.skill(Skill.business)) {
+        p.train(Skill.business, r.recruit.skill(Skill.business));
+      }
 
       int libPersuasiveness = p.skill(Skill.business) +
           p.skill(Skill.science) +
@@ -347,8 +330,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           addstr(p.name);
           addstr(" needs more experience.");
         } else {
-          addstr(p.name);
-          addstr(" comes off as slightly insane.");
+          addstr("${r.recruit.name} thinks ${p.name} is dangerous extremist.");
 
           move(y++, 0);
           addstr(
@@ -371,34 +353,18 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
 // Prompt to turn new recruit into a sleeper
 Future<void> sleeperizePrompt(
     Creature converted, Creature recruiter, int y) async {
-  bool selection = false;
   while (true) {
     move(y, 0);
     setColor(lightGray);
-    addstr("In what capacity will ");
-    addstr(converted.name);
-    addstr(" best serve the Liberal cause?");
-    move(y + 2, 0);
-    setColor(selection ? lightGray : white);
-    addstr(selection ? "   " : "-> ");
     addstr(
-        "Come to ${recruiter.location!.getName(short: false, includeCity: true)} as a ");
-    setColor(selection ? green : lightGreen);
-    addstr("regular member");
-    setColor(selection ? lightGray : white);
-    addstr(".");
-    move(y + 3, 0);
-    setColor(selection ? white : lightGray);
-    addstr(selection ? "-> " : "   ");
-    addstr(
-        "Stay at ${converted.workLocation.getName(short: false, includeCity: true)} as a ");
-    setColor(selection ? lightBlue : blue);
-    addstr("sleeper agent");
-    setColor(selection ? white : lightGray);
-    addstr(".");
+        "In what capacity will ${converted.name} best serve the Liberal cause?");
+    addOptionText(y + 2, 0, "A",
+        "A - Come to ${recruiter.location!.getName(short: false, includeCity: true)} as a &Gregular member&x.");
+    addOptionText(y + 3, 0, "B",
+        "B - Stay at ${converted.workLocation.getName(short: false, includeCity: true)} as a &Bsleeper agent&x.");
 
     int c = await getKey();
-    if ((isBackKey(c)) && selection) {
+    if (c == Key.b) {
       converted.sleeperAgent = true;
       converted.location = converted.workLocation;
       converted.site?.mapped = true;
@@ -409,7 +375,7 @@ Future<void> sleeperizePrompt(
         politics.exec[Exec.president] = DeepAlignment.eliteLiberal;
       }
       break;
-    } else if ((isBackKey(c)) && !selection) {
+    } else if (c == Key.a) {
       converted.location = recruiter.base;
       converted.base = recruiter.base;
       liberalize(converted);
@@ -418,13 +384,6 @@ Future<void> sleeperizePrompt(
         politics.promoteVP();
       }
       break;
-    } else if (isPageUp(c) ||
-        c == Key.upArrow ||
-        c == Key.leftArrow ||
-        isPageDown(c) ||
-        c == Key.downArrow ||
-        c == Key.rightArrow) {
-      selection = !selection;
     }
   }
 }

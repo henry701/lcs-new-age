@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -19,9 +21,11 @@ class Squad {
   List<Creature>? _members;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<Creature> get members {
-    _members ??=
-        __memberIds?.map((id) => pool.firstWhere((e) => e.id == id)).toList() ??
-            [];
+    _members ??= __memberIds
+            ?.map((id) => pool.firstWhereOrNull((e) => e.id == id))
+            .nonNulls
+            .toList() ??
+        [];
     return _members!;
   }
 
@@ -48,7 +52,7 @@ void cleanGoneSquads() {
     }
     if (squad.members.isEmpty) {
       squads.remove(squad);
-    } else {
+    } else if (mode != GameMode.site) {
       squad.site?.addLootAndProcessMoney(squad.loot);
     }
   }

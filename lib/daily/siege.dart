@@ -298,8 +298,35 @@ Future<void> siegeCheck() async {
               continue;
             }
           }
+          bool hadLoot = l.loot.isNotEmpty;
+          bool hadVehicles = vehiclePool.any((v) => v.location == l);
           l.loot.clear();
           vehiclePool.removeWhere((v) => v.location == l);
+          if (hadLoot || hadVehicles) {
+            move(y++, 1);
+            if (l.siege.escalationState == SiegeEscalation.police) {
+              addstr("The police confiscate everything");
+            } else {
+              addstr("The soldiers confiscate everything");
+            }
+            if (hadVehicles) addstr(", including vehicles");
+            addstr(".");
+            move(y++, 1);
+            await getKey();
+          }
+          if (l.compound.fortified) {
+            addstr("The compound fortifications are dismantled.");
+            move(y++, 1);
+            l.compound.fortified = false;
+          }
+          if (l.businessFront) {
+            l.businessFront = false;
+            if (!l.businessFront) {
+              addstr("Materials relating to the business front have been taken.");
+              move(y++, 1);
+            }
+          }
+          await getKey();
         }
       }
 

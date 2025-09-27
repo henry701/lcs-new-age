@@ -229,7 +229,7 @@ void printTitleScreen(HighScores? highScores) {
       6, "and many others who have contributed to LCS over the years");
 
   setColor(black, background: lightGray);
-  mvaddstr(23, 65, "Version $gameVersion");
+  mvaddstrRight(23, "Version $gameVersion", marginX: 2);
   setColor(lightGray);
   mvaddstrCenter(24, "(click the game window to give it keyboard focus)");
 }

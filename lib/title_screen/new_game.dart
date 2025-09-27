@@ -18,7 +18,6 @@ import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/title_screen/questions.dart';
-import 'package:lcs_new_age/title_screen/title_screen.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -29,6 +28,7 @@ const bool debugMartialArtsMaster = false;
 const bool debugEliteLiberalPublicOpinion = false;
 const bool debugPartyRescue = false;
 const bool debugAllItems = false;
+const bool megaFounderCheat = false;
 
 Future<void> setupNewGame() async {
   gameState = GameState();

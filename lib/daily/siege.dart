@@ -563,10 +563,8 @@ Future<void> siegeCheck() async {
         await getKey();
         final ciaSuspense = [
           "Hair stands on end... the air is charged with the sound of silence.",
-          "Hair stands on end... the air is charged with the sound of silence.",
           "The temperature seems to drop as shadows move beyond the windows.",
           "Static electricity crackles through the air... something is very wrong.",
-          "The air grows thick and oppressive, like breathing through wet concrete.",
         ].nonNulls;
         mvaddstrc(console.y + 1, 1, white, ciaSuspense.random);
         await getKey();
@@ -575,11 +573,6 @@ Future<void> siegeCheck() async {
         if (l.compound.cameras) {
           compoundSuspense.addAll([
             "Every security camera simultaneously pivots to stare directly at squad members.",
-          ]);
-        }
-        if (l.compound.fortified) {
-          compoundSuspense.addAll([
-            "Even behind your defenses, you feel utterly exposed and vulnerable.",
           ]);
         }
         if (l.compound.aaGun) {
@@ -598,11 +591,10 @@ Future<void> siegeCheck() async {
           ]);
         } else if (l.type == SiteType.apartment) {
           compoundSuspense.addAll([
-            "The apartment walls feel paper-thin against the threat gathering outside.",
             "The building's elevator moves between floors, though no one called it.",
           ]);
         }
-        mvaddstr(console.y + 1, 1, compoundSuspense.random);
+        mvaddstr(console.y + 2, 1, compoundSuspense.random);
         await getKey();
         if (l.compound.cameras) {
           mvaddstr(console.y + 2, 1, "The camera feeds are dead.");

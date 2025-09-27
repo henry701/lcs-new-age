@@ -326,6 +326,16 @@ Future<void> siegeCheck() async {
               move(y++, 1);
             }
           }
+          if (l.compound.boobyTraps) {
+            mvaddstr(y += 2, 1, "The booby traps are disarmed and removed.");
+            l.compound.boobyTraps = false;
+          }
+          if (l.compound.aaGun) {
+            if (laws[Law.gunControl] != DeepAlignment.archConservative) {
+              mvaddstr(y += 2, 1, "The anti-aircraft gun is dismantled.");
+              l.compound.aaGun = false;
+            }
+          }
           await getKey();
         }
       }
@@ -1189,6 +1199,16 @@ Future<void> siegeDefeat() async {
       if (!loc.businessFront) {
         mvaddstr(
             12, 1, "Materials relating to the business front have been taken.");
+      }
+    }
+    if (loc.compound.boobyTraps) {
+      mvaddstr(14, 1, "The booby traps are disarmed and removed.");
+      loc.compound.boobyTraps = false;
+    }
+    if (loc.compound.aaGun) {
+      if (laws[Law.gunControl] != DeepAlignment.archConservative) {
+        mvaddstr(16, 1, "The anti-aircraft gun is dismantled.");
+        loc.compound.aaGun = false;
       }
     }
 

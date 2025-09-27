@@ -17,7 +17,7 @@ import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String gameVersion = "1.4.9";
+const String gameVersion = "1.4.9-HenryFork";
 bool megaFounderCheat = false;
 
 Future<void> titleScreen() async {
@@ -229,23 +229,21 @@ void printTitleScreen(HighScores? highScores) {
       6, "and many others who have contributed to LCS over the years");
 
   setColor(black, background: lightGray);
-  mvaddstr(24, 65, "Version $gameVersion");
+  mvaddstr(23, 65, "Version $gameVersion");
   setColor(lightGray);
-  mvaddstrCenter(24,
-      "Press I to Import a saved game.  Any other key to Pursue your Liberal Agenda.");
-  mvaddstrCenter(25, "(click the game window to give it keyboard focus)");
+  mvaddstrCenter(24, "(click the game window to give it keyboard focus)");
 }
 
 void titleScreenFrame({bool includeEmDash = true, int bottom = 22}) {
   setColor(green, background: lightGray);
   mvaddstr(0, 0, "".padLeft(80));
-  for (int i = 1; i < 25; i++) {
+  for (int i = 1; i <= bottom; i++) {
     mvaddstr(i, 0, " ");
     mvaddstr(i, 1, " ");
     mvaddstr(i, 78, " ");
     mvaddstr(i, 79, " ");
   }
-  mvaddstr(24, 0, "".padLeft(80));
+  mvaddstr(bottom, 0, "".padLeft(80));
   setColor(lightGray);
   if (includeEmDash) {
     mvaddstr(8, 2, "".padLeft(76, emDash));

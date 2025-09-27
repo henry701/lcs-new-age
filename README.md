@@ -29,4 +29,4 @@ Liberal Crime Squad: New Age is always looking for Liberal Freedom Fighters to c
     -  For website builds (change or remove --base-href to suit your hosting choices)  
 `flutter build web --source-maps --base-href /lcs-new-age`  
     -  For a windows build  
-    `flutter build windows` 
+    `flutter build windows`

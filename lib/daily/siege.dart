@@ -561,11 +561,52 @@ Future<void> siegeCheck() async {
             "In the dead of the night, a column of unmarked black vans with "
             "tinted windows surrounds the ${l.getName()}.");
         await getKey();
-        mvaddstrc(console.y + 1, 1, white,
-            "Hair stands on end... the air is charged with the sound of silence.");
+        final ciaSuspense = [
+          "Hair stands on end... the air is charged with the sound of silence.",
+          "Hair stands on end... the air is charged with the sound of silence.",
+          "The temperature seems to drop as shadows move beyond the windows.",
+          "Static electricity crackles through the air... something is very wrong.",
+          "The air grows thick and oppressive, like breathing through wet concrete.",
+        ].nonNulls;
+        mvaddstrc(console.y + 1, 1, white, ciaSuspense.random);
+        await getKey();
+        // Compound-specific suspense lines
+        List<String> compoundSuspense = [];
+        if (l.compound.cameras) {
+          compoundSuspense.addAll([
+            "Every security camera simultaneously pivots to stare directly at squad members.",
+          ]);
+        }
+        if (l.compound.fortified) {
+          compoundSuspense.addAll([
+            "Even behind your defenses, you feel utterly exposed and vulnerable.",
+          ]);
+        }
+        if (l.compound.aaGun) {
+          compoundSuspense.addAll([
+            "The AA gun's computer displays error messages in languages that don't exist.",
+          ]);
+        }
+        if (l.businessFront) {
+          compoundSuspense.addAll([
+            "The business phone rings once, then goes dead.",
+          ]);
+        }
+        if (l.type == SiteType.warehouse) {
+          compoundSuspense.addAll([
+            "Shipping containers loom like tombstones in the growing darkness.",
+          ]);
+        } else if (l.type == SiteType.apartment) {
+          compoundSuspense.addAll([
+            "The apartment walls feel paper-thin against the threat gathering outside.",
+            "The building's elevator moves between floors, though no one called it.",
+          ]);
+        }
+        mvaddstr(console.y + 1, 1, compoundSuspense.random);
         await getKey();
         if (l.compound.cameras) {
           mvaddstr(console.y + 2, 1, "The camera feeds are dead.");
+          l.siege.camerasOff = true;
           await getKey();
         }
         if (l.compound.generator) {
@@ -579,14 +620,12 @@ Future<void> siegeCheck() async {
         }
         mvaddstr(console.y + 2, 1,
             "The compound is plunged into darkness as the doors spontaneously unlock.");
+        l.siege.lightsOff = true;
         await getKey();
         mvaddstrc(console.y + 2, 1, red, "The CIA has arrived.");
         await getKey();
-
         l.siege.activeSiegeType = SiegeType.cia;
         l.siege.underAttack = true;
-        l.siege.lightsOff = true;
-        l.siege.camerasOff = true;
         l.extraHeatFromCIA = 0;
         offendedCia = false;
         for (Creature p in pool) {

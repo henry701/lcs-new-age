@@ -24,6 +24,7 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 const bool debugPresidentSleeper = false;
 const bool debugSiege = false;
+const String debugSiegeType = "cops"; // cops or cia for now
 const bool debugMartialArtsMaster = false;
 const bool debugEliteLiberalPublicOpinion = false;
 const bool debugPartyRescue = false;
@@ -237,7 +238,12 @@ Future<void> makeCharacter() async {
   if (debugSiege) {
     founder.base =
         findSiteInSameCity(founder.location!.city, SiteType.warehouse);
-    founder.base?.siege.timeUntilCops = 0;
+    if (debugSiegeType == "cia") {
+      founder.base?.siege.timeuntilcia = 0;
+      offendedCia = true;
+    } else if (debugSiegeType == "cops") {
+      founder.base?.siege.timeUntilCops = 0;
+    }
     founder.base?.compound.fortified = true;
     founder.base?.compound.rations = 1000;
     founder.base?.compound.aaGun = true;

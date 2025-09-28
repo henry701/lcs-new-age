@@ -41,7 +41,7 @@ const RESOURCES = {"flutter.js": "888483df48293866f9f41d3d9274a779",
 "assets/assets/art/3x3caps.txt": "77d6c32e83b614580478ea1b84808220",
 "assets/assets/art/glamshow.cmv": "a1471c6e16cf206cc40ca7eb3b3f3a06",
 "assets/assets/art/largecap.cpc": "2047ced74a7bfb9dd7a5bb1b51bc0bf6",
-"assets/assets/changelog.md": "f299a5d946af5062c775462d60ca2fba",
+"assets/assets/changelog.md": "d17c4621dd6399574e2225a2c84872a5",
 "assets/assets/maps/mapCSV_Bank_Specials.csv": "3d49bb440e05e49044fc1455dbce72a9",
 "assets/assets/maps/mapCSV_Bank_Tiles.csv": "edf6ae2979c12b631f16da0be9b77ab5",
 "assets/assets/maps/mapCSV_NuclearPlant_Tiles.csv": "e2da3eab12c62ac642ac77570e0f857a",
@@ -83,9 +83,9 @@ const RESOURCES = {"flutter.js": "888483df48293866f9f41d3d9274a779",
 "canvaskit/canvaskit.js.symbols": "58832fbed59e00d2190aa295c4d70360",
 "canvaskit/skwasm.js.symbols": "0088242d10d7e7d6d2649d1fe1bda7c1",
 "favicon.png": "723c73eab748c2072d457e3416723b18",
-"flutter_bootstrap.js": "d1e9bc577f85f5976eab586f346ff12d",
+"flutter_bootstrap.js": "af1d480bb225e65109ecee008406a80e",
 "version.json": "0ab8e60862f07552ac09f7e110469527",
-"main.dart.js": "0938de2c8c7130b29d47df9bd4a402c9"};
+"main.dart.js": "9f19b9ac0c88164bd9e2a389a43ebf24"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",

@@ -8,6 +8,7 @@ import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/items/clothing.dart';
+import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/states.dart';
 import 'package:lcs_new_age/sitemode/stealth.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -111,13 +112,17 @@ void printHealthStat(int y, int x, Creature creature, {bool small = false}) {
   if (creature.blood < creature.maxBlood) setColor(white);
   if (bleeding) setColor(red);
   if (!creature.alive) setColor(darkGray);
-  // Get the highest First Aid skill in the active squad
-  int maxFirstAidSkill = 0;
-  if (activeSquad != null) {
-    maxFirstAidSkill = activeSquad!.members
-        .map((member) => member.skill(Skill.firstAid))
-        .fold(0, (max, skill) => skill > max ? skill : max);
+  // Get the highest First Aid skill depending on context
+  Iterable<Creature> filteredList = pool
+        .where((c) => c.alive && c.align == Alignment.liberal);
+  // Check context to determine which pool to use
+  if (mode == GameMode.site && activeSite != null) {
+    // On a site, check the entire LCS pool on that site
+    filteredList = filteredList.where((c) => c.site == activeSite);
   }
+  int maxFirstAidSkill = filteredList
+      .map((c) => c.skill(Skill.firstAid))
+      .fold(0, (max, skill) => skill > max ? skill : max);
   String healthDisplay;
   if (maxFirstAidSkill <= 1) {
     // Vague descriptions only
@@ -148,9 +153,6 @@ String _getVagueHealthDescription(Creature creature) {
 
 String _getRoundedHealthDisplay(Creature creature, int skillLevel) {
   // Formula for increasing precision: higher skill = more precise rounding
-  // Skill 2: round to nearest 10
-  // Skill 3: round to nearest 5
-  // Skill 4: round to nearest 2
   int currentHP = creature.blood;
   int maxHP = creature.maxBlood;
   int precision;
@@ -169,7 +171,7 @@ String _getRoundedHealthDisplay(Creature creature, int skillLevel) {
   // Ensure we don't exceed actual values
   roundedCurrent = roundedCurrent.clamp(0, currentHP);
   roundedMax = roundedMax.clamp(maxHP, maxHP);
-  return "~${roundedCurrent}/${roundedMax}";
+  return "~$roundedCurrent/$roundedMax";
 }
 
 String romanNumeral(int num) {

@@ -200,15 +200,12 @@ class Clothing extends Item {
         bodyArmor;
     if (totalArmor < 0) totalArmor = 0;
     int actualArmor = totalArmor.round();
-    if (armorIdentifySkill <= 1) {
+    if (armorIdentifySkill <= 4) {
       // Vague descriptions only
       return _getVagueArmorDescription(actualArmor);
-    } else if (armorIdentifySkill <= 4) {
-      // Rounded values with increasing precision
-      return _getRoundedArmorDisplay(actualArmor, armorIdentifySkill);
     } else {
-      // Exact values
-      return "+$actualArmor";
+      // Rounded values with increasing precision
+      return _getArmorDisplayForSkill(actualArmor, armorIdentifySkill);
     }
   }
 
@@ -219,26 +216,22 @@ class Clothing extends Item {
     return "+Ext";
   }
 
-  String _getRoundedArmorDisplay(int armorValue, int skillLevel) {
+  String _getArmorDisplayForSkill(int armorValue, int skillLevel) {
     // Formula for increasing precision: higher skill = more precise rounding
-    // Skill 2: round to nearest 2
-    // Skill 3: round to nearest 1
-    // Skill 4: exact but still rounded for display
     int precision;
     switch (skillLevel) {
-      case 2:
+      case 5:
+        precision = 10;
+      case 6:
+        precision = 5;
+      case 7:
         precision = 2;
-      case 3:
-        precision = 1;
-      // Still show exact for skill 4
-      case 4:
-        return "+$armorValue";
       default:
-        precision = 1;
+        return "+$armorValue";
     }
     int roundedArmor = (armorValue / precision).round() * precision;
     roundedArmor = roundedArmor.clamp(0, armorValue);
-    return "+$roundedArmor";
+    return "+~$roundedArmor";
   }
 
   @override

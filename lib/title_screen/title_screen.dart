@@ -17,7 +17,7 @@ import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String gameVersion = "1.4.9.HF.0";
+const String gameVersion = "1.4.9.HF.1-SNAPSHOT";
 
 Future<void> titleScreen() async {
   HighScores? highScores = await loadHighScores();

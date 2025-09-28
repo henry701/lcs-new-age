@@ -52,16 +52,16 @@ Future<void> titleScreen() async {
 
   // Add menu options
   setColor(white);
-  mvaddstrCenter(10, "Select an Option to Pursue your Liberal Agenda");
+  mvaddstrCenter(9, "Select an Option to Pursue your Liberal Agenda");
   setColor(lightGray);
-  addOptionText(12, 10, "C", continueText, enabledWhen: lastGameId != null);
-  addOptionText(12, 48, "L", "L - Load a Saved Game", enabledWhen: hasSaves);
-  addOptionText(13, 10, "N", "N - Start a New Game");
-  addOptionText(13, 48, "I", "I - Import a Save");
-  addOptionText(14, 10, "H", "H - View High Scores",
+  addOptionText(11, 10, "C", continueText, enabledWhen: lastGameId != null);
+  addOptionText(11, 48, "L", "L - Load a Saved Game", enabledWhen: hasSaves);
+  addOptionText(12, 10, "N", "N - Start a New Game");
+  addOptionText(12, 48, "I", "I - Import a Save");
+  addOptionText(13, 10, "H", "H - View High Scores",
       enabledWhen: hasHighScores);
-  addOptionText(14, 48, "V", "V - View Changelog");
-  addOptionText(15, 10, "O", "O - Gameplay Options");
+  addOptionText(13, 48, "V", "V - View Changelog");
+  addOptionText(14, 10, "O", "O - Gameplay Options");
   //addOptionText(15, 48, "M", "M - Mod Tools");
 
   while (true) {
@@ -245,7 +245,7 @@ void titleScreenFrame({bool includeEmDash = true, int bottom = 22}) {
   mvaddstr(bottom, 0, "".padLeft(80));
   setColor(lightGray);
   if (includeEmDash) {
-    mvaddstr(8, 2, "".padLeft(76, emDash));
+    mvaddstr(7, 2, "".padLeft(76, emDash));
     mvaddstr(16, 2, "".padLeft(76, emDash));
   }
 }

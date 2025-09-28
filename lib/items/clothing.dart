@@ -2,9 +2,9 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/body.dart';
 import 'package:lcs_new_age/creature/creature.dart';
-import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -167,14 +167,14 @@ class Clothing extends Item {
   String shortArmorDetail() {
     String text = "";
     if (maxBodyArmor > 0 || maxHeadArmor > 0 || maxLimbArmor > 0) {
-      int maxMilitarySkill = _getMaxMilitarySkill();
-      String armorDisplay = _getArmorDisplay(maxMilitarySkill);
+      int maxArmorIdentifySkill = _getMaxArmorIdentifySkill();
+      String armorDisplay = _getArmorDisplay(maxArmorIdentifySkill);
       text += armorDisplay;
     }
     return text;
   }
 
-  int _getMaxMilitarySkill() {
+  int _getMaxArmorIdentifySkill() {
     Iterable<Creature> filteredList = pool
           .where((c) => c.alive && c.align == Alignment.liberal);
     // Check context to determine which pool to use
@@ -183,12 +183,12 @@ class Clothing extends Item {
       filteredList = filteredList.where((c) => c.site == activeSite);
     }
     return filteredList
-        .map((c) => c.skill(Skill.heavyWeapons))
+        .map((c) => c.attribute(Attribute.intelligence))
         .whereType<int>()
         .fold(0, (max, skill) => skill > max ? skill : max);
   }
 
-  String _getArmorDisplay(int militarySkill) {
+  String _getArmorDisplay(int armorIdentifySkill) {
     // Calculate the actual armor value
     double limbArmorAvg = _limbArmor.values.fold(0, (a, b) => a + b);
     if (_limbArmor.length < 4) {
@@ -200,12 +200,12 @@ class Clothing extends Item {
         bodyArmor;
     if (totalArmor < 0) totalArmor = 0;
     int actualArmor = totalArmor.round();
-    if (militarySkill <= 1) {
+    if (armorIdentifySkill <= 1) {
       // Vague descriptions only
       return _getVagueArmorDescription(actualArmor);
-    } else if (militarySkill <= 4) {
+    } else if (armorIdentifySkill <= 4) {
       // Rounded values with increasing precision
-      return _getRoundedArmorDisplay(actualArmor, militarySkill);
+      return _getRoundedArmorDisplay(actualArmor, armorIdentifySkill);
     } else {
       // Exact values
       return "+$actualArmor";

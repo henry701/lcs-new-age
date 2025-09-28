@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:lcs_new_age/basemode/activities.dart';
+import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
-import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -111,22 +111,17 @@ void printHealthStat(int y, int x, Creature creature, {bool small = false}) {
   if (creature.blood < creature.maxBlood) setColor(white);
   if (bleeding) setColor(red);
   if (!creature.alive) setColor(darkGray);
-  // Get the highest First Aid skill depending on context
-  int maxFirstAidSkill = relevantLiberals
-      .map((c) => c.skill(Skill.firstAid))
+  // Get the highest health identification skill depending on context
+  int maxHealthIdentificationSkill = relevantLiberals
+      .map((c) => c.attribute(Attribute.intelligence))
       .fold(0, (max, skill) => skill > max ? skill : max);
   String healthDisplay;
-  if (maxFirstAidSkill <= 1) {
+  if (maxHealthIdentificationSkill <= 4) {
     // Vague descriptions only
     healthDisplay = _getVagueHealthDescription(creature);
-  } else if (maxFirstAidSkill <= 4) {
-    // Rounded values with increasing precision
-    healthDisplay = _getRoundedHealthDisplay(creature, maxFirstAidSkill);
   } else {
-    // Exact values
-    healthDisplay = small
-        ? "${creature.blood}"
-        : "${creature.blood}/${creature.maxBlood}";
+    // Rounded values with increasing precision
+    healthDisplay = _getHealthDisplayForSkill(creature, maxHealthIdentificationSkill, small);
   }
   addstr(healthDisplay);
   addstrc(lightBlue, creature.clothing.shortArmorDetail());
@@ -143,27 +138,29 @@ String _getVagueHealthDescription(Creature creature) {
   return "Crit";
 }
 
-String _getRoundedHealthDisplay(Creature creature, int skillLevel) {
+String _getHealthDisplayForSkill(Creature creature, int skillLevel, bool small) {
   // Formula for increasing precision: higher skill = more precise rounding
   int currentHP = creature.blood;
   int maxHP = creature.maxBlood;
   int precision;
   switch (skillLevel) {
-    case 2:
+    case 5:
       precision = 10;
-    case 3:
+    case 6:
       precision = 5;
-    case 4:
+    case 7:
       precision = 2;
     default:
-      precision = 1;
+      return small
+        ? "${creature.blood}"
+        : "${creature.blood}/${creature.maxBlood}";
   }
   int roundedCurrent = (currentHP / precision).round() * precision;
   int roundedMax = (maxHP / precision).round() * precision;
   // Ensure we don't exceed actual values
   roundedCurrent = roundedCurrent.clamp(0, currentHP);
   roundedMax = roundedMax.clamp(maxHP, maxHP);
-  return "~$roundedCurrent/$roundedMax";
+  return small ? "~$roundedCurrent" : "~$roundedCurrent/$roundedMax";
 }
 
 String romanNumeral(int num) {

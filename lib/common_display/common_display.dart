@@ -8,7 +8,6 @@ import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/items/clothing.dart';
-import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/states.dart';
 import 'package:lcs_new_age/sitemode/stealth.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -113,14 +112,7 @@ void printHealthStat(int y, int x, Creature creature, {bool small = false}) {
   if (bleeding) setColor(red);
   if (!creature.alive) setColor(darkGray);
   // Get the highest First Aid skill depending on context
-  Iterable<Creature> filteredList = pool
-        .where((c) => c.alive && c.align == Alignment.liberal);
-  // Check context to determine which pool to use
-  if (mode == GameMode.site && activeSite != null) {
-    // On a site, check the entire LCS pool on that site
-    filteredList = filteredList.where((c) => c.site == activeSite);
-  }
-  int maxFirstAidSkill = filteredList
+  int maxFirstAidSkill = relevantLiberals
       .map((c) => c.skill(Skill.firstAid))
       .fold(0, (max, skill) => skill > max ? skill : max);
   String healthDisplay;

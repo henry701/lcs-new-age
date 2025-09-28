@@ -4,14 +4,11 @@ import 'dart:ui';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/body.dart';
-import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/engine/engine.dart';
-import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/item.dart';
-import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
 part 'clothing.g.dart';
@@ -175,14 +172,7 @@ class Clothing extends Item {
   }
 
   int _getMaxArmorIdentifySkill() {
-    Iterable<Creature> filteredList = pool
-          .where((c) => c.alive && c.align == Alignment.liberal);
-    // Check context to determine which pool to use
-    if (mode == GameMode.site && activeSite != null) {
-      // On a site, check the entire LCS pool on that site
-      filteredList = filteredList.where((c) => c.site == activeSite);
-    }
-    return filteredList
+    return relevantLiberals
         .map((c) => c.attribute(Attribute.intelligence))
         .whereType<int>()
         .fold(0, (max, skill) => skill > max ? skill : max);

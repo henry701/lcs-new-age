@@ -3,10 +3,15 @@ import 'dart:ui';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/creature/body.dart';
+import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/gamestate/game_mode.dart';
+import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/item.dart';
+import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
 part 'clothing.g.dart';
@@ -162,19 +167,78 @@ class Clothing extends Item {
   String shortArmorDetail() {
     String text = "";
     if (maxBodyArmor > 0 || maxHeadArmor > 0 || maxLimbArmor > 0) {
-      double limbArmorAvg = _limbArmor.values.fold(0, (a, b) => a + b);
-      if (_limbArmor.length < 4) {
-        limbArmorAvg += (4 - _limbArmor.length) * maxLimbArmor;
-      }
-      limbArmorAvg /= max(4, _limbArmor.length);
-      double totalArmor = (bodyArmor + bodyArmor + limbArmorAvg + headArmor) /
-          (maxBodyArmor + maxBodyArmor + maxLimbArmor + maxHeadArmor) *
-          bodyArmor;
-      if (totalArmor < 0) totalArmor = 0;
-      totalArmor = totalArmor.roundToDouble();
-      text += "+$totalArmor";
+      int maxMilitarySkill = _getMaxMilitarySkill();
+      String armorDisplay = _getArmorDisplay(maxMilitarySkill);
+      text += armorDisplay;
     }
     return text;
+  }
+
+  int _getMaxMilitarySkill() {
+    Iterable<Creature> filteredList = pool
+          .where((c) => c.alive && c.align == Alignment.liberal);
+    // Check context to determine which pool to use
+    if (mode == GameMode.site && activeSite != null) {
+      // On a site, check the entire LCS pool on that site
+      filteredList = filteredList.where((c) => c.site == activeSite);
+    }
+    return filteredList
+        .map((c) => c.skill(Skill.heavyWeapons))
+        .whereType<int>()
+        .fold(0, (max, skill) => skill > max ? skill : max);
+  }
+
+  String _getArmorDisplay(int militarySkill) {
+    // Calculate the actual armor value
+    double limbArmorAvg = _limbArmor.values.fold(0, (a, b) => a + b);
+    if (_limbArmor.length < 4) {
+      limbArmorAvg += (4 - _limbArmor.length) * maxLimbArmor;
+    }
+    limbArmorAvg /= max(4, _limbArmor.length);
+    double totalArmor = (bodyArmor + bodyArmor + limbArmorAvg + headArmor) /
+        (maxBodyArmor + maxBodyArmor + maxLimbArmor + maxHeadArmor) *
+        bodyArmor;
+    if (totalArmor < 0) totalArmor = 0;
+    int actualArmor = totalArmor.round();
+    if (militarySkill <= 1) {
+      // Vague descriptions only
+      return _getVagueArmorDescription(actualArmor);
+    } else if (militarySkill <= 4) {
+      // Rounded values with increasing precision
+      return _getRoundedArmorDisplay(actualArmor, militarySkill);
+    } else {
+      // Exact values
+      return "+$actualArmor";
+    }
+  }
+
+  String _getVagueArmorDescription(int armorValue) {
+    if (armorValue <= 40) return "+Lgt";
+    if (armorValue <= 80) return "+Med";
+    if (armorValue <= 150) return "+Hvy";
+    return "+Ext";
+  }
+
+  String _getRoundedArmorDisplay(int armorValue, int skillLevel) {
+    // Formula for increasing precision: higher skill = more precise rounding
+    // Skill 2: round to nearest 2
+    // Skill 3: round to nearest 1
+    // Skill 4: exact but still rounded for display
+    int precision;
+    switch (skillLevel) {
+      case 2:
+        precision = 2;
+      case 3:
+        precision = 1;
+      // Still show exact for skill 4
+      case 4:
+        return "+$armorValue";
+      default:
+        precision = 1;
+    }
+    int roundedArmor = (armorValue / precision).round() * precision;
+    roundedArmor = roundedArmor.clamp(0, armorValue);
+    return "+$roundedArmor";
   }
 
   @override

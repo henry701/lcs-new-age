@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -106,18 +107,69 @@ void setColorForArmor(Creature creature) {
 void printHealthStat(int y, int x, Creature creature, {bool small = false}) {
   move(y, x);
   bool bleeding = creature.body.parts.any((e) => e.bleeding > 0);
-
   setColor(lightGreen);
   if (creature.blood < creature.maxBlood) setColor(white);
   if (bleeding) setColor(red);
   if (!creature.alive) setColor(darkGray);
-
-  if (small) {
-    addstr("${creature.blood}");
-  } else {
-    addstr("${creature.blood}/${creature.maxBlood}");
+  // Get the highest First Aid skill in the active squad
+  int maxFirstAidSkill = 0;
+  if (activeSquad != null) {
+    maxFirstAidSkill = activeSquad!.members
+        .map((member) => member.skill(Skill.firstAid))
+        .fold(0, (max, skill) => skill > max ? skill : max);
   }
+  String healthDisplay;
+  if (maxFirstAidSkill <= 1) {
+    // Vague descriptions only
+    healthDisplay = _getVagueHealthDescription(creature);
+  } else if (maxFirstAidSkill <= 4) {
+    // Rounded values with increasing precision
+    healthDisplay = _getRoundedHealthDisplay(creature, maxFirstAidSkill);
+  } else {
+    // Exact values
+    healthDisplay = small
+        ? "${creature.blood}"
+        : "${creature.blood}/${creature.maxBlood}";
+  }
+  addstr(healthDisplay);
   addstrc(lightBlue, creature.clothing.shortArmorDetail());
+}
+
+String _getVagueHealthDescription(Creature creature) {
+  double healthPercent = creature.blood / creature.maxBlood;
+  bool isAlive = creature.alive;
+  if (!isAlive) return "Dead";
+  if (healthPercent >= 0.9) return "OK";
+  if (healthPercent >= 0.7) return "Inj";
+  if (healthPercent >= 0.4) return "Wnd";
+  if (healthPercent >= 0.2) return "Bad";
+  return "Crit";
+}
+
+String _getRoundedHealthDisplay(Creature creature, int skillLevel) {
+  // Formula for increasing precision: higher skill = more precise rounding
+  // Skill 2: round to nearest 10
+  // Skill 3: round to nearest 5
+  // Skill 4: round to nearest 2
+  int currentHP = creature.blood;
+  int maxHP = creature.maxBlood;
+  int precision;
+  switch (skillLevel) {
+    case 2:
+      precision = 10;
+    case 3:
+      precision = 5;
+    case 4:
+      precision = 2;
+    default:
+      precision = 1;
+  }
+  int roundedCurrent = (currentHP / precision).round() * precision;
+  int roundedMax = (maxHP / precision).round() * precision;
+  // Ensure we don't exceed actual values
+  roundedCurrent = roundedCurrent.clamp(0, currentHP);
+  roundedMax = roundedMax.clamp(maxHP, maxHP);
+  return "~${roundedCurrent}/${roundedMax}";
 }
 
 String romanNumeral(int num) {

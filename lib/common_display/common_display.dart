@@ -159,7 +159,7 @@ String _getHealthDisplayForSkill(Creature creature, int skillLevel, bool small) 
   int roundedMax = (maxHP / precision).round() * precision;
   // Ensure we don't exceed actual values
   roundedCurrent = roundedCurrent.clamp(0, currentHP);
-  roundedMax = roundedMax.clamp(maxHP, maxHP);
+  roundedMax = roundedMax.clamp(roundedCurrent, maxHP);
   return small ? "~$roundedCurrent" : "~$roundedCurrent/$roundedMax";
 }
 

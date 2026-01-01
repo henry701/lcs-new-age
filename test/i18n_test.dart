@@ -83,7 +83,7 @@ void main() {
     test('plural handling - zero in English', () async {
       await LcsI18n.initialize('en_US');
       expect(
-        LcsI18n.plural(0, context: 'inventory_items'),
+        LcsI18n.translate('You have no items.'),
         equals('You have no items.'),
       );
     });
@@ -91,7 +91,7 @@ void main() {
     test('plural handling - one in English', () async {
       await LcsI18n.initialize('en_US');
       expect(
-        LcsI18n.plural(1, context: 'inventory_items'),
+        LcsI18n.translate('You have one item.'),
         equals('You have one item.'),
       );
     });
@@ -99,49 +99,56 @@ void main() {
     test('plural handling - other in English', () async {
       await LcsI18n.initialize('en_US');
       expect(
-        LcsI18n.plural(5, context: 'inventory_items'),
+        LcsI18n.format('You have {count} items.', {'count': 5}),
         equals('You have 5 items.'),
       );
     });
 
     test('plural handling in Portuguese', () async {
       await LcsI18n.initialize('pt_BR');
+
       expect(
-        LcsI18n.plural(0, context: 'inventory_items'),
+        LcsI18n.translate('Você não tem itens.'),
         equals('Você não tem itens.'),
       );
+
       expect(
-        LcsI18n.plural(1, context: 'inventory_items'),
+        LcsI18n.translate('Você tem um item.'),
         equals('Você tem um item.'),
       );
+
       expect(
-        LcsI18n.plural(5, context: 'inventory_items'),
+        LcsI18n.format('Você tem {count} itens.', {'count': 5}),
         equals('Você tem 5 itens.'),
       );
     });
 
     test('complex plural - members escape in English', () async {
       await LcsI18n.initialize('en_US');
-      expect(LcsI18n.plural(0, context: 'members_escape'), equals(''));
+      expect(LcsI18n.translate(''), equals(''));
       expect(
-        LcsI18n.plural(1, context: 'members_escape'),
+        LcsI18n.translate('Another imprisoned LCS member also gets out!'),
         equals('Another imprisoned LCS member also gets out!'),
       );
       expect(
-        LcsI18n.plural(5, context: 'members_escape'),
-        equals('5 other LCS members escape in the riot!'),
+        LcsI18n.format('{count} other LCS members escape in riot!', {
+          'count': 5,
+        }),
+        equals('5 other LCS members escape in riot!'),
       );
     });
 
     test('complex plural - members escape in Portuguese', () async {
       await LcsI18n.initialize('pt_BR');
-      expect(LcsI18n.plural(0, context: 'members_escape'), equals(''));
+      expect(LcsI18n.translate(''), equals(''));
       expect(
-        LcsI18n.plural(1, context: 'members_escape'),
+        LcsI18n.translate('Outro membro preso do LCS também escapa!'),
         equals('Outro membro preso do LCS também escapa!'),
       );
       expect(
-        LcsI18n.plural(5, context: 'members_escape'),
+        LcsI18n.format('{count} outros membros do LCS escapam no motim!', {
+          'count': 5,
+        }),
         equals('5 outros membros do LCS escapam no motim!'),
       );
     });

@@ -145,9 +145,9 @@ class LcsI18n {
         }
       }
 
-      // Fallback to English plurals
-      if (_currentLocale != 'en') {
-        final enData = _translations['en'];
+      // Fallback to English plurals if not found in current locale
+      if (!_currentLocale.startsWith('en')) {
+        final enData = _translations['en_US'];
         if (enData != null && enData.containsKey('@@plurals')) {
           final plurals = enData['@@plurals'] as Map<String, dynamic>?;
           if (plurals != null && plurals.containsKey(context)) {
@@ -167,7 +167,7 @@ class LcsI18n {
                 '{count}',
                 count.toString(),
               ),
-              locale: 'en',
+              locale: 'en_US',
             );
           }
         }

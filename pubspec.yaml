@@ -51,7 +51,7 @@ flutter:
       - asset: fonts/SourceCodePro-Regular.ttf
 
 dart_pre_commit:
-  format: true
+  format: false
   analyze: true
   test: true
   flutter_compat: false

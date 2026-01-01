@@ -90,6 +90,11 @@
 
   "An M1 Abrams Tank is stopped by a tank traps.": "An M1 Abrams Tank is stopped by a tank traps.",
 
+  "{count} other LCS members escape in the riot!": "{count} other LCS members escape in the riot!",
+  "Another imprisoned LCS member also gets out!": "Another imprisoned LCS member also gets out!",
+  "You have no items.": "You have no items.",
+  "You have one item.": "You have one item.",
+
   "{p.name}'s corpse has been recovered.": "{p.name}'s corpse has been recovered.",
   "@{p.name}'s corpse has been recovered.": {
     "placeholders": {

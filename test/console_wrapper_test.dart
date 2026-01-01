@@ -30,12 +30,15 @@ void main() {
       }, returnsNormally);
     });
 
-    test('addstr with count and context uses plural', () {
+    test('addstr with count formats string', () {
       expect(() {
-        addstr(
-          'You have {count} items.',
-          params: {'count': 5, 'context': 'inventory_items'},
-        );
+        addstr('You have {count} items.', params: {'count': 5});
+      }, returnsNormally);
+    });
+
+    test('addstr without params works', () {
+      expect(() {
+        addstr('Press any key to continue.');
       }, returnsNormally);
     });
 
@@ -45,28 +48,38 @@ void main() {
       }, returnsNormally);
     });
 
-    test('mvaddstr with count and context uses plural', () {
+    test('mvaddstr without params works', () {
       expect(() {
-        mvaddstr(
-          10,
-          1,
-          '{count} members escape.',
-          params: {'count': 3, 'context': 'members_escape'},
-        );
+        mvaddstr(10, 1, 'Game Over');
       }, returnsNormally);
     });
 
     test('addstr format actually translates correctly in English', () async {
       resetConsole();
       await LcsI18n.initialize('en_US');
-      addstr('You hit the {target}!', params: {'target': 'goblin'});
-      expect(getConsoleLine(0), equals('You hit the goblin!'));
+      addstr('You hit the {target}!', params: {'target': 'Conservative'});
+      expect(getConsoleLine(0), equals('You hit the Conservative!'));
     });
 
     test('addstr format actually translates correctly in Portuguese', () async {
       resetConsole();
-      await LcsI18n.initialize('pt');
-      addstr('You hit the {target}!', params: {'target': 'goblin'});
+      await LcsI18n.initialize('pt_BR');
+      addstr('You hit the {target}!', params: {'target': 'Conservador'});
+      expect(getConsoleLine(0), equals('Você acertou o Conservador!'));
+    });
+
+    test('addstr format actually translates correctly in Portuguese', () async {
+      LcsI18n.reset();
+      resetConsole();
+      await LcsI18n.initialize('pt_BR');
+      addstr('You hit {target}!', params: {'target': 'Conservador'});
+      expect(getConsoleLine(0), equals('Você acertou o Conservador!'));
+    });
+
+    test('addstr format actually translates correctly in Portuguese', () async {
+      resetConsole();
+      await LcsI18n.initialize('pt_BR');
+      addstr('You hit {target}!', params: {'target': 'goblin'});
       expect(getConsoleLine(0), equals('Você acertou o goblin!'));
     });
   });

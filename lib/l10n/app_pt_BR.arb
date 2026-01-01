@@ -19,17 +19,10 @@
   "Materials relating to the business front have been taken.": "Materiais relacionados à fachada empresarial foram apreendidos.",
   "The booby traps are disarmed and removed.": "As armadilhas foram desarmadas e removidas.",
   "The anti-aircraft gun is dismantled.": "O canhão antiaéreo foi desmontado.",
-  
-  "@@plurals": {
-    "members_escape": {
-      "zero": "",
-      "one": "Outro membro preso do LCS também escapa!",
-      "other": "{count} outros membros do LCS escapam no motim!"
-    },
-    "inventory_items": {
-      "zero": "Você não tem itens.",
-      "one": "Você tem um item.",
-      "other": "Você tem {count} itens."
-    }
-  }
+
+  "{count} outros membros do LCS escapam no motim!": "{count} outros membros do LCS escapam no motim!",
+  "Outro membro preso do LCS também escapa!": "Outro membro preso do LCS também escapa!",
+  "Você não tem itens.": "Você não tem itens.",
+  "Você tem um item.": "Você tem um item.",
+  "Você tem {count} itens.": "Você tem {count} itens."
 }

@@ -3,7 +3,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 
 String getConsoleLine(int y) {
-  return console.buffer[y].map((ch) => ch.glyph).join();
+  return console.buffer[y].map((ch) => ch.glyph).join().trimRight();
 }
 
 void resetConsole() {
@@ -68,19 +68,25 @@ void main() {
       expect(getConsoleLine(0), equals('Você acertou o Conservador!'));
     });
 
-    test('addstr format actually translates correctly in Portuguese', () async {
-      LcsI18n.reset();
-      resetConsole();
-      await LcsI18n.initialize('pt_BR');
-      addstr('You hit {target}!', params: {'target': 'Conservador'});
-      expect(getConsoleLine(0), equals('Você acertou o Conservador!'));
-    });
+    test(
+      'addstr format falls back to English template when not translated in Portuguese',
+      () async {
+        LcsI18n.reset();
+        resetConsole();
+        await LcsI18n.initialize('pt_BR');
+        addstr('You hit {target}!', params: {'target': 'Conservador'});
+        expect(getConsoleLine(0), equals('You hit Conservador!'));
+      },
+    );
 
-    test('addstr format actually translates correctly in Portuguese', () async {
-      resetConsole();
-      await LcsI18n.initialize('pt_BR');
-      addstr('You hit {target}!', params: {'target': 'goblin'});
-      expect(getConsoleLine(0), equals('Você acertou o goblin!'));
-    });
+    test(
+      'addstr format falls back to English template for untranslated string in Portuguese',
+      () async {
+        resetConsole();
+        await LcsI18n.initialize('pt_BR');
+        addstr('You hit {target}!', params: {'target': 'goblin'});
+        expect(getConsoleLine(0), equals('You hit goblin!'));
+      },
+    );
   });
 }

@@ -19,7 +19,7 @@ class LcsI18n {
 
   /// Initialize the translation system with the specified locale
   static Future<void> initialize([String locale = 'en_US']) async {
-    if (_initialized) return;
+    if (_initialized && _currentLocale == locale) return;
 
     _currentLocale = locale;
     Intl.defaultLocale = locale;
@@ -70,8 +70,8 @@ class LcsI18n {
       }
 
       // Fallback to English
-      if (_currentLocale != 'en') {
-        final enData = _translations['en'];
+      if (_currentLocale != 'en_US') {
+        final enData = _translations['en_US'];
         if (enData != null && enData.containsKey(englishText)) {
           return enData[englishText] as String;
         }
@@ -204,7 +204,7 @@ class LcsI18n {
   /// Reset state (for testing)
   static void reset() {
     _initialized = false;
-    _currentLocale = 'en';
+    _currentLocale = 'en_US';
     _translations.clear();
     _missingTranslations.clear();
   }

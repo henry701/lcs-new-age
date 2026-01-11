@@ -184,9 +184,15 @@ void addCenteredOptionText(
   );
 }
 
-void mvaddstr(int y, int x, String s, {Map<String, dynamic>? params}) {
-  final result = LcsI18n.processString(s, params);
-  console.mvaddstr(y, x, result);
+void mvaddstr(
+  int y,
+  int x,
+  String s, {
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.mvaddstr(y, x, result, noTranslate: noTranslate);
 }
 
 /// Adds a string at the specified y coordinate, aligned to the right with an optional right margin
@@ -198,10 +204,11 @@ void mvaddstrRight(
   String s, {
   int marginX = 0,
   Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
-  final processed = LcsI18n.processString(s, params);
+  final processed = LcsI18n.processString(s, params, noTranslate: noTranslate);
   int x = CONSOLE_WIDTH - processed.length - marginX;
-  mvaddstr(y, x, s, params: params);
+  mvaddstr(y, x, s, params: params, noTranslate: noTranslate);
 }
 
 void mvaddstrc(
@@ -211,9 +218,10 @@ void mvaddstrc(
   String s, {
   Color? bg,
   Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
   setColor(fg, background: bg ?? black);
-  mvaddstr(y, x, s, params: params);
+  mvaddstr(y, x, s, params: params, noTranslate: noTranslate);
 }
 
 void addstrx(
@@ -253,9 +261,16 @@ void mvaddstrCenter(
   String s, {
   int x = 39,
   Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
-  final processed = LcsI18n.processString(s, params);
-  mvaddstr(y, centerString(processed, x: x), s, params: params);
+  final processed = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  mvaddstr(
+    y,
+    centerString(processed, x: x),
+    s,
+    params: params,
+    noTranslate: noTranslate,
+  );
 }
 
 void move(int y, int x) => console.move(y, x);

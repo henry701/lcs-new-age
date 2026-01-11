@@ -161,9 +161,15 @@ class Console {
     }
   }
 
-  void mvaddstr(int y, int x, String s, {String? mouseClickKey}) {
+  void mvaddstr(
+    int y,
+    int x,
+    String s, {
+    String? mouseClickKey,
+    bool noTranslate = false,
+  }) {
     move(y, x);
-    addstr(s);
+    addstr(s, noTranslate: noTranslate);
   }
 
   void addstrx(String s, {bool restoreOldColor = true, String? mouseClickKey}) {

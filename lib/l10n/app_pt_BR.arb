@@ -3506,5 +3506,6 @@
   "{count} outros membros do LCS escapam no motim!": "{count} outros membros do LCS escapam no motim!",
   "{name} has been rescued.": "{name} foi resgatado.",
   "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado.",
-  "{p.name} has been rescued.": "{p.name} foi resgatado."
+  "{p.name} has been rescued.": "{p.name} foi resgatado.",
+  "Conservative": "Conservador"
 }

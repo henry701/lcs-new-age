@@ -189,11 +189,7 @@ Future<void> tendHostage(InterrogationSession intr) async {
       eraseLine(y);
       move(y, 0);
       y += 2;
-      addstr(
-        "The Execution of {name}   ",
-        params: {"name": cr.name},
-        noTranslate: true,
-      );
+      addstr("The Execution of {name}   ", params: {"name": cr.name});
     } else {
       setColor(yellow);
       move(y, 0);
@@ -238,13 +234,7 @@ Future<void> tendHostage(InterrogationSession intr) async {
       "Draft a Ransom Note",
       enabled: !intr.ransomDemanded,
     );
-    planItem(
-      Technique.free,
-      "F",
-      "Set {name} Free",
-      params: {"name": cr.name},
-      noTranslate: true,
-    );
+    planItem(Technique.free, "F", "Set {name} Free", params: {"name": cr.name});
     planItem(Technique.kill, "K", "Kill the Hostage", colorKey: ColorKey.red);
     y += 2;
     addOptionText(y++, 0, "Enter", "Enter - Confirm the Plan");
@@ -560,7 +550,6 @@ Future<void> tendHostage(InterrogationSession intr) async {
       red,
       "{name} suddenly drops dead.",
       params: {"name": cr.name},
-      noTranslate: true,
     );
     setColor(lightGray);
     y++;
@@ -591,14 +580,12 @@ Future<int> maybeRevealSecrets(Creature cr, Creature lead, int y) async {
       0,
       "{hostage} reveals details about the {site}.",
       params: {"hostage": cr.name, "site": workSite!.name},
-      noTranslate: true,
     );
     mvaddstr(
       y++,
       0,
       "{name} was able to create a map of the site with this information.",
       params: {"name": lead.name},
-      noTranslate: true,
     );
 
     workSite.mapped = true;

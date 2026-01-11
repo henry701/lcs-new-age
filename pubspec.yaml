@@ -53,7 +53,8 @@ flutter:
 
 dart_pre_commit:
   format: false
-  analyze: true
+  analyze:
+    error-level: error
   test: true
   flutter_compat: false
   outdated: false

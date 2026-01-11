@@ -336,12 +336,7 @@ Future<LootType?> chooseSpecialEdition() async {
         "Enter - Now is not the time to attract this sort of attention",
     count: lootTypesAvailable.length,
     lineBuilder: (y, key, index) {
-      mvaddstr(
-        y,
-        0,
-        "$key - ${lootTypesAvailable[index].name}",
-        noTranslate: true,
-      );
+      mvaddstr(y, 0, "$key - ${lootTypesAvailable[index].name}");
     },
     onChoice: (index) async {
       for (Site loc in sites.where((s) => s.controller == SiteController.lcs)) {

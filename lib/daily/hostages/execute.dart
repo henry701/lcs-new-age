@@ -44,7 +44,6 @@ Future<int> handleExecution(
       0,
       "{killer} executes {victim} by ",
       params: {"killer": lead.name, "victim": cr.name},
-      noTranslate: true,
     );
     addstr(
       [
@@ -70,7 +69,6 @@ Future<int> handleExecution(
       0,
       "execute {name} in cold blood.",
       params: {"name": cr.name},
-      noTranslate: true,
     );
 
     await getKey();

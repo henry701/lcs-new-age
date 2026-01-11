@@ -61,13 +61,7 @@ Future<void> handleFirmInterrogation(
       }
     }
   } else {
-    mvaddstr(
-      y++,
-      0,
-      "{name} holds firm.",
-      params: {"name": cr.name},
-      noTranslate: true,
-    );
+    mvaddstr(y++, 0, "{name} holds firm.", params: {"name": cr.name});
     await getKey();
   }
 }

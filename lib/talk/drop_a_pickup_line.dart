@@ -425,7 +425,6 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
       white,
       "{name} {response}",
       params: {"name": tk.name, "response": responds},
-      noTranslate: true,
     );
     setColor(lightBlue);
     move(y++, 1);
@@ -685,7 +684,6 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
       white,
       "{name} {response}",
       params: {"name": tk.name, "response": responds},
-      noTranslate: true,
     );
     setColor(red);
     move(y++, 1);

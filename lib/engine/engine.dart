@@ -22,24 +22,38 @@ void addstr(
   bool noTranslate = false,
 }) {
   String finalString = s;
-  if (noTranslate) {
-    // Skip translation entirely
-    console.addstr(finalString, noTranslate: true);
-    return;
-  }
+
+  // Process params first (placeholder replacement)
   if (params != null) {
-    // Handle plurals if count is provided with a context
     final count = params['count'];
     final pluralContext = params['context'] as String?;
     if (count is int && pluralContext != null) {
       finalString = LcsI18n.plural(count, context: pluralContext);
     } else {
-      // Handle regular formatting
-      finalString = LcsI18n.format(s, params);
+      // Handle regular formatting - replace {placeholders}
+      params.forEach((key, value) {
+        finalString = finalString.replaceAll('{$key}', value.toString());
+      });
     }
-  } else {
-    finalString = LcsI18n.translate(s);
   }
+
+  // Skip translation if noTranslate is true
+  if (noTranslate) {
+    console.addstr(finalString, noTranslate: true);
+    return;
+  }
+
+  // Apply translation if needed
+  if (params != null &&
+      (params.containsKey('count') || params.containsKey('context'))) {
+    // Already handled plural, no further action needed
+  } else if (params != null) {
+    // Already formatted above, just translate
+    finalString = LcsI18n.translate(finalString);
+  } else {
+    finalString = LcsI18n.translate(finalString);
+  }
+
   console.addstr(finalString);
 }
 

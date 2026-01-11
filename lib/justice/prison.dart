@@ -143,7 +143,13 @@ Future<void> prison(Creature g) async {
       //SET FREE
       else {
         erase();
-        mvaddstrc(8, 1, lightGray, "${g.name} has been released from prison.");
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          "{name} has been released from prison.",
+          params: {"name": g.name},
+        );
 
         mvaddstr(
           9,
@@ -170,12 +176,24 @@ Future<void> prison(Creature g) async {
     else if (g.sentence == 1) {
       if (g.deathPenalty) {
         erase();
-        mvaddstrc(8, 1, yellow, "${g.name} is due to be executed next month.");
+        mvaddstrc(
+          8,
+          1,
+          yellow,
+          "{name} is due to be executed next month.",
+          params: {"name": g.name},
+        );
 
         await getKey();
       } else {
         erase();
-        mvaddstrc(8, 1, white, "${g.name} is due to be released next month.");
+        mvaddstrc(
+          8,
+          1,
+          white,
+          "{name} is due to be released next month.",
+          params: {"name": g.name},
+        );
 
         await getKey();
       }
@@ -186,7 +204,8 @@ Future<void> prison(Creature g) async {
           8,
           1,
           yellow,
-          "${g.name} is due to be executed in ${g.sentence} months.",
+          "{name} is due to be executed in {months} months.",
+          params: {"name": g.name, "months": g.sentence.toString()},
         );
 
         await getKey();
@@ -208,7 +227,13 @@ Future<void> rehabilitation(Creature g) async {
   ];
 
   erase();
-  mvaddstrc(8, 1, white, "${g.name}${reeducationExperiences.random}");
+  mvaddstrc(
+    8,
+    1,
+    white,
+    "{name}{experience}",
+    params: {"name": g.name, "experience": reeducationExperiences.random},
+  );
 
   await getKey();
 
@@ -218,7 +243,8 @@ Future<void> rehabilitation(Creature g) async {
       mvaddstr(
         10,
         1,
-        "${g.name} feels bad about LCS actions, and loses juice!",
+        "{name} feels bad about LCS actions, and loses juice!",
+        params: {"name": g.name},
       );
       addjuice(g, -50, 0);
     } else if (lcsRandom(15) > g.attribute(Attribute.wisdom) ||
@@ -234,7 +260,8 @@ Future<void> rehabilitation(Creature g) async {
       mvaddstr(
         10,
         1,
-        "${g.name} only stays loyal to the LCS for ${g.boss?.name ?? "the cause"}.",
+        "{name} only stays loyal to the LCS for {boss}.",
+        params: {"name": g.name, "boss": g.boss?.name ?? "the cause"},
       );
     } else {
       mvaddstr(
@@ -318,17 +345,29 @@ Future<void> laborCamp(Creature g) async {
     escape(g, escaped == 2);
   } else if (oneIn(4)) {
     if (g.health > 1) {
-      mvaddstrc(8, 1, white, "${g.name} is badly hurt in the process.");
+      mvaddstrc(
+        8,
+        1,
+        white,
+        "{name} is badly hurt in the process.",
+        params: {"name": g.name},
+      );
       addjuice(g, -40, 0);
       addjuice(g, -10, -50);
     } else {
-      mvaddstrc(8, 1, red, "${g.name} is found dead.");
+      mvaddstrc(8, 1, red, "{name} is found dead.", params: {"name": g.name});
 
       g.die();
       g.location = null;
     }
   } else {
-    mvaddstrc(8, 1, white, "${g.name} managed to avoid lasting injury.");
+    mvaddstrc(
+      8,
+      1,
+      white,
+      "{name} managed to avoid lasting injury.",
+      params: {"name": g.name},
+    );
   }
 
   await getKey();
@@ -460,7 +499,13 @@ Future<void> prisonScene(Creature g) async {
 
 void escape(Creature g, bool withFriends) {
   Location? prison = g.location;
-  mvaddstrc(console.y, console.x, white, "${g.name} escaped from prison!");
+  mvaddstrc(
+    console.y,
+    console.x,
+    white,
+    "{name} escaped from prison!",
+    params: {"name": g.name},
+  );
   addjuice(g, 50, 1000);
   criminalize(g, Crime.escapingPrison);
   g.location = findSiteInSameCity(g.site?.city, SiteType.homelessEncampment);

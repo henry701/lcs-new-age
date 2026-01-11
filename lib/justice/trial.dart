@@ -31,7 +31,7 @@ Future<void> trial(Creature g) async {
   g.location = g.base;
 
   erase();
-  mvaddstrc(1, 1, white, "${g.name} is standing trial.");
+  mvaddstrc(1, 1, white, "{name} is standing trial.", params: {"name": g.name});
   await getKey();
 
   setColor(lightGray);
@@ -82,7 +82,8 @@ Future<void> trial(Creature g) async {
   move(3, 1);
   if (sleeperjudge != null) {
     addstr(
-      "Sleeper ${sleeperjudge.name} reads the charges, trying to hide a smile:",
+      "Sleeper {judge} reads the charges, trying to hide a smile:",
+      params: {"judge": sleeperjudge.name},
     );
     g.confessions = 0; // Sleeper judge prevents these lunatics from testifying
   } else {
@@ -118,18 +119,21 @@ Future<void> trial(Creature g) async {
     if (g.confessions > 1) {
       if (sleeperjudge != null) {
         addstr(
-          "The judge has blocked ${g.confessions} ex-LCS members from testifying against ${g.name}.",
+          "The judge has blocked {count} ex-LCS members from testifying against {name}.",
+          params: {"count": g.confessions.toString(), "name": g.name},
         );
         g.confessions = 0;
       } else {
         addstr(
-          "${g.confessions} former LCS members will testify against ${g.name}.",
+          "{count} former LCS members will testify against {name}.",
+          params: {"count": g.confessions.toString(), "name": g.name},
         );
       }
     } else {
       if (sleeperjudge != null) {
         addstr(
-          "The judge has blocked an ex-LCS member from testifying against ${g.name}.",
+          "The judge has blocked an ex-LCS member from testifying against {name}.",
+          params: {"name": g.name},
         );
         g.confessions = 0;
       } else {
@@ -259,7 +263,8 @@ Future<void> trial(Creature g) async {
     {
       if (!oneIn(10)) {
         addstr(
-          "$attorneyname ensures the jury is stacked in ${g.name}'s favor!",
+          "{attorney} ensures the jury is stacked in {name}'s favor!",
+          params: {"attorney": attorneyname, "name": g.name},
         );
 
         if (jury > 0) jury = 0;
@@ -267,7 +272,8 @@ Future<void> trial(Creature g) async {
       } else {
         setColor(red);
         addstr(
-          "$attorneyname's CONSERVATIVE ARCH-NEMESIS will represent the prosecution!!!",
+          "{attorney}'s CONSERVATIVE ARCH-NEMESIS will represent the prosecution!!!",
+          params: {"attorney": attorneyname},
         );
 
         jury = 0;
@@ -399,7 +405,8 @@ Future<void> trial(Creature g) async {
       } else {
         if (prosecution < 100) {
           addstr(
-            "$attorneyname's arguments make several of the jurors stand up ",
+            "{attorney}'s arguments make several of the jurors stand up ",
+            params: {"attorney": attorneyname},
           );
           mvaddstr(
             10,
@@ -430,18 +437,22 @@ Future<void> trial(Creature g) async {
       g.train(Skill.law, prosecution);
 
       String verdict = switch (defensepower) {
-        _ when defensepower <= 0 =>
-          "${g.name} just makes ${g.gender.himselfHerself} look guilty.",
-        _ when defensepower <= 25 => "${g.name}'s case really sucks.",
+        _ when defensepower <= 0 => "{name} just looks {pronoun} guilty.",
+        _ when defensepower <= 25 => "{name}'s case really sucks.",
         _ when defensepower <= 50 =>
-          "${g.name} does all right, but makes some mistakes.",
-        _ when defensepower <= 75 => "${g.name}'s arguments are pretty good.",
-        _ when defensepower <= 100 => "${g.name} works the jury very well.",
-        _ when defensepower <= 150 => "${g.name} makes a very powerful case.",
-        _ =>
-          "${g.name} has the jury, judge, and prosecution crying for freedom.",
+          "{name} does all right, but makes some mistakes.",
+        _ when defensepower <= 75 => "{name}'s arguments are pretty good.",
+        _ when defensepower <= 100 => "{name} works the jury very well.",
+        _ when defensepower <= 150 => "{name} makes a very powerful case.",
+        _ => "{name} has the jury, judge, and prosecution crying for freedom.",
       };
-      mvaddstrc(10, 1, lightGray, verdict);
+      mvaddstrc(
+        10,
+        1,
+        lightGray,
+        verdict,
+        params: {"name": g.name, "pronoun": g.gender.himselfHerself},
+      );
       if (defensepower > 150) {
         addjuice(g, 50, 1000); // That shit is legend
       }

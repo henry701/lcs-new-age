@@ -16,26 +16,34 @@ void setColor(Color foreground, {Color background = black}) =>
 void addchar(String c) => console.addchar(c);
 void mvaddchar(int y, int x, String c) => console.mvaddchar(y, x, c);
 
+/// Helper: Translate template, then replace {placeholders}
+String _processString(
+  String s,
+  Map<String, dynamic>? params, {
+  bool noTranslate = false,
+}) {
+  // First: translate the template (with placeholders intact)
+  String result = LcsI18n.translate(s, noTranslate: noTranslate);
+
+  // Then: replace {placeholders} with values
+  if (params != null) {
+    params.forEach((key, value) {
+      result = result.replaceAll('{$key}', value.toString());
+    });
+  }
+
+  return result;
+}
+
 void addstr(
   String s, {
   Map<String, dynamic>? params,
   bool noTranslate = false,
 }) {
-  String finalString = s;
-
-  // Replace {placeholders} with values from params
-  if (params != null) {
-    params.forEach((key, value) {
-      finalString = finalString.replaceAll('{$key}', value.toString());
-    });
-  }
-
-  // Apply translation unless noTranslate is true
-  if (!noTranslate) {
-    finalString = LcsI18n.translate(finalString);
-  }
-
-  console.addstr(finalString, noTranslate: noTranslate);
+  console.addstr(
+    _processString(s, params, noTranslate: noTranslate),
+    noTranslate: noTranslate,
+  );
 }
 
 void addstrc(Color fg, String s, {Color? bg}) {
@@ -198,19 +206,7 @@ void addCenteredOptionText(
 }
 
 void mvaddstr(int y, int x, String s, {Map<String, dynamic>? params}) {
-  String finalString = s;
-  if (params != null) {
-    final count = params['count'];
-    final pluralContext = params['context'] as String?;
-    if (count is int && pluralContext != null) {
-      finalString = LcsI18n.plural(count, context: pluralContext);
-    } else {
-      finalString = LcsI18n.format(s, params);
-    }
-  } else {
-    finalString = LcsI18n.translate(s);
-  }
-  console.mvaddstr(y, x, finalString);
+  console.mvaddstr(y, x, _processString(s, params));
 }
 
 /// Adds a string at the specified y coordinate, aligned to the right with an optional right margin
@@ -223,20 +219,8 @@ void mvaddstrRight(
   int marginX = 0,
   Map<String, dynamic>? params,
 }) {
-  // Get the translated string to calculate correct right alignment position
-  String translatedString = s;
-  if (params != null) {
-    int? count = params['count'];
-    String? pluralContext = params['context'] as String?;
-    if (count is int && pluralContext != null) {
-      translatedString = LcsI18n.plural(count, context: pluralContext);
-    } else {
-      translatedString = LcsI18n.format(s, params);
-    }
-  } else {
-    translatedString = LcsI18n.translate(s);
-  }
-  int x = CONSOLE_WIDTH - translatedString.length - marginX;
+  final processed = _processString(s, params);
+  int x = CONSOLE_WIDTH - processed.length - marginX;
   mvaddstr(y, x, s, params: params);
 }
 
@@ -258,20 +242,8 @@ void addstrx(
   String? mouseClickKey,
   Map<String, dynamic>? params,
 }) {
-  String finalString = s;
-  if (params != null) {
-    final count = params['count'];
-    final pluralContext = params['context'] as String?;
-    if (count is int && pluralContext != null) {
-      finalString = LcsI18n.plural(count, context: pluralContext);
-    } else {
-      finalString = LcsI18n.format(s, params);
-    }
-  } else {
-    finalString = LcsI18n.translate(s);
-  }
   console.addstrx(
-    finalString,
+    _processString(s, params),
     restoreOldColor: restoreOldColor,
     mouseClickKey: mouseClickKey,
   );
@@ -285,22 +257,10 @@ void mvaddstrx(
   String? mouseClickKey,
   Map<String, dynamic>? params,
 }) {
-  String finalString = s;
-  if (params != null) {
-    final count = params['count'];
-    final pluralContext = params['context'] as String?;
-    if (count is int && pluralContext != null) {
-      finalString = LcsI18n.plural(count, context: pluralContext);
-    } else {
-      finalString = LcsI18n.format(s, params);
-    }
-  } else {
-    finalString = LcsI18n.translate(s);
-  }
   console.mvaddstrx(
     y,
     x,
-    finalString,
+    _processString(s, params),
     restoreOldColor: restoreOldColor,
     mouseClickKey: mouseClickKey,
   );
@@ -312,20 +272,8 @@ void mvaddstrCenter(
   int x = 39,
   Map<String, dynamic>? params,
 }) {
-  // Get the translated string to calculate correct centering position
-  String translatedString = s;
-  if (params != null) {
-    int? count = params['count'];
-    String? pluralContext = params['context'] as String?;
-    if (count is int && pluralContext != null) {
-      translatedString = LcsI18n.plural(count, context: pluralContext);
-    } else {
-      translatedString = LcsI18n.format(s, params);
-    }
-  } else {
-    translatedString = LcsI18n.translate(s);
-  }
-  mvaddstr(y, centerString(translatedString, x: x), s, params: params);
+  final processed = _processString(s, params);
+  mvaddstr(y, centerString(processed, x: x), s, params: params);
 }
 
 void move(int y, int x) => console.move(y, x);

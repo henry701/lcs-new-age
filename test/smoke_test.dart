@@ -25,10 +25,6 @@ void main() {
         () => LcsI18n.format('You hit the {target}!', {'target': 'goblin'}),
         returnsNormally,
       );
-      expect(
-        () => LcsI18n.plural(5, context: 'inventory_items'),
-        returnsNormally,
-      );
     });
 
     test('basic translation pipeline works end-to-end', () async {

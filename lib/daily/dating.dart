@@ -156,7 +156,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       "pName": p.name,
       "eName": lastDate?.name ?? "",
       "location": p.location?.name,
-    }, noTranslate: true),
+    }),
     y2: console.width - 2,
   );
 
@@ -256,11 +256,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     ];
     List<String> dateFailList = city == null ? dateFailOnline : dateFail;
     move(console.y + 1, 0);
-    addstr(
-      "{name}{msg}",
-      params: {"name": p.name, "msg": dateFailList.random},
-      noTranslate: true,
-    );
+    addstr("{name}{msg}", params: {"name": p.name, "msg": dateFailList.random});
 
     await getKey();
 

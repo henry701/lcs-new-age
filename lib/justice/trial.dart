@@ -184,7 +184,6 @@ Future<void> trial(Creature g) async {
       5,
       "{name}'s relevant skills: ",
       params: {"name": sleeperlawyer.name},
-      noTranslate: true,
     );
     mvaddstr(
       ++y,
@@ -241,7 +240,6 @@ Future<void> trial(Creature g) async {
       white,
       "{name} is standing trial.",
       params: {"name": g.name},
-      noTranslate: true,
     );
 
     //TRIAL MESSAGE
@@ -413,7 +411,6 @@ Future<void> trial(Creature g) async {
           addstr(
             "{attorney}! conducts an incredible defense.",
             params: {"attorney": attorneyname},
-            noTranslate: true,
           );
         }
       }
@@ -531,14 +528,7 @@ Future<void> trial(Creature g) async {
 
   if (trialOutcome == TrialOutcome.acquittal) {
     if (g.sentence == 0) {
-      mvaddstrc(
-        5,
-        1,
-        lightGreen,
-        "{name} is free!",
-        params: {"name": g.name},
-        noTranslate: true,
-      );
+      mvaddstrc(5, 1, lightGreen, "{name} is free!", params: {"name": g.name});
     } else {
       mvaddstrc(5, 1, lightGray, g.name);
       addstr(
@@ -788,7 +778,6 @@ Future<void> penalize(Creature g, bool lenient) async {
       addstr(
         "{years} years in prison",
         params: {"years": (g.sentence ~/ 12).toString()},
-        noTranslate: true,
       );
     } else {
       String monthText =

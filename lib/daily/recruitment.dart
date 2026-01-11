@@ -137,7 +137,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       lightGray,
       "{recruiter} accidentally missed the meeting with {recruit}",
       params: {"recruiter": p.name, "recruit": r.recruit.name},
-      noTranslate: true,
     );
     mvaddstrc(
       1,
@@ -151,7 +150,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       lightGray,
       "Get it together, {name}!",
       params: {"name": p.name},
-      noTranslate: true,
     );
 
     await getKey();
@@ -175,7 +173,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       "type": r.recruit.type.name,
       "location": locationInfo,
     },
-    noTranslate: true,
   );
 
   setColor(lightGray);
@@ -199,7 +196,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     lightGray,
     recruitResponse,
     params: {"name": r.recruit.name},
-    noTranslate: true,
   );
   mvaddstr(
     11,
@@ -238,7 +234,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     "C",
     recruitmentText,
     params: {"recruiter": p.name, "recruit": r.recruit.name},
-    noTranslate: true,
     enabledWhen: canRecruit,
   );
 
@@ -255,7 +250,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
         0,
         "{recruiter} offers to let {recruit} join the LCS.",
         params: {"recruiter": p.name, "recruit": r.recruit.name},
-        noTranslate: true,
       );
       await getKey();
 
@@ -265,7 +259,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
         lightGreen,
         "{recruit} accepts, and is eager to get started.",
         params: {"recruit": r.recruit.name},
-        noTranslate: true,
       );
       r.recruit.hireId = p.id;
       liberalize(r.recruit);
@@ -329,7 +322,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           0,
           "{recruiter} shares {topic}.",
           params: {"recruiter": p.name, "topic": _issueEventStrings.random},
-          noTranslate: true,
         );
 
         await getKey();
@@ -344,7 +336,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
             "gender": p.gender.hisHer,
             "law": Law.values.random.label,
           },
-          noTranslate: true,
         );
 
         await getKey();
@@ -361,7 +352,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           lightBlue,
           "{recruit} found {recruiter}'s views to be insightful.",
           params: {"recruit": r.recruit.name, "recruiter": p.name},
-          noTranslate: true,
         );
         mvaddstrc(y++, 0, lightGray, "They'll definitely meet again tomorrow.");
       } else if (p.skillCheck(
@@ -376,7 +366,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           lightGray,
           "{recruit} is skeptical about some of {recruiter}'s arguments.",
           params: {"recruit": r.recruit.name, "recruiter": p.name},
-          noTranslate: true,
         );
         mvaddstrc(y++, 0, lightGray, "They'll meet again tomorrow.");
       } else {
@@ -389,7 +378,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
             lightGray,
             "{recruit} isn't convinced {recruiter} really understands the problem.",
             params: {"recruit": r.recruit.name, "recruiter": p.name},
-            noTranslate: true,
           );
           mvaddstrc(
             y++,
@@ -397,7 +385,6 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
             lightGray,
             "Maybe {recruiter} needs more experience.",
             params: {"recruiter": p.name},
-            noTranslate: true,
           );
         } else {
           addstr(
@@ -436,7 +423,6 @@ Future<void> sleeperizePrompt(
     addstr(
       "In what capacity will {name} best serve the Liberal cause?",
       params: {"name": converted.name},
-      noTranslate: true,
     );
     addOptionText(
       y + 2,
@@ -449,7 +435,6 @@ Future<void> sleeperizePrompt(
           includeCity: true,
         ),
       },
-      noTranslate: true,
     );
     addOptionText(
       y + 3,
@@ -462,7 +447,6 @@ Future<void> sleeperizePrompt(
           includeCity: true,
         ),
       },
-      noTranslate: true,
     );
 
     int c = await getKey();

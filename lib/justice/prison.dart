@@ -112,15 +112,8 @@ Future<void> prison(Creature g) async {
           1,
           "Today, the Conservative Machine executed {name}",
           params: {"name": g.name},
-          noTranslate: true,
         );
-        mvaddstr(
-          10,
-          1,
-          "by {method}.",
-          params: {"method": method},
-          noTranslate: true,
-        );
+        mvaddstr(10, 1, "by {method}.", params: {"method": method});
 
         await getKey();
 

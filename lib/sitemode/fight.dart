@@ -318,7 +318,6 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
             await encounterMessage(
               "{attacker} drops {body}",
               params: {"attacker": target.name, "body": bodyDesc},
-              noTranslate: true,
             );
             target.prisoner = null;
           }
@@ -712,7 +711,6 @@ Future<bool> attack(
             "name2": t.name,
             "corpse": !t.alive ? "'s corpse!" : "!",
           },
-          noTranslate: true,
         );
 
         //Instant juice!! Way to take the bullet!!
@@ -1258,13 +1256,7 @@ Future<void> hit(
               } else {
                 faceMessage = "{name}'s face is removed!";
               }
-              mvaddstr(
-                9,
-                1,
-                faceMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, faceMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1327,13 +1319,7 @@ Future<void> hit(
               } else {
                 eyeMessage = "{name}'s right eye is removed!";
               }
-              mvaddstr(
-                9,
-                1,
-                eyeMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, eyeMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1354,13 +1340,7 @@ Future<void> hit(
               } else {
                 eyeMessage = "{name}'s left eye is removed!";
               }
-              mvaddstr(
-                9,
-                1,
-                eyeMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, eyeMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1381,13 +1361,7 @@ Future<void> hit(
               } else {
                 tongueMessage = "{name}'s tongue is removed!";
               }
-              mvaddstr(
-                9,
-                1,
-                tongueMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, tongueMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1408,13 +1382,7 @@ Future<void> hit(
               } else {
                 noseMessage = "{name}'s nose is removed!";
               }
-              mvaddstr(
-                9,
-                1,
-                noseMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, noseMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1429,13 +1397,7 @@ Future<void> hit(
               } else {
                 neckMessage = "{name}'s neck is broken!";
               }
-              mvaddstr(
-                9,
-                1,
-                neckMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, neckMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1460,13 +1422,7 @@ Future<void> hit(
               } else {
                 spineMessage = "{name}'s upper spine is broken!";
               }
-              mvaddstr(
-                9,
-                1,
-                spineMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, spineMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1481,13 +1437,7 @@ Future<void> hit(
               } else {
                 spineMessage = "{name}'s lower spine is broken!";
               }
-              mvaddstr(
-                9,
-                1,
-                spineMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, spineMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1504,13 +1454,7 @@ Future<void> hit(
               } else {
                 lungMessage = "{name}'s right lung is punctured!";
               }
-              mvaddstr(
-                9,
-                1,
-                lungMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, lungMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1527,13 +1471,7 @@ Future<void> hit(
               } else {
                 lungMessage = "{name}'s left lung is punctured!";
               }
-              mvaddstr(
-                9,
-                1,
-                lungMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, lungMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1550,13 +1488,7 @@ Future<void> hit(
               } else {
                 heartMessage = "{name}'s heart is punctured!";
               }
-              mvaddstr(
-                9,
-                1,
-                heartMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, heartMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1575,13 +1507,7 @@ Future<void> hit(
               } else {
                 liverMessage = "{name}'s liver is punctured!";
               }
-              mvaddstr(
-                9,
-                1,
-                liverMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, liverMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1598,13 +1524,7 @@ Future<void> hit(
               } else {
                 stomachMessage = "{name}'s stomach is punctured!";
               }
-              mvaddstr(
-                9,
-                1,
-                stomachMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, stomachMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1621,13 +1541,7 @@ Future<void> hit(
               } else {
                 kidneyMessage = "{name}'s right kidney is punctured!";
               }
-              mvaddstr(
-                9,
-                1,
-                kidneyMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, kidneyMessage, params: {"name": target.name});
 
               await getKey();
 
@@ -1644,13 +1558,7 @@ Future<void> hit(
               } else {
                 spleenMessage = "{name}'s spleen is punctured!";
               }
-              mvaddstr(
-                9,
-                1,
-                spleenMessage,
-                params: {"name": target.name},
-                noTranslate: true,
-              );
+              mvaddstr(9, 1, spleenMessage, params: {"name": target.name});
 
               await getKey();
 

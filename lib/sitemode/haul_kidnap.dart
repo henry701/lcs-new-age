@@ -310,7 +310,6 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
         addstr(
           " and {name}{status}",
           params: {"name": prisoner.name, "status": captureStatus},
-          noTranslate: true,
         );
       }
     } else if (situation == FreeHostageMessage.newLine) {
@@ -326,7 +325,6 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
         addstr(
           "{name} {status}",
           params: {"name": prisoner.name, "status": captureStatus},
-          noTranslate: true,
         );
       }
     }
@@ -401,11 +399,7 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
             clearMessageArea();
             setColor(yellow);
             move(9, 1);
-            addstr(
-              "{name} is left to be captured.",
-              params: {"name": p.name},
-              noTranslate: true,
-            );
+            addstr("{name} is left to be captured.", params: {"name": p.name});
 
             await captureCreature(p);
           }
@@ -423,7 +417,6 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
               addstr(
                 "{hauler} hauls {carried}.",
                 params: {"hauler": p2.name, "carried": p.name},
-                noTranslate: true,
               );
               //New line.
               break;

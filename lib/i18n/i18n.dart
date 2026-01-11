@@ -1,16 +1,18 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:lcs_new_age/i18n/untranslated_logger.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
-import 'untranslated_logger.dart';
 
 /// Exception thrown when i18n system encounters unrecoverable errors
 class LcsI18nException implements Exception {
+  const LcsI18nException(this.message, [this.originalError]);
+
   final String message;
   final dynamic originalError;
-
-  const LcsI18nException(this.message, [this.originalError]);
 
   @override
   String toString() => 'LcsI18nException: $message';
@@ -53,7 +55,7 @@ class LcsI18n {
   }
 
   /// Load ARB file(s) for the specified locale
-  /// Supports multiple ARB files per locale: app_<locale>.arb, app_<locale>_part1.arb, etc.
+  /// Supports multiple ARB files per locale: `app_<locale>.arb`, `app_<locale>_part1.arb`, etc.
   static Future<void> _loadLocale(String locale) async {
     try {
       // Load all ARB files matching the pattern app_<locale>*.arb
@@ -168,10 +170,12 @@ class LcsI18n {
           // Log to file if option is enabled and string should not be ignored
           if (gameOptions.logUntranslatedStrings &&
               !UntranslatedStringLogger.shouldIgnoreString(englishText)) {
-            UntranslatedStringLogger.logUntranslatedString(
-              englishText,
-              _currentLocale,
-              noTranslate: noTranslate,
+            unawaited(
+              UntranslatedStringLogger.logUntranslatedString(
+                englishText,
+                _currentLocale,
+                noTranslate: noTranslate,
+              ),
             );
           }
         }

@@ -104,8 +104,9 @@ Future<UnlockResult> unlock(UnlockTypes type) async {
         }
       }
 
-      if (i == 3)
+      if (i == 3) {
         addstr("{name} can't figure the lock out.", params: {"name": p.name});
+      }
 
       await getKey();
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -27,7 +28,7 @@ class UntranslatedStringLogger {
   /// Gets file path for a given string
   static File _getFilePath(String englishText) {
     final fileIndex = _getFileIndex(englishText);
-    final fileName = '${_filePrefix}$fileIndex$_fileExtension';
+    final fileName = '$_filePrefix$fileIndex$_fileExtension';
     return File('${_getLogDirectory().path}/$fileName');
   }
 
@@ -63,8 +64,9 @@ class UntranslatedStringLogger {
     // Single character patterns (punctuation, symbols)
     if (RegExp(
       r'^[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?]+$',
-    ).hasMatch(englishText))
+    ).hasMatch(englishText)) {
       return true;
+    }
 
     // Color codes or formatting patterns
     if (RegExp(r'^&[a-zA-Z]$').hasMatch(englishText)) return true;
@@ -96,9 +98,9 @@ class UntranslatedStringLogger {
 
       // Read existing data
       Map<String, dynamic> existingData = {};
-      if (await file.exists()) {
+      if (file.existsSync()) {
         try {
-          final content = await file.readAsString();
+          final content = file.readAsStringSync();
           if (content.isNotEmpty) {
             existingData = json.decode(content) as Map<String, dynamic>;
           }
@@ -121,7 +123,7 @@ class UntranslatedStringLogger {
 
       // Write back to file with proper formatting
       const encoder = JsonEncoder.withIndent('  ');
-      await file.writeAsString(encoder.convert(existingData) + '\n');
+      unawaited(file.writeAsString('${encoder.convert(existingData)}\n'));
     } catch (e) {
       // Silently fail to avoid disrupting gameplay
       // In a real implementation, you might want to log this to a debug file
@@ -138,20 +140,26 @@ class UntranslatedStringLogger {
 
     try {
       for (int i = 0; i < _numFiles; i++) {
-        final fileName = '${_filePrefix}$i$_fileExtension';
+        final fileName = '$_filePrefix$i$_fileExtension';
         final file = File('${_getLogDirectory().path}/$fileName');
-        if (await file.exists()) {
-          stats['total_files'] = stats['total_files']! + 1;
+        if (file.existsSync()) {
+          stats['total_files'] = (stats['total_files'] as int) + 1;
 
           try {
-            final content = await file.readAsString();
+            final content = file.readAsStringSync();
             if (content.isNotEmpty) {
-              final data = json.decode(content) as Map<String, dynamic>;
-              stats['total_strings'] = stats['total_strings']! + data.length;
+              final Map<String, dynamic> data =
+                  json.decode(content) as Map<String, dynamic>;
+              final int stringCount = data.length;
+              final int totalStrings =
+                  (stats['total_strings'] as int) + stringCount;
+              stats['total_strings'] = totalStrings;
 
-              stats['files'].add({
+              final List<Map<String, dynamic>> filesList =
+                  stats['files'] as List<Map<String, dynamic>>;
+              filesList.add({
                 'file': fileName,
-                'strings': data.length,
+                'strings': stringCount,
                 'size': content.length,
               });
             }

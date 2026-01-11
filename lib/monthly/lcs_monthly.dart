@@ -339,8 +339,7 @@ Future<LootType?> chooseSpecialEdition() async {
       mvaddstr(
         y,
         0,
-        "{key} - {name}",
-        params: {"key": key.toString(), "name": lootTypesAvailable[index].name},
+        "$key - ${lootTypesAvailable[index].name}",
         noTranslate: true,
       );
     },

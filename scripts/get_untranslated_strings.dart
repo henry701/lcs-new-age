@@ -63,7 +63,7 @@ void main(List<String> args) async {
   print('Limit: $limit strings\n');
 
   final arbDir = Directory(arbDirPath);
-  if (!await arbDir.exists()) {
+  if (!arbDir.existsSync()) {
     print('Error: ARB directory not found: $arbDirPath');
     exit(1);
   }
@@ -166,7 +166,7 @@ void main(List<String> args) async {
   // Write output
   final outputFile = File(outputPath);
   const encoder = JsonEncoder.withIndent('  ');
-  await outputFile.writeAsString(encoder.convert(untranslated) + '\n');
+  outputFile.writeAsStringSync('${encoder.convert(untranslated)}\n');
 
   print('Wrote $count entries to: $outputPath');
   print('');

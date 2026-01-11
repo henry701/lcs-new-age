@@ -333,8 +333,9 @@ bool _isUserFacing(String str) {
   if (RegExp(r'^\{[^}]+\}$').hasMatch(str)) return false;
 
   // Enhanced filtering: single character patterns (punctuation, symbols)
-  if (RegExp(r'^[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?]+$').hasMatch(str))
+  if (RegExp(r'^[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?]+$').hasMatch(str)) {
     return false;
+  }
 
   // Enhanced filtering: color codes and formatting patterns
   if (RegExp(r'^&[a-zA-Z]$').hasMatch(str)) return false;
@@ -404,9 +405,7 @@ Future<void> _modifyArbFiles(
     }
 
     // Create primary file if it doesn't exist
-    if (primaryFile == null) {
-      primaryFile = File('$l10nPath/app_$locale.arb');
-    }
+    primaryFile ??= File('$l10nPath/app_$locale.arb');
 
     // Load data from all existing files
     final fileData = <File, Map<String, dynamic>>{};
@@ -468,7 +467,7 @@ Future<void> _modifyArbFiles(
 
         // Write back
         const encoder = JsonEncoder.withIndent('  ');
-        await file.writeAsString(encoder.convert(sortedData) + '\n');
+        await file.writeAsString('${encoder.convert(sortedData)}\n');
       }
     }
 

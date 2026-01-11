@@ -1082,7 +1082,7 @@ Future<bool> addsiegeencounter(int type) async {
                 ensureIsArmed(e);
               default:
                 addstr(
-                  "Siege type ${activeSite!.siege.activeSiegeType.toString()} missing!\n",
+                  "Siege type ${activeSite!.siege.activeSiegeType} missing!\n",
                 );
                 await getKey();
                 return false;

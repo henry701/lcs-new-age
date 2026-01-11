@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -174,7 +176,7 @@ Map<String, int> processArbFile(File file) {
 
   // Write back the cleaned JSON
   final encoder = JsonEncoder.withIndent('  ');
-  final newContent = encoder.convert(sortedJson) + '\n';
+  final newContent = '${encoder.convert(sortedJson)}\n';
   file.writeAsStringSync(newContent);
 
   // Return statistics

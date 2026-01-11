@@ -70,14 +70,14 @@ void main(List<String> args) async {
   print('Locale: $locale\n');
 
   final sourceFile = File(sourcePath);
-  if (!await sourceFile.exists()) {
+  if (!sourceFile.existsSync()) {
     print('Error: Source file not found: $sourcePath');
     exit(1);
   }
 
   // Find all ARB files for locale
   final arbDir = Directory(arbDirPath);
-  if (!await arbDir.exists()) {
+  if (!arbDir.existsSync()) {
     print('Error: ARB directory not found: $arbDirPath');
     exit(1);
   }
@@ -112,7 +112,7 @@ void main(List<String> args) async {
     print('Auto-selected target: ${targetFile.path.split('/').last}');
   } else {
     targetFile = File(targetPath);
-    if (!await targetFile.exists()) {
+    if (!targetFile.existsSync()) {
       print('Error: Target file not found: $targetPath');
       exit(1);
     }
@@ -216,7 +216,7 @@ void main(List<String> args) async {
 
   // Write back to target file with proper formatting
   const encoder = JsonEncoder.withIndent('  ');
-  await targetFile.writeAsString(encoder.convert(sortedTarget) + '\n');
+  targetFile.writeAsStringSync('${encoder.convert(sortedTarget)}\n');
 
   print('');
   print(

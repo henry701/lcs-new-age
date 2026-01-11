@@ -82,8 +82,13 @@ Future<void> prison(Creature g) async {
     if (g.deathPenalty &&
         laws[Law.deathPenalty] == DeepAlignment.eliteLiberal) {
       erase();
-      mvaddstrc(8, 1, lightGray, g.name);
-      addstr("'s death sentence has been commuted to life, ");
+      mvaddstrc(
+        8,
+        1,
+        lightGray,
+        "{name}'s death sentence has been commuted to life, ",
+        params: {"name": g.name},
+      );
       mvaddstr(9, 1, "due to the abolition of the death penalty.");
 
       await getKey();

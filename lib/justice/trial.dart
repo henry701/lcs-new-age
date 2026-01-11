@@ -709,8 +709,13 @@ Future<void> penalize(Creature g, bool lenient) async {
   if (olddeathPenalty) {
     g.deathPenalty = true;
     g.sentence = 3;
-    mvaddstrc(7, 1, red, g.properName);
-    addstr(", your previous death sentence will be carried out.");
+    mvaddstrc(
+      7,
+      1,
+      red,
+      "{name}, your previous death sentence will be carried out.",
+      params: {"name": g.properName},
+    );
 
     await getKey();
 
@@ -725,8 +730,12 @@ Future<void> penalize(Creature g, bool lenient) async {
   } else if (g.deathPenalty) {
     g.sentence = 3;
     setColor(yellow, background: darkRed);
-    mvaddstr(7, 1, g.properName);
-    addstr(", you are sentenced to DEATH!");
+    mvaddstr(
+      7,
+      1,
+      "{name}, you are sentenced to DEATH!",
+      params: {"name": g.properName},
+    );
 
     await getKey();
 
@@ -743,8 +752,13 @@ Future<void> penalize(Creature g, bool lenient) async {
   else if ((g.sentence >= 0 && oldsentence < 0) ||
       (g.sentence == 0 && oldsentence > 0)) {
     g.sentence = oldsentence;
-    mvaddstrc(7, 1, lightGray, g.properName);
-    addstr(", the court sees no need to add to your existing sentence.");
+    mvaddstrc(
+      7,
+      1,
+      lightGray,
+      "{name}, the court sees no need to add to your existing sentence.",
+      params: {"name": g.properName},
+    );
     mvaddstr(
       8,
       1,
@@ -753,15 +767,25 @@ Future<void> penalize(Creature g, bool lenient) async {
 
     await getKey();
   } else if (g.sentence == 0) {
-    mvaddstrc(7, 1, lightGray, g.properName);
-    addstr(", you are sentenced to time served.  You are free to go.");
+    mvaddstrc(
+      7,
+      1,
+      lightGray,
+      "{name}, you are sentenced to time served.  You are free to go.",
+      params: {"name": g.properName},
+    );
 
     await getKey();
   } else {
     if (g.sentence >= 36) g.sentence -= g.sentence % 12;
 
-    mvaddstrc(7, 1, lightGray, g.properName);
-    addstr(", you are sentenced to ");
+    mvaddstrc(
+      7,
+      1,
+      lightGray,
+      "{name}, you are sentenced to ",
+      params: {"name": g.properName},
+    );
     if (g.sentence > 1200) g.sentence ~/= -1200;
 
     if (g.sentence <= -1) {
@@ -779,8 +803,12 @@ Future<void> penalize(Creature g, bool lenient) async {
 
           await getKey();
 
-          mvaddstr(9, 1, "Have a nice day, ");
-          addstr(g.properName);
+          mvaddstr(
+            9,
+            1,
+            "Have a nice day, {name}.",
+            params: {"name": g.properName},
+          );
         }
       } else {
         String sentenceText = "${g.sentence ~/ 12} years in prison";

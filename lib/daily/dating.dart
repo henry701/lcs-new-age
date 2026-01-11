@@ -24,7 +24,6 @@ import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
-import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/sitemode/haul_kidnap.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
@@ -151,8 +150,9 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
 
   await getKey();
 
-  int dateCount =
-      d.dates.where((c) => c.type.id != CreatureTypeIds.sexWorker).length;
+  int dateCount = d.dates
+      .where((c) => c.type.id != CreatureTypeIds.sexWorker)
+      .length;
 
   if (dateCount > 1 && lcsRandom(dateCount > 2 ? 4 : 6) == 0) {
     switch (lcsRandom(3)) {
@@ -160,50 +160,45 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
         move(console.y + 1, 0);
         if (dateCount > 2) {
           addstr(
-              "Unfortunately, they all know each other and had been discussing");
+            "Unfortunately, they all know each other and had been discussing ${p.name}. An ambush was set for the lying dog...",
+          );
         } else {
-          addstr("Unfortunately, they know each other and had been discussing");
+          addstr(
+            "Unfortunately, they know each other and had been discussing ${p.name}. An ambush was set for the lying dog...",
+          );
         }
-        move(console.y + 1, 0);
-        addstr(p.name);
-        addstr(".  An ambush was set for the lying dog...");
 
         await getKey();
       case 1:
         move(console.y + 1, 0);
         if (dateCount > 2) {
-          addstr("Unfortunately, they all turn up at the same time.");
+          addstr(
+            "Unfortunately, they all turn up at the same time. Ruh roh...",
+          );
         } else {
-          addstr("Unfortunately, they turn up at the same time.");
+          addstr("Unfortunately, they turn up at the same time. Ruh roh...");
         }
-
-        move(console.y + 1, 0);
-        addstr("Ruh roh...");
 
         await getKey();
       default:
         move(console.y + 1, 0);
-        addstr(p.name);
         if (d.dates.length > 2) {
           if (city != null) {
             addstr(
-                " realizes ${p.gender.heShe} has committed to eating ${d.dates.length} meals at once.");
+              "${p.name} realizes ${p.gender.heShe} has committed to eating ${d.dates.length} meals at once. Things go downhill fast.",
+            );
           } else {
             addstr(
-                " realizes ${p.gender.heShe} has committed to ${d.dates.length} calls at once.");
+              "${p.name} realizes ${p.gender.heShe} has committed to ${d.dates.length} calls at once. Things go downhill fast.",
+            );
           }
         } else {
-          addstr(" mixes up the names of ");
-          addstr(d.dates[0].name);
-          addstr(" and ");
-          addstr(d.dates[1].name);
-          addstr(".");
+          addstr(
+            "${p.name} mixes up the names of ${d.dates[0].name} and ${d.dates[1].name}. Things go downhill fast.",
+          );
         }
-        move(console.y + 1, 0);
-        addstr("Things go downhill fast.");
 
         await getKey();
-
     }
 
     const List<String> dateFail = [
@@ -214,7 +209,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       " gets chased out by an angry mob.",
       " gets stuck washing dishes all night.",
       " is rescued by a passing Elite Liberal.",
-      " makes like a tree and leaves."
+      " makes like a tree and leaves.",
     ];
     const List<String> dateFailOnline = [
       " feels completely humiliated.",
@@ -224,12 +219,11 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       " unplugs the power in shame.",
       " sits in the dark feeling dumb.",
       " spends the evening watching online videos.",
-      " gets lit up on social media."
+      " gets lit up on social media.",
     ];
     List<String> dateFailList = city == null ? dateFailOnline : dateFail;
     move(console.y + 1, 0);
-    addstr(p.name);
-    addstr(dateFailList.random);
+    addstr("${p.name}${dateFailList.random}");
 
     await getKey();
 
@@ -244,12 +238,11 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     erase();
     setColor(white);
     move(0, 0);
-    addstr("Seeing ");
-    addstr(e.name);
-    addstr(", ");
-    addstr(e.type.name);
-    addstr(", ");
-    addstr(e.workLocation.getName(short: false, includeCity: true));
+    mvaddstr(
+      0,
+      0,
+      "Seeing ${e.name}, ${e.type.name}, ${e.workLocation.getName(short: false, includeCity: true)}",
+    );
     setColor(lightGray);
     printFunds();
 
@@ -272,11 +265,15 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       temp.removeAt(temp.length - 1);
     }
 
-    mvaddstr(10, 0, "How should ");
-    addstrc(white, p.name);
-    addstrc(lightGray, " approach the situation?");
+    mvaddstr(
+      10,
+      0,
+      "How should {name} approach the situation?",
+      params: {"name": p.name},
+    );
 
-    bool canPay100 = ledger.funds >= 100 &&
+    bool canPay100 =
+        ledger.funds >= 100 &&
         p.clinicMonthsLeft == 0 &&
         (sameCity || eIsSexworker);
     String payText;
@@ -311,7 +308,8 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     }
     addOptionText(12, 0, "B", avoidPayingText, enabledWhen: canAvoidPaying);
 
-    bool canGoOnVacation = p.clinicMonthsLeft == 0 &&
+    bool canGoOnVacation =
+        p.clinicMonthsLeft == 0 &&
         p.blood == p.maxBlood &&
         ledger.funds >= vacationPrice;
     String vacationText;
@@ -409,52 +407,44 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           sameCity) {
         setColor(yellow);
         int bonus = 0;
-        move(17, 0);
-        addstr(p.name);
         bool ranged = false;
         String weapon = "";
         bool unseriousWeapon = false;
+        move(17, 0);
+        String kidnapMessage;
 
         if (p.weapon.type.rangedAttack != null) {
           weapon = p.weapon.getName(sidearm: true);
-          addstr(" comes back from the bathroom toting the $weapon");
-          move(18, 0);
-          addstr("and threatens to blow the Conservative's brains out!");
-
+          kidnapMessage =
+              "${p.name} comes back from the bathroom toting the $weapon and threatens to blow the Conservative's brains out!";
           bonus = 5;
           ranged = true;
         } else if (p.equippedWeapon != null) {
           weapon = p.weapon.getName(sidearm: true);
-          addstr(" grabs the Conservative from behind, holding the $weapon");
-          move(18, 0);
-          addstr("to the corporate slave's throat!");
-
           if (p.weapon.type.canTakeHostages) {
+            kidnapMessage =
+                "${p.name} grabs the Conservative from behind, holding the $weapon to the corporate slave's throat!";
             bonus = 5;
           } else {
-            // Conservative emboldened by the fact that you're trying
-            // to kidnap them with a gavel or some shit like that
+            kidnapMessage =
+                "${p.name} grabs the Conservative from behind, holding the $weapon to the corporate slave's throat!";
             bonus = -1;
             unseriousWeapon = true;
           }
         } else {
-          addstr(" seizes ${e.name} from behind and warns ${e.gender.himHer}");
-          move(18, 0);
-          if (!noProfanity) {
-            addstr("not to fuck around!");
-          } else {
-            addstr("not to [resist]!");
-          }
-
+          String warnMessage = !noProfanity
+              ? "not to fuck around!"
+              : "not to [resist]!";
+          kidnapMessage =
+              "${p.name} seizes ${e.name} from behind and warns ${e.gender.himHer} $warnMessage";
           bonus += min(5, p.skill(Skill.martialArts) - 1);
         }
+        mvaddstr(17, 0, kidnapMessage);
 
         await getKey();
 
         Future<void> successfulKidnap(int y) async {
-          move(y++, 0);
-          addstr(p.name);
-          addstr(" kidnaps the Conservative!");
+          mvaddstr(y++, 0, "${p.name} kidnaps the Conservative!");
 
           await getKey();
 
@@ -476,11 +466,10 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           int y = 19;
           setColor(lightGreen);
           move(y++, 0);
-          addstr(e.name);
           if (bonus > 0) {
-            addstr(" doesn't resist.");
+            addstr("${e.name} doesn't resist.");
           } else {
-            addstr(" struggles and yells for help, but nobody comes.");
+            addstr("${e.name} struggles and yells for help, but nobody comes.");
           }
 
           await getKey();
@@ -542,29 +531,35 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             move(y++, 0);
             if (weapon != "" && !unseriousWeapon) {
               addstrc(
-                  red, "The Conservative manages to wrest the $weapon away!");
+                red,
+                "The Conservative manages to wrest the $weapon away!",
+              );
               move(y++, 0);
               await getKey();
               if (p.weapon.type.attacks.any((a) => a.bruises)) {
                 addstr(
-                    "${e.name} swings the $weapon and knocks ${p.name} out!");
+                  "${e.name} swings the $weapon and knocks ${p.name} out!",
+                );
               } else {
                 addstr(
-                    "${e.name} switches grips and clubs ${p.name} in the head!");
+                  "${e.name} switches grips and clubs ${p.name} in the head!",
+                );
               }
             } else {
-              addstrc(red, e.name);
-              addstr("'s fist is the last thing ");
-              addstr(p.name);
-              addstr(" remembers seeing!");
+              addstrc(
+                red,
+                "${e.name}'s fist is the last thing ${p.name} remembers seeing!",
+              );
               await getKey();
             }
             move(y++, 0);
             addstr("The Liberal wakes up in the police station...");
 
             // Find the police station
-            Site? ps =
-                findSiteInSameCity(p.location!.city, SiteType.policeStation);
+            Site? ps = findSiteInSameCity(
+              p.location!.city,
+              SiteType.policeStation,
+            );
 
             // Arrest the Liberal
             p.squad = null;
@@ -594,16 +589,17 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
   }
 }
 
-enum DateResult {
-  meetTomorrow,
-  breakup,
-  joined,
-  arrested,
-}
+enum DateResult { meetTomorrow, breakup, joined, arrested }
 
 // Handles the result of a date or vacation
-Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
-    Creature p, int y) async {
+Future<DateResult> dateResult(
+  int aroll,
+  int troll,
+  DatingSession d,
+  Creature e,
+  Creature p,
+  int y,
+) async {
   bool eIsSexworker = e.type.id == CreatureTypeIds.sexWorker;
   if (eIsSexworker) {
     troll -= 10 + e.daysSinceJoined; // It's a commercial transaction
@@ -622,32 +618,46 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
     y++;
     if (eIsSexworker && !e.isWillingToTalk) {
       if (p.skill(Skill.seduction) >= p.skillCap(Skill.seduction)) {
-        addstrc(yellow,
-            "${p.name} has learned all ${p.gender.heShe} can from ${e.name}.");
+        addstrc(
+          yellow,
+          "${p.name} has learned all ${p.gender.heShe} can from ${e.name}.",
+        );
       } else {
         addstr("${p.name} still has more to learn from ${e.name}.");
       }
     } else {
-      addstr(e.name);
       if (eIsSexworker) {
-        addstr(" enjoys discussing ");
+        addstr(
+          "${e.name} enjoys discussing ${p.name}'s unique life philosophy...",
+        );
       } else {
-        addstr(" is quite taken with ");
+        addstr(
+          "${e.name} is quite taken with ${p.name}'s unique life philosophy...",
+        );
       }
-      addstr(p.name);
-      addstr("'s unique life philosophy...");
     }
 
     await getKey();
 
     if (p.subordinatesLeft <= 0 && eIsSexworker && e.isWillingToTalk) {
-      mvaddstrc(y++, 0, yellow,
-          "But ${e.name} doesn't like to get too emotionally attached.");
+      mvaddstrc(
+        y++,
+        0,
+        yellow,
+        "But ${e.name} doesn't like to get too emotionally attached.",
+      );
 
-      mvaddstrc(y++, 0, lightGray,
-          "${p.name} doesn't have the juice to recruit otherwise.");
-      mvaddstr(y++, 0,
-          "This won't go anywhere, but it can continue for \"educational purposes\".");
+      mvaddstrc(
+        y++,
+        0,
+        lightGray,
+        "${p.name} doesn't have the juice to recruit otherwise.",
+      );
+      mvaddstr(
+        y++,
+        0,
+        "This won't go anywhere, but it can continue for \"educational purposes\".",
+      );
       e.isWillingToTalk = false;
 
       await getKey();
@@ -657,22 +667,18 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
       setColor(yellow);
 
       move(y++, 0);
-      addstr("But ${p.name} is already dating ");
       int numRelationships = p.maxRelationships - p.relationshipsLeft;
-      if (numRelationships == 1) {
-        addstr("someone.");
-      } else {
-        addstr("$numRelationships people.");
-      }
-
-      move(y++, 0);
-      addstr("${p.name} isn't seductive enough to maintain ");
-      if (numRelationships == 1) {
-        addstr("another");
-      } else {
-        addstr("yet another");
-      }
-      addstr(" relationship.");
+      String relationshipAdjective = switch (numRelationships) {
+        1 => "another",
+        2 => "yet another",
+        3 => "another",
+        4 => "another",
+        5 => "another",
+        _ => "another",
+      };
+      addstr(
+        "${p.name} isn't seductive enough to maintain $relationshipAdjective relationship.",
+      );
 
       await getKey();
       setColor(lightGray);
@@ -695,12 +701,14 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
       y++;
       if (eIsSexworker) {
         addstr(
-            "In fact, ${e.name} decides to put ${e.gender.hisHer} skills to work for the LCS!");
+          "In fact, ${e.name} decides to put ${e.gender.hisHer} skills to work for the LCS!",
+        );
         e.daysSinceJoined =
             0; // Reset to zero since we used this to track time dating
       } else if (e.align == Alignment.conservative) {
         addstr(
-            "In fact, ${e.name} swears off Conservatism and begs to join the LCS!");
+          "In fact, ${e.name} swears off Conservatism and begs to join the LCS!",
+        );
       } else if (e.align == Alignment.moderate) {
         addstr("In fact, ${e.name} wants to join ${p.name} in the LCS!");
       } else {
@@ -731,10 +739,12 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
       move(2, 0);
       setColor(lightGray);
       addstr(
-          "What name will you give to ${e.properName} in ${e.gender.hisHer} new life?");
+        "What name will you give to ${e.properName} in ${e.gender.hisHer} new life?",
+      );
       move(3, 0);
       addstr(
-          "If you do not enter anything, ${e.gender.heShe} will keep ${e.gender.hisHer} old name.");
+        "If you do not enter anything, ${e.gender.heShe} will keep ${e.gender.hisHer} old name.",
+      );
 
       e.name = await enterName(4, 0, e.properName, prefill: true);
 
@@ -755,7 +765,8 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
         y++;
         move(y++, 0);
         addstr(
-            "${p.name} is slowly warming ${e.name}'s frozen Conservative heart.");
+          "${p.name} is slowly warming ${e.name}'s frozen Conservative heart.",
+        );
 
         move(y++, 0);
         e.adjustAttribute(Attribute.wisdom, -1);
@@ -767,10 +778,16 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
       else if (e.workSite?.mapped == false &&
           lcsRandom(e.attribute(Attribute.wisdom)) == 0) {
         y++;
-        mvaddstr(y++, 0,
-            "${e.name} turns the topic of discussion to the ${e.workSite!.name}.");
-        mvaddstr(y++, 0,
-            "${p.name} is able to create a map of the site from this information.");
+        mvaddstr(
+          y++,
+          0,
+          "${e.name} turns the topic of discussion to the ${e.workSite!.name}.",
+        );
+        mvaddstr(
+          y++,
+          0,
+          "${p.name} is able to create a map of the site from this information.",
+        );
         y++;
         e.workSite!.mapped = true;
         e.workSite!.hidden = false;
@@ -791,36 +808,18 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
   } else if (aroll == troll) {
     setColor(lightGray);
     move(y++, 0);
-    addstr("${e.name} had to leave early");
-    switch (lcsRandom(4)) {
-      case 0:
-        addstr(" to wash ${e.gender.hisHer} hair.");
-      case 1:
-        addstr(" due to an allergy attack.");
-      case 2:
-        addstr(" due to an early meeting tomorrow.");
-      case 3:
-        addstr(" to catch ${e.gender.hisHer} favourite TV show.");
-      case 4:
-        addstr(" to take care of ${e.gender.hisHer} pet");
-        switch (lcsRandom(3 +
-            ((laws[Law.animalRights] == DeepAlignment.archConservative)
-                ? 1
-                : 0))) {
-          case 0:
-            addstr(" cat.");
-          case 1:
-            addstr(" dog.");
-          case 2:
-            addstr(" fish.");
-          case 3:
-            addstr(" six-legged pig.");
-        }
-      case 5:
-        addstr(" to go to a birthday party.");
-      case 6:
-        addstr(" to recharge ${e.gender.hisHer} cell phone.");
-    }
+    String excuse = switch (lcsRandom(7)) {
+      0 => "to wash ${e.gender.hisHer} hair.",
+      1 => "due to an allergy attack.",
+      2 => "due to an early meeting tomorrow.",
+      3 => "to catch ${e.gender.hisHer} favourite TV show.",
+      4 =>
+        "to take care of ${e.gender.hisHer} pet ${["cat.", "dog.", "fish.", "six-legged pig."][lcsRandom(4)]}",
+      5 => "to go to a birthday party.",
+      6 => "to recharge ${e.gender.hisHer} cell phone.",
+      _ => "to wash ${e.gender.hisHer} hair.",
+    };
+    addstr("${e.name} had to leave early $excuse");
     move(y++, 0);
     addstr("${e.gender.heSheCap} did still promise to meet up again tomorrow.");
 
@@ -833,11 +832,9 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
       setColor(red);
       move(y++, 0);
 
-      addstr("Talking with ");
-      addstr(e.name);
-      addstr(" actually curses ");
-      addstr(p.name);
-      addstr("'s mind with wisdom!!!");
+      addstr(
+        "Talking with ${e.name} actually curses ${p.name}'s mind with wisdom!!!",
+      );
 
       p.adjustAttribute(Attribute.wisdom, 1);
 
@@ -854,16 +851,22 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
     bool reportingToPolice = e.type.reportsToPolice && lcsRandom(2) == 0;
     reportingToPolice = reportingToPolice || lcsRandom(50) == 0;
     if (p.isCriminal && reportingToPolice) {
-      mvaddstrc(y++, 0, red,
-          "${e.name} was leaking information to the police the whole time!");
+      mvaddstrc(
+        y++,
+        0,
+        red,
+        "${e.name} was leaking information to the police the whole time!",
+      );
 
       await getKey();
 
       move(y++, 0);
       Site? ps = findSiteInSameCity(p.location!.city, SiteType.policeStation);
       if (ps == null) {
-        addstrc(lightGreen,
-            "But there isn't a police station in ${p.location!.city.name}!");
+        addstrc(
+          lightGreen,
+          "But there isn't a police station in ${p.location!.city.name}!",
+        );
         mvaddstr(y++, 0, "Nobody comes to arrest ${p.name}.");
       } else if (!p.skillCheck(Skill.streetSmarts, Difficulty.hard)) {
         addstrc(purple, "${p.name} has been arrested.");
@@ -886,8 +889,12 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
     } else {
       int existingRelationships = p.relationships.length;
       if (eIsSexworker) {
-        mvaddstrc(y++, 0, purple,
-            "${e.name} picks up some weird vibes and decides to bail.");
+        mvaddstrc(
+          y++,
+          0,
+          purple,
+          "${e.name} picks up some weird vibes and decides to bail.",
+        );
         mvaddstr(y++, 0, "This will be the last visit.");
         move(y++, 0);
       } else if (existingRelationships > 0 && lcsRandom(2) > 0) {
@@ -917,8 +924,7 @@ Future<DateResult> dateResult(int aroll, int troll, DatingSession d, Creature e,
       } else {
         setColor(purple);
         move(y++, 0);
-        addstr(e.name);
-        addstr(" can sense that things just aren't working out.");
+        addstr("${e.name} can sense that things just aren't working out.");
 
         move(y++, 0);
         addstr("This relationship is over.");
@@ -940,8 +946,7 @@ Future<bool> completeVacation(DatingSession d, Creature p) async {
   erase();
   setColor(white);
   move(0, 0);
-  addstr(p.name);
-  addstr(" is back from vacation.");
+  mvaddstr(0, 0, "${p.name} is back from vacation.");
 
   int aroll = p.skillRoll(Skill.seduction, advantage: true);
   int troll = e.attributeRoll(Attribute.wisdom, take10: true) + e.level;

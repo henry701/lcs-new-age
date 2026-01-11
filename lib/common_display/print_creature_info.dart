@@ -122,8 +122,13 @@ void printWeapon(Creature cr) {
   }
 }
 
-void printTopSkills(int y, int x, Creature cr, int numberToPrint,
-    {int knowledge = 255}) {
+void printTopSkills(
+  int y,
+  int x,
+  Creature cr,
+  int numberToPrint, {
+  int knowledge = 255,
+}) {
   // Get skills sorted by level and experience
   List<MapEntry<Skill, int>> skills = List.generate(
     Skill.values.length,
@@ -163,13 +168,21 @@ void printTopSkills(int y, int x, Creature cr, int numberToPrint,
     addstr(": ");
     if (knowledge > i + 2) {
       if (levelXP < 100) {
-        addstr("$level.");
+        addstr(
+          "{level}.",
+          params: {"level": levelXP.toString()},
+          no_translate: true,
+        );
         if (levelXP < 10) {
-          addstr("0");
+          addstr("0", no_translate: true);
         }
-        addstr(levelXP.toString());
+        addstr(levelXP.toString(), no_translate: true);
       } else {
-        addstr("$level.99+");
+        addstr(
+          "{level}.99+",
+          params: {"level": levelXP.toString()},
+          no_translate: true,
+        );
       }
     } else {
       addstr("?");
@@ -277,10 +290,16 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
       page %= pagenum;
     } else if (c == Key.n) {
       setColor(lightGray);
-      mvaddstr(23, 0,
-          "What is the new code name?                                                      "); // 80 characters
-      mvaddstr(24, 0,
-          "                                                                                "); // 80 spaces
+      mvaddstr(
+        23,
+        0,
+        "What is the new code name?                                                      ",
+      ); // 80 characters
+      mvaddstr(
+        24,
+        0,
+        "                                                                                ",
+      ); // 80 spaces
 
       cr.name = await enterName(24, 0, cr.name);
     } else if (c == Key.g) {
@@ -327,21 +346,20 @@ void printFullCreatureSkills(Creature cr) {
   setColor(lightGray);
 }
 
-void printSkillValue(Creature cr, Skill skill, int y, int x,
-    {bool emphasizePotential = false, bool showCap = true}) {
+void printSkillValue(
+  Creature cr,
+  Skill skill,
+  int y,
+  int x, {
+  bool emphasizePotential = false,
+  bool showCap = true,
+}) {
   move(y, x);
   addstr("{:2d}.".format(cr.skill(skill)));
-  int xpPercent =
-      ((cr.skillXP(skill) / skillXpNeeded(cr.skill(skill))) * 100).round();
+  int xpPercent = ((cr.skillXP(skill) / skillXpNeeded(cr.skill(skill))) * 100)
+      .round();
   if (xpPercent < 100) {
-    if (xpPercent != 0) {
-      if (xpPercent < 10) {
-        addstr("0");
-      }
-      addstr("$xpPercent");
-    } else {
-      addstr("00");
-    }
+    addstr("{xpPercent}", params: {"xpPercent": xpPercent.toString()});
   } else {
     addstr("99+");
   }
@@ -362,15 +380,25 @@ void printSkillValue(Creature cr, Skill skill, int y, int x,
 }
 
 /* full screen character sheet */
-void printFullCreatureStats(Creature cr,
-    {ShowCarPrefs showCarPrefs = ShowCarPrefs.showPreferences}) {
+void printFullCreatureStats(
+  Creature cr, {
+  ShowCarPrefs showCarPrefs = ShowCarPrefs.showPreferences,
+}) {
   setColor(lightGray);
 
   // Add name
   printFullCreatureNameBlock(cr);
   // Add birthdate
-  mvaddstr(3, 0, "Born ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ");
-  addstr("${cr.birthDate.year} (Age ${cr.age}, ");
+  mvaddstr(
+    3,
+    0,
+    "Born {month} {day}, ",
+    params: {"month": getMonth(cr.birthDate.month), "day": cr.birthDate.day},
+  );
+  addstr(
+    "{year} (Age {age}, ",
+    params: {"year": cr.birthDate.year.toString(), "age": cr.age.toString()},
+  );
   if (cr.gender == Gender.male) {
     addstr("Male");
   } else if (cr.gender == Gender.female) {
@@ -390,7 +418,7 @@ void printFullCreatureStats(Creature cr,
 
   // Add juice
   move(9, 16);
-  addstr("Juice: ${cr.juice}");
+  addstr("Juice: {juice}", params: {"juice": cr.juice});
   if (cr.juice < 1000) {
     move(10, 16);
     addstr("Next:  ");
@@ -461,8 +489,11 @@ void printFullCreatureStats(Creature cr,
       move(6 + skillsShown, 42);
       addstr("{:2d}.".format(cr.skill(skill)));
       if (cr.skillXP(skill) < 100 + (10 * cr.skill(skill))) {
-        addstr("{:02d}".format(
-            (cr.skillXP(skill) * 100) ~/ (100 + (10 * cr.skill(skill)))));
+        addstr(
+          "{:02d}".format(
+            (cr.skillXP(skill) * 100) ~/ (100 + (10 * cr.skill(skill))),
+          ),
+        );
       } else {
         addstr("99+");
       }
@@ -539,7 +570,7 @@ void printFullCreatureStats(Creature cr,
   move(20, 0);
   int lovers = cr.relationships.length;
   int maxLovers = cr.maxRelationships;
-  addstr("$lovers Lover");
+  addstr("{lovers} Lover", params: {"lovers": lovers.toString()});
   if (lovers != 1) addstr("s");
   addstr(" / $maxLovers Max");
   // Any dates with potential love interests scheduled?
@@ -591,7 +622,10 @@ void printFullCreatureCrimes(Creature cr) {
     } else {
       mvaddstr(3, 0, "Escaped prisoner sentenced to ");
     }
-    addstr("${cr.sentence} months in prison.");
+    addstr(
+      "{sentence} months in prison.",
+      params: {"sentence": cr.sentence.toString()},
+    );
   }
 
   // Add all crimes
@@ -611,8 +645,11 @@ void printFullCreatureCrimes(Creature cr) {
     }
 
     mvaddstr(5 + i ~/ 2, 40 * (i % 2), "${crime.wantedFor}: ");
-    mvaddstr(5 + i ~/ 2, 30 + 40 * (i % 2),
-        "{:02d}".format(cr.wantedForCrimes[crime]!));
+    mvaddstr(
+      5 + i ~/ 2,
+      30 + 40 * (i % 2),
+      "{:02d}".format(cr.wantedForCrimes[crime]!),
+    );
   }
 
   setColor(lightGray);
@@ -677,9 +714,11 @@ void printWantedFor(Creature cr) {
   } else if (wanted[Crime.escapingPrison] == true) {
     addstr("ESCAPING PRISON");
   } else if (wanted[Crime.flagBurning] == true) {
-    addstr(laws[Law.freeSpeech] == DeepAlignment.archConservative
-        ? "FLAG MURDER"
-        : "FLAG BURNING");
+    addstr(
+      laws[Law.freeSpeech] == DeepAlignment.archConservative
+          ? "FLAG MURDER"
+          : "FLAG BURNING",
+    );
   } else if (wanted[Crime.unlawfulSpeech] == true) {
     addstr("HARMFUL SPEECH");
   } else if (wanted[Crime.drugDistribution] == true) {
@@ -703,9 +742,11 @@ void printWantedFor(Creature cr) {
   } else if (wanted[Crime.prostitution] == true) {
     addstr("PROSTITUTION");
   } else if (wanted[Crime.harboring] == true) {
-    addstr(laws[Law.immigration]! < DeepAlignment.liberal
-        ? "HIRING ILLEGAL ALIENS"
-        : "HIRING UNDOCUMENTED");
+    addstr(
+      laws[Law.immigration]! < DeepAlignment.liberal
+          ? "HIRING ILLEGAL ALIENS"
+          : "HIRING UNDOCUMENTED",
+    );
   } else if (wanted[Crime.cyberTerrorism] == true) {
     addstr("CYBER TERRORISM");
   } else if (wanted[Crime.dataTheft] == true) {

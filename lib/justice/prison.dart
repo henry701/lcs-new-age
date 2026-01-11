@@ -52,7 +52,7 @@ Future<void> prison(Creature g) async {
     "sale to a furniture maker",
     "sale to a CEO as a personal pleasure toy",
     "sale to foreign slave traders",
-    "exposure to degenerate Bay 12 Curses games"
+    "exposure to degenerate Bay 12 Curses games",
   ];
 
   const List<String> historicExecutionMethods = [
@@ -60,7 +60,7 @@ Future<void> prison(Creature g) async {
     "hanging",
     "firing squad",
     "electrocution",
-    "inert gas asphyxiation"
+    "inert gas asphyxiation",
   ];
 
   const List<String> supposedlyHumaneExecutionMethods = ["lethal injection"];
@@ -115,11 +115,18 @@ Future<void> prison(Creature g) async {
         //dejuice boss
         Creature? boss = pool.firstWhereOrNull((p) => p.id == g.hireId);
         if (boss != null) {
-          mvaddstrc(12, 1, lightGray,
-              "${boss.name} has failed the Liberal Crime Squad.");
+          mvaddstrc(
+            12,
+            1,
+            lightGray,
+            "${boss.name} has failed the Liberal Crime Squad.",
+          );
 
-          mvaddstr(14, 1,
-              "If you can't protect your own people, who can you protect?");
+          mvaddstr(
+            14,
+            1,
+            "If you can't protect your own people, who can you protect?",
+          );
 
           await getKey();
 
@@ -131,11 +138,13 @@ Future<void> prison(Creature g) async {
       //SET FREE
       else {
         erase();
-        mvaddstrc(8, 1, lightGray, g.name);
-        addstr(" has been released from prison.");
+        mvaddstrc(8, 1, lightGray, "${g.name} has been released from prison.");
 
-        mvaddstr(9, 1,
-            "No doubt there are some mental scars, but the Liberal is back.");
+        mvaddstr(
+          9,
+          1,
+          "No doubt there are some mental scars, but the Liberal is back.",
+        );
 
         await getKey();
 
@@ -144,8 +153,10 @@ Future<void> prison(Creature g) async {
         // If their old base is no longer under LCS control, wander back to the
         // homeless camp instead.
         if (g.base?.controller != SiteController.lcs) {
-          g.base =
-              findSiteInSameCity(g.location?.city, SiteType.homelessEncampment);
+          g.base = findSiteInSameCity(
+            g.location?.city,
+            SiteType.homelessEncampment,
+          );
         }
         g.location = g.base;
       }
@@ -159,16 +170,19 @@ Future<void> prison(Creature g) async {
         await getKey();
       } else {
         erase();
-        mvaddstrc(8, 1, white, g.name);
-        addstr(" is due to be released next month.");
+        mvaddstrc(8, 1, white, "${g.name} is due to be released next month.");
 
         await getKey();
       }
     } else {
       if (g.deathPenalty) {
         erase();
-        mvaddstrc(8, 1, yellow, g.name);
-        addstr(" is due to be executed in ${g.sentence} months.");
+        mvaddstrc(
+          8,
+          1,
+          yellow,
+          "${g.name} is due to be executed in ${g.sentence} months.",
+        );
 
         await getKey();
       }
@@ -185,34 +199,35 @@ Future<void> rehabilitation(Creature g) async {
     " sings songs with prisoners of all political persuasions.",
     " is encouraged to befriend Conservatives in prison.",
     " puts on an anti-crime performance in prison.",
-    " sees a video in prison by victims of political crime."
+    " sees a video in prison by victims of political crime.",
   ];
 
   erase();
-  mvaddstrc(8, 1, white, g.name);
-  addstr(reeducationExperiences.random);
+  mvaddstrc(8, 1, white, "${g.name}${reeducationExperiences.random}");
 
   await getKey();
 
   move(10, 1);
   if (!g.attributeCheck(Attribute.heart, Difficulty.formidable)) {
     if (g.juice > 0 && oneIn(2)) {
-      addstr(g.name);
-      addstr(" feels bad about LCS actions, and loses juice!");
+      mvaddstr(
+        10,
+        1,
+        "${g.name} feels bad about LCS actions, and loses juice!",
+      );
       addjuice(g, -50, 0);
     } else if (lcsRandom(15) > g.attribute(Attribute.wisdom) ||
         g.attribute(Attribute.wisdom) < g.attribute(Attribute.heart)) {
-      addstr(g.name);
-      addstr(" silently grows Wiser...");
+      mvaddstr(10, 1, "${g.name} silently grows Wiser...");
       g.adjustAttribute(Attribute.wisdom, 1);
     } else if (g.align == Alignment.liberal && g.seduced && oneIn(4)) {
-      addstr(g.name);
-      addstr(" only stays loyal to the LCS for ");
-      addstr(g.boss?.name ?? "the cause");
-      addstr(".");
+      mvaddstr(
+        10,
+        1,
+        "${g.name} only stays loyal to the LCS for ${g.boss?.name ?? "the cause"}.",
+      );
     } else {
-      addstr(g.name);
-      addstr(" renounces the Liberal Crime Squad!");
+      mvaddstr(10, 1, "${g.name} renounces the Liberal Crime Squad!");
 
       //Rat out contact
       Creature? contact = g.boss;
@@ -224,8 +239,7 @@ Future<void> rehabilitation(Creature g) async {
       g.die();
     }
   } else {
-    addstr(g.name);
-    addstr(" remains strong.");
+    mvaddstr(10, 1, "${g.name} remains strong.");
   }
 
   await getKey();
@@ -268,7 +282,7 @@ Future<void> laborCamp(Creature g) async {
     " does back-breaking work all month in prison.",
     " gets in a brutal fight with another prisoner.",
     " participates in a quickly-suppressed prison riot.",
-    " participates in a quickly-suppressed prison riot."
+    " participates in a quickly-suppressed prison riot.",
   ];
 
   experience ??= laborCampExperiences.random;
@@ -289,20 +303,17 @@ Future<void> laborCamp(Creature g) async {
     escape(g, escaped == 2);
   } else if (oneIn(4)) {
     if (g.health > 1) {
-      addstr(g.name);
-      addstr(" is badly hurt in the process.");
+      mvaddstrc(8, 1, white, "${g.name} is badly hurt in the process.");
       addjuice(g, -40, 0);
       addjuice(g, -10, -50);
     } else {
-      addstr(g.name);
-      addstr(" is found dead.");
+      mvaddstrc(8, 1, red, "${g.name} is found dead.");
 
       g.die();
       g.location = null;
     }
   } else {
-    addstr(g.name);
-    addstr(" managed to avoid lasting injury.");
+    mvaddstrc(8, 1, white, "${g.name} managed to avoid lasting injury.");
   }
 
   await getKey();
@@ -353,21 +364,21 @@ Future<void> prisonScene(Creature g) async {
     " organizes a group of inmates to beat up on a serial rapist.",
     " learns lots of little skills from other inmates.",
     " gets a prison tattoo with the letters L-C-S.",
-    " thinks up new protest songs while in prison."
+    " thinks up new protest songs while in prison.",
   ];
   const List<String> badExperiences = [
     " gets sick for a few days from nasty prison food.",
     " spends too much time working out at the prison gym.",
     " is sexually assaulted by another prison inmate.",
     " writes to a letter the warden swearing off political activism.",
-    " rats out one of the other inmates in exchange for benefits."
+    " rats out one of the other inmates in exchange for benefits.",
   ];
   const List<String> generalExperiences = [
     " mouths off to a prison guard and ends up in solitary.",
     " gets high off drugs smuggled into the prison.",
     " does nothing but read books at the prison library.",
     " gets into a fight and is punished with latrine duty.",
-    " constantly tries thinking how to escape from prison."
+    " constantly tries thinking how to escape from prison.",
   ];
 
   if (escaped == 0) {
@@ -403,16 +414,13 @@ Future<void> prisonScene(Creature g) async {
   if (escaped > 0) {
     escape(g, escaped == 2);
   } else if (effect > 0) {
-    addstr(g.name);
-    addstr(" has become a more hardened, Juicier criminal.");
+    mvaddstr(10, 1, "${g.name} has become a more hardened, Juicier criminal.");
     addjuice(g, 20, 1000);
   } else if (effect < 0) {
-    addstr(g.name);
-    addstr(" is kinda losing it in here.  Juice, that is.");
+    mvaddstr(10, 1, "${g.name} is kinda losing it in here.  Juice, that is.");
     addjuice(g, -20, -30);
   } else {
-    addstr(g.name);
-    addstr(" seems to be mostly fine, though.");
+    mvaddstr(10, 1, "${g.name} seems to be mostly fine, though.");
   }
 
   await getKey();
@@ -422,8 +430,7 @@ Future<void> prisonScene(Creature g) async {
 
 void escape(Creature g, bool withFriends) {
   Location? prison = g.location;
-  addstr(g.name);
-  addstr(" escaped from prison!");
+  mvaddstrc(console.y, console.x, white, "${g.name} escaped from prison!");
   addjuice(g, 50, 1000);
   criminalize(g, Crime.escapingPrison);
   g.location = findSiteInSameCity(g.site?.city, SiteType.homelessEncampment);

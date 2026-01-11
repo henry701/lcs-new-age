@@ -73,13 +73,8 @@ Future<void> supremeCourt() async {
           scase[c] == Law.corporate ||
           scase[c] == Law.animalRights ||
           scase[c] == Law.pollution) {
-        name2 = "${lastName(Gender.whiteMalePatriarch)}, ${[
-          "Inc.",
-          "L.L.C.",
-          "Corp.",
-          "Co.",
-          "Ltd."
-        ].random}";
+        name2 =
+            "${lastName(Gender.whiteMalePatriarch)}, ${["Inc.", "L.L.C.", "Corp.", "Co.", "Ltd."].random}";
       }
       if (oneIn(2)) {
         String swap = name1;
@@ -87,9 +82,7 @@ Future<void> supremeCourt() async {
         name2 = swap;
       }
 
-      addstr(name1);
-      addstr(" v. ");
-      addstr(name2);
+      addstr("$name1 v. $name2");
 
       mvaddstr(c * 3 + 3, 0, "A new precedent would ");
       if (scasedir[c] == 1) {
@@ -289,7 +282,10 @@ Future<void> supremeCourt() async {
         setColor(darkGray);
       }
       mvaddstr(
-          c * 3 + 3, 63, "${politics.court.length - yesvotes} for Status Quo");
+        c * 3 + 3,
+        63,
+        "${politics.court.length - yesvotes} for Status Quo",
+      );
 
       await pause(400);
     }
@@ -301,7 +297,11 @@ Future<void> supremeCourt() async {
 
   if (canSeeThings) {
     mvaddstrc(
-        23, 0, lightGray, "Press any key to reflect on what has happened.");
+      23,
+      0,
+      lightGray,
+      "Press any key to reflect on what has happened.",
+    );
     checkKey();
     await getKey();
   }
@@ -356,24 +356,35 @@ Future<void> supremeCourt() async {
 
     if (canSeeThings) {
       mvaddstr(
-          4, 0, "After much debate and televised testimony, a new justice,");
+        4,
+        0,
+        "After much debate and televised testimony, a new justice,",
+      );
       move(5, 0);
       addstr("the Honorable ");
       addstrc(politics.court[j].color, politics.courtName[j].firstLast);
-      addstrc(lightGray,
-          ", ${politics.court[j].label}, is appointed to the bench.");
+      addstrc(
+        lightGray,
+        ", ${politics.court[j].label}, is appointed to the bench.",
+      );
 
       mvaddstrc(
-          7, 0, lightGray, "Press any key to reflect on what has happened.");
+        7,
+        0,
+        lightGray,
+        "Press any key to reflect on what has happened.",
+      );
       checkKey();
       await getKey();
     }
     // Sort justices by alignment
     Map<FullName, DeepAlignment> justices = {
-      for (int i = 0; i < court.length; i++) politics.courtName[i]: court[i]
+      for (int i = 0; i < court.length; i++) politics.courtName[i]: court[i],
     };
     List<MapEntry> sorted = justices.entries.sortedByCompare(
-        (element) => element.value.index, (a, b) => a.compareTo(b));
+      (element) => element.value.index,
+      (a, b) => a.compareTo(b),
+    );
     for (int i = 0; i < sorted.length; i++) {
       politics.courtName[i] = sorted[i].key;
       court[i] = sorted[i].value;

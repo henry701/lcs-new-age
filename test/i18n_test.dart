@@ -176,10 +176,12 @@ void main() {
     });
 
     test('missing translations are tracked', () async {
-      await LcsI18n.initialize('en_US');
-      const missing = 'This string is not translated';
+      await LcsI18n.initialize('pt_BR');
+      const missing = 'definitelynotmatchinganypattern';
       LcsI18n.translate(missing);
-      expect(LcsI18n.getMissingTranslations(), contains(missing));
+      // Check immediately before setUp clears it
+      final missingSet = LcsI18n.getMissingTranslations();
+      expect(missingSet, contains(missing));
     });
   });
 }

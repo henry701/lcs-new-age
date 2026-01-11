@@ -111,44 +111,41 @@ Future<void> kidnapattempt() async {
       //HIT!
       if (aroll > droll) {
         setColor(white);
-        move(9, 1);
-        addstr(kidnapper.name);
-        addstr(" snatches ");
-        addstr(target.name);
-        addstr("!");
+        mvaddstrc(
+          9,
+          1,
+          lightGreen,
+          "${kidnapper.name} snatches ${target.name}!",
+        );
 
         kidnapper.prisoner = target;
 
         await getKey();
 
         setColor(red);
-        move(10, 1);
-        addstr(target.name);
-        addstr(" is struggling and screaming!");
+        mvaddstrc(
+          10,
+          1,
+          lightGray,
+          "${target.name} is struggling and screaming!",
+        );
 
         await getKey();
 
         success = true;
       } else {
-        await encounterMessage("${kidnapper.name} grabs at ${target.name}",
-            line2: "but ${target.name} writhes away!", color: purple);
+        await encounterMessage(
+          "${kidnapper.name} grabs at ${target.name}",
+          line2: "but ${target.name} writhes away!",
+          color: purple,
+        );
         success = false;
       }
     } else {
       clearMessageArea();
 
-      setColor(white);
-      move(9, 1);
-      addstr(kidnapper.name);
-      addstr(" shows ");
-      addstr(target.name);
-      addstr(" the ");
-      addstr(kidnapper.weapon.getName(sidearm: true));
-      addstr(" ");
-      move(10, 1);
-      addstr("and says, ");
-      setColor(lightGreen);
-      addstr("\"${[
+      setColor(lightGray);
+      final phrase = [
         "Please, be cool.",
         "No sudden moves now.",
         "Nobody needs to get hurt.",
@@ -186,7 +183,19 @@ Future<void> kidnapattempt() async {
         "You might like direct action.",
         "I prefer the term 'activist' myself.",
         "Don't worry, I'm not a cop.",
-      ].random}\"");
+      ].random;
+      mvaddstrc(
+        9,
+        1,
+        lightGray,
+        "{kidnapper} shows {target} the {weapon} and says, \"{phrase}\"",
+        params: {
+          "kidnapper": kidnapper.name,
+          "target": target.name,
+          "weapon": kidnapper.weapon.getName(sidearm: true),
+          "phrase": phrase,
+        },
+      );
 
       kidnapper.prisoner = target;
 
@@ -212,8 +221,11 @@ Future<void> kidnapattempt() async {
         await alienationCheck(false);
         siteAlarm = true;
         siteCrime += 5;
-        addPotentialCrime(squad, Crime.kidnapping,
-            reasonKey: target.id.toString());
+        addPotentialCrime(
+          squad,
+          Crime.kidnapping,
+          reasonKey: target.id.toString(),
+        );
         if (target.type.preciousToAngryRuralMobs) offendedAngryRuralMobs = true;
       }
     }
@@ -232,7 +244,8 @@ Future<void> releasehostage() async {
   activeSquadMemberIndex = -1;
 
   if (!activeSquad!.livingMembers.any(
-      (e) => e.prisoner != null && e.prisoner!.align != Alignment.liberal)) {
+    (e) => e.prisoner != null && e.prisoner!.align != Alignment.liberal,
+  )) {
     setColor(white);
     clearMessageArea();
     move(9, 1);
@@ -280,11 +293,7 @@ Future<void> releasehostage() async {
   }
 }
 
-enum FreeHostageMessage {
-  continueLine,
-  newLine,
-  none,
-}
+enum FreeHostageMessage { continueLine, newLine, none }
 
 Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
   Creature? prisoner = cr.prisoner;
@@ -295,12 +304,10 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
       if (prisoner.hireId == null) {
         addstr(" and a hostage is freed");
       } else {
-        addstr(" and ${prisoner.name}");
-        if (prisoner.justEscaped) {
-          addstr(" is recaptured");
-        } else {
-          addstr(" is captured");
-        }
+        String captureStatus = prisoner.justEscaped
+            ? " is recaptured"
+            : " is captured";
+        addstr(" and ${prisoner.name}$captureStatus");
       }
     } else if (situation == FreeHostageMessage.newLine) {
       clearMessageArea();
@@ -309,12 +316,10 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
       if (prisoner.hireId == null) {
         addstr("A hostage escapes!");
       } else {
-        addstr(prisoner.name);
-        if (prisoner.justEscaped) {
-          addstr(" is recaptured.");
-        } else {
-          addstr(" is captured.");
-        }
+        String captureStatus = prisoner.justEscaped
+            ? "is recaptured."
+            : "is captured.";
+        addstr("${prisoner.name} $captureStatus");
       }
     }
 
@@ -352,11 +357,12 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
         p.prisoner != null) {
       clearMessageArea();
       setColor(yellow);
-      move(9, 1);
-      addstr(p.name);
-      addstr(" can no longer handle ");
-      addstr(p.prisoner!.name);
-      addstr(".");
+      mvaddstrc(
+        9,
+        1,
+        lightGray,
+        "${p.name} can no longer handle ${p.prisoner!.name}.",
+      );
 
       await getKey();
 
@@ -387,8 +393,7 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
             clearMessageArea();
             setColor(yellow);
             move(9, 1);
-            addstr(p.name);
-            addstr(" is left to be captured.");
+            addstr("${p.name} is left to be captured.");
 
             await captureCreature(p);
           }
@@ -403,10 +408,7 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
               clearMessageArea();
               setColor(yellow);
               move(9, 1);
-              addstr(p2.name);
-              addstr(" hauls ");
-              addstr(p.name);
-              addstr(".");
+              addstr("${p2.name} hauls ${p.name}.");
               //New line.
               break;
             }
@@ -432,7 +434,8 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
 Future<void> kidnaptransfer(Creature cr, {Creature? kidnapper}) async {
   cr.nameCreature();
 
-  Site? base = kidnapper?.base ??
+  Site? base =
+      kidnapper?.base ??
       activeSquad?.members[0].base ??
       findSiteInSameCity(cr.location?.city, SiteType.homelessEncampment);
   cr.location = base;
@@ -454,9 +457,9 @@ Future<void> kidnaptransfer(Creature cr, {Creature? kidnapper}) async {
 
   move(2, 0);
   setColor(lightGray);
-  addstr("What name will you use for this ");
-  addstr(cr.type.name);
-  addstr(" in ${cr.gender.hisHer} presence?");
+  addstr(
+    "What name will you use for this ${cr.type.name} in ${cr.gender.hisHer} presence?",
+  );
 
   cr.name = await enterName(4, 0, cr.properName, prefill: true);
 

@@ -8,7 +8,11 @@ import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Future<void> handleLoveBombing(
-    InterrogationSession intr, Creature lead, Creature cr, int y) async {
+  InterrogationSession intr,
+  Creature lead,
+  Creature cr,
+  int y,
+) async {
   double rapportTemp = intr.rapport[lead.id] ?? 0;
   int attack = lead.skill(Skill.psychology) * 2;
   attack += Dice.r2d6.roll();
@@ -37,170 +41,119 @@ Future<void> handleLoveBombing(
       "board game",
       "live chicken",
     ];
-    message = "${lead.name} ${[
-      "serves ${cr.name} an incredible vegan feast, complete with quinoa "
-          "casserole and an oat milk latte, insisting that ${cr.gender.heShe} "
-          "try it all while ${lead.name} explains the comparative carbon "
-          "footprint of the ingredients and contrasts this against the "
-          "carbon footprint of a traditional meat-based meal.",
-      "holds an in-depth microaggression workshop with ${cr.name}, engaging "
-          "${cr.gender.himHer} in a series of elaborate role-playing scenarios "
-          "where they dissect even the most innocuous phrases for hidden biases "
-          "and discuss how this impacts ${cr.name} and others around them.",
-      "puts together a poetry slam for ${cr.name}, where at first ${lead.name} "
-          "reads some of ${lead.gender.hisHer} own poetry before ${cr.name} "
-          "is given the stage to join in with several verses of ${cr.gender.hisHer} own, "
-          "to be followed by a long discussion about the poetic form and the "
-          "lived experiences that feed into their respective verses.",
-      "holds a mock protest to bring ${cr.name} into the movement in spirit, "
-          "starting with an extended planning session where they pick out "
-          "phrases and put together protest signs about issues that really "
-          "matter to ${cr.gender.himHer}.",
-      "holds a movie night with ${cr.name}, with a marathon of documentaries "
-          "on topics like renewable energy and intersectionality, pausing "
-          "frequently for collaborative discussions on \"what it all means\".",
-      "has ${cr.name} brainstorm protest sign ideas on issues that matter to "
-          "${cr.gender.himHer}, then helps ${cr.gender.himHer} to "
-          "put together a sign ${cr.gender.heShe} can take out into the street "
-          "once ${cr.name} is released.",
-      "puts on a drag brunch for ${cr.name}, encouraging ${cr.gender.himHer} to "
-          "embrace self-expression and self-love through glitter, pancakes, "
-          "and RuPaul quotes.",
-      "sets up a supervised drug experimentation day for ${cr.name}, with a "
-          "variety of substances to try, including Cannabis, LSD, MDMA, "
-          "and psilocybin, making sure that ${cr.gender.heShe} is "
-          "comfortable with the process and has a safe space to explore "
-          "altered states of consciousness while minimizing risk to "
-          "${cr.gender.hisHer} health.",
-      "assigns ${cr.name} a stack of progressive literature, focused on readings "
-          "from bell hooks, Audre Lorde, and other feminist icons, so ${cr.gender.heShe} "
-          "can break through the barriers of ${cr.gender.hisHer} old mindset "
-          "and start to understand the importance of intersectional feminism.",
-      "assigns ${cr.name} a stack of progressive literature, focused on readings "
-          "from Ngũgĩ wa Thiong'o, Edward Said, and other postcolonial theorists, "
-          "so ${cr.gender.heShe} can start to understand the importance of "
-          "decolonizing ${cr.gender.hisHer} mind.",
-      "assigns ${cr.name} a stack of progressive literature, focused on readings "
-          "from Angela Davis, Frantz Fanon, and other revolutionary thinkers, "
-          "so ${cr.gender.heShe} can start to understand some of the ideas "
-          "that underpin revolutionary left-wing politics.",
-      "assigns ${cr.name} a stack of progressive literature, focused on readings "
-          "from Peter Kropotkin, Emma Goldman, and other anarchist thinkers, "
-          "so ${cr.gender.heShe} can start to question the absolute authority "
-          "of the state and the need for a more just and equitable society.",
-      "assigns ${cr.name} a stack of progressive literature, focused on readings "
-          "from Judith Butler, Michel Foucault, and other queer theorists, "
-          "so ${cr.gender.heShe} can start to understand the politics of "
-          "queer liberation and the fight against gender-based oppression.",
-      "holds a mandatory self-care bootcamp for ${cr.name}, complete with yoga "
-          "sessions, aromatherapy, and journaling prompts like \"What does "
-          "your political inner child look like?\"",
-      "hosts a \"paint your feelings\" session for ${cr.name}, where ${cr.gender.heShe} "
-          "is encouraged to express the flaws in ${cr.gender.hisHer} ideology "
-          "through abstract art, with no judgment or critique, but a deep "
-          "compassion.",
-      "organizes a personalized concert of protest-inspired music, inviting "
-          "${cr.name} to join in on the harmonies, with a focus on uplifting "
-          "songs about love and unity early in the session, and then moving "
-          "into more complex and forceful pieces as the session progresses.",
-      "holds an inclusive fashion show for ${cr.name}, where ${cr.gender.heShe} "
-          "can try on a variety of outfits that challenge traditional gender "
-          "norms and incorporate elements of niche subcultures, each item "
-          "linked to a discussion about the history and significance of the "
-          "style and the subculture it comes from.",
-      "brings in gardening supplies and teaches ${cr.name} how to grow ${cr.gender.hisHer} own "
-          "food, narrating how sowing literal seeds of change mirrors the "
-          "LCS's mission to uproot harmful ideologies.",
-      "builds an intricate escape room for ${cr.name}, full of puzzles about "
-          "systemic inequality, where ${cr.gender.heShe} can only solve each "
-          "puzzle by first escaping ${cr.gender.hisHer} old mindset.",
-      "stages a puppet show for ${cr.name}, featuring characters like "
-          "Karl Marx and Rosa Luxemburg in a series of skits about the "
-          "history of the LCS and the importance of revolutionary "
-          "politics.",
-      "throws a holiday party for ${cr.name} celebrating ${[
-        "Intersectional Justice Jubilee",
-        "Hug-Your-Haters Day",
-        "Intersectionality Awareness Day",
-        "Queer Liberation Day",
-        "Decolonization Day",
-        "Anarchist Abolitionist Day",
-        "Feminist Resistance Day",
-        "Trans Unity Day",
-        "Rainbow Butterfly Day",
-        "Incredible Inclusivity Day",
-        "Black Power Day",
-        "African Roots Day",
-        "Black And Proud Day",
-        "Black Lives Do In Fact Matter Day",
-        "Love Wins Day",
-        "Liberalism Day",
-        "Leftist Pride Day",
-        "Social Justice Day",
-        "Adopt-A-Conservative Day",
-        "Fuck The Police Day",
-        "Radical Self-Care Day",
-        "Resistance Day",
-        "Even Prouder Pride Day",
-        "I'm A Liberal Day",
-        "Damn It's Good To Be A Liberal Day",
-        "Liberalism Is The New Black Day",
-        "Join The LCS Day",
-        "Stop Being A Conservative Day",
-      ].random}, complete with a ${miniOptions.randomPop()}, a ${miniOptions.randomPop()}, and a ${miniOptions.randomPop()}.",
-      "gives ${cr.name} a live chicken to hold while ${lead.name} plays "
-          "a series of undercover videos of factory farms and slaughterhouses "
-          "for ${cr.gender.himHer}, then encourages ${cr.gender.himHer} to "
-          "get in touch with ${cr.gender.hisHer} true feelings.",
-    ].random}";
+    message =
+        "${lead.name} ${[
+          "serves ${cr.name} an incredible vegan feast, complete with quinoa "
+              "casserole and an oat milk latte, insisting that ${cr.gender.heShe} "
+              "try it all while ${lead.name} explains the comparative carbon "
+              "footprint of the ingredients and contrasts this against the "
+              "carbon footprint of a traditional meat-based meal.",
+          "holds an in-depth microaggression workshop with ${cr.name}, engaging "
+              "${cr.gender.himHer} in a series of elaborate role-playing scenarios "
+              "where they dissect even the most innocuous phrases for hidden biases "
+              "and discuss how this impacts ${cr.name} and others around them.",
+          "puts together a poetry slam for ${cr.name}, where at first ${lead.name} "
+              "reads some of ${lead.gender.hisHer} own poetry before ${cr.name} "
+              "is given the stage to join in with several verses of ${cr.gender.hisHer} own, "
+              "to be followed by a long discussion about the poetic form and the "
+              "lived experiences that feed into their respective verses.",
+          "holds a mock protest to bring ${cr.name} into the movement in spirit, "
+              "starting with an extended planning session where they pick out "
+              "phrases and put together protest signs about issues that really "
+              "matter to ${cr.gender.himHer}.",
+          "holds a movie night with ${cr.name}, with a marathon of documentaries "
+              "on topics like renewable energy and intersectionality, pausing "
+              "frequently for collaborative discussions on \"what it all means\".",
+          "has ${cr.name} brainstorm protest sign ideas on issues that matter to "
+              "${cr.gender.himHer}, then helps ${cr.gender.himHer} to "
+              "put together a sign ${cr.gender.heShe} can take out into the street "
+              "once ${cr.name} is released.",
+          "puts on a drag brunch for ${cr.name}, encouraging ${cr.gender.himHer} to "
+              "embrace self-expression and self-love through glitter, pancakes, "
+              "and RuPaul quotes.",
+          "sets up a supervised drug experimentation day for ${cr.name}, with a "
+              "variety of substances to try, including Cannabis, LSD, MDMA, "
+              "and psilocybin, making sure that ${cr.gender.heShe} is "
+              "comfortable with the process and has a safe space to explore "
+              "altered states of consciousness while minimizing risk to "
+              "${cr.gender.hisHer} health.",
+          "assigns ${cr.name} a stack of progressive literature, focused on readings "
+              "from bell hooks, Audre Lorde, and other feminist icons, so ${cr.gender.heShe} "
+              "can break through the barriers of ${cr.gender.hisHer} old mindset "
+              "and start to understand the importance of intersectional feminism.",
+          "assigns ${cr.name} a stack of progressive literature, focused on readings "
+              "from Ngũgĩ wa Thiong'o, Edward Said, and other postcolonial theorists, "
+              "so ${cr.gender.heShe} can start to understand the importance of "
+              "decolonizing ${cr.gender.hisHer} mind.",
+          "assigns ${cr.name} a stack of progressive literature, focused on readings "
+              "from Angela Davis, Frantz Fanon, and other revolutionary thinkers, "
+              "so ${cr.gender.heShe} can start to understand some of the ideas "
+              "that underpin revolutionary left-wing politics.",
+          "assigns ${cr.name} a stack of progressive literature, focused on readings "
+              "from Peter Kropotkin, Emma Goldman, and other anarchist thinkers, "
+              "so ${cr.gender.heShe} can start to question the absolute authority "
+              "of the state and the need for a more just and equitable society.",
+          "assigns ${cr.name} a stack of progressive literature, focused on readings "
+              "from Judith Butler, Michel Foucault, and other queer theorists, "
+              "so ${cr.gender.heShe} can start to understand the politics of "
+              "queer liberation and the fight against gender-based oppression.",
+          "holds a mandatory self-care bootcamp for ${cr.name}, complete with yoga "
+              "sessions, aromatherapy, and journaling prompts like \"What does "
+              "your political inner child look like?\"",
+          "hosts a \"paint your feelings\" session for ${cr.name}, where ${cr.gender.heShe} "
+              "is encouraged to express the flaws in ${cr.gender.hisHer} ideology "
+              "through abstract art, with no judgment or critique, but a deep "
+              "compassion.",
+          "organizes a personalized concert of protest-inspired music, inviting "
+              "${cr.name} to join in on the harmonies, with a focus on uplifting "
+              "songs about love and unity early in the session, and then moving "
+              "into more complex and forceful pieces as the session progresses.",
+          "holds an inclusive fashion show for ${cr.name}, where ${cr.gender.heShe} "
+              "can try on a variety of outfits that challenge traditional gender "
+              "norms and incorporate elements of niche subcultures, each item "
+              "linked to a discussion about the history and significance of the "
+              "style and the subculture it comes from.",
+          "brings in gardening supplies and teaches ${cr.name} how to grow ${cr.gender.hisHer} own "
+              "food, narrating how sowing literal seeds of change mirrors the "
+              "LCS's mission to uproot harmful ideologies.",
+          "builds an intricate escape room for ${cr.name}, full of puzzles about "
+              "systemic inequality, where ${cr.gender.heShe} can only solve each "
+              "puzzle by first escaping ${cr.gender.hisHer} old mindset.",
+          "stages a puppet show for ${cr.name}, featuring characters like "
+              "Karl Marx and Rosa Luxemburg in a series of skits about the "
+              "history of the LCS and the importance of revolutionary "
+              "politics.",
+          "throws a holiday party for ${cr.name} celebrating ${["Intersectional Justice Jubilee", "Hug-Your-Haters Day", "Intersectionality Awareness Day", "Queer Liberation Day", "Decolonization Day", "Anarchist Abolitionist Day", "Feminist Resistance Day", "Trans Unity Day", "Rainbow Butterfly Day", "Incredible Inclusivity Day", "Black Power Day", "African Roots Day", "Black And Proud Day", "Black Lives Do In Fact Matter Day", "Love Wins Day", "Liberalism Day", "Leftist Pride Day", "Social Justice Day", "Adopt-A-Conservative Day", "Fuck The Police Day", "Radical Self-Care Day", "Resistance Day", "Even Prouder Pride Day", "I'm A Liberal Day", "Damn It's Good To Be A Liberal Day", "Liberalism Is The New Black Day", "Join The LCS Day", "Stop Being A Conservative Day"].random}, complete with a ${miniOptions.randomPop()}, a ${miniOptions.randomPop()}, and a ${miniOptions.randomPop()}.",
+          "gives ${cr.name} a live chicken to hold while ${lead.name} plays "
+              "a series of undercover videos of factory farms and slaughterhouses "
+              "for ${cr.gender.himHer}, then encourages ${cr.gender.himHer} to "
+              "get in touch with ${cr.gender.hisHer} true feelings.",
+        ].random}";
   } else {
-    message = "${lead.name} ${[
-      "raves about how good vegan food is to ${cr.name}.",
-      "explains microaggressions to ${cr.name}.",
-      "recites some spoken word poetry for ${cr.name}.",
-      "quizzes ${cr.name} about correct recycling habits.",
-      "enthuses about the benefits of regular meditation to ${cr.name} "
-          "and offers to teach ${cr.gender.himHer} how to do it.",
-      "shows ${cr.name} pictures of people having fun at a protest and "
-          "suggests ${cr.gender.heShe} would get a lot out of it.",
-      "describes a progressive film to ${cr.name} and tells ${cr.gender.himHer} "
-          "about what it means.",
-      "tells ${cr.name} about some clever protest signs people have come up "
-          "with in the past.",
-      "tells ${cr.name} how much fun drag shows are and offers to answer "
-          "any questions ${cr.gender.himHer} has about them.",
-      "recommends ${cr.name} read some theory when ${cr.gender.heShe} gets "
-          "a chance, and tries to explain some of the complex ideas "
-          "from memory.",
-      "asks ${cr.name} \"What does your political inner child look like?\"",
-      "tries to do a guided meditation with ${cr.name}, and asks "
-          "${cr.gender.himHer} to visualize ${cr.gender.hisHer} feelings "
-          "like a painting.",
-      "plays a selection of protest songs on ${lead.gender.hisHer} cell "
-          "phone and asks ${cr.gender.himHer} what ${cr.gender.heShe} thinks "
-          "they mean.",
-      "challenges ${cr.name} to imagine a world without posessions, and "
-          "wonders if ${cr.gender.heShe} can.",
-      "suggests ${cr.name} would look good in a hemp tunic.",
-      "says ${cr.name} would could be a totally epic left-wing punk rebel "
-          "if ${cr.gender.heShe} is interested in that sort of thing.",
-      "tells ${cr.name} about the importance of intersectionality.",
-      "explains to ${cr.name} that fair trade coffee actually tastes better "
-          "and is better for the world.",
-      "works with ${cr.name} to imagine the best possible world.",
-      "asks ${cr.name} to imagine a world without prisons, and tries to "
-          "engage ${cr.gender.himHer} in a discussion about how "
-          "conflicts would be resolved if locking people away wasn't "
-          "an option.",
-      "asks ${cr.name} to imagine a world without borders, where moving "
-          "between countries is as easy as moving between cities.",
-      "tries to help ${cr.name} escape ${cr.gender.hisHer} old mindset.",
-      "encourages ${cr.name} to admit ${cr.gender.hisHer} past mistakes, "
-          "everything ${cr.gender.heShe} feels guilty or ashamed of, "
-          "so ${lead.gender.heShe} can show unconditional acceptance and "
-          "understanding of them instead of the rejection ${cr.name} was "
-          "expecting.",
-    ].random}";
+    message =
+        "${lead.name} ${["raves about how good vegan food is to ${cr.name}.", "explains microaggressions to ${cr.name}.", "recites some spoken word poetry for ${cr.name}.", "quizzes ${cr.name} about correct recycling habits.", "enthuses about the benefits of regular meditation to ${cr.name} "
+            "and offers to teach ${cr.gender.himHer} how to do it.", "shows ${cr.name} pictures of people having fun at a protest and "
+            "suggests ${cr.gender.heShe} would get a lot out of it.", "describes a progressive film to ${cr.name} and tells ${cr.gender.himHer} "
+            "about what it means.", "tells ${cr.name} about some clever protest signs people have come up "
+            "with in the past.", "tells ${cr.name} how much fun drag shows are and offers to answer "
+            "any questions ${cr.gender.himHer} has about them.", "recommends ${cr.name} read some theory when ${cr.gender.heShe} gets "
+            "a chance, and tries to explain some of the complex ideas "
+            "from memory.", "asks ${cr.name} \"What does your political inner child look like?\"", "tries to do a guided meditation with ${cr.name}, and asks "
+            "${cr.gender.himHer} to visualize ${cr.gender.hisHer} feelings "
+            "like a painting.", "plays a selection of protest songs on ${lead.gender.hisHer} cell "
+            "phone and asks ${cr.gender.himHer} what ${cr.gender.heShe} thinks "
+            "they mean.", "challenges ${cr.name} to imagine a world without posessions, and "
+            "wonders if ${cr.gender.heShe} can.", "suggests ${cr.name} would look good in a hemp tunic.", "says ${cr.name} would could be a totally epic left-wing punk rebel "
+            "if ${cr.gender.heShe} is interested in that sort of thing.", "tells ${cr.name} about the importance of intersectionality.", "explains to ${cr.name} that fair trade coffee actually tastes better "
+            "and is better for the world.", "works with ${cr.name} to imagine the best possible world.", "asks ${cr.name} to imagine a world without prisons, and tries to "
+            "engage ${cr.gender.himHer} in a discussion about how "
+            "conflicts would be resolved if locking people away wasn't "
+            "an option.", "asks ${cr.name} to imagine a world without borders, where moving "
+            "between countries is as easy as moving between cities.", "tries to help ${cr.name} escape ${cr.gender.hisHer} old mindset.", "encourages ${cr.name} to admit ${cr.gender.hisHer} past mistakes, "
+            "everything ${cr.gender.heShe} feels guilty or ashamed of, "
+            "so ${lead.gender.heShe} can show unconditional acceptance and "
+            "understanding of them instead of the rejection ${cr.name} was "
+            "expecting."].random}";
   }
   addparagraph(y, 0, message);
   y = console.y + 1;
@@ -209,7 +162,8 @@ Future<void> handleLoveBombing(
 
   //Target is swayed by Liberal Reason -- skilled interrogators, time held,
   //and rapport contribute to the likelihood of this
-  int marginOfSuccess = cr.attribute(Attribute.wisdom) * 2 +
+  int marginOfSuccess =
+      cr.attribute(Attribute.wisdom) * 2 +
       cr.skill(Skill.business) +
       cr.skill(Skill.religion) +
       cr.skill(Skill.science) +
@@ -230,31 +184,39 @@ Future<void> handleLoveBombing(
     }
 
     //Improve rapport with interrogator
-    intr.rapport.update(lead.id, (v) => v + 1 + lcsRandom(5) * 0.2,
-        ifAbsent: () => 1 + lcsRandom(5) * 0.2);
+    intr.rapport.update(
+      lead.id,
+      (v) => v + 1 + lcsRandom(5) * 0.2,
+      ifAbsent: () => 1 + lcsRandom(5) * 0.2,
+    );
 
-    mvaddstr(y++, 0, cr.name);
-    addstr([
-      "'s Conservative beliefs are shaken.",
-      " quietly considers these ideas.",
-      " is beginning to see Liberal reason.",
-      " has a revelation of understanding.",
-      " grudgingly admits sympathy for LCS ideals.",
-      " is beginning to see the error of ${cr.gender.hisHer} ways.",
-      " is beginning to understand where the LCS is coming from.",
-      " never really thought about things this way before.",
-    ].random);
+    final lovebombResult = [
+      "${cr.name}'s Conservative beliefs are shaken.",
+      "${cr.name} quietly considers these ideas.",
+      "${cr.name} is beginning to see Liberal reason.",
+      "${cr.name} has a revelation of understanding.",
+      "${cr.name} grudgingly admits sympathy for LCS ideals.",
+      "${cr.name} is beginning to see the error of ${cr.gender.hisHer} ways.",
+      "${cr.name} is beginning to understand where the LCS is coming from.",
+      "${cr.name} never really thought about things this way before.",
+    ].random;
+    mvaddstrc(y++, 0, lightGray, lovebombResult);
 
     await getKey();
   }
   //Target is not sold on the LCS arguments and holds firm
   //This is the worst possible outcome if you use props
   else if (!cr.skillCheck(
-          Skill.psychology, lead.attribute(Attribute.heart) + 5) ||
+        Skill.psychology,
+        lead.attribute(Attribute.heart) + 5,
+      ) ||
       intr.techniques[Technique.props] == true) {
     //Loses rapport
-    intr.rapport.update(lead.id, (v) => v - 0.2 - lcsRandom(5) * 0.1,
-        ifAbsent: () => -0.2 - lcsRandom(5) * 0.1);
+    intr.rapport.update(
+      lead.id,
+      (v) => v - 0.2 - lcsRandom(5) * 0.1,
+      ifAbsent: () => -0.2 - lcsRandom(5) * 0.1,
+    );
 
     String description;
     if (rapportTemp > lcsRandom(3) ||
@@ -316,12 +278,7 @@ Future<void> handleLoveBombing(
           "${cr.name} is not convinced.",
           "${cr.name} asks questions, but seems unmoved.",
           "${cr.name} teases ${lead.name} a bit.",
-          "${cr.name} asks for ${[
-            "coffee",
-            "tea",
-            "water",
-            "a burger",
-          ].random}.",
+          "${cr.name} asks for ${["coffee", "tea", "water", "a burger"].random}.",
           "${cr.name} explains why ${cr.gender.heShe} disagrees.",
           "${cr.name} debates the points raised.",
         ].random;
@@ -351,10 +308,11 @@ Future<void> handleLoveBombing(
     lead.adjustAttribute(Attribute.wisdom, 1);
 
     addparagraph(
-        y,
-        0,
-        "${cr.name} makes some fascinating points that ${lead.name} has "
-        "never considered before...");
+      y,
+      0,
+      "${cr.name} makes some fascinating points that ${lead.name} has "
+      "never considered before...",
+    );
     y = console.y + 1;
 
     mvaddstrc(y++, 0, red, "${lead.name} has been tainted with wisdom!");

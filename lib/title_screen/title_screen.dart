@@ -11,6 +11,7 @@ import 'package:lcs_new_age/title_screen/high_scores.dart';
 import 'package:lcs_new_age/title_screen/map_editor.dart';
 import 'package:lcs_new_age/title_screen/new_game.dart';
 import 'package:lcs_new_age/title_screen/world.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
@@ -165,6 +166,30 @@ Future<void> optionsMenu() async {
       8,
       x2: 72,
       "When mouse input is on, you can use the mouse to select options in "
+      "the game. This feature is not complete and not All screens support "
+      "mouse input. Default is on.",
+    );
+    addOptionText(
+      console.y + 1,
+      4,
+      "U",
+      "U - Log Untranslated Strings: ${gameOptions.logUntranslatedStrings ? "&GOn&x" : "&ROff&x"}",
+    );
+    setColor(midGray);
+    addparagraph(
+      console.y + 1,
+      8,
+      x2: 72,
+      "When enabled, untranslated strings encountered during gameplay will be "
+      "written to JSON files in game directory for translation. Default is on "
+      "for Windows builds and debug mode only.",
+    );
+    setColor(midGray);
+    addparagraph(
+      console.y + 1,
+      8,
+      x2: 72,
+      "When mouse input is on, you can use the mouse to select options in "
       "the game. This feature is not complete and not all screens support "
       "mouse input. Default is on.",
     );
@@ -206,6 +231,10 @@ Future<void> optionsMenu() async {
           case ",":
             gameOptions.interfacePgUp = "[";
         }
+        await gameOptions.save();
+      case Key.u:
+        gameOptions.logUntranslatedStrings =
+            !gameOptions.logUntranslatedStrings;
         await gameOptions.save();
       case Key.b:
         return;
@@ -252,7 +281,11 @@ void printTitleScreen(HighScores? highScores) {
   setColor(RainbowFlag.lightBlue);
   addstr("NEW AGE");
   setColor(midGray);
-  mvaddstrCenter(4, "Maintained by Jonathan S. Fox, with gratitude to:");
+  mvaddstrCenter(
+    4,
+    "Maintained by {maintainer}, with gratitude to:",
+    params: {'maintainer': 'Jonathan S. Fox'},
+  );
   mvaddstrCenter(5, "Bay 12 Games, IsaacG, SlatersQuest, Kamal-Sadek, Grundee");
   mvaddstrCenter(
     6,
@@ -260,7 +293,7 @@ void printTitleScreen(HighScores? highScores) {
   );
 
   setColor(black, background: lightGray);
-  mvaddstrRight(23, "Version $gameVersion", marginX: 2);
+  mvaddstrRight(23, "Version $gameVersion");
   setColor(lightGray);
   mvaddstrCenter(24, "(click the game window to give it keyboard focus)");
 }
@@ -285,36 +318,42 @@ void titleScreenFrame({bool includeEmDash = true, int bottom = 22}) {
 void titleScreenScores(HighScores? highScores, {int startY = 9}) {
   highScores ??= HighScores();
   mvaddstrc(startY, 4, white, "Universal Liberal Statistics");
-  mvaddstrc(
+  setColor(lightGray);
+  mvaddstr(
     startY + 1,
     4,
-    lightGray,
-    "Total Liberals Recruited: ${highScores.universalRecruits}",
+    "Total Liberals Recruited: {count}",
+    params: {'count': highScores.universalRecruits},
   );
   mvaddstr(
     startY + 2,
     4,
-    "Total Liberals Martyred: ${highScores.universalMartyrs}",
+    "Total Liberals Martyred: {count}",
+    params: {'count': highScores.universalMartyrs},
   );
   mvaddstr(
     startY + 3,
     4,
-    "Total Conservatives Killed: ${highScores.universalKills}",
+    "Total Conservatives Killed: {count}",
+    params: {'count': highScores.universalKills},
   );
   mvaddstr(
     startY + 4,
     4,
-    "Total Conservatives Kidnapped: ${highScores.universalKidnappings}",
+    "Total Conservatives Kidnapped: {count}",
+    params: {'count': highScores.universalKidnappings},
   );
   mvaddstr(
     startY + 1,
     44,
-    "Total Americas Lost: ${highScores.universalLosses}",
+    "Total Americas Lost: {count}",
+    params: {'count': highScores.universalLosses},
   );
   mvaddstr(
     startY + 2,
     44,
-    "Total Americas Saved: ${highScores.universalVictories}",
+    "Total Americas Saved: {count}",
+    params: {'count': highScores.universalVictories},
   );
   if (highScores.wins.isNotEmpty) {
     mvaddstr(
@@ -394,7 +433,7 @@ Future<void> languageMenu() async {
       6,
       4,
       "E",
-      "English: ${gameOptions.language == 'en' ? '&GSelected&x' : 'English'}",
+      "English: ${gameOptions.language == 'en_US' ? '&GSelected&x' : 'English'}",
       enabledWhen: true,
     );
     addOptionText(
@@ -404,6 +443,20 @@ Future<void> languageMenu() async {
       "Portuguese: ${gameOptions.language == 'pt_BR' ? '&GSelected&x' : 'Portugues'}",
       enabledWhen: true,
     );
+    addOptionText(
+      8,
+      4,
+      "G",
+      "German: ${gameOptions.language == 'de' ? '&GSelected&x' : 'Deutsch'}",
+      enabledWhen: true,
+    );
+    addOptionText(
+      9,
+      4,
+      "F",
+      "French: ${gameOptions.language == 'fr' ? '&GSelected&x' : 'Français'}",
+      enabledWhen: true,
+    );
 
     setColor(midGray);
     addparagraph(
@@ -411,8 +464,7 @@ Future<void> languageMenu() async {
       8,
       x2: 72,
       "Language selection affects all text in the game. "
-      "Additional languages can be added in future updates. "
-      "Restart the game for language changes to take effect.",
+      "Changes take effect immediately.",
     );
 
     addOptionText(console.y + 1, 4, "B", "B - Back to Title Screen");
@@ -421,12 +473,19 @@ Future<void> languageMenu() async {
 
     switch (c) {
       case Key.e:
-        gameOptions.language = 'en_US';
-        await gameOptions.save();
-        return;
       case Key.p:
-        gameOptions.language = 'pt_BR';
+      case Key.g:
+      case Key.f:
+        final languageMap = {
+          Key.e: 'en_US',
+          Key.p: 'pt_BR',
+          Key.g: 'de',
+          Key.f: 'fr',
+        };
+        final selectedLanguage = languageMap[c]!;
+        gameOptions.language = selectedLanguage;
         await gameOptions.save();
+        await LcsI18n.initialize(selectedLanguage);
         return;
       case Key.b:
         return;

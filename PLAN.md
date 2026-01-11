@@ -53,30 +53,24 @@ This document outlines a phased approach to implementing internationalization (i
 ### 1.4 Language Switching ✅
 - ✅ Implement locale detection/selection (basic `setLocale()` method loads ARB files)
 - ✅ Add runtime language switching (setLocale actually loads translations)
-- ⏳ Create language selection UI (basic)
-- ⏳ Test dynamic switching vs. restart requirement
+- [OK] Create language selection UI (basic)
+- [OK] Test dynamic switching vs. restart requirement
 
 ## Phase 2: Core Content (Week 3-4)
 
-### 2.1 High-Frequency Modules
-Target modules with highest output volume:
-- [ ] `sitemode/fight.dart` (296 console calls)
-- [ ] `talk/drop_a_pickup_line.dart` (271 console calls)
-- [ ] `common_display/print_creature_info.dart` (155 console calls)
+### 2.1 String Pattern Refactoring
+- [ ] Convert string interpolation to parameterized messages on all modules
+- [ ] Replace concatenation patterns with message templates on all modules
+- [ ] Implement ICU plural handling by having different strings on code based on singular/plural and ensuring the plural messages have the counts parameterized, with special cases for 0 and 1
+- [ ] Ensure no translatable ambiguous strings remain, each printed phrase or part of phrase should make sense in isolation for internationalization to be effective.
 
-### 2.2 String Pattern Refactoring
-- [ ] Convert string interpolation to parameterized messages
-- [ ] Replace concatenation patterns with message templates
-- [ ] Implement ICU plural handling for common patterns
-- [ ] Add context metadata for ambiguous strings
-
-### 2.3 Translation Files
-- [ ] Create comprehensive English ARB template
+### 2.2 Translation Files
+- [ ] Create comprehensive ARB template
 - [ ] Add placeholder metadata for all parameters
 - [ ] Implement ARB→PO export scripts
 - [ ] Create translation guidelines document
 
-### 2.4 Quality Assurance
+### 2.3 Quality Assurance
 - [ ] Add pseudo-translation testing
 - [ ] Implement missing translation logging
 - [ ] Create coverage analysis tools
@@ -88,14 +82,6 @@ Target modules with highest output volume:
 - [ ] Identify grammar-dependent code patterns
 - [ ] Implement gender-aware messages where needed
 - [ ] Handle possessive forms and articles
-- [ ] Create custom formatters for game-specific terms
-
-### 3.2 Module Expansion
-Continue with remaining high-volume modules:
-- [ ] `daily/siege.dart` (143 console calls)
-- [ ] `sitemode/site_display.dart` (143 console calls)
-- [ ] `basemode/review_mode.dart` (129 console calls)
-- [ ] `daily/dating.dart` (127 console calls)
 
 ### 3.3 Tooling Enhancement
 - [ ] Develop automated string extraction tools

@@ -89,7 +89,7 @@ List<String> _issueEventStrings = [
   "a book on the history of military atrocities",
   "a documentary on the prisoners' suffering",
   "a leaked government paper on environmental conditions",
-  "a documentary on life under corporate culture"
+  "a documentary on life under corporate culture",
 ];
 
 Future<void> meetWithPotentialRecruits() async {
@@ -131,16 +131,19 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
   setColor(white);
   move(0, 0);
   if (p.meetings++ > 5 && lcsRandom(p.meetings - 5) > 0) {
-    addstr(p.name);
-    addstr(" accidentally missed the meeting with ");
-    addstr(r.recruit.name);
-    move(1, 0);
-    addstr("due to multiple booking of recruitment sessions.");
-
-    move(3, 0);
-    addstr("Get it together, ");
-    addstr(p.name);
-    addstr("!");
+    mvaddstrc(
+      0,
+      0,
+      lightGray,
+      "${p.name} accidentally missed the meeting with ${r.recruit.name}",
+    );
+    mvaddstrc(
+      1,
+      0,
+      lightGray,
+      "due to multiple booking of recruitment sessions.",
+    );
+    mvaddstrc(3, 0, lightGray, "Get it together, ${p.name}!");
 
     await getKey();
 
@@ -152,16 +155,13 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
   } else {
     inPerson = false;
   }
-  addstr("Meeting with ");
-  addstr(r.recruit.name);
-  addstr(", ");
-  addstr(r.recruit.type.name);
-  addstr(", ");
-  if (inPerson) {
-    addstr(r.recruit.location!.name);
-  } else {
-    addstr("via video chat.");
-  }
+  final locationInfo = inPerson ? r.recruit.location!.name : "via video chat.";
+  mvaddstrc(
+    0,
+    0,
+    lightGray,
+    "Meeting with ${r.recruit.name}, ${r.recruit.type.name}, $locationInfo",
+  );
 
   setColor(lightGray);
   printFunds();
@@ -170,30 +170,35 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
   makeDelimiter();
 
   move(10, 0);
-  addstr(r.recruit.name);
-  switch (r.eagerness) {
-    case 1:
-      addstr(" will take a lot of persuading.");
-    case 2:
-      addstr(" is interested in learning more.");
-    case 3:
-      addstr(" feels something needs to be done.");
-    default:
-      if (r.eagerness >= 4) {
-        addstr(" is ready to fight for the Liberal Cause.");
-      } else {
-        addstr(" kind of regrets agreeing to this.");
-      }
-  }
-  mvaddstr(11, 0, "How should ");
-  addstrc(white, p.name);
-  addstrc(lightGray, " approach the situation?");
+  final recruitResponse = switch (r.eagerness) {
+    1 => "${r.recruit.name} will take a lot of persuading.",
+    2 => "${r.recruit.name} is interested in learning more.",
+    3 => "${r.recruit.name} feels something needs to be done.",
+    _ when r.eagerness >= 4 =>
+      "${r.recruit.name} is ready to fight for the Liberal Cause.",
+    _ => "${r.recruit.name} kind of regrets agreeing to this.",
+  };
+  mvaddstrc(10, 0, lightGray, recruitResponse);
+  mvaddstr(
+    11,
+    0,
+    "How should {name} approach the situation?",
+    params: {"name": p.name},
+  );
 
-  addOptionText(13, 0, "A",
-      "A - Spend \$50 on props and a${inPerson ? " " : "n e-"}book for them to keep.",
-      enabledWhen: ledger.funds >= 50);
   addOptionText(
-      14, 0, "B", "B - Just casually chat with them and discuss politics.");
+    13,
+    0,
+    "A",
+    "A - Spend \$50 on props and a${inPerson ? " " : "n e-"}book for them to keep.",
+    enabledWhen: ledger.funds >= 50,
+  );
+  addOptionText(
+    14,
+    0,
+    "B",
+    "B - Just casually chat with them and discuss politics.",
+  );
 
   bool canRecruit = false;
   String recruitmentText = "C - ";
@@ -218,8 +223,12 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       mvaddstr(y, 0, "${p.name} offers to let ${r.recruit.name} join the LCS.");
       await getKey();
 
-      mvaddstrc(y += 2, 0, lightGreen,
-          "${r.recruit.name} accepts, and is eager to get started.");
+      mvaddstrc(
+        y += 2,
+        0,
+        lightGreen,
+        "${r.recruit.name} accepts, and is eager to get started.",
+      );
       r.recruit.hireId = p.id;
       liberalize(r.recruit);
       await getKey();
@@ -250,13 +259,15 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
         p.train(Skill.business, r.recruit.skill(Skill.business));
       }
 
-      int libPersuasiveness = p.skill(Skill.business) +
+      int libPersuasiveness =
+          p.skill(Skill.business) +
           p.skill(Skill.science) +
           p.skill(Skill.religion) +
           p.skill(Skill.law) +
           p.attribute(Attribute.intelligence);
 
-      int recruitReluctance = 5 +
+      int recruitReluctance =
+          5 +
           r.recruit.skill(Skill.business) +
           r.recruit.skill(Skill.science) +
           r.recruit.skill(Skill.religion) +
@@ -279,13 +290,12 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
 
         await getKey();
       } else {
-        move(y++, 0);
-        addstr(p.name);
-        addstr(" explains ");
-        addstr(p.gender.hisHer);
-        addstr(" views on ");
-        addstr(Law.values.random.label);
-        addstr(".");
+        mvaddstrc(
+          y++,
+          0,
+          lightGray,
+          "${p.name} explains ${p.gender.hisHer} views on ${Law.values.random.label}.",
+        );
 
         await getKey();
       }
@@ -295,46 +305,52 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       if (p.skillCheck(Skill.persuasion, difficulty)) {
         setColor(lightBlue);
         if (r.rawEagerness < 127) r.rawEagerness++;
-        move(y++, 0);
-        addstr(r.recruit.name);
-        addstr(" found ");
-        addstr(p.name);
-        addstr("'s views to be insightful.");
-
-        move(y++, 0);
-        addstr("They'll definitely meet again tomorrow.");
+        mvaddstrc(
+          y++,
+          0,
+          lightBlue,
+          "${r.recruit.name} found ${p.name}'s views to be insightful.",
+        );
+        mvaddstrc(y++, 0, lightGray, "They'll definitely meet again tomorrow.");
       } else if (p.skillCheck(
-          Skill.persuasion, difficulty)) // Second chance to not fail horribly
+        Skill.persuasion,
+        difficulty,
+      )) // Second chance to not fail horribly
       {
         if (r.rawEagerness > -128) r.rawEagerness--;
-        move(y++, 0);
-        addstr(r.recruit.name);
-        addstr(" is skeptical about some of ");
-        addstr(p.name);
-        addstr("'s arguments.");
-
-        move(y++, 0);
-        addstr("They'll meet again tomorrow.");
+        mvaddstrc(
+          y++,
+          0,
+          lightGray,
+          "${r.recruit.name} is skeptical about some of ${p.name}'s arguments.",
+        );
+        mvaddstrc(y++, 0, lightGray, "They'll meet again tomorrow.");
       } else {
         setColor(purple);
-        move(y++, 0);
         if (r.recruit.type.talkReceptive &&
             r.recruit.align == Alignment.liberal) {
-          addstr(r.recruit.name);
-          addstr(" isn't convinced ");
-          addstr(p.name);
-          addstr(" really understands the problem.");
-
-          move(y++, 0);
-          addstr("Maybe ");
-          addstr(p.name);
-          addstr(" needs more experience.");
+          mvaddstrc(
+            y++,
+            0,
+            lightGray,
+            "${r.recruit.name} isn't convinced ${p.name} really understands the problem.",
+          );
+          mvaddstrc(
+            y++,
+            0,
+            lightGray,
+            "Maybe ${p.name} needs more experience.",
+          );
         } else {
-          addstr("${r.recruit.name} thinks ${p.name} is dangerous extremist.");
+          addstr(
+            "{recruitName} thinks {pName} is dangerous extremist.",
+            params: {"recruitName": r.recruit.name, "pName": p.name},
+          );
 
           move(y++, 0);
           addstr(
-              "This whole thing was a mistake. There won't be another meeting.");
+            "This whole thing was a mistake. There won't be another meeting.",
+          );
         }
 
         await getKey();
@@ -352,16 +368,28 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
 
 // Prompt to turn new recruit into a sleeper
 Future<void> sleeperizePrompt(
-    Creature converted, Creature recruiter, int y) async {
+  Creature converted,
+  Creature recruiter,
+  int y,
+) async {
   while (true) {
     move(y, 0);
     setColor(lightGray);
     addstr(
-        "In what capacity will ${converted.name} best serve the Liberal cause?");
-    addOptionText(y + 2, 0, "A",
-        "A - Come to ${recruiter.location!.getName(short: false, includeCity: true)} as a &Gregular member&x.");
-    addOptionText(y + 3, 0, "B",
-        "B - Stay at ${converted.workLocation.getName(short: false, includeCity: true)} as a &Bsleeper agent&x.");
+      "In what capacity will ${converted.name} best serve the Liberal cause?",
+    );
+    addOptionText(
+      y + 2,
+      0,
+      "A",
+      "A - Come to ${recruiter.location!.getName(short: false, includeCity: true)} as a &Gregular member&x.",
+    );
+    addOptionText(
+      y + 3,
+      0,
+      "B",
+      "B - Stay at ${converted.workLocation.getName(short: false, includeCity: true)} as a &Bsleeper agent&x.",
+    );
 
     int c = await getKey();
     if (c == Key.b) {

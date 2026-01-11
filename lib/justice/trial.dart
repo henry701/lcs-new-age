@@ -18,12 +18,7 @@ import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
-enum TrialOutcome {
-  retrial,
-  acquittal,
-  guilty,
-  lenience,
-}
+enum TrialOutcome { retrial, acquittal, guilty, lenience }
 
 Future<void> trial(Creature g) async {
   TrialOutcome trialOutcome;
@@ -36,8 +31,7 @@ Future<void> trial(Creature g) async {
   g.location = g.base;
 
   erase();
-  mvaddstrc(1, 1, white, g.name);
-  addstr(" is standing trial.");
+  mvaddstrc(1, 1, white, "${g.name} is standing trial.");
   await getKey();
 
   setColor(lightGray);
@@ -68,8 +62,9 @@ Future<void> trial(Creature g) async {
   Creature? sleeperjudge;
   Creature? sleeperlawyer;
   int maxsleeperskill = 0;
-  for (Creature p in pool.where((p) =>
-      p.alive && p.sleeperAgent && p.location?.city == g.location?.city)) {
+  for (Creature p in pool.where(
+    (p) => p.alive && p.sleeperAgent && p.location?.city == g.location?.city,
+  )) {
     if (p.type.id == CreatureTypeIds.conservativeJudge ||
         p.type.id == CreatureTypeIds.liberalJudge) {
       if (p.infiltration * 100 >= lcsRandom(100)) sleeperjudge = p;
@@ -87,7 +82,8 @@ Future<void> trial(Creature g) async {
   move(3, 1);
   if (sleeperjudge != null) {
     addstr(
-        "Sleeper ${sleeperjudge.name} reads the charges, trying to hide a smile:");
+      "Sleeper ${sleeperjudge.name} reads the charges, trying to hide a smile:",
+    );
     g.confessions = 0; // Sleeper judge prevents these lunatics from testifying
   } else {
     addstr("The judge reads the charges:");
@@ -122,16 +118,19 @@ Future<void> trial(Creature g) async {
     if (g.confessions > 1) {
       if (sleeperjudge != null) {
         addstr(
-            "The judge has blocked ${g.confessions} ex-LCS members from testifying against ${g.name}.");
+          "The judge has blocked ${g.confessions} ex-LCS members from testifying against ${g.name}.",
+        );
         g.confessions = 0;
       } else {
         addstr(
-            "${g.confessions} former LCS members will testify against ${g.name}.");
+          "${g.confessions} former LCS members will testify against ${g.name}.",
+        );
       }
     } else {
       if (sleeperjudge != null) {
         addstr(
-            "The judge has blocked an ex-LCS member from testifying against ${g.name}.");
+          "The judge has blocked an ex-LCS member from testifying against ${g.name}.",
+        );
         g.confessions = 0;
       } else {
         addstr("A former LCS member will testify against ${g.name}.");
@@ -148,12 +147,20 @@ Future<void> trial(Creature g) async {
   addOptionText(y++, 1, "A", "A - Use a court-appointed attorney.");
   addOptionText(y++, 1, "B", "B - Defend self!");
   addOptionText(y++, 1, "C", "C - Plead guilty.");
-  addOptionText(y++, 1, "D",
-      "D - Pay \$5000 to hire Elite Liberal Attorney ${uniqueCreatures.aceLiberalAttorney.name}",
-      enabledWhen: ledger.funds >= 5000);
+  addOptionText(
+    y++,
+    1,
+    "D",
+    "D - Pay \$5000 to hire Elite Liberal Attorney ${uniqueCreatures.aceLiberalAttorney.name}",
+    enabledWhen: ledger.funds >= 5000,
+  );
   if (sleeperlawyer != null) {
-    addOptionText(y++, 1, "E",
-        "E - Accept sleeper ${sleeperlawyer.name}'s offer to assist pro bono");
+    addOptionText(
+      y++,
+      1,
+      "E",
+      "E - Accept sleeper ${sleeperlawyer.name}'s offer to assist pro bono",
+    );
   }
   mvaddstrc(++y, 5, lightGray, "Your relevant skills if you defend yourself: ");
   mvaddstr(++y, 5, "Law: ${g.skill(Skill.law)}");
@@ -199,8 +206,7 @@ Future<void> trial(Creature g) async {
     int prosecution = 0;
     erase();
 
-    mvaddstrc(1, 1, white, g.name);
-    addstr(" is standing trial.");
+    mvaddstrc(1, 1, white, "${g.name} is standing trial.");
 
     //TRIAL MESSAGE
     mvaddstrc(3, 1, lightGray, "The trial proceeds.  Jury selection is first.");
@@ -210,7 +216,8 @@ Future<void> trial(Creature g) async {
     //JURY MAKEUP MESSAGE
     setColor(lightGray);
     move(5, 1);
-    int jury = lcsRandom(61) -
+    int jury =
+        lcsRandom(61) -
         (60 * politics.publicMood()) ~/
             100; // Political leanings of the population determine your jury
     if (sleeperjudge != null) jury -= 20;
@@ -218,14 +225,16 @@ Future<void> trial(Creature g) async {
     {
       if (!oneIn(10)) {
         addstr(
-            "$attorneyname ensures the jury is stacked in ${g.name}'s favor!");
+          "$attorneyname ensures the jury is stacked in ${g.name}'s favor!",
+        );
 
         if (jury > 0) jury = 0;
         jury -= 30;
       } else {
         setColor(red);
         addstr(
-            "$attorneyname's CONSERVATIVE ARCH-NEMESIS will represent the prosecution!!!");
+          "$attorneyname's CONSERVATIVE ARCH-NEMESIS will represent the prosecution!!!",
+        );
 
         jury = 0;
         prosecution += 100; // DUN DUN DUN!!
@@ -234,14 +243,18 @@ Future<void> trial(Creature g) async {
       setColor(lightGreen);
       switch (lcsRandom(4)) {
         case 0:
-          addstr("${g.name}'s best friend from childhood on the jury.");
+          addstr(
+            "{gname}'s best friend from childhood on the jury.",
+            params: {"gname": g.name},
+          );
         case 1:
           addstr("The jury is Flaming Liberal.");
         case 2:
           addstr("A few of the jurors are closet Socialists.");
         case 3:
           addstr(
-              "One of the jurors flashes a SECRET LIBERAL HAND SIGNAL when no one is looking.");
+            "One of the jurors flashes a SECRET LIBERAL HAND SIGNAL when no one is looking.",
+          );
       }
     } else if (jury <= -15) {
       addstr("The jury is fairly Liberal.");
@@ -254,7 +267,8 @@ Future<void> trial(Creature g) async {
       switch (lcsRandom(4)) {
         case 0:
           addstr(
-              "Such a collection of Conservative jurors has never before been assembled.");
+            "Such a collection of Conservative jurors has never before been assembled.",
+          );
         case 1:
           addstr("One of the accepted jurors is a Conservative activist.");
         case 2:
@@ -268,7 +282,8 @@ Future<void> trial(Creature g) async {
 
     //PROSECUTION MESSAGE
     // *JDS* The bigger your record, the stronger the evidence
-    prosecution += 40 +
+    prosecution +=
+        40 +
         lcsRandom(101) +
         scarefactor +
         (20 * g.confessions) -
@@ -280,9 +295,15 @@ Future<void> trial(Creature g) async {
     move(7, 1);
 
     if (prosecution <= 0) {
-      addstr("The police seem to have confused ${g.name} with someone else.");
+      addstr(
+        "The police seem to have confused {name} with someone else.",
+        params: {"name": g.name},
+      );
     } else if (prosecution <= 25) {
-      addstr("The accusations against ${g.name} are largely baseless.");
+      addstr(
+        "The accusations against {name} are largely baseless.",
+        params: {"name": g.name},
+      );
     } else if (prosecution <= 50) {
       addstr("The prosecution's case seems pretty fragile.");
     } else if (prosecution <= 75) {
@@ -308,7 +329,8 @@ Future<void> trial(Creature g) async {
       if (defense == 0) {
         // Court-appointed attorney
         Creature attorney = Creature.fromId(CreatureTypeIds.lawyer);
-        defensepower = lcsRandom(71) +
+        defensepower =
+            lcsRandom(71) +
             attorney.skill(Skill.law) * 2 +
             attorney.skill(Skill.persuasion) * 2;
       } else if (defense == 3) {
@@ -316,7 +338,8 @@ Future<void> trial(Creature g) async {
         defensepower = lcsRandom(71) + 80;
       } else if (defense == 4) {
         // Sleeper attorney
-        defensepower = lcsRandom(71) +
+        defensepower =
+            lcsRandom(71) +
             sleeperlawyer!.skill(Skill.law) * 4 +
             sleeperlawyer.skill(Skill.persuasion) * 4;
         sleeperlawyer.train(Skill.law, prosecution);
@@ -342,20 +365,24 @@ Future<void> trial(Creature g) async {
       } else {
         if (prosecution < 100) {
           addstr(
-              "$attorneyname's arguments make several of the jurors stand up ");
-          mvaddstr(10, 1,
-              "and shout \"NOT GUILTY!\" before deliberations even began.");
+            "$attorneyname's arguments make several of the jurors stand up ",
+          );
+          mvaddstr(
+            10,
+            1,
+            "and shout \"NOT GUILTY!\" before deliberations even began.",
+          );
           if (defense == 4) addjuice(sleeperlawyer!, 50, 1000); // Bow please
         } else {
-          addstr(attorneyname!);
-          addstr(" conducts an incredible defense.");
+          addstr("$attorneyname! conducts an incredible defense.");
         }
       }
     }
     if (defense == 1) {
       // Self-defense; generally worse than a lawyer, but if you're a rockstar
       // maybe you can pull it off
-      defensepower = (g.skill(Skill.persuasion)) * 4 +
+      defensepower =
+          (g.skill(Skill.persuasion)) * 4 +
           (g.skill(Skill.law)) * 4 +
           lcsRandom(51);
 
@@ -365,21 +392,20 @@ Future<void> trial(Creature g) async {
       g.train(Skill.persuasion, prosecution);
       g.train(Skill.law, prosecution);
 
-      addstr(g.name);
-      if (defensepower <= 0) {
-        addstr(" just makes ${g.gender.himselfHerself} look guilty.");
-      } else if (defensepower <= 25) {
-        addstr("'s case really sucks.");
-      } else if (defensepower <= 50) {
-        addstr(" does all right, but makes some mistakes.");
-      } else if (defensepower <= 75) {
-        addstr("'s arguments are pretty good.");
-      } else if (defensepower <= 100) {
-        addstr(" works the jury very well.");
-      } else if (defensepower <= 150) {
-        addstr(" makes a very powerful case.");
-      } else {
-        addstr(" has the jury, judge, and prosecution crying for freedom.");
+      String verdict = switch (defensepower) {
+        _ when defensepower <= 0 =>
+          "${g.name} just makes ${g.gender.himselfHerself} look guilty.",
+        _ when defensepower <= 25 => "${g.name}'s case really sucks.",
+        _ when defensepower <= 50 =>
+          "${g.name} does all right, but makes some mistakes.",
+        _ when defensepower <= 75 => "${g.name}'s arguments are pretty good.",
+        _ when defensepower <= 100 => "${g.name} works the jury very well.",
+        _ when defensepower <= 150 => "${g.name} makes a very powerful case.",
+        _ =>
+          "${g.name} has the jury, judge, and prosecution crying for freedom.",
+      };
+      mvaddstrc(10, 1, lightGray, verdict);
+      if (defensepower > 150) {
         addjuice(g, 50, 1000); // That shit is legend
       }
     }
@@ -407,7 +433,11 @@ Future<void> trial(Creature g) async {
       //NO RE-TRY
       else {
         mvaddstrc(
-            5, 1, lightGray, "The prosecution declines to re-try the case.");
+          5,
+          1,
+          lightGray,
+          "The prosecution declines to re-try the case.",
+        );
         trialOutcome = TrialOutcome.acquittal;
 
         await getKey();
@@ -461,17 +491,20 @@ Future<void> trial(Creature g) async {
 
   if (trialOutcome == TrialOutcome.acquittal) {
     if (g.sentence == 0) {
-      mvaddstrc(5, 1, lightGreen, g.name);
-      addstr(" is free!");
+      mvaddstrc(5, 1, lightGreen, "${g.name} is free!");
     } else {
       mvaddstrc(5, 1, lightGray, g.name);
       addstr(
-          " will be returned to prison to resume ${g.gender.hisHer} earlier sentence.");
+        " will be returned to prison to resume ${g.gender.hisHer} earlier sentence.",
+      );
       g.sentence--;
       if (g.deathPenalty) {
         g.sentence = 3;
         mvaddstr(
-            7, 1, "The execution is scheduled to occur three months from now.");
+          7,
+          1,
+          "The execution is scheduled to occur three months from now.",
+        );
       }
     }
     await getKey();
@@ -513,8 +546,9 @@ Future<void> penalize(Creature g, bool lenient) async {
   ];
 
   if (!lenient &&
-      (g.wantedForCrimes.entries
-              .any((e) => deathPenaltyCrimes.contains(e.key) && e.value > 0) ||
+      (g.wantedForCrimes.entries.any(
+            (e) => deathPenaltyCrimes.contains(e.key) && e.value > 0,
+          ) ||
           laws[Law.deathPenalty] == DeepAlignment.archConservative)) {
     g.deathPenalty = switch (laws[Law.deathPenalty]) {
       DeepAlignment.archConservative => true,
@@ -563,14 +597,12 @@ Future<void> penalize(Creature g, bool lenient) async {
     time(12 + lcsRandom(100), Crime.racketeering);
 
     // How illegal is marijuana?
-    time(
-        switch (laws[Law.drugs]) {
-          DeepAlignment.archConservative => 3 + lcsRandom(360),
-          DeepAlignment.conservative => 3 + lcsRandom(120),
-          DeepAlignment.moderate => 3 + lcsRandom(12),
-          _ => 0,
-        },
-        Crime.drugDistribution);
+    time(switch (laws[Law.drugs]) {
+      DeepAlignment.archConservative => 3 + lcsRandom(360),
+      DeepAlignment.conservative => 3 + lcsRandom(120),
+      DeepAlignment.moderate => 3 + lcsRandom(12),
+      _ => 0,
+    }, Crime.drugDistribution);
 
     time(1, Crime.breakingAndEntering);
     time(60 + lcsRandom(181), Crime.terrorism);
@@ -596,8 +628,12 @@ Future<void> penalize(Creature g, bool lenient) async {
         break;
     }
 
-    lifeOrTime(lcsRandom(4) - g.wantedForCrimes[Crime.murder]! > 0,
-        120 + lcsRandom(241), 1, Crime.murder);
+    lifeOrTime(
+      lcsRandom(4) - g.wantedForCrimes[Crime.murder]! > 0,
+      120 + lcsRandom(241),
+      1,
+      Crime.murder,
+    );
     lifeOrTime(true, 0, 1, Crime.treason);
     if (lenient && g.sentence != -1) g.sentence ~/= 2;
     if (lenient && g.sentence == -1) g.sentence = 240 + lcsRandom(120);
@@ -611,7 +647,11 @@ Future<void> penalize(Creature g, bool lenient) async {
   //MENTION LENIENCY
   if (lenient) {
     mvaddstrc(
-        5, 1, lightGray, "During sentencing, the judge grants some leniency.");
+      5,
+      1,
+      lightGray,
+      "During sentencing, the judge grants some leniency.",
+    );
 
     await getKey();
   }
@@ -625,8 +665,12 @@ Future<void> penalize(Creature g, bool lenient) async {
 
     await getKey();
 
-    mvaddstrc(9, 1, lightGray,
-        "The execution is scheduled to occur three months from now.");
+    mvaddstrc(
+      9,
+      1,
+      lightGray,
+      "The execution is scheduled to occur three months from now.",
+    );
 
     await getKey();
   } else if (g.deathPenalty) {
@@ -637,8 +681,12 @@ Future<void> penalize(Creature g, bool lenient) async {
 
     await getKey();
 
-    mvaddstrc(9, 1, lightGray,
-        "The execution is scheduled to occur three months from now.");
+    mvaddstrc(
+      9,
+      1,
+      lightGray,
+      "The execution is scheduled to occur three months from now.",
+    );
 
     await getKey();
   }
@@ -649,7 +697,10 @@ Future<void> penalize(Creature g, bool lenient) async {
     mvaddstrc(7, 1, lightGray, g.properName);
     addstr(", the court sees no need to add to your existing sentence.");
     mvaddstr(
-        8, 1, "You will be returned to prison to resume serving your time.");
+      8,
+      1,
+      "You will be returned to prison to resume serving your time.",
+    );
 
     await getKey();
   } else if (g.sentence == 0) {
@@ -666,7 +717,10 @@ Future<void> penalize(Creature g, bool lenient) async {
 
     if (g.sentence <= -1) {
       if (g.sentence < -1) {
-        addstr("${-g.sentence} consecutive life terms in prison");
+        addstr(
+          "{lifeTerms} consecutive life terms in prison",
+          params: {"lifeTerms": -g.sentence},
+        );
 
         // Don't bother saying this if the convicted already has one or
         // more life sentences. Makes the 'consecutively' and 'concurrently'
@@ -680,14 +734,15 @@ Future<void> penalize(Creature g, bool lenient) async {
           addstr(g.properName);
         }
       } else {
-        addstr("life in prison");
+        String sentenceText = "${g.sentence ~/ 12} years in prison";
+        mvaddstr(9, 1, sentenceText);
       }
     } else if (g.sentence >= 36) {
       addstr("${g.sentence ~/ 12} years in prison");
     } else {
-      addstr("${g.sentence} month");
-      if (g.sentence > 1) addstr("s");
-      addstr(" in prison");
+      String monthText =
+          "${g.sentence} month${g.sentence > 1 ? "s" : ""} in prison";
+      addstr(monthText);
     }
 
     // Mash together compatible sentences.

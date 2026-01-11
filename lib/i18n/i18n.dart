@@ -2,6 +2,19 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'untranslated_logger.dart';
+import '../utils/game_options.dart';
+
+/// Exception thrown when i18n system encounters unrecoverable errors
+class LcsI18nException implements Exception {
+  final String message;
+  final dynamic originalError;
+
+  const LcsI18nException(this.message, [this.originalError]);
+
+  @override
+  String toString() => 'LcsI18nException: $message';
+}
 
 /// Central translation interface for LCS New Age
 ///
@@ -19,7 +32,12 @@ class LcsI18n {
 
   /// Initialize the translation system with the specified locale
   static Future<void> initialize([String locale = 'en_US']) async {
-    if (_initialized && _currentLocale == locale) return;
+    if (_initialized && _currentLocale == locale) {
+      print('LcsI18n: Already initialized with locale "$locale"');
+      return;
+    }
+
+    print('LcsI18n: Initializing with locale "$locale"');
 
     _currentLocale = locale;
     Intl.defaultLocale = locale;
@@ -31,19 +49,77 @@ class LcsI18n {
     }
 
     _initialized = true;
+    print('LcsI18n: Successfully initialized with locale "$locale"');
   }
 
-  /// Load ARB file for the specified locale
+  /// Load ARB file(s) for the specified locale
+  /// Supports multiple ARB files per locale: app_<locale>.arb, app_<locale>_part1.arb, etc.
   static Future<void> _loadLocale(String locale) async {
     try {
-      final String jsonString = await rootBundle.loadString(
-        'lib/l10n/app_$locale.arb',
-      );
-      final Map<String, dynamic> jsonData =
-          json.decode(jsonString) as Map<String, dynamic>;
-      _translations[locale] = jsonData;
+      // Load all ARB files matching the pattern app_<locale>*.arb
+      final manifestContent = await rootBundle.loadString('AssetManifest.json');
+      final Map<String, dynamic> manifest =
+          json.decode(manifestContent) as Map<String, dynamic>;
+
+      final localeFiles =
+          manifest.keys
+              .where(
+                (key) =>
+                    key.startsWith('lib/l10n/app_$locale') &&
+                    key.endsWith('.arb'),
+              )
+              .toList()
+            ..sort(); // Sort to ensure consistent loading order
+
+      if (localeFiles.isEmpty) {
+        print('LcsI18n: No ARB files found for locale "$locale"');
+        return;
+      }
+
+      final Map<String, dynamic> mergedTranslations = <String, dynamic>{};
+      final Set<String> duplicateKeys = <String>{};
+
+      for (final file in localeFiles) {
+        try {
+          final String jsonString = await rootBundle.loadString(file);
+          final Map<String, dynamic> jsonData =
+              json.decode(jsonString) as Map<String, dynamic>;
+
+          // Merge entries, tracking duplicates
+          for (final entry in jsonData.entries) {
+            if (mergedTranslations.containsKey(entry.key)) {
+              duplicateKeys.add(entry.key);
+              print(
+                'LcsI18n: WARNING - Duplicate key "${entry.key}" found in $file (previously loaded)',
+              );
+            } else {
+              mergedTranslations[entry.key] = entry.value;
+            }
+          }
+        } catch (e) {
+          print('LcsI18n: Failed to load $file: $e');
+        }
+      }
+
+      if (duplicateKeys.isNotEmpty) {
+        print(
+          'LcsI18n: ERROR - Found ${duplicateKeys.length} duplicate keys across ${localeFiles.length} files for locale "$locale"',
+        );
+        print(
+          'LcsI18n: Duplicate keys: ${duplicateKeys.take(5).join(", ")}${duplicateKeys.length > 5 ? "..." : ""}',
+        );
+        print(
+          'LcsI18n: Run "dart run scripts/clean_arb_duplicates.dart" to validate and fix',
+        );
+      } else {
+        print(
+          'LcsI18n: Loaded ${mergedTranslations.length} translations from ${localeFiles.length} file(s) for locale "$locale"',
+        );
+      }
+
+      _translations[locale] = mergedTranslations;
     } catch (e) {
-      // print('LcsI18n: Failed to load locale "$locale": $e');
+      print('LcsI18n: Failed to load locale "$locale": $e');
     }
   }
 
@@ -55,51 +131,104 @@ class LcsI18n {
 
   /// Translate a literal English string
   ///
+  /// [noTranslate] - When true, skips translation entirely and does not log
+  /// any warnings. Use for strings that should never be translated.
+  ///
   /// NCurses-style usage via console wrappers:
   ///   addstr("Press any key to continue.");
   ///   mvaddstr(10, 5, "Game Over");
-  static String translate(String englishText, {String? context}) {
+  static String translate(
+    String englishText, {
+    String? context,
+    bool noTranslate = false,
+  }) {
+    // Skip translation entirely for noTranslate strings
+    if (noTranslate) {
+      return englishText;
+    }
+
     if (!_initialized) {
+      print(
+        'LcsI18n: Not initialized, returning original text: "$englishText"',
+      );
       return englishText;
     }
 
     try {
       final localeData = _translations[_currentLocale];
       if (localeData != null && localeData.containsKey(englishText)) {
-        return localeData[englishText] as String;
+        final translated = localeData[englishText] as String;
+
+        // Warn if translation is the same as input (except for en_US)
+        if (_currentLocale != 'en_US' && translated == englishText) {
+          print(
+            'LcsI18n: WARNING - Untranslated string in $_currentLocale: "$englishText"',
+          );
+
+          // Log to file if option is enabled and string should not be ignored
+          if (gameOptions.logUntranslatedStrings &&
+              !UntranslatedStringLogger.shouldIgnoreString(englishText)) {
+            UntranslatedStringLogger.logUntranslatedString(
+              englishText,
+              _currentLocale,
+              noTranslate: noTranslate,
+            );
+          }
+        }
+
+        return translated;
       }
 
       // Fallback to English
       if (_currentLocale != 'en_US') {
         final enData = _translations['en_US'];
         if (enData != null && enData.containsKey(englishText)) {
-          return enData[englishText] as String;
+          final fallbackText = enData[englishText] as String;
+          print(
+            'LcsI18n: Using English fallback for "$englishText" in $_currentLocale',
+          );
+          return fallbackText;
         }
       }
 
-      // Track missing translations
-      if (!englishText.startsWith('@@')) {
+      // Track missing translations (skip for en_US since it's the source language)
+      if (_currentLocale != 'en_US') {
         _missingTranslations.add(englishText);
+        print(
+          'LcsI18n: Missing translation for "$englishText" in $_currentLocale',
+        );
       }
       return englishText;
     } catch (e) {
-      // print('LcsI18n: Translation error for "$englishText": $e');
+      print('LcsI18n: Translation error for "$englishText": $e');
       return englishText;
     }
   }
 
-  /// Shorthand alias
-  static String tr(String englishText, {String? context}) =>
-      translate(englishText, context: context);
+  /// Shorthand alias for [translate]
+  ///
+  /// [noTranslate] - When true, skips translation entirely.
+  static String tr(
+    String englishText, {
+    String? context,
+    bool noTranslate = false,
+  }) => translate(englishText, context: context, noTranslate: noTranslate);
 
   /// Format a string with named parameters
+  ///
+  /// [noTranslate] - When true, skips translation entirely and does not log
+  /// any warnings. Use for strings that should never be translated.
   ///
   /// This is called internally by console wrappers when params are provided.
   /// Direct usage:
   ///   addstr("You hit the {target}!", params: {"target": "goblin"});
   ///   addstr("{name} has been rescued.", params: {"name": "John"});
-  static String format(String englishTemplate, Map<String, dynamic> params) {
-    String translated = translate(englishTemplate);
+  static String format(
+    String englishTemplate,
+    Map<String, dynamic> params, {
+    bool noTranslate = false,
+  }) {
+    String translated = translate(englishTemplate, noTranslate: noTranslate);
 
     // Replace {param} with values
     params.forEach((key, value) {

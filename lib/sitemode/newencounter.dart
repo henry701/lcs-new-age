@@ -28,8 +28,12 @@ extension AddToMap on Map<String, int> {
 }
 
 /* generates a new random encounter */
-void prepareEncounter(SiteType type, bool sec,
-    {bool addToExisting = false, int? num}) {
+void prepareEncounter(
+  SiteType type,
+  bool sec, {
+  bool addToExisting = false,
+  int? num,
+}) {
   if (!addToExisting) encounter.clear();
 
   Map<String, int> weights = {};
@@ -92,8 +96,9 @@ void prepareEncounter(SiteType type, bool sec,
     });
 
     for (int n = 0; n < lcsRandom(6) + 1; n++) {
-      Creature cr =
-          Creature.fromId(creatureTypes[lcsRandomWeighted(weights)]!.id);
+      Creature cr = Creature.fromId(
+        creatureTypes[lcsRandomWeighted(weights)]!.id,
+      );
       conservatize(cr);
       encounter.add(cr);
     }
@@ -107,8 +112,9 @@ void prepareEncounter(SiteType type, bool sec,
             CreatureTypeIds.sexWorker: 200,
             if (ccsState.index < CCSStrength.defeated.index &&
                 ccsState.index > CCSStrength.inHiding.index &&
-                activeSite?.city.sites
-                        .any((s) => s.controller == SiteController.ccs) ==
+                activeSite?.city.sites.any(
+                      (s) => s.controller == SiteController.ccs,
+                    ) ==
                     true)
               CreatureTypeIds.ccsVigilante: 50,
             CreatureTypeIds.crackhead: 200,
@@ -212,9 +218,7 @@ void prepareEncounter(SiteType type, bool sec,
           });
         }
         if (!lcs && !ccs) {
-          weights.addAll({
-            if (sec) CreatureTypeIds.bouncer: 15,
-          });
+          weights.addAll({if (sec) CreatureTypeIds.bouncer: 15});
         }
         weights.addAll({
           CreatureTypeIds.lawyer: 15,
@@ -886,8 +890,10 @@ void prepareEncounter(SiteType type, bool sec,
         });
       case SiteType.prison:
         if (levelMap[locx][locy][locz].flag & SITEBLOCK_RESTRICTED != 0) {
-          weights.add(CreatureTypeIds.prisoner,
-              8); // prisoners only in restricted areas
+          weights.add(
+            CreatureTypeIds.prisoner,
+            8,
+          ); // prisoners only in restricted areas
         }
         if (nineteenEightyFour) {
           weights.add(CreatureTypeIds.educator, sec ? 3 : 2);
@@ -1061,10 +1067,12 @@ Future<bool> addsiegeencounter(int type) async {
                 e = Creature.fromId(CreatureTypeIds.agent);
                 ensureIsArmed(e);
               case SiegeType.angryRuralMob:
-                e = Creature.fromId(lcsRandomWeighted({
-                  CreatureTypeIds.angryRuralMob: 9,
-                  CreatureTypeIds.neoNazi: 1,
-                }));
+                e = Creature.fromId(
+                  lcsRandomWeighted({
+                    CreatureTypeIds.angryRuralMob: 9,
+                    CreatureTypeIds.neoNazi: 1,
+                  }),
+                );
                 ensureIsArmed(e);
               case SiegeType.corporateMercs:
                 e = Creature.fromId(CreatureTypeIds.merc);
@@ -1073,9 +1081,9 @@ Future<bool> addsiegeencounter(int type) async {
                 e = Creature.fromId(CreatureTypeIds.ccsVigilante);
                 ensureIsArmed(e);
               default:
-                addstr("Siege type ");
-                addstr(activeSite!.siege.activeSiegeType.toString());
-                addstr(" missing!\n");
+                addstr(
+                  "Siege type ${activeSite!.siege.activeSiegeType.toString()} missing!\n",
+                );
                 await getKey();
                 return false;
             }
@@ -1162,25 +1170,24 @@ void ensureIsArmed(Creature enemy) {
     randomint = lcsRandom(lightgun + mediumgun + heavygun);
     if (randomint < lightgun) {
       enemy.giveWeaponAndAmmo(
-          ["WEAPON_9MM_HANDGUN", "WEAPON_22_REVOLVER"].random, 4);
+        ["WEAPON_9MM_HANDGUN", "WEAPON_22_REVOLVER"].random,
+        4,
+      );
     } else if (randomint < (lightgun + mediumgun)) {
       enemy.giveWeaponAndAmmo(
-          [
-            "WEAPON_44_REVOLVER",
-            "WEAPON_45_HANDGUN",
-            "WEAPON_AR15",
-            "WEAPON_PUMP_SHOTGUN",
-          ].random,
-          4);
+        [
+          "WEAPON_44_REVOLVER",
+          "WEAPON_45_HANDGUN",
+          "WEAPON_AR15",
+          "WEAPON_PUMP_SHOTGUN",
+        ].random,
+        4,
+      );
     } else {
       enemy.giveWeaponAndAmmo(
-          [
-            "WEAPON_AK102",
-            "WEAPON_M4",
-            "WEAPON_M7",
-            "WEAPON_MP5",
-          ].random,
-          4);
+        ["WEAPON_AK102", "WEAPON_M4", "WEAPON_M7", "WEAPON_MP5"].random,
+        4,
+      );
     }
   }
 }

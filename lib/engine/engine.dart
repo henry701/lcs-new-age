@@ -112,23 +112,27 @@ void addInlineOptionText(
       mouseClickKey = String.fromCharCode(Key.escape);
     }
   }
+  // Translate the text first, then add color codes
+  String translatedText = LcsI18n.translate(text);
+
   String beforeKey = "";
   String afterKey = "";
-  int keyIndex = text.toUpperCase().indexOf(key);
+  int keyIndex = translatedText.toUpperCase().indexOf(key);
   if (keyIndex == -1) {
-    key = text[0];
+    key = translatedText[0];
     keyIndex = 0;
   }
-  key = text.substring(keyIndex, keyIndex + key.length);
-  beforeKey = text.substring(0, keyIndex);
-  afterKey = text.substring(keyIndex + key.length);
+  key = translatedText.substring(keyIndex, keyIndex + key.length);
+  beforeKey = translatedText.substring(0, keyIndex);
+  afterKey = translatedText.substring(keyIndex + key.length);
   if (enabledWhen) {
-    addstrx(
+    console.addstrx(
       "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
+      restoreOldColor: true,
       mouseClickKey: mouseClickKey,
     );
   } else {
-    addstrx("&$disabledColorKey$text");
+    console.addstrx("&$disabledColorKey$translatedText");
   }
 }
 
@@ -209,14 +213,39 @@ void mvaddstr(int y, int x, String s, {Map<String, dynamic>? params}) {
 /// [y] The y coordinate (row)
 /// [s] The string to display
 /// [marginX] Optional right margin (defaults to 0)
-void mvaddstrRight(int y, String s, {int marginX = 0}) {
-  int x = CONSOLE_WIDTH - s.length - marginX;
-  mvaddstr(y, x, s);
+void mvaddstrRight(
+  int y,
+  String s, {
+  int marginX = 0,
+  Map<String, dynamic>? params,
+}) {
+  // Get the translated string to calculate correct right alignment position
+  String translatedString = s;
+  if (params != null) {
+    int? count = params['count'];
+    String? pluralContext = params['context'] as String?;
+    if (count is int && pluralContext != null) {
+      translatedString = LcsI18n.plural(count, context: pluralContext);
+    } else {
+      translatedString = LcsI18n.format(s, params);
+    }
+  } else {
+    translatedString = LcsI18n.translate(s);
+  }
+  int x = CONSOLE_WIDTH - translatedString.length - marginX;
+  mvaddstr(y, x, s, params: params);
 }
 
-void mvaddstrc(int y, int x, Color fg, String s, {Color? bg}) {
+void mvaddstrc(
+  int y,
+  int x,
+  Color fg,
+  String s, {
+  Color? bg,
+  Map<String, dynamic>? params,
+}) {
   setColor(fg, background: bg ?? black);
-  mvaddstr(y, x, s);
+  mvaddstr(y, x, s, params: params);
 }
 
 void addstrx(
@@ -273,8 +302,28 @@ void mvaddstrx(
   );
 }
 
-void mvaddstrCenter(int y, String s, {int x = 39}) =>
-    mvaddstr(y, centerString(s, x: x), s);
+void mvaddstrCenter(
+  int y,
+  String s, {
+  int x = 39,
+  Map<String, dynamic>? params,
+}) {
+  // Get the translated string to calculate correct centering position
+  String translatedString = s;
+  if (params != null) {
+    int? count = params['count'];
+    String? pluralContext = params['context'] as String?;
+    if (count is int && pluralContext != null) {
+      translatedString = LcsI18n.plural(count, context: pluralContext);
+    } else {
+      translatedString = LcsI18n.format(s, params);
+    }
+  } else {
+    translatedString = LcsI18n.translate(s);
+  }
+  mvaddstr(y, centerString(translatedString, x: x), s, params: params);
+}
+
 void move(int y, int x) => console.move(y, x);
 void flush() => console.flush();
 void refresh() => flush();

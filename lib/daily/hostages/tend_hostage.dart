@@ -178,7 +178,11 @@ Future<void> tendHostage(InterrogationSession intr) async {
   while (true) {
     erase();
     mvaddstrc(
-        0, 0, white, "The Education of ${cr.name}: Day ${cr.daysSinceJoined}");
+      0,
+      0,
+      white,
+      "The Education of ${cr.name}: Day ${cr.daysSinceJoined}",
+    );
     y = 2;
     if (techniques[Technique.kill] == true) {
       setColor(red);
@@ -193,8 +197,14 @@ Future<void> tendHostage(InterrogationSession intr) async {
       addstr("Select a Liberal Education Plan");
     }
 
-    void planItem(Technique technique, String letter, String ifActive,
-        {int cost = 0, String colorKey = ColorKey.white, bool enabled = true}) {
+    void planItem(
+      Technique technique,
+      String letter,
+      String ifActive, {
+      int cost = 0,
+      String colorKey = ColorKey.white,
+      bool enabled = true,
+    }) {
       move(y++, 0);
       bool active = techniques[technique] ?? false;
       String text = ifActive;
@@ -214,8 +224,12 @@ Future<void> tendHostage(InterrogationSession intr) async {
     planItem(Technique.props, "B", "Enlightening Activities", cost: 250);
     planItem(Technique.recruit, "C", "Attempt Recruitment");
     planItem(Technique.question, "D", "Demand Information");
-    planItem(Technique.ransom, "E", "Draft a Ransom Note",
-        enabled: !intr.ransomDemanded);
+    planItem(
+      Technique.ransom,
+      "E",
+      "Draft a Ransom Note",
+      enabled: !intr.ransomDemanded,
+    );
     planItem(Technique.free, "F", "Set ${cr.name} Free");
     planItem(Technique.kill, "K", "Kill the Hostage", colorKey: ColorKey.red);
     y += 2;
@@ -235,15 +249,16 @@ Future<void> tendHostage(InterrogationSession intr) async {
       techniques[Technique.free] = false;
       techniques[Technique.recruit] = false;
       techniques[switch (c) {
-        Key.a => Technique.talk,
-        Key.b => Technique.props,
-        Key.c => Technique.recruit,
-        Key.d => Technique.question,
-        Key.e => Technique.ransom,
-        Key.f => Technique.free,
-        Key.k => Technique.kill,
-        _ => Technique.talk,
-      }] = true;
+            Key.a => Technique.talk,
+            Key.b => Technique.props,
+            Key.c => Technique.recruit,
+            Key.d => Technique.question,
+            Key.e => Technique.ransom,
+            Key.f => Technique.free,
+            Key.k => Technique.kill,
+            _ => Technique.talk,
+          }] =
+          true;
     }
     if (isBackKey(c)) break;
   }
@@ -281,8 +296,12 @@ Future<void> tendHostage(InterrogationSession intr) async {
   // Recruitment attempt
   if (techniques[Technique.recruit] == true && cr.alive) {
     erase();
-    mvaddstrc(0, 0, white,
-        "The Recruitment of ${cr.name}: Day ${cr.daysSinceJoined}");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "The Recruitment of ${cr.name}: Day ${cr.daysSinceJoined}",
+    );
     y = 2;
     setColor(lightGray);
 
@@ -342,10 +361,11 @@ Future<void> tendHostage(InterrogationSession intr) async {
     }
 
     addparagraph(
-        y,
-        0,
-        "${lead.name} attempts to recruit ${cr.name} to the Liberal Crime Squad. "
-        "As the pitch goes on, ${cr.gender.heShe} $reaction");
+      y,
+      0,
+      "${lead.name} attempts to recruit ${cr.name} to the Liberal Crime Squad. "
+      "As the pitch goes on, ${cr.gender.heShe} $reaction",
+    );
     y = console.y + 1;
 
     await getKey();
@@ -370,8 +390,11 @@ Future<void> tendHostage(InterrogationSession intr) async {
       ].random;
 
       setColor(lightGreen);
-      addparagraph(y, 0,
-          "${cr.name} agrees to join the Liberal Crime Squad! ${cr.gender.heSheCap} $reaction");
+      addparagraph(
+        y,
+        0,
+        "${cr.name} agrees to join the Liberal Crime Squad! ${cr.gender.heSheCap} $reaction",
+      );
       cr.hireId = lead.id;
       cr.juice = 0;
       cr.brainwashed = true;
@@ -417,8 +440,11 @@ Future<void> tendHostage(InterrogationSession intr) async {
         ].random;
       }
       setColor(red);
-      addparagraph(y, 0,
-          "${cr.name} rejects the offer to join. ${cr.gender.heSheCap} $reaction");
+      addparagraph(
+        y,
+        0,
+        "${cr.name} rejects the offer to join. ${cr.gender.heSheCap} $reaction",
+      );
 
       // Failed recruitment attempt increases wisdom slightly
       if (cr.attribute(Attribute.heart) > 1) {
@@ -436,7 +462,11 @@ Future<void> tendHostage(InterrogationSession intr) async {
       // First time demanding ransom
       erase();
       mvaddstrc(
-          0, 0, white, "The Ransom of ${cr.name}: Day ${cr.daysSinceJoined}");
+        0,
+        0,
+        white,
+        "The Ransom of ${cr.name}: Day ${cr.daysSinceJoined}",
+      );
       y = 2;
       setColor(lightGray);
 
@@ -447,7 +477,11 @@ Future<void> tendHostage(InterrogationSession intr) async {
 
   erase();
   mvaddstrc(
-      0, 0, white, "The Education of ${cr.name}: Day ${cr.daysSinceJoined}");
+    0,
+    0,
+    white,
+    "The Education of ${cr.name}: Day ${cr.daysSinceJoined}",
+  );
   y = 2;
 
   if (intr.ransomDemanded &&
@@ -467,8 +501,11 @@ Future<void> tendHostage(InterrogationSession intr) async {
     }
   } else {
     setColor(lightGray);
-    addparagraph(y, 0,
-        "${cr.name} is locked in a back room converted into a makeshift cell.");
+    addparagraph(
+      y,
+      0,
+      "${cr.name} is locked in a back room converted into a makeshift cell.",
+    );
     y = console.y + 1;
     if (intr.ransomDemanded &&
         !intr.ransomPaid &&
@@ -482,7 +519,6 @@ Future<void> tendHostage(InterrogationSession intr) async {
   {
     await handleFirmInterrogation(lead, cr, rapport, y);
   }
-
   // Verbal Interrogation
   else if ((techniques[Technique.talk] == true ||
           techniques[Technique.props] == true) &&
@@ -504,10 +540,7 @@ Future<void> tendHostage(InterrogationSession intr) async {
     cr.die();
 
     stats.kills++;
-    move(++y, 0);
-    setColor(red);
-    addstr(cr.name);
-    addstr(" suddenly drops dead.");
+    mvaddstrc(++y, 0, red, "${cr.name} suddenly drops dead.");
     setColor(lightGray);
     y++;
     //show_interrogation_sidebar(cr,a);
@@ -533,8 +566,11 @@ Future<int> maybeRevealSecrets(Creature cr, Creature lead, int y) async {
       (oneIn(5) || cr.align == Alignment.liberal)) {
     y++;
     mvaddstr(y++, 0, "${cr.name} reveals details about the ${workSite!.name}.");
-    mvaddstr(y++, 0,
-        "${lead.name} was able to create a map of the site with this information.");
+    mvaddstr(
+      y++,
+      0,
+      "${lead.name} was able to create a map of the site with this information.",
+    );
 
     workSite.mapped = true;
     workSite.hidden = false;
@@ -580,7 +616,11 @@ void showInterrogationSidebar(InterrogationSession intr, Creature a) {
   addstr("Health: ");
   printHealthStat(y, 48, a);
   mvaddstrc(
-      ++y, 40, lightGray, "Psychology Skill: ${a.skill(Skill.psychology)}");
+    ++y,
+    40,
+    lightGray,
+    "Psychology Skill: ${a.skill(Skill.psychology)}",
+  );
   move(++y, 40);
   setColor(lightGray);
   addstr("Heart: ${a.attribute(Attribute.heart)}");
@@ -591,25 +631,43 @@ void showInterrogationSidebar(InterrogationSession intr, Creature a) {
   move(y += 2, 40);
 
   if ((rapport[a.id] ?? 0) > 7) {
-    addstr("${cr.name} chats warmly with");
-    mvaddstr(++y, 40, "${cr.gender.hisHer} friend ${a.name}.");
+    addstr("{name} chats warmly with", params: {"name": cr.name});
+    mvaddstr(
+      ++y,
+      40,
+      "{pronoun} friend {friend}.",
+      params: {"pronoun": cr.gender.hisHer, "friend": a.name},
+    );
   } else if ((rapport[a.id] ?? 0) > 5) {
-    addstr("${cr.name} looks forward to");
+    addstr("{name} looks forward to", params: {"name": cr.name});
     mvaddstr(++y, 40, "these little chats.");
   } else if ((rapport[a.id] ?? 0) > 3) {
-    addstr("${cr.name} has mutual respect");
-    mvaddstr(++y, 40, "for ${a.name}.");
+    addstr("{name} has mutual respect", params: {"name": cr.name});
+    mvaddstr(++y, 40, "for {friend}.", params: {"friend": a.name});
   } else if ((rapport[a.id] ?? 0) > 1) {
-    addstr("${cr.name} lets ${cr.gender.hisHer}");
+    addstr(
+      "{name} lets {pronoun}",
+      params: {"name": cr.name, "pronoun": cr.gender.hisHer},
+    );
     mvaddstr(++y, 40, "guard down a little.");
   } else if ((rapport[a.id] ?? 0) > -1) {
-    addstr("${cr.name} is uncooperative");
-    mvaddstr(++y, 40, "toward ${a.name}.");
+    addstr("{name} is uncooperative", params: {"name": cr.name});
+    mvaddstr(++y, 40, "toward {friend}.", params: {"friend": a.name});
   } else if ((rapport[a.id] ?? 0) > -4) {
-    addstr("${a.name} is losing");
-    mvaddstr(++y, 40, "patience with ${cr.name}.");
+    addstr("{name} is losing", params: {"name": a.name});
+    mvaddstr(
+      ++y,
+      40,
+      "patience with {prisoner}.",
+      params: {"prisoner": cr.name},
+    );
   } else {
-    addstr("${a.name} is out of fucks");
-    mvaddstr(++y, 40, "to give about ${cr.name}.");
+    addstr("{name} is out of fucks", params: {"name": a.name});
+    mvaddstr(
+      ++y,
+      40,
+      "to give about {prisoner}.",
+      params: {"prisoner": cr.name},
+    );
   }
 }

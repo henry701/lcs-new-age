@@ -1,14 +1,18 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io' show Platform;
 
 class GameOptions {
   static const String _encounterWarningsKey = 'encounterWarnings';
   static const String _mouseInputKey = 'mouseInput';
   static const String _interfacePgUpKey = 'interfacePgUp';
   static const String _languageKey = 'language';
+  static const String _logUntranslatedKey = 'logUntranslatedStrings';
+
   bool encounterWarnings = false;
   bool mouseInput = true;
   String interfacePgUp = "[";
   String language = 'en_US';
+  bool logUntranslatedStrings = false;
 
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
@@ -16,6 +20,17 @@ class GameOptions {
     mouseInput = prefs.getBool(_mouseInputKey) ?? true;
     interfacePgUp = prefs.getString(_interfacePgUpKey) ?? "[";
     language = prefs.getString(_languageKey) ?? 'en_US';
+
+    // Default logUntranslatedStrings based on platform (true for desktop builds)
+    bool isDesktop = false;
+
+    try {
+      isDesktop = Platform.isWindows || Platform.isLinux;
+    } catch (e) {
+      // Platform not available (e.g., web) - default to false
+    }
+
+    logUntranslatedStrings = prefs.getBool(_logUntranslatedKey) ?? isDesktop;
   }
 
   Future<void> save() async {
@@ -24,6 +39,7 @@ class GameOptions {
     await prefs.setBool(_mouseInputKey, mouseInput);
     await prefs.setString(_interfacePgUpKey, interfacePgUp);
     await prefs.setString(_languageKey, language);
+    await prefs.setBool(_logUntranslatedKey, logUntranslatedStrings);
   }
 }
 

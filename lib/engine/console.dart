@@ -8,6 +8,7 @@ import 'package:lcs_new_age/engine/console_char.dart';
 import 'package:lcs_new_age/engine/console_graphic.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 
 const CONSOLE_WIDTH = 80;
 const CONSOLE_HEIGHT = 25;
@@ -21,8 +22,10 @@ class Console {
   int? hoverY;
   int get width => CONSOLE_WIDTH;
   int get height => CONSOLE_HEIGHT;
-  final List<List<ConsoleChar>> buffer = List.generate(CONSOLE_HEIGHT,
-      (y) => List.generate(CONSOLE_WIDTH, (x) => ConsoleChar.blank()));
+  final List<List<ConsoleChar>> buffer = List.generate(
+    CONSOLE_HEIGHT,
+    (y) => List.generate(CONSOLE_WIDTH, (x) => ConsoleChar.blank()),
+  );
   final List<KeyEvent> keyEvents = [];
   final List<ConsoleGraphic> graphics = [];
   Completer<KeyEvent>? nextKeyEvent;
@@ -78,9 +81,11 @@ class Console {
         buffer[y][x] = ConsoleChar.blank();
       }
     }
-    graphics.removeWhere((g) =>
-        (g.right >= startX || g.left <= endX) &&
-        (g.top >= startY || g.bottom <= endY));
+    graphics.removeWhere(
+      (g) =>
+          (g.right >= startX || g.left <= endX) &&
+          (g.top >= startY || g.bottom <= endY),
+    );
   }
 
   void eraseLine(int y) => eraseArea(startY: y, endY: y + 1);
@@ -89,17 +94,31 @@ class Console {
     if (y >= buffer.length) return;
     if (x >= buffer[y].length) return;
     if (c == '█') {
-      buffer[y][x] = ConsoleChar(' ', currentForeground, currentForeground,
-          mouseClickKey: mouseClickKey);
+      buffer[y][x] = ConsoleChar(
+        ' ',
+        currentForeground,
+        currentForeground,
+        mouseClickKey: mouseClickKey,
+      );
     } else {
-      buffer[y][x] = ConsoleChar(c, currentForeground, currentBackground,
-          mouseClickKey: mouseClickKey);
+      buffer[y][x] = ConsoleChar(
+        c,
+        currentForeground,
+        currentBackground,
+        mouseClickKey: mouseClickKey,
+      );
     }
     x++;
   }
 
-  void registerMouseRegion(int y, int x, int width, int height, String key,
-      {bool noHighlight = false}) {
+  void registerMouseRegion(
+    int y,
+    int x,
+    int width,
+    int height,
+    String key, {
+    bool noHighlight = false,
+  }) {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         buffer[y + i][x + j].mouseClickKey = key;
@@ -113,12 +132,14 @@ class Console {
     if (!gameOptions.mouseInput) return;
     String? key = buffer[y][x].mouseClickKey;
     key ??= "`";
-    keyEvent(KeyDownEvent(
-      logicalKey: LogicalKeyboardKey.keyA,
-      physicalKey: PhysicalKeyboardKey.keyA,
-      character: key,
-      timeStamp: const Duration(),
-    ));
+    keyEvent(
+      KeyDownEvent(
+        logicalKey: LogicalKeyboardKey.keyA,
+        physicalKey: PhysicalKeyboardKey.keyA,
+        character: key,
+        timeStamp: const Duration(),
+      ),
+    );
   }
 
   void mvaddchar(int y, int x, String c, {String? mouseClickKey}) {
@@ -126,7 +147,16 @@ class Console {
     addchar(c, mouseClickKey: mouseClickKey);
   }
 
-  void addstr(String s, {String? mouseClickKey}) {
+  void addstr(String s, {String? mouseClickKey, bool noTranslate = false}) {
+    // Check if this string should not be translated
+    if (noTranslate || LcsI18n.isExempted(s)) {
+      for (var i = 0; i < s.length; i++) {
+        addchar(s[i]);
+      }
+      return;
+    }
+
+    // Normal translation flow
     for (var i = 0; i < s.length; i++) {
       addchar(s[i]);
     }
@@ -163,8 +193,13 @@ class Console {
     }
   }
 
-  void mvaddstrx(int y, int x, String s,
-      {bool restoreOldColor = true, String? mouseClickKey}) {
+  void mvaddstrx(
+    int y,
+    int x,
+    String s, {
+    bool restoreOldColor = true,
+    String? mouseClickKey,
+  }) {
     move(y, x);
     addstrx(s, restoreOldColor: restoreOldColor, mouseClickKey: mouseClickKey);
   }

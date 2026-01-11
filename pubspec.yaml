@@ -38,12 +38,13 @@ dev_dependencies:
 
 flutter:
   assets:
-   - assets/xml/
-   - assets/flags/
-   - assets/maps/
-   - assets/art/
-   - assets/changelog.md
-   - lib/l10n/
+    - assets/xml/
+    - assets/flags/
+    - assets/maps/
+    - assets/art/
+    - assets/changelog.md
+    - lib/l10n/
+    - lib/i18n/
   uses-material-design: true
   fonts:
    - family: SourceCodePro

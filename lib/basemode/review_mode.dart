@@ -14,6 +14,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/creature/sort_creatures.dart';
 import 'package:lcs_new_age/daily/advance_day.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/daily/hostages/traumatize.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -60,15 +61,22 @@ Future<void> reviewAssetsAndFormSquads() async {
       }
     }
 
-    for (int p = page * 19;
-        p < squads.length + 7 + 1 && p < page * 19 + 19;
-        p++, y++) {
+    for (
+      int p = page * 19;
+      p < squads.length + 7 + 1 && p < page * 19 + 19;
+      p++, y++
+    ) {
       if (p < squads.length) {
         bool active = activeSquad == squads[p];
         setColor(active ? white : lightGray);
         String letter = letterAPlus(y - 2);
-        addOptionText(y, 0, letter, "$letter - ${squads[p].name}",
-            baseColorKey: active ? "W" : "w");
+        addOptionText(
+          y,
+          0,
+          letter,
+          "$letter - ${squads[p].name}",
+          baseColorKey: active ? "W" : "w",
+        );
 
         if (squads[p].members.isNotEmpty &&
             squads[p].members[0].location != null) {
@@ -106,27 +114,57 @@ Future<void> reviewAssetsAndFormSquads() async {
           mvaddstr(y, 51, str);
         }
       } else if (p == squads.length) {
-        addOptionText(y, 0, "1", "1 - Active Liberals ($active)",
-            enabledWhen: active > 0);
+        addOptionText(
+          y,
+          0,
+          "1",
+          "1 - Active Liberals ($active)",
+          enabledWhen: active > 0,
+        );
       } else if (p == squads.length + 1) {
-        addOptionText(y, 0, "2", "2 - Hostages ($hostages)",
-            enabledWhen: hostages > 0);
+        addOptionText(
+          y,
+          0,
+          "2",
+          "2 - Hostages ($hostages)",
+          enabledWhen: hostages > 0,
+        );
       } else if (p == squads.length + 2) {
-        addOptionText(y, 0, "3", "3 - Hospital ($hospital)",
-            enabledWhen: hospital > 0);
+        addOptionText(
+          y,
+          0,
+          "3",
+          "3 - Hospital ($hospital)",
+          enabledWhen: hospital > 0,
+        );
       } else if (p == squads.length + 3) {
-        addOptionText(y, 0, "4", "4 - Justice System ($justice)",
-            enabledWhen: justice > 0);
+        addOptionText(
+          y,
+          0,
+          "4",
+          "4 - Justice System ($justice)",
+          enabledWhen: justice > 0,
+        );
       } else if (p == squads.length + 4) {
-        addOptionText(y, 0, "5", "5 - Sleepers ($sleepers)",
-            enabledWhen: sleepers > 0);
+        addOptionText(
+          y,
+          0,
+          "5",
+          "5 - Sleepers ($sleepers)",
+          enabledWhen: sleepers > 0,
+        );
       } else if (p == squads.length + 5) {
         addOptionText(y, 0, "6", "6 - The Dead ($dead)", enabledWhen: dead > 0);
       } else if (p == squads.length + 6) {
         addOptionText(y, 0, "7", "7 - Away ($away)", enabledWhen: away > 0);
       } else if (p == squads.length + 7) {
-        addOptionText(y, 0, "8", "8 - Review and Move Equipment ($equipment)",
-            enabledWhen: equipment > 0);
+        addOptionText(
+          y,
+          0,
+          "8",
+          "8 - Review and Move Equipment ($equipment)",
+          enabledWhen: equipment > 0,
+        );
       } else {
         break;
       }
@@ -272,7 +310,7 @@ Future<void> reviewMode(ReviewMode mode) async {
         ReviewMode.sleepers => "PROFESSION",
         ReviewMode.dead => "DAYS SINCE PASSING",
         ReviewMode.away => "DAYS UNTIL RETURN",
-      }
+      },
     });
 
     int y = 2;
@@ -350,7 +388,7 @@ Future<void> reviewMode(ReviewMode mode) async {
             } else if (tempp.sentence <= -1) {
               setColor(lightGray);
               if (tempp.sentence < -1) {
-                addstr("${-tempp.sentence}");
+                addstr("{sentence}", params: {"sentence": -tempp.sentence});
                 addstr(" Life Sentences");
               } else {
                 addstr("Life Sentence");
@@ -394,7 +432,10 @@ Future<void> reviewMode(ReviewMode mode) async {
         case ReviewMode.away:
           setColor(lightBlue);
           if (tempp.hidingDaysLeft != -1) {
-            addstr("${tempp.vacationDaysLeft + tempp.hidingDaysLeft} ");
+            addstr(
+              "{days} ",
+              params: {"days": tempp.vacationDaysLeft + tempp.hidingDaysLeft},
+            );
             if (tempp.vacationDaysLeft + tempp.hidingDaysLeft > 1) {
               addstr("Days");
             } else {
@@ -414,8 +455,13 @@ Future<void> reviewMode(ReviewMode mode) async {
     if (swap != null) {
       addOptionText(22, 38, "Z", "Z - Place ${swap.name}");
     } else {
-      addOptionText(22, 38, "Z", "Z - Reorder Liberals",
-          enabledWhen: temppool.length > 1);
+      addOptionText(
+        22,
+        38,
+        "Z",
+        "Z - Reorder Liberals",
+        enabledWhen: temppool.length > 1,
+      );
     }
     addPageButtons(y: 23, x: 0);
     addOptionText(23, 38, "T", "T - Sort Liberals");
@@ -479,7 +525,11 @@ Future<void> reviewMode(ReviewMode mode) async {
             addOptionText(23, 57, "RIGHT", "RIGHT - View Others");
           }
           addOptionText(
-              24, 0, "Any other key", "Any other key - continue the Struggle");
+            24,
+            0,
+            "Any other key",
+            "Any other key - continue the Struggle",
+          );
           addOptionText(24, 52, "UP", "UP");
           addstr(" / ");
           addOptionText(24, 57, "DOWN", "DOWN - More Info");
@@ -514,17 +564,23 @@ Future<void> reviewMode(ReviewMode mode) async {
 
           if (c == Key.n) {
             setColor(lightGray);
-            mvaddstr(23, 0,
-                "What is the new code name?                                                      "); // 80 characters
-            mvaddstr(24, 0,
-                "                                                                                "); // 80 spaces
+            mvaddstr(
+              23,
+              0,
+              "What is the new code name?                                                      ",
+            ); // 80 characters
+            mvaddstr(
+              24,
+              0,
+              "                                                                                ",
+            ); // 80 spaces
 
             tempp.name = await enterName(24, 0, tempp.name);
           } else if (c == Key.g && tempp.align == Alignment.liberal) {
             List<Gender> genders = [
               Gender.male,
               Gender.female,
-              Gender.nonbinary
+              Gender.nonbinary,
             ];
             if (tempp.cannotDetransition) {
               genders.remove(tempp.genderAssignedAtBirth);
@@ -545,7 +601,8 @@ Future<void> reviewMode(ReviewMode mode) async {
             move(22, 0);
             setColor(lightGray);
             addstr(
-                "Do you want to permanently release this squad member from the LCS?");
+              "Do you want to permanently release this squad member from the LCS?",
+            );
 
             move(23, 0);
             addstr("If the member has low heart they may go to the police.");
@@ -570,16 +627,19 @@ Future<void> reviewMode(ReviewMode mode) async {
                   boss?.isCriminal == true) {
                 setColor(lightBlue);
                 move(22, 0);
-                addstr("A Liberal friend tips you off on ");
-                addstr(tempp.name);
-                addstr("'s whereabouts.");
+                addstr(
+                  "A Liberal friend tips you off on {name}'s whereabouts.",
+                  params: {"name": tempp.name},
+                );
                 move(24, 0);
                 addstr(
-                    "The Conservative traitor has ratted you out to the police, and sworn");
+                  "The Conservative traitor has ratted you out to the police, and sworn",
+                );
                 move(25, 0);
-                addstr("to testify against ");
-                addstr(boss!.name);
-                addstr(" in court.");
+                addstr(
+                  "to testify against {name} in court.",
+                  params: {"name": boss!.name},
+                );
                 await getKey();
 
                 criminalize(boss, Crime.racketeering);
@@ -616,11 +676,15 @@ Future<void> reviewMode(ReviewMode mode) async {
 
             move(22, 0);
             setColor(lightGray);
-            addstr("Confirm you want to have ");
-            addstr(boss.name);
-            addstr(" kill this squad member?");
+            addstr(
+              "Confirm you want to have {name} kill this squad member?",
+              params: {"name": boss.name},
+            );
             mvaddstrx(
-                23, 0, "&RKilling your squad members is Deeply Conservative.");
+              23,
+              0,
+              "&RKilling your squad members is Deeply Conservative.",
+            );
             addOptionText(24, 0, "C", "C - Confirm");
             addOptionText(24, 27, "Any Other Key", "Any Other Key - Continue");
 
@@ -633,18 +697,19 @@ Future<void> reviewMode(ReviewMode mode) async {
               stats.kills++;
 
               move(22, 0);
-              addstr(boss.name);
-              addstr(" executes ");
-              addstr(tempp.name);
-              addstr(" by ");
-              switch (lcsRandom(3)) {
-                case 0:
-                  addstr("strangling to death.");
-                case 1:
-                  addstr("beating to death.");
-                case 2:
-                  addstr("cold execution.");
-              }
+              final executionMethod = switch (lcsRandom(3)) {
+                0 => "strangling to death.",
+                1 => "beating to death.",
+                _ => "cold execution.",
+              };
+              addstr(
+                "{boss} executes {victim} by {method}",
+                params: {
+                  "boss": boss.name,
+                  "victim": tempp.name,
+                  "method": executionMethod,
+                },
+              );
 
               await getKey();
               eraseArea(startY: 22);
@@ -687,8 +752,7 @@ Future<void> reviewMode(ReviewMode mode) async {
         if (p < temppool.length) swap = temppool[swapPos = p];
       } else {
         // non-null swap
-        addstr(swap.name);
-        addstr(" with");
+        mvaddstrc(y, 0, lightGray, "${swap.name} with");
 
         int c = await getKey();
 
@@ -746,7 +810,8 @@ Future<void> assembleSquad(Squad? cursquad) async {
       .toList();
 
   Map<Creature, Squad?> oldSquads = Map.fromEntries(
-      temppool.map((p) => MapEntry(p, p.squad != cursquad ? p.squad : null)));
+    temppool.map((p) => MapEntry(p, p.squad != cursquad ? p.squad : null)),
+  );
 
   int page = 0, partysize;
 
@@ -777,14 +842,15 @@ Future<void> assembleSquad(Squad? cursquad) async {
       27: "SKILL",
       34: "HEALTH",
       46: "PROFESSION",
-      63: "LOCATION"
+      63: "LOCATION",
     });
 
     int y = 2;
     for (p = page * 19; p < temppool.length && p < page * 19 + 19; p++) {
       Creature tempp = temppool[p];
       String letter = letterAPlus(y - 2);
-      bool isAtCurrentSquadLocation = cursquad.members.isEmpty ||
+      bool isAtCurrentSquadLocation =
+          cursquad.members.isEmpty ||
           cursquad.members[0].location == tempp.location;
       bool isCurrentSquadMember = tempp.squadId == cursquad.id;
 
@@ -810,10 +876,14 @@ Future<void> assembleSquad(Squad? cursquad) async {
         }
       }
 
-      addOptionText(y, 2, letter,
-          "$letter - ${tempp.name.substring(0, min(tempp.name.length, 20))}",
-          enabledWhen: isAtCurrentSquadLocation,
-          baseColorKey: isCurrentSquadMember ? "C" : "m");
+      addOptionText(
+        y,
+        2,
+        letter,
+        "$letter - ${tempp.name.substring(0, min(tempp.name.length, 20))}",
+        enabledWhen: isAtCurrentSquadLocation,
+        baseColorKey: isCurrentSquadMember ? "C" : "m",
+      );
 
       bool bright = false;
       int skill = 0;
@@ -831,17 +901,21 @@ Future<void> assembleSquad(Squad? cursquad) async {
 
       mvaddstrc(y, 46, tempp.align.color, tempp.type.name);
       mvaddstrc(
-          y,
-          63,
-          isAtCurrentSquadLocation ? lightGray : darkGray,
-          tempp.location?.getName(short: true, includeCity: true) ??
-              "In Hiding");
+        y,
+        63,
+        isAtCurrentSquadLocation ? lightGray : darkGray,
+        tempp.location?.getName(short: true, includeCity: true) ?? "In Hiding",
+      );
 
       y++;
     }
 
-    mvaddstrc(22, 0, lightGray,
-        "Press a Letter to add or remove a Liberal from the squads.");
+    mvaddstrc(
+      22,
+      0,
+      lightGray,
+      "Press a Letter to add or remove a Liberal from the squads.",
+    );
     addPageButtons(y: 23, x: 0);
     addOptionText(23, 40, "v", "V - View a Liberal");
     if (partysize > 0) {
@@ -849,8 +923,13 @@ Future<void> assembleSquad(Squad? cursquad) async {
     } else {
       addOptionText(24, 0, "Enter", "Enter - I need no squad!");
     }
-    addOptionText(24, 40, "9", "9 - Dissolve the squad.",
-        enabledWhen: partysize > 0);
+    addOptionText(
+      24,
+      40,
+      "9",
+      "9 - Dissolve the squad.",
+      enabledWhen: partysize > 0,
+    );
 
     int c = await getKey();
 
@@ -874,7 +953,9 @@ Future<void> assembleSquad(Squad? cursquad) async {
             eraseArea(startY: 22);
             setColor(red);
             mvaddstrCenter(
-                23, "Liberals must be in the same location to form a squads.");
+              23,
+              "Liberals must be in the same location to form a squads.",
+            );
 
             await getKey();
 
@@ -947,7 +1028,11 @@ Future<void> assembleSquad(Squad? cursquad) async {
       eraseArea(startY: 22);
       move(23, 0);
       addstr("What shall we designate this Liberal squad?");
-      cursquad.name = await enterName(24, 0, "The Liberal Crime Squad");
+      cursquad.name = await enterName(
+        24,
+        0,
+        LcsI18n.translate("The Liberal Crime Squad"),
+      );
 
       squads.add(cursquad);
     }
@@ -960,15 +1045,18 @@ Future<void> assembleSquad(Squad? cursquad) async {
 /* base - review - assign new bases to the squadless */
 Future<void> assignNewBasesToTheSquadless() async {
   int pageLib = 0, pageLoc = 0, selectedbase = 0;
-  List<Creature> temppool =
-      pool.where((p) => p.isActiveLiberal && p.squad == null).toList();
+  List<Creature> temppool = pool
+      .where((p) => p.isActiveLiberal && p.squad == null)
+      .toList();
 
   if (temppool.isEmpty) return;
 
   List<Site> temploc = sites
-      .where((l) =>
-          l.controller == SiteController.lcs &&
-          l.siege.activeSiegeType == SiegeType.none)
+      .where(
+        (l) =>
+            l.controller == SiteController.lcs &&
+            l.siege.activeSiegeType == SiegeType.none,
+      )
       .toList();
   if (temploc.isEmpty) return;
 
@@ -983,9 +1071,11 @@ Future<void> assignNewBasesToTheSquadless() async {
     addHeader({4: "CODE NAME", 25: "CURRENT BASE", 51: "NEW BASE"});
 
     int y = 2;
-    for (int p = pageLib * 19;
-        p < temppool.length && p < pageLib * 19 + 19;
-        p++, y++) {
+    for (
+      int p = pageLib * 19;
+      p < temppool.length && p < pageLib * 19 + 19;
+      p++, y++
+    ) {
       Creature tempp = temppool[p];
       // Red name if location under siege
       if (tempp.base == tempp.location &&
@@ -998,31 +1088,46 @@ Future<void> assignNewBasesToTheSquadless() async {
         setColor(lightGray);
       }
       mvaddchar(y, 0, letterAPlus(y - 2));
-      addstr(" - ${tempp.name}");
+      addstr(" - {name}", params: {"name": tempp.name});
 
       mvaddstr(
-          y, 25, tempp.base?.getName(short: true, includeCity: true) ?? "Away");
+        y,
+        25,
+        tempp.base?.getName(short: true, includeCity: true) ?? "Away",
+      );
       if (tempp.base?.siege.underSiege == true) {
         addstr(" <Under Siege>");
       }
     }
 
     y = 2;
-    for (int p = pageLoc * 9;
-        p < temploc.length && p < pageLoc * 9 + 9;
-        p++, y++) {
+    for (
+      int p = pageLoc * 9;
+      p < temploc.length && p < pageLoc * 9 + 9;
+      p++, y++
+    ) {
       String number = (y - 1).toString();
       String name = temploc[p].getName(short: true, includeCity: true);
-      addOptionText(y, 51, number, "$number - $name",
-          baseColorKey:
-              p == selectedbase ? ColorKey.white : ColorKey.lightGray);
+      addOptionText(
+        y,
+        51,
+        number,
+        "$number - $name",
+        baseColorKey: p == selectedbase ? ColorKey.white : ColorKey.lightGray,
+      );
     }
 
     setColor(lightGray);
-    mvaddstr(21, 0,
-        "Press a letter to assign a base.  Press a number to select a base.");
     mvaddstr(
-        22, 0, "Liberals must be moved in squads to transfer between cities.");
+      21,
+      0,
+      "Press a letter to assign a base.  Press a number to select a base.",
+    );
+    mvaddstr(
+      22,
+      0,
+      "Liberals must be moved in squads to transfer between cities.",
+    );
     if (temppool.length > 19) {
       addPageButtons(y: 24, x: 0);
     }
@@ -1113,8 +1218,9 @@ void printname(Creature cr) {
 /* base - review - promote liberals */
 Future<void> promoteliberals() async {
   const int pageLength = 19;
-  List<Creature> temppool =
-      pool.where((p) => p.alive && p.align == Alignment.liberal).toList();
+  List<Creature> temppool = pool
+      .where((p) => p.alive && p.align == Alignment.liberal)
+      .toList();
   List<int> level = [];
 
   if (temppool.isEmpty) return;
@@ -1134,14 +1240,19 @@ Future<void> promoteliberals() async {
 
     move(0, 0);
     addstr("Promote the Elite Liberals");
-    addHeader(
-        {4: "CODE NAME", 27: "CURRENT CONTACT", 54: "CONTACT AFTER PROMOTION"});
+    addHeader({
+      4: "CODE NAME",
+      27: "CURRENT CONTACT",
+      54: "CONTACT AFTER PROMOTION",
+    });
 
     int y = 2;
 
-    for (int p = page * pageLength;
-        p < temppool.length && p < page * pageLength + pageLength;
-        p++) {
+    for (
+      int p = page * pageLength;
+      p < temppool.length && p < page * pageLength + pageLength;
+      p++
+    ) {
       Creature tempp = temppool[p];
       setColor(lightGray);
       String letter = letterAPlus(y - 2);
@@ -1198,10 +1309,12 @@ Future<void> promoteliberals() async {
     setColor(lightGray);
     move(22, 0);
     addstr(
-        "Press a letter to promote a Liberal. You cannot promote Liberals in hiding.");
+      "Press a letter to promote a Liberal. You cannot promote Liberals in hiding.",
+    );
     move(23, 0);
     addstr(
-        "Enlightened Liberals follow anyone. Seduced Liberals follow only their lover.");
+      "Enlightened Liberals follow anyone. Seduced Liberals follow only their lover.",
+    );
     if (temppool.length > pageLength) {
       move(24, 0);
       addstr(pageStr);

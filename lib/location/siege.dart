@@ -40,14 +40,7 @@ class Siege {
   int timeuntilcia = -1;
 }
 
-enum SiegeType {
-  none,
-  police,
-  cia,
-  angryRuralMob,
-  corporateMercs,
-  ccs,
-}
+enum SiegeType { none, police, cia, angryRuralMob, corporateMercs, ccs }
 
 enum SiegeEscalation {
   police,
@@ -137,7 +130,8 @@ Future<void> surrenderAndDie(Site loc) async {
 
 Future<void> surrenderToAuthorities(Site loc) async {
   Site policeStation = sites.firstWhere(
-      (l) => l.cityId == loc.cityId && l.type == SiteType.policeStation);
+    (l) => l.cityId == loc.cityId && l.type == SiteType.policeStation,
+  );
   //END SIEGE
   erase();
   String raiders;
@@ -151,21 +145,29 @@ Future<void> surrenderToAuthorities(Site loc) async {
     raiders = "software bugs";
   }
   mvaddstr(
-      1, 1, "The $raiders confiscate everything, including Squad weapons.");
+    1,
+    1,
+    "The $raiders confiscate everything, including Squad weapons.",
+  );
 
-  Iterable<Creature> present =
-      pool.where((e) => e.location == loc && e.alive).toList();
+  Iterable<Creature> present = pool
+      .where((e) => e.location == loc && e.alive)
+      .toList();
   Iterable<Creature> alive = present.where((e) => e.alive);
-  Iterable<Creature> kidnapped = present.where((e) =>
-      e.location == loc && e.missing && e.align == Alignment.conservative);
+  Iterable<Creature> kidnapped = present.where(
+    (e) => e.location == loc && e.missing && e.align == Alignment.conservative,
+  );
   Iterable<Creature> missing = alive.where((e) => e.missing);
   Iterable<Creature> rescued = missing.where((e) => e.alive);
-  Iterable<Creature> liberals =
-      alive.where((e) => e.isActiveLiberal && !rescued.contains(e));
-  Iterable<Creature> nonCitizenLiberals =
-      liberals.where((e) => (e.wantedForCrimes[Crime.illegalEntry] ?? 0) > 0);
-  Iterable<Creature> citizenLiberals =
-      liberals.where((e) => !nonCitizenLiberals.contains(e));
+  Iterable<Creature> liberals = alive.where(
+    (e) => e.isActiveLiberal && !rescued.contains(e),
+  );
+  Iterable<Creature> nonCitizenLiberals = liberals.where(
+    (e) => (e.wantedForCrimes[Crime.illegalEntry] ?? 0) > 0,
+  );
+  Iterable<Creature> citizenLiberals = liberals.where(
+    (e) => !nonCitizenLiberals.contains(e),
+  );
 
   // Charge everyone with harboring if found harboring illegal immigrants
   if (nonCitizenLiberals.isNotEmpty) {
@@ -191,18 +193,24 @@ Future<void> surrenderToAuthorities(Site loc) async {
       ? liberals
       : liberals.where((e) => e.wantedForCrimes.values.any((v) => v > 0));
   if (rescued.length == 1) {
-    mvaddstr(y += 2, 1,
-        "${rescued.first.name} is taken into custody and rehabilitated.");
+    mvaddstr(
+      y += 2,
+      1,
+      "${rescued.first.name} is taken into custody and rehabilitated.",
+    );
   } else if (rescued.length > 1) {
-    mvaddstr(y += 2, 1,
-        "${rescued.length} people who went missing are taken into custody and rehabilitated.");
+    mvaddstr(
+      y += 2,
+      1,
+      "${rescued.length} people who went missing are taken into custody and rehabilitated.",
+    );
   }
   if (arrested.length == 1) {
-    mvaddstr(y += 2, 1, arrested.first.properName);
+    String namePart = arrested.first.properName;
     if (arrested.first.properName != arrested.first.name) {
-      addstr(", aka ${arrested.first.name},");
+      namePart = "$namePart, aka ${arrested.first.name}";
     }
-    addstr(" is arrested.");
+    mvaddstr(y += 2, 1, "$namePart is arrested.");
   } else if (arrested.length > 1) {
     mvaddstr(y += 2, 1, "${arrested.length} Liberals are arrested.");
   }
@@ -218,8 +226,11 @@ Future<void> surrenderToAuthorities(Site loc) async {
             ledger.funds - confiscated - 30000 - lcsRandom(20000) - confiscated;
       }
       if (confiscated > ledger.funds) confiscated = ledger.funds;
-      mvaddstr(y += 2, 1,
-          "Law enforcement has confiscated \$$confiscated in LCS funds.");
+      mvaddstr(
+        y += 2,
+        1,
+        "Law enforcement has confiscated \$$confiscated in LCS funds.",
+      );
       ledger.subtractFunds(confiscated, Expense.confiscated);
     }
   }
@@ -248,17 +259,22 @@ Future<void> surrenderToAuthorities(Site loc) async {
   if (loc.type == SiteType.homelessEncampment &&
       laws[Law.policeReform]! < DeepAlignment.eliteLiberal) {
     loc.init();
-    mvaddstr(y += 2, 1,
-        "The police also ransack the camp and destroy the makeshift shelters.");
+    mvaddstr(
+      y += 2,
+      1,
+      "The police also ransack the camp and destroy the makeshift shelters.",
+    );
     mvaddstr(++y, 1, "The homeless people here are left with nothing.");
   }
   await pressAnyKey();
   for (Creature p in present) {
     if (kidnapped.contains(p)) {
-      for (Creature p2 in pool.where((p2) =>
-          p2.alive &&
-          p2.activity.type == ActivityType.interrogation &&
-          p2.activity.idInt == p.id)) {
+      for (Creature p2 in pool.where(
+        (p2) =>
+            p2.alive &&
+            p2.activity.type == ActivityType.interrogation &&
+            p2.activity.idInt == p.id,
+      )) {
         p2.activity = Activity.none();
       }
       p.squad = null;

@@ -88,5 +88,20 @@ void main() {
         expect(getConsoleLine(0), equals('You hit goblin!'));
       },
     );
+
+    test(
+      'menu options are properly translated through addOptionText',
+      () async {
+        resetConsole();
+        await LcsI18n.initialize('pt_BR');
+
+        // Test that menu options go through translation
+        addOptionText(0, 0, "O", "O - Gameplay Options");
+
+        // The translated text should appear on screen
+        final line = getConsoleLine(0);
+        expect(line, contains('Opções de Jogo')); // Portuguese translation
+      },
+    );
   });
 }

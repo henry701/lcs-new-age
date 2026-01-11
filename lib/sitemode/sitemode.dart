@@ -143,8 +143,11 @@ Future<void> siteMode(Site loc) async {
     if (loc.compound.boobyTraps) {
       int trapnum = 30;
       for (int t = 0; t < trapnum; t++) {
-        tile = levelMap.allOnFloor(0).randomWhere(
-            (tile) => !tile.wall && !tile.door && !tile.exit && !tile.loot);
+        tile = levelMap
+            .allOnFloor(0)
+            .randomWhere(
+              (tile) => !tile.wall && !tile.door && !tile.exit && !tile.loot,
+            );
         tile.siegeTrap = true;
       }
     }
@@ -245,7 +248,7 @@ Future<void> _siteModeAux() async {
 
     if (activeSiteUnderSiege) {
       mvaddstrc(0, 0, red, activeSite!.getName(includeCity: true));
-      addstr(", Level ${locz + 1}: Escape or Engage");
+      addstr(", Level {level}: Escape or Engage", params: {"level": locz + 1});
     } else {
       if (postAlarmTimer > 80) {
         setColor(red);
@@ -255,7 +258,7 @@ Future<void> _siteModeAux() async {
         setColor(lightGray);
       }
       mvaddstr(0, 0, activeSite!.getName(includeCity: true));
-      addstr(", Level ${locz + 1}");
+      addstr(", Level {level}", params: {"level": locz + 1});
 
       if (postAlarmTimer > 80) {
         switch (activeSite!.type) {
@@ -318,8 +321,10 @@ Future<void> _siteModeAux() async {
       addstrc(blue, "X");
       addstrc(lightGray, "-Move, ");
       addstrc(groundLoot.isNotEmpty || currentTile.loot ? blue : darkGray, "G");
-      addstrc(groundLoot.isNotEmpty || currentTile.loot ? lightGray : darkGray,
-          "et, ");
+      addstrc(
+        groundLoot.isNotEmpty || currentTile.loot ? lightGray : darkGray,
+        "et, ",
+      );
       addstrc(blue, "M");
       addstrc(lightGray, "ap, ");
       addstrc(blue, "E");
@@ -355,7 +360,9 @@ Future<void> _siteModeAux() async {
       }
       mvaddstrc(24, 1, useColor ? blue : darkGray, "U");
       addstrc(
-          useColor ? lightGray : darkGray, graffiti ? "-graffiti, " : "se, ");
+        useColor ? lightGray : darkGray,
+        graffiti ? "-graffiti, " : "se, ",
+      );
       if (enemy && siteAlarm) {
         bool canSneak = false;
         for (Creature e in encounter) {
@@ -441,8 +448,11 @@ Future<void> _siteModeAux() async {
             for (Creature p in squad) {
               p.offendedAngryRuralMobs++;
             }
-            addPotentialCrime(activeSquad!.livingMembers, Crime.kidnapping,
-                reasonKey: p.prisoner!.id.toString());
+            addPotentialCrime(
+              activeSquad!.livingMembers,
+              Crime.kidnapping,
+              reasonKey: p.prisoner!.id.toString(),
+            );
           }
         }
       }
@@ -496,14 +506,16 @@ Future<void> _siteModeAux() async {
 
       if (enemy && siteAlarm) {
         if (encounter
-            .where((e) =>
-                e.isEnemy &&
-                (e.weapon.type.protectsAgainstKidnapping ||
-                    e.type.canPerformArrests ||
-                    e.type.edgelord ||
-                    e.type.ccsMember ||
-                    e.type.majorEnemy ||
-                    e.type.intimidationResistant))
+            .where(
+              (e) =>
+                  e.isEnemy &&
+                  (e.weapon.type.protectsAgainstKidnapping ||
+                      e.type.canPerformArrests ||
+                      e.type.edgelord ||
+                      e.type.ccsMember ||
+                      e.type.majorEnemy ||
+                      e.type.intimidationResistant),
+            )
             .isEmpty) {
           override = true;
         }
@@ -516,7 +528,11 @@ Future<void> _siteModeAux() async {
       if (c == Key.v && enemy && siteAlarm) {
         clearMessageArea();
         mvaddstrc(
-            9, 1, white, "Which way?  (W,A,D, and X to move, ENTER to abort)");
+          9,
+          1,
+          white,
+          "Which way?  (W,A,D, and X to move, ENTER to abort)",
+        );
 
         while (true) {
           int c2 = await getKey();
@@ -576,8 +592,9 @@ Future<void> _siteModeAux() async {
           await useTileSpecial();
         } else if (!(currentTile.graffitiLCS || currentTile.megaBloody) &&
             currentTile.neighbors().any((t) => t.wall)) {
-          if (activeSquad!.livingMembers
-              .any((c) => c.weapon.type.canGraffiti)) {
+          if (activeSquad!.livingMembers.any(
+            (c) => c.weapon.type.canGraffiti,
+          )) {
             await specialGraffiti();
             if (enemy && siteAlarm) {
               await enemyattack(encounter);
@@ -632,10 +649,12 @@ Future<void> _siteModeAux() async {
                 addOptionText(y, 1, "${i + 1}", "${i + 1} - ${p.name}");
                 printSkillValue(p, Skill.persuasion, y, 34, showCap: false);
                 addstr(
-                    " (${p.maxSubordinates - p.subordinatesLeft}/${p.maxSubordinates})");
+                  " (${p.maxSubordinates - p.subordinatesLeft}/${p.maxSubordinates})",
+                );
                 printSkillValue(p, Skill.seduction, y, 51, showCap: false);
                 addstr(
-                    " (${p.maxRelationships - p.relationshipsLeft}/${p.maxRelationships})");
+                  " (${p.maxRelationships - p.relationshipsLeft}/${p.maxRelationships})",
+                );
                 printSkillValue(p, Skill.disguise, y, 66, showCap: false);
                 y++;
               }
@@ -674,9 +693,11 @@ Future<void> _siteModeAux() async {
                   move(y, x);
                   String letter = letterAPlus(i);
                   addInlineOptionText(
-                      letter, "$letter - ${t.name} ${creatureAgeAndGender(t)}",
-                      baseColorKey: ColorKey.fromColor(t.align.color),
-                      enabledWhen: t.alive && t.isWillingToTalk);
+                    letter,
+                    "$letter - ${t.name} ${creatureAgeAndGender(t)}",
+                    baseColorKey: ColorKey.fromColor(t.align.color),
+                    enabledWhen: t.alive && t.isWillingToTalk,
+                  );
 
                   y++;
                 }
@@ -694,15 +715,23 @@ Future<void> _siteModeAux() async {
                           (!siteAlarm || encounter[tk].type.animal)) {
                         clearSceneAreas();
 
-                        mvaddstrc(9, 1, white, encounter[tk].name);
-                        addstr(" won't talk to you.");
+                        mvaddstrc(
+                          9,
+                          1,
+                          white,
+                          "${encounter[tk].name} won't talk to you.",
+                        );
 
                         await getKey();
                       } else if (!encounter[tk].isEnemy && siteAlarm && enemy) {
                         clearSceneAreas();
 
-                        mvaddstrc(9, 1, white,
-                            "You have to deal with the enemies first.");
+                        mvaddstrc(
+                          9,
+                          1,
+                          white,
+                          "You have to deal with the enemies first.",
+                        );
 
                         await getKey();
                       } else {
@@ -803,9 +832,11 @@ Future<void> _siteModeAux() async {
         do {
           freed = false;
           List<Creature> free = encounter
-              .where((e) =>
-                  e.type.freeable ||
-                  ((e.name == "Prisoner") && e.align == Alignment.liberal))
+              .where(
+                (e) =>
+                    e.type.freeable ||
+                    ((e.name == "Prisoner") && e.align == Alignment.liberal),
+              )
               .toList();
           for (Creature e in free) {
             if (e.name == "Prisoner") {
@@ -853,13 +884,21 @@ Future<void> _siteModeAux() async {
         if (followers > 0) {
           clearMessageArea();
 
-          mvaddstrc(9, 1, white, "You free ");
           if (followers > 1) {
-            addstr("some Oppressed Liberals");
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "You free some Oppressed Liberals from the Conservatives.",
+            );
           } else {
-            addstr("an Oppressed Liberal");
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "You free an Oppressed Liberal from the Conservatives.",
+            );
           }
-          addstr(" from the Conservatives.");
 
           if (actgot < followers) {
             await getKey();
@@ -868,16 +907,15 @@ Future<void> _siteModeAux() async {
 
             setColor(white);
             move(9, 1);
-            if (actgot == 0 && followers > 1) {
-              addstr("They all leave");
-            } else if (followers - actgot > 1) {
-              addstr("Some leave");
-            } else if (actgot == 0) {
-              addstr("The Liberal leaves");
-            } else {
-              addstr("One Liberal leaves");
-            }
-            addstr(" you, feeling safer getting out alone.");
+            String leaverMessage = switch (actgot) {
+              0 when followers > 1 =>
+                "They all leave you, feeling safer getting out alone.",
+              _ when followers - actgot > 1 =>
+                "Some leave you, feeling safer getting out alone.",
+              0 => "The Liberal leaves you, feeling safer getting out alone.",
+              _ => "One Liberal leaves you, feeling safer getting out alone.",
+            };
+            addstr(leaverMessage);
             // 3 juice for every person you free who doesn't join up
             // This might need to be nerfed in the future because it's so easy,
             // but it's thematically appropriate, so the nerf should probably
@@ -970,7 +1008,8 @@ Future<void> _siteModeAux() async {
           // If you can sneak past all enemies
           if (encounter.any((e) => e.alive && e.noticedParty)) failed = true;
           if (!failed) {
-            int difficulty = Difficulty.hard +
+            int difficulty =
+                Difficulty.hard +
                 encounter
                     .where((e) => e.align == Alignment.conservative)
                     .length;
@@ -989,7 +1028,11 @@ Future<void> _siteModeAux() async {
           if (!failed) {
             clearMessageArea();
             mvaddstrc(
-                9, 1, lightBlue, "The squad sneaks past the conservatives!");
+              9,
+              1,
+              lightBlue,
+              "The squad sneaks past the conservatives!",
+            );
 
             await getKey();
           } else {
@@ -1134,7 +1177,8 @@ Future<void> _siteModeAux() async {
         //DO DOORS
         if (currentTile.door) {
           await _openDoor(
-              levelMap[olocx][olocy][olocz].flag & SITEBLOCK_RESTRICTED > 0);
+            levelMap[olocx][olocy][olocz].flag & SITEBLOCK_RESTRICTED > 0,
+          );
           locx = olocx;
           locy = olocy;
           locz = olocz;
@@ -1475,7 +1519,11 @@ Future<void> _siteModeAux() async {
             clearMessageArea();
 
             mvaddstrc(
-                9, 1, lightGreen, "The Conservatives have shrunk back under ");
+              9,
+              1,
+              lightGreen,
+              "The Conservatives have shrunk back under ",
+            );
             mvaddstr(10, 1, "the power of your Liberal Convictions!");
 
             await getKey();
@@ -1596,8 +1644,10 @@ Future<void> _siteModeAux() async {
                     encounter.add(Creature.fromId(CreatureTypeIds.merc));
                     encounter.add(uniqueCreatures.ceo);
                     printEncounter();
-                    await encounterMessage("The CEO snarls, ",
-                        line2: "\"Fool me twice... can't get fooled again!\"");
+                    await encounterMessage(
+                      "The CEO snarls, ",
+                      line2: "\"Fool me twice... can't get fooled again!\"",
+                    );
                     siteAlarm = true;
 
                     await enemyattack(encounter);
@@ -1641,7 +1691,8 @@ Future<void> _siteModeAux() async {
               await specialOvalOffice();
             default:
               bool squadmoved = olocx != locx || olocy != locy || olocz != locz;
-              bool isApartment = activeSite!.type == SiteType.apartment ||
+              bool isApartment =
+                  activeSite!.type == SiteType.apartment ||
                   activeSite!.type == SiteType.tenement ||
                   activeSite!.type == SiteType.upscaleApartment;
 
@@ -1660,32 +1711,19 @@ Future<void> _siteModeAux() async {
               }
 
               if (currentTile.bloody && !siteAlarm) {
-                Creature? conservative = encounter
-                    .firstWhereOrNull((e) => e.align == Alignment.conservative);
+                Creature? conservative = encounter.firstWhereOrNull(
+                  (e) => e.align == Alignment.conservative,
+                );
                 if (conservative != null) {
                   printEncounter();
                   if (currentTile.megaBloody) {
-                    await encounterMessage("${conservative.type.name} ${[
-                      "looks around wildly, shocked by the gore.",
-                      "is looking around with great fear.",
-                      "is searching for the source of the blood.",
-                      "gasps in horror at the carnage.",
-                      "is looking around near the bloody mess.",
-                      "is trying to figure out who did this.",
-                      "is inspecting the crime scene.",
-                      "looks very on edge about the bloody mess.",
-                    ].random}");
+                    await encounterMessage(
+                      "${conservative.type.name} ${["looks around wildly, shocked by the gore.", "is looking around with great fear.", "is searching for the source of the blood.", "gasps in horror at the carnage.", "is looking around near the bloody mess.", "is trying to figure out who did this.", "is inspecting the crime scene.", "looks very on edge about the bloody mess."].random}",
+                    );
                   } else {
-                    await encounterMessage("${conservative.type.name} ${[
-                      "looks at the blood nervously.",
-                      "glances at the blood anxiously.",
-                      "seems agitated by the blood.",
-                      "is investigating the blood.",
-                      "glances around nervously.",
-                      "seems more on guard than usual.",
-                      "is looking around for threats.",
-                      "looks confused and upset.",
-                    ].random}");
+                    await encounterMessage(
+                      "${conservative.type.name} ${["looks at the blood nervously.", "glances at the blood anxiously.", "seems agitated by the blood.", "is investigating the blood.", "glances around nervously.", "seems more on guard than usual.", "is looking around for threats.", "looks confused and upset."].random}",
+                    );
                   }
                 }
               } else if (gameOptions.encounterWarnings &&
@@ -1760,7 +1798,8 @@ Future<void> _siteModeAux() async {
 
 /* site - determines spin on site news story, "too hot" timer */
 Future<void> _resolveSite() async {
-  bool doesNotReportCrimes = activeSite!.type == SiteType.bombShelter ||
+  bool doesNotReportCrimes =
+      activeSite!.type == SiteType.bombShelter ||
       activeSite!.type == SiteType.barAndGrill ||
       activeSite!.type == SiteType.bunker ||
       activeSite!.type == SiteType.warehouse ||
@@ -1804,12 +1843,17 @@ Future<void> _resolveSite() async {
           p.sleeperAgent = false;
           erase();
           setColor(lightGray);
-          mvaddstr(8, 1, "Sleeper ");
-          addstr(p.name);
-          addstr(" has been outed by your bold attack!");
+          mvaddstr(
+            8,
+            1,
+            "Sleeper ${p.name} has been outed by your bold attack!",
+          );
 
-          mvaddstr(10, 1,
-              "The Liberal is now at your command as a normal squad member.");
+          mvaddstr(
+            10,
+            1,
+            "The Liberal is now at your command as a normal squad member.",
+          );
 
           p.base = squad[0].base;
           p.location = p.base;
@@ -1864,11 +1908,15 @@ Future<void> _fightSubdued() async {
   mvaddstrc(9, 1, purple, "The police subdue and arrest the squad.");
 
   if (hostagefreed > 0) {
-    mvaddstr(10, 1, "Your hostage");
     if (hostagefreed > 1) {
-      addstr("s are free.");
+      mvaddstr(
+        10,
+        1,
+        "{count} hostages are free.",
+        params: {"count": hostagefreed.toString()},
+      );
     } else {
-      addstr(" is free.");
+      mvaddstr(10, 1, "Your hostage is free.");
     }
   }
 
@@ -1880,8 +1928,9 @@ Future<void> _openDoor(bool restricted) async {
   bool locked = currentTile.flag & SITEBLOCK_LOCKED > 0,
       alarmed = currentTile.flag & SITEBLOCK_ALARMED > 0,
       vaultDoor = currentTile.flag & SITEBLOCK_METAL > 0,
-      //   known_locked=currentTile.flag&SITEBLOCK_KLOCK>0,
-      cantUnlock = currentTile.flag & SITEBLOCK_CLOCK > 0;
+          //   known_locked=currentTile.flag&SITEBLOCK_KLOCK>0,
+          cantUnlock =
+          currentTile.flag & SITEBLOCK_CLOCK > 0;
 
   if (vaultDoor) {
     // Vault door, not usable by bumping
@@ -1958,16 +2007,22 @@ Future<void> _openDoor(bool restricted) async {
           addDramaToSiteStory(Drama.unlockedDoor);
           if (siteAlarmTimer < 0 || siteAlarmTimer > 50) siteAlarmTimer = 50;
 
-          if ([SiteType.apartment, SiteType.tenement, SiteType.upscaleApartment]
-              .contains(activeSite?.type)) {
+          if ([
+            SiteType.apartment,
+            SiteType.tenement,
+            SiteType.upscaleApartment,
+          ].contains(activeSite?.type)) {
             // If you're at an apartment building, charge with breaking
             // and entering every time you break into another apartment
             addPotentialCrime(squad, Crime.breakingAndEntering);
           } else {
             // Otherwise, charge with breaking and entering only once per
             // building by supplying a reasonKey
-            addPotentialCrime(squad, Crime.breakingAndEntering,
-                reasonKey: "door");
+            addPotentialCrime(
+              squad,
+              Crime.breakingAndEntering,
+              reasonKey: "door",
+            );
           }
         }
         // Else perma-lock it if an attempt was made
@@ -1997,9 +2052,11 @@ Future<void> _openDoor(bool restricted) async {
       setColor(white);
       move(9, 1);
       if (locked) {
-        addstr("You shake the handle but it is ");
-        if (hasSecurity) addstr("still ");
-        addstr("locked.");
+        if (hasSecurity) {
+          addstr("You shake the handle but it is still locked.");
+        } else {
+          addstr("You shake the handle but it is locked.");
+        }
       } else {
         addstr("It's locked from the other side.");
       }
@@ -2027,16 +2084,22 @@ Future<void> _openDoor(bool restricted) async {
           }
           siteCrime++;
           addDramaToSiteStory(Drama.brokeDownDoor);
-          if ([SiteType.apartment, SiteType.tenement, SiteType.upscaleApartment]
-              .contains(activeSite?.type)) {
+          if ([
+            SiteType.apartment,
+            SiteType.tenement,
+            SiteType.upscaleApartment,
+          ].contains(activeSite?.type)) {
             // If you're at an apartment building, charge with breaking
             // and entering every time you break into another apartment
             addPotentialCrime(squad, Crime.breakingAndEntering);
           } else {
             // Otherwise, charge with breaking and entering only once per
             // building by supplying a reasonKey
-            addPotentialCrime(squad, Crime.breakingAndEntering,
-                reasonKey: "door");
+            addPotentialCrime(
+              squad,
+              Crime.breakingAndEntering,
+              reasonKey: "door",
+            );
           }
         }
 

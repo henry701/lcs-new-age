@@ -174,13 +174,11 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           addstr(
             "Unfortunately, they all know each other and had been discussing {pName}. An ambush was set for the lying dog...",
             params: {"pName": p.name},
-            noTranslate: true,
           );
         } else {
           addstr(
             "Unfortunately, they know each other and had been discussing {pName}. An ambush was set for the lying dog...",
             params: {"pName": p.name},
-            noTranslate: true,
           );
         }
 
@@ -211,7 +209,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
                 "heshe": p.gender.heShe,
                 "count": d.dates.length.toString(),
               },
-              noTranslate: true,
             );
           } else {
             addstr(
@@ -221,7 +218,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
                 "heshe": p.gender.heShe,
                 "count": d.dates.length.toString(),
               },
-              noTranslate: true,
             );
           }
         } else {
@@ -232,7 +228,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
               "name1": d.dates[0].name,
               "name2": d.dates[1].name,
             },
-            noTranslate: true,
           );
         }
 
@@ -289,7 +284,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
         "typeName": e.type.name,
         "location": e.workLocation.getName(short: false, includeCity: true),
       },
-      noTranslate: true,
     );
     setColor(lightGray);
     printFunds();
@@ -332,7 +326,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
         payText = LcsI18n.processString(
           "A - Spend a hundred bucks to take {firstName} out on the town.",
           {"firstName": e.name.split(' ').first},
-          noTranslate: true,
         );
       }
     } else {
@@ -351,7 +344,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       avoidPayingText = LcsI18n.processString(
         "B - {name} expects to be paid for {hisHer} time.",
         {"name": e.name, "hisHer": e.gender.hisHer},
-        noTranslate: true,
       );
     } else if (sameCity) {
       avoidPayingText =
@@ -360,7 +352,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       avoidPayingText = LcsI18n.processString(
         "B - Try to charm {himHer} with online dating.",
         {"himHer": e.gender.himHer},
-        noTranslate: true,
       );
     }
     addOptionText(12, 0, "B", avoidPayingText, enabledWhen: canAvoidPaying);
@@ -378,7 +369,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
         vacationText = LcsI18n.processString(
           "C - Spend \$$vacationPrice to visit {firstName} for a week (stands up other dates).",
           {"firstName": e.name.split(' ').first},
-          noTranslate: true,
         );
       }
     } else {
@@ -509,7 +499,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             "weapon": weapon,
             "himHer": e.gender.himHer,
           },
-          noTranslate: true,
         );
 
         await getKey();
@@ -520,7 +509,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             0,
             "{name} kidnaps the Conservative!",
             params: {"name": p.name},
-            noTranslate: true,
           );
 
           await getKey();
@@ -579,7 +567,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
                 yellow,
                 "The {weapon} is knocked away uselessly.",
                 params: {"weapon": weapon},
-                noTranslate: true,
               );
             } else {
               move(y++, 0);
@@ -587,7 +574,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
                 yellow,
                 "The two struggle for control of the {weapon}!",
                 params: {"weapon": weapon},
-                noTranslate: true,
               );
             }
           }
@@ -636,7 +622,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
                 red,
                 "The Conservative manages to wrest the {weapon} away!",
                 params: {"weapon": weapon},
-                noTranslate: true,
               );
               move(y++, 0);
               await getKey();
@@ -644,13 +629,11 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
                 addstr(
                   "{eName} swings the {weapon} and knocks {pName} out!",
                   params: {"eName": e.name, "weapon": weapon, "pName": p.name},
-                  noTranslate: true,
                 );
               } else {
                 addstr(
                   "{eName} switches grips and clubs {pName} in the head!",
                   params: {"eName": e.name, "pName": p.name},
-                  noTranslate: true,
                 );
               }
             } else {
@@ -658,7 +641,6 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
                 red,
                 "{eName}'s fist is the last thing {pName} remembers seeing!",
                 params: {"eName": e.name, "pName": p.name},
-                noTranslate: true,
               );
               await getKey();
             }
@@ -744,13 +726,11 @@ Future<DateResult> dateResult(
         addstr(
           "{eName} enjoys discussing {pName}'s unique life philosophy...",
           params: {"eName": e.name, "pName": p.name},
-          noTranslate: true,
         );
       } else {
         addstr(
           "{eName} is quite taken with {pName}'s unique life philosophy...",
           params: {"eName": e.name, "pName": p.name},
-          noTranslate: true,
         );
       }
     }
@@ -764,7 +744,6 @@ Future<DateResult> dateResult(
         yellow,
         "But {eName} doesn't like to get too emotionally attached.",
         params: {"eName": e.name},
-        noTranslate: true,
       );
 
       mvaddstrc(
@@ -773,7 +752,6 @@ Future<DateResult> dateResult(
         lightGray,
         "{pName} doesn't have the juice to recruit otherwise.",
         params: {"pName": p.name},
-        noTranslate: true,
       );
       mvaddstr(
         y++,
@@ -802,7 +780,6 @@ Future<DateResult> dateResult(
       addstr(
         "{pName} isn't seductive enough to maintain {adj} relationship.",
         params: {"pName": p.name, "adj": relationshipAdjective},
-        noTranslate: true,
       );
 
       await getKey();
@@ -900,7 +877,6 @@ Future<DateResult> dateResult(
         addstr(
           "{pName} is slowly warming {eName}'s frozen Conservative heart.",
           params: {"pName": p.name, "eName": e.name},
-          noTranslate: true,
         );
 
         move(y++, 0);
@@ -918,14 +894,12 @@ Future<DateResult> dateResult(
           0,
           "{eName} turns the topic of discussion to the {siteName}.",
           params: {"eName": e.name, "siteName": e.workSite!.name},
-          noTranslate: true,
         );
         mvaddstr(
           y++,
           0,
           "{pName} is able to create a map of the site from this information.",
           params: {"pName": p.name},
-          noTranslate: true,
         );
         y++;
         e.workSite!.mapped = true;
@@ -960,11 +934,10 @@ Future<DateResult> dateResult(
     excuse = LcsI18n.processString(excuse, {
       "hisHer": e.gender.hisHer,
       "pet": ["cat.", "dog.", "fish.", "six-legged pig."][lcsRandom(4)],
-    }, noTranslate: true);
+    });
     addstr(
       "{eName} had to leave early {excuse}",
       params: {"eName": e.name, "excuse": excuse},
-      noTranslate: true,
     );
     move(y++, 0);
     addstr(
@@ -1007,7 +980,6 @@ Future<DateResult> dateResult(
         red,
         "{eName} was leaking information to the police the whole time!",
         params: {"eName": e.name},
-        noTranslate: true,
       );
 
       await getKey();
@@ -1045,7 +1017,6 @@ Future<DateResult> dateResult(
         addstr(
           "But {pName} cleverly escapes the police ambush!",
           params: {"pName": p.name},
-          noTranslate: true,
         );
       }
     } else {

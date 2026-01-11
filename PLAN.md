@@ -84,13 +84,48 @@ if (count == 1) {
 }
 ```
 
-### 0.4 Files to Process
+### 0.4 Anti-Pattern: Lone Replacement
+
+**DO NOT** wrap a single value in a template when it could be printed directly:
+
+```dart
+// ANTI-PATTERN - Unnecessary template
+addstr("{name}", params: {"name": creature.name}, noTranslate: true);
+
+// CORRECT - Direct print
+addstr(creature.name, noTranslate: true);
+```
+
+The template `"{name}"` serves no purpose when there's no other text to translate. Only use templates when there's actual prose text that needs translation.
+
+### 0.5 noTranslate Decision Tree
+
+Use `noTranslate: true` when the ENTIRE output is player-generated content with no translatable text:
+
+```dart
+// YES - Pure player content, nothing to translate
+addstr(playerName, noTranslate: true);
+addstr("0", noTranslate: true);
+addstr(someNumber.toString(), noTranslate: true);
+
+// NO - Template with prose, should translate
+addstr("{name} has been rescued.", params: {"name": playerName});
+// ^ Template "has been rescued" should translate to other languages
+
+// NO - Template with prose, wrong use of noTranslate
+addstr("{name} has been rescued.", params: {"name": playerName}, noTranslate: true);
+// ^ WRONG! This prevents the template from translating!
+```
+
+**When `noTranslate: true` is set, the entire string is returned as-is** - both the template AND all parameters skip translation lookup. Use it only when nothing in the output needs translation.
+
+### 0.6 Files to Process
 
 Starting with high-frequency modules:
 1. `lib/sitemode/fight.dart` (296 console calls)
 2. All remaining modules systematically
 
-### 0.5 Validation
+### 0.7 Validation
 
 ```bash
 # Verify all strings use params

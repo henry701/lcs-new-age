@@ -245,8 +245,9 @@ void addstrx(
   bool restoreOldColor = true,
   String? mouseClickKey,
   Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
-  final result = LcsI18n.processString(s, params);
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
   console.addstrx(
     result,
     restoreOldColor: restoreOldColor,
@@ -261,8 +262,9 @@ void mvaddstrx(
   bool restoreOldColor = true,
   String? mouseClickKey,
   Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
-  final result = LcsI18n.processString(s, params);
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
   console.mvaddstrx(
     y,
     x,

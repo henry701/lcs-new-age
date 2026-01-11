@@ -626,7 +626,7 @@ void showInterrogationSidebar(InterrogationSession intr, Creature a) {
   setColor(lightGray);
   addstr("Prisoner: ");
   setColor(red);
-  addstr("{name}", params: {"name": cr.name}, noTranslate: true);
+  addstr(cr.name, noTranslate: true);
   move(y += 2, 40);
   setColor(lightGray);
   addstr("Health: ");

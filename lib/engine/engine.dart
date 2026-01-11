@@ -16,34 +16,13 @@ void setColor(Color foreground, {Color background = black}) =>
 void addchar(String c) => console.addchar(c);
 void mvaddchar(int y, int x, String c) => console.mvaddchar(y, x, c);
 
-/// Helper: Translate template, then replace {placeholders}
-String _processString(
-  String s,
-  Map<String, dynamic>? params, {
-  bool noTranslate = false,
-}) {
-  // First: translate the template (with placeholders intact)
-  String result = LcsI18n.translate(s, noTranslate: noTranslate);
-
-  // Then: replace {placeholders} with values
-  if (params != null) {
-    params.forEach((key, value) {
-      result = result.replaceAll('{$key}', value.toString());
-    });
-  }
-
-  return result;
-}
-
 void addstr(
   String s, {
   Map<String, dynamic>? params,
   bool noTranslate = false,
 }) {
-  console.addstr(
-    _processString(s, params, noTranslate: noTranslate),
-    noTranslate: noTranslate,
-  );
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.addstr(result, noTranslate: noTranslate);
 }
 
 void addstrc(Color fg, String s, {Color? bg}) {
@@ -206,7 +185,8 @@ void addCenteredOptionText(
 }
 
 void mvaddstr(int y, int x, String s, {Map<String, dynamic>? params}) {
-  console.mvaddstr(y, x, _processString(s, params));
+  final result = LcsI18n.processString(s, params);
+  console.mvaddstr(y, x, result);
 }
 
 /// Adds a string at the specified y coordinate, aligned to the right with an optional right margin
@@ -219,7 +199,7 @@ void mvaddstrRight(
   int marginX = 0,
   Map<String, dynamic>? params,
 }) {
-  final processed = _processString(s, params);
+  final processed = LcsI18n.processString(s, params);
   int x = CONSOLE_WIDTH - processed.length - marginX;
   mvaddstr(y, x, s, params: params);
 }
@@ -242,8 +222,9 @@ void addstrx(
   String? mouseClickKey,
   Map<String, dynamic>? params,
 }) {
+  final result = LcsI18n.processString(s, params);
   console.addstrx(
-    _processString(s, params),
+    result,
     restoreOldColor: restoreOldColor,
     mouseClickKey: mouseClickKey,
   );
@@ -257,10 +238,11 @@ void mvaddstrx(
   String? mouseClickKey,
   Map<String, dynamic>? params,
 }) {
+  final result = LcsI18n.processString(s, params);
   console.mvaddstrx(
     y,
     x,
-    _processString(s, params),
+    result,
     restoreOldColor: restoreOldColor,
     mouseClickKey: mouseClickKey,
   );
@@ -272,7 +254,7 @@ void mvaddstrCenter(
   int x = 39,
   Map<String, dynamic>? params,
 }) {
-  final processed = _processString(s, params);
+  final processed = LcsI18n.processString(s, params);
   mvaddstr(y, centerString(processed, x: x), s, params: params);
 }
 

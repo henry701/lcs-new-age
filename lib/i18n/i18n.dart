@@ -214,28 +214,45 @@ class LcsI18n {
     bool noTranslate = false,
   }) => translate(englishText, context: context, noTranslate: noTranslate);
 
-  /// Format a string with named parameters
+  /// Format a string with named parameters (placeholder replacement only)
   ///
-  /// [noTranslate] - When true, skips translation entirely and does not log
-  /// any warnings. Use for strings that should never be translated.
+  /// Does NOT translate - use [translate] first or [processString] for both.
   ///
-  /// This is called internally by console wrappers when params are provided.
-  /// Direct usage:
-  ///   addstr("You hit the {target}!", params: {"target": "goblin"});
-  ///   addstr("{name} has been rescued.", params: {"name": "John"});
-  static String format(
-    String englishTemplate,
-    Map<String, dynamic> params, {
+  /// Example:
+  ///   format("Hello {name}!", {"name": "Conservador"}) → "Hello Conservador!"
+  static String format(String template, Map<String, dynamic>? params) {
+    if (params == null) return template;
+    String result = template;
+    params.forEach((key, value) {
+      result = result.replaceAll('{$key}', value.toString());
+    });
+    return result;
+  }
+
+  /// Process a template: translate if needed, then format with params
+  ///
+  /// [template] - The English template string with {placeholders}
+  /// [params] - Values to substitute for placeholders (optional)
+  /// [noTranslate] - If true, skips translation and returns template as-is
+  ///
+  /// Flow:
+  /// 1. If noTranslate=false: translate template (with placeholders intact)
+  /// 2. If noTranslate=true: use template as-is
+  /// 3. Replace {placeholders} with values from params
+  ///
+  /// Example:
+  ///   processString("You hit the {target}!", {"target": "Conservador"})
+  ///   → Translate → "Você acertou o {target}!" → "Você acertou o Conservador!"
+  static String processString(
+    String template,
+    Map<String, dynamic>? params, {
     bool noTranslate = false,
   }) {
-    String translated = translate(englishTemplate, noTranslate: noTranslate);
+    // Translate template if not skipped
+    final translated = noTranslate ? template : translate(template);
 
-    // Replace {param} with values
-    params.forEach((key, value) {
-      translated = translated.replaceAll('{$key}', value.toString());
-    });
-
-    return translated;
+    // Format with params (placeholder replacement)
+    return format(translated, params);
   }
 
   /// Change the current locale at runtime

@@ -313,9 +313,13 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
 
             String bodyDesc = target.prisoner!.body.fellApart
                 ? "the bloody mess"
-                : "${target.prisoner!.name}'s body";
+                : "{name}'s body";
 
-            await encounterMessage("${target.name} drops $bodyDesc.");
+            await encounterMessage(
+              "{attacker} drops {body}",
+              params: {"attacker": target.name, "body": bodyDesc},
+              noTranslate: true,
+            );
             target.prisoner = null;
           }
         }
@@ -697,10 +701,19 @@ Future<bool> attack(
           alternate.attribute(Attribute.agility) > 4) {
         clearMessageArea();
         String adverb = !t.alive ? " misguidedly" : " heroically";
-        String shieldsMessage = !t.alive
-            ? "${alternate.name}${adverb} shields ${t.name}'s corpse!"
-            : "${alternate.name}${adverb} shields ${t.name}!";
-        mvaddstrc(9, 1, lightGreen, shieldsMessage);
+        mvaddstrc(
+          9,
+          1,
+          lightGreen,
+          "{name1}{adverb} shields {name2}{corpse}",
+          params: {
+            "name1": alternate.name,
+            "adverb": adverb,
+            "name2": t.name,
+            "corpse": !t.alive ? "'s corpse!" : "!",
+          },
+          noTranslate: true,
+        );
 
         //Instant juice!! Way to take the bullet!!
         addjuice(alternate, 10, 1000);
@@ -1233,18 +1246,25 @@ Future<void> hit(
                     !body.missingRightEye ||
                     !body.missingNose) &&
                 heavydam) {
-              mvaddstr(9, 1, target.name);
+              String faceMessage;
               if (attackUsed.shoots) {
-                addstr("'s face is blasted off!");
+                faceMessage = "{name}'s face is blasted off!";
               } else if (attackUsed.burns) {
-                addstr("'s face is burned away!");
+                faceMessage = "{name}'s face is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s face is torn off!");
+                faceMessage = "{name}'s face is torn off!";
               } else if (attackUsed.cuts) {
-                addstr("'s face is cut away!");
+                faceMessage = "{name}'s face is cut away!";
               } else {
-                addstr("'s face is removed!");
+                faceMessage = "{name}'s face is removed!";
               }
+              mvaddstr(
+                9,
+                1,
+                faceMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1295,18 +1315,25 @@ Future<void> hit(
             }
           case 2:
             if (!body.missingRightEye && heavydam) {
-              mvaddstr(9, 1, target.name);
+              String eyeMessage;
               if (attackUsed.shoots) {
-                addstr("'s right eye is shot out!");
+                eyeMessage = "{name}'s right eye is shot out!";
               } else if (attackUsed.burns) {
-                addstr("'s right eye is burned away!");
+                eyeMessage = "{name}'s right eye is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s right eye is torn out!");
+                eyeMessage = "{name}'s right eye is torn out!";
               } else if (attackUsed.cuts) {
-                addstr("'s right eye is cut open!");
+                eyeMessage = "{name}'s right eye is cut open!";
               } else {
-                addstr("'s right eye is removed!");
+                eyeMessage = "{name}'s right eye is removed!";
               }
+              mvaddstr(
+                9,
+                1,
+                eyeMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1315,18 +1342,25 @@ Future<void> hit(
             }
           case 3:
             if (!body.missingLeftEye && heavydam) {
-              mvaddstr(9, 1, target.name);
+              String eyeMessage;
               if (attackUsed.shoots) {
-                addstr("'s left eye is shot out!");
+                eyeMessage = "{name}'s left eye is shot out!";
               } else if (attackUsed.burns) {
-                addstr("'s left eye is burned away!");
+                eyeMessage = "{name}'s left eye is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s left eye is torn out!");
+                eyeMessage = "{name}'s left eye is torn out!";
               } else if (attackUsed.cuts) {
-                addstr("'s left eye is cut open!");
+                eyeMessage = "{name}'s left eye is cut open!";
               } else {
-                addstr("'s left eye is removed!");
+                eyeMessage = "{name}'s left eye is removed!";
               }
+              mvaddstr(
+                9,
+                1,
+                eyeMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1335,18 +1369,25 @@ Future<void> hit(
             }
           case 4:
             if (!body.missingTongue && heavydam) {
-              mvaddstr(9, 1, target.name);
+              String tongueMessage;
               if (attackUsed.shoots) {
-                addstr("'s tongue is blown off!");
+                tongueMessage = "{name}'s tongue is blown off!";
               } else if (attackUsed.burns) {
-                addstr("'s tongue is burned away!");
+                tongueMessage = "{name}'s tongue is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s tongue is torn out!");
+                tongueMessage = "{name}'s tongue is torn out!";
               } else if (attackUsed.cuts) {
-                addstr("'s tongue is cut off!");
+                tongueMessage = "{name}'s tongue is cut off!";
               } else {
-                addstr("'s tongue is removed!");
+                tongueMessage = "{name}'s tongue is removed!";
               }
+              mvaddstr(
+                9,
+                1,
+                tongueMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1355,18 +1396,25 @@ Future<void> hit(
             }
           case 5:
             if (!body.missingNose && heavydam) {
-              mvaddstr(9, 1, target.name);
+              String noseMessage;
               if (attackUsed.shoots) {
-                addstr("'s nose is blown off!");
+                noseMessage = "{name}'s nose is blown off!";
               } else if (attackUsed.burns) {
-                addstr("'s nose is burned away!");
+                noseMessage = "{name}'s nose is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s nose is torn off!");
+                noseMessage = "{name}'s nose is torn off!";
               } else if (attackUsed.cuts) {
-                addstr("'s nose is cut off!");
+                noseMessage = "{name}'s nose is cut off!";
               } else {
-                addstr("'s nose is removed!");
+                noseMessage = "{name}'s nose is removed!";
               }
+              mvaddstr(
+                9,
+                1,
+                noseMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1375,12 +1423,19 @@ Future<void> hit(
             }
           case 6:
             if (!body.brokenNeck && breakdam) {
-              mvaddstr(9, 1, target.name);
+              String neckMessage;
               if (attackUsed.shoots) {
-                addstr("'s neck bones are shattered!");
+                neckMessage = "{name}'s neck bones are shattered!";
               } else {
-                addstr("'s neck is broken!");
+                neckMessage = "{name}'s neck is broken!";
               }
+              mvaddstr(
+                9,
+                1,
+                neckMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1399,12 +1454,19 @@ Future<void> hit(
         switch (roll) {
           case 0:
             if (!body.brokenUpperSpine && breakdam) {
-              mvaddstr(9, 1, target.name);
+              String spineMessage;
               if (attackUsed.shoots) {
-                addstr("'s upper spine is shattered!");
+                spineMessage = "{name}'s upper spine is shattered!";
               } else {
-                addstr("'s upper spine is broken!");
+                spineMessage = "{name}'s upper spine is broken!";
               }
+              mvaddstr(
+                9,
+                1,
+                spineMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1413,12 +1475,19 @@ Future<void> hit(
             }
           case 1:
             if (!body.brokenLowerSpine && breakdam) {
-              mvaddstr(9, 1, target.name);
+              String spineMessage;
               if (attackUsed.shoots) {
-                addstr("'s lower spine is shattered!");
+                spineMessage = "{name}'s lower spine is shattered!";
               } else {
-                addstr("'s lower spine is broken!");
+                spineMessage = "{name}'s lower spine is broken!";
               }
+              mvaddstr(
+                9,
+                1,
+                spineMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1427,14 +1496,21 @@ Future<void> hit(
             }
           case 2:
             if (!body.puncturedRightLung && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String lungMessage;
               if (attackUsed.shoots) {
-                addstr("'s right lung is blasted!");
+                lungMessage = "{name}'s right lung is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s right lung is torn!");
+                lungMessage = "{name}'s right lung is torn!";
               } else {
-                addstr("'s right lung is punctured!");
+                lungMessage = "{name}'s right lung is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                lungMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1443,14 +1519,21 @@ Future<void> hit(
             }
           case 3:
             if (!body.puncturedLeftLung && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String lungMessage;
               if (attackUsed.shoots) {
-                addstr("'s left lung is blasted!");
+                lungMessage = "{name}'s left lung is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s left lung is torn!");
+                lungMessage = "{name}'s left lung is torn!";
               } else {
-                addstr("'s left lung is punctured!");
+                lungMessage = "{name}'s left lung is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                lungMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1459,14 +1542,21 @@ Future<void> hit(
             }
           case 4:
             if (!body.puncturedHeart && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String heartMessage;
               if (attackUsed.shoots) {
-                addstr("'s heart is blasted!");
+                heartMessage = "{name}'s heart is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s heart is torn!");
+                heartMessage = "{name}'s heart is torn!";
               } else {
-                addstr("'s heart is punctured!");
+                heartMessage = "{name}'s heart is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                heartMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1477,14 +1567,21 @@ Future<void> hit(
             }
           case 5:
             if (!body.puncturedLiver && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String liverMessage;
               if (attackUsed.shoots) {
-                addstr("'s liver is blasted!");
+                liverMessage = "{name}'s liver is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s liver is torn!");
+                liverMessage = "{name}'s liver is torn!";
               } else {
-                addstr("'s liver is punctured!");
+                liverMessage = "{name}'s liver is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                liverMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1493,14 +1590,21 @@ Future<void> hit(
             }
           case 6:
             if (!body.puncturedStomach && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String stomachMessage;
               if (attackUsed.shoots) {
-                addstr("'s stomach is blasted!");
+                stomachMessage = "{name}'s stomach is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s stomach is torn!");
+                stomachMessage = "{name}'s stomach is torn!";
               } else {
-                addstr("'s stomach is punctured!");
+                stomachMessage = "{name}'s stomach is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                stomachMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1509,30 +1613,21 @@ Future<void> hit(
             }
           case 7:
             if (!body.puncturedRightKidney && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String kidneyMessage;
               if (attackUsed.shoots) {
-                addstr("'s right kidney is blasted!");
+                kidneyMessage = "{name}'s right kidney is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s right kidney is torn!");
+                kidneyMessage = "{name}'s right kidney is torn!";
               } else {
-                addstr("'s right kidney is punctured!");
+                kidneyMessage = "{name}'s right kidney is punctured!";
               }
-
-              await getKey();
-
-              body.puncturedRightKidney = true;
-              maxBlood(0.5);
-            }
-          case 8:
-            if (!body.puncturedLeftKidney && pokedam) {
-              mvaddstr(9, 1, target.name);
-              if (attackUsed.shoots) {
-                addstr("'s left kidney is blasted!");
-              } else if (attackUsed.tears) {
-                addstr("'s left kidney is torn!");
-              } else {
-                addstr("'s left kidney is punctured!");
-              }
+              mvaddstr(
+                9,
+                1,
+                kidneyMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 
@@ -1541,14 +1636,21 @@ Future<void> hit(
             }
           case 9:
             if (!body.puncturedSpleen && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String spleenMessage;
               if (attackUsed.shoots) {
-                addstr("'s spleen is blasted!");
+                spleenMessage = "{name}'s spleen is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s spleen is torn!");
+                spleenMessage = "{name}'s spleen is torn!";
               } else {
-                addstr("'s spleen is punctured!");
+                spleenMessage = "{name}'s spleen is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                spleenMessage,
+                params: {"name": target.name},
+                noTranslate: true,
+              );
 
               await getKey();
 

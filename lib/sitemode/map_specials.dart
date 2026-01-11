@@ -914,13 +914,15 @@ Future<void> encounterMessage(
   String message, {
   String? line2,
   Color color = white,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) async {
   clearMessageArea();
 
-  mvaddstrc(9, 1, color, message);
+  mvaddstrc(9, 1, color, message, params: params, noTranslate: noTranslate);
 
   if (line2 != null) {
-    mvaddstr(10, 1, line2);
+    mvaddstr(10, 1, line2, params: params, noTranslate: noTranslate);
   }
 
   await getKey();

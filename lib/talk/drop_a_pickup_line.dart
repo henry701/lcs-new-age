@@ -419,7 +419,14 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
     if (a.indecent) {
       responds = "openly stares";
     }
-    mvaddstrc(y++, 1, white, "${tk.name} $responds, ");
+    mvaddstrc(
+      y++,
+      1,
+      white,
+      "{name} {response}",
+      params: {"name": tk.name, "response": responds},
+      noTranslate: true,
+    );
     setColor(lightBlue);
     move(y++, 1);
 
@@ -672,7 +679,14 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
     if (a.indecent) {
       responds = "looks away";
     }
-    mvaddstrc(y++, 1, white, "${tk.name} $responds, ");
+    mvaddstrc(
+      y++,
+      1,
+      white,
+      "{name} {response}",
+      params: {"name": tk.name, "response": responds},
+      noTranslate: true,
+    );
     setColor(red);
     move(y++, 1);
     if (tk.type.id == CreatureTypeIds.corporateCEO) {

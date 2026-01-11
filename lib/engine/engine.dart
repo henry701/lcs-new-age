@@ -163,6 +163,8 @@ void addOptionText(
   String baseColorKey = "w",
   String highlightColorKey = "B",
   String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
   move(y, x);
   addInlineOptionText(
@@ -172,6 +174,8 @@ void addOptionText(
     baseColorKey: baseColorKey,
     highlightColorKey: highlightColorKey,
     disabledColorKey: disabledColorKey,
+    params: params,
+    noTranslate: noTranslate,
   );
 }
 

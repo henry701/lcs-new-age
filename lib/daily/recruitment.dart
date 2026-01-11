@@ -135,7 +135,9 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       0,
       0,
       lightGray,
-      "${p.name} accidentally missed the meeting with ${r.recruit.name}",
+      "{recruiter} accidentally missed the meeting with {recruit}",
+      params: {"recruiter": p.name, "recruit": r.recruit.name},
+      noTranslate: true,
     );
     mvaddstrc(
       1,
@@ -143,7 +145,14 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       lightGray,
       "due to multiple booking of recruitment sessions.",
     );
-    mvaddstrc(3, 0, lightGray, "Get it together, ${p.name}!");
+    mvaddstrc(
+      3,
+      0,
+      lightGray,
+      "Get it together, {name}!",
+      params: {"name": p.name},
+      noTranslate: true,
+    );
 
     await getKey();
 
@@ -160,7 +169,13 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     0,
     0,
     lightGray,
-    "Meeting with ${r.recruit.name}, ${r.recruit.type.name}, $locationInfo",
+    "Meeting with {name}, {type}, {location}",
+    params: {
+      "name": r.recruit.name,
+      "type": r.recruit.type.name,
+      "location": locationInfo,
+    },
+    noTranslate: true,
   );
 
   setColor(lightGray);
@@ -171,14 +186,21 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
 
   move(10, 0);
   final recruitResponse = switch (r.eagerness) {
-    1 => "${r.recruit.name} will take a lot of persuading.",
-    2 => "${r.recruit.name} is interested in learning more.",
-    3 => "${r.recruit.name} feels something needs to be done.",
+    1 => "{name} will take a lot of persuading.",
+    2 => "{name} is interested in learning more.",
+    3 => "{name} feels something needs to be done.",
     _ when r.eagerness >= 4 =>
-      "${r.recruit.name} is ready to fight for the Liberal Cause.",
-    _ => "${r.recruit.name} kind of regrets agreeing to this.",
+      "{name} is ready to fight for the Liberal Cause.",
+    _ => "{name} kind of regrets agreeing to this.",
   };
-  mvaddstrc(10, 0, lightGray, recruitResponse);
+  mvaddstrc(
+    10,
+    0,
+    lightGray,
+    recruitResponse,
+    params: {"name": r.recruit.name},
+    noTranslate: true,
+  );
   mvaddstr(
     11,
     0,
@@ -204,13 +226,21 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
   String recruitmentText = "C - ";
   if (p.subordinatesLeft > 0 && r.eagerness >= 4) {
     canRecruit = true;
-    recruitmentText += "Offer to let ${r.recruit.name} join the LCS.";
+    recruitmentText += "{recruit} joins the LCS.";
   } else if (p.subordinatesLeft <= 0) {
-    recruitmentText += "${p.name} needs more Juice to recruit.";
+    recruitmentText += "{recruiter} needs more Juice to recruit.";
   } else {
-    recruitmentText += "${r.recruit.name} isn't ready to join the LCS.";
+    recruitmentText += "{recruit} isn't ready to join the LCS.";
   }
-  addOptionText(15, 0, "C", recruitmentText, enabledWhen: canRecruit);
+  addOptionText(
+    15,
+    0,
+    "C",
+    recruitmentText,
+    params: {"recruiter": p.name, "recruit": r.recruit.name},
+    noTranslate: true,
+    enabledWhen: canRecruit,
+  );
 
   addOptionText(16, 0, "D", "D - Break off the meetings.");
 
@@ -220,14 +250,22 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     int c = await getKey();
 
     if (c == Key.c && p.subordinatesLeft > 0 && r.eagerness >= 4) {
-      mvaddstr(y, 0, "${p.name} offers to let ${r.recruit.name} join the LCS.");
+      mvaddstr(
+        y,
+        0,
+        "{recruiter} offers to let {recruit} join the LCS.",
+        params: {"recruiter": p.name, "recruit": r.recruit.name},
+        noTranslate: true,
+      );
       await getKey();
 
       mvaddstrc(
         y += 2,
         0,
         lightGreen,
-        "${r.recruit.name} accepts, and is eager to get started.",
+        "{recruit} accepts, and is eager to get started.",
+        params: {"recruit": r.recruit.name},
+        noTranslate: true,
       );
       r.recruit.hireId = p.id;
       liberalize(r.recruit);
@@ -286,7 +324,13 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       if (c == Key.a) {
         difficulty -= 5;
 
-        mvaddstr(y++, 0, "${p.name} shares ${_issueEventStrings.random}.");
+        mvaddstr(
+          y++,
+          0,
+          "{recruiter} shares {topic}.",
+          params: {"recruiter": p.name, "topic": _issueEventStrings.random},
+          noTranslate: true,
+        );
 
         await getKey();
       } else {
@@ -294,7 +338,13 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           y++,
           0,
           lightGray,
-          "${p.name} explains ${p.gender.hisHer} views on ${Law.values.random.label}.",
+          "{recruiter} explains {gender} views on {law}.",
+          params: {
+            "recruiter": p.name,
+            "gender": p.gender.hisHer,
+            "law": Law.values.random.label,
+          },
+          noTranslate: true,
         );
 
         await getKey();
@@ -309,7 +359,9 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           y++,
           0,
           lightBlue,
-          "${r.recruit.name} found ${p.name}'s views to be insightful.",
+          "{recruit} found {recruiter}'s views to be insightful.",
+          params: {"recruit": r.recruit.name, "recruiter": p.name},
+          noTranslate: true,
         );
         mvaddstrc(y++, 0, lightGray, "They'll definitely meet again tomorrow.");
       } else if (p.skillCheck(
@@ -322,7 +374,9 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           y++,
           0,
           lightGray,
-          "${r.recruit.name} is skeptical about some of ${p.name}'s arguments.",
+          "{recruit} is skeptical about some of {recruiter}'s arguments.",
+          params: {"recruit": r.recruit.name, "recruiter": p.name},
+          noTranslate: true,
         );
         mvaddstrc(y++, 0, lightGray, "They'll meet again tomorrow.");
       } else {
@@ -333,13 +387,17 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
             y++,
             0,
             lightGray,
-            "${r.recruit.name} isn't convinced ${p.name} really understands the problem.",
+            "{recruit} isn't convinced {recruiter} really understands the problem.",
+            params: {"recruit": r.recruit.name, "recruiter": p.name},
+            noTranslate: true,
           );
           mvaddstrc(
             y++,
             0,
             lightGray,
-            "Maybe ${p.name} needs more experience.",
+            "Maybe {recruiter} needs more experience.",
+            params: {"recruiter": p.name},
+            noTranslate: true,
           );
         } else {
           addstr(
@@ -376,19 +434,35 @@ Future<void> sleeperizePrompt(
     move(y, 0);
     setColor(lightGray);
     addstr(
-      "In what capacity will ${converted.name} best serve the Liberal cause?",
+      "In what capacity will {name} best serve the Liberal cause?",
+      params: {"name": converted.name},
+      noTranslate: true,
     );
     addOptionText(
       y + 2,
       0,
       "A",
-      "A - Come to ${recruiter.location!.getName(short: false, includeCity: true)} as a &Gregular member&x.",
+      "A - Come to {location} as a &Gregular member&x.",
+      params: {
+        "location": recruiter.location!.getName(
+          short: false,
+          includeCity: true,
+        ),
+      },
+      noTranslate: true,
     );
     addOptionText(
       y + 3,
       0,
       "B",
-      "B - Stay at ${converted.workLocation.getName(short: false, includeCity: true)} as a &Bsleeper agent&x.",
+      "B - Stay at {location} as a &Bsleeper agent&x.",
+      params: {
+        "location": converted.workLocation.getName(
+          short: false,
+          includeCity: true,
+        ),
+      },
+      noTranslate: true,
     );
 
     int c = await getKey();

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:lcs_new_age/utils/game_options.dart';
 import 'untranslated_logger.dart';
-import '../utils/game_options.dart';
 
 /// Exception thrown when i18n system encounters unrecoverable errors
 class LcsI18nException implements Exception {

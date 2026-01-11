@@ -16,8 +16,17 @@ void setColor(Color foreground, {Color background = black}) =>
 void addchar(String c) => console.addchar(c);
 void mvaddchar(int y, int x, String c) => console.mvaddchar(y, x, c);
 
-void addstr(String s, {Map<String, dynamic>? params}) {
+void addstr(
+  String s, {
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
   String finalString = s;
+  if (noTranslate) {
+    // Skip translation entirely
+    console.addstr(finalString, noTranslate: true);
+    return;
+  }
   if (params != null) {
     // Handle plurals if count is provided with a context
     final count = params['count'];

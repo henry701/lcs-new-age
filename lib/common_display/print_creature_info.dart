@@ -171,17 +171,17 @@ void printTopSkills(
         addstr(
           "{level}.",
           params: {"level": levelXP.toString()},
-          no_translate: true,
+          noTranslate: true,
         );
         if (levelXP < 10) {
-          addstr("0", no_translate: true);
+          addstr("0", noTranslate: true);
         }
-        addstr(levelXP.toString(), no_translate: true);
+        addstr(levelXP.toString(), noTranslate: true);
       } else {
         addstr(
           "{level}.99+",
           params: {"level": levelXP.toString()},
-          no_translate: true,
+          noTranslate: true,
         );
       }
     } else {

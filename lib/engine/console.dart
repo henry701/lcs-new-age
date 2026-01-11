@@ -148,8 +148,8 @@ class Console {
   }
 
   void addstr(String s, {String? mouseClickKey, bool noTranslate = false}) {
-    // Check if this string should not be translated
-    if (noTranslate || LcsI18n.isExempted(s)) {
+    // Skip translation for noTranslate strings
+    if (noTranslate) {
       for (var i = 0; i < s.length; i++) {
         addchar(s[i]);
       }

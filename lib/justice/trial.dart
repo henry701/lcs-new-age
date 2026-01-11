@@ -543,7 +543,8 @@ Future<void> trial(Creature g) async {
     } else {
       mvaddstrc(5, 1, lightGray, g.name);
       addstr(
-        " will be returned to prison to resume ${g.gender.hisHer} earlier sentence.",
+        " will be returned to prison to resume {pronoun} earlier sentence.",
+        params: {"pronoun": g.gender.hisHer},
       );
       g.sentence--;
       if (g.deathPenalty) {

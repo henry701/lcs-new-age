@@ -541,10 +541,12 @@ Future<void> trial(Creature g) async {
     if (g.sentence == 0) {
       mvaddstrc(5, 1, lightGreen, "{name} is free!", params: {"name": g.name});
     } else {
-      mvaddstrc(5, 1, lightGray, g.name);
-      addstr(
-        " will be returned to prison to resume {pronoun} earlier sentence.",
-        params: {"pronoun": g.gender.hisHer},
+      mvaddstrc(
+        5,
+        1,
+        lightGray,
+        "{name} will be returned to prison to resume {pronoun} earlier sentence.",
+        params: {"name": g.name, "pronoun": g.gender.hisHer},
       );
       g.sentence--;
       if (g.deathPenalty) {

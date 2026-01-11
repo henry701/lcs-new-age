@@ -336,13 +336,23 @@ Future<void> laborCamp(Creature g) async {
   experience ??= laborCampExperiences.random;
 
   erase();
-  mvaddstrc(8, 1, white, g.name);
-  addstr(experience);
+  mvaddstrc(
+    8,
+    1,
+    white,
+    "{name}{experience}",
+    params: {"name": g.name, "experience": experience},
+  );
   await getKey();
 
   if (experience2 != null) {
-    mvaddstrc(9, 1, white, g.name);
-    addstr(experience2);
+    mvaddstrc(
+      9,
+      1,
+      white,
+      "{name}{experience}",
+      params: {"name": g.name, "experience": experience2},
+    );
     await getKey();
   }
 
@@ -465,8 +475,13 @@ Future<void> prisonScene(Creature g) async {
   if (experience == null) return;
 
   erase();
-  mvaddstrc(8, 1, white, g.name);
-  addstr(experience);
+  mvaddstrc(
+    8,
+    1,
+    white,
+    "{name}{experience}",
+    params: {"name": g.name, "experience": experience},
+  );
 
   await getKey();
 

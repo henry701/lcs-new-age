@@ -628,7 +628,6 @@ class Shop extends ShopOption {
         addstr(
           "Really sell all {items}? (Y)es to confirm.           ",
           params: {"items": items},
-          noTranslate: true,
         );
 
         if (await getKey() != Key.y) c = 0; //no sale
@@ -828,7 +827,6 @@ class Shop extends ShopOption {
         white,
         "Which mask will {buyer} buy?",
         params: {"buyer": buyer.name},
-        noTranslate: true,
       );
       addHeader({4: "PRODUCT NAME", 39: "DESCRIPTION"});
 
@@ -843,7 +841,6 @@ class Shop extends ShopOption {
           0,
           "{letter} - {name}",
           params: {"letter": letterAPlus(y - 2), "name": masktype[p].name},
-          noTranslate: true,
         );
         mvaddstrc(y, 39, lightGray, masktype[p].description.trim());
       }

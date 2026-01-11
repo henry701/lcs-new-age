@@ -26,7 +26,7 @@ void main() {
 
     test('addstr with params formats string', () {
       expect(() {
-        addstr('You hit the {target}!', params: {'target': 'goblin'});
+        addstr('You hit the {target}!', params: {'target': 'Conservative'});
       }, returnsNormally);
     });
 
@@ -64,7 +64,9 @@ void main() {
     test('addstr format actually translates correctly in Portuguese', () async {
       resetConsole();
       await LcsI18n.initialize('pt_BR');
-      addstr('You hit the {target}!', params: {'target': 'Conservador'});
+      // Values like creature types may need translation at call site
+      final target = LcsI18n.tr('Conservative');
+      addstr('You hit the {target}!', params: {'target': target});
       expect(getConsoleLine(0), equals('Você acertou o Conservador!'));
     });
 
@@ -74,8 +76,8 @@ void main() {
         LcsI18n.reset();
         resetConsole();
         await LcsI18n.initialize('pt_BR');
-        addstr('You hit {target}!', params: {'target': 'Conservador'});
-        expect(getConsoleLine(0), equals('You hit Conservador!'));
+        addstr('You hit {target}!', params: {'target': 'Conservative'});
+        expect(getConsoleLine(0), equals('You hit Conservative!'));
       },
     );
 

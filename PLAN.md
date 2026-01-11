@@ -18,7 +18,7 @@ This document outlines a phased approach to implementing internationalization (i
 ### Scope & Approach
 - **Initial**: Minimal implementation with console wrapper pattern
 - **Evolution**: Phased expansion to comprehensive coverage
-- **Plurals**: ICU Message Format where possible, preserve game logic where intertwined
+- **Plurals**: Game code selects appropriate singular/plural string; translation layer handles uniformly
 
 ### Language Support
 - **Current**: Left-to-right languages only
@@ -41,7 +41,7 @@ This document outlines a phased approach to implementing internationalization (i
 - ✅ Add translation lookup before console output
 - ✅ Implement fallback to English for missing translations
 - ✅ Test with pseudo-translation (e.g., prefix "[!!]")
-- ✅ **Add transparent params support for formatting and plurals**
+- ✅ **Add transparent params support for string formatting**
 
 ### 1.3 Build Integration ✅
 - ✅ Configure `intl_translation` for message extraction
@@ -53,8 +53,8 @@ This document outlines a phased approach to implementing internationalization (i
 ### 1.4 Language Switching ✅
 - ✅ Implement locale detection/selection (basic `setLocale()` method loads ARB files)
 - ✅ Add runtime language switching (setLocale actually loads translations)
-- [OK] Create language selection UI (basic)
-- [OK] Test dynamic switching vs. restart requirement
+- ✅ Create language selection UI (basic)
+- ✅ Test dynamic switching vs. restart requirement
 
 ## Phase 2: Core Content (Week 3-4)
 
@@ -138,32 +138,20 @@ The API is designed to be as NCurses-like as possible while supporting full inte
 
 - **Simple strings:** `addstr("text")` - just write English
 - **Parameters:** `addstr("{key} text", params: {"key": value})` - transparent formatting
-- **Plurals:** `addstr("text {count}", params: {"count": n, "context": "plural_id"})` - transparent pluralization
+- **NoTranslate:** `addstr("{value}", params: {"value": x}, noTranslate: true)` - skip translation
 
 No explicit `LcsI18n` calls needed in game code!
 
 ### Console Wrapper Pattern
 ```dart
 // In lib/engine/engine.dart
-void addstr(String s, {Map<String, dynamic>? params}) {
-  String finalString = s;
-  if (params != null) {
-    // Handle plurals if count is provided with a context
-    final count = params['count'];
-    final pluralContext = params['context'] as String?;
-    if (count is int && pluralContext != null) {
-      finalString = LcsI18n.plural(count, context: pluralContext);
-    } else {
-      // Handle regular formatting
-      finalString = LcsI18n.format(s, params);
-    }
-  } else {
-    finalString = LcsI18n.translate(s);
-  }
-  console.addstr(finalString);
+// All wrappers use LcsI18n.processString() internally
+void addstr(String s, {Map<String, dynamic>? params, bool noTranslate = false}) {
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.addstr(result, noTranslate: noTranslate);
 }
 
-// All wrappers support params
+// All wrappers support params and noTranslate
 void mvaddstr(int y, int x, String s, {Map<String, dynamic>? params});
 void addstrx(String s, {Map<String, dynamic>? params, bool restoreOldColor = true, String? mouseClickKey});
 void mvaddstrx(int y, int x, String s, {Map<String, dynamic>? params, bool restoreOldColor = true, String? mouseClickKey});
@@ -171,7 +159,16 @@ void mvaddstrx(int y, int x, String s, {Map<String, dynamic>? params, bool resto
 
 ### Implementation Directives
 
-**No generic plural contexts** - Game code keeps its business logic. Translation layer only looks up exact strings.
+**No generic plural contexts** - Game code keeps its business logic. Use separate strings for singular/plural:
+
+```dart
+// Game code handles plural logic, translation layer is uniform
+if (count == 1) {
+  addstr("One member escaped.");
+} else {
+  addstr("{count} members escaped.", params: {"count": count});
+}
+```
 
 **Minimal code changes** - The transparent API means most strings work unchanged. Only change string interpolation to params when adding translations.
 
@@ -191,42 +188,37 @@ mvaddstr(10, 5, "{attacker} hits {target}!", params: {
 });
 ```
 
-**Plurals (transparent pluralization):**
+**noTranslate flag for numbers/code:**
 ```dart
-// Before (manual plural logic)
-if (numEscaped == 1) {
-  mvaddstr(11, 1, "Another imprisoned LCS member also gets out!");
-} else if (numEscaped > 1) {
-  mvaddstr(11, 1, "$numEscaped other LCS members escape in the riot!");
-}
-
-// After - clean and NCurses-like!
-mvaddstr(11, 1, "{count} other LCS members escape in the riot!",
-         params: {"count": numEscaped, "context": "members_escape"});
+// Skip translation for display values (numbers, codes, etc.)
+addstr("{name} has {health} health.", params: {
+  "name": creature.name,
+  "health": creature.health
+}, noTranslate: true);
 ```
 
+**Translating dynamic values at call site:**
+```dart
+// For values that need translation (alignment names, item types, etc.),
+// translate them at the call site using LcsI18n.tr()
+final target = LcsI18n.tr(creature.type.name);
+addstr("You hit the {target}!", params: {"target": target});
 
+// This ensures the translation flows through the i18n system
+// Portuguese: "Você acertou o Conservador!"
+```
 
 ### Parameter Handling Logic
 
-When `params` is provided to console wrappers:
+All console wrappers use `LcsI18n.processString(template, params?, noTranslate)`:
 
-1. **If contains both `count` (int) and `context` (String):** Uses ICU plural rules
-   ```dart
-   addstr("You have {count} items.", params: {
-     "count": 5,
-     "context": "inventory_items"
-   });
-   // English: "You have 5 items."
-   // Portuguese: "Você tem 5 itens."
-   ```
+```dart
+// 1. Translate template (with placeholders intact) unless noTranslate=true
+// 2. Replace {placeholders} with values from params
 
-2. **Otherwise:** Uses string formatting
-   ```dart
-   addstr("Hello {name}!", params: {"name": "World"});
-   // English: "Hello World!"
-   // Portuguese: "Olá World!"
-   ```
+addstr("Hello {name}!", params: {"name": "World"});
+// → Translate → "Olá {name}!" → "Olá World!"
+```
 
 ### LcsI18n Class (lib/i18n/i18n.dart)
 
@@ -238,14 +230,18 @@ class LcsI18n {
   // Change locale at runtime
   static Future<void> setLocale(String locale);
 
-  // Translate literal English string (used internally by wrappers)
-  static String translate(String englishText, {String? context});
+  // Translate template (with placeholders intact)
+  static String translate(String template, {bool noTranslate = false});
 
-  // Format string with named parameters (used internally by wrappers)
-  static String format(String englishTemplate, Map<String, dynamic> params);
+  // Format template with named parameters (placeholder replacement only)
+  static String format(String template, Map<String, dynamic>? params);
 
-  // Handle plural forms using ICU (used internally by wrappers)
-  static String plural(int count, {required String context});
+  // Translate then format - single entry point for wrappers
+  static String processString(
+    String template,
+    Map<String, dynamic>? params, {
+    bool noTranslate = false,
+  });
 
   // Get missing translations for coverage analysis
   static Set<String> getMissingTranslations();
@@ -261,7 +257,7 @@ class LcsI18n {
 
 **Optional enhancements:**
 - Replace `addstr("$name has been rescued")` with `addstr("{name} has been rescued", params: {"name": name})` when adding translations
-- Manual plural logic stays in game code - translation layer handles string lookup transparently
+- Manual plural logic stays in game code - translation layer handles strings uniformly
 - Add translations to ARB files as strings are encountered during play
 
 

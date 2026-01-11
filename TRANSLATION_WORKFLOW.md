@@ -10,6 +10,59 @@ The translation process consists of:
 3. Merging the translated strings back into the ARB file(s)
 4. Repeating until all strings are translated
 
+## Translation API
+
+The i18n system provides three main functions:
+
+### `LcsI18n.translate(template, noTranslate: false)`
+Translate a template string (with placeholders intact). Use for static text.
+
+```dart
+LcsI18n.translate("Game Over") // → "Fim de Jogo" (Portuguese)
+LcsI18n.translate("Loading...") // → "Carregando..." (Portuguese)
+```
+
+### `LcsI18n.format(template, params?)`
+Replace placeholders with values. Does NOT translate. Use for simple substitution.
+
+```dart
+LcsI18n.format("Hello {name}!", {"name": "Jane"})
+// → "Hello Jane!"
+```
+
+### `LcsI18n.processString(template, params?, noTranslate: false)`
+**Primary wrapper for console output.** Translate template, then replace placeholders.
+
+```dart
+// Console wrapper pattern (engine.dart):
+void addstr(String s, {Map<String, dynamic>? params, bool noTranslate = false}) {
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.addstr(result, noTranslate: noTranslate);
+}
+
+// Usage in game code:
+addstr("You hit the {target}!", params: {"target": "Conservative"})
+// → Translate → "Você acertou o {target}!" → "Você acertou o Conservative!"
+```
+
+### Translating Dynamic Values at Call Site
+
+For values that need translation (alignment names, item types, etc.), translate them at the call site:
+
+```dart
+// For dynamic values that need translation:
+final target = LcsI18n.tr(creature.type.name);  // "Conservative" → "Conservador"
+addstr("You hit the {target}!", params: {"target": target});
+// → Portuguese: "Você acertou o Conservador!"
+
+// For numbers/code that should NOT be translated:
+addstr("{name} has {health} health.", params: {
+  "name": creature.name,
+  "health": creature.health
+}, noTranslate: true);
+// → "Jane has 100 health." (no translation attempted)
+```
+
 ## Multi-File ARB Support
 
 As of the latest update, each locale can have multiple ARB files to prevent any single file from becoming too large:

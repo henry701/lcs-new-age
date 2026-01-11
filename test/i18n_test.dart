@@ -45,6 +45,7 @@ void main() {
     test('format strings with parameters in English', () async {
       await LcsI18n.initialize('en_US');
 
+      // format() only does placeholder replacement (no translation)
       expect(
         LcsI18n.format("{name}'s corpse has been recovered.", {'name': 'John'}),
         equals("John's corpse has been recovered."),
@@ -64,18 +65,50 @@ void main() {
     test('format strings with parameters in Portuguese', () async {
       await LcsI18n.initialize('pt_BR');
 
+      // format() only does placeholder replacement (no translation)
+      // For translation + formatting, use processString()
       expect(
-        LcsI18n.format("{name}'s corpse has been recovered.", {'name': 'João'}),
+        LcsI18n.processString("John's corpse has been recovered.", {
+          'name': 'João',
+        }),
         equals('O cadáver de João foi recuperado.'),
       );
 
       expect(
-        LcsI18n.format('{name} has been rescued.', {'name': 'Maria'}),
+        LcsI18n.processString('Jane has been rescued.', {'name': 'Maria'}),
+        equals('Maria foi resgatado.'),
+      );
+
+      // For values that need translation (like alignment names),
+      // translate at the call site using LcsI18n.tr()
+      final target = LcsI18n.tr('Conservative');
+      expect(
+        LcsI18n.processString('You hit the {target}!', {'target': target}),
+        equals('Você acertou o Conservador!'),
+      );
+    });
+
+    test('format strings with parameters in Portuguese', () async {
+      await LcsI18n.initialize('pt_BR');
+
+      // format() only does placeholder replacement (no translation)
+      // For translation + formatting, use processString()
+      expect(
+        LcsI18n.processString("John's corpse has been recovered.", {
+          'name': 'João',
+        }),
+        equals('O cadáver de João foi recuperado.'),
+      );
+
+      expect(
+        LcsI18n.processString('Jane has been rescued.', {'name': 'Maria'}),
         equals('Maria foi resgatado.'),
       );
 
       expect(
-        LcsI18n.format('You hit the {target}!', {'target': 'Conservador'}),
+        LcsI18n.processString('You hit the {target}!', {
+          'target': 'Conservador',
+        }),
         equals('Você acertou o Conservador!'),
       );
     });
@@ -118,7 +151,7 @@ void main() {
       );
 
       expect(
-        LcsI18n.format('Você tem {count} itens.', {'count': 5}),
+        LcsI18n.processString('Você tem {count} itens.', {'count': 5}),
         equals('Você tem 5 itens.'),
       );
     });
@@ -146,9 +179,10 @@ void main() {
         equals('Outro membro preso do LCS também escapa!'),
       );
       expect(
-        LcsI18n.format('{count} outros membros do LCS escapam no motim!', {
-          'count': 5,
-        }),
+        LcsI18n.processString(
+          '{count} outros membros do LCS escapam no motim!',
+          {'count': 5},
+        ),
         equals('5 outros membros do LCS escapam no motim!'),
       );
     });
@@ -156,6 +190,36 @@ void main() {
     test('shorthand tr() method works', () async {
       await LcsI18n.initialize('en_US');
       expect(LcsI18n.tr('Loading...'), equals('Loading...'));
+    });
+
+    test('processString translates and formats in English', () async {
+      await LcsI18n.initialize('en_US');
+      expect(
+        LcsI18n.processString('You hit the {target}!', {
+          'target': 'Conservative',
+        }),
+        equals('You hit the Conservative!'),
+      );
+    });
+
+    test('processString translates and formats in Portuguese', () async {
+      await LcsI18n.initialize('pt_BR');
+      expect(
+        LcsI18n.processString('You hit the {target}!', {
+          'target': 'Conservador',
+        }),
+        equals('Você acertou o Conservador!'),
+      );
+    });
+
+    test('processString with noTranslate skips translation', () async {
+      await LcsI18n.initialize('pt_BR');
+      expect(
+        LcsI18n.processString('You hit the {target}!', {
+          'target': 'Conservador',
+        }, noTranslate: true),
+        equals('You hit the Conservador!'),
+      );
     });
 
     test('fallback to English for missing translations', () async {

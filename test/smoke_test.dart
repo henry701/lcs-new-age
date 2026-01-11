@@ -22,7 +22,8 @@ void main() {
       expect(() => LcsI18n.translate('Loading...'), returnsNormally);
       expect(() => LcsI18n.translate('Game Over'), returnsNormally);
       expect(
-        () => LcsI18n.format('You hit the {target}!', {'target': 'goblin'}),
+        () =>
+            LcsI18n.format('You hit the {target}!', {'target': 'Conservative'}),
         returnsNormally,
       );
     });
@@ -31,11 +32,24 @@ void main() {
       await LcsI18n.initialize();
 
       // Test NCurses-style: plain English in code
-      final result = LcsI18n.format('You hit the {target}!', {
-        'target': 'goblin',
+      final result = LcsI18n.processString('You hit the {target}!', {
+        'target': 'Conservative',
       });
 
-      expect(result, equals('You hit the goblin!'));
+      expect(result, equals('You hit the Conservative!'));
+      expect(result, isA<String>());
+      expect(result, isNotEmpty);
+    });
+
+    test('basic translation pipeline works end-to-end', () async {
+      await LcsI18n.initialize();
+
+      // Test NCurses-style: plain English in code
+      final result = LcsI18n.processString('You hit the {target}!', {
+        'target': 'Conservador',
+      });
+
+      expect(result, equals('You hit the Conservador!'));
       expect(result, isA<String>());
       expect(result, isNotEmpty);
     });

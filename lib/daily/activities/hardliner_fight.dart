@@ -8,14 +8,24 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 
 Future<void> hardlinerFight(Creature cr) async {
   await showMessage(
-      "${cr.name} is cornered by a gang of right-wing hardliners.");
+    LcsI18n.processString(
+      "{name} is cornered by a gang of right-wing hardliners.",
+      {"name": cr.name},
+    ),
+  );
 
   bool wonfight = false;
   if (cr.weapon.type.threatening) {
-    await showMessage("${cr.name} brandishes the ${cr.weapon.getName()}!");
+    await showMessage(
+      LcsI18n.processString("{name} brandishes the {weapon}!", {
+        "name": cr.name,
+        "weapon": cr.weapon.getName(),
+      }),
+    );
     await showMessage("The mob scatters!");
     addjuice(cr, 5, 50);
     wonfight = true;
@@ -23,7 +33,9 @@ Future<void> hardlinerFight(Creature cr) async {
     for (int count = 0; count <= lcsRandom(5) + 2; count++) {
       if (cr.skillRoll(Skill.martialArts) > Difficulty.average + count) {
         await showMessage(
-            "${cr.name} ${[
+          LcsI18n.processString("{name} {action}", {
+            "name": cr.name,
+            "action": [
               "breaks the arm of the nearest person!",
               "knees a guy in the balls!",
               "knocks one out with a fist to the face!",
@@ -32,12 +44,16 @@ Future<void> hardlinerFight(Creature cr) async {
               "shakes off a grab from behind!",
               "yells the slogan!",
               "knocks two of their heads together!",
-            ].random}",
-            color: lightBlue);
+            ].random,
+          }),
+          color: lightBlue,
+        );
         wonfight = true;
       } else {
         await showMessage(
-            "${cr.name} ${[
+          LcsI18n.processString("{name} {action}", {
+            "name": cr.name,
+            "action": [
               "is held down and kicked by three guys!",
               "gets pummeled!",
               "gets hit by a sharp rock!",
@@ -46,8 +62,10 @@ Future<void> hardlinerFight(Creature cr) async {
               "is forced into a headlock!",
               "crumples under a flurry of blows!",
               "is hit in the chest with a pipe!",
-            ].random}",
-            color: yellow);
+            ].random,
+          }),
+          color: yellow,
+        );
         count++; // fight goes faster when you're losing
         wonfight = false;
       }
@@ -55,8 +73,12 @@ Future<void> hardlinerFight(Creature cr) async {
 
     if (wonfight) {
       await showMessage(
-          "${cr.name} beat the ${noProfanity ? "[tar]" : "shit"} out of everyone who got close!",
-          color: lightGreen);
+        LcsI18n.processString(
+          "{name} beat the {result} out of everyone who got close!",
+          {"name": cr.name, "result": noProfanity ? "[tar]" : "shit"},
+        ),
+        color: lightGreen,
+      );
       addjuice(cr, 30, 300);
       if (cr.blood > cr.maxBlood * 0.7) cr.blood = (cr.maxBlood * 0.7).round();
     }
@@ -64,8 +86,12 @@ Future<void> hardlinerFight(Creature cr) async {
 
   if (!wonfight) {
     await showMessage(
-        "${cr.name} is severely beaten before the mob is broken up.",
-        color: red);
+      LcsI18n.processString(
+        "{name} is severely beaten before the mob is broken up.",
+        {"name": cr.name},
+      ),
+      color: red,
+    );
     cr.activity = Activity(ActivityType.clinic);
 
     addjuice(cr, -10, 0);
@@ -76,36 +102,64 @@ Future<void> hardlinerFight(Creature cr) async {
       switch (lcsRandom(10)) {
         case 0:
           if (body.lowerSpine == InjuryState.healthy) {
-            await showMessage("${cr.name}'s lower spine has been broken!");
+            await showMessage(
+              LcsI18n.processString("{name}'s lower spine has been broken!", {
+                "name": cr.name,
+              }),
+            );
             body.lowerSpine = InjuryState.untreated;
           }
         case 1:
           if (body.upperSpine == InjuryState.healthy) {
-            await showMessage("${cr.name}'s upper spine has been broken!");
+            await showMessage(
+              LcsI18n.processString("{name}'s upper spine has been broken!", {
+                "name": cr.name,
+              }),
+            );
             body.upperSpine = InjuryState.untreated;
           }
         case 2:
           if (body.neck == InjuryState.healthy) {
-            await showMessage("${cr.name}'s neck has been broken!");
+            await showMessage(
+              LcsI18n.processString("{name}'s neck has been broken!", {
+                "name": cr.name,
+              }),
+            );
             body.neck = InjuryState.untreated;
           }
         case 3:
           if (body.teeth > 0) {
             if (body.teeth > 1) {
               await showMessage(
-                  "${cr.name}'s teeth have been smashed out on the curb!");
+                LcsI18n.processString(
+                  "{name}'s teeth have been smashed out on the curb!",
+                  {"name": cr.name},
+                ),
+              );
             } else {
               await showMessage(
-                  "${cr.name}'s tooth has been pulled out with pliers!");
+                LcsI18n.processString(
+                  "{name}'s tooth has been pulled out with pliers!",
+                  {"name": cr.name},
+                ),
+              );
             }
             body.teeth = 0;
           }
         default:
           if (body.ribs > 0) {
             if (body.ribs > 1) {
-              await showMessage("One of ${cr.name}'s ribs is broken!");
+              await showMessage(
+                LcsI18n.processString("One of {name}'s ribs is broken!", {
+                  "name": cr.name,
+                }),
+              );
             } else {
-              await showMessage("${cr.name}'s last unbroken rib is broken!");
+              await showMessage(
+                LcsI18n.processString("{name}'s last unbroken rib is broken!", {
+                  "name": cr.name,
+                }),
+              );
             }
             body.ribs -= 1;
           }

@@ -35,11 +35,20 @@ Future<void> hospital(Site loc) async {
 
     bool showPartyPrompt =
         partysize > 0 && (activeSquadMemberIndex == -1 || partysize > 1);
-    mvaddstrc(13, 1, showPartyPrompt ? lightGray : darkGray,
-        "# - Check the status of a squad Liberal");
+    mvaddstrc(
+      13,
+      1,
+      showPartyPrompt ? lightGray : darkGray,
+      "# - Check the status of a squad Liberal",
+    );
     bool showStatusPrompt = activeSquadMember != null;
-    addOptionText(14, 1, "0", "0 - Show the squad's Liberal status",
-        enabledWhen: showStatusPrompt);
+    addOptionText(
+      14,
+      1,
+      "0",
+      "0 - Show the squad's Liberal status",
+      enabledWhen: showStatusPrompt,
+    );
 
     int c = await getKey();
 
@@ -81,13 +90,18 @@ Future<void> hospitalize(Site loc, Creature patient) async {
     patient.activity = Activity.none();
 
     makeDelimiter();
-    mvaddstrc(8, 1, white, "${patient.name} will be at ${loc.name} for $time ");
-    if (time > 1) {
-      addstr("months");
-    } else {
-      addstr("month");
-    }
-    addstr(".");
+    mvaddstrc(
+      8,
+      1,
+      white,
+      "{patient} will be at {location} for {time} {period}.",
+      params: {
+        "patient": patient.name,
+        "location": loc.name,
+        "time": time,
+        "period": time > 1 ? "months" : "month",
+      },
+    );
 
     await getKey();
   }
@@ -144,11 +158,13 @@ Future<void> dealership(Site loc) async {
     locHeader();
     printParty();
 
-    Creature? sleepercarsalesman = pool.firstWhereOrNull((p) =>
-        p.alive &&
-        p.sleeperAgent &&
-        p.type.id == CreatureTypeIds.carSalesman &&
-        p.site?.city == loc.city);
+    Creature? sleepercarsalesman = pool.firstWhereOrNull(
+      (p) =>
+          p.alive &&
+          p.sleeperAgent &&
+          p.type.id == CreatureTypeIds.carSalesman &&
+          p.site?.city == loc.city,
+    );
 
     Vehicle? carToSell;
     int price = 0;
@@ -159,8 +175,13 @@ Future<void> dealership(Site loc) async {
       }
     }
 
-    addOptionText(10, 1, "G", "G - Get a Liberal car",
-        enabledWhen: carToSell == null);
+    addOptionText(
+      10,
+      1,
+      "G",
+      "G - Get a Liberal car",
+      enabledWhen: carToSell == null,
+    );
 
     move(11, 1);
     if (carToSell != null) {
@@ -168,7 +189,10 @@ Future<void> dealership(Site loc) async {
 
       if (carToSell.heat > 0) price = price ~/ 10;
       addInlineOptionText(
-          "S", "S - Sell the ${carToSell.fullName()} (\$$price)");
+        "S",
+        "S - Sell the {car} (\${price})",
+        params: {"car": carToSell.fullName(), "price": price},
+      );
     } else {
       addInlineOptionText("S", "S - Sell a car", enabledWhen: false);
     }
@@ -178,10 +202,20 @@ Future<void> dealership(Site loc) async {
       } else {
          addOptionText(12, 1, "P", "P - Repaint car, replace plates and tags ($500)");
       }*/
-    addOptionText(15, 1, "0", "0 - Show the squad's Liberal status",
-        enabledWhen: activeSquadMember != null);
-    addOptionText(16, 1, "B", "B - Choose a buyer",
-        enabledWhen: partysize >= 2);
+    addOptionText(
+      15,
+      1,
+      "0",
+      "0 - Show the squad's Liberal status",
+      enabledWhen: activeSquadMember != null,
+    );
+    addOptionText(
+      16,
+      1,
+      "B",
+      "B - Choose a buyer",
+      enabledWhen: partysize >= 2,
+    );
     addOptionText(16, 40, "Enter", "Enter - Leave");
 
     if (partysize > 0 && (activeSquadMemberIndex == -1 || partysize > 1)) {
@@ -209,16 +243,23 @@ Future<void> dealership(Site loc) async {
       List<VehicleType> availablevehicle = [];
       List<String> vehicleoption = [];
       List<int> vehicleprice = [];
-      for (VehicleType vt
-          in vehicleTypes.values.where((vt) => vt.availableAtDealership)) {
+      for (VehicleType vt in vehicleTypes.values.where(
+        (vt) => vt.availableAtDealership,
+      )) {
         availablevehicle.add(vt);
         int price = sleepercarsalesman != null ? vt.sleeperprice : vt.price;
         vehicleprice.add(price);
         vehicleoption.add("${vt.longName} (\$$price)");
       }
       while (true) {
-        carchoice = await choiceprompt("Choose a vehicle", "", vehicleoption,
-            "Vehicle", true, "We don't need a Conservative car");
+        carchoice = await choiceprompt(
+          "Choose a vehicle",
+          "",
+          vehicleoption,
+          "Vehicle",
+          true,
+          "We don't need a Conservative car",
+        );
         if (carchoice != -1 && vehicleprice[carchoice] > ledger.funds) {
           mvaddstrc(1, 1, darkRed, "You don't have enough money!");
           carchoice = -1;
@@ -233,12 +274,13 @@ Future<void> dealership(Site loc) async {
 
       //Picked a car, pick color
       int colorchoice = await choiceprompt(
-          "Choose a color",
-          "",
-          availablevehicle[carchoice].colors,
-          "Color",
-          true,
-          "These colors are Conservative");
+        "Choose a color",
+        "",
+        availablevehicle[carchoice].colors,
+        "Color",
+        true,
+        "These colors are Conservative",
+      );
 
       if (colorchoice == -1) continue;
 

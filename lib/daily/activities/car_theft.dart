@@ -50,21 +50,22 @@ class CarTheftScene {
     while (!entered) {
       _addCarTheftHeader();
       if (alarmOn) {
-        mvaddstrc(10, 0, white, "$alarmName: ");
+        mvaddstrc(10, 0, white, "{alarm}: ", params: {"alarm": alarmName});
         if (senseAlarm) {
           addstrc(red, "STAND AWAY FROM THE VEHICLE!   <BEEP!!> <BEEP!!>");
         } else {
           addstrc(red, "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>");
         }
       } else if (senseAlarm) {
-        mvaddstrc(10, 0, white, "$alarmName:   ");
+        mvaddstrc(10, 0, white, "{alarm}:   ", params: {"alarm": alarmName});
         addstrc(red, "THIS IS THE VIPER!   STAND AWAY!");
       } else {
         mvaddstrc(
           10,
           0,
           lightGray,
-          "${cr.name} stands by the ${v.fullName()}.",
+          "{name} stands by the {vehicle}.",
+          params: {"name": cr.name, "vehicle": v.fullName()},
         );
       }
       addOptionText(12, 0, "A", "A - Pick the lock.");
@@ -76,12 +77,14 @@ class CarTheftScene {
         if (!alarmOn) {
           addInlineOptionText(
             "Enter",
-            "Enter - The Viper?   ${cr.name} is deterred.",
+            "Enter - The Viper?   {name} is deterred.",
+            params: {"name": cr.name},
           );
         } else {
           addInlineOptionText(
             "Enter",
-            "Enter - Yes, the Viper has deterred ${cr.name}.",
+            "Enter - Yes, the Viper has deterred {name}.",
+            params: {"name": cr.name},
           );
         }
       }
@@ -127,7 +130,13 @@ class CarTheftScene {
           String weaponDesc = (cr.weapon.type.meleeAttack?.damage ?? 0) > 10
               ? " with a ${cr.weapon.getName(sidearm: true)}"
               : "";
-          mvaddstrc(16, 0, white, "${cr.name} smashes the window$weaponDesc.");
+          mvaddstrc(
+            16,
+            0,
+            white,
+            "{name} smashes the window{weapon}.",
+            params: {"name": cr.name, "weapon": weaponDesc},
+          );
           windowDamage = 10;
           await getKey();
           entered = true;
@@ -139,7 +148,8 @@ class CarTheftScene {
             16,
             0,
             white,
-            "${cr.name} cracks the window$weaponDesc but it is still somewhat intact.",
+            "{name} cracks the window{weapon} but it is still somewhat intact.",
+            params: {"name": cr.name, "weapon": weaponDesc},
           );
           windowDamage++;
           await getKey();
@@ -196,7 +206,7 @@ class CarTheftScene {
       );
       if (alarmOn) {
         if (alarmOn) {
-          mvaddstrc(y++, 0, white, "$alarmName: ");
+          mvaddstrc(y++, 0, white, "{alarm}: ", params: {"alarm": alarmName});
           if (senseAlarm) {
             addstrc(red, "STAND AWAY FROM THE VEHICLE!   <BEEP!!> <BEEP!!>");
           } else {
@@ -219,7 +229,8 @@ class CarTheftScene {
         } else {
           addInlineOptionText(
             "Enter",
-            "Enter - The Viper has finally deterred ${cr.name}.",
+            "Enter - The Viper has finally deterred {name}.",
+            params: {"name": cr.name},
           );
         }
         y++;
@@ -258,7 +269,13 @@ class CarTheftScene {
             _ =>
               "manages to turn on some dash lights, but the car doesn't start.",
           };
-          mvaddstrc(y++, 0, white, "${cr.name} $securityFailure");
+          mvaddstrc(
+            y++,
+            0,
+            white,
+            "{name} {action}",
+            params: {"name": cr.name, "action": securityFailure},
+          );
           await getKey();
         }
       }
@@ -298,7 +315,12 @@ class CarTheftScene {
             y++,
             0,
             lightGreen,
-            "Holy ${noProfanity ? "[Car Keys]" : "Shit"}!  ${cr.name} found the keys $location",
+            "{expletive}!  {name} found the keys {location}",
+            params: {
+              "expletive": noProfanity ? "[Car Keys]" : "Holy Shit",
+              "name": cr.name,
+              "location": location,
+            },
           );
           await getKey();
           started = true;
@@ -327,11 +349,15 @@ class CarTheftScene {
             addstr(
               [
                 "Please be in here somewhere...",
-                "${noProfanity ? "[Shoot]" : "Fuck"}!  Where are they?!",
+                "{expletive}!  Where are they?!",
                 "Come on, baby, come to me...",
-                "${noProfanity ? "[Darn] it" : "Dammit"}...",
+                "{expletive2}...",
                 "I wish I could hotwire this thing...",
               ].random,
+              params: {
+                "expletive": noProfanity ? "[Shoot]" : "Fuck",
+                "expletive2": noProfanity ? "[Darn] it" : "Dammit",
+              },
             );
           }
 
@@ -364,11 +390,11 @@ class CarTheftScene {
         y++;
         setColor(yellow);
         final nervousnessMsg = switch (lcsRandom(3)) {
-          0 => "${cr.name} hears someone nearby making a phone call.",
-          1 => "${cr.name} is getting nervous being out here this long.",
-          _ => "${cr.name} sees a police car driving around a few blocks away.",
+          0 => "{name} hears someone nearby making a phone call.",
+          1 => "{name} is getting nervous being out here this long.",
+          _ => "{name} sees a police car driving around a few blocks away.",
         };
-        mvaddstrc(y++, 0, lightGray, nervousnessMsg);
+        mvaddstrc(y++, 0, lightGray, nervousnessMsg, params: {"name": cr.name});
         await getKey();
       }
     }
@@ -409,10 +435,20 @@ class CarTheftScene {
       mvaddstr(
         11,
         0,
-        "${cr.name} was unable to find a ${old.longName} but did find a ${cartype.longName}.",
+        "{name} was unable to find a {oldCar} but did find a {newCar}.",
+        params: {
+          "name": cr.name,
+          "oldCar": old.longName,
+          "newCar": cartype.longName,
+        },
       );
     } else {
-      mvaddstr(11, 0, "${cr.name} found a ${cartype.longName}.");
+      mvaddstr(
+        11,
+        0,
+        "{name} found a {car}.",
+        params: {"name": cr.name, "car": cartype.longName},
+      );
     }
     await getKey();
     cr.train(Skill.streetSmarts, 10);
@@ -429,7 +465,8 @@ class CarTheftScene {
       10,
       0,
       lightGray,
-      "${cr.name} looks around for an accessible vehicle...",
+      "{name} looks around for an accessible vehicle...",
+      params: {"name": cr.name},
     );
     await getKey();
   }
@@ -447,7 +484,8 @@ class CarTheftScene {
       10,
       0,
       lightGray,
-      "${cr.name} looks from a distance at an empty ${v.fullName()}.",
+      "{name} looks from a distance at an empty {vehicle}.",
+      params: {"name": cr.name, "vehicle": v.fullName()},
     );
     addOptionText(12, 0, "A", "A - Approach the driver's side door.");
     addOptionText(13, 0, "Enter", "Enter - Call it a day.");
@@ -469,14 +507,19 @@ class CarTheftScene {
     bailed = true;
     erase();
     await pagedInterface(
-      headerPrompt:
-          "What type of car will ${cr.name} try to find and steal today?",
+      headerPrompt: "What type of car will {name} try to find and steal today?",
       headerKey: {4: "TYPE", 49: "DIFFICULTY TO FIND UNATTENDED"},
       footerPrompt: "Press a Letter to select a Type of Car",
       count: cart.length,
       lineBuilder: (y, key, index) {
         VehicleType v = cart[index];
-        mvaddstrc(y, 0, lightGray, "$key - ${v.longName}");
+        mvaddstrc(
+          y,
+          0,
+          lightGray,
+          "{key} - {car}",
+          params: {"key": key, "car": v.longName},
+        );
         addDifficultyText(y, 49, v.difficultyToFind);
       },
       onChoice: (index) async {

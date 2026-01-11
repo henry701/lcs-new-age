@@ -23,7 +23,13 @@ Future<void> doActivityRecruit(Creature cr) async {
   printCreatureInfo(cr, showCarPrefs: ShowCarPrefs.onFoot);
   makeDelimiter();
 
-  mvaddstrc(10, 0, lightGray, "${cr.name} asks around for a $name...");
+  mvaddstrc(
+    10,
+    0,
+    lightGray,
+    "{name} asks around for a {type}...",
+    params: {"name": cr.name, "type": name},
+  );
 
   await getKey();
 
@@ -32,8 +38,8 @@ Future<void> doActivityRecruit(Creature cr) async {
 
   if (difficulty < 10) {
     // Generate recruitment candidates
-    recruitCount =
-        (cr.skillRoll(Skill.streetSmarts, take10: true) / difficulty).round();
+    recruitCount = (cr.skillRoll(Skill.streetSmarts, take10: true) / difficulty)
+        .round();
     if (recruitCount > 10) recruitCount = 10;
     for (int i = 0; i < recruitCount; i++) {
       encounter.add(Creature.fromId(recruit.type.id));
@@ -41,13 +47,25 @@ Future<void> doActivityRecruit(Creature cr) async {
   }
 
   if (recruitCount == 0) {
-    mvaddstr(11, 0, "${cr.name} was unable to track down a $name.");
+    mvaddstr(
+      11,
+      0,
+      "{name} was unable to track down a {type}.",
+      params: {"name": cr.name, "type": name},
+    );
     await getKey();
     return;
   } else if (recruitCount == 1) {
-    mvaddstr(11, 0, "${cr.name} managed to set up a meeting with ");
-    addstrc(encounter[0].align.color,
-        "${encounter[0].name} ${creatureAgeAndGender(encounter[0])}");
+    mvaddstr(
+      11,
+      0,
+      "{name} managed to set up a meeting with ",
+      params: {"name": cr.name},
+    );
+    addstrc(
+      encounter[0].align.color,
+      "${encounter[0].name} ${creatureAgeAndGender(encounter[0])}",
+    );
     addstrc(lightGray, ".");
     await getKey();
 
@@ -63,15 +81,27 @@ Future<void> doActivityRecruit(Creature cr) async {
       printCreatureInfo(cr, showCarPrefs: ShowCarPrefs.onFoot);
       makeDelimiter();
 
-      mvaddstrc(10, 0, lightGray,
-          "${cr.name} was able to get information on multiple people.");
+      mvaddstrc(
+        10,
+        0,
+        lightGray,
+        "${cr.name} was able to get information on multiple people.",
+      );
       for (int i = 0; i < recruitCount; i++) {
         String letter = letterAPlus(i);
-        addOptionText(12 + i, 0, letter,
-            "$letter - &${ColorKey.fromColor(encounter[i].align.color)}${encounter[i].name} ${creatureAgeAndGender(encounter[i])}");
+        addOptionText(
+          12 + i,
+          0,
+          letter,
+          "$letter - &${ColorKey.fromColor(encounter[i].align.color)}${encounter[i].name} ${creatureAgeAndGender(encounter[i])}",
+        );
       }
-      addOptionText(12 + recruitCount + 1, 0, "Enter/Escape",
-          "Enter/Escape - Call it a day");
+      addOptionText(
+        12 + recruitCount + 1,
+        0,
+        "Enter/Escape",
+        "Enter/Escape - Call it a day",
+      );
 
       int c = await getKey();
 
@@ -131,6 +161,7 @@ List<RecruitData> get recruitableCreatures {
     }
   }
   recruitData.sort(
-      (a, b) => (a.difficulty - b.difficulty) * 2 + a.name.compareTo(b.name));
+    (a, b) => (a.difficulty - b.difficulty) * 2 + a.name.compareTo(b.name),
+  );
   return recruitData;
 }

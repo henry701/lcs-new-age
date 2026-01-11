@@ -35,7 +35,13 @@ Future<void> _selectRecruitTarget(Creature cr) async {
     footerPrompt: "Press a Letter to select a Profession",
     count: recruitableCreatures.length,
     lineBuilder: (y, key, index) {
-      addOptionText(y, 0, key, "$key - ${recruitableCreatures[index].name}");
+      addOptionText(
+        y,
+        0,
+        key,
+        "{key} - {name}",
+        params: {"key": key, "name": recruitableCreatures[index].name},
+      );
       addDifficultyText(y, 49, recruitableCreatures[index].difficulty);
     },
     onChoice: (index) async {
@@ -195,8 +201,10 @@ Future<void> soloActivities(bool disbanding) async {
         if (disbanding) continue;
         for (Creature p in people) {
           if (p.site?.city == null) continue;
-          Site? hospital =
-              findSiteInSameCity(p.site!.city, SiteType.universityHospital);
+          Site? hospital = findSiteInSameCity(
+            p.site!.city,
+            SiteType.universityHospital,
+          );
           if (hospital == null) continue;
           await hospitalize(hospital, p);
         }

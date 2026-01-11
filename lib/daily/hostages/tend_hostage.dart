@@ -105,7 +105,14 @@ Future<void> tendHostage(InterrogationSession intr) async {
             cr.attribute(Attribute.agility) / 2 +
             cr.attribute(Attribute.strength) / 2 +
             cr.daysSinceJoined * 2) {
-      await showMessage("${cr.name} has escaped!");
+      mvaddstrc(
+        8,
+        1,
+        lightGray,
+        "{name} has escaped!",
+        params: {"name": cr.name},
+      );
+      await getKey();
 
       for (Creature p in pool) {
         if (rapport[p.id] != null) {

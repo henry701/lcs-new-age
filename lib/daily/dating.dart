@@ -845,11 +845,13 @@ Future<DateResult> dateResult(
       move(2, 0);
       setColor(lightGray);
       addstr(
-        "What name will you give to ${e.properName} in ${e.gender.hisHer} new life?",
+        "What name will you give to {name} in {possessive} new life?",
+        params: {"name": e.properName, "possessive": e.gender.hisHer},
       );
       move(3, 0);
       addstr(
-        "If you do not enter anything, ${e.gender.heShe} will keep ${e.gender.hisHer} old name.",
+        "If you do not enter anything, {subject} will keep {possessive} old name.",
+        params: {"subject": e.gender.heShe, "possessive": e.gender.hisHer},
       );
 
       e.name = await enterName(4, 0, e.properName, prefill: true);

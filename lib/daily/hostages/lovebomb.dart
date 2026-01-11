@@ -315,7 +315,13 @@ Future<void> handleLoveBombing(
     );
     y = console.y + 1;
 
-    mvaddstrc(y++, 0, red, "${lead.name} has been tainted with wisdom!");
+    mvaddstrc(
+      y++,
+      0,
+      red,
+      "{name} has been tainted with wisdom!",
+      params: {"name": lead.name},
+    );
     await getKey();
   }
 }

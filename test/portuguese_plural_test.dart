@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart';
 import '../lib/i18n/i18n.dart';
 
 void main() {

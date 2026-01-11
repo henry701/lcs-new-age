@@ -161,7 +161,7 @@ void main(List<String> args) async {
             }
 
             // Track file for this locale
-            localeFileLists[locale]!.add(entity as File);
+            localeFileLists[locale]!.add(entity);
           }
         } catch (e) {
           print('Warning: Could not parse ARB file ${entity.path}: $e');
@@ -444,7 +444,7 @@ Future<void> _modifyArbFiles(
     // Distribute new strings based on strategy
     final distribution = _distributeStrings(
       newStrings,
-      primaryFile!,
+      primaryFile,
       additionalFiles,
       l10nPath,
       locale,

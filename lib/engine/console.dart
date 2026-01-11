@@ -8,7 +8,6 @@ import 'package:lcs_new_age/engine/console_char.dart';
 import 'package:lcs_new_age/engine/console_graphic.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
-import 'package:lcs_new_age/i18n/i18n.dart';
 
 const CONSOLE_WIDTH = 80;
 const CONSOLE_HEIGHT = 25;

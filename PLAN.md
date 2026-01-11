@@ -3,6 +3,15 @@
 ## Overview
 This document outlines a phased approach to implementing internationalization (i18n) and localization (l10n) for Liberal Crime Squad: New Age, preserving the existing curses-style architecture while enabling multi-language support.
 
+## Critical Principle: Templating Before Translation
+
+**Translation cannot work without proper templating first.** The translation system uses named placeholders (`{key}`) that are replaced at runtime. If strings use string interpolation (`"$name has been rescued"`) or concatenation, they cannot be translated properly because:
+1. The placeholders get embedded in the English text
+2. Translators cannot rearrange word order for their language
+3. Parameters like names get stuck in the middle of text
+
+**Therefore, Phase 0 (Templating) must complete before any translation work begins.**
+
 ## Architecture Decisions
 
 ### Translation Format
@@ -16,371 +25,241 @@ This document outlines a phased approach to implementing internationalization (i
 - **Fallback**: English text as ultimate fallback for missing translations
 
 ### Scope & Approach
-- **Initial**: Minimal implementation with console wrapper pattern
-- **Evolution**: Phased expansion to comprehensive coverage
-- **Plurals**: Game code selects appropriate singular/plural string; translation layer handles uniformly
+- **Phase 0**: Template all console output strings (REQUIRED before translation)
+- **Phase 1**: Console wrapper pattern implementation (COMPLETE)
+- **Phase 2**: Translation files creation (AFTER Phase 0)
+- **Phases 3-5**: Advanced features, comprehensive coverage, production readiness
 
 ### Language Support
-- **Current**: Left-to-right languages only
-- **Switching**: Dynamic language switching (fallback to static if too complex)
-- **Workflow**: Manual translation management, community-ready architecture
+- Left-to-right languages only (current)
+- Dynamic language switching
+- Manual translation management, community-ready architecture
 
-## Phase 1: Foundation (Week 1-2) ✅ COMPLETE
+## Phase 0: String Templating (CRITICAL - DO NOT SKIP)
 
-### 1.1 Core Infrastructure ✅
-- ✅ Add `intl` package to `pubspec.yaml`
-- ✅ Create `lib/i18n/` module structure
-- ✅ Implement `LcsI18n` class with basic translation functions
-- ✅ Add ARB file structure in `lib/l10n/`
-- ✅ Create console wrapper functions in `engine.dart`
-- ✅ Initialize LcsI18n in `launch_game.dart`
+**Objective:** Convert ALL console output to use parameterized API.
 
-### 1.2 Console Output Interception ✅
-- ✅ Wrap `addstr()` and `mvaddstr()` in `engine.dart`
-- ✅ Wrap `addstrx()` and `mvaddstrx()` in `engine.dart`
-- ✅ Add translation lookup before console output
-- ✅ Implement fallback to English for missing translations
-- ✅ Test with pseudo-translation (e.g., prefix "[!!]")
-- ✅ **Add transparent params support for string formatting**
+**Status:** IN PROGRESS - Blocking prerequisite for all translation work.
 
-### 1.3 Build Integration ✅
-- ✅ Configure `intl_translation` for message extraction
-- ✅ Set up build_runner integration (via pubspec.yaml)
-- ✅ Create initial ARB files from existing strings (skeleton exists)
-- ✅ Add basic test coverage for translation functions
-- ✅ Add integration tests for console wrapper functions
+### 0.1 Identify All Console Output Calls
 
-### 1.4 Language Switching ✅
-- ✅ Implement locale detection/selection (basic `setLocale()` method loads ARB files)
-- ✅ Add runtime language switching (setLocale actually loads translations)
-- ✅ Create language selection UI (basic)
-- ✅ Test dynamic switching vs. restart requirement
+```bash
+cd /home/henry/My_Programming/OpenSourceCopies/lcs-new-age
+dart run scripts/find_translatable_strings.dart --print-only > all_console_strings.txt
+```
 
-## Phase 2: Core Content (Week 3-4)
+### 0.2 Pattern Conversion Rules
 
-### 2.1 String Pattern Refactoring
-- [ ] Convert string interpolation to parameterized messages on all modules
-- [ ] Replace concatenation patterns with message templates on all modules
-- [ ] Implement ICU plural handling by having different strings on code based on singular/plural and ensuring the plural messages have the counts parameterized, with special cases for 0 and 1
-- [ ] Ensure no translatable ambiguous strings remain, each printed phrase or part of phrase should make sense in isolation for internationalization to be effective.
+**BEFORE (Not Translatable):**
+```dart
+addstr("$name has been rescued.");
+mvaddstr(10, 5, "${cr.name} asks around for a $name...");
+addstr("You have " + count + " health");
+```
 
-### 2.2 Translation Files
-- [ ] Create comprehensive ARB template
-- [ ] Add placeholder metadata for all parameters
-- [ ] Implement ARB→PO export scripts
-- [ ] Create translation guidelines document
+**AFTER (Translatable):**
+```dart
+addstr("{name} has been rescued.", params: {"name": name});
+mvaddstr(10, 5, "{squad} asks around for a {location}", params: {"squad": cr.name, "location": name});
+addstr("You have {count} health", params: {"count": count}, noTranslate: true);
+```
 
-### 2.3 Quality Assurance
-- [ ] Add pseudo-translation testing
-- [ ] Implement missing translation logging
-- [ ] Create coverage analysis tools
-- [ ] Add regression tests for translation integrity
+### 0.3 Special Cases
 
-## Phase 3: Advanced Features (Week 5-6)
+**Player-Provided Names:**
+```dart
+// At creation time - translate default names
+final defaultNames = [LcsI18n.tr("Smash"), LcsI18n.tr("Reve"), LcsI18n.tr("Blood")];
 
-### 3.1 Complex Grammar
-- [ ] Identify grammar-dependent code patterns
-- [ ] Implement gender-aware messages where needed
-- [ ] Handle possessive forms and articles
+// At print time - use noTranslate for player-entered names
+addstr("{name} has been rescued.", params: {"name": creature.name}, noTranslate: true);
+```
 
-### 3.3 Tooling Enhancement
-- [ ] Develop automated string extraction tools
-- [ ] Create translation validation scripts
-- [ ] Implement coverage reporting
-- [ ] Add pre-commit hooks for i18n validation
+**Plural Handling (game code keeps logic):**
+```dart
+if (count == 1) {
+  addstr("One member escaped.", params: {});
+} else {
+  addstr("{count} members escaped.", params: {"count": count}, noTranslate: true);
+}
+```
 
-## Phase 4: Comprehensive Coverage (Week 7-8)
+### 0.4 Files to Process
 
-### 4.1 Remaining Modules
-Complete all 74 files with console output:
-- [ ] Medium-volume modules (50-100 console calls each)
-- [ ] Low-volume modules (under 50 console calls each)
-- [ ] Error messages and system notifications
-- [ ] Title screen and menu systems
+Starting with high-frequency modules:
+1. `lib/sitemode/fight.dart` (296 console calls)
+2. All remaining modules systematically
 
-### 4.2 Advanced ICU Features
-- [ ] Implement select() for gender/condition-based text
-- [ ] Add ordinal number handling
-- [ ] Create date/time localization
-- [ ] Handle currency and number formatting
+### 0.5 Validation
 
-### 4.3 Community Preparation
-- [ ] Document translation workflow
-- [ ] Create translator guidelines
-- [ ] Set up contribution templates
-- [ ] Prepare for external translation platforms
+```bash
+# Verify all strings use params
+dart run scripts/find_translatable_strings.dart --print-only | head -50
 
-## Phase 5: Production Readiness (Week 9-10)
+# Verify no interpolation patterns remain
+grep -r '\".*\$' lib/ --include="*.dart" | grep -v params || echo "No interpolation found"
 
-### 5.1 Performance Optimization
-- [ ] Optimize translation lookup performance
-- [ ] Implement translation caching
-- [ ] Reduce memory footprint
-- [ ] Profile and optimize startup time
+flutter test
+```
 
-### 5.2 Testing & Validation
-- [ ] Comprehensive testing across all languages
-- [ ] UI layout testing with different text lengths
-- [ ] Edge case handling (empty strings, special characters)
-- [ ] Performance testing with large translation sets
+## Phase 1: Foundation ✅ COMPLETE
 
-### 5.3 Documentation & Maintenance
-- [ ] Complete developer documentation
-- [ ] Create maintenance procedures
-- [ ] Document analyzer configuration
-- [ ] Prepare release notes
+- Console wrapper functions (`addstr`, `mvaddstr`, `addstrx`, `mvaddstrx`) with params support
+- `LcsI18n` class with `processString()` for translation + formatting
+- ARB file structure (`lib/l10n/` with `app_en.arb`, `app_pt.arb`)
+- Runtime language switching (`setLocale()`)
+- Language selection UI in title screen
+
+## Phase 2: Core Content (AFTER PHASE 0)
+
+- Create comprehensive ARB template from templated code
+- Add placeholder metadata for all parameters
+- Implement ARB→PO export scripts
+- Create translation guidelines document
+
+## Phase 3-5: Advanced Features, Coverage, Production
+
+- Complex grammar (gender, possessives)
+- Tooling enhancement (automated extraction, validation)
+- Remaining modules (74+ files with console output)
+- Advanced ICU features (select, ordinals, date/time)
+- Performance optimization, comprehensive testing
 
 ## Technical Implementation Details
 
-### Core API - NCurses-Style with Transparent Translation
-
-The API is designed to be as NCurses-like as possible while supporting full internationalization:
-
-- **Simple strings:** `addstr("text")` - just write English
-- **Parameters:** `addstr("{key} text", params: {"key": value})` - transparent formatting
-- **NoTranslate:** `addstr("{value}", params: {"value": x}, noTranslate: true)` - skip translation
-
-No explicit `LcsI18n` calls needed in game code!
-
-### Console Wrapper Pattern
-```dart
-// In lib/engine/engine.dart
-// All wrappers use LcsI18n.processString() internally
-void addstr(String s, {Map<String, dynamic>? params, bool noTranslate = false}) {
-  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
-  console.addstr(result, noTranslate: noTranslate);
-}
-
-// All wrappers support params and noTranslate
-void mvaddstr(int y, int x, String s, {Map<String, dynamic>? params});
-void addstrx(String s, {Map<String, dynamic>? params, bool restoreOldColor = true, String? mouseClickKey});
-void mvaddstrx(int y, int x, String s, {Map<String, dynamic>? params, bool restoreOldColor = true, String? mouseClickKey});
-```
-
-### Implementation Directives
-
-**No generic plural contexts** - Game code keeps its business logic. Use separate strings for singular/plural:
+### Core API
 
 ```dart
-// Game code handles plural logic, translation layer is uniform
-if (count == 1) {
-  addstr("One member escaped.");
-} else {
-  addstr("{count} members escaped.", params: {"count": count});
-}
-```
+// Simple strings
+addstr("text");
 
-**Minimal code changes** - The transparent API means most strings work unchanged. Only change string interpolation to params when adding translations.
+// With parameters
+addstr("{name} has {count} health", params: {"name": name, "count": count});
 
-**Add translations incrementally** - As strings are encountered during development/play, add them to ARB files. No mass refactoring needed.
+// Player input - no translate
+addstr("{name}", params: {"name": playerName}, noTranslate: true);
 
-**Parameters (transparent formatting):**
-```dart
-// Before
-addstr("$name has been rescued.");
-
-// After - use placeholder + params
-addstr("{name} has been rescued.", params: {"name": name});
-
-mvaddstr(10, 5, "{attacker} hits {target}!", params: {
-  "attacker": attacker.name,
-  "target": target.name
-});
-```
-
-**noTranslate flag for numbers/code:**
-```dart
-// Skip translation for display values (numbers, codes, etc.)
-addstr("{name} has {health} health.", params: {
-  "name": creature.name,
-  "health": creature.health
-}, noTranslate: true);
-```
-
-**Translating dynamic values at call site:**
-```dart
-// For values that need translation (alignment names, item types, etc.),
-// translate them at the call site using LcsI18n.tr()
+// Translate dynamic values at call site
 final target = LcsI18n.tr(creature.type.name);
 addstr("You hit the {target}!", params: {"target": target});
-
-// This ensures the translation flows through the i18n system
-// Portuguese: "Você acertou o Conservador!"
 ```
 
-### Parameter Handling Logic
+### Console Wrapper Pattern
 
-All console wrappers use `LcsI18n.processString(template, params?, noTranslate)`:
+All wrappers use `LcsI18n.processString(template, params?, noTranslate)`:
+1. Translate template (with placeholders intact) unless noTranslate=true
+2. Replace {placeholders} with values from params
 
 ```dart
-// 1. Translate template (with placeholders intact) unless noTranslate=true
-// 2. Replace {placeholders} with values from params
-
-addstr("Hello {name}!", params: {"name": "World"});
-// → Translate → "Olá {name}!" → "Olá World!"
+void addstr(String s, {Map<String, dynamic>? params, bool noTranslate = false}) {
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.addstr(result);
+}
 ```
 
-### LcsI18n Class (lib/i18n/i18n.dart)
+### LcsI18n Class
 
 ```dart
 class LcsI18n {
-  // Initialize translation system
   static Future<void> initialize([String locale = 'en_US']);
-
-  // Change locale at runtime
   static Future<void> setLocale(String locale);
-
-  // Translate template (with placeholders intact)
   static String translate(String template, {bool noTranslate = false});
-
-  // Format template with named parameters (placeholder replacement only)
   static String format(String template, Map<String, dynamic>? params);
-
-  // Translate then format - single entry point for wrappers
-  static String processString(
-    String template,
-    Map<String, dynamic>? params, {
-    bool noTranslate = false,
-  });
-
-  // Get missing translations for coverage analysis
+  static String processString(String template, Map<String, dynamic>? params, {bool noTranslate = false});
   static Set<String> getMissingTranslations();
-
-  // Reset state (for testing)
   static void reset();
 }
 ```
 
-### Migration Strategy
+### Implementation Directives
 
-**No code changes required** - The translation layer is transparent. Existing game code works as-is.
+1. **No generic plural contexts** - Game code keeps business logic
+2. **Minimal code changes** - Transparent API means most strings work unchanged
+3. **Add translations incrementally** - No mass refactoring needed
+4. **Parameters required** for any string with variables
 
-**Optional enhancements:**
-- Replace `addstr("$name has been rescued")` with `addstr("{name} has been rescued", params: {"name": name})` when adding translations
-- Manual plural logic stays in game code - translation layer handles strings uniformly
-- Add translations to ARB files as strings are encountered during play
+## Example Demonstrations
 
+**lib/daily/activities/recruiting.dart:**
+```dart
+// BEFORE
+mvaddstr(11, 0, "${cr.name} asks around for a $name...");
 
+// AFTER
+mvaddstr(11, 0, "{squad} asks around for a {location}", params: {"squad": cr.name, "location": name});
+```
 
-## Risk Mitigation
+```dart
+// BEFORE
+mvaddstr(11, 0, "${p.name}'s corpse has been recovered.");
+mvaddstr(11, 0, "The police confiscate everything");
+mvaddstr(11, 0, ", including vehicles");
 
-### Technical Risks
-- Performance: Implement caching and lazy loading (not needed for NCurses-style text game)
-- Complexity: Use phased approach, start simple
-- Maintenance: Automated analyzers and coverage checks
+// AFTER
+mvaddstr(11, 0, "{p.name}'s corpse has been recovered.", params: {"p": p.name});
+mvaddstr(11, 0, "The police confiscate everything", params: {});
+mvaddstr(11, 0, ", including vehicles", params: {});
+```
 
-### Content Risks  
-- Grammar Complexity: Preserve game logic where needed (no generic plurals - game code handles logic)
-- Context Loss: Add metadata and translator notes
-- Scope Creep: Strict adherence to phased plan
+## Refactoring Approach
+
+1. Convert string interpolation → params **only when adding translations**
+2. Keep manual plurals in game code (translation layer handles lookup, not logic)
+3. Add translations to ARB files as strings are encountered
+4. No mass refactoring - incremental, transparent approach
+
+## Notes on Locale-Specific Content
+
+1. Some strings (names, jokes, cultural references) only make sense in specific locales
+2. **Goal for future:** Properly localize these instead of literal translation
+3. **For now:** Translate literally, or keep English when locale-specific
+4. **Do not add generic plural contexts** - let game logic handle complexity
+5. When locale-specific humor doesn't translate, accept literal translation
 
 ## Current Status
 
-**Last Updated**: 2025-01-01
+### Phase 0: String Templating (IN PROGRESS)
+**CRITICAL:** All console output must use parameterized API BEFORE translation can work.
+
+**Why This Blocks Everything:**
+- 1464 untranslated strings in Portuguese ARB file
+- Most use string interpolation/concatenation - NOT TRANSLATABLE
+- Must convert to params API first
+
+**Recommended starting modules:**
+- `lib/basemode/help_system.dart` (1 console call)
+- `lib/creature/sort_creatures.dart` (1 console call)
+- `lib/daily/hostages/release.dart` (1 console call)
+- `lib/items/item.dart` (1 console call)
+- `lib/newspaper/major_event.dart` (1 console call)
+- `lib/utils/interface_options.dart` (1 console call)
+- `lib/title_screen/title_screen.dart` (2 console calls)
+- `lib/title_screen/new_game.dart` (1 console call)
 
 ### Phase 1: Complete ✅
 
-**Completed:**
 - Core i18n infrastructure (`LcsI18n` class)
-- Console wrapper functions (`addstr`, `mvaddstr`, `addstrx`, `mvaddstrx`) with params support
-- Translation system initialization in game launch
-- ARB file structure (`lib/l10n/` with `app_en.arb` and `app_pt.arb`)
-- ARB file loading mechanism (reads JSON from assets)
-- Translation lookup from ARB files
-- Runtime language switching (`setLocale()` loads ARB files)
-- Portuguese translations as prototype
-- Language selection submenu in title screen
-- Language persistence in gameOptions
+- Console wrapper functions with params support
+- Translation system initialization
+- ARB file structure and loading
+- Runtime language switching
+- Language selection UI
 
-## Next Steps
+## Implementation Checklist
 
-1. **Begin Phase 2** 🚀
-   - Start with **low-frequency, simple modules** to build confidence before complex ones
-   - **Recommended starting modules:**
-     - `lib/basemode/help_system.dart` (1 console call) - help system descriptions
-     - `lib/creature/sort_creatures.dart` (1 console call) - sorting descriptions  
-     - `lib/daily/hostages/release.dart` (1 console call) - hostage release
-     - `lib/items/item.dart` (1 console call) - item display
-     - `lib/newspaper/major_event.dart` (1 console call) - news event
-     - `lib/utils/interface_options.dart` (1 console call) - interface display
-     - `lib/title_screen/title_screen.dart` (2 console calls) - title screen
-     - `lib/title_screen/new_game.dart` (1 console call) - new game screen
+### Phase 0: String Templating
+- [ ] Run string finder to identify all console output
+- [ ] Process lib/sitemode/fight.dart (296 calls)
+- [ ] Process all remaining modules
+- [ ] Verify no interpolation patterns remain
+- [ ] Run full test suite
 
-2. **Refactoring approach:**
-   - Convert string interpolation → params **only when adding translations**
-   - Keep manual plurals in game code (translation layer handles lookup, not logic)
-   - Add translations to ARB files as strings are encountered
-   - No mass refactoring - incremental, transparent approach
-
-3. **Note on locale-specific content:**
-   - Some strings (names, jokes, cultural references) only make sense in specific locales
-   - **Goal for future:** Properly localize these instead of literal translation
-   - **For now:** Translate literally, or keep English when locale-specific
-   - **Do not add generic plural contexts** - let game logic handle complexity
-   - When locale-specific humor doesn't translate, accept literal translation
-
-4. **Example demonstration:**
-   - **Parameterized strings found** in low-frequency modules:
-   - `lib/daily/activities/recruiting.dart`:
-     ```dart
-     mvaddstr(11, 0, "${cr.name} asks around for a $name...");
-     mvaddstrc(10, 0, lightGray, "${cr.name} managed to set up a meeting with ");
-     ```
-   - These are perfect for conversion to params API when adding translations:
-   ```dart
-     _body("{squad} asks around for a {location} will not be "
-         "able to do anything else that day.", 
-         params: {"squad": squadName, "location": locationName});
-     ```
-   - This could be refactored to use params when adding translations:
-   ```dart
-   _body("{squad} acting with their squad to visit a {location} will not "
-         "be able to do anything else that day.", 
-         params: {"squad": squadName, "location": locationName});
-   ```
-   - This could be refactored to use params when adding translations:
-   ```dart
-   _body("{squad} acting with their squad to visit a {location} will not "
-         "be able to do anything else that day.", 
-         params: {"squad": squadName, "location": locationName});
-   ```
-
-1. **Immediate**: Complete Phase 1.4 (language selection UI)
-   - Add simple language selection menu in title screen
-   - Persist language preference to gameOptions
-   - Test language switching in actual gameplay
-
-2. **Next**: Begin Phase 2 (high-frequency module refactoring)
-   - Start with `sitemode/fight.dart` (296 console calls)
-   - Convert string interpolation to params
-   - Add plural contexts for complex plural scenarios
-   - Expand translation coverage in both languages
-
-3. **Review**: Validate plan with stakeholders
-4. **Testing**: Expand test coverage as modules are refactored
-5. **Documentation**: Keep this plan updated with progress
+### Phase 2: Translation Files (After Phase 0)
+- [ ] Generate comprehensive ARB template from templated code
+- [ ] Add placeholder metadata for all parameters
+- [ ] Create translation guidelines for translators
+- [ ] Begin actual translation work
 
 ---
 
 *This plan is designed to be iterative and adaptable. Each phase builds upon the previous one while maintaining the ability to adjust based on lessons learned and stakeholder feedback.*
-4. **Example demonstration:**
-   - **Parameterized strings found** in low-frequency modules:
-     ```dart
-     mvaddstr(11, 0, "${p.name}'s corpse has been recovered.");
-     mvaddstr(11, 0, "${p.name} has been rescued.");
-     mvaddstr(11, 0, "The police confiscate everything");
-     mvaddstr(11, 0, "The soldiers confiscate everything");
-     mvaddstr(11, 0, ", including vehicles");
-     mvaddstr(11, 0, "The compound fortifications are dismantled.");
-     ```
-   - These are perfect for conversion to params API when adding translations:
-     ```dart
-     mvaddstr(11, 0, "{p.name} has been recovered.", params: {"p": p.name});
-     mvaddstr(11, 0, "{p.name} has been rescued.", params: {"p": p.name});
-     mvaddstr(11, 0, "The police confiscate everything", params: {});
-     mvaddstr(11, 0, "The soldiers confiscate everything", params: {});
-     mvaddstr(11, 0, ", including vehicles", params: {});
-     mvaddstr(11, 0, "The compound fortifications are dismantled.", params: {});
-     ```
-
-5. **Testing:** Verify translations work in actual gameplay after each module refactored

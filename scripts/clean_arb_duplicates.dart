@@ -2,7 +2,24 @@ import 'dart:convert';
 import 'dart:io';
 
 void main() {
-  final arbDir = Directory('../lib/l10n');
+  // Find project root by looking for pubspec.yaml
+  final scriptDir = Directory(Platform.script.path).parent;
+  Directory? projectRoot = scriptDir;
+
+  while (projectRoot != null) {
+    if (File('${projectRoot.path}/pubspec.yaml').existsSync()) {
+      break;
+    }
+    projectRoot = projectRoot.parent;
+  }
+
+  if (projectRoot == null) {
+    print('Could not find project root (pubspec.yaml not found)');
+    print('Searched from: ${scriptDir.path}');
+    exit(1);
+  }
+
+  final arbDir = Directory('${projectRoot.path}/lib/l10n');
   if (!arbDir.existsSync()) {
     print('ARB directory not found: ${arbDir.path}');
     exit(1);
@@ -18,59 +35,71 @@ void main() {
     }
   }
 
-  int totalFiles = 0;
-  int totalDuplicatesRemoved = 0;
+  int totalFilesProcessed = 0;
+  int totalEntriesFound = 0;
+  int totalUniqueEntries = 0;
   int totalCrossFileDuplicates = 0;
+
+  print('=== ARB Duplicate Cleaner ===\n');
 
   // Process each locale
   for (final locale in localeFiles.keys.toList()..sort()) {
     final files = localeFiles[locale]!;
-    print('\n=== Processing locale: $locale (${files.length} file(s)) ===');
+    print('Locale: $locale (${files.length} file(s))');
 
     // Check for duplicates across files
     final crossFileDupes = _checkCrossFileDuplicates(files);
     if (crossFileDupes.isNotEmpty) {
       print(
-        'ERROR: Found ${crossFileDupes.length} duplicate keys across files:',
+        '  ERROR: Found ${crossFileDupes.length} duplicate key(s) across files:',
       );
-      for (final dupe in crossFileDupes.take(10)) {
-        print('  - "${dupe.key}" found in: ${dupe.files.join(", ")}');
+      for (final dupe in crossFileDupes.take(5)) {
+        print('    - "${dupe.key}" in: ${dupe.files.join(", ")}');
       }
-      if (crossFileDupes.length > 10) {
-        print('  ... and ${crossFileDupes.length - 10} more');
+      if (crossFileDupes.length > 5) {
+        print('    ... and ${crossFileDupes.length - 5} more');
       }
       totalCrossFileDuplicates += crossFileDupes.length;
-      print('Please resolve duplicates manually before continuing.');
-      print('Duplicated keys must exist in only one file per locale.');
+      print('  These must be resolved manually.\n');
       continue; // Skip this locale until duplicates are resolved
     }
 
     // Process each file
     for (final file in files..sort((a, b) => a.path.compareTo(b.path))) {
+      final filename = file.path.split('/').last;
       final result = processArbFile(file);
-      totalFiles++;
-      totalDuplicatesRemoved += result;
-      if (result > 0) {
+      totalFilesProcessed++;
+      totalEntriesFound += result['originalCount']!;
+      totalUniqueEntries += result['uniqueCount']!;
+
+      final duplicatesRemoved = result['duplicatesRemoved']!;
+      if (duplicatesRemoved > 0) {
         print(
-          'Processed ${file.path.split('/').last}: removed $result duplicates',
+          '  $filename: ${result['originalCount']} entries → ${result['uniqueCount']} unique (removed $duplicatesRemoved duplicate(s))',
         );
       } else {
-        print('Processed ${file.path.split('/').last}: no duplicates');
+        print(
+          '  $filename: ${result['originalCount']} entries (no duplicates)',
+        );
       }
     }
+    print('');
   }
 
-  print('\n=== Summary ===');
-  print('Files processed: $totalFiles');
-  print('Total duplicates removed (within files): $totalDuplicatesRemoved');
+  print('=== Summary ===');
+  print('Files processed: $totalFilesProcessed');
+  print('Total entries: $totalEntriesFound');
+  print('Unique entries: $totalUniqueEntries');
+  print('Duplicates removed: ${totalEntriesFound - totalUniqueEntries}');
+
   if (totalCrossFileDuplicates > 0) {
-    print('ERROR: $totalCrossFileDuplicates duplicate keys found across files');
     print(
-      'These must be resolved manually (duplicates can only exist in one file per locale)',
+      '\nWARNING: $totalCrossFileDuplicates duplicate key(s) found across files',
     );
+    print('These require manual resolution.');
     exit(1);
   } else {
-    print('Cross-file validation: OK (no duplicates found)');
+    print('\nCross-file validation: OK');
   }
 }
 
@@ -120,9 +149,10 @@ String _extractLocale(String filePath) {
   return filePath.replaceAll('.arb', '');
 }
 
-int processArbFile(File file) {
+Map<String, int> processArbFile(File file) {
   final content = file.readAsStringSync();
   final json = jsonDecode(content) as Map<String, dynamic>;
+  final originalCount = json.length;
 
   // Create a new map, processing entries in reverse order to keep the last occurrence
   final seenKeys = <String>{};
@@ -137,6 +167,8 @@ int processArbFile(File file) {
     }
   }
 
+  final uniqueCount = cleanedJson.length;
+
   // Sort keys alphabetically for clean diffs
   final sortedJson = Map.fromEntries(
     cleanedJson.entries.toList()..sort((a, b) => a.key.compareTo(b.key)),
@@ -147,6 +179,10 @@ int processArbFile(File file) {
   final newContent = encoder.convert(sortedJson) + '\n';
   file.writeAsStringSync(newContent);
 
-  // Return number of duplicates removed
-  return json.length - cleanedJson.length;
+  // Return statistics
+  return {
+    'originalCount': originalCount,
+    'uniqueCount': uniqueCount,
+    'duplicatesRemoved': originalCount - uniqueCount,
+  };
 }

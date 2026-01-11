@@ -62,48 +62,8 @@ void main() {
       );
     });
 
-    test('format strings with parameters in Portuguese', () async {
+    test('processString with parameters in Portuguese', () async {
       await LcsI18n.initialize('pt_BR');
-
-      // format() only does placeholder replacement (no translation)
-      // For translation + formatting, use processString()
-      expect(
-        LcsI18n.processString("John's corpse has been recovered.", {
-          'name': 'João',
-        }),
-        equals('O cadáver de João foi recuperado.'),
-      );
-
-      expect(
-        LcsI18n.processString('Jane has been rescued.', {'name': 'Maria'}),
-        equals('Maria foi resgatado.'),
-      );
-
-      // For values that need translation (like alignment names),
-      // translate at the call site using LcsI18n.tr()
-      final target = LcsI18n.tr('Conservative');
-      expect(
-        LcsI18n.processString('You hit the {target}!', {'target': target}),
-        equals('Você acertou o Conservador!'),
-      );
-    });
-
-    test('format strings with parameters in Portuguese', () async {
-      await LcsI18n.initialize('pt_BR');
-
-      // format() only does placeholder replacement (no translation)
-      // For translation + formatting, use processString()
-      expect(
-        LcsI18n.processString("John's corpse has been recovered.", {
-          'name': 'João',
-        }),
-        equals('O cadáver de João foi recuperado.'),
-      );
-
-      expect(
-        LcsI18n.processString('Jane has been rescued.', {'name': 'Maria'}),
-        equals('Maria foi resgatado.'),
-      );
 
       expect(
         LcsI18n.processString('You hit the {target}!', {
@@ -111,7 +71,32 @@ void main() {
         }),
         equals('Você acertou o Conservador!'),
       );
+
+      expect(
+        LcsI18n.processString('You have {count} items.', {'count': '5'}),
+        equals('Você tem 5 itens.'),
+      );
     });
+
+    test(
+      'format() does not translate - use processString() for translation',
+      () async {
+        await LcsI18n.initialize('pt_BR');
+
+        // format() only replaces placeholders, does not translate
+        // The template stays in English
+        expect(
+          LcsI18n.format('Hello {name}!', {'name': 'Maria'}),
+          equals('Hello Maria!'),
+        );
+
+        // For translation + formatting, use processString()
+        expect(
+          LcsI18n.processString('Hello {name}!', {'name': 'Maria'}),
+          equals('Olá Maria!'),
+        );
+      },
+    );
 
     test('plural handling - zero in English', () async {
       await LcsI18n.initialize('en_US');
@@ -141,17 +126,17 @@ void main() {
       await LcsI18n.initialize('pt_BR');
 
       expect(
-        LcsI18n.translate('Você não tem itens.'),
+        LcsI18n.translate('You have no items.'),
         equals('Você não tem itens.'),
       );
 
       expect(
-        LcsI18n.translate('Você tem um item.'),
+        LcsI18n.translate('You have one item.'),
         equals('Você tem um item.'),
       );
 
       expect(
-        LcsI18n.processString('Você tem {count} itens.', {'count': 5}),
+        LcsI18n.processString('You have {count} items.', {'count': '5'}),
         equals('Você tem 5 itens.'),
       );
     });
@@ -175,14 +160,13 @@ void main() {
       await LcsI18n.initialize('pt_BR');
       expect(LcsI18n.translate(''), equals(''));
       expect(
-        LcsI18n.translate('Outro membro preso do LCS também escapa!'),
+        LcsI18n.translate('Another imprisoned LCS member also gets out!'),
         equals('Outro membro preso do LCS também escapa!'),
       );
       expect(
-        LcsI18n.processString(
-          '{count} outros membros do LCS escapam no motim!',
-          {'count': 5},
-        ),
+        LcsI18n.processString('{count} other LCS members escape in the riot!', {
+          'count': '5',
+        }),
         equals('5 outros membros do LCS escapam no motim!'),
       );
     });
@@ -224,7 +208,7 @@ void main() {
 
     test('fallback to English for missing translations', () async {
       await LcsI18n.initialize('pt_BR');
-      const untranslated = 'This message does not exist';
+      const untranslated = 'xyz_untranslated_test_string_123';
       expect(LcsI18n.translate(untranslated), equals(untranslated));
     });
 

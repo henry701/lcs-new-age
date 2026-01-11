@@ -2154,6 +2154,7 @@ void addDeathMessage(Creature cr) {
             : cr.align == Alignment.moderate
             ? "{name} speaks these final words: \"A plague on both your houses...\""
             : "{name} speaks these final words: \"Better dead than liberal...\"",
+      _ => "{name} is gone.", // Fallback (lcsRandom(11) returns 0-10)
     };
     addstr(line1, params: {"name": cr.name});
   }

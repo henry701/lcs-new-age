@@ -335,6 +335,7 @@ flutter test test test/i18n_test.dart
 ## Technical Notes
 
 ### Untranslated Definition
+
 The script identifies three types of untranslated strings:
 
 1. **Placeholder**: Value equals key (default from generation script)
@@ -355,3 +356,201 @@ The merge script handles:
 - **Metadata entries**: Always include if present
 
 Sorting order: alphabetical by key for clean version control
+
+---
+
+## Enhanced Translation Workflow (Recommended)
+
+The new tooling provides a streamlined workflow that keeps ARB files clean and organized.
+
+### Core Principles
+
+1. **ARB files should only contain translated strings** - Untranslated strings (where value == key) are noise
+2. **Deterministic operations** - Same input always produces same output (CI/CD safe)
+3. **Single entry point** - Use `maintain_translations.dart` for most maintenance tasks
+4. **Clean separation** - Untranslated strings live in a staging area until translated
+
+### Quick Start
+
+```bash
+# Extract untranslated strings and clean ARB files
+dart run scripts/maintain_translations.dart --locale=pt_BR --extract-untranslated
+
+# Translate the extracted strings (edit the output file)
+edit translation_workspace/untranslated_pt_BR.arb
+
+# Merge translated strings back
+dart run scripts/merge_arb_entries.dart --locale=pt_BR --source=translation_workspace/untranslated_pt_BR.arb
+
+# Validate
+dart run scripts/clean_arb_duplicates.dart
+flutter test test/i18n_test.dart
+```
+
+---
+
+## Script Reference
+
+### maintain_translations.dart
+
+**Unified ARB maintenance** - The primary script for ARB file management.
+
+```bash
+# Full maintenance (dedupe + split + extract untranslated)
+dart run scripts/maintain_translations.dart --locale=pt_BR --extract-untranslated
+
+# Dry run to preview changes
+dart run scripts/maintain_translations.dart --locale=pt_BR --dry-run
+
+# Only deduplicate
+dart run scripts/maintain_translations.dart --locale=pt_BR --operation=dedupe
+
+# Only split into smaller files
+dart run scripts/maintain_translations.dart --locale=pt_BR --operation=split --max-entries=200
+```
+
+**Options:**
+- `--locale=LOCALE` (required): Locale code
+- `--operation=MODE`: `maintain` (default), `dedupe`, `split`, `extract-untranslated`
+- `--max-entries=N`: Max entries per file (default: 400)
+- `--extract-untranslated`: Extract untranslated strings to separate file
+- `--dry-run`: Preview without writing
+
+### clean_untranslated.dart
+
+**Extract untranslated strings** - Remove untranslated entries from ARB files.
+
+```bash
+# Extract and clean
+dart run scripts/clean_untranslated.dart --locale=pt_BR
+
+# Preview only
+dart run scripts/clean_untranslated.dart --locale=de --dry-run
+
+# Custom output location
+dart run scripts/clean_untranslated.dart --locale=pt_BR --output=staging/pending.arb
+```
+
+**Options:**
+- `--locale=LOCALE` (required): Locale code
+- `--output=PATH`: Output file (default: `translation_workspace/untranslated_<locale>.arb`)
+- `--dry-run`: Preview without modifying files
+- `--no-metadata`: Don't include metadata entries
+
+---
+
+## Troubleshooting
+
+### "Translation validation failed" in CI
+
+This means the ARB files need maintenance. Run locally:
+
+```bash
+dart run scripts/maintain_translations.dart --locale=pt_BR --extract-untranslated
+```
+
+Then commit the fixes in your PR.
+
+---
+
+## ARB File Organization
+
+### File Naming Convention
+
+- **Primary file**: `app_<locale>.arb` (e.g., `app_pt_BR.arb`)
+- **Additional files**: `app_<locale>_part<N>.arb` (e.g., `app_pt_BR_part2.arb`)
+- **Staging file**: `translation_workspace/untranslated_<locale>.arb`
+
+### Deterministic Splitting
+
+The `maintain_translations.dart` script splits ARB files deterministically:
+
+1. All strings are sorted alphabetically
+2. Distributed evenly across files (round-robin)
+3. Same input always produces same output
+
+This means:
+- ✅ **Safe for CI/CD**: No unexpected changes from reordering
+- ✅ **Clean diffs**: Only actual content changes appear in diffs
+- ✅ **Reproducible**: Multiple runs yield identical results
+
+### Pre-Commit Hook
+
+Install the hook once:
+```bash
+dart run tool/setup_git_hooks.dart
+```
+
+The hook (`.git/hooks/pre-commit`) is minimal and just calls:
+```bash
+dart run scripts/validate_translations.dart
+```
+
+This Dart script validates:
+1. `dart_pre_commit` passes (analyze + test)
+2. ARB files are clean (no untranslated strings)
+3. No duplicate keys exist
+
+If validation fails, fix and retry:
+```bash
+dart run scripts/maintain_translations.dart --locale=pt_BR --extract-untranslated
+```
+
+### When to Split
+
+Consider splitting when:
+- A single ARB file exceeds **500 entries**
+- Multiple translators work on the same locale
+- Organizing by module or feature
+
+```bash
+# Split into 400-entry chunks
+dart run scripts/maintain_translations.dart --locale=pt_BR --operation=split --max-entries=400
+```
+
+---
+
+## Troubleshooting
+
+### "Duplicate key found across files"
+
+This means the same translation key exists in multiple ARB files for the same locale. Keys must be unique across all files.
+
+```bash
+# Find duplicates
+dart run scripts/clean_arb_duplicates.dart
+
+# Fix: Remove duplicate from one of the files
+# Then run maintain to reorganize
+dart run scripts/maintain_translations.dart --locale=pt_BR
+```
+
+### ARB file contains untranslated strings
+
+Strings where `value == key` are cluttering your ARB files.
+
+```bash
+# Extract and clean
+dart run scripts/clean_untranslated.dart --locale=pt_BR
+
+# Translate the extracted file
+edit translation_workspace/untranslated_pt_BR.arb
+
+# Merge back
+dart run scripts/merge_arb_entries.dart --locale=pt_BR --source=translation_workspace/untranslated_pt_BR.arb
+```
+
+### Tests failing after translation
+
+```bash
+# Validate ARB files
+dart run scripts/clean_arb_duplicates.dart
+
+# Run tests
+flutter test test/i18n_test.dart
+
+# If tests still fail, check for:
+# - Missing placeholders ({name}, {count}, etc.)
+# - Incorrect JSON syntax
+# - Missing metadata entries (@key)
+```

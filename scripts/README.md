@@ -162,3 +162,223 @@ dart scripts/clean_arb_duplicates.dart
 # Check git diff to see what was cleaned up
 git diff lib/l10n/
 ```
+
+## maintain_translations.dart
+
+**Unified ARB maintenance script** - combines deduplication, splitting, and extraction in a single deterministic operation.
+
+### Usage
+
+```bash
+dart run scripts/maintain_translations.dart --locale=LOCALE [options]
+```
+
+### Operations
+
+| Operation | Description |
+|-----------|-------------|
+| `maintain` | Full maintenance: dedupe + split + optional extraction (default) |
+| `dedupe` | Only deduplicate entries within/across files |
+| `split` | Only split ARB files into smaller chunks |
+| `extract-untranslated` | Only extract untranslated strings to separate file |
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `--locale=LOCALE` | Locale code (required) |
+| `--operation=MODE` | Which operation to perform |
+| `--max-entries=N` | Max entries per ARB file (default: 400) |
+| `--dry-run` | Preview changes without writing files |
+| `--extract-untranslated` | Extract untranslated strings to separate file |
+| `--untranslated-output=PATH` | Output path for untranslated strings |
+
+### Examples
+
+```bash
+# Full maintenance with untranslated extraction
+dart run scripts/maintain_translations.dart --locale=pt_BR --extract-untranslated
+
+# Dry run to see what would change
+dart run scripts/maintain_translations.dart --locale=de --dry-run
+
+# Only deduplicate (no splitting)
+dart run scripts/maintain_translations.dart --locale=pt_BR --operation=dedupe
+
+# Only split into smaller files
+dart run scripts/maintain_translations.dart --locale=pt_BR --operation=split --max-entries=200
+```
+
+### What It Does
+
+1. **Loads all ARB files** for the specified locale
+2. **Validates no duplicates** across any files
+3. **Extracts untranslated strings** if `--extract-untranslated` is set
+4. **Splits into deterministic chunks** - same input always produces same output
+5. **Writes clean ARB files** with only properly translated strings
+
+### Deterministic Splitting
+
+Strings are sorted alphabetically and distributed evenly across files. This ensures:
+- **CI/CD safe**: Same input produces same output
+- **Reproducible**: Running multiple times yields identical results
+- **Merge friendly**: Clean diffs when merging changes
+
+### Output Files
+
+- `app_<locale>.arb` - Primary ARB file (always kept)
+- `app_<locale>_part<N>.arb` - Additional split files if needed
+- `untranslated_<locale>.arb` - Untranslated strings (if `--extract-untranslated`)
+
+---
+
+## clean_untranslated.dart
+
+Extracts untranslated strings from ARB files and writes them to a staging file. ARB files are then cleaned to contain only properly translated strings.
+
+### Usage
+
+```bash
+dart run scripts/clean_untranslated.dart --locale=LOCALE [options]
+```
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `--locale=LOCALE` | Locale code (required) |
+| `--output=PATH` | Output file (default: `translation_workspace/untranslated_<locale>.arb`) |
+| `--dry-run` | Preview changes without writing files |
+| `--no-metadata` | Don't include metadata in output |
+
+### Examples
+
+```bash
+# Extract untranslated strings from Portuguese ARB
+dart run scripts/clean_untranslated.dart --locale=pt_BR
+
+# Preview what would be extracted from German
+dart run scripts/clean_untranslated.dart --locale=de --dry-run
+
+# Custom output location
+dart run scripts/clean_untranslated.dart --locale=pt_BR --output=staging/pending.arb
+```
+
+### What It Does
+
+1. **Scans all ARB files** for the locale
+2. **Identifies untranslated strings** (where value equals key or is empty)
+3. **Extracts them to a staging file** for translation
+4. **Removes them from ARB files** - ARB now contains only translated strings
+5. **Preserves metadata** by default (use `--no-metadata` to disable)
+
+### Untranslated Definition
+
+A string is considered untranslated if:
+- **Value equals key**: `"Hello": "Hello"` (placeholder)
+- **Value is empty**: `"Hello": ""`
+
+### Workflow
+
+```bash
+# Step 1: Extract untranslated strings
+dart run scripts/clean_untranslated.dart --locale=pt_BR
+
+# Step 2: Translate the extracted strings
+# Edit translation_workspace/untranslated_pt_BR.arb
+
+# Step 3: Merge back translated strings
+dart run scripts/merge_arb_entries.dart --locale=pt_BR --source=translation_workspace/untranslated_pt_BR.arb
+
+# Step 4: Validate
+dart run scripts/clean_arb_duplicates.dart
+```
+
+### Benefits
+
+- **Clean ARB files**: Only contains properly translated strings
+- **Clear separation**: Untranslated strings are staged separately
+- **Progress tracking**: Easily see how many strings remain untranslated
+- **CI/CD integration**: Safe to run in automated pipelines
+
+---
+
+## Translation Workflow Scripts
+
+These scripts work together in the translation workflow:
+
+```bash
+# 1. Extract untranslated strings from ARB files
+dart run scripts/clean_untranslated.dart --locale=pt_BR
+
+# 2. Translate the strings (edit the output file)
+#    translation_workspace/untranslated_pt_BR.arb
+
+# 3. Merge translated strings back
+dart run scripts/merge_arb_entries.dart --locale=pt_BR --source=translation_workspace/untranslated_pt_BR.arb
+
+# 4. Periodically maintain/clean ARB files
+dart run scripts/maintain_translations.dart --locale=pt_BR --extract-untranslated
+
+# 5. Validate no duplicates
+dart run scripts/clean_arb_duplicates.dart
+
+# 6. Test translations
+flutter test test/i18n_test.dart
+```
+
+---
+
+## validate_translations.dart
+
+Pre-commit validation script. Runs all checks that must pass before committing.
+
+### Usage
+
+```bash
+# Run pre-commit validation
+dart run scripts/validate_translations.dart
+
+# Verbose output
+dart run scripts/validate_translations.dart --verbose
+
+# Dry run (only check, don't fail)
+dart run scripts/validate_translations.dart --dry-run
+```
+
+### What It Does
+
+1. **Runs dart_pre_commit** - analyze + test
+2. **Validates ARB files are clean** - no untranslated strings
+3. **Checks for duplicates** - no duplicate keys across files
+
+### Pre-Commit Hook Integration
+
+Install the hook once:
+```bash
+dart run tool/setup_git_hooks.dart
+```
+
+The hook is minimal and just calls this script. No shell logic in the hook itself.
+
+### Exit Codes
+
+- `0` - All validations passed
+- `1` - Validation failed (see output for details)
+
+### Example Output
+
+```
+=== Pre-commit Translation Validation ===
+
+Running dart_pre_commit...
+  OK: dart_pre_commit passed
+
+Validating ARB files...
+  OK: ARB files are clean
+
+Checking for duplicates...
+  OK: No duplicates
+
+✓ All validations passed
+```

@@ -5,12 +5,11 @@ Future<void> main() async {
 
   await hookFile.parent.create(recursive: true);
 
-  await hookFile.writeAsString('''#!/bin/sh
-# Run dart_pre_commit with only essential checks
-# Config in pubspec.yaml disables: format, flutter_compat, outdated, pull-up-dependencies
-# Only runs: analyze, test
-dart run dart_pre_commit
-''');
+  final hookContent = r'''#!/bin/sh
+dart run scripts/validate_translations.dart
+''';
+
+  await hookFile.writeAsString(hookContent);
 
   if (!Platform.isWindows) {
     await Process.run('chmod', ['+x', hookFile.path]);

@@ -1,0 +1,51 @@
+name: Translations
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          dart-version: '3.9.2'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.0'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test test/i18n_test.dart
+
+      - name: Validate translation files
+        run: |
+          echo "=== Validating ARB files ==="
+          for locale in pt_BR; do
+            echo "Checking $locale..."
+            dart run scripts/maintain_translations.dart --locale=$locale --extract-untranslated --dry-run
+            if [ $? -ne 0 ]; then
+              echo "FAIL: Translation maintenance needed for $locale"
+              echo "Run: dart run scripts/maintain_translations.dart --locale=$locale --extract-untranslated"
+              exit 1
+            fi
+            echo "  OK: $locale"
+          done
+          echo ""
+          echo "=== Validating no duplicates ==="
+          dart run scripts/clean_arb_duplicates.dart
+          echo ""
+          echo "=== All validations passed ==="

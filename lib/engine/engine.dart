@@ -23,38 +23,19 @@ void addstr(
 }) {
   String finalString = s;
 
-  // Process params first (placeholder replacement)
+  // Replace {placeholders} with values from params
   if (params != null) {
-    final count = params['count'];
-    final pluralContext = params['context'] as String?;
-    if (count is int && pluralContext != null) {
-      finalString = LcsI18n.plural(count, context: pluralContext);
-    } else {
-      // Handle regular formatting - replace {placeholders}
-      params.forEach((key, value) {
-        finalString = finalString.replaceAll('{$key}', value.toString());
-      });
-    }
+    params.forEach((key, value) {
+      finalString = finalString.replaceAll('{$key}', value.toString());
+    });
   }
 
-  // Skip translation if noTranslate is true
-  if (noTranslate) {
-    console.addstr(finalString, noTranslate: true);
-    return;
-  }
-
-  // Apply translation if needed
-  if (params != null &&
-      (params.containsKey('count') || params.containsKey('context'))) {
-    // Already handled plural, no further action needed
-  } else if (params != null) {
-    // Already formatted above, just translate
-    finalString = LcsI18n.translate(finalString);
-  } else {
+  // Apply translation unless noTranslate is true
+  if (!noTranslate) {
     finalString = LcsI18n.translate(finalString);
   }
 
-  console.addstr(finalString);
+  console.addstr(finalString, noTranslate: noTranslate);
 }
 
 void addstrc(Color fg, String s, {Color? bg}) {

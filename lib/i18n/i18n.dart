@@ -240,9 +240,12 @@ class LcsI18n {
 
   /// Handle plural forms using ICU pluralization
   ///
-  /// This is called internally by console wrappers when they detect a count parameter.
+  /// Note: This method is kept for direct use cases. The console wrapper
+  /// [addstr] handles all strings uniformly - the calling code should
+  /// select the appropriate singular/plural string based on count.
+  ///
   /// Direct usage:
-  ///   addstr("You have {count} items.", params: {"count": itemCount, "context": "inventory_items"});
+  ///   final text = LcsI18n.plural(count, context: "inventory_items");
   static String plural(int count, {required String context}) {
     if (!_initialized) {
       return _defaultPlural(count, context);

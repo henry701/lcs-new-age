@@ -103,5 +103,40 @@ void main() {
         expect(line, contains('Opções de Jogo')); // Portuguese translation
       },
     );
+
+    test('addstr with noTranslate and params replaces placeholders', () async {
+      resetConsole();
+      await LcsI18n.initialize('en_US');
+      addstr(
+        '{name} has {count} health.',
+        params: {'name': 'Jane', 'count': 100},
+        noTranslate: true,
+      );
+      expect(getConsoleLine(0), equals('Jane has 100 health.'));
+    });
+
+    test('addstr with multiple params formats correctly', () async {
+      resetConsole();
+      await LcsI18n.initialize('en_US');
+      addstr(
+        '{attacker} hits {target} for {damage} damage!',
+        params: {'attacker': 'Liberal', 'target': 'Conservative', 'damage': 25},
+      );
+      expect(
+        getConsoleLine(0),
+        equals('Liberal hits Conservative for 25 damage!'),
+      );
+    });
+
+    test(
+      'addstr unified path handles both translation and params together',
+      () async {
+        resetConsole();
+        await LcsI18n.initialize('pt_BR');
+        // "You hit the {target}!" translates to "Você acertou o {target}!"
+        addstr('You hit the {target}!', params: {'target': 'Inimigo'});
+        expect(getConsoleLine(0), equals('Você acertou o Inimigo!'));
+      },
+    );
   });
 }

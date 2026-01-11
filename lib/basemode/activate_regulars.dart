@@ -130,9 +130,19 @@ Future<void> assignTask(Creature c) async {
     erase();
     printFunds();
     if (c.income > 0) {
-      mvaddstr(0, 0, "${c.name} made \$${c.income} yesterday. What now?");
+      mvaddstr(
+        0,
+        0,
+        "{name} made \${income} yesterday. What now?",
+        params: {"name": c.name, "income": c.income},
+      );
     } else {
-      mvaddstr(0, 0, "Taking Action: What will ${c.name} do today?");
+      mvaddstr(
+        0,
+        0,
+        "Taking Action: What will {name} do today?",
+        params: {"name": c.name},
+      );
     }
     printCreatureInfo(c, showCarPrefs: ShowCarPrefs.showPreferences);
     makeDelimiter();

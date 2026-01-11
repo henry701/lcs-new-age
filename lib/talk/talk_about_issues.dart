@@ -38,16 +38,19 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
 
   if (youAreStupid) {
     if (noProfanity && issue.noProfanityStupidPrompt != null) {
-      addstr("\"${issue.noProfanityStupidPrompt}\"");
+      addstr(
+        "\"{prompt}\"",
+        params: {"prompt": issue.noProfanityStupidPrompt ?? issue.stupidPrompt},
+      );
     } else {
-      addstr("\"${issue.stupidPrompt}\"");
+      addstr("\"{prompt}\"", params: {"prompt": issue.stupidPrompt});
     }
   } else if (issueTooLiberal) {
-    addstr("\"${issue.issueTooLiberal}\"");
+    addstr("\"{prompt}\"", params: {"prompt": issue.issueTooLiberal});
   } else {
-    addstr("\"${issue.normalPromptLine1}");
+    addstr("\"{line1}", params: {"line1": issue.normalPromptLine1});
     if (issue.normalPromptLine2 != null) {
-      mvaddstr(y++, 1, "${issue.normalPromptLine2}");
+      mvaddstr(y++, 1, "{line2}", params: {"line2": issue.normalPromptLine2});
     }
     addstr("\"");
   }
@@ -160,7 +163,12 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
         }
       } else if (tk.align == Alignment.conservative &&
           tk.attribute(Attribute.intelligence) > 10) {
-        mvaddstr(y++, 1, "\"${issue.conservativeResponse}\"");
+        mvaddstr(
+          y++,
+          1,
+          "\"{response}\"",
+          params: {"response": issue.conservativeResponse},
+        );
       } else {
         mvaddstr(y++, 1, "\"Whatever.\"");
       }

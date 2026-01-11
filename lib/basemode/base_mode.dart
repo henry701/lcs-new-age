@@ -128,7 +128,12 @@ Future<bool> baseMode() async {
           if (forceWait && day == 1) {
             erase();
             mvaddstrc(7, 5, lightGray, "Time passes...");
-            mvaddstr(9, 12, "${getMonth(month)} $day, $year");
+            mvaddstr(
+              9,
+              12,
+              "{month} {day}, {year}",
+              params: {"month": getMonth(month), "day": day, "year": year},
+            );
             refresh();
             await Future.delayed(const Duration(milliseconds: 100));
           }
@@ -293,7 +298,7 @@ void printLocation(Site loc) {
       lightGray,
       "${loc.compound.rations} Daily Ration${loc.compound.rations > 1 ? "s" : ""}",
     );
-    mvaddstr(6, 30, "$eaters Eating");
+    mvaddstr(6, 30, "{eaters} Eating", params: {"eaters": eaters});
   }
 }
 

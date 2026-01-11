@@ -425,7 +425,7 @@ Future<bool> attack(
   int maxNumberOfAttacks = attackUsed.numberOfAttacks;
   double damageMultiplier = 1;
 
-  mvaddstr(9, 1, "${a.name} ");
+  mvaddstr(9, 1, "{name} ", params: {"name": a.name});
   if (mistake) addstr("MISTAKENLY ");
   if (a.weapon.type.idName == "WEAPON_NONE") {
     int result = a.skillRoll(Skill.martialArts);
@@ -812,9 +812,9 @@ Future<bool> attack(
 
     String fullMessage = "$a.name$action$multiHitDesc";
     if (addAutoConvert) {
-      addstr("$fullMessage!");
+      addstr("{message}!", params: {"message": fullMessage});
     } else {
-      addstr("$fullMessage.");
+      addstr("{message}.", params: {"message": fullMessage});
     }
     await getKey();
 

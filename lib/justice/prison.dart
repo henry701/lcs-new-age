@@ -107,8 +107,20 @@ Future<void> prison(Creature g) async {
           DeepAlignment.conservative => historicExecutionMethods.random,
           _ => supposedlyHumaneExecutionMethods.random,
         };
-        mvaddstr(9, 1, "Today, the Conservative Machine executed ${g.name}");
-        mvaddstr(10, 1, "by $method.");
+        mvaddstr(
+          9,
+          1,
+          "Today, the Conservative Machine executed {name}",
+          params: {"name": g.name},
+          noTranslate: true,
+        );
+        mvaddstr(
+          10,
+          1,
+          "by {method}.",
+          params: {"method": method},
+          noTranslate: true,
+        );
 
         await getKey();
 
@@ -218,7 +230,12 @@ Future<void> rehabilitation(Creature g) async {
       addjuice(g, -50, 0);
     } else if (lcsRandom(15) > g.attribute(Attribute.wisdom) ||
         g.attribute(Attribute.wisdom) < g.attribute(Attribute.heart)) {
-      mvaddstr(10, 1, "${g.name} silently grows Wiser...");
+      mvaddstr(
+        10,
+        1,
+        "{name} silently grows Wiser...",
+        params: {"name": g.name},
+      );
       g.adjustAttribute(Attribute.wisdom, 1);
     } else if (g.align == Alignment.liberal && g.seduced && oneIn(4)) {
       mvaddstr(
@@ -227,7 +244,12 @@ Future<void> rehabilitation(Creature g) async {
         "${g.name} only stays loyal to the LCS for ${g.boss?.name ?? "the cause"}.",
       );
     } else {
-      mvaddstr(10, 1, "${g.name} renounces the Liberal Crime Squad!");
+      mvaddstr(
+        10,
+        1,
+        "{name} renounces the Liberal Crime Squad!",
+        params: {"name": g.name},
+      );
 
       //Rat out contact
       Creature? contact = g.boss;
@@ -239,7 +261,7 @@ Future<void> rehabilitation(Creature g) async {
       g.die();
     }
   } else {
-    mvaddstr(10, 1, "${g.name} remains strong.");
+    mvaddstr(10, 1, "{name} remains strong.", params: {"name": g.name});
   }
 
   await getKey();
@@ -414,13 +436,28 @@ Future<void> prisonScene(Creature g) async {
   if (escaped > 0) {
     escape(g, escaped == 2);
   } else if (effect > 0) {
-    mvaddstr(10, 1, "${g.name} has become a more hardened, Juicier criminal.");
+    mvaddstr(
+      10,
+      1,
+      "{name} has become a more hardened, Juicier criminal.",
+      params: {"name": g.name},
+    );
     addjuice(g, 20, 1000);
   } else if (effect < 0) {
-    mvaddstr(10, 1, "${g.name} is kinda losing it in here.  Juice, that is.");
+    mvaddstr(
+      10,
+      1,
+      "{name} is kinda losing it in here.  Juice, that is.",
+      params: {"name": g.name},
+    );
     addjuice(g, -20, -30);
   } else {
-    mvaddstr(10, 1, "${g.name} seems to be mostly fine, though.");
+    mvaddstr(
+      10,
+      1,
+      "{name} seems to be mostly fine, though.",
+      params: {"name": g.name},
+    );
   }
 
   await getKey();
@@ -447,7 +484,12 @@ void escape(Creature g, bool withFriends) {
     if (numEscaped == 1) {
       mvaddstr(11, 1, "Another imprisoned LCS member also gets out!");
     } else if (numEscaped > 1) {
-      mvaddstr(11, 1, "$numEscaped other LCS members escape in the riot!");
+      mvaddstr(
+        11,
+        1,
+        "{count} other LCS members escape in the riot!",
+        params: {"count": numEscaped},
+      );
     }
   }
 }

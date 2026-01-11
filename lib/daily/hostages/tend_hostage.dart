@@ -189,7 +189,11 @@ Future<void> tendHostage(InterrogationSession intr) async {
       eraseLine(y);
       move(y, 0);
       y += 2;
-      addstr("The Execution of ${cr.name}   ");
+      addstr(
+        "The Execution of {name}   ",
+        params: {"name": cr.name},
+        noTranslate: true,
+      );
     } else {
       setColor(yellow);
       move(y, 0);
@@ -204,6 +208,8 @@ Future<void> tendHostage(InterrogationSession intr) async {
       int cost = 0,
       String colorKey = ColorKey.white,
       bool enabled = true,
+      Map<String, dynamic>? params,
+      bool noTranslate = false,
     }) {
       move(y++, 0);
       bool active = techniques[technique] ?? false;
@@ -217,6 +223,8 @@ Future<void> tendHostage(InterrogationSession intr) async {
         "$letter - $text",
         enabledWhen: ledger.funds >= cost && enabled,
         baseColorKey: active ? colorKey : ColorKey.midGray,
+        params: params,
+        noTranslate: noTranslate,
       );
     }
 
@@ -230,7 +238,13 @@ Future<void> tendHostage(InterrogationSession intr) async {
       "Draft a Ransom Note",
       enabled: !intr.ransomDemanded,
     );
-    planItem(Technique.free, "F", "Set ${cr.name} Free");
+    planItem(
+      Technique.free,
+      "F",
+      "Set {name} Free",
+      params: {"name": cr.name},
+      noTranslate: true,
+    );
     planItem(Technique.kill, "K", "Kill the Hostage", colorKey: ColorKey.red);
     y += 2;
     addOptionText(y++, 0, "Enter", "Enter - Confirm the Plan");
@@ -540,7 +554,14 @@ Future<void> tendHostage(InterrogationSession intr) async {
     cr.die();
 
     stats.kills++;
-    mvaddstrc(++y, 0, red, "${cr.name} suddenly drops dead.");
+    mvaddstrc(
+      ++y,
+      0,
+      red,
+      "{name} suddenly drops dead.",
+      params: {"name": cr.name},
+      noTranslate: true,
+    );
     setColor(lightGray);
     y++;
     //show_interrogation_sidebar(cr,a);
@@ -565,11 +586,19 @@ Future<int> maybeRevealSecrets(Creature cr, Creature lead, int y) async {
   if (workSite?.mapped == false &&
       (oneIn(5) || cr.align == Alignment.liberal)) {
     y++;
-    mvaddstr(y++, 0, "${cr.name} reveals details about the ${workSite!.name}.");
     mvaddstr(
       y++,
       0,
-      "${lead.name} was able to create a map of the site with this information.",
+      "{hostage} reveals details about the {site}.",
+      params: {"hostage": cr.name, "site": workSite!.name},
+      noTranslate: true,
+    );
+    mvaddstr(
+      y++,
+      0,
+      "{name} was able to create a map of the site with this information.",
+      params: {"name": lead.name},
+      noTranslate: true,
     );
 
     workSite.mapped = true;
@@ -597,14 +626,30 @@ void showInterrogationSidebar(InterrogationSession intr, Creature a) {
   setColor(lightGray);
   addstr("Prisoner: ");
   setColor(red);
-  addstr(cr.name);
+  addstr("{name}", params: {"name": cr.name}, noTranslate: true);
   move(y += 2, 40);
   setColor(lightGray);
   addstr("Health: ");
   printHealthStat(y, 48, cr);
-  mvaddstrc(++y, 40, lightGray, "Heart: ${cr.attribute(Attribute.heart)}");
-  mvaddstr(++y, 40, "Wisdom: ${cr.attribute(Attribute.wisdom)}");
-  mvaddstr(++y, 40, "Health: ${cr.health}");
+  mvaddstrc(
+    ++y,
+    40,
+    lightGray,
+    "Heart: {heart}",
+    params: {"heart": cr.attribute(Attribute.heart).toString()},
+  );
+  mvaddstr(
+    ++y,
+    40,
+    "Wisdom: {wisdom}",
+    params: {"wisdom": cr.attribute(Attribute.wisdom).toString()},
+  );
+  mvaddstr(
+    ++y,
+    40,
+    "Health: {health}",
+    params: {"health": cr.health.toString()},
+  );
 
   move(y = 13, 40);
   setColor(lightGray);
@@ -623,9 +668,22 @@ void showInterrogationSidebar(InterrogationSession intr, Creature a) {
   );
   move(++y, 40);
   setColor(lightGray);
-  addstr("Heart: ${a.attribute(Attribute.heart)}");
-  mvaddstr(++y, 40, "Wisdom: ${a.attribute(Attribute.wisdom)}");
-  mvaddstr(++y, 40, "Outfit: ${a.clothing.longName}");
+  addstr(
+    "Heart: {heart}",
+    params: {"heart": a.attribute(Attribute.heart).toString()},
+  );
+  mvaddstr(
+    ++y,
+    40,
+    "Wisdom: {wisdom}",
+    params: {"wisdom": a.attribute(Attribute.wisdom).toString()},
+  );
+  mvaddstr(
+    ++y,
+    40,
+    "Outfit: {outfit}",
+    params: {"outfit": a.clothing.longName},
+  );
 
   //mvaddstr(++y, 40, "Rapport: ${rapport[a.id]?.toStringAsFixed(1) ?? 0}");
   move(y += 2, 40);

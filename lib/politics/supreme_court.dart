@@ -82,7 +82,11 @@ Future<void> supremeCourt() async {
         name2 = swap;
       }
 
-      addstr("$name1 v. $name2");
+      addstr(
+        "{name1} v. {name2}",
+        params: {"name1": name1, "name2": name2},
+        noTranslate: true,
+      );
 
       mvaddstr(c * 3 + 3, 0, "A new precedent would ");
       if (scasedir[c] == 1) {

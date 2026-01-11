@@ -223,7 +223,11 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     ];
     List<String> dateFailList = city == null ? dateFailOnline : dateFail;
     move(console.y + 1, 0);
-    addstr("${p.name}${dateFailList.random}");
+    addstr(
+      "{name}{msg}",
+      params: {"name": p.name, "msg": dateFailList.random},
+      noTranslate: true,
+    );
 
     await getKey();
 
@@ -444,7 +448,13 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
         await getKey();
 
         Future<void> successfulKidnap(int y) async {
-          mvaddstr(y++, 0, "${p.name} kidnaps the Conservative!");
+          mvaddstr(
+            y++,
+            0,
+            "{name} kidnaps the Conservative!",
+            params: {"name": p.name},
+            noTranslate: true,
+          );
 
           await getKey();
 
@@ -467,9 +477,12 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           setColor(lightGreen);
           move(y++, 0);
           if (bonus > 0) {
-            addstr("${e.name} doesn't resist.");
+            addstr("{name} doesn't resist.", params: {"name": e.name});
           } else {
-            addstr("${e.name} struggles and yells for help, but nobody comes.");
+            addstr(
+              "{name} struggles and yells for help, but nobody comes.",
+              params: {"name": e.name},
+            );
           }
 
           await getKey();
@@ -481,18 +494,34 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           setColor(red);
           move(y++, 0);
           if (ranged) {
-            addstr("${e.name} brazenly tackles ${p.name}!");
+            addstr(
+              "{eName} brazenly tackles {pName}!",
+              params: {"eName": e.name, "pName": p.name},
+            );
           } else {
-            addstr("${e.name} struggles and they both tumble to the ground!");
+            addstr(
+              "{eName} struggles and they both tumble to the ground!",
+              params: {"eName": e.name},
+            );
           }
           if (weapon != "") {
             await getKey();
             if (unseriousWeapon) {
               move(y++, 0);
-              addstrc(yellow, "The $weapon is knocked away uselessly.");
+              addstrc(
+                yellow,
+                "The {weapon} is knocked away uselessly.",
+                params: {"weapon": weapon},
+                noTranslate: true,
+              );
             } else {
               move(y++, 0);
-              addstrc(yellow, "The two struggle for control of the $weapon!");
+              addstrc(
+                yellow,
+                "The two struggle for control of the {weapon}!",
+                params: {"weapon": weapon},
+                noTranslate: true,
+              );
             }
           }
           await getKey();
@@ -507,7 +536,10 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             // Success: Conservative kidnapped by winning the fight
             setColor(lightGreen);
             move(y++, 0);
-            addstr("${p.name} overpowers ${e.name} after a struggle.");
+            addstr(
+              "{pName} overpowers {eName} after a struggle.",
+              params: {"pName": p.name, "eName": e.name},
+            );
             await getKey();
             await successfulKidnap(y);
             break;
@@ -515,7 +547,10 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             // Failure: Kidnap failed
             setColor(yellow);
             move(y++, 0);
-            addstr("${p.name} breaks free after a wild struggle.");
+            addstr(
+              "{pName} breaks free after a wild struggle.",
+              params: {"pName": p.name},
+            );
             mvaddstr(y++, 0, "Unfortunately, the Conservative escapes...");
 
             // Charge with kidnapping
@@ -618,12 +653,16 @@ Future<DateResult> dateResult(
     y++;
     if (eIsSexworker && !e.isWillingToTalk) {
       if (p.skill(Skill.seduction) >= p.skillCap(Skill.seduction)) {
-        addstrc(
-          yellow,
-          "${p.name} has learned all ${p.gender.heShe} can from ${e.name}.",
+        setColor(yellow);
+        addstr(
+          "{pName} has learned all {heshe} can from {eName}.",
+          params: {"pName": p.name, "heshe": p.gender.heShe, "eName": e.name},
         );
       } else {
-        addstr("${p.name} still has more to learn from ${e.name}.");
+        addstr(
+          "{pName} still has more to learn from {eName}.",
+          params: {"pName": p.name, "eName": e.name},
+        );
       }
     } else {
       if (eIsSexworker) {
@@ -701,18 +740,26 @@ Future<DateResult> dateResult(
       y++;
       if (eIsSexworker) {
         addstr(
-          "In fact, ${e.name} decides to put ${e.gender.hisHer} skills to work for the LCS!",
+          "In fact, {eName} decides to put {hisHer} skills to work for the LCS!",
+          params: {"eName": e.name, "hisHer": e.gender.hisHer},
         );
         e.daysSinceJoined =
             0; // Reset to zero since we used this to track time dating
       } else if (e.align == Alignment.conservative) {
         addstr(
-          "In fact, ${e.name} swears off Conservatism and begs to join the LCS!",
+          "In fact, {eName} swears off Conservatism and begs to join the LCS!",
+          params: {"eName": e.name},
         );
       } else if (e.align == Alignment.moderate) {
-        addstr("In fact, ${e.name} wants to join ${p.name} in the LCS!");
+        addstr(
+          "In fact, {eName} wants to join {pName} in the LCS!",
+          params: {"eName": e.name, "pName": p.name},
+        );
       } else {
-        addstr("In fact, ${e.name} is eager to fight alongside ${p.name}!");
+        addstr(
+          "In fact, {eName} is eager to fight alongside {pName}!",
+          params: {"eName": e.name, "pName": p.name},
+        );
       }
 
       //Get map of their workplace
@@ -819,9 +866,15 @@ Future<DateResult> dateResult(
       6 => "to recharge ${e.gender.hisHer} cell phone.",
       _ => "to wash ${e.gender.hisHer} hair.",
     };
-    addstr("${e.name} had to leave early $excuse");
+    addstr(
+      "{eName} had to leave early {excuse}",
+      params: {"eName": e.name, "excuse": excuse},
+    );
     move(y++, 0);
-    addstr("${e.gender.heSheCap} did still promise to meet up again tomorrow.");
+    addstr(
+      "{heSheCap} did still promise to meet up again tomorrow.",
+      params: {"heSheCap": e.gender.heSheCap},
+    );
 
     await getKey();
 
@@ -833,7 +886,8 @@ Future<DateResult> dateResult(
       move(y++, 0);
 
       addstr(
-        "Talking with ${e.name} actually curses ${p.name}'s mind with wisdom!!!",
+        "Talking with {eName} actually curses {pName}'s mind with wisdom!!!",
+        params: {"eName": e.name, "pName": p.name},
       );
 
       p.adjustAttribute(Attribute.wisdom, 1);
@@ -865,11 +919,17 @@ Future<DateResult> dateResult(
       if (ps == null) {
         addstrc(
           lightGreen,
-          "But there isn't a police station in ${p.location!.city.name}!",
+          "But there isn't a police station in {city}!",
+          params: {"city": p.location!.city.name},
         );
-        mvaddstr(y++, 0, "Nobody comes to arrest ${p.name}.");
+        mvaddstr(
+          y++,
+          0,
+          "Nobody comes to arrest {name}.",
+          params: {"name": p.name},
+        );
       } else if (!p.skillCheck(Skill.streetSmarts, Difficulty.hard)) {
-        addstrc(purple, "${p.name} has been arrested.");
+        addstrc(purple, "{name} has been arrested.", params: {"name": p.name});
 
         p.squad = null;
         p.carId = -1;
@@ -893,16 +953,20 @@ Future<DateResult> dateResult(
           y++,
           0,
           purple,
-          "${e.name} picks up some weird vibes and decides to bail.",
+          "{eName} picks up some weird vibes and decides to bail.",
+          params: {"eName": e.name},
         );
         mvaddstr(y++, 0, "This will be the last visit.");
         move(y++, 0);
       } else if (existingRelationships > 0 && lcsRandom(2) > 0) {
         setColor(purple);
         move(y++, 0);
-        addstr("The date starts well, but ${e.name} has no patience for ");
+        addstr(
+          "The date starts well, but {eName} has no patience for ",
+          params: {"eName": e.name},
+        );
         move(y++, 0);
-        addstr("${p.name}'s ");
+        addstr("{pName}'s ", params: {"pName": p.name});
         switch (existingRelationships) {
           case 5:
             addstr("awe-inspiring ");
@@ -924,7 +988,10 @@ Future<DateResult> dateResult(
       } else {
         setColor(purple);
         move(y++, 0);
-        addstr("${e.name} can sense that things just aren't working out.");
+        addstr(
+          "{eName} can sense that things just aren't working out.",
+          params: {"eName": e.name},
+        );
 
         move(y++, 0);
         addstr("This relationship is over.");
@@ -946,7 +1013,7 @@ Future<bool> completeVacation(DatingSession d, Creature p) async {
   erase();
   setColor(white);
   move(0, 0);
-  mvaddstr(0, 0, "${p.name} is back from vacation.");
+  mvaddstr(0, 0, "{name} is back from vacation.", params: {"name": p.name});
 
   int aroll = p.skillRoll(Skill.seduction, advantage: true);
   int troll = e.attributeRoll(Attribute.wisdom, take10: true) + e.level;

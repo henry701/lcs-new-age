@@ -358,7 +358,15 @@ class Shop extends ShopOption {
         );
         if (availableOptions[index] is ShopItem) {
           move(y, 39);
-          addstr("\$${(availableOptions[index] as ShopItem).price(false)}");
+          addstr(
+            "\${price}",
+            params: {
+              "price": (availableOptions[index] as ShopItem)
+                  .price(false)
+                  .toString(),
+            },
+            noTranslate: true,
+          );
         }
       },
       onChoice: (index) async {
@@ -416,7 +424,11 @@ class Shop extends ShopOption {
           move(y, 20);
           AmmoType? ammo = weapon.acceptableAmmo.firstOrNull;
           if (ammo != null && weapon.ammoCapacity > 0) {
-            addstr("(${weapon.ammoCapacity}) ");
+            addstr(
+              "({capacity}) ",
+              params: {"capacity": weapon.ammoCapacity.toString()},
+              noTranslate: true,
+            );
           }
           addstr(ammo?.name ?? "N/A");
           move(y, 47);
@@ -428,10 +440,22 @@ class Shop extends ShopOption {
           }
           int hits = attack.numberOfAttacks * (ammo?.multihit ?? 1);
           if (hits > 1) {
-            addstr("x$hits");
+            addstr(
+              "x{hits}",
+              params: {"hits": hits.toString()},
+              noTranslate: true,
+            );
           }
           move(y, 59);
-          addstr("\$${(availableOptions[i] as ShopItem).price(false)}");
+          addstr(
+            "\${price}",
+            params: {
+              "price": (availableOptions[i] as ShopItem)
+                  .price(false)
+                  .toString(),
+            },
+            noTranslate: true,
+          );
         }
       },
       onChoice: (index) async {
@@ -479,12 +503,24 @@ class Shop extends ShopOption {
         move(y, 24);
         addstr(ammo.damage.toString());
         if (ammo.multihit > 1) {
-          addstr("x${ammo.multihit}");
+          addstr(
+            "x{multi}",
+            params: {"multi": ammo.multihit.toString()},
+            noTranslate: true,
+          );
         }
         move(y, 39);
         addstr(ammo.boxSize.toString());
         move(y, 59);
-        addstr("\$${(availableOptions[index] as ShopItem).price(false)}");
+        addstr(
+          "\${price}",
+          params: {
+            "price": (availableOptions[index] as ShopItem)
+                .price(false)
+                .toString(),
+          },
+          noTranslate: true,
+        );
       },
       onChoice: (index) async {
         if (index < availableOptions.length &&
@@ -523,7 +559,15 @@ class Shop extends ShopOption {
         move(y, 24);
         addstr(clothing.traitsList(true).join(", "));
         move(y, 59);
-        addstr("\$${(availableOptions[index] as ShopItem).price(false)}");
+        addstr(
+          "\${price}",
+          params: {
+            "price": (availableOptions[index] as ShopItem)
+                .price(false)
+                .toString(),
+          },
+          noTranslate: true,
+        );
       },
       onChoice: (index) async {
         if (index < availableOptions.length &&
@@ -581,7 +625,11 @@ class Shop extends ShopOption {
           Key.a => "ammo",
           _ => "clothes",
         };
-        addstr("Really sell all $items? (Y)es to confirm.           ");
+        addstr(
+          "Really sell all {items}? (Y)es to confirm.           ",
+          params: {"items": items},
+          noTranslate: true,
+        );
 
         if (await getKey() != Key.y) c = 0; //no sale
       }
@@ -617,7 +665,14 @@ class Shop extends ShopOption {
         }
 
         if (fenceamount > 0) {
-          mvaddstrc(8, 1, white, "You add \$$fenceamount to Liberal Funds.");
+          mvaddstrc(
+            8,
+            1,
+            white,
+            "You add \${amount} to Liberal Funds.",
+            params: {"amount": fenceamount.toString()},
+            noTranslate: true,
+          );
 
           await getKey();
 
@@ -642,7 +697,13 @@ class Shop extends ShopOption {
       mvaddstrc(0, 0, lightGray, "What will you sell?");
 
       if (ret != 0) {
-        mvaddstr(0, 30, "Estimated Liberal Amount: \$$ret");
+        mvaddstr(
+          0,
+          30,
+          "Estimated Liberal Amount: \${ret}",
+          params: {"ret": ret.toString()},
+          noTranslate: true,
+        );
       }
 
       printParty();
@@ -658,12 +719,23 @@ class Shop extends ShopOption {
         } else {
           baseColor = darkGray;
         }
-        mvaddstrc(y, x, baseColor, "${letterAPlus(l - page * 18)} - ");
+        mvaddstrc(
+          y,
+          x,
+          baseColor,
+          "{letter} - ",
+          params: {"letter": letterAPlus(l - page * 18)},
+          noTranslate: true,
+        );
         base.loot[l].printEquipTitle(baseColor: baseColor);
         setColor(baseColor);
         if (base.loot[l].stackSize > 1) {
           if (selected[l] > 0) {
-            addstr(" ${selected[l]}/");
+            addstr(
+              " {selected}/",
+              params: {"selected": selected[l].toString()},
+              noTranslate: true,
+            );
           } else {
             addstr(" x");
           }
@@ -750,7 +822,14 @@ class Shop extends ShopOption {
     while (true) {
       erase();
 
-      mvaddstrc(0, 0, white, "Which mask will ${buyer.name} buy?");
+      mvaddstrc(
+        0,
+        0,
+        white,
+        "Which mask will {buyer} buy?",
+        params: {"buyer": buyer.name},
+        noTranslate: true,
+      );
       addHeader({4: "PRODUCT NAME", 39: "DESCRIPTION"});
 
       for (
@@ -759,7 +838,13 @@ class Shop extends ShopOption {
         p++, y++
       ) {
         setColor(lightGray);
-        mvaddstr(y, 0, "${letterAPlus(y - 2)} - ${masktype[p].name}");
+        mvaddstr(
+          y,
+          0,
+          "{letter} - {name}",
+          params: {"letter": letterAPlus(y - 2), "name": masktype[p].name},
+          noTranslate: true,
+        );
         mvaddstrc(y, 39, lightGray, masktype[p].description.trim());
       }
 

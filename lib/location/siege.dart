@@ -210,9 +210,19 @@ Future<void> surrenderToAuthorities(Site loc) async {
     if (arrested.first.properName != arrested.first.name) {
       namePart = "$namePart, aka ${arrested.first.name}";
     }
-    mvaddstr(y += 2, 1, "$namePart is arrested.");
+    mvaddstr(
+      y += 2,
+      1,
+      "{namePart} is arrested.",
+      params: {"namePart": namePart},
+    );
   } else if (arrested.length > 1) {
-    mvaddstr(y += 2, 1, "${arrested.length} Liberals are arrested.");
+    mvaddstr(
+      y += 2,
+      1,
+      "{count} Liberals are arrested.",
+      params: {"count": arrested.length},
+    );
   }
 
   if (ledger.funds > 0) {

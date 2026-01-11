@@ -322,7 +322,10 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
     move(y, 1);
     setColor(red);
     if (tk.type.tank) {
-      addstr("${tk.name} shakes its turret a firm 'no'.");
+      addstr(
+        "{name} shakes its turret a firm 'no'.",
+        params: {"name": tk.name},
+      );
     } else if (tk.type.dog) {
       switch (lcsRandom(3)) {
         case 0:

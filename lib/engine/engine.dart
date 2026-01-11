@@ -25,9 +25,15 @@ void addstr(
   console.addstr(result, noTranslate: noTranslate);
 }
 
-void addstrc(Color fg, String s, {Color? bg}) {
+void addstrc(
+  Color fg,
+  String s, {
+  Color? bg,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
   setColor(fg, background: bg ?? black);
-  addstr(s);
+  addstr(s, params: params, noTranslate: noTranslate);
 }
 
 void addparagraph(
@@ -76,6 +82,8 @@ void addInlineOptionText(
   String baseColorKey = "w",
   String highlightColorKey = "B",
   String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
   key = key.toUpperCase();
   String mouseClickKey = key;
@@ -104,7 +112,11 @@ void addInlineOptionText(
     }
   }
   // Translate the text first, then add color codes
-  String translatedText = LcsI18n.translate(text);
+  String translatedText = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+  );
 
   String beforeKey = "";
   String afterKey = "";

@@ -133,7 +133,10 @@ Future<void> trial(Creature g) async {
         );
         g.confessions = 0;
       } else {
-        addstr("A former LCS member will testify against ${g.name}.");
+        addstr(
+          "A former LCS member will testify against {name}.",
+          params: {"name": g.name},
+        );
       }
     }
 
@@ -163,12 +166,38 @@ Future<void> trial(Creature g) async {
     );
   }
   mvaddstrc(++y, 5, lightGray, "Your relevant skills if you defend yourself: ");
-  mvaddstr(++y, 5, "Law: ${g.skill(Skill.law)}");
-  mvaddstr(y, 25, "Persuasion: ${g.skill(Skill.persuasion)}");
+  mvaddstr(
+    ++y,
+    5,
+    "Law: {law}",
+    params: {"law": g.skill(Skill.law).toString()},
+  );
+  mvaddstr(
+    y,
+    25,
+    "Persuasion: {persuasion}",
+    params: {"persuasion": g.skill(Skill.persuasion).toString()},
+  );
   if (sleeperlawyer != null) {
-    mvaddstr(++y, 5, "${sleeperlawyer.name}'s relevant skills: ");
-    mvaddstr(++y, 5, "Law: ${sleeperlawyer.skill(Skill.law)}");
-    mvaddstr(y, 25, "Persuasion: ${sleeperlawyer.skill(Skill.persuasion)}");
+    mvaddstr(
+      ++y,
+      5,
+      "{name}'s relevant skills: ",
+      params: {"name": sleeperlawyer.name},
+      noTranslate: true,
+    );
+    mvaddstr(
+      ++y,
+      5,
+      "Law: {law}",
+      params: {"law": sleeperlawyer.skill(Skill.law).toString()},
+    );
+    mvaddstr(
+      y,
+      25,
+      "Persuasion: {persuasion}",
+      params: {"persuasion": sleeperlawyer.skill(Skill.persuasion).toString()},
+    );
   }
 
   int defense;
@@ -206,7 +235,14 @@ Future<void> trial(Creature g) async {
     int prosecution = 0;
     erase();
 
-    mvaddstrc(1, 1, white, "${g.name} is standing trial.");
+    mvaddstrc(
+      1,
+      1,
+      white,
+      "{name} is standing trial.",
+      params: {"name": g.name},
+      noTranslate: true,
+    );
 
     //TRIAL MESSAGE
     mvaddstrc(3, 1, lightGray, "The trial proceeds.  Jury selection is first.");
@@ -374,7 +410,11 @@ Future<void> trial(Creature g) async {
           );
           if (defense == 4) addjuice(sleeperlawyer!, 50, 1000); // Bow please
         } else {
-          addstr("$attorneyname! conducts an incredible defense.");
+          addstr(
+            "{attorney}! conducts an incredible defense.",
+            params: {"attorney": attorneyname},
+            noTranslate: true,
+          );
         }
       }
     }
@@ -491,7 +531,14 @@ Future<void> trial(Creature g) async {
 
   if (trialOutcome == TrialOutcome.acquittal) {
     if (g.sentence == 0) {
-      mvaddstrc(5, 1, lightGreen, "${g.name} is free!");
+      mvaddstrc(
+        5,
+        1,
+        lightGreen,
+        "{name} is free!",
+        params: {"name": g.name},
+        noTranslate: true,
+      );
     } else {
       mvaddstrc(5, 1, lightGray, g.name);
       addstr(
@@ -738,7 +785,11 @@ Future<void> penalize(Creature g, bool lenient) async {
         mvaddstr(9, 1, sentenceText);
       }
     } else if (g.sentence >= 36) {
-      addstr("${g.sentence ~/ 12} years in prison");
+      addstr(
+        "{years} years in prison",
+        params: {"years": (g.sentence ~/ 12).toString()},
+        noTranslate: true,
+      );
     } else {
       String monthText =
           "${g.sentence} month${g.sentence > 1 ? "s" : ""} in prison";

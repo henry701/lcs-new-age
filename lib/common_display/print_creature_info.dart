@@ -26,9 +26,20 @@ void printCreatureInfo(
       ? ShowCarPrefs.showPreferences
       : ShowCarPrefs.showActualCar;
   makeDelimiter(y: 1);
-  mvaddstrc(1, 2, lightGray, "${cr.name}, ${cr.title}");
+  mvaddstrc(
+    1,
+    2,
+    lightGray,
+    "{name}, {title}",
+    params: {"name": cr.name, "title": cr.title},
+    noTranslate: true,
+  );
   if (cr.isHoldingBody) {
-    addstr(", holding ${cr.prisoner?.type.hostageName ?? cr.prisoner?.name}");
+    addstr(
+      ", holding {hostage}",
+      params: {"hostage": cr.prisoner?.type.hostageName ?? cr.prisoner?.name},
+      noTranslate: true,
+    );
   }
   printAttributesAsKnowledgePermits(cr, knowledge);
 
@@ -53,12 +64,42 @@ void printCreatureInfo(
 }
 
 void printAttributesAsKnowledgePermits(Creature creature, int knowledge) {
-  mvaddstr(2, 0, "Str: ${creature.attribute(Attribute.strength)}");
-  mvaddstr(3, 0, "Agi: ${creature.attribute(Attribute.agility)}");
-  mvaddstr(4, 0, "Hrt: ${creature.attribute(Attribute.heart)}");
-  mvaddstr(2, 11, "Int: ${creature.attribute(Attribute.intelligence)}");
-  mvaddstr(3, 11, "Cha: ${creature.attribute(Attribute.charisma)}");
-  mvaddstr(4, 11, "Wis: ${creature.attribute(Attribute.wisdom)}");
+  mvaddstr(
+    2,
+    0,
+    "Str: {str}",
+    params: {"str": creature.attribute(Attribute.strength).toString()},
+  );
+  mvaddstr(
+    3,
+    0,
+    "Agi: {agi}",
+    params: {"agi": creature.attribute(Attribute.agility).toString()},
+  );
+  mvaddstr(
+    4,
+    0,
+    "Hrt: {hrt}",
+    params: {"hrt": creature.attribute(Attribute.heart).toString()},
+  );
+  mvaddstr(
+    2,
+    11,
+    "Int: {int}",
+    params: {"int": creature.attribute(Attribute.intelligence).toString()},
+  );
+  mvaddstr(
+    3,
+    11,
+    "Cha: {cha}",
+    params: {"cha": creature.attribute(Attribute.charisma).toString()},
+  );
+  mvaddstr(
+    4,
+    11,
+    "Wis: {wis}",
+    params: {"wis": creature.attribute(Attribute.wisdom).toString()},
+  );
 }
 
 enum ShowCarPrefs {
@@ -108,17 +149,32 @@ void printWeapon(Creature cr) {
   setColor(lightGray);
   if (cr.weapon.type.usesAmmo) {
     if (cr.weapon.ammo > 0) {
-      addstr(" ${cr.weapon.ammo}/${cr.spareAmmo?.stackSize ?? 0}");
+      addstr(
+        " {ammo}/{spare}",
+        params: {
+          "ammo": cr.weapon.ammo.toString(),
+          "spare": (cr.spareAmmo?.stackSize ?? 0).toString(),
+        },
+        noTranslate: true,
+      );
     } else {
       setColor(darkGray);
       if ((cr.spareAmmo?.stackSize ?? 0) > 0) {
-        addstr(" ${cr.spareAmmo!.stackSize}");
+        addstr(
+          " {spare}",
+          params: {"spare": cr.spareAmmo!.stackSize.toString()},
+          noTranslate: true,
+        );
       } else {
         addstr(" 0");
       }
     }
   } else if (cr.weapon.type.thrown) {
-    addstr(" ${cr.weapon.stackSize}");
+    addstr(
+      " {count}",
+      params: {"count": cr.weapon.stackSize.toString()},
+      noTranslate: true,
+    );
   }
 }
 
@@ -440,17 +496,35 @@ void printFullCreatureStats(
   }
   // Add attributes
   move(5, 0);
-  addstr("Heart: ${cr.attribute(Attribute.heart)}");
+  addstr(
+    "Heart: {heart}",
+    params: {"heart": cr.attribute(Attribute.heart).toString()},
+  );
   move(6, 0);
-  addstr("Intelligence: ${cr.attribute(Attribute.intelligence)}");
+  addstr(
+    "Intelligence: {int}",
+    params: {"int": cr.attribute(Attribute.intelligence).toString()},
+  );
   move(7, 0);
-  addstr("Wisdom: ${cr.attribute(Attribute.wisdom)}");
+  addstr(
+    "Wisdom: {wis}",
+    params: {"wis": cr.attribute(Attribute.wisdom).toString()},
+  );
   move(8, 0);
-  addstr("Agility: ${cr.attribute(Attribute.agility)}");
+  addstr(
+    "Agility: {agi}",
+    params: {"agi": cr.attribute(Attribute.agility).toString()},
+  );
   move(9, 0);
-  addstr("Strength: ${cr.attribute(Attribute.strength)}");
+  addstr(
+    "Strength: {str}",
+    params: {"str": cr.attribute(Attribute.strength).toString()},
+  );
   move(10, 0);
-  addstr("Charisma: ${cr.attribute(Attribute.charisma)}");
+  addstr(
+    "Charisma: {cha}",
+    params: {"cha": cr.attribute(Attribute.charisma).toString()},
+  );
 
   // Add highest skills
   Map<Skill, bool> used = {for (Skill s in Skill.values) s: false};
@@ -572,7 +646,11 @@ void printFullCreatureStats(
   int maxLovers = cr.maxRelationships;
   addstr("{lovers} Lover", params: {"lovers": lovers.toString()});
   if (lovers != 1) addstr("s");
-  addstr(" / $maxLovers Max");
+  addstr(
+    " / {max} Max",
+    params: {"max": maxLovers.toString()},
+    noTranslate: true,
+  );
   // Any dates with potential love interests scheduled?
   if (cr.scheduldeDates > 0) {
     move(20, 55);
@@ -644,7 +722,13 @@ void printFullCreatureCrimes(Creature cr) {
       setColor(darkGray);
     }
 
-    mvaddstr(5 + i ~/ 2, 40 * (i % 2), "${crime.wantedFor}: ");
+    mvaddstr(
+      5 + i ~/ 2,
+      40 * (i % 2),
+      "{crime}: ",
+      params: {"crime": crime.wantedFor},
+      noTranslate: true,
+    );
     mvaddstr(
       5 + i ~/ 2,
       30 + 40 * (i % 2),
@@ -658,7 +742,12 @@ void printFullCreatureCrimes(Creature cr) {
 void printFullCreatureNameBlock(Creature cr) {
   mvaddstrc(2, 0, lightGray, "Name: ");
   addstrc(white, cr.name);
-  addstrc(lightGray, ", ${cr.title} (${cr.type.name})");
+  addstrc(
+    lightGray,
+    ", {title} ({type})",
+    params: {"title": cr.title, "type": cr.type.name},
+    noTranslate: true,
+  );
 }
 
 void highlightColorForSkill(Creature cr, Skill skill) {

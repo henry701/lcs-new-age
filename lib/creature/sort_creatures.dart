@@ -4,12 +4,7 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 
-enum CreatureSortMethod {
-  none,
-  name,
-  locationAndName,
-  squadOrName,
-}
+enum CreatureSortMethod { none, name, locationAndName, squadOrName }
 
 enum SortingScreens {
   liberals,
@@ -42,7 +37,8 @@ enum SortingScreens {
 }
 
 int Function(Creature a, Creature b) creatureSortFunction(
-    CreatureSortMethod method) {
+  CreatureSortMethod method,
+) {
   switch (method) {
     case CreatureSortMethod.none:
       return (a, b) => 0;
@@ -52,8 +48,9 @@ int Function(Creature a, Creature b) creatureSortFunction(
       return (a, b) => (a.locationId ?? "").compareTo(b.locationId ?? "");
     case CreatureSortMethod.squadOrName:
       return (a, b) {
-        int squadComparison = (a.squadId ?? double.maxFinite)
-            .compareTo(b.squadId ?? double.maxFinite);
+        int squadComparison = (a.squadId ?? double.maxFinite).compareTo(
+          b.squadId ?? double.maxFinite,
+        );
         if (squadComparison != 0) return squadComparison;
         return a.name.compareTo(b.name);
       };
@@ -65,7 +62,10 @@ Future<void> sortingPrompt(SortingScreens sortScreen) async {
   erase();
   move(1, 1);
   setColor(lightGray);
-  addstr("Choose how to sort the list of ${sortScreen.description}.");
+  addstr(
+    "Choose how to sort the list of {description}.",
+    params: {"description": sortScreen.description},
+  );
   addOptionText(3, 2, "A", "A - No sorting.");
   addOptionText(4, 2, "B", "B - Sort by name.");
   addOptionText(5, 2, "C", "C - Sort by location and name.");
@@ -93,6 +93,9 @@ Future<void> sortingPrompt(SortingScreens sortScreen) async {
 }
 
 void sortLiberals(List<Creature> liberals, SortingScreens screen) {
-  liberals.sort(creatureSortFunction(
-      activeSortingChoice[screen] ?? CreatureSortMethod.none));
+  liberals.sort(
+    creatureSortFunction(
+      activeSortingChoice[screen] ?? CreatureSortMethod.none,
+    ),
+  );
 }

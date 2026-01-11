@@ -857,7 +857,12 @@ Future<void> siegeTurn() async {
           continue;
         }
         if (p.align != Alignment.liberal) {
-          mvaddstr(y++, 1, "${p.name} has been rescued.");
+          mvaddstr(
+            y++,
+            1,
+            "{name} has been rescued.",
+            params: {"name": p.name},
+          );
           await getKey();
           pool.remove(p);
           continue;

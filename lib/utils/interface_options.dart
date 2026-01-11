@@ -89,8 +89,13 @@ String pageStrWithCurrentAndMax(int current, int max) {
   return "$str - View other Liberal pages ($current/$max)";
 }
 
-void addPageButtons(
-    {int? y, int? x, int? current, int? max, bool short = false}) {
+void addPageButtons({
+  int? y,
+  int? x,
+  int? current,
+  int? max,
+  bool short = false,
+}) {
   y ??= console.y;
   x ??= console.x;
   move(y, x);
@@ -120,7 +125,11 @@ void addPageButtons(
   }
   if (current != null && max != null) {
     console.x += 1;
-    addstr("($current/$max)");
+    addstr(
+      "({current}/{max})",
+      params: {"current": current, "max": max},
+      noTranslate: true,
+    );
   }
 }
 
@@ -132,10 +141,10 @@ void addBackButton({int? y, int? x, String? text}) {
 }
 
 String pageStrWithCurrentAndMaxX(int current, int max) {
-  return pageStrWithCurrentAndMax(current, max)
-      .split(" ")
-      .mapIndexed((i, s) => i == 0 ? "&B$s&x" : s)
-      .join(" ");
+  return pageStrWithCurrentAndMax(
+    current,
+    max,
+  ).split(" ").mapIndexed((i, s) => i == 0 ? "&B$s&x" : s).join(" ");
 }
 
 bool isBackKey(int c) =>

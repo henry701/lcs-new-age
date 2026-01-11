@@ -154,13 +154,11 @@ Map<String, int> processArbFile(File file) {
   final json = jsonDecode(content) as Map<String, dynamic>;
   final originalCount = json.length;
 
-  // Create a new map, processing entries in reverse order to keep the last occurrence
+  // Process entries in reverse order to keep the last occurrence of each key
   final seenKeys = <String>{};
   final cleanedJson = <String, dynamic>{};
 
-  // Process in reverse order to keep the last occurrence
-  final reversedEntries = json.entries.toList().reversed;
-  for (final entry in reversedEntries) {
+  for (final entry in json.entries.toList().reversed) {
     if (!seenKeys.contains(entry.key)) {
       cleanedJson[entry.key] = entry.value;
       seenKeys.add(entry.key);

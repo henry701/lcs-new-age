@@ -5,9 +5,11 @@ Future<void> main() async {
 
   await hookFile.parent.create(recursive: true);
 
-  await hookFile.writeAsString('''
-#!/bin/sh
-exec dart run dart_pre_commit
+  await hookFile.writeAsString('''#!/bin/sh
+# Run dart_pre_commit with minimal output
+# Config in pubspec.yaml disables: format, flutter_compat, outdated, pull-up-dependencies
+# Only runs: analyze, test
+dart run dart_pre_commit --log-level=error
 ''');
 
   if (!Platform.isWindows) {

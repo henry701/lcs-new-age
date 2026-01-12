@@ -326,7 +326,7 @@ class CarTheftScene {
           started = true;
         } else {
           timesSearchedForKeys++;
-          mvaddstrc(y++, 0, white, cr.name);
+          mvaddstrc(y++, 0, white, cr.name, noTranslate: true);
           addstr(": <rummaging> ");
           setColor(lightGreen);
           if (timesSearchedForKeys == 5) {

@@ -681,7 +681,7 @@ void showInterrogationSidebar(InterrogationSession intr, Creature a) {
   setColor(lightGray);
   addstr("Lead Interrogator: ");
   setColor(lightGreen);
-  addstr(a.name);
+  addstr(a.name, noTranslate: true);
   move(y += 2, 40);
   setColor(lightGray);
   addstr("Health: ");

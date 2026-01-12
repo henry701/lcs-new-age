@@ -27,7 +27,7 @@ Future<void> doActivityTrouble(List<Creature> trouble) async {
   if (trouble.length > 1) {
     message = "Your Activists ";
   } else {
-    message = "${trouble[0].name} ";
+    message = "{name} ";
   }
 
   int power = 0;
@@ -228,7 +228,13 @@ Future<void> doActivityTrouble(List<Creature> trouble) async {
 
   if (!disbanding) {
     makeDelimiter();
-    mvaddstrc(8, 1, lightGray, message);
+    mvaddstrc(
+      8,
+      1,
+      lightGray,
+      message,
+      params: trouble.length == 1 ? {"name": trouble[0].name} : null,
+    );
     await getKey();
     message = "";
 

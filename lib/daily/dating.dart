@@ -359,17 +359,24 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     String vacationText;
     if (p.blood == p.maxBlood) {
       if (sameCity) {
-        vacationText =
-            "C - Spend a week and \$$vacationPrice on a cheap vacation (stands up other dates).";
+        vacationText = LcsI18n.processString(
+          "C - Spend a week and \${price} on a cheap vacation (stands up other dates).",
+          {"price": vacationPrice.toString()},
+        );
       } else {
         vacationText = LcsI18n.processString(
-          "C - Spend \$$vacationPrice to visit {firstName} for a week (stands up other dates).",
-          {"firstName": e.name.split(' ').first},
+          "C - Spend \${price} to visit {firstName} for a week (stands up other dates).",
+          {
+            "price": vacationPrice.toString(),
+            "firstName": e.name.split(' ').first,
+          },
         );
       }
     } else {
-      vacationText =
-          "C - Spend a week and \$$vacationPrice on a cheap vacation (must be uninjured).";
+      vacationText = LcsI18n.processString(
+        "C - Spend a week and \${price} on a cheap vacation (must be uninjured).",
+        {"price": vacationPrice.toString()},
+      );
     }
     addOptionText(13, 0, "C", vacationText, enabledWhen: canGoOnVacation);
 

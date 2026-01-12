@@ -360,12 +360,12 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     if (p.blood == p.maxBlood) {
       if (sameCity) {
         vacationText = LcsI18n.processString(
-          "C - Spend a week and \${price} on a cheap vacation (stands up other dates).",
+          "C - Spend a week and {price} on a cheap vacation (stands up other dates).",
           {"price": vacationPrice.toString()},
         );
       } else {
         vacationText = LcsI18n.processString(
-          "C - Spend \${price} to visit {firstName} for a week (stands up other dates).",
+          "C - Spend {price} to visit {firstName} for a week (stands up other dates).",
           {
             "price": vacationPrice.toString(),
             "firstName": e.name.split(' ').first,
@@ -374,7 +374,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       }
     } else {
       vacationText = LcsI18n.processString(
-        "C - Spend a week and \${price} on a cheap vacation (must be uninjured).",
+        "C - Spend a week and {price} on a cheap vacation (must be uninjured).",
         {"price": vacationPrice.toString()},
       );
     }

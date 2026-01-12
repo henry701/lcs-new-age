@@ -30,8 +30,10 @@ Future<void> _selectRecruitTarget(Creature cr) async {
   erase();
   cr.activity = Activity(ActivityType.recruiting);
   await pagedInterface(
-    headerPrompt:
-        "What type of person will ${cr.name} try to meet and recruit?",
+    headerPrompt: LcsI18n.processString(
+      "What type of person will {name} try to meet and recruit?",
+      {"name": cr.name},
+    ),
     headerKey: {4: "TYPE", 49: "DIFFICULTY TO ARRANGE MEETING"},
     footerPrompt: "Press a Letter to select a Profession",
     count: recruitableCreatures.length,

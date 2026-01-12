@@ -64,7 +64,11 @@ Future<void> doActivityRecruit(Creature cr) async {
     );
     addstrc(
       encounter[0].align.color,
-      "${encounter[0].name} ${creatureAgeAndGender(encounter[0])}",
+      "{name} {ageGender}",
+      params: {
+        "name": encounter[0].name,
+        "ageGender": creatureAgeAndGender(encounter[0]),
+      },
     );
     addstrc(lightGray, ".");
     await getKey();

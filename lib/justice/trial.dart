@@ -813,8 +813,12 @@ Future<void> penalize(Creature g, bool lenient) async {
           );
         }
       } else {
-        String sentenceText = "${g.sentence ~/ 12} years in prison";
-        mvaddstr(9, 1, sentenceText);
+        mvaddstr(
+          9,
+          1,
+          "{years} years in prison",
+          params: {"years": (g.sentence ~/ 12).toString()},
+        );
       }
     } else if (g.sentence >= 36) {
       addstr(
@@ -822,9 +826,13 @@ Future<void> penalize(Creature g, bool lenient) async {
         params: {"years": (g.sentence ~/ 12).toString()},
       );
     } else {
-      String monthText =
-          "${g.sentence} month${g.sentence > 1 ? "s" : ""} in prison";
-      addstr(monthText);
+      addstr(
+        "{months} month{plural} in prison",
+        params: {
+          "months": g.sentence.toString(),
+          "plural": g.sentence > 1 ? "s" : "",
+        },
+      );
     }
 
     // Mash together compatible sentences.

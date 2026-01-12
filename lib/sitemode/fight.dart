@@ -13,6 +13,7 @@ import 'package:lcs_new_age/creature/dice.dart';
 import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/items/attack.dart';
@@ -793,16 +794,21 @@ Future<bool> attack(
     }
 
     // Build the action and multiple hits description
-    String action;
+    String actionTemplate;
+    String actionParams = "";
     String multiHitDesc = "";
     if (addAutoConvert) {
-      action = " punches the ${t.align.ism} out of ${t.name}";
+      actionTemplate = " punches the {ism} out of {name}";
+      actionParams = LcsI18n.format("", {"ism": t.align.ism, "name": t.name});
     } else if (sneakAttack) {
-      action = " stabs the $targetDesc";
+      actionTemplate = " stabs {target}";
+      actionParams = targetDesc;
     } else if (bursthits == 1 || attackUsed.ranged) {
-      action = " hits $targetDesc";
+      actionTemplate = " hits {target}";
+      actionParams = targetDesc;
     } else {
-      action = " hits $targetDesc";
+      actionTemplate = " hits {target}";
+      actionParams = targetDesc;
     }
 
     // show multiple hits
@@ -813,15 +819,29 @@ Future<bool> attack(
         3 => " three times",
         4 => " four times",
         5 => " five times",
-        _ => " $bursthits times",
+        _ => " {times} times",
       };
       if (bursthits > 1 && !attackUsed.ranged && !addAutoConvert) {
-        action = "${a.name} strikes true on $targetDesc";
+        actionTemplate = "{attacker} strikes true on {target}";
+        actionParams = LcsI18n.format("", {
+          "attacker": a.name,
+          "target": targetDesc,
+        });
       }
-      multiHitDesc = ", ${attackUsed.hitDescription}$multiHit";
+      multiHitDesc = LcsI18n.processString(", {description}{hit}", {
+        "description": attackUsed.hitDescription,
+        "hit": multiHit,
+      });
     }
 
-    String fullMessage = "$a.name$action$multiHitDesc";
+    String fullMessage = LcsI18n.processString(
+      "{attacker}{action}{multiHitDesc}",
+      {
+        "attacker": a.name,
+        "action": LcsI18n.format(actionTemplate, {"target": actionParams}),
+        "multiHitDesc": multiHitDesc,
+      },
+    );
     if (addAutoConvert) {
       addstr("{message}!", params: {"message": fullMessage});
     } else {

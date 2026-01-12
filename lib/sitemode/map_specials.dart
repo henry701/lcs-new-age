@@ -480,7 +480,13 @@ Future<void> specialNuclearOnOff() async {
   }
 
   if (maxs != null) {
-    mvaddstrc(9, 1, white, "${maxs.name} presses the big red button!");
+    mvaddstrc(
+      9,
+      1,
+      white,
+      "{name} presses the big red button!",
+      params: {"name": maxs.name},
+    );
     await getKey();
 
     mvaddstr(10, 1, ".");
@@ -694,32 +700,37 @@ Future<void> specialCourthouseJury() async {
   if (succeed) {
     if (laws[Law.deathPenalty] == DeepAlignment.archConservative) {
       await encounterMessage(
-        "${maxp.name} works the room like in Twelve Angry Men, and the jury ",
-        line2: "concludes that $crime isn't worth yet another execution.",
+        "{name} works the room like in Twelve Angry Men, and the jury ",
+        line2: "concludes that {crime} isn't worth yet another execution.",
+        params: {"name": maxp.name, "crime": crime},
       );
       addjuice(maxp, 25, 1000);
     } else {
       await encounterMessage(
-        "${maxp.name} works the room like in Twelve Angry Men, and the jury ",
-        line2: "concludes that $crime wasn't really wrong here.",
+        "{name} works the room like in Twelve Angry Men, and the jury ",
+        line2: "concludes that {crime} wasn't really wrong here.",
+        params: {"name": maxp.name, "crime": crime},
       );
       addjuice(maxp, 25, 200);
     }
   } else {
     if (successPersuasion) {
       await encounterMessage(
-        "${maxp.name} charms the jury into not calling the guards, but fails ",
-        line2: "to show why $crime should go unpunished.",
+        "{name} charms the jury into not calling the guards, but fails ",
+        line2: "to show why {crime} should go unpunished.",
+        params: {"name": maxp.name, "crime": crime},
       );
     } else if (successLaw) {
       await encounterMessage(
-        "${maxp.name} presents a complex lecture on the many nuances of ",
-        line2: "the law around $crime, but the jurors just fall asleep.",
+        "{name} presents a complex lecture on the many nuances of ",
+        line2: "the law around {crime}, but the jurors just fall asleep.",
+        params: {"name": maxp.name, "crime": crime},
       );
     } else {
       await encounterMessage(
-        "${maxp.name} tries to work the room like in Twelve Angry Men, but ",
+        "{name} tries to work the room like in Twelve Angry Men, but ",
         line2: "only manages to produce Twelve Angry Jurors.",
+        params: {"name": maxp.name},
       );
       fillEncounter(CreatureTypeIds.juror, 12);
       printEncounter();

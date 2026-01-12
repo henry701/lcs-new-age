@@ -63,16 +63,15 @@ Future<UnlockResult> unlock(UnlockTypes type) async {
         p.train(Skill.security, 6 * difficulty);
       }
       clearMessageArea();
-      String unlockMessage = switch (type) {
-        UnlockTypes.door => "${p.name} unlocks the door!",
-        UnlockTypes.cageHard ||
-        UnlockTypes.cage => "${p.name} unlocks the cage!",
-        UnlockTypes.safe => "${p.name} cracks the safe!",
-        UnlockTypes.armory => "${p.name} opens the armory!",
-        UnlockTypes.cell => "${p.name} unlocks the cell!",
-        UnlockTypes.vault => "${p.name} cracks the combo locks!",
+      String unlockMessageTemplate = switch (type) {
+        UnlockTypes.door => "{name} unlocks the door!",
+        UnlockTypes.cageHard || UnlockTypes.cage => "{name} unlocks the cage!",
+        UnlockTypes.safe => "{name} cracks the safe!",
+        UnlockTypes.armory => "{name} opens the armory!",
+        UnlockTypes.cell => "{name} unlocks the cell!",
+        UnlockTypes.vault => "{name} cracks the combo locks!",
       };
-      mvaddstrc(9, 1, white, unlockMessage);
+      mvaddstrc(9, 1, white, unlockMessageTemplate, params: {"name": p.name});
 
       //If people witness a successful unlock, they learn a little bit.
       for (Creature j in activeSquad!.livingMembers.where((j) => j != p)) {
@@ -188,16 +187,14 @@ Future<UnlockResult> bash(BashTypes type) async {
 
   if (crowable || maxp.attributeCheck(Attribute.strength, difficulty)) {
     clearMessageArea();
-    String bashMessage = switch (type) {
-      BashTypes.door when crowable =>
-        "${maxp.name} uses a crowbar on the door!",
+    String bashMessageTemplate = switch (type) {
+      BashTypes.door when crowable => "{name} uses a crowbar on the door!",
       BashTypes.door when maxp.weapon.type.bashStrengthModifier > 1 =>
-        "${maxp.name} smashes in the door!",
-      BashTypes.door when maxp.hasWheelchair =>
-        "${maxp.name} rams open the door!",
-      BashTypes.door => "${maxp.name} kicks in the door!",
+        "{name} smashes in the door!",
+      BashTypes.door when maxp.hasWheelchair => "{name} rams open the door!",
+      BashTypes.door => "{name} kicks in the door!",
     };
-    mvaddstrc(9, 1, white, bashMessage);
+    mvaddstrc(9, 1, white, bashMessageTemplate, params: {"name": maxp.name});
 
     await getKey();
 
@@ -225,12 +222,17 @@ Future<UnlockResult> bash(BashTypes type) async {
     return UnlockResult.bashed;
   } else {
     clearMessageArea();
-    String bashFailMessage = switch (type) {
-      BashTypes.door when maxp.hasWheelchair =>
-        "${maxp.name} rams into the door!",
-      BashTypes.door => "${maxp.name} kicks the door!",
+    String bashFailMessageTemplate = switch (type) {
+      BashTypes.door when maxp.hasWheelchair => "{name} rams into the door!",
+      BashTypes.door => "{name} kicks the door!",
     };
-    mvaddstrc(9, 1, white, bashFailMessage);
+    mvaddstrc(
+      9,
+      1,
+      white,
+      bashFailMessageTemplate,
+      params: {"name": maxp.name},
+    );
 
     await getKey();
 
@@ -268,7 +270,13 @@ Future<UnlockResult> hack(HackTypes type) async {
     if (maxattack > difficulty) {
       clearMessageArea();
       if (hacker.skill(Skill.computers) < 2) {
-        mvaddstrc(9, 1, white, "${hacker.name} presses buttons randomly...");
+        mvaddstrc(
+          9,
+          1,
+          white,
+          "{name} presses buttons randomly...",
+          params: {"name": hacker.name},
+        );
         await getKey();
         mvaddstr(10, 1, "...and accidentally ");
         String action = switch (type) {
@@ -276,9 +284,19 @@ Future<UnlockResult> hack(HackTypes type) async {
           HackTypes.vault => "disables the second layer of security",
         };
         if (blind) {
-          mvaddstr(10, 1, "...and accidentally $action despite being blind!");
+          mvaddstr(
+            10,
+            1,
+            "...and accidentally {action} despite being blind!",
+            params: {"action": action},
+          );
         } else {
-          mvaddstr(10, 1, "...and accidentally $action!");
+          mvaddstr(
+            10,
+            1,
+            "...and accidentally {action}!",
+            params: {"action": action},
+          );
         }
       } else {
         String action = switch (type) {
@@ -286,9 +304,21 @@ Future<UnlockResult> hack(HackTypes type) async {
           HackTypes.vault => "bypass the vault's electronic lock",
         };
         if (blind) {
-          mvaddstrc(9, 1, white, "${hacker.name} couldn't see how to $action!");
+          mvaddstrc(
+            9,
+            1,
+            white,
+            "{name} couldn't see how to {action}!",
+            params: {"name": hacker.name, "action": action},
+          );
         } else {
-          mvaddstrc(9, 1, white, "${hacker.name} couldn't $action!");
+          mvaddstrc(
+            9,
+            1,
+            white,
+            "{name} couldn't {action}!",
+            params: {"name": hacker.name, "action": action},
+          );
         }
       }
 
@@ -297,7 +327,7 @@ Future<UnlockResult> hack(HackTypes type) async {
       return UnlockResult.unlocked;
     } else {
       clearMessageArea();
-      mvaddstrc(9, 1, white, hacker.name);
+      mvaddstrc(9, 1, white, "{name}", params: {"name": hacker.name});
       if (hacker.skill(Skill.computers) < 2) {
         addstr(" presses buttons randomly...");
         await getKey();

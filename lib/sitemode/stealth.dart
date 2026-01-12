@@ -54,7 +54,8 @@ Future<void> noticeCheck({
         9,
         1,
         red,
-        "${e.name} observes your Liberal activity $reaction",
+        "{name} observes your Liberal activity {reaction}",
+        params: {"name": e.name, "reaction": reaction},
       );
 
       siteAlarm = true;
@@ -289,7 +290,10 @@ Future<void> disguisecheck(int timer) async {
         if (partysize > 1) {
           addstr("The squad fades into the shadows.");
         } else {
-          addstr("${squad[0].name} fades into the shadows.");
+          addstr(
+            "{name} fades into the shadows.",
+            params: {"name": squad[0].name},
+          );
         }
 
         await getKey();
@@ -393,7 +397,13 @@ Future<void> disguisecheck(int timer) async {
           : n.align == Alignment.conservative
           ? "and lets forth a piercing Conservative alarm cry!"
           : "and shouts for help!";
-      mvaddstrc(9, 1, red, "$n.name$reaction $alarm");
+      mvaddstrc(
+        9,
+        1,
+        red,
+        "{name}{reaction} {alarm}",
+        params: {"name": n.name, "reaction": reaction, "alarm": alarm},
+      );
 
       siteAlarm = true;
     }

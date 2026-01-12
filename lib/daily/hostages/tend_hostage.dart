@@ -225,10 +225,10 @@ Future<void> tendHostage(InterrogationSession intr) async {
       }
       addInlineOptionText(
         letter,
-        "$letter - $text",
+        "{letter} - {text}",
+        params: {"letter": letter, "text": text},
         enabledWhen: ledger.funds >= cost && enabled,
         baseColorKey: active ? colorKey : ColorKey.midGray,
-        params: params,
         noTranslate: noTranslate,
       );
     }

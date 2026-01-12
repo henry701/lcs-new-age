@@ -7,6 +7,7 @@ import 'package:lcs_new_age/daily/activities/arrest.dart';
 import 'package:lcs_new_age/daily/activities/hardliner_fight.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -26,7 +27,8 @@ Future<void> doActivityTrouble(List<Creature> trouble) async {
   if (trouble.length > 1) {
     message = "Your Activists ";
   } else {
-    message = "${trouble[0].name} ";
+    message =
+        "${LcsI18n.processString("{name}", {"name": trouble[0].name}, noTranslate: true)} ";
   }
 
   int power = 0;
@@ -68,9 +70,12 @@ Future<void> doActivityTrouble(List<Creature> trouble) async {
         juiceval = 2;
         crime = Crime.disturbingThePeace;
       case View.nuclearPower:
-        message +=
-            "dressed up and pretended to be ${trouble.length > 1 ? "" : "a "}"
-            "radioactive mutant${trouble.length > 1 ? "s" : ""}!";
+        String articlePrefix = trouble.length > 1 ? "" : "a ";
+        String pluralSuffix = trouble.length > 1 ? "s" : "";
+        message = LcsI18n.processString(
+          "{prefix}dressed up and pretended to be {article}radioactive mutant{plural}!",
+          {"prefix": message, "article": articlePrefix, "plural": pluralSuffix},
+        );
         juiceval = 1;
       case View.pollution:
         message += "squirted business people with fake polluted water!";

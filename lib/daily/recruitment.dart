@@ -204,11 +204,13 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     params: {"name": p.name},
   );
 
+  String articlePart = inPerson ? " " : "n e-";
   addOptionText(
     13,
     0,
     "A",
-    "A - Spend \$50 on props and a${inPerson ? " " : "n e-"}book for them to keep.",
+    "A - Spend \$50 on props and a{articlePart}book for them to keep.",
+    params: {"articlePart": articlePart},
     enabledWhen: ledger.funds >= 50,
   );
   addOptionText(

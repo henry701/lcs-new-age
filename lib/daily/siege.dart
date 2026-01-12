@@ -1163,15 +1163,22 @@ Future<void> siegeTurn() async {
           erase();
           setColor(lightGray);
           String publicationName = "$newsNameA $newsNameB";
-          String newsBody =
-              "Elite Journalist ${repname.firstLast} from the $newsType $publicationName "
-              "got into the compound somehow!";
+          String newsBody = LcsI18n.processString(
+            "Elite Journalist {journalist} from the {newsType} {publication} got into the compound somehow!",
+            {
+              "journalist": repname.firstLast,
+              "newsType": newsType,
+              "publication": publicationName,
+            },
+          );
           addparagraph(1, 1, newsBody);
           await getKey();
 
           NewsStory ns = NewsStory.unpublished(NewsStories.majorEvent);
           ns.loc = l;
-          ns.byline = "By ${repname.firstLast}";
+          ns.byline = LcsI18n.format("By {journalist}", {
+            "journalist": repname.firstLast,
+          });
           ns.publicationName = publicationName;
           ns.publicationAlignment = DeepAlignment.moderate;
           ns.headline = "INTERVIEW: LCS UNDER SIEGE";
@@ -1199,7 +1206,10 @@ Future<void> siegeTurn() async {
             }
           }
 
-          String paragraph = "${pool[best].name} decides to give an interview.";
+          String paragraph = LcsI18n.processString(
+            "{name} decides to give an interview.",
+            {"name": pool[best].name},
+          );
           newsBody += "\n\n$paragraph";
           addparagraph(console.y + 1, 1, paragraph);
           await getKey();
@@ -1227,29 +1237,39 @@ Future<void> siegeTurn() async {
                 "They're banging at the door, yelling \"Time to go!\"\n"
                 "The revolution's here, and the fight's at my door,\n"
                 "But I'd rather just get high and let my mind explore";
-            String paragraph =
-                "${repname.firstLast} canceled the interview halfway through "
-                "and later used the material for a Broadway play called "
-                "$playName.";
+            String paragraph = LcsI18n.processString(
+              "{journalist} canceled the interview halfway through "
+              "and later used the material for a Broadway play called {playName}.",
+              {"journalist": repname.firstLast, "playName": playName},
+            );
             addparagraph(console.y + 1, 1, paragraph);
             itsAboutDrugs = true;
           } else if (segmentpower < 20) {
-            String paragraph =
-                "But the interview is so boring that ${repname.firstLast} falls asleep.";
+            String paragraph = LcsI18n.processString(
+              "But the interview is so boring that {journalist} falls asleep.",
+              {"journalist": repname.firstLast},
+            );
             newsBody += "\n\n$paragraph";
             addparagraph(console.y + 1, 1, paragraph);
           } else if (segmentpower < 25) {
-            String paragraph =
-                "But ${pool[best].name} stutters nervously the whole time.";
+            String paragraph = LcsI18n.processString(
+              "But {name} stutters nervously the whole time.",
+              {"name": pool[best].name},
+            );
             newsBody += "\n\n$paragraph";
             addparagraph(console.y + 1, 1, paragraph);
           } else if (segmentpower < 30) {
-            String paragraph =
-                "${pool[best].name}'s verbal finesse leaves something to be desired.";
+            String paragraph = LcsI18n.processString(
+              "{name}'s verbal finesse leaves something to be desired.",
+              {"name": pool[best].name},
+            );
             newsBody += "\n\n$paragraph";
             addparagraph(console.y + 1, 1, paragraph);
           } else if (segmentpower < 35) {
-            String paragraph = "${pool[best].name} represents the LCS well.";
+            String paragraph = LcsI18n.processString(
+              "{name} represents the LCS well.",
+              {"name": pool[best].name},
+            );
             newsBody += "\n\n$paragraph";
             addparagraph(console.y + 1, 1, paragraph);
           } else if (segmentpower < 50) {
@@ -1259,9 +1279,11 @@ Future<void> siegeTurn() async {
             newsBody += "\n\n$paragraph";
             addparagraph(console.y + 1, 1, paragraph);
           } else {
-            String paragraph =
-                "${repname.firstLast} later went on to win a Pulitzer for it. "
-                "Virtually everyone in America was moved by ${pool[best].name}'s words.";
+            String paragraph = LcsI18n.processString(
+              "{journalist} later went on to win a Pulitzer for it. "
+              "Virtually everyone in America was moved by {name}'s words.",
+              {"journalist": repname.firstLast, "name": pool[best].name},
+            );
             newsBody += "\n\n$paragraph";
             addparagraph(console.y + 1, 1, paragraph);
           }

@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
@@ -98,17 +97,32 @@ Future<void> doActivityMakeClothing(Creature cr) async {
         );
         await getKey();
       case 1:
-        await showMessage(
-          "${cr.name} wasted the materials for a ${clothing.name}.",
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          "{name} wasted the materials for a {clothing}.",
+          params: {"name": cr.name, "clothing": clothing.name},
         );
+        await getKey();
       case 2:
-        await showMessage(
-          "${cr.name} tried to make ${clothing.name}, but failed.",
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          "{name} tried to make {clothing}, but failed.",
+          params: {"name": cr.name, "clothing": clothing.name},
         );
+        await getKey();
       case 3:
-        await showMessage(
-          "${cr.name} made a horrible nightmare of cloth and stitching.",
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          "{name} made a horrible nightmare of cloth and stitching.",
+          params: {"name": cr.name},
         );
+        await getKey();
       case 4:
         mvaddstrc(
           8,
@@ -119,13 +133,23 @@ Future<void> doActivityMakeClothing(Creature cr) async {
         );
         await getKey();
       case 5:
-        await showMessage(
-          "${cr.name} got inches and feet mixed up and is now drowning in cloth.",
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          "{name} got inches and feet mixed up and is now drowning in cloth.",
+          params: {"name": cr.name},
         );
+        await getKey();
       case 6:
-        await showMessage(
-          "${cr.name} got feet and inches mixed up and is now outfitting ants.",
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          "{name} got feet and inches mixed up and is now outfitting ants.",
+          params: {"name": cr.name},
         );
+        await getKey();
     }
     cr.site?.loot.add(Loot("LOOT_RECYCLEDCLOTH"));
   }

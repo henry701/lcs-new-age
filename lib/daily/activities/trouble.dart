@@ -5,12 +5,14 @@ import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/activities/arrest.dart';
 import 'package:lcs_new_age/daily/activities/hardliner_fight.dart';
+import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/views.dart';
+import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Future<void> doActivityTrouble(List<Creature> trouble) async {
@@ -221,7 +223,9 @@ Future<void> doActivityTrouble(List<Creature> trouble) async {
   politics.addBackgroundInfluence(issue, mod);
 
   if (!disbanding) {
-    await showMessage(message);
+    makeDelimiter();
+    mvaddstrc(8, 1, lightGray, message);
+    await getKey();
     message = "";
 
     if (crime != null) {

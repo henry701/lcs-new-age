@@ -17,6 +17,7 @@ import 'package:lcs_new_age/daily/hostages/traumatize.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -376,8 +377,16 @@ Future<void> tendHostage(InterrogationSession intr) async {
     addparagraph(
       y,
       0,
-      "${lead.name} attempts to recruit ${cr.name} to the Liberal Crime Squad. "
-      "As the pitch goes on, ${cr.gender.heShe} $reaction",
+      LcsI18n.processString(
+        "{lead} attempts to recruit {name} to the Liberal Crime Squad. "
+        "As the pitch goes on, {gender} {reaction}",
+        {
+          "lead": lead.name,
+          "name": cr.name,
+          "gender": cr.gender.heShe,
+          "reaction": reaction,
+        },
+      ),
     );
     y = console.y + 1;
 
@@ -406,8 +415,16 @@ Future<void> tendHostage(InterrogationSession intr) async {
       addparagraph(
         y,
         0,
-        "${lead.name} attempts to recruit ${cr.name} to the Liberal Crime Squad. "
-        "As the pitch goes on, ${cr.gender.heShe} $reaction",
+        LcsI18n.processString(
+          "{lead} attempts to recruit {name} to the Liberal Crime Squad. "
+          "As the pitch goes on, {gender} {reaction}",
+          {
+            "lead": lead.name,
+            "name": cr.name,
+            "gender": cr.gender.heShe,
+            "reaction": reaction,
+          },
+        ),
       );
       cr.hireId = lead.id;
       cr.juice = 0;
@@ -457,7 +474,10 @@ Future<void> tendHostage(InterrogationSession intr) async {
       addparagraph(
         y,
         0,
-        "${cr.name} rejects the offer to join. ${cr.gender.heSheCap} $reaction",
+        LcsI18n.processString(
+          "{name} rejects the offer to join. {gender} {reaction}",
+          {"name": cr.name, "gender": cr.gender.heSheCap, "reaction": reaction},
+        ),
       );
 
       // Failed recruitment attempt increases wisdom slightly

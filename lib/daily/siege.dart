@@ -2140,20 +2140,46 @@ Future<void> stateBrokenLaws(Site loc) async {
 
   //KIDNAP VICTIM
   if (kidnapped > 0) {
-    String releaseText = kidnapped > 1
-        ? "Release $kname and the others unharmed!"
-        : "Release $kname unharmed!";
-    mvaddstrc(4, 1, lightGray, releaseText);
+    if (kidnapped > 1) {
+      mvaddstrc(
+        4,
+        1,
+        lightGray,
+        "Release {name} and the others unharmed!",
+        params: {"name": kname},
+      );
+    } else {
+      mvaddstrc(
+        4,
+        1,
+        lightGray,
+        "Release {name} unharmed!",
+        params: {"name": kname},
+      );
+    }
   } else {
     String crimeName =
         Crime.values
             .firstWhereOrNull((c) => brokenLaws.contains(c))
             ?.wantedFor ??
         "questioning";
-    String crimeText = typenum > 1
-        ? "You are wanted for $crimeName and other crimes!"
-        : "You are wanted for $crimeName!";
-    mvaddstrc(4, 1, red, crimeText);
+    if (typenum > 1) {
+      mvaddstrc(
+        4,
+        1,
+        red,
+        "You are wanted for {crime} and other crimes!",
+        params: {"crime": crimeName},
+      );
+    } else {
+      mvaddstrc(
+        4,
+        1,
+        red,
+        "You are wanted for {crime}!",
+        params: {"crime": crimeName},
+      );
+    }
   }
 
   await getKey();

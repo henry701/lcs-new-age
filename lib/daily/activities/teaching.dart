@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -64,8 +65,9 @@ Future<void> doActivityTeach(List<Creature> teachers) async {
     List<Creature> students = [];
     City? city = teacher.site?.city;
     Iterable<Location> locations = allLocations.where((l) => l.city == city);
-    Iterable<String> siteIdsInJusticeSystem =
-        sites.where((s) => s.isPartOfTheJusticeSystem).map((s) => s.idString);
+    Iterable<String> siteIdsInJusticeSystem = sites
+        .where((s) => s.isPartOfTheJusticeSystem)
+        .map((s) => s.idString);
     Iterable<String> siteIds = locations.map((s) => s.idString);
     for (Creature p in pool) {
       if (p != teacher &&
@@ -92,7 +94,11 @@ Future<void> doActivityTeach(List<Creature> teachers) async {
     int totalCost = cost * min(workload, 10);
     if (ledger.funds < totalCost) {
       await showMessage(
-          "${teacher.name} couldn't afford the supplies to run their class.");
+        LcsI18n.processString(
+          "{name} couldn't afford the supplies to run their class.",
+          {"name": teacher.name},
+        ),
+      );
       continue;
     } else {
       ledger.subtractFunds(totalCost, Expense.training);
@@ -110,7 +116,8 @@ Future<void> doActivityTeach(List<Creature> teachers) async {
         }
         // Teach based on teacher's skill in the topic plus skill in teaching, minus
         // student's skill in the topic
-        int teach = teacher.skill(skill) +
+        int teach =
+            teacher.skill(skill) +
             teacher.skill(Skill.teaching) * 3 -
             p.skill(skill);
         //at ten students, cost no longer goes up, but effectiveness goes down.
@@ -128,7 +135,11 @@ Future<void> doActivityTeach(List<Creature> teachers) async {
     }
     if (workload == 0) {
       await showMessage(
-          "${teacher.name} has no students and will stop ${teacher.activity.description}.");
+        LcsI18n.processString(
+          "{name} has no students and will stop {activity}.",
+          {"name": teacher.name, "activity": teacher.activity.description},
+        ),
+      );
       teacher.activity = Activity(ActivityType.none);
     }
   }

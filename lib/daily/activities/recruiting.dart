@@ -85,7 +85,8 @@ Future<void> doActivityRecruit(Creature cr) async {
         10,
         0,
         lightGray,
-        "${cr.name} was able to get information on multiple people.",
+        "{name} was able to get information on multiple people.",
+        params: {"name": cr.name},
       );
       for (int i = 0; i < recruitCount; i++) {
         String letter = letterAPlus(i);

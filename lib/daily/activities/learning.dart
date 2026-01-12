@@ -85,7 +85,10 @@ Future<void> doActivityStudy(List<Creature> students) async {
     if (_maxed(student, skill)) {
       student.activity = Activity.none();
       await showMessage(
-        "${student.name} has reached $hisHer potential in ${skill.displayName}.",
+        LcsI18n.processString(
+          "{name} has reached {hisHer} potential in {skill}.",
+          {"name": student.name, "hisHer": hisHer, "skill": skill.displayName},
+        ),
       );
     }
   }

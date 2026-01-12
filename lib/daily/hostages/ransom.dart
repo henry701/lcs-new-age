@@ -75,7 +75,7 @@ Future<void> handleRansomNote(
     y,
     0,
     LcsI18n.processString(
-      "{lead} prepares a ransom demand by {method}. The demand is set at \$1000. It may take some time for a response...",
+      "{lead} prepares a ransom demand by {method}. The demand is set at {amount}. It may take some time for a response...",
       {
         "lead": lead.name,
         "method": [
@@ -85,7 +85,7 @@ Future<void> handleRansomNote(
           "recording audio of {hostage} reading a prepared statement",
         ].random,
         "hostage": cr.name,
-        "\$1000": "\$${intr.ransomAmount}",
+        "amount": "\$${intr.ransomAmount}",
       },
     ),
   );
@@ -157,11 +157,11 @@ Future<bool> handleRansomPayment(
     0,
     LcsI18n.processString(
       [
-        "\$1000 has been collected in cash according to the instructions provided. Please advise on the location you wish the money to be placed then return {name} to us unharmed.",
-        "We have placed the money in the location you requested. It's yours. Just give us our dear {name} back.",
+        "{amount} has been collected in cash according to the instructions provided. Please advise on the location you wish the money to be placed then return {name} to us unharmed.",
+        "We have placed the money in the location you requested. It's yours. Just give our dear {name} back.",
         "We will do anything to get {name} back. The money is in the location you specified. We are trusting you. Please keep your word.",
       ].random,
-      {"\$1000": "\$${intr.ransomAmount}", "name": cr.properName},
+      {"amount": "\$${intr.ransomAmount}", "name": cr.properName},
     ),
   );
   y = console.y + 1;

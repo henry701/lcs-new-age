@@ -677,8 +677,8 @@ Future<void> siegeCheck() async {
         if (agentsleeper != null) {
           erase();
           String agentText = LcsI18n.processString(
-            "${agentsleeper.name} has sent word that the CIA is planning ",
-            null,
+            "{agent} has sent word that the CIA is planning ",
+            {"agent": agentsleeper.name},
           );
           mvaddstrc(8, 1, white, agentText);
           mvaddstr(
@@ -2085,11 +2085,17 @@ Future<void> conquerTextCCS() async {
           "of the CCS's morale and confidence is shattered.\n\n";
     }
 
+    String pacifistAction = pacifist ? "neutralized" : "destroyed";
+    String ccsAction = pacifist ? "CONVERTING" : "ERADICATING";
     text +=
-        "The CCS has been completely ${pacifist ? "neutralized" : "destroyed"}.  Now wasn't there a "
+        "The CCS has been completely {pacifistAction}.  Now wasn't there a "
         "revolution to attend to?\n\n";
     text +=
-        "+200 JUICE TO EVERYONE FOR ${pacifist ? "CONVERTING" : "ERADICATING"} THE CONSERVATIVE CRIME SQUAD";
+        "+200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD";
+    text = LcsI18n.processString(text, {
+      "pacifistAction": pacifistAction,
+      "ccsAction": ccsAction,
+    });
 
     for (Creature p in pool) {
       addjuice(p, 200, 1000);

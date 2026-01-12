@@ -27,8 +27,7 @@ Future<void> doActivityTrouble(List<Creature> trouble) async {
   if (trouble.length > 1) {
     message = "Your Activists ";
   } else {
-    message =
-        "${LcsI18n.processString("{name}", {"name": trouble[0].name}, noTranslate: true)} ";
+    message = "${trouble[0].name} ";
   }
 
   int power = 0;

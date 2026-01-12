@@ -448,13 +448,14 @@ Future<void> tendHostage(InterrogationSession intr) async {
     } else {
       String reaction;
       if (successChance < 0) {
+        String profanity = noProfanity ? "[politically incorrect]" : "God damn";
         reaction = [
           "bites {hisHer} tongue and just looks furious that "
               "{leadName} would even suggest such a thing.",
           "accuses {name} of being a terrorist kidnapper who "
               "should be shot on sight.",
           "declares that the LCS is a cult. A political cult, but still a "
-              "${noProfanity ? "[politically incorrect]" : "God damn"} cult. And "
+              "{profanity} cult. And "
               "{name} can take that joining bullshit and shove it where the "
               "sun don't shine.",
           "accuses {leadName} of being absolutely out of "
@@ -467,6 +468,7 @@ Future<void> tendHostage(InterrogationSession intr) async {
               "ANY DECENCY left at all, {leadHeShe} will let "
               "{himHer} go RIGHT NOW.",
         ].random;
+        reaction = LcsI18n.processString(reaction, {"profanity": profanity});
         rapport[lead.id] = (rapport[lead.id] ?? 0) - 2;
       } else {
         reaction = [

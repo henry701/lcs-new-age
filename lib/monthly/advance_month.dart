@@ -464,7 +464,8 @@ Future<void> healIfOnClinic(Creature p) async {
         8,
         1,
         white,
-        "${p.name} has been transferred to ${hospital.name}.",
+        "{name} has been transferred to {hospital}.",
+        params: {"name": p.name, "hospital": hospital.name},
       );
 
       await getKey();

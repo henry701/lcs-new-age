@@ -389,12 +389,12 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
           }
           return best;
         });
+    String leadersName = leader?.name ?? "The squad";
     String article = switch (skillUsed) {
       Skill.writing => "article",
       Skill.persuasion => "stream",
       _ => "piece",
     };
-    String leadersArticle = "${leader?.name ?? "The squad"}'s $article";
     story += "\n\n";
     if (power < 4) {
       story +=
@@ -402,33 +402,50 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
           "Some conspiracy theorists mention it, but most people don't believe it.";
       return basePotency ~/ 5;
     } else if (power < 10) {
+      story += LcsI18n.processString(
+        "{name}'s {article} about this doesn't have much impact. "
+        "The information is taken up by watchdog groups but never really catches on.",
+        {"name": leadersName, "article": article},
+      );
+      return basePotency ~/ 4;
+    } else if (power < 15) {
+      story += LcsI18n.processString(
+        "{name}'s {article} about this gets more views than usual. ",
+        {"name": leadersName, "article": article},
+      );
       story +=
-          "$leadersArticle about this doesn't have much impact. "
           "The information is taken up by watchdog groups but never really catches on.";
       return basePotency ~/ 4;
     } else if (power < 15) {
-      story += "$leadersArticle about this gets more views than usual. ";
+      story += LcsI18n.processString(
+        "{name}'s {article} about this gets more views than usual. ",
+        {"name": leadersName, "article": article},
+      );
       story +=
-          "The information is taken up by watchdog groups but never really catches on.";
-      return basePotency ~/ 4;
-    } else if (power < 15) {
-      story +=
-          "$leadersArticle about this gets more views than usual. "
           "A prominent journalist investigates further, but can't prove it's true.";
       return basePotency ~/ 3;
     } else if (power < 20) {
+      story += LcsI18n.processString(
+        "{name}'s {article} about this lays out the evidence. ",
+        {"name": leadersName, "article": article},
+      );
       story +=
-          "$leadersArticle about this lays out the evidence. "
           "The story is picked up by several major networks and publications.";
       return basePotency ~/ 2;
     } else if (power < 25) {
+      story += LcsI18n.processString(
+        "{name}'s {article} about this is electrifying. ",
+        {"name": leadersName, "article": article},
+      );
       story +=
-          "$leadersArticle about this is electrifying. "
           "The major networks and publications take it up and run it for weeks.";
       return basePotency;
     } else {
+      story += LcsI18n.processString(
+        "{name}'s {article} about this transforms the media narrative. ",
+        {"name": leadersName, "article": article},
+      );
       story +=
-          "$leadersArticle about this transforms the media narrative. "
           "The major networks and publications fixate on the story for weeks. "
           "The information is so explosive that it becomes a national scandal.";
       return (basePotency * 1.5).round();

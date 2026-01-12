@@ -121,7 +121,8 @@ Future<void> kidnapattempt() async {
           9,
           1,
           lightGreen,
-          "${kidnapper.name} snatches ${target.name}!",
+          "{kidnapper} snatches {target}!",
+          params: {"kidnapper": kidnapper.name, "target": target.name},
         );
 
         kidnapper.prisoner = target;
@@ -133,7 +134,8 @@ Future<void> kidnapattempt() async {
           10,
           1,
           lightGray,
-          "${target.name} is struggling and screaming!",
+          "{target} is struggling and screaming!",
+          params: {"target": target.name},
         );
 
         await getKey();
@@ -141,9 +143,14 @@ Future<void> kidnapattempt() async {
         success = true;
       } else {
         await encounterMessage(
-          "${kidnapper.name} grabs at ${target.name}",
-          line2: "but ${target.name} writhes away!",
+          "{kidnapper} grabs at {target}",
+          line2: "but {target2} writhes away!",
           color: purple,
+          params: {
+            "kidnapper": kidnapper.name,
+            "target": target.name,
+            "target2": target.name,
+          },
         );
         success = false;
       }
@@ -373,7 +380,8 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
         9,
         1,
         lightGray,
-        "${p.name} can no longer handle ${p.prisoner!.name}.",
+        "{carrier} can no longer handle {prisoner}.",
+        params: {"carrier": p.name, "prisoner": p.prisoner!.name},
       );
 
       await getKey();
@@ -473,7 +481,8 @@ Future<void> kidnaptransfer(Creature cr, {Creature? kidnapper}) async {
   move(2, 0);
   setColor(lightGray);
   addstr(
-    "What name will you use for this ${cr.type.name} in ${cr.gender.hisHer} presence?",
+    "What name will you use for this {type} in {possessive} presence?",
+    params: {"type": cr.type.name, "possessive": cr.gender.hisHer},
   );
 
   cr.name = await enterName(4, 0, cr.properName, prefill: true);

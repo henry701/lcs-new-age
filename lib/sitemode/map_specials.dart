@@ -12,6 +12,7 @@ import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/items/ammo.dart';
 import 'package:lcs_new_age/items/ammo_type.dart';
@@ -167,7 +168,8 @@ Future<void> specialBouncerAssessSquad() async {
     encounter[0] = sleeper;
     levelMap[locx][locy][locz].special = TileSpecial.none;
     await encounterMessage(
-      "Sleeper ${sleeper.name} smirks and lets the squad in.",
+      "Sleeper {name} smirks and lets the squad in.",
+      params: {"name": sleeper.name},
     );
   } else {
     levelMap[locx][locy][locz].special = TileSpecial.clubBouncerSecondVisit;
@@ -258,8 +260,17 @@ Future<void> specialBouncerAssessSquad() async {
             "\"No shirt, no underpants, no service.\"",
             "\"Put some clothes on! That's disgusting.\"",
             "\"No! No, you can't come in naked! God!!\"",
-            "\"Naked? ${noProfanity ? "[I won't look.]" : "That's hot."} But no, you can't come in.\"",
-            "\"${noProfanity ? "[Yuck!]" : "Fuck!"} I did not want to see your naked ${noProfanity ? "[body]" : "ass"}.\"",
+            LcsI18n.processString(
+              "\"Naked? {comment} But no, you can't come in.\"",
+              {"comment": noProfanity ? "[I won't look.]" : "That's hot."},
+            ),
+            LcsI18n.processString(
+              "\" {expletive} I did not want to see your naked {bodyPart}.\"",
+              {
+                "expletive": noProfanity ? "[Yuck!]" : "Fuck!",
+                "bodyPart": noProfanity ? "[body]" : "ass",
+              },
+            ),
           ].random,
         );
       case REJECTED_UNDERAGE:
@@ -288,10 +299,18 @@ Future<void> specialBouncerAssessSquad() async {
         addstr(
           [
             "\"I smell trangenderism. Get out.\"",
-            "\"Ugh, trans people. ${noProfanity ? "[Heavens]" : "Hell"} no.\"",
+            LcsI18n.processString("\"Ugh, trans people. {reaction} no.\"", {
+              "reaction": noProfanity ? "[Heavens]" : "Hell",
+            }),
             "\"Your gender is a disgrace against nature.\"",
-            "\"Trans men are men, ${noProfanity ? "[fellow child of God]" : "idiot"}. Get out.\"",
-            "\"Trans women are women, ${noProfanity ? "[fellow child of God]" : "moron"}. Leave.\"",
+            LcsI18n.processString(
+              "\"Trans men are men, {comment}. Get out.\"",
+              {"comment": noProfanity ? "[fellow child of God]" : "idiot"},
+            ),
+            LcsI18n.processString(
+              "\"Trans women are women, {comment}. Leave.\"",
+              {"comment": noProfanity ? "[fellow child of God]" : "moron"},
+            ),
           ].random,
         );
       case REJECTED_DRESSCODE:
@@ -750,8 +769,12 @@ Future<void> specialPrisonControl(TileSpecial prisonControlType) async {
     TileSpecial.prisonControlHigh => "high security",
     _ => "",
   };
+  String promptText = LcsI18n.format(
+    "You've found the {level} prison control room.",
+    {"level": level},
+  );
   bool freeThem = await sitemodePrompt(
-    "You've found the $level prison control room.",
+    promptText,
     "Free the prisoners? (Yes or No)",
   );
   if (!freeThem) return;
@@ -1573,8 +1596,9 @@ Future<void> specialBankVault() async {
         p.sleeperAgent &&
         p.base == activeSite) {
       await encounterMessage(
-        "Sleeper ${p.name} can handle the biometrics, ",
+        "Sleeper {name} can handle the biometrics, ",
         line2: "but you'll still have to crack the other locks.",
+        params: {"name": p.name},
       );
       break;
     }
@@ -1624,7 +1648,10 @@ Future<void> specialBankVault() async {
     if (c.type.id == CreatureTypeIds.bankManager) {
       manager = c;
       if (c.daysSinceJoined < 30 && !c.kidnapped) {
-        await encounterMessage("${c.name} opens the vault.");
+        await encounterMessage(
+          "{name} opens the vault.",
+          params: {"name": c.name},
+        );
         canbreakin = true;
         break;
       }
@@ -1667,7 +1694,10 @@ Future<void> specialBankVault() async {
     levelMap[locx][locy][locz].special = TileSpecial.none;
   } else {
     if (manager != null) {
-      await encounterMessage("${manager.name} is no longer recognized.");
+      await encounterMessage(
+        "{name} is no longer recognized.",
+        params: {"name": manager.name},
+      );
     } else {
       await encounterMessage("The squad has nobody that can do the job.");
     }
@@ -1772,17 +1802,14 @@ Future<void> specialOvalOffice() async {
       encounter.add(Creature.fromId(CreatureTypeIds.secretService));
       encounter.add(Creature.fromId(CreatureTypeIds.secretService));
       printEncounter();
-      if (squad.first.genderAssignedAtBirth == Gender.male) {
-        await encounterMessage(
-          "${uniqueCreatures.president.name} smirks,",
-          line2: "\"You got brass fucking balls, I'll give you that.\"",
-        );
-      } else {
-        await encounterMessage(
-          "${uniqueCreatures.president.name} smirks,",
-          line2: "\"You're a brave fucking girl, I'll give you that.\"",
-        );
-      }
+      String quote = squad.first.genderAssignedAtBirth == Gender.male
+          ? "\"You got brass fucking balls, I'll give you that.\""
+          : "\"You're a brave fucking girl, I'll give you that.\"";
+      await encounterMessage(
+        "{name} smirks,",
+        line2: quote,
+        params: {"name": uniqueCreatures.president.name},
+      );
       siteAlarm = true;
 
       await enemyattack(encounter);
@@ -1847,7 +1874,8 @@ Future<void> lootGroundBase() async {
     );
   } else if (numLooted > 1) {
     await encounterMessage(
-      "The squad picks up $numLooted items from the safehouse.",
+      "The squad picks up {count} items from the safehouse.",
+      params: {"count": numLooted.toString()},
     );
   } else if (numLooted == 1) {
     await encounterMessage("The squad picks up an item from the safehouse.");

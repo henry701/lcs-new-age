@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/items/weapon.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
@@ -442,7 +443,7 @@ Future<bool> radioBroadcast() async {
   );
 }
 
-String _mediaQualityDescription(
+String _mediaQualityDescriptionTemplate(
   int segmentpower,
   String medium,
   String viewername,
@@ -451,12 +452,12 @@ String _mediaQualityDescription(
     < 25 => "The Squad sounds utterly clueless.",
     < 35 => "The segment really sucks.",
     < 45 => "It is a very boring hour.",
-    < 55 => "It is mediocre $medium.",
+    < 55 => "It is mediocre {medium}.",
     < 70 => "The show was all right.",
     < 85 => "The Squad put on a good show.",
     < 100 => "It was thought-provoking, even humorous.",
     < 150 => "The regular show isn't half this good.",
-    _ => "The Squad leaves $viewername weeping for freedom!",
+    _ => "The Squad leaves {viewer} weeping for freedom!",
   };
 }
 
@@ -490,8 +491,9 @@ Future<bool> _mediaBroadcast(
   View viewhit = View.issues.random;
   View hostageviewhit = View.issues.random;
   await encounterMessage(
-    "The Squad takes control of the $takeover and ",
-    line2: "talks about ${_mediaIssueDescription(viewhit)}.",
+    "The Squad takes control of the {takeover} and ",
+    line2: "talks about {issue}.",
+    params: {"takeover": takeover, "issue": _mediaIssueDescription(viewhit)},
   );
 
   int segmentpower = _mediaSegmentPower();
@@ -504,8 +506,12 @@ Future<bool> _mediaBroadcast(
           p.prisoner?.align == Alignment.conservative) {
         hostageviewhit = View.issues.random;
         await encounterMessage(
-          "The hostage ${p.prisoner!.name} is forced on air to ",
-          line2: "discuss ${_mediaIssueDescription(hostageviewhit)}.",
+          "The hostage {name} is forced on air to ",
+          line2: "discuss {issue}.",
+          params: {
+            "name": p.prisoner!.name,
+            "issue": _mediaIssueDescription(hostageviewhit),
+          },
         );
 
         addPotentialCrime(squad, Crime.terrorism);
@@ -521,14 +527,18 @@ Future<bool> _mediaBroadcast(
         segmentpower += usegmentpower;
       } else {
         await encounterMessage(
-          "${p.prisoner!.name}, the hostage, is kept off-air.",
+          "{name}, the hostage, is kept off-air.",
+          params: {"name": p.prisoner!.name},
         );
       }
     }
   }
 
   await encounterMessage(
-    _mediaQualityDescription(segmentpower, medium, viewername),
+    LcsI18n.processString(
+      _mediaQualityDescriptionTemplate(segmentpower, medium, viewername),
+      {"medium": medium, "viewer": viewername},
+    ),
   );
 
   //CHECK PUBLIC OPINION
@@ -574,8 +584,9 @@ Future<bool> _mediaBroadcast(
     fillEncounter(CreatureTypeIds.securityGuard, lcsRandom(8) + 2);
   } else {
     await encounterMessage(
-      "The show was so ${(segmentpower < 50) ? "hilarious" : "entertaining"} that security listened to it ",
+      "The show was so {quality} that security listened to it ",
       line2: "at their desks.  The Squad might yet escape.",
+      params: {"quality": (segmentpower < 50) ? "hilarious" : "entertaining"},
     );
   }
 
@@ -617,7 +628,8 @@ Future<void> partyrescue(TileSpecial special) async {
 
       printParty();
       await encounterMessage(
-        "You've rescued ${rescue.name} from the Conservatives.",
+        "You've rescued {name} from the Conservatives.",
+        params: {"name": rescue.name},
       );
       waitingForRescue.remove(rescue);
     } else if (hostslots > 0) {
@@ -632,17 +644,34 @@ Future<void> partyrescue(TileSpecial special) async {
           criminalize(rescue, Crime.escapingPrison);
           printParty();
           await encounterMessage(
-            "You've rescued ${rescue.name} from the Conservatives.",
+            "You've rescued {name} from the Conservatives.",
+            params: {"name": rescue.name},
           );
           if (rescue.canWalk) {
+            String condition = [
+              "was tortured recently",
+              "was beaten severely yesterday",
+              "was on a hunger strike",
+            ].random;
             await encounterMessage(
-              "${rescue.name} ${["was tortured recently", "was beaten severely yesterday", "was on a hunger strike"].random}",
-              line2: "so ${p.name} will have to haul ${rescue.gender.himHer}.",
+              "{rescue} {condition}",
+              line2: "so {carrier} will have to haul {himHer}.",
+              params: {
+                "rescue": rescue.name,
+                "condition": condition,
+                "carrier": p.name,
+                "himHer": rescue.gender.himHer,
+              },
             );
           } else {
             await encounterMessage(
-              "${rescue.name} is unable to walk",
-              line2: "so ${p.name} will have to haul ${rescue.gender.himHer}.",
+              "{rescue} is unable to walk",
+              line2: "so {carrier} will have to haul {himHer}.",
+              params: {
+                "rescue": rescue.name,
+                "carrier": p.name,
+                "himHer": rescue.gender.himHer,
+              },
             );
           }
           waitingForRescue.remove(rescue);
@@ -654,8 +683,9 @@ Future<void> partyrescue(TileSpecial special) async {
 
   if (waitingForRescue.length == 1) {
     await encounterMessage(
-      "There's nobody left to carry ${waitingForRescue[0].name}.",
+      "There's nobody left to carry {name}.",
       line2: "You'll have to come back later.",
+      params: {"name": waitingForRescue[0].name},
     );
   } else if (waitingForRescue.length > 1) {
     await encounterMessage(

@@ -771,27 +771,41 @@ Future<bool> attack(
   if (hitPart != null && aroll + bonus > droll) {
     //HIT!
     // Build the target description based on conditions
-    String targetDesc;
+    String targetDescTemplate;
+    Map<String, dynamic> targetDescParams = {};
     if (addAutoConvert) {
-      targetDesc = "";
+      targetDescTemplate = "";
     } else if (t.clothing.covers(hitPart)) {
       if (hitPart.weakSpot && t.human) {
         if (t.clothing.headArmor > 4) {
-          targetDesc = "${t.name}'s helmet";
+          targetDescTemplate = "{name}'s helmet";
+          targetDescParams = {"name": t.name};
         } else {
-          targetDesc = "${t.name}'s ${hitPart.name.toLowerCase()}";
+          targetDescTemplate = "{name}'s {part}";
+          targetDescParams = {
+            "name": t.name,
+            "part": hitPart.name.toLowerCase(),
+          };
         }
       } else if (hitPart.critical && t.clothing.bodyArmor > 4 && t.human) {
-        targetDesc =
-            "${t.name}'s ${t.clothing.armor?.name.split(",").first.toLowerCase() ?? "armor"}";
+        targetDescTemplate = "{name}'s {armor}";
+        targetDescParams = {
+          "name": t.name,
+          "armor":
+              t.clothing.armor?.name.split(",").first.toLowerCase() ?? "armor",
+        };
       } else if (t.clothing.getLimbArmor(hitPart) > 4) {
-        targetDesc = "${t.name}'s ${hitPart.name.toLowerCase()} armor";
+        targetDescTemplate = "{name}'s {part} armor";
+        targetDescParams = {"name": t.name, "part": hitPart.name.toLowerCase()};
       } else {
-        targetDesc = "${t.name}'s ${hitPart.name.toLowerCase()}";
+        targetDescTemplate = "{name}'s {part}";
+        targetDescParams = {"name": t.name, "part": hitPart.name.toLowerCase()};
       }
     } else {
-      targetDesc = hitPart.name.toLowerCase();
+      targetDescTemplate = "{part}";
+      targetDescParams = {"part": hitPart.name.toLowerCase()};
     }
+    String targetDesc = LcsI18n.format(targetDescTemplate, targetDescParams);
 
     // Build the action and multiple hits description
     String actionTemplate;

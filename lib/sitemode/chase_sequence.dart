@@ -183,12 +183,12 @@ void printCarChaseOptions({
   bool canBailOut = true,
 }) {
   setColor(lightGray);
-  addOptionText(12, 1, "D", "D$dOption");
+  addOptionText(12, 1, "D", "D{dOption}", params: {"dOption": dOption});
   addstr(", ");
-  addInlineOptionText("F", "F$fOption");
+  addInlineOptionText("F", "F{fOption}", params: {"fOption": fOption});
   if (gOption != null) {
     addstr(", ");
-    addInlineOptionText("G", "G$gOption");
+    addInlineOptionText("G", "G{gOption}", params: {"gOption": gOption});
   }
   if (canBailOut) {
     addstr(", ");
@@ -424,11 +424,23 @@ Future<ChaseOutcome> carChaseSequence() async {
             case <= 0:
               addstrc(lightGreen, "point blank range");
             case <= 5:
-              addstrc(lightBlue, "${5 * nearestVehicleDistance} feet away");
+              addstrc(
+                lightBlue,
+                "{distance} feet away",
+                params: {"distance": (5 * nearestVehicleDistance).toString()},
+              );
             case <= 10:
-              addstrc(yellow, "${5 * nearestVehicleDistance} feet away");
+              addstrc(
+                yellow,
+                "{distance} feet away",
+                params: {"distance": (5 * nearestVehicleDistance).toString()},
+              );
             default:
-              addstrc(red, "${5 * nearestVehicleDistance} feet away");
+              addstrc(
+                red,
+                "{distance} feet away",
+                params: {"distance": (5 * nearestVehicleDistance).toString()},
+              );
           }
           addstrc(lightGray, "!");
           await getKey();
@@ -936,14 +948,26 @@ Future<void> evasiverun() async {
           "${e.name} tips into a pool. The tank is trapped!",
         );
       } else {
-        mvaddstrc(9, 1, lightBlue, "${e.name} can't keep up!");
+        mvaddstrc(
+          9,
+          1,
+          lightBlue,
+          "{name} can't keep up!",
+          params: {"name": e.name},
+        );
       }
       encounter.removeAt(i);
       printChaseEncounter();
       await getKey();
     } else {
       clearMessageArea();
-      mvaddstrc(9, 1, yellow, "${e.name} is still on your tail!");
+      mvaddstrc(
+        9,
+        1,
+        yellow,
+        "{name} is still on your tail!",
+        params: {"name": e.name},
+      );
       await getKey();
     }
   }
@@ -959,7 +983,13 @@ Future<void> evasiverun() async {
       if (yourspeed[p]! > theirbest) {
         if (i == 0 && othersleft == 0) break;
         clearMessageArea();
-        mvaddstrc(9, 1, lightBlue, "${p.name} breaks away!");
+        mvaddstrc(
+          9,
+          1,
+          lightBlue,
+          "{name} breaks away!",
+          params: {"name": p.name},
+        );
         await getKey();
 
         //Unload hauled hostage or body when they get back to the safehouse
@@ -1075,7 +1105,13 @@ Future<bool> drivingupdate() async {
         driver = p;
 
         clearMessageArea();
-        mvaddstrc(9, 1, yellow, "${p.name} takes over the wheel.");
+        mvaddstrc(
+          9,
+          1,
+          yellow,
+          "{name} takes over the wheel.",
+          params: {"name": p.name},
+        );
         printParty();
         await getKey();
       }
@@ -1250,7 +1286,13 @@ Future<bool> obstacledrive(
 ) async {
   Future<void> slowDown(String safemove, String reckless) async {
     clearMessageArea();
-    mvaddstrc(9, 1, yellow, "You slow down and $safemove.");
+    mvaddstrc(
+      9,
+      1,
+      yellow,
+      "You slow down and {action}.",
+      params: {"action": safemove},
+    );
     chaseSequence!.turn--;
     chaseSequence!.enemyCarDistance.updateAll(
       (key, value) => max(value - 5, 0),

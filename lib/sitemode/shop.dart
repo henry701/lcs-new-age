@@ -247,7 +247,11 @@ class Shop extends ShopOption {
         if (availableOptions[p] is ShopItem) {
           desc += " (\$${(availableOptions[p] as ShopItem).price(false)})";
         }
-        addInlineOptionText(letter, "$letter - $desc");
+        addInlineOptionText(
+          letter,
+          "{letter} - {desc}",
+          params: {"letter": letter, "desc": desc},
+        );
 
         if (x == 1) {
           x = 2;
@@ -299,7 +303,13 @@ class Shop extends ShopOption {
         enabledWhen: partysize >= 2,
       );
 
-      addOptionText(y, 40, "Enter", "Enter - $exitText");
+      addOptionText(
+        y,
+        40,
+        "Enter",
+        "Enter - {exitText}",
+        params: {"exitText": exitText},
+      );
 
       int c = await getKey();
 

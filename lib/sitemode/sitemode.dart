@@ -646,7 +646,13 @@ Future<void> _siteModeAux() async {
             for (Creature p in activeSquad!.livingMembers) {
               int i = squad.indexOf(p);
               if (p.alive) {
-                addOptionText(y, 1, "${i + 1}", "${i + 1} - ${p.name}");
+                addOptionText(
+                  y,
+                  1,
+                  "{index}",
+                  "{index} - {name}",
+                  params: {"index": (i + 1).toString(), "name": p.name},
+                );
                 printSkillValue(p, Skill.persuasion, y, 34, showCap: false);
                 addstr(
                   " (${p.maxSubordinates - p.subordinatesLeft}/${p.maxSubordinates})",

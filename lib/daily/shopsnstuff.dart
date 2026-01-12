@@ -190,8 +190,8 @@ Future<void> dealership(Site loc) async {
       if (carToSell.heat > 0) price = price ~/ 10;
       addInlineOptionText(
         "S",
-        "S - Sell the {car} (\${price})",
-        params: {"car": carToSell.fullName(), "price": price},
+        "S - Sell the {car} ({price})",
+        params: {"car": carToSell.fullName(), "price": "\$$price"},
       );
     } else {
       addInlineOptionText("S", "S - Sell a car", enabledWhen: false);

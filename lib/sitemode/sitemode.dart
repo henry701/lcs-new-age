@@ -698,9 +698,15 @@ Future<void> _siteModeAux() async {
                   int i = encounter.indexOf(t);
                   move(y, x);
                   String letter = letterAPlus(i);
+                  String ageGender = creatureAgeAndGender(t);
                   addInlineOptionText(
                     letter,
-                    "$letter - ${t.name} ${creatureAgeAndGender(t)}",
+                    "{letter} - {name} {ageGender}",
+                    params: {
+                      "letter": letter,
+                      "name": t.name,
+                      "ageGender": ageGender,
+                    },
                     baseColorKey: ColorKey.fromColor(t.align.color),
                     enabledWhen: t.alive && t.isWillingToTalk,
                   );

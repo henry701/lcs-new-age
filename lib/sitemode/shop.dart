@@ -364,7 +364,11 @@ class Shop extends ShopOption {
           y,
           0,
           letter,
-          "$letter - ${availableOptions[index].fullscreenDescription()}",
+          "{letter} - {description}",
+          params: {
+            "letter": letter,
+            "description": availableOptions[index].fullscreenDescription(),
+          },
         );
         if (availableOptions[index] is ShopItem) {
           move(y, 39);
@@ -424,11 +428,13 @@ class Shop extends ShopOption {
           addstr(weapon.description ?? "");
         } else {
           setColor(lightGray);
+          String key = letterAPlus(y - 2);
           addOptionText(
             y,
             0,
             key,
-            "$key - ${weapon.name}",
+            "{key} - {name}",
+            params: {"key": key, "name": weapon.name},
             enabledWhen: availableOptions[i].isAvailable(),
           );
           move(y, 20);
@@ -507,7 +513,8 @@ class Shop extends ShopOption {
           y,
           0,
           key,
-          "$key - ${ammo.name}",
+          "{key} - {name}",
+          params: {"key": key, "name": ammo.name},
           enabledWhen: availableOptions[index].isAvailable(),
         );
         move(y, 24);
@@ -563,7 +570,8 @@ class Shop extends ShopOption {
           y,
           0,
           key,
-          "$key - ${clothing.name}",
+          "{key} - {name}",
+          params: {"key": key, "name": clothing.name},
           enabledWhen: availableOptions[index].isAvailable(),
         );
         move(y, 24);

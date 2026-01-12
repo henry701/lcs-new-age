@@ -1283,7 +1283,9 @@ Future<void> specialDisplayCase() async {
     locx + locy * 7 + locz + sites.indexOf(activeSite ?? sites[0]),
   );
   bool smash = await sitemodePrompt(
-    "You see a display case containing $featuring.",
+    LcsI18n.processString("You see a display case containing {item}.", {
+      "item": featuring,
+    }),
     "Smash it? (Yes or No)",
   );
   if (!smash) return;

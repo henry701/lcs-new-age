@@ -10,6 +10,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/advance_day.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/loot_type.dart';
@@ -244,7 +245,10 @@ Future<void> advanceMonth() async {
     if (p.site?.type == SiteType.policeStation) {
       if (p.missing) {
         await showMessage(
-          "Cops re-polluted ${p.name}'s mind with Conservatism!",
+          LcsI18n.processString(
+            "Cops re-polluted {name}'s mind with Conservatism!",
+            {"name": p.name},
+          ),
           color: purple,
         );
         p.squad = null;
@@ -255,8 +259,12 @@ Future<void> advanceMonth() async {
         bool execute =
             laws[Law.deathPenalty] == DeepAlignment.archConservative &&
             laws[Law.immigration] == DeepAlignment.archConservative;
+        String deportationText = execute ? "executed" : "deported";
         await showMessage(
-          "${p.name} has been handed over to ICE and ${execute ? "executed" : "deported"}!",
+          LcsI18n.processString(
+            "{name} has been handed over to ICE and {action}!",
+            {"name": p.name, "action": deportationText},
+          ),
           color: purple,
         );
 
@@ -311,14 +319,20 @@ Future<void> advanceMonth() async {
               8,
               1,
               white,
-              "${p.name} has reverted to Conservatism in police custody!",
+              LcsI18n.processString(
+                "{name} has reverted to Conservatism in police custody!",
+                {"name": p.name},
+              ),
             );
           } else {
             mvaddstrc(
               8,
               1,
               white,
-              "${p.name} has broken under the pressure and ratted you out!",
+              LcsI18n.processString(
+                "{name} has broken under the pressure and ratted you out!",
+                {"name": p.name},
+              ),
             );
           }
 
@@ -337,7 +351,12 @@ Future<void> advanceMonth() async {
           continue; //no trial for this person; skip to next person
         }
 
-        await showMessage("${p.name} is moved to the courthouse for trial.");
+        await showMessage(
+          LcsI18n.processString(
+            "{name} is moved to the courthouse for trial.",
+            {"name": p.name},
+          ),
+        );
 
         p.location = findSiteInSameCity(p.site!.city, SiteType.courthouse);
         Clothing prisoner = Clothing("CLOTHING_PRISONER");
@@ -456,7 +475,12 @@ Future<void> healIfOnClinic(Creature p) async {
   if (p.clinicMonthsLeft == 0) {
     p.blood = p.maxBlood;
     p.activity = Activity.none();
-    await showMessage("${p.name} has left the ${p.site!.name}.");
+    await showMessage(
+      LcsI18n.processString("{name} has left the {site}.", {
+        "name": p.name,
+        "site": p.site!.name,
+      }),
+    );
 
     Site? hs = findSiteInSameCity(p.site!.city, SiteType.homelessEncampment);
 

@@ -7,6 +7,7 @@ import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/items/ammo_type.dart';
@@ -336,7 +337,14 @@ Future<LootType?> chooseSpecialEdition() async {
         "Enter - Now is not the time to attract this sort of attention",
     count: lootTypesAvailable.length,
     lineBuilder: (y, key, index) {
-      mvaddstr(y, 0, "$key - ${lootTypesAvailable[index].name}");
+      mvaddstr(
+        y,
+        0,
+        LcsI18n.processString("{key} - {name}", {
+          "key": key,
+          "name": lootTypesAvailable[index].name,
+        }),
+      );
     },
     onChoice: (index) async {
       for (Site loc in sites.where((s) => s.controller == SiteController.lcs)) {

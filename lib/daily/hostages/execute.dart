@@ -5,6 +5,7 @@ import 'package:lcs_new_age/daily/hostages/tend_hostage.dart';
 import 'package:lcs_new_age/daily/hostages/traumatize.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -47,13 +48,16 @@ Future<int> handleExecution(
       params: {"killer": lead.name, "victim": cr.name},
     );
     addstr(
-      [
-        "burning photos of Ronald Reagan in front of ${cr.gender.himHer}.",
-        "telling ${cr.gender.himHer} that taxes have been increased.",
-        "forcing ${cr.gender.himHer} to listen to right-wing radio for 24 hours straight.",
-        "showing ${cr.gender.himHer} a graph of rising global temperatures.",
-        "forcing ${cr.gender.himHer} to actually read a book.",
-      ].random,
+      LcsI18n.processString(
+        [
+          "burning photos of Ronald Reagan in front of {himHer}.",
+          "telling {himHer} that taxes have been increased.",
+          "forcing {himHer} to listen to right-wing radio for 24 hours straight.",
+          "showing {himHer} a graph of rising global temperatures.",
+          "forcing {himHer} to actually read a book.",
+        ].random,
+        {"himHer": cr.gender.himHer},
+      ),
     );
 
     await getKey();

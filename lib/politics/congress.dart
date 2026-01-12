@@ -33,27 +33,23 @@ DeepAlignment determinePoliticianVote(DeepAlignment alignment, Law law) {
   return vote;
 }
 
-enum BillStatus {
-  signed,
-  vetoOverride,
-  passedCongress,
-  failed,
-}
+enum BillStatus { signed, vetoOverride, passedCongress, failed }
 
 DeepAlignment cabinetDeliberation(Exec decisionMaker) {
   int vote;
   if (exec[decisionMaker]! >= DeepAlignment.conservative &&
       exec[decisionMaker]! <= DeepAlignment.liberal) {
     // only consult Cabinet if decisionMaker isn't an extremist
-    vote = ((exec[Exec.president]!.index +
-                exec[Exec.vicePresident]!.index +
-                exec[Exec.secretaryOfState]!.index +
-                exec[Exec.attorneyGeneral]!.index +
-                lcsRandomDouble(9) -
-                4) /
-            4)
-        .clamp(0, 4)
-        .round();
+    vote =
+        ((exec[Exec.president]!.index +
+                    exec[Exec.vicePresident]!.index +
+                    exec[Exec.secretaryOfState]!.index +
+                    exec[Exec.attorneyGeneral]!.index +
+                    lcsRandomDouble(9) -
+                    4) /
+                4)
+            .clamp(0, 4)
+            .round();
   } else {
     vote = exec[decisionMaker]!.index;
   }
@@ -77,7 +73,7 @@ Future<void> congress() async {
   List<Law> bill = [for (int i = 0; i < cnum; i++) Law.elections];
   List<int> billdir = [for (int i = 0; i < cnum; i++) 0];
   List<BillStatus> billStatus = [
-    for (int i = 0; i < cnum; i++) BillStatus.passedCongress
+    for (int i = 0; i < cnum; i++) BillStatus.passedCongress,
   ];
   Map<Law, bool> lawtaken = {for (var law in Law.values) law: false};
   Map<Law, int> lawpriority = {for (var law in Law.values) law: 0};
@@ -136,20 +132,24 @@ Future<void> congress() async {
     if (laws[l] == DeepAlignment.eliteLiberal) lawdir[l] = -1;
 
     //CALC PRIORITY
-    lawpriority[l] = ((pup - pdown).abs() *
-            ((politics.publicInterestForLaw(l) + lcsRandom(25)) / 100))
-        .round();
+    lawpriority[l] =
+        ((pup - pdown).abs() *
+                ((politics.publicInterestForLaw(l) + lcsRandom(25)) / 100))
+            .round();
   }
 
   for (int c = 0; c < cnum; c++) {
     int maxprior = lawpriority.entries
         .where((e) => lawtaken[e.key] != true)
         .reduce(
-            (value, element) => element.value > value.value ? element : value)
+          (value, element) => element.value > value.value ? element : value,
+        )
         .value;
     List<Law> canlaw = lawpriority.entries
-        .where((element) =>
-            element.value == maxprior && lawtaken[element.key] == false)
+        .where(
+          (element) =>
+              element.value == maxprior && lawtaken[element.key] == false,
+        )
         .map((e) => e.key)
         .toList();
     bill[c] = canlaw.random;
@@ -206,7 +206,12 @@ Future<void> congress() async {
         } else {
           setColor(lightGray);
         }
-        mvaddstr(c * 3 + 2, 62, "$yesVotesHouse Yea");
+        mvaddstr(
+          c * 3 + 2,
+          62,
+          "{votes} Yea",
+          params: {"votes": yesVotesHouse.toString()},
+        );
 
         if (l == house.length - 1 && !yesWinHouse) {
           setColor(white);
@@ -215,7 +220,12 @@ Future<void> congress() async {
         } else {
           setColor(lightGray);
         }
-        mvaddstr(c * 3 + 3, 62, "${l + 1 - yesVotesHouse} Nay");
+        mvaddstr(
+          c * 3 + 3,
+          62,
+          "{votes} Nay",
+          params: {"votes": (l + 1 - yesVotesHouse).toString()},
+        );
       }
 
       if ((l + 1) / house.length >= (s + 1) / senate.length) {
@@ -250,7 +260,12 @@ Future<void> congress() async {
         } else {
           setColor(lightGray);
         }
-        mvaddstr(c * 3 + 2, 70, "$yesVotesSenate Yea");
+        mvaddstr(
+          c * 3 + 2,
+          70,
+          "{votes} Yea",
+          params: {"votes": yesVotesSenate.toString()},
+        );
 
         if (l == house.length - 1 &&
             yesVotesSenate == senate.length ~/ 2 &&
@@ -265,7 +280,12 @@ Future<void> congress() async {
         } else {
           setColor(lightGray);
         }
-        mvaddstr(c * 3 + 3, 70, "${s - yesVotesSenate} Nay");
+        mvaddstr(
+          c * 3 + 3,
+          70,
+          "{votes} Nay",
+          params: {"votes": (s - yesVotesSenate).toString()},
+        );
 
         if (l == house.length - 1 &&
             yesVotesSenate == senate.length ~/ 2 &&
@@ -289,8 +309,12 @@ Future<void> congress() async {
 
   if (havebill > 0) {
     if (canSeeThings) {
-      mvaddstrc(23, 0, lightGray,
-          "Press any key to watch the President.                   ");
+      mvaddstrc(
+        23,
+        0,
+        lightGray,
+        "Press any key to watch the President.                   ",
+      );
 
       await getKey();
 
@@ -335,14 +359,22 @@ Future<void> congress() async {
     }
 
     if (canSeeThings) {
-      mvaddstrc(23, 0, lightGray,
-          "Press any key to reflect on what has happened.    ");
+      mvaddstrc(
+        23,
+        0,
+        lightGray,
+        "Press any key to reflect on what has happened.    ",
+      );
       checkKey();
       await getKey();
     }
   } else if (canSeeThings) {
     mvaddstrc(
-        23, 0, lightGray, "None of the items made it to the President's desk.");
+      23,
+      0,
+      lightGray,
+      "None of the items made it to the President's desk.",
+    );
     mvaddstr(24, 0, "Press any key to reflect on what has happened.    ");
     checkKey();
     await getKey();

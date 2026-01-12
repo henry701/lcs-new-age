@@ -65,7 +65,13 @@ Future<void> presidentialElection() async {
   if (canSeeThings) {
     erase();
 
-    mvaddstrc(0, 0, white, "Presidential General Election $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "Presidential General Election {year}",
+      params: {"year": year.toString()},
+    );
 
     setColor(lightGray);
     move(2, 0);
@@ -401,7 +407,13 @@ Future<void> ballotMeasures() async {
         } else {
           setColor(lightGray);
         }
-        mvaddstr(p * 3 + 2, 70, "${yesvotes ~/ 10}.${yesvotes % 10}% Yes");
+        mvaddstr(
+          p * 3 + 2,
+          70,
+          "{yesPercent}% Yes",
+          params: {"yesPercent": "${yesvotes ~/ 10}.${yesvotes % 10}"},
+          noTranslate: true,
+        );
 
         if ((l != 999 && yesvotes < (l / 2 + 10)) || (l == 999 && !yeswin)) {
           setColor(white);
@@ -413,7 +425,12 @@ Future<void> ballotMeasures() async {
         mvaddstr(
           p * 3 + 3,
           70,
-          "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}% No",
+          "{noPercent}% No",
+          params: {
+            "noPercent":
+                "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}",
+          },
+          noTranslate: true,
         );
       }
 

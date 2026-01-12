@@ -102,7 +102,13 @@ Future<void> surrenderAndDie(Site loc) async {
   }
 
   erase();
-  mvaddstrc(1, 1, lightGray, "Everyone in the ${loc.name} is slain.");
+  mvaddstrc(
+    1,
+    1,
+    lightGray,
+    "Everyone in the {location} is slain.",
+    params: {"location": loc.name},
+  );
   await getKey();
 
   if (killNumber > 3) {
@@ -147,7 +153,8 @@ Future<void> surrenderToAuthorities(Site loc) async {
   mvaddstr(
     1,
     1,
-    "The $raiders confiscate everything, including Squad weapons.",
+    "The {raiders} confiscate everything, including Squad weapons.",
+    params: {"raiders": raiders},
   );
 
   Iterable<Creature> present = pool
@@ -196,13 +203,15 @@ Future<void> surrenderToAuthorities(Site loc) async {
     mvaddstr(
       y += 2,
       1,
-      "${rescued.first.name} is taken into custody and rehabilitated.",
+      "{name} is taken into custody and rehabilitated.",
+      params: {"name": rescued.first.name},
     );
   } else if (rescued.length > 1) {
     mvaddstr(
       y += 2,
       1,
-      "${rescued.length} people who went missing are taken into custody and rehabilitated.",
+      "{count} people who went missing are taken into custody and rehabilitated.",
+      params: {"count": rescued.length.toString()},
     );
   }
   if (arrested.length == 1) {
@@ -239,7 +248,8 @@ Future<void> surrenderToAuthorities(Site loc) async {
       mvaddstr(
         y += 2,
         1,
-        "Law enforcement has confiscated \$$confiscated in LCS funds.",
+        "Law enforcement has confiscated {amount} in LCS funds.",
+        params: {"amount": "\$$confiscated"},
       );
       ledger.subtractFunds(confiscated, Expense.confiscated);
     }

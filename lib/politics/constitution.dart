@@ -448,7 +448,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(2, 62, "$yesVotesHouse Yea");
+        mvaddstr(
+          2,
+          62,
+          "{votes} Yea",
+          params: {"votes": yesVotesHouse.toString()},
+        );
 
         if (l == house.length - 1 && !yesWinHouse) {
           setColor(white);
@@ -457,7 +462,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(3, 62, "${l + 1 - yesVotesHouse} Nay");
+        mvaddstr(
+          3,
+          62,
+          "{votes} Nay",
+          params: {"votes": (l + 1 - yesVotesHouse).toString()},
+        );
       }
 
       if (l % 4 == 0 && s < senate.length) {
@@ -487,7 +497,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(2, 70, "$yesVotesSenate Yea");
+        mvaddstr(
+          2,
+          70,
+          "{votes} Yea",
+          params: {"votes": yesVotesSenate.toString()},
+        );
 
         if (l == house.length - 1 && !yesWinSenate) {
           setColor(white);
@@ -496,7 +511,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(3, 70, "${s - yesVotesSenate} Nay");
+        mvaddstr(
+          3,
+          70,
+          "{votes} Nay",
+          params: {"votes": (s - yesVotesSenate).toString()},
+        );
 
         if (sw.elapsedMilliseconds < l * 10) {
           await pause(l * 10 - sw.elapsedMilliseconds);
@@ -578,7 +598,7 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(23, 50, "$yesstate Yea");
+        mvaddstr(23, 50, "{votes} Yea", params: {"votes": yesstate.toString()});
 
         if (s == states.length - 1 && yesstate >= states.length * 2 / 3) {
           setColor(darkGray);
@@ -587,7 +607,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(23, 60, "${s + 1 - yesstate} Nay");
+        mvaddstr(
+          23,
+          60,
+          "{votes} Nay",
+          params: {"votes": (s + 1 - yesstate).toString()},
+        );
 
         if (sw.elapsedMilliseconds < s * 50) {
           await pause(s * 50 - sw.elapsedMilliseconds);

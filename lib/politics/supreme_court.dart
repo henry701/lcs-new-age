@@ -19,7 +19,13 @@ Future<void> supremeCourt() async {
     await showMessage("The Supreme court is handing down decisions!");
 
     erase();
-    mvaddstrc(0, 0, white, "Supreme Court Watch $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "Supreme Court Watch {year}",
+      params: {"year": year.toString()},
+    );
     setColor(lightGray);
   }
 
@@ -278,7 +284,12 @@ Future<void> supremeCourt() async {
       } else {
         setColor(darkGray);
       }
-      mvaddstr(c * 3 + 2, 63, "$yesvotes for Change");
+      mvaddstr(
+        c * 3 + 2,
+        63,
+        "{votes} for Change",
+        params: {"votes": yesvotes.toString()},
+      );
 
       if (!yeswin) {
         setColor(white);
@@ -288,7 +299,8 @@ Future<void> supremeCourt() async {
       mvaddstr(
         c * 3 + 3,
         63,
-        "${politics.court.length - yesvotes} for Status Quo",
+        "{votes} for Status Quo",
+        params: {"votes": (politics.court.length - yesvotes).toString()},
       );
 
       await pause(400);
@@ -321,7 +333,13 @@ Future<void> supremeCourt() async {
     int j = lcsRandom(politics.court.length);
 
     if (canSeeThings) {
-      mvaddstrc(2, 0, white, "${politics.court[j].label} Justice ");
+      mvaddstrc(
+        2,
+        0,
+        white,
+        "{label} Justice ",
+        params: {"label": politics.court[j].label},
+      );
       addstrc(politics.court[j].color, politics.courtName[j].firstLast);
       addstrc(white, " is stepping down.");
 

@@ -3,6 +3,7 @@ import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/daily/advance_day.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -12,14 +13,35 @@ Future<int> traumatize(Creature lead, String action, int y) async {
     addparagraph(
       y++,
       0,
-      "${lead.name} loses Heart and ${["throws up in a trash can", "gets drunk, eventually falling asleep", "curls up in a ball, crying softly", "shoots up and collapses in a heap on the floor", "has a panic attack", "asks \"Are we the baddies?\"", "doesn't want to talk to anyone", "can't sleep for days", "is haunted by the memory of the $action", "has nightmares afterwards"].random}.",
+      LcsI18n.processString("{name} loses Heart and {reaction}", {
+        "name": lead.name,
+        "reaction": [
+          "throws up in a trash can",
+          "gets drunk, eventually falling asleep",
+          "curls up in a ball, crying softly",
+          "shoots up and collapses in a heap on the floor",
+          "has a panic attack",
+          "asks \"Are we the baddies?\"",
+          "doesn't want to talk to anyone",
+          "can't sleep for days",
+          "is haunted by the memory of the {action}",
+          "has nightmares afterwards",
+        ].random,
+        "action": action,
+      }),
     );
     lead.heartDamage += 1;
     move(y++, 0);
     lead.activity = Activity.none();
   } else if (oneIn(3) && lead.attribute(Attribute.wisdom) < 10) {
     setColor(lightBlue);
-    addparagraph(y++, 0, "${lead.name} gains Wisdom and grows colder.");
+    addparagraph(
+      y++,
+      0,
+      LcsI18n.processString("{name} gains Wisdom and grows colder.", {
+        "name": lead.name,
+      }),
+    );
     lead.adjustAttribute(Attribute.wisdom, 1);
   } else if (oneIn(3) &&
       lead.attribute(Attribute.wisdom) > lead.attribute(Attribute.heart)) {

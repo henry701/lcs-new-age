@@ -3,6 +3,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -19,8 +20,31 @@ Future<void> handleFirmInterrogation(
   // Reduce rapport with lead
   rapport.update(lead.id, (v) => v - 1, ifAbsent: () => -1);
 
-  String message =
-      "${lead.name} interrogates ${cr.name}, ${["asking", "demanding", "saying", "pressing ${cr.gender.hisHer} by saying", "probing ${cr.gender.hisHer} by saying"].random} \"${["What do you know?", "Where do you work?", if (ccsActive) "What do you know about the CCS?", "Give up your secrets!", "Tell us what you know!", "We need information!", "What are you hiding?", "What's really going on?"].random}\"";
+  String message = LcsI18n.processString(
+    "{lead} interrogates {hostage}, {action} \"{question}\"",
+    {
+      "lead": lead.name,
+      "hostage": cr.name,
+      "action": [
+        "asking",
+        "demanding",
+        "saying",
+        "pressing {possessive} by saying",
+        "probing {possessive} by saying",
+      ].random,
+      "possessive": cr.gender.hisHer,
+      "question": [
+        "What do you know?",
+        "Where do you work?",
+        if (ccsActive) "What do you know about the CCS?",
+        "Give up your secrets!",
+        "Tell us what you know!",
+        "We need information!",
+        "What are you hiding?",
+        "What's really going on?",
+      ].random,
+    },
+  );
   addparagraph(y, 0, message);
   y = console.y + 1;
 
@@ -31,7 +55,17 @@ Future<void> handleFirmInterrogation(
       mvaddstr(
         y++,
         0,
-        "${cr.name} ${["prays silently...", "seeks strength in faith.", "tries to find inner peace.", "looks to God for guidance.", "whispers a prayer.", "asks for divine help."].random}",
+        LcsI18n.processString("{name} {action}", {
+          "name": cr.name,
+          "action": [
+            "prays silently...",
+            "seeks strength in faith.",
+            "tries to find inner peace.",
+            "looks to God for guidance.",
+            "whispers a prayer.",
+            "asks for divine help.",
+          ].random,
+        }),
       );
     } else {
       Site? workSite = cr.workLocation is Site ? cr.workLocation as Site : null;
@@ -39,7 +73,14 @@ Future<void> handleFirmInterrogation(
         addparagraph(
           y,
           0,
-          "${cr.name} reveals everything ${cr.gender.heShe} knows about the ${workSite!.name}.",
+          LcsI18n.processString(
+            "{name} reveals everything {pronoun} knows about the {site}.",
+            {
+              "name": cr.name,
+              "pronoun": cr.gender.heShe,
+              "site": workSite!.name,
+            },
+          ),
         );
         y = console.y + 1;
 
@@ -52,8 +93,15 @@ Future<void> handleFirmInterrogation(
         addparagraph(
           y,
           0,
-          "${cr.name} talks about $the${cr.workLocation.name}, though "
-          "it doesn't seem like ${cr.gender.heShe} knows anything new.",
+          LcsI18n.processString(
+            "{name} talks about {article}{location}, though it doesn't seem like {pronoun} knows anything new.",
+            {
+              "name": cr.name,
+              "article": the,
+              "location": cr.workLocation.name,
+              "pronoun": cr.gender.heShe,
+            },
+          ),
         );
         y = console.y + 1;
 

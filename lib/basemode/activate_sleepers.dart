@@ -47,7 +47,13 @@ Future<void> activateSleepers() async {
     for (Creature tempp in temppool.skip(page * 9).take(9)) {
       setColor(lightGray);
       String letter = letterAPlus((y - 2) ~/ 2);
-      addOptionText(y, 0, letter, "$letter - ${tempp.name}");
+      addOptionText(
+        y,
+        0,
+        letter,
+        "{letter} - {name}",
+        params: {"letter": letter, "name": tempp.name},
+      );
 
       mvaddstr(y, 24, tempp.type.name);
 
@@ -243,13 +249,20 @@ Future<void> activateSleeper(Creature cr) async {
     setColor(lightGray);
     switch (cr.activity.type) {
       case ActivityType.none:
-        mvaddstrc(22, 3, lightGray, "${cr.name} will stay out of trouble.");
+        mvaddstrc(
+          22,
+          3,
+          lightGray,
+          "{name} will stay out of trouble.",
+          params: {"name": cr.name},
+        );
       case ActivityType.sleeperLiberal:
         mvaddstrc(
           22,
           3,
           lightGray,
-          "${cr.name} will build support for Liberal causes.",
+          "{name} will build support for Liberal causes.",
+          params: {"name": cr.name},
         );
       case ActivityType.sleeperRecruit:
         if (cr.subordinatesLeft > 0) {
@@ -257,7 +270,8 @@ Future<void> activateSleeper(Creature cr) async {
             22,
             3,
             lightGray,
-            "${cr.name} will try to recruit additional sleeper agents.",
+            "{name} will try to recruit additional sleeper agents.",
+            params: {"name": cr.name},
           );
         }
       case ActivityType.sleeperSpy:
@@ -265,26 +279,41 @@ Future<void> activateSleeper(Creature cr) async {
           22,
           3,
           lightGray,
-          "${cr.name} will snoop around for secrets and enemy plans.",
+          "{name} will snoop around for secrets and enemy plans.",
+          params: {"name": cr.name},
         );
       case ActivityType.sleeperEmbezzle:
         mvaddstrc(
           22,
           3,
           lightGray,
-          "${cr.name} will embezzle money for the LCS.",
+          "{name} will embezzle money for the LCS.",
+          params: {"name": cr.name},
         );
       case ActivityType.sleeperSteal:
         mvaddstrc(
           22,
           3,
           lightGray,
-          "${cr.name} will steal equipment and send it to the Camp.",
+          "{name} will steal equipment and send it to the Camp.",
+          params: {"name": cr.name},
         );
       case ActivityType.sleeperJoinLcs:
-        mvaddstrc(22, 3, lightGray, "${cr.name} will join the active LCS.");
+        mvaddstrc(
+          22,
+          3,
+          lightGray,
+          "{name} will join the active LCS.",
+          params: {"name": cr.name},
+        );
       default:
-        mvaddstrc(22, 3, red, "${cr.name} will dig around in the bugfield.");
+        mvaddstrc(
+          22,
+          3,
+          red,
+          "{name} will dig around in the bugfield.",
+          params: {"name": cr.name},
+        );
         debugPrint(
           "Unexpected sleeper activity type: "
           "${cr.activity.type.name}",
@@ -394,7 +423,13 @@ Future<void> activateSleepersBulk() async {
     ) {
       Creature tempp = temppool[p];
       String letter = letterAPlus(p - page * 19);
-      addOptionText(y, 0, letter, "$letter - ${tempp.name}");
+      addOptionText(
+        y,
+        0,
+        letter,
+        "{letter} - {name}",
+        params: {"letter": letter, "name": tempp.name},
+      );
       setColor(lightGray);
       mvaddstr(y, 20, tempp.type.name);
 
@@ -412,7 +447,12 @@ Future<void> activateSleepersBulk() async {
       } else {
         setColor(green);
       }
-      mvaddstr(y, 35, "${(tempp.infiltration * 100).ceil()}%");
+      mvaddstr(
+        y,
+        35,
+        "{percentage}%",
+        params: {"percentage": (tempp.infiltration * 100).ceil()},
+      );
 
       // Show current activity (first word only if long)
       move(y, 40);

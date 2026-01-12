@@ -27,17 +27,32 @@ Future<void> setVehicles() async {
       addOptionText(17, 53, nextPageStr.split(" ").first, nextPageStr);
     }
 
-    mvaddstr(18, 1,
-        "Press a letter to specify passengers for that Liberal vehicle.");
+    mvaddstr(
+      18,
+      1,
+      "Press a letter to specify passengers for that Liberal vehicle.",
+    );
     mvaddstr(19, 1, "Capitalize the letter to select a driver.");
     mvaddstr(
-        20, 1, "Press a number to remove that squad member from a vehicle.");
-    mvaddstr(21, 1,
-        "Note:  Vehicles in yellow have already been selected by another squad.");
-    mvaddstr(22, 1,
-        "       Vehicles in red have been selected by both this squad and another.");
-    mvaddstr(23, 1,
-        "       These cars may be used by both squads but not on the same day.");
+      20,
+      1,
+      "Press a number to remove that squad member from a vehicle.",
+    );
+    mvaddstr(
+      21,
+      1,
+      "Note:  Vehicles in yellow have already been selected by another squad.",
+    );
+    mvaddstr(
+      22,
+      1,
+      "       Vehicles in red have been selected by both this squad and another.",
+    );
+    mvaddstr(
+      23,
+      1,
+      "       These cars may be used by both squads but not on the same day.",
+    );
     addOptionText(24, 1, "Enter", "Enter - Done");
 
     String rawKey = await getKeyCaseSensitive();
@@ -52,8 +67,12 @@ Future<void> setVehicles() async {
       if (rawKey.codeUnitAt(0) >= Key.a) driver = false;
       int c = 0;
       if (squad.length > 1) {
-        mvaddstrc(8, 20, white,
-            "Choose a Liberal to ${driver ? "drive it" : "be a passenger"}.");
+        mvaddstrc(
+          8,
+          20,
+          white,
+          "Choose a Liberal to ${driver ? "drive it" : "be a passenger"}.",
+        );
         c = (await getKey()) - '1'.codePoint;
       }
       if (c >= 0 && c < squad.length) {
@@ -81,11 +100,15 @@ Future<void> setVehicles() async {
 
 void printCars(int page) {
   int x = 1, y = 10;
-  for (int l = page * carsPerPage;
-      l < vehiclePool.length && l < page * carsPerPage + carsPerPage;
-      l++) {
-    bool thisSquad = activeSquad?.members
-            .any((p) => p.alive && p.preferredCarId == vehiclePool[l].id) ??
+  for (
+    int l = page * carsPerPage;
+    l < vehiclePool.length && l < page * carsPerPage + carsPerPage;
+    l++
+  ) {
+    bool thisSquad =
+        activeSquad?.members.any(
+          (p) => p.alive && p.preferredCarId == vehiclePool[l].id,
+        ) ??
         false;
     bool anotherSquad = pool
         .where((p) => !(activeSquad?.members.contains(p) ?? false))
@@ -100,8 +123,14 @@ void printCars(int page) {
     }
 
     String key = letterAPlus(l - (page * carsPerPage));
-    addOptionText(y, x, key, "$key - ${vehiclePool[l].fullName()}",
-        baseColorKey: colorKey);
+    addOptionText(
+      y,
+      x,
+      key,
+      "{key} - {vehicle}",
+      params: {"key": key, "vehicle": vehiclePool[l].fullName()},
+      baseColorKey: colorKey,
+    );
     x += 26;
     if (x > 53) {
       x = 1;

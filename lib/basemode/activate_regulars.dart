@@ -45,7 +45,13 @@ Future<void> activateRegulars() async {
     for (int p = page * 19; p < tempPool.length && p < (page + 1) * 19; p++) {
       Creature c = tempPool[p];
       String key = letterAPlus(y - 2);
-      addOptionText(y, 0, key, "$key - ${c.name}");
+      addOptionText(
+        y,
+        0,
+        key,
+        "{key} - {name}",
+        params: {"key": key, "name": c.name},
+      );
       printSkillSummary(y, 24, c, showWeaponSkill: false);
       printHealthStat(y, 32, c, small: true);
       mvaddstrc(
@@ -557,7 +563,7 @@ Future<void> _selectClothingToMake(Creature cr) async {
   erase();
   await pagedInterface(
     headerPrompt:
-        "Which will ${cr.name} try to make?  (Note: Half Cost if you have cloth)",
+        "Which will {name} try to make?  (Note: Half Cost if you have cloth)",
     headerKey: {4: "NAME", 37: "DIFFICULTY", 60: "COST"},
     footerPrompt: "Press a Letter to select a Type of Clothing",
     pageSize: 12,
@@ -572,7 +578,8 @@ Future<void> _selectClothingToMake(Creature cr) async {
         y,
         0,
         key,
-        "$key - ${craftable[index].name}",
+        "{key} - {name}",
+        params: {"key": key, "name": craftable[index].name},
         baseColorKey: color,
       );
       addDifficultyText(y, 37, difficulty + 4);
@@ -646,9 +653,13 @@ void _clothingDetailFooter(
       enabledWhen: armorIndex > 0,
       highlightColorKey: "W",
     );
-    addstrc(lightGray, "${clothing.name}, ");
+    addstrc(lightGray, "{name}, ", params: {"name": clothing.name});
     addstrc(lightBlue, armor.name);
-    addstrc(lightGreen, " \$${clothing.makePrice + armor.makePrice}");
+    addstrc(
+      lightGreen,
+      " \${price}",
+      params: {"price": (clothing.makePrice + armor.makePrice).toString()},
+    );
 
     if (clothing.allowedArmor.length > 1) {
       addstrc(
@@ -695,20 +706,36 @@ void _clothingDetailFooter(
     headArmor = armor.limbArmor;
   }
   mvaddstrc(20, 20, lightGray, "Head: ");
-  addstrc(lightBlue, "$headArmor Armor");
+  addstrc(lightBlue, "{armor} Armor", params: {"armor": headArmor.toString()});
   mvaddstrc(21, 20, lightGray, "Torso: ");
-  addstrc(lightBlue, "${armor.bodyArmor} Armor");
+  addstrc(
+    lightBlue,
+    "{armor} Armor",
+    params: {"armor": armor.bodyArmor.toString()},
+  );
   mvaddstrc(22, 20, lightGray, "Limbs: ");
-  addstrc(lightBlue, "${armor.limbArmor} Armor");
+  addstrc(
+    lightBlue,
+    "{armor} Armor",
+    params: {"armor": armor.limbArmor.toString()},
+  );
   mvaddstrc(20, 40, lightGray, "Dodge: ");
   if (armor.dodgePenalty > 0) {
-    addstrc(red, "-${armor.dodgePenalty}");
+    addstrc(
+      red,
+      "-{penalty}",
+      params: {"penalty": armor.dodgePenalty.toString()},
+    );
   } else {
     addstrc(lightGreen, "No Penalty");
   }
   mvaddstrc(21, 40, lightGray, "Accuracy: ");
   if (armor.accuracyPenalty > 0) {
-    addstrc(red, "-${armor.accuracyPenalty}");
+    addstrc(
+      red,
+      "-{penalty}",
+      params: {"penalty": armor.accuracyPenalty.toString()},
+    );
   } else {
     addstrc(lightGreen, "No Penalty");
   }
@@ -738,13 +765,19 @@ Future<void> _selectSkillForEducation(
   }
   erase();
   await pagedInterface(
-    headerPrompt: "What skill will ${cr.name} $flavor?",
+    headerPrompt: "What skill will {name} {flavor}?",
     headerKey: {4: "SKILL", 21: "NOW", 27: "MAX", 34: "DESCRIPTION"},
     footerPrompt: "Press a Letter to select a Skill",
     count: skills.length,
     lineBuilder: (y, key, index) {
       Skill skill = skills[index];
-      addOptionText(y, 0, key, "$key - ${skill.displayName}");
+      addOptionText(
+        y,
+        0,
+        key,
+        "{key} - {skill}",
+        params: {"key": key, "skill": skill.displayName},
+      );
       highlightColorForSkill(cr, skill);
       printSkillValue(cr, skill, y, 20, emphasizePotential: true);
       mvaddstrc(

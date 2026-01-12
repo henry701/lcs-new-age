@@ -18,21 +18,33 @@ Future<void> mediaOverview() async {
     double publicMood = gameState.politics.publicMood();
     double lcsSupport = gameState.politics.lcsApproval();
     makeDelimiter(y: 20);
-    mvaddstrx(21, 0,
-        "&G${gameState.politics.publicMood().toStringAsFixed(1)}%&w of people have Liberal views");
+    mvaddstrx(
+      21,
+      0,
+      "&G${gameState.politics.publicMood().toStringAsFixed(1)}%&w of people have Liberal views",
+    );
     String lcsSupportColorKey = lcsSupport >= publicMood
         ? ColorKey.lightGreen
         : lcsSupport < publicMood - 20
-            ? ColorKey.red
-            : ColorKey.yellow;
+        ? ColorKey.red
+        : ColorKey.yellow;
     String lcsSupportString = lcsSupport.toStringAsFixed(1);
-    mvaddstrx(22, 0,
-        "&$lcsSupportColorKey$lcsSupportString%&w support the Liberal Crime Squad");
+    mvaddstrx(
+      22,
+      0,
+      "&$lcsSupportColorKey$lcsSupportString%&w support the Liberal Crime Squad",
+    );
     setColor(midGray);
-    mvaddstrx(23, 0,
-        "  LCS activities will inspire supporters, but may alienate detractors.");
-    mvaddstrx(24, 0,
-        "  Avoiding violence will increase public support for your actions.");
+    mvaddstrx(
+      23,
+      0,
+      "  LCS activities will inspire supporters, but may alienate detractors.",
+    );
+    mvaddstrx(
+      24,
+      0,
+      "  Avoiding violence will increase public support for your actions.",
+    );
 
     await pagedInterface(
       headerPrompt: "Media Overview",
@@ -84,14 +96,27 @@ Future<void> mediaOverview() async {
         double totalImpact = impact.entries
             .where((e) => e.key != View.lcsKnown)
             .fold(0, (a, b) => a + b.value);
-        String headlineColorKey =
-            ns.unread ? ColorKey.lightBlue : ColorKey.lightGray;
+        String headlineColorKey = ns.unread
+            ? ColorKey.lightBlue
+            : ColorKey.lightGray;
         addOptionText(y, 0, key, "$key - &$headlineColorKey$headline");
         mvaddstrc(y, 53, ns.publicationAlignment.color, ns.publicationName);
         if (totalImpact > 0) {
-          mvaddstrc(y, 72, lightGreen, "+${totalImpact.toStringAsFixed(1)}%");
+          mvaddstrc(
+            y,
+            72,
+            lightGreen,
+            "+{impact}%",
+            params: {"impact": totalImpact.toStringAsFixed(1)},
+          );
         } else if (totalImpact < 0) {
-          mvaddstrc(y, 72, red, "${totalImpact.toStringAsFixed(1)}%");
+          mvaddstrc(
+            y,
+            72,
+            red,
+            "{impact}%",
+            params: {"impact": totalImpact.toStringAsFixed(1)},
+          );
         } else {
           mvaddstrc(y, 72, lightGray, "N/A");
         }

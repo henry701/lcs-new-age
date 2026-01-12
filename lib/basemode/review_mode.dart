@@ -318,7 +318,13 @@ Future<void> reviewMode(ReviewMode mode) async {
       Creature tempp = temppool[p];
       setColor(lightGray);
       String letter = letterAPlus(y - 2);
-      addOptionText(y, 0, letter, "$letter - ${tempp.name}");
+      addOptionText(
+        y,
+        0,
+        letter,
+        "{letter} - {name}",
+        params: {"letter": letter, "name": tempp.name},
+      );
 
       bool bright = false;
       int skill = 0;
@@ -453,7 +459,13 @@ Future<void> reviewMode(ReviewMode mode) async {
     move(22, 0);
     addstr("Press a Letter to View Status.");
     if (swap != null) {
-      addOptionText(22, 38, "Z", "Z - Place ${swap.name}");
+      addOptionText(
+        22,
+        38,
+        "Z",
+        "Z - Place {name}",
+        params: {"name": swap.name},
+      );
     } else {
       addOptionText(
         22,
@@ -615,7 +627,13 @@ Future<void> reviewMode(ReviewMode mode) async {
             if (c == Key.c) {
               eraseArea(startY: 22);
               // Release squad member
-              addOptionText(22, 0, "Enter", "${tempp.name} has been released.");
+              addOptionText(
+                22,
+                0,
+                "Enter",
+                "{name} has been released.",
+                params: {"name": tempp.name},
+              );
 
               await getKey();
 
@@ -752,7 +770,7 @@ Future<void> reviewMode(ReviewMode mode) async {
         if (p < temppool.length) swap = temppool[swapPos = p];
       } else {
         // non-null swap
-        mvaddstrc(y, 0, lightGray, "${swap.name} with");
+        mvaddstrc(y, 0, lightGray, "{name} with", params: {"name": swap.name});
 
         int c = await getKey();
 

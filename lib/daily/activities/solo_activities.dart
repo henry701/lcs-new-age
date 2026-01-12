@@ -18,6 +18,7 @@ import 'package:lcs_new_age/daily/activities/trouble.dart';
 import 'package:lcs_new_age/daily/shopsnstuff.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/loot_type.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -218,7 +219,11 @@ Future<void> soloActivities(bool disbanding) async {
 }
 
 Future<void> doActivityGetWheelchair(Creature p) async {
-  await showMessage("${p.name} has procured a wheelchair.");
+  await showMessage(
+    LcsI18n.processString("{name} has procured a wheelchair.", {
+      "name": p.name,
+    }),
+  );
   p.hasWheelchair = true;
   p.activity = Activity.none();
 }

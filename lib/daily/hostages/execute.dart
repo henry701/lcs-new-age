@@ -20,7 +20,8 @@ Future<int> handleExecution(
     0,
     0,
     white,
-    "The Final Education of ${cr.name}: Day ${cr.daysSinceJoined}",
+    "The Final Education of {name}: Day {days}",
+    params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
   );
   Creature? killer;
 

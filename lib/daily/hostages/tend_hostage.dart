@@ -188,7 +188,8 @@ Future<void> tendHostage(InterrogationSession intr) async {
       0,
       0,
       white,
-      "The Education of ${cr.name}: Day ${cr.daysSinceJoined}",
+      "The Education of {name}: Day {days}",
+      params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
     );
     y = 2;
     if (techniques[Technique.kill] == true) {

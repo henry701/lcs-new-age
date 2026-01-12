@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/loot.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/politics/views.dart';
@@ -93,7 +94,12 @@ Future<void> doActivityHacking(List<Creature> hack) async {
       "news website",
       "government website",
     ];
-    msg += "${hacks.random} a ${targets.random}.";
+    String hackAction = hacks.random;
+    String target = targets.random;
+    msg += LcsI18n.processString("{action} a {target}.", {
+      "action": hackAction,
+      "target": target,
+    });
     changePublicOpinion(issue, 1);
   }
 

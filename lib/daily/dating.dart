@@ -458,6 +458,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
         bool unseriousWeapon = false;
         move(17, 0);
         String kidnapMessage;
+        String warnMessage = "";
 
         if (p.weapon.type.rangedAttack != null) {
           weapon = p.weapon.getName(sidearm: true);
@@ -478,11 +479,11 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             unseriousWeapon = true;
           }
         } else {
-          final warnMessage = !noProfanity
+          warnMessage = !noProfanity
               ? "not to fuck around!"
               : "not to [resist]!";
           kidnapMessage =
-              "{pName} seizes {eName} from behind and warns {himHer} $warnMessage";
+              "{pName} seizes {eName} from behind and warns {himHer} {warnMessage}";
           bonus += min(5, p.skill(Skill.martialArts) - 1);
         }
         mvaddstr(
@@ -494,6 +495,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             "eName": e.name,
             "weapon": weapon,
             "himHer": e.gender.himHer,
+            "warnMessage": warnMessage,
           },
         );
 

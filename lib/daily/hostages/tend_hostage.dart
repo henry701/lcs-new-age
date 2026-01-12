@@ -312,7 +312,8 @@ Future<void> tendHostage(InterrogationSession intr) async {
       0,
       0,
       white,
-      "The Recruitment of ${cr.name}: Day ${cr.daysSinceJoined}",
+      "The Recruitment of {name}: Day {days}",
+      params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
     );
     y = 2;
     setColor(lightGray);
@@ -405,7 +406,8 @@ Future<void> tendHostage(InterrogationSession intr) async {
       addparagraph(
         y,
         0,
-        "${cr.name} agrees to join the Liberal Crime Squad! ${cr.gender.heSheCap} $reaction",
+        "${lead.name} attempts to recruit ${cr.name} to the Liberal Crime Squad. "
+        "As the pitch goes on, ${cr.gender.heShe} $reaction",
       );
       cr.hireId = lead.id;
       cr.juice = 0;
@@ -477,7 +479,8 @@ Future<void> tendHostage(InterrogationSession intr) async {
         0,
         0,
         white,
-        "The Ransom of ${cr.name}: Day ${cr.daysSinceJoined}",
+        "The Ransom of {name}: Day {days}",
+        params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
       );
       y = 2;
       setColor(lightGray);
@@ -492,7 +495,8 @@ Future<void> tendHostage(InterrogationSession intr) async {
     0,
     0,
     white,
-    "The Education of ${cr.name}: Day ${cr.daysSinceJoined}",
+    "The Education of {name}: Day {days}",
+    params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
   );
   y = 2;
 
@@ -510,20 +514,6 @@ Future<void> tendHostage(InterrogationSession intr) async {
         p.activity = Activity.none();
       }
       return;
-    }
-  } else {
-    setColor(lightGray);
-    addparagraph(
-      y,
-      0,
-      "${cr.name} is locked in a back room converted into a makeshift cell.",
-    );
-    y = console.y + 1;
-    if (intr.ransomDemanded &&
-        !intr.ransomPaid &&
-        cr.site?.siege.underSiege == false) {
-      // Waiting for response
-      intr.daysUntilRansomResponse--;
     }
   }
 
@@ -659,7 +649,8 @@ void showInterrogationSidebar(InterrogationSession intr, Creature a) {
     ++y,
     40,
     lightGray,
-    "Psychology Skill: ${a.skill(Skill.psychology)}",
+    "Psychology Skill: {skill}",
+    params: {"skill": a.skill(Skill.psychology).toString()},
   );
   move(++y, 40);
   setColor(lightGray);

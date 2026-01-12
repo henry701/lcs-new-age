@@ -94,7 +94,14 @@ Future<void> doActivityRecruit(Creature cr) async {
           12 + i,
           0,
           letter,
-          "$letter - &${ColorKey.fromColor(encounter[i].align.color)}${encounter[i].name} ${creatureAgeAndGender(encounter[i])}",
+          "{letter} - &{color}{name} {ageGender}",
+          params: {
+            "letter": letter,
+            "color": ColorKey.fromColor(encounter[i].align.color),
+            "name": encounter[i].name,
+            "ageGender": creatureAgeAndGender(encounter[i]),
+          },
+          noTranslate: true,
         );
       }
       addOptionText(

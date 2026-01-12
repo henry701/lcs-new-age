@@ -341,12 +341,12 @@ Future<void> tendHostage(InterrogationSession intr) async {
     if (successChance >= 100) {
       reaction = [
         "accepts the offer immediately.",
-        "seems to have been waiting for this ${cr.gender.hisHer} whole life.",
-        "looks like ${cr.gender.heShe} is about to say yes.",
+        "seems to have been waiting for this {hisHer} whole life.",
+        "looks like {heShe} is about to say yes.",
         "says yes without hesitation.",
         "says yes right away.",
         "jumps up and down in excitement.",
-        "mutters \"fuck yes\" under ${cr.gender.hisHer} breath.",
+        "mutters \"fuck yes\" under {hisHer} breath.",
       ].random;
     } else if (successChance < 0) {
       reaction = [
@@ -354,14 +354,14 @@ Future<void> tendHostage(InterrogationSession intr) async {
         "doesn't seem interested in joining.",
         "looks baffled by the suggestion.",
         "seems indignant at the suggestion.",
-        "looks like ${cr.gender.heShe} is about to say no.",
+        "looks like {heShe} is about to say no.",
       ].random;
     } else if (successChance < 25) {
       reaction = [
-        "doesn't react as ${lead.name} makes the pitch.",
+        "doesn't react as {leadName} makes the pitch.",
         "doesn't seem to know what to make of it.",
         "looks confused by the suggestion.",
-        "looks like ${cr.gender.heShe} is trying to figure out what to say.",
+        "looks like {heShe} is trying to figure out what to say.",
       ].random;
     } else {
       reaction = [
@@ -369,7 +369,7 @@ Future<void> tendHostage(InterrogationSession intr) async {
         "seems receptive to the idea.",
         "asks some probing questions.",
         "appears to be considering the offer.",
-        "looks like ${cr.gender.heShe} might be convinced.",
+        "looks like {heShe} might be convinced.",
         "asks a lot of questions and seems to be taking it seriously.",
       ].random;
     }
@@ -385,6 +385,9 @@ Future<void> tendHostage(InterrogationSession intr) async {
           "name": cr.name,
           "gender": cr.gender.heShe,
           "reaction": reaction,
+          "hisHer": cr.gender.hisHer,
+          "heShe": cr.gender.heShe,
+          "leadName": lead.name,
         },
       ),
     );
@@ -395,20 +398,20 @@ Future<void> tendHostage(InterrogationSession intr) async {
     if (lcsRandom(100) < successChance) {
       String reaction = [
         "says getting kidnapped by the LCS is the best thing that ever happened "
-            "to ${cr.gender.himHer}, and laughs in a sort of shocked "
-            "and giddy way at how much ${cr.gender.hisHer} view of the "
+            "to {himHer}, and laughs in a sort of shocked "
+            "and giddy way at how much {hisHer} view of the "
             "world has been changed by the experience.",
-        "says ${cr.gender.heShe} has been waiting for this moment "
-            "${cr.gender.hisHer} whole life without knowing it, and "
-            "this is the first chance ${cr.gender.heShe} has to really "
-            "become the person ${cr.gender.heShe} was meant to be.",
-        "places ${cr.gender.hisHer} hand on ${cr.gender.hisHer} chest "
-            "and says ${cr.gender.heShe} has changed a lot since "
-            "coming here, and ${cr.gender.heShe} is grateful to have a chance "
-            "to prove it and make up for ${cr.gender.hisHer} past mistakes.",
-        "says ${cr.gender.heShe} will do anything ${lead.name} asks of "
-            "${cr.gender.himHer}. ${cr.gender.heSheCap} just hopes "
-            "${cr.gender.heShe} has the skills to do something useful.",
+        "says {heShe} has been waiting for this moment "
+            "{hisHer} whole life without knowing it, and "
+            "this is the first chance {heShe} has to really "
+            "become the person {heShe} was meant to be.",
+        "places {hisHer} hand on {hisHer} chest "
+            "and says {heShe} has changed a lot since "
+            "coming here, and {heShe} is grateful to have a chance "
+            "to prove it and make up for {hisHer} past mistakes.",
+        "says {heShe} will do anything {leadName} asks of "
+            "{himHer}. {heSheCap} just hopes "
+            "{heShe} has the skills to do something useful.",
       ].random;
 
       setColor(lightGreen);
@@ -423,6 +426,11 @@ Future<void> tendHostage(InterrogationSession intr) async {
             "name": cr.name,
             "gender": cr.gender.heShe,
             "reaction": reaction,
+            "himHer": cr.gender.himHer,
+            "hisHer": cr.gender.hisHer,
+            "heShe": cr.gender.heShe,
+            "heSheCap": cr.gender.heSheCap,
+            "leadName": lead.name,
           },
         ),
       );
@@ -441,32 +449,32 @@ Future<void> tendHostage(InterrogationSession intr) async {
       String reaction;
       if (successChance < 0) {
         reaction = [
-          "bites ${cr.gender.hisHer} tongue and just looks furious that "
-              "${lead.name} would even suggest such a thing.",
-          "accuses ${cr.name} of being a terrorist kidnapper who "
+          "bites {hisHer} tongue and just looks furious that "
+              "{leadName} would even suggest such a thing.",
+          "accuses {name} of being a terrorist kidnapper who "
               "should be shot on sight.",
           "declares that the LCS is a cult. A political cult, but still a "
               "${noProfanity ? "[politically incorrect]" : "God damn"} cult. And "
-              "${cr.name} can take that joining bullshit and shove it where the "
+              "{name} can take that joining bullshit and shove it where the "
               "sun don't shine.",
-          "accuses ${lead.name} of being absolutely out of "
-              "${lead.gender.hisHer} mind if ${lead.gender.heShe} thinks "
-              "${cr.name} would ever join a left-wing terrorist organization.",
+          "accuses {leadName} of being absolutely out of "
+              "{leadHisHer} mind if {leadHeShe} thinks "
+              "{name} would ever join a left-wing terrorist organization.",
           "rants about how the LCS are a bunch of LIBERALS and that's the "
               "absolute worst thing you can be.",
-          "stands up and starts yelling about how ${cr.gender.heShe} "
-              "was KIDNAPPED and is a PRISONER and if ${lead.name} has "
-              "ANY DECENCY left at all, ${lead.gender.heShe} will let "
-              "${cr.gender.himHer} go RIGHT NOW.",
+          "stands up and starts yelling about how {heShe} "
+              "was KIDNAPPED and is a PRISONER and if {leadName} has "
+              "ANY DECENCY left at all, {leadHeShe} will let "
+              "{himHer} go RIGHT NOW.",
         ].random;
         rapport[lead.id] = (rapport[lead.id] ?? 0) - 2;
       } else {
         reaction = [
-          "says ${cr.gender.heShe} needs more time to think.",
-          "says it's worth considering, but ${cr.gender.heShe} isn't ready for "
+          "says {heShe} needs more time to think.",
+          "says it's worth considering, but {heShe} isn't ready for "
               "this kind of commitment.",
-          "says ${cr.gender.heShe} just wants to go back to ${cr.gender.hisHer} "
-              "normal life once ${lead.name} lets ${cr.gender.himHer} go.",
+          "says {heShe} just wants to go back to {hisHer} "
+              "normal life once {leadName} lets {himHer} go.",
           "seems to have second thoughts about the whole thing.",
         ].random;
       }
@@ -476,7 +484,18 @@ Future<void> tendHostage(InterrogationSession intr) async {
         0,
         LcsI18n.processString(
           "{name} rejects the offer to join. {gender} {reaction}",
-          {"name": cr.name, "gender": cr.gender.heSheCap, "reaction": reaction},
+          {
+            "name": cr.name,
+            "gender": cr.gender.heSheCap,
+            "reaction": reaction,
+            "hisHer": cr.gender.hisHer,
+            "heShe": cr.gender.heShe,
+            "heSheCap": cr.gender.heSheCap,
+            "leadName": lead.name,
+            "leadHisHer": lead.gender.hisHer,
+            "leadHeShe": lead.gender.heShe,
+            "himHer": cr.gender.himHer,
+          },
         ),
       );
 

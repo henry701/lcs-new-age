@@ -12,7 +12,7 @@ LootType money = LootType("MONEY")
 @JsonSerializable()
 class Money extends Item {
   Money([int amount = 1])
-      : super.superConstructor(money.idName, stackSize: amount);
+    : super.superConstructor(money.idName, stackSize: amount);
   factory Money.fromJson(Map<String, dynamic> json) => _$MoneyFromJson(json);
   @override
   Map<String, dynamic> toJson() => _$MoneyToJson(this);

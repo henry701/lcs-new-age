@@ -59,7 +59,7 @@ enum View {
     military,
     prisons,
     amRadio,
-    cableNews
+    cableNews,
   ];
 
   final String label;

@@ -180,7 +180,12 @@ void _addStockTicker(int y, int x, String name, Color bgColor) {
   double performance = lcsRandomDouble(4) - 2;
   if (performance > 0) {
     mvaddstrc(
-        y, x + 7, green, bg: bgColor, "+${performance.toStringAsFixed(1)}%");
+      y,
+      x + 7,
+      green,
+      bg: bgColor,
+      "+${performance.toStringAsFixed(1)}%",
+    );
   } else {
     mvaddstrc(y, x + 7, red, bg: bgColor, "${performance.toStringAsFixed(1)}%");
   }

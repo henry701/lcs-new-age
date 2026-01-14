@@ -8,8 +8,14 @@ enum Gender {
   maleBias("his", "he", "him", "himself", "s", "man"),
   femaleBias("her", "she", "she", "herself", "s", "woman");
 
-  const Gender(this.hisHer, this.heShe, this.himHer, this.himselfHerself,
-      this.s, this.manWoman);
+  const Gender(
+    this.hisHer,
+    this.heShe,
+    this.himHer,
+    this.himselfHerself,
+    this.s,
+    this.manWoman,
+  );
   final String hisHer;
   String get hisHerCap => hisHer[0].toUpperCase() + hisHer.substring(1);
   final String heShe;
@@ -24,8 +30,7 @@ enum Gender {
       Gender.nonbinary => Gender.nonbinary,
       Gender.male ||
       Gender.maleBias ||
-      Gender.whiteMalePatriarch =>
-        Gender.male,
+      Gender.whiteMalePatriarch => Gender.male,
       Gender.female || Gender.femaleBias => Gender.female,
     };
   }

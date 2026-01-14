@@ -39,19 +39,27 @@ Future<void> planSiteVisit() async {
     }
 
     int y = 10;
-    for (int p = page * 11;
-        p < destinationList.length && p < page * 11 + 11;
-        p++) {
+    for (
+      int p = page * 11;
+      p < destinationList.length && p < page * 11 + 11;
+      p++
+    ) {
       Location thisLocation = destinationList[p];
       Site? thisSite = (thisLocation is Site) ? thisLocation : null;
       District? thisDistrict = (thisLocation is District) ? thisLocation : null;
       City? thisCity = (thisLocation is City) ? thisLocation : null;
       String name = thisLocation.getName();
       String letter = letterAPlus(y - 10);
-      addOptionText(y, 0, letter, "$letter - $name",
-          enabledWhen: thisSite?.isClosed != true &&
-              thisSite?.siege.underSiege != true &&
-              (thisLocation.area == squadLocation?.area || haveCar));
+      addOptionText(
+        y,
+        0,
+        letter,
+        "$letter - $name",
+        enabledWhen:
+            thisSite?.isClosed != true &&
+            thisSite?.siege.underSiege != true &&
+            (thisLocation.area == squadLocation?.area || haveCar),
+      );
       if (thisLocation == squadLocation ||
           thisCity == squadLocation?.city ||
           thisDistrict == squadLocation?.district) {
@@ -96,8 +104,13 @@ Future<void> planSiteVisit() async {
     }
     if (area == squadLocation?.city) {
       String letter = letterAPlus(y - 10);
-      addOptionText(y, 0, letter, "$letter - Travel to a Different City",
-          enabledWhen: haveCar && ledger.funds >= ticketPrice);
+      addOptionText(
+        y,
+        0,
+        letter,
+        "$letter - Travel to a Different City",
+        enabledWhen: haveCar && ledger.funds >= ticketPrice,
+      );
       if (!haveCar) addstrc(yellow, " (Need Car)");
       addstrc(ledger.funds < ticketPrice ? red : green, " (\$$ticketPrice)");
     }
@@ -106,7 +119,11 @@ Future<void> planSiteVisit() async {
     if (page + 1 < destinationList.length / 11) mvaddstr(20, 60, nextPageStr);
     if (area == squadLocation?.city) {
       addOptionText(
-          24, 1, "Enter", "Enter - The Squad is not yet Liberal enough");
+        24,
+        1,
+        "Enter",
+        "Enter - The Squad is not yet Liberal enough",
+      );
     } else {
       addOptionText(24, 1, "Enter", "Enter - Back one step");
     }
@@ -120,8 +137,10 @@ Future<void> planSiteVisit() async {
         area = destinationList[index];
         if (area.area != squadLocation?.area && !haveCar) area = oldArea;
         if (area is Site && !area.isClosed) {
-          aSquad.activity =
-              Activity(ActivityType.visit, idString: area.idString);
+          aSquad.activity = Activity(
+            ActivityType.visit,
+            idString: area.idString,
+          );
           break;
         }
       } else if (haveCar &&

@@ -36,23 +36,49 @@ Future<void> setupNewGame() async {
   bool strongccs = false;
   bool nightmarelaws = false;
 
-  void checkBoxOption(int y, bool ticked, String key, String text,
-      {bool disabled = false}) {
-    addOptionText(y, 0, key, "[${ticked ? "X" : " "}] $key - $text",
-        enabledWhen: !disabled);
+  void checkBoxOption(
+    int y,
+    bool ticked,
+    String key,
+    String text, {
+    bool disabled = false,
+  }) {
+    addOptionText(
+      y,
+      0,
+      key,
+      "[${ticked ? "X" : " "}] $key - $text",
+      enabledWhen: !disabled,
+    );
   }
 
   erase();
   while (true) {
-    mvaddstrc(4, 6, white,
-        "New Game of Liberal Crime Squad: Advanced Gameplay Options");
+    mvaddstrc(
+      4,
+      6,
+      white,
+      "New Game of Liberal Crime Squad: Advanced Gameplay Options",
+    );
     checkBoxOption(
-        7, classicmode, "A", "Classic Mode: No Conservative Crime Squad.");
-    checkBoxOption(9, strongccs, "B",
-        "We Didn't Start The Fire: The CCS starts active and extremely strong.",
-        disabled: classicmode);
-    checkBoxOption(11, nightmarelaws, "C",
-        "Nightmare Mode: Liberalism is forgotten. Is it too late to fight back?");
+      7,
+      classicmode,
+      "A",
+      "Classic Mode: No Conservative Crime Squad.",
+    );
+    checkBoxOption(
+      9,
+      strongccs,
+      "B",
+      "We Didn't Start The Fire: The CCS starts active and extremely strong.",
+      disabled: classicmode,
+    );
+    checkBoxOption(
+      11,
+      nightmarelaws,
+      "C",
+      "Nightmare Mode: Liberalism is forgotten. Is it too late to fight back?",
+    );
 
     addOptionText(15, 0, "Any Other Key", "Any Other Key - Continue...");
 
@@ -158,7 +184,7 @@ Future<void> makeCharacter() async {
   const List<Gender> sexOptions = [
     Gender.male,
     Gender.female,
-    Gender.nonbinary
+    Gender.nonbinary,
   ];
   founder.giveClothingType("CLOTHING_CLOTHES");
   String sexDesc() {
@@ -175,18 +201,33 @@ Future<void> makeCharacter() async {
 
     mvaddstrc(7, 2, lightGray, "Given Name: ");
     addstrc(white, first[sex]!);
-    addOptionText(7, 34, "A", "(A to have your parents reconsider)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      7,
+      34,
+      "A",
+      "(A to have your parents reconsider)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     mvaddstrc(9, 2, lightGray, "Family Name: ");
     addstrc(white, last);
-    addOptionText(9, 34, "B", "(B to be born to a different family)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      9,
+      34,
+      "B",
+      "(B to be born to a different family)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     mvaddstrc(11, 2, lightGray, "Sex at Birth: ");
     addstrc(white, sexDesc());
-    addOptionText(11, 34, "C", "(C to have the doctor check again)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      11,
+      34,
+      "C",
+      "(C to have the doctor check again)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     mvaddstrc(13, 2, lightGray, "Tragic Origin: ");
     if (letMeChoose) {
@@ -194,17 +235,31 @@ Future<void> makeCharacter() async {
     } else {
       addstrc(red, "Let Fate Decide");
     }
-    addOptionText(13, 34, "D", "(D to toggle choice or fate)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      13,
+      34,
+      "D",
+      "(D to toggle choice or fate)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     mvaddstrc(15, 2, lightGray, "City: ");
     addstrc(white, startingCity.getName(includeCity: true));
-    addOptionText(15, 34, "E", "(E to move at a young age)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      15,
+      34,
+      "E",
+      "(E to move at a young age)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     addOptionText(
-        19, 2, "Any Other Key", "Press any other key when ready to begin...",
-        baseColorKey: ColorKey.midGray);
+      19,
+      2,
+      "Any Other Key",
+      "Press any other key when ready to begin...",
+      baseColorKey: ColorKey.midGray,
+    );
 
     int c = await getKey();
     if (c == Key.a) {
@@ -232,12 +287,15 @@ Future<void> makeCharacter() async {
   activeSquad = squads.first;
   pool.add(founder);
   founder.location = sites.firstWhere(
-      (l) => l.city == startingCity && l.controller == SiteController.lcs);
+    (l) => l.city == startingCity && l.controller == SiteController.lcs,
+  );
   founder.base = founder.site;
 
   if (debugSiege) {
-    founder.base =
-        findSiteInSameCity(founder.location!.city, SiteType.warehouse);
+    founder.base = findSiteInSameCity(
+      founder.location!.city,
+      SiteType.warehouse,
+    );
     if (debugSiegeType == "cia") {
       founder.base?.siege.timeuntilcia = 0;
       offendedCia = true;
@@ -294,8 +352,10 @@ Future<void> makeCharacter() async {
       Creature c = Creature.fromId(CreatureTypeIds.collegeStudent);
       liberalize(c);
       c.nameCreature();
-      c.location =
-          findSiteInSameCity(founder.location?.city, SiteType.policeStation);
+      c.location = findSiteInSameCity(
+        founder.location?.city,
+        SiteType.policeStation,
+      );
       pool.add(c);
     }
 
@@ -325,31 +385,56 @@ Future<void> aNewConservativeEra() async {
 
   mvaddstrc(4, 2, lightGray, "The Year is $year.");
 
-  mvaddstr(6, 2,
-      "Following a series of violent protests from the far right, Conservative");
-  mvaddstr(7, 2,
-      "President ${oldPresident.firstLast} has resigned in disgrace.  His hardcore");
-  mvaddstr(8, 2,
-      "Arch-Conservative Vice President, ${execName[Exec.president]!.firstLast}, a close ally of the");
-  mvaddstr(9, 2,
-      "rioters, has been sworn in as the new President of the United States.");
+  mvaddstr(
+    6,
+    2,
+    "Following a series of violent protests from the far right, Conservative",
+  );
+  mvaddstr(
+    7,
+    2,
+    "President ${oldPresident.firstLast} has resigned in disgrace.  His hardcore",
+  );
+  mvaddstr(
+    8,
+    2,
+    "Arch-Conservative Vice President, ${execName[Exec.president]!.firstLast}, a close ally of the",
+  );
+  mvaddstr(
+    9,
+    2,
+    "rioters, has been sworn in as the new President of the United States.",
+  );
 
-  mvaddstr(11, 2,
-      "With Conservatives having swept into power in the recent midterm elections,");
-  mvaddstr(12, 2,
-      "and a Conservative majority in the Supreme Court of the United States,");
-  mvaddstr(13, 2,
-      "commentators are hailing it as the beginning of a new Conservative era.");
+  mvaddstr(
+    11,
+    2,
+    "With Conservatives having swept into power in the recent midterm elections,",
+  );
+  mvaddstr(
+    12,
+    2,
+    "and a Conservative majority in the Supreme Court of the United States,",
+  );
+  mvaddstr(
+    13,
+    2,
+    "commentators are hailing it as the beginning of a new Conservative era.",
+  );
 
   move(15, 2);
   setColor(red);
   addstr(
-      "President ${execName[Exec.president]!.firstLast} has asked the new Congress to move quickly");
+    "President ${execName[Exec.president]!.firstLast} has asked the new Congress to move quickly",
+  );
   mvaddstr(16, 2, "to rubber stamp his radical Arch-Conservative agenda. ");
   setColor(lightGray);
   addstr("The left seems");
-  mvaddstr(17, 2,
-      "powerless to stop this imminent trampling of Liberal Sanity and Justice.");
+  mvaddstr(
+    17,
+    2,
+    "powerless to stop this imminent trampling of Liberal Sanity and Justice.",
+  );
 
   mvaddstr(19, 2, "In this dark time, the Liberal Crime Squad is born...");
 

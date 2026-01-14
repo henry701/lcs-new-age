@@ -20,7 +20,8 @@ part 'item.g.dart';
 @JsonSerializable(ignoreUnannotated: true, createFactory: false)
 class Item implements Comparable<Item> {
   factory Item(String idName, {int stackSize = 1}) {
-    ItemType type = itemTypes[idName] ??
+    ItemType type =
+        itemTypes[idName] ??
         itemTypes[mapOutdatedItem(idName)] ??
         itemTypes.values.first;
     if (type is WeaponType) {
@@ -40,7 +41,8 @@ class Item implements Comparable<Item> {
   }
   Item.superConstructor(this.typeName, {this.stackSize = 1});
   factory Item.fromJson(Map<String, dynamic> json) {
-    ItemType? type = itemTypes[json['typeName']] ??
+    ItemType? type =
+        itemTypes[json['typeName']] ??
         itemTypes[mapOutdatedItem(json['typeName'])];
     if (type is WeaponType) {
       return Weapon.fromJson(json);

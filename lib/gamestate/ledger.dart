@@ -60,7 +60,7 @@ enum Income {
   busking,
   thievery,
   tshirts,
-  ransom;
+  ransom,
 }
 
 enum Expense {
@@ -79,5 +79,5 @@ enum Expense {
   compoundUpgrades,
   training,
   travel,
-  augmentation;
+  augmentation,
 }

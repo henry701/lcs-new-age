@@ -10,7 +10,8 @@ import 'package:xml/xml.dart';
 
 Skill? parseSkill(String skillString) {
   Skill? skill = Skill.values.firstWhereOrNull(
-      (s) => s.name.toLowerCase() == skillString.toLowerCase());
+    (s) => s.name.toLowerCase() == skillString.toLowerCase(),
+  );
   if (skill == null) {
     switch (skillString.toLowerCase()) {
       case "handtohand":
@@ -95,7 +96,8 @@ void parseCreatureType(CreatureType type, XmlElement xml) {
               type.attributePoints[att] = val;
             } else {
               debugPrint(
-                  "Unable to parse ${e.name.local} value for ${type.id}: ${element.innerText}");
+                "Unable to parse ${e.name.local} value for ${type.id}: ${element.innerText}",
+              );
             }
           }
         }
@@ -113,12 +115,14 @@ void parseCreatureType(CreatureType type, XmlElement xml) {
             if (val != null) {
               if ((type.skillPoints[skill]?.$2 ?? 0) > 0) {
                 debugPrint(
-                    "Overwriting skill points for ${type.id}: ${skill.name} (${e.name.local})");
+                  "Overwriting skill points for ${type.id}: ${skill.name} (${e.name.local})",
+                );
               }
               type.skillPoints[skill] = val;
             } else {
               debugPrint(
-                  "Unable to parse ${e.name.local} value for ${type.id}: ${e.innerText}");
+                "Unable to parse ${e.name.local} value for ${type.id}: ${e.innerText}",
+              );
             }
           }
         }

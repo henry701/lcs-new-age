@@ -26,7 +26,11 @@ class FullName {
 FullName generateFullName([Gender gender = Gender.nonbinary]) {
   gender = forceGenderBinary(gender);
   return FullName(
-      firstName(gender), firstName(gender), lastName(gender), gender);
+    firstName(gender),
+    firstName(gender),
+    lastName(gender),
+    gender,
+  );
 }
 
 String lastName([Gender gender = Gender.nonbinary]) {
@@ -69,17 +73,13 @@ CountryName generateCountryName() {
       : "$shortName ${countryTitles.random}";
   String capital = switch (lcsRandom(3)) {
     1 => "St. ${lastName()}",
-    2 => "${["New", "Green", "Bright", "Fort", "High"].random} "
-        "${["Haven", "Hill", "Bridge", "Bull", "Lake"].random}",
+    2 =>
+      "${["New", "Green", "Bright", "Fort", "High"].random} "
+          "${["Haven", "Hill", "Bridge", "Bull", "Lake"].random}",
     _ => "${countryPrefixes.random}${countrySuffixes.random}",
   };
   FullName leader = generateFullName(Gender.male);
-  return CountryName(
-    longName,
-    shortName,
-    capital,
-    leader,
-  );
+  return CountryName(longName, shortName, capital, leader);
 }
 
 String generateCompanyName() {

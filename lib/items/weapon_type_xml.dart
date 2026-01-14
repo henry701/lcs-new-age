@@ -168,12 +168,16 @@ Attack parseAttack(XmlElement element) {
       case "stuns":
         attack.stuns = parseBool(e.innerText) ?? attack.stuns;
       case "alignment_restriction":
-        attack.alignmentRestriction = Alignment.values
-                .firstWhereOrNull((v) => v.name == e.innerText.toLowerCase()) ??
+        attack.alignmentRestriction =
+            Alignment.values.firstWhereOrNull(
+              (v) => v.name == e.innerText.toLowerCase(),
+            ) ??
             attack.alignmentRestriction;
       case "severtype":
-        attack.severType = SeverType.values
-                .firstWhereOrNull((v) => v.name == e.innerText.toLowerCase()) ??
+        attack.severType =
+            SeverType.values.firstWhereOrNull(
+              (v) => v.name == e.innerText.toLowerCase(),
+            ) ??
             attack.severType;
       case "social_damage":
         attack.socialDamage = parseBool(e.innerText) ?? attack.socialDamage;

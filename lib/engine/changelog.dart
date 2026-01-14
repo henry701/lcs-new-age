@@ -61,17 +61,21 @@ class ChangelogWidgetState extends State<ChangelogWidget> {
                 event.logicalKey == LogicalKeyboardKey.escape) {
               hide();
             } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-              unawaited(_scrollController.animateTo(
-                _scrollController.offset - 50,
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.easeOut,
-              ));
+              unawaited(
+                _scrollController.animateTo(
+                  _scrollController.offset - 50,
+                  duration: const Duration(milliseconds: 100),
+                  curve: Curves.easeOut,
+                ),
+              );
             } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-              unawaited(_scrollController.animateTo(
-                _scrollController.offset + 50,
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.easeOut,
-              ));
+              unawaited(
+                _scrollController.animateTo(
+                  _scrollController.offset + 50,
+                  duration: const Duration(milliseconds: 100),
+                  curve: Curves.easeOut,
+                ),
+              );
             }
           }
         },
@@ -133,13 +137,15 @@ class ChangelogWidgetState extends State<ChangelogWidget> {
                       child: MarkdownBlock(
                         selectable: false,
                         data: _content!,
-                        config: MarkdownConfig.darkConfig.copy(configs: [
-                          const H1Config(),
-                          const H2Config(),
-                          const H3Config(),
-                          MyPConfig(),
-                          const MyListConfig(),
-                        ]),
+                        config: MarkdownConfig.darkConfig.copy(
+                          configs: [
+                            const H1Config(),
+                            const H2Config(),
+                            const H3Config(),
+                            MyPConfig(),
+                            const MyListConfig(),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -154,13 +160,14 @@ class ChangelogWidgetState extends State<ChangelogWidget> {
 }
 
 class H1Config extends HeadingConfig {
-  const H1Config(
-      {this.style = const TextStyle(
-        fontFamily: 'SourceCodePro',
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
-        color: lightGreen,
-      )});
+  const H1Config({
+    this.style = const TextStyle(
+      fontFamily: 'SourceCodePro',
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
+      color: lightGreen,
+    ),
+  });
 
   @override
   final TextStyle style;
@@ -171,13 +178,14 @@ class H1Config extends HeadingConfig {
 }
 
 class H2Config extends HeadingConfig {
-  const H2Config(
-      {this.style = const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        color: lightGray,
-        fontFamily: 'SourceCodePro',
-      )});
+  const H2Config({
+    this.style = const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: lightGray,
+      fontFamily: 'SourceCodePro',
+    ),
+  });
 
   @override
   final TextStyle style;
@@ -188,13 +196,14 @@ class H2Config extends HeadingConfig {
 }
 
 class H3Config extends HeadingConfig {
-  const H3Config(
-      {this.style = const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        color: lightGray,
-        fontFamily: 'SourceCodePro',
-      )});
+  const H3Config({
+    this.style = const TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: lightGray,
+      fontFamily: 'SourceCodePro',
+    ),
+  });
 
   @override
   final TextStyle style;
@@ -205,25 +214,21 @@ class H3Config extends HeadingConfig {
 }
 
 class MyPConfig extends PConfig {
-  MyPConfig(
-      {super.textStyle = const TextStyle(
-        fontSize: 16,
-        color: lightGray,
-        fontFamily: 'SourceCodePro',
-      )});
+  MyPConfig({
+    super.textStyle = const TextStyle(
+      fontSize: 16,
+      color: lightGray,
+      fontFamily: 'SourceCodePro',
+    ),
+  });
 }
 
 class MyListConfig extends ListConfig {
-  const MyListConfig({
-    super.marker = _defaultMarker,
-  });
+  const MyListConfig({super.marker = _defaultMarker});
 
   static Widget? _defaultMarker(bool isOrdered, int depth, int index) =>
       const Text(
         ' •',
-        style: TextStyle(
-          color: lightGreen,
-          fontFamily: 'SourceCodePro',
-        ),
+        style: TextStyle(color: lightGreen, fontFamily: 'SourceCodePro'),
       );
 }

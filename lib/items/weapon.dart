@@ -21,7 +21,8 @@ class Weapon extends Item {
     if (fullammo && type.usesAmmo && type.ammoCapacity > 0) {
       w.ammo = type.ammoCapacity;
       w.loadedAmmoType = ammoTypes.values.firstWhere(
-          (a) => type.attacks.any((attack) => attack.cartridge == a.cartridge));
+        (a) => type.attacks.any((attack) => attack.cartridge == a.cartridge),
+      );
     }
     return w;
   }

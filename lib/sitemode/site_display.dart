@@ -54,13 +54,23 @@ void printSiteMap(int x, int y, int z) {
   int xscreen, xsite, yscreen, ysite;
 
   // Build the frame
-  mvaddstrc(8, 53, lightGray,
-      "\u252C${"".padRight(25, "\u2500")}\u252C"); // 27 characters - top of map
-  mvaddstr(24, 53,
-      "\u2514${"".padRight(25, "\u2500")}\u2518"); // 27 characters - bottom of map
+  mvaddstrc(
+    8,
+    53,
+    lightGray,
+    "\u252C${"".padRight(25, "\u2500")}\u252C",
+  ); // 27 characters - top of map
+  mvaddstr(
+    24,
+    53,
+    "\u2514${"".padRight(25, "\u2500")}\u2518",
+  ); // 27 characters - bottom of map
   for (yscreen = 9; yscreen < 24; yscreen++) {
-    mvaddstr(yscreen, 53,
-        "\u2502                         \u2502"); // 27 characters - the map itself
+    mvaddstr(
+      yscreen,
+      53,
+      "\u2502                         \u2502",
+    ); // 27 characters - the map itself
   }
 
   // Do a preliminary Line of Sight iteration for better Line of Sight detection
@@ -205,7 +215,7 @@ void drawTileContent(SiteTile tile) {
   } else {
     bool canSeeFoes =
         ((activeSite!.compound.cameras) && !activeSite!.siege.camerasOff) ||
-            tile.inLOS;
+        tile.inLOS;
     setColor(lightGray);
     if (tile.wall) {
       Color bg = darkGray;
@@ -284,7 +294,7 @@ void drawTileContent(SiteTile tile) {
       TileSpecial.cagedRabbits,
       TileSpecial.cagedMonsters,
       TileSpecial.polluterEquipment,
-      TileSpecial.sweatshopEquipment
+      TileSpecial.sweatshopEquipment,
     ].contains(tile.special)) {
       setColor(yellow);
       addchar("*");
@@ -299,8 +309,7 @@ void drawTileContent(SiteTile tile) {
         TileSpecial.ovalOfficeNW ||
         TileSpecial.ovalOfficeNE ||
         TileSpecial.ovalOfficeSW ||
-        TileSpecial.ovalOfficeSE =>
-          politics.exec[Exec.president]!.color,
+        TileSpecial.ovalOfficeSE => politics.exec[Exec.president]!.color,
         _ => yellow,
       });
       addchar(switch (tile.special) {
@@ -1086,7 +1095,11 @@ void clearMessageArea() {
 
 void clearEncounterArea() {
   eraseArea(
-      startY: 11, endY: 23, startX: 0, endX: mode == GameMode.site ? 55 : 80);
+    startY: 11,
+    endY: 23,
+    startX: 0,
+    endX: mode == GameMode.site ? 55 : 80,
+  );
 }
 
 void clearMapArea({bool lower = true, bool upper = true}) {
@@ -1136,12 +1149,16 @@ void printChaseEncounter() {
       startingY + 1,
       startingY + 1,
       startingY + 1,
-      startingY + 1
+      startingY + 1,
     ];
 
     for (int v = 0; v < chaseSequence!.enemycar.length; v++) {
       mvaddstrc(
-          startingY, v * 20 + 1, white, chaseSequence!.enemycar[v].fullName());
+        startingY,
+        v * 20 + 1,
+        white,
+        chaseSequence!.enemycar[v].fullName(),
+      );
     }
 
     for (Creature e in encounter) {

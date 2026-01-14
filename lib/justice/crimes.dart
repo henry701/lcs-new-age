@@ -14,7 +14,9 @@ enum Crime {
   flagBurning("Flag Burning", "desecration of the national flag"),
   unlawfulSpeech("Unlawful Speech", "unlawful speech"),
   drugDistribution(
-      "Drug Distribution", "distribution of a controlled substance"),
+    "Drug Distribution",
+    "distribution of a controlled substance",
+  ),
   escapingPrison("Escaping Prison", "escaping from prison"),
   aidingEscape("Releasing Prisoners", "aiding a prison escape"),
   juryTampering("Jury Tampering", "jury tampering"),
@@ -60,8 +62,11 @@ void criminalize(Creature creature, Crime crime, {double heatMultiplier = 1}) {
   creature.criminalize(crime, heatMultiplier: heatMultiplier);
 }
 
-void addPotentialCrime(Iterable<Creature> creatures, Crime crime,
-    {String reasonKey = ""}) {
+void addPotentialCrime(
+  Iterable<Creature> creatures,
+  Crime crime, {
+  String reasonKey = "",
+}) {
   CrimeData crimeData = CrimeData(
     crime: crime,
     perpetrators: creatures.toList(),
@@ -69,12 +74,14 @@ void addPotentialCrime(Iterable<Creature> creatures, Crime crime,
   );
   if (crimeData.key != "") {
     // Check if the crime already added to the list
-    if (gameState.potentialCrimes
-        .any((c) => c.crime == crimeData.crime && c.key == crimeData.key)) {
+    if (gameState.potentialCrimes.any(
+      (c) => c.crime == crimeData.crime && c.key == crimeData.key,
+    )) {
       // If it exists, update the perpetrators list to include the new ones
       List<Creature> perpetrators = gameState.potentialCrimes
           .firstWhere(
-              (c) => c.crime == crimeData.crime && c.key == crimeData.key)
+            (c) => c.crime == crimeData.crime && c.key == crimeData.key,
+          )
           .perpetrators
           .toList();
       bool add = false;
@@ -87,11 +94,15 @@ void addPotentialCrime(Iterable<Creature> creatures, Crime crime,
       if (!add) return;
       // Remove the old crime data and add the new one with updated perpetrators
       gameState.potentialCrimes.removeWhere(
-          (c) => c.crime == crimeData.crime && c.key == crimeData.key);
-      gameState.potentialCrimes.add(CrimeData(
+        (c) => c.crime == crimeData.crime && c.key == crimeData.key,
+      );
+      gameState.potentialCrimes.add(
+        CrimeData(
           crime: crimeData.crime,
           perpetrators: perpetrators,
-          key: crimeData.key));
+          key: crimeData.key,
+        ),
+      );
       return;
     }
   }
@@ -108,15 +119,18 @@ void commitPotentialCrimes() {
       .expand((crimeData) => crimeData.perpetrators)
       .sortedByCompare((c) => c.id, (a, b) => a.compareTo(b))
       .toSet();
-  int murderCounts =
-      gameState.potentialCrimes.where((c) => c.crime == Crime.murder).length;
-  int assaultCounts =
-      gameState.potentialCrimes.where((c) => c.crime == Crime.assault).length;
+  int murderCounts = gameState.potentialCrimes
+      .where((c) => c.crime == Crime.murder)
+      .length;
+  int assaultCounts = gameState.potentialCrimes
+      .where((c) => c.crime == Crime.assault)
+      .length;
   int kidnappingCounts = gameState.potentialCrimes
       .where((c) => c.crime == Crime.kidnapping)
       .length;
-  int terrorismCounts =
-      gameState.potentialCrimes.where((c) => c.crime == Crime.terrorism).length;
+  int terrorismCounts = gameState.potentialCrimes
+      .where((c) => c.crime == Crime.terrorism)
+      .length;
   int violenceScore =
       murderCounts + (assaultCounts - murderCounts) ~/ 3 + kidnappingCounts * 2;
   if (violenceScore > 5 && terrorismCounts < 1) {
@@ -131,11 +145,16 @@ void commitPotentialCrimes() {
   gameState.potentialCrimes.clear();
 }
 
-void criminalizeAll(Iterable<Creature> creatures, Crime crime,
-    {bool splitHeat = false}) {
+void criminalizeAll(
+  Iterable<Creature> creatures,
+  Crime crime, {
+  bool splitHeat = false,
+}) {
   for (var creature in creatures) {
-    creature.criminalize(crime,
-        heatMultiplier: splitHeat ? 1 / creatures.length : 1);
+    creature.criminalize(
+      crime,
+      heatMultiplier: splitHeat ? 1 / creatures.length : 1,
+    );
   }
 }
 

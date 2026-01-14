@@ -247,8 +247,9 @@ Future<void> advancecreature(Creature cr) async {
       !oneIn(3) &&
       (levelMap[locx][locy][locz].firePeak ||
           levelMap[locx][locy][locz].fireEnd)) {
-    int burndamage =
-        (levelMap[locx][locy][locz].firePeak) ? lcsRandom(10) : lcsRandom(5);
+    int burndamage = (levelMap[locx][locy][locz].firePeak)
+        ? lcsRandom(10)
+        : lcsRandom(5);
     clearMessageArea();
 
     // Firefighter's bunker gear reduces burn damage

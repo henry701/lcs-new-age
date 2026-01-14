@@ -7,10 +7,7 @@ import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
-void printParty({
-  bool fullParty = false,
-  ShowCarPrefs? showCarPrefs,
-}) {
+void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
   showCarPrefs ??= mode == GameMode.base
       ? ShowCarPrefs.showPreferences
       : ShowCarPrefs.showActualCar;
@@ -31,9 +28,13 @@ void printParty({
       70: "TRANSPORT",
     });
     for (int p = 0; p < party.length; p++) {
-      addOptionText(p + 2, 0, String.fromCharCode('1'.codePoint + p),
-          "${String.fromCharCode('1'.codePoint + p)} ${party[p].name}",
-          baseColorKey: ColorKey.white);
+      addOptionText(
+        p + 2,
+        0,
+        String.fromCharCode('1'.codePoint + p),
+        "${String.fromCharCode('1'.codePoint + p)} ${party[p].name}",
+        baseColorKey: ColorKey.white,
+      );
       if (party[p].isHoldingBody) addstrc(pink, "+H");
       printSkillSummary(p + 2, 23, party[p], showWeaponSkill: true);
       move(p + 2, 29);
@@ -66,6 +67,6 @@ void printSkillSummary(
     }
   }
   setColor(bright ? white : lightGray);
-  mvaddstr(y, x, "$skill");
-  if (showWeaponSkill) addstr("/${c.weaponSkill}");
+  mvaddstr(y, x, "$skill", noTranslate: true);
+  if (showWeaponSkill) addstr("/${c.weaponSkill}", noTranslate: true);
 }

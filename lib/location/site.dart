@@ -25,12 +25,12 @@ part 'site.g.dart';
 @JsonSerializable(ignoreUnannotated: true)
 class Site extends Location {
   Site(this.type, [City? city, District? district])
-      : name = type.name,
-        shortName = type.shortName,
-        cityId = city?.id ?? cities.firstOrNull?.id ?? -1,
-        districtId = district?.id ?? districts.firstOrNull?.id ?? -1,
-        id = gameState.nextSiteId++,
-        mapseed = nextRngSeed {
+    : name = type.name,
+      shortName = type.shortName,
+      cityId = city?.id ?? cities.firstOrNull?.id ?? -1,
+      districtId = district?.id ?? districts.firstOrNull?.id ?? -1,
+      id = gameState.nextSiteId++,
+      mapseed = nextRngSeed {
     if (type == SiteType.homelessEncampment || type == SiteType.warehouse) {
       controller = SiteController.lcs;
     }
@@ -66,10 +66,14 @@ class Site extends Location {
       ccsReach -= 2;
     }
     if (ccsReach < 0) ccsReach = 0;
-    int target = ccsReach *
+    int target =
+        ccsReach *
         creaturesPresent.where((e) => e.isCriminal && e.isActiveLiberal).length;
-    if ([SiteType.barAndGrill, SiteType.bombShelter, SiteType.bunker]
-        .contains(type)) {
+    if ([
+      SiteType.barAndGrill,
+      SiteType.bombShelter,
+      SiteType.bunker,
+    ].contains(type)) {
       target *= 3;
     }
     return target;
@@ -161,8 +165,9 @@ class Site extends Location {
 
   @override
   String getName({bool short = false, bool includeCity = false}) {
-    String fullName =
-        short ? (frontShortName ?? shortName) : (frontName ?? name);
+    String fullName = short
+        ? (frontShortName ?? shortName)
+        : (frontName ?? name);
     if (includeCity && multipleCityMode) {
       return '$fullName, ${city.getName(short: true)}';
     } else {

@@ -10,8 +10,8 @@ part 'city.g.dart';
 @JsonSerializable()
 class City extends Location {
   City(this.name, this.shortName, this.description, {int? area})
-      : id = gameState.nextCityId++,
-        area = area ?? gameState.nextCityId - 1;
+    : id = gameState.nextCityId++,
+      area = area ?? gameState.nextCityId - 1;
   factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
   Map<String, dynamic> toJson() => _$CityToJson(this);
 
@@ -54,10 +54,17 @@ class City extends Location {
     ]);
   }
 
-  District addDistrict(String name, String description,
-      {bool outOfTown = false}) {
-    District d =
-        District(name, description, id, area: outOfTown ? -area : area);
+  District addDistrict(
+    String name,
+    String description, {
+    bool outOfTown = false,
+  }) {
+    District d = District(
+      name,
+      description,
+      id,
+      area: outOfTown ? -area : area,
+    );
     districts.add(d);
     return d;
   }

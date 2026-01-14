@@ -38,7 +38,8 @@ class Activity {
   ClothingType? get clothingType =>
       clothingTypes[idString?.split(":ARMOR").firstOrNull];
   ArmorUpgrade? get armorUpgrade => clothingType?.allowedArmor.elementAtOrNull(
-      int.tryParse(idString?.split(":ARMOR").lastOrNull ?? "0") ?? 0);
+    int.tryParse(idString?.split(":ARMOR").lastOrNull ?? "0") ?? 0,
+  );
   Site? get location =>
       gameState.sites.firstWhereOrNull((e) => e.idString == idString);
 

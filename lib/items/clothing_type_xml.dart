@@ -5,8 +5,11 @@ import 'package:xml/xml.dart';
 
 Map<String, XmlElement> originalXml = {};
 
-void parseClothingType(ClothingType clothing, XmlElement xml,
-    {bool modifying = false}) {
+void parseClothingType(
+  ClothingType clothing,
+  XmlElement xml, {
+  bool modifying = false,
+}) {
   if (!modifying) {
     originalXml[clothing.idName] = xml;
   }
@@ -70,12 +73,17 @@ void parseClothingType(ClothingType clothing, XmlElement xml,
         }
       case "modification_of":
         if (originalXml.containsKey(element.innerText)) {
-          parseClothingType(clothing, originalXml[element.innerText]!,
-              modifying: true);
+          parseClothingType(
+            clothing,
+            originalXml[element.innerText]!,
+            modifying: true,
+          );
           debugPrint(originalXml[element.innerText]!.outerXml);
         } else {
-          debugPrint("Modification of ${element.innerText} could not be "
-              "completed because ${element.innerText} was not found");
+          debugPrint(
+            "Modification of ${element.innerText} could not be "
+            "completed because ${element.innerText} was not found",
+          );
         }
       case "professionalism":
         clothing.professionalism =

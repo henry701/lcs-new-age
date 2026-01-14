@@ -25,16 +25,24 @@ part 'save_load.g.dart';
 Future<void> autoSaveGame() async {
   //Stopwatch stopwatch = Stopwatch()..start();
   final prefs = await SharedPreferences.getInstance();
-  await prefs.setString("gameVersion${gameState.uniqueGameId}", gameSaveCompatVersion);
   await prefs.setString(
-      "savedGame${gameState.uniqueGameId}", jsonEncode(gameState.toJson()));
+    "gameVersion${gameState.uniqueGameId}",
+    gameSaveCompatVersion,
+  );
   await prefs.setString(
-      "lastPlayed${gameState.uniqueGameId}", DateTime.now().toIso8601String());
+    "savedGame${gameState.uniqueGameId}",
+    jsonEncode(gameState.toJson()),
+  );
+  await prefs.setString(
+    "lastPlayed${gameState.uniqueGameId}",
+    DateTime.now().toIso8601String(),
+  );
   await prefs.setInt("lastGameId", gameState.uniqueGameId);
   final List<String>? saveGameIds = prefs.getStringList("savedGameIds");
   if (saveGameIds == null) {
-    await prefs
-        .setStringList("savedGameIds", [gameState.uniqueGameId.toString()]);
+    await prefs.setStringList("savedGameIds", [
+      gameState.uniqueGameId.toString(),
+    ]);
   } else {
     if (!saveGameIds.contains(gameState.uniqueGameId.toString())) {
       saveGameIds.add(gameState.uniqueGameId.toString());
@@ -73,7 +81,8 @@ class SaveFile {
 String _nameOfFounder(GameState gameState) {
   return gameState.lcs.pool
           .firstWhereOrNull(
-              (e) => e.hireId == null && e.align == Alignment.liberal)
+            (e) => e.hireId == null && e.align == Alignment.liberal,
+          )
           ?.name ??
       "Unknown";
 }
@@ -88,67 +97,68 @@ Future<bool> loadGameMenu() async {
     bool import = false;
     erase();
     await pagedInterface(
-        count: saveFiles.length,
-        headerPrompt: "Liberal Save Game Management System",
-        headerKey: {
-          4: "IN GAME DATE",
-          20: "LCS LEADER",
-          50: "LAST PLAYED",
-          70: "VERSION",
-        },
-        footerPrompt:
-            "Plus &B+&w to Import a save.  &BEnter&w to return to main menu.",
-        lineBuilder: (y, key, index) {
-          final SaveFile saveFile = saveFiles[index];
-          if (saveFile.gameState == null) {
-            setColor(red);
-          } else {
-            setColor(lightGray);
-          }
-          DateTime? lastPlayed = saveFile.lastPlayed?.toLocal();
-          String version = saveFile.version;
-          String inGameDate;
-          String founder;
-          String lastPlayedStr;
-          if (lastPlayed != null) {
-            lastPlayedStr =
-                "${getMonthShort(lastPlayed.month)} ${lastPlayed.day}, ${lastPlayed.year}";
-          } else {
-            lastPlayedStr = "Unknown";
-          }
-          if (saveFile.gameState != null) {
-            inGameDate =
-                "${getMonthShort(saveFile.gameState!.date.month)} ${saveFile.gameState!.date.day}, ${saveFile.gameState!.date.year}";
+      count: saveFiles.length,
+      headerPrompt: "Liberal Save Game Management System",
+      headerKey: {
+        4: "IN GAME DATE",
+        20: "LCS LEADER",
+        50: "LAST PLAYED",
+        70: "VERSION",
+      },
+      footerPrompt:
+          "Plus &B+&w to Import a save.  &BEnter&w to return to main menu.",
+      lineBuilder: (y, key, index) {
+        final SaveFile saveFile = saveFiles[index];
+        if (saveFile.gameState == null) {
+          setColor(red);
+        } else {
+          setColor(lightGray);
+        }
+        DateTime? lastPlayed = saveFile.lastPlayed?.toLocal();
+        String version = saveFile.version;
+        String inGameDate;
+        String founder;
+        String lastPlayedStr;
+        if (lastPlayed != null) {
+          lastPlayedStr =
+              "${getMonthShort(lastPlayed.month)} ${lastPlayed.day}, ${lastPlayed.year}";
+        } else {
+          lastPlayedStr = "Unknown";
+        }
+        if (saveFile.gameState != null) {
+          inGameDate =
+              "${getMonthShort(saveFile.gameState!.date.month)} ${saveFile.gameState!.date.day}, ${saveFile.gameState!.date.year}";
 
-            founder = _nameOfFounder(saveFile.gameState!);
-          } else {
-            inGameDate = "Error";
-            founder = "Error - Crash Expected";
-          }
-          addOptionText(y, 0, key, "$key - ");
-          mvaddstr(y, 4, inGameDate);
-          mvaddstr(y, 20, founder);
-          mvaddstr(y, 50, lastPlayedStr);
-          if (compareVersionStrings(version, "1.2.0") < 0) {
-            setColor(orange);
-          } else {
-            setColor(lightGray);
-          }
-          mvaddstr(y, 70, version);
-        },
-        onChoice: (index) async {
-          selectedGame = index;
+          founder = _nameOfFounder(saveFile.gameState!);
+        } else {
+          inGameDate = "Error";
+          founder = "Error - Crash Expected";
+        }
+        addOptionText(y, 0, key, "$key - ");
+        mvaddstr(y, 4, inGameDate);
+        mvaddstr(y, 20, founder);
+        mvaddstr(y, 50, lastPlayedStr);
+        if (compareVersionStrings(version, "1.2.0") < 0) {
+          setColor(orange);
+        } else {
+          setColor(lightGray);
+        }
+        mvaddstr(y, 70, version);
+      },
+      onChoice: (index) async {
+        selectedGame = index;
+        return true;
+      },
+      onOtherKey: (key) {
+        if (key == Key.plus) {
+          import = true;
           return true;
-        },
-        onOtherKey: (key) {
-          if (key == Key.plus) {
-            import = true;
-            return true;
-          } else if (isBackKey(key)) {
-            return true;
-          }
-          return false;
-        });
+        } else if (isBackKey(key)) {
+          return true;
+        }
+        return false;
+      },
+    );
     if (import) {
       await importSave();
       continue;
@@ -172,18 +182,31 @@ Future<bool> loadGame(SaveFile selectedSave) async {
   if (!broken && compareVersionStrings(selectedSave.version, "1.2.0") < 0) {
     brokenText = "Outdated (${selectedSave.version}) ";
     setColor(orange);
-    mvaddstr(y++, 1,
-        "This older save is expected to load, but some major changes are expected:");
+    mvaddstr(
+      y++,
+      1,
+      "This older save is expected to load, but some major changes are expected:",
+    );
     mvaddstr(y++, 1, "- Many weapons will be renamed or replaced");
-    mvaddstr(y++, 1,
-        "- Clips in inventory will be replaced with single bullets or shells");
-    mvaddstr(y++, 1,
-        "- Existing Black Bloc Armor items will become Black Bloc Outfits");
+    mvaddstr(
+      y++,
+      1,
+      "- Clips in inventory will be replaced with single bullets or shells",
+    );
+    mvaddstr(
+      y++,
+      1,
+      "- Existing Black Bloc Armor items will become Black Bloc Outfits",
+    );
     y++;
   }
   mvaddstrc(1, 1, lightGray, "Manage ${brokenText}Saved Game");
-  addOptionText(y++, 1, "L",
-      "L - ${selectedSave.gameState != null ? "Load Game" : "Load Game (Crash Report Expected)"}");
+  addOptionText(
+    y++,
+    1,
+    "L",
+    "L - ${selectedSave.gameState != null ? "Load Game" : "Load Game (Crash Report Expected)"}",
+  );
   addOptionText(y++, 1, "D", "D - Delete Save");
   addOptionText(y++, 1, "B", "B - Backup Save");
   mvaddstr(++y, 1, "Press the key for the action you want to take.");
@@ -248,15 +271,16 @@ Future<void> backupSave(SaveFile selectedSave) async {
   // name is probably the most memorable thing we've got to offer.
   // If your founder's name is " ", this will return "", but honestly
   // at that point it's your fault.
-  final founderFirstName =
-      _nameOfFounder(selectedSave.gameState!).toLowerCase().split(" ").first;
+  final founderFirstName = _nameOfFounder(
+    selectedSave.gameState!,
+  ).toLowerCase().split(" ").first;
   final now = DateTime.now()
-          .toIso8601String()
-          .replaceAll("-", "_") // - in YYYY-MM-DD
-          .replaceAll("T", "-") // T between date and time
-          .replaceAll(":", "_") // : in HH:MM:SS
-          .replaceAll(".", "-") // . before ms and us
-          .replaceAll("Z", "") // Z at the end if the clock is in UTC
+      .toIso8601String()
+      .replaceAll("-", "_") // - in YYYY-MM-DD
+      .replaceAll("T", "-") // T between date and time
+      .replaceAll(":", "_") // : in HH:MM:SS
+      .replaceAll(".", "-") // . before ms and us
+      .replaceAll("Z", "") // Z at the end if the clock is in UTC
       ;
 
   String json = jsonEncode(selectedSave.toJson());
@@ -290,8 +314,12 @@ Future<SaveFile?> importSave() async {
       mvaddstrc(1, 1, lightGray, "Error importing save: $e");
       if (e is Error) {
         addOptionText(3, 1, "R", "R - Generate a Crash Report");
-        addOptionText(4, 1, "Any Other Key",
-            "Any Other Key - Return to the title screen");
+        addOptionText(
+          4,
+          1,
+          "Any Other Key",
+          "Any Other Key - Return to the title screen",
+        );
       } else {
         addOptionText(3, 1, "Any Key", "Any Key - Return to the title screen");
       }
@@ -308,11 +336,13 @@ Future<void> saveGameFile(SaveFile saveFile) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString("gameVersion${saveFile.gameId}", saveFile.version);
   await prefs.setString(
-      "savedGame${saveFile.gameId}", jsonEncode(saveFile.saveData));
+    "savedGame${saveFile.gameId}",
+    jsonEncode(saveFile.saveData),
+  );
   await prefs.setString(
-      "lastPlayed${saveFile.gameId}",
-      saveFile.lastPlayed?.toIso8601String() ??
-          DateTime.now().toIso8601String());
+    "lastPlayed${saveFile.gameId}",
+    saveFile.lastPlayed?.toIso8601String() ?? DateTime.now().toIso8601String(),
+  );
   final List<String>? saveGameIds = prefs.getStringList("savedGameIds");
   if (saveGameIds == null) {
     await prefs.setStringList("savedGameIds", [saveFile.gameId]);
@@ -334,26 +364,32 @@ Future<List<SaveFile>> loadGameList() async {
     final String? version = prefs.getString("gameVersion${savedGameIds[i]}");
     final String? savedGame = prefs.getString("savedGame${savedGameIds[i]}");
     final String? lastPlayed = prefs.getString("lastPlayed${savedGameIds[i]}");
-    final DateTime? lastPlayedDate =
-        lastPlayed != null ? DateTime.tryParse(lastPlayed) : null;
+    final DateTime? lastPlayedDate = lastPlayed != null
+        ? DateTime.tryParse(lastPlayed)
+        : null;
     try {
-      final GameState? gameState =
-          savedGame != null ? GameState.fromJson(jsonDecode(savedGame)) : null;
-      saveFiles.add(SaveFile(
-        version: version ?? "ERROR",
-        saveData: jsonDecode(savedGame ?? ""),
-        lastPlayed: lastPlayedDate,
-        gameId: savedGameIds[i],
-        gameState: gameState,
-      ));
+      final GameState? gameState = savedGame != null
+          ? GameState.fromJson(jsonDecode(savedGame))
+          : null;
+      saveFiles.add(
+        SaveFile(
+          version: version ?? "ERROR",
+          saveData: jsonDecode(savedGame ?? ""),
+          lastPlayed: lastPlayedDate,
+          gameId: savedGameIds[i],
+          gameState: gameState,
+        ),
+      );
     } catch (e) {
       debugPrint("Error loading save game $i: $e");
-      saveFiles.add(SaveFile(
-        version: version ?? "ERROR",
-        saveData: jsonDecode(savedGame ?? ""),
-        gameId: savedGameIds[i],
-        lastPlayed: lastPlayedDate,
-      ));
+      saveFiles.add(
+        SaveFile(
+          version: version ?? "ERROR",
+          saveData: jsonDecode(savedGame ?? ""),
+          gameId: savedGameIds[i],
+          lastPlayed: lastPlayedDate,
+        ),
+      );
     }
   }
   return saveFiles;
@@ -386,17 +422,23 @@ void applyBugFixes(String version) {
   gameState.uniqueCreatures.syncWithPool();
   for (RecruitmentSession recruitmentSession in gameState.recruitmentSessions) {
     recruitmentSession.recruiter = pool.firstWhere(
-        (p) => p.id == recruitmentSession.recruiterId,
-        orElse: () => pool[0]);
+      (p) => p.id == recruitmentSession.recruiterId,
+      orElse: () => pool[0],
+    );
   }
   if (compareVersionStrings(version, "1.0.5") < 0) {
     // Fix for the bug where CCS safehouses don't get marked as such if you
     // play in "We Didn't Start The Fire" mode
     if (ccsActive) {
-      for (Site s in sites.where((s) =>
-          s.controller == SiteController.unaligned &&
-          [SiteType.barAndGrill, SiteType.bombShelter, SiteType.bunker]
-              .contains(s.type))) {
+      for (Site s in sites.where(
+        (s) =>
+            s.controller == SiteController.unaligned &&
+            [
+              SiteType.barAndGrill,
+              SiteType.bombShelter,
+              SiteType.bunker,
+            ].contains(s.type),
+      )) {
         s.controller = SiteController.ccs;
       }
     }
@@ -415,16 +457,18 @@ void applyBugFixes(String version) {
       !uniqueCreatures.ceo.missing &&
       uniqueCreatures.ceo.align == Alignment.conservative &&
       uniqueCreatures.ceo.site?.type != SiteType.ceoHouse) {
-    uniqueCreatures.ceo.location =
-        sites.firstWhere((s) => s.type == SiteType.ceoHouse);
+    uniqueCreatures.ceo.location = sites.firstWhere(
+      (s) => s.type == SiteType.ceoHouse,
+    );
     uniqueCreatures.ceo.workLocation = uniqueCreatures.ceo.location;
   }
   if (!uniqueCreatures.president.kidnapped &&
       !uniqueCreatures.president.missing &&
       uniqueCreatures.president.align == Alignment.conservative &&
       uniqueCreatures.president.site?.type != SiteType.whiteHouse) {
-    uniqueCreatures.president.location =
-        sites.firstWhere((s) => s.type == SiteType.whiteHouse);
+    uniqueCreatures.president.location = sites.firstWhere(
+      (s) => s.type == SiteType.whiteHouse,
+    );
     uniqueCreatures.president.workLocation = uniqueCreatures.president.location;
   }
 }

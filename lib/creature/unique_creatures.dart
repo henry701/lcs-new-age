@@ -50,11 +50,12 @@ class UniqueCreatures {
   @JsonKey(includeFromJson: false, includeToJson: false)
   Creature get aceLiberalAttorney {
     _aceLiberalAttorney ??= Creature.fromId(CreatureTypeIds.lawyer)
-      ..name = "${[
-        "Huang", "Astraea", "Saleem", "Imani", //
-      ].random} ${[
-        "Truth", "Justice", "Liberty", "Peace", //
-      ].random}";
+      ..name =
+          "${[
+            "Huang", "Astraea", "Saleem", "Imani", //
+          ].random} ${[
+            "Truth", "Justice", "Liberty", "Peace", //
+          ].random}";
     return _aceLiberalAttorney!;
   }
 
@@ -72,12 +73,16 @@ class UniqueCreatures {
 
   void syncWithPool() {
     if (_ceo != null) {
-      _ceo = poolAndProspects.firstWhere((p) => p.id == _ceo!.id,
-          orElse: () => _ceo!);
+      _ceo = poolAndProspects.firstWhere(
+        (p) => p.id == _ceo!.id,
+        orElse: () => _ceo!,
+      );
     }
     if (_president != null) {
-      _president = poolAndProspects.firstWhere((p) => p.id == _president!.id,
-          orElse: () => _president!);
+      _president = poolAndProspects.firstWhere(
+        (p) => p.id == _president!.id,
+        orElse: () => _president!,
+      );
     }
   }
 }

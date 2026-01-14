@@ -124,11 +124,7 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
     super.didChangeDependencies();
     TextSpan fg = consoleDataToTextSpan(false);
     TextPainter textPainter = TextPainter(
-      strutStyle: const StrutStyle(
-        height: 1,
-        leading: 0,
-        fontSize: 20,
-      ),
+      strutStyle: const StrutStyle(height: 1, leading: 0, fontSize: 20),
       text: fg,
       textDirection: TextDirection.ltr,
       textHeightBehavior: const TextHeightBehavior(
@@ -144,14 +140,14 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
   }
 
   Iterable<Widget> graphics() => console.graphics.map(
-        (g) => Positioned(
-          left: g.left * textSpanWidth / console.width,
-          width: (g.right - g.left) * textSpanWidth / console.width,
-          top: g.top * textSpanHeight / console.height,
-          height: (g.bottom - g.top) * textSpanHeight / console.height,
-          child: g.graphic,
-        ),
-      );
+    (g) => Positioned(
+      left: g.left * textSpanWidth / console.width,
+      width: (g.right - g.left) * textSpanWidth / console.width,
+      top: g.top * textSpanHeight / console.height,
+      height: (g.bottom - g.top) * textSpanHeight / console.height,
+      child: g.graphic,
+    ),
+  );
 
   Widget background() {
     List<(int, int, int, Color)> intervals = [];
@@ -186,22 +182,23 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
     }
 
     return Stack(
-        children: List.generate(intervals.length, (i) {
-      Rect rect = Rect.fromLTRB(
-        (intervals[i].$2 * textSpanWidth / console.width).roundToDouble(),
-        (intervals[i].$1 * textSpanHeight / console.height).roundToDouble(),
-        (intervals[i].$3 * textSpanWidth / console.width).roundToDouble(),
-        ((intervals[i].$1 + 1) * textSpanHeight / console.height)
-            .roundToDouble(),
-      );
-      return Positioned(
-        top: rect.top,
-        height: rect.height,
-        left: rect.left,
-        width: rect.width,
-        child: Container(color: intervals[i].$4),
-      );
-    }));
+      children: List.generate(intervals.length, (i) {
+        Rect rect = Rect.fromLTRB(
+          (intervals[i].$2 * textSpanWidth / console.width).roundToDouble(),
+          (intervals[i].$1 * textSpanHeight / console.height).roundToDouble(),
+          (intervals[i].$3 * textSpanWidth / console.width).roundToDouble(),
+          ((intervals[i].$1 + 1) * textSpanHeight / console.height)
+              .roundToDouble(),
+        );
+        return Positioned(
+          top: rect.top,
+          height: rect.height,
+          left: rect.left,
+          width: rect.width,
+          child: Container(color: intervals[i].$4),
+        );
+      }),
+    );
   }
 
   TextSpan consoleDataToTextSpan(bool bg) {
@@ -383,29 +380,35 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
   void onTextChanged(String text) {
     textEditingController.text = " ";
     if (text.isEmpty) {
-      console.keyEvent(const KeyDownEvent(
-        logicalKey: LogicalKeyboardKey.backspace,
-        physicalKey: PhysicalKeyboardKey.backspace,
-        character: 'Backspace',
-        timeStamp: Duration(),
-      ));
+      console.keyEvent(
+        const KeyDownEvent(
+          logicalKey: LogicalKeyboardKey.backspace,
+          physicalKey: PhysicalKeyboardKey.backspace,
+          character: 'Backspace',
+          timeStamp: Duration(),
+        ),
+      );
     } else if (text.contains("\n")) {
-      console.keyEvent(const KeyDownEvent(
-        logicalKey: LogicalKeyboardKey.enter,
-        physicalKey: PhysicalKeyboardKey.enter,
-        character: 'Enter',
-        timeStamp: Duration(),
-      ));
+      console.keyEvent(
+        const KeyDownEvent(
+          logicalKey: LogicalKeyboardKey.enter,
+          physicalKey: PhysicalKeyboardKey.enter,
+          character: 'Enter',
+          timeStamp: Duration(),
+        ),
+      );
     } else {
       List<String> characters = text.split("").sublist(1);
       for (String character in characters) {
         if (character.codePoint >= 32 && character.codePoint <= 126) {
-          console.keyEvent(KeyDownEvent(
-            logicalKey: LogicalKeyboardKey.keyA,
-            physicalKey: PhysicalKeyboardKey.keyA,
-            character: character,
-            timeStamp: const Duration(),
-          ));
+          console.keyEvent(
+            KeyDownEvent(
+              logicalKey: LogicalKeyboardKey.keyA,
+              physicalKey: PhysicalKeyboardKey.keyA,
+              character: character,
+              timeStamp: const Duration(),
+            ),
+          );
         }
       }
     }
@@ -420,11 +423,11 @@ class BlockPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     console.stale = false;
     Rect rectFromCoordinates(num x1, num y1, num x2, num y2) => Rect.fromLTRB(
-          (x1 * size.width / console.width).roundToDouble(),
-          (y1 * size.height / console.height).roundToDouble(),
-          (x2 * size.width / console.width).roundToDouble(),
-          (y2 * size.height / console.height).roundToDouble(),
-        );
+      (x1 * size.width / console.width).roundToDouble(),
+      (y1 * size.height / console.height).roundToDouble(),
+      (x2 * size.width / console.width).roundToDouble(),
+      (y2 * size.height / console.height).roundToDouble(),
+    );
     Paint paint = Paint()..style = PaintingStyle.fill;
     for (int y = 0; y < console.buffer.length; y++) {
       for (int x = 0; x < console.buffer[y].length; x++) {
@@ -433,17 +436,23 @@ class BlockPainter extends CustomPainter {
           case '░':
             Rect paintArea = rectFromCoordinates(x, y, x + 1, y + 1);
             paint.color = Color.alphaBlend(
-                char.foreground.withAlpha(0x40), char.background);
+              char.foreground.withAlpha(0x40),
+              char.background,
+            );
             canvas.drawRect(paintArea, paint);
           case '▒':
             Rect paintArea = rectFromCoordinates(x, y, x + 1, y + 1);
             paint.color = Color.alphaBlend(
-                char.foreground.withAlpha(0x80), char.background);
+              char.foreground.withAlpha(0x80),
+              char.background,
+            );
             canvas.drawRect(paintArea, paint);
           case '▓':
             Rect paintArea = rectFromCoordinates(x, y, x + 1, y + 1);
             paint.color = Color.alphaBlend(
-                char.foreground.withAlpha(0xC0), char.background);
+              char.foreground.withAlpha(0xC0),
+              char.background,
+            );
             canvas.drawRect(paintArea, paint);
           case '▀':
             paint.color = char.foreground;

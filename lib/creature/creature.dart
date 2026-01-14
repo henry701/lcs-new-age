@@ -78,9 +78,14 @@ class Creature {
   int _heat = 0;
   @JsonKey(includeFromJson: false, includeToJson: false)
   int get heat => max(
-      sqrt(wantedForCrimes.entries
-          .fold(0, (val, b) => val + crimeHeat(b.key) * (b.value))).ceil(),
-      _heat);
+    sqrt(
+      wantedForCrimes.entries.fold(
+        0,
+        (val, b) => val + crimeHeat(b.key) * (b.value),
+      ),
+    ).ceil(),
+    _heat,
+  );
   set heat(int value) => _heat = value;
   @JsonKey(defaultValue: 0)
   int offendedAngryRuralMobs = 0;
@@ -118,7 +123,7 @@ class Creature {
   bool cannotDetransition = false;
 
   Map<Attribute, int> rawAttributes = <Attribute, int>{
-    for (Attribute a in Attribute.values) a: 10
+    for (Attribute a in Attribute.values) a: 10,
   };
 
   Map<Skill, int> rawSkill = <Skill, int>{for (Skill s in Skill.values) s: 0};
@@ -165,7 +170,10 @@ class Creature {
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool incapacitatedThisRound = false;
   @JsonKey(
-      includeFromJson: false, includeToJson: false, name: "isWillingToTalk")
+    includeFromJson: false,
+    includeToJson: false,
+    name: "isWillingToTalk",
+  )
   bool _isWillingToTalk = true;
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool get isWillingToTalk => _isWillingToTalk && !formerHostage;
@@ -299,14 +307,25 @@ class Creature {
   @JsonKey(includeFromJson: false, includeToJson: false)
   String get title => levelTitle(level, align);
 
-  Attack? getAttack(bool forceRanged, bool forceMelee, bool forceNoReload,
-      {bool allowSocial = false}) {
-    Attack? atk = weapon.getAttack(forceRanged, forceMelee, forceNoReload,
-        allowSocial: allowSocial, wielderAlignment: align);
+  Attack? getAttack(
+    bool forceRanged,
+    bool forceMelee,
+    bool forceNoReload, {
+    bool allowSocial = false,
+  }) {
+    Attack? atk = weapon.getAttack(
+      forceRanged,
+      forceMelee,
+      forceNoReload,
+      allowSocial: allowSocial,
+      wielderAlignment: align,
+    );
     if (allowSocial && atk?.socialDamage != true) {
-      Attack? socialAtk = type.socialAttacks.firstWhereOrNull((a) =>
-          a.socialDamage &&
-          (a.alignmentRestriction == null || a.alignmentRestriction == align));
+      Attack? socialAtk = type.socialAttacks.firstWhereOrNull(
+        (a) =>
+            a.socialDamage &&
+            (a.alignmentRestriction == null || a.alignmentRestriction == align),
+      );
       if (socialAtk != null) atk = socialAtk;
     }
     return atk;
@@ -498,22 +517,31 @@ class Creature {
     return value;
   }
 
-  bool skillCheck(Skill skill, int difficulty,
-      {bool take10 = false, bool healthMod = false}) {
+  bool skillCheck(
+    Skill skill,
+    int difficulty, {
+    bool take10 = false,
+    bool healthMod = false,
+  }) {
     if (!alive) return false;
     int result = skillRoll(skill, take10: take10, healthMod: healthMod);
     //debugPrint("${skill.name} check: $result >= $difficulty");
     return result >= difficulty;
   }
 
-  bool multiSkillCheck(List<Skill> skills, int difficulty,
-      {bool take10 = false, bool healthMod = false}) {
+  bool multiSkillCheck(
+    List<Skill> skills,
+    int difficulty, {
+    bool take10 = false,
+    bool healthMod = false,
+  }) {
     if (!alive) return false;
     int result = skillRoll(skills.first, take10: take10, healthMod: healthMod);
     for (int i = 1; i < skills.length; i++) {
       result += skillRoll(skills[i], take10: true) - Dice.r2d6.take10();
     }
-    difficulty = Difficulty.veryEasy +
+    difficulty =
+        Difficulty.veryEasy +
         (difficulty - Difficulty.veryEasy) * (skills.length);
     return result >= difficulty;
   }
@@ -534,8 +562,12 @@ class Creature {
     return roll + attMod;
   }
 
-  bool attributeCheck(Attribute att, int difficulty,
-      {bool take10 = false, bool healthMod = false}) {
+  bool attributeCheck(
+    Attribute att,
+    int difficulty, {
+    bool take10 = false,
+    bool healthMod = false,
+  }) {
     if (!alive) return false;
     return attributeRoll(att, take10: take10, healthMod: healthMod) >=
         difficulty;
@@ -646,7 +678,8 @@ class Creature {
   @JsonKey(includeFromJson: false, includeToJson: false)
   Iterable<Creature> get relationships {
     return pool.where(
-        (p) => (p.hireId == id && p.seduced) || (seduced && p.id == hireId));
+      (p) => (p.hireId == id && p.seduced) || (seduced && p.id == hireId),
+    );
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -704,32 +737,41 @@ class Creature {
     giveArmor(Clothing(clothingTypeString));
   }
 
-  void giveWeaponAndAmmo(String weaponTypeString, int magsOfAmmo,
-      {List<Item>? lootPile}) {
+  void giveWeaponAndAmmo(
+    String weaponTypeString,
+    int magsOfAmmo, {
+    List<Item>? lootPile,
+  }) {
     dropWeaponAndAmmo(lootPile: lootPile);
     if (weaponTypeString == "WEAPON_NONE" || weaponTypeString.isEmpty) return;
     WeaponType? weaponType = weaponTypes[weaponTypeString];
     if (weaponType == null) {
       debugPrint(
-          "Invalid weapon type passed to giveWeaponAndAmmo: $weaponTypeString");
+        "Invalid weapon type passed to giveWeaponAndAmmo: $weaponTypeString",
+      );
       return;
     }
     giveWeapon(Weapon.fromType(weaponType, fullammo: true));
     if (magsOfAmmo > 1 && (weapon.type.usesAmmo || weapon.type.thrown)) {
       AmmoType? ammoType = weaponType.acceptableAmmo.firstOrNull;
       if (ammoType != null) {
-        spareAmmo = Ammo(ammoType.idName,
-            stackSize: magsOfAmmo * weaponType.ammoCapacity);
+        spareAmmo = Ammo(
+          ammoType.idName,
+          stackSize: magsOfAmmo * weaponType.ammoCapacity,
+        );
       } else if (weaponType.thrown) {
-        spareAmmo = Weapon(weaponType.idName,
-            stackSize: magsOfAmmo * weaponType.ammoCapacity);
+        spareAmmo = Weapon(
+          weaponType.idName,
+          stackSize: magsOfAmmo * weaponType.ammoCapacity,
+        );
       }
     }
   }
 
   void giveWeapon(Weapon weapon, [List<Item>? lootPile]) {
     debugPrint(
-        "Give weapon: ${weapon.getName()}, stackSize: ${weapon.stackSize}");
+      "Give weapon: ${weapon.getName()}, stackSize: ${weapon.stackSize}",
+    );
     if (weapon.stackSize == 0) {
       return;
     }
@@ -769,19 +811,25 @@ class Creature {
     if (weapon.acceptableAmmo.contains(ammo.type)) {
       Item? spare = spareAmmo;
       if (spare != null && spare.type == ammo.type) {
-        int numToTake =
-            min(count, 9 * weapon.type.ammoCapacity - spare.stackSize);
+        int numToTake = min(
+          count,
+          9 * weapon.type.ammoCapacity - spare.stackSize,
+        );
         if (numToTake > 0) {
           spare.stackSize += numToTake;
           ammo.stackSize -= numToTake;
         }
       } else {
         dropAmmo(lootPile: lootPile);
-        spareAmmo = ammo.split([
-          9 * weapon.type.ammoCapacity,
-          ammo.stackSize,
-          count
-        ].reduce(min)) as Ammo;
+        spareAmmo =
+            ammo.split(
+                  [
+                    9 * weapon.type.ammoCapacity,
+                    ammo.stackSize,
+                    count,
+                  ].reduce(min),
+                )
+                as Ammo;
       }
     }
   }
@@ -796,10 +844,13 @@ class Creature {
         fire = 2;
       }
     }
-    int armedLiberals = activeSquad?.members
-            .where((s) =>
-                (siteAlarm && s.equippedWeapon != null) ||
-                (weaponCheck(s) != WeaponCheckResult.ok))
+    int armedLiberals =
+        activeSquad?.members
+            .where(
+              (s) =>
+                  (siteAlarm && s.equippedWeapon != null) ||
+                  (weaponCheck(s) != WeaponCheckResult.ok),
+            )
             .length ??
         0;
     int armedConservatives = encounter

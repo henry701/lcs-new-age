@@ -21,7 +21,8 @@ class Squad {
   List<Creature>? _members;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<Creature> get members {
-    _members ??= __memberIds
+    _members ??=
+        __memberIds
             ?.map((id) => pool.firstWhereOrNull((e) => e.id == id))
             .nonNulls
             .toList() ??

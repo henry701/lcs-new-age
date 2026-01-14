@@ -11,8 +11,9 @@ void parseVehicleType(VehicleType type, XmlElement xml) {
           String key = element.name.local;
           switch (key) {
             case "start_at_current_year":
-              type.yearStart =
-                  parseBool(element.innerText) == true ? null : type.yearStart;
+              type.yearStart = parseBool(element.innerText) == true
+                  ? null
+                  : type.yearStart;
             case "start_at_year":
               type.yearStart =
                   int.tryParse(element.innerText) ?? type.yearStart;

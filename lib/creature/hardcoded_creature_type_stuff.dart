@@ -120,8 +120,11 @@ void applyHardcodedCreatureTypeStuff(Creature cr, CreatureType type) {
           cr.giveWeaponAndAmmo("WEAPON_9MM_HANDGUN", 4);
         }
         cr.reload(false);
-        cr.equippedClothing = Clothing("CLOTHING_POLICEUNIFORM",
-            stackSize: 1, armorId: "ARMOR_HIDDEN");
+        cr.equippedClothing = Clothing(
+          "CLOTHING_POLICEUNIFORM",
+          stackSize: 1,
+          armorId: "ARMOR_HIDDEN",
+        );
         cr.align = Alignment.conservative;
         cr.rawSkill[Skill.firearms] = lcsRandom(4) + 3;
         cr.rawSkill[Skill.martialArts] = lcsRandom(2) + 3;
@@ -232,14 +235,16 @@ void applyHardcodedCreatureTypeStuff(Creature cr, CreatureType type) {
         // Thief
         cr = Creature.fromId(CreatureTypeIds.thief);
       } else {
-        cr = Creature.fromId([
-          CreatureTypeIds.bum,
-          CreatureTypeIds.gangMember,
-          CreatureTypeIds.crackhead,
-          CreatureTypeIds.sexWorker,
-          CreatureTypeIds.teenager,
-          CreatureTypeIds.highschoolDropout,
-        ].random);
+        cr = Creature.fromId(
+          [
+            CreatureTypeIds.bum,
+            CreatureTypeIds.gangMember,
+            CreatureTypeIds.crackhead,
+            CreatureTypeIds.sexWorker,
+            CreatureTypeIds.teenager,
+            CreatureTypeIds.highschoolDropout,
+          ].random,
+        );
       }
 
       CreatureType crtype = creatureTypes[CreatureTypeIds.prisoner]!;
@@ -254,7 +259,9 @@ void applyHardcodedCreatureTypeStuff(Creature cr, CreatureType type) {
     case CreatureTypeIds.gangMember:
       if (oneIn(2)) {
         criminalize(
-            cr, [Crime.drugDistribution, Crime.assault, Crime.murder].random);
+          cr,
+          [Crime.drugDistribution, Crime.assault, Crime.murder].random,
+        );
       }
       if (mode == GameMode.site &&
           activeSite?.type == SiteType.drugHouse &&
@@ -262,10 +269,14 @@ void applyHardcodedCreatureTypeStuff(Creature cr, CreatureType type) {
         conservatize(cr);
       }
     case CreatureTypeIds.crackhead:
-      cr.rawAttributes[Attribute.heart] =
-          max(1, cr.rawAttributes[Attribute.heart]! - 2);
-      cr.rawAttributes[Attribute.wisdom] =
-          max(1, cr.rawAttributes[Attribute.wisdom]! - 2);
+      cr.rawAttributes[Attribute.heart] = max(
+        1,
+        cr.rawAttributes[Attribute.heart]! - 2,
+      );
+      cr.rawAttributes[Attribute.wisdom] = max(
+        1,
+        cr.rawAttributes[Attribute.wisdom]! - 2,
+      );
     case CreatureTypeIds.sexWorker:
       if (oneIn(2)) criminalize(cr, Crime.prostitution);
     case CreatureTypeIds.hippie:

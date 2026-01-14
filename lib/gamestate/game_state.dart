@@ -84,7 +84,7 @@ class GameState {
   int activeSafehouseId = -1;
 
   Map<SortingScreens, CreatureSortMethod> activeSortingChoice = {
-    for (var screen in SortingScreens.values) screen: CreatureSortMethod.none
+    for (var screen in SortingScreens.values) screen: CreatureSortMethod.none,
   };
 
   @JsonKey(defaultValue: [])
@@ -148,7 +148,7 @@ class GameState {
   Map<String, Location>? _locationMap;
   Map<String, Location> get locationMap {
     _locationMap ??= {
-      for (var location in allLocations) location.idString: location
+      for (var location in allLocations) location.idString: location,
     };
     return _locationMap!;
   }
@@ -157,13 +157,7 @@ class GameState {
   List<CrimeData> potentialCrimes = [];
 }
 
-enum CCSStrength {
-  inHiding,
-  active,
-  attacks,
-  sieges,
-  defeated,
-}
+enum CCSStrength { inHiding, active, attacks, sieges, defeated }
 
 enum CCSExposure { none, lcsGotData, exposed, nobackers }
 
@@ -183,10 +177,9 @@ Iterable<Creature> get poolAndProspects => pool
 List<Site> get sites => gameState.sites;
 Map<String, Site> get siteMap => gameState.siteMap;
 
-Iterable<Location> get allLocations =>
-    Iterable.castFrom<Site, Location>(gameState.sites)
-        .followedBy(gameState.districts)
-        .followedBy(gameState.cities);
+Iterable<Location> get allLocations => Iterable.castFrom<Site, Location>(
+  gameState.sites,
+).followedBy(gameState.districts).followedBy(gameState.cities);
 Map<String, Location> get locationMap => gameState.locationMap;
 
 int get month => gameState.date.month;
@@ -246,8 +239,7 @@ set activeSquadMember(Creature? value) {
 }
 
 List<Creature> get relevantLiberals {
-  Iterable<Creature> relevantLibIter = pool
-        .where((c) => c.isActiveLiberal);
+  Iterable<Creature> relevantLibIter = pool.where((c) => c.isActiveLiberal);
   // Check context to determine which pool to use
   switch (mode) {
     case GameMode.site:
@@ -259,7 +251,9 @@ List<Creature> get relevantLiberals {
     case GameMode.footChase:
       // In chase modes, filter by location to handle large groups fleeing sieges
       if (activeSite != null) {
-        relevantLibIter = relevantLibIter.where((c) => c.location == activeSite);
+        relevantLibIter = relevantLibIter.where(
+          (c) => c.location == activeSite,
+        );
       }
     case GameMode.base:
     case GameMode.title:
@@ -333,12 +327,14 @@ void changePublicOpinion(
   bool coloredByCcsOpinions = false,
   int extraMoralAuthority = 0,
   bool noPublicInterest = false,
-}) =>
-    gameState.politics.changePublicOpinion(view, power,
-        coloredByLcsOpinions: coloredByLcsOpinions,
-        coloredByCcsOpinions: coloredByCcsOpinions,
-        extraMoralAuthority: extraMoralAuthority,
-        noPublicInterest: noPublicInterest);
+}) => gameState.politics.changePublicOpinion(
+  view,
+  power,
+  coloredByLcsOpinions: coloredByLcsOpinions,
+  coloredByCcsOpinions: coloredByCcsOpinions,
+  extraMoralAuthority: extraMoralAuthority,
+  noPublicInterest: noPublicInterest,
+);
 
 UniqueCreatures get uniqueCreatures => gameState.uniqueCreatures;
 

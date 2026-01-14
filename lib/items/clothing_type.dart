@@ -53,19 +53,30 @@ class ClothingType extends ItemType {
     } else {
       armors.add(armorUpgrades.values.first);
     }
-    armors.addAll(allowedArmorIds
-        .map((id) => armorUpgrades[id]!)
-        .where((a) => !armors.contains(a)));
+    armors.addAll(
+      allowedArmorIds
+          .map((id) => armorUpgrades[id]!)
+          .where((a) => !armors.contains(a)),
+    );
     if (upgradable && intrinsicArmorId == null) {
       if (allowVisibleArmor) {
-        armors.addAll(armorUpgrades.values
-            .where((a) => a.visible && !a.restricted && !armors.contains(a)));
+        armors.addAll(
+          armorUpgrades.values.where(
+            (a) => a.visible && !a.restricted && !armors.contains(a),
+          ),
+        );
       }
-      armors.addAll(armorUpgrades.values
-          .where((a) => !a.visible && !a.restricted && !armors.contains(a)));
+      armors.addAll(
+        armorUpgrades.values.where(
+          (a) => !a.visible && !a.restricted && !armors.contains(a),
+        ),
+      );
       if (!allowVisibleArmor) {
-        armors.addAll(armorUpgrades.values
-            .where((a) => a.visible && !a.restricted && !armors.contains(a)));
+        armors.addAll(
+          armorUpgrades.values.where(
+            (a) => a.visible && !a.restricted && !armors.contains(a),
+          ),
+        );
       }
     }
     return armors;
@@ -73,8 +84,10 @@ class ClothingType extends ItemType {
 
   List<String> allowedArmorIds = [];
 
-  List<String> traitsList(bool includeArmor,
-      {ArmorUpgrade? specifiedArmorUpgrade}) {
+  List<String> traitsList(
+    bool includeArmor, {
+    ArmorUpgrade? specifiedArmorUpgrade,
+  }) {
     List<String> traits = [];
     specifiedArmorUpgrade ??= intrinsicArmor;
     if (concealsFace) {

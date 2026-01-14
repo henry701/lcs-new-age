@@ -67,9 +67,13 @@ Future<bool> readDAMEMap(String filename) async {
     return false;
   }
   if (!await readMapFile(
-      "$prefix${filename}_Specials.csv", 0, readMapCBSpecials)) {
+    "$prefix${filename}_Specials.csv",
+    0,
+    readMapCBSpecials,
+  )) {
     debugPrint(
-        "No DAME map file for Specials found $prefix${filename}_Specials.csv");
+      "No DAME map file for Specials found $prefix${filename}_Specials.csv",
+    );
     return false;
   }
 
@@ -77,11 +81,17 @@ Future<bool> readDAMEMap(String filename) async {
   for (int z = 1; z < MAPZ; z++) {
     String str = (z + 1).toString();
     if (!await readMapFile(
-        "$prefix$filename${str}_Tiles.csv", z, readMapCBTiles)) {
+      "$prefix$filename${str}_Tiles.csv",
+      z,
+      readMapCBTiles,
+    )) {
       break;
     }
     if (!await readMapFile(
-        "$prefix$filename${str}_Specials.csv", z, readMapCBSpecials)) {
+      "$prefix$filename${str}_Specials.csv",
+      z,
+      readMapCBSpecials,
+    )) {
       break;
     }
   }
@@ -96,8 +106,11 @@ Future<AssetManifest> get assetManifest async {
   return _assetManifest!;
 }
 
-Future<bool> readMapFile(String filename, int zLevel,
-    void Function(int, int, int, int) callback) async {
+Future<bool> readMapFile(
+  String filename,
+  int zLevel,
+  void Function(int, int, int, int) callback,
+) async {
   try {
     // open the file in question
     debugPrint("Loading map file $filename");

@@ -67,11 +67,18 @@ Future<void> equip(List<Item>? loot) async {
     }
 
     mvaddstrc(19, 1, lightGray, "Press a letter to equip a Liberal item");
-    mvaddstr(20, 1,
-        "Press a number to drop that Squad member's Conservative weapon");
+    mvaddstr(
+      20,
+      1,
+      "Press a number to drop that Squad member's Conservative weapon",
+    );
     addOptionText(21, 1, "S", "S - Liberally Strip a Squad member");
     addOptionText(
-        22, 1, "Cursors", "Cursors - Increase or decrease ammo allocation");
+      22,
+      1,
+      "Cursors",
+      "Cursors - Increase or decrease ammo allocation",
+    );
 
     if (site != null &&
         site.controller == SiteController.lcs &&
@@ -94,7 +101,8 @@ Future<void> equip(List<Item>? loot) async {
     if ((c >= Key.a && c <= Key.r) || increaseammo || decreaseammo) {
       int slot = c - Key.a + page * 18;
       debugPrint(
-          "Key: ${String.fromCharCode(c)} Slot: $slot LootLength: ${loot.length}");
+        "Key: ${String.fromCharCode(c)} Slot: $slot LootLength: ${loot.length}",
+      );
       if (increaseammo || decreaseammo) {
         slot = -999;
       } else {
@@ -102,8 +110,9 @@ Future<void> equip(List<Item>? loot) async {
 
         bool isWeapon = loot[slot] is Weapon;
         bool isArmor = loot[slot] is Clothing;
-        bool isAmmo =
-            squad.any((m) => m.weapon.acceptableAmmo.contains(loot[slot].type));
+        bool isAmmo = squad.any(
+          (m) => m.weapon.acceptableAmmo.contains(loot[slot].type),
+        );
         if (!isWeapon && !isArmor && !isAmmo) {
           errmsg = "You can't equip that.";
           continue;
@@ -174,14 +183,16 @@ Future<void> equip(List<Item>? loot) async {
 
           if (loot[slot] is Weapon && armok > 0) {
             debugPrint(
-                "Giving weapon ${loot[slot].type.name} to ${squaddie.name}");
+              "Giving weapon ${loot[slot].type.name} to ${squaddie.name}",
+            );
             Weapon w = loot[slot] as Weapon;
             squaddie.giveWeapon(w, loot);
 
             if (page * 18 >= loot.length && page != 0) page--;
           } else if (loot[slot] is Clothing) {
             debugPrint(
-                "Giving armor ${loot[slot].type.name} to ${squaddie.name}");
+              "Giving armor ${loot[slot].type.name} to ${squaddie.name}",
+            );
             Clothing a = loot[slot] as Clothing;
             squaddie.giveArmor(a, loot);
 
@@ -190,14 +201,16 @@ Future<void> equip(List<Item>? loot) async {
             if (page * 18 >= loot.length && page != 0) page--;
           } else if (squaddie.weapon.acceptableAmmo.contains(loot[slot].type) &&
               armok > 0) {
-            int space = 9 * squaddie.weapon.type.ammoCapacity -
+            int space =
+                9 * squaddie.weapon.type.ammoCapacity -
                 (squaddie.spareAmmo?.stackSize ?? 0);
 
             if (!squaddie.weapon.type.usesAmmo) {
               errmsg = "Can't carry ammo without a gun.";
               continue;
-            } else if (!squaddie.weapon.acceptableAmmo
-                .contains(loot[slot].type)) {
+            } else if (!squaddie.weapon.acceptableAmmo.contains(
+              loot[slot].type,
+            )) {
               errmsg = "That ammo doesn't fit.";
               continue;
             } else if (space < 1) {
@@ -206,12 +219,16 @@ Future<void> equip(List<Item>? loot) async {
             } else {
               int amount = 1;
               if (loot[slot].stackSize > 1 && !increaseammo) {
-                amount =
-                    await promptAmount(0, min(loot[slot].stackSize, space));
+                amount = await promptAmount(
+                  0,
+                  min(loot[slot].stackSize, space),
+                );
               }
               if (increaseammo) {
                 amount = min(
-                    loot[slot].stackSize, squaddie.weapon.type.ammoCapacity);
+                  loot[slot].stackSize,
+                  squaddie.weapon.type.ammoCapacity,
+                );
               }
 
               squaddie.takeAmmo(loot[slot] as Ammo, loot, amount);
@@ -404,13 +421,23 @@ Future<void> equipmentBaseAssign() async {
     addHeader({4: "ITEM", 25: "CURRENT LOCATION", 51: "NEW LOCATION"});
 
     int y = 2;
-    for (p = pageLoot * 19;
-        p < items.length && p < pageLoot * 19 + 19;
-        p++, y++) {
-      addOptionText(y, 0, "${letterAPlus(y - 2)} - ",
-          "${letterAPlus(y - 2)} - ${items[p].equipTitle()}${items[p].stackSize > 1 ? " x${items[p].stackSize}" : ""}");
-      mvaddstrc(y, 25, lightGray,
-          siteFromItem[items[p]]!.getName(short: true, includeCity: true));
+    for (
+      p = pageLoot * 19;
+      p < items.length && p < pageLoot * 19 + 19;
+      p++, y++
+    ) {
+      addOptionText(
+        y,
+        0,
+        "${letterAPlus(y - 2)} - ",
+        "${letterAPlus(y - 2)} - ${items[p].equipTitle()}${items[p].stackSize > 1 ? " x${items[p].stackSize}" : ""}",
+      );
+      mvaddstrc(
+        y,
+        25,
+        lightGray,
+        siteFromItem[items[p]]!.getName(short: true, includeCity: true),
+      );
     }
 
     y = 2;
@@ -420,17 +447,24 @@ Future<void> equipmentBaseAssign() async {
       } else {
         setColor(lightGray);
       }
-      addOptionText(y, 51, "${y - 1}",
-          "${y - 1} - ${bases[p].getName(short: true, includeCity: true)}",
-          baseColorKey:
-              p == selectedbase ? ColorKey.white : ColorKey.lightGray);
+      addOptionText(
+        y,
+        51,
+        "${y - 1}",
+        "${y - 1} - ${bases[p].getName(short: true, includeCity: true)}",
+        baseColorKey: p == selectedbase ? ColorKey.white : ColorKey.lightGray,
+      );
     }
     if (bases.length > 9) {
       addOptionText(12, 51, "0", "0 - More Bases");
     }
 
-    mvaddstrc(22, 0, lightGray,
-        "Press a Letter to assign a base.  Press a Number to select a base.");
+    mvaddstrc(
+      22,
+      0,
+      lightGray,
+      "Press a Letter to assign a base.  Press a Number to select a base.",
+    );
     mvaddstr(23, 0, "Shift and a Number will move ALL items!");
     if (sortbytype) {
       addOptionText(24, 0, "T", "T - Sort by location");
@@ -522,7 +556,8 @@ Future<void> equipmentBaseAssign() async {
     };
     if (HardwareKeyboard.instance.isShiftPressed) {
       debugPrint(
-          "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}");
+        "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}",
+      );
     }
     int index = -1;
     if (HardwareKeyboard.instance.isShiftPressed &&

@@ -46,8 +46,11 @@ Future<void> burnFlag(Site loc) async {
       notoriety += 20;
     }
     changePublicOpinion(lcs.View.lcsKnown, impact + notoriety);
-    changePublicOpinion(lcs.View.freeSpeech, impact,
-        coloredByLcsOpinions: true);
+    changePublicOpinion(
+      lcs.View.freeSpeech,
+      impact,
+      coloredByLcsOpinions: true,
+    );
   }
   await burnFlagAnimation();
   loc.hasFlag = false;
@@ -82,8 +85,12 @@ class FlagGlyph {
 }
 
 class FlagBurningAnimation extends StatefulWidget {
-  const FlagBurningAnimation(this.flag, this.burnData,
-      {this.duration = const Duration(seconds: 5), super.key});
+  const FlagBurningAnimation(
+    this.flag,
+    this.burnData, {
+    this.duration = const Duration(seconds: 5),
+    super.key,
+  });
   final SvgPicture flag;
   final BurnData burnData;
   final Duration duration;
@@ -110,17 +117,19 @@ class _FlagBurningAnimationState extends State<FlagBurningAnimation>
   }
 
   @override
-  Widget build(BuildContext context) => Stack(children: [
-        Positioned.fill(child: widget.flag),
-        Positioned.fill(
-          child: AnimatedBuilder(
-            animation: animationController,
-            builder: (context, child) => CustomPaint(
-                painter:
-                    BurnPainter(widget.burnData..tickUntil(animation.value))),
+  Widget build(BuildContext context) => Stack(
+    children: [
+      Positioned.fill(child: widget.flag),
+      Positioned.fill(
+        child: AnimatedBuilder(
+          animation: animationController,
+          builder: (context, child) => CustomPaint(
+            painter: BurnPainter(widget.burnData..tickUntil(animation.value)),
           ),
         ),
-      ]);
+      ),
+    ],
+  );
 }
 
 enum BurnState {
@@ -194,18 +203,21 @@ class BurnData {
   BurnData(int x, int y) {
     burnNodes = [
       for (int i = 0; i < y; i++)
-        [for (int j = 0; j < x; j++) BurnState.unburned]
+        [for (int j = 0; j < x; j++) BurnState.unburned],
     ];
   }
   late final List<List<BurnState>> burnNodes;
   int get height => burnNodes.length;
   int get width => burnNodes[0].length;
   int get remaining => burnNodes.fold(
-      0,
-      (sum, row) =>
-          sum +
-          row.fold(
-              0, (sum, state) => sum + (state == BurnState.unburned ? 1 : 0)));
+    0,
+    (sum, row) =>
+        sum +
+        row.fold(
+          0,
+          (sum, state) => sum + (state == BurnState.unburned ? 1 : 0),
+        ),
+  );
 
   double get stage => 1 - remaining / (height * width);
 
@@ -236,8 +248,11 @@ class BurnData {
   void tick([bool fast = false]) {
     for (int i = 0; i < burnNodes.length; i++) {
       for (int j = 0; j < burnNodes[i].length; j++) {
-        burnNodes[i][j] = BurnState.values[min(BurnState.gone.index,
-            burnNodes[i][j].index + burnNodes[i][j].index.sign)];
+        burnNodes[i][j] =
+            BurnState.values[min(
+              BurnState.gone.index,
+              burnNodes[i][j].index + burnNodes[i][j].index.sign,
+            )];
       }
     }
     List<(int, int)> toBurn = nodesThatCanIgnite().toList();
@@ -261,6 +276,13 @@ class BurnData {
 }
 
 void printFlag() {
-  console.addGraphic(ConsoleGraphic(10, 27.25, 15.5, 51.75,
-      SvgPicture.asset('assets/flags/Flag_of_the_United_States.svg')));
+  console.addGraphic(
+    ConsoleGraphic(
+      10,
+      27.25,
+      15.5,
+      51.75,
+      SvgPicture.asset('assets/flags/Flag_of_the_United_States.svg'),
+    ),
+  );
 }

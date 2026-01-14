@@ -10,7 +10,7 @@ part 'district.g.dart';
 @JsonSerializable(ignoreUnannotated: true)
 class District implements Location {
   District(this.shortName, this.name, this.cityId, {required this.area})
-      : id = gameState.nextDistrictId++;
+    : id = gameState.nextDistrictId++;
   factory District.fromJson(Map<String, dynamic> json) =>
       _$DistrictFromJson(json);
   Map<String, dynamic> toJson() => _$DistrictToJson(this);

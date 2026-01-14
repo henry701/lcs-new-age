@@ -250,7 +250,7 @@ void printWounds(Creature cr, {int y = 2, int x = 49}) {
   for (int i = 0; i < cr.body.parts.length; i++) {
     BodyPart p = cr.body.parts[i];
     setColor(p.bleeding > 0 ? red : lightGray);
-    mvaddstr(y + i, x, "${p.name}: ");
+    mvaddstr(y + i, x, "{name}:", params: {"name": p.name});
     move(y + i, x + 12);
     if (p.nastyOff) {
       addstr("Ripped off");

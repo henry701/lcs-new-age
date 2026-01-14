@@ -45,8 +45,12 @@ void letTheUnworthyLeave() {
 }
 
 void printExec() {
-  mvaddstrc(1, 0, exec[Exec.president]!.color,
-      "President: ${execName[Exec.president]}, ${exec[Exec.president]!.label}");
+  mvaddstrc(
+    1,
+    0,
+    exec[Exec.president]!.color,
+    "President: ${execName[Exec.president]}, ${exec[Exec.president]!.label}",
+  );
   if (politics.execTerm == 1) {
     addstr(", 1st Term");
   } else {
@@ -109,7 +113,9 @@ void printMood() {
 }
 
 String summaryText(List<int> body) => List.generate(
-    5, (i) => "${body[4 - i]} ${DeepAlignment.values[4 - i].short}").join(", ");
+  5,
+  (i) => "${body[4 - i]} ${DeepAlignment.values[4 - i].short}",
+).join(", ");
 
 List<int> summarizePoliticalBody(List<DeepAlignment> body) {
   List<int> summary = [0, 0, 0, 0, 0];

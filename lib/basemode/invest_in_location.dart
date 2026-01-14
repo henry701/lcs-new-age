@@ -38,65 +38,120 @@ Future<void> investInLocation(Site loc) async {
         } else if (loc.type == SiteType.bombShelter) {
           fortifyText = "Fortify the bomb shelter entrances";
         }
-        addOptionText(8, 1, "W", "W - $fortifyText (\$2000)",
-            enabledWhen: ledger.funds >= 2000);
+        addOptionText(
+          8,
+          1,
+          "W",
+          "W - $fortifyText (\$2000)",
+          enabledWhen: ledger.funds >= 2000,
+        );
       }
       if (!loc.compound.cameras) {
-        addOptionText(9, 1, "C",
-            "C - Place Security Cameras around the compound (\$2000)",
-            enabledWhen: ledger.funds >= 2000);
+        addOptionText(
+          9,
+          1,
+          "C",
+          "C - Place Security Cameras around the compound (\$2000)",
+          enabledWhen: ledger.funds >= 2000,
+        );
       }
       if (!loc.compound.boobyTraps) {
-        addOptionText(10, 1, "T",
-            "T - Place Booby Traps throughout the compound (\$3000)",
-            enabledWhen: ledger.funds >= 3000);
+        addOptionText(
+          10,
+          1,
+          "T",
+          "T - Place Booby Traps throughout the compound (\$3000)",
+          enabledWhen: ledger.funds >= 3000,
+        );
       }
       if (!loc.compound.bollards) {
-        addOptionText(11, 1, "B",
-            "B - Install heavy Bollards to keep vehicles away (\$3000)",
-            enabledWhen: ledger.funds >= 3000);
+        addOptionText(
+          11,
+          1,
+          "B",
+          "B - Install heavy Bollards to keep vehicles away (\$3000)",
+          enabledWhen: ledger.funds >= 3000,
+        );
       }
       if (!loc.compound.generator) {
-        addOptionText(12, 1, "G",
-            "G - Install a backup diesel generator for the compound (\$3000)",
-            enabledWhen: ledger.funds >= 3000);
+        addOptionText(
+          12,
+          1,
+          "G",
+          "G - Install a backup diesel generator for the compound (\$3000)",
+          enabledWhen: ledger.funds >= 3000,
+        );
       }
       if (!loc.compound.aaGun && !loc.compound.solarPanels) {
-        addOptionText(13, 1, "P",
-            "P - Install a battery and Solar Panel array on the roof (\$${solarCost ~/ 1000},000)",
-            enabledWhen: ledger.funds >= solarCost);
+        addOptionText(
+          13,
+          1,
+          "P",
+          "P - Install a battery and Solar Panel array on the roof (\$${solarCost ~/ 1000},000)",
+          enabledWhen: ledger.funds >= solarCost,
+        );
         if (laws[Law.gunControl] == DeepAlignment.archConservative) {
-          addOptionText(14, 1, "A",
-              "A - Install a perfectly legal Anti-Aircraft gun on the roof (\$35,000)",
-              enabledWhen: ledger.funds >= 35000);
+          addOptionText(
+            14,
+            1,
+            "A",
+            "A - Install a perfectly legal Anti-Aircraft gun on the roof (\$35,000)",
+            enabledWhen: ledger.funds >= 35000,
+          );
         } else {
-          addOptionText(14, 1, "A",
-              "A - Install and conceal an illegal Anti-Aircraft gun on the roof (\$200,000)",
-              enabledWhen: ledger.funds >= 200000);
+          addOptionText(
+            14,
+            1,
+            "A",
+            "A - Install and conceal an illegal Anti-Aircraft gun on the roof (\$200,000)",
+            enabledWhen: ledger.funds >= 200000,
+          );
         }
       }
       if (!loc.compound.videoRoom) {
         addOptionText(
-            15, 1, "V", "V - Prepare a room as a Video Studio (\$2000)",
-            enabledWhen: ledger.funds >= 2000);
+          15,
+          1,
+          "V",
+          "V - Prepare a room as a Video Studio (\$2000)",
+          enabledWhen: ledger.funds >= 2000,
+        );
       }
       if (!loc.compound.hackerDen) {
-        addOptionText(16, 1, "H", "H - Prepare a room as a Hacker Den (\$4000)",
-            enabledWhen: ledger.funds >= 4000);
+        addOptionText(
+          16,
+          1,
+          "H",
+          "H - Prepare a room as a Hacker Den (\$4000)",
+          enabledWhen: ledger.funds >= 4000,
+        );
       }
       if (!loc.businessFront && !loc.discreet) {
-        addOptionText(17, 1, "F",
-            "F - Set up a Business Front to ward off suspicion (\$3000)",
-            enabledWhen: ledger.funds >= 3000);
+        addOptionText(
+          17,
+          1,
+          "F",
+          "F - Set up a Business Front to ward off suspicion (\$3000)",
+          enabledWhen: ledger.funds >= 3000,
+        );
       }
     }
     if (loc.compound.generator) {
-      addOptionText(18, 1, "D",
-          "D - Stockpile 5 days of diesel for the generator (\$$dieselCost)",
-          enabledWhen: ledger.funds >= dieselCost);
+      addOptionText(
+        18,
+        1,
+        "D",
+        "D - Stockpile 5 days of diesel for the generator (\$$dieselCost)",
+        enabledWhen: ledger.funds >= dieselCost,
+      );
     }
-    addOptionText(19, 1, "R", "R - Stockpile 20 daily rations of food (\$150)",
-        enabledWhen: ledger.funds >= 150);
+    addOptionText(
+      19,
+      1,
+      "R",
+      "R - Stockpile 20 daily rations of food (\$150)",
+      enabledWhen: ledger.funds >= 150,
+    );
     addOptionText(20, 1, "Enter", "Enter - Done");
     int c = await getKey();
     if (isBackKey(c)) break;

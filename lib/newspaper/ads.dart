@@ -4,8 +4,13 @@ import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
-void displaysinglead(bool liberalguardian, List<(int, int)> addplace,
-    List<int> storyXStart, List<int> storyXEnd, NewsStory ns) {
+void displaysinglead(
+  bool liberalguardian,
+  List<(int, int)> addplace,
+  List<int> storyXStart,
+  List<int> storyXEnd,
+  NewsStory ns,
+) {
   int x, y;
   (x, y) = addplace.random;
   addplace.remove((x, y));
@@ -182,8 +187,12 @@ void displaysinglead(bool liberalguardian, List<(int, int)> addplace,
   }
 }
 
-void displayAds(NewsStory ns, bool liberalguardian, List<int> storyXStart,
-    List<int> storyXEnd) {
+void displayAds(
+  NewsStory ns,
+  bool liberalguardian,
+  List<int> storyXStart,
+  List<int> storyXEnd,
+) {
   int adnumber = 0;
   if (!liberalguardian) {
     if (ns.page >= 10) adnumber++;
@@ -209,18 +218,18 @@ String sexdesc() => ["DTE", "ND", "NS", "VGL"].random;
 
 /* what kind of person? */
 String sexwho() => [
-      "BB", "BBC", "BF", "BHM", "BiF", "BiM", //
-      "BBW", "BMW", "CD", "DWF", "DWM", "FTM", "GAM", "GBM",
-      "GF", "GG", "GHM", "GWC", "GWF", "GWM", "MBC", "MBiC",
-      "MHC", "MTF", "MWC", "SBF", "SBM", "SBiF", "SBiM",
-      "SSBBW", "SWF", "SWM", "TG", "TS", "TV"
-    ].random;
+  "BB", "BBC", "BF", "BHM", "BiF", "BiM", //
+  "BBW", "BMW", "CD", "DWF", "DWM", "FTM", "GAM", "GBM",
+  "GF", "GG", "GHM", "GWC", "GWF", "GWM", "MBC", "MBiC",
+  "MHC", "MTF", "MWC", "SBF", "SBM", "SBiF", "SBiM",
+  "SSBBW", "SWF", "SWM", "TG", "TS", "TV",
+].random;
 
 /* seeking acronym */
 String sexseek() => ["ISO", "LF"].random;
 
 /* what type of sex? */
 String sextype() => [
-      "225", "ATM", "BDSM", "CBT", "BJ", "DP", "D/s", "GB", //
-      "HJ", "OTK", "PNP", "TT", "SWS", "W/S"
-    ].random;
+  "225", "ATM", "BDSM", "CBT", "BJ", "DP", "D/s", "GB", //
+  "HJ", "OTK", "PNP", "TT", "SWS", "W/S",
+].random;

@@ -6,9 +6,9 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
-import 'package:lcs_new_age/i18n/i18n.dart';
 
 Future<void> hardlinerFight(Creature cr) async {
   await showMessage(

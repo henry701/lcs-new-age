@@ -10,10 +10,7 @@ void main() async {
       LcsI18n.reset();
     });
 
-    tearDown(() {
-      // Clean up after each test
-      LcsI18n.reset();
-    });
+    tearDown(LcsI18n.reset);
 
     // Test singular form (uses English source key as lookup)
     test('singular form', () async {

@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Dart
+name: CI
 
 on:
   push:
@@ -16,11 +16,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v4
 
       - name: Cache Pub dependencies
         id: cache-restore
-        uses: actions/cache@main
+        uses: actions/cache@v4
         with:
           path: |
             ${{ runner.os }}/.pub-cache
@@ -29,11 +29,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pub-
 
-      # Note: This workflow uses the latest stable version of the Dart SDK.
-      # You can specify other versions if desired, see documentation here:
-      # https://github.com/dart-lang/setup-dart/blob/main/README.md
-      # - uses: dart-lang/setup-dart@v1
-      - uses: subosito/flutter-action@main
+      - uses: subosito/flutter-action@v2
         with:
           channel: stable
           flutter-version: 3.35.4
@@ -45,19 +41,36 @@ jobs:
       - name: Generate code
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
-      # - name: Verify formatting
-      #   run: dart format --output=none --set-exit-if-changed .
-
       - name: Analyze project source
         run: flutter analyze
 
       - name: Run tests
         run: flutter test
 
+      - name: Validate translation files
+        run: |
+          echo "=== Validating ARB files ==="
+          for locale in pt_BR; do
+            echo "Checking $locale..."
+            dart run scripts/maintain_translations.dart --locale=$locale --extract-untranslated --dry-run
+            if [ $? -ne 0 ]; then
+              echo "FAIL: Translation maintenance needed for $locale"
+              echo "Run: dart run scripts/maintain_translations.dart --locale=$locale --extract-untranslated"
+              exit 1
+            fi
+            echo "  OK: $locale"
+          done
+          echo ""
+          echo "=== Validating no duplicates ==="
+          dart run scripts/clean_arb_duplicates.dart
+          echo ""
+          echo "=== All validations passed ==="
+
       - name: Send to web
         run: flutter build web --release --base-href /lcs-new-age/
 
       - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

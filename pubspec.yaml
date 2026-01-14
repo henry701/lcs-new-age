@@ -55,7 +55,7 @@ dart_pre_commit:
   format: false
   # Fails on warnings to keep code clean - we want to address all lint issues
   analyze:
-    error-level: warning
+    error-level: info  # Match CI behavior - fail on infos, warnings, and errors
   test: true
   flutter_compat: false
   outdated: false

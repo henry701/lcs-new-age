@@ -1,13 +1,14 @@
 #!/usr/bin/env dart
 // ignore_for_file: avoid_print
 
-/// Pre-commit validation script for LCS New Age translations.
-///
-/// Runs all validations that should pass before committing:
-/// 1. Runs dart_pre_commit (analyze + test)
-/// 2. Validates ARB files are clean (no untranslated strings, no duplicates)
-///
-/// Usage: dart run scripts/validate_translations.dart
+/* Pre-commit validation script for LCS New Age.
+ *
+ * Runs all validations that should pass before committing:
+ * 1. Runs dart_pre_commit (analyze + test)
+ * 2. Validates ARB files are clean (no untranslated strings, no duplicates)
+ *
+ * Usage: dart run scripts/validate_translations.dart
+ */
 
 import 'dart:io';
 

@@ -41,43 +41,12 @@ Converting console output strings from string interpolation/concatenation to par
   - noTranslate parameter works correctly
   - addOptionText with params works correctly
 
-## Infrastructure Maintenance (Jan 2025)
-✅ **Unified CI Workflow** - Merged `dart.yml` and `translations.yml` into single `ci.yml`:
-  - Uses Flutter 3.35.4 consistently (matches pubspec SDK requirement)
-  - Runs: analyze → test → translation validation → build → deploy
-  - Fixed SDK version mismatch that caused CI failures
-
-✅ **Lint Fixes** - Resolved 10 analyzer info-level issues:
-  - 8 files: Fixed import ordering (`directives_ordering`)
-  - 1 file: Fixed dangling doc comment in validate_translations.dart
-  - 1 file: Fixed unnecessary lambda in portuguese_plural_test.dart
-
-✅ **Pre-commit Hook Consistency** - Updated `dart_pre_commit` config:
-  - Set `error-level: info` to match CI severity level
-  - Pre-commit now catches same issues as CI
-
 ## Files Modified
-
-### String Templating Conversions
 1. `lib/engine/engine.dart` - Added parameters to addOptionText
 2. `lib/daily/recruitment.dart` - Complete conversion (15 calls)
 3. `lib/talk/drop_a_pickup_line.dart` - Partial conversion (2 calls)
 4. `lib/sitemode/map_specials.dart` - Updated encounterMessage function
 5. `lib/sitemode/fight.dart` - Partial conversion (2 calls)
-
-### Infrastructure & CI Maintenance (Jan 2025)
-6. `.github/workflows/ci.yml` - Unified workflow (merged dart.yml + translations.yml)
-7. `pubspec.yaml` - Updated dart_pre_commit config for severity consistency
-8. `lib/daily/activities/graffiti.dart` - Import ordering fix
-9. `lib/daily/activities/hardliner_fight.dart` - Import ordering fix
-10. `lib/monthly/advance_month.dart` - Import ordering fix
-11. `lib/monthly/lcs_monthly.dart` - Import ordering fix
-12. `lib/monthly/sleeper_update.dart` - Import ordering fix
-13. `lib/sitemode/fight.dart` - Import ordering fix
-14. `lib/sitemode/map_specials.dart` - Import ordering fix
-15. `lib/sitemode/miscactions.dart` - Import ordering fix
-16. `scripts/validate_translations.dart` - Dangling doc comment fix
-17. `test/portuguese_plural_test.dart` - Unnecessary lambda fix
 
 ## Remaining Work
 The codebase has **1818 console output calls across 64 files**. Significant remaining files include:

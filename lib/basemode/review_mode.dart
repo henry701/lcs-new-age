@@ -119,32 +119,36 @@ Future<void> reviewAssetsAndFormSquads() async {
           y,
           0,
           "1",
-          "1 - Active Liberals ($active)",
+          "1 - Active Liberals ({active})",
           enabledWhen: active > 0,
+          params: {"active": active.toString()},
         );
       } else if (p == squads.length + 1) {
         addOptionText(
           y,
           0,
           "2",
-          "2 - Hostages ($hostages)",
+          "2 - Hostages ({hostages})",
           enabledWhen: hostages > 0,
+          params: {"hostages": hostages.toString()},
         );
       } else if (p == squads.length + 2) {
         addOptionText(
           y,
           0,
           "3",
-          "3 - Hospital ($hospital)",
+          "3 - Hospital ({hospital})",
           enabledWhen: hospital > 0,
+          params: {"hospital": hospital.toString()},
         );
       } else if (p == squads.length + 3) {
         addOptionText(
           y,
           0,
           "4",
-          "4 - Justice System ($justice)",
+          "4 - Justice System ({justice})",
           enabledWhen: justice > 0,
+          params: {"justice": justice.toString()},
         );
       } else if (p == squads.length + 4) {
         addOptionText(
@@ -1151,8 +1155,9 @@ Future<void> assignNewBasesToTheSquadless() async {
         y,
         51,
         number,
-        "$number - $name",
+        "{number} - {name}",
         baseColorKey: p == selectedbase ? ColorKey.white : ColorKey.lightGray,
+        params: {"number": number, "name": name},
       );
     }
 

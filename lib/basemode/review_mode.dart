@@ -74,8 +74,9 @@ Future<void> reviewAssetsAndFormSquads() async {
           y,
           0,
           letter,
-          "$letter - ${squads[p].name}",
+          "{letter} - {name}",
           baseColorKey: active ? "W" : "w",
+          params: {"letter": letter, "name": squads[p].name},
         );
 
         if (squads[p].members.isNotEmpty &&
@@ -150,20 +151,36 @@ Future<void> reviewAssetsAndFormSquads() async {
           y,
           0,
           "5",
-          "5 - Sleepers ($sleepers)",
+          "5 - Sleepers ({sleepers})",
           enabledWhen: sleepers > 0,
+          params: {"sleepers": sleepers.toString()},
         );
       } else if (p == squads.length + 5) {
-        addOptionText(y, 0, "6", "6 - The Dead ($dead)", enabledWhen: dead > 0);
+        addOptionText(
+          y,
+          0,
+          "6",
+          "6 - The Dead ({dead})",
+          enabledWhen: dead > 0,
+          params: {"dead": dead.toString()},
+        );
       } else if (p == squads.length + 6) {
-        addOptionText(y, 0, "7", "7 - Away ($away)", enabledWhen: away > 0);
+        addOptionText(
+          y,
+          0,
+          "7",
+          "7 - Away ({away})",
+          enabledWhen: away > 0,
+          params: {"away": away.toString()},
+        );
       } else if (p == squads.length + 7) {
         addOptionText(
           y,
           0,
           "8",
-          "8 - Review and Move Equipment ($equipment)",
+          "8 - Review and Move Equipment ({equipment})",
           enabledWhen: equipment > 0,
+          params: {"equipment": equipment.toString()},
         );
       } else {
         break;
@@ -898,9 +915,13 @@ Future<void> assembleSquad(Squad? cursquad) async {
         y,
         2,
         letter,
-        "$letter - ${tempp.name.substring(0, min(tempp.name.length, 20))}",
+        "{letter} - {name}",
         enabledWhen: isAtCurrentSquadLocation,
         baseColorKey: isCurrentSquadMember ? "C" : "m",
+        params: {
+          "letter": letter,
+          "name": tempp.name.substring(0, min(tempp.name.length, 20)),
+        },
       );
 
       bool bright = false;
@@ -1274,7 +1295,7 @@ Future<void> promoteliberals() async {
       Creature tempp = temppool[p];
       setColor(lightGray);
       String letter = letterAPlus(y - 2);
-      addOptionText(y, 0, letter, "$letter - ");
+      addOptionText(y, 0, letter, "{letter} - ", params: {"letter": letter});
 
       move(y, 27);
       int p2 = 0;

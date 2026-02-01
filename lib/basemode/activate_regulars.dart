@@ -1234,8 +1234,21 @@ Future<void> _selectTendHostage(Creature cr) async {
     count: hostages.length,
     lineBuilder: (y, key, index) {
       Creature h = hostages[index];
-      mvaddstrc(y, 0, lightGray, "$key - ${h.name}");
-      mvaddstr(y, 25, "${h.rawSkill.values.reduce((a, b) => a + b)}");
+      mvaddstrc(
+        y,
+        0,
+        lightGray,
+        "{key} - {name}",
+        params: {"key": key, "name": h.name},
+      );
+      mvaddstr(
+        y,
+        25,
+        "{skillTotal}",
+        params: {
+          "skillTotal": h.rawSkill.values.reduce((a, b) => a + b).toString(),
+        },
+      );
       printHealthStat(y, 33, h, small: true);
       mvaddstrc(
         y,
@@ -1246,7 +1259,11 @@ Future<void> _selectTendHostage(Creature cr) async {
       mvaddstr(
         y,
         60,
-        "${h.daysSinceJoined} Day${h.daysSinceJoined == 1 ? "" : "s"}",
+        "{days} Day{s}",
+        params: {
+          "days": h.daysSinceJoined.toString(),
+          "s": h.daysSinceJoined == 1 ? "" : "s",
+        },
       );
     },
     onChoice: (index) async {

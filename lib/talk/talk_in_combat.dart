@@ -24,8 +24,8 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 Future<bool> talkInCombat(Creature liberal, Creature target) async {
   clearSceneAreas();
 
-  mvaddstrc(9, 1, white, "${liberal.name} talks to ");
-  addstrc(target.align.color, target.name);
+  mvaddstrc(9, 1, white, "{name} talks to ", params: {"name": liberal.name});
+  addstrc(target.align.color, target.name, noTranslate: true);
   addstrc(white, ":");
 
   int c = 0, hostages = 0, weaponhostage = 0;
@@ -66,7 +66,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
   if (c == 'a'.codePoint) {
     await intimidate(liberal);
   } else if (c == 'b'.codePoint) {
-    mvaddstrc(9, 1, white, "${liberal.name}: ");
+    mvaddstrc(9, 1, white, "{name}: ", params: {"name": liberal.name});
     setColor(lightGreen);
     move(10, 1);
     switch (lcsRandom(6)) {
@@ -108,7 +108,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
             (e.type.canPerformArrests || e.type.edgelord),
       );
       if (e != null) {
-        mvaddstrc(9, 1, white, "${e.name}:");
+        mvaddstrc(9, 1, white, "{name}:", params: {"name": e.name});
         move(10, 1);
         if (e.align != Alignment.conservative ||
             (e.type.id == CreatureTypeIds.secretService &&
@@ -232,7 +232,8 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
             10,
             1,
             white,
-            "${executer.name} Heartlessly drops ${executer.prisoner!.name}'s body.",
+            "{name1} Heartlessly drops {name2}'s body.",
+            params: {"name1": executer.name, "name2": executer.prisoner!.name},
           );
           executer.heartDamage++;
           siteCrime += 10;
@@ -250,7 +251,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
 
           if (hostages > 1 && !e.type.edgelord) {
             clearMessageArea();
-            mvaddstrc(9, 1, white, "${e.name}: ");
+            mvaddstrc(9, 1, white, "{name}: ", params: {"name": e.name});
             setColor(red);
             move(10, 1);
             if (noProfanity) {
@@ -281,7 +282,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
           }
         } else if (c == 'b'.codePoint) {
           move(9, 1);
-          mvaddstrc(9, 1, white, "${liberal.name}: ");
+          mvaddstrc(9, 1, white, "{name}: ", params: {"name": liberal.name});
           setColor(lightGreen);
           move(10, 1);
           switch (lcsRandom(5)) {
@@ -305,7 +306,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
 
           if (e.type.edgelord) {
             clearMessageArea();
-            mvaddstrc(9, 1, white, "${e.name}: ");
+            mvaddstrc(9, 1, white, "{name}: ", params: {"name": e.name});
             setColor(red);
             move(10, 1);
             switch (lcsRandom(5)) {
@@ -324,7 +325,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
             await getKey();
           } else {
             clearMessageArea();
-            mvaddstrc(9, 1, white, "${e.name}: ");
+            mvaddstrc(9, 1, white, "{name}: ", params: {"name": e.name});
             setColor(red);
             move(10, 1);
             switch (lcsRandom(4)) {
@@ -383,18 +384,36 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
     move(9, 1);
     if (activeSiteUnderSiege) {
       String action = switch (activeSite!.siege.activeSiegeType) {
-        SiegeType.police =>
-          "${liberal.name} pretends to be part of a police raid.",
-        SiegeType.cia => "${liberal.name} pretends to be a Secret Agent.",
-        SiegeType.angryRuralMob =>
-          "${liberal.name} ${["complains loudly about John Deere contracts.", "mutters about city folks messing things up.", "grumbles about the 'good old days'.", "blusters about the rising cost of feed.", "yells \"I think they went that-a-way!\"", "says \"They're hidin' here somewhere!\"", "asks \"Y'all seen 'em anywheres?\"", "says \"I reckon they's in the barn.\"", "says \"Doubt they coulda gone far!\"", "shouts \"They went 'round that way!\""].random}",
-        SiegeType.ccs =>
-          "${liberal.name} ${["makes a neo-Nazi hand gesture.", "mutters something racist.", "just starts growling slurs.", "parrots a hateful slogan.", "mutters a vague insult about minorities."].random}",
-        SiegeType.corporateMercs =>
-          "${liberal.name} pretends to be a mercenary.",
-        SiegeType.none => "${liberal.name} sniffs around for Liberals.",
+        SiegeType.police => "{name} pretends to be part of a police raid.",
+        SiegeType.cia => "{name} pretends to be a Secret Agent.",
+        SiegeType.angryRuralMob => "{name} {action}",
+        SiegeType.ccs => "{name} {action}",
+        SiegeType.corporateMercs => "{name} pretends to be a mercenary.",
+        SiegeType.none => "{name} sniffs around for Liberals.",
       };
-      addstr(action);
+      String actionDetail = switch (activeSite!.siege.activeSiegeType) {
+        SiegeType.angryRuralMob => [
+          "complains loudly about John Deere contracts.",
+          "mutters about city folks messing things up.",
+          "grumbles about the 'good old days'.",
+          "blusters about the rising cost of feed.",
+          "yells \"I think they went that-a-way!\"",
+          "says \"They're hidin' here somewhere!\"",
+          "asks \"Y'all seen 'em anywheres?\"",
+          "says \"I reckon they's in the barn.\"",
+          "says \"Doubt they coulda gone far!\"",
+          "shouts \"They went 'round that way!\"",
+        ].random,
+        SiegeType.ccs => [
+          "makes a neo-Nazi hand gesture.",
+          "mutters something racist.",
+          "just starts growling slurs.",
+          "parrots a hateful slogan.",
+          "mutters a vague insult about minorities.",
+        ].random,
+        _ => "",
+      };
+      addstr(action, params: {"name": liberal.name, "action": actionDetail});
     } else {
       //Special bluff messages for various uniforms
       setColor(lightGreen);
@@ -457,12 +476,21 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
       setColor(red);
       move(9, 1);
       if (target.type.id == CreatureTypeIds.angryRuralMob) {
-        addstr("But ${target.name} weren't born yesterday.");
+        addstr(
+          "But {name} weren't born yesterday.",
+          params: {"name": target.name},
+        );
       } else {
         if (noProfanity) {
-          addstr("${target.name} is not fooled by that [act].");
+          addstr(
+            "{name} is not fooled by that [act].",
+            params: {"name": target.name},
+          );
         } else {
-          addstr("${target.name} is not fooled by that crap.");
+          addstr(
+            "{name} is not fooled by that crap.",
+            params: {"name": target.name},
+          );
         }
       }
 
@@ -504,7 +532,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
 
 Future<void> intimidate(Creature liberal) async {
   clearMessageArea();
-  mvaddstrc(9, 1, white, "${liberal.name}: ");
+  mvaddstrc(9, 1, white, "{name}: ", params: {"name": liberal.name});
   move(10, 1);
   setColor(lightGreen);
 
@@ -599,7 +627,7 @@ Future<void> intimidate(Creature liberal) async {
 
       if (attack > defense || e.nonCombatant) {
         clearMessageArea();
-        mvaddstrc(9, 1, white, e.name);
+        mvaddstrc(9, 1, white, e.name, noTranslate: true);
 
         if (e.equippedWeapon != null) {
           if (e.body.legok < 2 || e.blood < e.maxBlood * 0.45) {
@@ -607,22 +635,44 @@ Future<void> intimidate(Creature liberal) async {
               9,
               1,
               white,
-              "${e.name} drops the ${e.equippedWeapon!.getName()} and ${escapeCrawling.random}",
+              "{name} drops the {weapon} and {escape}",
+              params: {
+                "name": e.name,
+                "weapon": e.equippedWeapon!.getName(),
+                "escape": escapeCrawling.random,
+              },
             );
           } else {
             mvaddstrc(
               9,
               1,
               white,
-              "${e.name} drops the ${e.equippedWeapon!.getName()} and ${escapeRunning.random}",
+              "{name} drops the {weapon} and {escape}",
+              params: {
+                "name": e.name,
+                "weapon": e.equippedWeapon!.getName(),
+                "escape": escapeRunning.random,
+              },
             );
           }
           e.dropWeapon(lootPile: groundLoot);
         } else {
           if (e.body.legok < 2 || e.blood < e.maxBlood * 0.45) {
-            mvaddstrc(9, 1, white, "${e.name} ${escapeCrawling.random}");
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "{name} {escape}",
+              params: {"name": e.name, "escape": escapeCrawling.random},
+            );
           } else {
-            mvaddstrc(9, 1, white, "${e.name} ${escapeRunning.random}");
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "{name} {escape}",
+              params: {"name": e.name, "escape": escapeRunning.random},
+            );
           }
         }
         encounter.removeAt(i);

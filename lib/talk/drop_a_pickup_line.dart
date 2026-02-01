@@ -145,7 +145,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           _ => "underwear",
         };
         addstr(
-          "\"Do you have stars on your $panties?  Your ass is outta this world!\"",
+          "\"Do you have stars on your {panties}?  Your ass is outta this world!\"",
+          params: {"panties": panties},
         );
       case 17:
         addstr("\"Those pants would look great on the floor of my bedroom.\"");
@@ -366,7 +367,10 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
       tk.align = Alignment.conservative;
       tk.isWillingToTalk = false;
     } else {
-      addstr("${tk.name} doesn't quite pick up on the subtext.");
+      addstr(
+        "{name} doesn't quite pick up on the subtext.",
+        params: {"name": tk.name},
+      );
     }
 
     await getKey();
@@ -377,7 +381,7 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
   a.train(Skill.seduction, 10);
 
   if (a.clothing.type.police && tk.type.id == CreatureTypeIds.sexWorker) {
-    mvaddstrc(y++, 1, white, "${tk.name} responds, ");
+    mvaddstrc(y++, 1, white, "{name} responds, ", params: {"name": tk.name});
     setColor(red);
     move(y++, 1);
 
@@ -392,18 +396,19 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
         "\"Dirty. You know that's illegal, officer.\"",
         "\"Sorry, I don't date cops.\"",
         "\"I think you've mistaken me for someone else, sir.\"",
-        "\"I'm not that kind of $guyGirl, officer.\"",
+        "\"I'm not that kind of {guyGirl}, officer.\"",
         "\"Nope. I don't do police roleplay.\"",
         "\"I'm not interested, officer.\"",
         "\"Um, officer, isn't that illegal?\"",
       ].random,
+      params: {"guyGirl": guyGirl},
     );
 
     await getKey();
 
     tk.isWillingToTalk = false;
   } else if (tk.name == "Prisoner") {
-    mvaddstrc(y++, 1, white, "${tk.name} responds, ");
+    mvaddstrc(y++, 1, white, "{name} responds, ", params: {"name": tk.name});
     move(y++, 1);
     setColor(red);
     addstr(
@@ -657,7 +662,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
       ++y,
       1,
       white,
-      "${a.name} and ${tk.name} make plans for tonight.",
+      "{name1} and {name2} make plans for tonight.",
+      params: {"name1": a.name, "name2": tk.name},
     );
 
     await getKey();

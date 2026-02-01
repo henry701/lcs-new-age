@@ -300,7 +300,13 @@ Future<void> ballotMeasures() async {
   if (canSeeThings) {
     erase();
 
-    mvaddstrc(0, 0, white, "Important State Ballot Measures $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "Important State Ballot Measures {year}",
+      params: {"year": year.toString()},
+    );
   }
 
   int pnum = lcsRandom(4) + 4;
@@ -467,7 +473,13 @@ Future<void> senateElections(int senmod) async {
   if (canSeeThings) {
     erase();
 
-    mvaddstrc(0, 0, white, "Senate Elections $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "Senate Elections {year}",
+      params: {"year": year.toString()},
+    );
   }
 
   int x = 0, y = 2, s = 0;
@@ -560,7 +572,13 @@ Future<void> houseElections() async {
   if (canSeeThings) {
     erase();
 
-    mvaddstrc(0, 0, white, "House Elections $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "House Elections {year}",
+      params: {"year": year.toString()},
+    );
   }
 
   int x = 0, y = 2;

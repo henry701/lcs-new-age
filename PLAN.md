@@ -84,8 +84,11 @@ addstr("The police confiscate everything", params: {});
 
 **Player-Provided Names:**
 ```dart
-// At print time - use noTranslate for player-entered names
-addstr("{name} has been rescued.", params: {"name": creature.name}, noTranslate: true);
+// At print time - template with prose should NOT use noTranslate
+addstr("{name} has been rescued.", params: {"name": creature.name});
+
+// Only use noTranslate for pure player content with no prose
+addstr(creature.name, noTranslate: true);
 ```
 
 **Lone Replacement Anti-Pattern:**

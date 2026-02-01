@@ -27,9 +27,8 @@ void loadingFeedback(String fileName) {
   mvaddstr(
     10,
     2,
-    "File: {fileName}",
-    params: {"fileName": fileName},
-    noTranslate: true,
+    "{label}: {fileName}",
+    params: {"label": "File", "fileName": fileName},
   );
   refresh();
 }

@@ -11,15 +11,15 @@ Converting console output strings from string interpolation/concatenation to par
 
 ### 2. lib/daily/recruitment.dart (COMPLETE)
 - **Converted all 15 string interpolation calls to parameterized form**
-- Added noTranslate: true for all creature names (player-named entities)
+- Extracted creature names as parameters (player-named entities should use noTranslate: true when printed alone)
 - Examples:
-  - `"${p.name} accidentally missed..."` → `"{recruiter} accidentally missed..." params: {"recruiter": p.name}, noTranslate: true`
-  - `"${r.recruit.name} accepts..."` → `"{recruit} accepts..." params: {"recruit": r.recruit.name}, noTranslate: true`
+  - `"${p.name} accidentally missed..."` → `"{recruiter} accidentally missed..." params: {"recruiter": p.name}`
+  - `"${r.recruit.name} accepts..."` → `"{recruit} accepts..." params: {"recruit": r.recruit.name}`
 
 ### 3. lib/talk/drop_a_pickup_line.dart (COMPLETE)
 - **Converted 2 player-named entity references**
-- Line 422: `${tk.name} $responds` → `"{name} {response}" params: {"name": tk.name, "response": responds}, noTranslate: true`
-- Line 675: `${tk.name} $responds` → `"{name} {response}" params: {"name": tk.name, "response": responds}, noTranslate: true`
+- Line 422: `${tk.name} $responds` → `"{name} {response}" params: {"name": tk.name, "response": responds}`
+- Line 675: `${tk.name} $responds` → `"{name} {response}" params: {"name": tk.name, "response": responds}`
 
 ### 4. lib/sitemode/map_specials.dart
 - **Updated encounterMessage() function signature**
@@ -81,26 +81,25 @@ addOptionText(y, x, "A", "A - Come to ${location}...");
 
 **AFTER:**
 ```dart
-addstr("{name} has been rescued", params: {"name": creatureName}, noTranslate: true);
+addstr("{name} has been rescued", params: {"name": creatureName});
 mvaddstrc(
   y, x, lightGray,
   "{recruiter} shares {topic}",
   params: {"recruiter": p.name, "topic": topic},
-  noTranslate: true,
 );
 addOptionText(
   y, x, "A",
   "A - Come to {location}...",
   params: {"location": location},
-  noTranslate: true,
 );
 ```
 
 ## Key Principles Applied
-1. **Player-named entities**: Always use `noTranslate: true` for creature names, squad names, vehicle names, etc.
-2. **Hardcoded text**: Can be translated normally, no parameters needed
-3. **Mixed content**: Use params for variables, noTranslate for player input
-4. **addstrx/mvaddstrx**: Cannot use noTranslate (function doesn't support it) - use addstr/mvaddstr instead for player input
+1. **Templates with prose**: Never use `noTranslate: true` when the template contains translatable text like "has been rescued", "shares", etc.
+2. **Player-named entities only**: Use `noTranslate: true` ONLY when printing pure player content (names, numbers) with no translatable prose
+3. **Hardcoded text**: Can be translated normally, no parameters needed
+4. **Mixed content**: Use params for variables; the template text will be translated, parameter values remain as-is
+5. **addstrx/mvaddstrx**: Cannot use noTranslate (function doesn't support it) - use addstr/mvaddstr instead for player input
 
 ## Next Steps
 1. Continue systematic conversion of remaining files

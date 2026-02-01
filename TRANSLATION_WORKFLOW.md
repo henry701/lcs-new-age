@@ -55,12 +55,12 @@ final target = LcsI18n.tr(creature.type.name);  // "Conservative" → "Conservad
 addstr("You hit the {target}!", params: {"target": target});
 // → Portuguese: "Você acertou o Conservador!"
 
-// For numbers/code that should NOT be translated:
+// For templates with prose - do NOT use noTranslate:
 addstr("{name} has {health} health.", params: {
   "name": creature.name,
   "health": creature.health
-}, noTranslate: true);
-// → "Jane has 100 health." (no translation attempted)
+});
+// → Template "has...health" will be translated, names/numbers inserted as-is
 ```
 
 ## Multi-File ARB Support

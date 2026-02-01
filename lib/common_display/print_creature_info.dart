@@ -36,9 +36,11 @@ void printCreatureInfo(
   );
   if (cr.isHoldingBody) {
     addstr(
-      ", holding {hostage}",
-      params: {"hostage": cr.prisoner?.type.hostageName ?? cr.prisoner?.name},
-      noTranslate: true,
+      ", {holding} {hostage}",
+      params: {
+        "holding": "holding",
+        "hostage": cr.prisoner?.type.hostageName ?? cr.prisoner?.name,
+      },
     );
   }
   printAttributesAsKnowledgePermits(cr, knowledge);
@@ -647,9 +649,8 @@ void printFullCreatureStats(
   addstr("{lovers} Lover", params: {"lovers": lovers.toString()});
   if (lovers != 1) addstr("s");
   addstr(
-    " / {max} Max",
-    params: {"max": maxLovers.toString()},
-    noTranslate: true,
+    " / {max} {maxLabel}",
+    params: {"max": maxLovers.toString(), "maxLabel": "Max"},
   );
   // Any dates with potential love interests scheduled?
   if (cr.scheduldeDates > 0) {

@@ -800,7 +800,7 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           "Oh lawd have mercy, the libs are tryin' ta trans my gender.",
         ].random;
       }
-      addstr("\"$response\"", noTranslate: true);
+      addstr("\"$response\"");
     } else {
       switch (line) {
         case 0:

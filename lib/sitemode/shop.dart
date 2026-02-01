@@ -686,9 +686,12 @@ class Shop extends ShopOption {
             8,
             1,
             white,
-            "You add \${amount} to Liberal Funds.",
-            params: {"amount": fenceamount.toString()},
-            noTranslate: true,
+            "{prefix} \${amount} {suffix}",
+            params: {
+              "prefix": "You add",
+              "amount": fenceamount.toString(),
+              "suffix": "to Liberal Funds.",
+            },
           );
 
           await getKey();
@@ -717,9 +720,8 @@ class Shop extends ShopOption {
         mvaddstr(
           0,
           30,
-          "Estimated Liberal Amount: \${ret}",
-          params: {"ret": ret.toString()},
-          noTranslate: true,
+          "{label}: \${ret}",
+          params: {"label": "Estimated Liberal Amount", "ret": ret.toString()},
         );
       }
 

@@ -32,7 +32,7 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
   addstrc(lightGray, " talks to ");
   addstrc(tk.align.color, tk.name);
   setColor(white);
-  addstr(" ${creatureAgeAndGender(tk)}");
+  addstr(" {ageGender}", params: {"ageGender": creatureAgeAndGender(tk)});
   addstr(":");
 
   addOptionText(

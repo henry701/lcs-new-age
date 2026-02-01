@@ -38,13 +38,13 @@ Future<bool> heyMisterAnimal(
   printEncounter();
   printSiteMapSmall(locx, locy, locz);
 
-  mvaddstrc(9, 1, white, "${liberal.name}: ");
+  mvaddstrc(9, 1, white, "{name}: ", params: {"name": liberal.name});
   mvaddstrc(10, 1, lightGreen, pitch);
   await getKey();
 
   clearMessageArea();
 
-  mvaddstrc(9, 1, white, "${target.name}: ");
+  mvaddstrc(9, 1, white, "{name}: ", params: {"name": target.name});
   mvaddstrc(10, 1, targetColor, response);
   await getKey();
 

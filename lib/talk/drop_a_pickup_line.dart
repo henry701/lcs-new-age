@@ -714,7 +714,10 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           if (tk.align == Alignment.liberal) {
             addstr("\"[A different one.]\"");
           } else {
-            addstr("\"${randomChurchName()}. Why?\"");
+            addstr(
+              "\"{churchName}. Why?\"",
+              params: {"churchName": randomChurchName()},
+            );
           }
         case 1:
           if (tk.align == Alignment.liberal) {
@@ -806,7 +809,7 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           "Oh lawd have mercy, the libs are tryin' ta trans my gender.",
         ].random;
       }
-      addstr("\"$response\"");
+      addstr("\"{response}\"", params: {"response": response});
     } else {
       switch (line) {
         case 0:

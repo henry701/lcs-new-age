@@ -281,8 +281,18 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
     "\$ Spent: {count}",
     params: {'count': highScores.universalSpent},
   );
-  mvaddstr(23, 60, "Flags Bought: ${highScores.universalFlagBuys}");
-  mvaddstr(24, 60, "Flags Burned: ${highScores.universalFlagBurns}");
+  mvaddstr(
+    23,
+    60,
+    "Flags Bought: {count}",
+    params: {"count": highScores.universalFlagBuys.toString()},
+  );
+  mvaddstr(
+    24,
+    60,
+    "Flags Burned: {count}",
+    params: {"count": highScores.universalFlagBurns.toString()},
+  );
   await getKey();
 }
 

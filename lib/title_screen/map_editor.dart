@@ -399,11 +399,18 @@ Future<void> editMap(String mapName) async {
       params: {"floor": (currentFloor + 1).toString()},
     );
     addOptionText(24, 0, "X", "X - Exit Map Editor");
-    addOptionText(24, 24, nextPageStr.split(" ").first, "$nextPageStr Floor");
+    addOptionText(
+      24,
+      24,
+      nextPageStr.split(" ").first,
+      "{pageStr} Floor",
+      params: {"pageStr": nextPageStr},
+    );
     addstr(" / ");
     addInlineOptionText(
       previousPageStr.split(" ").first,
-      "$previousPageStr Floor",
+      "{pageStr} Floor",
+      params: {"pageStr": previousPageStr},
     );
     addOptionText(24, 60, "E", "E - Export Map");
 
@@ -639,7 +646,13 @@ Future<void> mapEditor() async {
     lineBuilder: (y, key, index) {
       var (type, hasMap) = siteTypes[index];
       setColor(hasMap ? lightGreen : lightGray);
-      addOptionText(y, 0, key, "$key - ${type.name}");
+      addOptionText(
+        y,
+        0,
+        key,
+        "{key} - {name}",
+        params: {"key": key, "name": type.name},
+      );
       mvaddstr(y, 30, hasMap ? "Has Map" : "No Map");
     },
     onChoice: (index) async {

@@ -45,7 +45,13 @@ Future<void> equip(List<Item>? loot) async {
     int x = 1, y = 10;
     for (int l = page * 18; l < loot.length && l < page * 18 + 18; l++) {
       String let = letterAPlus(l - page * 18, capitalize: true);
-      addOptionText(y, x, let, "$let - ${loot[l].equipTitle()}");
+      addOptionText(
+        y,
+        x,
+        let,
+        "{letter} - {title}",
+        params: {"letter": let, "title": loot[l].equipTitle()},
+      );
       if (loot[l].stackSize > 1 && !loot[l].type.isMoney) {
         addstrc(
           lightGray,

@@ -115,13 +115,25 @@ void addPageButtons({
     pageDownStr = "PGDN";
   }
   if (short) {
-    addInlineOptionText(pageUpStr, "$pageUpStr - Prev");
+    addInlineOptionText(pageUpStr, "{key} - Prev", params: {"key": pageUpStr});
     console.x += 2;
-    addInlineOptionText(pageDownStr, "$pageDownStr - Next");
+    addInlineOptionText(
+      pageDownStr,
+      "{key} - Next",
+      params: {"key": pageDownStr},
+    );
   } else {
-    addInlineOptionText(pageUpStr, "$pageUpStr - Previous Page");
+    addInlineOptionText(
+      pageUpStr,
+      "{key} - Previous Page",
+      params: {"key": pageUpStr},
+    );
     console.x += 2;
-    addInlineOptionText(pageDownStr, "$pageDownStr - Next Page");
+    addInlineOptionText(
+      pageDownStr,
+      "{key} - Next Page",
+      params: {"key": pageDownStr},
+    );
   }
   if (current != null && max != null) {
     console.x += 1;

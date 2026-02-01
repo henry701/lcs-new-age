@@ -1905,7 +1905,11 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
           9,
           1,
           white,
-          "The ${a.name} ${["smokes...", "smolders.", "burns..."].random}",
+          "The {name} {reaction}",
+          params: {
+            "name": a.name,
+            "reaction": ["smokes...", "smolders.", "burns..."].random,
+          },
         );
 
         printed = true;
@@ -2194,13 +2198,13 @@ void addDeathMessage(Creature cr) {
       9 => "{name} shivers silently, whispering a prayer, then all is still.",
       10 =>
         cr.align == Alignment.liberal
-            ? "{name} speaks these final words: $slogan"
+            ? "{name} speaks these final words: {slogan}"
             : cr.align == Alignment.moderate
             ? "{name} speaks these final words: \"A plague on both your houses...\""
             : "{name} speaks these final words: \"Better dead than liberal...\"",
       _ => "{name} is gone.", // Fallback (lcsRandom(11) returns 0-10)
     };
-    addstr(line1, params: {"name": cr.name});
+    addstr(line1, params: {"name": cr.name, "slogan": slogan});
   }
 }
 

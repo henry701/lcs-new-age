@@ -47,7 +47,10 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           Gender.male => "boy",
           _ => "buddy",
         };
-        addstr("\"Hot damn.  You're built like a brick shithouse, $honey.\"");
+        addstr(
+          "\"Hot damn.  You're built like a brick shithouse, {honey}.\"",
+          params: {"honey": honey},
+        );
       case 4:
         addstr("\"I know I've seen you on the back of a milk carton, ");
         move(11, 1);
@@ -62,7 +65,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           _ => "yo",
         };
         addstr(
-          "\"Daaaaaamn $girl, I want to wrap your legs around my face and ",
+          "\"Daaaaaamn {girl}, I want to wrap your legs around my face and ",
+          params: {"girl": girl},
         );
         move(11, 1);
         y++;
@@ -88,7 +92,10 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           Gender.female => "chick",
           _ => "person",
         };
-        addstr("\"You don't sweat much for a fat $chick.\"");
+        addstr(
+          "\"You don't sweat much for a fat {chick}.\"",
+          params: {"chick": chick},
+        );
       case 10:
         addstr("\"Fuck me if I'm wrong but you want to kiss me, right?\"");
       case 11:
@@ -793,7 +800,7 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           "Oh lawd have mercy, the libs are tryin' ta trans my gender.",
         ].random;
       }
-      addstr("\"$response\"");
+      addstr("\"$response\"", noTranslate: true);
     } else {
       switch (line) {
         case 0:

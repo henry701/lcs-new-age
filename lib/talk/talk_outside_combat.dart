@@ -231,7 +231,12 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
   mvaddstrc(12, 1, white, "${tk.name} responds, ");
   mvaddstrc(13, 1, lightBlue, "\"It'll be \$$rent a month.");
 
-  mvaddstr(14, 1, "I'll need \$$rent now as a security deposit.\"");
+  mvaddstr(
+    14,
+    1,
+    "I'll need \${rent} now as a security deposit.\"",
+    params: {"rent": rent.toString()},
+  );
 
   await getKey();
 
@@ -626,7 +631,12 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
       );
       if (armedLiberal != null) {
         String weaponName = armedLiberal.weapon.getName(sidearm: true);
-        mvaddstr(9, 1, "${armedLiberal.name} brandishes the $weaponName.");
+        mvaddstr(
+          9,
+          1,
+          "{name} brandishes the {weapon}.",
+          params: {"name": armedLiberal.name, "weapon": weaponName},
+        );
         await getKey();
         clearMessageArea();
       }

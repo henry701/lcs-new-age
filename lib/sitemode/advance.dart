@@ -30,11 +30,12 @@ Future<void> creatureadvance() async {
         if (p.prisoner!.align != Alignment.liberal) {
           clearMessageArea();
           setColor(white);
-          move(9, 1);
-          addstr(p.name, noTranslate: true);
-          addstr(" drops ");
-          addstr(p.prisoner!.name, noTranslate: true);
-          addstr("'s body.");
+          mvaddstr(
+            9,
+            1,
+            "{name} drops {prisonerName}'s body.",
+            params: {"name": p.name, "prisonerName": p.prisoner!.name},
+          );
 
           makeLoot(p.prisoner!, groundLoot);
 
@@ -225,12 +226,12 @@ Future<void> advancecreature(Creature cr) async {
           topmedical.skillCheck(Skill.firstAid, Difficulty.hard)) {
         clearMessageArea();
         setColor(lightGreen);
-        move(9, 1);
-        addstr(topmedical.name);
-        addstr(" was able to slow the bleeding of");
-        move(10, 1);
-        addstr(cr.name);
-        addstr("'s wounds.");
+        mvaddstr(
+          9,
+          1,
+          "{medic} was able to slow the bleeding of {patient}'s wounds.",
+          params: {"medic": topmedical.name, "patient": cr.name},
+        );
 
         topmedical.train(Skill.firstAid, 50);
         w.bleeding = 0;
@@ -274,9 +275,7 @@ Future<void> advancecreature(Creature cr) async {
       await creatureDie(cr, true);
     } else if (burndamage > 0) {
       setColor(darkRed);
-      move(9, 1);
-      addstr(cr.name);
-      addstr(" is burned!");
+      mvaddstr(9, 1, "{name} is burned!", params: {"name": cr.name});
 
       await getKey();
     }

@@ -871,9 +871,8 @@ Future<void> assembleSquad(Squad? cursquad) async {
       move(0, 71);
       addstr("New Squad");
     } else {
-      move(0, 73 - cursquad.name.length);
-      addstr("Squad: ");
-      addstr(cursquad.name, noTranslate: true);
+      move(0, 73 - "Squad: {name}".length);
+      addstr("Squad: {name}", params: {"name": cursquad.name});
     }
 
     addHeader({

@@ -940,14 +940,14 @@ Future<bool> attack(
     } else {
       move(10, 1);
       if (sneakAttack) {
-        addstr(t.name, noTranslate: true);
         addstr(
           [
-            " notices at the last moment!",
-            " notices before the attack connects!",
-            " spins and blocks the attack!",
-            " jumps back and cries out in alarm!",
+            "{name} notices at the last moment!",
+            "{name} notices before the attack connects!",
+            "{name} spins and blocks the attack!",
+            "{name} jumps back and cries out in alarm!",
           ].random,
+          params: {"name": t.name},
         );
         siteAlarm = true;
       } else if (mode == GameMode.carChase) {

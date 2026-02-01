@@ -399,10 +399,12 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
           if (!p.alive) {
             clearMessageArea();
             setColor(yellow);
-            move(9, 1);
-            addstr("Nobody can carry Martyr ");
-            addstr(p.name, noTranslate: true);
-            addstr(".");
+            mvaddstr(
+              9,
+              1,
+              "Nobody can carry Martyr {name}.",
+              params: {"name": p.name},
+            );
 
             //DROP LOOT
             makeLoot(p, groundLoot);

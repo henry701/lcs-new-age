@@ -352,10 +352,15 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
           (c) => c.weapon.type.threatening,
         );
         if (armedLiberal != null) {
-          mvaddstr(9, 1, armedLiberal.name, noTranslate: true);
-          addstr(" brandishes the ");
-          addstr(armedLiberal.weapon.getName(sidearm: true));
-          addstr(".");
+          mvaddstr(
+            9,
+            1,
+            "{name} brandishes the {weapon}.",
+            params: {
+              "name": armedLiberal.name,
+              "weapon": armedLiberal.weapon.getName(sidearm: true),
+            },
+          );
 
           await getKey();
           clearSceneAreas();

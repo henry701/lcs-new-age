@@ -67,6 +67,6 @@ void printSkillSummary(
     }
   }
   setColor(bright ? white : lightGray);
-  mvaddstr(y, x, "$skill", noTranslate: true);
+  mvaddstr(y, x, skill.toString(), noTranslate: true);
   if (showWeaponSkill) addstr("/${c.weaponSkill}", noTranslate: true);
 }

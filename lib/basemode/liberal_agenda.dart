@@ -336,7 +336,12 @@ void _pollsPage(int start) {
     } else {
       concern = _concernString(maxView);
     }
-    mvaddstr(5, 0, "The people are most concerned about $concern.");
+    mvaddstr(
+      5,
+      0,
+      "The people are most concerned about {concern}.",
+      params: {"concern": concern},
+    );
     mvaddstr(7, 0, header);
     y = 8;
   } else {

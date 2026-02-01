@@ -87,9 +87,15 @@ Future<int> choiceprompt(
       case 'I':
       case 'O':
       case 'U':
-        addstr("Press a Letter to select an $optiontypename");
+        addstr(
+          "Press a Letter to select an {optiontypename}",
+          params: {"optiontypename": optiontypename},
+        );
       default:
-        addstr("Press a Letter to select a $optiontypename");
+        addstr(
+          "Press a Letter to select a {optiontypename}",
+          params: {"optiontypename": optiontypename},
+        );
     }
     move(23, 0);
     addstr(pageStr);

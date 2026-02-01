@@ -9,14 +9,14 @@ These locations display entity names followed by actions/descriptions, which cur
 prevent translators from reordering subject/verb/object.
 
 ### talk/talk_outside_combat.dart
-- **Lines 31-36**: Multi-color display: `a.name` (white) + " talks to " (lightGray) + `tk.name` (color) + age/gender
-  - **Issue**: 3 different colors, complex to template
-  - **Solution**: Requires color marker support in templates (e.g., "{name:white} talks to {target:color}")
+- **Lines 31-36**: ✅ DONE - Refactored to use `mvaddstrcx` with color markers
+  - Template: `"&W{name}&w talks to &{targetColor}{target}&w {ageGender}:"`
+  - Allows translators to reorder while preserving colors
 
 ### talk/talk_in_combat.dart  
-- **Lines 27-29**: `liberal.name` (white) + " talks to " + `target.name` (target color) + ":"
-  - Similar to talk_outside_combat.dart pattern
-  - **Issue**: Target name uses alignment color
+- **Lines 27-29**: ✅ DONE - Refactored to use `mvaddstrcx` with color markers
+  - Template: `"&W{name}&w talks to &{targetColor}{target}&w:"`
+  - Uses target's alignment color dynamically
 
 ### sitemode/fight.dart
 - **Lines 229, 251**: `mvaddstrc(9, 1, white, e.name)` - Enemy name display
@@ -64,23 +64,48 @@ These are good examples of the target pattern:
 
 ## Implementation Notes
 
-### Color Marker Support (FUTURE)
-To properly handle multi-color templates like:
+### Color Marker Support (IMPLEMENTED ✅)
+The `mvaddstrcx` and `addstrcx` functions now support color markers in templates:
+
 ```dart
-mvaddstrc(9, 1, white, "{name:white} talks to {target:color} {ageGender}", 
-  params: {"name": a.name, "target": tk.name, "ageGender": ...})
+// Color markers: &X for foreground, ^X for background
+// X is a ColorKey character (W=white, R=red, G=lightGreen, etc.)
+mvaddstrcx(
+  9, 1, white,
+  "&W{name}&w talks to &{targetColor}{target}&w {ageGender}:",
+  params: {
+    "name": a.name,
+    "target": tk.name,
+    "targetColor": tk.align.colorKey, // "G", "Y", or "R"
+    "ageGender": creatureAgeAndGender(tk),
+  },
+);
 ```
 
-Would require extending `LcsI18n.processString` to:
-1. Parse color markers from parameter names or special syntax
-2. Switch colors mid-string during output
-3. Or generate ANSI/color codes in the console layer
+This allows:
+- Translators to reorder the entire sentence
+- Dynamic color insertion via parameters
+- Multiple color switches within a single translatable string
+
+### ColorKey Reference
+- `W` = white (bright)
+- `w` = lightGray
+- `G` = lightGreen
+- `g` = green  
+- `R` = red
+- `r` = darkRed
+- `Y` = yellow
+- `B` = blue
+- `C` = lightBlue
+- `P` = pink
+- `p` = purple
+- etc.
 
 ### Short-term Solution
 For now, the approach is:
-1. **Single-color templates**: Combine name + action into one color (already done in stealth.dart)
-2. **Multi-color displays**: Keep separate calls but ensure translatable parts use templates
-3. **Entity labels**: Keep with `noTranslate: true` since they're just identifiers
+1. ✅ **Multi-color templates**: Use `mvaddstrcx`/`addstrcx` with color markers
+2. **Single-color templates**: Use regular `mvaddstrc` with templates
+3. **Entity labels**: Use `noTranslate: true` for standalone names
 
 ### Files to Review (In Order of Priority)
 1. `talk/talk_outside_combat.dart` - Complex multi-color conversation headers

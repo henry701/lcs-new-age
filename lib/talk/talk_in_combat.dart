@@ -24,9 +24,17 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 Future<bool> talkInCombat(Creature liberal, Creature target) async {
   clearSceneAreas();
 
-  mvaddstrc(9, 1, white, "{name} talks to ", params: {"name": liberal.name});
-  addstrc(target.align.color, target.name, noTranslate: true);
-  addstrc(white, ":");
+  mvaddstrcx(
+    9,
+    1,
+    white,
+    "&W{name}&w talks to &{targetColor}{target}&w:",
+    params: {
+      "name": liberal.name,
+      "target": target.name,
+      "targetColor": target.align.colorKey,
+    },
+  );
 
   int c = 0, hostages = 0, weaponhostage = 0;
   bool canSurrender = false;

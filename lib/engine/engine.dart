@@ -240,6 +240,29 @@ void mvaddstrc(
   mvaddstr(y, x, s, params: params, noTranslate: noTranslate);
 }
 
+/// mvaddstr with Color markers and template parameters
+///
+/// Color markers: &X for foreground color, ^X for background color
+/// where X is a color key (R=red, Y=yellow, w=white/lightGray, etc.)
+///
+/// Example:
+///   mvaddstrcx(9, 1, white, "&Y{name}&w coughs.", params: {"name": squaddie.name});
+///   // Displays name in yellow, " coughs." in white
+void mvaddstrcx(
+  int y,
+  int x,
+  Color fg,
+  String s, {
+  Color? bg,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool restoreOldColor = true,
+}) {
+  setColor(fg, background: bg ?? black);
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.mvaddstrx(y, x, result, restoreOldColor: restoreOldColor);
+}
+
 void addstrx(
   String s, {
   bool restoreOldColor = true,
@@ -247,6 +270,32 @@ void addstrx(
   Map<String, dynamic>? params,
   bool noTranslate = false,
 }) {
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.addstrx(
+    result,
+    restoreOldColor: restoreOldColor,
+    mouseClickKey: mouseClickKey,
+  );
+}
+
+/// addstr with Color markers, base color setting, and template parameters
+///
+/// Color markers: &X for foreground color, ^X for background color
+/// where X is a color key (R=red, Y=yellow, w=white/lightGray, etc.)
+///
+/// Example:
+///   addstrcx(yellow, "&w talks to &R{target}", params: {"target": enemy.name});
+///   // Base is yellow, switches to white then red for target
+void addstrcx(
+  Color fg,
+  String s, {
+  Color? bg,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool restoreOldColor = true,
+  String? mouseClickKey,
+}) {
+  setColor(fg, background: bg ?? black);
   final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
   console.addstrx(
     result,

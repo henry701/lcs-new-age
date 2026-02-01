@@ -28,12 +28,18 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
   bool nude = a.indecent;
   String whileNaked = nude ? " while naked" : "";
   clearSceneAreas();
-  mvaddstrc(9, 1, white, a.name, noTranslate: true);
-  addstrc(lightGray, " talks to ");
-  addstrc(tk.align.color, tk.name, noTranslate: true);
-  setColor(white);
-  addstr(" {ageGender}", params: {"ageGender": creatureAgeAndGender(tk)});
-  addstr(":");
+  mvaddstrcx(
+    9,
+    1,
+    white,
+    "&W{name}&w talks to &{targetColor}{target}&w {ageGender}:",
+    params: {
+      "name": a.name,
+      "target": tk.name,
+      "targetColor": tk.align.colorKey,
+      "ageGender": creatureAgeAndGender(tk),
+    },
+  );
 
   addOptionText(
     console.y + 2,

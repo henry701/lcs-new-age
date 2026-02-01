@@ -3,60 +3,20 @@
 ## Summary
 Converting console output strings from string interpolation/concatenation to parameterized form for proper internationalization support.
 
-## Completed Work
-
-### 1. lib/engine/engine.dart
-- **Added params and noTranslate parameters to addOptionText()**
-- This enables all addOptionText calls throughout the codebase to use parameterized strings
-
-### 2. lib/daily/recruitment.dart (COMPLETE)
-- **Converted all 15 string interpolation calls to parameterized form**
-- Extracted creature names as parameters (player-named entities should use noTranslate: true when printed alone)
-- Examples:
-  - `"${p.name} accidentally missed..."` → `"{recruiter} accidentally missed..." params: {"recruiter": p.name}`
-  - `"${r.recruit.name} accepts..."` → `"{recruit} accepts..." params: {"recruit": r.recruit.name}`
-
-### 3. lib/talk/drop_a_pickup_line.dart (COMPLETE)
-- **Converted 2 player-named entity references**
-- Line 422: `${tk.name} $responds` → `"{name} {response}" params: {"name": tk.name, "response": responds}`
-- Line 675: `${tk.name} $responds` → `"{name} {response}" params: {"name": tk.name, "response": responds}`
-
-### 4. lib/sitemode/map_specials.dart
-- **Updated encounterMessage() function signature**
-- Added params and noTranslate parameters
-- Now supports: `encounterMessage(message, params: {...}, noTranslate: true)`
-
-### 5. lib/sitemode/fight.dart (PARTIAL)
-- **Converted key message calls:**
-  - Line 318: Body drop message via encounterMessage
-  - Line 705-707: Shielding message with creature names
-
-## Test Results
-✅ **All flutter analyze checks pass** on modified files
-✅ **38/41 tests pass** - The 3 failing tests are pre-existing issues in portuguese_plural_test.dart (unrelated to this work)
-✅ **All console wrapper tests pass**, validating:
-  - addstr with params formats correctly
-  - mvaddstr with params formats correctly
-  - Translation works in both English and Portuguese
-  - noTranslate parameter works correctly
-  - addOptionText with params works correctly
-
-## Files Modified
-1. `lib/engine/engine.dart` - Added parameters to addOptionText
-2. `lib/daily/recruitment.dart` - Complete conversion (15 calls)
-3. `lib/talk/drop_a_pickup_line.dart` - Partial conversion (2 calls)
-4. `lib/sitemode/map_specials.dart` - Updated encounterMessage function
-5. `lib/sitemode/fight.dart` - Partial conversion (2 calls)
+## Infrastructure (Complete - Do Not Modify)
+- `lib/engine/engine.dart` - Console wrappers (`addstr`, `mvaddstr`, etc.) support `params` and `noTranslate` parameters
+- `lib/i18n/i18n.dart` - `LcsI18n` class with translation + formatting support
+- `lib/l10n/*.arb` - Translation files exist (do not touch during Phase 1)
 
 ## Remaining Work
-The codebase has **1818 console output calls across 64 files**. Significant remaining files include:
+The codebase has **~1300 console output calls across 77 files** requiring conversion. Focus on high-priority files first:
 
 ### High Priority (many calls with string interpolation):
-- `lib/sitemode/fight.dart` - ~159 calls (some converted, many remain)
+- `lib/sitemode/fight.dart` - ~159 calls
 - `lib/daily/dating.dart` - ~122 calls
 - `lib/sitemode/siege.dart` - ~110 calls
 - `lib/basemode/review_mode.dart` - ~103 calls
-- `lib/politics/elections.dart` - ~86 calls
+- `lib/politics/elections.dart` - ~86 calls (labels fixed, body text remains)
 - `lib/daily/siege.dart` - ~85 calls
 
 ### Medium Priority:
@@ -94,16 +54,21 @@ addOptionText(
 );
 ```
 
-## Key Principles Applied
-1. **Templates with prose**: Never use `noTranslate: true` when the template contains translatable text like "has been rescued", "shares", etc.
+## Key Principles
+1. **Templates with prose**: Never use `noTranslate: true` when the template contains translatable text
 2. **Player-named entities only**: Use `noTranslate: true` ONLY when printing pure player content (names, numbers) with no translatable prose
 3. **Hardcoded text**: Can be translated normally, no parameters needed
-4. **Mixed content**: Use params for variables; the template text will be translated, parameter values remain as-is
-5. **addstrx/mvaddstrx**: Cannot use noTranslate (function doesn't support it) - use addstr/mvaddstr instead for player input
+4. **Mixed content**: Use params for variables; the template text will be translated
+5. **Search for interpolations**: Use `grep -n '\$' lib/<file>.dart` to find patterns needing conversion
 
 ## Next Steps
-1. Continue systematic conversion of remaining files
-2. Focus on high-priority files with many calls
-3. Run flutter analyze after each file conversion
-4. Run full test suite periodically to catch regressions
-5. Document edge cases and special patterns as encountered
+1. Pick a file from High Priority list
+2. Search for string interpolation patterns (`$variable`, `${expression}`)
+3. Convert each to parameterized form
+4. Run `flutter analyze` after each file
+5. Run `flutter test` after every 3-5 files
+6. Update this document to mark completed files
+
+## Reference Documentation
+- `PLAN.md` - Full i18n implementation plan
+- `TRANSLATION_WORKFLOW.md` - Translation process (for Phase 2+)

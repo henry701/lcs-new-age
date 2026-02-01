@@ -259,7 +259,8 @@ Future<void> presidentialElection() async {
           mvaddstr(
             8 - ((c + 1) % 3) * 2,
             45,
-            "${votes[party]! ~/ 10}.${votes[party]! % 10}%",
+            "{votes}%",
+            params: {"votes": "${votes[party]! ~/ 10}.${votes[party]! % 10}"},
           );
           if (party == winner && recount && l == 999) {
             addstr(" (After Recount)");

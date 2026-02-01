@@ -66,7 +66,13 @@ Future<void> congress() async {
   if (canSeeThings) {
     erase();
 
-    mvaddstrc(0, 0, white, "Legislative Agenda $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "Legislative Agenda {year}",
+      params: {"year": year.toString()},
+    );
   }
 
   int cnum = lcsRandom(3) + 1;
@@ -157,7 +163,13 @@ Future<void> congress() async {
     billdir[c] = lawdir[bill[c]]!;
 
     if (canSeeThings) {
-      mvaddstrc(c * 3 + 2, 0, white, "Joint Resolution $year-${c + 1}");
+      mvaddstrc(
+        c * 3 + 2,
+        0,
+        white,
+        "Joint Resolution {year}-{num}",
+        params: {"year": year.toString(), "num": (c + 1).toString()},
+      );
 
       move(c * 3 + 3, 0);
       if (billdir[c] == 1) {

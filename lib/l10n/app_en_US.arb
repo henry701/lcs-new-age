@@ -131,25 +131,25 @@
   "3 - [Need More Juice to Recruit]": "3 - [Need More Juice to Recruit]",
   ": <rummaging> ": ": <rummaging> ",
   ": AGENTS RESPONDING": ": AGENTS RESPONDING",
-  ": ALIENATED EVERYONE": ": ALIENOU TODOS",
-  ": ALIENATED MASSES": ": ALIENOU AS MASSAS",
-  ": CCS RESPONDING": ": CCS RESPONDENDO",
-  ": CONSERVATIVE REINFORCEMENTS INCOMING": ": REFORSOS CONSERVADORES CHEGANDO",
-  ": CONSERVATIVES ALARMED": ": CONSERVADORES ALARMADOS",
-  ": CONSERVATIVES SUSPICIOUS": ": CONSERVADORES SUSPEITOS",
-  ": DEATH SQUADS RESPONDING": ": ESQUADRÕES DA MORTE RESPONDENDO",
-  ": GANG RESPONDING": ": GANGS RESPONDENDO",
-  ": LISTENERS RESPONDING": ": OUVINTES RESPONDENDO",
-  ": MERCENARIES RESPONDING": ": MERCENÁRIOS RESPONDENDO",
-  ": MILITARY RESPONDING": ": MILITARES RESPONDENDO",
-  ": POLICE RESPONDING": ": POLÍCIA RESPONDENDO",
-  ": SECRET SERVICE RESPONDING": ": SERVIÇO SECRETO RESPONDENDO",
-  ": VIEWERS RESPONDING": ": ESPECTADORES RESPONDENDO",
-  "<Can't Lead More>": "<Não Pode Liderar Mais>",
-  "<LCS Leader>": "<Líder do LCS>",
-  "<No Contact>": "<Sem Contato>",
-  "<Refuses Promotion>": "<Recusa Promoção>",
-  "=== PLANNING ===": "=== PLANEJAMENTO ===",
+  ": ALIENATED EVERYONE": ": ALIENATED EVERYONE",
+  ": ALIENATED MASSES": ": ALIENATED MASSES",
+  ": CCS RESPONDING": ": CCS RESPONDING",
+  ": CONSERVATIVE REINFORCEMENTS INCOMING": ": CONSERVATIVE REINFORCEMENTS INCOMING",
+  ": CONSERVATIVES ALARMED": ": CONSERVATIVES ALARMED",
+  ": CONSERVATIVES SUSPICIOUS": ": CONSERVATIVES SUSPICIOUS",
+  ": DEATH SQUADS RESPONDING": ": DEATH SQUADS RESPONDING",
+  ": GANG RESPONDING": ": GANG RESPONDING",
+  ": LISTENERS RESPONDING": ": LISTENERS RESPONDING",
+  ": MERCENARIES RESPONDING": ": MERCENARIES RESPONDING",
+  ": MILITARY RESPONDING": ": MILITARY RESPONDING",
+  ": POLICE RESPONDING": ": POLICE RESPONDING",
+  ": SECRET SERVICE RESPONDING": ": SECRET SERVICE RESPONDING",
+  ": VIEWERS RESPONDING": ": VIEWERS RESPONDING",
+  "<Can't Lead More>": "<Can't Lead More>",
+  "<LCS Leader>": "<LCS Leader>",
+  "<No Contact>": "<No Contact>",
+  "<Refuses Promotion>": "<Refuses Promotion>",
+  "=== PLANNING ===": "=== PLANNING ===",
   "@ - {name}": {
     "placeholders": {
       "name": {
@@ -542,66 +542,6 @@
       }
     }
   },
-  "@A former LCS member will testify against ${g.name}.": {
-    "placeholders": {
-      "g.name": {
-        "type": "String",
-        "example": "g.name"
-      }
-    }
-  },
-  "@Agility: ${cr.attribute(Attribute.agility)}": {
-    "placeholders": {
-      "cr.attribute(Attribute.agility)": {
-        "type": "String",
-        "example": "cr.attribute(Attribute.agility)"
-      }
-    }
-  },
-  "@Born ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ": {
-    "placeholders": {
-      "getMonth(cr.birthDate.month)": {
-        "type": "String",
-        "example": "getMonth(cr.birthDate.month)"
-      },
-      "cr.birthDate.day": {
-        "type": "String",
-        "example": "cr.birthDate.day"
-      }
-    }
-  },
-  "@But ${p.name} cleverly escapes the police ambush!": {
-    "placeholders": {
-      "p.name": {
-        "type": "String",
-        "example": "p.name"
-      }
-    }
-  },
-  "@But ${p.name} is already dating ": {
-    "placeholders": {
-      "p.name": {
-        "type": "String",
-        "example": "p.name"
-      }
-    }
-  },
-  "@But ${target.name} weren't born yesterday.": {
-    "placeholders": {
-      "target.name": {
-        "type": "String",
-        "example": "target.name"
-      }
-    }
-  },
-  "@By ${repname.firstLast}": {
-    "placeholders": {
-      "repname.firstLast": {
-        "type": "String",
-        "example": "repname.firstLast"
-      }
-    }
-  },
   "@CEO ${cr.properName}": {
     "placeholders": {
       "cr.properName": {
@@ -695,22 +635,6 @@
       "name": {
         "type": "String",
         "example": "John"
-      }
-    }
-  },
-  "@You have {count} items.": {
-    "placeholders": {
-      "count": {
-        "type": "String",
-        "example": "5"
-      }
-    }
-  },
-  "@You hit the {target}!": {
-    "placeholders": {
-      "target": {
-        "type": "String",
-        "example": "Conservative"
       }
     }
   },
@@ -1458,74 +1382,61 @@
       }
     }
   },
-  "A - Language Selection": "A - Seleção de Idioma",
-  "A - There is no expectation to spend money on this date.": "A - Não há expectativa de gastar dinheiro nesta data.",
-  "A Liberal friend tips you off on ": "Um amigo liberal te informa sobre ",
-  "A Liberal outcome!": "Um resultado liberal!",
-  "A SWAT team storms the vault!!": "Uma equipe SWAT invade o cofre!!",
-  "A corruption scandal is brewing...": "Um escândalo de corrupção está fermentando...",
-  "A few of the jurors are closet Socialists.": "Alguns dos jurados são socialistas secretos.",
-  "A few of the jurors are members of the KKK.": "Alguns dos jurados são membros do KKK.",
-  "A former LCS member will testify against ${g.name}.": "Um ex-membro do LCS testemunhará contra ${g.name}.",
-  "A hostage escapes!": "Um refém escapa!",
-  "A new precedent would ": "Um novo precedente seria ",
-  "AMENDMENT ADOPTED.": "EMENDA ADOTADA.",
-  "AMENDMENT REJECTED.": "EMENDA REJEITADA.",
-  "AMERICA'S NEWSROOM": "SALA DE NOTÍCIAS DA AMÉRICA",
-  "Acting Individually": "Agindo Individualmente",
-  "Activate Sleeper Agents": "Ativar Agentes Dorminhocos",
-  "Activate Sleeper Agents in Bulk": "Ativar Agentes Dorminhocos em Massa",
-  "Active Liberals": "Liberais Ativos",
-  "Agility: ${cr.attribute(Attribute.agility)}": "Agilidade: ${cr.attribute(Attribute.agility)}",
-  "Alarms go off!": "Alarmes disparam!",
-  "All ": "Todos ",
-  "An M1 Abrams Tank is stopped by a tank traps.": "Um tanque M1 Abrams é parado por armadilhas de tanque.",
-  "An M1 Abrams Tank is stopped by the tank traps.": "Um tanque M1 Abrams é parado pelas armadilhas de tanque.",
-  "An angry mob is storming": "Uma multidão furiosa está invadindo",
-  "An investigation is being launched to find the leaker.": "Uma investigação está sendo lançada para encontrar o vazador.",
-  "Another SWAT team moves in!!": "Outra equipe SWAT avança!!",
-  "Another imprisoned LCS member also gets out!": "Outro membro preso do LCS também escapa!",
-  "Any Other Key - Continue the Struggle": "Qualquer Outra Tecla - Continue a Luta",
-  "Arch Conservative": "Arqui-Conservador",
-  "Are they even in here?": "Eles estão aqui?",
-  "Are you SURE you want to delete this saved game?": "Tem CERTEZA de que quer deletar este jogo salvo?",
-  "Art Sales": "Vendas de Arte",
-  "Art Supplies": "Suprimentos de Arte",
-  "Assemble the squad!": "Monte o esquadrão!",
-  "Assign Tasks in Bulk": "Atribuir Tarefas em Massa",
-  "Assign Tasks to Liberals": "Atribuir Tarefas aos Liberais",
+  "A - There is no expectation to spend money on this date.": "A - There is no expectation to spend money on this date.",
+  "A Liberal outcome!": "A Liberal outcome!",
+  "A SWAT team storms the vault!!": "A SWAT team storms the vault!!",
+  "A corruption scandal is brewing...": "A corruption scandal is brewing...",
+  "A few of the jurors are closet Socialists.": "A few of the jurors are closet Socialists.",
+  "A few of the jurors are members of the KKK.": "A few of the jurors are members of the KKK.",
+  "A hostage escapes!": "A hostage escapes!",
+  "A new precedent would ": "A new precedent would ",
+  "AMENDMENT ADOPTED.": "AMENDMENT ADOPTED.",
+  "AMENDMENT REJECTED.": "AMENDMENT REJECTED.",
+  "AMERICA'S NEWSROOM": "AMERICA'S NEWSROOM",
+  "Acting Individually": "Acting Individually",
+  "Activate Sleeper Agents": "Activate Sleeper Agents",
+  "Activate Sleeper Agents in Bulk": "Activate Sleeper Agents in Bulk",
+  "Active Liberals": "Active Liberals",
+  "Alarms go off!": "Alarms go off!",
+  "An M1 Abrams Tank is stopped by the tank traps.": "An M1 Abrams Tank is stopped by the tank traps.",
+  "An investigation is being launched to find the leaker.": "An investigation is being launched to find the leaker.",
+  "Another SWAT team moves in!!": "Another SWAT team moves in!!",
+  "Another imprisoned LCS member also gets out!": "Another imprisoned LCS member also gets out!",
+  "Any Other Key - Continue the Struggle": "Any Other Key - Continue the Struggle",
+  "Arch Conservative": "Arch Conservative",
+  "Are they even in here?": "Are they even in here?",
+  "Are you SURE you want to delete this saved game?": "Are you SURE you want to delete this saved game?",
+  "Art Sales": "Art Sales",
+  "Art Supplies": "Art Supplies",
+  "Assemble the squad!": "Assemble the squad!",
+  "Assign Tasks in Bulk": "Assign Tasks in Bulk",
+  "Assign Tasks to Liberals": "Assign Tasks to Liberals",
   "Atlanta, GA": "Atlanta, GA",
-  "Attorney General:": "Procurador-Geral:",
-  "Auto Plant": "Fábrica de Carros",
-  "B - Back to Title Screen": "B - Voltar à Tela de Título",
-  "BANK ROBBERY": "ASSALTO A BANCO",
-  "BREAKING AND ENTERING": "ARROMBAMENTO",
-  "Ban Torture Techniques": "Banir Técnicas de Tortura",
-  "Bank Teller": "Caixa de Banco",
-  "Bank Vault": "Cofre de Banco",
-  "Born ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ": "Nascido em ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ",
-  "Buggy Armor": "Armadura Bugada",
-  "Buggy Chitin": "Quitina Bugada",
-  "Buggy Item": "Item Bugado",
-  "Bus Garage": "Garagem de Ônibus",
-  "But ${p.name} cleverly escapes the police ambush!": "Mas ${p.name} escapa engenhosamente da emboscada policial!",
-  "But ${p.name} is already dating ": "Mas ${p.name} já está namorando ",
-  "But ${target.name} weren't born yesterday.": "Mas ${target.name} não nasceram ontem.",
-  "But the political center is disappearing.": "Mas o centro político está desaparecendo.",
-  "But why?  The squad feels a bit Conservative.": "Mas por quê? O esquadrão parece um pouco conservador.",
-  "Buyer: ": "Comprador: ",
-  "By ${repname.firstLast}": "Por ${repname.firstLast}",
-  "By Corporate": "Pela Corporação",
+  "Attorney General:": "Attorney General:",
+  "Auto Plant": "Auto Plant",
+  "BANK ROBBERY": "BANK ROBBERY",
+  "BREAKING AND ENTERING": "BREAKING AND ENTERING",
+  "Ban Torture Techniques": "Ban Torture Techniques",
+  "Bank Teller": "Bank Teller",
+  "Bank Vault": "Bank Vault",
+  "Buggy Armor": "Buggy Armor",
+  "Buggy Chitin": "Buggy Chitin",
+  "Buggy Item": "Buggy Item",
+  "Bus Garage": "Bus Garage",
+  "But the political center is disappearing.": "But the political center is disappearing.",
+  "But why?  The squad feels a bit Conservative.": "But why?  The squad feels a bit Conservative.",
+  "Buyer: ": "Buyer: ",
+  "By Corporate": "By Corporate",
   "C - Continue Last Game": "C - Continue Last Game",
-  "C - Continue as &G$founder&x": "C - Continuar como &G$founder&x",
-  "CCS Action $name": "Ação CCS $name",
-  "CCS Founder": "Fundador do CCS",
-  "CCS Lieutenant": "Tenente do CCS",
-  "CCS Rampage $name": "Fúria do CCS $name",
-  "CCS Squad KIA": "Esquadrão CCS KIA",
-  "CCS Team Leader": "Líder de Equipe do CCS",
+  "C - Continue as &G$founder&x": "C - Continue as &G$founder&x",
+  "CCS Action $name": "CCS Action $name",
+  "CCS Founder": "CCS Founder",
+  "CCS Lieutenant": "CCS Lieutenant",
+  "CCS Rampage $name": "CCS Rampage $name",
+  "CCS Squad KIA": "CCS Squad KIA",
+  "CCS Team Leader": "CCS Team Leader",
   "CEO ${cr.properName}": "CEO ${cr.properName}",
-  "CEO's Study": "Estudo do CEO",
+  "CEO's Study": "CEO's Study",
   "CODE NAME": "CODE NAME",
   "CREDIT CARD FRAUD": "CREDIT CARD FRAUD",
   "CYBER TERRORISM": "CYBER TERRORISM",
@@ -1538,7 +1449,6 @@
   "Car Dealer": "Car Dealer",
   "Car Sales": "Car Sales",
   "Chainlink Fence": "Chainlink Fence",
-  "Changes": "Mudanças",
   "Choose a Liberal squad member to SPEND.": "Choose a Liberal squad member to SPEND.",
   "Choose a Liberal squad member to do the job.": "Choose a Liberal squad member to do the job.",
   "Choose a Liberal squad member to drop ammo.": "Choose a Liberal squad member to drop ammo.",
@@ -1549,7 +1459,6 @@
   "Choose squad member to replace ": "Choose squad member to replace ",
   "Clean sever": "Clean sever",
   "Clothes: ": "Clothes: ",
-  "Conservative": "Conservador",
   "Conservative Automatons in Captivity": "Conservative Automatons in Captivity",
   "Conservative media bias": "Conservative media bias",
   "Courthouse Jail": "Courthouse Jail",
@@ -1610,20 +1519,17 @@
   "Fortunately, your funds remain intact.": "Fortunately, your funds remain intact.",
   "GENIUS MUTANT": "GENIUS MUTANT",
   "GRAND THEFT AUTO": "GRAND THEFT AUTO",
-  "Game Over": "Fim de Jogo",
+  "Game Over": "Game Over",
   "Giant Mosquito": "Giant Mosquito",
   "Gosh!   Is there anything I can do?": "Gosh!   Is there anything I can do?",
   "Governor ": "Governor ",
-  "H - View High Scores": "H - Ver Recordes",
   "HARMFUL SPEECH": "HARMFUL SPEECH",
   "Have a nice day.": "Have a nice day.",
   "He will be the only one listening.": "He will be the only one listening.",
   "Health: ": "Health: ",
-  "Hello {name}!": "Olá {name}!",
   "Hostage Tending": "Hostage Tending",
   "How long since you've heard these sounds...  times have changed.": "How long since you've heard these sounds...  times have changed.",
   "Huge Bouncer": "Huge Bouncer",
-  "I - Import a Save": "I - Importar um Save",
   "I AM LIBERATING YOUR MONEY SUPPLY.": "I AM LIBERATING YOUR MONEY SUPPLY.",
   "I AM MAKING A WITHDRAWAL. ALL YOUR MONEY.": "I AM MAKING A WITHDRAWAL. ALL YOUR MONEY.",
   "I HAVE A GUN. CASH PLEASE.": "I HAVE A GUN. CASH PLEASE.",
@@ -1651,14 +1557,11 @@
   "KINDLY PUT MONEY IN BAG. OR ELSE.": "KINDLY PUT MONEY IN BAG. OR ELSE.",
   "Kidnap whom?": "Kidnap whom?",
   "Kills: {kills}": "Kills: {kills}",
-  "L - Load a Saved Game": "L - Carregar um Jogo Salvo",
-  "LANGUAGE OPTIONS": "OPÇÕES DE IDIOMA",
   "LCS Action $name": "LCS Action $name",
   "LCS Rampage $name": "LCS Rampage $name",
   "LIVING BUG": "LIVING BUG",
   "Lab Equipment": "Lab Equipment",
   "Landlord's Office": "Landlord's Office",
-  "Language": "Idioma",
   "Lead Interrogator: ": "Lead Interrogator: ",
   "Learning ${skill?.displayName ?? ": "Learning ${skill?.displayName ?? ",
   "Left Front Leg": "Left Front Leg",
@@ -1675,11 +1578,9 @@
   "Life Sentence": "Life Sentence",
   "Limit Prohibitions on Flag Burning": "Limit Prohibitions on Flag Burning",
   "Loading Liberal Crime Squad...": "Loading Liberal Crime Squad...",
-  "Loading...": "Carregando...",
   "Long Island": "Long Island",
   "Lower Corporate Tax Rates": "Lower Corporate Tax Rates",
   "MISTAKENLY ": "MISTAKENLY ",
-  "Maintained by {maintainer}, with gratitude to:": "Mantido por {maintainer}, com gratidão para:",
   "Making ${clothingType?.shortName ?? ": "Making ${clothingType?.shortName ?? ",
   "Map exported successfully!": "Map exported successfully!",
   "Materials related to the business front are taken.": "Materials related to the business front are taken.",
@@ -1691,7 +1592,6 @@
   "Moving Equipment": "Moving Equipment",
   "Mr. ": "Mr. ",
   "Mrs. ": "Mrs. ",
-  "N - Start a New Game": "N - Começar um Novo Jogo",
   "NEW AGE": "NEW AGE",
   "NEW ANCHOR": "NEW ANCHOR",
   "NOW   MAX": "NOW   MAX",
@@ -1709,7 +1609,6 @@
   "No spare ammo!": "No spare ammo!",
   "Nobody can carry Martyr ": "Nobody can carry Martyr ",
   "Nuclear waste is released into the water!": "Nuclear waste is released into the water!",
-  "O - Gameplay Options": "O - Opções de Jogo",
   "OUR PULITZER PRIZE": "OUR PULITZER PRIZE",
   "Oh Wow So Much Money": "Oh Wow So Much Money",
   "Oh my Science!   We've got to do something!": "Oh my Science!   We've got to do something!",
@@ -1749,9 +1648,8 @@
   "President's Office": "President's Office",
   "Press 'C' to watch the ratification process unfold.": "Press 'C' to watch the ratification process unfold.",
   "Press a Letter to View Status.": "Press a Letter to View Status.",
-  "Press any key to continue": "Pressione qualquer tecla para continuar",
   "Press any key to continue the elections.    ": "Press any key to continue the elections.    ",
-  "Press any key to continue.": "Pressione qualquer tecla para continuar.",
+  "Press any key to continue.": "Press any key to continue.",
   "Press any key to reflect on the report.": "Press any key to reflect on the report.",
   "Press any key to reflect on what has happened.": "Press any key to reflect on what has happened.",
   "Press any key to reflect on what has happened.    ": "Press any key to reflect on what has happened.    ",
@@ -1813,8 +1711,6 @@
   "Secret Service agents ambush the squad!": "Secret Service agents ambush the squad!",
   "Secretary of State:": "Secretary of State:",
   "Select a Liberal Education Plan": "Select a Liberal Education Plan",
-  "Select an Option to Pursue your Liberal Agenda": "Selecione uma Opção para Perseguir sua Agenda Liberal",
-  "Select your preferred language": "Selecione seu idioma preferido",
   "Selected: ": "Selected: ",
   "Senator ": "Senator ",
   "Serving ": "Serving ",
@@ -1969,7 +1865,6 @@
   "This door is guarded.": "This door is guarded.",
   "This location has food for only a few days.": "This location has food for only a few days.",
   "This location has insufficient food stores.": "This location has insufficient food stores.",
-  "This message does not exist": "Esta mensagem não existe",
   "This relationship is over.": "This relationship is over.",
   "This will be the last visit.": "This will be the last visit.",
   "Tile - {name}": "Tile - {name}",
@@ -1985,9 +1880,7 @@
   "UNLAWFUL BURIAL": "UNLAWFUL BURIAL",
   "Unfortunately, the Conservative escapes...": "Unfortunately, the Conservative escapes...",
   "United States": "United States",
-  "Universal Liberal Statistics": "Estatísticas Liberais Universais",
   "Universal Liberal Statistics:": "Universal Liberal Statistics:",
-  "V - View Changelog": "V - Ver Changelog",
   "V-Flee, ": "V-Flee, ",
   "VETO OVERRIDDEN": "VETO OVERRIDDEN",
   "Vegan Bar & Grill": "Vegan Bar & Grill",
@@ -2007,13 +1900,9 @@
   "YOU ARE BEING ROBBED. GIVE ME YOUR MONEY.": "YOU ARE BEING ROBBED. GIVE ME YOUR MONEY.",
   "You can't equip that.": "You can't equip that.",
   "You climb a fence in record time!": "You climb a fence in record time!",
-  "You have no items.": "Você não tem itens.",
-  "You have one item.": "Você tem um item.",
-  "You have {count} items.": "Você tem {count} itens.",
   "You hear a blaring voice on a loudspeaker:": "You hear a blaring voice on a loudspeaker:",
   "You hear jet bombers streak overhead.": "You hear jet bombers streak overhead.",
   "You hear shouts:": "You hear shouts:",
-  "You hit the {target}!": "Você acertou o {target}!",
   "You pull over and are arrested.": "You pull over and are arrested.",
   "You run as fast as you can!": "You run as fast as you can!",
   "You scale a small building and leap between rooftops!": "You scale a small building and leap between rooftops!",
@@ -2033,9 +1922,7 @@
   "[civil servant]": "[civil servant]",
   "a recent sports scandal": "a recent sports scandal",
   "above the pull-down sunblock thingy!": "above the pull-down sunblock thingy!",
-  "affects": "afeta",
   "agree that more work is needed for racial equality": "agree that more work is needed for racial equality",
-  "all": "todo",
   "all the noise they were making": "all the noise they were making",
   "allow abusive police behavior": "allow abusive police behavior",
   "allow broad use of nuclear power": "allow broad use of nuclear power",
@@ -2045,7 +1932,6 @@
   "allow more restrictions on guns": "allow more restrictions on guns",
   "allow torture in interrogations": "allow torture in interrogations",
   "and Minister of Truth Jerry Falwell.": "and Minister of Truth Jerry Falwell.",
-  "and many others who have contributed to LCS over the years": "e muitos outros que contribuíram para o LCS ao longo dos anos",
   "and pretends to belong here.": "and pretends to belong here.",
   "appointing more Conservative justices": "appointing more Conservative justices",
   "appointing more Liberal justices": "appointing more Liberal justices",
@@ -2089,7 +1975,6 @@
   "doubtless be preparing another assault.": "doubtless be preparing another assault.",
   "due to the abolition of the death penalty.": "due to the abolition of the death penalty.",
   "due to the death of {cr}.": "due to the death of {cr}.",
-  "effect": "efeito",
   "encourage anti-abortion laws": "encourage anti-abortion laws",
   "ending mass surveillance": "ending mass surveillance",
   "ending the use of torture": "ending the use of torture",
@@ -2102,7 +1987,6 @@
   "find Conservative AM Radio distasteful": "find Conservative AM Radio distasteful",
   "flails at": "flails at",
   "for {friend}.": "for {friend}.",
-  "game.": "jogo.",
   "gay people": "gay people",
   "gender equality": "gender equality",
   "gestures, ": "gestures, ",
@@ -2122,7 +2006,6 @@
   "high income inequality": "high income inequality",
   "hurls a ball of energy at": "hurls a ball of energy at",
   "illegal immigration": "illegal immigration",
-  "immediately.": "imediatamente.",
   "in the bugfield!": "in the bugfield!",
   "in the glove compartment!": "in the glove compartment!",
   "in the ignition.  Damn.": "in the ignition.  Damn.",
@@ -2182,7 +2065,6 @@
   "rive hard to escape": "rive hard to escape",
   "schedule and prior relationships.": "schedule and prior relationships.",
   "screams, ": "screams, ",
-  "selection": "seleção",
   "sets the paper aside, ": "sets the paper aside, ",
   "shot out!": "shot out!",
   "shouts, ": "shouts, ",
@@ -2215,9 +2097,7 @@
   "support anti-LGBT discrimination": "support anti-LGBT discrimination",
   "support keeping marijuana legal": "support keeping marijuana legal",
   "support regulation of genetic research": "support regulation of genetic research",
-  "take": "ter",
   "taped to the muffler!": "taped to the muffler!",
-  "text": "texto",
   "the CCS patriots": "the CCS patriots",
   "the CCS terrorists": "the CCS terrorists",
   "the Honorable ": "the Honorable ",
@@ -2255,7 +2135,6 @@
   "working on the mural": "working on the mural",
   "you can.  You might notice your Squad has filled out to": "you can.  You might notice your Squad has filled out to",
   "{attacker} strikes true on {target}": "{attacker} strikes true on {target}",
-  "{count} other LCS members escape in the riot!": "{count} outros membros do LCS escapam no motim!",
   "{cr} in the command chain.": "{cr} in the command chain.",
   "{eaters} Eating": "{eaters} Eating",
   "{lovers} Lover": "{lovers} Lover",
@@ -2264,7 +2143,7 @@
   "{name} can't figure the lock out.": "{name} can't figure the lock out.",
   "{name} chats warmly with": "{name} chats warmly with",
   "{name} doesn't resist.": "{name} doesn't resist.",
-  "{name} has been rescued.": "{name} foi resgatado.",
+  "{name} has been rescued.": "{name} has been rescued.",
   "{name} has mutual respect": "{name} has mutual respect",
   "{name} has turned Liberal!": "{name} has turned Liberal!",
   "{name} holds firm.": "{name} holds firm.",
@@ -2281,7 +2160,6 @@
   "{name} says, ": "{name} says, ",
   "{name} seems less badass!": "{name} seems less badass!",
   "{name}'s Heart swells!": "{name}'s Heart swells!",
-  "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado.",
   "{name}'s face is blasted off!": "{name}'s face is blasted off!",
   "{name}'s face is burned away!": "{name}'s face is burned away!",
   "{name}'s face is cut away!": "{name}'s face is cut away!",
@@ -2339,7 +2217,6 @@
   "{name}'s {part}": "{name}'s {part}",
   "{name}'s {part} armor": "{name}'s {part} armor",
   "{name}, ": "{name}, ",
-  "{p.name} has been rescued.": "{p.name} foi resgatado.",
   "{pName}'s ": "{pName}'s ",
   "{prop}: ": "{prop}: ",
   "{text}▂": "{text}▂",

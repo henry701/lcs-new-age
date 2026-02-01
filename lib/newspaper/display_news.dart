@@ -879,7 +879,7 @@ void displayCenteredSmallNews(String str, int y, NewsStory ns) {
   int x = 39 - ((str.length - 1) >> 1);
   move(y, x);
   setColor(black, background: ns.publication.backgroundColor);
-  addstr(str);
+  addstr(str, noTranslate: true);
 }
 
 void displayNewsPicture(

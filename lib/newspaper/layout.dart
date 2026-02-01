@@ -45,7 +45,7 @@ void preparePage(NewsStory ns, bool liberalguardian) {
     // DATE
     setColor(black, background: bgColor);
     mvaddstr(0, 66 + (day < 10 ? 1 : 0), getMonthShort(month));
-    addstr(" $day, $year");
+    addstr(" $day, $year", noTranslate: true);
   } else {
     // PAGE
     setColor(black, background: bgColor);

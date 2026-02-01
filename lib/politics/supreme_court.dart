@@ -89,9 +89,8 @@ Future<void> supremeCourt() async {
       }
 
       addstr(
-        "{name1} v. {name2}",
-        params: {"name1": name1, "name2": name2},
-        noTranslate: true,
+        "{name1} {versus} {name2}",
+        params: {"name1": name1, "versus": "v.", "name2": name2},
       );
 
       mvaddstr(c * 3 + 3, 0, "A new precedent would ");

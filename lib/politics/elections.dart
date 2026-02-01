@@ -410,9 +410,11 @@ Future<void> ballotMeasures() async {
         mvaddstr(
           p * 3 + 2,
           70,
-          "{yesPercent}% Yes",
-          params: {"yesPercent": "${yesvotes ~/ 10}.${yesvotes % 10}"},
-          noTranslate: true,
+          "{yesPercent}% {yes}",
+          params: {
+            "yesPercent": "${yesvotes ~/ 10}.${yesvotes % 10}",
+            "yes": "Yes",
+          },
         );
 
         if ((l != 999 && yesvotes < (l / 2 + 10)) || (l == 999 && !yeswin)) {
@@ -425,12 +427,12 @@ Future<void> ballotMeasures() async {
         mvaddstr(
           p * 3 + 3,
           70,
-          "{noPercent}% No",
+          "{noPercent}% {no}",
           params: {
             "noPercent":
                 "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}",
+            "no": "No",
           },
-          noTranslate: true,
         );
       }
 

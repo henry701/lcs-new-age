@@ -47,7 +47,11 @@ Future<void> equip(List<Item>? loot) async {
       String let = letterAPlus(l - page * 18, capitalize: true);
       addOptionText(y, x, let, "$let - ${loot[l].equipTitle()}");
       if (loot[l].stackSize > 1 && !loot[l].type.isMoney) {
-        addstrc(lightGray, " x${loot[l].stackSize}");
+        addstrc(
+          lightGray,
+          " x{count}",
+          params: {"count": loot[l].stackSize.toString()},
+        );
       }
 
       x += 26;
@@ -310,7 +314,7 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
 
     for (int l = page * 18; l < source.length && l < page * 18 + 18; l++) {
       String str = letterAPlus(l - page * 18, capitalize: true);
-      mvaddstrc(y, x, lightGray, "$str - ");
+      mvaddstrc(y, x, lightGray, "{letter} - ", params: {"letter": str});
 
       Color baseColor = selected[l] > 0 ? lightGreen : lightGray;
       source[l].printEquipTitle(baseColor: baseColor);

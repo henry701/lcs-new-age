@@ -392,7 +392,12 @@ Future<void> editMap(String mapName) async {
 
     // Add floor display and controls
     setColor(lightGray);
-    mvaddstr(0, 0, "Floor ${currentFloor + 1}");
+    mvaddstr(
+      0,
+      0,
+      "Floor {floor}",
+      params: {"floor": (currentFloor + 1).toString()},
+    );
     addOptionText(24, 0, "X", "X - Exit Map Editor");
     addOptionText(24, 24, nextPageStr.split(" ").first, "$nextPageStr Floor");
     addstr(" / ");
@@ -454,7 +459,7 @@ Future<void> editMap(String mapName) async {
         if (tile.wall) {
           addstr("Wall");
         } else if (tile.door) {
-          addstr("Door${tile.locked ? " (Locked)" : ""}");
+          addstr(tile.locked ? "Door (Locked)" : "Door");
         } else if (tile.exit) {
           addstr("Exit");
         } else if (tile.grass) {
@@ -464,7 +469,7 @@ Future<void> editMap(String mapName) async {
         } else if (tile.metal) {
           addstr("Metal Wall");
         } else if (tile.special != TileSpecial.none) {
-          addstr("Special: ${tile.special.name}");
+          addstr("Special: {name}", params: {"name": tile.special.name});
         } else if (tile.restricted) {
           addstr("Restricted Area");
         } else {
@@ -479,7 +484,12 @@ Future<void> editMap(String mapName) async {
         int index = (console.hoverY! - 2) * 8 + (console.hoverX! - (MAPX + 1));
         if (index < tileTypes.length) {
           setColor(lightGray);
-          mvaddstr(23, 0, "Tile Type: ${tileTypes[index].name}");
+          mvaddstr(
+            23,
+            0,
+            "Tile Type: {name}",
+            params: {"name": tileTypes[index].name},
+          );
         }
       }
       // Check if hover coordinates are within special buttons area
@@ -490,7 +500,12 @@ Future<void> editMap(String mapName) async {
         int index = (console.hoverY! - 7) * 8 + (console.hoverX! - (MAPX + 1));
         if (index < specialTypes.length) {
           setColor(lightGray);
-          mvaddstr(23, 0, "Special Type: ${specialTypes[index].name}");
+          mvaddstr(
+            23,
+            0,
+            "Special Type: {name}",
+            params: {"name": specialTypes[index].name},
+          );
         }
       }
     }
@@ -499,9 +514,9 @@ Future<void> editMap(String mapName) async {
     setColor(lightGray);
     mvaddstr(23, 40, "Selected: ");
     if (selectedTileType != null) {
-      addstr("Tile - ${selectedTileType.name}");
+      addstr("Tile - {name}", params: {"name": selectedTileType.name});
     } else if (selectedSpecialType != null) {
-      addstr("Special - ${selectedSpecialType.name}");
+      addstr("Special - {name}", params: {"name": selectedSpecialType.name});
     } else {
       addstr("None");
     }

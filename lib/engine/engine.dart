@@ -399,7 +399,7 @@ extension CodePointExtension on String {
 
 Future<String> mvgetstr(int y, int x, {String? starting}) async {
   String s = starting ?? "";
-  mvaddstr(y, x, "$s▂");
+  mvaddstr(y, x, "$s▂", noTranslate: true);
   while (true) {
     String c = await getKeyCaseSensitive();
     if (isBackKey(c.codePoint) &&
@@ -413,7 +413,7 @@ Future<String> mvgetstr(int y, int x, {String? starting}) async {
       }
     } else if (c.length == 1) {
       s += c;
-      mvaddstr(y, x, "$s▂");
+      mvaddstr(y, x, "$s▂", noTranslate: true);
     }
   }
 }

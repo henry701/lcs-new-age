@@ -16,7 +16,13 @@ Future<bool> showDisbandingScreen() async {
   letTheUnworthyLeave();
 
   erase();
-  mvaddstrc(0, 0, white, "${getMonth(month)} $year");
+  mvaddstrc(
+    0,
+    0,
+    white,
+    "{month} {year}",
+    params: {"month": getMonth(month), "year": year.toString()},
+  );
 
   printExec();
   printHouse(2);
@@ -61,19 +67,34 @@ void printExec() {
 void printHouse(int y) {
   List<int> housemake = summarizePoliticalBody(house);
   setPoliticalBodyColor(housemake);
-  mvaddstr(y, 0, "House: ${summaryText(housemake)}");
+  mvaddstr(
+    y,
+    0,
+    "House: {summary}",
+    params: {"summary": summaryText(housemake)},
+  );
 }
 
 void printSenate(int y) {
   List<int> senatemake = summarizePoliticalBody(senate);
   setPoliticalBodyColor(senatemake);
-  mvaddstr(y, 0, "Senate: ${summaryText(senatemake)}");
+  mvaddstr(
+    y,
+    0,
+    "Senate: {summary}",
+    params: {"summary": summaryText(senatemake)},
+  );
 }
 
 void printCourtBrief(int y) {
   List<int> courtmake = summarizePoliticalBody(court);
   setPoliticalBodyColor(courtmake);
-  mvaddstr(y, 0, "Court: ${summaryText(courtmake)}");
+  mvaddstr(
+    y,
+    0,
+    "Court: {summary}",
+    params: {"summary": summaryText(courtmake)},
+  );
 }
 
 void printLaws() {

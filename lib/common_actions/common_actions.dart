@@ -71,7 +71,13 @@ Future<int> choiceprompt(
       p++, y++
     ) {
       String letter = letterAPlus(y - 2);
-      addOptionText(y, 0, letter, "$letter - ${option[p]}");
+      addOptionText(
+        y,
+        0,
+        letter,
+        "{letter} - {option}",
+        params: {"letter": letter, "option": option[p]},
+      );
     }
 
     setColor(lightGray);
@@ -99,7 +105,15 @@ Future<int> choiceprompt(
     }
     move(23, 0);
     addstr(pageStr);
-    if (allowexitwochoice) addOptionText(24, 0, "Enter", "Enter - $exitString");
+    if (allowexitwochoice) {
+      addOptionText(
+        24,
+        0,
+        "Enter",
+        "Enter - {exit}",
+        params: {"exit": exitString},
+      );
+    }
 
     int c = await getKey();
 

@@ -383,7 +383,13 @@ Future<void> aNewConservativeEra() async {
   erase();
   mvaddstrc(2, 2, white, "A NEW CONSERVATIVE ERA");
 
-  mvaddstrc(4, 2, lightGray, "The Year is $year.");
+  mvaddstrc(
+    4,
+    2,
+    lightGray,
+    "The Year is {year}.",
+    params: {"year": year.toString()},
+  );
 
   mvaddstr(
     6,

@@ -45,7 +45,11 @@ void preparePage(NewsStory ns, bool liberalguardian) {
     // DATE
     setColor(black, background: bgColor);
     mvaddstr(0, 66 + (day < 10 ? 1 : 0), getMonthShort(month));
-    addstr(" $day, $year", noTranslate: true);
+    addstr(
+      " {day}, {year}",
+      params: {"day": day.toString(), "year": year.toString()},
+      noTranslate: true,
+    );
   } else {
     // PAGE
     setColor(black, background: bgColor);
@@ -184,10 +188,18 @@ void _addStockTicker(int y, int x, String name, Color bgColor) {
       x + 7,
       green,
       bg: bgColor,
-      "+${performance.toStringAsFixed(1)}%",
+      "+{performance}%",
+      params: {"performance": performance.toStringAsFixed(1)},
     );
   } else {
-    mvaddstrc(y, x + 7, red, bg: bgColor, "${performance.toStringAsFixed(1)}%");
+    mvaddstrc(
+      y,
+      x + 7,
+      red,
+      bg: bgColor,
+      "{performance}%",
+      params: {"performance": performance.toStringAsFixed(1)},
+    );
   }
 }
 

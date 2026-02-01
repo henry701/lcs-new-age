@@ -322,12 +322,22 @@ void _pollsPage(int start) {
         .reduce((a, b) => a.value >= b.value ? a : b)
         .key;
     int approval = politics.presidentialApproval();
-    mvaddstrc(4, 0, lightGray, "$approval% have a favorable opinion of ");
     String president = "President";
     if (politics.constitutionalAmendments == 0) president = "King";
+    mvaddstrc(
+      4,
+      0,
+      lightGray,
+      "{approval}% have a favorable opinion of ",
+      params: {"approval": approval.toString()},
+    );
     addstrc(
       exec[Exec.president]!.color,
-      "$president ${execName[Exec.president]!.firstLast}",
+      "{president} {name}",
+      params: {
+        "president": president,
+        "name": execName[Exec.president]!.firstLast,
+      },
     );
     addstrc(lightGray, ".");
     String concern = "";

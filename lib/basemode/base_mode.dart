@@ -532,9 +532,17 @@ void printSafehouseSecurityBox(Site site) {
     mvaddstrc(10, 3, yellow, "Under Siege");
   } else {
     mvaddstrc(10, 2, lightGray, "Heat: ");
-    addstrc(heat > heatProtection ? red : darkGray, "$heat");
+    addstrc(
+      heat > heatProtection ? red : darkGray,
+      "{heat}",
+      params: {"heat": heat.toString()},
+    );
     mvaddstrc(11, 2, lightGray, "Secrecy: ");
-    addstrc(heat > heatProtection ? red : darkGray, "$heatProtection");
+    addstrc(
+      heat > heatProtection ? red : darkGray,
+      "{protection}",
+      params: {"protection": heatProtection.toString()},
+    );
   }
   int extrajudicialHeat = [
     site.extraHeatFromCIA ~/ 2,

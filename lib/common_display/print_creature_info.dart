@@ -277,7 +277,7 @@ void printWounds(Creature cr, {int y = 2, int x = 49}) {
     if (!p.cleanOff && !p.nastyOff) {
       int armor = cr.clothing.getArmorForLocation(p);
       if (armor > 0) {
-        addstrc(lightBlue, "+$armor");
+        addstrc(lightBlue, "+{armor}", params: {"armor": armor.toString()});
       }
     }
   }

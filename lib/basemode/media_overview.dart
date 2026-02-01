@@ -99,7 +99,17 @@ Future<void> mediaOverview() async {
         String headlineColorKey = ns.unread
             ? ColorKey.lightBlue
             : ColorKey.lightGray;
-        addOptionText(y, 0, key, "$key - &$headlineColorKey$headline");
+        addOptionText(
+          y,
+          0,
+          key,
+          "{key} - &{colorKey}{headline}",
+          params: {
+            "key": key,
+            "colorKey": headlineColorKey,
+            "headline": headline,
+          },
+        );
         mvaddstrc(y, 53, ns.publicationAlignment.color, ns.publicationName);
         if (totalImpact > 0) {
           mvaddstrc(

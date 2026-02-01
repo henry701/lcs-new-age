@@ -612,7 +612,13 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
       _Option option = question.answers[i];
       String letter = letterAPlus(i);
       if (choose) {
-        addOptionText(y++, 0, letter, "$letter - ${option.option}");
+        addOptionText(
+          y++,
+          0,
+          letter,
+          "{letter} - {option}",
+          params: {"letter": letter, "option": option.option},
+        );
       } else {
         mvaddstrc(y++, 4, lightGray, option.option);
       }

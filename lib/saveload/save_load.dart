@@ -134,7 +134,7 @@ Future<bool> loadGameMenu() async {
           inGameDate = "Error";
           founder = "Error - Crash Expected";
         }
-        addOptionText(y, 0, key, "$key - ");
+        addOptionText(y, 0, key, "{key} - ", params: {"key": key});
         mvaddstr(y, 4, inGameDate);
         mvaddstr(y, 20, founder);
         mvaddstr(y, 50, lastPlayedStr);
@@ -200,7 +200,13 @@ Future<bool> loadGame(SaveFile selectedSave) async {
     );
     y++;
   }
-  mvaddstrc(1, 1, lightGray, "Manage ${brokenText}Saved Game");
+  mvaddstrc(
+    1,
+    1,
+    lightGray,
+    "Manage {broken}Saved Game",
+    params: {"broken": brokenText},
+  );
   addOptionText(
     y++,
     1,
@@ -311,7 +317,13 @@ Future<SaveFile?> importSave() async {
       return saveFile;
     } catch (e) {
       erase();
-      mvaddstrc(1, 1, lightGray, "Error importing save: $e");
+      mvaddstrc(
+        1,
+        1,
+        lightGray,
+        "Error importing save: {error}",
+        params: {"error": e.toString()},
+      );
       if (e is Error) {
         addOptionText(3, 1, "R", "R - Generate a Crash Report");
         addOptionText(

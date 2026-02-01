@@ -306,20 +306,23 @@ Future<void> disguisecheck(int timer) async {
       }
 
       if (squaddieThatBlewIt != null && oneIn(2)) {
-        mvaddstrc(9, 1, yellow, squaddieThatBlewIt.name, noTranslate: true);
-        addstr(
+        mvaddstrc(
+          9,
+          1,
+          yellow,
           [
-            " coughs.",
-            " accidentally mumbles the slogan.",
-            " paces uneasily.",
-            " stares at the Conservatives.",
-            " laughs nervously.",
-            " fidgets.",
-            " whistles.",
-            " mutters incomprehensibly.",
-            " exhales loudly.",
-            " comments loudly on the weather.",
+            "{name} coughs.",
+            "{name} accidentally mumbles the slogan.",
+            "{name} paces uneasily.",
+            "{name} stares at the Conservatives.",
+            "{name} laughs nervously.",
+            "{name} fidgets.",
+            "{name} whistles.",
+            "{name} mutters incomprehensibly.",
+            "{name} exhales loudly.",
+            "{name} comments loudly on the weather.",
           ].random,
+          params: {"name": squaddieThatBlewIt.name},
         );
 
         await getKey();
@@ -344,7 +347,6 @@ Future<void> disguisecheck(int timer) async {
 
     clearMessageArea();
 
-    mvaddstrc(9, 1, red, n.name);
     if (siteAlarmTimer != 0 &&
         [
           WeaponCheckResult.ok,
@@ -358,9 +360,21 @@ Future<void> disguisecheck(int timer) async {
           levelMap[locx][locy][locz].flag & SITEBLOCK_RESTRICTED != 0) {
         siteAlarm = true;
 
-        addstr(" shouts in alarm at the squad's Liberal Trespassing!");
+        mvaddstrc(
+          9,
+          1,
+          red,
+          "{name} shouts in alarm at the squad's Liberal Trespassing!",
+          params: {"name": n.name},
+        );
       } else {
-        addstr(" looks at the Squad suspiciously.");
+        mvaddstrc(
+          9,
+          1,
+          red,
+          "{name} looks at the Squad suspiciously.",
+          params: {"name": n.name},
+        );
 
         int time;
 

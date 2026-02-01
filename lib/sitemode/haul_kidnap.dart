@@ -401,7 +401,7 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
             setColor(yellow);
             move(9, 1);
             addstr("Nobody can carry Martyr ");
-            addstr(p.name);
+            addstr(p.name, noTranslate: true);
             addstr(".");
 
             //DROP LOOT

@@ -940,7 +940,7 @@ Future<bool> attack(
     } else {
       move(10, 1);
       if (sneakAttack) {
-        addstr(t.name);
+        addstr(t.name, noTranslate: true);
         addstr(
           [
             " notices at the last moment!",

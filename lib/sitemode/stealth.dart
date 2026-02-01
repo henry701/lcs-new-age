@@ -306,7 +306,7 @@ Future<void> disguisecheck(int timer) async {
       }
 
       if (squaddieThatBlewIt != null && oneIn(2)) {
-        mvaddstrc(9, 1, yellow, squaddieThatBlewIt.name);
+        mvaddstrc(9, 1, yellow, squaddieThatBlewIt.name, noTranslate: true);
         addstr(
           [
             " coughs.",

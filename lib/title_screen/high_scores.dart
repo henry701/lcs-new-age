@@ -162,7 +162,7 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
     } else {
       setColor(red);
     }
-    mvaddstr(y, 0, s.slogan);
+    mvaddstr(y, 0, s.slogan, noTranslate: true);
     if (s.score == yourScore?.score &&
         s.daysSince2000 == yourScore?.daysSince2000) {
       if (s.endType == Ending.victory) {

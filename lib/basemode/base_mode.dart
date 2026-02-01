@@ -508,7 +508,7 @@ void baseModeOptionsDisplay(Site? loc) {
 
   setColor(lightGray);
   int y = (loc?.hasFlag ?? false) ? 16 : 15;
-  mvaddstrCenter(y++, slogan);
+  mvaddstrCenter(y++, slogan, noTranslate: true);
   addCenteredOptionText(y++, "s", "(S - Change the Slogan)", baseColorKey: "m");
   if (loc != null) {
     printSafehouseSecurityBox(loc);

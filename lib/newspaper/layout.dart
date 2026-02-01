@@ -110,7 +110,7 @@ void amRadioTop() {
 void liberalGuardianTop() {
   Color bgColor = Publication.liberalGuardian.backgroundColor;
   setColor(black, background: bgColor);
-  mvaddstr(0, 2, slogan.toUpperCase());
+  mvaddstr(0, 2, slogan.toUpperCase(), noTranslate: true);
   setColor(green, background: bgColor);
   print3x3NewsText(1, 1, "Liberal Guardian");
   setColor(black, background: bgColor);

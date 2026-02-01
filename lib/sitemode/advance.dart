@@ -31,9 +31,9 @@ Future<void> creatureadvance() async {
           clearMessageArea();
           setColor(white);
           move(9, 1);
-          addstr(p.name);
+          addstr(p.name, noTranslate: true);
           addstr(" drops ");
-          addstr(p.prisoner!.name);
+          addstr(p.prisoner!.name, noTranslate: true);
           addstr("'s body.");
 
           makeLoot(p.prisoner!, groundLoot);

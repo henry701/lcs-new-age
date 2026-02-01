@@ -198,9 +198,12 @@ class LcsI18n {
       // Track missing translations (skip for en_US since it's the source language)
       if (_currentLocale != 'en_US') {
         _missingTranslations.add(englishText);
-        print(
-          'LcsI18n: Missing translation for "$englishText" in $_currentLocale',
-        );
+        // Only log if string should not be ignored (has a-Z characters, etc.)
+        if (!UntranslatedStringLogger.shouldIgnoreString(englishText)) {
+          print(
+            'LcsI18n: Missing translation for "$englishText" in $_currentLocale',
+          );
+        }
       }
       return englishText;
     } catch (e) {

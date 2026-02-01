@@ -197,7 +197,7 @@ class Shop extends ShopOption {
       printParty();
 
       mvaddstr(8, 45, "Buyer: ");
-      addstr(buyer!.name);
+      addstr(buyer!.name, noTranslate: true);
 
       //Write wares and prices
       int y = 10, x = 1, takenLetters = 0;

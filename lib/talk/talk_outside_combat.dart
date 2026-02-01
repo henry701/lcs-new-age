@@ -28,9 +28,9 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
   bool nude = a.indecent;
   String whileNaked = nude ? " while naked" : "";
   clearSceneAreas();
-  mvaddstrc(9, 1, white, a.name);
+  mvaddstrc(9, 1, white, a.name, noTranslate: true);
   addstrc(lightGray, " talks to ");
-  addstrc(tk.align.color, tk.name);
+  addstrc(tk.align.color, tk.name, noTranslate: true);
   setColor(white);
   addstr(" {ageGender}", params: {"ageGender": creatureAgeAndGender(tk)});
   addstr(":");
@@ -352,7 +352,7 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
           (c) => c.weapon.type.threatening,
         );
         if (armedLiberal != null) {
-          mvaddstr(9, 1, armedLiberal.name);
+          mvaddstr(9, 1, armedLiberal.name, noTranslate: true);
           addstr(" brandishes the ");
           addstr(armedLiberal.weapon.getName(sidearm: true));
           addstr(".");
@@ -696,7 +696,14 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
         clearMessageArea();
       }
       mvaddstr(10, 1, "{name} says, ", params: {"name": a.name});
-      mvaddstrc(11, 1, lightGreen, "\"{slogan}", params: {"slogan": slogan});
+      mvaddstrc(
+        11,
+        1,
+        lightGreen,
+        "\"{slogan}",
+        params: {"slogan": slogan},
+        noTranslate: true,
+      );
       mvaddstr(12, 1, "OPEN THE VAULT, NOW!\"");
 
       await getKey();

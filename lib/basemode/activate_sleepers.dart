@@ -142,7 +142,7 @@ Future<void> activateSleeper(Creature cr) async {
     printFunds();
 
     mvaddstr(0, 0, "Taking Undercover Action:   What will ");
-    addstr(cr.name);
+    addstr(cr.name, noTranslate: true);
     addstr(" focus on?");
 
     printCreatureInfo(cr, showCarPrefs: ShowCarPrefs.showPreferences);

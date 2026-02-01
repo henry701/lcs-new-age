@@ -873,7 +873,7 @@ Future<void> assembleSquad(Squad? cursquad) async {
     } else {
       move(0, 73 - cursquad.name.length);
       addstr("Squad: ");
-      addstr(cursquad.name);
+      addstr(cursquad.name, noTranslate: true);
     }
 
     addHeader({

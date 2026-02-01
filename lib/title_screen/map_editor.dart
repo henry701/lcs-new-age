@@ -744,7 +744,7 @@ Future<void> exportMap(String mapName, int floor) async {
   } catch (e) {
     // Show error message
     setColor(red);
-    mvaddstr(22, 0, "Error exporting map: $e");
+    mvaddstr(22, 0, "Error exporting map: $e", noTranslate: true);
     await Future.delayed(const Duration(seconds: 2));
   }
 }

@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,153
-- **Translated to pt_BR**: 383 (33%)
-- **Remaining**: 770 strings
+- **Translated to pt_BR**: 397 (34%)
+- **Remaining**: 756 strings
 - **Total files with console output**: ~77 files
-- **Current session**: Session 5 (Complete)
+- **Current session**: Session 6 (Complete)
 
 ## Translation Priority Queue
 
@@ -17,11 +17,10 @@ Files are ordered by importance (most user-facing first):
 3. [x] lib/common_display/print_party.dart (COMPLETE)
 4. [x] lib/title_screen/title_screen.dart (COMPLETE)
 5. [x] lib/basemode/base_mode.dart (COMPLETE)
-6. [ ] lib/common_actions/common_actions.dart (NEXT)
+6. [x] lib/common_actions/equipment.dart (COMPLETE)
+7. [ ] lib/common_actions/common_actions.dart (NEXT)
 
 ### MEDIUM PRIORITY (Common Actions)
-7. [ ] lib/common_actions/common_actions.dart
-8. [ ] lib/common_actions/equipment.dart
 9. [ ] lib/creature/sort_creatures.dart
 10. [ ] lib/basemode/review_mode.dart
 11. [ ] lib/basemode/plan_site_visit.dart
@@ -128,17 +127,18 @@ Files are ordered by importance (most user-facing first):
 | lib/common_display/print_party.dart | 6 | ✅ Complete | 3 | (pending) |
 | lib/title_screen/title_screen.dart | 36 | ✅ Complete | 4 | (pending) |
 | lib/basemode/base_mode.dart | 10 | ✅ Complete | 5 | (pending) |
+| lib/common_actions/equipment.dart | 14 | ✅ Complete | 6 | (pending) |
 
 ## Current Session
 
-**Session**: 5
+**Session**: 6
 **Status**: Complete
-**Completed File**: lib/basemode/base_mode.dart
+**Completed File**: lib/common_actions/equipment.dart
 **Next File**: lib/common_actions/common_actions.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Added 10 translations for base mode including food store warnings ("This location has food for only a few days", "This location has insufficient food stores"), squad management ("No Squad Selected", "1) R - Review Assets and Form Squads", "2) Press Z to Assemble a New Squad"), planning section header ("=== PLANNING ==="), and time passage messages ("How long since you've heard these sounds", "It has been a long time", "It sure has been a while"), and eating status ("{eaters} Eating"). All tests passing.
+**Notes**: Translated 14 equipment-related strings including ammo messages ("No ammo available!", "No ammo required!", "No ammo to drop!", "No spare ammo!", "Can't carry ammo without a gun.", "Can't carry any more ammo.", "That ammo doesn't fit."), equipment UI strings ("Choose a Liberal squad member to receive ammo.", "Choose a Liberal squad member to drop ammo.", "Choose a Liberal squad member to receive it.", "Choose a Liberal squad member to strip down."), and other equipment strings ("Moving Equipment", "Shift and a Number will move ALL items!", "You can't equip that."). All tests passing.
 
 ## Translation Statistics
 
@@ -160,7 +160,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 33% (383/1,153)
+[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 34% (397/1,153)
 ```
 
 ## Issues/Blockers
@@ -205,5 +205,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 5 complete)
-**Next Update**: Session 6 start
+**Last Updated**: 2026-02-02 (Session 6 complete)
+**Next Update**: Session 7 start

@@ -2,8 +2,8 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,158
-- **Translated to pt_BR**: 402 (35%)
-- **Remaining**: 756 strings
+- **Translated to pt_BR**: 418 (36%)
+- **Remaining**: 740 strings
 - **Total files with console output**: ~77 files
 - **Current session**: Session 7 (In Progress)
 
@@ -21,8 +21,8 @@ Files are ordered by importance (most user-facing first):
 7. [x] lib/common_actions/common_actions.dart (COMPLETE)
 
 ### MEDIUM PRIORITY (Common Actions)
-9. [ ] lib/creature/sort_creatures.dart (NEXT)
-10. [ ] lib/basemode/review_mode.dart
+9. [x] lib/creature/sort_creatures.dart (COMPLETE)
+10. [ ] lib/basemode/review_mode.dart (NEXT)
 11. [ ] lib/basemode/plan_site_visit.dart
 
 ### DAILY ACTIVITIES
@@ -129,17 +129,18 @@ Files are ordered by importance (most user-facing first):
 | lib/basemode/base_mode.dart | 10 | ✅ Complete | 5 | (pending) |
 | lib/common_actions/equipment.dart | 14 | ✅ Complete | 6 | (pending) |
 | lib/common_actions/common_actions.dart | 5 | ✅ Complete | 7 | (pending) |
+| lib/creature/sort_creatures.dart | 16 | ✅ Complete | 8 | (pending) |
 
 ## Current Session
 
-**Session**: 7
+**Session**: 8
 **Status**: Complete
-**Completed File**: lib/common_actions/common_actions.dart
-**Next File**: lib/creature/sort_creatures.dart (NEXT)
+**Completed File**: lib/creature/sort_creatures.dart
+**Next File**: lib/basemode/review_mode.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Translated 5 choice prompt UI strings from lib/common_actions/common_actions.dart: option listing template "{letter} - {option}", article-specific selection prompts ("Press a Letter to select an {optiontypename}" and "Press a Letter to select a {optiontypename}"), confirmation template "Enter - {exit}", and Squad selection prompt "Press a Letter to select Squad members.". All tests passing. Note: The extraction script didn't find these strings automatically due to multi-line formatting, so they were manually identified and added.
+**Notes**: Translated 16 strings from lib/creature/sort_creatures.dart: 11 screen description strings ("active Liberals", "hostages", "Liberals in treatment", "oppressed Liberals", "sleeper agents", "the deceased", "people away", "Liberal activity", "sleeper activity", "available Liberals", "squadless members"), 1 template string ("Choose how to sort the list of {description}."), and 4 sorting option prompts ("A - No sorting.", "B - Sort by name.", "C - Sort by location and name.", "D - Sort by squad or name."). All tests passing. Extraction script didn't find enum strings automatically, so they were manually identified and added.
 
 ## Translation Statistics
 
@@ -161,7 +162,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 35% (402/1,158)
+[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 36% (418/1,158)
 ```
 
 ## Issues/Blockers
@@ -206,5 +207,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 7 complete)
-**Next Update**: Session 8 start
+**Last Updated**: 2026-02-02 (Session 8 complete)
+**Next Update**: Session 9 start

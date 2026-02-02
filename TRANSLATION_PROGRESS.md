@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,158
-- **Translated to pt_BR**: 418 (36%)
-- **Remaining**: 740 strings
+- **Translated to pt_BR**: 419 (36%)
+- **Remaining**: 739 strings
 - **Total files with console output**: ~77 files
-- **Current session**: Session 7 (In Progress)
+- **Current session**: Session 9 (Complete)
 
 ## Translation Priority Queue
 
@@ -22,8 +22,8 @@ Files are ordered by importance (most user-facing first):
 
 ### MEDIUM PRIORITY (Common Actions)
 9. [x] lib/creature/sort_creatures.dart (COMPLETE)
-10. [ ] lib/basemode/review_mode.dart (NEXT)
-11. [ ] lib/basemode/plan_site_visit.dart
+10. [x] lib/basemode/review_mode.dart (COMPLETE)
+11. [ ] lib/basemode/plan_site_visit.dart (NEXT)
 
 ### DAILY ACTIVITIES
 12. [ ] lib/daily/advance_day.dart
@@ -130,17 +130,18 @@ Files are ordered by importance (most user-facing first):
 | lib/common_actions/equipment.dart | 14 | ✅ Complete | 6 | (pending) |
 | lib/common_actions/common_actions.dart | 5 | ✅ Complete | 7 | (pending) |
 | lib/creature/sort_creatures.dart | 16 | ✅ Complete | 8 | (pending) |
+| lib/basemode/review_mode.dart | 31 | ✅ Complete | 9 | (pending) |
 
 ## Current Session
 
-**Session**: 8
+**Session**: 9
 **Status**: Complete
-**Completed File**: lib/creature/sort_creatures.dart
-**Next File**: lib/basemode/review_mode.dart (NEXT)
+**Completed File**: lib/basemode/review_mode.dart
+**Next File**: lib/basemode/plan_site_visit.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Translated 16 strings from lib/creature/sort_creatures.dart: 11 screen description strings ("active Liberals", "hostages", "Liberals in treatment", "oppressed Liberals", "sleeper agents", "the deceased", "people away", "Liberal activity", "sleeper activity", "available Liberals", "squadless members"), 1 template string ("Choose how to sort the list of {description}."), and 4 sorting option prompts ("A - No sorting.", "B - Sort by name.", "C - Sort by location and name.", "D - Sort by squad or name."). All tests passing. Extraction script didn't find enum strings automatically, so they were manually identified and added.
+**Notes**: Session 9 - Translated remaining strings from lib/basemode/review_mode.dart. Most strings were already translated in previous sessions; completed 1 additional translation: " <Under Siege>" → " <Sob Cerco>". All 31 strings from this file are now translated. All tests passing.
 
 ## Translation Statistics
 
@@ -162,7 +163,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 36% (418/1,158)
+[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 36% (419/1,158)
 ```
 
 ## Issues/Blockers
@@ -207,5 +208,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 8 complete)
-**Next Update**: Session 9 start
+**Last Updated**: 2026-02-02 (Session 9 complete)
+**Next Update**: Session 10 start

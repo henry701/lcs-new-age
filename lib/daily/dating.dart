@@ -998,7 +998,6 @@ Future<DateResult> dateResult(
           lightGreen,
           "But there isn't a police station in {city}!",
           params: {"city": p.location!.city.name},
-          noTranslate: true,
         );
         mvaddstr(
           y++,

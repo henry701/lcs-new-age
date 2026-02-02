@@ -41,15 +41,20 @@ prevent translators from reordering subject/verb/object.
 - **Line 329**: `mvaddstrc(y++, 0, white, cr.name, noTranslate: true)`
   - Already uses noTranslate, check if combined with action
 
-## Priority 2: Simple Name Displays (MEDIUM)
+## Priority 2: Simple Name Displays (MEDIUM) ✅ DONE
 These are single name displays that are OK with `noTranslate: true` since they're just
 entity labels, not part of sentences.
 
-- **basemode/base_mode.dart:386**: `mvaddstrc(8, 1, lightGray, activeSquad?.name ?? "")`
-- **basemode/plan_site_visit.dart:30**: `mvaddstrc(8, 0, lightGray, area.name)`
-- **sitemode/chase_sequence.dart:249**: `mvaddstrc(0, 0, lightGray, chaseSequence!.location.name)`
-- **sitemode/chase_sequence.dart:1436**: `mvaddstrc(9, 1, red, p.prisoner!.name)` - Check context
-- **items/clothing.dart:261**: `addstrc(baseColor, full ? type.name : type.shortName)`
+- **basemode/base_mode.dart:386**: ✅ `mvaddstrc(8, 1, lightGray, activeSquad?.name ?? "", noTranslate: true)`
+- **basemode/plan_site_visit.dart:30**: ✅ `mvaddstrc(8, 0, lightGray, area.name, noTranslate: true)`
+- **sitemode/chase_sequence.dart:249**: ✅ `mvaddstrc(0, 0, lightGray, chaseSequence!.location.name, noTranslate: true)`
+- **sitemode/chase_sequence.dart:1436**: ✅ Already refactored to template in Priority 1
+- **items/clothing.dart:261**: ✅ `addstrc(baseColor, type.name, noTranslate: true)`
+
+Additional fixes applied:
+- **talk/talk_outside_combat.dart**: Creature name + action responses now use templates
+- **basemode/activate_regulars.dart**: Clothing/armor names now use `noTranslate: true`
+- **basemode/review_mode.dart**: Creature type names now use `noTranslate: true`
 
 ## Priority 3: Already Properly Templated (DONE)
 These are good examples of the target pattern:

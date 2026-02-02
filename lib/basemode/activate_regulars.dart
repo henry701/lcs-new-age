@@ -653,8 +653,13 @@ void _clothingDetailFooter(
       enabledWhen: armorIndex > 0,
       highlightColorKey: "W",
     );
-    addstrc(lightGray, "{name}, ", params: {"name": clothing.name});
-    addstrc(lightBlue, armor.name);
+    addstrc(
+      lightGray,
+      "{name}, ",
+      params: {"name": clothing.name},
+      noTranslate: true,
+    );
+    addstrc(lightBlue, armor.name, noTranslate: true);
     addstrc(
       lightGreen,
       " \${price}",

@@ -941,7 +941,7 @@ Future<void> assembleSquad(Squad? cursquad) async {
 
       printHealthStat(y, 34, tempp);
 
-      mvaddstrc(y, 46, tempp.align.color, tempp.type.name);
+      mvaddstrc(y, 46, tempp.align.color, tempp.type.name, noTranslate: true);
       mvaddstrc(
         y,
         63,

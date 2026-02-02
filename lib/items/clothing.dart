@@ -256,9 +256,9 @@ class Clothing extends Item {
     bool armor = true,
   }) {
     if (quality > type.qualityLevels) {
-      addstrc(baseColor, "Tattered Rags");
+      addstrc(baseColor, "Tattered Rags", noTranslate: true);
     } else {
-      addstrc(baseColor, full ? type.name : type.shortName);
+      addstrc(baseColor, full ? type.name : type.shortName, noTranslate: true);
     }
     if (armor) {
       addstrc(lightBlue, shortArmorDetail());

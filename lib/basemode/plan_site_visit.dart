@@ -27,7 +27,7 @@ Future<void> planSiteVisit() async {
     erase();
     mvaddstrc(0, 0, lightGray, "Where will the Squad go?");
     printParty(fullParty: true);
-    if (area != null) mvaddstrc(8, 0, lightGray, area.name);
+    if (area != null) mvaddstrc(8, 0, lightGray, area.name, noTranslate: true);
     List<Location> destinationList;
     if (area is City) {
       destinationList = [...area.districts];

@@ -190,14 +190,12 @@ Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
           tk.align != Alignment.liberal &&
           !animalsArePeopleToo) ||
       tk.type.tank) {
-    mvaddstrc(12, 1, white, tk.name);
-    if (tk.type.tank) {
-      addstr(" rumbles disinterestedly.");
-    } else if (tk.type.dog) {
-      addstr(" barks.");
-    } else {
-      addstr(" doesn't understand.");
-    }
+    final String reaction = tk.type.tank
+        ? "rumbles disinterestedly."
+        : tk.type.dog
+        ? "barks."
+        : "doesn't understand.";
+    mvaddstrc(12, 1, white, "{name} $reaction", params: {"name": tk.name});
 
     await getKey();
     return true;
@@ -600,32 +598,25 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
   switch (c) {
     case Key.a:
       clearSceneAreas();
-      mvaddstrc(9, 1, white, a.name);
-      addstr(" slips the teller a note: ");
-      setColor(lightGreen);
-      move(10, 1);
-      switch (lcsRandom(10)) {
-        case 0:
-          addstr("KINDLY PUT MONEY IN BAG. OR ELSE.");
-        case 1:
-          addstr("I AM LIBERATING YOUR MONEY SUPPLY.");
-        case 2:
-          addstr("THIS IS A ROBBERY. GIVE ME THE MONEY.");
-        case 3:
-          addstr("I HAVE A GUN. CASH PLEASE.");
-        case 4:
-          addstr("THE LIBERAL CRIME SQUAD REQUESTS CASH.");
-        case 5:
-          addstr("I AM MAKING A WITHDRAWAL. ALL YOUR MONEY.");
-        case 6:
-          addstr("YOU ARE BEING ROBBED. GIVE ME YOUR MONEY.");
-        case 7:
-          addstr("PLEASE PLACE LOTS OF DOLLARS IN THIS BAG.");
-        case 8:
-          addstr("SAY NOTHING. YOU ARE BEING ROBBED.");
-        case 9:
-          addstr("ROBBERY. GIVE ME CASH. NO FUNNY MONEY.");
-      }
+      final robberyNote = [
+        "KINDLY PUT MONEY IN BAG. OR ELSE.",
+        "I AM LIBERATING YOUR MONEY SUPPLY.",
+        "THIS IS A ROBBERY. GIVE ME THE MONEY.",
+        "I HAVE A GUN. CASH PLEASE.",
+        "THE LIBERAL CRIME SQUAD REQUESTS CASH.",
+        "I AM MAKING A WITHDRAWAL. ALL YOUR MONEY.",
+        "YOU ARE BEING ROBBED. GIVE ME YOUR MONEY.",
+        "PLEASE PLACE LOTS OF DOLLARS IN THIS BAG.",
+        "SAY NOTHING. YOU ARE BEING ROBBED.",
+        "ROBBERY. GIVE ME CASH. NO FUNNY MONEY.",
+      ].random;
+      mvaddstrcx(
+        9,
+        1,
+        white,
+        "{name} slips the teller a note: &G{note}",
+        params: {"name": a.name, "note": robberyNote},
+      );
 
       await getKey();
 

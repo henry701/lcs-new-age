@@ -383,7 +383,7 @@ void baseModeOptionsDisplay(Site? loc) {
   if (squadSize > 0 && !sieged) {
     // don't cover up info about siege with irrelevant squad name of a squad
     // that will be disbanded during the siege anyway
-    mvaddstrc(8, 1, lightGray, activeSquad?.name ?? "");
+    mvaddstrc(8, 1, lightGray, activeSquad?.name ?? "", noTranslate: true);
   }
   addOptionText(
     8,

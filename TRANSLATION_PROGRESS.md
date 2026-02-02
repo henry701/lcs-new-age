@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,137
-- **Translated to pt_BR**: 288 (25%)
-- **Remaining**: 905 strings
+- **Translated to pt_BR**: 331 (29%)
+- **Remaining**: 862 strings
 - **Total files with console output**: ~77 files
-- **Current session**: Session 1 (not started)
+- **Current session**: Session 2 (Complete)
 
 ## Translation Priority Queue
 
@@ -13,8 +13,8 @@ Files are ordered by importance (most user-facing first):
 
 ### HIGH PRIORITY (User Interface Core)
 1. [x] lib/common_display/common_display.dart (COMPLETE)
-2. [ ] lib/common_display/print_creature_info.dart (NEXT)
-3. [ ] lib/common_display/print_party.dart
+2. [x] lib/common_display/print_creature_info.dart (COMPLETE)
+3. [ ] lib/common_display/print_party.dart (NEXT)
 4. [ ] lib/title_screen/title_screen.dart
 5. [ ] lib/basemode/base_mode.dart
 
@@ -123,24 +123,25 @@ Files are ordered by importance (most user-facing first):
 | File | Strings | Status | Session | Commit Hash |
 |------|---------|--------|---------|-------------|
 | lib/common_display/common_display.dart | 12 | ✅ Complete | 1 | (pending) |
+| lib/common_display/print_creature_info.dart | 43 | ✅ Complete | 2 | (pending) |
 
 ## Current Session
 
-**Session**: 1
+**Session**: 2
 **Status**: Complete
-**Completed File**: lib/common_display/common_display.dart
-**Next File**: lib/common_display/print_creature_info.dart (NEXT)
+**Completed File**: lib/common_display/print_creature_info.dart
+**Next File**: lib/common_display/print_party.dart (NEXT)
 **Assigned to**: Sisyphus Agent
-**Start Time**: 2026-02-01
-**Completion Time**: 2026-02-01
-**Notes**: Added 11 difficulty level strings (Trivial, Very Easy, Easy, Below Average, Average, Above Average, Hard, Very Hard, Extremely Difficult, Almost Impossible, Impossible). "Acting Individually" was already translated.
+**Start Time**: 2026-02-02
+**Completion Time**: 2026-02-02
+**Notes**: Added 43 translations for creature info display including profile strings, prison status, crime names, and UI labels. All tests passing.
 
 ## Translation Statistics
 
 ### By Category
 | Category | Files | Estimated Strings | Status |
 |----------|-------|-------------------|--------|
-| Common Display | 3 | ~50 | Not Started |
+| Common Display | 3 | ~50 | 2/3 Complete |
 | Base Mode | 8 | ~120 | Not Started |
 | Daily Activities | 8 | ~150 | Partial (dating.dart started) |
 | Hostages | 6 | ~80 | Not Started |
@@ -155,7 +156,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[███████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 25% (288/1,137)
+[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 29% (331/1,137)
 ```
 
 ## Issues/Blockers
@@ -200,5 +201,5 @@ If stuck:
 
 ---
 
-**Last Updated**: (auto-update on each session)
-**Next Update**: Session 1 start
+**Last Updated**: 2026-02-02 (Session 2 complete)
+**Next Update**: Session 3 start

@@ -292,6 +292,9 @@ class LcsI18n {
   /// Converts "{name:white} talks to {target:color}" to "&W{name}&w talks to &{targetColor}{target}"
   /// where color markers (&X) are inserted around parameters.
   ///
+  /// Color specifications are extracted BEFORE translation, so translators only see {name}, not {name:white}.
+  /// Colors are re-applied AFTER translation using the extracted mappings.
+  ///
   /// [baseColor] - The default color key to restore after colored segments (e.g., 'w' for lightGray)
   static String processStringWithInlineColors(
     String template,
@@ -299,20 +302,44 @@ class LcsI18n {
     bool noTranslate = false,
     String baseColorKey = 'w',
   }) {
-    // Translate template if not skipped
-    String translated = noTranslate ? template : translate(template);
+    if (params == null) {
+      // No params, just translate the template as-is
+      return noTranslate ? template : translate(template);
+    }
 
-    if (params == null) return translated;
-
-    // Process each {param:color} pattern
-    String result = translated;
+    // STEP 1: Extract color specifications and build clean template
+    // Maps paramName -> colorSpec (e.g., "name" -> "white", "target" -> "color")
+    final colorMappings = <String, String>{};
     final placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
 
-    result = result.replaceAllMapped(placeholderPattern, (match) {
+    String cleanTemplate = template.replaceAllMapped(placeholderPattern, (
+      match,
+    ) {
       final paramName = match.group(1)!;
       final colorSpec = match.group(2);
+
+      if (colorSpec != null) {
+        // Store the color mapping for this parameter
+        colorMappings[paramName] = colorSpec;
+      }
+
+      // Return placeholder without color spec for clean template
+      return '{$paramName}';
+    });
+
+    // STEP 2: Translate the clean template (no color specs)
+    String translated = noTranslate ? cleanTemplate : translate(cleanTemplate);
+
+    // STEP 3: Format with params and re-apply colors using stored mappings
+    String result = translated;
+    final cleanPlaceholderPattern = RegExp(r'\{(\w+)\}');
+
+    result = result.replaceAllMapped(cleanPlaceholderPattern, (match) {
+      final paramName = match.group(1)!;
       final value = params[paramName]?.toString() ?? match.group(0)!;
 
+      // Check if this parameter had a color specification
+      final colorSpec = colorMappings[paramName];
       if (colorSpec == null) {
         // No color specified, just return the value
         return value;

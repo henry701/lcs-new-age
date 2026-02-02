@@ -231,5 +231,133 @@ void main() {
       final missingSet = LcsI18n.getMissingTranslations();
       expect(missingSet, contains(missing));
     });
+
+    group('Inline Color Syntax Tests', () {
+      test(
+        'color specs are extracted before translation - static colors',
+        () async {
+          await LcsI18n.initialize('en_US');
+
+          // Template with color specs - these should be extracted before translation
+          // so translators only see "{name} talks to {target}"
+          final result = LcsI18n.processStringWithInlineColors(
+            "{name:white} talks to {target:color}",
+            {
+              'name': 'Liberal',
+              'target': 'Conservative',
+              'targetColor': 'R', // Dynamic color key
+            },
+            noTranslate: true, // Skip translation for this test
+            baseColorKey: 'w',
+          );
+
+          // Result should have color markers applied
+          expect(result, equals('&WLiberal&w talks to &RConservative&w'));
+        },
+      );
+
+      test(
+        'color specs are extracted before translation - translator sees clean template',
+        () async {
+          await LcsI18n.initialize('pt_BR');
+
+          // When translating, the ARB file should only have:
+          // "{name} talks to {target}": "{name} fala com {target}"
+          // NOT: "{name:white} talks to {target:color}": "{name:white} fala com {target:color}"
+
+          final result = LcsI18n.processStringWithInlineColors(
+            "{name} talks to {target}", // Clean template (no colors)
+            {'name': 'Liberal', 'target': 'Conservador'},
+            baseColorKey: 'w',
+          );
+
+          // Without color specs, just returns formatted string
+          expect(result, equals('Liberal talks to Conservador'));
+        },
+      );
+
+      test('multiple color specs are handled correctly', () async {
+        await LcsI18n.initialize('en_US');
+
+        final result = LcsI18n.processStringWithInlineColors(
+          "{attacker:red} attacks {defender:blue} with {weapon:yellow}",
+          {'attacker': 'Tank', 'defender': 'Dog', 'weapon': 'Shotgun'},
+          noTranslate: true,
+          baseColorKey: 'w',
+        );
+
+        expect(result, equals('&RTank&w attacks &BDog&w with &YShotgun&w'));
+      });
+
+      test('mixed placeholders - some with color, some without', () async {
+        await LcsI18n.initialize('en_US');
+
+        final result = LcsI18n.processStringWithInlineColors(
+          "{name:white} drops the {item} and {action:lightGreen}",
+          {'name': 'Liberal', 'item': 'Weapon', 'action': 'escapes'},
+          noTranslate: true,
+          baseColorKey: 'w',
+        );
+
+        // Only name and action have colors, item does not
+        expect(result, equals('&WLiberal&w drops the Weapon and &Gescapes&w'));
+      });
+
+      test('dynamic color from param works correctly', () async {
+        await LcsI18n.initialize('en_US');
+
+        final result = LcsI18n.processStringWithInlineColors(
+          "{name:white} talks to {target:color}",
+          {
+            'name': 'Liberal',
+            'target': 'Conservative',
+            'targetColor': 'R', // Dynamic color
+          },
+          noTranslate: true,
+          baseColorKey: 'w',
+        );
+
+        expect(result, equals('&WLiberal&w talks to &RConservative&w'));
+      });
+
+      test('baseColorKey is restored after each colored segment', () async {
+        await LcsI18n.initialize('en_US');
+
+        final result = LcsI18n.processStringWithInlineColors(
+          "{name:red} attacks {target:blue}",
+          {'name': 'Attacker', 'target': 'Target'},
+          noTranslate: true,
+          baseColorKey: 'w', // Should restore to 'w' (lightGray)
+        );
+
+        expect(result, equals('&RAttacker&w attacks &BTarget&w'));
+      });
+
+      test('unknown color specs are ignored gracefully', () async {
+        await LcsI18n.initialize('en_US');
+
+        final result = LcsI18n.processStringWithInlineColors(
+          "{name:unknownColor} attacks",
+          {'name': 'Attacker'},
+          noTranslate: true,
+          baseColorKey: 'w',
+        );
+
+        // Unknown color should just return value without markers
+        expect(result, equals('Attacker attacks'));
+      });
+
+      test('template without params returns translated string only', () async {
+        await LcsI18n.initialize('pt_BR');
+
+        final result = LcsI18n.processStringWithInlineColors(
+          "Loading...",
+          null,
+          baseColorKey: 'w',
+        );
+
+        expect(result, equals('Carregando...'));
+      });
+    });
   });
 }

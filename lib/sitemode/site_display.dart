@@ -1164,8 +1164,13 @@ void printChaseEncounter() {
     for (Creature e in encounter) {
       for (int v = 0; v < chaseSequence!.enemycar.length; v++) {
         if (chaseSequence!.enemycar[v].id == e.carId) {
-          mvaddstrc(carsy[v], v * 20 + 1, e.align.color, e.name);
-          if (e.isDriver) addstr("-D");
+          mvaddstrcx(
+            carsy[v],
+            v * 20 + 1,
+            e.align.color,
+            "{name}{driver}",
+            params: {"name": e.name, "driver": e.isDriver ? "-D" : ""},
+          );
           carsy[v]++;
         }
       }

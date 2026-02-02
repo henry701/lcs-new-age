@@ -9,13 +9,13 @@ These locations display entity names followed by actions/descriptions, which cur
 prevent translators from reordering subject/verb/object.
 
 ### talk/talk_outside_combat.dart
-- **Lines 31-36**: ✅ DONE - Refactored to use `mvaddstrcx` with color markers
-  - Template: `"&W{name}&w talks to &{targetColor}{target}&w {ageGender}:"`
+- **Lines 31-36**: ✅ DONE - Refactored to use `mvaddstrcx` with inline color syntax
+  - Template: `"{name:white} talks to {target:color} {ageGender}:"`
   - Allows translators to reorder while preserving colors
 
 ### talk/talk_in_combat.dart  
-- **Lines 27-29**: ✅ DONE - Refactored to use `mvaddstrcx` with color markers
-  - Template: `"&W{name}&w talks to &{targetColor}{target}&w:"`
+- **Lines 27-29**: ✅ DONE - Refactored to use `mvaddstrcx` with inline color syntax
+  - Template: `"{name:white} talks to {target:color}:"`
   - Uses target's alignment color dynamically
 
 ### sitemode/fight.dart
@@ -64,15 +64,16 @@ These are good examples of the target pattern:
 
 ## Implementation Notes
 
-### Color Marker Support (IMPLEMENTED ✅)
-The `mvaddstrcx` and `addstrcx` functions now support color markers in templates:
+### Inline Color Syntax (IMPLEMENTED ✅)
+The `mvaddstrcx` and `addstrcx` functions now support inline color syntax in templates:
 
 ```dart
-// Color markers: &X for foreground, ^X for background
-// X is a ColorKey character (W=white, R=red, G=lightGreen, etc.)
+// Inline color syntax: {param:color}
+// color can be: white, lightGray, red, lightGreen, etc. (static)
+// or "color" for dynamic (reads from {param}Color parameter)
 mvaddstrcx(
   9, 1, white,
-  "&W{name}&w talks to &{targetColor}{target}&w {ageGender}:",
+  "{name:white} talks to {target:color} {ageGender}:",
   params: {
     "name": a.name,
     "target": tk.name,
@@ -84,27 +85,23 @@ mvaddstrcx(
 
 This allows:
 - Translators to reorder the entire sentence
-- Dynamic color insertion via parameters
-- Multiple color switches within a single translatable string
+- Dynamic color insertion via the `:color` suffix
+- Multiple colors within a single translatable string
+- Clean, readable template syntax
 
-### ColorKey Reference
-- `W` = white (bright)
-- `w` = lightGray
-- `G` = lightGreen
-- `g` = green  
-- `R` = red
-- `r` = darkRed
-- `Y` = yellow
-- `B` = blue
-- `C` = lightBlue
-- `P` = pink
-- `p` = purple
-- etc.
+### Available Colors (Static)
+- `white`, `lightGray`, `darkGray`, `black`
+- `lightGreen`, `green`
+- `lightBlue`, `blue`, `darkBlue`
+- `red`, `darkRed`
+- `yellow`, `orange`, `purple`, `pink`, `brown`
 
-### Short-term Solution
-For now, the approach is:
-1. ✅ **Multi-color templates**: Use `mvaddstrcx`/`addstrcx` with color markers
-2. **Single-color templates**: Use regular `mvaddstrc` with templates
+### Dynamic Colors
+- `:color` - Uses value from `{param}Color` parameter (e.g., `targetColor` for `target` param)
+
+### Refactoring Approach
+1. ✅ **Multi-color templates**: Use `mvaddstrcx`/`addstrcx` with inline color syntax
+2. **Single-color templates**: Use regular `mvaddstrc` with templates + `noTranslate: true` for names
 3. **Entity labels**: Use `noTranslate: true` for standalone names
 
 ### Files to Review (In Order of Priority)

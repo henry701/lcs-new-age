@@ -326,40 +326,43 @@ class CarTheftScene {
           started = true;
         } else {
           timesSearchedForKeys++;
-          mvaddstrc(y++, 0, white, cr.name, noTranslate: true);
-          addstr(": <rummaging> ");
-          setColor(lightGreen);
+          final String rummageMessage;
           if (timesSearchedForKeys == 5) {
-            addstr("Are they even in here?");
+            rummageMessage = "Are they even in here?";
           } else if (timesSearchedForKeys == 10) {
-            addstr("I don't think they're in here...");
+            rummageMessage = "I don't think they're in here...";
           } else if (timesSearchedForKeys == 15) {
-            addstr("If they were here, I'd have found them by now.");
+            rummageMessage = "If they were here, I'd have found them by now.";
           } else if (timesSearchedForKeys > 15) {
-            addstr(
-              [
-                "This isn't working!",
-                "Why me?",
-                "What do I do now?",
-                "Oh no...",
-                "I'm going to get arrested, aren't I?",
-              ].random,
-            );
+            rummageMessage = [
+              "This isn't working!",
+              "Why me?",
+              "What do I do now?",
+              "Oh no...",
+              "I'm going to get arrested, aren't I?",
+            ].random;
           } else {
-            addstr(
-              [
-                "Please be in here somewhere...",
-                "{expletive}!  Where are they?!",
-                "Come on, baby, come to me...",
-                "{expletive2}...",
-                "I wish I could hotwire this thing...",
-              ].random,
-              params: {
-                "expletive": noProfanity ? "[Shoot]" : "Fuck",
-                "expletive2": noProfanity ? "[Darn] it" : "Dammit",
-              },
-            );
+            rummageMessage = [
+              "Please be in here somewhere...",
+              "{expletive}!  Where are they?!",
+              "Come on, baby, come to me...",
+              "{expletive2}...",
+              "I wish I could hotwire this thing...",
+            ].random;
           }
+          mvaddstrcx(
+            y++,
+            0,
+            white,
+            "{name}: <rummaging> {message}",
+            params: {
+              "name": cr.name,
+              "message": rummageMessage,
+              "expletive": noProfanity ? "[Shoot]" : "Fuck",
+              "expletive2": noProfanity ? "[Darn] it" : "Dammit",
+            },
+            noTranslate: true,
+          );
 
           await getKey();
         }

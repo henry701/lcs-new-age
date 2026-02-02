@@ -1433,8 +1433,13 @@ Future<void> crashfriendlycar(Vehicle v) async {
         // Instant death
         if (p.prisoner!.alive) {
           clearMessageArea();
-          mvaddstrc(9, 1, red, p.prisoner!.name);
-          addstr(diesFlavorText.random);
+          mvaddstrc(
+            9,
+            1,
+            red,
+            "{name} {death}",
+            params: {"name": p.prisoner!.name, "death": diesFlavorText.random},
+          );
           printParty();
           await getKey();
         }

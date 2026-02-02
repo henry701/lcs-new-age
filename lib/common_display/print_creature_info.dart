@@ -740,12 +740,12 @@ void printFullCreatureCrimes(Creature cr) {
 }
 
 void printFullCreatureNameBlock(Creature cr) {
-  mvaddstrc(2, 0, lightGray, "Name: ");
-  addstrc(white, cr.name);
-  addstrc(
+  mvaddstrcx(
+    2,
+    0,
     lightGray,
-    ", {title} ({type})",
-    params: {"title": cr.title, "type": cr.type.name},
+    "Name: {name:white}, {title} ({type})",
+    params: {"name": cr.name, "title": cr.title, "type": cr.type.name},
     noTranslate: true,
   );
 }

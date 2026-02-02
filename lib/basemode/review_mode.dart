@@ -1246,16 +1246,21 @@ void printname(Creature cr) {
     namecolor = white;
   }
 
-  // Add brackets
-  if (bracketcolor != null) addstrc(bracketcolor, "[");
-  if (cr.sleeperAgent) addstrc(blue, "[");
-  // Add name
-  addstrc(namecolor, cr.name);
-  // Closing brackets
-  if (cr.sleeperAgent) addstrc(blue, "]");
-  if (bracketcolor != null) addstrc(bracketcolor, "]");
+  // Build formatted name with inline color syntax
+  final openBracket = bracketcolor != null
+      ? "&${ColorKey.fromColor(bracketcolor)}["
+      : "";
+  final sleeperOpen = cr.sleeperAgent ? "&${ColorKey.fromColor(blue)}[" : "";
+  final sleeperClose = cr.sleeperAgent ? "&${ColorKey.fromColor(blue)}]" : "";
+  final closeBracket = bracketcolor != null
+      ? "&${ColorKey.fromColor(bracketcolor)}]"
+      : "";
+  final nameWithColor = "&${ColorKey.fromColor(namecolor)}{name}";
 
-  setColor(lightGray);
+  addstrx(
+    "$openBracket$sleeperOpen$nameWithColor$sleeperClose$closeBracket",
+    params: {"name": cr.name},
+  );
 }
 
 /* base - review - promote liberals */

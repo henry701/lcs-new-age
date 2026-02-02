@@ -226,12 +226,16 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
       if (runsAway && e.body is HumanoidBody) {
         clearMessageArea();
 
-        mvaddstrc(9, 1, white, e.name);
-        if (e.body.legok < 2 || e.blood < e.maxBlood * 0.45) {
-          addstr(escapeCrawling.random);
-        } else {
-          addstr(escapeRunning.random);
-        }
+        final escapeMessage = (e.body.legok < 2 || e.blood < e.maxBlood * 0.45)
+            ? escapeCrawling.random
+            : escapeRunning.random;
+        mvaddstrc(
+          9,
+          1,
+          white,
+          "{name} {escape}",
+          params: {"name": e.name, "escape": escapeMessage},
+        );
 
         encounter.remove(e);
         possibleEnemies.remove(e);
@@ -248,8 +252,13 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
           e.incapacitatedThisRound = true;
         } else if (e.equippedWeapon != null) {
           clearMessageArea();
-          mvaddstrc(9, 1, white, e.name);
-          addstr(cowerInCombat.random);
+          mvaddstrc(
+            9,
+            1,
+            white,
+            "{name} {action}",
+            params: {"name": e.name, "action": cowerInCombat.random},
+          );
           await getKey();
         }
         continue;

@@ -236,32 +236,6 @@ class LcsI18n {
     return result;
   }
 
-  /// Process a template: translate if needed, then format with params
-  ///
-  /// [template] - The English template string with {placeholders}
-  /// [params] - Values to substitute for placeholders (optional)
-  /// [noTranslate] - If true, skips translation and returns template as-is
-  ///
-  /// Flow:
-  /// 1. If noTranslate=false: translate template (with placeholders intact)
-  /// 2. If noTranslate=true: use template as-is
-  /// 3. Replace {placeholders} with values from params
-  ///
-  /// Example:
-  ///   processString("You hit the {target}!", {"target": "Conservador"})
-  ///   → Translate → "Você acertou o {target}!" → "Você acertou o Conservador!"
-  static String processString(
-    String template,
-    Map<String, dynamic>? params, {
-    bool noTranslate = false,
-  }) {
-    // Translate template if not skipped
-    final translated = noTranslate ? template : translate(template);
-
-    // Format with params (placeholder replacement)
-    return format(translated, params);
-  }
-
   /// Color name to ColorKey mapping for inline color syntax
   static const Map<String, String> _colorNameToKey = {
     'white': 'W',
@@ -287,16 +261,31 @@ class LcsI18n {
     'color': '', // Special: use the param value as color key directly
   };
 
-  /// Process template with inline color syntax: {param:color}
+  /// Process a template: translate if needed, then format with params
   ///
-  /// Converts "{name:white} talks to {target:color}" to "&W{name}&w talks to &{targetColor}{target}"
-  /// where color markers (&X) are inserted around parameters.
+  /// Supports inline color syntax: {param:color} where color can be:
+  /// - Color name: 'white', 'red', 'lightGreen', etc.
+  /// - Dynamic: 'color' (uses {param}Color parameter as color key)
   ///
-  /// Color specifications are extracted BEFORE translation, so translators only see {name}, not {name:white}.
+  /// Color specifications are extracted BEFORE translation, so translators only see {param}.
   /// Colors are re-applied AFTER translation using the extracted mappings.
   ///
-  /// [baseColor] - The default color key to restore after colored segments (e.g., 'w' for lightGray)
-  static String processStringWithInlineColors(
+  /// [template] - The English template string with {placeholders}
+  /// [params] - Values to substitute for placeholders (optional)
+  /// [noTranslate] - If true, skips translation and returns template as-is
+  /// [baseColorKey] - The default color key to restore after colored segments (e.g., 'w' for lightGray)
+  ///
+  /// Flow:
+  /// 1. Extract color specs from template (e.g., {name:white} -> store "name":"white", clean to {name})
+  /// 2. If noTranslate=false: translate clean template (with placeholders intact)
+  /// 3. If noTranslate=true: use clean template as-is
+  /// 4. Replace {placeholders} with values from params, adding color markers (&X)
+  ///
+  /// Example:
+  ///   processString("{attacker:red} attacks {target}!", {"attacker": "Tank", "target": "Dog"})
+  ///   → Extract colors → Translate "{attacker} attacks {target}!"
+  ///   → "Você acertou o {attacker} ataca {target}!" → "&RTank&w ataca &RDog&w!"
+  static String processString(
     String template,
     Map<String, dynamic>? params, {
     bool noTranslate = false,

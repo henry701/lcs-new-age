@@ -1,9 +1,9 @@
 # Translation Progress - Portuguese (pt_BR)
 
 ## Overview
-- **Total strings in en_US ARB**: 1,158
-- **Translated to pt_BR**: 419 (36%)
-- **Remaining**: 739 strings
+- **Total strings in en_US ARB**: 1,173
+- **Translated to pt_BR**: 433 (37%)
+- **Remaining**: 740 strings
 - **Total files with console output**: ~77 files
 - **Current session**: Session 9 (Complete)
 
@@ -23,10 +23,10 @@ Files are ordered by importance (most user-facing first):
 ### MEDIUM PRIORITY (Common Actions)
 9. [x] lib/creature/sort_creatures.dart (COMPLETE)
 10. [x] lib/basemode/review_mode.dart (COMPLETE)
-11. [ ] lib/basemode/plan_site_visit.dart (NEXT)
+11. [x] lib/basemode/plan_site_visit.dart (COMPLETE)
 
 ### DAILY ACTIVITIES
-12. [ ] lib/daily/advance_day.dart
+12. [ ] lib/daily/advance_day.dart (NEXT)
 13. [ ] lib/daily/activities/recruiting.dart
 14. [ ] lib/daily/activities/fundraising.dart
 15. [ ] lib/daily/activities/car_theft.dart
@@ -131,17 +131,18 @@ Files are ordered by importance (most user-facing first):
 | lib/common_actions/common_actions.dart | 5 | ✅ Complete | 7 | (pending) |
 | lib/creature/sort_creatures.dart | 16 | ✅ Complete | 8 | (pending) |
 | lib/basemode/review_mode.dart | 31 | ✅ Complete | 9 | (pending) |
+| lib/basemode/plan_site_visit.dart | 14 | ✅ Complete | 10 | (pending) |
 
 ## Current Session
 
-**Session**: 9
+**Session**: 10
 **Status**: Complete
-**Completed File**: lib/basemode/review_mode.dart
-**Next File**: lib/basemode/plan_site_visit.dart (NEXT)
+**Completed File**: lib/basemode/plan_site_visit.dart
+**Next File**: lib/daily/advance_day.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Session 9 - Translated remaining strings from lib/basemode/review_mode.dart. Most strings were already translated in previous sessions; completed 1 additional translation: " <Under Siege>" → " <Sob Cerco>". All 31 strings from this file are now translated. All tests passing.
+**Notes**: Session 10 - Translated strings from lib/basemode/plan_site_visit.dart. Added 14 new translations: "Where will the Squad go?", " (Current Location)", " (LCS Temp Shelter)", " (Potential Safehouse)", " (LCS Safehouse)", " (CCS Safehouse)", " (Closed Down)", " (High Security)", " (Need Car)", "Heat: ", "Secrecy: ", "Travel to a Different City", "Back one step", and "The Squad is not yet Liberal enough". All tests passing.
 
 ## Translation Statistics
 
@@ -163,7 +164,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 36% (419/1,158)
+[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 37% (433/1,173)
 ```
 
 ## Issues/Blockers
@@ -208,5 +209,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 9 complete)
-**Next Update**: Session 10 start
+**Last Updated**: 2026-02-02 (Session 10 complete)
+**Next Update**: Session 11 start

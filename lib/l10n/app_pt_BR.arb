@@ -29,6 +29,7 @@
   "${lastName()} Garment Makers": "${lastName()} Garment Makers",
   "${lastName()}'s Department Store": "${lastName()}'s Department Store",
   "${lcsRandom(6) + 6 + schoolType * 4}": "${lcsRandom(6) + 6 + schoolType * 4}",
+  "${letter} - Travel to a Different City": "${letter} - Viajar para uma Cidade Diferente",
   "${parts[0]} ${parts[1]}": "${parts[0]} ${parts[1]}",
   "${person.age - (person.age % 10)}s": "${person.age - (person.age % 10)}s",
   "${type.name} (d)": "${type.name} (d)",
@@ -204,53 +205,46 @@
       }
     }
   },
-  "@CEO ${cr.properName}": {
+  "@C - Continue as {founder:color}": {
     "placeholders": {
-      "cr.properName": {
+      "founder:color": {
         "type": "String",
-        "example": "cr.properName"
+        "example": "founder:color"
       }
     }
   },
-  "@E - Encounter Warnings: {status}": {
+  "@Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": {},
+  "@E - Map Editor": {},
+  "@Flags Bought: {buys}": {
     "placeholders": {
-      "status": {
+      "buys": {
         "type": "String",
-        "example": "On"
+        "example": "buys"
       }
     }
   },
-  "@GAME OPTIONS": {},
-  "@Juice: {juice}": {
+  "@Kills: {kills}": {
     "placeholders": {
-      "juice": {
+      "kills": {
         "type": "String",
-        "example": "juice"
+        "example": "kills"
       }
     }
   },
-  "@LIBERAL CRIME SQUAD: NEW AGE": {},
-  "@Outdated (${selectedSave.version}) ": {
+  "@MOD TOOLS": {},
+  "@P - Default Page Up/Down Keys: {keys}": {
     "placeholders": {
-      "selectedSave.version": {
+      "keys": {
         "type": "String",
-        "example": "selectedSave.version"
+        "example": "[ and ]"
       }
     }
   },
-  "@President ${politics.execName[Exec.president]!.last}": {
+  "@Special - {name}": {
     "placeholders": {
-      "politics.execName[Exec.president]!.last": {
+      "name": {
         "type": "String",
-        "example": "politics.execName[Exec.president]!.last"
-      }
-    }
-  },
-  "@Rapport: ${rapport[a.id]?.toStringAsFixed(1) ?? 0}": {
-    "placeholders": {
-      "rapport[a.id]?.toStringAsFixed(1) ?? 0": {
-        "type": "String",
-        "example": "rapport[a.id]?.toStringAsFixed(1) ?? 0"
+        "example": "John"
       }
     }
   },
@@ -335,7 +329,7 @@
       }
     }
   },
-  "@{name} is losing": {
+  "@{name} is left to be captured.": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -343,7 +337,7 @@
       }
     }
   },
-  "@{name} looks forward to": {
+  "@{name} is uncooperative": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -351,7 +345,7 @@
       }
     }
   },
-  "@{name} reloads.": {
+  "@{name} misses.": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -359,7 +353,7 @@
       }
     }
   },
-  "@{name} seems less badass!": {
+  "@{name} says, ": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -367,7 +361,7 @@
       }
     }
   },
-  "@{name}'s face is blasted off!": {
+  "@{name}'s face is cut away!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -375,7 +369,7 @@
       }
     }
   },
-  "@{name}'s face is removed!": {
+  "@{name}'s heart is blasted!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -383,7 +377,7 @@
       }
     }
   },
-  "@{name}'s heart is punctured!": {
+  "@{name}'s helmet": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -391,7 +385,7 @@
       }
     }
   },
-  "@{name}'s left eye is burned away!": {
+  "@{name}'s left eye is removed!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -399,7 +393,7 @@
       }
     }
   },
-  "@{name}'s left eye is shot out!": {
+  "@{name}'s left lung is blasted!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -407,7 +401,7 @@
       }
     }
   },
-  "@{name}'s left lung is punctured!": {
+  "@{name}'s liver is blasted!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -415,7 +409,7 @@
       }
     }
   },
-  "@{name}'s liver is punctured!": {
+  "@{name}'s lower spine is broken!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -423,7 +417,7 @@
       }
     }
   },
-  "@{name}'s lower spine is shattered!": {
+  "@{name}'s neck is broken!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -431,7 +425,7 @@
       }
     }
   },
-  "@{name}'s nose is blown off!": {
+  "@{name}'s nose is cut off!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -439,7 +433,7 @@
       }
     }
   },
-  "@{name}'s nose is removed!": {
+  "@{name}'s right eye is burned away!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -447,7 +441,7 @@
       }
     }
   },
-  "@{name}'s right eye is cut open!": {
+  "@{name}'s right eye is shot out!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -455,7 +449,7 @@
       }
     }
   },
-  "@{name}'s right eye is torn out!": {
+  "@{name}'s right kidney is punctured!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -463,7 +457,7 @@
       }
     }
   },
-  "@{name}'s right kidney is torn!": {
+  "@{name}'s right lung is punctured!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -471,7 +465,7 @@
       }
     }
   },
-  "@{name}'s right lung is torn!": {
+  "@{name}'s spleen is punctured!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -479,7 +473,7 @@
       }
     }
   },
-  "@{name}'s spleen is torn!": {
+  "@{name}'s stomach is punctured!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -487,7 +481,7 @@
       }
     }
   },
-  "@{name}'s stomach is torn!": {
+  "@{name}'s tongue is burned away!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -495,7 +489,7 @@
       }
     }
   },
-  "@{name}'s tongue is cut off!": {
+  "@{name}'s tongue is torn out!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -503,31 +497,31 @@
       }
     }
   },
-  "@{name}'s upper spine is broken!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s {part}": {
+  "@{name}'s {armor}": {
     "placeholders": {
       "name": {
         "type": "String",
         "example": "John"
       },
-      "part": {
+      "armor": {
         "type": "String",
-        "example": "part"
+        "example": "armor"
       }
     }
   },
-  "@{text}▂": {
+  "@{name}, ": {
     "placeholders": {
-      "text": {
+      "name": {
         "type": "String",
-        "example": "text"
+        "example": "John"
+      }
+    }
+  },
+  "@{prop}: ": {
+    "placeholders": {
+      "prop": {
+        "type": "String",
+        "example": "prop"
       }
     }
   },
@@ -553,120 +547,125 @@
   "Bus Garage": "Garagem de Ônibus",
   "But ${target.name} weren't born yesterday.": "Mas ${target.name} não nasceram ontem.",
   "Buyer: ": "Comprador: ",
-  "C - Continue Last Game": "C - Continuar Último Jogo",
-  "CCS Action $name": "Ação CCS $name",
-  "CCS Rampage $name": "Fúria do CCS $name",
-  "CEO ${cr.properName}": "CEO ${cr.properName}",
-  "CREDIT CARD FRAUD": "FRAUDE DE CARTÃO DE CRÉDITO",
-  "Caged Animals": "Caged Animals",
-  "Can't carry any more ammo.": "Não pode carregar mais munição.",
-  "Car Sales": "Car Sales",
-  "Choose a Liberal squad member to SPEND.": "Choose a Liberal squad member to SPEND.",
-  "Choose a Liberal squad member to receive ammo.": "Escolha um membro do esquadrão Liberal para receber munição.",
-  "Choose a Liberal squad member to strip down.": "Escolha um membro do esquadrão Liberal para despir.",
-  "Clean sever": "Corte Limpo",
-  "Conservative": "Conservador",
-  "Courthouse Jail": "Courthouse Jail",
-  "D - Sort by squad or name.": "D - Ordenar por esquadrão ou nome.",
-  "DEO VINDICE": "DEO VINDICE",
-  "DRUG DEALING": "TRÁFICO DE DROGAS",
-  "Deagle Bar": "Deagle Bar",
-  "Dept. Store": "Dept. Store",
-  "Deregulate Manufacturing": "Deregulate Manufacturing",
-  "Display Case": "Display Case",
-  "E - Encounter Warnings: {status}": "E - Avisos de Encontros: {status}",
-  "ESCAPING PRISON": "FUGA DA PRISÃO",
-  "El Salvador": "El Salvador",
-  "Enhance Prison Security": "Enhance Prison Security",
-  "Enter - Confirm Selection": "Enter - Confirm Selection",
-  "Escape - Cancel Making Clothing": "Escape - Cancel Making Clothing",
-  "Escaped prisoner sentenced to life in prison": "Prisioneiro fugitivo condenado à prisão perpétua",
-  "Everyone in the camp is under arrest!": "Everyone in the camp is under arrest!",
-  "Expand Capital Punishment": "Expand Capital Punishment",
-  "FOR FULL ACCESS": "FOR FULL ACCESS",
-  "Fight Political Corruption": "Fight Political Corruption",
-  "Flatten the Tax Structure": "Flatten the Tax Structure",
-  "Fortify the bomb shelter entrances": "Fortify the bomb shelter entrances",
-  "GAME OPTIONS": "OPÇÕES DE JOGO",
-  "Game Over": "Fim de Jogo",
-  "Governor ": "Governor ",
-  "HEALTH": "SAÚDE",
-  "He will be the only one listening.": "He will be the only one listening.",
-  "Hostage Tending": "Hostage Tending",
-  "I - Import a Save": "I - Importar um Save",
-  "I HAVE A GUN. CASH PLEASE.": "I HAVE A GUN. CASH PLEASE.",
-  "INTERVIEW: LCS UNDER SIEGE": "INTERVIEW: LCS UNDER SIEGE",
-  "If they were here, I'd have found them by now.": "If they were here, I'd have found them by now.",
-  "In The Bugfield": "In The Bugfield",
-  "In this dark time, the Liberal Crime Squad is born...": "In this dark time, the Liberal Crime Squad is born...",
-  "It sure has been a while.  Things might have changed a bit.": "Com certeza faz um tempo. As coisas podem ter mudado um pouco.",
-  "Ithaca, NY": "Ithaca, NY",
-  "Juice: {juice}": "Juice: {juice}",
-  "Kidnap whom?": "Kidnap whom?",
-  "LANGUAGE OPTIONS": "OPÇÕES DE IDIOMA",
-  "LIBERAL CRIME SQUAD: NEW AGE": "ESQUADRÃO DO CRIME LIBERAL: NOVA ERA",
-  "Landlord's Office": "Landlord's Office",
-  "Learning ${skill?.displayName ?? ": "Learning ${skill?.displayName ?? ",
-  "Legal Fees": "Legal Fees",
-  "Liberal activity": "Atividade Liberal",
-  "Liberals in the Justice System": "Liberals in the Justice System",
-  "Liberals that are Away": "Liberals that are Away",
-  "Limit Prohibitions on Flag Burning": "Limit Prohibitions on Flag Burning",
-  "Long Island": "Long Island",
-  "MISTAKENLY ": "MISTAKENLY ",
-  "Making ${clothingType?.shortName ?? ": "Making ${clothingType?.shortName ?? ",
-  "Meat Plant": "Meat Plant",
-  "Minister of Peace:": "Minister of Peace:",
-  "Mr. ": "Mr. ",
-  "NEW AGE": "NOVA ERA",
-  "New Bases for Squadless Liberals": "New Bases for Squadless Liberals",
-  "New York, NY": "New York, NY",
-  "No Squad Selected, ": "Nenhum Esquadrão Selecionado, ",
-  "No ammo to drop!": "Sem munição para largar!",
-  "Nobody can carry Martyr ": "Nobody can carry Martyr ",
-  "OUR PULITZER PRIZE": "OUR PULITZER PRIZE",
-  "Old Church": "Old Church",
-  "On DEATH ROW": "No CORREDOR DA MORTE",
-  "Open the door anyway? (Yes or No)": "Open the door anyway? (Yes or No)",
-  "Outdated (${selectedSave.version}) ": "Outdated (${selectedSave.version}) ",
-  "PLEASE SUPPORT": "PLEASE SUPPORT",
-  "Page 1 of 5 - General Summary": "Page 1 of 5 - General Summary",
-  "Page 4 of 5 - Active Laws (Part 1)": "Page 4 of 5 - Active Laws (Part 1)",
-  "Pawning Goods": "Pawning Goods",
-  "Police Detention Room": "Police Detention Room",
-  "Pot Lounge": "Pot Lounge",
-  "President ${politics.execName[Exec.president]!.last}": "President ${politics.execName[Exec.president]!.last}",
-  "President (2nd Term):": "President (2nd Term):",
-  "Press a Letter to View Status.": "Press a Letter to View Status.",
-  "Press a Letter to select an {optiontypename}": "Pressione uma Letra para selecionar {optiontypename}",
-  "Press any key to continue.": "Pressione qualquer tecla para continuar.",
-  "Press any key to reflect on what has happened.    ": "Press any key to reflect on what has happened.    ",
-  "Prisoner: ": "Prisoner: ",
-  "Promote Gender Equality": "Promote Gender Equality",
-  "Promote Racial Equality": "Promote Racial Equality",
-  "Protect Free Speech": "Protect Free Speech",
-  "Protect LGBT Rights": "Protect LGBT Rights",
-  "Protect our Environment": "Protect our Environment",
-  "Protect the Unborn Child": "Protect the Unborn Child",
-  "RELEASING PRISONERS": "SOLTA DE PRISIONEIROS",
-  "Radio Broadcast Room": "Radio Broadcast Room",
-  "Rapport: ${rapport[a.id]?.toStringAsFixed(1) ?? 0}": "Rapport: ${rapport[a.id]?.toStringAsFixed(1) ?? 0}",
-  "Repair the bunker fortifications": "Repair the bunker fortifications",
-  "Restrict Access to Guns": "Restrict Access to Guns",
-  "Ret. General ": "Ret. General ",
-  "Right Rear Leg": "Right Rear Leg",
-  "Ronald Reagan is to be King, forever, even after death.": "Ronald Reagan is to be King, forever, even after death.",
-  "SKILL": "HABILIDADE",
-  "San Francisco, CA": "San Francisco, CA",
-  "Scheduled Dates:    ": "Encontros Agendados:    ",
-  "Secret Service agents ambush the squad!": "Secret Service agents ambush the squad!",
-  "Select an Option to Pursue your Liberal Agenda": "Selecione uma Opção para Perseguir sua Agenda Liberal",
-  "Senator ": "Senator ",
-  "Sewing Supplies": "Sewing Supplies",
-  "Six-Legged Pig": "Six-Legged Pig",
-  "Somebody is hiding in the tent.": "Somebody is hiding in the tent.",
-  "Something lying around in the bugfield.": "Something lying around in the bugfield.",
-  "Squad members in the back with firearms can provide cover": "Squad members in the back with firearms can provide cover",
+  "By Corporate": "Pela Corporação",
+  "C - Continue as {founder:color}": "C - Continue as {founder:color}",
+  "CCS Founder": "Fundador do CCS",
+  "CCS Squad KIA": "Esquadrão CCS KIA",
+  "CEO's Study": "Estudo do CEO",
+  "CYBER TERRORISM": "CIBERTERRORISMO",
+  "Cambridge, MA": "Cambridge, MA",
+  "Capitalize the letter to select a driver.": "Capitalize the letter to select a driver.",
+  "Chainlink Fence": "Chainlink Fence",
+  "Choose a Liberal squad member to do the job.": "Choose a Liberal squad member to do the job.",
+  "Choose a Liberal squad member to receive it.": "Escolha um membro do esquadrão Liberal para recebê-lo.",
+  "Choose how to sort the list of {description}.": "Escolha como ordenar a lista de {description}.",
+  "Clothes: ": "Roupas: ",
+  "Conservative Automatons in Captivity": "Conservative Automatons in Captivity",
+  "Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": "Crie e edite mapas personalizados para o Esquadrão do Crime Liberal. Este recurso está atualmente em desenvolvimento.",
+  "DATA THEFT": "ROUBO DE DADOS",
+  "DIGITAL EDITION": "DIGITAL EDITION",
+  "Damn! ": "Damn! ",
+  "Dear me! Is there anything we can do?": "Dear me! Is there anything we can do?",
+  "Deregulate Animal Research": "Deregulate Animal Research",
+  "Deregulate Political Fundraising": "Deregulate Political Fundraising",
+  "Donald J. Trump": "Donald J. Trump",
+  "E - Map Editor": "E - Editor de Mapas",
+  "Easy": "Fácil",
+  "Elite Liberal": "Elite Liberal",
+  "Enlightened Can't Recruit": "Iluminados Não Podem Recrutar",
+  "Enter - Back one step": "Enter - Voltar um passo",
+  "Enter - The Squad is not yet Liberal enough": "Enter - O Esquadrão ainda não é Liberal o suficiente",
+  "Enter - {exit}": "Enter - {exit}",
+  "Escaped prisoner sentenced to ": "Prisioneiro fugitivo condenado a ",
+  "Ethics Officers": "Ethics Officers",
+  "Everyone inside is peeled off against the pavement.": "Everyone inside is peeled off against the pavement.",
+  "Expand Law Enforcement": "Expand Law Enforcement",
+  "Factory Equipment": "Factory Equipment",
+  "Flags Bought: {buys}": "Flags Bought: {buys}",
+  "Focus Prisons on Rehabilitation": "Focus Prisons on Rehabilitation",
+  "Fortify the compound for a siege": "Fortify the compound for a siege",
+  "GENIUS MUTANT": "GENIUS MUTANT",
+  "Giant Mosquito": "Giant Mosquito",
+  "H - View High Scores": "H - Ver Recordes",
+  "Hard": "Difícil",
+  "Health: ": "Health: ",
+  "Heat: ": "Pressão: ",
+  "How long since you've heard these sounds...  times have changed.": "Quanto tempo desde que você ouviu esses sons... os tempos mudaram.",
+  "I AM LIBERATING YOUR MONEY SUPPLY.": "I AM LIBERATING YOUR MONEY SUPPLY.",
+  "I don't think they're in here...": "I don't think they're in here...",
+  "IS ALWAYS": "IS ALWAYS",
+  "Impossible": "Impossível",
+  "In a rare case of justice, authorities": "In a rare case of justice, authorities",
+  "It has been a long time.  A lot must have changed...": "Faz muito tempo. Muita coisa deve ter mudado...",
+  "It was fun though. They agree to part ways amicably.": "It was fun though. They agree to part ways amicably.",
+  "JURY TAMPERING": "MANIPULAÇÃO DE JÚRI",
+  "KILLED: ": "KILLED: ",
+  "Kills: {kills}": "Kills: {kills}",
+  "LCS Action $name": "LCS Action $name",
+  "LIVING BUG": "LIVING BUG",
+  "Language": "Idioma",
+  "Left Front Leg": "Left Front Leg",
+  "Lessons continue tomorrow.": "Lessons continue tomorrow.",
+  "Liberal media bias": "Liberal media bias",
+  "Liberals in the Medical System": "Liberals in the Medical System",
+  "Liberation Bunker": "Liberation Bunker",
+  "Loading Liberal Crime Squad...": "Loading Liberal Crime Squad...",
+  "Lower Corporate Tax Rates": "Lower Corporate Tax Rates",
+  "MOD TOOLS": "FERRAMENTAS DE MOD",
+  "Map exported successfully!": "Map exported successfully!",
+  "Metal Wall": "Metal Wall",
+  "Minister of Truth:": "Minister of Truth:",
+  "Mrs. ": "Mrs. ",
+  "NEW ANCHOR": "NEW ANCHOR",
+  "New Squad": "New Squad",
+  "News Broadcast Studio": "News Broadcast Studio",
+  "No ammo available!": "Sem munição disponível!",
+  "No hostages are being held.": "No hostages are being held.",
+  "Nuclear waste is released into the water!": "Nuclear waste is released into the water!",
+  "Oh Wow So Much Money": "Oh Wow So Much Money",
+  "Old Clinic": "Old Clinic",
+  "On Foot": "A Pé",
+  "Orange County": "Orange County",
+  "P - Default Page Up/Down Keys: {keys}": "P - Teclas Padrão de Page Up/Down: {keys}",
+  "POLICE BRUTALITY": "POLICE BRUTALITY",
+  "Page 2 of 5 - Opinion Polling (Part 1)": "Page 2 of 5 - Opinion Polling (Part 1)",
+  "Page 5 of 5 - Active Laws (Part 2)": "Page 5 of 5 - Active Laws (Part 2)",
+  "Permit New Interrogation Tactics": "Permit New Interrogation Tactics",
+  "Police Negotiator": "Police Negotiator",
+  "Practice ${skill?.displayName ?? ": "Practice ${skill?.displayName ?? ",
+  "President ${uniqueCreatures.president.properName.split(": "President ${uniqueCreatures.president.properName.split(",
+  "President's Office": "President's Office",
+  "Press a Letter to select Squad members.": "Pressione uma Letra para selecionar membros do Esquadrão.",
+  "Press any key to continue": "Pressione qualquer tecla para continuar",
+  "Press any key to reflect on the report.": "Press any key to reflect on the report.",
+  "Press the key for the action you want to take.": "Press the key for the action you want to take.",
+  "Profile of a Liberal": "Perfil de um Liberal",
+  "Promote Green Energy": "Promote Green Energy",
+  "Promote the Elite Liberals": "Promote the Elite Liberals",
+  "Protect Immigrant Rights": "Protect Immigrant Rights",
+  "Protect Workers' Rights": "Protect Workers' Rights",
+  "Protect our Second Amendment Rights": "Protect our Second Amendment Rights",
+  "Purchasing Goods": "Purchasing Goods",
+  "RESISTING ARREST": "RESISTÊNCIA À PRISÃO",
+  "Raise Taxes on Higher Incomes": "Raise Taxes on Higher Incomes",
+  "Reactor Control Room": "Reactor Control Room",
+  "Repeal Oppressive Drug Laws": "Repeal Oppressive Drug Laws",
+  "Restrict Corrupt Union Organizing": "Restrict Corrupt Union Organizing",
+  "Review your Liberals and Assemble Squads": "Review your Liberals and Assemble Squads",
+  "Ripped off": "Arrancado",
+  "SAVING AMERICA ONE BULLET AT A TIME": "SAVING AMERICA ONE BULLET AT A TIME",
+  "SUBSCRIBE TO": "SUBSCRIBE TO",
+  "Save Children from Harmful Speech": "Save Children from Harmful Speech",
+  "Scheduled Meetings: ": "Reuniões Agendadas: ",
+  "Secrecy: ": "Sigilo: ",
+  "Secretary of State:": "Secretary of State:",
+  "Select your preferred language": "Selecione seu idioma preferido",
+  "Serving ": "Cumprindo ",
+  "Shift and a Number will move ALL items!": "Shift e um Número moverão TODOS os itens!",
+  "Some agitators are also turning out to resist with you.": "Some agitators are also turning out to resist with you.",
+  "Someone is in the tent.": "Someone is in the tent.",
+  "Special - {name}": "Special - {name}",
+  "Squad: ": "Squad: ",
   "Steel Plant": "Steel Plant",
   "Stop Feminist Overreach": "Stop Feminist Overreach",
   "Street Music": "Street Music",
@@ -729,6 +728,7 @@
   "Washington, DC": "Washington, DC",
   "Weapon: ": "Arma: ",
   "When enabled, untranslated strings encountered during gameplay will be written to JSON files in game directory for translation. Default is on for Windows builds and debug mode only.": "Quando habilitado, strings não traduzidas encontradas durante o jogo serão escritas em arquivos JSON no diretório do jogo para tradução. O padrão está ligado apenas para builds Windows e modo debug.",
+  "Where will the Squad go?": "Para onde o Esquadrão vai?",
   "YOU ARE BEING ROBBED. GIVE ME YOUR MONEY.": "YOU ARE BEING ROBBED. GIVE ME YOUR MONEY.",
   "You have no items.": "Você não tem itens.",
   "You hear a blaring voice on a loudspeaker:": "You hear a blaring voice on a loudspeaker:",
@@ -821,29 +821,29 @@
   "{name} can't figure the lock out.": "{name} can't figure the lock out.",
   "{name} has been rescued.": "{name} foi resgatado.",
   "{name} holds firm.": "{name} holds firm.",
-  "{name} is losing": "{name} is losing",
-  "{name} looks forward to": "{name} looks forward to",
-  "{name} reloads.": "{name} reloads.",
-  "{name} seems less badass!": "{name} seems less badass!",
-  "{name}'s face is blasted off!": "{name}'s face is blasted off!",
-  "{name}'s face is removed!": "{name}'s face is removed!",
-  "{name}'s heart is punctured!": "{name}'s heart is punctured!",
-  "{name}'s left eye is burned away!": "{name}'s left eye is burned away!",
-  "{name}'s left eye is shot out!": "{name}'s left eye is shot out!",
-  "{name}'s left lung is punctured!": "{name}'s left lung is punctured!",
-  "{name}'s liver is punctured!": "{name}'s liver is punctured!",
-  "{name}'s lower spine is shattered!": "{name}'s lower spine is shattered!",
-  "{name}'s nose is blown off!": "{name}'s nose is blown off!",
-  "{name}'s nose is removed!": "{name}'s nose is removed!",
-  "{name}'s right eye is cut open!": "{name}'s right eye is cut open!",
-  "{name}'s right eye is torn out!": "{name}'s right eye is torn out!",
-  "{name}'s right kidney is torn!": "{name}'s right kidney is torn!",
-  "{name}'s right lung is torn!": "{name}'s right lung is torn!",
-  "{name}'s spleen is torn!": "{name}'s spleen is torn!",
-  "{name}'s stomach is torn!": "{name}'s stomach is torn!",
-  "{name}'s tongue is cut off!": "{name}'s tongue is cut off!",
-  "{name}'s upper spine is broken!": "{name}'s upper spine is broken!",
-  "{name}'s {part}": "{name}'s {part}",
-  "{p.name} has been rescued.": "{p.name} foi resgatado.",
-  "{text}▂": "{text}▂"
+  "{name} is left to be captured.": "{name} is left to be captured.",
+  "{name} is uncooperative": "{name} is uncooperative",
+  "{name} misses.": "{name} misses.",
+  "{name} says, ": "{name} says, ",
+  "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado.",
+  "{name}'s face is cut away!": "{name}'s face is cut away!",
+  "{name}'s heart is blasted!": "{name}'s heart is blasted!",
+  "{name}'s helmet": "{name}'s helmet",
+  "{name}'s left eye is removed!": "{name}'s left eye is removed!",
+  "{name}'s left lung is blasted!": "{name}'s left lung is blasted!",
+  "{name}'s liver is blasted!": "{name}'s liver is blasted!",
+  "{name}'s lower spine is broken!": "{name}'s lower spine is broken!",
+  "{name}'s neck is broken!": "{name}'s neck is broken!",
+  "{name}'s nose is cut off!": "{name}'s nose is cut off!",
+  "{name}'s right eye is burned away!": "{name}'s right eye is burned away!",
+  "{name}'s right eye is shot out!": "{name}'s right eye is shot out!",
+  "{name}'s right kidney is punctured!": "{name}'s right kidney is punctured!",
+  "{name}'s right lung is punctured!": "{name}'s right lung is punctured!",
+  "{name}'s spleen is punctured!": "{name}'s spleen is punctured!",
+  "{name}'s stomach is punctured!": "{name}'s stomach is punctured!",
+  "{name}'s tongue is burned away!": "{name}'s tongue is burned away!",
+  "{name}'s tongue is torn out!": "{name}'s tongue is torn out!",
+  "{name}'s {armor}": "{name}'s {armor}",
+  "{name}, ": "{name}, ",
+  "{prop}: ": "{prop}: "
 }

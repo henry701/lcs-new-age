@@ -354,14 +354,12 @@ class CarTheftScene {
             y++,
             0,
             white,
-            "{name}: <rummaging> {message}",
+            "{name}: <rummaging> $rummageMessage",
             params: {
               "name": cr.name,
-              "message": rummageMessage,
               "expletive": noProfanity ? "[Shoot]" : "Fuck",
               "expletive2": noProfanity ? "[Darn] it" : "Dammit",
             },
-            noTranslate: true,
           );
 
           await getKey();

@@ -233,8 +233,8 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
           9,
           1,
           white,
-          "{name} {escape}",
-          params: {"name": e.name, "escape": escapeMessage},
+          "{name} $escapeMessage",
+          params: {"name": e.name},
         );
 
         encounter.remove(e);
@@ -256,8 +256,8 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
             9,
             1,
             white,
-            "{name} {action}",
-            params: {"name": e.name, "action": cowerInCombat.random},
+            "{name} ${cowerInCombat.random}",
+            params: {"name": e.name},
           );
           await getKey();
         }

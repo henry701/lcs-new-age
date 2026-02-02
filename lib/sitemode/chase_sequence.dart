@@ -1437,8 +1437,8 @@ Future<void> crashfriendlycar(Vehicle v) async {
             9,
             1,
             red,
-            "{name} {death}",
-            params: {"name": p.prisoner!.name, "death": diesFlavorText.random},
+            "{name} ${diesFlavorText.random}",
+            params: {"name": p.prisoner!.name},
           );
           printParty();
           await getKey();

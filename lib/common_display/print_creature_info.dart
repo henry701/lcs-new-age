@@ -32,7 +32,6 @@ void printCreatureInfo(
     lightGray,
     "{name}, {title}",
     params: {"name": cr.name, "title": cr.title},
-    noTranslate: true,
   );
   if (cr.isHoldingBody) {
     addstr(
@@ -746,7 +745,6 @@ void printFullCreatureNameBlock(Creature cr) {
     lightGray,
     "Name: {name:white}, {title} ({type})",
     params: {"name": cr.name, "title": cr.title, "type": cr.type.name},
-    noTranslate: true,
   );
 }
 

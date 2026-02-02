@@ -246,7 +246,7 @@ Future<ChaseOutcome> carChaseSequence() async {
   CarChaseAnimation animation = chase.chaseAnimation..animate();
   while (true) {
     eraseArea(startY: 0, endY: 23, startX: 0, endX: 80);
-    mvaddstrc(0, 0, lightGray, chaseSequence!.location.name, noTranslate: true);
+    mvaddstrc(0, 0, lightGray, chaseSequence!.location.name);
 
     //PRINT PARTY
     if (partyalive == 0) activeSquadMemberIndex = -1;

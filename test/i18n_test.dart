@@ -240,7 +240,7 @@ void main() {
 
           // Template with color specs - these should be extracted before translation
           // so translators only see "{name} talks to {target}"
-          final result = LcsI18n.processStringWithInlineColors(
+          final result = LcsI18n.processString(
             "{name:white} talks to {target:color}",
             {
               'name': 'Liberal',
@@ -265,7 +265,7 @@ void main() {
           // "{name} talks to {target}": "{name} fala com {target}"
           // NOT: "{name:white} talks to {target:color}": "{name:white} fala com {target:color}"
 
-          final result = LcsI18n.processStringWithInlineColors(
+          final result = LcsI18n.processString(
             "{name} talks to {target}", // Clean template (no colors)
             {'name': 'Liberal', 'target': 'Conservador'},
             baseColorKey: 'w',
@@ -279,7 +279,7 @@ void main() {
       test('multiple color specs are handled correctly', () async {
         await LcsI18n.initialize('en_US');
 
-        final result = LcsI18n.processStringWithInlineColors(
+        final result = LcsI18n.processString(
           "{attacker:red} attacks {defender:blue} with {weapon:yellow}",
           {'attacker': 'Tank', 'defender': 'Dog', 'weapon': 'Shotgun'},
           noTranslate: true,
@@ -292,7 +292,7 @@ void main() {
       test('mixed placeholders - some with color, some without', () async {
         await LcsI18n.initialize('en_US');
 
-        final result = LcsI18n.processStringWithInlineColors(
+        final result = LcsI18n.processString(
           "{name:white} drops the {item} and {action:lightGreen}",
           {'name': 'Liberal', 'item': 'Weapon', 'action': 'escapes'},
           noTranslate: true,
@@ -306,7 +306,7 @@ void main() {
       test('dynamic color from param works correctly', () async {
         await LcsI18n.initialize('en_US');
 
-        final result = LcsI18n.processStringWithInlineColors(
+        final result = LcsI18n.processString(
           "{name:white} talks to {target:color}",
           {
             'name': 'Liberal',
@@ -323,7 +323,7 @@ void main() {
       test('baseColorKey is restored after each colored segment', () async {
         await LcsI18n.initialize('en_US');
 
-        final result = LcsI18n.processStringWithInlineColors(
+        final result = LcsI18n.processString(
           "{name:red} attacks {target:blue}",
           {'name': 'Attacker', 'target': 'Target'},
           noTranslate: true,
@@ -336,7 +336,7 @@ void main() {
       test('unknown color specs are ignored gracefully', () async {
         await LcsI18n.initialize('en_US');
 
-        final result = LcsI18n.processStringWithInlineColors(
+        final result = LcsI18n.processString(
           "{name:unknownColor} attacks",
           {'name': 'Attacker'},
           noTranslate: true,
@@ -350,7 +350,7 @@ void main() {
       test('template without params returns translated string only', () async {
         await LcsI18n.initialize('pt_BR');
 
-        final result = LcsI18n.processStringWithInlineColors(
+        final result = LcsI18n.processString(
           "Loading...",
           null,
           baseColorKey: 'w',

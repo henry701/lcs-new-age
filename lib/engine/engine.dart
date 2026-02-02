@@ -111,11 +111,12 @@ void addInlineOptionText(
       mouseClickKey = String.fromCharCode(Key.escape);
     }
   }
-  // Translate the text first, then add color codes
+  // Translate the text first (with inline color extraction), then add color codes
   String translatedText = LcsI18n.processString(
     text,
     params,
     noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
   );
 
   String beforeKey = "";
@@ -266,7 +267,7 @@ void mvaddstrcx(
 }) {
   setColor(fg, background: bg ?? black);
   final baseColorKey = ColorKey.fromColor(fg);
-  final result = LcsI18n.processStringWithInlineColors(
+  final result = LcsI18n.processString(
     s,
     params,
     noTranslate: noTranslate,
@@ -312,7 +313,7 @@ void addstrcx(
 }) {
   setColor(fg, background: bg ?? black);
   final baseColorKey = ColorKey.fromColor(fg);
-  final result = LcsI18n.processStringWithInlineColors(
+  final result = LcsI18n.processString(
     s,
     params,
     noTranslate: noTranslate,

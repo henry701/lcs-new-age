@@ -150,6 +150,14 @@ addstr("{name}", params: {"name": playerName}, noTranslate: true);
 // Translate dynamic values at call site
 final target = LcsI18n.tr(creature.type.name);
 addstr("You hit the {target}!", params: {"target": target});
+
+// Inline color syntax (colors extracted before translation)
+addstr("{attacker:red} attacks {defender:blue}!", params: {
+  "attacker": "Tank",
+  "defender": "Dog",
+});
+// ARB file only needs: "{attacker} attacks {defender}!": "..."
+// Colors are re-applied automatically after translation
 ```
 
 ### Console Wrapper Pattern
@@ -174,10 +182,42 @@ class LcsI18n {
   static String translate(String template, {bool noTranslate = false});
   static String format(String template, Map<String, dynamic>? params);
   static String processString(String template, Map<String, dynamic>? params, {bool noTranslate = false});
+  static String processStringWithInlineColors(String template, Map<String, dynamic>? params, {bool noTranslate = false, String baseColorKey = 'w'});
   static Set<String> getMissingTranslations();
   static void reset();
 }
 ```
+
+### Inline Color Syntax (Translator-Friendly)
+
+Color specifications are **extracted before translation** to provide a clean translator experience:
+
+**Code Pattern:**
+```dart
+// Template with inline colors
+mvaddstrcx(
+  9, 1, white,
+  "{name:white} attacks {target:red} with {weapon:yellow}!",
+  params: {"name": "Tank", "target": "Dog", "weapon": "Shotgun"},
+);
+```
+
+**ARB File (what translators see):**
+```json
+"{name} attacks {target} with {weapon}!": "{name} ataca {target} com {weapon}!"
+```
+
+**How it works:**
+1. **Extract**: Parse template, extract `{name:white}` → store mapping, create clean `{name}` template
+2. **Translate**: Look up clean template in ARB file (no color specs)
+3. **Re-apply**: Add color markers (`&W`, `&R`, etc.) using stored mappings
+4. **Format**: Replace placeholders with actual values
+
+**Benefits:**
+- Translators never see color syntax (`:white`, `:red`, etc.)
+- Colors can be changed in code without modifying translations
+- Parameters can be freely reordered in translations - colors follow them
+- Cleaner, more maintainable translation files
 
 ### Implementation Directives
 

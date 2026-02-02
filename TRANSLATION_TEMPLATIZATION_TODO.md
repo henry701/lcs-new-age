@@ -88,11 +88,20 @@ mvaddstrcx(
 );
 ```
 
-This allows:
-- Translators to reorder the entire sentence
-- Dynamic color insertion via the `:color` suffix
-- Multiple colors within a single translatable string
-- Clean, readable template syntax
+**Important: Color specs are extracted BEFORE translation!**
+
+The ARB file only needs the clean template without colors:
+```json
+"{name} talks to {target} {ageGender}:": "{name} fala com {target} {ageGender}:"
+```
+
+Colors are automatically re-applied after translation using the extracted mappings.
+
+### Benefits for Translators
+- ✅ **No color syntax in ARB files** - Translators only see `{name}`, not `{name:white}`
+- ✅ **Colors can change independently** - Update code without modifying translations
+- ✅ **Cleaner translation files** - No `{:white}`, `{:color}` noise
+- ✅ **Reordering works perfectly** - Colors follow the reordered parameters
 
 ### Available Colors (Static)
 - `white`, `lightGray`, `darkGray`, `black`
@@ -103,6 +112,11 @@ This allows:
 
 ### Dynamic Colors
 - `:color` - Uses value from `{param}Color` parameter (e.g., `targetColor` for `target` param)
+
+### How It Works
+1. **Extract**: `{name:white} talks to {target:color}` → color mappings extracted, clean template created
+2. **Translate**: ARB lookup for `{name} talks to {target}` (no colors)
+3. **Re-apply**: Colors added back using stored mappings → `&W{name}&w talks to &{targetColor}{target}`
 
 ### Refactoring Approach
 1. ✅ **Multi-color templates**: Use `mvaddstrcx`/`addstrcx` with inline color syntax

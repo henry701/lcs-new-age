@@ -63,6 +63,43 @@ addstr("{name} has {health} health.", params: {
 // → Template "has...health" will be translated, names/numbers inserted as-is
 ```
 
+### Color Specifications in Templates
+
+The inline color syntax (`{param:color}`) is **automatically extracted before translation**.
+
+**In Code:**
+```dart
+mvaddstrcx(
+  9, 1, white,
+  "{name:white} talks to {target:color}:",
+  params: {"name": "Liberal", "target": "Conservative", "targetColor": "R"},
+);
+```
+
+**In ARB File (what translators see):**
+```json
+"{name} talks to {target}:": "{name} fala com {target}:"
+```
+
+**Key Points for Translators:**
+- ✅ You only see `{name}`, `{target}` - **never** `{name:white}` or `{target:color}`
+- ✅ Colors are re-applied automatically after translation
+- ✅ Reorder parameters freely - colors will follow them
+- ✅ Never add color specs (`:colorname`) to your translations
+- ✅ Just translate the clean template normally
+
+**Example:**
+```json
+// English (source)
+"{name} talks to {target}:": "{name} talks to {target}:"
+
+// Portuguese (translation) - just translate, no color specs!
+"{name} talks to {target}:": "{name} fala com {target}:"
+
+// Result at runtime: "&WLiberal&w fala com &RConservador&w:"
+// Colors (&W, &R) are added automatically by the game
+```
+
 ## Multi-File ARB Support
 
 As of the latest update, each locale can have multiple ARB files to prevent any single file from becoming too large:

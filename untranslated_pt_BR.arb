@@ -1,3 +1,15 @@
 {
-  "        Business, Psychology, Music, and Art": "        Business, Psychology, Music, and Art"
+  "        Business, Psychology, Music, and Art": "        Business, Psychology, Music, and Art",
+  "   C: ": "   C: ",
+  "   m: ": "   m: ",
+  " - {name}": " - {name}",
+  "@ - {name}": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  " <turns away>": " <turns away>"
 }

@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,153
-- **Translated to pt_BR**: 337 (29%)
-- **Remaining**: 856 strings
+- **Translated to pt_BR**: 373 (32%)
+- **Remaining**: 780 strings
 - **Total files with console output**: ~77 files
-- **Current session**: Session 3 (Complete)
+- **Current session**: Session 4 (Complete)
 
 ## Translation Priority Queue
 
@@ -15,8 +15,8 @@ Files are ordered by importance (most user-facing first):
 1. [x] lib/common_display/common_display.dart (COMPLETE)
 2. [x] lib/common_display/print_creature_info.dart (COMPLETE)
 3. [x] lib/common_display/print_party.dart (COMPLETE)
-4. [ ] lib/title_screen/title_screen.dart (NEXT)
-5. [ ] lib/basemode/base_mode.dart
+4. [x] lib/title_screen/title_screen.dart (COMPLETE)
+5. [ ] lib/basemode/base_mode.dart (NEXT)
 
 ### MEDIUM PRIORITY (Common Actions)
 6. [ ] lib/common_actions/common_actions.dart
@@ -125,17 +125,18 @@ Files are ordered by importance (most user-facing first):
 | lib/common_display/common_display.dart | 12 | ✅ Complete | 1 | (pending) |
 | lib/common_display/print_creature_info.dart | 43 | ✅ Complete | 2 | (pending) |
 | lib/common_display/print_party.dart | 6 | ✅ Complete | 3 | (pending) |
+| lib/title_screen/title_screen.dart | 36 | ✅ Complete | 4 | (pending) |
 
 ## Current Session
 
-**Session**: 3
+**Session**: 4
 **Status**: Complete
-**Completed File**: lib/common_display/print_party.dart
-**Next File**: lib/title_screen/title_screen.dart (NEXT)
+**Completed File**: lib/title_screen/title_screen.dart
+**Next File**: lib/basemode/base_mode.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Added 6 translations for party display headers (CODE NAME → NOME DE CÓDIGO, SKILL → HABILIDADE, WEAPON → ARMA, ARMOR → ARMADURA, HEALTH → SAÚDE, TRANSPORT → TRANSPORTE). Note: Extraction script doesn't detect addHeader() Map values, so strings were added manually. All tests passing.
+**Notes**: Added 36 translations for title screen including menu options (Continue, New Game, Load, Options, Language), game title, credits, version, statistics (Recruited, Martyred, Killed, Kidnapped, Americas Lost/Saved), options descriptions (Encounter Warnings, Mouse Input, Log Untranslated, Page Keys), and mod tools. Updated existing translations for consistency. All tests passing.
 
 ## Translation Statistics
 
@@ -157,7 +158,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 29% (337/1,153)
+[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 32% (373/1,153)
 ```
 
 ## Issues/Blockers
@@ -202,5 +203,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 3 complete)
-**Next Update**: Session 4 start
+**Last Updated**: 2026-02-02 (Session 4 complete)
+**Next Update**: Session 5 start

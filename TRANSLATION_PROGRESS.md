@@ -1,11 +1,11 @@
 # Translation Progress - Portuguese (pt_BR)
 
 ## Overview
-- **Total strings in en_US ARB**: 1,153
-- **Translated to pt_BR**: 397 (34%)
+- **Total strings in en_US ARB**: 1,158
+- **Translated to pt_BR**: 402 (35%)
 - **Remaining**: 756 strings
 - **Total files with console output**: ~77 files
-- **Current session**: Session 6 (Complete)
+- **Current session**: Session 7 (In Progress)
 
 ## Translation Priority Queue
 
@@ -18,10 +18,10 @@ Files are ordered by importance (most user-facing first):
 4. [x] lib/title_screen/title_screen.dart (COMPLETE)
 5. [x] lib/basemode/base_mode.dart (COMPLETE)
 6. [x] lib/common_actions/equipment.dart (COMPLETE)
-7. [ ] lib/common_actions/common_actions.dart (NEXT)
+7. [x] lib/common_actions/common_actions.dart (COMPLETE)
 
 ### MEDIUM PRIORITY (Common Actions)
-9. [ ] lib/creature/sort_creatures.dart
+9. [ ] lib/creature/sort_creatures.dart (NEXT)
 10. [ ] lib/basemode/review_mode.dart
 11. [ ] lib/basemode/plan_site_visit.dart
 
@@ -128,17 +128,18 @@ Files are ordered by importance (most user-facing first):
 | lib/title_screen/title_screen.dart | 36 | ✅ Complete | 4 | (pending) |
 | lib/basemode/base_mode.dart | 10 | ✅ Complete | 5 | (pending) |
 | lib/common_actions/equipment.dart | 14 | ✅ Complete | 6 | (pending) |
+| lib/common_actions/common_actions.dart | 5 | ✅ Complete | 7 | (pending) |
 
 ## Current Session
 
-**Session**: 6
+**Session**: 7
 **Status**: Complete
-**Completed File**: lib/common_actions/equipment.dart
-**Next File**: lib/common_actions/common_actions.dart (NEXT)
+**Completed File**: lib/common_actions/common_actions.dart
+**Next File**: lib/creature/sort_creatures.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Translated 14 equipment-related strings including ammo messages ("No ammo available!", "No ammo required!", "No ammo to drop!", "No spare ammo!", "Can't carry ammo without a gun.", "Can't carry any more ammo.", "That ammo doesn't fit."), equipment UI strings ("Choose a Liberal squad member to receive ammo.", "Choose a Liberal squad member to drop ammo.", "Choose a Liberal squad member to receive it.", "Choose a Liberal squad member to strip down."), and other equipment strings ("Moving Equipment", "Shift and a Number will move ALL items!", "You can't equip that."). All tests passing.
+**Notes**: Translated 5 choice prompt UI strings from lib/common_actions/common_actions.dart: option listing template "{letter} - {option}", article-specific selection prompts ("Press a Letter to select an {optiontypename}" and "Press a Letter to select a {optiontypename}"), confirmation template "Enter - {exit}", and Squad selection prompt "Press a Letter to select Squad members.". All tests passing. Note: The extraction script didn't find these strings automatically due to multi-line formatting, so they were manually identified and added.
 
 ## Translation Statistics
 
@@ -160,7 +161,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 34% (397/1,153)
+[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 35% (402/1,158)
 ```
 
 ## Issues/Blockers
@@ -205,5 +206,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 6 complete)
-**Next Update**: Session 7 start
+**Last Updated**: 2026-02-02 (Session 7 complete)
+**Next Update**: Session 8 start

@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,153
-- **Translated to pt_BR**: 373 (32%)
-- **Remaining**: 780 strings
+- **Translated to pt_BR**: 383 (33%)
+- **Remaining**: 770 strings
 - **Total files with console output**: ~77 files
-- **Current session**: Session 4 (Complete)
+- **Current session**: Session 5 (Complete)
 
 ## Translation Priority Queue
 
@@ -16,107 +16,108 @@ Files are ordered by importance (most user-facing first):
 2. [x] lib/common_display/print_creature_info.dart (COMPLETE)
 3. [x] lib/common_display/print_party.dart (COMPLETE)
 4. [x] lib/title_screen/title_screen.dart (COMPLETE)
-5. [ ] lib/basemode/base_mode.dart (NEXT)
+5. [x] lib/basemode/base_mode.dart (COMPLETE)
+6. [ ] lib/common_actions/common_actions.dart (NEXT)
 
 ### MEDIUM PRIORITY (Common Actions)
-6. [ ] lib/common_actions/common_actions.dart
-7. [ ] lib/common_actions/equipment.dart
-8. [ ] lib/creature/sort_creatures.dart
-9. [ ] lib/basemode/review_mode.dart
-10. [ ] lib/basemode/plan_site_visit.dart
+7. [ ] lib/common_actions/common_actions.dart
+8. [ ] lib/common_actions/equipment.dart
+9. [ ] lib/creature/sort_creatures.dart
+10. [ ] lib/basemode/review_mode.dart
+11. [ ] lib/basemode/plan_site_visit.dart
 
 ### DAILY ACTIVITIES
-11. [ ] lib/daily/advance_day.dart
-12. [ ] lib/daily/activities/recruiting.dart
-13. [ ] lib/daily/activities/fundraising.dart
-14. [ ] lib/daily/activities/car_theft.dart
-15. [ ] lib/daily/activities/trouble.dart
-16. [ ] lib/daily/activities/hacking.dart
-17. [ ] lib/daily/activities/clothing_creation.dart
-18. [ ] lib/daily/shopsnstuff.dart
+12. [ ] lib/daily/advance_day.dart
+13. [ ] lib/daily/activities/recruiting.dart
+14. [ ] lib/daily/activities/fundraising.dart
+15. [ ] lib/daily/activities/car_theft.dart
+16. [ ] lib/daily/activities/trouble.dart
+17. [ ] lib/daily/activities/hacking.dart
+18. [ ] lib/daily/activities/clothing_creation.dart
+19. [ ] lib/daily/shopsnstuff.dart
 
 ### BASE MODE
-19. [ ] lib/basemode/activate_sleepers.dart
-20. [ ] lib/basemode/base_actions.dart
-21. [ ] lib/basemode/disbanding.dart
-22. [ ] lib/basemode/help_system.dart
-23. [ ] lib/basemode/liberal_agenda.dart
-24. [ ] lib/basemode/media_overview.dart
-25. [ ] lib/basemode/activate_regulars.dart
+20. [ ] lib/basemode/activate_sleepers.dart
+21. [ ] lib/basemode/base_actions.dart
+22. [ ] lib/basemode/disbanding.dart
+23. [ ] lib/basemode/help_system.dart
+24. [ ] lib/basemode/liberal_agenda.dart
+25. [ ] lib/basemode/media_overview.dart
+26. [ ] lib/basemode/activate_regulars.dart
 
 ### HOSTAGE MANAGEMENT
-26. [ ] lib/daily/hostages/execute.dart
-27. [ ] lib/daily/hostages/interrogate.dart
-28. [ ] lib/daily/hostages/lovebomb.dart
-29. [ ] lib/daily/hostages/release.dart
-30. [ ] lib/daily/hostages/traumatize.dart
-31. [ ] lib/daily/hostages/tend_hostage.dart
+27. [ ] lib/daily/hostages/execute.dart
+28. [ ] lib/daily/hostages/interrogate.dart
+29. [ ] lib/daily/hostages/lovebomb.dart
+30. [ ] lib/daily/hostages/release.dart
+31. [ ] lib/daily/hostages/traumatize.dart
+32. [ ] lib/daily/hostages/tend_hostage.dart
 
 ### SITEMODE
-32. [ ] lib/sitemode/fight.dart
-33. [ ] lib/sitemode/stealth.dart
-34. [ ] lib/sitemode/chase_sequence.dart
-35. [ ] lib/sitemode/site_display.dart
-36. [ ] lib/sitemode/siege.dart
-37. [ ] lib/sitemode/haul_kidnap.dart
+33. [ ] lib/sitemode/fight.dart
+34. [ ] lib/sitemode/stealth.dart
+35. [ ] lib/sitemode/chase_sequence.dart
+36. [ ] lib/sitemode/site_display.dart
+37. [ ] lib/sitemode/siege.dart
+38. [ ] lib/sitemode/haul_kidnap.dart
 
 ### TALK
-38. [ ] lib/talk/talk_outside_combat.dart
-39. [ ] lib/talk/talk_in_combat.dart
-40. [ ] lib/talk/talk_about_issues.dart
+39. [ ] lib/talk/talk_outside_combat.dart
+40. [ ] lib/talk/talk_in_combat.dart
+41. [ ] lib/talk/talk_about_issues.dart
 
 ### POLITICS & ELECTIONS
-41. [ ] lib/politics/elections.dart
+42. [ ] lib/politics/elections.dart
 
 ### NEWSPAPER
-42. [ ] lib/newspaper/display_news.dart
-43. [ ] lib/newspaper/layout.dart
-44. [ ] lib/newspaper/filler.dart
+43. [ ] lib/newspaper/display_news.dart
+44. [ ] lib/newspaper/layout.dart
+45. [ ] lib/newspaper/filler.dart
 
 ### COMBAT
-45. [ ] lib/combat/fight.dart
-46. [ ] lib/combat/haulkidnap.dart
+46. [ ] lib/combat/fight.dart
+47. [ ] lib/combat/haulkidnap.dart
 
 ### ITEMS
-47. [ ] lib/items/clothing.dart
-48. [ ] lib/items/loot.dart
-49. [ ] lib/items/weapon_type.dart
-50. [ ] lib/items/weapon.dart
+48. [ ] lib/items/clothing.dart
+49. [ ] lib/items/loot.dart
+50. [ ] lib/items/weapon_type.dart
+51. [ ] lib/items/weapon.dart
 
 ### JUSTICE
-51. [ ] lib/justice/trial.dart
-52. [ ] lib/justice/prison.dart
-53. [ ] lib/justice/courthouse.dart
-54. [ ] lib/justice/deathpenalty.dart
+52. [ ] lib/justice/trial.dart
+53. [ ] lib/justice/prison.dart
+54. [ ] lib/justice/courthouse.dart
+55. [ ] lib/justice/deathpenalty.dart
 
 ### SQUAD MANAGEMENT
-55. [ ] lib/squad/squad_management.dart
+56. [ ] lib/squad/squad_management.dart
 
 ### MONTHLY EVENTS
-56. [ ] lib/monthly/lcs_monthly.dart
-57. [ ] lib/monthly/financial.dart
+57. [ ] lib/monthly/lcs_monthly.dart
+58. [ ] lib/monthly/financial.dart
 
 ### REMAINING FILES (Lower Priority)
-58. [ ] lib/location/world.dart
-59. [ ] lib/location/location_display.dart
-60. [ ] lib/dating/dating.dart
-61. [ ] lib/dating/activity_dating.dart
-62. [ ] lib/dating/date_display.dart
-63. [ ] lib/newspaper/news_archive.dart
-64. [ ] lib/newspaper/news_story.dart
-65. [ ] lib/saveload/load_game.dart
-66. [ ] lib/saveload/save_game.dart
-67. [ ] lib/saveload/load_xml_data.dart
-68. [ ] lib/debug/debug_tools.dart
-69. [ ] lib/creature/creature_display.dart
-70. [ ] lib/creature/skills_display.dart
-71. [ ] lib/creature/stats_display.dart
-72. [ ] lib/creature/attributes_display.dart
-73. [ ] lib/interrogation/interrogation.dart
-74. [ ] lib/interrogation/trauma_display.dart
-75. [ ] lib/interrogation/reeducation.dart
-76. [ ] lib/interrogation/breaking_news.dart
-77. [ ] lib/interrogation/confession.dart
+59. [ ] lib/location/world.dart
+60. [ ] lib/location/location_display.dart
+61. [ ] lib/dating/dating.dart
+62. [ ] lib/dating/activity_dating.dart
+63. [ ] lib/dating/date_display.dart
+64. [ ] lib/newspaper/news_archive.dart
+65. [ ] lib/newspaper/news_story.dart
+66. [ ] lib/saveload/load_game.dart
+67. [ ] lib/saveload/save_game.dart
+68. [ ] lib/saveload/load_xml_data.dart
+69. [ ] lib/debug/debug_tools.dart
+70. [ ] lib/creature/creature_display.dart
+71. [ ] lib/creature/skills_display.dart
+72. [ ] lib/creature/stats_display.dart
+73. [ ] lib/creature/attributes_display.dart
+74. [ ] lib/interrogation/interrogation.dart
+75. [ ] lib/interrogation/trauma_display.dart
+76. [ ] lib/interrogation/reeducation.dart
+77. [ ] lib/interrogation/breaking_news.dart
+78. [ ] lib/interrogation/confession.dart
 
 ## Completed Files
 
@@ -126,17 +127,18 @@ Files are ordered by importance (most user-facing first):
 | lib/common_display/print_creature_info.dart | 43 | ✅ Complete | 2 | (pending) |
 | lib/common_display/print_party.dart | 6 | ✅ Complete | 3 | (pending) |
 | lib/title_screen/title_screen.dart | 36 | ✅ Complete | 4 | (pending) |
+| lib/basemode/base_mode.dart | 10 | ✅ Complete | 5 | (pending) |
 
 ## Current Session
 
-**Session**: 4
+**Session**: 5
 **Status**: Complete
-**Completed File**: lib/title_screen/title_screen.dart
-**Next File**: lib/basemode/base_mode.dart (NEXT)
+**Completed File**: lib/basemode/base_mode.dart
+**Next File**: lib/common_actions/common_actions.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Added 36 translations for title screen including menu options (Continue, New Game, Load, Options, Language), game title, credits, version, statistics (Recruited, Martyred, Killed, Kidnapped, Americas Lost/Saved), options descriptions (Encounter Warnings, Mouse Input, Log Untranslated, Page Keys), and mod tools. Updated existing translations for consistency. All tests passing.
+**Notes**: Added 10 translations for base mode including food store warnings ("This location has food for only a few days", "This location has insufficient food stores"), squad management ("No Squad Selected", "1) R - Review Assets and Form Squads", "2) Press Z to Assemble a New Squad"), planning section header ("=== PLANNING ==="), and time passage messages ("How long since you've heard these sounds", "It has been a long time", "It sure has been a while"), and eating status ("{eaters} Eating"). All tests passing.
 
 ## Translation Statistics
 
@@ -144,7 +146,7 @@ Files are ordered by importance (most user-facing first):
 | Category | Files | Estimated Strings | Status |
 |----------|-------|-------------------|--------|
 | Common Display | 3 | ~50 | 2/3 Complete |
-| Base Mode | 8 | ~120 | Not Started |
+| Base Mode | 8 | ~120 | In Progress (1/8 files) |
 | Daily Activities | 8 | ~150 | Partial (dating.dart started) |
 | Hostages | 6 | ~80 | Not Started |
 | Site Mode | 6 | ~100 | Not Started |
@@ -158,7 +160,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 32% (373/1,153)
+[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 33% (383/1,153)
 ```
 
 ## Issues/Blockers
@@ -203,5 +205,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 4 complete)
-**Next Update**: Session 5 start
+**Last Updated**: 2026-02-02 (Session 5 complete)
+**Next Update**: Session 6 start

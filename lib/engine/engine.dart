@@ -240,14 +240,20 @@ void mvaddstrc(
   mvaddstr(y, x, s, params: params, noTranslate: noTranslate);
 }
 
-/// mvaddstr with Color markers and template parameters
+/// mvaddstr with inline color syntax and template parameters
 ///
-/// Color markers: &X for foreground color, ^X for background color
-/// where X is a color key (R=red, Y=yellow, w=white/lightGray, etc.)
+/// Inline color syntax: {param:color} where color is a color name or "color" for dynamic
 ///
-/// Example:
-///   mvaddstrcx(9, 1, white, "&Y{name}&w coughs.", params: {"name": squaddie.name});
-///   // Displays name in yellow, " coughs." in white
+/// Examples:
+///   // Static colors:
+///   mvaddstrcx(9, 1, white, "{name:white} coughs.", params: {"name": squaddie.name});
+///
+///   // Dynamic colors from param:
+///   mvaddstrcx(9, 1, white, "{name:white} talks to {target:color}",
+///     params: {"name": a.name, "target": tk.name, "targetColor": "G"});
+///
+/// Available colors: white, lightGray, darkGray, black, lightGreen, green,
+/// lightBlue, blue, darkBlue, red, darkRed, yellow, orange, purple, pink, brown
 void mvaddstrcx(
   int y,
   int x,
@@ -259,7 +265,13 @@ void mvaddstrcx(
   bool restoreOldColor = true,
 }) {
   setColor(fg, background: bg ?? black);
-  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  final baseColorKey = ColorKey.fromColor(fg);
+  final result = LcsI18n.processStringWithInlineColors(
+    s,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
   console.mvaddstrx(y, x, result, restoreOldColor: restoreOldColor);
 }
 
@@ -278,14 +290,17 @@ void addstrx(
   );
 }
 
-/// addstr with Color markers, base color setting, and template parameters
+/// addstr with inline color syntax and template parameters
 ///
-/// Color markers: &X for foreground color, ^X for background color
-/// where X is a color key (R=red, Y=yellow, w=white/lightGray, etc.)
+/// Inline color syntax: {param:color} where color is a color name or "color" for dynamic
 ///
-/// Example:
-///   addstrcx(yellow, "&w talks to &R{target}", params: {"target": enemy.name});
-///   // Base is yellow, switches to white then red for target
+/// Examples:
+///   // Static colors:
+///   addstrcx(white, "{name:white} coughs.", params: {"name": squaddie.name});
+///
+///   // Dynamic colors from param:
+///   addstrcx(white, "{name:white} talks to {target:color}",
+///     params: {"name": a.name, "target": tk.name, "targetColor": "G"});
 void addstrcx(
   Color fg,
   String s, {
@@ -296,7 +311,13 @@ void addstrcx(
   String? mouseClickKey,
 }) {
   setColor(fg, background: bg ?? black);
-  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  final baseColorKey = ColorKey.fromColor(fg);
+  final result = LcsI18n.processStringWithInlineColors(
+    s,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
   console.addstrx(
     result,
     restoreOldColor: restoreOldColor,

@@ -32,7 +32,7 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
     9,
     1,
     white,
-    "&W{name}&w talks to &{targetColor}{target}&w {ageGender}:",
+    "{name:white} talks to {target:color} {ageGender}:",
     params: {
       "name": a.name,
       "target": tk.name,

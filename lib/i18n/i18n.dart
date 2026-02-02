@@ -262,6 +262,82 @@ class LcsI18n {
     return format(translated, params);
   }
 
+  /// Color name to ColorKey mapping for inline color syntax
+  static const Map<String, String> _colorNameToKey = {
+    'white': 'W',
+    'lightGray': 'w',
+    'darkGray': 'K',
+    'midGray': 'm',
+    'black': 'k',
+    'lightGreen': 'G',
+    'green': 'g',
+    'lightBlue': 'C',
+    'blue': 'B',
+    'darkBlue': 'b',
+    'red': 'R',
+    'darkRed': 'r',
+    'yellow': 'Y',
+    'halfYellow': 'y',
+    'orange': 'O',
+    'purple': 'p',
+    'pink': 'P',
+    'brown': 'o',
+    'transparent': 'x',
+    // Aliases
+    'color': '', // Special: use the param value as color key directly
+  };
+
+  /// Process template with inline color syntax: {param:color}
+  ///
+  /// Converts "{name:white} talks to {target:color}" to "&W{name}&w talks to &{targetColor}{target}"
+  /// where color markers (&X) are inserted around parameters.
+  ///
+  /// [baseColor] - The default color key to restore after colored segments (e.g., 'w' for lightGray)
+  static String processStringWithInlineColors(
+    String template,
+    Map<String, dynamic>? params, {
+    bool noTranslate = false,
+    String baseColorKey = 'w',
+  }) {
+    // Translate template if not skipped
+    String translated = noTranslate ? template : translate(template);
+
+    if (params == null) return translated;
+
+    // Process each {param:color} pattern
+    String result = translated;
+    final placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
+
+    result = result.replaceAllMapped(placeholderPattern, (match) {
+      final paramName = match.group(1)!;
+      final colorSpec = match.group(2);
+      final value = params[paramName]?.toString() ?? match.group(0)!;
+
+      if (colorSpec == null) {
+        // No color specified, just return the value
+        return value;
+      }
+
+      if (colorSpec == 'color') {
+        // Dynamic color from param value (e.g., {target:color} becomes &{targetColor}{target})
+        final colorKeyParam = '${paramName}Color';
+        final colorKey = params[colorKeyParam]?.toString() ?? baseColorKey;
+        return '&$colorKey$value&$baseColorKey';
+      }
+
+      // Static color from color name
+      final colorKey = _colorNameToKey[colorSpec];
+      if (colorKey == null) {
+        // Unknown color, return without markers
+        return value;
+      }
+
+      return '&$colorKey$value&$baseColorKey';
+    });
+
+    return result;
+  }
+
   /// Change the current locale at runtime
   static Future<void> setLocale(String locale) async {
     _currentLocale = locale;

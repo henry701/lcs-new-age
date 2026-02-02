@@ -28,7 +28,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
     9,
     1,
     white,
-    "&W{name}&w talks to &{targetColor}{target}&w:",
+    "{name:white} talks to {target:color}:",
     params: {
       "name": liberal.name,
       "target": target.name,

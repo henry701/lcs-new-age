@@ -29,6 +29,7 @@ void loadingFeedback(String fileName) {
     2,
     "{label}: {fileName}",
     params: {"label": "File", "fileName": fileName},
+    noTranslate: true,
   );
   refresh();
 }

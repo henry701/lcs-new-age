@@ -1,9 +1,16 @@
 /* news - make some filler junk */
 import 'package:lcs_new_age/common_display/common_display.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 String generateFiller(int amount) {
-  String fillerStory = "&r${randomCityName()} - ";
+  String cityName = LcsI18n.tr(randomCityName());
+  String fillerStory = LcsI18n.processString(
+    "{city:red} - ",
+    {"city": cityName},
+    noTranslate: true,
+    baseColorKey: 'r',
+  );
   for (int par = 0; amount > 0; amount--) {
     par++;
     for (int i = 0; i < lcsRandom(10) + 3; i++) {

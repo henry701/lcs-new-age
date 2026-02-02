@@ -2,6 +2,7 @@ import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/newspaper/squad_story_text.dart';
@@ -18,10 +19,12 @@ Future<void> mediaOverview() async {
     double publicMood = gameState.politics.publicMood();
     double lcsSupport = gameState.politics.lcsApproval();
     makeDelimiter(y: 20);
-    mvaddstrx(
+    mvaddstrcx(
       21,
       0,
-      "&G${gameState.politics.publicMood().toStringAsFixed(1)}%&w of people have Liberal views",
+      lightGreen,
+      "{mood:lightGreen}% of people have Liberal views",
+      params: {"mood": gameState.politics.publicMood().toStringAsFixed(1)},
     );
     String lcsSupportColorKey = lcsSupport >= publicMood
         ? ColorKey.lightGreen
@@ -29,10 +32,12 @@ Future<void> mediaOverview() async {
         ? ColorKey.red
         : ColorKey.yellow;
     String lcsSupportString = lcsSupport.toStringAsFixed(1);
-    mvaddstrx(
+    mvaddstrcx(
       22,
       0,
-      "&$lcsSupportColorKey$lcsSupportString%&w support the Liberal Crime Squad",
+      white,
+      "{support:color}% support the Liberal Crime Squad",
+      params: {"support": lcsSupportString, "supportColor": lcsSupportColorKey},
     );
     setColor(midGray);
     mvaddstrx(
@@ -169,8 +174,18 @@ Future<void> readNewsStory(NewsStory ns) async {
     String viewName = entry.key.label;
     double effectValue = entry.value;
     String effectValueText = effectValue > 0
-        ? "&G+${effectValue.toStringAsFixed(1)}%&x"
-        : "&R${effectValue.toStringAsFixed(1)}%&x";
+        ? LcsI18n.processString(
+            "+{value:lightGreen}%",
+            {"value": effectValue.toStringAsFixed(1)},
+            noTranslate: true,
+            baseColorKey: 'x',
+          )
+        : LcsI18n.processString(
+            "{value:red}%",
+            {"value": effectValue.toStringAsFixed(1)},
+            noTranslate: true,
+            baseColorKey: 'x',
+          );
     return "$viewName: $effectValueText";
   }).toList();
   setColor(lightGray);

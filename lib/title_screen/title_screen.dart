@@ -29,6 +29,7 @@ Future<void> titleScreen() async {
   final prefs = await SharedPreferences.getInstance();
   int? lastGameId = prefs.getInt("lastGameId");
   String continueText = "C - Continue Last Game";
+  Map<String, dynamic>? continueParams;
   if (lastGameId != null) {
     List<SaveFile> saveFiles = await loadGameList();
     SaveFile? lastSave = saveFiles.firstWhereOrNull(
@@ -42,7 +43,8 @@ Future<void> titleScreen() async {
               )
               ?.name ??
           "Unknown";
-      continueText = "C - Continue as &G$founder&x";
+      continueText = "C - Continue as {founder:color}";
+      continueParams = {"founder": founder, "founderColor": "G"};
     } else {
       lastGameId = null;
     }
@@ -59,7 +61,14 @@ Future<void> titleScreen() async {
   setColor(white);
   mvaddstrCenter(9, "Select an Option to Pursue your Liberal Agenda");
   setColor(lightGray);
-  addOptionText(11, 10, "C", continueText, enabledWhen: lastGameId != null);
+  addOptionText(
+    11,
+    10,
+    "C",
+    continueText,
+    enabledWhen: lastGameId != null,
+    params: continueParams,
+  );
   addOptionText(11, 48, "L", "L - Load a Saved Game", enabledWhen: hasSaves);
   addOptionText(12, 10, "N", "N - Start a New Game");
   addOptionText(12, 48, "I", "I - Import a Save");

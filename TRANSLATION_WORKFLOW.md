@@ -14,8 +14,8 @@ The translation process consists of:
 
 The i18n system provides three main functions:
 
-### `LcsI18n.translate(template, noTranslate: false)`
-Translate a template string (with placeholders intact). Use for static text.
+### `LcsI18n.translate(englishText, {String? context, bool noTranslate = false})`
+Translate an English string. Use for static text. Optional context for disambiguation.
 
 ```dart
 LcsI18n.translate("Game Over") // → "Fim de Jogo" (Portuguese)
@@ -30,8 +30,8 @@ LcsI18n.format("Hello {name}!", {"name": "Jane"})
 // → "Hello Jane!"
 ```
 
-### `LcsI18n.processString(template, params?, noTranslate: false)`
-**Primary wrapper for console output.** Translate template, then replace placeholders.
+### `LcsI18n.processString(template, params?, {bool noTranslate = false, String baseColorKey = 'w'})`
+**Primary wrapper for console output.** Translate template, then replace placeholders. Supports inline color syntax `{param:color}`.
 
 ```dart
 // Console wrapper pattern (engine.dart):
@@ -267,12 +267,12 @@ target="lib/l10n/app_$locale.arb"
 batch_size=20
 batch_counter=1
 
-while [ "$(dart run scripts/get_untranslated_strings.dart --arb=$target --limit=$batch_size)" != "" ]; do
+while [ "$(dart run scripts/get_untranslated_strings.dart --locale=$locale --limit=$batch_size)" != "" ]; do
     batch_file="translation_${locale}_batch_$(printf '%02d' $batch_counter).arb"
 
     echo "=== Translating batch $batch_counter ==="
     echo "Open $batch_file and translate values"
-    echo "Run: dart run scripts/merge_arb_entries.dart --target=$target --source=$batch_file"
+    echo "Run: dart run scripts/merge_arb_entries.dart --locale=$locale --source=$batch_file"
 
     batch_counter=$((batch_counter + 1))
 done

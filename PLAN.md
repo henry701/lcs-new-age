@@ -118,20 +118,22 @@ The template `"{name}"` serves no purpose when there's no other text to translat
 - Translation validation integrated into CI pipeline
 - All lint issues resolved (import ordering, doc comments, lambdas)
 
-## Phase 3: Core Content (IN PROGRESS)
+## Phase 3: Core Content (IN PROGRESS - Translation Work)
 
-- Create comprehensive ARB template from templated code
-- Add placeholder metadata for all parameters
-- Implement ARB→PO export scripts
-- Create translation guidelines document
+- ✅ Translation workflow scripts complete (extract, merge, validate)
+- ✅ Translation guidelines document created (TRANSLATION_WORKFLOW.md)
+- [ ] Complete Portuguese (pt_BR) translation (916 strings remaining, 23% complete)
+- [ ] Add placeholder metadata for all parameters in ARB files
+- [ ] Implement ARB→PO export scripts (optional, for translator tooling)
+- [ ] Add support for additional languages (German, French, etc.)
 
 ## Phase 4-5: Advanced Features, Coverage, Production
 
 - Complex grammar (gender, possessives)
 - Tooling enhancement (automated extraction, validation)
-- Remaining modules (74+ files with console output)
 - Advanced ICU features (select, ordinals, date/time)
 - Performance optimization, comprehensive testing
+- Additional language support (German, French, etc.)
 
 ## Technical Implementation Details
 
@@ -179,10 +181,9 @@ void addstr(String s, {Map<String, dynamic>? params, bool noTranslate = false}) 
 class LcsI18n {
   static Future<void> initialize([String locale = 'en_US']);
   static Future<void> setLocale(String locale);
-  static String translate(String template, {bool noTranslate = false});
+  static String translate(String englishText, {String? context, bool noTranslate = false});
   static String format(String template, Map<String, dynamic>? params);
-  static String processString(String template, Map<String, dynamic>? params, {bool noTranslate = false});
-  static String processStringWithInlineColors(String template, Map<String, dynamic>? params, {bool noTranslate = false, String baseColorKey = 'w'});
+  static String processString(String template, Map<String, dynamic>? params, {bool noTranslate = false, String baseColorKey = 'w'});
   static Set<String> getMissingTranslations();
   static void reset();
 }
@@ -244,7 +245,7 @@ mvaddstr(11, 0, "The police confiscate everything");
 mvaddstr(11, 0, ", including vehicles");
 
 // AFTER
-mvaddstr(11, 0, "{p.name}'s corpse has been recovered.", params: {"p": p.name});
+mvaddstr(11, 0, "{name}'s corpse has been recovered.", params: {"name": p.name});
 mvaddstr(11, 0, "The police confiscate everything");
 mvaddstr(11, 0, ", including vehicles");
 ```
@@ -259,29 +260,32 @@ mvaddstr(11, 0, ", including vehicles");
 
 ## Implementation Checklist
 
-### Phase 1: String Templating (IN PROGRESS)
+### Phase 1: String Templating (COMPLETE)
 - [x] Core console wrapper infrastructure complete
 - [x] Test coverage for i18n functionality
-- [ ] Continue systematic conversion of remaining files
-- [ ] Verify no interpolation patterns remain
-- [ ] Run full test suite
+- [x] Systematic conversion of all high/medium priority files
+- [x] Verification: Only 3 remaining interpolation patterns (all exceptions):
+  - 1x commented-out code (tend_hostage.dart:715)
+  - 2x UI box-drawing characters (site_display.dart:393-394, not translatable)
+- [x] All 50 tests pass
 
-### Phase 2: Translation Files (READY - Infrastructure Complete)
-- [x] ARB file structure in place
-- [x] Portuguese (pt_BR) translation started
+### Phase 2: Translation Files (IN PROGRESS)
+- [x] ARB file structure in place (1,137 entries in en_US)
+- [x] Portuguese (pt_BR) translation started (277/1,193 complete = 23%)
 - [x] CI/CD pipeline with translation validation
 - [x] Pre-commit hooks configured
+- [x] Translation workflow documentation complete
 - [ ] Generate comprehensive ARB template from templated code
 - [ ] Add placeholder metadata for all parameters
-- [ ] Create translation guidelines for translators
-- [ ] Begin actual translation work
+- [ ] Complete Portuguese translation (916 strings remaining)
+- [ ] Add additional language translations
 
 ### Phase 3+: Advanced Features, Coverage, Production
 - [ ] Complex grammar (gender, possessives)
 - [ ] Tooling enhancement (automated extraction, validation)
-- [ ] Remaining modules conversion
 - [ ] Advanced ICU features (select, ordinals, date/time)
 - [ ] Performance optimization, comprehensive testing
+- [ ] Additional language support (German, French, etc.)
 
 ---
 

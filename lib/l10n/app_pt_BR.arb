@@ -316,7 +316,23 @@
       }
     }
   },
+  "@{name} avoided getting caught a prostitution sting.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
   "@{name} has abandoned the LCS.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} has been arrested in a prostitution sting!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -772,7 +788,9 @@
   "{lovers} Lover": "{lovers} Amante",
   "{member} acted with {squad} instead of {activity}.": "{member} agiu com {squad} em vez de {activity}.",
   "{name} asks around for a {type}...": "{name} pergunta por aí por um {type}...",
+  "{name} avoided getting caught a prostitution sting.": "{name} evitou ser pego em uma operação de prostituição.",
   "{name} has abandoned the LCS.": "{name} abandonou o ECL.",
+  "{name} has been arrested in a prostitution sting!": "{name} foi preso em uma operação de prostituição!",
   "{name} has been rescued.": "{name} foi resgatado.",
   "{name} has died of injuries.": "{name} morreu de ferimentos.",
   "{name} has died.": "{name} morreu.",

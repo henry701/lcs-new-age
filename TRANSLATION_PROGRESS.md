@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,173
-- **Translated to pt_BR**: 530 (45%)
-- **Remaining**: 643 strings
+- **Translated to pt_BR**: 537 (46%)
+- **Remaining**: 636 strings
 - **Total files with console output**: ~77 files
-- **Current session**: Session 13 (Complete)
+- **Current session**: Session 16 (Complete)
 
 ## Translation Priority Queue
 
@@ -31,8 +31,8 @@ Files are ordered by importance (most user-facing first):
 14. [x] lib/daily/activities/fundraising.dart (COMPLETE)
 15. [x] lib/daily/activities/car_theft.dart (COMPLETE)
 16. [x] lib/daily/activities/trouble.dart (COMPLETE)
-17. [ ] lib/daily/activities/hacking.dart (NEXT)
-18. [ ] lib/daily/activities/clothing_creation.dart
+17. [x] lib/daily/activities/hacking.dart (COMPLETE)
+18. [ ] lib/daily/activities/clothing_creation.dart (NEXT)
 19. [ ] lib/daily/shopsnstuff.dart
 
 ### BASE MODE
@@ -137,17 +137,18 @@ Files are ordered by importance (most user-facing first):
 | lib/daily/activities/fundraising.dart | 2 | ✅ Complete | 13 | (pending) |
 | lib/daily/activities/car_theft.dart | 35 | ✅ Complete | 14 | (pending) |
 | lib/daily/activities/trouble.dart | 28 | ✅ Complete | 15 | (pending) |
+| lib/daily/activities/hacking.dart | 7 | ✅ Complete | 16 | (pending) |
 
 ## Current Session
 
-**Session**: 15
+**Session**: 16
 **Status**: Complete
-**Completed File**: lib/daily/activities/trouble.dart
-**Next File**: lib/daily/activities/hacking.dart (NEXT)
+**Completed File**: lib/daily/activities/hacking.dart
+**Next File**: lib/daily/activities/clothing_creation.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Session 15 - Translated 28 strings from lib/daily/activities/trouble.dart related to protest/activism activities. Added translations for 24 different protest actions including "burned a corporate symbol" → "queimou um símbolo corporativo", "marched downtown chanting Black Lives Matter" → "marchou pelo centro gritando Vidas Negras Importam", "staged a prison abolition protest" → "realizou um protesto de abolição de prisões", and various other activism messages. All tests passing.
+**Notes**: Session 16 - Translated 7 strings from lib/daily/activities/hacking.dart related to hacking activities and credit card fraud. Added translations including "Your hackers have " → "Seus hackers ", "corporate website" → "site corporativo", "Conservative forum" → "fórum Conservador", "news website" → "site de notícias", and "Your hackers have stolen {amount} from credit cards." → "Seus hackers roubaram {amount} de cartões de crédito.". All tests passing.
 
 ## Translation Statistics
 
@@ -169,7 +170,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 45% (530/1,173)
+[████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 46% (537/1,173)
 ```
 
 ## Issues/Blockers
@@ -214,5 +215,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 15 complete)
-**Next Update**: Session 16 start
+**Last Updated**: 2026-02-02 (Session 16 complete)
+**Next Update**: Session 17 start

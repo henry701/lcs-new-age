@@ -1,31 +1,3 @@
 {
-  "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>": "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>",
-  "Squad has no base to return to and no homeless camp found. Canceling departure.": "Squad has no base to return to and no homeless camp found. Canceling departure.",
-  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
-  "@s.members.first.base?.cityId: ${s.members.first.base?.cityId}": {
-    "placeholders": {
-      "s.members.first.base?.cityId": {
-        "type": "String",
-        "example": "s.members.first.base?.cityId"
-      }
-    }
-  },
-  "{alarm}: ": "{alarm}: ",
-  "@{alarm}: ": {
-    "placeholders": {
-      "alarm": {
-        "type": "String",
-        "example": "alarm"
-      }
-    }
-  },
-  "{alarm}:   ": "{alarm}:   ",
-  "@{alarm}:   ": {
-    "placeholders": {
-      "alarm": {
-        "type": "String",
-        "example": "alarm"
-      }
-    }
-  }
+  "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>": "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>"
 }

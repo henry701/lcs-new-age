@@ -241,7 +241,14 @@
       }
     }
   },
-  "@_trouble_activity_strings": "Activity messages for trouble.dart",
+  "@Your hackers have stolen {amount} from credit cards.": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "$500"
+      }
+    }
+  },
   "@due to the death of {cr}.": {
     "placeholders": {
       "cr": {
@@ -893,6 +900,8 @@
   "Come on, baby, come to me...": "Vamos, querido, venha para mim...",
   "Configure your Liberal Crime Squad experience": "Configure sua experiência no Esquadrão do Crime Liberal",
   "Conservative": "Conservador",
+  "Conservative blog": "blog Conservador",
+  "Conservative forum": "fórum Conservador",
   "Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": "Crie e edite mapas personalizados para o Esquadrão do Crime Liberal. Este recurso está atualmente em desenvolvimento.",
   "D - Sort by squad or name.": "D - Ordenar por esquadrão ou nome.",
   "DATA THEFT": "ROUBO DE DADOS",
@@ -1019,6 +1028,8 @@
   "You have {count} items.": "Você tem {count} itens.",
   "You hit the {target}!": "Você acertou o {target}!",
   "Your Activists ": "Seus Ativistas ",
+  "Your hackers have ": "Seus hackers ",
+  "Your hackers have stolen {amount} from credit cards.": "Seus hackers roubaram {amount} de cartões de crédito.",
   "above the pull-down sunblock thingy!": "acima daquela coisa de bloquear sol!",
   "active Liberals": "Liberais ativos",
   "affects": "afeta",
@@ -1029,6 +1040,7 @@
   "burned an effigy of a right-wing news anchor!": "queimou uma efígie de um âncora de notícias de direita!",
   "burned an effigy of a right-wing radio host!": "queimou uma efígie de um apresentador de rádio de direita!",
   "causing trouble": "causando problemas",
+  "corporate website": "site corporativo",
   "created a protest camp outside a biotech firm!": "criou um acampamento de protesto do lado de fora de uma empresa de biotecnologia!",
   "digs around in the steering column, but the car doesn't start.": "mexe na coluna de direção, mas o carro não liga.",
   "disrupted a traditional wedding at a church!": "perturbou um casamento tradicional em uma igreja!",
@@ -1038,6 +1050,7 @@
   "due to the death of {cr}.": "devido à morte de {cr}.",
   "effect": "efeito",
   "game.": "jogo.",
+  "government website": "site governamental",
   "handed out free samples of marijuana!": "distribuiu amostras grátis de maconha!",
   "held an anti-censorship street performance!": "realizou uma performance de rua anti-censura!",
   "hostages": "reféns",
@@ -1049,6 +1062,7 @@
   "manages to turn on some dash lights, but the car doesn't start.": "consegue ligar algumas luzes do painel, mas o carro não liga.",
   "marched downtown chanting Black Lives Matter!": "marchou pelo centro gritando Vidas Negras Importam!",
   "marched downtown to protest wealth inqueality!": "marchou pelo centro para protestar contra a desigualdade de renda!",
+  "news website": "site de notícias",
   "of the Liberal Crime Squad!": "do Esquadrão do Crime Liberal!",
   "oppressed Liberals": "Liberais oprimidos",
   "organized a die-in at city hall to protest gun violence!": "organizou um protesto deitado na prefeitura contra a violência armada!",

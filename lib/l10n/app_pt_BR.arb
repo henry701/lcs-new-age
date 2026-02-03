@@ -241,6 +241,7 @@
       }
     }
   },
+  "@_trouble_activity_strings": "Activity messages for trouble.dart",
   "@due to the death of {cr}.": {
     "placeholders": {
       "cr": {
@@ -693,6 +694,22 @@
       }
     }
   },
+  "@{prefix}dressed up and pretended to be {article}radioactive mutant{plural}!": {
+    "placeholders": {
+      "prefix": {
+        "type": "String",
+        "example": "prefix"
+      },
+      "article": {
+        "type": "String",
+        "example": "article"
+      },
+      "plural": {
+        "type": "String",
+        "example": "plural"
+      }
+    }
+  },
   "@{squad} couldn't afford to travel to {site}.": {
     "placeholders": {
       "squad": {
@@ -1001,16 +1018,28 @@
   "You have one item.": "Você tem um item.",
   "You have {count} items.": "Você tem {count} itens.",
   "You hit the {target}!": "Você acertou o {target}!",
+  "Your Activists ": "Seus Ativistas ",
   "above the pull-down sunblock thingy!": "acima daquela coisa de bloquear sol!",
   "active Liberals": "Liberais ativos",
   "affects": "afeta",
   "all": "todo",
   "and many others who have contributed to LCS over the years": "e muitos outros que contribuíram para o LCS ao longo dos anos",
   "available Liberals": "Liberais disponíveis",
+  "burned a corporate symbol and denounced capitalism!": "queimou um símbolo corporativo e denunciou o capitalismo!",
+  "burned an effigy of a right-wing news anchor!": "queimou uma efígie de um âncora de notícias de direita!",
+  "burned an effigy of a right-wing radio host!": "queimou uma efígie de um apresentador de rádio de direita!",
+  "causing trouble": "causando problemas",
+  "created a protest camp outside a biotech firm!": "criou um acampamento de protesto do lado de fora de uma empresa de biotecnologia!",
   "digs around in the steering column, but the car doesn't start.": "mexe na coluna de direção, mas o carro não liga.",
+  "disrupted a traditional wedding at a church!": "perturbou um casamento tradicional em uma igreja!",
+  "distributed fliers declaring that no one is illegal!": "distribuiu panfletos declarando que ninguém é ilegal!",
+  "distributed fliers graphically illustrating CIA torture!": "distribuiu panfletos ilustrando graficamente tortura da CIA!",
+  "distributed fliers graphically illustrating executions!": "distribuiu panfletos ilustrando graficamente execuções!",
   "due to the death of {cr}.": "devido à morte de {cr}.",
   "effect": "efeito",
   "game.": "jogo.",
+  "handed out free samples of marijuana!": "distribuiu amostras grátis de maconha!",
+  "held an anti-censorship street performance!": "realizou uma performance de rua anti-censura!",
   "hostages": "reféns",
   "immediately.": "imediatamente.",
   "in the bugfield!": "no campo de bugs!",
@@ -1018,20 +1047,34 @@
   "in the ignition.  Damn.": "na ignição.  Droga.",
   "makes something in the engine click, but the car doesn't start.": "faz algo no motor clicar, mas o carro não liga.",
   "manages to turn on some dash lights, but the car doesn't start.": "consegue ligar algumas luzes do painel, mas o carro não liga.",
+  "marched downtown chanting Black Lives Matter!": "marchou pelo centro gritando Vidas Negras Importam!",
+  "marched downtown to protest wealth inqueality!": "marchou pelo centro para protestar contra a desigualdade de renda!",
   "of the Liberal Crime Squad!": "do Esquadrão do Crime Liberal!",
   "oppressed Liberals": "Liberais oprimidos",
+  "organized a die-in at city hall to protest gun violence!": "organizou um protesto deitado na prefeitura contra a violência armada!",
+  "organized a pro-tax flash mob in a ritzy area!": "organizou um flash mob pró-imposto em uma área chique!",
+  "organized an anti-war protest!": "organizou um protesto anti-guerra!",
   "people away": "pessoas ausentes",
+  "posted horrifying dead abortion doctor pictures downtown!": "colocou fotos horríveis de médicos abortistas mortos no centro!",
+  "protested against the game being buggy!": "protestou contra o jogo estar cheio de bugs!",
+  "ran around uptown splashing paint on fur coats!": "correu pelo centro jogando tinta em casacos de pele!",
   "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
   "selection": "seleção",
+  "set up a mock sweatshop in the mall!": "montou uma fábrica de mão de obra escrava simulada no shopping!",
   "sleeper activity": "atividade adormecida",
   "sleeper agents": "agentes adormecidos",
   "squadless members": "membros sem esquadrão",
+  "squirted business people with fake polluted water!": "borrifou empresários com água poluída falsa!",
+  "staged a performance of George Orwell's 1984!": "encenou uma performance de 1984 de George Orwell!",
+  "staged a prison abolition protest!": "realizou um protesto de abolição de prisões!",
+  "staged a sit-in at the courthouse!": "realizou um protesto sentado no tribunal!",
   "take": "ter",
   "taped to the muffler!": "grudado no escapamento!",
   "text": "texto",
   "the deceased": "os falecidos",
   "under the back seat!": "debaixo do banco traseiro!",
   "under the front seat!": "debaixo do banco da frente!",
+  "went downtown and reenacted a police beating!": "foi ao centro e encenou uma agressão policial!",
   "{alarm}: ": "{alarm}: ",
   "{alarm}:   ": "{alarm}:   ",
   "{bigboss} has promoted {newboss}": "{bigboss} promoveu {newboss}",
@@ -1078,6 +1121,7 @@
   "{newboss} is the new leader ": "{newboss} é o novo líder ",
   "{newboss} will take over for ": "{newboss} assumirá o lugar de ",
   "{p.name} has been rescued.": "{p.name} foi resgatado.",
+  "{prefix}dressed up and pretended to be {article}radioactive mutant{plural}!": "{prefix}se vestiu e fingiu ser {article}mutante radioativo{plural}!",
   "{squad} couldn't afford to travel to {site}.": "{squad} não pôde pagar para viajar para {site}.",
   "{squad} couldn't use the {vehicle}.": "{squad} não pôde usar o {vehicle}.",
   "{squad} decided {site} was too hot to risk.": "{squad} decidiu que {site} estava muito perigoso para arriscar.",

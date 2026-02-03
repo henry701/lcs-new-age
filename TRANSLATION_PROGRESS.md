@@ -2,8 +2,8 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,173
-- **Translated to pt_BR**: 502 (43%)
-- **Remaining**: 671 strings
+- **Translated to pt_BR**: 530 (45%)
+- **Remaining**: 643 strings
 - **Total files with console output**: ~77 files
 - **Current session**: Session 13 (Complete)
 
@@ -30,8 +30,8 @@ Files are ordered by importance (most user-facing first):
 13. [x] lib/daily/activities/recruiting.dart (COMPLETE)
 14. [x] lib/daily/activities/fundraising.dart (COMPLETE)
 15. [x] lib/daily/activities/car_theft.dart (COMPLETE)
-16. [ ] lib/daily/activities/trouble.dart (NEXT)
-17. [ ] lib/daily/activities/hacking.dart
+16. [x] lib/daily/activities/trouble.dart (COMPLETE)
+17. [ ] lib/daily/activities/hacking.dart (NEXT)
 18. [ ] lib/daily/activities/clothing_creation.dart
 19. [ ] lib/daily/shopsnstuff.dart
 
@@ -136,17 +136,18 @@ Files are ordered by importance (most user-facing first):
 | lib/daily/activities/recruiting.dart | 7 | ✅ Complete | 12 | (pending) |
 | lib/daily/activities/fundraising.dart | 2 | ✅ Complete | 13 | (pending) |
 | lib/daily/activities/car_theft.dart | 35 | ✅ Complete | 14 | (pending) |
+| lib/daily/activities/trouble.dart | 28 | ✅ Complete | 15 | (pending) |
 
 ## Current Session
 
-**Session**: 14
+**Session**: 15
 **Status**: Complete
-**Completed File**: lib/daily/activities/car_theft.dart
-**Next File**: lib/daily/activities/trouble.dart (NEXT)
+**Completed File**: lib/daily/activities/trouble.dart
+**Next File**: lib/daily/activities/hacking.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Session 14 - Translated 35 strings from lib/daily/activities/car_theft.dart related to car theft mechanics, including Viper anti-theft system messages, window breaking, hotwiring, key searching phrases, and car location descriptions. Added translations like "Adventures in Liberal Car Theft" → "Aventuras no Roubo Liberal de Carros", "THIS IS THE VIPER!" → "ESTA É A VIPER!", and various rummaging messages. All tests passing.
+**Notes**: Session 15 - Translated 28 strings from lib/daily/activities/trouble.dart related to protest/activism activities. Added translations for 24 different protest actions including "burned a corporate symbol" → "queimou um símbolo corporativo", "marched downtown chanting Black Lives Matter" → "marchou pelo centro gritando Vidas Negras Importam", "staged a prison abolition protest" → "realizou um protesto de abolição de prisões", and various other activism messages. All tests passing.
 
 ## Translation Statistics
 
@@ -168,7 +169,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[███████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 43% (502/1,173)
+[████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 45% (530/1,173)
 ```
 
 ## Issues/Blockers
@@ -213,5 +214,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 14 complete)
-**Next Update**: Session 15 start
+**Last Updated**: 2026-02-02 (Session 15 complete)
+**Next Update**: Session 16 start

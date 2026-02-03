@@ -4,6 +4,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 void main(List<String> args) async {
   if (args.contains('--help') || args.contains('-h')) {
@@ -193,16 +194,28 @@ void main(List<String> args) async {
       final content = await file.readAsString();
       final lines = content.split('\n');
 
+      // First pass: process line by line for simple cases
       for (int i = 0; i < lines.length; i++) {
         final line = lines[i];
         final lineNumber = i + 1;
 
-        // Find strings passed to console wrapper functions
+        // Find strings passed to console wrapper functions (single-line patterns)
         final consoleCallPatterns = [
           (RegExp(r'\baddstr\s*\(\s*"([^"]+)"'), 'addstr'),
           (RegExp(r"\baddstr\s*\(\s*'([^']+)'"), 'addstr'),
           (RegExp(r'\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'mvaddstr'),
           (RegExp(r"\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"), 'mvaddstr'),
+          (RegExp(r'\baddstrc\s*\(\s*[^,]+,\s*"([^"]+)"'), 'addstrc'),
+          (RegExp(r"\baddstrc\s*\(\s*[^,]+,\s*'([^']+)'"), 'addstrc'),
+          // Single-line mvaddstrc patterns
+          (
+            RegExp(r'\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"([^"]+)"'),
+            'mvaddstrc',
+          ),
+          (
+            RegExp(r"\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'([^']+)'"),
+            'mvaddstrc',
+          ),
           (RegExp(r'\baddstrx\s*\(\s*"([^"]+)"'), 'addstrx'),
           (RegExp(r"\baddstrx\s*\(\s*'([^']+)'"), 'addstrx'),
           (RegExp(r'\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'mvaddstrx'),
@@ -228,6 +241,197 @@ void main(List<String> args) async {
               if (!info.locations.any((l) => l.contains(relativePath))) {
                 info.locations.add('$relativePath:$lineNumber ($function)');
               }
+            }
+          }
+        }
+
+        // Also look for strings on lines that look like they're in function calls
+        // These are lines starting with whitespace followed by a quoted string and comma
+        // that likely belong to multiline function calls
+        final multilineStringPattern = RegExp(
+          r'^\s*"([^"]+\{[^}]+\}[^"]*)"\s*,?\s*$',
+        );
+        final multilineStringPattern2 = RegExp(
+          r"^\s*'([^']+\{[^}]+\}[^']*)'\s*,?\s*$",
+        );
+
+        for (final match in multilineStringPattern.allMatches(line)) {
+          final stringLiteral = match.group(1);
+          if (stringLiteral != null &&
+              _isUserFacing(stringLiteral) &&
+              !stringInfo.containsKey(stringLiteral)) {
+            // Look backward to find what function this belongs to
+            String function = 'multiline';
+            for (int j = i - 1; j >= max(0, i - 10); j--) {
+              final prevLine = lines[j];
+              if (prevLine.contains('mvaddstrc')) {
+                function = 'mvaddstrc';
+                break;
+              } else if (prevLine.contains('addstrc')) {
+                function = 'addstrc';
+                break;
+              } else if (prevLine.contains('mvaddstr')) {
+                function = 'mvaddstr';
+                break;
+              } else if (prevLine.contains('addstr')) {
+                function = 'addstr';
+                break;
+              } else if (prevLine.contains('mvaddstrx')) {
+                function = 'mvaddstrx';
+                break;
+              } else if (prevLine.contains('addstrx')) {
+                function = 'addstrx';
+                break;
+              }
+            }
+
+            final key = stringLiteral;
+            stringInfo.putIfAbsent(
+              key,
+              () => StringInfo(text: stringLiteral, locations: [], count: 0),
+            );
+
+            final info = stringInfo[key]!;
+            info.count++;
+            if (!info.locations.any((l) => l.contains(relativePath))) {
+              info.locations.add('$relativePath:$lineNumber ($function)');
+            }
+          }
+        }
+
+        // Pattern for strings without template parameters but in multiline calls
+        final multilinePlainPattern = RegExp(r'^\s*"([^"]{10,})"\s*,?\s*$');
+        final multilinePlainPattern2 = RegExp(r"^\s*'([^']{10,})'\s*,?\s*$");
+
+        for (final match in multilineStringPattern2.allMatches(line)) {
+          final stringLiteral = match.group(1);
+          if (stringLiteral != null &&
+              _isUserFacing(stringLiteral) &&
+              !stringInfo.containsKey(stringLiteral)) {
+            // Look backward to find what function this belongs to
+            String function = 'multiline';
+            for (int j = i - 1; j >= max(0, i - 10); j--) {
+              final prevLine = lines[j];
+              if (prevLine.contains('mvaddstrc')) {
+                function = 'mvaddstrc';
+                break;
+              } else if (prevLine.contains('addstrc')) {
+                function = 'addstrc';
+                break;
+              } else if (prevLine.contains('mvaddstr')) {
+                function = 'mvaddstr';
+                break;
+              } else if (prevLine.contains('addstr')) {
+                function = 'addstr';
+                break;
+              } else if (prevLine.contains('mvaddstrx')) {
+                function = 'mvaddstrx';
+                break;
+              } else if (prevLine.contains('addstrx')) {
+                function = 'addstrx';
+                break;
+              }
+            }
+
+            final key = stringLiteral;
+            stringInfo.putIfAbsent(
+              key,
+              () => StringInfo(text: stringLiteral, locations: [], count: 0),
+            );
+
+            final info = stringInfo[key]!;
+            info.count++;
+            if (!info.locations.any((l) => l.contains(relativePath))) {
+              info.locations.add('$relativePath:$lineNumber ($function)');
+            }
+          }
+        }
+
+        // Process plain multiline strings (no template params but likely in display calls)
+        for (final match in multilinePlainPattern.allMatches(line)) {
+          final stringLiteral = match.group(1);
+          if (stringLiteral != null &&
+              _isUserFacing(stringLiteral) &&
+              !stringInfo.containsKey(stringLiteral)) {
+            // Look backward to find what function this belongs to
+            String function = 'multiline';
+            for (int j = i - 1; j >= max(0, i - 10); j--) {
+              final prevLine = lines[j];
+              if (prevLine.contains('mvaddstrc')) {
+                function = 'mvaddstrc';
+                break;
+              } else if (prevLine.contains('addstrc')) {
+                function = 'addstrc';
+                break;
+              } else if (prevLine.contains('mvaddstr')) {
+                function = 'mvaddstr';
+                break;
+              } else if (prevLine.contains('addstr')) {
+                function = 'addstr';
+                break;
+              } else if (prevLine.contains('mvaddstrx')) {
+                function = 'mvaddstrx';
+                break;
+              } else if (prevLine.contains('addstrx')) {
+                function = 'addstrx';
+                break;
+              }
+            }
+
+            final key = stringLiteral;
+            stringInfo.putIfAbsent(
+              key,
+              () => StringInfo(text: stringLiteral, locations: [], count: 0),
+            );
+
+            final info = stringInfo[key]!;
+            info.count++;
+            if (!info.locations.any((l) => l.contains(relativePath))) {
+              info.locations.add('$relativePath:$lineNumber ($function)');
+            }
+          }
+        }
+
+        for (final match in multilinePlainPattern2.allMatches(line)) {
+          final stringLiteral = match.group(1);
+          if (stringLiteral != null &&
+              _isUserFacing(stringLiteral) &&
+              !stringInfo.containsKey(stringLiteral)) {
+            // Look backward to find what function this belongs to
+            String function = 'multiline';
+            for (int j = i - 1; j >= max(0, i - 10); j--) {
+              final prevLine = lines[j];
+              if (prevLine.contains('mvaddstrc')) {
+                function = 'mvaddstrc';
+                break;
+              } else if (prevLine.contains('addstrc')) {
+                function = 'addstrc';
+                break;
+              } else if (prevLine.contains('mvaddstr')) {
+                function = 'mvaddstr';
+                break;
+              } else if (prevLine.contains('addstr')) {
+                function = 'addstr';
+                break;
+              } else if (prevLine.contains('mvaddstrx')) {
+                function = 'mvaddstrx';
+                break;
+              } else if (prevLine.contains('addstrx')) {
+                function = 'addstrx';
+                break;
+              }
+            }
+
+            final key = stringLiteral;
+            stringInfo.putIfAbsent(
+              key,
+              () => StringInfo(text: stringLiteral, locations: [], count: 0),
+            );
+
+            final info = stringInfo[key]!;
+            info.count++;
+            if (!info.locations.any((l) => l.contains(relativePath))) {
+              info.locations.add('$relativePath:$lineNumber ($function)');
             }
           }
         }

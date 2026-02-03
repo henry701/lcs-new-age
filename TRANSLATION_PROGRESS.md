@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,173
-- **Translated to pt_BR**: 433 (37%)
-- **Remaining**: 740 strings
+- **Translated to pt_BR**: 460 (39%)
+- **Remaining**: 713 strings
 - **Total files with console output**: ~77 files
-- **Current session**: Session 9 (Complete)
+- **Current session**: Session 11 (Complete)
 
 ## Translation Priority Queue
 
@@ -26,8 +26,8 @@ Files are ordered by importance (most user-facing first):
 11. [x] lib/basemode/plan_site_visit.dart (COMPLETE)
 
 ### DAILY ACTIVITIES
-12. [ ] lib/daily/advance_day.dart (NEXT)
-13. [ ] lib/daily/activities/recruiting.dart
+12. [x] lib/daily/advance_day.dart (COMPLETE)
+13. [ ] lib/daily/activities/recruiting.dart (NEXT)
 14. [ ] lib/daily/activities/fundraising.dart
 15. [ ] lib/daily/activities/car_theft.dart
 16. [ ] lib/daily/activities/trouble.dart
@@ -132,17 +132,18 @@ Files are ordered by importance (most user-facing first):
 | lib/creature/sort_creatures.dart | 16 | ✅ Complete | 8 | (pending) |
 | lib/basemode/review_mode.dart | 31 | ✅ Complete | 9 | (pending) |
 | lib/basemode/plan_site_visit.dart | 14 | ✅ Complete | 10 | (pending) |
+| lib/daily/advance_day.dart | 27 | ✅ Complete | 11 | (pending) |
 
 ## Current Session
 
-**Session**: 10
+**Session**: 11
 **Status**: Complete
-**Completed File**: lib/basemode/plan_site_visit.dart
-**Next File**: lib/daily/advance_day.dart (NEXT)
+**Completed File**: lib/daily/advance_day.dart
+**Next File**: lib/daily/activities/recruiting.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Session 10 - Translated strings from lib/basemode/plan_site_visit.dart. Added 14 new translations: "Where will the Squad go?", " (Current Location)", " (LCS Temp Shelter)", " (Potential Safehouse)", " (LCS Safehouse)", " (CCS Safehouse)", " (Closed Down)", " (High Security)", " (Need Car)", "Heat: ", "Secrecy: ", "Travel to a Different City", "Back one step", and "The Squad is not yet Liberal enough". All tests passing.
+**Notes**: Session 11 - Translated strings from lib/daily/advance_day.dart. Added 27 new translations including squad activity messages ("{squad} decided {site} was too hot to risk", "{squad} couldn't afford to travel"), death notifications ("{name} has died", "{name} has died of injuries"), dispersal messages ("{name} has lost touch with the Liberal Crime Squad", "{name} has abandoned the LCS"), and various daily activity strings. Also improved the find_translatable_strings.dart script to handle mvaddstrc/addstrc function calls. All tests passing.
 
 ## Translation Statistics
 
@@ -164,7 +165,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 37% (433/1,173)
+[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 39% (460/1,173)
 ```
 
 ## Issues/Blockers
@@ -209,5 +210,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 10 complete)
-**Next Update**: Session 11 start
+**Last Updated**: 2026-02-02 (Session 11 complete)
+**Next Update**: Session 12 start

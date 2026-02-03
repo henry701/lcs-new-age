@@ -1,14 +1,39 @@
 {
+  " (${price})": " ({price})",
+  " (CCS Safehouse)": " (Esconderijo CCS)",
+  " (Closed Down)": " (Fechado)",
   " (Current Location)": " (Localização Atual)",
+  " (High Security)": " (Alta Segurança)",
+  " (LCS Safehouse)": " (Esconderijo ECL)",
   " (LCS Temp Shelter)": " (Abrigo Temporário ECL)",
+  " (Need Car)": " (Precisa de Carro)",
+  " (Potential Safehouse)": " (Possível Esconderijo)",
   " (Under Siege)": " <Sob Cerco>",
   " Max": " Máx",
+  "${letter} - Travel to a Different City": "${letter} - Viajar para uma Cidade Diferente",
+  "(click the game window to give it keyboard focus)": "(clique na janela do jogo para dar foco do teclado)",
+  "1) R - Review Assets and Form Squads": "1) R - Revisar Recursos e Formar Esquadrões",
+  "2) Press Z to Assemble a New Squad": "2) Pressione Z para Montar um Novo Esquadrão",
+  ": ALIENATED EVERYONE": ": ALIENOU TODOS",
   ": ALIENATED MASSES": ": ALIENOU AS MASSAS",
+  ": CCS RESPONDING": ": CCS RESPONDENDO",
+  ": CONSERVATIVE REINFORCEMENTS INCOMING": ": REFORSOS CONSERVADORES CHEGANDO",
   ": CONSERVATIVES ALARMED": ": CONSERVADORES ALARMADOS",
+  ": CONSERVATIVES SUSPICIOUS": ": CONSERVADORES SUSPEITOS",
+  ": DEATH SQUADS RESPONDING": ": ESQUADRÕES DA MORTE RESPONDENDO",
   ": GANG RESPONDING": ": GANGS RESPONDENDO",
+  ": LISTENERS RESPONDING": ": OUVINTES RESPONDENDO",
+  ": MERCENARIES RESPONDING": ": MERCENÁRIOS RESPONDENDO",
   ": MILITARY RESPONDING": ": MILITARES RESPONDENDO",
+  ": POLICE RESPONDING": ": POLÍCIA RESPONDENDO",
+  ": SECRET SERVICE RESPONDING": ": SERVIÇO SECRETO RESPONDENDO",
   ": VIEWERS RESPONDING": ": ESPECTADORES RESPONDENDO",
+  "<Can't Lead More>": "<Não Pode Liderar Mais>",
+  "<LCS Leader>": "<Líder do LCS>",
   "<No Contact>": "<Sem Contato>",
+  "<Refuses Promotion>": "<Recusa Promoção>",
+  "=== PLANNING ===": "=== PLANEJAMENTO ===",
+  "@(click the game window to give it keyboard focus)": {},
   "@A former LCS member will testify against ${g.name}.": {
     "placeholders": {
       "g.name": {
@@ -25,6 +50,7 @@
       }
     }
   },
+  "@Any of these options can be used to page up and down on paged interfaces in the game, regardless of how this option is set. This option changes which set of keys is shown in the in-game prompts. Default is [ and ].": {},
   "@Born ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ": {
     "placeholders": {
       "getMonth(cr.birthDate.month)": {
@@ -37,11 +63,27 @@
       }
     }
   },
+  "@But ${p.name} cleverly escapes the police ambush!": {
+    "placeholders": {
+      "p.name": {
+        "type": "String",
+        "example": "p.name"
+      }
+    }
+  },
   "@But ${p.name} is already dating ": {
     "placeholders": {
       "p.name": {
         "type": "String",
         "example": "p.name"
+      }
+    }
+  },
+  "@But ${target.name} weren't born yesterday.": {
+    "placeholders": {
+      "target.name": {
+        "type": "String",
+        "example": "target.name"
       }
     }
   },
@@ -53,6 +95,8 @@
       }
     }
   },
+  "@Configure your Liberal Crime Squad experience": {},
+  "@Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": {},
   "@E - Encounter Warnings: {status}": {
     "placeholders": {
       "status": {
@@ -61,7 +105,42 @@
       }
     }
   },
+  "@E - Map Editor": {},
+  "@EVICTION NOTICE: {location}.  Possessions dumped on the street.": {
+    "placeholders": {
+      "location": {
+        "type": "String",
+        "example": "Downtown"
+      }
+    }
+  },
+  "@GAME OPTIONS": {},
   "@LIBERAL CRIME SQUAD: NEW AGE": {},
+  "@M - Experimental Mouse Input: {status}": {
+    "placeholders": {
+      "status": {
+        "type": "String",
+        "example": "On"
+      }
+    }
+  },
+  "@MOD TOOLS": {},
+  "@P - Default Page Up/Down Keys: {keys}": {
+    "placeholders": {
+      "keys": {
+        "type": "String",
+        "example": "[ and ]"
+      }
+    }
+  },
+  "@Total Americas Lost: {count}": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
   "@Total Americas Saved: {count}": {
     "placeholders": {
       "count": {
@@ -70,7 +149,31 @@
       }
     }
   },
+  "@Total Conservatives Kidnapped: {count}": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "@Total Conservatives Killed: {count}": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
   "@Total Liberals Martyred: {count}": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "@Total Liberals Recruited: {count}": {
     "placeholders": {
       "count": {
         "type": "int",
@@ -94,12 +197,66 @@
       }
     }
   },
+  "@When enabled, untranslated strings encountered during gameplay will be written to JSON files in game directory for translation. Default is on for Windows builds and debug mode only.": {},
   "@When encounter warnings are on, you will be warned when you take a step or wait and a new encounter begins. This extra step can help you avoid accidentally walking past an encounter or doing something else you might not want to do. Default is off.": {},
+  "@When mouse input is on, you can use the mouse to select options in the game. This feature is not complete and not All screens support mouse input. Default is on.": {},
+  "@You have {count} items.": {
+    "placeholders": {
+      "count": {
+        "type": "String",
+        "example": "5"
+      }
+    }
+  },
   "@You hit the {target}!": {
     "placeholders": {
       "target": {
         "type": "String",
         "example": "Conservative"
+      }
+    }
+  },
+  "@due to the death of {cr}.": {
+    "placeholders": {
+      "cr": {
+        "type": "String",
+        "example": "cr"
+      }
+    }
+  },
+  "@s.members.first.base?.cityId: ${s.members.first.base?.cityId}": {
+    "placeholders": {
+      "s.members.first.base?.cityId": {
+        "type": "String",
+        "example": "s.members.first.base?.cityId"
+      }
+    }
+  },
+  "@{bigboss} has promoted {newboss}": {
+    "placeholders": {
+      "bigboss": {
+        "type": "String",
+        "example": "bigboss"
+      },
+      "newboss": {
+        "type": "String",
+        "example": "newboss"
+      }
+    }
+  },
+  "@{cr} in the command chain.": {
+    "placeholders": {
+      "cr": {
+        "type": "String",
+        "example": "cr"
+      }
+    }
+  },
+  "@{eaters} Eating": {
+    "placeholders": {
+      "eaters": {
+        "type": "String",
+        "example": "eaters"
       }
     }
   },
@@ -111,6 +268,30 @@
       }
     }
   },
+  "@{member} acted with {squad} instead of {activity}.": {
+    "placeholders": {
+      "member": {
+        "type": "String",
+        "example": "member"
+      },
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "activity": {
+        "type": "String",
+        "example": "activity"
+      }
+    }
+  },
+  "@{name} has abandoned the LCS.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
   "@{name} has been rescued.": {
     "placeholders": {
       "name": {
@@ -119,81 +300,421 @@
       }
     }
   },
+  "@{name} has died of injuries.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} has died.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} has lost touch with the Liberal Crime Squad.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} has passed away at the age of {age}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "age": {
+        "type": "String",
+        "example": "age"
+      }
+    }
+  },
+  "@{name} is now {age} years old.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "age": {
+        "type": "String",
+        "example": "age"
+      }
+    }
+  },
+  "@{name} regains contact with the LCS.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name}'s injuries require professional treatment.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{newboss} is the new leader ": {
+    "placeholders": {
+      "newboss": {
+        "type": "String",
+        "example": "newboss"
+      }
+    }
+  },
+  "@{newboss} will take over for ": {
+    "placeholders": {
+      "newboss": {
+        "type": "String",
+        "example": "newboss"
+      }
+    }
+  },
+  "@{squad} couldn't afford to travel to {site}.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
+  "@{squad} couldn't use the {vehicle}.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "vehicle": {
+        "type": "String",
+        "example": "vehicle"
+      }
+    }
+  },
+  "@{squad} decided {site} was too hot to risk.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
+  "@{squad} didn't have a car to get to {site}.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
+  "@{squad} has arrived at {site}.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
+  "@{squad} looks around {site}.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
+  "@{squad} paid {price} to travel to {site}.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "price": {
+        "type": "String",
+        "example": "price"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
   "A - Language Selection": "A - Seleção de Idioma",
+  "A - No sorting.": "A - Sem ordenação.",
+  "A - There is no expectation to spend money on this date.": "A - Não há expectativa de gastar dinheiro nesta data.",
   "A Liberal friend tips you off on ": "Um amigo liberal te informa sobre ",
+  "A Liberal outcome!": "Um resultado liberal!",
+  "A SWAT team storms the vault!!": "Uma equipe SWAT invade o cofre!!",
   "A corruption scandal is brewing...": "Um escândalo de corrupção está fermentando...",
+  "A few of the jurors are closet Socialists.": "Alguns dos jurados são socialistas secretos.",
+  "A few of the jurors are members of the KKK.": "Alguns dos jurados são membros do KKK.",
   "A former LCS member will testify against ${g.name}.": "Um ex-membro do LCS testemunhará contra ${g.name}.",
+  "A hostage escapes!": "Um refém escapa!",
+  "A new precedent would ": "Um novo precedente seria ",
   "AMENDMENT ADOPTED.": "EMENDA ADOTADA.",
+  "AMENDMENT REJECTED.": "EMENDA REJEITADA.",
+  "AMERICA'S NEWSROOM": "SALA DE NOTÍCIAS DA AMÉRICA",
   "ARMOR": "ARMADURA",
+  "Above Average": "Acima da Média",
+  "Acting Individually": "Agindo Individualmente",
   "Activate Sleeper Agents": "Ativar Agentes Dorminhocos",
+  "Activate Sleeper Agents in Bulk": "Ativar Agentes Dorminhocos em Massa",
+  "Active Liberals": "Liberais Ativos",
   "Agility: ${cr.attribute(Attribute.agility)}": "Agilidade: ${cr.attribute(Attribute.agility)}",
+  "Alarms go off!": "Alarmes disparam!",
+  "All ": "Todos ",
   "Almost Impossible": "Quase Impossível",
+  "An M1 Abrams Tank is stopped by a tank traps.": "Um tanque M1 Abrams é parado por armadilhas de tanque.",
+  "An M1 Abrams Tank is stopped by the tank traps.": "Um tanque M1 Abrams é parado pelas armadilhas de tanque.",
   "An angry mob is storming": "Uma multidão furiosa está invadindo",
+  "An investigation is being launched to find the leaker.": "Uma investigação está sendo lançada para encontrar o vazador.",
+  "Another SWAT team moves in!!": "Outra equipe SWAT avança!!",
   "Another imprisoned LCS member also gets out!": "Outro membro preso do LCS também escapa!",
+  "Any Other Key - Continue the Struggle": "Qualquer Outra Tecla - Continue a Luta",
+  "Any of these options can be used to page up and down on paged interfaces in the game, regardless of how this option is set. This option changes which set of keys is shown in the in-game prompts. Default is [ and ].": "Qualquer uma destas opções pode ser usada para subir e descer páginas em interfaces paginadas no jogo, independentemente de como esta opção está configurada. Esta opção muda qual conjunto de teclas é mostrado nos prompts do jogo. O padrão é [ e ].",
   "Arch Conservative": "Arqui-Conservador",
+  "Are they even in here?": "Eles estão aqui?",
+  "Are you SURE you want to delete this saved game?": "Tem CERTEZA de que quer deletar este jogo salvo?",
   "Art Sales": "Vendas de Arte",
+  "Art Supplies": "Suprimentos de Arte",
+  "Assemble the squad!": "Monte o esquadrão!",
   "Assign Tasks in Bulk": "Atribuir Tarefas em Massa",
+  "Assign Tasks to Liberals": "Atribuir Tarefas aos Liberais",
   "Attorney General:": "Procurador-Geral:",
+  "Auto Plant": "Fábrica de Carros",
+  "Average": "Médio",
   "B - Back to Title Screen": "B - Voltar à Tela de Título",
+  "B - Sort by name.": "B - Ordenar por nome.",
+  "BANK ROBBERY": "ASSALTO A BANCO",
   "BREAKING AND ENTERING": "ARROMBAMENTO",
+  "Ban Torture Techniques": "Banir Técnicas de Tortura",
+  "Bank Teller": "Caixa de Banco",
   "Bank Vault": "Cofre de Banco",
+  "Below Average": "Abaixo da Média",
   "Born ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ": "Nascido em ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ",
+  "Buggy Armor": "Armadura Bugada",
+  "Buggy Chitin": "Quitina Bugada",
   "Buggy Item": "Item Bugado",
+  "Bus Garage": "Garagem de Ônibus",
+  "But ${p.name} cleverly escapes the police ambush!": "Mas ${p.name} escapa engenhosamente da emboscada policial!",
   "But ${p.name} is already dating ": "Mas ${p.name} já está namorando ",
+  "But ${target.name} weren't born yesterday.": "Mas ${target.name} não nasceram ontem.",
+  "But the political center is disappearing.": "Mas o centro político está desaparecendo.",
   "But why?  The squad feels a bit Conservative.": "Mas por quê? O esquadrão parece um pouco conservador.",
+  "Buyer: ": "Comprador: ",
   "By ${repname.firstLast}": "Por ${repname.firstLast}",
+  "By Corporate": "Pela Corporação",
+  "C - Continue Last Game": "C - Continuar Último Jogo",
   "C - Continue as &G$founder&x": "C - Continuar como &G$founder&x",
+  "C - Sort by location and name.": "C - Ordenar por localização e nome.",
   "CCS Action $name": "Ação CCS $name",
+  "CCS Founder": "Fundador do CCS",
+  "CCS Lieutenant": "Tenente do CCS",
   "CCS Rampage $name": "Fúria do CCS $name",
+  "CCS Squad KIA": "Esquadrão CCS KIA",
+  "CCS Team Leader": "Líder de Equipe do CCS",
+  "CEO's Study": "Estudo do CEO",
+  "CODE NAME": "NOME DE CÓDIGO",
   "CREDIT CARD FRAUD": "FRAUDE DE CARTÃO DE CRÉDITO",
+  "CYBER TERRORISM": "CIBERTERRORISMO",
+  "CYBER VANDALISM": "CIBERVANDALISMO",
+  "Can't carry ammo without a gun.": "Não pode carregar munição sem uma arma.",
   "Can't carry any more ammo.": "Não pode carregar mais munição.",
+  "Changes": "Mudanças",
+  "Choose a Liberal squad member to drop ammo.": "Escolha um membro do esquadrão Liberal para largar munição.",
   "Choose a Liberal squad member to receive ammo.": "Escolha um membro do esquadrão Liberal para receber munição.",
+  "Choose a Liberal squad member to receive it.": "Escolha um membro do esquadrão Liberal para recebê-lo.",
   "Choose a Liberal squad member to strip down.": "Escolha um membro do esquadrão Liberal para despir.",
+  "Choose how to sort the list of {description}.": "Escolha como ordenar a lista de {description}.",
   "Clean sever": "Corte Limpo",
+  "Clothes: ": "Roupas: ",
+  "Configure your Liberal Crime Squad experience": "Configure sua experiência no Esquadrão do Crime Liberal",
   "Conservative": "Conservador",
+  "Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": "Crie e edite mapas personalizados para o Esquadrão do Crime Liberal. Este recurso está atualmente em desenvolvimento.",
   "D - Sort by squad or name.": "D - Ordenar por esquadrão ou nome.",
+  "DATA THEFT": "ROUBO DE DADOS",
+  "DISTURBING THE PEACE": "PERTURBAÇÃO DA PAZ",
   "DRUG DEALING": "TRÁFICO DE DROGAS",
   "E - Encounter Warnings: {status}": "E - Avisos de Encontros: {status}",
+  "E - Map Editor": "E - Editor de Mapas",
   "ESCAPING PRISON": "FUGA DA PRISÃO",
+  "EVICTION NOTICE: {location}.  Possessions dumped on the street.": "AVISO DE DESPEJO: {location}. Posses jogadas na rua.",
+  "Easy": "Fácil",
+  "Enlightened Can't Recruit": "Iluminados Não Podem Recrutar",
   "Enter - Back one step": "Enter - Voltar um passo",
+  "Enter - The Squad is not yet Liberal enough": "Enter - O Esquadrão ainda não é Liberal o suficiente",
   "Escaped prisoner sentenced to ": "Prisioneiro fugitivo condenado a ",
+  "Escaped prisoner sentenced to DEATH": "Prisioneiro fugitivo condenado à MORTE",
+  "Escaped prisoner sentenced to life in prison": "Prisioneiro fugitivo condenado à prisão perpétua",
+  "Extremely Difficult": "Extremamente Difícil",
+  "GAME OPTIONS": "OPÇÕES DE JOGO",
+  "GRAND THEFT AUTO": "ROUBO DE VEÍCULO",
+  "Game Over": "Fim de Jogo",
   "H - View High Scores": "H - Ver Recordes",
+  "HARMFUL SPEECH": "DISCURSO PREJUDICIAL",
+  "HEALTH": "SAÚDE",
   "Hard": "Difícil",
+  "Heat: ": "Pressão: ",
+  "Hello {name}!": "Olá {name}!",
+  "How long since you've heard these sounds...  times have changed.": "Quanto tempo desde que você ouviu esses sons... os tempos mudaram.",
   "I - Import a Save": "I - Importar um Save",
+  "Impossible": "Impossível",
+  "It has been a long time.  A lot must have changed...": "Faz muito tempo. Muita coisa deve ter mudado...",
   "It sure has been a while.  Things might have changed a bit.": "Com certeza faz um tempo. As coisas podem ter mudado um pouco.",
+  "JURY TAMPERING": "MANIPULAÇÃO DE JÚRI",
+  "L - Load a Saved Game": "L - Carregar um Jogo Salvo",
   "LANGUAGE OPTIONS": "OPÇÕES DE IDIOMA",
   "LIBERAL CRIME SQUAD: NEW AGE": "ESQUADRÃO DO CRIME LIBERAL: NOVA ERA",
+  "Language": "Idioma",
   "Liberal activity": "Atividade Liberal",
+  "Liberals in treatment": "Liberais em tratamento",
+  "Loading...": "Carregando...",
+  "M - Experimental Mouse Input: {status}": "M - Entrada Experimental de Mouse: {status}",
+  "MOD TOOLS": "FERRAMENTAS DE MOD",
+  "Maintained by {maintainer}, with gratitude to:": "Mantido por {maintainer}, com gratidão para:",
+  "Moving Equipment": "Movendo Equipamento",
+  "N - Start a New Game": "N - Começar um Novo Jogo",
   "NEW AGE": "NOVA ERA",
+  "NOW   MAX": "ATUAL   MAX",
+  "Next:  ": "Próximo:  ",
   "No Squad Selected, ": "Nenhum Esquadrão Selecionado, ",
+  "No ammo available!": "Sem munição disponível!",
+  "No ammo required!": "Munição não necessária!",
   "No ammo to drop!": "Sem munição para largar!",
+  "No spare ammo!": "Sem munição reserva!",
+  "O - Gameplay Options": "O - Opções de Jogo",
   "On DEATH ROW": "No CORREDOR DA MORTE",
+  "On Foot": "A Pé",
+  "P - Default Page Up/Down Keys: {keys}": "P - Teclas Padrão de Page Up/Down: {keys}",
+  "PUBLIC NUDITY": "NUDEZ PÚBLICA",
+  "Press a Letter to select Squad members.": "Pressione uma Letra para selecionar membros do Esquadrão.",
+  "Press a Letter to select a {optiontypename}": "Pressione uma Letra para selecionar {optiontypename}",
   "Press a Letter to select an {optiontypename}": "Pressione uma Letra para selecionar {optiontypename}",
+  "Press any key to continue": "Pressione qualquer tecla para continuar",
   "Press any key to continue.": "Pressione qualquer tecla para continuar.",
+  "Profile of a Liberal": "Perfil de um Liberal",
   "RELEASING PRISONERS": "SOLTA DE PRISIONEIROS",
+  "RESISTING ARREST": "RESISTÊNCIA À PRISÃO",
+  "Ripped off": "Arrancado",
   "SKILL": "HABILIDADE",
   "Scheduled Dates:    ": "Encontros Agendados:    ",
+  "Scheduled Meetings: ": "Reuniões Agendadas: ",
   "Secrecy: ": "Sigilo: ",
+  "Select an Option to Pursue your Liberal Agenda": "Selecione uma Opção para Perseguir sua Agenda Liberal",
+  "Select your preferred language": "Selecione seu idioma preferido",
+  "Serving ": "Cumprindo ",
   "Serving life in prison": "Cumprindo prisão perpétua",
+  "Shift and a Number will move ALL items!": "Shift e um Número moverão TODOS os itens!",
+  "Squad has no base to return to and no homeless camp found. Canceling departure.": "Squad has no base to return to and no homeless camp found. Canceling departure.",
+  "TRANSPORT": "TRANSPORTE",
+  "The Liberal has gone into hiding...": "O Liberal foi para a clandestinidade...",
+  "Their Heart finally gave out.  The Liberal will be missed.": "Seu coração finalmente falhou. O Liberal será sentido falta.",
+  "There are none left with the courage and conviction to lead....": "Não resta ninguém com a coragem e convicção para liderar....",
+  "This location has food for only a few days.": "Este local tem comida para apenas alguns dias.",
+  "This location has insufficient food stores.": "Este local tem estoques de comida insuficientes.",
   "This message does not exist": "Esta mensagem não existe",
+  "Total Americas Lost: {count}": "Total de Américas Perdidas: {count}",
   "Total Americas Saved: {count}": "Total de Américas Salvas: {count}",
+  "Total Conservatives Kidnapped: {count}": "Total de Conservadores Sequestrados: {count}",
+  "Total Conservatives Killed: {count}": "Total de Conservadores Mortos: {count}",
   "Total Liberals Martyred: {count}": "Total de Liberais Martirizados: {count}",
+  "Total Liberals Recruited: {count}": "Total de Liberais Recrutados: {count}",
   "Transp: ": "Transporte: ",
   "U - Log Untranslated Strings: {status}": "U - Registrar Strings Não Traduzidas: {status}",
   "UNLAWFUL BURIAL": "ENTERRO ILEGAL",
   "Universal Liberal Statistics": "Estatísticas Liberais Universais",
+  "Universal Liberal Statistics:": "Estatísticas Liberais Universais:",
+  "V - View Changelog": "V - Ver Changelog",
   "Version {version}": "Versão {version}",
+  "Very Easy": "Muito Fácil",
+  "Very Hard": "Muito Difícil",
   "WANTED FOR ": "PROCURADO POR ",
+  "WEAPON": "ARMA",
+  "Weapon: ": "Arma: ",
+  "When enabled, untranslated strings encountered during gameplay will be written to JSON files in game directory for translation. Default is on for Windows builds and debug mode only.": "Quando habilitado, strings não traduzidas encontradas durante o jogo serão escritas em arquivos JSON no diretório do jogo para tradução. O padrão está ligado apenas para builds Windows e modo debug.",
   "When encounter warnings are on, you will be warned when you take a step or wait and a new encounter begins. This extra step can help you avoid accidentally walking past an encounter or doing something else you might not want to do. Default is off.": "Quando os avisos de encontro estão ligados, você será avisado quando der um passo ou esperar e um novo encontro começar. Este passo extra pode ajudá-lo a evitar passar acidentalmente por um encontro ou fazer algo que você não quer. O padrão é desligado.",
+  "When mouse input is on, you can use the mouse to select options in the game. This feature is not complete and not All screens support mouse input. Default is on.": "Quando a entrada de mouse está ligada, você pode usar o mouse para selecionar opções no jogo. Este recurso não está completo e nem todas as telas suportam entrada de mouse. O padrão é ligado.",
+  "Where will the Squad go?": "Para onde o Esquadrão vai?",
+  "Why is the squad here?   (S)afe House, to cause (T)rouble, or (B)oth?": "Por que o esquadrão está aqui? (S)eguro, para causar (T)rabalho, ou (A)mbos?",
+  "You can't equip that.": "Você não pode equipar isso.",
   "You have no items.": "Você não tem itens.",
+  "You have one item.": "Você tem um item.",
+  "You have {count} items.": "Você tem {count} itens.",
   "You hit the {target}!": "Você acertou o {target}!",
+  "active Liberals": "Liberais ativos",
   "affects": "afeta",
+  "all": "todo",
   "and many others who have contributed to LCS over the years": "e muitos outros que contribuíram para o LCS ao longo dos anos",
+  "available Liberals": "Liberais disponíveis",
+  "due to the death of {cr}.": "devido à morte de {cr}.",
   "effect": "efeito",
+  "game.": "jogo.",
+  "hostages": "reféns",
+  "immediately.": "imediatamente.",
+  "of the Liberal Crime Squad!": "do Esquadrão do Crime Liberal!",
+  "oppressed Liberals": "Liberais oprimidos",
+  "people away": "pessoas ausentes",
+  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
   "selection": "seleção",
   "sleeper activity": "atividade adormecida",
+  "sleeper agents": "agentes adormecidos",
+  "squadless members": "membros sem esquadrão",
   "take": "ter",
+  "text": "texto",
+  "the deceased": "os falecidos",
+  "{bigboss} has promoted {newboss}": "{bigboss} promoveu {newboss}",
+  "{count} other LCS members escape in the riot!": "{count} outros membros do LCS escapam no motim!",
+  "{cr} in the command chain.": "{cr} na cadeia de comando.",
+  "{eaters} Eating": "{eaters} Comendo",
   "{lovers} Lover": "{lovers} Amante",
+  "{member} acted with {squad} instead of {activity}.": "{member} agiu com {squad} em vez de {activity}.",
+  "{name} has abandoned the LCS.": "{name} abandonou o ECL.",
   "{name} has been rescued.": "{name} foi resgatado.",
-  "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado."
+  "{name} has died of injuries.": "{name} morreu de ferimentos.",
+  "{name} has died.": "{name} morreu.",
+  "{name} has lost touch with the Liberal Crime Squad.": "{name} perdeu contato com o Esquadrão do Crime Liberal.",
+  "{name} has passed away at the age of {age}.": "{name} faleceu aos {age} anos.",
+  "{name} is now {age} years old.": "{name} agora tem {age} anos.",
+  "{name} regains contact with the LCS.": "{name} restabelece contato com o ECL.",
+  "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado.",
+  "{name}'s injuries require professional treatment.": "Os ferimentos de {name} exigem tratamento profissional.",
+  "{newboss} is the new leader ": "{newboss} é o novo líder ",
+  "{newboss} will take over for ": "{newboss} assumirá o lugar de ",
+  "{p.name} has been rescued.": "{p.name} foi resgatado.",
+  "{squad} couldn't afford to travel to {site}.": "{squad} não pôde pagar para viajar para {site}.",
+  "{squad} couldn't use the {vehicle}.": "{squad} não pôde usar o {vehicle}.",
+  "{squad} decided {site} was too hot to risk.": "{squad} decidiu que {site} estava muito perigoso para arriscar.",
+  "{squad} didn't have a car to get to {site}.": "{squad} não tinha um carro para chegar a {site}.",
+  "{squad} has arrived at {site}.": "{squad} chegou a {site}.",
+  "{squad} looks around {site}.": "{squad} olha ao redor de {site}.",
+  "{squad} paid {price} to travel to {site}.": "{squad} pagou {price} para viajar para {site}."
 }

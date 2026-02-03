@@ -28,6 +28,7 @@
   ": POLICE RESPONDING": ": POLÍCIA RESPONDENDO",
   ": SECRET SERVICE RESPONDING": ": SERVIÇO SECRETO RESPONDENDO",
   ": VIEWERS RESPONDING": ": ESPECTADORES RESPONDENDO",
+  "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>": "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>",
   "<Can't Lead More>": "<Não Pode Liderar Mais>",
   "<LCS Leader>": "<Líder do LCS>",
   "<No Contact>": "<Sem Contato>",
@@ -111,6 +112,30 @@
       "location": {
         "type": "String",
         "example": "Downtown"
+      }
+    }
+  },
+  "@Enter - The Viper has finally deterred {name}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@Enter - The Viper?   {name} is deterred.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@Enter - Yes, the Viper has deterred {name}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
       }
     }
   },
@@ -232,6 +257,22 @@
       }
     }
   },
+  "@{alarm}: ": {
+    "placeholders": {
+      "alarm": {
+        "type": "String",
+        "example": "alarm"
+      }
+    }
+  },
+  "@{alarm}:   ": {
+    "placeholders": {
+      "alarm": {
+        "type": "String",
+        "example": "alarm"
+      }
+    }
+  },
   "@{bigboss} has promoted {newboss}": {
     "placeholders": {
       "bigboss": {
@@ -257,6 +298,42 @@
       "eaters": {
         "type": "String",
         "example": "eaters"
+      }
+    }
+  },
+  "@{expletive}!  Where are they?!": {
+    "placeholders": {
+      "expletive": {
+        "type": "String",
+        "example": "expletive"
+      }
+    }
+  },
+  "@{expletive}!  {name} found the keys {location}": {
+    "placeholders": {
+      "expletive": {
+        "type": "String",
+        "example": "expletive"
+      },
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "location": {
+        "type": "String",
+        "example": "Downtown"
+      }
+    }
+  },
+  "@{key} - {car}": {
+    "placeholders": {
+      "key": {
+        "type": "String",
+        "example": "key"
+      },
+      "car": {
+        "type": "String",
+        "example": "car"
       }
     }
   },
@@ -324,6 +401,38 @@
       }
     }
   },
+  "@{name} cracks the window{weapon} but it is still somewhat intact.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "weapon": {
+        "type": "String",
+        "example": "weapon"
+      }
+    }
+  },
+  "@{name} fiddles with the lock with no luck.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} found a {car}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "car": {
+        "type": "String",
+        "example": "car"
+      }
+    }
+  },
   "@{name} has abandoned the LCS.": {
     "placeholders": {
       "name": {
@@ -341,6 +450,14 @@
     }
   },
   "@{name} has been rescued.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} has been spotted by a passerby!": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -384,6 +501,26 @@
       }
     }
   },
+  "@{name} hotwires the car!": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} is behind the wheel of a {vehicle}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "vehicle": {
+        "type": "String",
+        "example": "vehicle"
+      }
+    }
+  },
   "@{name} is now {age} years old.": {
     "placeholders": {
       "name": {
@@ -393,6 +530,34 @@
       "age": {
         "type": "String",
         "example": "age"
+      }
+    }
+  },
+  "@{name} jimmies the car door open.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} looks around for an accessible vehicle...": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} looks from a distance at an empty {vehicle}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "vehicle": {
+        "type": "String",
+        "example": "vehicle"
       }
     }
   },
@@ -412,11 +577,51 @@
       }
     }
   },
+  "@{name} smashes the window{weapon}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "weapon": {
+        "type": "String",
+        "example": "weapon"
+      }
+    }
+  },
+  "@{name} stands by the {vehicle}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "vehicle": {
+        "type": "String",
+        "example": "vehicle"
+      }
+    }
+  },
   "@{name} was able to get information on multiple people.": {
     "placeholders": {
       "name": {
         "type": "String",
         "example": "John"
+      }
+    }
+  },
+  "@{name} was unable to find a {oldCar} but did find a {newCar}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "oldCar": {
+        "type": "String",
+        "example": "oldCar"
+      },
+      "newCar": {
+        "type": "String",
+        "example": "newCar"
       }
     }
   },
@@ -429,6 +634,18 @@
       "type": {
         "type": "String",
         "example": "type"
+      }
+    }
+  },
+  "@{name} {action}": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "action": {
+        "type": "String",
+        "example": "action"
       }
     }
   },
@@ -445,6 +662,14 @@
     }
   },
   "@{name}'s injuries require professional treatment.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name}: <rummaging> $rummageMessage": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -577,6 +802,7 @@
   "Activate Sleeper Agents": "Ativar Agentes Dorminhocos",
   "Activate Sleeper Agents in Bulk": "Ativar Agentes Dorminhocos em Massa",
   "Active Liberals": "Liberais Ativos",
+  "Adventures in Liberal Car Theft": "Aventuras no Roubo Liberal de Carros",
   "Adventures in Liberal Recruitment": "Aventuras no Recrutamento Liberal",
   "Agility: ${cr.attribute(Attribute.agility)}": "Agilidade: ${cr.attribute(Attribute.agility)}",
   "Alarms go off!": "Alarmes disparam!",
@@ -584,6 +810,7 @@
   "Almost Impossible": "Quase Impossível",
   "An M1 Abrams Tank is stopped by a tank traps.": "Um tanque M1 Abrams é parado por armadilhas de tanque.",
   "An M1 Abrams Tank is stopped by the tank traps.": "Um tanque M1 Abrams é parado pelas armadilhas de tanque.",
+  "An alarm suddenly starts blaring!": "Um alarme começa a tocar de repente!",
   "An angry mob is storming": "Uma multidão furiosa está invadindo",
   "An investigation is being launched to find the leaker.": "Uma investigação está sendo lançada para encontrar o vazador.",
   "Another SWAT team moves in!!": "Outra equipe SWAT avança!!",
@@ -591,7 +818,7 @@
   "Any Other Key - Continue the Struggle": "Qualquer Outra Tecla - Continue a Luta",
   "Any of these options can be used to page up and down on paged interfaces in the game, regardless of how this option is set. This option changes which set of keys is shown in the in-game prompts. Default is [ and ].": "Qualquer uma destas opções pode ser usada para subir e descer páginas em interfaces paginadas no jogo, independentemente de como esta opção está configurada. Esta opção muda qual conjunto de teclas é mostrado nos prompts do jogo. O padrão é [ e ].",
   "Arch Conservative": "Arqui-Conservador",
-  "Are they even in here?": "Eles estão aqui?",
+  "Are they even in here?": "Eles estão aqui mesmo?",
   "Are you SURE you want to delete this saved game?": "Tem CERTEZA de que quer deletar este jogo salvo?",
   "Art Sales": "Vendas de Arte",
   "Art Supplies": "Suprimentos de Arte",
@@ -646,6 +873,7 @@
   "Choose how to sort the list of {description}.": "Escolha como ordenar a lista de {description}.",
   "Clean sever": "Corte Limpo",
   "Clothes: ": "Roupas: ",
+  "Come on, baby, come to me...": "Vamos, querido, venha para mim...",
   "Configure your Liberal Crime Squad experience": "Configure sua experiência no Esquadrão do Crime Liberal",
   "Conservative": "Conservador",
   "Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": "Crie e edite mapas personalizados para o Esquadrão do Crime Liberal. Este recurso está atualmente em desenvolvimento.",
@@ -661,6 +889,9 @@
   "Enlightened Can't Recruit": "Iluminados Não Podem Recrutar",
   "Enter - Back one step": "Enter - Voltar um passo",
   "Enter - The Squad is not yet Liberal enough": "Enter - O Esquadrão ainda não é Liberal o suficiente",
+  "Enter - The Viper has finally deterred {name}.": "Enter - A Viper finalmente impediu {name}.",
+  "Enter - The Viper?   {name} is deterred.": "Enter - A Viper?   {name} foi impedido.",
+  "Enter - Yes, the Viper has deterred {name}.": "Enter - Sim, a Viper impediu {name}.",
   "Escaped prisoner sentenced to ": "Prisioneiro fugitivo condenado a ",
   "Escaped prisoner sentenced to DEATH": "Prisioneiro fugitivo condenado à MORTE",
   "Escaped prisoner sentenced to life in prison": "Prisioneiro fugitivo condenado à prisão perpétua",
@@ -676,6 +907,10 @@
   "Hello {name}!": "Olá {name}!",
   "How long since you've heard these sounds...  times have changed.": "Quanto tempo desde que você ouviu esses sons... os tempos mudaram.",
   "I - Import a Save": "I - Importar um Save",
+  "I don't think they're in here...": "Acho que não estão aqui...",
+  "I wish I could hotwire this thing...": "Queria saber ligar isso direto...",
+  "I'm going to get arrested, aren't I?": "Vou ser preso, não vou?",
+  "If they were here, I'd have found them by now.": "Se estivessem aqui, já teria encontrado.",
   "Impossible": "Impossível",
   "It has been a long time.  A lot must have changed...": "Faz muito tempo. Muita coisa deve ter mudado...",
   "It sure has been a while.  Things might have changed a bit.": "Com certeza faz um tempo. As coisas podem ter mudado um pouco.",
@@ -701,10 +936,12 @@
   "No ammo to drop!": "Sem munição para largar!",
   "No spare ammo!": "Sem munição reserva!",
   "O - Gameplay Options": "O - Opções de Jogo",
+  "Oh no...": "Ah não...",
   "On DEATH ROW": "No CORREDOR DA MORTE",
   "On Foot": "A Pé",
   "P - Default Page Up/Down Keys: {keys}": "P - Teclas Padrão de Page Up/Down: {keys}",
   "PUBLIC NUDITY": "NUDEZ PÚBLICA",
+  "Please be in here somewhere...": "Por favor, estejam aqui em algum lugar...",
   "Press a Letter to select Squad members.": "Pressione uma Letra para selecionar membros do Esquadrão.",
   "Press a Letter to select a {optiontypename}": "Pressione uma Letra para selecionar {optiontypename}",
   "Press a Letter to select an {optiontypename}": "Pressione uma Letra para selecionar {optiontypename}",
@@ -715,6 +952,7 @@
   "RESISTING ARREST": "RESISTÊNCIA À PRISÃO",
   "Ripped off": "Arrancado",
   "SKILL": "HABILIDADE",
+  "STAND AWAY FROM THE VEHICLE!   <BEEP!!> <BEEP!!>": "AFASTE-SE DO VEÍCULO!   <BEEP!!> <BEEP!!>",
   "Scheduled Dates:    ": "Encontros Agendados:    ",
   "Scheduled Meetings: ": "Reuniões Agendadas: ",
   "Secrecy: ": "Sigilo: ",
@@ -724,10 +962,12 @@
   "Serving life in prison": "Cumprindo prisão perpétua",
   "Shift and a Number will move ALL items!": "Shift e um Número moverão TODOS os itens!",
   "Squad has no base to return to and no homeless camp found. Canceling departure.": "Squad has no base to return to and no homeless camp found. Canceling departure.",
+  "THIS IS THE VIPER!   STAND AWAY!": "ESTA É A VIPER!   AFASTE-SE!",
   "TRANSPORT": "TRANSPORTE",
   "The Liberal has gone into hiding...": "O Liberal foi para a clandestinidade...",
   "Their Heart finally gave out.  The Liberal will be missed.": "Seu coração finalmente falhou. O Liberal será sentido falta.",
   "There are none left with the courage and conviction to lead....": "Não resta ninguém com a coragem e convicção para liderar....",
+  "This isn't working!": "Isso não está funcionando!",
   "This location has food for only a few days.": "Este local tem comida para apenas alguns dias.",
   "This location has insufficient food stores.": "Este local tem estoques de comida insuficientes.",
   "This message does not exist": "Esta mensagem não existe",
@@ -749,26 +989,35 @@
   "WANTED FOR ": "PROCURADO POR ",
   "WEAPON": "ARMA",
   "Weapon: ": "Arma: ",
+  "What do I do now?": "O que faço agora?",
   "When enabled, untranslated strings encountered during gameplay will be written to JSON files in game directory for translation. Default is on for Windows builds and debug mode only.": "Quando habilitado, strings não traduzidas encontradas durante o jogo serão escritas em arquivos JSON no diretório do jogo para tradução. O padrão está ligado apenas para builds Windows e modo debug.",
   "When encounter warnings are on, you will be warned when you take a step or wait and a new encounter begins. This extra step can help you avoid accidentally walking past an encounter or doing something else you might not want to do. Default is off.": "Quando os avisos de encontro estão ligados, você será avisado quando der um passo ou esperar e um novo encontro começar. Este passo extra pode ajudá-lo a evitar passar acidentalmente por um encontro ou fazer algo que você não quer. O padrão é desligado.",
   "When mouse input is on, you can use the mouse to select options in the game. This feature is not complete and not All screens support mouse input. Default is on.": "Quando a entrada de mouse está ligada, você pode usar o mouse para selecionar opções no jogo. Este recurso não está completo e nem todas as telas suportam entrada de mouse. O padrão é ligado.",
   "Where will the Squad go?": "Para onde o Esquadrão vai?",
   "Why is the squad here?   (S)afe House, to cause (T)rouble, or (B)oth?": "Por que o esquadrão está aqui? (S)eguro, para causar (T)rabalho, ou (A)mbos?",
+  "Why me?": "Por que eu?",
   "You can't equip that.": "Você não pode equipar isso.",
   "You have no items.": "Você não tem itens.",
   "You have one item.": "Você tem um item.",
   "You have {count} items.": "Você tem {count} itens.",
   "You hit the {target}!": "Você acertou o {target}!",
+  "above the pull-down sunblock thingy!": "acima daquela coisa de bloquear sol!",
   "active Liberals": "Liberais ativos",
   "affects": "afeta",
   "all": "todo",
   "and many others who have contributed to LCS over the years": "e muitos outros que contribuíram para o LCS ao longo dos anos",
   "available Liberals": "Liberais disponíveis",
+  "digs around in the steering column, but the car doesn't start.": "mexe na coluna de direção, mas o carro não liga.",
   "due to the death of {cr}.": "devido à morte de {cr}.",
   "effect": "efeito",
   "game.": "jogo.",
   "hostages": "reféns",
   "immediately.": "imediatamente.",
+  "in the bugfield!": "no campo de bugs!",
+  "in the glove compartment!": "no porta-luvas!",
+  "in the ignition.  Damn.": "na ignição.  Droga.",
+  "makes something in the engine click, but the car doesn't start.": "faz algo no motor clicar, mas o carro não liga.",
+  "manages to turn on some dash lights, but the car doesn't start.": "consegue ligar algumas luzes do painel, mas o carro não liga.",
   "of the Liberal Crime Squad!": "do Esquadrão do Crime Liberal!",
   "oppressed Liberals": "Liberais oprimidos",
   "people away": "pessoas ausentes",
@@ -778,32 +1027,54 @@
   "sleeper agents": "agentes adormecidos",
   "squadless members": "membros sem esquadrão",
   "take": "ter",
+  "taped to the muffler!": "grudado no escapamento!",
   "text": "texto",
   "the deceased": "os falecidos",
+  "under the back seat!": "debaixo do banco traseiro!",
+  "under the front seat!": "debaixo do banco da frente!",
+  "{alarm}: ": "{alarm}: ",
+  "{alarm}:   ": "{alarm}:   ",
   "{bigboss} has promoted {newboss}": "{bigboss} promoveu {newboss}",
   "{count} other LCS members escape in the riot!": "{count} outros membros do LCS escapam no motim!",
   "{cr} in the command chain.": "{cr} na cadeia de comando.",
   "{eaters} Eating": "{eaters} Comendo",
+  "{expletive}!  Where are they?!": "{expletive}!  Onde estão?!",
+  "{expletive}!  {name} found the keys {location}": "{expletive}!  {name} encontrou as chaves {location}",
+  "{key} - {car}": "{key} - {car}",
   "{letter} - &{color}{name} {ageGender}": "{letter} - &{color}{name} {ageGender}",
   "{lovers} Lover": "{lovers} Amante",
   "{member} acted with {squad} instead of {activity}.": "{member} agiu com {squad} em vez de {activity}.",
   "{name} asks around for a {type}...": "{name} pergunta por aí por um {type}...",
   "{name} avoided getting caught a prostitution sting.": "{name} evitou ser pego em uma operação de prostituição.",
+  "{name} cracks the window{weapon} but it is still somewhat intact.": "{name} quebra a janela{weapon} mas ainda está mais ou menos intacta.",
+  "{name} fiddles with the lock with no luck.": "{name} mexe na fechadura sem sorte.",
+  "{name} found a {car}.": "{name} encontrou um {car}.",
   "{name} has abandoned the LCS.": "{name} abandonou o ECL.",
   "{name} has been arrested in a prostitution sting!": "{name} foi preso em uma operação de prostituição!",
   "{name} has been rescued.": "{name} foi resgatado.",
+  "{name} has been spotted by a passerby!": "{name} foi visto por um transeunte!",
   "{name} has died of injuries.": "{name} morreu de ferimentos.",
   "{name} has died.": "{name} morreu.",
   "{name} has lost touch with the Liberal Crime Squad.": "{name} perdeu contato com o Esquadrão do Crime Liberal.",
   "{name} has passed away at the age of {age}.": "{name} faleceu aos {age} anos.",
+  "{name} hotwires the car!": "{name} liga o carro direto!",
+  "{name} is behind the wheel of a {vehicle}.": "{name} está atrás do volante de um {vehicle}.",
   "{name} is now {age} years old.": "{name} agora tem {age} anos.",
+  "{name} jimmies the car door open.": "{name} força a porta do carro aberta.",
+  "{name} looks around for an accessible vehicle...": "{name} procura um veículo acessível...",
+  "{name} looks from a distance at an empty {vehicle}.": "{name} olha de longe para um {vehicle} vazio.",
   "{name} managed to set up a meeting with ": "{name} conseguiu marcar um encontro com ",
   "{name} regains contact with the LCS.": "{name} restabelece contato com o ECL.",
+  "{name} smashes the window{weapon}.": "{name} quebra a janela{weapon}.",
+  "{name} stands by the {vehicle}.": "{name} está ao lado do {vehicle}.",
   "{name} was able to get information on multiple people.": "{name} conseguiu obter informações sobre várias pessoas.",
+  "{name} was unable to find a {oldCar} but did find a {newCar}.": "{name} não conseguiu encontrar um {oldCar} mas encontrou um {newCar}.",
   "{name} was unable to track down a {type}.": "{name} não conseguiu encontrar um {type}.",
+  "{name} {action}": "{name} {action}",
   "{name} {ageGender}": "{name} {ageGender}",
   "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado.",
   "{name}'s injuries require professional treatment.": "Os ferimentos de {name} exigem tratamento profissional.",
+  "{name}: <rummaging> $rummageMessage": "{name}: <procurando> $rummageMessage",
   "{newboss} is the new leader ": "{newboss} é o novo líder ",
   "{newboss} will take over for ": "{newboss} assumirá o lugar de ",
   "{p.name} has been rescued.": "{p.name} foi resgatado.",

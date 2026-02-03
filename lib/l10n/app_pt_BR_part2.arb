@@ -1,243 +1,37 @@
 {
-  "        Driving, and Street Smarts": "        Driving, and Street Smarts",
-  "   L+: ": "   L+: ",
-  "  ENEMIES  ": "  ENEMIES  ",
-  " (${price})": " ({price})",
   " (CCS Safehouse)": " (Esconderijo CCS)",
-  " (Closed Down)": " (Fechado)",
-  " (Current Location)": " (Localização Atual)",
   " (High Security)": " (Alta Segurança)",
-  " (LCS Safehouse)": " (Esconderijo ECL)",
-  " (LCS Temp Shelter)": " (Abrigo Temporário ECL)",
   " (Need Car)": " (Precisa de Carro)",
-  " (Potential Safehouse)": " (Possível Esconderijo)",
-  " (Under Siege)": " <Sob Cerco>",
-  " BIAS ": " BIAS ",
-  " USA NEWS ": " USA NEWS ",
-  " acts natural.": " acts natural.",
-  " brandishes the ": " brandishes the ",
-  " consumes drugs that simulate death...": " consumes drugs that simulate death...",
-  " drops ": " drops ",
-  " is burned!": " is burned!",
-  " organizes a riot of oppressed prisoners...": " organizes a riot of oppressed prisoners...",
-  " presses buttons randomly...": " presses buttons randomly...",
-  " rumbles disinterestedly.": " rumbles disinterestedly.",
-  " slips the teller a note: ": " slips the teller a note: ",
-  " was able to slow the bleeding of": " was able to slow the bleeding of",
-  " {name}": " {name}",
-  "$first $second $third": "$first $second $third",
-  "$first ${gemstones.random}$last": "$first ${gemstones.random}$last",
-  "$name Apartments": "$name Apartments",
-  "$name St. ": "$name St. ",
-  "$name's Pawnshop": "$name's Pawnshop",
-  "$namePart, aka ${arrested.first.name}": "$namePart, aka ${arrested.first.name}",
-  "$str - Previous": "$str - Previous",
-  "${activeSafehouse!.getName(short: true)} Defense": "${activeSafehouse!.getName(short: true)} Defense",
-  "${adj.random} ${noun.random} Latte Stand": "${adj.random} ${noun.random} Latte Stand",
-  "${headline.substring(0, 32).trim()}...": "${headline.substring(0, 32).trim()}...",
-  "${lastName()} Genetics": "${lastName()} Genetics",
-  "${lastName(Gender.whiteMalePatriarch)} Army Base": "${lastName(Gender.whiteMalePatriarch)} Army Base",
-  "${p.name} readies another ${p.weapon.getName()}.": "${p.name} readies another ${p.weapon.getName()}.",
-  "${person.age + person.birthDate.day % 3 - 1}?": "${person.age + person.birthDate.day % 3 - 1}?",
-  "${politician.first} ${politician.last}": "${politician.first} ${politician.last}",
-  "${veggie.random} ${noun.random} Vegan Co-op": "${veggie.random} ${noun.random} Vegan Co-op",
-  "&cAbortion Clinic&r&r": "&cAbortion Clinic&r&r",
-  "&cGot Slack?&r&r": "&cGot Slack?&r&r",
-  "&cNo Fee&r": "&cNo Fee&r",
-  "&cWant Organic?&r&r": "&cWant Organic?&r&r",
-  "'s wounds.": "'s wounds.",
-  "*** VETO ***": "*** VETO ***",
-  ", 2nd Term": ", 2nd Term",
-  ", also of": ", also of",
-  "-BEEEP- -BEEEP- -BEEEP-": "-BEEEP- -BEEEP- -BEEEP-",
-  "2) Press Z to Assemble a New Squad": "2) Pressione Z para Montar um Novo Esquadrão",
-  "3 - [Need More Juice to Recruit]": "3 - [Need More Juice to Recruit]",
-  ": ALIENATED EVERYONE": ": ALIENOU TODOS",
-  ": CONSERVATIVE REINFORCEMENTS INCOMING": ": REFORSOS CONSERVADORES CHEGANDO",
-  ": DEATH SQUADS RESPONDING": ": ESQUADRÕES DA MORTE RESPONDENDO",
-  ": MERCENARIES RESPONDING": ": MERCENÁRIOS RESPONDENDO",
-  ": SECRET SERVICE RESPONDING": ": SERVIÇO SECRETO RESPONDENDO",
-  "<LCS Leader>": "<Líder do LCS>",
-  "=== PLANNING ===": "=== PLANEJAMENTO ===",
-  "@ {name}": {
+  "${letter} - Travel to a Different City": "${letter} - Viajar para uma Cidade Diferente",
+  "(click the game window to give it keyboard focus)": "(clique na janela do jogo para dar foco do teclado)",
+  "1) R - Review Assets and Form Squads": "1) R - Revisar Recursos e Formar Esquadrões",
+  ": CCS RESPONDING": ": CCS RESPONDENDO",
+  ": CONSERVATIVES SUSPICIOUS": ": CONSERVADORES SUSPEITOS",
+  ": LISTENERS RESPONDING": ": OUVINTES RESPONDENDO",
+  ": POLICE RESPONDING": ": POLÍCIA RESPONDENDO",
+  "<Can't Lead More>": "<Não Pode Liderar Mais>",
+  "<Refuses Promotion>": "<Recusa Promoção>",
+  "@(click the game window to give it keyboard focus)": {},
+  "@But ${target.name} weren't born yesterday.": {
     "placeholders": {
-      "name": {
+      "target.name": {
         "type": "String",
-        "example": "John"
+        "example": "target.name"
       }
     }
   },
-  "@$first ${gemstones.random}$last": {
+  "@Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": {},
+  "@E - Map Editor": {},
+  "@MOD TOOLS": {},
+  "@P - Default Page Up/Down Keys: {keys}": {
     "placeholders": {
-      "gemstones.random": {
+      "keys": {
         "type": "String",
-        "example": "gemstones.random"
+        "example": "[ and ]"
       }
     }
   },
-  "@$namePart, aka ${arrested.first.name}": {
-    "placeholders": {
-      "arrested.first.name": {
-        "type": "String",
-        "example": "arrested.first.name"
-      }
-    }
-  },
-  "@${activeSafehouse!.getName(short: true)} Defense": {
-    "placeholders": {
-      "activeSafehouse!.getName(short: true)": {
-        "type": "String",
-        "example": "activeSafehouse!.getName(short: true)"
-      }
-    }
-  },
-  "@${adj.random} ${noun.random} Latte Stand": {
-    "placeholders": {
-      "adj.random": {
-        "type": "String",
-        "example": "adj.random"
-      },
-      "noun.random": {
-        "type": "String",
-        "example": "noun.random"
-      }
-    }
-  },
-  "@${headline.substring(0, 32).trim()}...": {
-    "placeholders": {
-      "headline.substring(0, 32).trim()": {
-        "type": "String",
-        "example": "headline.substring(0, 32).trim()"
-      }
-    }
-  },
-  "@${lastName()} Genetics": {
-    "placeholders": {
-      "lastName()": {
-        "type": "String",
-        "example": "lastName()"
-      }
-    }
-  },
-  "@${lastName(Gender.whiteMalePatriarch)} Army Base": {
-    "placeholders": {
-      "lastName(Gender.whiteMalePatriarch)": {
-        "type": "String",
-        "example": "lastName(Gender.whiteMalePatriarch)"
-      }
-    }
-  },
-  "@${p.name} readies another ${p.weapon.getName()}.": {
-    "placeholders": {
-      "p.name": {
-        "type": "String",
-        "example": "p.name"
-      },
-      "p.weapon.getName()": {
-        "type": "String",
-        "example": "p.weapon.getName()"
-      }
-    }
-  },
-  "@${person.age + person.birthDate.day % 3 - 1}?": {
-    "placeholders": {
-      "person.age + person.birthDate.day % 3 - 1": {
-        "type": "String",
-        "example": "person.age + person.birthDate.day % 3 - 1"
-      }
-    }
-  },
-  "@${politician.first} ${politician.last}": {
-    "placeholders": {
-      "politician.first": {
-        "type": "String",
-        "example": "politician.first"
-      },
-      "politician.last": {
-        "type": "String",
-        "example": "politician.last"
-      }
-    }
-  },
-  "@${veggie.random} ${noun.random} Vegan Co-op": {
-    "placeholders": {
-      "veggie.random": {
-        "type": "String",
-        "example": "veggie.random"
-      },
-      "noun.random": {
-        "type": "String",
-        "example": "noun.random"
-      }
-    }
-  },
-  "@Any of these options can be used to page up and down on paged interfaces in the game, regardless of how this option is set. This option changes which set of keys is shown in the in-game prompts. Default is [ and ].": {},
-  "@But ${p.name} cleverly escapes the police ambush!": {
-    "placeholders": {
-      "p.name": {
-        "type": "String",
-        "example": "p.name"
-      }
-    }
-  },
-  "@Buyer: {name}": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@Configure your Liberal Crime Squad experience": {},
-  "@M - Experimental Mouse Input: {status}": {
-    "placeholders": {
-      "status": {
-        "type": "String",
-        "example": "On"
-      }
-    }
-  },
-  "@Special: {name}": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@Squad: {name}": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@The Execution of {name}   ": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@The defendant, ${g.properName}, is charged with ": {
-    "placeholders": {
-      "g.properName": {
-        "type": "String",
-        "example": "g.properName"
-      }
-    }
-  },
-  "@Tile - {name}": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@Total Americas Saved: {count}": {
+  "@Total Conservatives Kidnapped: {count}": {
     "placeholders": {
       "count": {
         "type": "int",
@@ -245,7 +39,7 @@
       }
     }
   },
-  "@Total Liberals Martyred: {count}": {
+  "@Total Liberals Recruited: {count}": {
     "placeholders": {
       "count": {
         "type": "int",
@@ -253,35 +47,7 @@
       }
     }
   },
-  "@U - Log Untranslated Strings: {status}": {
-    "placeholders": {
-      "status": {
-        "type": "String",
-        "example": "On"
-      }
-    }
-  },
-  "@Version {version}": {
-    "placeholders": {
-      "version": {
-        "type": "String",
-        "example": "1.4.9"
-      }
-    }
-  },
-  "@When encounter warnings are on, you will be warned when you take a step or wait and a new encounter begins. This extra step can help you avoid accidentally walking past an encounter or doing something else you might not want to do. Default is off.": {},
-  "@{attacker} strikes true on {target}": {
-    "placeholders": {
-      "attacker": {
-        "type": "String",
-        "example": "attacker"
-      },
-      "target": {
-        "type": "String",
-        "example": "Conservative"
-      }
-    }
-  },
+  "@When mouse input is on, you can use the mouse to select options in the game. This feature is not complete and not All screens support mouse input. Default is on.": {},
   "@{eaters} Eating": {
     "placeholders": {
       "eaters": {
@@ -290,548 +56,76 @@
       }
     }
   },
-  "@{name1} engraves ": {
-    "placeholders": {
-      "name1": {
-        "type": "String",
-        "example": "name1"
-      }
-    }
-  },
-  "@{name} chats warmly with": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name} has mutual respect": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name} is back from vacation.": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name} is losing": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name} looks forward to": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name} reloads.": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name} seems less badass!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s face is blasted off!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s face is removed!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s heart is punctured!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s left eye is burned away!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s left eye is shot out!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s left lung is punctured!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s liver is punctured!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s lower spine is shattered!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s nose is blown off!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s nose is removed!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s right eye is cut open!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s right eye is torn out!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s right kidney is torn!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s right lung is torn!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s spleen is torn!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s stomach is torn!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s tongue is cut off!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s upper spine is broken!": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      }
-    }
-  },
-  "@{name}'s {part}": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      },
-      "part": {
-        "type": "String",
-        "example": "part"
-      }
-    }
-  },
-  "@{text}▂": {
-    "placeholders": {
-      "text": {
-        "type": "String",
-        "example": "text"
-      }
-    }
-  },
-  "A - There is no expectation to spend money on this date.": "A - Não há expectativa de gastar dinheiro nesta data.",
-  "A SWAT team storms the vault!!": "Uma equipe SWAT invade o cofre!!",
-  "A few of the jurors are members of the KKK.": "Alguns dos jurados são membros do KKK.",
-  "A new precedent would ": "Um novo precedente seria ",
-  "AMERICA'S NEWSROOM": "SALA DE NOTÍCIAS DA AMÉRICA",
-  "Acting Individually": "Agindo Individualmente",
-  "Active Liberals": "Liberais Ativos",
-  "All ": "Todos ",
-  "An M1 Abrams Tank is stopped by the tank traps.": "Um tanque M1 Abrams é parado pelas armadilhas de tanque.",
-  "Another SWAT team moves in!!": "Outra equipe SWAT avança!!",
-  "Any of these options can be used to page up and down on paged interfaces in the game, regardless of how this option is set. This option changes which set of keys is shown in the in-game prompts. Default is [ and ].": "Qualquer uma destas opções pode ser usada para subir e descer páginas em interfaces paginadas no jogo, independentemente de como esta opção está configurada. Esta opção muda qual conjunto de teclas é mostrado nos prompts do jogo. O padrão é [ e ].",
-  "Are you SURE you want to delete this saved game?": "Tem CERTEZA de que quer deletar este jogo salvo?",
-  "Assemble the squad!": "Monte o esquadrão!",
-  "Atlanta, GA": "Atlanta, GA",
-  "Average": "Médio",
-  "BANK ROBBERY": "ASSALTO A BANCO",
-  "Bank Teller": "Caixa de Banco",
-  "Below Average": "Abaixo da Média",
-  "Buggy Chitin": "Quitina Bugada",
-  "But ${p.name} cleverly escapes the police ambush!": "Mas ${p.name} escapa engenhosamente da emboscada policial!",
-  "But the political center is disappearing.": "Mas o centro político está desaparecendo.",
-  "Buyer: {name}": "Buyer: {name}",
-  "C - Continue Last Game": "C - Continuar Último Jogo",
-  "C - Sort by location and name.": "C - Ordenar por localização e nome.",
-  "CCS Lieutenant": "Tenente do CCS",
-  "CCS Team Leader": "Líder de Equipe do CCS",
-  "CODE NAME": "NOME DE CÓDIGO",
-  "CYBER VANDALISM": "CIBERVANDALISMO",
-  "Can't carry ammo without a gun.": "Não pode carregar munição sem uma arma.",
-  "Car Dealer": "Car Dealer",
-  "Changes": "Mudanças",
-  "Choose a Liberal squad member to drop ammo.": "Escolha um membro do esquadrão Liberal para largar munição.",
-  "Choose a Liberal squad member to release their hostage.": "Choose a Liberal squad member to release their hostage.",
-  "Choose squad member to replace ": "Choose squad member to replace ",
-  "Configure your Liberal Crime Squad experience": "Configure sua experiência no Esquadrão do Crime Liberal",
-  "Conservative media bias": "Conservative media bias",
-  "Credit Card Fraud": "Credit Card Fraud",
-  "DEATH ROW: ": "DEATH ROW: ",
-  "DISTURBING THE PEACE": "PERTURBAÇÃO DA PAZ",
-  "Dead in Congress": "Dead in Congress",
-  "Defense arguments are pretty good.": "Defense arguments are pretty good.",
-  "Deregulate Infotech Industry": "Deregulate Infotech Industry",
-  "Desert Eagle Bar & Grill": "Desert Eagle Bar & Grill",
-  "Drug House": "Drug House",
-  "EMERGENCY EXIT ONLY. ALARM WILL SOUND.": "EMERGENCY EXIT ONLY. ALARM WILL SOUND.",
-  "Effectiveness: ": "Effectiveness: ",
-  "Employees Only": "Employees Only",
-  "Enlightened Judge": "Enlightened Judge",
-  "Error - Crash Expected": "Error - Crash Expected",
+  "A - No sorting.": "A - Sem ordenação.",
+  "A Liberal outcome!": "Um resultado liberal!",
+  "A few of the jurors are closet Socialists.": "Alguns dos jurados são socialistas secretos.",
+  "A hostage escapes!": "Um refém escapa!",
+  "AMENDMENT REJECTED.": "EMENDA REJEITADA.",
+  "Above Average": "Acima da Média",
+  "Activate Sleeper Agents in Bulk": "Ativar Agentes Dorminhocos em Massa",
+  "Alarms go off!": "Alarmes disparam!",
+  "An M1 Abrams Tank is stopped by a tank traps.": "Um tanque M1 Abrams é parado por armadilhas de tanque.",
+  "An investigation is being launched to find the leaker.": "Uma investigação está sendo lançada para encontrar o vazador.",
+  "Any Other Key - Continue the Struggle": "Qualquer Outra Tecla - Continue a Luta",
+  "Are they even in here?": "Eles estão aqui?",
+  "Art Supplies": "Suprimentos de Arte",
+  "Assign Tasks to Liberals": "Atribuir Tarefas aos Liberais",
+  "Auto Plant": "Fábrica de Carros",
+  "B - Sort by name.": "B - Ordenar por nome.",
+  "Ban Torture Techniques": "Banir Técnicas de Tortura",
+  "Buggy Armor": "Armadura Bugada",
+  "Bus Garage": "Garagem de Ônibus",
+  "But ${target.name} weren't born yesterday.": "Mas ${target.name} não nasceram ontem.",
+  "Buyer: ": "Comprador: ",
+  "By Corporate": "Pela Corporação",
+  "CCS Founder": "Fundador do CCS",
+  "CCS Squad KIA": "Esquadrão CCS KIA",
+  "CEO's Study": "Estudo do CEO",
+  "CYBER TERRORISM": "CIBERTERRORISMO",
+  "Choose a Liberal squad member to receive it.": "Escolha um membro do esquadrão Liberal para recebê-lo.",
+  "Choose how to sort the list of {description}.": "Escolha como ordenar a lista de {description}.",
+  "Clothes: ": "Roupas: ",
+  "Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": "Crie e edite mapas personalizados para o Esquadrão do Crime Liberal. Este recurso está atualmente em desenvolvimento.",
+  "DATA THEFT": "ROUBO DE DADOS",
+  "E - Map Editor": "E - Editor de Mapas",
+  "Easy": "Fácil",
+  "Enlightened Can't Recruit": "Iluminados Não Podem Recrutar",
   "Escaped prisoner sentenced to DEATH": "Prisioneiro fugitivo condenado à MORTE",
-  "Eugene, OR": "Eugene, OR",
-  "Ex-Union Worker": "Ex-Union Worker",
   "Extremely Difficult": "Extremamente Difícil",
-  "Fight Drug Trafficking": "Fight Drug Trafficking",
-  "Flaming Rabbit": "Flaming Rabbit",
-  "Force it open? (Yes or No)": "Force it open? (Yes or No)",
-  "Fortunately, your funds remain intact.": "Fortunately, your funds remain intact.",
   "GRAND THEFT AUTO": "ROUBO DE VEÍCULO",
-  "Gosh!   Is there anything I can do?": "Gosh!   Is there anything I can do?",
   "HARMFUL SPEECH": "DISCURSO PREJUDICIAL",
-  "Have a nice day.": "Have a nice day.",
-  "Hello {name}!": "Olá {name}!",
-  "Huge Bouncer": "Huge Bouncer",
-  "I AM MAKING A WITHDRAWAL. ALL YOUR MONEY.": "I AM MAKING A WITHDRAWAL. ALL YOUR MONEY.",
-  "INJURED: ": "INJURED: ",
-  "If the member has low heart they may go to the police.": "If the member has low heart they may go to the police.",
-  "Improve Prison Conditions": "Improve Prison Conditions",
-  "In the name of God, your campaign of terror ends here!": "In the name of God, your campaign of terror ends here!",
-  "It looks like you've lost them!": "It looks like you've lost them!",
-  "It's locked from the other side.": "It's locked from the other side.",
-  "Jaded Liberal Judge": "Jaded Liberal Judge",
-  "KINDLY PUT MONEY IN BAG. OR ELSE.": "KINDLY PUT MONEY IN BAG. OR ELSE.",
-  "L - Load a Saved Game": "L - Carregar um Jogo Salvo",
-  "LCS Rampage $name": "LCS Rampage $name",
-  "Lab Equipment": "Lab Equipment",
-  "Lead Interrogator: ": "Lead Interrogator: ",
-  "Left Rear Leg": "Left Rear Leg",
-  "Liberal Martyrs and Dead Bodies": "Liberal Martyrs and Dead Bodies",
-  "Liberal will be scattered about the compound.  Save what": "Liberal will be scattered about the compound.  Save what",
-  "Liberals in treatment": "Liberais em tratamento",
-  "Life Sentence": "Life Sentence",
-  "Loading...": "Carregando...",
-  "M - Experimental Mouse Input: {status}": "M - Entrada Experimental de Mouse: {status}",
-  "Maintained by {maintainer}, with gratitude to:": "Mantido por {maintainer}, com gratidão para:",
-  "Materials related to the business front are taken.": "Materials related to the business front are taken.",
-  "Minister of Love:": "Minister of Love:",
-  "Moving Equipment": "Movendo Equipamento",
-  "N - Start a New Game": "N - Começar um Novo Jogo",
-  "NOW   MAX": "ATUAL   MAX",
-  "New Union Worker": "New Union Worker",
-  "Next:  ": "Próximo:  ",
-  "No ammo required!": "Munição não necessária!",
-  "No spare ammo!": "Sem munição reserva!",
-  "O - Gameplay Options": "O - Opções de Jogo",
-  "Oh my Science!   We've got to do something!": "Oh my Science!   We've got to do something!",
-  "On Broadway": "On Broadway",
-  "One of the accepted jurors is a Conservative activist.": "One of the accepted jurors is a Conservative activist.",
-  "Out in ": "Out in ",
-  "PLEASE PLACE LOTS OF DOLLARS IN THIS BAG.": "PLEASE PLACE LOTS OF DOLLARS IN THIS BAG.",
-  "PUBLIC NUDITY": "NUDEZ PÚBLICA",
-  "Page 3 of 5 - Opinion Polling (Part 2)": "Page 3 of 5 - Opinion Polling (Part 2)",
-  "Paper Mill": "Paper Mill",
-  "Pink Elephant": "Pink Elephant",
-  "Police Officer": "Police Officer",
-  "President ": "President ",
-  "President (1st Term):": "President (1st Term):",
-  "Press 'C' to watch the ratification process unfold.": "Press 'C' to watch the ratification process unfold.",
-  "Press a Letter to select a {optiontypename}": "Pressione uma Letra para selecionar {optiontypename}",
-  "Press any key to continue the elections.    ": "Press any key to continue the elections.    ",
-  "Press any key to reflect on what has happened.": "Press any key to reflect on what has happened.",
-  "Prison Control Room": "Prison Control Room",
-  "Profile of an Automaton": "Profile of an Automaton",
-  "Promote Nuclear Power": "Promote Nuclear Power",
-  "Protect Animal Welfare": "Protect Animal Welfare",
-  "Protect Individual Privacy": "Protect Individual Privacy",
-  "Protect our Borders": "Protect our Borders",
-  "Protect the Symbol of Our Nation": "Protect the Symbol of Our Nation",
-  "Purple Gorilla": "Purple Gorilla",
-  "ROBBERY. GIVE ME CASH. NO FUNNY MONEY.": "ROBBERY. GIVE ME CASH. NO FUNNY MONEY.",
-  "Ransoming Hostages": "Ransoming Hostages",
-  "Regulate Defense Industries": "Regulate Defense Industries",
-  "Representative ": "Representative ",
-  "Restricted Area": "Restricted Area",
-  "Right Front Leg": "Right Front Leg",
-  "Robert E. Lee Bunker": "Robert E. Lee Bunker",
-  "SAY NOTHING. YOU ARE BEING ROBBED.": "SAY NOTHING. YOU ARE BEING ROBBED.",
-  "Safehouse Investments": "Safehouse Investments",
-  "Save Children from the LGBT Agenda": "Save Children from the LGBT Agenda",
-  "Secluded Alley": "Secluded Alley",
-  "Select a Liberal Education Plan": "Select a Liberal Education Plan",
-  "Selected: ": "Selected: ",
-  "Serving life in prison": "Cumprindo prisão perpétua",
-  "Shopping Mall": "Shopping Mall",
-  "Some people are hiding under the table.": "Some people are hiding under the table.",
-  "Somethin's kinda buggin' me.": "Somethin's kinda buggin' me.",
-  "Special: {name}": "Special: {name}",
-  "Squad: {name}": "Squad: {name}",
-  "Stop Barbaric Executions": "Stop Barbaric Executions",
-  "Stop Police Misconduct": "Stop Police Misconduct",
-  "Strengthen Abortion Rights": "Strengthen Abortion Rights",
-  "T-Shirt Sales": "T-Shirt Sales",
-  "THE TRUTH": "THE TRUTH",
-  "Taking Undercover Action:   What will ": "Taking Undercover Action:   What will ",
-  "Tending to ${creature?.name ?? ": "Tending to ${creature?.name ?? ",
-  "That *is* disturbing!   What can I do?": "That *is* disturbing!   What can I do?",
-  "The CEO must have fled to a panic room.": "The CEO must have fled to a panic room.",
-  "The Education of ": "The Education of ",
-  "The Execution of {name}   ": "The Execution of {name}   ",
-  "The Liberal Crime Squad liberalized the country in ": "The Liberal Crime Squad liberalized the country in ",
-  "The Liberal Crime Squad was brought to justice in ": "The Liberal Crime Squad was brought to justice in ",
-  "The Liberal Crime Squad was executed in ": "The Liberal Crime Squad was executed in ",
-  "The Liberal Crime Squad was mobbed in ": "The Liberal Crime Squad was mobbed in ",
-  "The Liberal Crime Squad was scattered in ": "The Liberal Crime Squad was scattered in ",
-  "The Liberal Guardian runs a story featuring cable news memos ": "The Liberal Guardian runs a story featuring cable news memos ",
-  "The Liberal Guardian runs a story featuring research papers ": "The Liberal Guardian runs a story featuring research papers ",
-  "The Liberal wakes up in the police station...": "The Liberal wakes up in the police station...",
-  "The Radicalization of ": "The Radicalization of ",
-  "The balance of power has largely held.": "The balance of power has largely held.",
-  "The camera feeds are dead.": "The camera feeds are dead.",
-  "The computer has been unplugged.": "The computer has been unplugged.",
-  "The country has been Reaganified.": "The country has been Reaganified.",
-  "The defendant, ${g.properName}, is charged with ": "The defendant, ${g.properName}, is charged with ",
-  "The defense is lackluster.": "The defense is lackluster.",
-  "The defense makes the prosecution look like amateurs.": "The defense makes the prosecution look like amateurs.",
-  "The homeless people here are left with nothing.": "The homeless people here are left with nothing.",
-  "The jury is Flaming Liberal.": "The jury is Flaming Liberal.",
-  "The jury is frighteningly Conservative.": "The jury is frighteningly Conservative.",
-  "The landlord is in.": "The landlord is in.",
-  "The left seems": "The left seems",
-  "The person inside is squashed into a cube.": "The person inside is squashed into a cube.",
-  "The power of the Arch Conservative far right is growing...": "The power of the Arch Conservative far right is growing...",
-  "The prosecution makes an airtight case.": "The prosecution makes an airtight case.",
-  "The security checkpoint is abandoned.": "The security checkpoint is abandoned.",
-  "The soldiers confiscate everything, including Squad weapons.": "The soldiers confiscate everything, including Squad weapons.",
-  "The squad flashes ID badges.": "The squad flashes ID badges.",
-  "The squad releases the hostage in the trade.": "The squad releases the hostage in the trade.",
-  "The vault is open!": "The vault is open!",
-  "There are a few people up ahead.": "There are a few people up ahead.",
-  "There is a crowd of people up ahead.": "There is a crowd of people up ahead.",
-  "There is a new button, (R)eorganize, which reflects this.": "There is a new button, (R)eorganize, which reflects this.",
-  "There is someone up ahead.": "There is someone up ahead.",
-  "This door is guarded.": "This door is guarded.",
-  "This message does not exist": "Esta mensagem não existe",
-  "Tile - {name}": "Tile - {name}",
-  "Total Americas Saved: {count}": "Total de Américas Salvas: {count}",
-  "Total Liberals Martyred: {count}": "Total de Liberais Martirizados: {count}",
-  "Transp: ": "Transporte: ",
-  "Try the door anyway? (Yes or No)": "Try the door anyway? (Yes or No)",
-  "U - Log Untranslated Strings: {status}": "U - Registrar Strings Não Traduzidas: {status}",
-  "UNLAWFUL BURIAL": "ENTERRO ILEGAL",
-  "Universal Liberal Statistics": "Estatísticas Liberais Universais",
-  "V-Flee, ": "V-Flee, ",
-  "Version {version}": "Versão {version}",
-  "Vice President ": "Vice President ",
-  "WANTED FOR ": "PROCURADO POR ",
-  "WINNING JOURNALISM": "WINNING JOURNALISM",
-  "We've alienated absolutely everyone here!": "We've alienated absolutely everyone here!",
-  "Welcome to the NPP Nuclear Plant. Please enjoy": "Welcome to the NPP Nuclear Plant. Please enjoy",
-  "When encounter warnings are on, you will be warned when you take a step or wait and a new encounter begins. This extra step can help you avoid accidentally walking past an encounter or doing something else you might not want to do. Default is off.": "Quando os avisos de encontro estão ligados, você será avisado quando der um passo ou esperar e um novo encontro começar. Este passo extra pode ajudá-lo a evitar passar acidentalmente por um encontro ou fazer algo que você não quer. O padrão é desligado.",
+  "Heat: ": "Pressão: ",
+  "How long since you've heard these sounds...  times have changed.": "Quanto tempo desde que você ouviu esses sons... os tempos mudaram.",
+  "Impossible": "Impossível",
+  "It has been a long time.  A lot must have changed...": "Faz muito tempo. Muita coisa deve ter mudado...",
+  "JURY TAMPERING": "MANIPULAÇÃO DE JÚRI",
+  "Language": "Idioma",
+  "MOD TOOLS": "FERRAMENTAS DE MOD",
+  "No ammo available!": "Sem munição disponível!",
+  "On Foot": "A Pé",
+  "P - Default Page Up/Down Keys: {keys}": "P - Teclas Padrão de Page Up/Down: {keys}",
+  "Press a Letter to select Squad members.": "Pressione uma Letra para selecionar membros do Esquadrão.",
+  "Press any key to continue": "Pressione qualquer tecla para continuar",
+  "Profile of a Liberal": "Perfil de um Liberal",
+  "RESISTING ARREST": "RESISTÊNCIA À PRISÃO",
+  "Ripped off": "Arrancado",
+  "Scheduled Meetings: ": "Reuniões Agendadas: ",
+  "Select an Option to Pursue your Liberal Agenda": "Selecione uma Opção para Perseguir sua Agenda Liberal",
+  "This location has food for only a few days.": "Este local tem comida para apenas alguns dias.",
+  "Total Conservatives Kidnapped: {count}": "Total de Conservadores Sequestrados: {count}",
+  "Total Liberals Recruited: {count}": "Total de Liberais Recrutados: {count}",
+  "Universal Liberal Statistics:": "Estatísticas Liberais Universais:",
+  "Very Easy": "Muito Fácil",
+  "When mouse input is on, you can use the mouse to select options in the game. This feature is not complete and not All screens support mouse input. Default is on.": "Quando a entrada de mouse está ligada, você pode usar o mouse para selecionar opções no jogo. Este recurso não está completo e nem todas as telas suportam entrada de mouse. O padrão é ligado.",
   "You can't equip that.": "Você não pode equipar isso.",
   "You have one item.": "Você tem um item.",
-  "You hear jet bombers streak overhead.": "You hear jet bombers streak overhead.",
-  "You pull over and are arrested.": "You pull over and are arrested.",
-  "You shake the handle but it is locked.": "You shake the handle but it is locked.",
-  "You suddenly dart into an alley!": "You suddenly dart into an alley!",
-  "Your Squad has filled out to six members if any were ": "Your Squad has filled out to six members if any were ",
-  "Your security cameras let you see units on the (M)ap.": "Your security cameras let you see units on the (M)ap.",
-  "[Rats!] ": "[Rats!] ",
-  "above the pull-down sunblock thingy!": "above the pull-down sunblock thingy!",
-  "agree that more work is needed for racial equality": "agree that more work is needed for racial equality",
-  "allow abusive police behavior": "allow abusive police behavior",
-  "allow gender-based discrimination": "allow gender-based discrimination",
-  "allow torture in interrogations": "allow torture in interrogations",
-  "and pretends to belong here.": "and pretends to belong here.",
-  "are concerned about gun violence": "are concerned about gun violence",
-  "are for the appointment of Liberal Justices": "are for the appointment of Liberal Justices",
-  "assign a different individual activity.": "assign a different individual activity.",
-  "avoid companies that use sweatshops": "avoid companies that use sweatshops",
-  "be in the Squad.  If less than six, then they all must.": "be in the Squad.  If less than six, then they all must.",
-  "believe that CEO salaries are too high": "believe that CEO salaries are too high",
-  "black people": "black people",
-  "burned away!": "burned away!",
-  "call for stricter environmental regulations": "call for stricter environmental regulations",
-  "complicated ": "complicated ",
-  "create limits on corporate power": "create limits on corporate power",
-  "declared a state of emergency": "declared a state of emergency",
-  "deplore animal research": "deplore animal research",
-  "due to the abolition of the death penalty.": "due to the abolition of the death penalty.",
-  "encourage anti-abortion laws": "encourage anti-abortion laws",
-  "excessive animal research regulation": "excessive animal research regulation",
-  "executing serious criminals": "executing serious criminals",
-  "find Conservative AM Radio distasteful": "find Conservative AM Radio distasteful",
   "game.": "jogo.",
-  "gestures, ": "gestures, ",
-  "government mass surveillance": "government mass surveillance",
-  "guarantee rights for animals": "guarantee rights for animals",
-  "guarantee rights to noncitizens": "guarantee rights to noncitizens",
-  "guards move in on the squad!": "guards move in on the squad!",
   "hostages": "reféns",
   "immediately.": "imediatamente.",
-  "in the ignition.  Damn.": "in the ignition.  Damn.",
-  "increasing taxes": "increasing taxes",
-  "inhumane prison conditions": "inhumane prison conditions",
-  "itself to be based on Unsound Notions.": "itself to be based on Unsound Notions.",
-  "kicking up all this fuss": "kicking up all this fuss",
-  "launches a flurry of kicks at": "launches a flurry of kicks at",
-  "leftist class warfare": "leftist class warfare",
-  "looks away": "looks away",
-  "lost everything that you've left behind.  You'll have": "lost everything that you've left behind.  You'll have",
-  "mind-bending ": "mind-bending ",
-  "obscure radical groups": "obscure radical groups",
-  "only the most devoted of your former members will return.": "only the most devoted of your former members will return.",
-  "opposing the death penalty": "opposing the death penalty",
   "people away": "pessoas ausentes",
-  "permit racial discrimination": "permit racial discrimination",
-  "protecting LGBT rights": "protecting LGBT rights",
-  "ratification of this amendment.": "ratification of this amendment.",
-  "require prisons to focus on rehabilitation": "require prisons to focus on rehabilitation",
-  "restrict use of nuclear power": "restrict use of nuclear power",
-  "schedule and prior relationships.": "schedule and prior relationships.",
-  "sets the paper aside, ": "sets the paper aside, ",
-  "siege on your safehouse.  The enemy is ready for you, and": "siege on your safehouse.  The enemy is ready for you, and",
   "sleeper agents": "agentes adormecidos",
-  "soft luxury prisons": "soft luxury prisons",
   "squadless members": "membros sem esquadrão",
-  "stopping the LGBT agenda": "stopping the LGBT agenda",
-  "strike down animal welfare laws": "strike down animal welfare laws",
-  "strike down anti-drug laws": "strike down anti-drug laws",
-  "strike down flag burning laws": "strike down flag burning laws",
-  "strike down privacy laws": "strike down privacy laws",
-  "support LGBT rights": "support LGBT rights",
-  "support keeping marijuana legal": "support keeping marijuana legal",
-  "taped to the muffler!": "taped to the muffler!",
-  "the CCS terrorists": "the CCS terrorists",
-  "the Liberal Crime Squad": "the Liberal Crime Squad",
   "the deceased": "os falecidos",
-  "the museum displays in the gift shop.": "the museum displays in the gift shop.",
-  "these little chats.": "these little chats.",
-  "to be served concurrently with your existing sentence.": "to be served concurrently with your existing sentence.",
-  "to start from scratch in a new safe house.  Your": "to start from scratch in a new safe house.  Your",
-  "unbelievably complicated ": "unbelievably complicated ",
-  "vulgarity in the media": "vulgarity in the media",
-  "want the Conservative Crime Squad brought to justice": "want the Conservative Crime Squad brought to justice",
-  "weaken the military-industrial complex": "weaken the military-industrial complex",
-  "will provide cover fire from the compound until needed.": "will provide cover fire from the compound until needed.",
-  "{attacker} strikes true on {target}": "{attacker} strikes true on {target}",
   "{eaters} Eating": "{eaters} Comendo",
-  "{name1} engraves ": "{name1} engraves ",
-  "{name} chats warmly with": "{name} chats warmly with",
-  "{name} has mutual respect": "{name} has mutual respect",
-  "{name} is back from vacation.": "{name} is back from vacation.",
-  "{name} is losing": "{name} is losing",
-  "{name} looks forward to": "{name} looks forward to",
-  "{name} reloads.": "{name} reloads.",
-  "{name} seems less badass!": "{name} seems less badass!",
-  "{name}'s face is blasted off!": "{name}'s face is blasted off!",
-  "{name}'s face is removed!": "{name}'s face is removed!",
-  "{name}'s heart is punctured!": "{name}'s heart is punctured!",
-  "{name}'s left eye is burned away!": "{name}'s left eye is burned away!",
-  "{name}'s left eye is shot out!": "{name}'s left eye is shot out!",
-  "{name}'s left lung is punctured!": "{name}'s left lung is punctured!",
-  "{name}'s liver is punctured!": "{name}'s liver is punctured!",
-  "{name}'s lower spine is shattered!": "{name}'s lower spine is shattered!",
-  "{name}'s nose is blown off!": "{name}'s nose is blown off!",
-  "{name}'s nose is removed!": "{name}'s nose is removed!",
-  "{name}'s right eye is cut open!": "{name}'s right eye is cut open!",
-  "{name}'s right eye is torn out!": "{name}'s right eye is torn out!",
-  "{name}'s right kidney is torn!": "{name}'s right kidney is torn!",
-  "{name}'s right lung is torn!": "{name}'s right lung is torn!",
-  "{name}'s spleen is torn!": "{name}'s spleen is torn!",
-  "{name}'s stomach is torn!": "{name}'s stomach is torn!",
-  "{name}'s tongue is cut off!": "{name}'s tongue is cut off!",
-  "{name}'s upper spine is broken!": "{name}'s upper spine is broken!",
-  "{name}'s {part}": "{name}'s {part}",
-  "{p.name} has been rescued.": "{p.name} foi resgatado.",
-  "{text}▂": "{text}▂"
+  "{p.name} has been rescued.": "{p.name} foi resgatado."
 }

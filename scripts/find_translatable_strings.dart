@@ -248,12 +248,9 @@ void main(List<String> args) async {
         // Also look for strings on lines that look like they're in function calls
         // These are lines starting with whitespace followed by a quoted string and comma
         // that likely belong to multiline function calls
-        final multilineStringPattern = RegExp(
-          r'^\s*"([^"]+\{[^}]+\}[^"]*)"\s*,?\s*$',
-        );
-        final multilineStringPattern2 = RegExp(
-          r"^\s*'([^']+\{[^}]+\}[^']*)'\s*,?\s*$",
-        );
+        // Pattern matches strings containing one or more {param} templates
+        final multilineStringPattern = RegExp(r'^\s*"([^"]+)"\s*,?\s*$');
+        final multilineStringPattern2 = RegExp(r"^\s*'([^']+)'\s*,?\s*$");
 
         for (final match in multilineStringPattern.allMatches(line)) {
           final stringLiteral = match.group(1);
@@ -934,9 +931,12 @@ Future<void> _generateArbOutput(
 bool _matchesGlob(String path, String glob) {
   // Simple glob matching - convert glob to regex
   // ** matches any path segment, * matches within segment
+  // Note: Must replace ** first, but need to use a placeholder to avoid
+  // the * in .* being replaced by the next replaceAll
   final regexPattern = glob
-      .replaceAll('**', '.*')
+      .replaceAll('**', '\x00') // Use null char as placeholder for **
       .replaceAll('*', '[^/]*')
+      .replaceAll('\x00', '.*') // Replace placeholder with .*
       .replaceAll('?', '.');
   final regex = RegExp('^$regexPattern\$');
   return regex.hasMatch(path);

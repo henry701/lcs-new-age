@@ -1,6 +1,4 @@
 {
-  "Squad has no base to return to and no homeless camp found. Canceling departure.": "Squad has no base to return to and no homeless camp found. Canceling departure.",
-  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
   "@s.members.first.base?.cityId: ${s.members.first.base?.cityId}": {
     "placeholders": {
       "s.members.first.base?.cityId": {
@@ -8,5 +6,86 @@
         "example": "s.members.first.base?.cityId"
       }
     }
-  }
+  },
+  "@{letter} - &{color}{name} {ageGender}": {
+    "placeholders": {
+      "letter": {
+        "type": "String",
+        "example": "letter"
+      },
+      "color": {
+        "type": "String",
+        "example": "color"
+      },
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "ageGender": {
+        "type": "String",
+        "example": "ageGender"
+      }
+    }
+  },
+  "@{name} asks around for a {type}...": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "type": {
+        "type": "String",
+        "example": "type"
+      }
+    }
+  },
+  "@{name} managed to set up a meeting with ": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} was able to get information on multiple people.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} was unable to track down a {type}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "type": {
+        "type": "String",
+        "example": "type"
+      }
+    }
+  },
+  "@{name} {ageGender}": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "ageGender": {
+        "type": "String",
+        "example": "ageGender"
+      }
+    }
+  },
+  "Adventures in Liberal Recruitment": "Adventures in Liberal Recruitment",
+  "Squad has no base to return to and no homeless camp found. Canceling departure.": "Squad has no base to return to and no homeless camp found. Canceling departure.",
+  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
+  "{letter} - &{color}{name} {ageGender}": "{letter} - &{color}{name} {ageGender}",
+  "{name} asks around for a {type}...": "{name} asks around for a {type}...",
+  "{name} managed to set up a meeting with ": "{name} managed to set up a meeting with ",
+  "{name} was able to get information on multiple people.": "{name} was able to get information on multiple people.",
+  "{name} was unable to track down a {type}.": "{name} was unable to track down a {type}.",
+  "{name} {ageGender}": "{name} {ageGender}"
 }

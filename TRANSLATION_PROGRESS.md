@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,173
-- **Translated to pt_BR**: 460 (39%)
-- **Remaining**: 713 strings
+- **Translated to pt_BR**: 465 (40%)
+- **Remaining**: 708 strings
 - **Total files with console output**: ~77 files
-- **Current session**: Session 11 (Complete)
+- **Current session**: Session 12 (Complete)
 
 ## Translation Priority Queue
 
@@ -27,8 +27,8 @@ Files are ordered by importance (most user-facing first):
 
 ### DAILY ACTIVITIES
 12. [x] lib/daily/advance_day.dart (COMPLETE)
-13. [ ] lib/daily/activities/recruiting.dart (NEXT)
-14. [ ] lib/daily/activities/fundraising.dart
+13. [x] lib/daily/activities/recruiting.dart (COMPLETE)
+14. [ ] lib/daily/activities/fundraising.dart (NEXT)
 15. [ ] lib/daily/activities/car_theft.dart
 16. [ ] lib/daily/activities/trouble.dart
 17. [ ] lib/daily/activities/hacking.dart
@@ -133,17 +133,18 @@ Files are ordered by importance (most user-facing first):
 | lib/basemode/review_mode.dart | 31 | ✅ Complete | 9 | (pending) |
 | lib/basemode/plan_site_visit.dart | 14 | ✅ Complete | 10 | (pending) |
 | lib/daily/advance_day.dart | 27 | ✅ Complete | 11 | (pending) |
+| lib/daily/activities/recruiting.dart | 7 | ✅ Complete | 12 | (pending) |
 
 ## Current Session
 
-**Session**: 11
+**Session**: 12
 **Status**: Complete
-**Completed File**: lib/daily/advance_day.dart
-**Next File**: lib/daily/activities/recruiting.dart (NEXT)
+**Completed File**: lib/daily/activities/recruiting.dart
+**Next File**: lib/daily/activities/fundraising.dart (NEXT)
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-02
 **Completion Time**: 2026-02-02
-**Notes**: Session 11 - Translated strings from lib/daily/advance_day.dart. Added 27 new translations including squad activity messages ("{squad} decided {site} was too hot to risk", "{squad} couldn't afford to travel"), death notifications ("{name} has died", "{name} has died of injuries"), dispersal messages ("{name} has lost touch with the Liberal Crime Squad", "{name} has abandoned the LCS"), and various daily activity strings. Also improved the find_translatable_strings.dart script to handle mvaddstrc/addstrc function calls. All tests passing.
+**Notes**: Session 12 - Translated strings from lib/daily/activities/recruiting.dart. Added 5 new translations including "Adventures in Liberal Recruitment" (Aventuras no Recrutamento Liberal), recruitment search messages ("{name} asks around for a {type}...", "{name} was unable to track down a {type}."), and meeting setup messages ("{name} managed to set up a meeting with ", "{name} was able to get information on multiple people."). Also fixed a critical bug in the glob pattern matching in find_translatable_strings.dart that was preventing proper file filtering. All tests passing.
 
 ## Translation Statistics
 
@@ -165,7 +166,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 39% (460/1,173)
+[██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 40% (465/1,173)
 ```
 
 ## Issues/Blockers
@@ -210,5 +211,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 11 complete)
-**Next Update**: Session 12 start
+**Last Updated**: 2026-02-02 (Session 12 complete)
+**Next Update**: Session 13 start

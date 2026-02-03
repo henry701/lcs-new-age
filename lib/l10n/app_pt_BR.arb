@@ -260,6 +260,26 @@
       }
     }
   },
+  "@{letter} - &{color}{name} {ageGender}": {
+    "placeholders": {
+      "letter": {
+        "type": "String",
+        "example": "letter"
+      },
+      "color": {
+        "type": "String",
+        "example": "color"
+      },
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "ageGender": {
+        "type": "String",
+        "example": "ageGender"
+      }
+    }
+  },
   "@{lovers} Lover": {
     "placeholders": {
       "lovers": {
@@ -281,6 +301,18 @@
       "activity": {
         "type": "String",
         "example": "activity"
+      }
+    }
+  },
+  "@{name} asks around for a {type}...": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "type": {
+        "type": "String",
+        "example": "type"
       }
     }
   },
@@ -348,11 +380,51 @@
       }
     }
   },
+  "@{name} managed to set up a meeting with ": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
   "@{name} regains contact with the LCS.": {
     "placeholders": {
       "name": {
         "type": "String",
         "example": "John"
+      }
+    }
+  },
+  "@{name} was able to get information on multiple people.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} was unable to track down a {type}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "type": {
+        "type": "String",
+        "example": "type"
+      }
+    }
+  },
+  "@{name} {ageGender}": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "ageGender": {
+        "type": "String",
+        "example": "ageGender"
       }
     }
   },
@@ -489,6 +561,7 @@
   "Activate Sleeper Agents": "Ativar Agentes Dorminhocos",
   "Activate Sleeper Agents in Bulk": "Ativar Agentes Dorminhocos em Massa",
   "Active Liberals": "Liberais Ativos",
+  "Adventures in Liberal Recruitment": "Aventuras no Recrutamento Liberal",
   "Agility: ${cr.attribute(Attribute.agility)}": "Agilidade: ${cr.attribute(Attribute.agility)}",
   "Alarms go off!": "Alarmes disparam!",
   "All ": "Todos ",
@@ -695,8 +768,10 @@
   "{count} other LCS members escape in the riot!": "{count} outros membros do LCS escapam no motim!",
   "{cr} in the command chain.": "{cr} na cadeia de comando.",
   "{eaters} Eating": "{eaters} Comendo",
+  "{letter} - &{color}{name} {ageGender}": "{letter} - &{color}{name} {ageGender}",
   "{lovers} Lover": "{lovers} Amante",
   "{member} acted with {squad} instead of {activity}.": "{member} agiu com {squad} em vez de {activity}.",
+  "{name} asks around for a {type}...": "{name} pergunta por aí por um {type}...",
   "{name} has abandoned the LCS.": "{name} abandonou o ECL.",
   "{name} has been rescued.": "{name} foi resgatado.",
   "{name} has died of injuries.": "{name} morreu de ferimentos.",
@@ -704,7 +779,11 @@
   "{name} has lost touch with the Liberal Crime Squad.": "{name} perdeu contato com o Esquadrão do Crime Liberal.",
   "{name} has passed away at the age of {age}.": "{name} faleceu aos {age} anos.",
   "{name} is now {age} years old.": "{name} agora tem {age} anos.",
+  "{name} managed to set up a meeting with ": "{name} conseguiu marcar um encontro com ",
   "{name} regains contact with the LCS.": "{name} restabelece contato com o ECL.",
+  "{name} was able to get information on multiple people.": "{name} conseguiu obter informações sobre várias pessoas.",
+  "{name} was unable to track down a {type}.": "{name} não conseguiu encontrar um {type}.",
+  "{name} {ageGender}": "{name} {ageGender}",
   "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado.",
   "{name}'s injuries require professional treatment.": "Os ferimentos de {name} exigem tratamento profissional.",
   "{newboss} is the new leader ": "{newboss} é o novo líder ",

@@ -2,8 +2,8 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,173
-- **Translated to pt_BR**: 555 (47%)
-- **Remaining**: 618 strings (~375 fully translated, 7 template patterns)
+- **Translated to pt_BR**: 605 (52%)
+- **Remaining**: 568 strings (~425 fully translated, 7 template patterns)
 - **Total files with console output**: ~77 files
 - **Current session**: Session 18 (Complete)
 
@@ -141,17 +141,18 @@ Files are ordered by importance (most user-facing first):
 | lib/daily/activities/hacking.dart | 7 | ✅ Complete | 16 | (pending) |
 | lib/daily/activities/clothing_creation.dart | 9 | ✅ Complete | 17 | (pending) |
 | lib/daily/shopsnstuff.dart | 9 | ✅ Complete | 18 | (pending) |
+| Session 19 - Batch Translation | 50 | ✅ Complete | 19 | (pending) |
 
 ## Current Session
 
-**Session**: 18
+**Session**: 19
 **Status**: Complete
-**Completed File**: lib/daily/shopsnstuff.dart
-**Next File**: lib/basemode/activate_sleepers.dart (NEXT)
+**Completed**: Batch of 50 general strings (cross-file)
+**Next Target**: Continue with lib/basemode/activate_sleepers.dart OR next batch
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-04
 **Completion Time**: 2026-02-04
-**Notes**: Session 18 - Translated 9 strings. Added Portuguese translation for "Squad has no base to return to and no homeless camp found. Canceling departure." → "O esquadrão não tem base para retornar e nenhum acampamento de desabrigados foi encontrado. Cancelando partida." Also added 7 template format strings with placeholders (e.g., "{alarm}: ", "{name} {action}"). All tests passing. Progress now at 555/1,173 strings (47%).
+**Notes**: Session 19 - Translated 50 general strings from cross-file sources. Examples: "black people" → "pessoas negras", "allow torture in interrogations" → "permitem tortura em interrogatórios", "believe that CEO salaries are too high" → "acreditam que salários de CEOs são muito altos", "{attacker} strikes true on {target}" → "{attacker} acerta em cheio em {target}". Also included policy stance translations and UI elements. All tests passing. Progress now at 605/1,173 strings (52%).
 
 ## Translation Statistics
 
@@ -173,7 +174,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[█████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░] 47% (555/1,173)
+[██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░] 52% (605/1,173)
 ```
 
 ## Issues/Blockers
@@ -218,5 +219,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-04 (Session 18 complete)
-**Next Update**: Session 19 start
+**Last Updated**: 2026-02-04 (Session 19 complete)
+**Next Update**: Session 20 start

@@ -1,5 +1,6 @@
 {
   " (${price})": " ({price})",
+  " (After Recount)": " (Após Recontagem)",
   " (CCS Safehouse)": " (Esconderijo CCS)",
   " (Closed Down)": " (Fechado)",
   " (Current Location)": " (Localização Atual)",
@@ -9,11 +10,26 @@
   " (Need Car)": " (Precisa de Carro)",
   " (Potential Safehouse)": " (Possível Esconderijo)",
   " (Under Siege)": " <Sob Cerco>",
+  " BIAS ": " VIÉS ",
   " Max": " Máx",
+  " acts natural.": " age naturalmente.",
+  " and a hostage is freed": " e um refém é libertado",
+  " barks.": " late.",
+  " {ageGender}": " {ageGender}",
   "${letter} - Travel to a Different City": "${letter} - Viajar para uma Cidade Diferente",
   "(click the game window to give it keyboard focus)": "(clique na janela do jogo para dar foco do teclado)",
+  "+~$roundedArmor": "+~$roundedArmor",
+  ", 1st Term": ", 1º Mandato",
+  ", 2nd Term": ", 2º Mandato",
+  ", also of": ", também de",
+  "-BEEEP- -BEEEP- -BEEEP-": "-BIIIP- -BIIIP- -BIIIP-",
+  "...and accidentally ": "...e acidentalmente ",
   "1) R - Review Assets and Form Squads": "1) R - Revisar Recursos e Formar Esquadrões",
   "2) Press Z to Assemble a New Squad": "2) Pressione Z para Montar um Novo Esquadrão",
+  "3 - Expand Sleeper Network": "3 - Expandir Rede de Dorminhocos",
+  "3 - [Enlightened Can't Recruit]": "3 - [Iluminados Não Podem Recrutar]",
+  "3 - [Need More Juice to Recruit]": "3 - [Precisa de Mais Influência para Recrutar]",
+  ": AGENTS RESPONDING": ": AGENTES RESPONDENDO",
   ": ALIENATED EVERYONE": ": ALIENOU TODOS",
   ": ALIENATED MASSES": ": ALIENOU AS MASSAS",
   ": CCS RESPONDING": ": CCS RESPONDENDO",
@@ -34,7 +50,55 @@
   "<No Contact>": "<Sem Contato>",
   "<Refuses Promotion>": "<Recusa Promoção>",
   "=== PLANNING ===": "=== PLANEJAMENTO ===",
+  "@ (After Recount)": {
+    "description": "Suffix indicating after election recount"
+  },
+  "@ BIAS ": {
+    "description": "Bias indicator label"
+  },
+  "@ acts natural.": {
+    "description": "Description of someone acting natural"
+  },
+  "@ and a hostage is freed": {
+    "description": "Consequence of an action freeing a hostage"
+  },
+  "@ barks.": {
+    "description": "Dog barking sound/action"
+  },
+  "@ {ageGender}": {
+    "description": "Age and gender display placeholder"
+  },
   "@(click the game window to give it keyboard focus)": {},
+  "@+~$roundedArmor": {
+    "description": "Armor rating display format with rounded value"
+  },
+  "@, 1st Term": {
+    "description": "Political term suffix for first term"
+  },
+  "@, 2nd Term": {
+    "description": "Political term suffix for second term"
+  },
+  "@, also of": {
+    "description": "Connector phrase for additional items"
+  },
+  "@-BEEEP- -BEEEP- -BEEEP-": {
+    "description": "Alarm beeping sound"
+  },
+  "@...and accidentally ": {
+    "description": "Prefix for accidental action"
+  },
+  "@3 - Expand Sleeper Network": {
+    "description": "Menu option to expand sleeper agent network"
+  },
+  "@3 - [Enlightened Can't Recruit]": {
+    "description": "Menu option when enlightened liberals cannot recruit"
+  },
+  "@3 - [Need More Juice to Recruit]": {
+    "description": "Menu option when more juice is needed to recruit"
+  },
+  "@: AGENTS RESPONDING": {
+    "description": "Alert that agents are responding to situation"
+  },
   "@A former LCS member will testify against ${g.name}.": {
     "placeholders": {
       "g.name": {
@@ -52,6 +116,9 @@
     }
   },
   "@Any of these options can be used to page up and down on paged interfaces in the game, regardless of how this option is set. This option changes which set of keys is shown in the in-game prompts. Default is [ and ].": {},
+  "@Atlanta, GA": {
+    "description": "City name - Atlanta, Georgia"
+  },
   "@Born ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ": {
     "placeholders": {
       "getMonth(cr.birthDate.month)": {
@@ -249,6 +316,102 @@
       }
     }
   },
+  "@a recent sports scandal": {
+    "description": "News topic about sports scandal"
+  },
+  "@agree that more work is needed for racial equality": {
+    "description": "Poll response about racial equality"
+  },
+  "@all the noise they were making": {
+    "description": "Reference to noise made by someone"
+  },
+  "@allow abusive police behavior": {
+    "description": "Policy stance on police behavior"
+  },
+  "@allow broad use of nuclear power": {
+    "description": "Policy stance on nuclear power"
+  },
+  "@allow broader wealth redistribution": {
+    "description": "Policy stance on wealth redistribution"
+  },
+  "@allow gender-based discrimination": {
+    "description": "Policy stance on gender discrimination"
+  },
+  "@allow limits on free speech": {
+    "description": "Policy stance on free speech limits"
+  },
+  "@allow more restrictions on guns": {
+    "description": "Policy stance on gun restrictions"
+  },
+  "@allow torture in interrogations": {
+    "description": "Policy stance on torture"
+  },
+  "@and Minister of Truth Jerry Falwell.": {
+    "description": "Reference to Minister of Truth"
+  },
+  "@and pretends to belong here.": {
+    "description": "Action of pretending to belong"
+  },
+  "@appointing more Conservative justices": {
+    "description": "Action of appointing conservative justices"
+  },
+  "@appointing more Liberal justices": {
+    "description": "Action of appointing liberal justices"
+  },
+  "@are concerned about gun violence": {
+    "description": "Poll response about gun violence concern"
+  },
+  "@are critical of the police": {
+    "description": "Attitude toward police"
+  },
+  "@are disgusted by corporate malfeasance": {
+    "description": "Attitude toward corporate wrongdoing"
+  },
+  "@are for the appointment of Liberal Justices": {
+    "description": "Support for liberal justice appointments"
+  },
+  "@are in favor of higher taxes": {
+    "description": "Support for higher taxes"
+  },
+  "@are terrified of nuclear power": {
+    "description": "Fear of nuclear power"
+  },
+  "@assign a different individual activity.": {
+    "description": "Instruction to assign different activity"
+  },
+  "@available.  If you have a larger pool of Liberals, they": {
+    "description": "Explanation about liberal pool availability"
+  },
+  "@avoid companies that use sweatshops": {
+    "description": "Consumer behavior regarding sweatshops"
+  },
+  "@awe-inspiring ": {
+    "description": "Description of something awe-inspiring"
+  },
+  "@ban torture in interrogations": {
+    "description": "Policy to ban torture"
+  },
+  "@be in the Squad.  If less than six, then they all must.": {
+    "description": "Squad size requirement explanation"
+  },
+  "@be swarming with Conservative units.  The Liberal Crime": {
+    "description": "Warning about conservative units"
+  },
+  "@believe in unfettered free speech": {
+    "description": "Belief in unlimited free speech"
+  },
+  "@believe that CEO salaries are too high": {
+    "description": "Opinion on CEO compensation"
+  },
+  "@believe that military spending is too high": {
+    "description": "Opinion on military spending"
+  },
+  "@bias elections toward incumbents": {
+    "description": "Election bias toward incumbents"
+  },
+  "@black people": {
+    "description": "Reference to black people demographic"
+  },
   "@due to the death of {cr}.": {
     "placeholders": {
       "cr": {
@@ -256,6 +419,9 @@
         "example": "cr"
       }
     }
+  },
+  "@{attacker} strikes true on {target}": {
+    "description": "Combat message when attacker hits target"
   },
   "@{bigboss} has promoted {newboss}": {
     "placeholders": {
@@ -857,6 +1023,7 @@
   "Assemble the squad!": "Monte o esquadrão!",
   "Assign Tasks in Bulk": "Atribuir Tarefas em Massa",
   "Assign Tasks to Liberals": "Atribuir Tarefas aos Liberais",
+  "Atlanta, GA": "Atlanta, GA",
   "Attorney General:": "Procurador-Geral:",
   "Auto Plant": "Fábrica de Carros",
   "Average": "Médio",
@@ -1038,12 +1205,44 @@
   "Your Activists ": "Seus Ativistas ",
   "Your hackers have ": "Seus hackers ",
   "Your hackers have stolen {amount} from credit cards.": "Seus hackers roubaram {amount} de cartões de crédito.",
+  "a recent sports scandal": "um escândalo esportivo recente",
   "above the pull-down sunblock thingy!": "acima daquela coisa de bloquear sol!",
   "active Liberals": "Liberais ativos",
   "affects": "afeta",
+  "agree that more work is needed for racial equality": "concordam que mais trabalho é necessário para igualdade racial",
   "all": "todo",
+  "all the noise they were making": "todo o barulho que estavam fazendo",
+  "allow abusive police behavior": "permitem comportamento policial abusivo",
+  "allow broad use of nuclear power": "permitem uso amplo de energia nuclear",
+  "allow broader wealth redistribution": "permitem maior redistribuição de riqueza",
+  "allow gender-based discrimination": "permitem discriminação baseada em gênero",
+  "allow limits on free speech": "permitem limites na liberdade de expressão",
+  "allow more restrictions on guns": "permitem mais restrições a armas",
+  "allow torture in interrogations": "permitem tortura em interrogatórios",
+  "and Minister of Truth Jerry Falwell.": "e Ministro da Verdade Jerry Falwell.",
   "and many others who have contributed to LCS over the years": "e muitos outros que contribuíram para o LCS ao longo dos anos",
+  "and pretends to belong here.": "e finge pertencer aqui.",
+  "appointing more Conservative justices": "nomeando mais juízes Conservadores",
+  "appointing more Liberal justices": "nomeando mais juízes Liberais",
+  "are concerned about gun violence": "estão preocupados com violência armada",
+  "are critical of the police": "são críticos da polícia",
+  "are disgusted by corporate malfeasance": "estão enojados com malversação corporativa",
+  "are for the appointment of Liberal Justices": "são a favor da nomeação de Juízes Liberais",
+  "are in favor of higher taxes": "são a favor de impostos mais altos",
+  "are terrified of nuclear power": "estão aterrorizados com energia nuclear",
+  "assign a different individual activity.": "atribuir uma atividade individual diferente.",
   "available Liberals": "Liberais disponíveis",
+  "available.  If you have a larger pool of Liberals, they": "disponível. Se você tem uma reserva maior de Liberais, eles",
+  "avoid companies that use sweatshops": "evitam empresas que usam mão de obra escrava",
+  "awe-inspiring ": "inspirador de admiração ",
+  "ban torture in interrogations": "proíbem tortura em interrogatórios",
+  "be in the Squad.  If less than six, then they all must.": "estar no Esquadrão. Se menos de seis, então todos devem estar.",
+  "be swarming with Conservative units.  The Liberal Crime": "estar infestado de unidades Conservadoras. O Esquadrão do Crime Liberal",
+  "believe in unfettered free speech": "acreditam em liberdade de expressão irrestrita",
+  "believe that CEO salaries are too high": "acreditam que salários de CEOs são muito altos",
+  "believe that military spending is too high": "acreditam que gastos militares são muito altos",
+  "bias elections toward incumbents": "desequilibram eleições a favor de candidatos à reeleição",
+  "black people": "pessoas negras",
   "burned a corporate symbol and denounced capitalism!": "queimou um símbolo corporativo e denunciou o capitalismo!",
   "burned an effigy of a right-wing news anchor!": "queimou uma efígie de um âncora de notícias de direita!",
   "burned an effigy of a right-wing radio host!": "queimou uma efígie de um apresentador de rádio de direita!",
@@ -1096,6 +1295,7 @@
   "under the back seat!": "debaixo do banco traseiro!",
   "under the front seat!": "debaixo do banco da frente!",
   "went downtown and reenacted a police beating!": "foi ao centro e encenou uma agressão policial!",
+  "{attacker} strikes true on {target}": "{attacker} acerta em cheio em {target}",
   "{bigboss} has promoted {newboss}": "{bigboss} promoveu {newboss}",
   "{count} other LCS members escape in the riot!": "{count} outros membros do LCS escapam no motim!",
   "{cr} in the command chain.": "{cr} na cadeia de comando.",

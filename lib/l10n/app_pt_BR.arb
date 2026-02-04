@@ -421,6 +421,30 @@
       }
     }
   },
+  "@{name} created {rate}-rate {clothing}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "rate": {
+        "type": "String",
+        "example": "rate"
+      },
+      "clothing": {
+        "type": "String",
+        "example": "clothing"
+      }
+    }
+  },
+  "@{name} doesn't have enough money to make clothing.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
   "@{name} fiddles with the lock with no luck.": {
     "placeholders": {
       "name": {
@@ -438,6 +462,22 @@
       "car": {
         "type": "String",
         "example": "car"
+      }
+    }
+  },
+  "@{name} got feet and inches mixed up and is now outfitting ants.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} got inches and feet mixed up and is now drowning in cloth.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
       }
     }
   },
@@ -569,7 +609,23 @@
       }
     }
   },
+  "@{name} made a horrible nightmare of cloth and stitching.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
   "@{name} managed to set up a meeting with ": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} produced an unwearable cloth monster.": {
     "placeholders": {
       "name": {
         "type": "String",
@@ -609,6 +665,26 @@
       }
     }
   },
+  "@{name} stitched something bad.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} tried to make {clothing}, but failed.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "clothing": {
+        "type": "String",
+        "example": "clothing"
+      }
+    }
+  },
   "@{name} was able to get information on multiple people.": {
     "placeholders": {
       "name": {
@@ -642,6 +718,18 @@
       "type": {
         "type": "String",
         "example": "type"
+      }
+    }
+  },
+  "@{name} wasted the materials for a {clothing}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "clothing": {
+        "type": "String",
+        "example": "clothing"
       }
     }
   },
@@ -1104,8 +1192,12 @@
   "{name} asks around for a {type}...": "{name} pergunta por aí por um {type}...",
   "{name} avoided getting caught a prostitution sting.": "{name} evitou ser pego em uma operação de prostituição.",
   "{name} cracks the window{weapon} but it is still somewhat intact.": "{name} quebra a janela{weapon} mas ainda está mais ou menos intacta.",
+  "{name} created {rate}-rate {clothing}.": "{name} criou {clothing} de qualidade {rate}.",
+  "{name} doesn't have enough money to make clothing.": "{name} não tem dinheiro suficiente para fazer roupas.",
   "{name} fiddles with the lock with no luck.": "{name} mexe na fechadura sem sorte.",
   "{name} found a {car}.": "{name} encontrou um {car}.",
+  "{name} got feet and inches mixed up and is now outfitting ants.": "{name} confundiu pés com polegadas e agora está vestindo formigas.",
+  "{name} got inches and feet mixed up and is now drowning in cloth.": "{name} confundiu polegadas com pés e agora está se afogando em tecido.",
   "{name} has abandoned the LCS.": "{name} abandonou o ECL.",
   "{name} has been arrested in a prostitution sting!": "{name} foi preso em uma operação de prostituição!",
   "{name} has been rescued.": "{name} foi resgatado.",
@@ -1120,13 +1212,18 @@
   "{name} jimmies the car door open.": "{name} força a porta do carro aberta.",
   "{name} looks around for an accessible vehicle...": "{name} procura um veículo acessível...",
   "{name} looks from a distance at an empty {vehicle}.": "{name} olha de longe para um {vehicle} vazio.",
+  "{name} made a horrible nightmare of cloth and stitching.": "{name} fez um pesadelo horrível de tecido e costura.",
   "{name} managed to set up a meeting with ": "{name} conseguiu marcar um encontro com ",
+  "{name} produced an unwearable cloth monster.": "{name} produziu um monstro de tecido inutilizável.",
   "{name} regains contact with the LCS.": "{name} restabelece contato com o ECL.",
   "{name} smashes the window{weapon}.": "{name} quebra a janela{weapon}.",
   "{name} stands by the {vehicle}.": "{name} está ao lado do {vehicle}.",
+  "{name} stitched something bad.": "{name} costurou algo ruim.",
+  "{name} tried to make {clothing}, but failed.": "{name} tentou fazer {clothing}, mas falhou.",
   "{name} was able to get information on multiple people.": "{name} conseguiu obter informações sobre várias pessoas.",
   "{name} was unable to find a {oldCar} but did find a {newCar}.": "{name} não conseguiu encontrar um {oldCar} mas encontrou um {newCar}.",
   "{name} was unable to track down a {type}.": "{name} não conseguiu encontrar um {type}.",
+  "{name} wasted the materials for a {clothing}.": "{name} desperdiçou os materiais para um {clothing}.",
   "{name} {action}": "{name} {action}",
   "{name} {ageGender}": "{name} {ageGender}",
   "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado.",

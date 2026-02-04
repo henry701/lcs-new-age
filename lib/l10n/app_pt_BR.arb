@@ -15,18 +15,21 @@
   " acts natural.": " age naturalmente.",
   " and a hostage is freed": " e um refém é libertado",
   " barks.": " late.",
-  " {ageGender}": " {ageGender}",
   "${letter} - Travel to a Different City": "${letter} - Viajar para uma Cidade Diferente",
   "(click the game window to give it keyboard focus)": "(clique na janela do jogo para dar foco do teclado)",
-  "+~$roundedArmor": "+~$roundedArmor",
   ", 1st Term": ", 1º Mandato",
   ", 2nd Term": ", 2º Mandato",
   ", also of": ", também de",
   "-BEEEP- -BEEEP- -BEEEP-": "-BIIIP- -BIIIP- -BIIIP-",
   "...and accidentally ": "...e acidentalmente ",
+  "1 - Lay Low": "1 - Manter-se Oculto",
+  "1 - Uncover Secrets": "1 - Descobrir Segredos",
   "1) R - Review Assets and Form Squads": "1) R - Revisar Recursos e Formar Esquadrões",
+  "2 - Advocate Liberalism": "2 - Advocar Liberalismo",
+  "2 - Embezzle Funds": "2 - Desviar Fundos",
   "2) Press Z to Assemble a New Squad": "2) Pressione Z para Montar um Novo Esquadrão",
-  "3 - Expand Sleeper Network": "3 - Expandir Rede de Dorminhocos",
+  "3 - Expand Sleeper Network": "3 - Expandir Rede Dormindo",
+  "3 - Steal Equipment": "3 - Roubar Equipamento",
   "3 - [Enlightened Can't Recruit]": "3 - [Iluminados Não Podem Recrutar]",
   "3 - [Need More Juice to Recruit]": "3 - [Precisa de Mais Influência para Recrutar]",
   ": AGENTS RESPONDING": ": AGENTES RESPONDENDO",
@@ -65,13 +68,7 @@
   "@ barks.": {
     "description": "Dog barking sound/action"
   },
-  "@ {ageGender}": {
-    "description": "Age and gender display placeholder"
-  },
   "@(click the game window to give it keyboard focus)": {},
-  "@+~$roundedArmor": {
-    "description": "Armor rating display format with rounded value"
-  },
   "@, 1st Term": {
     "description": "Political term suffix for first term"
   },
@@ -87,17 +84,35 @@
   "@...and accidentally ": {
     "description": "Prefix for accidental action"
   },
+  "@1 - Lay Low": {
+    "description": "Option to stay inactive/hidden"
+  },
+  "@1 - Uncover Secrets": {
+    "description": "Espionage option to find secrets"
+  },
+  "@2 - Advocate Liberalism": {
+    "description": "Option to advocate liberal causes"
+  },
+  "@2 - Embezzle Funds": {
+    "description": "Espionage option to steal money"
+  },
   "@3 - Expand Sleeper Network": {
-    "description": "Menu option to expand sleeper agent network"
+    "description": "Option to recruit more sleeper agents"
+  },
+  "@3 - Steal Equipment": {
+    "description": "Espionage option to steal equipment"
   },
   "@3 - [Enlightened Can't Recruit]": {
-    "description": "Menu option when enlightened liberals cannot recruit"
+    "description": "Disabled option for enlightened agents"
   },
   "@3 - [Need More Juice to Recruit]": {
-    "description": "Menu option when more juice is needed to recruit"
+    "description": "Disabled option when agent can't recruit"
   },
   "@: AGENTS RESPONDING": {
     "description": "Alert that agents are responding to situation"
+  },
+  "@A - Communication and Advocacy": {
+    "description": "Option for communication activities"
   },
   "@A former LCS member will testify against ${g.name}.": {
     "placeholders": {
@@ -106,6 +121,18 @@
         "example": "g.name"
       }
     }
+  },
+  "@ACTIVITY": {
+    "description": "Column header for current activity"
+  },
+  "@Activate Sleeper Agents": {
+    "description": "Title for sleeper agent activation screen"
+  },
+  "@Activate Sleeper Agents in Bulk": {
+    "description": "Title for bulk activation screen"
+  },
+  "@Advocate Liberalism": {
+    "description": "Short label for advocacy activity"
   },
   "@Agility: ${cr.attribute(Attribute.agility)}": {
     "placeholders": {
@@ -116,8 +143,11 @@
     }
   },
   "@Any of these options can be used to page up and down on paged interfaces in the game, regardless of how this option is set. This option changes which set of keys is shown in the in-game prompts. Default is [ and ].": {},
-  "@Atlanta, GA": {
-    "description": "City name - Atlanta, Georgia"
+  "@B - Espionage": {
+    "description": "Option for espionage activities"
+  },
+  "@BULK ACTIVITY": {
+    "description": "Column header for bulk activity assignment"
   },
   "@Born ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ": {
     "placeholders": {
@@ -163,6 +193,15 @@
       }
     }
   },
+  "@C - Join the Active LCS": {
+    "description": "Option to join active Liberal Crime Squad"
+  },
+  "@CODE NAME": {
+    "description": "Column header for agent code name"
+  },
+  "@CURRENT": {
+    "description": "Column header for current activity"
+  },
   "@Configure your Liberal Crime Squad experience": {},
   "@Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": {},
   "@E - Encounter Warnings: {status}": {
@@ -174,6 +213,9 @@
     }
   },
   "@E - Map Editor": {},
+  "@EFF": {
+    "description": "Abbreviation for effectiveness"
+  },
   "@EVICTION NOTICE: {location}.  Possessions dumped on the street.": {
     "placeholders": {
       "location": {
@@ -181,6 +223,18 @@
         "example": "Downtown"
       }
     }
+  },
+  "@Effectiveness: ": {
+    "description": "Label for agent effectiveness percentage"
+  },
+  "@Embezzle Funds": {
+    "description": "Short label for embezzlement activity"
+  },
+  "@Enter - Confirm Selection": {
+    "description": "Confirm the selected activity"
+  },
+  "@Enter - Done": {
+    "description": "Menu option to finish"
   },
   "@Enter - The Viper has finally deterred {name}.": {
     "placeholders": {
@@ -206,8 +260,20 @@
       }
     }
   },
+  "@Expand Network": {
+    "description": "Short label for recruitment activity"
+  },
   "@GAME OPTIONS": {},
+  "@JOB": {
+    "description": "Column header for job/profession"
+  },
+  "@Join LCS": {
+    "description": "Short label for joining LCS"
+  },
   "@LIBERAL CRIME SQUAD: NEW AGE": {},
+  "@Lay Low": {
+    "description": "Short label for lay low activity"
+  },
   "@M - Experimental Mouse Input: {status}": {
     "placeholders": {
       "status": {
@@ -222,6 +288,30 @@
       "keys": {
         "type": "String",
         "example": "[ and ]"
+      }
+    }
+  },
+  "@Press a Letter to Assign an Activity.": {
+    "description": "Instruction for assigning activities to agents"
+  },
+  "@Press a Letter to Assign an Activity.  Press a Number to select an Activity.": {
+    "description": "Instructions for bulk assignment screen"
+  },
+  "@SITE": {
+    "description": "Column header for work site location"
+  },
+  "@Steal Equipment": {
+    "description": "Short label for equipment theft activity"
+  },
+  "@T - Sorting options": {
+    "description": "Menu option for sorting"
+  },
+  "@Taking Undercover Action:   What will {name} focus on?": {
+    "description": "Title for sleeper agent action selection",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
       }
     }
   },
@@ -281,6 +371,9 @@
       }
     }
   },
+  "@Uncover Secrets": {
+    "description": "Short label for spy activity"
+  },
   "@Version {version}": {
     "placeholders": {
       "version": {
@@ -315,6 +408,9 @@
         "example": "$500"
       }
     }
+  },
+  "@Z - Assign tasks in bulk": {
+    "description": "Menu option for bulk assignment"
   },
   "@a recent sports scandal": {
     "description": "News topic about sports scandal"
@@ -843,6 +939,69 @@
       }
     }
   },
+  "@{name} will build support for Liberal causes.": {
+    "description": "Description for advocacy activity",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} will embezzle money for the LCS.": {
+    "description": "Description for embezzlement activity",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} will join the active LCS.": {
+    "description": "Description for joining active squad",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} will snoop around for secrets and enemy plans.": {
+    "description": "Description for spy activity",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} will stay out of trouble.": {
+    "description": "Description for lay low activity",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} will steal equipment and send it to the Camp.": {
+    "description": "Description for equipment theft activity",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} will try to recruit additional sleeper agents.": {
+    "description": "Description for recruitment activity",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
   "@{name}'s injuries require professional treatment.": {
     "placeholders": {
       "name": {
@@ -979,6 +1138,7 @@
       }
     }
   },
+  "A - Communication and Advocacy": "A - Comunicação e Advocacia",
   "A - Language Selection": "A - Seleção de Idioma",
   "A - No sorting.": "A - Sem ordenação.",
   "A - There is no expectation to spend money on this date.": "A - Não há expectativa de gastar dinheiro nesta data.",
@@ -991,17 +1151,19 @@
   "A former LCS member will testify against ${g.name}.": "Um ex-membro do LCS testemunhará contra ${g.name}.",
   "A hostage escapes!": "Um refém escapa!",
   "A new precedent would ": "Um novo precedente seria ",
+  "ACTIVITY": "ATIVIDADE",
   "AMENDMENT ADOPTED.": "EMENDA ADOTADA.",
   "AMENDMENT REJECTED.": "EMENDA REJEITADA.",
   "AMERICA'S NEWSROOM": "SALA DE NOTÍCIAS DA AMÉRICA",
   "ARMOR": "ARMADURA",
   "Above Average": "Acima da Média",
   "Acting Individually": "Agindo Individualmente",
-  "Activate Sleeper Agents": "Ativar Agentes Dorminhocos",
-  "Activate Sleeper Agents in Bulk": "Ativar Agentes Dorminhocos em Massa",
+  "Activate Sleeper Agents": "Ativar Agentes Dormindo",
+  "Activate Sleeper Agents in Bulk": "Ativar Agentes Dormindo em Massa",
   "Active Liberals": "Liberais Ativos",
   "Adventures in Liberal Car Theft": "Aventuras no Roubo Liberal de Carros",
   "Adventures in Liberal Recruitment": "Aventuras no Recrutamento Liberal",
+  "Advocate Liberalism": "Advocar Liberalismo",
   "Agility: ${cr.attribute(Attribute.agility)}": "Agilidade: ${cr.attribute(Attribute.agility)}",
   "Alarms go off!": "Alarmes disparam!",
   "All ": "Todos ",
@@ -1023,14 +1185,15 @@
   "Assemble the squad!": "Monte o esquadrão!",
   "Assign Tasks in Bulk": "Atribuir Tarefas em Massa",
   "Assign Tasks to Liberals": "Atribuir Tarefas aos Liberais",
-  "Atlanta, GA": "Atlanta, GA",
   "Attorney General:": "Procurador-Geral:",
   "Auto Plant": "Fábrica de Carros",
   "Average": "Médio",
   "B - Back to Title Screen": "B - Voltar à Tela de Título",
+  "B - Espionage": "B - Espionagem",
   "B - Sort by name.": "B - Ordenar por nome.",
   "BANK ROBBERY": "ASSALTO A BANCO",
   "BREAKING AND ENTERING": "ARROMBAMENTO",
+  "BULK ACTIVITY": "ATIVIDADE MASSA",
   "Ban Torture Techniques": "Banir Técnicas de Tortura",
   "Bank Teller": "Caixa de Banco",
   "Bank Vault": "Cofre de Banco",
@@ -1050,6 +1213,7 @@
   "By Corporate": "Pela Corporação",
   "C - Continue Last Game": "C - Continuar Último Jogo",
   "C - Continue as &G$founder&x": "C - Continuar como &G$founder&x",
+  "C - Join the Active LCS": "C - Juntar-se ao ECL Ativo",
   "C - Sort by location and name.": "C - Ordenar por localização e nome.",
   "CCS Action $name": "Ação CCS $name",
   "CCS Founder": "Fundador do CCS",
@@ -1060,6 +1224,7 @@
   "CEO's Study": "Estudo do CEO",
   "CODE NAME": "NOME DE CÓDIGO",
   "CREDIT CARD FRAUD": "FRAUDE DE CARTÃO DE CRÉDITO",
+  "CURRENT": "ATUAL",
   "CYBER TERRORISM": "CIBERTERRORISMO",
   "CYBER VANDALISM": "CIBERVANDALISMO",
   "Can't carry ammo without a gun.": "Não pode carregar munição sem uma arma.",
@@ -1084,11 +1249,16 @@
   "DRUG DEALING": "TRÁFICO DE DROGAS",
   "E - Encounter Warnings: {status}": "E - Avisos de Encontros: {status}",
   "E - Map Editor": "E - Editor de Mapas",
+  "EFF": "EFIC",
   "ESCAPING PRISON": "FUGA DA PRISÃO",
   "EVICTION NOTICE: {location}.  Possessions dumped on the street.": "AVISO DE DESPEJO: {location}. Posses jogadas na rua.",
   "Easy": "Fácil",
+  "Effectiveness: ": "Efetividade: ",
+  "Embezzle Funds": "Desviar Fundos",
   "Enlightened Can't Recruit": "Iluminados Não Podem Recrutar",
   "Enter - Back one step": "Enter - Voltar um passo",
+  "Enter - Confirm Selection": "Enter - Confirmar Seleção",
+  "Enter - Done": "Enter - Concluído",
   "Enter - The Squad is not yet Liberal enough": "Enter - O Esquadrão ainda não é Liberal o suficiente",
   "Enter - The Viper has finally deterred {name}.": "Enter - A Viper finalmente impediu {name}.",
   "Enter - The Viper?   {name} is deterred.": "Enter - A Viper?   {name} foi impedido.",
@@ -1096,6 +1266,7 @@
   "Escaped prisoner sentenced to ": "Prisioneiro fugitivo condenado a ",
   "Escaped prisoner sentenced to DEATH": "Prisioneiro fugitivo condenado à MORTE",
   "Escaped prisoner sentenced to life in prison": "Prisioneiro fugitivo condenado à prisão perpétua",
+  "Expand Network": "Expandir Rede",
   "Extremely Difficult": "Extremamente Difícil",
   "GAME OPTIONS": "OPÇÕES DE JOGO",
   "GRAND THEFT AUTO": "ROUBO DE VEÍCULO",
@@ -1115,11 +1286,14 @@
   "Impossible": "Impossível",
   "It has been a long time.  A lot must have changed...": "Faz muito tempo. Muita coisa deve ter mudado...",
   "It sure has been a while.  Things might have changed a bit.": "Com certeza faz um tempo. As coisas podem ter mudado um pouco.",
+  "JOB": "PROFISSÃO",
   "JURY TAMPERING": "MANIPULAÇÃO DE JÚRI",
+  "Join LCS": "Juntar-se ao ECL",
   "L - Load a Saved Game": "L - Carregar um Jogo Salvo",
   "LANGUAGE OPTIONS": "OPÇÕES DE IDIOMA",
   "LIBERAL CRIME SQUAD: NEW AGE": "ESQUADRÃO DO CRIME LIBERAL: NOVA ERA",
   "Language": "Idioma",
+  "Lay Low": "Manter-se Oculto",
   "Liberal activity": "Atividade Liberal",
   "Liberals in treatment": "Liberais em tratamento",
   "Loading...": "Carregando...",
@@ -1143,6 +1317,8 @@
   "P - Default Page Up/Down Keys: {keys}": "P - Teclas Padrão de Page Up/Down: {keys}",
   "PUBLIC NUDITY": "NUDEZ PÚBLICA",
   "Please be in here somewhere...": "Por favor, estejam aqui em algum lugar...",
+  "Press a Letter to Assign an Activity.": "Pressione uma Letra para Atribuir uma Atividade.",
+  "Press a Letter to Assign an Activity.  Press a Number to select an Activity.": "Pressione uma Letra para Atribuir uma Atividade. Pressione um Número para selecionar uma Atividade.",
   "Press a Letter to select Squad members.": "Pressione uma Letra para selecionar membros do Esquadrão.",
   "Press a Letter to select a {optiontypename}": "Pressione uma Letra para selecionar {optiontypename}",
   "Press a Letter to select an {optiontypename}": "Pressione uma Letra para selecionar {optiontypename}",
@@ -1152,6 +1328,7 @@
   "RELEASING PRISONERS": "SOLTA DE PRISIONEIROS",
   "RESISTING ARREST": "RESISTÊNCIA À PRISÃO",
   "Ripped off": "Arrancado",
+  "SITE": "LOCAL",
   "SKILL": "HABILIDADE",
   "STAND AWAY FROM THE VEHICLE!   <BEEP!!> <BEEP!!>": "AFASTE-SE DO VEÍCULO!   <BEEP!!> <BEEP!!>",
   "Scheduled Dates:    ": "Encontros Agendados:    ",
@@ -1163,8 +1340,11 @@
   "Serving life in prison": "Cumprindo prisão perpétua",
   "Shift and a Number will move ALL items!": "Shift e um Número moverão TODOS os itens!",
   "Squad has no base to return to and no homeless camp found. Canceling departure.": "O esquadrão não tem base para retornar e nenhum acampamento de desabrigados foi encontrado. Cancelando partida.",
+  "Steal Equipment": "Roubar Equipamento",
+  "T - Sorting options": "T - Opções de ordenação",
   "THIS IS THE VIPER!   STAND AWAY!": "ESTA É A VIPER!   AFASTE-SE!",
   "TRANSPORT": "TRANSPORTE",
+  "Taking Undercover Action:   What will {name} focus on?": "Ação Encoberta:   No que {name} vai focar?",
   "The Liberal has gone into hiding...": "O Liberal foi para a clandestinidade...",
   "Their Heart finally gave out.  The Liberal will be missed.": "Seu coração finalmente falhou. O Liberal será sentido falta.",
   "There are none left with the courage and conviction to lead....": "Não resta ninguém com a coragem e convicção para liderar....",
@@ -1181,6 +1361,7 @@
   "Transp: ": "Transporte: ",
   "U - Log Untranslated Strings: {status}": "U - Registrar Strings Não Traduzidas: {status}",
   "UNLAWFUL BURIAL": "ENTERRO ILEGAL",
+  "Uncover Secrets": "Descobrir Segredos",
   "Universal Liberal Statistics": "Estatísticas Liberais Universais",
   "Universal Liberal Statistics:": "Estatísticas Liberais Universais:",
   "V - View Changelog": "V - Ver Changelog",
@@ -1205,6 +1386,7 @@
   "Your Activists ": "Seus Ativistas ",
   "Your hackers have ": "Seus hackers ",
   "Your hackers have stolen {amount} from credit cards.": "Seus hackers roubaram {amount} de cartões de crédito.",
+  "Z - Assign tasks in bulk": "Z - Atribuir tarefas em massa",
   "a recent sports scandal": "um escândalo esportivo recente",
   "above the pull-down sunblock thingy!": "acima daquela coisa de bloquear sol!",
   "active Liberals": "Liberais ativos",
@@ -1339,6 +1521,13 @@
   "{name} was unable to find a {oldCar} but did find a {newCar}.": "{name} não conseguiu encontrar um {oldCar} mas encontrou um {newCar}.",
   "{name} was unable to track down a {type}.": "{name} não conseguiu encontrar um {type}.",
   "{name} wasted the materials for a {clothing}.": "{name} desperdiçou os materiais para um {clothing}.",
+  "{name} will build support for Liberal causes.": "{name} vai construir apoio para causas Liberais.",
+  "{name} will embezzle money for the LCS.": "{name} vai desviar dinheiro para o ECL.",
+  "{name} will join the active LCS.": "{name} vai se juntar ao ECL ativo.",
+  "{name} will snoop around for secrets and enemy plans.": "{name} vai bisbilhotar por segredos e planos inimigos.",
+  "{name} will stay out of trouble.": "{name} vai ficar fora de problemas.",
+  "{name} will steal equipment and send it to the Camp.": "{name} vai roubar equipamento e enviar para o Acampamento.",
+  "{name} will try to recruit additional sleeper agents.": "{name} vai tentar recrutar agentes adicionais.",
   "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado.",
   "{name}'s injuries require professional treatment.": "Os ferimentos de {name} exigem tratamento profissional.",
   "{name}: <rummaging> $rummageMessage": "{name}: <procurando> $rummageMessage",

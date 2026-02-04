@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,173
-- **Translated to pt_BR**: 605 (52%)
-- **Remaining**: 568 strings (~425 fully translated, 7 template patterns)
+- **Translated to pt_BR**: 647 (55%)
+- **Remaining**: 526 strings (~467 fully translated, 7 template patterns)
 - **Total files with console output**: ~77 files
-- **Current session**: Session 18 (Complete)
+- **Current session**: Session 20 (Complete)
 
 ## Translation Priority Queue
 
@@ -34,10 +34,11 @@ Files are ordered by importance (most user-facing first):
 17. [x] lib/daily/activities/hacking.dart (COMPLETE)
 18. [x] lib/daily/activities/clothing_creation.dart (COMPLETE)
 19. [x] lib/daily/shopsnstuff.dart (COMPLETE)
-20. [ ] lib/basemode/activate_sleepers.dart (NEXT)
+20. [x] lib/basemode/activate_sleepers.dart (COMPLETE)
+21. [ ] lib/basemode/base_actions.dart (NEXT)
 
 ### BASE MODE
-20. [ ] lib/basemode/activate_sleepers.dart
+20. [x] lib/basemode/activate_sleepers.dart
 21. [ ] lib/basemode/base_actions.dart
 22. [ ] lib/basemode/disbanding.dart
 23. [ ] lib/basemode/help_system.dart
@@ -142,17 +143,18 @@ Files are ordered by importance (most user-facing first):
 | lib/daily/activities/clothing_creation.dart | 9 | ✅ Complete | 17 | (pending) |
 | lib/daily/shopsnstuff.dart | 9 | ✅ Complete | 18 | (pending) |
 | Session 19 - Batch Translation | 50 | ✅ Complete | 19 | (pending) |
+| lib/basemode/activate_sleepers.dart | 42 | ✅ Complete | 20 | (pending) |
 
 ## Current Session
 
-**Session**: 19
+**Session**: 20
 **Status**: Complete
-**Completed**: Batch of 50 general strings (cross-file)
-**Next Target**: Continue with lib/basemode/activate_sleepers.dart OR next batch
+**Completed**: lib/basemode/activate_sleepers.dart - 42 strings
+**Next Target**: lib/basemode/base_actions.dart
 **Assigned to**: Sisyphus Agent
 **Start Time**: 2026-02-04
 **Completion Time**: 2026-02-04
-**Notes**: Session 19 - Translated 50 general strings from cross-file sources. Examples: "black people" → "pessoas negras", "allow torture in interrogations" → "permitem tortura em interrogatórios", "believe that CEO salaries are too high" → "acreditam que salários de CEOs são muito altos", "{attacker} strikes true on {target}" → "{attacker} acerta em cheio em {target}". Also included policy stance translations and UI elements. All tests passing. Progress now at 605/1,173 strings (52%).
+**Notes**: Session 20 - Translated all strings from lib/basemode/activate_sleepers.dart (42 strings). This included UI elements like "Activate Sleeper Agents" → "Ativar Agentes Dormindo", menu options like "Espionage" → "Espionagem", "Embezzle Funds" → "Desviar Fundos", and activity descriptions. Also synced 797 missing entries from en_US to pt_BR ARB file. All tests passing. Progress now at 647/1,173 strings (55%).
 
 ## Translation Statistics
 
@@ -174,7 +176,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[██████████████░░░░░░░░░░░░░░░░░░░░░░░░░░] 52% (605/1,173)
+[███████████████░░░░░░░░░░░░░░░░░░░░░░░░░] 55% (647/1,173)
 ```
 
 ## Issues/Blockers

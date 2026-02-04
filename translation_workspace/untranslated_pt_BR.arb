@@ -1,0 +1,89 @@
+{
+  "@s.members.first.base?.cityId: ${s.members.first.base?.cityId}": {
+    "placeholders": {
+      "s.members.first.base?.cityId": {
+        "type": "String",
+        "example": "s.members.first.base?.cityId"
+      }
+    }
+  },
+  "@{alarm}: ": {
+    "placeholders": {
+      "alarm": {
+        "type": "String",
+        "example": "alarm"
+      }
+    }
+  },
+  "@{alarm}:   ": {
+    "placeholders": {
+      "alarm": {
+        "type": "String",
+        "example": "alarm"
+      }
+    }
+  },
+  "@{key} - {car}": {
+    "placeholders": {
+      "key": {
+        "type": "String",
+        "example": "key"
+      },
+      "car": {
+        "type": "String",
+        "example": "car"
+      }
+    }
+  },
+  "@{letter} - &{color}{name} {ageGender}": {
+    "placeholders": {
+      "letter": {
+        "type": "String",
+        "example": "letter"
+      },
+      "color": {
+        "type": "String",
+        "example": "color"
+      },
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "ageGender": {
+        "type": "String",
+        "example": "ageGender"
+      }
+    }
+  },
+  "@{name} {action}": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "action": {
+        "type": "String",
+        "example": "action"
+      }
+    }
+  },
+  "@{name} {ageGender}": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "ageGender": {
+        "type": "String",
+        "example": "ageGender"
+      }
+    }
+  },
+  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
+  "{alarm}: ": "{alarm}: ",
+  "{alarm}:   ": "{alarm}:   ",
+  "{key} - {car}": "{key} - {car}",
+  "{letter} - &{color}{name} {ageGender}": "{letter} - &{color}{name} {ageGender}",
+  "{name} {action}": "{name} {action}",
+  "{name} {ageGender}": "{name} {ageGender}"
+}

@@ -28,7 +28,7 @@
   ": POLICE RESPONDING": ": POLÍCIA RESPONDENDO",
   ": SECRET SERVICE RESPONDING": ": SERVIÇO SECRETO RESPONDENDO",
   ": VIEWERS RESPONDING": ": ESPECTADORES RESPONDENDO",
-  "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>": "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>",
+  "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>": "<BIIP!!> <BIIP!!> <BIIP!!> <BIIP!!>",
   "<Can't Lead More>": "<Não Pode Liderar Mais>",
   "<LCS Leader>": "<Líder do LCS>",
   "<No Contact>": "<Sem Contato>",
@@ -257,30 +257,6 @@
       }
     }
   },
-  "@s.members.first.base?.cityId: ${s.members.first.base?.cityId}": {
-    "placeholders": {
-      "s.members.first.base?.cityId": {
-        "type": "String",
-        "example": "s.members.first.base?.cityId"
-      }
-    }
-  },
-  "@{alarm}: ": {
-    "placeholders": {
-      "alarm": {
-        "type": "String",
-        "example": "alarm"
-      }
-    }
-  },
-  "@{alarm}:   ": {
-    "placeholders": {
-      "alarm": {
-        "type": "String",
-        "example": "alarm"
-      }
-    }
-  },
   "@{bigboss} has promoted {newboss}": {
     "placeholders": {
       "bigboss": {
@@ -330,38 +306,6 @@
       "location": {
         "type": "String",
         "example": "Downtown"
-      }
-    }
-  },
-  "@{key} - {car}": {
-    "placeholders": {
-      "key": {
-        "type": "String",
-        "example": "key"
-      },
-      "car": {
-        "type": "String",
-        "example": "car"
-      }
-    }
-  },
-  "@{letter} - &{color}{name} {ageGender}": {
-    "placeholders": {
-      "letter": {
-        "type": "String",
-        "example": "letter"
-      },
-      "color": {
-        "type": "String",
-        "example": "color"
-      },
-      "name": {
-        "type": "String",
-        "example": "John"
-      },
-      "ageGender": {
-        "type": "String",
-        "example": "ageGender"
       }
     }
   },
@@ -733,30 +677,6 @@
       }
     }
   },
-  "@{name} {action}": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      },
-      "action": {
-        "type": "String",
-        "example": "action"
-      }
-    }
-  },
-  "@{name} {ageGender}": {
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "John"
-      },
-      "ageGender": {
-        "type": "String",
-        "example": "ageGender"
-      }
-    }
-  },
   "@{name}'s injuries require professional treatment.": {
     "placeholders": {
       "name": {
@@ -1075,7 +995,7 @@
   "Serving ": "Cumprindo ",
   "Serving life in prison": "Cumprindo prisão perpétua",
   "Shift and a Number will move ALL items!": "Shift e um Número moverão TODOS os itens!",
-  "Squad has no base to return to and no homeless camp found. Canceling departure.": "Squad has no base to return to and no homeless camp found. Canceling departure.",
+  "Squad has no base to return to and no homeless camp found. Canceling departure.": "O esquadrão não tem base para retornar e nenhum acampamento de desabrigados foi encontrado. Cancelando partida.",
   "THIS IS THE VIPER!   STAND AWAY!": "ESTA É A VIPER!   AFASTE-SE!",
   "TRANSPORT": "TRANSPORTE",
   "The Liberal has gone into hiding...": "O Liberal foi para a clandestinidade...",
@@ -1160,7 +1080,6 @@
   "posted horrifying dead abortion doctor pictures downtown!": "colocou fotos horríveis de médicos abortistas mortos no centro!",
   "protested against the game being buggy!": "protestou contra o jogo estar cheio de bugs!",
   "ran around uptown splashing paint on fur coats!": "correu pelo centro jogando tinta em casacos de pele!",
-  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
   "selection": "seleção",
   "set up a mock sweatshop in the mall!": "montou uma fábrica de mão de obra escrava simulada no shopping!",
   "sleeper activity": "atividade adormecida",
@@ -1177,16 +1096,12 @@
   "under the back seat!": "debaixo do banco traseiro!",
   "under the front seat!": "debaixo do banco da frente!",
   "went downtown and reenacted a police beating!": "foi ao centro e encenou uma agressão policial!",
-  "{alarm}: ": "{alarm}: ",
-  "{alarm}:   ": "{alarm}:   ",
   "{bigboss} has promoted {newboss}": "{bigboss} promoveu {newboss}",
   "{count} other LCS members escape in the riot!": "{count} outros membros do LCS escapam no motim!",
   "{cr} in the command chain.": "{cr} na cadeia de comando.",
   "{eaters} Eating": "{eaters} Comendo",
   "{expletive}!  Where are they?!": "{expletive}!  Onde estão?!",
   "{expletive}!  {name} found the keys {location}": "{expletive}!  {name} encontrou as chaves {location}",
-  "{key} - {car}": "{key} - {car}",
-  "{letter} - &{color}{name} {ageGender}": "{letter} - &{color}{name} {ageGender}",
   "{lovers} Lover": "{lovers} Amante",
   "{member} acted with {squad} instead of {activity}.": "{member} agiu com {squad} em vez de {activity}.",
   "{name} asks around for a {type}...": "{name} pergunta por aí por um {type}...",
@@ -1224,8 +1139,6 @@
   "{name} was unable to find a {oldCar} but did find a {newCar}.": "{name} não conseguiu encontrar um {oldCar} mas encontrou um {newCar}.",
   "{name} was unable to track down a {type}.": "{name} não conseguiu encontrar um {type}.",
   "{name} wasted the materials for a {clothing}.": "{name} desperdiçou os materiais para um {clothing}.",
-  "{name} {action}": "{name} {action}",
-  "{name} {ageGender}": "{name} {ageGender}",
   "{name}'s corpse has been recovered.": "O cadáver de {name} foi recuperado.",
   "{name}'s injuries require professional treatment.": "Os ferimentos de {name} exigem tratamento profissional.",
   "{name}: <rummaging> $rummageMessage": "{name}: <procurando> $rummageMessage",

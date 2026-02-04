@@ -2,10 +2,10 @@
 
 ## Overview
 - **Total strings in en_US ARB**: 1,173
-- **Translated to pt_BR**: 546 (47%)
-- **Remaining**: 627 strings
+- **Translated to pt_BR**: 555 (47%)
+- **Remaining**: 618 strings (~375 fully translated, 7 template patterns)
 - **Total files with console output**: ~77 files
-- **Current session**: Session 17 (In Progress)
+- **Current session**: Session 18 (Complete)
 
 ## Translation Priority Queue
 
@@ -33,8 +33,8 @@ Files are ordered by importance (most user-facing first):
 16. [x] lib/daily/activities/trouble.dart (COMPLETE)
 17. [x] lib/daily/activities/hacking.dart (COMPLETE)
 18. [x] lib/daily/activities/clothing_creation.dart (COMPLETE)
-19. [ ] lib/daily/shopsnstuff.dart (NEXT)
-19. [ ] lib/daily/shopsnstuff.dart
+19. [x] lib/daily/shopsnstuff.dart (COMPLETE)
+20. [ ] lib/basemode/activate_sleepers.dart (NEXT)
 
 ### BASE MODE
 20. [ ] lib/basemode/activate_sleepers.dart
@@ -140,17 +140,18 @@ Files are ordered by importance (most user-facing first):
 | lib/daily/activities/trouble.dart | 28 | ✅ Complete | 15 | (pending) |
 | lib/daily/activities/hacking.dart | 7 | ✅ Complete | 16 | (pending) |
 | lib/daily/activities/clothing_creation.dart | 9 | ✅ Complete | 17 | (pending) |
+| lib/daily/shopsnstuff.dart | 9 | ✅ Complete | 18 | (pending) |
 
 ## Current Session
 
-**Session**: 17
+**Session**: 18
 **Status**: Complete
-**Completed File**: lib/daily/activities/clothing_creation.dart
-**Next File**: lib/daily/shopsnstuff.dart (NEXT)
+**Completed File**: lib/daily/shopsnstuff.dart
+**Next File**: lib/basemode/activate_sleepers.dart (NEXT)
 **Assigned to**: Sisyphus Agent
-**Start Time**: 2026-02-02
-**Completion Time**: 2026-02-02
-**Notes**: Session 17 - Translated 9 strings from lib/daily/activities/clothing_creation.dart related to clothing creation activities. Added translations for various clothing-making outcomes including success messages, failure messages, and humorous failures like "{name} got inches and feet mixed up and is now drowning in cloth." → "{name} confundiu polegadas com pés e agora está se afogando em tecido.". All tests passing.
+**Start Time**: 2026-02-04
+**Completion Time**: 2026-02-04
+**Notes**: Session 18 - Translated 9 strings. Added Portuguese translation for "Squad has no base to return to and no homeless camp found. Canceling departure." → "O esquadrão não tem base para retornar e nenhum acampamento de desabrigados foi encontrado. Cancelando partida." Also added 7 template format strings with placeholders (e.g., "{alarm}: ", "{name} {action}"). All tests passing. Progress now at 555/1,173 strings (47%).
 
 ## Translation Statistics
 
@@ -172,7 +173,7 @@ Files are ordered by importance (most user-facing first):
 
 ### Overall Progress
 ```
-[█████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░] 47% (546/1,173)
+[█████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░] 47% (555/1,173)
 ```
 
 ## Issues/Blockers
@@ -217,5 +218,5 @@ If stuck:
 
 ---
 
-**Last Updated**: 2026-02-02 (Session 17 complete)
-**Next Update**: Session 18 start
+**Last Updated**: 2026-02-04 (Session 18 complete)
+**Next Update**: Session 19 start

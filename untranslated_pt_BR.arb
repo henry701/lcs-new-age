@@ -1,0 +1,63 @@
+{
+  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
+  "@s.members.first.base?.cityId: ${s.members.first.base?.cityId}": {
+    "placeholders": {
+      "s.members.first.base?.cityId": {
+        "type": "String",
+        "example": "s.members.first.base?.cityId"
+      }
+    }
+  },
+  "{alarm}: ": "{alarm}: ",
+  "@{alarm}: ": {
+    "placeholders": {
+      "alarm": {
+        "type": "String",
+        "example": "alarm"
+      }
+    }
+  },
+  "{alarm}:   ": "{alarm}:   ",
+  "@{alarm}:   ": {
+    "placeholders": {
+      "alarm": {
+        "type": "String",
+        "example": "alarm"
+      }
+    }
+  },
+  "{key} - {car}": "{key} - {car}",
+  "@{key} - {car}": {
+    "placeholders": {
+      "key": {
+        "type": "String",
+        "example": "key"
+      },
+      "car": {
+        "type": "String",
+        "example": "car"
+      }
+    }
+  },
+  "{letter} - &{color}{name} {ageGender}": "{letter} - &{color}{name} {ageGender}",
+  "@{letter} - &{color}{name} {ageGender}": {
+    "placeholders": {
+      "letter": {
+        "type": "String",
+        "example": "letter"
+      },
+      "color": {
+        "type": "String",
+        "example": "color"
+      },
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "ageGender": {
+        "type": "String",
+        "example": "ageGender"
+      }
+    }
+  }
+}

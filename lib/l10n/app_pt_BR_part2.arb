@@ -1,0 +1,829 @@
+{
+  "        Driving, and Street Smarts": "        Direção e Malandragem",
+  "       These cars may be used by both squads but not on the same day.": "       Estes carros podem ser usados por ambos os esquadrões, mas não no mesmo dia.",
+  "   C+: ": "   C+: ",
+  "   L+: ": "   L+: ",
+  "   m: ": "   m: ",
+  "  A prominent gun advocacy group noted that it was ": "  Um grupo proeminente de defesa das armas observou que era ",
+  "  A spokesperson for the district attorney has stated that the ": "  Um porta-voz do promotor distrital afirmou que o ",
+  "  According to police sources that were at the scene, ": "  De acordo com fontes policiais que estavam no local, ",
+  "  According to sources, ": "  De acordo com fontes, ",
+  "  All of the prisoners were released and taken to a local ": "  Todos os prisioneiros foram libertados e levados para um ",
+  "  Both officers have been placed on paid leave.&r": "  Ambos os policiais foram colocados em licença remunerada.&r",
+  "  Conservative operatives engaged in a reckless ": "  Agentes conservadores se envolveram em um ",
+  "  Despite growing public outrage, the police department ": "  Apesar da crescente indignação pública, o departamento de polícia ",
+  "  Fielding questions about the ethics of their experiments from ": "  Respondendo a perguntas sobre a ética de seus experimentos de ",
+  "  Health officials are scrambling to communicate the truth, ": "  Oficiais de saúde estão se esforçando para comunicar a verdade, ",
+  "  Investigators are still trying to determine what ": "  Investigadores ainda estão tentando determinar o que ",
+  "  Local residents have expressed growing concern about the ": "  Moradores locais expressaram crescente preocupação sobre o ",
+  "  More disturbingly, the files make reference to a plan to ": "  Mais perturbadoramente, os arquivos fazem referência a um plano para ",
+  "  Spokespeople for the GM corporations were universal ": "  Porta-vozes das corporações de GM foram unânimes ",
+  "  The Liberal Crime Squad delivered its message to the masses today.": "  O Esquadrão do Crime Liberal entregou sua mensagem às massas hoje.",
+  " (After Recount)": " (Após Recontagem)",
+  " (Closed Down)": " (Fechado)",
+  " (High Security)": " (Alta Segurança)",
+  " (LCS Temp Shelter)": " (Abrigo Temporário ECL)",
+  " (Potential Safehouse)": " (Possível Esconderijo)",
+  " (next month)": " (próximo mês)",
+  " <Under Siege>": " <Sob Cerco>",
+  " <turns away>": " <se vira>",
+  " Insider": " Informante",
+  " Max": " Máx",
+  " Record": " Recorde",
+  " Talk": " Conversa",
+  " ZERO ": " ZERO ",
+  " acts natural.": " age naturalmente.",
+  " and a hostage is freed": " e um refém é libertado",
+  " barks.": " late.",
+  " brandishes the ": " empunha o ",
+  " bypass the vault's electronic lock.": " contorna a fechadura eletrônica do cofre.",
+  " constantly tries thinking how to escape from prison.": " constantemente tenta pensar em como escapar da prisão.",
+  " couldn't": " não conseguiu",
+  " cowers in the corner.": " se encolhe no canto.",
+  " crawls off cursing...": " sai engatinhando xingando...",
+  " crawls off praying...": " sai engatinhando rezando...",
+  " crawls off sobbing...": " sai engatinhando soluçando...",
+  " crawls off whimpering...": " sai engatinhando choramingando...",
+  " does back-breaking work all month in prison.": " faz trabalho exaustivo o mês todo na prisão.",
+  " doesn't understand.": " não entende.",
+  " escapes crying!": " escapa chorando!",
+  " feels completely humiliated.": " se sente completamente humilhado.",
+  " gets a prison tattoo with the letters L-C-S.": " faz uma tatuagem prisional com as letras E-C-L.",
+  " is burned!": " está queimando!",
+  " looks at the Squad suspiciously.": " olha para o Esquadrão com suspeita.",
+  " overwhelms the prison guards!": " domina os guardas prisionais!",
+  " presses buttons randomly...": " aperta botões aleatoriamente...",
+  " rides away with some contractors!": " foge com alguns contratados!",
+  " see how to": " ver como",
+  " slips the teller a note: ": " passa um bilhete para o caixa: ",
+  " stabs {target}": " apunhala {target}",
+  " wears an electrician's outfit...": " veste uma roupa de eletricista...",
+  " {name}": " {name}",
+  "$enterText   $escapeText": "$enterText   $escapeText",
+  "$first ${capitalize(last)}": "$first ${capitalize(last)}",
+  "$first ${gemstones.random}$last": "$first ${gemstones.random}$last",
+  "$fullName, ${city.getName(short: true)}": "$fullName, ${city.getName(short: true)}",
+  "$name Condominiums": "Condomínios $name",
+  "(click the game window to give it keyboard focus)": "(clique na janela do jogo para dar foco do teclado)",
+  ", 2nd Term": ", 2º Mandato",
+  "-BEEEP- -BEEEP- -BEEEP-": "-BIIIP- -BIIIP- -BIIIP-",
+  "1 - Lay Low": "1 - Manter-se Oculto",
+  "1) R - Review Assets and Form Squads": "1) R - Revisar Recursos e Formar Esquadrões",
+  "2 - Embezzle Funds": "2 - Desviar Fundos",
+  "3 - Expand Sleeper Network": "3 - Expandir Rede Dormindo",
+  "3 - [Enlightened Can't Recruit]": "3 - [Iluminados Não Podem Recrutar]",
+  ": AGENTS RESPONDING": ": AGENTES RESPONDENDO",
+  ": ALIENATED MASSES": ": ALIENOU AS MASSAS",
+  ": CONSERVATIVE REINFORCEMENTS INCOMING": ": REFORSOS CONSERVADORES CHEGANDO",
+  ": CONSERVATIVES SUSPICIOUS": ": CONSERVADORES SUSPEITOS",
+  ": GANG RESPONDING": ": GANGS RESPONDENDO",
+  ": MERCENARIES RESPONDING": ": MERCENÁRIOS RESPONDENDO",
+  ": POLICE RESPONDING": ": POLÍCIA RESPONDENDO",
+  ": VIEWERS RESPONDING": ": ESPECTADORES RESPONDENDO",
+  "<Can't Lead More>": "<Não Pode Liderar Mais>",
+  "<No Contact>": "<Sem Contato>",
+  "=== PLANNING ===": "=== PLANEJAMENTO ===",
+  "@ (After Recount)": {
+    "description": "Suffix indicating after election recount"
+  },
+  "@ acts natural.": {
+    "description": "Description of someone acting natural"
+  },
+  "@ and a hostage is freed": {
+    "description": "Consequence of an action freeing a hostage"
+  },
+  "@ barks.": {
+    "description": "Dog barking sound/action"
+  },
+  "@(click the game window to give it keyboard focus)": {},
+  "@, 2nd Term": {
+    "description": "Political term suffix for second term"
+  },
+  "@-BEEEP- -BEEEP- -BEEEP-": {
+    "description": "Alarm beeping sound"
+  },
+  "@1 - Lay Low": {
+    "description": "Option to stay inactive/hidden"
+  },
+  "@2 - Embezzle Funds": {
+    "description": "Espionage option to steal money"
+  },
+  "@3 - Expand Sleeper Network": {
+    "description": "Option to recruit more sleeper agents"
+  },
+  "@3 - [Enlightened Can't Recruit]": {
+    "description": "Disabled option for enlightened agents"
+  },
+  "@: AGENTS RESPONDING": {
+    "description": "Alert that agents are responding to situation"
+  },
+  "@ACTIVITY": {
+    "description": "Column header for current activity"
+  },
+  "@Activate Sleeper Agents in Bulk": {
+    "description": "Title for bulk activation screen"
+  },
+  "@Advocate Liberalism": {
+    "description": "Short label for advocacy activity"
+  },
+  "@B - Espionage": {
+    "description": "Option for espionage activities"
+  },
+  "@BULK ACTIVITY": {
+    "description": "Column header for bulk activity assignment"
+  },
+  "@But ${p.name} cleverly escapes the police ambush!": {
+    "placeholders": {
+      "p.name": {
+        "type": "String",
+        "example": "p.name"
+      }
+    }
+  },
+  "@But ${target.name} weren't born yesterday.": {
+    "placeholders": {
+      "target.name": {
+        "type": "String",
+        "example": "target.name"
+      }
+    }
+  },
+  "@By ${repname.firstLast}": {
+    "placeholders": {
+      "repname.firstLast": {
+        "type": "String",
+        "example": "repname.firstLast"
+      }
+    }
+  },
+  "@C - Join the Active LCS": {
+    "description": "Option to join active Liberal Crime Squad"
+  },
+  "@E - Encounter Warnings: {status}": {
+    "placeholders": {
+      "status": {
+        "type": "String",
+        "example": "On"
+      }
+    }
+  },
+  "@EFF": {
+    "description": "Abbreviation for effectiveness"
+  },
+  "@EVICTION NOTICE: {location}.  Possessions dumped on the street.": {
+    "placeholders": {
+      "location": {
+        "type": "String",
+        "example": "Downtown"
+      }
+    }
+  },
+  "@Effectiveness: ": {
+    "description": "Label for agent effectiveness percentage"
+  },
+  "@Enter - Confirm Selection": {
+    "description": "Confirm the selected activity"
+  },
+  "@Enter - The Viper?   {name} is deterred.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@LIBERAL CRIME SQUAD: NEW AGE": {},
+  "@Lay Low": {
+    "description": "Short label for lay low activity"
+  },
+  "@M - Experimental Mouse Input: {status}": {
+    "placeholders": {
+      "status": {
+        "type": "String",
+        "example": "On"
+      }
+    }
+  },
+  "@Press a Letter to Assign an Activity.": {
+    "description": "Instruction for assigning activities to agents"
+  },
+  "@T - Sorting options": {
+    "description": "Menu option for sorting"
+  },
+  "@Total Americas Saved: {count}": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "@Total Conservatives Killed: {count}": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "@Total Liberals Recruited: {count}": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "@U - Log Untranslated Strings: {status}": {
+    "placeholders": {
+      "status": {
+        "type": "String",
+        "example": "On"
+      }
+    }
+  },
+  "@Uncover Secrets": {
+    "description": "Short label for spy activity"
+  },
+  "@Version {version}": {
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.4.9"
+      }
+    }
+  },
+  "@When encounter warnings are on, you will be warned when you take a step or wait and a new encounter begins. This extra step can help you avoid accidentally walking past an encounter or doing something else you might not want to do. Default is off.": {},
+  "@You have {count} items.": {
+    "placeholders": {
+      "count": {
+        "type": "String",
+        "example": "5"
+      }
+    }
+  },
+  "@Your hackers have stolen {amount} from credit cards.": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "$500"
+      }
+    }
+  },
+  "@a recent sports scandal": {
+    "description": "News topic about sports scandal"
+  },
+  "@agree that more work is needed for racial equality": {
+    "description": "Poll response about racial equality"
+  },
+  "@all the noise they were making": {
+    "description": "Reference to noise made by someone"
+  },
+  "@allow broad use of nuclear power": {
+    "description": "Policy stance on nuclear power"
+  },
+  "@allow gender-based discrimination": {
+    "description": "Policy stance on gender discrimination"
+  },
+  "@allow more restrictions on guns": {
+    "description": "Policy stance on gun restrictions"
+  },
+  "@and Minister of Truth Jerry Falwell.": {
+    "description": "Reference to Minister of Truth"
+  },
+  "@and pretends to belong here.": {
+    "description": "Action of pretending to belong"
+  },
+  "@appointing more Liberal justices": {
+    "description": "Action of appointing liberal justices"
+  },
+  "@are critical of the police": {
+    "description": "Attitude toward police"
+  },
+  "@are for the appointment of Liberal Justices": {
+    "description": "Support for liberal justice appointments"
+  },
+  "@are terrified of nuclear power": {
+    "description": "Fear of nuclear power"
+  },
+  "@avoid companies that use sweatshops": {
+    "description": "Consumer behavior regarding sweatshops"
+  },
+  "@ban torture in interrogations": {
+    "description": "Policy to ban torture"
+  },
+  "@be swarming with Conservative units.  The Liberal Crime": {
+    "description": "Warning about conservative units"
+  },
+  "@believe that CEO salaries are too high": {
+    "description": "Opinion on CEO compensation"
+  },
+  "@bias elections toward incumbents": {
+    "description": "Election bias toward incumbents"
+  },
+  "@{attacker} strikes true on {target}": {
+    "description": "Combat message when attacker hits target"
+  },
+  "@{eaters} Eating": {
+    "placeholders": {
+      "eaters": {
+        "type": "String",
+        "example": "eaters"
+      }
+    }
+  },
+  "@{expletive}!  {name} found the keys {location}": {
+    "placeholders": {
+      "expletive": {
+        "type": "String",
+        "example": "expletive"
+      },
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "location": {
+        "type": "String",
+        "example": "Downtown"
+      }
+    }
+  },
+  "@{member} acted with {squad} instead of {activity}.": {
+    "placeholders": {
+      "member": {
+        "type": "String",
+        "example": "member"
+      },
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "activity": {
+        "type": "String",
+        "example": "activity"
+      }
+    }
+  },
+  "@{name} avoided getting caught a prostitution sting.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} created {rate}-rate {clothing}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "rate": {
+        "type": "String",
+        "example": "rate"
+      },
+      "clothing": {
+        "type": "String",
+        "example": "clothing"
+      }
+    }
+  },
+  "@{name} fiddles with the lock with no luck.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} got feet and inches mixed up and is now outfitting ants.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} has abandoned the LCS.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} has been rescued.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} has died of injuries.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} has lost touch with the Liberal Crime Squad.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} hotwires the car!": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} is now {age} years old.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "age": {
+        "type": "String",
+        "example": "age"
+      }
+    }
+  },
+  "@{name} looks around for an accessible vehicle...": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} made a horrible nightmare of cloth and stitching.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} produced an unwearable cloth monster.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} smashes the window{weapon}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "weapon": {
+        "type": "String",
+        "example": "weapon"
+      }
+    }
+  },
+  "@{name} stitched something bad.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} was able to get information on multiple people.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} was unable to track down a {type}.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      },
+      "type": {
+        "type": "String",
+        "example": "type"
+      }
+    }
+  },
+  "@{name} will build support for Liberal causes.": {
+    "description": "Description for advocacy activity",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} will join the active LCS.": {
+    "description": "Description for joining active squad",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} will stay out of trouble.": {
+    "description": "Description for lay low activity",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name} will try to recruit additional sleeper agents.": {
+    "description": "Description for recruitment activity",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{name}'s injuries require professional treatment.": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+  "@{newboss} is the new leader ": {
+    "placeholders": {
+      "newboss": {
+        "type": "String",
+        "example": "newboss"
+      }
+    }
+  },
+  "@{squad} couldn't afford to travel to {site}.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
+  "@{squad} decided {site} was too hot to risk.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
+  "@{squad} has arrived at {site}.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
+  "@{squad} paid {price} to travel to {site}.": {
+    "placeholders": {
+      "squad": {
+        "type": "String",
+        "example": "Alpha Squad"
+      },
+      "price": {
+        "type": "String",
+        "example": "price"
+      },
+      "site": {
+        "type": "String",
+        "example": "site"
+      }
+    }
+  },
+  "A - Language Selection": "A - Seleção de Idioma",
+  "A - There is no expectation to spend money on this date.": "A - Não há expectativa de gastar dinheiro nesta data.",
+  "A Liberal outcome!": "Um resultado liberal!",
+  "A corruption scandal is brewing...": "Um escândalo de corrupção está fermentando...",
+  "A few of the jurors are members of the KKK.": "Alguns dos jurados são membros do KKK.",
+  "A hostage escapes!": "Um refém escapa!",
+  "ACTIVITY": "ATIVIDADE",
+  "AMENDMENT REJECTED.": "EMENDA REJEITADA.",
+  "ARMOR": "ARMADURA",
+  "Acting Individually": "Agindo Individualmente",
+  "Activate Sleeper Agents in Bulk": "Ativar Agentes Dormindo em Massa",
+  "Adventures in Liberal Car Theft": "Aventuras no Roubo Liberal de Carros",
+  "Advocate Liberalism": "Advocar Liberalismo",
+  "Alarms go off!": "Alarmes disparam!",
+  "Almost Impossible": "Quase Impossível",
+  "An M1 Abrams Tank is stopped by the tank traps.": "Um tanque M1 Abrams é parado pelas armadilhas de tanque.",
+  "An angry mob is storming": "Uma multidão furiosa está invadindo",
+  "Another SWAT team moves in!!": "Outra equipe SWAT avança!!",
+  "Any Other Key - Continue the Struggle": "Qualquer Outra Tecla - Continue a Luta",
+  "Arch Conservative": "Arqui-Conservador",
+  "Are you SURE you want to delete this saved game?": "Tem CERTEZA de que quer deletar este jogo salvo?",
+  "Art Supplies": "Suprimentos de Arte",
+  "Assign Tasks in Bulk": "Atribuir Tarefas em Massa",
+  "Attorney General:": "Procurador-Geral:",
+  "Average": "Médio",
+  "B - Espionage": "B - Espionagem",
+  "BANK ROBBERY": "ASSALTO A BANCO",
+  "BULK ACTIVITY": "ATIVIDADE MASSA",
+  "Bank Teller": "Caixa de Banco",
+  "Below Average": "Abaixo da Média",
+  "Buggy Armor": "Armadura Bugada",
+  "Buggy Item": "Item Bugado",
+  "But ${p.name} cleverly escapes the police ambush!": "Mas ${p.name} escapa engenhosamente da emboscada policial!",
+  "But ${target.name} weren't born yesterday.": "Mas ${target.name} não nasceram ontem.",
+  "But why?  The squad feels a bit Conservative.": "Mas por quê? O esquadrão parece um pouco conservador.",
+  "By ${repname.firstLast}": "Por ${repname.firstLast}",
+  "C - Continue Last Game": "C - Continuar Último Jogo",
+  "C - Join the Active LCS": "C - Juntar-se ao ECL Ativo",
+  "CCS Action $name": "Ação CCS $name",
+  "CCS Lieutenant": "Tenente do CCS",
+  "CCS Squad KIA": "Esquadrão CCS KIA",
+  "CEO's Study": "Estudo do CEO",
+  "CREDIT CARD FRAUD": "FRAUDE DE CARTÃO DE CRÉDITO",
+  "CYBER TERRORISM": "CIBERTERRORISMO",
+  "Can't carry ammo without a gun.": "Não pode carregar munição sem uma arma.",
+  "Changes": "Mudanças",
+  "Choose a Liberal squad member to receive ammo.": "Escolha um membro do esquadrão Liberal para receber munição.",
+  "Choose a Liberal squad member to strip down.": "Escolha um membro do esquadrão Liberal para despir.",
+  "Clean sever": "Corte Limpo",
+  "Come on, baby, come to me...": "Vamos, querido, venha para mim...",
+  "Conservative": "Conservador",
+  "Conservative forum": "fórum Conservador",
+  "D - Sort by squad or name.": "D - Ordenar por esquadrão ou nome.",
+  "DISTURBING THE PEACE": "PERTURBAÇÃO DA PAZ",
+  "E - Encounter Warnings: {status}": "E - Avisos de Encontros: {status}",
+  "EFF": "EFIC",
+  "EVICTION NOTICE: {location}.  Possessions dumped on the street.": "AVISO DE DESPEJO: {location}. Posses jogadas na rua.",
+  "Effectiveness: ": "Efetividade: ",
+  "Enlightened Can't Recruit": "Iluminados Não Podem Recrutar",
+  "Enter - Confirm Selection": "Enter - Confirmar Seleção",
+  "Enter - The Squad is not yet Liberal enough": "Enter - O Esquadrão ainda não é Liberal o suficiente",
+  "Enter - The Viper?   {name} is deterred.": "Enter - A Viper?   {name} foi impedido.",
+  "Escaped prisoner sentenced to ": "Prisioneiro fugitivo condenado a ",
+  "Escaped prisoner sentenced to life in prison": "Prisioneiro fugitivo condenado à prisão perpétua",
+  "Extremely Difficult": "Extremamente Difícil",
+  "GRAND THEFT AUTO": "ROUBO DE VEÍCULO",
+  "H - View High Scores": "H - Ver Recordes",
+  "HEALTH": "SAÚDE",
+  "Heat: ": "Pressão: ",
+  "How long since you've heard these sounds...  times have changed.": "Quanto tempo desde que você ouviu esses sons... os tempos mudaram.",
+  "I don't think they're in here...": "Acho que não estão aqui...",
+  "I'm going to get arrested, aren't I?": "Vou ser preso, não vou?",
+  "Impossible": "Impossível",
+  "It sure has been a while.  Things might have changed a bit.": "Com certeza faz um tempo. As coisas podem ter mudado um pouco.",
+  "JURY TAMPERING": "MANIPULAÇÃO DE JÚRI",
+  "L - Load a Saved Game": "L - Carregar um Jogo Salvo",
+  "LIBERAL CRIME SQUAD: NEW AGE": "ESQUADRÃO DO CRIME LIBERAL: NOVA ERA",
+  "Lay Low": "Manter-se Oculto",
+  "Liberals in treatment": "Liberais em tratamento",
+  "M - Experimental Mouse Input: {status}": "M - Entrada Experimental de Mouse: {status}",
+  "Maintained by {maintainer}, with gratitude to:": "Mantido por {maintainer}, com gratidão para:",
+  "N - Start a New Game": "N - Começar um Novo Jogo",
+  "NOW   MAX": "ATUAL   MAX",
+  "No Squad Selected, ": "Nenhum Esquadrão Selecionado, ",
+  "No ammo required!": "Munição não necessária!",
+  "No spare ammo!": "Sem munição reserva!",
+  "Oh no...": "Ah não...",
+  "On Foot": "A Pé",
+  "PUBLIC NUDITY": "NUDEZ PÚBLICA",
+  "Press a Letter to Assign an Activity.": "Pressione uma Letra para Atribuir uma Atividade.",
+  "Press a Letter to select Squad members.": "Pressione uma Letra para selecionar membros do Esquadrão.",
+  "Press a Letter to select an {optiontypename}": "Pressione uma Letra para selecionar {optiontypename}",
+  "Press any key to continue.": "Pressione qualquer tecla para continuar.",
+  "RELEASING PRISONERS": "SOLTA DE PRISIONEIROS",
+  "Ripped off": "Arrancado",
+  "SKILL": "HABILIDADE",
+  "Scheduled Dates:    ": "Encontros Agendados:    ",
+  "Secrecy: ": "Sigilo: ",
+  "Select your preferred language": "Selecione seu idioma preferido",
+  "Serving life in prison": "Cumprindo prisão perpétua",
+  "Squad has no base to return to and no homeless camp found. Canceling departure.": "O esquadrão não tem base para retornar e nenhum acampamento de desabrigados foi encontrado. Cancelando partida.",
+  "T - Sorting options": "T - Opções de ordenação",
+  "TRANSPORT": "TRANSPORTE",
+  "The Liberal has gone into hiding...": "O Liberal foi para a clandestinidade...",
+  "There are none left with the courage and conviction to lead....": "Não resta ninguém com a coragem e convicção para liderar....",
+  "This location has food for only a few days.": "Este local tem comida para apenas alguns dias.",
+  "This message does not exist": "Esta mensagem não existe",
+  "Total Americas Saved: {count}": "Total de Américas Salvas: {count}",
+  "Total Conservatives Killed: {count}": "Total de Conservadores Mortos: {count}",
+  "Total Liberals Recruited: {count}": "Total de Liberais Recrutados: {count}",
+  "U - Log Untranslated Strings: {status}": "U - Registrar Strings Não Traduzidas: {status}",
+  "Uncover Secrets": "Descobrir Segredos",
+  "Universal Liberal Statistics:": "Estatísticas Liberais Universais:",
+  "Version {version}": "Versão {version}",
+  "Very Hard": "Muito Difícil",
+  "WEAPON": "ARMA",
+  "What do I do now?": "O que faço agora?",
+  "When encounter warnings are on, you will be warned when you take a step or wait and a new encounter begins. This extra step can help you avoid accidentally walking past an encounter or doing something else you might not want to do. Default is off.": "Quando os avisos de encontro estão ligados, você será avisado quando der um passo ou esperar e um novo encontro começar. Este passo extra pode ajudá-lo a evitar passar acidentalmente por um encontro ou fazer algo que você não quer. O padrão é desligado.",
+  "Where will the Squad go?": "Para onde o Esquadrão vai?",
+  "Why me?": "Por que eu?",
+  "You have no items.": "Você não tem itens.",
+  "You have {count} items.": "Você tem {count} itens.",
+  "Your Activists ": "Seus Ativistas ",
+  "Your hackers have stolen {amount} from credit cards.": "Seus hackers roubaram {amount} de cartões de crédito.",
+  "a recent sports scandal": "um escândalo esportivo recente",
+  "active Liberals": "Liberais ativos",
+  "agree that more work is needed for racial equality": "concordam que mais trabalho é necessário para igualdade racial",
+  "all the noise they were making": "todo o barulho que estavam fazendo",
+  "allow broad use of nuclear power": "permitem uso amplo de energia nuclear",
+  "allow gender-based discrimination": "permitem discriminação baseada em gênero",
+  "allow more restrictions on guns": "permitem mais restrições a armas",
+  "and Minister of Truth Jerry Falwell.": "e Ministro da Verdade Jerry Falwell.",
+  "and pretends to belong here.": "e finge pertencer aqui.",
+  "appointing more Liberal justices": "nomeando mais juízes Liberais",
+  "are critical of the police": "são críticos da polícia",
+  "are for the appointment of Liberal Justices": "são a favor da nomeação de Juízes Liberais",
+  "are terrified of nuclear power": "estão aterrorizados com energia nuclear",
+  "available Liberals": "Liberais disponíveis",
+  "avoid companies that use sweatshops": "evitam empresas que usam mão de obra escrava",
+  "ban torture in interrogations": "proíbem tortura em interrogatórios",
+  "be swarming with Conservative units.  The Liberal Crime": "estar infestado de unidades Conservadoras. O Esquadrão do Crime Liberal",
+  "believe that CEO salaries are too high": "acreditam que salários de CEOs são muito altos",
+  "bias elections toward incumbents": "desequilibram eleições a favor de candidatos à reeleição",
+  "burned a corporate symbol and denounced capitalism!": "queimou um símbolo corporativo e denunciou o capitalismo!",
+  "burned an effigy of a right-wing radio host!": "queimou uma efígie de um apresentador de rádio de direita!",
+  "corporate website": "site corporativo",
+  "digs around in the steering column, but the car doesn't start.": "mexe na coluna de direção, mas o carro não liga.",
+  "distributed fliers declaring that no one is illegal!": "distribuiu panfletos declarando que ninguém é ilegal!",
+  "distributed fliers graphically illustrating executions!": "distribuiu panfletos ilustrando graficamente execuções!",
+  "effect": "efeito",
+  "government website": "site governamental",
+  "held an anti-censorship street performance!": "realizou uma performance de rua anti-censura!",
+  "immediately.": "imediatamente.",
+  "in the glove compartment!": "no porta-luvas!",
+  "makes something in the engine click, but the car doesn't start.": "faz algo no motor clicar, mas o carro não liga.",
+  "marched downtown chanting Black Lives Matter!": "marchou pelo centro gritando Vidas Negras Importam!",
+  "news website": "site de notícias",
+  "oppressed Liberals": "Liberais oprimidos",
+  "organized a pro-tax flash mob in a ritzy area!": "organizou um flash mob pró-imposto em uma área chique!",
+  "people away": "pessoas ausentes",
+  "protested against the game being buggy!": "protestou contra o jogo estar cheio de bugs!",
+  "selection": "seleção",
+  "sleeper activity": "atividade adormecida",
+  "squadless members": "membros sem esquadrão",
+  "staged a performance of George Orwell's 1984!": "encenou uma performance de 1984 de George Orwell!",
+  "staged a sit-in at the courthouse!": "realizou um protesto sentado no tribunal!",
+  "taped to the muffler!": "grudado no escapamento!",
+  "the deceased": "os falecidos",
+  "under the front seat!": "debaixo do banco da frente!",
+  "{attacker} strikes true on {target}": "{attacker} acerta em cheio em {target}",
+  "{count} other LCS members escape in the riot!": "{count} outros membros do LCS escapam no motim!",
+  "{eaters} Eating": "{eaters} Comendo",
+  "{expletive}!  {name} found the keys {location}": "{expletive}!  {name} encontrou as chaves {location}",
+  "{member} acted with {squad} instead of {activity}.": "{member} agiu com {squad} em vez de {activity}.",
+  "{name} avoided getting caught a prostitution sting.": "{name} evitou ser pego em uma operação de prostituição.",
+  "{name} created {rate}-rate {clothing}.": "{name} criou {clothing} de qualidade {rate}.",
+  "{name} fiddles with the lock with no luck.": "{name} mexe na fechadura sem sorte.",
+  "{name} got feet and inches mixed up and is now outfitting ants.": "{name} confundiu pés com polegadas e agora está vestindo formigas.",
+  "{name} has abandoned the LCS.": "{name} abandonou o ECL.",
+  "{name} has been rescued.": "{name} foi resgatado.",
+  "{name} has died of injuries.": "{name} morreu de ferimentos.",
+  "{name} has lost touch with the Liberal Crime Squad.": "{name} perdeu contato com o Esquadrão do Crime Liberal.",
+  "{name} hotwires the car!": "{name} liga o carro direto!",
+  "{name} is now {age} years old.": "{name} agora tem {age} anos.",
+  "{name} looks around for an accessible vehicle...": "{name} procura um veículo acessível...",
+  "{name} made a horrible nightmare of cloth and stitching.": "{name} fez um pesadelo horrível de tecido e costura.",
+  "{name} produced an unwearable cloth monster.": "{name} produziu um monstro de tecido inutilizável.",
+  "{name} smashes the window{weapon}.": "{name} quebra a janela{weapon}.",
+  "{name} stitched something bad.": "{name} costurou algo ruim.",
+  "{name} was able to get information on multiple people.": "{name} conseguiu obter informações sobre várias pessoas.",
+  "{name} was unable to track down a {type}.": "{name} não conseguiu encontrar um {type}.",
+  "{name} will build support for Liberal causes.": "{name} vai construir apoio para causas Liberais.",
+  "{name} will join the active LCS.": "{name} vai se juntar ao ECL ativo.",
+  "{name} will stay out of trouble.": "{name} vai ficar fora de problemas.",
+  "{name} will try to recruit additional sleeper agents.": "{name} vai tentar recrutar agentes adicionais.",
+  "{name}'s injuries require professional treatment.": "Os ferimentos de {name} exigem tratamento profissional.",
+  "{newboss} is the new leader ": "{newboss} é o novo líder ",
+  "{p.name} has been rescued.": "{p.name} foi resgatado.",
+  "{squad} couldn't afford to travel to {site}.": "{squad} não pôde pagar para viajar para {site}.",
+  "{squad} decided {site} was too hot to risk.": "{squad} decidiu que {site} estava muito perigoso para arriscar.",
+  "{squad} has arrived at {site}.": "{squad} chegou a {site}.",
+  "{squad} paid {price} to travel to {site}.": "{squad} pagou {price} para viajar para {site}."
+}

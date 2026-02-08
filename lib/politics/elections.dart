@@ -666,22 +666,22 @@ Future<void> houseElections() async {
 
 void _showNetChange(List<int> change) {
   mvaddstrc(20, 0, lightGray, "Net change:");
-  addstr("   L+: ");
-  if (change[4] > 0) addstr("+");
-  addstr("{val}", params: {"val": change[4]});
-  addstr("   L: ");
-  if (change[3] > 0) addstr("+");
-  addstr("{val}", params: {"val": change[3]});
-  addstr("   m: ");
-  if (change[2] > 0) addstr("+");
-  addstr("{val}", params: {"val": change[2]});
-  addstr("   C: ");
-  if (change[1] > 0) addstr("+");
-  addstr("{val}", params: {"val": change[1]});
-  addstr("   C+: ");
-  if (change[0] > 0) addstr("+");
-  addstr("{val}", params: {"val": change[0]});
-  addstr("        ");
+  addstr("   L+: ", noTranslate: true);
+  if (change[4] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[4]}, noTranslate: true);
+  addstr("   L: ", noTranslate: true);
+  if (change[3] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[3]}, noTranslate: true);
+  addstr("   m: ", noTranslate: true);
+  if (change[2] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[2]}, noTranslate: true);
+  addstr("   C: ", noTranslate: true);
+  if (change[1] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[1]}, noTranslate: true);
+  addstr("   C+: ", noTranslate: true);
+  if (change[0] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[0]}, noTranslate: true);
+  addstr("        ", noTranslate: true);
 }
 
 void _showWinner(List<int> change, double mood, int thresholdForVictory) {

@@ -521,7 +521,7 @@ bool _isUserFacing(String str) {
 
   // Strings that are purely technical characters
   final techPattern = RegExp(
-    r'^[a-zA-Z0-9_./\\$@#%&*+\-=\[\]{}()|;:<>?,!\"]+$',
+    r'^[a-zA-Z0-9_./\\$@#%&*+\-=\[\]{}()|;:<>?,"]+$',
   );
   if (techPattern.hasMatch(str)) {
     return false;
@@ -534,12 +534,15 @@ bool _isUserFacing(String str) {
   if (RegExp(r'^\{[^}]+\}$').hasMatch(str)) return false;
 
   // Enhanced filtering: single character patterns (punctuation, symbols)
-  if (RegExp(r'^[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?]+$').hasMatch(str)) {
+  if (RegExp(r'^[;|,.<>/?]+$').hasMatch(str)) {
     return false;
   }
 
   // Enhanced filtering: color codes and formatting patterns
   if (RegExp(r'^&[a-zA-Z]$').hasMatch(str)) return false;
+
+  // CRITICAL: Skip strings with $variable interpolation (not templated yet)
+  if (str.contains('\$')) return false;
 
   // Include if it contains letters and has some meaningful content
   final hasLetters = RegExp(r'[a-zA-Z]').hasMatch(str);
@@ -547,7 +550,6 @@ bool _isUserFacing(String str) {
 
   return hasLetters && hasContent;
 }
-
 void _generateTextOutput(List<StringInfo> sortedStrings) {
   print('Found ${sortedStrings.length} unique translatable strings\n');
   print('Format: STRING_LITERAL (count: N)');
@@ -738,27 +740,6 @@ Map<File, Map<String, dynamic>> _distributeStrings(
 
     for (final info in newStrings) {
       distribution[primaryFile]![info.text] = info.text;
-
-      // Add metadata if has parameters
-      if (info.text.contains('{') && info.text.contains('}')) {
-        final metaKey = '@${info.text}';
-        if (!distribution[primaryFile]!.containsKey(metaKey)) {
-          final placeholders = <String, dynamic>{};
-          final paramRegex = RegExp(r'\{([^}]+)\}');
-          for (final match in paramRegex.allMatches(info.text)) {
-            final paramName = match.group(1)!;
-            placeholders[paramName] = {
-              'type': 'String',
-              'example': _getExampleForParam(paramName),
-            };
-          }
-          if (placeholders.isNotEmpty) {
-            distribution[primaryFile]![metaKey] = {
-              'placeholders': placeholders,
-            };
-          }
-        }
-      }
     }
   } else if (splitStrategy == 'split-evenly') {
     // Distribute strings evenly across files
@@ -816,25 +797,6 @@ Map<File, Map<String, dynamic>> _distributeStrings(
       distribution[targetFile]![info.text] = info.text;
       fileSizes[targetFile] = (fileSizes[targetFile] ?? 0) + 1;
 
-      // Add metadata if has parameters
-      if (info.text.contains('{') && info.text.contains('}')) {
-        final metaKey = '@${info.text}';
-        if (!distribution[targetFile]!.containsKey(metaKey)) {
-          final placeholders = <String, dynamic>{};
-          final paramRegex = RegExp(r'\{([^}]+)\}');
-          for (final match in paramRegex.allMatches(info.text)) {
-            final paramName = match.group(1)!;
-            placeholders[paramName] = {
-              'type': 'String',
-              'example': _getExampleForParam(paramName),
-            };
-          }
-          if (placeholders.isNotEmpty) {
-            distribution[targetFile]![metaKey] = {'placeholders': placeholders};
-          }
-        }
-      }
-
       fileIndex++;
     }
 
@@ -872,23 +834,6 @@ Future<void> _generateArbOutput(
 
     // Generate ARB entry
     newEntries[info.text] = info.text; // Default to same text
-
-    // Generate metadata entry if it has parameters
-    if (info.text.contains('{') && info.text.contains('}')) {
-      final placeholders = <String, dynamic>{};
-      final paramRegex = RegExp(r'\{([^}]+)\}');
-      for (final match in paramRegex.allMatches(info.text)) {
-        final paramName = match.group(1)!;
-        placeholders[paramName] = {
-          'type': 'String',
-          'example': _getExampleForParam(paramName),
-        };
-      }
-
-      if (placeholders.isNotEmpty) {
-        newEntries['@${info.text}'] = {'placeholders': placeholders};
-      }
-    }
   }
 
   if (newEntries.isEmpty) {
@@ -940,23 +885,6 @@ bool _matchesGlob(String path, String glob) {
       .replaceAll('?', '.');
   final regex = RegExp('^$regexPattern\$');
   return regex.hasMatch(path);
-}
-
-String _getExampleForParam(String paramName) {
-  switch (paramName) {
-    case 'name':
-      return 'John';
-    case 'target':
-      return 'Conservative';
-    case 'count':
-      return '5';
-    case 'location':
-      return 'Downtown';
-    case 'squad':
-      return 'Alpha Squad';
-    default:
-      return paramName;
-  }
 }
 
 class StringInfo {

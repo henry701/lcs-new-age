@@ -37,9 +37,6 @@ class UntranslatedStringLogger {
     // Empty or whitespace only
     if (englishText.trim().isEmpty) return true;
 
-    // Very short strings (likely not meaningful)
-    if (englishText.length < 4) return true;
-
     // Strings that look like file paths or URLs
     if (englishText.contains('/') || englishText.contains('\\')) return true;
 
@@ -79,11 +76,10 @@ class UntranslatedStringLogger {
       return false; // Keep technical strings that might have meaningful content
     }
 
-    // Include if it contains letters and has some meaningful content
+    // Include if it contains at least one letter (allows short strings like "OK", "Go", "No")
     final hasLetters = RegExp(r'[a-zA-Z]').hasMatch(englishText);
-    final hasContent = englishText.length >= 3;
 
-    return !(hasLetters && hasContent);
+    return !hasLetters;
   }
 
   /// Logs an untranslated string to the appropriate JSON file

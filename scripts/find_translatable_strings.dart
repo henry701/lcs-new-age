@@ -520,9 +520,7 @@ bool _isUserFacing(String str) {
   if (str.toUpperCase().startsWith('FIXME')) return false;
 
   // Strings that are purely technical characters
-  final techPattern = RegExp(
-    r'^[a-zA-Z0-9_./\\$@#%&*+\-=\[\]{}()|;:<>?,"]+$',
-  );
+  final techPattern = RegExp(r'^[a-zA-Z0-9_./\\$@#%&*+\-=\[\]{}()|;:<>?,"]+$');
   if (techPattern.hasMatch(str)) {
     return false;
   }
@@ -550,6 +548,7 @@ bool _isUserFacing(String str) {
 
   return hasLetters && hasContent;
 }
+
 void _generateTextOutput(List<StringInfo> sortedStrings) {
   print('Found ${sortedStrings.length} unique translatable strings\n');
   print('Format: STRING_LITERAL (count: N)');

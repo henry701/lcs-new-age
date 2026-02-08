@@ -122,8 +122,10 @@ The template `"{name}"` serves no purpose when there's no other text to translat
 
 - ✅ Translation workflow scripts complete (extract, merge, validate)
 - ✅ Translation guidelines document created (TRANSLATION_WORKFLOW.md)
-- [ ] Complete Portuguese (pt_BR) translation (916 strings remaining, 23% complete)
-- [ ] Add placeholder metadata for all parameters in ARB files
+- ✅ All strings extracted from codebase (4,697 total)
+- 🔄 Portuguese (pt_BR) translation: 547/~9,000 strings (12% complete)
+  - 547 translated in ARB files
+  - ~8,500 awaiting translation
 - [ ] Implement ARB→PO export scripts (optional, for translator tooling)
 - [ ] Add support for additional languages (German, French, etc.)
 
@@ -270,14 +272,16 @@ mvaddstr(11, 0, ", including vehicles");
 - [x] All 50 tests pass
 
 ### Phase 2: Translation Files (IN PROGRESS)
-- [x] ARB file structure in place (1,137 entries in en_US)
-- [x] Portuguese (pt_BR) translation started (277/1,193 complete = 23%)
+- [x] ARB file structure in place (4,697 entries in en_US)
+- [x] Portuguese (pt_BR) translation started (547 translated, ~8,500 remaining)
+- [x] Multi-file ARB support (13 files for pt_BR)
 - [x] CI/CD pipeline with translation validation
 - [x] Pre-commit hooks configured
 - [x] Translation workflow documentation complete
-- [ ] Generate comprehensive ARB template from templated code
-- [ ] Add placeholder metadata for all parameters
-- [ ] Complete Portuguese translation (916 strings remaining)
+- [x] Comprehensive ARB extraction from templated code (complete)
+- [x] Placeholder metadata auto-generated for parameters
+- [x] Cleaned 1,984 malformed entries (2026-02-07)
+- [ ] Complete Portuguese translation (~8,500 strings remaining)
 - [ ] Add additional language translations
 
 ### Phase 3+: Advanced Features, Coverage, Production

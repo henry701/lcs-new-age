@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:lcs_new_age/i18n/catalog_layout.dart';
+
 void main(List<String> args) async {
   if (args.contains('--help') || args.contains('-h')) {
     print('Find and manage translatable strings in LCS New Age');
@@ -29,15 +31,12 @@ void main(List<String> args) async {
       '  --glob=PATTERN             Scan only files matching glob pattern (can specify multiple)',
     );
     print(
-      '  --max-file-size=N          Max entries per ARB file before creating new file (default: 500)',
-    );
-    print(
-      '  --split-strategy=STRATEGY   Strategy for distributing strings: primary-only, split-evenly (default: primary-only)',
+      '  --hash-shards=N            Number of deterministic hash shards per locale (default: $defaultArbCatalogShardCount)',
     );
     print('  --help, -h                 Show this help message');
     print('');
     print(
-      'Default behavior: Scan all code, update primary ARB files with missing strings',
+      'Default behavior: Scan all code, add missing keys, and rewrite locale catalogs in canonical hash-sharded order',
     );
     print('');
     print('Notes:');
@@ -47,13 +46,11 @@ void main(List<String> args) async {
     print(
       '  - File naming: app_<locale>.arb (primary), app_<locale>_part<N>.arb (additional)',
     );
-    print('  - Strategies:');
-    print('    • primary-only: Add all new strings to primary file (default)');
     print(
-      '    • split-evenly: Distribute new strings evenly across existing files',
+      '  - Partitioning: key hash determines target file, ensuring deterministic sharding and stable diffs',
     );
     print(
-      '  - Run clean_arb_duplicates.dart after to validate no duplicates across files',
+      '  - Run clean_arb_duplicates.dart --check after sync to validate canonical shard layout',
     );
     print('');
     print('Examples:');
@@ -69,9 +66,7 @@ void main(List<String> args) async {
     print(
       '  dart find_translatable_strings.dart --glob="**/basemode/**"    # Scan only basemode files',
     );
-    print(
-      '  dart find_translatable_strings.dart --split-strategy=split-evenly --max-file-size=300',
-    );
+    print('  dart find_translatable_strings.dart --hash-shards=32');
     return;
   }
 
@@ -106,17 +101,16 @@ void main(List<String> args) async {
   );
   final targetLocale = localeArg.split('=')[1];
 
-  final maxFileSizeArg = args.firstWhere(
-    (arg) => arg.startsWith('--max-file-size='),
-    orElse: () => '--max-file-size=500',
+  final hashShardsArg = args.firstWhere(
+    (arg) => arg.startsWith('--hash-shards='),
+    orElse: () => '--hash-shards=$defaultArbCatalogShardCount',
   );
-  final maxFileSize = int.tryParse(maxFileSizeArg.split('=')[1]) ?? 500;
-
-  final splitStrategyArg = args.firstWhere(
-    (arg) => arg.startsWith('--split-strategy='),
-    orElse: () => '--split-strategy=primary-only',
-  );
-  final splitStrategy = splitStrategyArg.split('=')[1];
+  final hashShards =
+      int.tryParse(hashShardsArg.split('=')[1]) ?? defaultArbCatalogShardCount;
+  if (hashShards <= 0) {
+    print('Error: --hash-shards must be > 0');
+    exit(1);
+  }
 
   // Parse file globs
   final globArgs = args.where((arg) => arg.startsWith('--glob='));
@@ -316,8 +310,7 @@ void main(List<String> args) async {
       localeFileLists,
       targetLocale == 'all' ? null : targetLocale,
       l10nPath,
-      maxFileSize,
-      splitStrategy,
+      hashShards,
     );
   }
 }
@@ -697,126 +690,58 @@ Future<void> _modifyArbFiles(
   Map<String, List<File>> localeFileLists,
   String? targetLocale,
   String l10nPath,
-  int maxFileSize,
-  String splitStrategy,
+  int hashShards,
 ) async {
   final localesToProcess = targetLocale != null
       ? [targetLocale]
       : existingTranslations.keys.toList();
+  localesToProcess.sort();
 
   print('Processing ARB files for locales: ${localesToProcess.join(', ')}');
-  print('Split strategy: $splitStrategy');
-  print('Max file size: $maxFileSize entries\n');
+  print('Hash shards per locale: $hashShards\n');
 
   int totalAdded = 0;
   final summary = <String, Map<String, dynamic>>{};
 
   for (final locale in localesToProcess) {
-    final existingArb = existingTranslations[locale] ?? <String, dynamic>{};
+    final existingArb = Map<String, dynamic>.from(
+      existingTranslations[locale] ?? <String, dynamic>{},
+    );
     final files = localeFileLists[locale] ?? [];
-
-    // Find primary file
-    File? primaryFile;
-    List<File> additionalFiles = [];
-
-    for (final file in files) {
-      final filename = file.path.split('/').last;
-      if (filename == 'app_$locale.arb' ||
-          (locale == 'en_US' && filename == 'app_en.arb')) {
-        primaryFile = file;
-      } else {
-        additionalFiles.add(file);
-      }
-    }
-
-    // Create primary file if it doesn't exist
-    primaryFile ??= File('$l10nPath/app_$locale.arb');
-
-    // Load data from all existing files
-    final fileData = <File, Map<String, dynamic>>{};
-    for (final file in files) {
-      try {
-        final content = await file.readAsString();
-        fileData[file] = json.decode(content) as Map<String, dynamic>;
-      } catch (e) {
-        print('Warning: Failed to read ${file.path}: $e');
-        fileData[file] = <String, dynamic>{};
-      }
-    }
-
-    // Identify new strings to add
-    final newStrings = <StringInfo>[];
+    int addedToThisLocale = 0;
     for (final info in sortedStrings) {
       if (!existingArb.containsKey(info.text)) {
-        newStrings.add(info);
+        existingArb[info.text] = info.text;
+        addedToThisLocale++;
       }
     }
 
-    if (newStrings.isEmpty) {
-      final totalCount = existingArb.length;
-      print(
-        '✓ $locale: No new strings to add ($totalCount strings across ${files.length} file(s))',
-      );
-      summary[locale] = {
-        'total': totalCount,
-        'files': files.length,
-        'added': 0,
-      };
-      continue;
-    }
-
-    // Distribute new strings based on strategy
-    final distribution = _distributeStrings(
-      newStrings,
-      primaryFile,
-      additionalFiles,
-      l10nPath,
-      locale,
-      maxFileSize,
-      splitStrategy,
-      fileData,
+    final shards = await buildArbCatalogShards(
+      locale: locale,
+      catalogMaps: [existingArb],
+      shardCount: hashShards,
     );
 
-    // Write updated files
-    int addedToThisLocale = 0;
-    for (final entry in distribution.entries) {
-      final file = entry.key;
-      final newData = entry.value;
-      final addedCount = newData.length - (fileData[file]?.length ?? 0);
-
-      if (addedCount > 0) {
-        addedToThisLocale += addedCount;
-
-        // Sort keys alphabetically
-        final sortedData = SplayTreeMap<String, dynamic>.from(newData);
-
-        // Write back
-        const encoder = JsonEncoder.withIndent('  ');
-        await file.writeAsString('${encoder.convert(sortedData)}\n');
-      }
-    }
+    await _writeCanonicalLocaleFiles(
+      locale: locale,
+      l10nPath: l10nPath,
+      shards: shards,
+      existingFiles: files,
+    );
 
     totalAdded += addedToThisLocale;
-
-    final finalFiles = <File>[...localeFileLists[locale] ?? []];
-    final totalStrings = finalFiles.fold<int>(0, (sum, f) {
-      try {
-        final content = File(f.path).readAsStringSync();
-        final data = json.decode(content) as Map<String, dynamic>;
-        return sum + data.length;
-      } catch (e) {
-        return sum;
-      }
-    });
+    final totalStrings = existingArb.keys
+        .where((k) => !k.startsWith('@'))
+        .length;
 
     summary[locale] = {
       'total': totalStrings,
-      'files': finalFiles.length,
+      'files': shards.length,
       'added': addedToThisLocale,
     };
 
     print(
-      '✓ $locale: Added $addedToThisLocale strings ($totalStrings total in ${finalFiles.length} file(s))',
+      '✓ $locale: Added $addedToThisLocale strings ($totalStrings total in ${shards.length} file(s))',
     );
   }
 
@@ -839,100 +764,43 @@ Future<void> _modifyArbFiles(
     print(
       '\n⚠️  Remember to translate the newly added strings in each ARB file!',
     );
-    print('   Validate with: dart run scripts/clean_arb_duplicates.dart');
+    print(
+      '   Validate with: dart run scripts/clean_arb_duplicates.dart --check',
+    );
     print('   Test with: flutter test test/i18n_test.dart');
   }
 }
 
-Map<File, Map<String, dynamic>> _distributeStrings(
-  List<StringInfo> newStrings,
-  File primaryFile,
-  List<File> additionalFiles,
-  String l10nPath,
-  String locale,
-  int maxFileSize,
-  String splitStrategy,
-  Map<File, Map<String, dynamic>> existingFileData,
-) {
-  final distribution = <File, Map<String, dynamic>>{};
+Future<void> _writeCanonicalLocaleFiles({
+  required String locale,
+  required String l10nPath,
+  required List<ArbCatalogShard> shards,
+  required List<File> existingFiles,
+}) async {
+  final expectedFileNames = shards.map((s) => s.fileName).toSet();
 
-  if (splitStrategy == 'primary-only') {
-    // Add all new strings to primary file
-    distribution[primaryFile] = Map.from(existingFileData[primaryFile] ?? {});
-
-    for (final info in newStrings) {
-      distribution[primaryFile]![info.text] = info.text;
+  for (final existing in existingFiles) {
+    final fileName = existing.path.split('/').last;
+    if (!expectedFileNames.contains(fileName) &&
+        _isLocaleArbFile(fileName, locale)) {
+      await existing.delete();
     }
-  } else if (splitStrategy == 'split-evenly') {
-    // Distribute strings evenly across files
-    final allFiles = [primaryFile, ...additionalFiles];
-    final fileSizes = <File, int>{};
-
-    // Calculate current file sizes
-    for (final file in allFiles) {
-      fileSizes[file] = existingFileData[file]?.length ?? 0;
-    }
-
-    // Sort files by current size (to fill smallest first)
-    final sortedFiles = allFiles.toList()
-      ..sort((a, b) => (fileSizes[a] ?? 0).compareTo(fileSizes[b] ?? 0));
-
-    // Distribute strings round-robin, respecting maxFileSize
-    int fileIndex = 0;
-    for (final info in newStrings) {
-      // Find a file with space
-      File targetFile;
-      bool createNewFile = false;
-
-      while (true) {
-        targetFile = sortedFiles[fileIndex % sortedFiles.length];
-        final currentSize = fileSizes[targetFile] ?? 0;
-
-        if (currentSize < maxFileSize) {
-          break;
-        }
-
-        // All files are full, create new one
-        if (fileIndex >= sortedFiles.length * 2) {
-          createNewFile = true;
-          break;
-        }
-
-        fileIndex++;
-      }
-
-      if (createNewFile) {
-        // Create new part file
-        final partNumber = additionalFiles.length + 1;
-        targetFile = File('$l10nPath/app_${locale}_part$partNumber.arb');
-        fileSizes[targetFile] = 0;
-        distribution[targetFile] = <String, dynamic>{};
-        sortedFiles.add(targetFile);
-      }
-
-      // Initialize file data if not exists
-      if (!distribution.containsKey(targetFile)) {
-        distribution[targetFile] = Map.from(existingFileData[targetFile] ?? {});
-      }
-
-      // Add string
-      distribution[targetFile]![info.text] = info.text;
-      fileSizes[targetFile] = (fileSizes[targetFile] ?? 0) + 1;
-
-      fileIndex++;
-    }
-
-    // Add existing data for files that weren't modified
-    for (final file in allFiles) {
-      if (!distribution.containsKey(file)) {
-        distribution[file] = Map.from(existingFileData[file] ?? {});
-      }
-    }
-  } else {
-    throw ArgumentError('Unknown split strategy: $splitStrategy');
   }
 
-  return distribution;
+  const encoder = JsonEncoder.withIndent('  ');
+  for (final shard in shards) {
+    final filePath = '$l10nPath/${shard.fileName}';
+    final file = File(filePath);
+    await file.writeAsString('${encoder.convert(shard.entries)}\n');
+  }
+}
+
+bool _isLocaleArbFile(String filename, String locale) {
+  final localeRegex = RegExp(
+    '^app_${RegExp.escape(locale)}(?:_part\\d+)?\\.arb\$',
+  );
+  if (localeRegex.hasMatch(filename)) return true;
+  return locale == 'en_US' && filename == 'app_en.arb';
 }
 
 Future<void> _generateArbOutput(
@@ -991,7 +859,7 @@ Future<void> _generateArbOutput(
   );
   print('2. Add the above JSON entries (merge with existing content)');
   print('3. Translate the string values to $targetLocale');
-  print('4. Validate with: dart run scripts/clean_arb_duplicates.dart');
+  print('4. Validate with: dart run scripts/clean_arb_duplicates.dart --check');
   print('5. Test with: flutter test test/i18n_test.dart');
 }
 

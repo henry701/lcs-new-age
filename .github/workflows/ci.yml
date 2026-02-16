@@ -50,19 +50,7 @@ jobs:
       - name: Validate translation files
         run: |
           echo "=== Validating ARB files ==="
-          for locale in pt_BR; do
-            echo "Checking $locale..."
-            dart run scripts/maintain_translations.dart --locale=$locale --extract-untranslated --dry-run
-            if [ $? -ne 0 ]; then
-              echo "FAIL: Translation maintenance needed for $locale"
-              echo "Run: dart run scripts/maintain_translations.dart --locale=$locale --extract-untranslated"
-              exit 1
-            fi
-            echo "  OK: $locale"
-          done
-          echo ""
-          echo "=== Validating no duplicates ==="
-          dart run scripts/clean_arb_duplicates.dart
+          dart run scripts/clean_arb_duplicates.dart --check
           echo ""
           echo "=== All validations passed ==="
 

@@ -189,7 +189,7 @@ void main(List<String> args) async {
     print(
       '2. Merge back: dart merge_arb_entries.dart --locale=$locale --source=$outputPath',
     );
-    print('3. Validate: dart run scripts/clean_arb_duplicates.dart');
+    print('3. Validate: dart run scripts/clean_arb_duplicates.dart --check');
   }
 }
 
@@ -229,7 +229,7 @@ Workflow:
   1. Run this script to extract untranslated strings
   2. Edit the output file and translate the values
   3. Merge back: dart merge_arb_entries.dart --locale=pt_BR --source=<output>
-  4. Run clean_arb_duplicates.dart to validate
+  4. Run clean_arb_duplicates.dart --check to validate
 
 Notes:
   - ARB files will have untranslated entries REMOVED

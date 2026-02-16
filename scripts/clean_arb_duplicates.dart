@@ -1,188 +1,253 @@
+#!/usr/bin/env dart
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
 import 'dart:io';
 
-void main() {
-  // Find project root by looking for pubspec.yaml
-  final scriptDir = Directory(Platform.script.path).parent;
-  Directory? projectRoot = scriptDir;
+import 'package:lcs_new_age/i18n/catalog_layout.dart';
 
-  while (projectRoot != null) {
-    if (File('${projectRoot.path}/pubspec.yaml').existsSync()) {
-      break;
-    }
-    projectRoot = projectRoot.parent;
-  }
+Future<void> main(List<String> args) async {
+  final fixMode = args.contains('--fix');
+  final checkMode = args.contains('--check') || !fixMode;
+  final arbDirPath = _arg(args, 'arb-dir', defaultValue: 'lib/l10n');
+  final hashShards =
+      int.tryParse(
+        _arg(args, 'hash-shards', defaultValue: '$defaultArbCatalogShardCount'),
+      ) ??
+      defaultArbCatalogShardCount;
+  final localeArgs = args
+      .where((arg) => arg.startsWith('--locale='))
+      .map((arg) => arg.substring('--locale='.length))
+      .toSet();
 
-  if (projectRoot == null) {
-    print('Could not find project root (pubspec.yaml not found)');
-    print('Searched from: ${scriptDir.path}');
+  if (hashShards <= 0) {
+    print('Error: --hash-shards must be > 0');
     exit(1);
   }
 
-  final arbDir = Directory('${projectRoot.path}/lib/l10n');
+  final arbDir = Directory(arbDirPath);
   if (!arbDir.existsSync()) {
-    print('ARB directory not found: ${arbDir.path}');
+    print('Error: ARB directory not found: $arbDirPath');
     exit(1);
   }
 
-  // Group files by locale
-  final localeFiles = <String, List<File>>{};
-  for (final entity in arbDir.listSync()) {
-    if (entity is File && entity.path.endsWith('.arb')) {
-      final locale = _extractLocale(entity.path);
-      localeFiles.putIfAbsent(locale, () => []);
-      localeFiles[locale]!.add(entity);
-    }
+  final localeFiles = await _collectLocaleFiles(arbDir);
+  if (localeFiles.isEmpty) {
+    print('No ARB files found in $arbDirPath');
+    return;
   }
 
-  int totalFilesProcessed = 0;
-  int totalEntriesFound = 0;
-  int totalUniqueEntries = 0;
-  int totalCrossFileDuplicates = 0;
+  final locales = localeFiles.keys.toList()..sort();
+  final selectedLocales =
+      localeArgs.isEmpty ? locales : locales.where(localeArgs.contains).toList()
+        ..sort();
 
-  print('=== ARB Duplicate Cleaner ===\n');
-
-  // Process each locale
-  for (final locale in localeFiles.keys.toList()..sort()) {
-    final files = localeFiles[locale]!;
-    print('Locale: $locale (${files.length} file(s))');
-
-    // Check for duplicates across files
-    final crossFileDupes = _checkCrossFileDuplicates(files);
-    if (crossFileDupes.isNotEmpty) {
-      print(
-        '  ERROR: Found ${crossFileDupes.length} duplicate key(s) across files:',
-      );
-      for (final dupe in crossFileDupes.take(5)) {
-        print('    - "${dupe.key}" in: ${dupe.files.join(", ")}');
-      }
-      if (crossFileDupes.length > 5) {
-        print('    ... and ${crossFileDupes.length - 5} more');
-      }
-      totalCrossFileDuplicates += crossFileDupes.length;
-      print('  These must be resolved manually.\n');
-      continue; // Skip this locale until duplicates are resolved
-    }
-
-    // Process each file
-    for (final file in files..sort((a, b) => a.path.compareTo(b.path))) {
-      final filename = file.path.split('/').last;
-      final result = processArbFile(file);
-      totalFilesProcessed++;
-      totalEntriesFound += result['originalCount']!;
-      totalUniqueEntries += result['uniqueCount']!;
-
-      final duplicatesRemoved = result['duplicatesRemoved']!;
-      if (duplicatesRemoved > 0) {
-        print(
-          '  $filename: ${result['originalCount']} entries → ${result['uniqueCount']} unique (removed $duplicatesRemoved duplicate(s))',
-        );
-      } else {
-        print(
-          '  $filename: ${result['originalCount']} entries (no duplicates)',
-        );
-      }
-    }
-    print('');
+  if (selectedLocales.isEmpty) {
+    print('No matching locales for --locale filters: ${localeArgs.join(", ")}');
+    return;
   }
 
-  print('=== Summary ===');
-  print('Files processed: $totalFilesProcessed');
-  print('Total entries: $totalEntriesFound');
-  print('Unique entries: $totalUniqueEntries');
-  print('Duplicates removed: ${totalEntriesFound - totalUniqueEntries}');
+  print('=== ARB Catalog Validation ===');
+  print('Mode: ${fixMode ? "fix" : "check"}');
+  print('Hash shards: $hashShards');
+  print('Locales: ${selectedLocales.join(", ")}\n');
 
-  if (totalCrossFileDuplicates > 0) {
-    print(
-      '\nWARNING: $totalCrossFileDuplicates duplicate key(s) found across files',
+  int localesWithErrors = 0;
+  int localesChanged = 0;
+
+  for (final locale in selectedLocales) {
+    final files = localeFiles[locale]!
+      ..sort((a, b) => a.path.compareTo(b.path));
+    final result = await _processLocale(
+      locale: locale,
+      files: files,
+      arbDirPath: arbDir.path,
+      hashShards: hashShards,
+      checkMode: checkMode,
+      fixMode: fixMode,
     );
-    print('These require manual resolution.');
+
+    if (result.hadErrors) {
+      localesWithErrors++;
+    }
+    if (result.changed) {
+      localesChanged++;
+    }
+  }
+
+  print('\n=== Summary ===');
+  print('Locales processed: ${selectedLocales.length}');
+  print('Locales changed: $localesChanged');
+  print('Locales with errors: $localesWithErrors');
+
+  if (localesWithErrors > 0) {
     exit(1);
-  } else {
-    print('\nCross-file validation: OK');
   }
 }
 
-class DuplicateInfo {
-  DuplicateInfo({required this.key, required this.files});
-  final String key;
-  final List<String> files;
-}
+Future<_LocaleProcessResult> _processLocale({
+  required String locale,
+  required List<File> files,
+  required String arbDirPath,
+  required int hashShards,
+  required bool checkMode,
+  required bool fixMode,
+}) async {
+  print('Locale: $locale (${files.length} file(s))');
 
-List<DuplicateInfo> _checkCrossFileDuplicates(List<File> files) {
-  final keyLocations = <String, List<String>>{};
-
+  final fileMaps = <String, Map<String, dynamic>>{};
   for (final file in files) {
-    final content = file.readAsStringSync();
-    final json = jsonDecode(content) as Map<String, dynamic>;
-
-    for (final entry in json.entries) {
-      keyLocations.putIfAbsent(entry.key, () => []);
-      keyLocations[entry.key]!.add(file.path.split('/').last);
+    final fileName = file.path.split('/').last;
+    try {
+      final map =
+          json.decode(await file.readAsString()) as Map<String, dynamic>;
+      fileMaps[fileName] = map;
+    } catch (e) {
+      print('  ERROR: Failed to parse $fileName: $e');
+      return const _LocaleProcessResult(hadErrors: true, changed: false);
     }
   }
 
-  final duplicates = <DuplicateInfo>[];
-  for (final entry in keyLocations.entries) {
+  final duplicates = _findCrossFileDuplicates(fileMaps);
+  if (duplicates.isNotEmpty) {
+    print('  ERROR: ${duplicates.length} duplicate key(s) across files');
+    for (final entry in duplicates.entries.take(10)) {
+      print('    - "${entry.key}" in ${entry.value.join(", ")}');
+    }
+    return const _LocaleProcessResult(hadErrors: true, changed: false);
+  }
+
+  final merged = mergeArbCatalogMaps(fileMaps.values);
+  final expectedShards = await buildArbCatalogShards(
+    locale: locale,
+    catalogMaps: [merged],
+    shardCount: hashShards,
+  );
+
+  const encoder = JsonEncoder.withIndent('  ');
+  final expectedContent = <String, String>{
+    for (final shard in expectedShards)
+      shard.fileName: '${encoder.convert(shard.entries)}\n',
+  };
+
+  final currentContent = <String, String>{};
+  for (final file in files) {
+    final name = file.path.split('/').last;
+    currentContent[name] = await file.readAsString();
+  }
+
+  final expectedNames = expectedContent.keys.toSet();
+  final currentNames = currentContent.keys.toSet();
+  final missingFiles = expectedNames.difference(currentNames).toList()..sort();
+  final extraFiles = currentNames.difference(expectedNames).toList()..sort();
+
+  final changedFiles = <String>[];
+  for (final name
+      in expectedNames.intersection(currentNames).toList()..sort()) {
+    if (currentContent[name] != expectedContent[name]) {
+      changedFiles.add(name);
+    }
+  }
+
+  final hasDrift =
+      missingFiles.isNotEmpty ||
+      extraFiles.isNotEmpty ||
+      changedFiles.isNotEmpty;
+
+  if (!hasDrift) {
+    print('  OK: canonical');
+    return const _LocaleProcessResult(hadErrors: false, changed: false);
+  }
+
+  if (checkMode) {
+    print('  ERROR: catalog layout drift detected');
+    if (missingFiles.isNotEmpty) {
+      print('    Missing files: ${missingFiles.join(", ")}');
+    }
+    if (extraFiles.isNotEmpty) {
+      print('    Unexpected files: ${extraFiles.join(", ")}');
+    }
+    if (changedFiles.isNotEmpty) {
+      print(
+        '    Files needing canonical sort/partition: ${changedFiles.join(", ")}',
+      );
+    }
+    print(
+      '    Fix with: dart run scripts/clean_arb_duplicates.dart --fix --locale=$locale',
+    );
+    return const _LocaleProcessResult(hadErrors: true, changed: false);
+  }
+
+  if (!fixMode) {
+    return const _LocaleProcessResult(hadErrors: true, changed: false);
+  }
+
+  for (final name in extraFiles) {
+    await File('$arbDirPath/$name').delete();
+  }
+  for (final entry in expectedContent.entries) {
+    await File('$arbDirPath/${entry.key}').writeAsString(entry.value);
+  }
+
+  print(
+    '  FIXED: wrote ${expectedContent.length} file(s), removed ${extraFiles.length}',
+  );
+  return const _LocaleProcessResult(hadErrors: false, changed: true);
+}
+
+Future<Map<String, List<File>>> _collectLocaleFiles(Directory arbDir) async {
+  final localeFiles = <String, List<File>>{};
+  await for (final entity in arbDir.list()) {
+    if (entity is! File || !entity.path.endsWith('.arb')) continue;
+    final fileName = entity.path.split('/').last;
+    final locale = _extractLocale(fileName);
+    if (locale == null) continue;
+    localeFiles.putIfAbsent(locale, () => <File>[]).add(entity);
+  }
+  return localeFiles;
+}
+
+Map<String, List<String>> _findCrossFileDuplicates(
+  Map<String, Map<String, dynamic>> fileMaps,
+) {
+  final locations = <String, List<String>>{};
+  for (final fileEntry in fileMaps.entries) {
+    final fileName = fileEntry.key;
+    for (final key in fileEntry.value.keys) {
+      locations.putIfAbsent(key, () => <String>[]).add(fileName);
+    }
+  }
+
+  final duplicates = <String, List<String>>{};
+  for (final entry in locations.entries) {
     if (entry.value.length > 1) {
-      duplicates.add(DuplicateInfo(key: entry.key, files: entry.value));
+      duplicates[entry.key] = entry.value;
     }
   }
-
   return duplicates;
 }
 
-String _extractLocale(String filePath) {
-  // Extract locale from path like "lib/l10n/app_pt_BR.arb" -> "pt_BR"
-  // or "lib/l10n/app_pt_BR_part1.arb" -> "pt_BR"
-  final filename = filePath.split('/').last;
-  if (filename.startsWith('app_')) {
-    // Remove 'app_' prefix and '.arb' suffix
-    var locale = filename.substring(4, filename.length - 4);
-    // Remove any _part<N> or _module suffixes
-    final partMatch = RegExp(r'_part\d+$').hasMatch(locale);
-    if (partMatch) {
-      locale = locale.replaceAll(RegExp(r'_part\d+$'), '');
-    }
-    return locale;
-  }
-  return filePath.replaceAll('.arb', '');
+String? _extractLocale(String fileName) {
+  final match = RegExp(
+    r'^app_([A-Za-z0-9_]+?)(?:_part\d+)?\.arb$',
+  ).firstMatch(fileName);
+  if (match == null) return null;
+  return match.group(1);
 }
 
-Map<String, int> processArbFile(File file) {
-  final content = file.readAsStringSync();
-  final json = jsonDecode(content) as Map<String, dynamic>;
-  final originalCount = json.length;
-
-  // Process entries in reverse order to keep the last occurrence of each key
-  final seenKeys = <String>{};
-  final cleanedJson = <String, dynamic>{};
-
-  for (final entry in json.entries.toList().reversed) {
-    if (!seenKeys.contains(entry.key)) {
-      cleanedJson[entry.key] = entry.value;
-      seenKeys.add(entry.key);
+String _arg(List<String> args, String name, {required String defaultValue}) {
+  final prefix = '--$name=';
+  for (final arg in args) {
+    if (arg.startsWith(prefix)) {
+      return arg.substring(prefix.length);
     }
   }
+  return defaultValue;
+}
 
-  final uniqueCount = cleanedJson.length;
+class _LocaleProcessResult {
+  const _LocaleProcessResult({required this.hadErrors, required this.changed});
 
-  // Sort keys alphabetically for clean diffs
-  final sortedJson = Map.fromEntries(
-    cleanedJson.entries.toList()..sort((a, b) => a.key.compareTo(b.key)),
-  );
-
-  // Write back the cleaned JSON
-  final encoder = JsonEncoder.withIndent('  ');
-  final newContent = '${encoder.convert(sortedJson)}\n';
-  file.writeAsStringSync(newContent);
-
-  // Return statistics
-  return {
-    'originalCount': originalCount,
-    'uniqueCount': uniqueCount,
-    'duplicatesRemoved': originalCount - uniqueCount,
-  };
+  final bool hadErrors;
+  final bool changed;
 }

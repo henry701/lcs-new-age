@@ -4,70 +4,33 @@
 import 'dart:convert';
 import 'dart:io';
 
-void main(List<String> args) async {
+import 'package:lcs_new_age/i18n/catalog_layout.dart';
+
+Future<void> main(List<String> args) async {
   if (args.contains('--help') || args.contains('-h')) {
-    print('Merge partial ARB JSON entries into ARB file(s) for a locale');
-    print('');
-    print('Usage: dart merge_arb_entries.dart [options]');
-    print('');
-    print('Options:');
-    print('  --locale=LOCALE         Locale code (e.g., pt_BR, de) (required)');
-    print('  --source=PATH          Path to partial ARB JSON file (required)');
-    print(
-      '  --target=PATH          Target ARB file (optional, defaults to primary file)',
-    );
-    print('  --arb-dir=PATH         ARB directory (default: lib/l10n/)');
-    print('  --help, -h             Show this help message');
-    print('');
-    print('Notes:');
-    print(
-      '  - If --target is not specified, script merges into primary file (app_<locale>.arb)',
-    );
-    print(
-      '  - Script checks for duplicates across all files for the locale before merging',
-    );
-    print('  - Existing keys in target file are updated, new keys are added');
-    print('');
-    print('Example:');
-    print(
-      '  dart merge_arb_entries.dart --locale=pt_BR --source=untranslated_pt_BR.arb',
-    );
-    print(
-      '  dart merge_arb_entries.dart --locale=pt_BR --source=partial.arb --target=lib/l10n/app_pt_BR_part1.arb',
-    );
+    _printHelp();
     return;
   }
 
-  // Parse arguments
-  String locale = '';
-  String sourcePath = '';
-  String targetPath = '';
-  String arbDirPath = 'lib/l10n/';
+  final locale = _requiredArg(args, 'locale');
+  final sourcePath = _requiredArg(args, 'source');
+  final arbDirPath = _arg(args, 'arb-dir', defaultValue: 'lib/l10n');
+  final hashShards =
+      int.tryParse(
+        _arg(args, 'hash-shards', defaultValue: '$defaultArbCatalogShardCount'),
+      ) ??
+      defaultArbCatalogShardCount;
 
-  for (final arg in args) {
-    if (arg.startsWith('--locale=')) {
-      locale = arg.split('=')[1];
-    } else if (arg.startsWith('--source=')) {
-      sourcePath = arg.split('=')[1];
-    } else if (arg.startsWith('--target=')) {
-      targetPath = arg.split('=')[1];
-    } else if (arg.startsWith('--arb-dir=')) {
-      arbDirPath = arg.split('=')[1];
-    }
-  }
-
-  if (locale.isEmpty) {
-    print('Error: --locale=LOCALE is required');
+  if (hashShards <= 0) {
+    print('Error: --hash-shards must be > 0');
     exit(1);
   }
 
-  if (sourcePath.isEmpty) {
-    print('Error: --source=PATH is required');
-    exit(1);
+  if (args.any((arg) => arg.startsWith('--target='))) {
+    print(
+      'Warning: --target is ignored. Entries are always routed by hash shard.',
+    );
   }
-
-  print('Reading source file: $sourcePath');
-  print('Locale: $locale\n');
 
   final sourceFile = File(sourcePath);
   if (!sourceFile.existsSync()) {
@@ -75,158 +38,186 @@ void main(List<String> args) async {
     exit(1);
   }
 
-  // Find all ARB files for locale
   final arbDir = Directory(arbDirPath);
   if (!arbDir.existsSync()) {
     print('Error: ARB directory not found: $arbDirPath');
     exit(1);
   }
 
-  final localeFiles = <File>[];
-  await for (final entity in arbDir.list()) {
-    if (entity is File && entity.path.endsWith('.arb')) {
-      final filename = entity.path.split('/').last;
-      if (filename.startsWith('app_$locale') ||
-          filename.startsWith('app_${locale.replaceAll('_', '-')}') ||
-          (locale == 'en_US' && filename == 'app_en.arb')) {
-        localeFiles.add(entity);
-      }
-    }
-  }
-
+  final localeFiles = await _findLocaleFiles(arbDir, locale);
   if (localeFiles.isEmpty) {
     print('Error: No ARB files found for locale "$locale"');
     exit(1);
   }
 
-  print('Found ${localeFiles.length} ARB file(s) for locale $locale:');
-
-  // Determine target file
-  File targetFile;
-  if (targetPath.isEmpty) {
-    // Default to primary file (app_<locale>.arb)
-    targetFile = localeFiles.firstWhere(
-      (f) => f.path.split('/').last == 'app_$locale.arb',
-      orElse: () => localeFiles.first,
-    );
-    print('Auto-selected target: ${targetFile.path.split('/').last}');
-  } else {
-    targetFile = File(targetPath);
-    if (!targetFile.existsSync()) {
-      print('Error: Target file not found: $targetPath');
-      exit(1);
-    }
-    print('Using specified target: ${targetFile.path.split('/').last}');
-  }
-
-  // Load all locale files to check for duplicates
-  final allLocaleData = <String, Map<String, dynamic>>{};
+  final existingCatalogs = <Map<String, dynamic>>[];
+  final existingByFile = <String, Map<String, dynamic>>{};
   for (final file in localeFiles) {
     try {
-      final content = await file.readAsString();
-      final jsonData = json.decode(content) as Map<String, dynamic>;
-      allLocaleData[file.path.split('/').last] = jsonData;
-      print('  - ${file.path.split('/').last} (${jsonData.length} entries)');
+      final map =
+          json.decode(await file.readAsString()) as Map<String, dynamic>;
+      existingCatalogs.add(map);
+      existingByFile[file.path.split('/').last] = map;
     } catch (e) {
-      print('  Warning: Failed to parse ${file.path}: $e');
+      print('Error: Failed to parse ${file.path}: $e');
+      exit(1);
     }
   }
 
-  print('');
-
-  // Read source file
-  final sourceContent = await sourceFile.readAsString();
-  Map<String, dynamic> sourceData;
-
-  try {
-    sourceData = json.decode(sourceContent) as Map<String, dynamic>;
-  } catch (e) {
-    print('Error: Failed to parse source JSON: $e');
-    exit(1);
-  }
-
-  // Check for duplicates across locale files
-  print('Checking for duplicates across locale files...');
-  final duplicateKeys = <String, List<String>>{};
-  for (final entry in sourceData.entries) {
-    if (entry.key.startsWith('@')) continue; // Skip metadata
-
-    for (final fileEntry in allLocaleData.entries) {
-      final filename = fileEntry.key;
-      final fileData = fileEntry.value;
-      if (fileData.containsKey(entry.key) &&
-          filename != targetFile.path.split('/').last) {
-        duplicateKeys.putIfAbsent(entry.key, () => []);
-        duplicateKeys[entry.key]!.add(filename);
-      }
-    }
-  }
-
+  final duplicateKeys = _crossFileDuplicateKeys(existingByFile);
   if (duplicateKeys.isNotEmpty) {
-    print('');
     print(
-      'ERROR: Found ${duplicateKeys.length} keys that exist in other files:',
+      'Error: Found ${duplicateKeys.length} duplicate key(s) across locale files.',
     );
-    for (final entry in duplicateKeys.entries.take(5)) {
-      print('  - "${entry.key}" exists in: ${entry.value.join(", ")}');
+    for (final entry in duplicateKeys.entries.take(10)) {
+      print('  - "${entry.key}" in ${entry.value.join(', ')}');
     }
-    if (duplicateKeys.length > 5) {
-      print('  ... and ${duplicateKeys.length - 5} more');
-    }
-    print('');
-    print('Keys must be unique across all files for a locale.');
-    print('Please resolve duplicates manually before merging.');
     exit(1);
   }
 
-  print('No duplicates found. Proceeding with merge...\n');
+  final sourceData =
+      json.decode(await sourceFile.readAsString()) as Map<String, dynamic>;
+  final mergedBefore = mergeArbCatalogMaps(existingCatalogs);
+  final mergedAfter = mergeArbCatalogMaps([mergedBefore, sourceData]);
 
-  // Get target data
-  final targetData = allLocaleData[targetFile.path.split('/').last]!;
-
-  // Merge source entries into target
-  int mergedCount = 0;
-  int skippedCount = 0;
-
+  int added = 0;
+  int updated = 0;
+  int unchanged = 0;
   for (final entry in sourceData.entries) {
-    if (targetData.containsKey(entry.key)) {
-      // Key already exists - update value
-      if (targetData[entry.key] != entry.value) {
-        targetData[entry.key] = entry.value;
-        mergedCount++;
-      } else {
-        skippedCount++;
-      }
+    if (!mergedBefore.containsKey(entry.key)) {
+      added++;
+      continue;
+    }
+    if (mergedBefore[entry.key] == entry.value) {
+      unchanged++;
     } else {
-      // New key - add to target
-      targetData[entry.key] = entry.value;
-      mergedCount++;
+      updated++;
     }
   }
 
-  print('Merge results:');
-  print('  Merged/updated: $mergedCount entries');
-  print('  Skipped (identical): $skippedCount entries');
-  print('  Total entries in target: ${targetData.length}');
-
-  // Sort keys alphabetically for clean diffs
-  final sortedTarget = Map<String, dynamic>.fromEntries(
-    targetData.entries.toList()..sort((a, b) => a.key.compareTo(b.key)),
+  final shards = await buildArbCatalogShards(
+    locale: locale,
+    catalogMaps: [mergedAfter],
+    shardCount: hashShards,
   );
 
-  // Write back to target file with proper formatting
+  await _writeCanonicalLocaleFiles(
+    locale: locale,
+    arbDirPath: arbDir.path,
+    existingFiles: localeFiles,
+    shards: shards,
+  );
+
+  print('Merged source: $sourcePath');
+  print('Locale: $locale');
+  print('Hash shards: $hashShards');
+  print('Added: $added');
+  print('Updated: $updated');
+  print('Unchanged: $unchanged');
+  print('Catalog files written: ${shards.length}');
+  print('\nValidate with: dart run scripts/clean_arb_duplicates.dart --check');
+}
+
+void _printHelp() {
+  print(
+    'Merge partial ARB entries into canonical hash-sharded locale catalogs.',
+  );
+  print('');
+  print('Usage: dart merge_arb_entries.dart [options]');
+  print('');
+  print('Options:');
+  print('  --locale=LOCALE         Locale code (required)');
+  print('  --source=PATH           Source partial ARB JSON file (required)');
+  print('  --arb-dir=PATH          ARB directory (default: lib/l10n)');
+  print(
+    '  --hash-shards=N         Number of deterministic hash shards (default: $defaultArbCatalogShardCount)',
+  );
+  print('  --help, -h              Show this help message');
+  print('');
+  print('Notes:');
+  print('  - --target is deprecated and ignored');
+  print(
+    '  - Output is always canonical: hash-sharded + recursively key-sorted JSON',
+  );
+}
+
+Future<List<File>> _findLocaleFiles(Directory arbDir, String locale) async {
+  final files = <File>[];
+  await for (final entity in arbDir.list()) {
+    if (entity is! File || !entity.path.endsWith('.arb')) continue;
+    final name = entity.path.split('/').last;
+    if (_isLocaleArbFile(name, locale)) {
+      files.add(entity);
+    }
+  }
+  files.sort((a, b) => a.path.compareTo(b.path));
+  return files;
+}
+
+Map<String, List<String>> _crossFileDuplicateKeys(
+  Map<String, Map<String, dynamic>> fileMaps,
+) {
+  final locations = <String, List<String>>{};
+  for (final entry in fileMaps.entries) {
+    final fileName = entry.key;
+    final map = entry.value;
+    for (final key in map.keys) {
+      locations.putIfAbsent(key, () => <String>[]).add(fileName);
+    }
+  }
+
+  final duplicates = <String, List<String>>{};
+  for (final entry in locations.entries) {
+    if (entry.value.length > 1) {
+      duplicates[entry.key] = entry.value;
+    }
+  }
+  return duplicates;
+}
+
+Future<void> _writeCanonicalLocaleFiles({
+  required String locale,
+  required String arbDirPath,
+  required List<File> existingFiles,
+  required List<ArbCatalogShard> shards,
+}) async {
+  final expectedNames = shards.map((s) => s.fileName).toSet();
+
+  for (final file in existingFiles) {
+    final name = file.path.split('/').last;
+    if (_isLocaleArbFile(name, locale) && !expectedNames.contains(name)) {
+      await file.delete();
+    }
+  }
+
   const encoder = JsonEncoder.withIndent('  ');
-  targetFile.writeAsStringSync('${encoder.convert(sortedTarget)}\n');
+  for (final shard in shards) {
+    final file = File('$arbDirPath/${shard.fileName}');
+    await file.writeAsString('${encoder.convert(shard.entries)}\n');
+  }
+}
 
-  print('');
-  print(
-    'Successfully wrote merged entries to: ${targetFile.path.split('/').last}',
-  );
-  print('');
-  print('Next steps:');
-  print('1. Verify translations with: flutter test test/i18n_test.dart');
-  print(
-    '2. Validate no duplicates: dart run scripts/clean_arb_duplicates.dart',
-  );
-  print('3. Repeat process for next batch');
+bool _isLocaleArbFile(String fileName, String locale) {
+  final regex = RegExp('^app_${RegExp.escape(locale)}(?:_part\\d+)?\\.arb\$');
+  if (regex.hasMatch(fileName)) return true;
+  return locale == 'en_US' && fileName == 'app_en.arb';
+}
+
+String _requiredArg(List<String> args, String name) {
+  final value = _arg(args, name, defaultValue: '');
+  if (value.isEmpty) {
+    print('Error: --$name is required');
+    exit(1);
+  }
+  return value;
+}
+
+String _arg(List<String> args, String name, {required String defaultValue}) {
+  final prefix = '--$name=';
+  for (final arg in args) {
+    if (arg.startsWith(prefix)) {
+      return arg.substring(prefix.length);
+    }
+  }
+  return defaultValue;
 }

@@ -382,7 +382,7 @@ Future<void> _maintainArb(
 
   if (!dryRun) {
     print('\nNext steps:');
-    print('1. Validate: dart run scripts/clean_arb_duplicates.dart');
+    print('1. Validate: dart run scripts/clean_arb_duplicates.dart --check');
     print('2. Test: flutter test test/i18n_test.dart');
     if (extractUntranslated) {
       print('3. Translate: Edit $untranslatedOutput then run merge script');
@@ -431,7 +431,7 @@ Future<void> _deduplicateOnly(
     print('DRY RUN - Would remove $totalRemoved duplicate entries');
   } else {
     print('Removed $totalRemoved duplicate entries');
-    print('\nValidation: Run clean_arb_duplicates.dart to verify');
+    print('\nValidation: Run clean_arb_duplicates.dart --check to verify');
   }
 }
 

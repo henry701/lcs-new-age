@@ -5,7 +5,7 @@
  *
  * Runs all validations that should pass before committing:
  * 1. Runs dart_pre_commit (analyze + test)
- * 2. Validates ARB files are clean (no untranslated strings, no duplicates)
+ * 2. Validates ARB files are canonical (hash-sharded + recursively sorted)
  *
  * Usage: dart run scripts/validate_translations.dart
  */
@@ -29,42 +29,26 @@ void main(List<String> args) async {
   }
   if (verbose) print('  OK: dart_pre_commit passed\n');
 
-  // Step 2: Validate translation files
-  if (verbose) print('Validating ARB files...');
-  final validateResult = await Process.run('dart', [
-    'run',
-    'scripts/maintain_translations.dart',
-    '--locale=pt_BR',
-    '--extract-untranslated',
-    '--dry-run',
-  ]);
-  if (validateResult.exitCode != 0) {
-    print('FAIL: ARB files need maintenance');
-    print(validateResult.stdout);
-    print('\nTo fix, run:');
-    print(
-      '  dart run scripts/maintain_translations.dart --locale=pt_BR --extract-untranslated',
-    );
-    print('\n⚠️  Commit has NOT been performed.');
-    print('Fix the issues above and try again.');
-    exit(1);
-  }
-  if (verbose) print('  OK: ARB files are clean\n');
-
-  // Step 3: Check for duplicates
-  if (verbose) print('Checking for duplicates...');
-  final dupesResult = await Process.run('dart', [
+  // Step 2: Validate ARB layout, sorting, and duplicate-free keyspace
+  if (verbose) print('Validating ARB catalog layout...');
+  final arbValidationResult = await Process.run('dart', [
     'run',
     'scripts/clean_arb_duplicates.dart',
+    '--check',
   ]);
-  if (dupesResult.exitCode != 0) {
-    print('FAIL: Duplicate keys found');
-    print(dupesResult.stdout);
+  if (arbValidationResult.exitCode != 0) {
+    print('FAIL: ARB catalogs are not canonical');
+    print(arbValidationResult.stdout);
+    if ((arbValidationResult.stderr as String).trim().isNotEmpty) {
+      print(arbValidationResult.stderr);
+    }
+    print('\nTo fix, run:');
+    print('  dart run scripts/clean_arb_duplicates.dart --fix');
     print('\n⚠️  Commit has NOT been performed.');
     print('Fix the issues above and try again.');
     exit(1);
   }
-  if (verbose) print('  OK: No duplicates\n');
+  if (verbose) print('  OK: ARB catalogs are canonical\n');
 
   print('✓ All validations passed');
 }

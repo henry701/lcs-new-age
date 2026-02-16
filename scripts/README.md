@@ -17,7 +17,10 @@ dart run scripts/find_translatable_strings.dart
 ### What It Does
 
 1. Scans all `.dart` files in the `lib/` directory
-2. Finds string literals passed to console wrapper functions (addstr, mvaddstr, addstrx, mvaddstrx)
+2. Finds string literals passed to wrapper functions, including:
+   - Display wrappers: `addstr`, `mvaddstr`, `addstrc`, `mvaddstrc`, `addstrx`, `mvaddstrx`, `addstrcx`, `mvaddstrcx`
+   - Option wrappers: `addOptionText`, `addInlineOptionText`, `addCenteredOptionText`
+   - Layout wrappers: `mvaddstrRight`, `mvaddstrCenter`, `addparagraph`
 3. Finds string literals in variable assignments and returns that are likely user-facing
 4. Filters out technical strings, paths, IDs, and other non-user-facing content
 5. Deduplicates and counts occurrences
@@ -67,6 +70,32 @@ dart run scripts/find_translatable_strings.dart | grep "Total:" | awk '{print $2
 - Manual review of results is recommended
 - Focus on high-count strings first for translation priority
 - Console wrapper calls are the primary target for translation
+- Running without `--no-modify` is additive-only for catalog sync: it adds missing keys and preserves existing values
+
+## translation_status.dart
+
+Reports current translation coverage and keyset consistency between locales.
+
+### Usage
+
+```bash
+# Default: en_US -> pt_BR
+dart run scripts/translation_status.dart
+
+# JSON output for automation
+dart run scripts/translation_status.dart --json
+
+# Compare a different target locale
+dart run scripts/translation_status.dart --locale=de
+```
+
+### What It Reports
+
+- Source and target key counts
+- Translated/untranslated counts against source keys
+- Missing keys in target locale
+- Extra keys in target locale
+- Coverage percentage
 
 ## clean_arb_duplicates.dart
 

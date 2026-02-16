@@ -172,6 +172,12 @@ void main(List<String> args) async {
   }
 
   final stringInfo = <String, StringInfo>{};
+  final wrapperCallPatterns = _buildWrapperCallPatterns();
+  final multilineContextPatterns = _buildMultilineContextPatterns();
+  final multilineQuotedPatterns = [
+    RegExp(r'^\s*"([^"]+)"\s*,?\s*$'),
+    RegExp(r"^\s*'([^']+)'\s*,?\s*$"),
+  ];
 
   await for (final entity in libDir.list(recursive: true, followLinks: false)) {
     if (entity is File && entity.path.endsWith('.dart')) {
@@ -199,236 +205,50 @@ void main(List<String> args) async {
         final line = lines[i];
         final lineNumber = i + 1;
 
-        // Find strings passed to console wrapper functions (single-line patterns)
-        final consoleCallPatterns = [
-          (RegExp(r'\baddstr\s*\(\s*"([^"]+)"'), 'addstr'),
-          (RegExp(r"\baddstr\s*\(\s*'([^']+)'"), 'addstr'),
-          (RegExp(r'\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'mvaddstr'),
-          (RegExp(r"\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"), 'mvaddstr'),
-          (RegExp(r'\baddstrc\s*\(\s*[^,]+,\s*"([^"]+)"'), 'addstrc'),
-          (RegExp(r"\baddstrc\s*\(\s*[^,]+,\s*'([^']+)'"), 'addstrc'),
-          // Single-line mvaddstrc patterns
-          (
-            RegExp(r'\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"([^"]+)"'),
-            'mvaddstrc',
-          ),
-          (
-            RegExp(r"\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'([^']+)'"),
-            'mvaddstrc',
-          ),
-          (RegExp(r'\baddstrx\s*\(\s*"([^"]+)"'), 'addstrx'),
-          (RegExp(r"\baddstrx\s*\(\s*'([^']+)'"), 'addstrx'),
-          (RegExp(r'\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'mvaddstrx'),
-          (RegExp(r"\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"), 'mvaddstrx'),
-        ];
-
-        for (final entry in consoleCallPatterns) {
+        // Single-line wrapper calls (addstr/mvaddstr/addOptionText/etc.)
+        for (final entry in wrapperCallPatterns) {
           final pattern = entry.$1;
           final function = entry.$2;
 
           for (final match in pattern.allMatches(line)) {
             final stringLiteral = match.group(1);
             if (stringLiteral != null && _isUserFacing(stringLiteral)) {
-              final key = stringLiteral;
-
-              stringInfo.putIfAbsent(
-                key,
-                () => StringInfo(text: stringLiteral, locations: [], count: 0),
+              _recordString(
+                stringInfo,
+                stringLiteral,
+                relativePath,
+                lineNumber,
+                function,
               );
-
-              final info = stringInfo[key]!;
-              info.count++;
-              if (!info.locations.any((l) => l.contains(relativePath))) {
-                info.locations.add('$relativePath:$lineNumber ($function)');
-              }
             }
           }
         }
 
-        // Also look for strings on lines that look like they're in function calls
-        // These are lines starting with whitespace followed by a quoted string and comma
-        // that likely belong to multiline function calls
-        // Pattern matches strings containing one or more {param} templates
-        final multilineStringPattern = RegExp(r'^\s*"([^"]+)"\s*,?\s*$');
-        final multilineStringPattern2 = RegExp(r"^\s*'([^']+)'\s*,?\s*$");
-
-        for (final match in multilineStringPattern.allMatches(line)) {
-          final stringLiteral = match.group(1);
-          if (stringLiteral != null &&
-              _isUserFacing(stringLiteral) &&
-              !stringInfo.containsKey(stringLiteral)) {
-            // Look backward to find what function this belongs to
-            String function = 'multiline';
-            for (int j = i - 1; j >= max(0, i - 10); j--) {
-              final prevLine = lines[j];
-              if (prevLine.contains('mvaddstrc')) {
-                function = 'mvaddstrc';
-                break;
-              } else if (prevLine.contains('addstrc')) {
-                function = 'addstrc';
-                break;
-              } else if (prevLine.contains('mvaddstr')) {
-                function = 'mvaddstr';
-                break;
-              } else if (prevLine.contains('addstr')) {
-                function = 'addstr';
-                break;
-              } else if (prevLine.contains('mvaddstrx')) {
-                function = 'mvaddstrx';
-                break;
-              } else if (prevLine.contains('addstrx')) {
-                function = 'addstrx';
-                break;
-              }
+        // Multiline strings. Prefer wrapper context when detected; otherwise
+        // keep a conservative fallback for standalone prose in lists/maps.
+        final contextFunction = _inferWrapperContext(
+          lines,
+          i,
+          multilineContextPatterns,
+        );
+        for (final pattern in multilineQuotedPatterns) {
+          for (final match in pattern.allMatches(line)) {
+            final stringLiteral = match.group(1);
+            if (stringLiteral == null || !_isUserFacing(stringLiteral)) {
+              continue;
             }
 
-            final key = stringLiteral;
-            stringInfo.putIfAbsent(
-              key,
-              () => StringInfo(text: stringLiteral, locations: [], count: 0),
-            );
-
-            final info = stringInfo[key]!;
-            info.count++;
-            if (!info.locations.any((l) => l.contains(relativePath))) {
-              info.locations.add('$relativePath:$lineNumber ($function)');
-            }
-          }
-        }
-
-        // Pattern for strings without template parameters but in multiline calls
-        final multilinePlainPattern = RegExp(r'^\s*"([^"]{10,})"\s*,?\s*$');
-        final multilinePlainPattern2 = RegExp(r"^\s*'([^']{10,})'\s*,?\s*$");
-
-        for (final match in multilineStringPattern2.allMatches(line)) {
-          final stringLiteral = match.group(1);
-          if (stringLiteral != null &&
-              _isUserFacing(stringLiteral) &&
-              !stringInfo.containsKey(stringLiteral)) {
-            // Look backward to find what function this belongs to
-            String function = 'multiline';
-            for (int j = i - 1; j >= max(0, i - 10); j--) {
-              final prevLine = lines[j];
-              if (prevLine.contains('mvaddstrc')) {
-                function = 'mvaddstrc';
-                break;
-              } else if (prevLine.contains('addstrc')) {
-                function = 'addstrc';
-                break;
-              } else if (prevLine.contains('mvaddstr')) {
-                function = 'mvaddstr';
-                break;
-              } else if (prevLine.contains('addstr')) {
-                function = 'addstr';
-                break;
-              } else if (prevLine.contains('mvaddstrx')) {
-                function = 'mvaddstrx';
-                break;
-              } else if (prevLine.contains('addstrx')) {
-                function = 'addstrx';
-                break;
-              }
-            }
-
-            final key = stringLiteral;
-            stringInfo.putIfAbsent(
-              key,
-              () => StringInfo(text: stringLiteral, locations: [], count: 0),
-            );
-
-            final info = stringInfo[key]!;
-            info.count++;
-            if (!info.locations.any((l) => l.contains(relativePath))) {
-              info.locations.add('$relativePath:$lineNumber ($function)');
-            }
-          }
-        }
-
-        // Process plain multiline strings (no template params but likely in display calls)
-        for (final match in multilinePlainPattern.allMatches(line)) {
-          final stringLiteral = match.group(1);
-          if (stringLiteral != null &&
-              _isUserFacing(stringLiteral) &&
-              !stringInfo.containsKey(stringLiteral)) {
-            // Look backward to find what function this belongs to
-            String function = 'multiline';
-            for (int j = i - 1; j >= max(0, i - 10); j--) {
-              final prevLine = lines[j];
-              if (prevLine.contains('mvaddstrc')) {
-                function = 'mvaddstrc';
-                break;
-              } else if (prevLine.contains('addstrc')) {
-                function = 'addstrc';
-                break;
-              } else if (prevLine.contains('mvaddstr')) {
-                function = 'mvaddstr';
-                break;
-              } else if (prevLine.contains('addstr')) {
-                function = 'addstr';
-                break;
-              } else if (prevLine.contains('mvaddstrx')) {
-                function = 'mvaddstrx';
-                break;
-              } else if (prevLine.contains('addstrx')) {
-                function = 'addstrx';
-                break;
-              }
-            }
-
-            final key = stringLiteral;
-            stringInfo.putIfAbsent(
-              key,
-              () => StringInfo(text: stringLiteral, locations: [], count: 0),
-            );
-
-            final info = stringInfo[key]!;
-            info.count++;
-            if (!info.locations.any((l) => l.contains(relativePath))) {
-              info.locations.add('$relativePath:$lineNumber ($function)');
-            }
-          }
-        }
-
-        for (final match in multilinePlainPattern2.allMatches(line)) {
-          final stringLiteral = match.group(1);
-          if (stringLiteral != null &&
-              _isUserFacing(stringLiteral) &&
-              !stringInfo.containsKey(stringLiteral)) {
-            // Look backward to find what function this belongs to
-            String function = 'multiline';
-            for (int j = i - 1; j >= max(0, i - 10); j--) {
-              final prevLine = lines[j];
-              if (prevLine.contains('mvaddstrc')) {
-                function = 'mvaddstrc';
-                break;
-              } else if (prevLine.contains('addstrc')) {
-                function = 'addstrc';
-                break;
-              } else if (prevLine.contains('mvaddstr')) {
-                function = 'mvaddstr';
-                break;
-              } else if (prevLine.contains('addstr')) {
-                function = 'addstr';
-                break;
-              } else if (prevLine.contains('mvaddstrx')) {
-                function = 'mvaddstrx';
-                break;
-              } else if (prevLine.contains('addstrx')) {
-                function = 'addstrx';
-                break;
-              }
-            }
-
-            final key = stringLiteral;
-            stringInfo.putIfAbsent(
-              key,
-              () => StringInfo(text: stringLiteral, locations: [], count: 0),
-            );
-
-            final info = stringInfo[key]!;
-            info.count++;
-            if (!info.locations.any((l) => l.contains(relativePath))) {
-              info.locations.add('$relativePath:$lineNumber ($function)');
+            final context = contextFunction ?? 'multiline';
+            final shouldCaptureFallback =
+                contextFunction != null || stringLiteral.length >= 10;
+            if (shouldCaptureFallback) {
+              _recordString(
+                stringInfo,
+                stringLiteral,
+                relativePath,
+                lineNumber,
+                context,
+              );
             }
           }
         }
@@ -445,20 +265,13 @@ void main(List<String> args) async {
           for (final match in pattern.allMatches(line)) {
             final stringLiteral = match.group(match.groupCount);
             if (stringLiteral != null && _isUserFacing(stringLiteral)) {
-              final key = stringLiteral;
-
-              stringInfo.putIfAbsent(
-                key,
-                () => StringInfo(text: stringLiteral, locations: [], count: 0),
+              _recordString(
+                stringInfo,
+                stringLiteral,
+                relativePath,
+                lineNumber,
+                'variable/return',
               );
-
-              final info = stringInfo[key]!;
-              info.count++;
-              if (!info.locations.any((l) => l.contains(relativePath))) {
-                info.locations.add(
-                  '$relativePath:$lineNumber (variable/return)',
-                );
-              }
             }
           }
         }
@@ -495,6 +308,132 @@ void main(List<String> args) async {
       maxFileSize,
       splitStrategy,
     );
+  }
+}
+
+List<(RegExp, String)> _buildWrapperCallPatterns() {
+  return [
+    // addstr family
+    (RegExp(r'\baddstr\s*\(\s*"([^"]+)"'), 'addstr'),
+    (RegExp(r"\baddstr\s*\(\s*'([^']+)'"), 'addstr'),
+    (RegExp(r'\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'mvaddstr'),
+    (RegExp(r"\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"), 'mvaddstr'),
+    (RegExp(r'\baddstrc\s*\(\s*[^,]+,\s*"([^"]+)"'), 'addstrc'),
+    (RegExp(r"\baddstrc\s*\(\s*[^,]+,\s*'([^']+)'"), 'addstrc'),
+    (
+      RegExp(r'\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"([^"]+)"'),
+      'mvaddstrc',
+    ),
+    (
+      RegExp(r"\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'([^']+)'"),
+      'mvaddstrc',
+    ),
+    (RegExp(r'\baddstrx\s*\(\s*"([^"]+)"'), 'addstrx'),
+    (RegExp(r"\baddstrx\s*\(\s*'([^']+)'"), 'addstrx'),
+    (RegExp(r'\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'mvaddstrx'),
+    (RegExp(r"\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"), 'mvaddstrx'),
+    (RegExp(r'\baddstrcx\s*\(\s*[^,]+,\s*"([^"]+)"'), 'addstrcx'),
+    (RegExp(r"\baddstrcx\s*\(\s*[^,]+,\s*'([^']+)'"), 'addstrcx'),
+    (
+      RegExp(r'\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"([^"]+)"'),
+      'mvaddstrcx',
+    ),
+    (
+      RegExp(r"\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'([^']+)'"),
+      'mvaddstrcx',
+    ),
+    (RegExp(r'\bmvaddstrRight\s*\([^,]+,\s*"([^"]+)"'), 'mvaddstrRight'),
+    (RegExp(r"\bmvaddstrRight\s*\([^,]+,\s*'([^']+)'"), 'mvaddstrRight'),
+    (RegExp(r'\bmvaddstrCenter\s*\([^,]+,\s*"([^"]+)"'), 'mvaddstrCenter'),
+    (RegExp(r"\bmvaddstrCenter\s*\([^,]+,\s*'([^']+)'"), 'mvaddstrCenter'),
+    (RegExp(r'\baddparagraph\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'addparagraph'),
+    (RegExp(r"\baddparagraph\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"), 'addparagraph'),
+
+    // Option wrapper family
+    (
+      RegExp(r'\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"([^"]+)"'),
+      'addOptionText',
+    ),
+    (
+      RegExp(r"\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'([^']+)'"),
+      'addOptionText',
+    ),
+    (
+      RegExp(r'\baddInlineOptionText\s*\(\s*[^,]+,\s*"([^"]+)"'),
+      'addInlineOptionText',
+    ),
+    (
+      RegExp(r"\baddInlineOptionText\s*\(\s*[^,]+,\s*'([^']+)'"),
+      'addInlineOptionText',
+    ),
+    (
+      RegExp(r'\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'),
+      'addCenteredOptionText',
+    ),
+    (
+      RegExp(r"\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"),
+      'addCenteredOptionText',
+    ),
+  ];
+}
+
+List<(String, RegExp)> _buildMultilineContextPatterns() {
+  const wrapperFunctions = [
+    'addstr',
+    'mvaddstr',
+    'addstrc',
+    'mvaddstrc',
+    'addstrx',
+    'mvaddstrx',
+    'addstrcx',
+    'mvaddstrcx',
+    'mvaddstrRight',
+    'mvaddstrCenter',
+    'addparagraph',
+    'addOptionText',
+    'addInlineOptionText',
+    'addCenteredOptionText',
+  ];
+
+  return [
+    for (final function in wrapperFunctions)
+      (function, RegExp('\\b$function\\s*\\(')),
+  ];
+}
+
+String? _inferWrapperContext(
+  List<String> lines,
+  int lineIndex,
+  List<(String, RegExp)> contextPatterns,
+) {
+  for (int j = lineIndex - 1; j >= max(0, lineIndex - 12); j--) {
+    final prevLine = lines[j];
+    for (final context in contextPatterns) {
+      if (context.$2.hasMatch(prevLine)) {
+        return context.$1;
+      }
+    }
+  }
+  return null;
+}
+
+void _recordString(
+  Map<String, StringInfo> stringInfo,
+  String text,
+  String relativePath,
+  int lineNumber,
+  String context,
+) {
+  final key = text;
+  stringInfo.putIfAbsent(
+    key,
+    () => StringInfo(text: text, locations: [], count: 0),
+  );
+
+  final info = stringInfo[key]!;
+  info.count++;
+  if (!info.locations.any((location) => location.contains(relativePath))) {
+    info.locations.add('$relativePath:$lineNumber ($context)');
   }
 }
 

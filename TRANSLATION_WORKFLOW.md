@@ -2,6 +2,17 @@
 
 This document explains the iterative translation process using the helper scripts created for LCS New Age i18n.
 
+## Status Tracking (Single Source)
+
+Live progress metrics are tracked only in `TRANSLATION_PROGRESS.md`.
+Do not use this workflow guide for percentage/count tracking.
+
+Recompute live metrics at any time with:
+
+```bash
+dart run scripts/translation_status.dart
+```
+
 ## Overview
 
 The translation process consists of:

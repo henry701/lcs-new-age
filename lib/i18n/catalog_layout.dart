@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 /// Default number of hash shards for ARB catalog partitioning.
-const int defaultArbCatalogShardCount = 16;
+const int defaultArbCatalogShardCount = 32;
 
 /// Canonical shard representation for an ARB catalog file.
 class ArbCatalogShard {

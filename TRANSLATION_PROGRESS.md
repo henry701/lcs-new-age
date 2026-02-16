@@ -24,6 +24,18 @@ dart run scripts/translation_status.dart --locale=de
 dart run scripts/translation_status.dart --source-locale=en_US --locale=fr
 ```
 
+Per-part metrics for shard-level prioritization:
+
+```bash
+dart run scripts/translation_status.dart --per-part
+```
+
+Single-part status (accepts values like `7`, `07`, `part07`):
+
+```bash
+dart run scripts/translation_status.dart --locale=pt_BR --part=part07
+```
+
 ## Catalog Sync (No Translation Loss)
 
 Refresh catalogs from code with:

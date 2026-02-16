@@ -123,9 +123,11 @@ The template `"{name}"` serves no purpose when there's no other text to translat
 - ✅ Translation workflow scripts complete (extract, merge, validate)
 - ✅ Translation guidelines document created (TRANSLATION_WORKFLOW.md)
 - ✅ Extraction pipeline in place and catalog sync automated
+- ✅ Interpolation audit script in place (`scripts/interpolation_status.dart`)
 - 🔄 Portuguese (pt_BR) translation in progress
   - Live metrics are tracked only in `TRANSLATION_PROGRESS.md`
   - Recompute with `dart run scripts/translation_status.dart`
+  - Use `--per-part` / `--part=partNN` to prioritize specific shards
 - [ ] Implement ARB→PO export scripts (optional, for translator tooling)
 - [ ] Add support for additional languages (German, French, etc.)
 
@@ -269,18 +271,19 @@ mvaddstr(11, 0, ", including vehicles");
 - [x] Verification: Only 3 remaining interpolation patterns (all exceptions):
   - 1x commented-out code (tend_hostage.dart:715)
   - 2x UI box-drawing characters (site_display.dart:393-394, not translatable)
-- [x] All 50 tests pass
+- [x] Automated test suite green (includes save/load `parseValue` unit coverage)
 
 ### Phase 2: Translation Files (IN PROGRESS)
 - [x] ARB file structure in place
 - [x] Portuguese (pt_BR) translation started
-- [x] Multi-file ARB support (13 files for pt_BR)
+- [x] Canonical hash-sharded ARB support (32 files per locale)
 - [x] CI/CD pipeline with translation validation
 - [x] Pre-commit hooks configured
 - [x] Translation workflow documentation complete
 - [x] Comprehensive ARB extraction from templated code (complete)
 - [x] Placeholder metadata auto-generated for parameters
-- [x] Translation status script available (`scripts/translation_status.dart`)
+- [x] Translation status script available with per-part filtering (`scripts/translation_status.dart`)
+- [x] Interpolation audit script available (`scripts/interpolation_status.dart`)
 - [ ] Complete Portuguese translation (see `TRANSLATION_PROGRESS.md` for live counts)
 - [ ] Add additional language translations
 

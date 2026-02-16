@@ -1,50 +1,36 @@
 # Translation Workspace
 
-This directory contains generated untranslated strings from gameplay for translation work.
+This directory is the staging area for translation batches and focused translation passes.
 
 ## Files
 
-- `untranslated_strings_0.json` through `untranslated_strings_63.json`
-- 64 files total, distributed by string hash for deterministic chunking
-- Each file contains strings with similar hash values (same string always goes to same file)
+- `untranslated_pt_BR.arb`: default extracted batch for Portuguese translation work
+- `batch_*.arb`: curated batch files used by harness/manual translation passes
+- `title_screen_pt_BR.arb`: focused batch for title-screen copy
+- `check.arb`: optional scratch file for validation/ad-hoc checks
+- `untranslated_strings_*.json`: legacy runtime logs from untranslated-string logging mode
 
-## File Format
+## Typical Workflow
 
-Each entry contains:
-```json
-{
-  "original_string": {
-    "original": "original_string",
-    "locale": "pt_BR", 
-    "timestamp": "2026-01-04T16:06:03.163442",
-    "file_index": 0
-  }
-}
-```
+1. Sync source keys into locale catalogs:
+   `dart run scripts/find_translatable_strings.dart`
+2. Extract a translation batch:
+   `dart run scripts/get_untranslated_strings.dart --locale=pt_BR --limit=50 --output=translation_workspace/untranslated_pt_BR.arb`
+3. Translate values in one or more `.arb` batch files in this directory.
+4. Merge each translated batch into canonical catalogs:
+   `dart run scripts/merge_arb_entries.dart --locale=pt_BR --source=<batch-file>`
+5. Validate canonical catalog layout:
+   `dart run scripts/maintain_arb_catalogs.dart --check`
 
-## Usage
+## Translation Rules
 
-1. **Generate**: Play the game with logging enabled to populate files
-2. **Translate**: Pick a file and translate its contents
-3. **Import**: Use translation scripts to merge completed translations
-4. **Clean**: Delete files when done
-
-## Benefits
-
-- **Deterministic Chunks**: Each translator gets consistent file assignments
-- **No Pollution**: Enhanced filtering excludes technical strings
-- **Progress Tracking**: Clear timestamps and statistics
-- **Parallel Work**: Multiple translators can work on different files simultaneously
-
-## Scripts Integration
-
-The enhanced `find_translatable_strings.dart` script now includes:
-- Better ignore patterns that match this system's filtering
-- JSON output compatibility with the log format
-- Statistics and cleanup utilities
+- Keep JSON keys unchanged.
+- Keep all `@...` metadata entries unchanged.
+- Preserve placeholders exactly (`{name}`, `{count}`, etc.).
+- Do not add inline color tags in translations (`{name:red}`, `{name:white}`, etc.).
 
 ## Notes
 
-- **DO NOT** commit these files to the repository
-- **DO NOT** modify files manually - use the provided scripts
-- Files are overwritten each time the game runs with logging enabled
+- Canonical catalogs live under `lib/l10n/app_<locale>_part01.arb` ... `app_<locale>_part32.arb`.
+- Batch files in this folder may be committed when intentionally used for translation handoff/review.
+- Legacy `untranslated_strings_*.json` files are optional diagnostics and are not part of the canonical merge loop.

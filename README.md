@@ -35,6 +35,22 @@ Liberal Crime Squad: New Age is always looking for Liberal Freedom Fighters to c
 
 Run tests with `flutter test`.
 
+## Localization Workflow
+
+For translation and i18n catalog maintenance, use:
+
+```bash
+dart run scripts/find_translatable_strings.dart
+dart run scripts/get_untranslated_strings.dart --locale=pt_BR --limit=50 --output=translation_workspace/untranslated_pt_BR.arb
+dart run scripts/merge_arb_entries.dart --locale=pt_BR --source=translation_workspace/untranslated_pt_BR.arb
+dart run scripts/maintain_arb_catalogs.dart --check
+```
+
+Canonical locale catalogs are hash-sharded:
+`lib/l10n/app_<locale>_part01.arb` ... `lib/l10n/app_<locale>_part32.arb`.
+
+See `TRANSLATION_WORKFLOW.md` and `scripts/README.md` for full guidance.
+
 ### Pre-commit Hooks
 
 Install pre-commit hooks to run tests automatically:

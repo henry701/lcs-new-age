@@ -80,8 +80,35 @@ dart run scripts/merge_arb_entries.dart \
 dart run scripts/maintain_arb_catalogs.dart --check
 ```
 
-## Notes for Translators
+## Runtime Untranslated String Logging
+
+The game includes a runtime logging system that captures untranslated strings encountered during gameplay.
+
+### How it Works
+
+When enabled (via title screen settings), untranslated strings are logged to:
+`translation_workspace/untranslated_strings_*.json`
+
+These files are organized into 64 deterministic shards based on string hash.
+
+### Using Runtime Logs
+
+1. **Enable logging**: In the title screen, enable "Log Untranslated Strings"
+2. **Play the game**: Untranslated strings will be captured as you encounter them
+3. **Extract for translation**:
+   ```bash
+   # Convert runtime logs to ARB format for translation
+   dart run scripts/get_untranslated_strings.dart \
+     --locale=pt_BR \
+     --include-runtime-logs \
+     --output=translation_workspace/untranslated_pt_BR.arb
+   ```
+
+4. **Translate and merge** as normal
+
+### Notes for Translators
 
 - Preserve JSON keys exactly.
 - Preserve placeholders exactly.
 - Prefer concise wording if literal translation would frequently wrap/overflow in terminal UI.
+- Runtime logs are supplemental diagnostics and should not be committed to the repository.

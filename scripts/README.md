@@ -80,6 +80,53 @@ Notes:
 - Use this before translator batches to identify strings that still rely on `$...` interpolation.
 - Extraction intentionally skips `$...` literals; convert to placeholder templates where practical (`{name}`, `{value}`, etc.).
 
+## clean_untranslated.dart
+
+Extracts untranslated strings from ARB files and writes them to a staging file.
+
+Untranslated strings are those where value equals key or is empty. This script
+can also remove untranslated entries from the canonical ARB files (destructive operation).
+
+```bash
+# Extract untranslated strings to default workspace location
+dart run scripts/clean_untranslated.dart --locale=pt_BR
+
+# Extract to custom output path
+dart run scripts/clean_untranslated.dart --locale=de --output=staging/de_pending.arb
+
+# Preview only (dry run)
+dart run scripts/clean_untranslated.dart --locale=pt_BR --dry-run
+
+# Extract without removing from ARB files (safer)
+dart run scripts/clean_untranslated.dart --locale=pt_BR --no-remove
+```
+
+**Note:** Prefer `get_untranslated_strings.dart` for non-destructive extraction.
+Use this script only when you need to clean/remove untranslated entries from ARB files.
+
+## maintain_translations.dart
+
+Legacy comprehensive translation maintenance script.
+
+Provides operations for maintaining ARB catalogs including:
+- Deduplication across locale files
+- Splitting merged files by hash shard
+- Extracting untranslated strings to separate files
+
+```bash
+# Full maintenance with untranslated extraction
+dart run scripts/maintain_translations.dart --locale=pt_BR --extract-untranslated
+
+# Only extract untranslated strings
+dart run scripts/maintain_translations.dart --locale=pt_BR --operation=extract-untranslated
+
+# Dry run to preview changes
+dart run scripts/maintain_translations.dart --locale=pt_BR --dry-run
+```
+
+**Note:** This is a legacy script. Prefer `maintain_arb_catalogs.dart` for validation
+and `get_untranslated_strings.dart` for extraction in new workflows.
+
 ## validate.dart
 
 Pre-commit validator.

@@ -35,10 +35,24 @@ dart run scripts/maintain_arb_catalogs.dart --fix
 - Keep placeholders intact (`{name}`, `{target}`, etc.).
 - Do not add inline color specs in translations (`:white`, `:red`, etc.).
 - Keep translated sentences roughly the same visual length as English when practical (CLI layout width is sensitive).
+- Avoid `$variable` interpolation in translatable templates. Prefer placeholder-based templates (`{value}`) with `params`.
+
+## Interpolation Audit
+
+Run this before large translation batches to identify remaining interpolated literals:
+
+```bash
+dart run scripts/interpolation_status.dart --limit=40
+```
+
+The extraction script intentionally skips literals containing `$...`, so unresolved interpolated templates should be converted to placeholder-based strings before expecting catalog extraction.
 
 ## End-to-End Loop
 
 ```bash
+# 0) Optional but recommended: audit unresolved interpolation
+dart run scripts/interpolation_status.dart --limit=40
+
 # 1) Sync catalogs from source code (add missing keys only)
 dart run scripts/find_translatable_strings.dart
 

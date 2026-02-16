@@ -64,6 +64,19 @@ dart run scripts/translation_status.dart
 dart run scripts/translation_status.dart --json
 ```
 
+## interpolation_status.dart
+
+Reports remaining string interpolation usage in `lib/`, including a high-confidence subset in console wrapper string arguments.
+
+```bash
+dart run scripts/interpolation_status.dart --limit=40
+dart run scripts/interpolation_status.dart --json
+```
+
+Notes:
+- Use this before translator batches to identify strings that still rely on `$...` interpolation.
+- Extraction intentionally skips `$...` literals; convert to placeholder templates where practical (`{name}`, `{value}`, etc.).
+
 ## validate.dart
 
 Pre-commit validator.

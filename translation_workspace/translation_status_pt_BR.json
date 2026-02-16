@@ -1,0 +1,655 @@
+{
+  "sourceLocale": "en_US",
+  "targetLocale": "pt_BR",
+  "scope": "all-parts",
+  "sourceKeys": 5445,
+  "targetKeys": 5520,
+  "translatedAgainstSource": 593,
+  "untranslatedAgainstSource": 4845,
+  "missingInTarget": 7,
+  "extraInTarget": 82,
+  "emptyInTarget": 0,
+  "coveragePercent": 10.890725436179983,
+  "perPart": [
+    {
+      "part": "part01",
+      "partNumber": 1,
+      "sourceFiles": [
+        "app_en_US_part01.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part01.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 166,
+      "targetKeys": 168,
+      "translatedAgainstSource": 14,
+      "untranslatedAgainstSource": 152,
+      "missingInTarget": 0,
+      "extraInTarget": 2,
+      "emptyInTarget": 0,
+      "coveragePercent": 8.433734939759036
+    },
+    {
+      "part": "part02",
+      "partNumber": 2,
+      "sourceFiles": [
+        "app_en_US_part02.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part02.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 196,
+      "targetKeys": 200,
+      "translatedAgainstSource": 24,
+      "untranslatedAgainstSource": 172,
+      "missingInTarget": 0,
+      "extraInTarget": 4,
+      "emptyInTarget": 0,
+      "coveragePercent": 12.244897959183673
+    },
+    {
+      "part": "part03",
+      "partNumber": 3,
+      "sourceFiles": [
+        "app_en_US_part03.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part03.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 162,
+      "targetKeys": 163,
+      "translatedAgainstSource": 13,
+      "untranslatedAgainstSource": 149,
+      "missingInTarget": 0,
+      "extraInTarget": 1,
+      "emptyInTarget": 0,
+      "coveragePercent": 8.024691358024691
+    },
+    {
+      "part": "part04",
+      "partNumber": 4,
+      "sourceFiles": [
+        "app_en_US_part04.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part04.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 171,
+      "targetKeys": 172,
+      "translatedAgainstSource": 15,
+      "untranslatedAgainstSource": 155,
+      "missingInTarget": 1,
+      "extraInTarget": 2,
+      "emptyInTarget": 0,
+      "coveragePercent": 8.771929824561402
+    },
+    {
+      "part": "part05",
+      "partNumber": 5,
+      "sourceFiles": [
+        "app_en_US_part05.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part05.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 179,
+      "targetKeys": 182,
+      "translatedAgainstSource": 15,
+      "untranslatedAgainstSource": 164,
+      "missingInTarget": 0,
+      "extraInTarget": 3,
+      "emptyInTarget": 0,
+      "coveragePercent": 8.379888268156424
+    },
+    {
+      "part": "part06",
+      "partNumber": 6,
+      "sourceFiles": [
+        "app_en_US_part06.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part06.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 174,
+      "targetKeys": 177,
+      "translatedAgainstSource": 16,
+      "untranslatedAgainstSource": 157,
+      "missingInTarget": 1,
+      "extraInTarget": 4,
+      "emptyInTarget": 0,
+      "coveragePercent": 9.195402298850574
+    },
+    {
+      "part": "part07",
+      "partNumber": 7,
+      "sourceFiles": [
+        "app_en_US_part07.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part07.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 174,
+      "targetKeys": 177,
+      "translatedAgainstSource": 11,
+      "untranslatedAgainstSource": 163,
+      "missingInTarget": 0,
+      "extraInTarget": 3,
+      "emptyInTarget": 0,
+      "coveragePercent": 6.321839080459771
+    },
+    {
+      "part": "part08",
+      "partNumber": 8,
+      "sourceFiles": [
+        "app_en_US_part08.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part08.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 159,
+      "targetKeys": 162,
+      "translatedAgainstSource": 15,
+      "untranslatedAgainstSource": 144,
+      "missingInTarget": 0,
+      "extraInTarget": 3,
+      "emptyInTarget": 0,
+      "coveragePercent": 9.433962264150944
+    },
+    {
+      "part": "part09",
+      "partNumber": 9,
+      "sourceFiles": [
+        "app_en_US_part09.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part09.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 181,
+      "targetKeys": 184,
+      "translatedAgainstSource": 9,
+      "untranslatedAgainstSource": 171,
+      "missingInTarget": 1,
+      "extraInTarget": 4,
+      "emptyInTarget": 0,
+      "coveragePercent": 4.972375690607735
+    },
+    {
+      "part": "part10",
+      "partNumber": 10,
+      "sourceFiles": [
+        "app_en_US_part10.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part10.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 174,
+      "targetKeys": 175,
+      "translatedAgainstSource": 22,
+      "untranslatedAgainstSource": 152,
+      "missingInTarget": 0,
+      "extraInTarget": 1,
+      "emptyInTarget": 0,
+      "coveragePercent": 12.643678160919542
+    },
+    {
+      "part": "part11",
+      "partNumber": 11,
+      "sourceFiles": [
+        "app_en_US_part11.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part11.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 173,
+      "targetKeys": 176,
+      "translatedAgainstSource": 12,
+      "untranslatedAgainstSource": 161,
+      "missingInTarget": 0,
+      "extraInTarget": 3,
+      "emptyInTarget": 0,
+      "coveragePercent": 6.9364161849710975
+    },
+    {
+      "part": "part12",
+      "partNumber": 12,
+      "sourceFiles": [
+        "app_en_US_part12.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part12.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 183,
+      "targetKeys": 184,
+      "translatedAgainstSource": 20,
+      "untranslatedAgainstSource": 163,
+      "missingInTarget": 0,
+      "extraInTarget": 1,
+      "emptyInTarget": 0,
+      "coveragePercent": 10.92896174863388
+    },
+    {
+      "part": "part13",
+      "partNumber": 13,
+      "sourceFiles": [
+        "app_en_US_part13.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part13.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 191,
+      "targetKeys": 195,
+      "translatedAgainstSource": 14,
+      "untranslatedAgainstSource": 176,
+      "missingInTarget": 1,
+      "extraInTarget": 5,
+      "emptyInTarget": 0,
+      "coveragePercent": 7.329842931937172
+    },
+    {
+      "part": "part14",
+      "partNumber": 14,
+      "sourceFiles": [
+        "app_en_US_part14.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part14.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 156,
+      "targetKeys": 157,
+      "translatedAgainstSource": 12,
+      "untranslatedAgainstSource": 144,
+      "missingInTarget": 0,
+      "extraInTarget": 1,
+      "emptyInTarget": 0,
+      "coveragePercent": 7.6923076923076925
+    },
+    {
+      "part": "part15",
+      "partNumber": 15,
+      "sourceFiles": [
+        "app_en_US_part15.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part15.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 160,
+      "targetKeys": 163,
+      "translatedAgainstSource": 12,
+      "untranslatedAgainstSource": 147,
+      "missingInTarget": 1,
+      "extraInTarget": 4,
+      "emptyInTarget": 0,
+      "coveragePercent": 7.5
+    },
+    {
+      "part": "part16",
+      "partNumber": 16,
+      "sourceFiles": [
+        "app_en_US_part16.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part16.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 183,
+      "targetKeys": 184,
+      "translatedAgainstSource": 16,
+      "untranslatedAgainstSource": 167,
+      "missingInTarget": 0,
+      "extraInTarget": 1,
+      "emptyInTarget": 0,
+      "coveragePercent": 8.743169398907105
+    },
+    {
+      "part": "part17",
+      "partNumber": 17,
+      "sourceFiles": [
+        "app_en_US_part17.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part17.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 161,
+      "targetKeys": 163,
+      "translatedAgainstSource": 9,
+      "untranslatedAgainstSource": 152,
+      "missingInTarget": 0,
+      "extraInTarget": 2,
+      "emptyInTarget": 0,
+      "coveragePercent": 5.590062111801243
+    },
+    {
+      "part": "part18",
+      "partNumber": 18,
+      "sourceFiles": [
+        "app_en_US_part18.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part18.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 178,
+      "targetKeys": 179,
+      "translatedAgainstSource": 16,
+      "untranslatedAgainstSource": 162,
+      "missingInTarget": 0,
+      "extraInTarget": 1,
+      "emptyInTarget": 0,
+      "coveragePercent": 8.98876404494382
+    },
+    {
+      "part": "part19",
+      "partNumber": 19,
+      "sourceFiles": [
+        "app_en_US_part19.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part19.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 131,
+      "targetKeys": 134,
+      "translatedAgainstSource": 9,
+      "untranslatedAgainstSource": 122,
+      "missingInTarget": 0,
+      "extraInTarget": 3,
+      "emptyInTarget": 0,
+      "coveragePercent": 6.870229007633588
+    },
+    {
+      "part": "part20",
+      "partNumber": 20,
+      "sourceFiles": [
+        "app_en_US_part20.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part20.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 189,
+      "targetKeys": 192,
+      "translatedAgainstSource": 18,
+      "untranslatedAgainstSource": 171,
+      "missingInTarget": 0,
+      "extraInTarget": 3,
+      "emptyInTarget": 0,
+      "coveragePercent": 9.523809523809524
+    },
+    {
+      "part": "part21",
+      "partNumber": 21,
+      "sourceFiles": [
+        "app_en_US_part21.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part21.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 166,
+      "targetKeys": 169,
+      "translatedAgainstSource": 13,
+      "untranslatedAgainstSource": 153,
+      "missingInTarget": 0,
+      "extraInTarget": 3,
+      "emptyInTarget": 0,
+      "coveragePercent": 7.83132530120482
+    },
+    {
+      "part": "part22",
+      "partNumber": 22,
+      "sourceFiles": [
+        "app_en_US_part22.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part22.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 162,
+      "targetKeys": 164,
+      "translatedAgainstSource": 18,
+      "untranslatedAgainstSource": 144,
+      "missingInTarget": 0,
+      "extraInTarget": 2,
+      "emptyInTarget": 0,
+      "coveragePercent": 11.11111111111111
+    },
+    {
+      "part": "part23",
+      "partNumber": 23,
+      "sourceFiles": [
+        "app_en_US_part23.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part23.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 172,
+      "targetKeys": 174,
+      "translatedAgainstSource": 20,
+      "untranslatedAgainstSource": 152,
+      "missingInTarget": 0,
+      "extraInTarget": 2,
+      "emptyInTarget": 0,
+      "coveragePercent": 11.627906976744185
+    },
+    {
+      "part": "part24",
+      "partNumber": 24,
+      "sourceFiles": [
+        "app_en_US_part24.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part24.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 199,
+      "targetKeys": 201,
+      "translatedAgainstSource": 18,
+      "untranslatedAgainstSource": 181,
+      "missingInTarget": 0,
+      "extraInTarget": 2,
+      "emptyInTarget": 0,
+      "coveragePercent": 9.045226130653267
+    },
+    {
+      "part": "part25",
+      "partNumber": 25,
+      "sourceFiles": [
+        "app_en_US_part25.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part25.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 142,
+      "targetKeys": 143,
+      "translatedAgainstSource": 11,
+      "untranslatedAgainstSource": 131,
+      "missingInTarget": 0,
+      "extraInTarget": 1,
+      "emptyInTarget": 0,
+      "coveragePercent": 7.746478873239436
+    },
+    {
+      "part": "part26",
+      "partNumber": 26,
+      "sourceFiles": [
+        "app_en_US_part26.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part26.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 163,
+      "targetKeys": 166,
+      "translatedAgainstSource": 15,
+      "untranslatedAgainstSource": 147,
+      "missingInTarget": 1,
+      "extraInTarget": 4,
+      "emptyInTarget": 0,
+      "coveragePercent": 9.202453987730062
+    },
+    {
+      "part": "part27",
+      "partNumber": 27,
+      "sourceFiles": [
+        "app_en_US_part27.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part27.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 192,
+      "targetKeys": 194,
+      "translatedAgainstSource": 10,
+      "untranslatedAgainstSource": 182,
+      "missingInTarget": 0,
+      "extraInTarget": 2,
+      "emptyInTarget": 0,
+      "coveragePercent": 5.208333333333334
+    },
+    {
+      "part": "part28",
+      "partNumber": 28,
+      "sourceFiles": [
+        "app_en_US_part28.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part28.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 165,
+      "targetKeys": 169,
+      "translatedAgainstSource": 15,
+      "untranslatedAgainstSource": 150,
+      "missingInTarget": 0,
+      "extraInTarget": 4,
+      "emptyInTarget": 0,
+      "coveragePercent": 9.090909090909092
+    },
+    {
+      "part": "part29",
+      "partNumber": 29,
+      "sourceFiles": [
+        "app_en_US_part29.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part29.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 167,
+      "targetKeys": 170,
+      "translatedAgainstSource": 17,
+      "untranslatedAgainstSource": 150,
+      "missingInTarget": 0,
+      "extraInTarget": 3,
+      "emptyInTarget": 0,
+      "coveragePercent": 10.179640718562874
+    },
+    {
+      "part": "part30",
+      "partNumber": 30,
+      "sourceFiles": [
+        "app_en_US_part30.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part30.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 149,
+      "targetKeys": 150,
+      "translatedAgainstSource": 11,
+      "untranslatedAgainstSource": 138,
+      "missingInTarget": 0,
+      "extraInTarget": 1,
+      "emptyInTarget": 0,
+      "coveragePercent": 7.38255033557047
+    },
+    {
+      "part": "part31",
+      "partNumber": 31,
+      "sourceFiles": [
+        "app_en_US_part31.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part31.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 168,
+      "targetKeys": 172,
+      "translatedAgainstSource": 12,
+      "untranslatedAgainstSource": 155,
+      "missingInTarget": 1,
+      "extraInTarget": 5,
+      "emptyInTarget": 0,
+      "coveragePercent": 7.142857142857142
+    },
+    {
+      "part": "part32",
+      "partNumber": 32,
+      "sourceFiles": [
+        "app_en_US_part32.arb"
+      ],
+      "targetFiles": [
+        "app_pt_BR_part32.arb"
+      ],
+      "sourceLocale": "en_US",
+      "targetLocale": "pt_BR",
+      "sourceKeys": 159,
+      "targetKeys": 161,
+      "translatedAgainstSource": 141,
+      "untranslatedAgainstSource": 18,
+      "missingInTarget": 0,
+      "extraInTarget": 2,
+      "emptyInTarget": 0,
+      "coveragePercent": 88.67924528301887
+    }
+  ]
+}

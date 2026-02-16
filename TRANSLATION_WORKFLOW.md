@@ -64,6 +64,11 @@ dart run scripts/get_untranslated_strings.dart \
   --limit=50 \
   --output=translation_workspace/untranslated_pt_BR.arb
 
+# 2b) If extracted batch is empty but status still has untranslated keys:
+#     - Run per-part status JSON
+#     - pick a non-complete part and extract a focused per-part batch
+#     - continue with translate/merge/validate
+
 # 3) Translate values in translation_workspace/untranslated_pt_BR.arb
 
 # 4) Merge translations back (hash-routed + canonical write)

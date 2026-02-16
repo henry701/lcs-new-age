@@ -6,7 +6,7 @@ Future<void> main() async {
   await hookFile.parent.create(recursive: true);
 
   final hookContent = r'''#!/bin/sh
-dart run scripts/validate_translations.dart
+dart run scripts/validate.dart
 ''';
 
   await hookFile.writeAsString(hookContent);

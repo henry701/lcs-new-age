@@ -64,7 +64,7 @@ dart run scripts/translation_status.dart
 dart run scripts/translation_status.dart --json
 ```
 
-## validate_translations.dart
+## validate.dart
 
 Pre-commit validator.
 
@@ -73,7 +73,7 @@ Runs:
 2. `dart run scripts/maintain_arb_catalogs.dart --check`
 
 ```bash
-dart run scripts/validate_translations.dart
+dart run scripts/validate.dart
 ```
 
 ## Recommended Loop

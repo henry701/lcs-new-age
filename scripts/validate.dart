@@ -7,7 +7,7 @@
  * 1. Runs dart_pre_commit (analyze + test)
  * 2. Validates ARB files are canonical (hash-sharded + recursively sorted)
  *
- * Usage: dart run scripts/validate_translations.dart
+ * Usage: dart run scripts/validate.dart
  */
 
 import 'dart:io';

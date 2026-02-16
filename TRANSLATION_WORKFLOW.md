@@ -6,6 +6,8 @@ Status tracking lives only in `TRANSLATION_PROGRESS.md`.
 
 ```bash
 dart run scripts/translation_status.dart
+dart run scripts/translation_status.dart --per-part
+dart run scripts/translation_status.dart --locale=pt_BR --part=part07
 ```
 
 ## Catalog Rules (Canonical)

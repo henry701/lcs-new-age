@@ -58,10 +58,13 @@ dart run scripts/get_untranslated_strings.dart --locale=pt_BR --limit=50 --outpu
 ## translation_status.dart
 
 Reports source/target coverage and keyset drift.
+Supports per-part (`part01`...`part32`) metrics for agent-friendly prioritization.
 
 ```bash
 dart run scripts/translation_status.dart
 dart run scripts/translation_status.dart --json
+dart run scripts/translation_status.dart --per-part
+dart run scripts/translation_status.dart --locale=pt_BR --part=part07
 ```
 
 ## interpolation_status.dart

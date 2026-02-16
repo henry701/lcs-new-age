@@ -55,23 +55,20 @@ class LcsI18n {
   }
 
   /// Load ARB file(s) for the specified locale
-  /// Supports multiple ARB files per locale: `app_<locale>.arb`, `app_<locale>_part1.arb`, etc.
+  /// Supports multiple ARB shard files per locale:
+  /// `app_<locale>_part01.arb` ... `app_<locale>_part32.arb`.
   static Future<void> _loadLocale(String locale) async {
     try {
-      // Load all ARB files matching the pattern app_<locale>*.arb
+      // Load only canonical shard files (unlabeled legacy files are ignored).
       final manifestContent = await rootBundle.loadString('AssetManifest.json');
       final Map<String, dynamic> manifest =
           json.decode(manifestContent) as Map<String, dynamic>;
+      final shardRegex = RegExp(
+        r'^lib/l10n/app_' + RegExp.escape(locale) + r'_part\d{2}\.arb$',
+      );
 
-      final localeFiles =
-          manifest.keys
-              .where(
-                (key) =>
-                    key.startsWith('lib/l10n/app_$locale') &&
-                    key.endsWith('.arb'),
-              )
-              .toList()
-            ..sort(); // Sort to ensure consistent loading order
+      final localeFiles = manifest.keys.where(shardRegex.hasMatch).toList()
+        ..sort(); // Sort to ensure consistent loading order
 
       if (localeFiles.isEmpty) {
         print('LcsI18n: No ARB files found for locale "$locale"');
@@ -111,7 +108,7 @@ class LcsI18n {
           'LcsI18n: Duplicate keys: ${duplicateKeys.take(5).join(", ")}${duplicateKeys.length > 5 ? "..." : ""}',
         );
         print(
-          'LcsI18n: Run "dart run scripts/clean_arb_duplicates.dart" to validate and fix',
+          'LcsI18n: Run "dart run scripts/maintain_arb_catalogs.dart --check" to validate',
         );
       } else {
         print(

@@ -70,12 +70,13 @@ void main(List<String> args) async {
 
   // Find all ARB files for the locale
   final localeFiles = <File>[];
+  final localeRegex = RegExp(
+    '^app_${RegExp.escape(locale)}_part\\d{2}\\.arb\$',
+  );
   await for (final entity in arbDir.list()) {
     if (entity is File && entity.path.endsWith('.arb')) {
       final filename = entity.path.split('/').last;
-      if (filename.startsWith('app_$locale') ||
-          filename.startsWith('app_${locale.replaceAll('_', '-')}') ||
-          (locale == 'en_US' && filename == 'app_en.arb')) {
+      if (localeRegex.hasMatch(filename)) {
         localeFiles.add(entity);
       }
     }

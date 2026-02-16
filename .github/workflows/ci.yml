@@ -50,7 +50,7 @@ jobs:
       - name: Validate translation files
         run: |
           echo "=== Validating ARB files ==="
-          dart run scripts/clean_arb_duplicates.dart --check
+          dart run scripts/maintain_arb_catalogs.dart --check
           echo ""
           echo "=== All validations passed ==="
 

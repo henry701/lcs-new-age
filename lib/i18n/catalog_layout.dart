@@ -26,7 +26,7 @@ Future<List<ArbCatalogShard>> buildArbCatalogShards({
   required String locale,
   required Iterable<Map<String, dynamic>> catalogMaps,
   int shardCount = defaultArbCatalogShardCount,
-  bool includeEmptyShards = false,
+  bool includeEmptyShards = true,
 }) async {
   final merged = mergeArbCatalogMaps(catalogMaps);
   final shardMaps = <int, Map<String, dynamic>>{};
@@ -60,7 +60,11 @@ Future<List<ArbCatalogShard>> buildArbCatalogShards({
       .map(
         (sorted) => ArbCatalogShard(
           shardIndex: sorted.shardIndex,
-          fileName: arbCatalogShardFileName(locale, sorted.shardIndex),
+          fileName: arbCatalogShardFileName(
+            locale,
+            sorted.shardIndex,
+            shardCount: shardCount,
+          ),
           entries: sorted.entries,
         ),
       )
@@ -97,12 +101,24 @@ int arbCatalogShardIndexForKey(
 }
 
 /// Canonical filename for a locale + shard.
-String arbCatalogShardFileName(String locale, int shardIndex) {
+String arbCatalogShardFileName(
+  String locale,
+  int shardIndex, {
+  int shardCount = defaultArbCatalogShardCount,
+}) {
   if (shardIndex < 0) {
     throw ArgumentError.value(shardIndex, 'shardIndex', 'must be >= 0');
   }
-  if (shardIndex == 0) return 'app_$locale.arb';
-  return 'app_${locale}_part${shardIndex.toString().padLeft(2, '0')}.arb';
+  if (shardCount <= 0) {
+    throw ArgumentError.value(shardCount, 'shardCount', 'must be > 0');
+  }
+  if (shardIndex >= shardCount) {
+    throw ArgumentError.value(shardIndex, 'shardIndex', 'must be < shardCount');
+  }
+  final partNumber = shardIndex + 1;
+  final padding = shardCount.toString().length;
+  final padded = partNumber.toString().padLeft(padding, '0');
+  return 'app_${locale}_part$padded.arb';
 }
 
 int _fnv1a32(String input) {

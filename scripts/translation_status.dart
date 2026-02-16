@@ -114,7 +114,7 @@ Directory _detectProjectRoot() {
 }
 
 Map<String, dynamic> _loadMergedLocale(Directory l10nDir, String locale) {
-  final regex = RegExp('^app_${RegExp.escape(locale)}(?:_part\\d+)?\\.arb\$');
+  final regex = RegExp('^app_${RegExp.escape(locale)}_part\\d{2}\\.arb\$');
   final files =
       l10nDir
           .listSync()

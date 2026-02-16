@@ -31,13 +31,16 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  final localeFiles = await _collectLocaleFiles(arbDir);
-  if (localeFiles.isEmpty) {
-    print('No ARB files found in $arbDirPath');
+  final catalogFiles = await _collectCatalogFiles(arbDir);
+  final localeFiles = catalogFiles.partFiles;
+  final legacyFiles = catalogFiles.legacyPrimaryFiles;
+
+  if (localeFiles.isEmpty && legacyFiles.isEmpty) {
+    print('No ARB catalog files found in $arbDirPath');
     return;
   }
 
-  final locales = localeFiles.keys.toList()..sort();
+  final locales = {...localeFiles.keys, ...legacyFiles.keys}.toList()..sort();
   final selectedLocales =
       localeArgs.isEmpty ? locales : locales.where(localeArgs.contains).toList()
         ..sort();
@@ -56,11 +59,14 @@ Future<void> main(List<String> args) async {
   int localesChanged = 0;
 
   for (final locale in selectedLocales) {
-    final files = localeFiles[locale]!
+    final files = (localeFiles[locale] ?? <File>[])
+      ..sort((a, b) => a.path.compareTo(b.path));
+    final localeLegacyFiles = (legacyFiles[locale] ?? <File>[])
       ..sort((a, b) => a.path.compareTo(b.path));
     final result = await _processLocale(
       locale: locale,
       files: files,
+      legacyFiles: localeLegacyFiles,
       arbDirPath: arbDir.path,
       hashShards: hashShards,
       checkMode: checkMode,
@@ -88,12 +94,42 @@ Future<void> main(List<String> args) async {
 Future<_LocaleProcessResult> _processLocale({
   required String locale,
   required List<File> files,
+  required List<File> legacyFiles,
   required String arbDirPath,
   required int hashShards,
   required bool checkMode,
   required bool fixMode,
 }) async {
-  print('Locale: $locale (${files.length} file(s))');
+  print(
+    'Locale: $locale (${files.length} shard file(s), ${legacyFiles.length} legacy file(s))',
+  );
+
+  if (files.isEmpty && legacyFiles.isNotEmpty) {
+    final maxPart = hashShards.toString().padLeft(2, '0');
+    print(
+      '  ERROR: Only legacy unlabeled files found. Expected app_${locale}_part01..part$maxPart.arb',
+    );
+    print('  Manual migration required to avoid losing data.');
+    return const _LocaleProcessResult(hadErrors: true, changed: false);
+  }
+
+  if (legacyFiles.isNotEmpty && checkMode) {
+    final names = legacyFiles.map((f) => f.path.split('/').last).join(', ');
+    print('  ERROR: Legacy unlabeled files are forbidden: $names');
+    print(
+      '    Fix with: dart run scripts/maintain_arb_catalogs.dart --fix --locale=$locale',
+    );
+    return const _LocaleProcessResult(hadErrors: true, changed: false);
+  }
+
+  bool changedLegacy = false;
+  if (legacyFiles.isNotEmpty && fixMode) {
+    for (final file in legacyFiles) {
+      await file.delete();
+      changedLegacy = true;
+    }
+    print('  FIXED: removed ${legacyFiles.length} legacy unlabeled file(s)');
+  }
 
   final fileMaps = <String, Map<String, dynamic>>{};
   for (final file in files) {
@@ -156,7 +192,7 @@ Future<_LocaleProcessResult> _processLocale({
 
   if (!hasDrift) {
     print('  OK: canonical');
-    return const _LocaleProcessResult(hadErrors: false, changed: false);
+    return _LocaleProcessResult(hadErrors: false, changed: changedLegacy);
   }
 
   if (checkMode) {
@@ -173,7 +209,7 @@ Future<_LocaleProcessResult> _processLocale({
       );
     }
     print(
-      '    Fix with: dart run scripts/clean_arb_duplicates.dart --fix --locale=$locale',
+      '    Fix with: dart run scripts/maintain_arb_catalogs.dart --fix --locale=$locale',
     );
     return const _LocaleProcessResult(hadErrors: true, changed: false);
   }
@@ -195,16 +231,27 @@ Future<_LocaleProcessResult> _processLocale({
   return const _LocaleProcessResult(hadErrors: false, changed: true);
 }
 
-Future<Map<String, List<File>>> _collectLocaleFiles(Directory arbDir) async {
-  final localeFiles = <String, List<File>>{};
+Future<_CatalogFileScan> _collectCatalogFiles(Directory arbDir) async {
+  final partFiles = <String, List<File>>{};
+  final legacyPrimaryFiles = <String, List<File>>{};
   await for (final entity in arbDir.list()) {
     if (entity is! File || !entity.path.endsWith('.arb')) continue;
     final fileName = entity.path.split('/').last;
-    final locale = _extractLocale(fileName);
-    if (locale == null) continue;
-    localeFiles.putIfAbsent(locale, () => <File>[]).add(entity);
+    final partLocale = _extractLocaleFromPart(fileName);
+    if (partLocale != null) {
+      partFiles.putIfAbsent(partLocale, () => <File>[]).add(entity);
+      continue;
+    }
+
+    final legacyLocale = _extractLocaleFromLegacy(fileName);
+    if (legacyLocale != null) {
+      legacyPrimaryFiles.putIfAbsent(legacyLocale, () => <File>[]).add(entity);
+    }
   }
-  return localeFiles;
+  return _CatalogFileScan(
+    partFiles: partFiles,
+    legacyPrimaryFiles: legacyPrimaryFiles,
+  );
 }
 
 Map<String, List<String>> _findCrossFileDuplicates(
@@ -227,10 +274,16 @@ Map<String, List<String>> _findCrossFileDuplicates(
   return duplicates;
 }
 
-String? _extractLocale(String fileName) {
+String? _extractLocaleFromPart(String fileName) {
   final match = RegExp(
-    r'^app_([A-Za-z0-9_]+?)(?:_part\d+)?\.arb$',
+    r'^app_([A-Za-z0-9_]+?)_part\d{2}\.arb$',
   ).firstMatch(fileName);
+  if (match == null) return null;
+  return match.group(1);
+}
+
+String? _extractLocaleFromLegacy(String fileName) {
+  final match = RegExp(r'^app_([A-Za-z0-9_]+?)\.arb$').firstMatch(fileName);
   if (match == null) return null;
   return match.group(1);
 }
@@ -250,4 +303,14 @@ class _LocaleProcessResult {
 
   final bool hadErrors;
   final bool changed;
+}
+
+class _CatalogFileScan {
+  const _CatalogFileScan({
+    required this.partFiles,
+    required this.legacyPrimaryFiles,
+  });
+
+  final Map<String, List<File>> partFiles;
+  final Map<String, List<File>> legacyPrimaryFiles;
 }

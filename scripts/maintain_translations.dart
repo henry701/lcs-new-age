@@ -8,7 +8,7 @@ import 'dart:io';
 /// Unified ARB maintenance script for LCS New Age translation workflow.
 ///
 /// This script combines the functionality of:
-/// - clean_arb_duplicates.dart (deduplication)
+/// - maintain_arb_catalogs.dart (canonical shard validation/fix)
 /// - find_translatable_strings.dart (splitting)
 /// - get_untranslated_strings.dart (extraction)
 ///
@@ -160,8 +160,7 @@ Examples:
   dart maintain_translations.dart --locale=pt_BR --operation=extract-untranslated
 
 Output Files:
-  - app_<locale>.arb          Primary ARB file (always kept)
-  - app_<locale>_part<N>.arb  Additional split files if needed
+  - app_<locale>_part01.arb ... app_<locale>_partNN.arb
   - untranslated_<locale>.arb Untranslated strings (if --extract-untranslated)
 
 Deterministic Splitting:
@@ -189,12 +188,10 @@ String _getArg(
 }
 
 bool _matchesLocale(String filename, String locale) {
-  if (filename.startsWith('app_$locale') ||
-      filename.startsWith('app_${locale.replaceAll('_', '-')}') ||
-      (locale == 'en_US' && filename == 'app_en.arb')) {
-    return true;
-  }
-  return false;
+  final localeRegex = RegExp(
+    '^app_${RegExp.escape(locale)}_part\\d{2}\\.arb\$',
+  );
+  return localeRegex.hasMatch(filename);
 }
 
 Future<(Map<String, dynamic>, Map<String, String>)> _loadAndMergeArbFiles(
@@ -310,14 +307,9 @@ Future<void> _maintainArb(
   final fileData = <String, Map<String, dynamic>>{};
   final fileNames = <String>[];
 
-  // Primary file always exists
-  final primaryFileName = 'app_$locale.arb';
-  fileNames.add(primaryFileName);
-  fileData[primaryFileName] = {};
-
-  // Create additional part files if needed
-  for (int i = 2; i <= fileCount; i++) {
-    final partFileName = 'app_${locale}_part$i.arb';
+  // Create canonical part files (part01..partNN)
+  for (int i = 1; i <= fileCount; i++) {
+    final partFileName = _partFileName(locale, i);
     fileNames.add(partFileName);
     fileData[partFileName] = {};
   }
@@ -348,12 +340,12 @@ Future<void> _maintainArb(
     print('Writing files...\n');
 
     // Remove old part files that are no longer needed
-    final existingPartFiles = localeFiles.where((f) {
+    final existingLocaleFiles = localeFiles.where((f) {
       final name = f.path.split('/').last;
-      return name.startsWith('app_${locale}_part') && !fileNames.contains(name);
+      return _isLegacyOrPartFile(name, locale) && !fileNames.contains(name);
     });
 
-    for (final oldFile in existingPartFiles) {
+    for (final oldFile in existingLocaleFiles) {
       print('  Removing obsolete: ${oldFile.path.split('/').last}');
       oldFile.deleteSync();
     }
@@ -372,17 +364,14 @@ Future<void> _maintainArb(
   }
 
   print('\n=== Summary ===');
-  print('Primary file: app_$locale.arb');
-  if (fileCount > 1) {
-    print('Additional files: ${fileNames.length - 1} part file(s)');
-  }
+  print('Canonical files: ${fileNames.length} part shard file(s)');
   if (extractUntranslated && !dryRun) {
     print('Untranslated extracted to: $untranslatedOutput');
   }
 
   if (!dryRun) {
     print('\nNext steps:');
-    print('1. Validate: dart run scripts/clean_arb_duplicates.dart --check');
+    print('1. Validate: dart run scripts/maintain_arb_catalogs.dart --check');
     print('2. Test: flutter test test/i18n_test.dart');
     if (extractUntranslated) {
       print('3. Translate: Edit $untranslatedOutput then run merge script');
@@ -431,7 +420,7 @@ Future<void> _deduplicateOnly(
     print('DRY RUN - Would remove $totalRemoved duplicate entries');
   } else {
     print('Removed $totalRemoved duplicate entries');
-    print('\nValidation: Run clean_arb_duplicates.dart --check to verify');
+    print('\nValidation: Run maintain_arb_catalogs.dart --check to verify');
   }
 }
 
@@ -468,13 +457,8 @@ Future<void> _splitArb(
   final fileData = <String, Map<String, dynamic>>{};
   final fileNames = <String>[];
 
-  // Primary file
-  fileNames.add('app_$locale.arb');
-  fileData['app_$locale.arb'] = {};
-
-  // Additional files
-  for (int i = 2; i <= fileCount; i++) {
-    final name = 'app_${locale}_part$i.arb';
+  for (int i = 1; i <= fileCount; i++) {
+    final name = _partFileName(locale, i);
     fileNames.add(name);
     fileData[name] = {};
   }
@@ -510,6 +494,18 @@ Future<void> _splitArb(
       print('  $name: ${sorted.length} entries');
     }
   }
+}
+
+String _partFileName(String locale, int index) {
+  final suffix = index.toString().padLeft(2, '0');
+  return 'app_${locale}_part$suffix.arb';
+}
+
+bool _isLegacyOrPartFile(String fileName, String locale) {
+  final partRegex = RegExp('^app_${RegExp.escape(locale)}_part\\d{2}\\.arb\$');
+  if (partRegex.hasMatch(fileName)) return true;
+  final legacyRegex = RegExp('^app_${RegExp.escape(locale)}\\.arb\$');
+  return legacyRegex.hasMatch(fileName);
 }
 
 Future<void> _extractUntranslatedOnly(

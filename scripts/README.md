@@ -4,15 +4,16 @@ Canonical ARB layout rules:
 - Keys are split by deterministic key hash (not by file size).
 - JSON objects are recursively sorted by key.
 - All locale files must be duplicate-free across files.
+- Canonical filenames are only `app_<locale>_part01.arb` ... `app_<locale>_part32.arb` (no unlabeled file).
 
 Primary commands:
 
 ```bash
 # Validate canonical layout (used by CI + pre-commit)
-dart run scripts/clean_arb_duplicates.dart --check
+dart run scripts/maintain_arb_catalogs.dart --check
 
 # Fix layout drift (re-shard + re-sort + remove obsolete files)
-dart run scripts/clean_arb_duplicates.dart --fix
+dart run scripts/maintain_arb_catalogs.dart --fix
 ```
 
 ## find_translatable_strings.dart
@@ -69,7 +70,7 @@ Pre-commit validator.
 
 Runs:
 1. `dart run dart_pre_commit`
-2. `dart run scripts/clean_arb_duplicates.dart --check`
+2. `dart run scripts/maintain_arb_catalogs.dart --check`
 
 ```bash
 dart run scripts/validate_translations.dart
@@ -90,5 +91,5 @@ dart run scripts/get_untranslated_strings.dart --locale=pt_BR --limit=50 --outpu
 dart run scripts/merge_arb_entries.dart --locale=pt_BR --source=translation_workspace/untranslated_pt_BR.arb
 
 # 5) Validate canonical layout
-dart run scripts/clean_arb_duplicates.dart --check
+dart run scripts/maintain_arb_catalogs.dart --check
 ```

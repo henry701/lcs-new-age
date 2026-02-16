@@ -12,8 +12,8 @@ dart run scripts/translation_status.dart
 
 - ARB keys are partitioned by deterministic hash of the source key.
 - Locale catalogs are stored in:
-  - `app_<locale>.arb` (shard 0)
-  - `app_<locale>_partNN.arb` (other shards)
+  - `app_<locale>_part01.arb` ... `app_<locale>_part32.arb`
+  - Unlabeled `app_<locale>.arb` is legacy and must not be read.
 - All JSON objects are recursively sorted by key.
 - Keys must be unique across all files of a locale.
 - Catalog sync is additive only: existing translations are never overwritten by extraction.
@@ -22,10 +22,10 @@ Validate/fix:
 
 ```bash
 # Check only (CI + pre-commit)
-dart run scripts/clean_arb_duplicates.dart --check
+dart run scripts/maintain_arb_catalogs.dart --check
 
 # Fix layout drift (reshard + sort + cleanup obsolete files)
-dart run scripts/clean_arb_duplicates.dart --fix
+dart run scripts/maintain_arb_catalogs.dart --fix
 ```
 
 ## Translation API Notes
@@ -56,7 +56,7 @@ dart run scripts/merge_arb_entries.dart \
   --source=translation_workspace/untranslated_pt_BR.arb
 
 # 5) Validate canonical layout
-dart run scripts/clean_arb_duplicates.dart --check
+dart run scripts/maintain_arb_catalogs.dart --check
 ```
 
 ## Notes for Translators

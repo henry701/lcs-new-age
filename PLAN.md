@@ -107,7 +107,7 @@ The template `"{name}"` serves no purpose when there's no other text to translat
 
 - Console wrapper functions (`addstr`, `mvaddstr`, `addstrx`, `mvaddstrx`) with params support
 - `LcsI18n` class with `processString()` for translation + formatting
-- ARB file structure (`lib/l10n/` with `app_en_US.arb`, `app_pt_BR*.arb`)
+- ARB shard structure (`lib/l10n/` with `app_<locale>_part01.arb` ... `app_<locale>_part32.arb`)
 - Runtime language switching (`setLocale()`)
 - Language selection UI in title screen
 

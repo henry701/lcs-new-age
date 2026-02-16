@@ -44,13 +44,13 @@ void main(List<String> args) async {
       '  - Multi-file ARB support: Each locale can have multiple ARB files',
     );
     print(
-      '  - File naming: app_<locale>.arb (primary), app_<locale>_part<N>.arb (additional)',
+      '  - File naming: app_<locale>_part01.arb ... app_<locale>_part32.arb (canonical)',
     );
     print(
       '  - Partitioning: key hash determines target file, ensuring deterministic sharding and stable diffs',
     );
     print(
-      '  - Run clean_arb_duplicates.dart --check after sync to validate canonical shard layout',
+      '  - Run maintain_arb_catalogs.dart --check after sync to validate canonical shard layout',
     );
     print('');
     print('Examples:');
@@ -124,6 +124,9 @@ void main(List<String> args) async {
   final localeFileLists = <String, List<File>>{}; // locale -> list of files
   final l10nDir = Directory('${libDir.path}/l10n');
   final l10nPath = l10nDir.path;
+  final localeFilenamePattern = RegExp(
+    r'^app_([A-Za-z0-9_]+?)_part\d{2}\.arb$',
+  );
 
   if (l10nDir.existsSync()) {
     await for (final entity in l10nDir.list()) {
@@ -134,17 +137,8 @@ void main(List<String> args) async {
 
           // Extract locale from filename
           final filename = entity.path.split('/').last;
-          String? locale;
-
-          if (filename.startsWith('app_')) {
-            var localePart = filename.substring(
-              4,
-              filename.length - 4,
-            ); // Remove 'app_' and '.arb'
-            // Remove _part<N> suffix
-            localePart = localePart.replaceAll(RegExp(r'_part\d+$'), '');
-            locale = localePart;
-          }
+          final match = localeFilenamePattern.firstMatch(filename);
+          final locale = match?.group(1);
 
           if (locale != null) {
             existingTranslations.putIfAbsent(locale, () => <String, dynamic>{});
@@ -765,7 +759,7 @@ Future<void> _modifyArbFiles(
       '\n⚠️  Remember to translate the newly added strings in each ARB file!',
     );
     print(
-      '   Validate with: dart run scripts/clean_arb_duplicates.dart --check',
+      '   Validate with: dart run scripts/maintain_arb_catalogs.dart --check',
     );
     print('   Test with: flutter test test/i18n_test.dart');
   }
@@ -782,7 +776,7 @@ Future<void> _writeCanonicalLocaleFiles({
   for (final existing in existingFiles) {
     final fileName = existing.path.split('/').last;
     if (!expectedFileNames.contains(fileName) &&
-        _isLocaleArbFile(fileName, locale)) {
+        _isLocaleArbOrLegacyFile(fileName, locale)) {
       await existing.delete();
     }
   }
@@ -795,12 +789,13 @@ Future<void> _writeCanonicalLocaleFiles({
   }
 }
 
-bool _isLocaleArbFile(String filename, String locale) {
-  final localeRegex = RegExp(
-    '^app_${RegExp.escape(locale)}(?:_part\\d+)?\\.arb\$',
-  );
-  if (localeRegex.hasMatch(filename)) return true;
-  return locale == 'en_US' && filename == 'app_en.arb';
+bool _isLocaleArbOrLegacyFile(String filename, String locale) {
+  final shardRegex = RegExp('^app_${RegExp.escape(locale)}_part\\d{2}\\.arb\$');
+  if (shardRegex.hasMatch(filename)) return true;
+
+  // Legacy unlabeled file form (no longer canonical, removed on write).
+  final legacyRegex = RegExp('^app_${RegExp.escape(locale)}\\.arb\$');
+  return legacyRegex.hasMatch(filename);
 }
 
 Future<void> _generateArbOutput(
@@ -837,7 +832,7 @@ Future<void> _generateArbOutput(
     'Found ${newEntries.length ~/ 2 + newEntries.length % 2} new translatable strings for $targetLocale\n',
   );
   print(
-    'Add these entries to lib/l10n/app_$targetLocale.arb (or other ARB files for this locale):\n',
+    'Add these entries to the canonical shard files in lib/l10n/app_${targetLocale}_part01..part32.arb:\n',
   );
 
   final separator = '=' * 80;
@@ -855,11 +850,13 @@ Future<void> _generateArbOutput(
   print('\n$separator');
   print('\nTo add these to the ARB file:');
   print(
-    '1. Open lib/l10n/app_$targetLocale.arb (or run find_translatable_strings.dart)',
+    '1. Run find_translatable_strings.dart to route entries to canonical shard files',
   );
   print('2. Add the above JSON entries (merge with existing content)');
   print('3. Translate the string values to $targetLocale');
-  print('4. Validate with: dart run scripts/clean_arb_duplicates.dart --check');
+  print(
+    '4. Validate with: dart run scripts/maintain_arb_catalogs.dart --check',
+  );
   print('5. Test with: flutter test test/i18n_test.dart');
 }
 

@@ -44,7 +44,17 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  final localeFiles = await _findLocaleFiles(arbDir, locale);
+  final legacyFiles = await _findLegacyLocaleFiles(arbDir, locale);
+  if (legacyFiles.isNotEmpty) {
+    final names = legacyFiles.map((f) => f.path.split('/').last).join(', ');
+    print('Error: Legacy unlabeled catalog file(s) found: $names');
+    print(
+      'Fix with: dart run scripts/maintain_arb_catalogs.dart --fix --locale=$locale',
+    );
+    exit(1);
+  }
+
+  final localeFiles = await _findLocalePartFiles(arbDir, locale);
   if (localeFiles.isEmpty) {
     print('Error: No ARB files found for locale "$locale"');
     exit(1);
@@ -115,7 +125,7 @@ Future<void> main(List<String> args) async {
   print('Updated: $updated');
   print('Unchanged: $unchanged');
   print('Catalog files written: ${shards.length}');
-  print('\nValidate with: dart run scripts/clean_arb_duplicates.dart --check');
+  print('\nValidate with: dart run scripts/maintain_arb_catalogs.dart --check');
 }
 
 void _printHelp() {
@@ -141,12 +151,30 @@ void _printHelp() {
   );
 }
 
-Future<List<File>> _findLocaleFiles(Directory arbDir, String locale) async {
+Future<List<File>> _findLocalePartFiles(Directory arbDir, String locale) async {
   final files = <File>[];
+  final regex = RegExp('^app_${RegExp.escape(locale)}_part\\d{2}\\.arb\$');
   await for (final entity in arbDir.list()) {
     if (entity is! File || !entity.path.endsWith('.arb')) continue;
     final name = entity.path.split('/').last;
-    if (_isLocaleArbFile(name, locale)) {
+    if (regex.hasMatch(name)) {
+      files.add(entity);
+    }
+  }
+  files.sort((a, b) => a.path.compareTo(b.path));
+  return files;
+}
+
+Future<List<File>> _findLegacyLocaleFiles(
+  Directory arbDir,
+  String locale,
+) async {
+  final files = <File>[];
+  final legacyRegex = RegExp('^app_${RegExp.escape(locale)}\\.arb\$');
+  await for (final entity in arbDir.list()) {
+    if (entity is! File || !entity.path.endsWith('.arb')) continue;
+    final name = entity.path.split('/').last;
+    if (legacyRegex.hasMatch(name)) {
       files.add(entity);
     }
   }
@@ -185,7 +213,7 @@ Future<void> _writeCanonicalLocaleFiles({
 
   for (final file in existingFiles) {
     final name = file.path.split('/').last;
-    if (_isLocaleArbFile(name, locale) && !expectedNames.contains(name)) {
+    if (_isLocalePartFile(name, locale) && !expectedNames.contains(name)) {
       await file.delete();
     }
   }
@@ -197,10 +225,9 @@ Future<void> _writeCanonicalLocaleFiles({
   }
 }
 
-bool _isLocaleArbFile(String fileName, String locale) {
-  final regex = RegExp('^app_${RegExp.escape(locale)}(?:_part\\d+)?\\.arb\$');
-  if (regex.hasMatch(fileName)) return true;
-  return locale == 'en_US' && fileName == 'app_en.arb';
+bool _isLocalePartFile(String fileName, String locale) {
+  final regex = RegExp('^app_${RegExp.escape(locale)}_part\\d{2}\\.arb\$');
+  return regex.hasMatch(fileName);
 }
 
 String _requiredArg(List<String> args, String name) {

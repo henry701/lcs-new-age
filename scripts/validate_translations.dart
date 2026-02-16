@@ -33,7 +33,7 @@ void main(List<String> args) async {
   if (verbose) print('Validating ARB catalog layout...');
   final arbValidationResult = await Process.run('dart', [
     'run',
-    'scripts/clean_arb_duplicates.dart',
+    'scripts/maintain_arb_catalogs.dart',
     '--check',
   ]);
   if (arbValidationResult.exitCode != 0) {
@@ -43,7 +43,7 @@ void main(List<String> args) async {
       print(arbValidationResult.stderr);
     }
     print('\nTo fix, run:');
-    print('  dart run scripts/clean_arb_duplicates.dart --fix');
+    print('  dart run scripts/maintain_arb_catalogs.dart --fix');
     print('\n⚠️  Commit has NOT been performed.');
     print('Fix the issues above and try again.');
     exit(1);

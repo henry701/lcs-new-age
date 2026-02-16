@@ -199,6 +199,17 @@ void main(List<String> args) async {
 
       final content = await file.readAsString();
       final lines = content.split('\n');
+      final lineOffsets = _buildLineStartOffsets(content);
+
+      // Extract random source strings from list literals and list variables
+      // selected with `.random` or `[lcsRandom(...)]`.
+      _extractRandomSourceStrings(
+        content: content,
+        lines: lines,
+        lineOffsets: lineOffsets,
+        stringInfo: stringInfo,
+        relativePath: relativePath,
+      );
 
       // First pass: process line by line for simple cases
       for (int i = 0; i < lines.length; i++) {
@@ -309,6 +320,166 @@ void main(List<String> args) async {
       splitStrategy,
     );
   }
+}
+
+void _extractRandomSourceStrings({
+  required String content,
+  required List<String> lines,
+  required List<int> lineOffsets,
+  required Map<String, StringInfo> stringInfo,
+  required String relativePath,
+}) {
+  // Single-line list literals selected randomly.
+  final inlineRandomListPattern = RegExp(
+    r'\[([^\]]+)\]\s*(?:\.random\b|\[\s*lcsRandom\s*\()',
+  );
+  for (int i = 0; i < lines.length; i++) {
+    final line = lines[i];
+    for (final match in inlineRandomListPattern.allMatches(line)) {
+      final listBody = match.group(1);
+      if (listBody == null || listBody.isEmpty) continue;
+      _recordStringsFromChunk(
+        chunk: listBody,
+        baseLine: i + 1,
+        context: 'random-list-literal',
+        stringInfo: stringInfo,
+        relativePath: relativePath,
+      );
+    }
+  }
+
+  // Direct list literals used with `.random` or `[lcsRandom(...)]`, including
+  // multiline forms inside interpolated strings.
+  final literalRandomListPattern = RegExp(
+    r'\[([\s\S]*?)\]\s*(?:\.random\b|\[\s*lcsRandom\s*\()',
+    multiLine: true,
+  );
+
+  for (final match in literalRandomListPattern.allMatches(content)) {
+    final listBody = match.group(1);
+    if (listBody == null || listBody.isEmpty) continue;
+    if (!listBody.contains('\n')) continue;
+    if (listBody.contains(';')) continue;
+    final baseLine = _lineNumberFromOffset(lineOffsets, match.start);
+    _recordStringsFromChunk(
+      chunk: listBody,
+      baseLine: baseLine,
+      context: 'random-list-literal',
+      stringInfo: stringInfo,
+      relativePath: relativePath,
+    );
+  }
+
+  // Variables selected with `.random` or `[lcsRandom(...)]` can point to
+  // multiline list declarations elsewhere in the file.
+  final randomListVariables = _findRandomListVariables(content);
+  for (final variableName in randomListVariables) {
+    final assignmentPattern = RegExp(
+      '\\b${RegExp.escape(variableName)}\\s*=\\s*\\[([\\s\\S]*?)\\]\\s*;',
+      multiLine: true,
+    );
+
+    for (final match in assignmentPattern.allMatches(content)) {
+      final listBody = match.group(1);
+      if (listBody == null || listBody.isEmpty) continue;
+      final baseLine = _lineNumberFromOffset(lineOffsets, match.start);
+      _recordStringsFromChunk(
+        chunk: listBody,
+        baseLine: baseLine,
+        context: 'random-list-variable:$variableName',
+        stringInfo: stringInfo,
+        relativePath: relativePath,
+      );
+    }
+  }
+}
+
+Set<String> _findRandomListVariables(String content) {
+  final variables = <String>{};
+
+  final randomPropertyPattern = RegExp(r'\b([a-zA-Z_]\w*)\s*\.random\b');
+  for (final match in randomPropertyPattern.allMatches(content)) {
+    final variableName = match.group(1);
+    if (variableName != null) {
+      variables.add(variableName);
+    }
+  }
+
+  final randomIndexPattern = RegExp(r'\b([a-zA-Z_]\w*)\s*\[\s*lcsRandom\s*\(');
+  for (final match in randomIndexPattern.allMatches(content)) {
+    final variableName = match.group(1);
+    if (variableName != null) {
+      variables.add(variableName);
+    }
+  }
+
+  return variables;
+}
+
+void _recordStringsFromChunk({
+  required String chunk,
+  required int baseLine,
+  required String context,
+  required Map<String, StringInfo> stringInfo,
+  required String relativePath,
+}) {
+  final literalMatches = <(int, String)>[];
+  final doubleQuoted = RegExp(r'"((?:[^"\\]|\\.)*)"');
+  final singleQuoted = RegExp(r"'((?:[^'\\]|\\.)*)'");
+
+  for (final match in doubleQuoted.allMatches(chunk)) {
+    final value = match.group(1);
+    if (value != null) {
+      literalMatches.add((match.start, value));
+    }
+  }
+
+  for (final match in singleQuoted.allMatches(chunk)) {
+    final value = match.group(1);
+    if (value != null) {
+      literalMatches.add((match.start, value));
+    }
+  }
+
+  literalMatches.sort((a, b) => a.$1.compareTo(b.$1));
+
+  for (final literalMatch in literalMatches) {
+    final value = literalMatch.$2;
+    if (!_isUserFacing(value, minLength: 3, allowSingleWord: true)) {
+      continue;
+    }
+
+    final prefix = chunk.substring(0, literalMatch.$1);
+    final relativeLine = '\n'.allMatches(prefix).length;
+    final lineNumber = baseLine + relativeLine;
+    _recordString(stringInfo, value, relativePath, lineNumber, context);
+  }
+}
+
+List<int> _buildLineStartOffsets(String content) {
+  final lineOffsets = <int>[0];
+  for (int i = 0; i < content.length; i++) {
+    if (content.codeUnitAt(i) == 10) {
+      lineOffsets.add(i + 1);
+    }
+  }
+  return lineOffsets;
+}
+
+int _lineNumberFromOffset(List<int> lineOffsets, int offset) {
+  int low = 0;
+  int high = lineOffsets.length - 1;
+
+  while (low <= high) {
+    final mid = low + ((high - low) >> 1);
+    if (lineOffsets[mid] <= offset) {
+      low = mid + 1;
+    } else {
+      high = mid - 1;
+    }
+  }
+
+  return high + 1;
 }
 
 List<(RegExp, String)> _buildWrapperCallPatterns() {
@@ -427,19 +598,24 @@ void _recordString(
   final key = text;
   stringInfo.putIfAbsent(
     key,
-    () => StringInfo(text: text, locations: [], count: 0),
+    () => StringInfo(text: text, locations: [], count: 0, occurrenceKeys: {}),
   );
 
   final info = stringInfo[key]!;
-  info.count++;
-  if (!info.locations.any((location) => location.contains(relativePath))) {
+  final occurrenceKey = '$relativePath:$lineNumber';
+  if (info.occurrenceKeys.add(occurrenceKey)) {
+    info.count++;
     info.locations.add('$relativePath:$lineNumber ($context)');
   }
 }
 
-bool _isUserFacing(String str) {
+bool _isUserFacing(
+  String str, {
+  int minLength = 4,
+  bool allowSingleWord = false,
+}) {
   // Very short strings (likely not meaningful)
-  if (str.length < 4) return false;
+  if (str.length < minLength) return false;
 
   // Empty or whitespace only
   if (str.trim().isEmpty) return false;
@@ -458,10 +634,18 @@ bool _isUserFacing(String str) {
   if (str.toUpperCase().startsWith('TODO')) return false;
   if (str.toUpperCase().startsWith('FIXME')) return false;
 
-  // Strings that are purely technical characters
-  final techPattern = RegExp(r'^[a-zA-Z0-9_./\\$@#%&*+\-=\[\]{}()|;:<>?,"]+$');
-  if (techPattern.hasMatch(str)) {
-    return false;
+  if (!allowSingleWord) {
+    // Strings that are purely technical characters.
+    final techPattern = RegExp(
+      r'^[a-zA-Z0-9_./\\$@#%&*+\-=\[\]{}()|;:<>?,"]+$',
+    );
+    if (techPattern.hasMatch(str)) {
+      return false;
+    }
+  } else {
+    // Skip obvious constant-like IDs from data tables (e.g. WEAPON_AK102).
+    final constantLike = RegExp(r'^[A-Z0-9]+(?:_[A-Z0-9]+)+$');
+    if (constantLike.hasMatch(str)) return false;
   }
 
   // Enhanced filtering: spacing-only patterns
@@ -830,9 +1014,11 @@ class StringInfo {
     required this.text,
     required this.locations,
     required this.count,
+    required this.occurrenceKeys,
   });
 
   String text;
   List<String> locations;
   int count;
+  Set<String> occurrenceKeys;
 }

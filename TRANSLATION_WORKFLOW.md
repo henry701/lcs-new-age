@@ -98,6 +98,7 @@ mvaddstrcx(
 - ✅ Reorder parameters freely - colors will follow them
 - ✅ Never add color specs (`:colorname`) to your translations
 - ✅ Just translate the clean template normally
+- ✅ Keep translated sentences roughly the same visual length as English when practical (console layout is width-sensitive)
 
 **Example:**
 ```json
@@ -332,6 +333,9 @@ done
 
 10. **Ensure unique keys across files**
     Keys must be unique across all files for a locale. The clean_arb_duplicates.dart script validates this and will fail if duplicates exist.
+
+11. **Respect console width**
+    Keep translated lines close in length to the English source where possible. Prefer concise wording or shorter synonyms when literal expansion would frequently overflow CLI-style layouts.
 
 ---
 

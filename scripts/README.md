@@ -21,10 +21,11 @@ dart run scripts/find_translatable_strings.dart
    - Display wrappers: `addstr`, `mvaddstr`, `addstrc`, `mvaddstrc`, `addstrx`, `mvaddstrx`, `addstrcx`, `mvaddstrcx`
    - Option wrappers: `addOptionText`, `addInlineOptionText`, `addCenteredOptionText`
    - Layout wrappers: `mvaddstrRight`, `mvaddstrCenter`, `addparagraph`
-3. Finds string literals in variable assignments and returns that are likely user-facing
-4. Filters out technical strings, paths, IDs, and other non-user-facing content
-5. Deduplicates and counts occurrences
-6. Outputs a sorted list with file locations
+3. Extracts string literals from random source lists selected by `.random` or `[lcsRandom(...)]`, including inline and multiline list literals
+4. Finds string literals in variable assignments and returns that are likely user-facing
+5. Filters out technical strings, paths, IDs, and other non-user-facing content
+6. Deduplicates by source location and counts occurrences
+7. Outputs a sorted list with file locations
 
 ### Output Format
 

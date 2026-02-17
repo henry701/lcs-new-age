@@ -1,0 +1,3 @@
+translation_workspace/title_screen_pt_BR.arb
+translation_workspace/untranslated_pt_BR.arb
+translation_workspace/untranslated_pt_BR_part09.arb

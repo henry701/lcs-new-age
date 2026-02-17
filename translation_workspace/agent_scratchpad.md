@@ -72,3 +72,11 @@
 - Ambiguous terms needing human decision: none
 - Next recommended part: part09 (lowest coverage at 4.97%)
 - Test verification: All 93 tests passed
+
+## Run: 2026-02-17T21:51:45Z
+- Batch file(s) processed: translation_workspace/title_screen_pt_BR.arb; translation_workspace/untranslated_pt_BR.arb; translation_workspace/untranslated_pt_BR_part09.arb
+- Target part(s): part09 and mixed hash shards (including title-screen strings)
+- Count translated: ~12 (safe lexical/UI translations)
+- Empty parts attempted: none
+- Ambiguous terms needing human decision: proper nouns and location/name tokens left unchanged in untranslated_pt_BR*.arb (e.g., US city/state strings, surnames, acronyms)
+- Next recommended part: part27 (lowest coverage at 5.21%)

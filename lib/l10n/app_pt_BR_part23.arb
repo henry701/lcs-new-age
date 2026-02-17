@@ -12,6 +12,15 @@
   "&cQuality Pre-Owned&r": "&cQuality Pre-Owned&r",
   "+2 Security, +1 Stealth, +1 Agility": "+2 Security, +1 Stealth, +1 Agility",
   "3 - Hospital ({hospital})": "3 - Hospital ({hospital})",
+  "@E - Map Editor": {},
+  "@Total Americas Saved: {count}": {
+    "placeholders": {
+      "count": {
+        "example": "5",
+        "type": "int"
+      }
+    }
+  },
   "A sniper nearly hits {name}!": "A sniper nearly hits {name}!",
   "Activate Sleeper Agents": "Ativar Agentes Dormindo",
   "Ain't no sunshine...": "Ain't no sunshine...",

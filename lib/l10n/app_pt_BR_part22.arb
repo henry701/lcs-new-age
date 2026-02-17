@@ -10,6 +10,14 @@
   "+1 Stealth, +1 Agility": "+1 Stealth, +1 Agility",
   "+4 Int, +2 Science Computers Writing and Teaching, +1 Business and Law": "+4 Int, +2 Science Computers Writing and Teaching, +1 Business and Law",
   "...but now the text is in wingdings.": "...but now the text is in wingdings.",
+  "@Total Americas Lost: {count}": {
+    "placeholders": {
+      "count": {
+        "example": "5",
+        "type": "int"
+      }
+    }
+  },
   "A - Language Selection": "A - Seleção de Idioma",
   "AA GUN": "AA GUN",
   "Above Average": "Acima da Média",

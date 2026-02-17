@@ -16,6 +16,30 @@
   ": CONSERVATIVES ALARMED": ": CONSERVADORES ALARMADOS",
   ": MILITARY RESPONDING": ": MILITARES RESPONDENDO",
   "<BEEP!!> <BEEP!!> <BEEP!!> <BEEP!!>": "<BIIP!!> <BIIP!!> <BIIP!!> <BIIP!!>",
+  "@E - Encounter Warnings: {status}": {
+    "placeholders": {
+      "status": {
+        "example": "On",
+        "type": "String"
+      }
+    }
+  },
+  "@German: {status}": {
+    "placeholders": {
+      "status": {
+        "example": "Selected",
+        "type": "String"
+      }
+    }
+  },
+  "@Total Liberals Recruited: {count}": {
+    "placeholders": {
+      "count": {
+        "example": "5",
+        "type": "int"
+      }
+    }
+  },
   "A - Pawn all Ammunition": "A - Pawn all Ammunition",
   "Acting Individually": "Agindo Individualmente",
   "Ah, [I am unhappy].  This [police officer will be harmed]!": "Ah, [I am unhappy].  This [police officer will be harmed]!",
@@ -39,6 +63,7 @@
   "Farming": "Farming",
   "Fight Political Corruption": "Fight Political Corruption",
   "First is the combo lock that will have to ": "First is the combo lock that will have to ",
+  "German: {status}": "Alemão: {status}",
   "Get moving. Now.": "Get moving. Now.",
   "Hacking is a highly illegal form of Liberal Activism, which has ": "Hacking is a highly illegal form of Liberal Activism, which has ",
   "Harrisburg, PA": "Harrisburg, PA",

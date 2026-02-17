@@ -12,6 +12,14 @@
   "0 - Show the squad's Liberal status": "0 - Mostrar o status Liberal do esquadrão",
   "5 - Write Liberal Guardian Articles": "5 - Escrever Artigos do Guardião Liberal",
   ": SECRET SERVICE RESPONDING": ": SERVIÇO SECRETO RESPONDENDO",
+  "@English: {status}": {
+    "placeholders": {
+      "status": {
+        "example": "Selected",
+        "type": "String"
+      }
+    }
+  },
   "ATM": "Caixa Eletrônico",
   "Abilene, TX": "Abilene, TX",
   "American": "Americano",
@@ -29,6 +37,7 @@
   "Did somebody tell you I'm gay? 'Cause I'm not.": "Alguém te disse que sou gay? Porque não sou.",
   "Diet": "Dieta",
   "Don't push your luck.": "Não tente a sorte.",
+  "English: {status}": "Inglês: {status}",
   "Every penny we spend on the military could be better spent elsewhere.": "Cada centavo gasto no exército poderia ser melhor investido em outro lugar.",
   "Flag burning is traditionally done on July 4th to celebrate freedom.": "Queimar a bandeira é tradicionalmente feito em 4 de julho para celebrar a liberdade.",
   "Forced birth policies are about control, not life. After all, if it": "Políticas de parto forçado são sobre controle, não sobre vida. Afinal, se",

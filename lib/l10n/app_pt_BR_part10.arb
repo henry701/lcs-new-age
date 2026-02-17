@@ -15,6 +15,16 @@
   "+3 Charisma, +1 Intelligence, +2 Persuasion, +1 Law and Writing, +50 juice": "+3 Charisma, +1 Intelligence, +2 Persuasion, +1 Law and Writing, +50 juice",
   ", {holding} {hostage}": ", {holding} {hostage}",
   "<Refuses Promotion>": "<Recusa Promoção>",
+  "@Create and edit custom maps for Liberal Crime Squad. This feature is currently under development.": {},
+  "@French: {status}": {
+    "placeholders": {
+      "status": {
+        "example": "Selected",
+        "type": "String"
+      }
+    }
+  },
+  "@and many others who have contributed to LCS over the years": {},
   "A - Come to {location} as a &Gregular member&x.": "A - Come to {location} as a &Gregular member&x.",
   "A corruption scandal is brewing...": "Um escândalo de corrupção está fermentando...",
   "A few of the jurors are closet Socialists.": "Alguns dos jurados são socialistas secretos.",
@@ -52,6 +62,7 @@
   "Family": "Family",
   "Fortify the bomb shelter entrances": "Fortify the bomb shelter entrances",
   "Fortify the compound for a siege": "Fortify the compound for a siege",
+  "French: {status}": "Francês: {status}",
   "Genomic": "Genomic",
   "Guns *kill* people.": "Guns *kill* people.",
   "György": "György",

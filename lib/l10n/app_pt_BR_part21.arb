@@ -9,6 +9,15 @@
   "+2 Persuasion, +1 Street Smarts": "+2 Persuasion, +1 Street Smarts",
   "-BEEEP- -BEEEP- -BEEEP-": "-BIIIP- -BIIIP- -BIIIP-",
   "...and now the computer is playing tic-tac-toe against itself.": "...and now the computer is playing tic-tac-toe against itself.",
+  "@Portuguese: {status}": {
+    "placeholders": {
+      "status": {
+        "example": "Selected",
+        "type": "String"
+      }
+    }
+  },
+  "@Universal Liberal Statistics:": {},
   "A National Convention has proposed an ELITE LIBERAL AMENDMENT!": "A National Convention has proposed an ELITE LIBERAL AMENDMENT!",
   "ARMOR": "ARMADURA",
   "Abortion Rights": "Abortion Rights",
@@ -55,6 +64,7 @@
   "Nuclear Control": "Nuclear Control",
   "On Foot": "A Pé",
   "Pasadena, TX": "Pasadena, TX",
+  "Portuguese: {status}": "Português: {status}",
   "Press any key to watch the State votes unfold.              ": "Press any key to watch the State votes unfold.              ",
   "Promote Green Energy": "Promote Green Energy",
   "Protect Animal Welfare": "Protect Animal Welfare",

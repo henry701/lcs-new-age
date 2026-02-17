@@ -17,6 +17,14 @@
   "+2 Tailoring, +1 Disguise, Black Formalwear": "+2 Tailoring, +1 Disguise, Black Formalwear",
   "-Move, ": "-Move, ",
   "? - About the Selected Activity": "? - About the Selected Activity",
+  "@Version {version}": {
+    "placeholders": {
+      "version": {
+        "example": "1.4.9",
+        "type": "String"
+      }
+    }
+  },
   "A NEW CONSERVATIVE ERA": "A NEW CONSERVATIVE ERA",
   "Abiding": "Abiding",
   "Affirmative action is in place to counteract discrimination.": "Affirmative action is in place to counteract discrimination.",

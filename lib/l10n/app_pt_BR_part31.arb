@@ -4,7 +4,7 @@
   "  Liberal Crime Squad infiltration specialists worked to liberate weapons from the oppressors.": "  Especialistas em infiltração do Esquadrão de Crimes Liberais trabalharam para libertar armas dos opressores.",
   " skids out and crashes!": " derrapa e capota!",
   " stays low to the ground.": " permanece baixo no chão.",
-  " {day}, {year}": " {day}, {year}",
+  " {day}, {year}": " {day} de {year}",
   "$letter - Travel to a Different City": "$letter - Viajar para Outra Cidade",
   "({capacity}) ": "({capacity}) ",
   "+1 Law, +1 Agility": "+1 Direito, +1 Agilidade",
@@ -12,6 +12,15 @@
   "+3 Agility and Strength, +3 Firearms and Martial Arts, 4 Gang Members": "+3 Agilidade e Força, +3 Armas de Fogo e Artes Marciais, 4 Membros da Gangue",
   ": ALIENATED MASSES": ": ALIENOU AS MASSAS",
   ": CONSERVATIVES SUSPICIOUS": ": CONSERVADORES SUSPEITOS",
+  "@Maintained by {maintainer}, with gratitude to:": {
+    "placeholders": {
+      "maintainer": {
+        "example": "Jonathan S. Fox",
+        "type": "String"
+      }
+    }
+  },
+  "@When mouse input is on, you can use the mouse to select options in the game. This feature is not complete and not All screens support mouse input. Default is on.": {},
   "A mutant affected by nuclear power appears on a popular ": "Um mutante afetado por energia nuclear aparece em um popular ",
   "A response has been received from {name}'s relatives:": "Uma resposta foi recebida dos parentes de {name}:",
   "Arch Conservative": "Arqui-Conservador",
@@ -45,7 +54,7 @@
   "LCS STRIKES": "ECL GOLPEIA",
   "Lake": "Lago",
   "Laredo, TX": "Laredo, TX",
-  "Maintained by {maintainer}, with gratitude to:": "Mantido por {maintainer}, com gratidão para:",
+  "Maintained by {maintainer}, with gratitude to:": "Mantido por {maintainer}, com gratidão a:",
   "Miami, FL": "Miami, FL",
   "Move unseen and unheard.": "Mova-se invisível e silencioso.",
   "My studies suffered, but I continued working.": "Meus estudos sofreram, mas continuei trabalhando.",

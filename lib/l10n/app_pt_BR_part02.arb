@@ -19,6 +19,15 @@
   ", Level {level}": ", Level {level}",
   "- Existing Black Bloc Armor items will become Black Bloc Outfits": "- Existing Black Bloc Armor items will become Black Bloc Outfits",
   ": CCS RESPONDING": ": CCS RESPONDENDO",
+  "@LIBERAL CRIME SQUAD: NEW AGE": {},
+  "@Total Conservatives Killed: {count}": {
+    "placeholders": {
+      "count": {
+        "example": "5",
+        "type": "int"
+      }
+    }
+  },
   "A - Accept.": "A - Accept.",
   "A Cable News anchor just accidentally let a Liberal guest ": "A Cable News anchor just accidentally let a Liberal guest ",
   "Agi: {agi}": "Agi: {agi}",

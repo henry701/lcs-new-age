@@ -12,6 +12,15 @@
   ": AGENTS RESPONDING": ": AGENTES RESPONDENDO",
   ": MERCENARIES RESPONDING": ": MERCENÁRIOS RESPONDENDO",
   ": POLICE RESPONDING": ": POLÍCIA RESPONDENDO",
+  "@C - Continue Last Game": {},
+  "@P - Default Page Up/Down Keys: {keys}": {
+    "placeholders": {
+      "keys": {
+        "example": "[ and ]",
+        "type": "String"
+      }
+    }
+  },
   "A - Communication and Advocacy": "A - Comunicação e Advocacia",
   "A loosely-organized column of pickup trucks sporting gun racks ": "Uma coluna desorganizada de caminhonetes com suportes de armas ",
   "A major Cable News channel has hired a slick new anchor ": "Um grande canal de notícias a cabo contratou um novo âncora elegante ",

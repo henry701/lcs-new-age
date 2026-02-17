@@ -13,7 +13,7 @@
   "Torrance, CA": "Torrance, CA",
   "Winston-Salem, NC": "Winston-Salem, NC",
   "{key} - &{colorKey}{headline}": "{key} - &{colorKey}{headline}",
-  " {day}, {year}": " {day}, {year}",
+  " {day}, {year}": " {day} de {year}",
   "({capacity}) ": "({capacity}) ",
   "Birmingham, AL": "Birmingham, AL",
   "Champaign, IL": "Champaign, IL",
@@ -76,7 +76,7 @@
   "Elizabeth, NJ": "Elizabeth, NJ",
   "Fandango": "Fandango",
   "Hickory, NC": "Hickory, NC",
-  "Hills": "Hills",
-  "Jam": "Jam",
+  "Hills": "Colinas",
+  "Jam": "Geleia",
   "Lancaster, PA": "Lancaster, PA"
 }

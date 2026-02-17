@@ -11,6 +11,15 @@
   "&$oldAlignColor{lastName}&w ": "&$oldAlignColor{lastName}&w ",
   "(A to have your parents reconsider)": "(A to have your parents reconsider)",
   "+2 Charisma, October 8th": "+2 Charisma, October 8th",
+  "@Total Liberals Martyred: {count}": {
+    "placeholders": {
+      "count": {
+        "example": "5",
+        "type": "int"
+      }
+    }
+  },
+  "@When enabled, untranslated strings encountered during gameplay will be written to JSON files in game directory for translation. Default is on for Windows builds and debug mode only.": {},
   "A Liberal friend tips you off on {name}'s whereabouts.": "A Liberal friend tips you off on {name}'s whereabouts.",
   "A Recount was Necessary": "A Recount was Necessary",
   "A police spokesperson reported that ": "A police spokesperson reported that ",

@@ -11,6 +11,25 @@
   "...and accidentally {action}!": "...e acidentalmente {action}!",
   "...until the computer just freezes up.": "...até o computador travar completamente.",
   ": CONSERVATIVE REINFORCEMENTS INCOMING": ": REFORSOS CONSERVADORES CHEGANDO",
+  "@Bay 12 Games, IsaacG, SlatersQuest, Kamal-Sadek, Grundee": {},
+  "@M - Experimental Mouse Input: {status}": {
+    "placeholders": {
+      "status": {
+        "example": "On",
+        "type": "String"
+      }
+    }
+  },
+  "@MOD TOOLS": {},
+  "@Total Conservatives Kidnapped: {count}": {
+    "placeholders": {
+      "count": {
+        "example": "5",
+        "type": "int"
+      }
+    }
+  },
+  "@When encounter warnings are on, you will be warned when you take a step or wait and a new encounter begins. This extra step can help you avoid accidentally walking past an encounter or doing something else you might not want to do. Default is off.": {},
   "A flat tax is in effect, and there is no capital gains or inheritance tax.": "Um imposto fixo está em vigor, e não há imposto sobre ganhos de capital ou herança.",
   "A global ban on nuclear power and nuclear weapons is enforced by UN inspectors.": "Uma proibição global de energia nuclear e armas nucleares é aplicada por inspetores da ONU.",
   "A new show glamorizing the lives of the rich begins ": "Um novo programa glamourizando a vida dos ricos começa ",
@@ -18,23 +37,23 @@
   "All manner of human experimentation on the poor is encouraged.": "Todo tipo de experimentação humana sobre os pobres é encorajada.",
   "Amelia": "Amelia",
   "An alarm suddenly starts blaring!": "Um alarme começa a tocar de repente!",
-  "Asparagus": "Asparagus",
+  "Asparagus": "Aspargo",
   "Aurora, IL": "Aurora, IL",
   "Average": "Médio",
-  "BIAS TOWN": "BIAS TOWN",
-  "BOLD STRIKE": "BOLD STRIKE",
-  "Bay 12 Games, IsaacG, SlatersQuest, Kamal-Sadek, Grundee": "Bay 12 Games, IsaacG, SlatersQuest, Kamal-Sadek, Grundee",
+  "BIAS TOWN": "CIDADE DO VIÉS",
+  "BOLD STRIKE": "GREVE OUSADA",
+  "Bay 12 Games, IsaacG, SlatersQuest, Kamal-Sadek, Grundee": "Bay 12 Games, IsaacG, SlatersQuest, Kamal-Sadek e Grundee",
   "Boulder, CO": "Boulder, CO",
-  "Bull": "Bull",
+  "Bull": "Touro",
   "Chinese": "Chinês",
   "Cops write speeding tickets just to fund their donut breaks!": "Policiais dão multas de velocidade apenas para financiar suas pausas para rosquinhas!",
-  "Craggy": "Craggy",
+  "Craggy": "Rochoso",
   "Create and edit custom maps for Liberal Crime Squad. This feature is ": "Crie e edite mapas personalizados para o Liberal Crime Squad. Este recurso está ",
   "D'Souza": "D'Souza",
   "EMERGENCY EXIT ONLY. ALARM WILL SOUND.": "SAÍDA DE EMERGÊNCIA APENAS. O ALARME TOCARÁ.",
   "Egyptian": "Egípcio",
   "Enter - The squad is ready.": "Enter - A equipe está pronta.",
-  "Epic": "Epic",
+  "Epic": "Épico",
   "Fortunately, your funds remain intact.": "Felizmente, seus fundos permanecem intactos.",
   "Free the prisoners? (Yes or No)": "Liberar os prisioneiros? (Sim ou Não)",
   "Fullerton, TX": "Fullerton, TX",
@@ -52,7 +71,7 @@
   "It is your task to bring your squad out to safety, or fight": "É sua tarefa levar sua equipe para a segurança, ou lutar",
   "It's just a gang-related incident.  ": "É apenas um incidente relacionado a gangues.  ",
   "Let Fate Decide": "Deixe o Destino Decidir",
-  "Liberal Crime Squad.": "Liberal Crime Squad.",
+  "Liberal Crime Squad.": "Esquadrão do Crime Liberal.",
   "Long Beach, CA": "Long Beach, CA",
   "Long Island": "Long Island",
   "Los Angeles, CA": "Los Angeles, CA",

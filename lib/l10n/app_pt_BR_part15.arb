@@ -11,6 +11,14 @@
   "$str - Previous": "$str - Previous",
   "4 - Hacking$needHackerDen": "4 - Hacking$needHackerDen",
   "6 - The Dead ({dead})": "6 - The Dead ({dead})",
+  "@C - Continue as {founder:color}": {
+    "placeholders": {
+      "founder:color": {
+        "example": "founder:color",
+        "type": "String"
+      }
+    }
+  },
   "A comprehensive ban on military-style weapons is in effect.": "A comprehensive ban on military-style weapons is in effect.",
   "Accuracy: ": "Accuracy: ",
   "Amal": "Amal",
@@ -20,7 +28,7 @@
   "Bellingham, WA": "Bellingham, WA",
   "Better keep moving before the guard notices what you're wearing...": "Better keep moving before the guard notices what you're wearing...",
   "Buggy Armor": "Armadura Bugada",
-  "C - Continue as {founder:color}": "C - Continue as {founder:color}",
+  "C - Continue as {founder:color}": "C - Continuar como {founder:color}",
   "Car Dealer": "Car Dealer",
   "Chapel": "Chapel",
   "Courthouse Lockup": "Courthouse Lockup",

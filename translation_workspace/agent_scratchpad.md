@@ -115,3 +115,12 @@
 - Empty parts attempted: none
 - Ambiguous terms needing human decision: `China`, `Van Lynden`, `$i - $name`, `&$oldAlignColor{lastName}&w `, `MWC`, plus person-name keys in `part09` (`Amelia`, `D'Souza`, `Molnár`, `Mòrag`, `Saitô`, `Schröder`, `Szabó`)
 - Next recommended part: `part07` (lowest coverage with high untranslated count)
+## 2026-02-17T23:45:00Z
+- Batches processed: `translation_workspace/untranslated_pt_BR.arb`
+- Target parts: mixed (hash-sharded across parts)
+- Count translated this run: 7 entries (placeholder strings translated)
+- Empty parts attempted: none
+- Ambiguous terms left unchanged: proper nouns (US city/state names, Hungarian/Spanish surnames like Horváth, Pérez, Kovács; acronyms like GWF, DWF, BMW, SSBBW; game terms like Bloods, Troll, Radical)
+- Next recommended part: `part07` (lowest coverage at 6.32%)
+- Coverage before: untranslated=4189, missing=7, empty=0, coverage=22.94%
+- Coverage after: untranslated=4182, missing=7, empty=0, coverage=23.07%

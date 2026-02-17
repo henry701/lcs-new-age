@@ -1,5 +1,5 @@
 {
-  "$letter - $name": "$letter - $name",
+  "$letter - $name": "$letter - $nome",
   "Abilene, TX": "Abilene, TX",
   "Clarksville, TN": "Clarksville, TN",
   "Crestview, FL": "Crestview, FL",
@@ -14,7 +14,7 @@
   "Torrance, CA": "Torrance, CA",
   "Winston-Salem, NC": "Winston-Salem, NC",
   "{key} - &{colorKey}{headline}": "{key} - &{colorKey}{headline}",
-  "{letter} - {text}": "{letter} - {text}",
+  "{letter} - {text}": "{letter} - {texto}",
   " {day}, {year}": " {day}, {year}",
   "({capacity}) ": "({capacity}) ",
   "Birmingham, AL": "Birmingham, AL",
@@ -76,7 +76,7 @@
   "Carrollton, TX": "Carrollton, TX",
   "Chula Vista, CA": "Chula Vista, CA",
   "Elizabeth, NJ": "Elizabeth, NJ",
-  "Error importing save: {error}": "Erro ao importar save: {error}",
-  "Even though all of the aforementioned persons are deceased,": "Mesmo que todas as pessoas mencionadas estejam falecidas,",
-  "Fandango": "Fandango"
+  "Fandango": "Fandango",
+  "Firefox was released, challenging Microsoft's dominance over web browsers.": "Firefox foi lançado, desafiando o domínio da Microsoft sobre navegadores web.",
+  "Flag burning is a misdemeanor.": "Queimar bandeira é um delito menor."
 }

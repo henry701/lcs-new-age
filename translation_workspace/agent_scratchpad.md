@@ -108,3 +108,10 @@
 - **Empty parts attempted**: 0
 - **Proper nouns left unchanged**: 8 (city names, country name, name)
 - **Next recommended part**: part18 (next lowest coverage after part17)
+## 2026-02-17T19:33:54-0300
+- Batches processed: `translation_workspace/untranslated_pt_BR_part17.arb`, `translation_workspace/untranslated_pt_BR_part27.arb`, `translation_workspace/untranslated_pt_BR_part09.arb`
+- Target parts: `part17`, `part27`, `part09`
+- Count translated this run: 33 entries (exact merged updates)
+- Empty parts attempted: none
+- Ambiguous terms needing human decision: `China`, `Van Lynden`, `$i - $name`, `&$oldAlignColor{lastName}&w `, `MWC`, plus person-name keys in `part09` (`Amelia`, `D'Souza`, `Molnár`, `Mòrag`, `Saitô`, `Schröder`, `Szabó`)
+- Next recommended part: `part07` (lowest coverage with high untranslated count)

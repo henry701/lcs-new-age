@@ -166,3 +166,9 @@
 - Empty parts attempted: none
 - Ambiguous terms needing human decision: mostly proper nouns/identifiers left unchanged in batch files (city names, acronyms, personal names, short tokens like `BHM`, `FTM`, `ISO`, `MDMA`, `Jolt`)
 - Next recommended part: `part01` (8.43% coverage, 152 untranslated) or `part21` (8.43%, 152 untranslated)
+[2025-09-20 00:00:00] Processed: translation_workspace/untranslated_pt_BR_part01.arb
+  Target part: part01
+  Entries: 54 updated translations (80 total in batch, 26 proper names left unchanged)
+  Empty parts: none
+  Ambiguous terms: none; proper names intentionally unchanged
+  Next recommended: part21 (worst coverage)

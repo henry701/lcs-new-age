@@ -124,3 +124,14 @@
 - Next recommended part: `part07` (lowest coverage at 6.32%)
 - Coverage before: untranslated=4189, missing=7, empty=0, coverage=22.94%
 - Coverage after: untranslated=4182, missing=7, empty=0, coverage=23.07%
+
+## Run: 2026-02-17T23:59:00Z
+- Batch file(s) processed: translation_workspace/untranslated_pt_BR_part19.arb
+- Target part(s): part19
+- Count translated: 59 entries (21 ambiguous - city names, acronyms, names - left for human review)
+- Empty parts attempted: none
+- Ambiguous terms needing human decision: city names (Centennial CO, Cheyenne WY, Dallas TX, Fontana CA, Irvine CA, Jackson MS, North Las Vegas NV, Simi Valley CA, Spokane WA, Victorville CA, Yuma AZ), acronyms (DNA, SBF, MBiC, SBiM, VGL), names (Chávez, Luís, Németh), slogans (FUCK THE CIA)
+- Next recommended part: part13 (lowest coverage at 7.33% with 176 untranslated)
+- Coverage before: untranslated=4074, missing=7, empty=0, coverage=25.05%
+- Coverage after: untranslated=4015, missing=7, empty=0, coverage=26.13%
+- Part19 coverage: 6.87% → 51.91%

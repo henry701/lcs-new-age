@@ -172,3 +172,11 @@
   Empty parts: none
   Ambiguous terms: none; proper names intentionally unchanged
   Next recommended: part21 (worst coverage)
+
+## Run: 2026-02-17T23:33:01Z
+- Batch file(s) processed: translation_workspace/untranslated_pt_BR.arb; translation_workspace/untranslated_pt_BR_part21.arb
+- Target part(s): mixed (default batch), part21
+- Count translated: 62 updated (4 default + 58 part21)
+- Empty parts attempted: none
+- Ambiguous terms needing human decision: remaining untranslated entries were mostly proper nouns/acronyms/US locations (default batch: 76; part21 batch: 22)
+- Next recommended part: part16 (8.74% coverage, 167 untranslated)

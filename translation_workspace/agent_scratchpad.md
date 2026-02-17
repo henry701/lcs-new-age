@@ -159,3 +159,10 @@
 
 **Next recommended part**: part03 (8.02%, 149 untranslated) or part15 (8.13%, 146 untranslated)
 
+## 2026-02-17T20:21:28-03:00
+- Batch files processed: `translation_workspace/untranslated_pt_BR.arb`, `translation_workspace/untranslated_pt_BR_part03.arb`, `translation_workspace/untranslated_pt_BR_part15.arb`
+- Target parts: `part28` (default batch overlap), `part03`, `part15`
+- Count translated this run (exact): 136 (`5 + 67 + 64`)
+- Empty parts attempted: none
+- Ambiguous terms needing human decision: mostly proper nouns/identifiers left unchanged in batch files (city names, acronyms, personal names, short tokens like `BHM`, `FTM`, `ISO`, `MDMA`, `Jolt`)
+- Next recommended part: `part01` (8.43% coverage, 152 untranslated) or `part21` (8.43%, 152 untranslated)

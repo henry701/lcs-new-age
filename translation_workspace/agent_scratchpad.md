@@ -180,3 +180,11 @@
 - Empty parts attempted: none
 - Ambiguous terms needing human decision: remaining untranslated entries were mostly proper nouns/acronyms/US locations (default batch: 76; part21 batch: 22)
 - Next recommended part: part16 (8.74% coverage, 167 untranslated)
+
+## Run: 2026-02-17T23:48:01Z
+- Batch file(s) processed: translation_workspace/untranslated_pt_BR_part04.arb; translation_workspace/untranslated_pt_BR_part05.arb; translation_workspace/untranslated_pt_BR_part06.arb
+- Target part(s): part04, part05, part06
+- Count translated: 185 updated (65 + 59 + 61)
+- Empty parts attempted: none
+- Ambiguous terms requiring human decision: remaining untranslated entries were mainly proper nouns/acronyms/locations and a few context-dependent tokens (e.g., city names, personal names, acronyms like GHM/LSD, tokens like \"Pressing\"/\"The Liberal Crime Squad\").
+- Next recommended part: part16 (8.74% coverage, 167 untranslated)

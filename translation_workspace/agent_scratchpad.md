@@ -89,3 +89,13 @@
 - Ambiguous terms needing human decision: None
 - Next recommended part: part27 (lowest coverage at 5.21%)
 
+## Run: 2026-02-17T23:30:00Z
+- Batch file(s) processed: translation_workspace/untranslated_pt_BR.arb
+- Target part(s): mixed (default batch - part09, part28)
+- Count translated: 3 (Left Side, Liberal media bias, Liberalism Day)
+- Empty parts attempted: none
+- Ambiguous terms needing human decision: proper nouns (city names, surnames, acronyms) left unchanged
+- Next recommended part: part27 (lowest coverage at 5.21%)
+- Coverage before: untranslated=4357, missing=7, empty=0
+- Coverage after: untranslated=4354, missing=7, empty=0
+

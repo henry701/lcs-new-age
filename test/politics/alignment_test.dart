@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' hide Alignment;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/utils/colors.dart';

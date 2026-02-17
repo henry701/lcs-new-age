@@ -1,5 +1,4 @@
 {
-  "$letter - $name": "$letter - $nome",
   "Abilene, TX": "Abilene, TX",
   "Clarksville, TN": "Clarksville, TN",
   "Crestview, FL": "Crestview, FL",
@@ -14,7 +13,6 @@
   "Torrance, CA": "Torrance, CA",
   "Winston-Salem, NC": "Winston-Salem, NC",
   "{key} - &{colorKey}{headline}": "{key} - &{colorKey}{headline}",
-  "{letter} - {text}": "{letter} - {texto}",
   " {day}, {year}": " {day}, {year}",
   "({capacity}) ": "({capacity}) ",
   "Birmingham, AL": "Birmingham, AL",
@@ -77,6 +75,8 @@
   "Chula Vista, CA": "Chula Vista, CA",
   "Elizabeth, NJ": "Elizabeth, NJ",
   "Fandango": "Fandango",
-  "Firefox was released, challenging Microsoft's dominance over web browsers.": "Firefox foi lançado, desafiando o domínio da Microsoft sobre navegadores web.",
-  "Flag burning is a misdemeanor.": "Queimar bandeira é um delito menor."
+  "Free speech is sacrosanct and diverse points of view are celebrated.": "A liberdade de expressão é sagrada e pontos de vista diversos são celebrados.",
+  "Go to hell.": "Vá para o inferno.",
+  "Hands in the air and you can walk!": "Mãos ao alto e você pode sair!",
+  "Heh, that's funny. And gay.": "Heh, isso é engraçado. E gay."
 }

@@ -99,3 +99,12 @@
 - Coverage before: untranslated=4357, missing=7, empty=0
 - Coverage after: untranslated=4354, missing=7, empty=0
 
+
+## Run: 2026-02-17
+
+- **Batch file**: translation_workspace/untranslated_pt_BR_part17.arb
+- **Target part**: part17
+- **Count translated**: 72
+- **Empty parts attempted**: 0
+- **Proper nouns left unchanged**: 8 (city names, country name, name)
+- **Next recommended part**: part18 (next lowest coverage after part17)

@@ -80,6 +80,17 @@ dart run scripts/merge_arb_entries.dart \
 dart run scripts/maintain_arb_catalogs.dart --check
 ```
 
+## Harness Batch Metadata (Optional)
+
+When running translation workers through the harness, these workspace files may be produced:
+
+- `translation_workspace/harness_batches.txt`: harness-provided batch file paths to prioritize.
+- `translation_workspace/local_batch_candidates.txt`: locally discovered fallback candidate batches.
+- `translation_workspace/selected_batches.txt`: batches selected in-order for the current run.
+- `translation_workspace/translation_status_pt_BR.before.json` and `translation_workspace/translation_status_pt_BR.after.json`: run-bound status snapshots.
+
+If the default `untranslated_pt_BR.arb` extraction is empty, do not assume completion. Check status (`untranslatedAgainstSource`, `missingInTarget`, `emptyInTarget`) and continue with per-part extraction for the lowest-coverage part.
+
 ## Runtime Untranslated String Logging
 
 The game includes a runtime logging system that captures untranslated strings encountered during gameplay.

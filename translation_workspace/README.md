@@ -5,9 +5,15 @@ This directory is the staging area for translation batches and focused translati
 ## Files
 
 - `untranslated_pt_BR.arb`: default extracted batch for Portuguese translation work
+- `untranslated_pt_BR_partNN.arb`: focused part batch when default extraction is empty
 - `batch_*.arb`: curated batch files used for focused translation passes
 - `title_screen_pt_BR.arb`: focused batch for title-screen copy
 - `check.arb`: optional scratch file for validation/ad-hoc checks
+- `harness_batches.txt`: optional newline-delimited list of batch files provided by harness tooling
+- `local_batch_candidates.txt`: optional list of discovered local fallback batches
+- `selected_batches.txt`: optional record of batch files selected in the current harness run
+- `translation_status_pt_BR.before.json` / `translation_status_pt_BR.after.json`: run-scoped coverage snapshots
+- `translation_status_pt_BR.json`: latest status snapshot used for local triage
 - `untranslated_strings_*.json`: legacy runtime logs from untranslated-string logging mode
 
 ## Typical Workflow
@@ -26,11 +32,12 @@ This directory is the staging area for translation batches and focused translati
 
 If `untranslated_pt_BR.arb` is empty but translation status still shows untranslated keys:
 
-1. Generate per-part status:
+1. If `harness_batches.txt` contains candidate files, evaluate those first.
+2. Generate per-part status:
    `dart run scripts/translation_status.dart --locale=pt_BR --per-part --json > translation_workspace/translation_status_pt_BR.json`
-2. Pick the worst non-complete part (`part01..part32`) from that JSON.
-3. Extract untranslated keys directly from `lib/l10n/app_pt_BR_<part>.arb` into a focused batch file (e.g. `translation_workspace/untranslated_pt_BR_part09.arb`).
-4. Translate/merge/validate normally.
+3. Pick the worst non-complete part (`part01..part32`) from that JSON.
+4. Extract untranslated keys directly from `lib/l10n/app_pt_BR_<part>.arb` into a focused batch file (e.g. `translation_workspace/untranslated_pt_BR_part09.arb`).
+5. Translate/merge/validate normally.
 
 Do not treat an empty default batch as completion unless global status confirms:
 - `untranslatedAgainstSource == 0`

@@ -135,3 +135,27 @@
 - Coverage before: untranslated=4074, missing=7, empty=0, coverage=25.05%
 - Coverage after: untranslated=4015, missing=7, empty=0, coverage=26.13%
 - Part19 coverage: 6.87% → 51.91%
+
+## 2026-02-17T20:14:46-03:00
+**Agent**: opencode (glm-5-free)
+
+**Batch files processed**:
+- translation_workspace/untranslated_pt_BR.arb (+6 translations)
+- translation_workspace/untranslated_pt_BR_part25.arb (+56 translations)
+- translation_workspace/untranslated_pt_BR_part14.arb (+63 translations)
+
+**Target parts affected**: Various parts (default), part25, part14
+
+**Count translated this run**: 125 entries (proper nouns kept as-is: ~41 entries)
+
+**Coverage before → after**:
+- Global: 27.27% → 29.57% (translated: 1485 → 1610, untranslated: 3953 → 3828)
+- part25: 7.75% → 47.18%
+- part14: 7.69% → 48.08%
+
+**Empty parts attempted**: None
+
+**Ambiguous terms**: None encountered. Proper nouns (US city names, personal names, acronyms) correctly preserved as-is.
+
+**Next recommended part**: part03 (8.02%, 149 untranslated) or part15 (8.13%, 146 untranslated)
+

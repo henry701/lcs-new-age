@@ -64,7 +64,7 @@
   "Midland, TX": "Midland, TX",
   "News from our {gender} in the White House: Under ": "Notícias de nosso {gender} na Casa Branca: Sob ",
   "O'Connor": "O'Connor",
-  "Overlord": "Overlord",
+  "Overlord": "Soberano",
   "P - Default Page Up/Down Keys: {keys}": "P - Teclas Padrão de Page Up/Down: {keys}",
   "Press any key to watch the President.                   ": "Pressione qualquer tecla para assistir ao Presidente.                   ",
   "Prisons are filled with the targets of the war on drugs.": "As prisões estão cheias de alvos da guerra às drogas.",
@@ -163,10 +163,10 @@
   "{name} is due to be released next month.": "{name} deve ser libertado no próximo mês.",
   "{name} is injured in the blast!": "{name} é ferido na explosão!",
   "{name} is not convinced.": "{name} não está convencido.",
-  "{name} leaves the safehouse in a daze.": "{name} leaves the safehouse in a daze.",
-  "{name} opens the vault.": "{name} opens the vault.",
-  "{name} slips the teller a note: &G{note}": "{name} slips the teller a note: &G{note}",
-  "{name} works the room like in Twelve Angry Men, and the jury ": "{name} works the room like in Twelve Angry Men, and the jury ",
-  "{name}'s nose is burned away!": "{name}'s nose is burned away!",
-  "{name}'s {article} about this gets more views than usual. ": "{name}'s {article} about this gets more views than usual. "
+  "{name} leaves the safehouse in a daze.": "{name} sai do esconderijo atordoado.",
+  "{name} opens the vault.": "{name} abre o cofre.",
+  "{name} slips the teller a note: &G{note}": "{name} entrega um bilhete ao caixa: &G{note}",
+  "{name} works the room like in Twelve Angry Men, and the jury ": "{name} convence a sala como em Doze Homens e uma Sentença, e o júri ",
+  "{name}'s nose is burned away!": "O nariz de {name} foi queimado!",
+  "{name}'s {article} about this gets more views than usual. ": "O {article} de {name} sobre isso recebe mais visualizações que o normal. "
 }

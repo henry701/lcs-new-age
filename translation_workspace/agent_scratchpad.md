@@ -190,3 +190,16 @@
 - **Ambiguous terms needing human decision**: None
 - **Next recommended part**: part27 (83.33% coverage)
 - **Global Status After**: {"untranslated": 2576, "missing": 7, "empty": 0}
+
+## Run: 2026-02-18T12:00:00Z
+- **Agent**: opencode (glm-5-free)
+- **Timestamp**: 2026-02-18T12:00:00Z
+- **Batch file(s)**: translation_workspace/untranslated_pt_BR_part10.arb
+- **Target part(s)**: part10
+- **Entries Translated**: 63
+- **Empty Parts Attempted**: none
+- **Ambiguous Terms**: proper nouns left unchanged (György, Károly, MHC, US city names)
+- **Next Recommended Part**: part23 (12.79% coverage, 150 untranslated)
+- **Global Status Before**: untranslated=2543, missing=7, empty=0, coverage=53.17%
+- **Global Status After**: untranslated=2480, missing=7, empty=0, coverage=54.33%
+- **Part10 Coverage**: 12.64% → 48.85%

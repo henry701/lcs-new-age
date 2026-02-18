@@ -181,14 +181,14 @@
   "{name} doesn't have enough money to make clothing.": "{name} não tem dinheiro suficiente para fazer roupas.",
   "{name} is burned!": "{name} é queimado!",
   "{name} is moved to the courthouse for trial.": "{name} é levado ao tribunal para julgamento.",
-  "{name} observes your Liberal activity {reaction}": "{name} observes your Liberal activity {reaction}",
+  "{name} observes your Liberal activity {reaction}": "{name} observa sua atividade Liberal {reaction}",
   "{name} produced an unwearable cloth monster.": "{name} produziu um monstro de tecido inutilizável.",
-  "{name} talks about the importance of the free market.": "{name} talks about the importance of the free market.",
-  "{name} whistles.": "{name} whistles.",
-  "{name}'s Heart swells!": "{name}'s Heart swells!",
-  "{name}'s left eye is burned away!": "{name}'s left eye is burned away!",
+  "{name} talks about the importance of the free market.": "{name} fala sobre a importância do mercado livre.",
+  "{name} whistles.": "{name} assobia.",
+  "{name}'s Heart swells!": "O coração de {name} dispara!",
+  "{name}'s left eye is burned away!": "O olho esquerdo de {name} foi queimado!",
   "{p.name} has been rescued.": "{p.name} foi resgatado.",
-  "{recruit} found {recruiter}'s views to be insightful.": "{recruit} found {recruiter}'s views to be insightful.",
+  "{recruit} found {recruiter}'s views to be insightful.": "{recruit} achou as opiniões de {recruiter} perspicazes.",
   "{squad} paid {price} to travel to {site}.": "{squad} pagou {price} para viajar para {site}.",
-  "│   viewers across the nation were listening.       │": "│   viewers across the nation were listening.       │"
+  "│   viewers across the nation were listening.       │": "│   espectadores de todo o país estavam ouvindo.       │"
 }

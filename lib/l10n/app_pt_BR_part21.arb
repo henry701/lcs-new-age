@@ -18,6 +18,22 @@
     }
   },
   "@Universal Liberal Statistics:": {},
+  "@{alarm}: ": {
+    "placeholders": {
+      "alarm": {
+        "example": "alarm",
+        "type": "String"
+      }
+    }
+  },
+  "@{alarm}:   ": {
+    "placeholders": {
+      "alarm": {
+        "example": "alarm",
+        "type": "String"
+      }
+    }
+  },
   "A National Convention has proposed an ELITE LIBERAL AMENDMENT!": "Uma Convenção Nacional propôs uma EMENDA LIBERAL DE ELITE!",
   "ARMOR": "ARMADURA",
   "Abortion Rights": "Direito ao Aborto",
@@ -156,8 +172,8 @@
   "ve got their scientists, and we have ours.  The issue of pollution is wide open as it stands today\",\n          \"I just tried it myself and I feel like a million bucks!  *Coughs up blood*  I": "ve got their scientists, and we have ours.  The issue of pollution is wide open as it stands today\",\n          \"I just tried it myself and I feel like a million bucks!  *Coughs up blood*  I",
   "way or out or run, you're going straight to the lockup.": "way or out or run, you're going straight to the lockup.",
   "you can.  You might notice your Squad has filled out to": "you can.  You might notice your Squad has filled out to",
-  "{alarm}: ": "{alarm}: ",
-  "{alarm}:   ": "{alarm}:   ",
+  "{alarm}: ": "Alarme: ",
+  "{alarm}:   ": "Alarme:   ",
   "{city:red} - ": "{city:red} - ",
   "{count} people who went missing are taken into custody and rehabilitated.": "{count} people who went missing are taken into custody and rehabilitated.",
   "{cr} in the command chain.": "{cr} na cadeia de comando.",

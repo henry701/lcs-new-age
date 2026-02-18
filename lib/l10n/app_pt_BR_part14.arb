@@ -6,6 +6,14 @@
   " gets in a brutal fight with another prisoner.": " entra numa bruta briga com outro prisioneiro.",
   "2 - Hostages ({hostages})": "2 - Reféns ({hostages})",
   "2) Press Z to Assemble a New Squad": "2) Pressione Z para Montar um Novo Esquadrão",
+  "@s.members.first.base?.cityId: ${s.members.first.base?.cityId}": {
+    "placeholders": {
+      "s.members.first.base?.cityId": {
+        "example": "s.members.first.base?.cityId",
+        "type": "String"
+      }
+    }
+  },
   "Animals on farms and in research labs are effectively tortured to death.": "Animais em fazendas e em laboratórios de pesquisa são efetivamente torturados até a morte.",
   "Anti": "Anti",
   "Burlington, VT": "Burlington, VT",
@@ -129,6 +137,7 @@
   "providing us with the tools we need to neutralize these enemies of ": "providing us with the tools we need to neutralize these enemies of ",
   "providing weapons to militias so they can pursue ethnic cleansing and make the violence even worse": "providing weapons to militias so they can pursue ethnic cleansing and make the violence even worse",
   "quizzes {hostage} about correct recycling habits.": "quizzes {hostage} about correct recycling habits.",
+  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "ID da cidade do membro principal: ${s.members.first.base?.cityId}",
   "said a magic spell at her parents": "said a magic spell at her parents",
   "stand up for traditional values and protect our children ": "stand up for traditional values and protect our children ",
   "suspect was handcuffed and in police custody when the ": "suspect was handcuffed and in police custody when the ",

@@ -21,6 +21,26 @@
       }
     }
   },
+  "@{letter} - &{color}{name} {ageGender}": {
+    "placeholders": {
+      "ageGender": {
+        "example": "ageGender",
+        "type": "String"
+      },
+      "color": {
+        "example": "color",
+        "type": "String"
+      },
+      "letter": {
+        "example": "letter",
+        "type": "String"
+      },
+      "name": {
+        "example": "John",
+        "type": "String"
+      }
+    }
+  },
   "A sniper nearly hits {name}!": "A sniper nearly hits {name}!",
   "Activate Sleeper Agents": "Ativar Agentes Dormindo",
   "Ain't no sunshine...": "Ain't no sunshine...",
@@ -169,7 +189,7 @@
   "where they dissect even the most innocuous phrases for hidden biases ": "where they dissect even the most innocuous phrases for hidden biases ",
   "{key} - {skill}": "{key} - {skill}",
   "{lead} could make this more coercive and convincing.": "{lead} could make this more coercive and convincing.",
-  "{letter} - &{color}{name} {ageGender}": "{letter} - &{color}{name} {ageGender}",
+  "{letter} - &{color}{name} {ageGender}": "Letra - &{color}{name} {ageGender}",
   "{name} can take that joining bullshit and shove it where the ": "{name} can take that joining bullshit and shove it where the ",
   "{name} catches a bus and rides it to the end of the line.": "{name} catches a bus and rides it to the end of the line.",
   "{name} is behind the wheel of a {vehicle}.": "{name} está atrás do volante de um {vehicle}.",

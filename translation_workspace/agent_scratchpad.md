@@ -217,3 +217,14 @@
   - part24: 9.05% → 37.69% (+18 to 75 translated)
   - part26: 9.20% → 52.15% (+15 to 85 translated)
 - Next recommended part: part08 (10.06% coverage, 143 untranslated) or part20 (10.58% coverage, 169 untranslated)
+
+## Run: 2026-02-18T00:30:00Z
+- Batch file(s) processed: translation_workspace/check.arb
+- Target part(s): mixed (check.arb contained mixed hash-sharded keys)
+- Count translated: 6 entries
+- Empty parts attempted: none
+- Ambiguous terms needing human decision: None
+- Coverage before: 42.94% (2338 translated, 3100 untranslated, 7 missing, 0 empty)
+- Coverage after: 43.01% (2342 translated, 3096 untranslated, 7 missing, 0 empty)
+- Per-part improvements: None (check.arb contained mixed keys)
+- Next recommended part: part08 (10.06% coverage, 143 untranslated) or part20 (10.58% coverage, 169 untranslated)

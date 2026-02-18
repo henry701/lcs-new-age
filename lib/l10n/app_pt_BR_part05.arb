@@ -10,6 +10,18 @@
   " wears an electrician's outfit...": " veste uma roupa de eletricista...",
   " x{count}": " x{count}",
   "1 - Active Liberals ({active})": "1 - Liberais Ativos ({active})",
+  "@{name} {ageGender}": {
+    "placeholders": {
+      "ageGender": {
+        "example": "ageGender",
+        "type": "String"
+      },
+      "name": {
+        "example": "John",
+        "type": "String"
+      }
+    }
+  },
   "A - Strike up a conversation about politics{whileNaked}.": "A - Puxar conversa sobre política{whileNaked}.",
   "A Liberal outcome!": "Um resultado liberal!",
   "A T-shirt in a store is found scrawled with a message from a sweatshop worker.": "Uma camiseta em uma loja é encontrada rabiscada com uma mensagem de um trabalhador de sweatshop.",

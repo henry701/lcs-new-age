@@ -17,6 +17,18 @@
   "5 - Sleepers ({sleepers})": "5 - Adormecidos ({sleepers})",
   "7 - Away ({away})": "7 - Ausente ({away})",
   "<No Contact>": "<Sem Contato>",
+  "@{name} {action}": {
+    "placeholders": {
+      "action": {
+        "example": "action",
+        "type": "String"
+      },
+      "name": {
+        "example": "John",
+        "type": "String"
+      }
+    }
+  },
   "A bill of animal rights is in place governing their treatment.": "Uma lei de direitos animais está em vigor regulando seu tratamento.",
   "A kid in the street!": "Uma criança na rua!",
   "Among the most startling of the think tank's findings is that ": "Entre as descobertas mais impressionantes do think tank está que ",

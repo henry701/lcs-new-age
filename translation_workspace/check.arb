@@ -80,10 +80,10 @@
     }
   },
   "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "ID da cidade do membro principal: ${s.members.first.base?.cityId}",
-  "{alarm}: ": "{alarm}: ",
-  "{alarm}:   ": "{alarm}:   ",
-  "{key} - {car}": "{key} - {car}",
-  "{letter} - &{color}{name} {ageGender}": "{letter} - &{color}{name} {ageGender}",
+  "{alarm}: ": "Alarme: ",
+  "{alarm}:   ": "Alarme:   ",
+  "{key} - {car}": "Chave - {car}",
+  "{letter} - &{color}{name} {ageGender}": "Letra - &{color}{name} {ageGender}",
   "{name} {action}": "{name} {action}",
   "{name} {ageGender}": "{name} {ageGender}"
 }

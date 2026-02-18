@@ -45,7 +45,6 @@
   "Springfield, IL": "Springfield, IL",
   "Worcester, MA": "Worcester, MA",
   "Yakima, WA": "Yakima, WA",
-  "weepa weepa weepa, woof woof woof!": "ui ui ui, au au au!",
   "{name} {response}": "{name} {response}",
   "$first $second $third": "$first $second $third",
   "+~$roundedArmor": "+~$roundedArmor",
@@ -78,5 +77,6 @@
   "{name}, ": "{name}, ",
   "{name}, {title}": "{name}, {title}",
   "Anchorage, AK": "Anchorage, AK",
-  "Augusta, GA": "Augusta, GA"
+  "Augusta, GA": "Augusta, GA",
+  "Aurora, CO": "Aurora, CO"
 }

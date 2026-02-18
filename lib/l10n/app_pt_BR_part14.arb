@@ -119,10 +119,10 @@
   "elementary school": "escola primária",
   "exchanges a meaningful look with {lead}.": "troca um olhar significativo com {lead}.",
   "goes wide!": "vai longe!",
-  "guarantee more privacy rights": "guarantee more privacy rights",
-  "head-squishing": "head-squishing",
+  "guarantee more privacy rights": "garantir mais direitos de privacidade",
+  "head-squishing": "esmagamento de cabeça",
   "hits the road!": "vai para a estrada!",
-  "in mind: &$newAlignColor{newFirstLast}&w ": "in mind: &$newAlignColor{newFirstLast}&w ",
+  "in mind: &$newAlignColor{newFirstLast}&w ": "em mente: &$newAlignColor{newFirstLast}&w ",
   "increase fairness in elections": "aumentar a justiça nas eleições",
   "inhaling carbon monoxide": "inalando monóxido de carbono",
   "lunges with fangs out at": "avança com presas à mostra contra",
@@ -161,8 +161,8 @@
   "{name}'s last unbroken rib is ": "a última costela intacta de {name} está ",
   "{name}'s nose is cut off!": "o nariz de {name} é cortado!",
   "{name}'s relevant skills: ": "habilidades relevantes de {name}: ",
-  "{name}'s {armor}": "{name}'s {armor}",
+  "{name}'s {armor}": "{armor} de {name}",
   "{squad} couldn't use the {vehicle}.": "{squad} não pôde usar o {vehicle}.",
   "│   intelligence and charisma, showcasing the upsides   │": "│   inteligência e carisma, mostrando as vantagens   │",
-  "│   of consuming nuclear waste.                         │": "│   of consuming nuclear waste.                         │"
+  "│   of consuming nuclear waste.                         │": "│   de consumir resíduos nucleares.                         │"
 }

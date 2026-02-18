@@ -203,3 +203,17 @@
 - Merged: 5 updates to part07
 - Status: 2143 translated, 3295 untranslated, 39.36% coverage (was 39.27%)
 - Next: Process part18 (8.99% coverage, 16/178 translated)
+
+## Run: 2026-02-18T00:15:00Z
+- Batch file(s) processed: translation_workspace/untranslated_pt_BR_part18.arb, translation_workspace/untranslated_pt_BR_part24.arb, translation_workspace/untranslated_pt_BR_part26.arb
+- Target part(s): part18, part24, part26
+- Count translated: 195 total (68 + 57 + 70)
+- Empty parts attempted: none
+- Ambiguous terms needing human decision: proper nouns kept unchanged (city names like El Paso TX, Kansas City MO, Anchorage AK; personal names like Katô, López, Satô, Zoltán; acronyms like BDSM, MBC, PNP, SBM)
+- Coverage before: 39.36% (2143 translated, 3295 untranslated, 7 missing, 0 empty)
+- Coverage after: 42.94% (2338 translated, 3100 untranslated, 7 missing, 0 empty)
+- Per-part improvements:
+  - part18: 8.99% → 47.19% (+16 to 84 translated)
+  - part24: 9.05% → 37.69% (+18 to 75 translated)
+  - part26: 9.20% → 52.15% (+15 to 85 translated)
+- Next recommended part: part08 (10.06% coverage, 143 untranslated) or part20 (10.58% coverage, 169 untranslated)

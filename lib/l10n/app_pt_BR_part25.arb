@@ -8,7 +8,7 @@
   " gets out of there!": " sai de lá!",
   " is crushed inside the car.": " é esmagado dentro do carro.",
   " yes.\",\n          \"No, I": " sim.\",\n          \"Não, eu",
-  "$first $second $third": "$first $second $third",
+  "$first $second $third": "$primeiro $segundo $terceiro",
   "$incitingIncident  The boycott quickly spread ": "$incitingIncident  O boicote se espalhou rapidamente ",
   "$name's Pawnshop": "Penhoraria do $name",
   "$victim was pronounced dead at $timeOfDeath yesterday at the ": "$victim foi pronunciado morto às $timeOfDeath ontem na ",
@@ -141,7 +141,7 @@
   "{name}'s right eye is cut open!": "O olho direito de {name} foi cortado!",
   "{name}'s {article} about this doesn't have much impact. ": "O {article} de {name} sobre isso não tem muito impacto. ",
   "{name}, ": "{name}, ",
-  "{name}, {title}": "{name}, {title}",
+  "{name}, {title}": "{nome}, {título}",
   "{newboss} will take over for ": "{newboss} assumirá o lugar de ",
   "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} percebe que se comprometeu a comer {count} refeições de uma vez. Tudo desanda rapidamente."
 }

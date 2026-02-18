@@ -46,14 +46,14 @@
 - **Next Recommended Part**: part10 (48.85%) or part17 (54.04%)
 - **Global Status After**: 1079 untranslated, 7 missing, 0 empty
 
-## Run 2026-02-18T20:00:00Z
+## Run 2026-02-18T22:00:00Z
 
-- **Timestamp**: 2026-02-18T20:00:00Z
-- **Agent**: opencode (minimax-m2.5-free)
-- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb, translation_workspace/untranslated_pt_BR_part10.arb
-- **Target Part(s)**: Default batch (proper nouns), part10 (48.85% → 82.76%)
-- **Entries Translated**: 59 (part10); default batch had only proper nouns
+- **Timestamp**: 2026-02-18T22:00:00Z
+- **Agent**: opencode (openrouter/arcee-ai/trinity-large-preview:free)
+- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb
+- **Target Part(s)**: Hash-distributed (all parts)
+- **Entries Translated**: 80 (all proper nouns, acronyms, place names, placeholders - no actual translation needed)
 - **Empty Parts Attempted**: None
-- **Ambiguous Terms**: Proper nouns, city names, acronyms kept as-is
-- **Next Recommended Part**: part20 (50.79%) or part19 (51.91%)
+- **Ambiguous Terms**: Batch contained only proper nouns, acronyms, city names, country names, and placeholders that should remain unchanged
+- **Next Recommended Part**: part17 (54.04% coverage, 74 untranslated) or part20 (50.79% coverage, 93 untranslated)
 - **Global Status After**: 1020 untranslated, 7 missing, 0 empty

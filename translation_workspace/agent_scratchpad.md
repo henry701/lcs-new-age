@@ -228,3 +228,11 @@
 - Coverage after: 43.01% (2342 translated, 3096 untranslated, 7 missing, 0 empty)
 - Per-part improvements: None (check.arb contained mixed keys)
 - Next recommended part: part08 (10.06% coverage, 143 untranslated) or part20 (10.58% coverage, 169 untranslated)
+
+## 2026-02-17T21:30:09-03:00
+- Batches processed: translation_workspace/untranslated_pt_BR.arb, translation_workspace/untranslated_pt_BR_part08.arb, translation_workspace/untranslated_pt_BR_part20.arb
+- Target parts: mixed/hash-wide, part08, part20
+- Approx translated this run: 204 entries (52 + 76 + 76 updated during merge)
+- Empty parts attempted: none
+- Ambiguous terms left untranslated: default batch proper names/acronyms/template fragments; part08 -> " - {name}", "Beth Ann", "Dis", "Oláh"; part20 -> "DWM", "GBM", "Mega", "Müller"
+- Next recommended part: lib/l10n/app_pt_BR_part12.arb (10.93% coverage) or lib/l10n/app_pt_BR_part22.arb (11.11% coverage)

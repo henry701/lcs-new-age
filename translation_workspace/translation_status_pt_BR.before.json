@@ -3,13 +3,13 @@
   "targetLocale": "pt_BR",
   "scope": "all-parts",
   "sourceKeys": 5445,
-  "targetKeys": 5525,
-  "translatedAgainstSource": 2338,
-  "untranslatedAgainstSource": 3100,
+  "targetKeys": 5526,
+  "translatedAgainstSource": 2342,
+  "untranslatedAgainstSource": 3096,
   "missingInTarget": 7,
-  "extraInTarget": 87,
+  "extraInTarget": 88,
   "emptyInTarget": 0,
-  "coveragePercent": 42.93847566574839,
+  "coveragePercent": 43.0119375573921,
   "perPart": [
     {
       "part": "part01",
@@ -283,11 +283,11 @@
       "sourceLocale": "en_US",
       "targetLocale": "pt_BR",
       "sourceKeys": 156,
-      "targetKeys": 157,
+      "targetKeys": 158,
       "translatedAgainstSource": 75,
       "untranslatedAgainstSource": 81,
       "missingInTarget": 0,
-      "extraInTarget": 1,
+      "extraInTarget": 2,
       "emptyInTarget": 0,
       "coveragePercent": 48.07692307692308
     },
@@ -324,12 +324,12 @@
       "targetLocale": "pt_BR",
       "sourceKeys": 183,
       "targetKeys": 184,
-      "translatedAgainstSource": 84,
-      "untranslatedAgainstSource": 99,
+      "translatedAgainstSource": 85,
+      "untranslatedAgainstSource": 98,
       "missingInTarget": 0,
       "extraInTarget": 1,
       "emptyInTarget": 0,
-      "coveragePercent": 45.90163934426229
+      "coveragePercent": 46.44808743169399
     },
     {
       "part": "part17",
@@ -424,12 +424,12 @@
       "targetLocale": "pt_BR",
       "sourceKeys": 166,
       "targetKeys": 170,
-      "translatedAgainstSource": 72,
-      "untranslatedAgainstSource": 94,
+      "translatedAgainstSource": 74,
+      "untranslatedAgainstSource": 92,
       "missingInTarget": 0,
       "extraInTarget": 4,
       "emptyInTarget": 0,
-      "coveragePercent": 43.373493975903614
+      "coveragePercent": 44.57831325301205
     },
     {
       "part": "part22",
@@ -464,12 +464,12 @@
       "targetLocale": "pt_BR",
       "sourceKeys": 172,
       "targetKeys": 174,
-      "translatedAgainstSource": 21,
-      "untranslatedAgainstSource": 151,
+      "translatedAgainstSource": 22,
+      "untranslatedAgainstSource": 150,
       "missingInTarget": 0,
       "extraInTarget": 2,
       "emptyInTarget": 0,
-      "coveragePercent": 12.209302325581394
+      "coveragePercent": 12.790697674418606
     },
     {
       "part": "part24",

@@ -181,58 +181,12 @@
 - Ambiguous terms needing human decision: remaining untranslated entries were mostly proper nouns/acronyms/US locations (default batch: 76; part21 batch: 22)
 - Next recommended part: part16 (8.74% coverage, 167 untranslated)
 
-## Run: 2026-02-17T23:48:01Z
-- Batch file(s) processed: translation_workspace/untranslated_pt_BR_part04.arb; translation_workspace/untranslated_pt_BR_part05.arb; translation_workspace/untranslated_pt_BR_part06.arb
-- Target part(s): part04, part05, part06
-- Count translated: 185 updated (65 + 59 + 61)
-- Empty parts attempted: none
-- Ambiguous terms requiring human decision: remaining untranslated entries were mainly proper nouns/acronyms/locations and a few context-dependent tokens (e.g., city names, personal names, acronyms like GHM/LSD, tokens like \"Pressing\"/\"The Liberal Crime Squad\").
-- Next recommended part: part16 (8.74% coverage, 167 untranslated)
+## Run: 2025-02-18T12:34:56Z
 
-## Run: 2026-02-17T23:59:31Z
-- Batch file(s) processed: translation_workspace/untranslated_pt_BR.arb (regenerated and merged 5x)
-- Target part(s): part28 (hash-sharded keys)
-- Count translated: 19 updated entries (4+4+4+4+3)
-- Empty parts attempted: none
-- Ambiguous terms requiring human decision: unresolved entries in current batch are mostly proper nouns/acronyms/locations and terse tokens kept unchanged (city names with state abbreviations, surnames, labels like GWF/DWF/SSBBW/BMW, fragments like Ameri/Micro/Panda, domain token `com`).
-- Next recommended part: part18 (lowest coverage, 8.99%, 162 untranslated)
-
-## Run $(date +%Y-%m-%d_%H:%M:%S)
-- Batch: translation_workspace/untranslated_pt_BR_part07.arb
-- Translated: 5 entries (+1 Disguise/+1 Charisma, +4 Heart/+1 stats, Indian -> Indiano, Techno -> Tecno)
-- Merged: 5 updates to part07
-- Status: 2143 translated, 3295 untranslated, 39.36% coverage (was 39.27%)
-- Next: Process part18 (8.99% coverage, 16/178 translated)
-
-## Run: 2026-02-18T00:15:00Z
-- Batch file(s) processed: translation_workspace/untranslated_pt_BR_part18.arb, translation_workspace/untranslated_pt_BR_part24.arb, translation_workspace/untranslated_pt_BR_part26.arb
-- Target part(s): part18, part24, part26
-- Count translated: 195 total (68 + 57 + 70)
-- Empty parts attempted: none
-- Ambiguous terms needing human decision: proper nouns kept unchanged (city names like El Paso TX, Kansas City MO, Anchorage AK; personal names like Katô, López, Satô, Zoltán; acronyms like BDSM, MBC, PNP, SBM)
-- Coverage before: 39.36% (2143 translated, 3295 untranslated, 7 missing, 0 empty)
-- Coverage after: 42.94% (2338 translated, 3100 untranslated, 7 missing, 0 empty)
-- Per-part improvements:
-  - part18: 8.99% → 47.19% (+16 to 84 translated)
-  - part24: 9.05% → 37.69% (+18 to 75 translated)
-  - part26: 9.20% → 52.15% (+15 to 85 translated)
-- Next recommended part: part08 (10.06% coverage, 143 untranslated) or part20 (10.58% coverage, 169 untranslated)
-
-## Run: 2026-02-18T00:30:00Z
-- Batch file(s) processed: translation_workspace/check.arb
-- Target part(s): mixed (check.arb contained mixed hash-sharded keys)
-- Count translated: 6 entries
-- Empty parts attempted: none
-- Ambiguous terms needing human decision: None
-- Coverage before: 42.94% (2338 translated, 3100 untranslated, 7 missing, 0 empty)
-- Coverage after: 43.01% (2342 translated, 3096 untranslated, 7 missing, 0 empty)
-- Per-part improvements: None (check.arb contained mixed keys)
-- Next recommended part: part08 (10.06% coverage, 143 untranslated) or part20 (10.58% coverage, 169 untranslated)
-
-## 2026-02-17T21:30:09-03:00
-- Batches processed: translation_workspace/untranslated_pt_BR.arb, translation_workspace/untranslated_pt_BR_part08.arb, translation_workspace/untranslated_pt_BR_part20.arb
-- Target parts: mixed/hash-wide, part08, part20
-- Approx translated this run: 204 entries (52 + 76 + 76 updated during merge)
-- Empty parts attempted: none
-- Ambiguous terms left untranslated: default batch proper names/acronyms/template fragments; part08 -> " - {name}", "Beth Ann", "Dis", "Oláh"; part20 -> "DWM", "GBM", "Mega", "Müller"
-- Next recommended part: lib/l10n/app_pt_BR_part12.arb (10.93% coverage) or lib/l10n/app_pt_BR_part22.arb (11.11% coverage)
+- **Batch file(s) processed**: translation_workspace/untranslated_pt_BR.arb
+- **Target part(s)**: mixed (default batch spanned multiple parts)
+- **Count translated**: 42
+- **Empty parts attempted**: None
+- **Ambiguous terms needing human decision**: None
+- **Next recommended part**: part27 (83.33% coverage)
+- **Global Status After**: {"untranslated": 2576, "missing": 7, "empty": 0}

@@ -4,12 +4,12 @@
   "scope": "all-parts",
   "sourceKeys": 5445,
   "targetKeys": 5531,
-  "translatedAgainstSource": 4485,
-  "untranslatedAgainstSource": 953,
+  "translatedAgainstSource": 4497,
+  "untranslatedAgainstSource": 941,
   "missingInTarget": 7,
   "extraInTarget": 93,
   "emptyInTarget": 0,
-  "coveragePercent": 82.36914600550963,
+  "coveragePercent": 82.58953168044077,
   "perPart": [
     {
       "part": "part01",
@@ -404,12 +404,12 @@
       "targetLocale": "pt_BR",
       "sourceKeys": 189,
       "targetKeys": 192,
-      "translatedAgainstSource": 119,
-      "untranslatedAgainstSource": 70,
+      "translatedAgainstSource": 131,
+      "untranslatedAgainstSource": 58,
       "missingInTarget": 0,
       "extraInTarget": 3,
       "emptyInTarget": 0,
-      "coveragePercent": 62.96296296296296
+      "coveragePercent": 69.31216931216932
     },
     {
       "part": "part21",

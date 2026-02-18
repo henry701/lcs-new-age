@@ -1,0 +1,40 @@
+{
+  " {spare}": " {spare}",
+  "BiF": "BiF",
+  "Biloxi, MS": "Biloxi, MS",
+  "Brooklyn, NY": "Brooklyn, NY",
+  "Coral Springs, FL": "Coral Springs, FL",
+  "Detroit, MI": "Detroit, MI",
+  "Hartford, CT": "Hartford, CT",
+  "Liberal": "Liberal",
+  "Longview, TX": "Longview, TX",
+  "MTF": "MTF",
+  "Murrieta, CA": "Murrieta, CA",
+  "Olathe, KS": "Olathe, KS",
+  "Peoria, AZ": "Peoria, AZ",
+  "Pre": "Pre",
+  "Pueblo, CO": "Pueblo, CO",
+  "Richland, WA": "Richland, WA",
+  "SWM": "SWM",
+  "Seli": "Seli",
+  "Seán": "Seán",
+  "Springfield, MA": "Springfield, MA",
+  "Stockton, CA": "Stockton, CA",
+  "The Bronx, NY": "The Bronx, NY",
+  "United": "United",
+  "WE KNOW OUR": "WE KNOW OUR",
+  "{name} {action}": "{name} {action}",
+  "@{name} {action}": {
+    "placeholders": {
+      "action": {
+        "example": "action",
+        "type": "String"
+      },
+      "name": {
+        "example": "John",
+        "type": "String"
+      }
+    }
+  },
+  "{name}'s right kidney is blasted!": "o rim direito de {name} é destruído!"
+}

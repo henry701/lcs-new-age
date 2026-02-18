@@ -1,0 +1,21 @@
+{
+  "El Paso, TX": "El Paso, TX",
+  "Houston, TX": "Houston, TX",
+  "Int: {int}": "Int: {int}",
+  "Kansas City, MO": "Kansas City, MO",
+  "Katô": "Katô",
+  "LCS": "LCS",
+  "Louisville, KY": "Louisville, KY",
+  "Manchester, NH": "Manchester, NH",
+  "Oro": "Oro",
+  "Palmdale, CA": "Palmdale, CA",
+  "Pomona, CA": "Pomona, CA",
+  "Punk": "Punk",
+  "Richmond, CA": "Richmond, CA",
+  "Secret": "Secret",
+  "Star": "Star",
+  "Thornton, CO": "Thornton, CO",
+  "Toledo, OH": "Toledo, OH",
+  "{crime}: ": "{crime}: ",
+  "{eName} swings the {weapon} and knocks {pName} out!": "{eName} balança a {weapon} e nocauteia {pName}!"
+}

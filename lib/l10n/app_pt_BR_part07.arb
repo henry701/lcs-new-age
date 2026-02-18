@@ -184,7 +184,7 @@
   "{name} {action}": "{name} {action}",
   "{name}'s death sentence has been commuted to life, ": "a sentença de morte de {name} foi comutada para prisão perpétua, ",
   "{name}'s liver is torn!": "o fígado de {name} é arrancado!",
-  "{name}'s right kidney is blasted!": "{name}'s right kidney is blasted!",
+  "{name}'s right kidney is blasted!": "o rim direito de {name} é destruído!",
   "{name}: <rummaging> $rummageMessage": "{name}: <procurando> $rummageMessage",
   "{pName}'s ": "de {pName} ",
   "{pronoun} friend {friend}.": "amigo {friend} de {pronoun}."

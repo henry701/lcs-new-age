@@ -18,7 +18,5 @@
   "{letter} - ": "{letter} - ",
   "{letter} - {title}": "{letter} - {title}",
   "{number} - {name}": "{number} - {name}",
-  "{pronoun} run into the arms of the waiting {siegers}. ": "{pronoun} corre para os braços dos {siegers} que esperam. ",
-  "{year} (Age {age}, ": "{year} (Age {age}, ",
-  "│     The police have brutally beaten a black man   │": "│     A polícia espancou brutalmente um homem negro   │"
+  "{year} (Age {age}, ": "{year} (Age {age}, "
 }

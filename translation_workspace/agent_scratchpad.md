@@ -39,7 +39,7 @@
 - **Timestamp**: 2026-02-18T10:00:00Z
 - **Agent**: opencode (minimax-m2.5-free)
 - **Batch File(s)**: translation_workspace/untranslated_pt_BR_part03.arb
-- **Target Part(s)**: part03 (49.38% → 88.89%)
+- **Target Part(s)**: part03 (49.38% -> 88.89%)
 - **Entries Translated**: 64
 - **Empty Parts Attempted**: None
 - **Ambiguous Terms**: Proper nouns (city names, country names, person names) kept as-is
@@ -63,9 +63,45 @@
 - **Timestamp**: 2026-02-18T23:45:00Z
 - **Agent**: opencode (glm-5-free)
 - **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb
-- **Target Part(s)**: Hash-distributed (primarily part21: 81.33% → 90.96%)
+- **Target Part(s)**: Hash-distributed (primarily part21: 81.33% -> 90.96%)
 - **Entries Translated**: 17 (city/state names with state abbreviations expanded, sentences with placeholders)
 - **Empty Parts Attempted**: None
 - **Ambiguous Terms**: Proper nouns kept as-is; game terms (Radical, Natural, Micro, Sub) kept per existing convention
 - **Next Recommended Part**: part20 (50.79%, 93 untranslated) or part19 (51.91%, 63 untranslated) or part17 (54.04%, 74 untranslated)
 - **Global Status After**: 983 untranslated, 7 missing, 0 empty
+
+## Run 2026-02-18T12:00:00Z
+
+- **Timestamp**: 2026-02-18T12:00:00Z
+- **Agent**: opencode (openrouter/arcee-ai/trinity-large-preview:free)
+- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb
+- **Target Part(s)**: Default batch extraction (all parts)
+- **Entries Translated**: 8 (sentences and phrases that needed translation)
+- **Empty Parts Attempted**: None
+- **Ambiguous Terms**: Proper nouns, acronyms, and game-specific terms kept as-is per existing convention
+- **Next Recommended Part**: part02 (68.37% coverage, 62 untranslated)
+- **Global Status After**: 975 untranslated, 7 missing, 0 empty
+
+## Run 2026-02-18T12:00:00Z
+
+- **Timestamp**: 2026-02-18T12:00:00Z
+- **Agent**: opencode (openrouter/arcee-ai/trinity-large-preview:free)
+- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb
+- **Target Part(s)**: Default batch extraction (all parts)
+- **Entries Translated**: 8 (sentences and phrases that needed translation)
+- **Empty Parts Attempted**: None
+- **Ambiguous Terms**: Proper nouns, acronyms, and game-specific terms kept as-is per existing convention
+- **Next Recommended Part**: part02 (68.37% coverage, 62 untranslated)
+- **Global Status After**: 975 untranslated, 7 missing, 0 empty
+
+## Run 2026-02-18
+
+- **Timestamp**: 2026-02-18T12:00:00Z
+- **Agent**: opencode (minimax-m2.5-free)
+- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb
+- **Target Part(s)**: default batch (various parts)
+- **Entries Translated**: 8
+- **Empty Parts Attempted**: none
+- **Ambiguous Terms**: none
+- **Next Recommended Part**: part19 (51.91% coverage) or part17 (54.04%) or part08 (57.86%)
+- **Global Status After**: 967 untranslated / 7 missing / 0 empty (82.11% coverage)

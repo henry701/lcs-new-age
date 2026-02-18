@@ -189,10 +189,10 @@
   "{name} has broken under the pressure and ratted you out!": "{name} cedeu à pressão e te dedurou!",
   "{name} with": "{name} com",
   "{name} yells at {lead}.": "{name} grita com {lead}.",
-  "{name}'s last tooth is ": "{name}'s last tooth is ",
-  "{name}'s right lung is torn!": "{name}'s right lung is torn!",
-  "{name}'s tooth has been pulled out with pliers!": "{name}'s tooth has been pulled out with pliers!",
-  "{recruiter} accidentally missed the meeting with {recruit}": "{recruiter} accidentally missed the meeting with {recruit}",
-  "{recruiter} explains {gender} views on {law}.": "{recruiter} explains {gender} views on {law}.",
-  "{recruit} is skeptical about some of {recruiter}'s arguments.": "{recruit} is skeptical about some of {recruiter}'s arguments."
+  "{name}'s last tooth is ": "O último dente de {name} está ",
+  "{name}'s right lung is torn!": "O pulmão direito de {name} está rasgado!",
+  "{name}'s tooth has been pulled out with pliers!": "O dente de {name} foi arrancado com alicate!",
+  "{recruiter} accidentally missed the meeting with {recruit}": "{recruiter} perdeu acidentalmente a reunião com {recruit}",
+  "{recruiter} explains {gender} views on {law}.": "{recruiter} explica as visões de {gender} sobre {law}.",
+  "{recruit} is skeptical about some of {recruiter}'s arguments.": "{recruit} é cético em relação a alguns dos argumentos de {recruiter}."
 }

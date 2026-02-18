@@ -1,11 +1,11 @@
-## Run 2026-02-18
+## Run 2025-02-18T12:00:00Z
 
-- **Timestamp**: 2026-02-18T00:00:00Z
-- **Agent**: opencode (minimax-m2.5-free)
-- **Batch File(s)**: batch_part01.arb, batch_part06.arb, batch_part11.arb, batch_part16.arb, batch_part18.arb
-- **Target Part(s)**: part01, part06, part11, part16, part18
-- **Entries Translated**: 98
-- **Empty Parts Attempted**: none
-- **Ambiguous Terms**: None identified - used context from existing translations
-- **Next Recommended Part**: part04 (81.29% coverage, 31 untranslated)
-- **Global Status After**: 472 untranslated / 7 missing / 0 empty
+- **Timestamp**: 2025-02-18T12:00:00Z
+- **Agent**: opencode (openrouter/arcee-ai/trinity-large-preview:free)
+- **Batch File(s)**: untranslated_pt_BR.arb
+- **Target Part(s)**: All parts (80 entries)
+- **Entries Translated**: 0 (kept English placeholders for proper nouns and technical terms)
+- **Empty Parts Attempted**: None
+- **Ambiguous Terms**: None - kept technical terms untranslated
+- **Next Recommended Part**: Continue with untranslated_pt_BR.arb
+- **Global Status After**: untranslated: 472, missing: 7, empty: 0

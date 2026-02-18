@@ -1,3 +1,17 @@
+## Run 2026-02-18T180000Z
+
+- **Timestamp**: 2026-02-18T18:00:00Z
+- **Agent**: opencode (minimax-m2.5-free)
+- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb
+- **Target Part(s)**: batch (mixed from all parts)
+- **Entries Translated**: 4
+- **Empty Parts Attempted**: none
+- **Ambiguous Terms**: proper names, acronyms, US city names kept as-is
+- **Next Recommended Part**: part09 (44.20% coverage - worst)
+- **Global Status After**: 1755 untranslated, 7 missing, 0 empty
+
+**Notes**: Translated: "this case as a hate crime..." → "este caso como crime de ódio...", "uses {possessive} experience..." → "usa a experiência {possessive}...", "was KIDNAPPED..." → "foi SEQÜESTRADO...", "was on a hunger strike" → "estava em greve de fome". Coverage: 67.57% → 67.64%.
+
 ## Run 2026-02-18T074711Z
 
 - **Timestamp**: 2026-02-18T07:47:11Z

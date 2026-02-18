@@ -67,16 +67,16 @@
   "Washington, DC": "Washington, DC",
   "{key} - {skill}": "{key} - {skill}",
   "{name} {status}": "{name} {status}",
-  "{name}'s teeth have been smashed out on the curb!": "Os dentes de {name} foram quebrados no meio-fio!",
-  "{name}'s {article} about this lays out the evidence. ": "O {article} de {name} sobre isso apresenta as evidências. ",
-  "{pName} still has more to learn from {eName}.": "{pName} ainda tem mais a aprender com {eName}.",
   "{president} {name}": "{president} {name}",
-  "$cityName - The government of $cityName $cityReaction ": "$cityName - O governo de $cityName $cityReaction ",
   "Albany, NY": "Albany, NY",
   "Gen": "Gen",
   "Inglewood, CA": "Inglewood, CA",
   "Iran": "Iran",
   "Joliet, IL": "Joliet, IL",
   "Little Rock, AR": "Little Rock, AR",
-  "Poughkeepsie, NY": "Poughkeepsie, NY"
+  "Poughkeepsie, NY": "Poughkeepsie, NY",
+  "Rácz": "Rácz",
+  "Savannah, GA": "Savannah, GA",
+  "Solís": "Solís",
+  "Sub": "Sub"
 }

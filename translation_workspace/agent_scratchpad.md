@@ -1,51 +1,22 @@
-## Run 2026-02-18T180000Z
+---
+**TASK**: Translate pt_BR untranslated strings (batch processing)
 
-- **Timestamp**: 2026-02-18T18:00:00Z
-- **Agent**: opencode (minimax-m2.5-free)
-- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb
-- **Target Part(s)**: batch (mixed from all parts)
-- **Entries Translated**: 4
-- **Empty Parts Attempted**: none
-- **Ambiguous Terms**: proper names, acronyms, US city names kept as-is
-- **Next Recommended Part**: part09 (44.20% coverage - worst)
-- **Global Status After**: 1755 untranslated, 7 missing, 0 empty
+**PENDING**:
+- [ ] Translate remaining untranslated entries (1713) and missing keys (7)
 
-**Notes**: Translated: "this case as a hate crime..." → "este caso como crime de ódio...", "uses {possessive} experience..." → "usa a experiência {possessive}...", "was KIDNAPPED..." → "foi SEQÜESTRADO...", "was on a hunger strike" → "estava em greve de fome". Coverage: 67.57% → 67.64%.
+**IN PROGRESS**:
+- [ ] Generate next batch (default extraction) and translate
 
-## Run 2026-02-18T074711Z
+**COMPLETED**:
+- [x] Translation workflow validated (sync, catalog layout)
+- [x] Batch extraction and translation operational
+- [x] 25 English strings translated across batches
+- [x] Coverage improved to 67.84%, part24 at 80.40%
+- [x] Batch 2: 31 entries translated; coverage 68.41%; part24 coverage increased to 95.48%
 
-- **Timestamp**: 2026-02-18T07:47:11Z
-- **Agent**: opencode (kimi-k2.5-free)
-- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb (default batch)
-- **Target Part(s)**: multiple (locations from parts 01-32)
-- **Entries Translated**: 30
-- **Empty Parts Attempted**: none
-- **Ambiguous Terms**: none
-- **Next Recommended Part**: part12 (43.17%, 104 unxlat) or part09 (44.20%, 100 unxlat)
-- **Global Status After**: untranslated=1832, missing=7, empty=0
+**LAST_ACTION**: Translated 31 entries (including city names and sentence fragments), merged successfully; coverage 67.84% → 68.41%
+**NEXT_ACTION**: Run get_untranslated_strings.dart to generate next batch; prioritize low-coverage parts (part09, part21, part16)
+**REMAINING SCOPE ESTIMATE**: 1713 untranslated + 7 missing = 1720 entries
 
-**Notes**: Translated location strings (expanded US state abbreviations) and "Corp." to "Emp.". Coverage increased from 65.67% to 66.23%. Proper names and acronyms left unchanged. Batch contained many non-translatable entries; only location-specific strings were translated in this pass.
-
-## Run 2026-02-18T120000Z
-
-- **Timestamp**: 2026-02-18T12:00:00Z
-- **Agent**: opencode (kimi-k2.5-free)
-- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb (default batch)
-- **Target Part(s)**: multiple
-- **Entries Translated**: 6
-- **Empty Parts Attempted**: none
-- **Ambiguous Terms**: proper nouns (names), acronyms
-- **Next Recommended Part**: part12 (43.17%, 104 unxlat) or part09 (44.20%, 100 unxlat)
-- **Global Status After**: untranslated=1826, missing=7, empty=0
-
-**Notes**: Translated actual translatable phrases ("on the cross" → "na cruz", "repeated gladiatorial death matches" → "combates de morte gladiatórios repetidos", etc.). Batch mostly contained names, acronyms, and broken fragments that should remain unchanged. Coverage improved 66.23% → 66.34%.
-
-## Previous Runs (summary)
-
-### part06
-- 60 entries translated
-- Coverage: 44.25% -> 78.74%
-
-### part05
-- 55 entries translated
-- Coverage: 41.90% -> 72.63%
+**CURRENT_FOCUS**: Continue batch processing. Default batch extraction used previously; next batch likely yields more translatable strings. Target parts with lowest coverage: part09 (44.20%), part21 (44.58%), part16 (46.45%) to improve overall coverage.
+---

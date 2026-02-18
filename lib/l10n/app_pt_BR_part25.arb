@@ -15,7 +15,7 @@
   "&W{pName} &whas a hot date with ": "&W{pName} &wtem um encontro quente com ",
   "&cMarijuana Dispensary&r&r": "&cDistribuidora de Maconha&r&r",
   "(C to have the doctor check again)": "(C para o médico verificar novamente)",
-  "+~$roundedArmor": "+~$roundedArmor",
+  "+~$roundedArmor": "+~$RoundedArmor",
   "@Language selection affects all text in the game. Changes take effect immediately.": {},
   "A - There is no expectation to spend money on this date.": "A - Não há expectativa de gastar dinheiro nesta data.",
   "A tiny bit of juice.  It's not *real* though, you know?": "Um pouquinho de suco.  Não é *de verdade* though, sabe?",

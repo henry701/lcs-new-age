@@ -21,3 +21,15 @@
 - **Ambiguous Terms**: None
 - **Next Recommended Part**: part19 (51.91% coverage, 63 untranslated)
 - **Global Status After**: 941 untranslated / 7 missing / 0 empty
+
+## Run 2026-02-18T12:00:00Z
+
+- **Timestamp**: 2026-02-18T12:00:00Z
+- **Agent**: opencode (glm-5-free)
+- **Batch File(s)**: translation_workspace/untranslated_pt_BR.arb
+- **Target Part(s)**: mixed (default batch)
+- **Entries Translated**: 10 (proper nouns/acronyms kept as-is)
+- **Empty Parts Attempted**: none
+- **Ambiguous Terms**: Sentence fragments (lines 70, 78) left as-is - appear to be truncated text
+- **Next Recommended Part**: part19 (51.91%, 63 untranslated)
+- **Global Status After**: 920 untranslated, 7 missing, 0 empty

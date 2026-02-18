@@ -88,6 +88,7 @@ When running translation workers through the harness, these workspace files may 
 - `translation_workspace/local_batch_candidates.txt`: locally discovered fallback candidate batches.
 - `translation_workspace/selected_batches.txt`: batches selected in-order for the current run.
 - `translation_workspace/translation_status_pt_BR.before.json` and `translation_workspace/translation_status_pt_BR.after.json`: run-bound status snapshots.
+- `translation_workspace/agent_scratchpad.md`: concise run log with batches translated, blockers, and next recommended part.
 
 If the default `untranslated_pt_BR.arb` extraction is empty, do not assume completion. Check status (`untranslatedAgainstSource`, `missingInTarget`, `emptyInTarget`) and continue with per-part extraction for the lowest-coverage part.
 

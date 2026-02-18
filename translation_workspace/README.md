@@ -14,6 +14,7 @@ This directory is the staging area for translation batches and focused translati
 - `selected_batches.txt`: optional record of batch files selected in the current harness run
 - `translation_status_pt_BR.before.json` / `translation_status_pt_BR.after.json`: run-scoped coverage snapshots
 - `translation_status_pt_BR.json`: latest status snapshot used for local triage
+- `agent_scratchpad.md`: concise per-run translator notes (batches processed, blockers, next target)
 - `untranslated_strings_*.json`: legacy runtime logs from untranslated-string logging mode
 
 ## Typical Workflow

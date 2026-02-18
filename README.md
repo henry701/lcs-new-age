@@ -38,6 +38,9 @@ Run tests with `flutter test`.
 Run focused suites with:
 `flutter test test/politics/alignment_test.dart test/utils/interface_options_test.dart`
 
+Run only the interface options behavior suite (paging key mapping and button rendering):
+`flutter test test/utils/interface_options_test.dart`
+
 ## Localization Workflow
 
 For translation and i18n catalog maintenance, use:

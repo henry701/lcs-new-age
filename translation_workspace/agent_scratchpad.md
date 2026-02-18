@@ -196,3 +196,10 @@
 - Empty parts attempted: none
 - Ambiguous terms requiring human decision: unresolved entries in current batch are mostly proper nouns/acronyms/locations and terse tokens kept unchanged (city names with state abbreviations, surnames, labels like GWF/DWF/SSBBW/BMW, fragments like Ameri/Micro/Panda, domain token `com`).
 - Next recommended part: part18 (lowest coverage, 8.99%, 162 untranslated)
+
+## Run $(date +%Y-%m-%d_%H:%M:%S)
+- Batch: translation_workspace/untranslated_pt_BR_part07.arb
+- Translated: 5 entries (+1 Disguise/+1 Charisma, +4 Heart/+1 stats, Indian -> Indiano, Techno -> Tecno)
+- Merged: 5 updates to part07
+- Status: 2143 translated, 3295 untranslated, 39.36% coverage (was 39.27%)
+- Next: Process part18 (8.99% coverage, 16/178 translated)

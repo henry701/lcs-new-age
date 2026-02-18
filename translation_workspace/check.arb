@@ -79,7 +79,7 @@
       }
     }
   },
-  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
+  "s.members.first.base?.cityId: ${s.members.first.base?.cityId}": "ID da cidade do membro principal: ${s.members.first.base?.cityId}",
   "{alarm}: ": "{alarm}: ",
   "{alarm}:   ": "{alarm}:   ",
   "{key} - {car}": "{key} - {car}",

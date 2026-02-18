@@ -188,3 +188,11 @@
 - Empty parts attempted: none
 - Ambiguous terms requiring human decision: remaining untranslated entries were mainly proper nouns/acronyms/locations and a few context-dependent tokens (e.g., city names, personal names, acronyms like GHM/LSD, tokens like \"Pressing\"/\"The Liberal Crime Squad\").
 - Next recommended part: part16 (8.74% coverage, 167 untranslated)
+
+## Run: 2026-02-17T23:59:31Z
+- Batch file(s) processed: translation_workspace/untranslated_pt_BR.arb (regenerated and merged 5x)
+- Target part(s): part28 (hash-sharded keys)
+- Count translated: 19 updated entries (4+4+4+4+3)
+- Empty parts attempted: none
+- Ambiguous terms requiring human decision: unresolved entries in current batch are mostly proper nouns/acronyms/locations and terse tokens kept unchanged (city names with state abbreviations, surnames, labels like GWF/DWF/SSBBW/BMW, fragments like Ameri/Micro/Panda, domain token `com`).
+- Next recommended part: part18 (lowest coverage, 8.99%, 162 untranslated)

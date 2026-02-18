@@ -2,9 +2,8 @@
 **TASK**: Translate untranslated Brazilian Portuguese (pt_BR) strings from LCS New Age localizations
 
 **PENDING**:
-- [ ] Translate remaining 1436 untranslated strings across all 32 parts
+- [ ] Translate remaining 1430 untranslated strings across all 32 parts
 - [ ] Resolve 7 missing keys in target locale
-- [ ] Maintain consistent game terminology throughout
 
 **IN PROGRESS**:
 - [ ] Batch-based translation workflow execution
@@ -12,14 +11,14 @@
 **COMPLETED**:
 - [x] Phase 1: Startup sync and validation (catalogs OK)
 - [x] Phase 2: Generated default batch with 80 entries
-- [x] Translated and merged 6 actual content strings (BLAM!, Chernobyl tour, acceptance, darkness vision, special edition text, bridge explosion)
-- [x] Validation passed after merge
+- [x] Translated 6 content strings (body camera footage, bombing infrastructure, burns, carefully evade, police sting, mental health)
+- [x] Phase 4: Merged and validated successfully
 
-**LAST ACTION**: Translated 6 content strings in batch file (untranslated_pt_BR.arb) and merged into canonical catalogs; coverage increased from 73.39% to 73.50%
+**LAST_ACTION**: Translated 6 content strings in batch and merged; coverage increased from 73.50% to 73.61%
 
-**NEXT ACTION**: Generate new batch of untranslated strings for next translation iteration
+**NEXT_ACTION**: Generate next batch of untranslated strings
 
-**REMAINING SCOPE ESTIMATE**: ~1436 untranslated entries remaining (approximately 18 more batches of 80)
+**REMAINING_SCOPE_ESTIMATE**: ~1430 untranslated entries remaining
 
-**CURRENT FOCUS**: Continue batch translation workflow - run get_untranslated_strings.dart to create next batch of up to 80 untranslated entries for pt_BR locale, then translate actual content strings (not proper names/acronyms) and merge.
+**CURRENT_FOCUS**: Batch translation workflow - continue translating pt_BR strings
 ---

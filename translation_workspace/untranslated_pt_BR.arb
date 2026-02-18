@@ -64,7 +64,6 @@
   "Márton": "Márton",
   "Overland Park, KS": "Overland Park, KS",
   "Pittsburgh, PA": "Pittsburgh, PA",
-  "Radish": "Radish",
   "Rodríguez": "Rodríguez",
   "San Luis Obispo, CA": "San Luis Obispo, CA",
   "Santa Ana, CA": "Santa Ana, CA",
@@ -78,5 +77,6 @@
   "t react as {leadName} makes the pitch.\",\n        \"doesn": "t react as {leadName} makes the pitch.\",\n        \"doesn",
   "{key} - {name}": "{key} - {name}",
   "{name}, ": "{name}, ",
-  "{name}, {title}": "{name}, {title}"
+  "{name}, {title}": "{name}, {title}",
+  "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} percebe que se comprometeu a comer {count} refeições de uma vez. Tudo desanda rapidamente."
 }

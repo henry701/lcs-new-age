@@ -63,7 +63,7 @@
   "Press any key to watch the Congressional votes unfold.     ": "Pressione qualquer tecla para assistir os votos do Congresso se desenrolarem.     ",
   "Prisoners are often subject to torture and slave labor.": "Prisioneiros são frequentemente submetidos a tortura e trabalho escravo.",
   "Racial Justice": "Justiça Racial",
-  "Radish": "Radish",
+  "Radish": "Rabanete",
   "Rodríguez": "Rodríguez",
   "San Luis Obispo, CA": "San Luis Obispo, CA",
   "Santa Ana, CA": "Santa Ana, CA",
@@ -143,5 +143,5 @@
   "{name}, ": "{name}, ",
   "{name}, {title}": "{name}, {title}",
   "{newboss} will take over for ": "{newboss} assumirá o lugar de ",
-  "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast."
+  "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} percebe que se comprometeu a comer {count} refeições de uma vez. Tudo desanda rapidamente."
 }

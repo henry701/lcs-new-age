@@ -1,11 +1,11 @@
-## Run 2026-02-18T16:37:29Z
+## Run 2026-02-18
 
-- **Timestamp**: 2026-02-18T16:37:29Z
-- **Agent**: opencode (openrouter/stepfun/step-3.5-flash:free)
-- **Batch File(s)**: untranslated_pt_BR.arb
-- **Target Part(s)**: Multiple (batch from all parts)
-- **Entries Translated**: 11
-- **Empty Parts Attempted**: None
-- **Ambiguous Terms**: None
-- **Next Recommended Part**: part01 (72.89%, 45 unxlat), part11 (74.57%, 44 unxlat), part06 (78.74%, 36 unxlat)
-- **Global Status After**: untranslated=570, missing=7, empty=0, coverage=89.40%
+- **Timestamp**: 2026-02-18T00:00:00Z
+- **Agent**: opencode (minimax-m2.5-free)
+- **Batch File(s)**: batch_part01.arb, batch_part06.arb, batch_part11.arb, batch_part16.arb, batch_part18.arb
+- **Target Part(s)**: part01, part06, part11, part16, part18
+- **Entries Translated**: 98
+- **Empty Parts Attempted**: none
+- **Ambiguous Terms**: None identified - used context from existing translations
+- **Next Recommended Part**: part04 (81.29% coverage, 31 untranslated)
+- **Global Status After**: 472 untranslated / 7 missing / 0 empty

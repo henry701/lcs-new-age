@@ -1,5 +1,0 @@
-translation_workspace/batch_21.arb
-translation_workspace/batch_22.arb
-translation_workspace/title_screen_pt_BR.arb
-translation_workspace/untranslated_pt_BR.arb
-translation_workspace/untranslated_pt_BR_part09.arb

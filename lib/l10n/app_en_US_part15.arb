@@ -140,6 +140,7 @@
   "{eName} enjoys discussing {pName}'s unique life philosophy...": "{eName} enjoys discussing {pName}'s unique life philosophy...",
   "{letter} - ": "{letter} - ",
   "{letter} - {title}": "{letter} - {title}",
+  "{name} has completed a{quality} mural about {issue}.": "{name} has completed a{quality} mural about {issue}.",
   "{name} is due to be executed in {months} months.": "{name} is due to be executed in {months} months.",
   "{name} is now {age} years old.": "{name} is now {age} years old.",
   "{name} presses the big red button!": "{name} presses the big red button!",

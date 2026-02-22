@@ -151,6 +151,7 @@
   "{eName} enjoys discussing {pName}'s unique life philosophy...": "{eName} gosta de discutir a filosofia de vida única de {pName}...",
   "{letter} - ": "{letter} - ",
   "{letter} - {title}": "{letter} - {title}",
+  "{name} has completed a{quality} mural about {issue}.": "{name} has completed a{quality} mural about {issue}.",
   "{name} is due to be executed in {months} months.": "{name} está programado para ser executado em {months} meses.",
   "{name} is now {age} years old.": "{name} agora tem {age} anos.",
   "{name} presses the big red button!": "{name} pressiona o botão vermelho grande!",

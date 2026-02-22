@@ -120,36 +120,37 @@ These files are organized into 64 deterministic shards based on string hash.
 
 ### Common Anti-Patterns
 
-**❌ WRONG: Inserting translatable words via parameters**
+**❌ WRONG: Inserting hardcoded words via parameters**
 
-Never insert translatable adjectives, adverbs, or other words as parameter values:
+Never insert hardcoded English words as parameter values—they won't be translated:
 
 ```dart
-// WRONG - "beautiful" won't be translated
+// WRONG - "beautiful" is hardcoded English and won't be translated
 String quality = power > 3 ? " beautiful" : "";
 addstr("{name} has completed a{quality} mural about {issue}.", 
        params: {"name": name, "quality": quality, "issue": issue});
 ```
 
-**✅ CORRECT: Use separate complete strings**
+**✅ CORRECT: Use `LcsI18n.tr()` for dynamic words**
 
-When the only variable is translatable vocabulary, create separate strings:
+Use `LcsI18n.tr()` to translate individual words that need to be inserted dynamically:
 
 ```dart
-// CORRECT - Both strings will be fully translated
-if (power > 3) {
-  addstr("{name} has completed a beautiful mural about {issue}.",
-         params: {"name": name, "issue": issue});
-} else {
-  addstr("{name} has completed a mural about {issue}.",
-         params: {"name": name, "issue": issue});
-}
+// CORRECT - "beautiful" is extracted and translated via LcsI18n.tr()
+String quality = power > 3 ? " ${LcsI18n.tr("beautiful")}" : "";
+addstr("{name} has completed a{quality} mural about {issue}.",
+       params: {"name": name, "quality": quality, "issue": issue});
 ```
 
-**Why this matters:**
-- Word order varies across languages (e.g., "mural bonito" in Portuguese, not "bonito mural")
-- Adjectives may need agreement with gender/number in some languages
-- Translators can't see inline parameter values in ARB files
+**Important notes:**
+- `LcsI18n.tr("word")` extracts "word" as a standalone translatable string
+- This preserves the original code style while ensuring translations
+- Use this for single-word variations that need dynamic insertion
+- For longer phrases, prefer separate complete strings to maintain context for translators
+
+**When to use each approach:**
+- **Single words**: Use `LcsI18n.tr()` (e.g., "beautiful", "quickly", "strong")
+- **Phrases/sentences**: Use separate complete strings with full context
 
 ### Notes for Translators
 

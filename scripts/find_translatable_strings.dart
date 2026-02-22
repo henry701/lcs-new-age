@@ -211,7 +211,12 @@ void main(List<String> args) async {
 
           for (final match in pattern.allMatches(line)) {
             final stringLiteral = match.group(1);
-            if (stringLiteral != null && _isUserFacing(stringLiteral)) {
+            if (stringLiteral != null &&
+                _isUserFacing(
+                  stringLiteral,
+                  // LcsI18n.tr() typically uses single words for dynamic translations
+                  allowSingleWord: function == 'LcsI18n.tr',
+                )) {
               _recordString(
                 stringInfo,
                 stringLiteral,
@@ -532,6 +537,10 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
       RegExp(r"\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"),
       'addCenteredOptionText',
     ),
+
+    // LcsI18n.tr() calls for dynamic translations
+    (RegExp(r'\bLcsI18n\.tr\s*\(\s*"([^"]+)"\s*\)'), 'LcsI18n.tr'),
+    (RegExp(r"\bLcsI18n\.tr\s*\(\s*'([^']+)'\s*\)"), 'LcsI18n.tr'),
   ];
 }
 

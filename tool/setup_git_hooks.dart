@@ -5,7 +5,7 @@ Future<void> main() async {
 
   await hookFile.parent.create(recursive: true);
 
-  final hookContent = r'''#!/bin/sh
+  final hookContent = r'''#!/bin/bash --login
 dart run scripts/validate.dart
 ''';
 

@@ -97,17 +97,27 @@ Future<void> doActivityGraffiti(List<Creature> graffiti) async {
         issue = graffiti[s].activity.view ?? View.lcsKnown;
         power = graffiti[s].skillRoll(Skill.art) ~/ 3;
 
-        String quality = power > 3 ? " beautiful" : "";
-        await showMessage(
-          LcsI18n.processString(
-            "{name} has completed a{quality} mural about {issue}.",
-            {
-              "name": graffiti[s].name,
-              "quality": quality,
-              "issue": issue.label,
-            },
-          ),
-        );
+        if (power > 3) {
+          await showMessage(
+            LcsI18n.processString(
+              "{name} has completed a beautiful mural about {issue}.",
+              {
+                "name": graffiti[s].name,
+                "issue": issue.label,
+              },
+            ),
+          );
+        } else {
+          await showMessage(
+            LcsI18n.processString(
+              "{name} has completed a mural about {issue}.",
+              {
+                "name": graffiti[s].name,
+                "issue": issue.label,
+              },
+            ),
+          );
+        }
 
         graffiti[s].activity.view = null;
         addjuice(graffiti[s], power, power * 20);

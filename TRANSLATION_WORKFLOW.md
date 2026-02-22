@@ -118,6 +118,39 @@ These files are organized into 64 deterministic shards based on string hash.
 
 4. **Translate and merge** as normal
 
+### Common Anti-Patterns
+
+**❌ WRONG: Inserting translatable words via parameters**
+
+Never insert translatable adjectives, adverbs, or other words as parameter values:
+
+```dart
+// WRONG - "beautiful" won't be translated
+String quality = power > 3 ? " beautiful" : "";
+addstr("{name} has completed a{quality} mural about {issue}.", 
+       params: {"name": name, "quality": quality, "issue": issue});
+```
+
+**✅ CORRECT: Use separate complete strings**
+
+When the only variable is translatable vocabulary, create separate strings:
+
+```dart
+// CORRECT - Both strings will be fully translated
+if (power > 3) {
+  addstr("{name} has completed a beautiful mural about {issue}.",
+         params: {"name": name, "issue": issue});
+} else {
+  addstr("{name} has completed a mural about {issue}.",
+         params: {"name": name, "issue": issue});
+}
+```
+
+**Why this matters:**
+- Word order varies across languages (e.g., "mural bonito" in Portuguese, not "bonito mural")
+- Adjectives may need agreement with gender/number in some languages
+- Translators can't see inline parameter values in ARB files
+
 ### Notes for Translators
 
 - Preserve JSON keys exactly.

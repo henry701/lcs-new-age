@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -62,7 +60,7 @@ void main() {
 
     test('returns positive values in range for positive max', () {
       for (int i = 0; i < 100; i++) {
-        final result = lcsRandomDouble(10.0);
+        final result = lcsRandomDouble(10);
         expect(result, inInclusiveRange(0.0, 9.999999999999998));
       }
     });
@@ -70,8 +68,8 @@ void main() {
     test('returns positive values in range for negative max', () {
       double? result;
       for (int i = 0; i < 10; i++) {
-        result = lcsRandomDouble(-5.0);
-        if (result! > 0) break;
+        result = lcsRandomDouble(-5);
+        if (result > 0) break;
       }
       expect(result, greaterThan(0.0));
     });

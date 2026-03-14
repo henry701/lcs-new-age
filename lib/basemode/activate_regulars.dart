@@ -855,6 +855,7 @@ void _activityFooter(Creature cr) {
     ActivityType.streamGuardian ||
     ActivityType.study ||
     ActivityType.takeClass ||
+    ActivityType.trouble ||
     ActivityType.writeGuardian => true,
     _ => false,
   };

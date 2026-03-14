@@ -44,6 +44,9 @@ Gender forceGenderBinary(Gender gender) {
       gender = Gender.female;
     }
   }
+  if (gender == Gender.whiteMalePatriarch) {
+    gender = Gender.male;
+  }
   if (gender == Gender.maleBias) {
     if (lcsRandom(4) > 0) {
       gender = Gender.male;

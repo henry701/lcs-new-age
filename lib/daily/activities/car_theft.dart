@@ -508,7 +508,7 @@ class CarTheftScene {
     bailed = true;
     erase();
     await pagedInterface(
-      headerPrompt: "What type of car will {name} try to find and steal today?",
+      headerPrompt: "What type of car will ${cr.name} try to find and steal today?",
       headerKey: {4: "TYPE", 49: "DIFFICULTY TO FIND UNATTENDED"},
       footerPrompt: "Press a Letter to select a Type of Car",
       count: cart.length,

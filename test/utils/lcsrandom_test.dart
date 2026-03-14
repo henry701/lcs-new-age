@@ -125,6 +125,25 @@ void main() {
     });
   });
 
+  group('nextRngSeed', () {
+    test('getter returns current RNG seed value', () {
+      reseedRNG(seed: 12345);
+      final seed = nextRngSeed;
+      expect(seed, inInclusiveRange(0, 0x7fffffff));
+    });
+
+    test('setter reseeds RNG with given value', () {
+      reseedRNG(seed: 100);
+      final first = lcsRandom(100);
+      nextRngSeed = 200;
+      final second = lcsRandom(100);
+      nextRngSeed = 100;
+      final third = lcsRandom(100);
+      expect(first, equals(third));
+      expect(first, isNot(equals(second)));
+    });
+  });
+
   group('Iterable random extension', () {
     setUp(() {
       reseedRNG(seed: 42);
@@ -150,6 +169,12 @@ void main() {
     test('randomWhere returns matching element', () {
       final list = [1, 2, 3, 4, 5];
       final result = list.randomWhere((e) => e > 3);
+      expect(result, greaterThan(3));
+    });
+
+    test('randomWhere returns matching element for Iterable', () {
+      final set = {1, 2, 3, 4, 5};
+      final result = set.randomWhere((e) => e > 3);
       expect(result, greaterThan(3));
     });
   });

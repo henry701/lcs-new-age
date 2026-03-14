@@ -34,3 +34,19 @@
 - Consider adding missing keys via find_translatable_strings.dart (already run but added 0; maybe missing keys are extra in target?).
 - Target parts: part01, part05, part07, etc.
 - Continue until untranslatedAgainstSource == 0, missingInTarget == 0, emptyInTarget == 0.
+
+---
+
+## Run 2026-03-14 14:40 UTC
+
+- **Run timestamp in UTC:** 2026-03-14 14:40 UTC
+- **Batch file used:** NONE (exhaustion - no actionable entries found)
+- **Entries translated:** 0 (out of 100 total in fresh batch)
+- **Entries skipped:** 100 (reasons: proper nouns, city names, person names, acronyms, fragments, templates)
+- **Coverage before:** 92.18% (translated: 5022, untranslated: 419, missing: 7, empty: 0)
+- **Coverage after:** 92.18% (no changes)
+- **Parts processed:** part01 (batch already merged), part03, part19 (examined)
+- **Tests passed:** N/A (no translations merged)
+- **Blockers:** All remaining 419 untranslated entries are non-localizable per skip rules
+- **Next recommended part:** N/A - exhaustion reached
+- **Rationale:** Exhaustion check complete. All 419 remaining untranslated entries fall under skip rules: proper nouns (Horváth, Pérez, etc.), city names (Venezuela, Dallas TX, etc.), acronyms (GWF, BMW, LCS, BDSM, etc.), format templates ({name} {reaction}), and fragments ("elease, "). Per Phase 5 skip rules, these should NOT be translated.

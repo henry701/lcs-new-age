@@ -50,3 +50,25 @@
 - **Blockers:** All remaining 419 untranslated entries are non-localizable per skip rules
 - **Next recommended part:** N/A - exhaustion reached
 - **Rationale:** Exhaustion check complete. All 419 remaining untranslated entries fall under skip rules: proper nouns (Horváth, Pérez, etc.), city names (Venezuela, Dallas TX, etc.), acronyms (GWF, BMW, LCS, BDSM, etc.), format templates ({name} {reaction}), and fragments ("elease, "). Per Phase 5 skip rules, these should NOT be translated.
+
+---
+
+## Run Entry — 2026-03-14 (UTC)
+- **Batch file used**: translation_workspace/untranslated_pt_BR.arb (default, 80 entries)
+- **Entries translated**: 0
+- **Entries skipped**: 80 (all proper nouns, acronyms, format templates, fragments)
+- **Coverage before**: 92.18% (translated: 5022, untranslated: 419, missing: 7, empty: 0)
+- **Coverage after**: 92.18% (no change)
+- **Parts processed**: Exhaustive check of all 32 parts (part01–part32)
+- **Tests passed**: N/A (no changes made)
+- **Blockers**: None
+- **Next recommended part**: N/A — exhaustion confirmed
+- **Rationale**: All 419 remaining untranslated entries are non-localizable:
+  - Proper nouns (person names: De Niro, Trump, Mengele, bin Laden, O'Connor, etc.)
+  - Place names (US cities with state codes, Long Island, National Mall, El Salvador, etc.)
+  - Acronyms (GWF, DWF, BMW, SSBBW, BDSM, PNP, MWC, etc.)
+  - Format templates/placeholders ({name} {reaction}, {month} {year}., etc.)
+  - Fragment keys (suffixes, mid-sentence continuations)
+  - Brand names (Fandango, Micro, Mega, etc.)
+  - 7 missingInTarget entries are source-only keys not yet synced to pt_BR
+  - No safe translation work remains; emitting NO_WORK_DONE

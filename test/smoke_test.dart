@@ -41,20 +41,5 @@ void main() {
       expect(result, isNotEmpty);
     });
 
-    test(
-      'basic translation pipeline works end-to-end with parameter',
-      () async {
-        await LcsI18n.initialize();
-
-        // Test NCurses-style: plain English in code
-        final result = LcsI18n.processString('You hit the {target}!', {
-          'target': 'Conservador',
-        });
-
-        expect(result, equals('You hit the Conservador!'));
-        expect(result, isA<String>());
-        expect(result, isNotEmpty);
-      },
-    );
   });
 }

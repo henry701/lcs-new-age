@@ -563,7 +563,7 @@ Future<void> _selectClothingToMake(Creature cr) async {
   erase();
   await pagedInterface(
     headerPrompt:
-        "Which will {name} try to make?  (Note: Half Cost if you have cloth)",
+        "Which will ${cr.name} try to make?  (Note: Half Cost if you have cloth)",
     headerKey: {4: "NAME", 37: "DIFFICULTY", 60: "COST"},
     footerPrompt: "Press a Letter to select a Type of Clothing",
     pageSize: 12,
@@ -765,7 +765,7 @@ Future<void> _selectSkillForEducation(
   }
   erase();
   await pagedInterface(
-    headerPrompt: "What skill will {name} {flavor}?",
+    headerPrompt: "What skill will ${cr.name} $flavor?",
     headerKey: {4: "SKILL", 21: "NOW", 27: "MAX", 34: "DESCRIPTION"},
     footerPrompt: "Press a Letter to select a Skill",
     count: skills.length,

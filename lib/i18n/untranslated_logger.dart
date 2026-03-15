@@ -119,7 +119,7 @@ class UntranslatedStringLogger {
 
       // Write back to file with proper formatting
       const encoder = JsonEncoder.withIndent('  ');
-      unawaited(file.writeAsString('${encoder.convert(existingData)}\n'));
+      await file.writeAsString('${encoder.convert(existingData)}\n');
     } catch (e) {
       // Silently fail to avoid disrupting gameplay
       // In a real implementation, you might want to log this to a debug file

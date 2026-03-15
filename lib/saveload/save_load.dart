@@ -247,11 +247,11 @@ Future<void> deleteSave(SaveFile selectedSave) async {
   erase();
   mvaddstrc(1, 1, lightGray, "Delete Saved Game");
   mvaddstr(3, 1, "Are you SURE you want to delete this saved game?");
-  addOptionText(5, 1, "S", "S - Sim, apagar o salvamento.");
+  addOptionText(5, 1, "Y", "Y - Yes, delete the save.");
   addOptionText(6, 1, "N", "N - No, do not delete the save.");
   while (true) {
     int c = await getKey();
-    if (c == Key.s) {
+    if (c == Key.y) {
       await deleteSaveGameId(selectedSave.gameId);
       return;
     } else if (c == Key.n) {

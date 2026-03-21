@@ -1,5 +1,48 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/utils/game_options.dart';
+
+Future<Map<String, dynamic>> _waitForLoggedEntry(String key) async {
+  final logDirectory = Directory('translation_workspace');
+
+  for (var attempt = 0; attempt < 120; attempt++) {
+    if (logDirectory.existsSync()) {
+      for (final entity in logDirectory.listSync()) {
+        if (entity is! File) {
+          continue;
+        }
+
+        final fileName = entity.uri.pathSegments.last;
+        if (!fileName.startsWith('untranslated_strings_') ||
+            !fileName.endsWith('.json')) {
+          continue;
+        }
+
+        try {
+          final content = entity.readAsStringSync();
+          if (content.trim().isEmpty) {
+            continue;
+          }
+
+          final decoded = json.decode(content) as Map<String, dynamic>;
+          final entry = decoded[key];
+          if (entry is Map<String, dynamic>) {
+            return entry;
+          }
+        } catch (_) {
+          // Ignore files being rewritten while async logging is in flight.
+        }
+      }
+    }
+
+    await Future<void>.delayed(const Duration(milliseconds: 25));
+  }
+
+  throw TestFailure('Timed out waiting for untranslated entry "$key"');
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -7,6 +50,7 @@ void main() {
   group('LcsI18n Tests - NCurses Style', () {
     setUp(() async {
       LcsI18n.reset();
+      gameOptions.logUntranslatedStrings = false;
     });
 
     test('initialize with default locale', () async {
@@ -196,6 +240,20 @@ void main() {
       );
     });
 
+    test(
+      'processString translates media overview counts in Portuguese',
+      () async {
+        await LcsI18n.initialize('pt_BR');
+        expect(
+          LcsI18n.processString(
+            'M - Media Overview & Impact &C({unreadNewsCount})',
+            {'unreadNewsCount': 3},
+          ),
+          equals('M - Visão geral da mídia e impacto &C(3)'),
+        );
+      },
+    );
+
     test('processString with noTranslate skips translation', () async {
       await LcsI18n.initialize('pt_BR');
       expect(
@@ -220,6 +278,40 @@ void main() {
         const fallbackKey = 'Loading...';
         expect(LcsI18n.translate(fallbackKey), equals('Loading...'));
         expect(LcsI18n.getMissingTranslations(), contains(fallbackKey));
+      },
+    );
+
+    test(
+      'English fallback logging only writes each missing key once',
+      () async {
+        const fallbackKey = 'Loading...';
+        final previousWorkingDirectory = Directory.current.path;
+        final tempWorkingDirectory = await Directory.systemTemp.createTemp(
+          'i18n_missing_log_test_',
+        );
+
+        try {
+          Directory.current = tempWorkingDirectory.path;
+          gameOptions.logUntranslatedStrings = true;
+
+          await LcsI18n.initialize('zz_ZZ');
+
+          expect(LcsI18n.translate(fallbackKey), equals('Loading...'));
+          final firstEntry = await _waitForLoggedEntry(fallbackKey);
+
+          await Future<void>.delayed(const Duration(milliseconds: 25));
+          expect(LcsI18n.translate(fallbackKey), equals('Loading...'));
+
+          await Future<void>.delayed(const Duration(milliseconds: 50));
+          final secondEntry = await _waitForLoggedEntry(fallbackKey);
+
+          expect(secondEntry['timestamp'], equals(firstEntry['timestamp']));
+        } finally {
+          Directory.current = previousWorkingDirectory;
+          if (tempWorkingDirectory.existsSync()) {
+            await tempWorkingDirectory.delete(recursive: true);
+          }
+        }
       },
     );
 
@@ -283,7 +375,7 @@ void main() {
           );
 
           // Without color specs, just returns formatted string
-          expect(result, equals('Liberal talks to Conservador'));
+          expect(result, equals('Liberal fala com Conservador'));
         },
       );
 

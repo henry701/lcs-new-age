@@ -219,7 +219,10 @@ class LcsI18n {
       return;
     }
 
-    _missingTranslations.add(englishText);
+    final isNewMissing = _missingTranslations.add(englishText);
+    if (!isNewMissing) {
+      return;
+    }
 
     final shouldIgnore = UntranslatedStringLogger.shouldIgnoreString(
       englishText,

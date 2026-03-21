@@ -478,7 +478,8 @@ void baseModeOptionsDisplay(Site? loc) {
       22,
       40,
       "m",
-      "M - Media Overview & Impact &C($unreadNewsCount)",
+      "M - Media Overview & Impact &C({unreadNewsCount})",
+      params: {"unreadNewsCount": unreadNewsCount},
     );
   } else {
     addOptionText(22, 40, "m", "M - Media Overview & Impact");

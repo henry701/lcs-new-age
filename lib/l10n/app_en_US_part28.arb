@@ -160,6 +160,7 @@
   "{name} kidnaps the Conservative!": "{name} kidnaps the Conservative!",
   "{name} lies down in a dumpster, where {hisher} belongs.": "{name} lies down in a dumpster, where {hisher} belongs.",
   "{name} mutters incomprehensibly.": "{name} mutters incomprehensibly.",
+  "{name} talks to {target}": "{name} talks to {target}",
   "{recruitName} thinks {pName} is dangerous extremist.": "{recruitName} thinks {pName} is dangerous extremist.",
   "{recruit} accepts, and is eager to get started.": "{recruit} accepts, and is eager to get started.",
   "{sentence} months in prison.": "{sentence} months in prison.",

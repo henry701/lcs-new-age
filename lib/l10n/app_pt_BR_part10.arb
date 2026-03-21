@@ -171,8 +171,6 @@
   "worry, we learned from the last time we invaded a country, ": "preocupação, aprendemos da última vez que invadimos um país, ",
   "{key} - ": "{key} - ",
   "{lead} goes to pick up the money at {location}. {subject} {action}...": "{lead} vai buscar o dinheiro em {location}. {subject} {action}...",
-  "{name:white} talks to {target:color}": "{name:white} fala com {target:color}",
-  "{name:white} talks to {target:color}:": "{name:white} fala com {target:color}:",
   "{name} couldn't see how to {action}!": "{name} não conseguiu ver como {action}!",
   "{name} dismisses the activities and asks some rather ": "{name} dispensa as atividades e pergunta algumas ",
   "{name} doesn't come back for several days...": "{name} não volta por vários dias...",

@@ -182,6 +182,8 @@
   "{name} observes your Liberal activity {reaction}": "{name} observes your Liberal activity {reaction}",
   "{name} produced an unwearable cloth monster.": "{name} produced an unwearable cloth monster.",
   "{name} talks about the importance of the free market.": "{name} talks about the importance of the free market.",
+  "{name} talks to {target} {ageGender}:": "{name} talks to {target} {ageGender}:",
+  "{name} talks to {target}:": "{name} talks to {target}:",
   "{name} whistles.": "{name} whistles.",
   "{name}'s Heart swells!": "{name}'s Heart swells!",
   "{name}'s left eye is burned away!": "{name}'s left eye is burned away!",

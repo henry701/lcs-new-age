@@ -159,8 +159,6 @@
   "worry, we learned from the last time we invaded a country, ": "worry, we learned from the last time we invaded a country, ",
   "{key} - ": "{key} - ",
   "{lead} goes to pick up the money at {location}. {subject} {action}...": "{lead} goes to pick up the money at {location}. {subject} {action}...",
-  "{name:white} talks to {target:color}": "{name:white} talks to {target:color}",
-  "{name:white} talks to {target:color}:": "{name:white} talks to {target:color}:",
   "{name} couldn't see how to {action}!": "{name} couldn't see how to {action}!",
   "{name} dismisses the activities and asks some rather ": "{name} dismisses the activities and asks some rather ",
   "{name} doesn't come back for several days...": "{name} doesn't come back for several days...",

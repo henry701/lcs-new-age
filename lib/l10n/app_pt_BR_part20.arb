@@ -184,6 +184,8 @@
   "{name} observes your Liberal activity {reaction}": "{name} observa sua atividade Liberal {reaction}",
   "{name} produced an unwearable cloth monster.": "{name} produziu um monstro de tecido inutilizável.",
   "{name} talks about the importance of the free market.": "{name} fala sobre a importância do mercado livre.",
+  "{name} talks to {target} {ageGender}:": "{name} fala com {target} {ageGender}:",
+  "{name} talks to {target}:": "{name} fala com {target}:",
   "{name} whistles.": "{name} assobia.",
   "{name}'s Heart swells!": "O coração de {name} dispara!",
   "{name}'s left eye is burned away!": "O olho esquerdo de {name} foi queimado!",

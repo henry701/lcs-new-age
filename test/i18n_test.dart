@@ -287,6 +287,21 @@ void main() {
         },
       );
 
+      test(
+        'colorized source templates translate through normalized ARB entries',
+        () async {
+          await LcsI18n.initialize('pt_BR');
+
+          final result = LcsI18n.processString(
+            "{support:color}% support the Liberal Crime Squad",
+            {'support': '12', 'supportColor': 'G'},
+            baseColorKey: 'w',
+          );
+
+          expect(result, equals('&G12&w% apoiam o Esquadrão do Crime Liberal'));
+        },
+      );
+
       test('multiple color specs are handled correctly', () async {
         await LcsI18n.initialize('en_US');
 

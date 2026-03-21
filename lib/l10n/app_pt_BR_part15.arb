@@ -11,14 +11,6 @@
   "$str - Previous": "$str - Anterior",
   "4 - Hacking$needHackerDen": "4 - Hackeamento$needHackerDen",
   "6 - The Dead ({dead})": "6 - Os Mortos ({dead})",
-  "@C - Continue as {founder:color}": {
-    "placeholders": {
-      "founder:color": {
-        "example": "founder:color",
-        "type": "String"
-      }
-    }
-  },
   "A comprehensive ban on military-style weapons is in effect.": "Uma proibição abrangente de armas de estilo militar está em vigor.",
   "Accuracy: ": "Precisão: ",
   "Amal": "Amal",
@@ -28,7 +20,6 @@
   "Bellingham, WA": "Bellingham, WA",
   "Better keep moving before the guard notices what you're wearing...": "Melhor continuar andando antes que o guarda perceba o que você está vestindo...",
   "Buggy Armor": "Armadura Bugada",
-  "C - Continue as {founder:color}": "C - Continuar como {founder:color}",
   "Car Dealer": "Concessionária de Carros",
   "Chapel": "Capela",
   "Courthouse Lockup": "Cela do Tribunal",
@@ -62,7 +53,7 @@
   "Persuasion, Street Smarts, and Business. It is significantly more ": "Persuasão, malícia de rua e negócios. É significativamente mais ",
   "Polluter Equip": "Equipar Poluidor",
   "Protect LGBT Rights": "Proteger os Direitos LGBT",
-  "RIGHT - Other Liberals": "DIREITA - Outros Liberais",
+  "RIGHT - Other Liberals": "RIGHT - Outros Liberais",
   "Race cars without crashing. Do stunts.": "Corra com carros sem bater. Faça manobras.",
   "Ret. General ": "Gen. Reformado ",
   "Right Front Leg": "Perna Dianteira Direita",

@@ -31,6 +31,10 @@ class LcsI18n {
   static String _currentLocale = 'en_US';
   static final Map<String, Map<String, dynamic>> _translations = {};
   static final Set<String> _missingTranslations = <String>{};
+  static final RegExp _placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
+
+  static String _normalizeColorizedPlaceholders(String template) => template
+      .replaceAllMapped(_placeholderPattern, (match) => '{${match.group(1)!}}');
 
   /// Initialize the translation system with the specified locale
   static Future<void> initialize([String locale = 'en_US']) async {
@@ -86,13 +90,20 @@ class LcsI18n {
 
           // Merge entries, tracking duplicates
           for (final entry in jsonData.entries) {
-            if (mergedTranslations.containsKey(entry.key)) {
-              duplicateKeys.add(entry.key);
+            final normalizedKey = entry.key.startsWith('@')
+                ? entry.key
+                : _normalizeColorizedPlaceholders(entry.key);
+            final normalizedValue = entry.value is String
+                ? _normalizeColorizedPlaceholders(entry.value as String)
+                : entry.value;
+
+            if (mergedTranslations.containsKey(normalizedKey)) {
+              duplicateKeys.add(normalizedKey);
               print(
-                'LcsI18n: WARNING - Duplicate key "${entry.key}" found in $file (previously loaded)',
+                'LcsI18n: WARNING - Duplicate key "$normalizedKey" found in $file (previously loaded)',
               );
             } else {
-              mergedTranslations[entry.key] = entry.value;
+              mergedTranslations[normalizedKey] = normalizedValue;
             }
           }
         } catch (e) {
@@ -321,9 +332,8 @@ class LcsI18n {
     // STEP 1: Extract color specifications and build clean template
     // Maps paramName -> colorSpec (e.g., "name" -> "white", "target" -> "color")
     final colorMappings = <String, String>{};
-    final placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
 
-    String cleanTemplate = template.replaceAllMapped(placeholderPattern, (
+    String cleanTemplate = template.replaceAllMapped(_placeholderPattern, (
       match,
     ) {
       final paramName = match.group(1)!;

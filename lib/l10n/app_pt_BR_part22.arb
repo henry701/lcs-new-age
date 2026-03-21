@@ -10,6 +10,14 @@
   "+1 Stealth, +1 Agility": "+1 Furtividade, +1 Agilidade",
   "+4 Int, +2 Science Computers Writing and Teaching, +1 Business and Law": "+4 Int, +2 Ciência Computação Escrita e Ensino, +1 Negócios e Lei",
   "...but now the text is in wingdings.": "...mas agora o texto está em wingdings.",
+  "@C - Continue as {founder}": {
+    "placeholders": {
+      "founder": {
+        "example": "founder",
+        "type": "String"
+      }
+    }
+  },
   "@Total Americas Lost: {count}": {
     "placeholders": {
       "count": {
@@ -25,6 +33,7 @@
   "Albany, NY": "Albany, Nova Iorque",
   "Anybody feel like dying a hero?": "Alguém quer morrer como herói?",
   "C - Confirm": "C - Confirmar",
+  "C - Continue as {founder}": "C - Continuar como {founder}",
   "CEO's Study": "Estudo do CEO",
   "Cell": "Cela",
   "Cha: {cha}": "Car: {cha}",

@@ -261,7 +261,7 @@ void mvaddstrRight(
 }) {
   final processed = LcsI18n.processString(s, params, noTranslate: noTranslate);
   int x = CONSOLE_WIDTH - strLenX(processed) - marginX;
-  mvaddstr(y, x, s, params: params, noTranslate: noTranslate);
+  console.mvaddstr(y, x, processed, noTranslate: true);
 }
 
 void mvaddstrc(
@@ -389,12 +389,11 @@ void mvaddstrCenter(
   bool noTranslate = false,
 }) {
   final processed = LcsI18n.processString(s, params, noTranslate: noTranslate);
-  mvaddstr(
+  console.mvaddstr(
     y,
     centerString(processed, x: x),
-    s,
-    params: params,
-    noTranslate: noTranslate,
+    processed,
+    noTranslate: true,
   );
 }
 

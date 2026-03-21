@@ -7,6 +7,19 @@ String getConsoleLine(int y) {
   return console.buffer[y].map((ch) => ch.glyph).join().trimRight();
 }
 
+class _CountingValue {
+  _CountingValue(this.value);
+
+  final String value;
+  int stringifyCount = 0;
+
+  @override
+  String toString() {
+    stringifyCount++;
+    return value;
+  }
+}
+
 void resetConsole() {
   erase();
   move(0, 0);
@@ -112,6 +125,34 @@ void main() {
       mvaddstrRight(0, 'Alert&w', noTranslate: true);
       final rawLine = console.buffer[0].map((ch) => ch.glyph).join();
       expect(rawLine.indexOf('A'), equals(CONSOLE_WIDTH - 'Alert'.length));
+    });
+
+    test('mvaddstrRight only processes params once', () {
+      resetConsole();
+      final counted = _CountingValue('Alert');
+
+      mvaddstrRight(
+        0,
+        '{value}',
+        params: {'value': counted},
+        noTranslate: true,
+      );
+
+      expect(counted.stringifyCount, equals(1));
+    });
+
+    test('mvaddstrCenter only processes params once', () {
+      resetConsole();
+      final counted = _CountingValue('Alert');
+
+      mvaddstrCenter(
+        0,
+        '{value}',
+        params: {'value': counted},
+        noTranslate: true,
+      );
+
+      expect(counted.stringifyCount, equals(1));
     });
 
     test('addOptionText ignores empty rendered labels safely', () {

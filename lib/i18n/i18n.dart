@@ -45,8 +45,6 @@ class LcsI18n {
 
     print('LcsI18n: Initializing with locale "$locale"');
 
-    _currentLocale = locale;
-    Intl.defaultLocale = locale;
     await _loadLocale(locale);
 
     // Preload English as fallback
@@ -54,6 +52,8 @@ class LcsI18n {
       await _loadLocale('en_US');
     }
 
+    _currentLocale = locale;
+    Intl.defaultLocale = locale;
     _initialized = true;
     print('LcsI18n: Successfully initialized with locale "$locale"');
   }
@@ -391,12 +391,12 @@ class LcsI18n {
 
   /// Change the current locale at runtime
   static Future<void> setLocale(String locale) async {
-    _currentLocale = locale;
-    Intl.defaultLocale = locale;
-
     if (!_translations.containsKey(locale)) {
       await _loadLocale(locale);
     }
+
+    _currentLocale = locale;
+    Intl.defaultLocale = locale;
   }
 
   /// Get missing translations (for debugging)

@@ -67,6 +67,18 @@ void main() {
       expect(LcsI18n.currentLocale, equals('pt_BR'));
     });
 
+    test(
+      'initialize keeps the previous locale until async load completes',
+      () async {
+        final initializeFuture = LcsI18n.initialize('pt_BR');
+
+        expect(LcsI18n.currentLocale, equals('en_US'));
+
+        await initializeFuture;
+        expect(LcsI18n.currentLocale, equals('pt_BR'));
+      },
+    );
+
     test('translate simple strings in English', () async {
       await LcsI18n.initialize('en_US');
 
@@ -389,6 +401,19 @@ void main() {
       await LcsI18n.setLocale('en_US');
       expect(LcsI18n.translate('Game Over'), equals('Game Over'));
     });
+
+    test(
+      'setLocale keeps the old locale until the new one is loaded',
+      () async {
+        await LcsI18n.initialize('en_US');
+
+        final switchFuture = LcsI18n.setLocale('pt_BR');
+        expect(LcsI18n.currentLocale, equals('en_US'));
+
+        await switchFuture;
+        expect(LcsI18n.currentLocale, equals('pt_BR'));
+      },
+    );
 
     test('missing translations are tracked', () async {
       await LcsI18n.initialize('pt_BR');

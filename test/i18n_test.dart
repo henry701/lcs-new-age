@@ -276,6 +276,17 @@ void main() {
           LcsI18n.processString(' {times} times', {'times': 7}),
           equals(' 7 vezes'),
         );
+        expect(
+          LcsI18n.processString("{name} drops {prisonerName}'s body.", {
+            'name': 'Alice',
+            'prisonerName': 'Bob',
+          }),
+          equals('Alice deixa cair o corpo de Bob.'),
+        );
+        expect(
+          LcsI18n.translate('the bloody mess'),
+          equals('a bagunça ensanguentada'),
+        );
       },
     );
 

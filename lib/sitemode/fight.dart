@@ -309,26 +309,32 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
     if (canmistake) {
       // Resolve hits on hostages and hauled liberals
       if (e.isEnemy && target.prisoner != null && oneIn(2)) {
-        await attack(e, target.prisoner!, true);
-        if (!target.prisoner!.alive) {
-          if (target.prisoner!.align != Alignment.liberal ||
-              target.prisoner!.body.fellApart) {
-            CreatureType prisonerType = target.prisoner!.type;
+        final prisoner = target.prisoner!;
+        await attack(e, prisoner, true);
+        if (!prisoner.alive) {
+          if (prisoner.align != Alignment.liberal || prisoner.body.fellApart) {
+            CreatureType prisonerType = prisoner.type;
 
             if (prisonerType.majorEnemy) {
               siteCrime += 30;
             }
 
-            makeLoot(target.prisoner!, groundLoot);
+            makeLoot(prisoner, groundLoot);
 
-            String bodyDesc = target.prisoner!.body.fellApart
-                ? "the bloody mess"
-                : "{name}'s body";
-
-            await encounterMessage(
-              "{attacker} drops {body}",
-              params: {"attacker": target.name, "body": bodyDesc},
-            );
+            if (prisoner.body.fellApart) {
+              await encounterMessage(
+                "{attacker} drops {body}",
+                params: {
+                  "attacker": target.name,
+                  "body": LcsI18n.translate("the bloody mess"),
+                },
+              );
+            } else {
+              await encounterMessage(
+                "{name} drops {prisonerName}'s body.",
+                params: {"name": target.name, "prisonerName": prisoner.name},
+              );
+            }
             target.prisoner = null;
           }
         }

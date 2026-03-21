@@ -769,9 +769,9 @@ Future<void> specialPrisonControl(TileSpecial prisonControlType) async {
     TileSpecial.prisonControlHigh => "high security",
     _ => "",
   };
-  String promptText = LcsI18n.format(
+  String promptText = LcsI18n.processString(
     "You've found the {level} prison control room.",
-    {"level": level},
+    {"level": LcsI18n.translate(level)},
   );
   bool freeThem = await sitemodePrompt(
     promptText,

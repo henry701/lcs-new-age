@@ -1176,7 +1176,7 @@ Future<void> siegeTurn() async {
 
           NewsStory ns = NewsStory.unpublished(NewsStories.majorEvent);
           ns.loc = l;
-          ns.byline = LcsI18n.format("By {journalist}", {
+          ns.byline = LcsI18n.processString("By {journalist}", {
             "journalist": repname.firstLast,
           });
           ns.publicationName = publicationName;

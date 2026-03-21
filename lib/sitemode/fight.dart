@@ -820,7 +820,10 @@ Future<bool> attack(
       targetDescTemplate = "{part}";
       targetDescParams = {"part": hitPart.name.toLowerCase()};
     }
-    String targetDesc = LcsI18n.format(targetDescTemplate, targetDescParams);
+    final targetDesc = LcsI18n.processString(
+      targetDescTemplate,
+      targetDescParams,
+    );
 
     // Build the action and multiple hits description
     String actionTemplate;

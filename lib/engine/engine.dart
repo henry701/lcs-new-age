@@ -117,6 +117,10 @@ void _addRenderedOptionText(
   String highlightColorKey = "B",
   String disabledColorKey = "K",
 }) {
+  if (renderedText.isEmpty) {
+    return;
+  }
+
   key = key.toUpperCase();
   String mouseClickKey = key;
   if (key.length > 1) {
@@ -256,7 +260,7 @@ void mvaddstrRight(
   bool noTranslate = false,
 }) {
   final processed = LcsI18n.processString(s, params, noTranslate: noTranslate);
-  int x = CONSOLE_WIDTH - processed.length - marginX;
+  int x = CONSOLE_WIDTH - strLenX(processed) - marginX;
   mvaddstr(y, x, s, params: params, noTranslate: noTranslate);
 }
 

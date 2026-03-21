@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 
@@ -105,6 +106,19 @@ void main() {
         expect(line, contains('Opções de Jogo')); // Portuguese translation
       },
     );
+
+    test('mvaddstrRight uses visible width when markup is present', () {
+      resetConsole();
+      mvaddstrRight(0, 'Alert&w', noTranslate: true);
+      final rawLine = console.buffer[0].map((ch) => ch.glyph).join();
+      expect(rawLine.indexOf('A'), equals(CONSOLE_WIDTH - 'Alert'.length));
+    });
+
+    test('addOptionText ignores empty rendered labels safely', () {
+      expect(() {
+        addOptionText(0, 0, 'X', '', noTranslate: true);
+      }, returnsNormally);
+    });
 
     test('addstr with noTranslate and params replaces placeholders', () async {
       resetConsole();

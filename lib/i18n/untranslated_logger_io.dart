@@ -10,9 +10,20 @@ class UntranslatedStringLogger {
   static const String _filePrefix = 'untranslated_strings_';
   static const String _fileExtension = '.json';
   static final Map<int, Future<void>> _pendingWritesByFile = {};
+  static String? _logDirectoryOverridePath;
+
+  /// Lets tests isolate logger output without mutating the process working directory.
+  static void setLogDirectoryOverrideForTesting(String? path) {
+    _logDirectoryOverridePath = path;
+  }
 
   /// Directory where untranslated string files are stored.
   static Directory _getLogDirectory() {
+    final overridePath = _logDirectoryOverridePath;
+    if (overridePath != null) {
+      return Directory(overridePath);
+    }
+
     try {
       // Use a dedicated translation workspace folder.
       return Directory('translation_workspace');

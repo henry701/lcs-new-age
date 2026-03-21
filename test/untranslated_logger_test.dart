@@ -22,9 +22,10 @@ Iterable<File> _logFiles(Directory directory) sync* {
   }
 }
 
-Future<(File, Map<String, dynamic>)> _waitForLoggedEntry(String key) async {
-  final logDirectory = Directory('translation_workspace');
-
+Future<(File, Map<String, dynamic>)> _waitForLoggedEntry(
+  String key,
+  Directory logDirectory,
+) async {
   for (var attempt = 0; attempt < 120; attempt++) {
     for (final file in _logFiles(logDirectory)) {
       try {
@@ -49,13 +50,16 @@ Future<(File, Map<String, dynamic>)> _waitForLoggedEntry(String key) async {
   throw TestFailure('Timed out waiting for untranslated entry "$key"');
 }
 
-Future<List<String>> _keysSharingLogFile({int count = 3}) async {
+Future<List<String>> _keysSharingLogFile(
+  Directory logDirectory, {
+  int count = 3,
+}) async {
   final groups = <String, List<String>>{};
 
   for (var i = 0; i < 512; i++) {
     final key = 'Collision Candidate $i';
     await UntranslatedStringLogger.logUntranslatedString(key, 'pt_BR');
-    final (file, _) = await _waitForLoggedEntry(key);
+    final (file, _) = await _waitForLoggedEntry(key, logDirectory);
 
     final group = groups.putIfAbsent(file.path, () => <String>[])..add(key);
     if (group.length >= count) {
@@ -69,20 +73,24 @@ Future<List<String>> _keysSharingLogFile({int count = 3}) async {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late String previousWorkingDirectory;
   late Directory tempWorkingDirectory;
+  late Directory logDirectory;
 
   setUp(() async {
-    previousWorkingDirectory = Directory.current.path;
     tempWorkingDirectory = await Directory.systemTemp.createTemp(
       'untranslated_logger_test_',
     );
-    Directory.current = tempWorkingDirectory.path;
-    Directory('translation_workspace').createSync(recursive: true);
+    logDirectory = Directory(
+      '${tempWorkingDirectory.path}/translation_workspace',
+    );
+    UntranslatedStringLogger.setLogDirectoryOverrideForTesting(
+      logDirectory.path,
+    );
+    logDirectory.createSync(recursive: true);
   });
 
   tearDown(() async {
-    Directory.current = previousWorkingDirectory;
+    UntranslatedStringLogger.setLogDirectoryOverrideForTesting(null);
     if (tempWorkingDirectory.existsSync()) {
       await tempWorkingDirectory.delete(recursive: true);
     }
@@ -136,7 +144,7 @@ void main() {
         noTranslate: true,
       );
 
-      final (_, entry) = await _waitForLoggedEntry(key);
+      final (_, entry) = await _waitForLoggedEntry(key, logDirectory);
 
       expect(entry['original'], equals(key));
       expect(entry['locale'], equals('pt_BR'));
@@ -147,14 +155,12 @@ void main() {
 
     test('creates the translation workspace before writing logs', () async {
       const key = 'Missing Workspace Recovery String';
-      final logDirectory = Directory('translation_workspace');
-
       await logDirectory.delete(recursive: true);
 
       await UntranslatedStringLogger.logUntranslatedString(key, 'pt_BR');
 
       expect(logDirectory.existsSync(), isTrue);
-      final (_, entry) = await _waitForLoggedEntry(key);
+      final (_, entry) = await _waitForLoggedEntry(key, logDirectory);
       expect(entry['original'], equals(key));
     });
 
@@ -162,22 +168,22 @@ void main() {
       const key = 'Corrupted File Recovery String';
 
       await UntranslatedStringLogger.logUntranslatedString(key, 'pt_BR');
-      final (logFile, _) = await _waitForLoggedEntry(key);
+      final (logFile, _) = await _waitForLoggedEntry(key, logDirectory);
 
       logFile.writeAsStringSync('{corrupted-json');
 
       await UntranslatedStringLogger.logUntranslatedString(key, 'en_US');
-      final (_, recoveredEntry) = await _waitForLoggedEntry(key);
+      final (_, recoveredEntry) = await _waitForLoggedEntry(key, logDirectory);
 
       expect(recoveredEntry['locale'], equals('en_US'));
       expect(recoveredEntry['original'], equals(key));
     });
 
     test('serializes concurrent writes for the same shard', () async {
-      final keys = await _keysSharingLogFile(count: 3);
+      final keys = await _keysSharingLogFile(logDirectory, count: 3);
 
-      await Directory('translation_workspace').delete(recursive: true);
-      Directory('translation_workspace').createSync(recursive: true);
+      await logDirectory.delete(recursive: true);
+      logDirectory.createSync(recursive: true);
 
       await Future.wait(
         keys.map(
@@ -185,7 +191,7 @@ void main() {
         ),
       );
 
-      final (file, _) = await _waitForLoggedEntry(keys.first);
+      final (file, _) = await _waitForLoggedEntry(keys.first, logDirectory);
       final decoded =
           json.decode(file.readAsStringSync()) as Map<String, dynamic>;
 
@@ -198,8 +204,7 @@ void main() {
   test(
     'getStatistics reports valid files and ignores corrupted payloads',
     () async {
-      final logDirectory = Directory('translation_workspace')
-        ..createSync(recursive: true);
+      logDirectory.createSync(recursive: true);
 
       File(
         '${logDirectory.path}/untranslated_strings_1.json',

@@ -3,11 +3,13 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/i18n/untranslated_logger.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 
-Future<Map<String, dynamic>> _waitForLoggedEntry(String key) async {
-  final logDirectory = Directory('translation_workspace');
-
+Future<Map<String, dynamic>> _waitForLoggedEntry(
+  String key,
+  Directory logDirectory,
+) async {
   for (var attempt = 0; attempt < 120; attempt++) {
     if (logDirectory.existsSync()) {
       for (final entity in logDirectory.listSync()) {
@@ -51,6 +53,7 @@ void main() {
     setUp(() async {
       LcsI18n.reset();
       gameOptions.logUntranslatedStrings = false;
+      UntranslatedStringLogger.setLogDirectoryOverrideForTesting(null);
     });
 
     test('initialize with default locale', () async {
@@ -287,6 +290,21 @@ void main() {
           LcsI18n.translate('the bloody mess'),
           equals('a bagunça ensanguentada'),
         );
+        expect(
+          LcsI18n.processString("By {journalist}", {
+            'journalist': 'Maria Santos',
+          }),
+          equals('Por Maria Santos'),
+        );
+        expect(
+          LcsI18n.processString(
+            "You've found the {level} prison control room.",
+            {'level': LcsI18n.translate('high security')},
+          ),
+          equals(
+            'Você encontrou a sala de controle da prisão de nível alta segurança.',
+          ),
+        );
       },
     );
 
@@ -321,29 +339,39 @@ void main() {
       'English fallback logging only writes each missing key once',
       () async {
         const fallbackKey = 'Loading...';
-        final previousWorkingDirectory = Directory.current.path;
         final tempWorkingDirectory = await Directory.systemTemp.createTemp(
           'i18n_missing_log_test_',
         );
+        final tempLogDirectory = Directory(
+          '${tempWorkingDirectory.path}/translation_workspace',
+        );
 
         try {
-          Directory.current = tempWorkingDirectory.path;
+          UntranslatedStringLogger.setLogDirectoryOverrideForTesting(
+            tempLogDirectory.path,
+          );
           gameOptions.logUntranslatedStrings = true;
 
           await LcsI18n.initialize('zz_ZZ');
 
           expect(LcsI18n.translate(fallbackKey), equals('Loading...'));
-          final firstEntry = await _waitForLoggedEntry(fallbackKey);
+          final firstEntry = await _waitForLoggedEntry(
+            fallbackKey,
+            tempLogDirectory,
+          );
 
           await Future<void>.delayed(const Duration(milliseconds: 25));
           expect(LcsI18n.translate(fallbackKey), equals('Loading...'));
 
           await Future<void>.delayed(const Duration(milliseconds: 50));
-          final secondEntry = await _waitForLoggedEntry(fallbackKey);
+          final secondEntry = await _waitForLoggedEntry(
+            fallbackKey,
+            tempLogDirectory,
+          );
 
           expect(secondEntry['timestamp'], equals(firstEntry['timestamp']));
         } finally {
-          Directory.current = previousWorkingDirectory;
+          UntranslatedStringLogger.setLogDirectoryOverrideForTesting(null);
           if (tempWorkingDirectory.existsSync()) {
             await tempWorkingDirectory.delete(recursive: true);
           }

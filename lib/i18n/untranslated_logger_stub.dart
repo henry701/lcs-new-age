@@ -5,6 +5,8 @@ class UntranslatedStringLogger {
   static bool shouldIgnoreString(String englishText) =>
       shouldIgnoreUntranslatedString(englishText);
 
+  static void setLogDirectoryOverrideForTesting(String? path) {}
+
   static Future<void> logUntranslatedString(
     String englishText,
     String locale, {

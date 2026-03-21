@@ -254,6 +254,31 @@ void main() {
       },
     );
 
+    test(
+      'processString translates fight templates with named placeholders',
+      () async {
+        await LcsI18n.initialize('pt_BR');
+        expect(
+          LcsI18n.processString(' punches the {ism} out of {name}', {
+            'ism': 'conservadorismo',
+            'name': 'Bob',
+          }),
+          equals(' espanca o conservadorismo fora de Bob'),
+        );
+        expect(
+          LcsI18n.processString('{attacker} strikes true on {target}', {
+            'attacker': 'Alice',
+            'target': 'o braço',
+          }),
+          equals('Alice acerta em cheio em o braço'),
+        );
+        expect(
+          LcsI18n.processString(' {times} times', {'times': 7}),
+          equals(' 7 vezes'),
+        );
+      },
+    );
+
     test('processString with noTranslate skips translation', () async {
       await LcsI18n.initialize('pt_BR');
       expect(

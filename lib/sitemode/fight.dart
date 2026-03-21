@@ -818,20 +818,21 @@ Future<bool> attack(
 
     // Build the action and multiple hits description
     String actionTemplate;
-    String actionParams = "";
+    Map<String, dynamic> actionParams = {};
     String multiHitDesc = "";
+    bool actionIncludesAttacker = false;
     if (addAutoConvert) {
       actionTemplate = " punches the {ism} out of {name}";
-      actionParams = LcsI18n.format("", {"ism": t.align.ism, "name": t.name});
+      actionParams = {"ism": t.align.ism, "name": t.name};
     } else if (sneakAttack) {
       actionTemplate = " stabs {target}";
-      actionParams = targetDesc;
+      actionParams = {"target": targetDesc};
     } else if (bursthits == 1 || attackUsed.ranged) {
       actionTemplate = " hits {target}";
-      actionParams = targetDesc;
+      actionParams = {"target": targetDesc};
     } else {
       actionTemplate = " hits {target}";
-      actionParams = targetDesc;
+      actionParams = {"target": targetDesc};
     }
 
     // show multiple hits
@@ -842,14 +843,12 @@ Future<bool> attack(
         3 => " three times",
         4 => " four times",
         5 => " five times",
-        _ => " {times} times",
+        _ => LcsI18n.processString(" {times} times", {"times": bursthits}),
       };
       if (bursthits > 1 && !attackUsed.ranged && !addAutoConvert) {
         actionTemplate = "{attacker} strikes true on {target}";
-        actionParams = LcsI18n.format("", {
-          "attacker": a.name,
-          "target": targetDesc,
-        });
+        actionParams = {"attacker": a.name, "target": targetDesc};
+        actionIncludesAttacker = true;
       }
       multiHitDesc = LcsI18n.processString(", {description}{hit}", {
         "description": attackUsed.hitDescription,
@@ -857,14 +856,10 @@ Future<bool> attack(
       });
     }
 
-    String fullMessage = LcsI18n.processString(
-      "{attacker}{action}{multiHitDesc}",
-      {
-        "attacker": a.name,
-        "action": LcsI18n.format(actionTemplate, {"target": actionParams}),
-        "multiHitDesc": multiHitDesc,
-      },
-    );
+    final action = LcsI18n.processString(actionTemplate, actionParams);
+    final fullMessage = actionIncludesAttacker
+        ? '$action$multiHitDesc'
+        : '${a.name}$action$multiHitDesc';
     if (addAutoConvert) {
       addstr("{message}!", params: {"message": fullMessage});
     } else {

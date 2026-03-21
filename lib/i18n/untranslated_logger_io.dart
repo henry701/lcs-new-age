@@ -76,6 +76,11 @@ class UntranslatedStringLogger {
     bool noTranslate = false,
   }) async {
     try {
+      final logDirectory = _getLogDirectory();
+      if (!logDirectory.existsSync()) {
+        await logDirectory.create(recursive: true);
+      }
+
       final file = _getFilePath(englishText);
       final fileIndex = _getFileIndex(englishText);
 

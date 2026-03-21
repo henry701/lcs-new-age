@@ -145,6 +145,19 @@ void main() {
       expect(DateTime.tryParse(entry['timestamp'] as String), isNotNull);
     });
 
+    test('creates the translation workspace before writing logs', () async {
+      const key = 'Missing Workspace Recovery String';
+      final logDirectory = Directory('translation_workspace');
+
+      await logDirectory.delete(recursive: true);
+
+      await UntranslatedStringLogger.logUntranslatedString(key, 'pt_BR');
+
+      expect(logDirectory.existsSync(), isTrue);
+      final (_, entry) = await _waitForLoggedEntry(key);
+      expect(entry['original'], equals(key));
+    });
+
     test('recovers from corrupted json logs', () async {
       const key = 'Corrupted File Recovery String';
 

@@ -193,15 +193,6 @@ Future<void> optionsMenu() async {
       "written to JSON files in game directory for translation. Default is on "
       "for Windows builds and debug mode only.",
     );
-    setColor(midGray);
-    addparagraph(
-      console.y + 1,
-      8,
-      x2: 72,
-      "When mouse input is on, you can use the mouse to select options in "
-      "the game. This feature is not complete and not all screens support "
-      "mouse input. Default is on.",
-    );
 
     addOptionText(
       console.y + 1,

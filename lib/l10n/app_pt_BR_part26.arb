@@ -159,7 +159,7 @@
   "{name} smashes the window{weapon}.": "{name} quebra a janela{weapon}.",
   "{name} will snoop around for secrets and enemy plans.": "{name} vai bisbilhotar por segredos e planos inimigos.",
   "{name} will try to recruit additional sleeper agents.": "{name} vai tentar recrutar agentes adicionais.",
-  "{name} {response}": "{nome} {resposta}",
+  "{name} {response}": "{name} {response}",
   "{name}'s left eye is cut open!": "O olho esquerdo de {name} foi cortado!",
   "{name}'s right kidney is punctured!": "O rim direito de {name} foi perfurado!",
   "{name}'s tongue is removed!": "A língua de {name} foi removida!",

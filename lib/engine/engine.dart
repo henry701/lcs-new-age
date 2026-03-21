@@ -42,9 +42,16 @@ void addparagraph(
   String s, {
   int y2 = CONSOLE_HEIGHT - 1,
   int x2 = CONSOLE_WIDTH - 1,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
+  final renderedParagraph = LcsI18n.processString(
+    s,
+    params,
+    noTranslate: noTranslate,
+  );
   console.move(y1, x1);
-  List<String> lines = s.split("\n");
+  List<String> lines = renderedParagraph.split("\n");
   for (int i = 0; i < lines.length; i++) {
     List<String> words = lines[i].split(" ");
     for (int j = 0; j < words.length; j++) {
@@ -53,9 +60,9 @@ void addparagraph(
         if (console.y > y2) return;
         if (words[j].isEmpty) continue;
       } else if (j != 0) {
-        addstr(" ");
+        addstr(" ", noTranslate: true);
       }
-      addstrx(words[j], restoreOldColor: false);
+      addstrx(words[j], restoreOldColor: false, noTranslate: true);
     }
     move(console.y + 1, x1);
     if (console.y > y2) return;

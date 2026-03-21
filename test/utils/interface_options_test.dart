@@ -249,4 +249,17 @@ void main() {
       expect(firstNonSpaceIndex(5), isNot(equals(centerString(sourceText))));
     });
   });
+
+  group('addparagraph', () {
+    test('translates the full paragraph before wrapping words', () async {
+      await LcsI18n.initialize('pt_BR');
+
+      addparagraph(0, 0, 'Press any key to continue.');
+
+      expect(
+        getConsoleLine(0),
+        contains('Pressione qualquer tecla para continuar.'),
+      );
+    });
+  });
 }

@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'package:lcs_new_age/utils/log_untranslated_defaults.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GameOptions {
@@ -21,16 +21,9 @@ class GameOptions {
     interfacePgUp = prefs.getString(_interfacePgUpKey) ?? "[";
     language = prefs.getString(_languageKey) ?? 'en_US';
 
-    // Default logUntranslatedStrings based on platform (true for desktop builds)
-    bool isDesktop = false;
-
-    try {
-      isDesktop = Platform.isWindows || Platform.isLinux;
-    } catch (e) {
-      // Platform not available (e.g., web) - default to false
-    }
-
-    logUntranslatedStrings = prefs.getBool(_logUntranslatedKey) ?? isDesktop;
+    logUntranslatedStrings =
+        prefs.getBool(_logUntranslatedKey) ??
+        defaultLogUntranslatedStringsForPlatform;
   }
 
   Future<void> save() async {

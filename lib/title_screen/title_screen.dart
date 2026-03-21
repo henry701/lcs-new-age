@@ -452,20 +452,6 @@ Future<void> languageMenu() async {
       "Portuguese: ${gameOptions.language == 'pt_BR' ? '&GSelected&x' : 'Portugues'}",
       enabledWhen: true,
     );
-    addOptionText(
-      8,
-      4,
-      "G",
-      "German: ${gameOptions.language == 'de' ? '&GSelected&x' : 'Deutsch'}",
-      enabledWhen: true,
-    );
-    addOptionText(
-      9,
-      4,
-      "F",
-      "French: ${gameOptions.language == 'fr' ? '&GSelected&x' : 'Français'}",
-      enabledWhen: true,
-    );
 
     setColor(midGray);
     addparagraph(
@@ -483,14 +469,7 @@ Future<void> languageMenu() async {
     switch (c) {
       case Key.e:
       case Key.p:
-      case Key.g:
-      case Key.f:
-        final languageMap = {
-          Key.e: 'en_US',
-          Key.p: 'pt_BR',
-          Key.g: 'de',
-          Key.f: 'fr',
-        };
+        final languageMap = {Key.e: 'en_US', Key.p: 'pt_BR'};
         final selectedLanguage = languageMap[c]!;
         gameOptions.language = selectedLanguage;
         await gameOptions.save();

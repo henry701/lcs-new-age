@@ -7,6 +7,10 @@ class GameOptions {
   static const String _interfacePgUpKey = 'interfacePgUp';
   static const String _languageKey = 'language';
   static const String _logUntranslatedKey = 'logUntranslatedStrings';
+  static const Set<String> supportedLanguages = {'en_US', 'pt_BR'};
+
+  static String normalizeLanguage(String? language) =>
+      supportedLanguages.contains(language) ? language! : 'en_US';
 
   bool encounterWarnings = false;
   bool mouseInput = true;
@@ -19,7 +23,7 @@ class GameOptions {
     encounterWarnings = prefs.getBool(_encounterWarningsKey) ?? false;
     mouseInput = prefs.getBool(_mouseInputKey) ?? true;
     interfacePgUp = prefs.getString(_interfacePgUpKey) ?? "[";
-    language = prefs.getString(_languageKey) ?? 'en_US';
+    language = normalizeLanguage(prefs.getString(_languageKey));
 
     logUntranslatedStrings =
         prefs.getBool(_logUntranslatedKey) ??
@@ -31,6 +35,7 @@ class GameOptions {
     await prefs.setBool(_encounterWarningsKey, encounterWarnings);
     await prefs.setBool(_mouseInputKey, mouseInput);
     await prefs.setString(_interfacePgUpKey, interfacePgUp);
+    language = normalizeLanguage(language);
     await prefs.setString(_languageKey, language);
     await prefs.setBool(_logUntranslatedKey, logUntranslatedStrings);
   }

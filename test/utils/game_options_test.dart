@@ -42,6 +42,15 @@ void main() {
       expect(options.logUntranslatedStrings, isFalse);
     });
 
+    test('load normalizes unsupported saved locales back to en_US', () async {
+      SharedPreferences.setMockInitialValues({'language': 'de'});
+      final options = GameOptions();
+
+      await options.load();
+
+      expect(options.language, equals('en_US'));
+    });
+
     test('save persists all option fields', () async {
       final options = GameOptions()
         ..encounterWarnings = true
@@ -56,7 +65,7 @@ void main() {
       expect(prefs.getBool('encounterWarnings'), isTrue);
       expect(prefs.getBool('mouseInput'), isFalse);
       expect(prefs.getString('interfacePgUp'), equals(','));
-      expect(prefs.getString('language'), equals('de'));
+      expect(prefs.getString('language'), equals('en_US'));
       expect(prefs.getBool('logUntranslatedStrings'), isTrue);
     });
   });

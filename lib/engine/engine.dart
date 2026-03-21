@@ -85,6 +85,31 @@ void addInlineOptionText(
   Map<String, dynamic>? params,
   bool noTranslate = false,
 }) {
+  final renderedText = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+
+  _addRenderedOptionText(
+    key,
+    renderedText,
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+  );
+}
+
+void _addRenderedOptionText(
+  String key,
+  String renderedText, {
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+}) {
   key = key.toUpperCase();
   String mouseClickKey = key;
   if (key.length > 1) {
@@ -111,24 +136,16 @@ void addInlineOptionText(
       mouseClickKey = String.fromCharCode(Key.escape);
     }
   }
-  // Translate the text first (with inline color extraction), then add color codes
-  String translatedText = LcsI18n.processString(
-    text,
-    params,
-    noTranslate: noTranslate,
-    baseColorKey: baseColorKey,
-  );
-
   String beforeKey = "";
   String afterKey = "";
-  int keyIndex = translatedText.toUpperCase().indexOf(key);
+  int keyIndex = renderedText.toUpperCase().indexOf(key);
   if (keyIndex == -1) {
-    key = translatedText[0];
+    key = renderedText[0];
     keyIndex = 0;
   }
-  key = translatedText.substring(keyIndex, keyIndex + key.length);
-  beforeKey = translatedText.substring(0, keyIndex);
-  afterKey = translatedText.substring(keyIndex + key.length);
+  key = renderedText.substring(keyIndex, keyIndex + key.length);
+  beforeKey = renderedText.substring(0, keyIndex);
+  afterKey = renderedText.substring(keyIndex + key.length);
   if (enabledWhen) {
     console.addstrx(
       "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
@@ -136,7 +153,7 @@ void addInlineOptionText(
       mouseClickKey: mouseClickKey,
     );
   } else {
-    console.addstrx("&$disabledColorKey$translatedText");
+    console.addstrx("&$disabledColorKey$renderedText");
   }
 }
 
@@ -188,12 +205,20 @@ void addCenteredOptionText(
   String baseColorKey = "w",
   String highlightColorKey = "B",
   String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
-  int x = centerString(text);
-  move(y, x);
-  addInlineOptionText(
-    key,
+  final renderedText = LcsI18n.processString(
     text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  int x = centerString(renderedText);
+  move(y, x);
+  _addRenderedOptionText(
+    key,
+    renderedText,
     enabledWhen: enabledWhen,
     baseColorKey: baseColorKey,
     highlightColorKey: highlightColorKey,
@@ -377,7 +402,7 @@ void eraseArea({
   int endX = CONSOLE_WIDTH,
 }) => console.eraseArea(startY: startY, startX: startX, endY: endY, endX: endX);
 void eraseLine(int y) => console.eraseLine(y);
-int centerString(String s, {int x = 39}) => (x - s.length / 2).round();
+int centerString(String s, {int x = 39}) => (x - strLenX(s) / 2).round();
 void moveCenterString(int y, String s) => move(y, centerString(s));
 Future<void> pressAnyKey() => getKey();
 void setColorConditional(

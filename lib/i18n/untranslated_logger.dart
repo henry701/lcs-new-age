@@ -7,6 +7,7 @@ class UntranslatedStringLogger {
   static const int _numFiles = 64;
   static const String _filePrefix = 'untranslated_strings_';
   static const String _fileExtension = '.json';
+  static final Map<int, Future<void>> _pendingWritesByFile = {};
 
   /// Directory where untranslated string files are stored
   static Directory _getLogDirectory() {
@@ -88,11 +89,40 @@ class UntranslatedStringLogger {
     String locale, {
     bool noTranslate = false,
   }) async {
+    final fileIndex = _getFileIndex(englishText);
+    final previousWrite =
+        _pendingWritesByFile[fileIndex] ?? Future<void>.value();
+
+    late final Future<void> scheduledWrite;
+    scheduledWrite = previousWrite
+        .catchError((Object _) {})
+        .then(
+          (_) => _writeUntranslatedString(
+            englishText,
+            locale,
+            noTranslate: noTranslate,
+          ),
+        );
+
+    _pendingWritesByFile[fileIndex] = scheduledWrite;
+    try {
+      await scheduledWrite;
+    } finally {
+      if (identical(_pendingWritesByFile[fileIndex], scheduledWrite)) {
+        unawaited(_pendingWritesByFile.remove(fileIndex));
+      }
+    }
+  }
+
+  static Future<void> _writeUntranslatedString(
+    String englishText,
+    String locale, {
+    bool noTranslate = false,
+  }) async {
     try {
       final file = _getFilePath(englishText);
       final fileIndex = _getFileIndex(englishText);
 
-      // Read existing data
       Map<String, dynamic> existingData = {};
       if (file.existsSync()) {
         try {
@@ -101,23 +131,19 @@ class UntranslatedStringLogger {
             existingData = json.decode(content) as Map<String, dynamic>;
           }
         } catch (e) {
-          // File exists but is corrupted, start fresh
           existingData = {};
         }
       }
 
-      // Add untranslated string entry
       final timestamp = DateTime.now().toIso8601String();
       existingData[englishText] = {
         'original': englishText,
         'locale': locale,
         'timestamp': timestamp,
         'file_index': fileIndex,
-        'no_translate':
-            noTranslate, // Mark if this string should not be translated
+        'no_translate': noTranslate,
       };
 
-      // Write back to file with proper formatting
       const encoder = JsonEncoder.withIndent('  ');
       await file.writeAsString('${encoder.convert(existingData)}\n');
     } catch (e) {

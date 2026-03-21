@@ -184,28 +184,53 @@ class LcsI18n {
       if (_currentLocale != 'en_US') {
         final enData = _translations['en_US'];
         if (enData != null && enData.containsKey(englishText)) {
-          final fallbackText = enData[englishText] as String;
-          print(
-            'LcsI18n: Using English fallback for "$englishText" in $_currentLocale',
-          );
-          return fallbackText;
+          _recordMissingTranslation(englishText, usesEnglishFallback: true);
+          return enData[englishText] as String;
         }
       }
 
       // Track missing translations (skip for en_US since it's the source language)
       if (_currentLocale != 'en_US') {
-        _missingTranslations.add(englishText);
-        // Only log if string should not be ignored (has a-Z characters, etc.)
-        if (!UntranslatedStringLogger.shouldIgnoreString(englishText)) {
-          print(
-            'LcsI18n: Missing translation for "$englishText" in $_currentLocale',
-          );
-        }
+        _recordMissingTranslation(englishText);
       }
       return englishText;
     } catch (e) {
       print('LcsI18n: Translation error for "$englishText": $e');
       return englishText;
+    }
+  }
+
+  static void _recordMissingTranslation(
+    String englishText, {
+    bool usesEnglishFallback = false,
+  }) {
+    if (_currentLocale == 'en_US') {
+      return;
+    }
+
+    _missingTranslations.add(englishText);
+
+    final shouldIgnore = UntranslatedStringLogger.shouldIgnoreString(
+      englishText,
+    );
+
+    if (usesEnglishFallback) {
+      print(
+        'LcsI18n: Using English fallback for "$englishText" in $_currentLocale',
+      );
+    } else if (!shouldIgnore) {
+      print(
+        'LcsI18n: Missing translation for "$englishText" in $_currentLocale',
+      );
+    }
+
+    if (gameOptions.logUntranslatedStrings && !shouldIgnore) {
+      unawaited(
+        UntranslatedStringLogger.logUntranslatedString(
+          englishText,
+          _currentLocale,
+        ),
+      );
     }
   }
 

@@ -1,10 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 
 String getConsoleLine(int y) {
   return console.buffer[y].map((ch) => ch.glyph).join().trimRight();
+}
+
+int firstNonSpaceIndex(int y) {
+  return console.buffer[y].indexWhere((ch) => ch.glyph != ' ');
 }
 
 void resetConsole() {
@@ -13,15 +18,19 @@ void resetConsole() {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late String originalInterfacePgUp;
 
   setUp(() {
     originalInterfacePgUp = gameOptions.interfacePgUp;
+    LcsI18n.reset();
     resetConsole();
   });
 
   tearDown(() {
     gameOptions.interfacePgUp = originalInterfacePgUp;
+    LcsI18n.reset();
     resetConsole();
   });
 
@@ -223,6 +232,21 @@ void main() {
       addBackButton(y: 9, x: 1, text: 'Enter - Return');
 
       expect(getConsoleLine(9), contains('Enter - Return'));
+    });
+  });
+
+  group('addCenteredOptionText', () {
+    test('centers using the rendered translated label width', () async {
+      await LcsI18n.initialize('pt_BR');
+
+      const sourceText = '(S - Change the Slogan)';
+      final renderedText = LcsI18n.processString(sourceText, null);
+
+      addCenteredOptionText(5, 'S', sourceText, baseColorKey: 'm');
+
+      expect(getConsoleLine(5), contains('Mudar o slogan'));
+      expect(firstNonSpaceIndex(5), equals(centerString(renderedText)));
+      expect(firstNonSpaceIndex(5), isNot(equals(centerString(sourceText))));
     });
   });
 }

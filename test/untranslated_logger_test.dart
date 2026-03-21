@@ -49,6 +49,23 @@ Future<(File, Map<String, dynamic>)> _waitForLoggedEntry(String key) async {
   throw TestFailure('Timed out waiting for untranslated entry "$key"');
 }
 
+Future<List<String>> _keysSharingLogFile({int count = 3}) async {
+  final groups = <String, List<String>>{};
+
+  for (var i = 0; i < 512; i++) {
+    final key = 'Collision Candidate $i';
+    await UntranslatedStringLogger.logUntranslatedString(key, 'pt_BR');
+    final (file, _) = await _waitForLoggedEntry(key);
+
+    final group = groups.putIfAbsent(file.path, () => <String>[])..add(key);
+    if (group.length >= count) {
+      return List<String>.from(group.take(count));
+    }
+  }
+
+  throw TestFailure('Could not find $count keys sharing the same log shard');
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -141,6 +158,27 @@ void main() {
 
       expect(recoveredEntry['locale'], equals('en_US'));
       expect(recoveredEntry['original'], equals(key));
+    });
+
+    test('serializes concurrent writes for the same shard', () async {
+      final keys = await _keysSharingLogFile(count: 3);
+
+      await Directory('translation_workspace').delete(recursive: true);
+      Directory('translation_workspace').createSync(recursive: true);
+
+      await Future.wait(
+        keys.map(
+          (key) => UntranslatedStringLogger.logUntranslatedString(key, 'pt_BR'),
+        ),
+      );
+
+      final (file, _) = await _waitForLoggedEntry(keys.first);
+      final decoded =
+          json.decode(file.readAsStringSync()) as Map<String, dynamic>;
+
+      for (final key in keys) {
+        expect(decoded, contains(key));
+      }
     });
   });
 

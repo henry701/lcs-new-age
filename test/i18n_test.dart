@@ -212,6 +212,17 @@ void main() {
       expect(LcsI18n.translate(untranslated), equals(untranslated));
     });
 
+    test(
+      'English fallback entries are tracked as missing translations',
+      () async {
+        await LcsI18n.initialize('zz_ZZ');
+
+        const fallbackKey = 'Loading...';
+        expect(LcsI18n.translate(fallbackKey), equals('Loading...'));
+        expect(LcsI18n.getMissingTranslations(), contains(fallbackKey));
+      },
+    );
+
     test('locale switching works', () async {
       await LcsI18n.initialize('en_US');
       expect(LcsI18n.translate('Game Over'), equals('Game Over'));

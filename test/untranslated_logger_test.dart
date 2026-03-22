@@ -121,6 +121,8 @@ void main() {
 
     test('keeps human-readable text for translation', () {
       expect(UntranslatedStringLogger.shouldIgnoreString('OK'), isFalse);
+      expect(UntranslatedStringLogger.shouldIgnoreString('face'), isFalse);
+      expect(UntranslatedStringLogger.shouldIgnoreString('Yes/No'), isFalse);
       expect(
         UntranslatedStringLogger.shouldIgnoreString(
           'Press any key to continue',
@@ -130,6 +132,17 @@ void main() {
       expect(
         UntranslatedStringLogger.shouldIgnoreString('weapon_slot_1'),
         isFalse,
+      );
+    });
+
+    test('ignores long generated prose that is not a stable translation key', () {
+      expect(
+        UntranslatedStringLogger.shouldIgnoreString(
+          'This is a long generated article body that keeps going with enough '
+          'words to exceed the prose threshold and should never be recorded as '
+          'a reusable translation key for the catalog.',
+        ),
+        isTrue,
       );
     });
   });

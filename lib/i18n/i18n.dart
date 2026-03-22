@@ -31,7 +31,21 @@ class LcsI18n {
   static String _currentLocale = 'en_US';
   static final Map<String, Map<String, dynamic>> _translations = {};
   static final Set<String> _missingTranslations = <String>{};
+  static final Set<String> _loggedUntranslatedKeys = <String>{};
   static final RegExp _placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
+
+  static String _localeScopedKey(String locale, String englishText) =>
+      '$locale::$englishText';
+
+  static void _activateLocale(String locale) {
+    if (_currentLocale != locale) {
+      _missingTranslations.clear();
+      _loggedUntranslatedKeys.clear();
+    }
+
+    _currentLocale = locale;
+    Intl.defaultLocale = locale;
+  }
 
   static String _normalizeColorizedPlaceholders(String template) => template
       .replaceAllMapped(_placeholderPattern, (match) => '{${match.group(1)!}}');
@@ -52,8 +66,7 @@ class LcsI18n {
       await _loadLocale('en_US');
     }
 
-    _currentLocale = locale;
-    Intl.defaultLocale = locale;
+    _activateLocale(locale);
     _initialized = true;
     print('LcsI18n: Successfully initialized with locale "$locale"');
   }
@@ -171,20 +184,31 @@ class LcsI18n {
 
         // Warn if translation is the same as input (except for en_US)
         if (_currentLocale != 'en_US' && translated == englishText) {
-          print(
-            'LcsI18n: WARNING - Untranslated string in $_currentLocale: "$englishText"',
-          );
+          final logKey = _localeScopedKey(_currentLocale, englishText);
+          if (_loggedUntranslatedKeys.contains(logKey)) {
+            return translated;
+          }
 
-          // Log to file if option is enabled and string should not be ignored
-          if (gameOptions.logUntranslatedStrings &&
-              !UntranslatedStringLogger.shouldIgnoreString(englishText)) {
-            unawaited(
-              UntranslatedStringLogger.logUntranslatedString(
-                englishText,
-                _currentLocale,
-                noTranslate: noTranslate,
-              ),
+          final shouldIgnore = UntranslatedStringLogger.shouldIgnoreString(
+            englishText,
+          );
+          final isFirstOccurrence =
+              !shouldIgnore && _loggedUntranslatedKeys.add(logKey);
+
+          if (isFirstOccurrence) {
+            print(
+              'LcsI18n: WARNING - Untranslated string in $_currentLocale: "$englishText"',
             );
+
+            if (gameOptions.logUntranslatedStrings) {
+              unawaited(
+                UntranslatedStringLogger.logUntranslatedString(
+                  englishText,
+                  _currentLocale,
+                  noTranslate: noTranslate,
+                ),
+              );
+            }
           }
         }
 
@@ -219,26 +243,33 @@ class LcsI18n {
       return;
     }
 
-    final isNewMissing = _missingTranslations.add(englishText);
-    if (!isNewMissing) {
+    if (_missingTranslations.contains(englishText)) {
       return;
     }
 
     final shouldIgnore = UntranslatedStringLogger.shouldIgnoreString(
       englishText,
     );
+    if (shouldIgnore) {
+      return;
+    }
+
+    final isNewMissing = _missingTranslations.add(englishText);
+    if (!isNewMissing) {
+      return;
+    }
 
     if (usesEnglishFallback) {
       print(
         'LcsI18n: Using English fallback for "$englishText" in $_currentLocale',
       );
-    } else if (!shouldIgnore) {
+    } else {
       print(
         'LcsI18n: Missing translation for "$englishText" in $_currentLocale',
       );
     }
 
-    if (gameOptions.logUntranslatedStrings && !shouldIgnore) {
+    if (gameOptions.logUntranslatedStrings) {
       unawaited(
         UntranslatedStringLogger.logUntranslatedString(
           englishText,
@@ -327,16 +358,23 @@ class LcsI18n {
     bool noTranslate = false,
     String baseColorKey = 'w',
   }) {
+    final cleanTemplate = template.replaceAllMapped(_placeholderPattern, (
+      match,
+    ) {
+      final paramName = match.group(1)!;
+      return '{$paramName}';
+    });
+
     if (params == null) {
-      // No params, just translate the template as-is
-      return noTranslate ? template : translate(template);
+      // No params, but still normalize inline color specs before translation.
+      return noTranslate ? cleanTemplate : translate(cleanTemplate);
     }
 
     // STEP 1: Extract color specifications and build clean template
     // Maps paramName -> colorSpec (e.g., "name" -> "white", "target" -> "color")
     final colorMappings = <String, String>{};
 
-    String cleanTemplate = template.replaceAllMapped(_placeholderPattern, (
+    final normalizedTemplate = template.replaceAllMapped(_placeholderPattern, (
       match,
     ) {
       final paramName = match.group(1)!;
@@ -352,7 +390,9 @@ class LcsI18n {
     });
 
     // STEP 2: Translate the clean template (no color specs)
-    String translated = noTranslate ? cleanTemplate : translate(cleanTemplate);
+    String translated = noTranslate
+        ? normalizedTemplate
+        : translate(normalizedTemplate);
 
     // STEP 3: Format with params and re-apply colors using stored mappings
     String result = translated;
@@ -395,8 +435,8 @@ class LcsI18n {
       await _loadLocale(locale);
     }
 
-    _currentLocale = locale;
-    Intl.defaultLocale = locale;
+    _activateLocale(locale);
+    _initialized = true;
   }
 
   /// Get missing translations (for debugging)
@@ -410,5 +450,6 @@ class LcsI18n {
     _currentLocale = 'en_US';
     _translations.clear();
     _missingTranslations.clear();
+    _loggedUntranslatedKeys.clear();
   }
 }

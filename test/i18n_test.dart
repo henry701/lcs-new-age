@@ -391,6 +391,53 @@ void main() {
       },
     );
 
+    test('catalog entries that still equal English only log once', () async {
+      const untranslatedCatalogKey = 'Buffalo, NY';
+      final tempWorkingDirectory = await Directory.systemTemp.createTemp(
+        'i18n_same_value_log_test_',
+      );
+      final tempLogDirectory = Directory(
+        '${tempWorkingDirectory.path}/translation_workspace',
+      );
+
+      try {
+        UntranslatedStringLogger.setLogDirectoryOverrideForTesting(
+          tempLogDirectory.path,
+        );
+        gameOptions.logUntranslatedStrings = true;
+
+        await LcsI18n.initialize('pt_BR');
+
+        expect(
+          LcsI18n.translate(untranslatedCatalogKey),
+          equals('Buffalo, NY'),
+        );
+        final firstEntry = await _waitForLoggedEntry(
+          untranslatedCatalogKey,
+          tempLogDirectory,
+        );
+
+        await Future<void>.delayed(const Duration(milliseconds: 25));
+        expect(
+          LcsI18n.translate(untranslatedCatalogKey),
+          equals('Buffalo, NY'),
+        );
+
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+        final secondEntry = await _waitForLoggedEntry(
+          untranslatedCatalogKey,
+          tempLogDirectory,
+        );
+
+        expect(secondEntry['timestamp'], equals(firstEntry['timestamp']));
+      } finally {
+        UntranslatedStringLogger.setLogDirectoryOverrideForTesting(null);
+        if (tempWorkingDirectory.existsSync()) {
+          await tempWorkingDirectory.delete(recursive: true);
+        }
+      }
+    });
+
     test('locale switching works', () async {
       await LcsI18n.initialize('en_US');
       expect(LcsI18n.translate('Game Over'), equals('Game Over'));
@@ -400,6 +447,11 @@ void main() {
 
       await LcsI18n.setLocale('en_US');
       expect(LcsI18n.translate('Game Over'), equals('Game Over'));
+    });
+
+    test('setLocale initializes translations when called first', () async {
+      await LcsI18n.setLocale('pt_BR');
+      expect(LcsI18n.translate('Game Over'), equals('Fim de Jogo'));
     });
 
     test(
@@ -415,6 +467,20 @@ void main() {
       },
     );
 
+    test(
+      'missing translations are cleared when the active locale changes',
+      () async {
+        await LcsI18n.initialize('pt_BR');
+        const missing = 'definitelynotmatchinganypattern';
+
+        LcsI18n.translate(missing);
+        expect(LcsI18n.getMissingTranslations(), contains(missing));
+
+        await LcsI18n.setLocale('en_US');
+        expect(LcsI18n.getMissingTranslations(), isEmpty);
+      },
+    );
+
     test('missing translations are tracked', () async {
       await LcsI18n.initialize('pt_BR');
       const missing = 'definitelynotmatchinganypattern';
@@ -423,6 +489,20 @@ void main() {
       final missingSet = LcsI18n.getMissingTranslations();
       expect(missingSet, contains(missing));
     });
+
+    test(
+      'long generated prose is not tracked as a missing translation',
+      () async {
+        await LcsI18n.initialize('pt_BR');
+        const longBody =
+            'This generated article body is long enough to be treated as prose '
+            'instead of a stable translation key and should not be added to the '
+            'missing translation tracker during gameplay logging.';
+
+        expect(LcsI18n.translate(longBody), equals(longBody));
+        expect(LcsI18n.getMissingTranslations(), isNot(contains(longBody)));
+      },
+    );
 
     group('Inline Color Syntax Tests', () {
       test(
@@ -565,6 +645,21 @@ void main() {
 
         expect(result, equals('Carregando...'));
       });
+
+      test(
+        'template without params still normalizes inline color placeholders before translation',
+        () async {
+          await LcsI18n.initialize('pt_BR');
+
+          final result = LcsI18n.processString(
+            "{name:white} talks to {target:color}",
+            null,
+            baseColorKey: 'w',
+          );
+
+          expect(result, equals('{name} fala com {target}'));
+        },
+      );
     });
   });
 }

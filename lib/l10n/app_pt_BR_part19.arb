@@ -35,6 +35,7 @@
   "Just Ask Them Nicely": "Basta Perguntar de Forma Gentil",
   "Luís": "Luís",
   "MBiC": "MBiC",
+  "Manage Outdated ({version}) Saved Game": "Gerenciar Jogo Salvo Desatualizado ({version})",
   "New You": "Novo Você",
   "North Las Vegas, NV": "North Las Vegas, NV",
   "Not Enough Food": "Comida Insuficiente",
@@ -87,6 +88,7 @@
   "and later used the material for a Broadway play called {playName}.": "e mais tarde usou o material para uma peça da Broadway chamada {playName}.",
   "appointing more Conservative justices": "nomeando mais juízes Conservadores",
   "demonstrations, organizing unions, working for liberal ": "manifestando-se, organizando sindicatos, trabalhando para liberal ",
+  "desperately cries out to Jesus.": "clama desesperadamente por Jesus.",
   "don't hit like they used to, you can always just play covers of ": "não atingem como antes, você sempre pode tocar covers de ",
   "elease, ": "elease, ",
   "expand the war on drugs": "expandir a guerra às drogas",
@@ -104,6 +106,7 @@
   "prays silently...": "reza silenciosamente...",
   "rants about how the LCS are a bunch of LIBERALS and that's the ": "desabafa sobre como o LCS é um bando de LIBERAIS e esse é o ",
   "seems indignant at the suggestion.": "parece indignado com a sugestão.",
+  "shakes with fear.": "treme de medo.",
   "signals, ": "sinais, ",
   "silly and trivial.": "bobo e trivial.",
   "soft luxury prisons": "prisões de luxo confortáveis",
@@ -132,6 +135,7 @@
   "{name}'s face is burned away!": "O rosto de {name} foi queimado!",
   "{name}'s left eye is torn out!": "O olho esquerdo de {name} foi arrancado!",
   "{name}'s tongue is cut off!": "A língua de {name} foi cortada!",
+  "{pName} has dates to manage with {dateList} over video chat.": "{pName} tem encontros para administrar com {dateList} por videochamada.",
   "{text}▂": "{text}▂",
   "│   begins airing this week.  With the nationwide   │": "│   começa a ser exibido esta semana. Com a   │"
 }

@@ -103,6 +103,16 @@ void main() {
         UntranslatedStringLogger.shouldIgnoreString(r'C:\temp\\save.dat'),
         isTrue,
       );
+      expect(UntranslatedStringLogger.shouldIgnoreString('./save.dat'), isTrue);
+      expect(
+        UntranslatedStringLogger.shouldIgnoreString('../save.dat'),
+        isTrue,
+      );
+      expect(UntranslatedStringLogger.shouldIgnoreString('/tmp'), isTrue);
+      expect(
+        UntranslatedStringLogger.shouldIgnoreString('assets/icon.png'),
+        isTrue,
+      );
       expect(UntranslatedStringLogger.shouldIgnoreString('0xFA12'), isTrue);
       expect(UntranslatedStringLogger.shouldIgnoreString('1234.50'), isTrue);
       expect(

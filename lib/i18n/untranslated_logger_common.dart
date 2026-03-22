@@ -2,8 +2,11 @@ final _whitespaceSplitPattern = RegExp(r'\s+');
 final _urlPattern = RegExp(r'^(?:https?|file)://');
 final _windowsPathPattern = RegExp(r'^[A-Za-z]:[\\/]');
 final _uncPathPattern = RegExp(r'^\\\\');
-final _relativeOrUnixPathPattern = RegExp(
-  r'^(?:\.{1,2}[\\/]|/)[^/\s]+(?:[\\/][^/\s]+)+$',
+final _relativeOrAbsolutePathPattern = RegExp(
+  r'^(?:\.{1,2}[\\/]|/)(?:[^/\s]+(?:[\\/][^/\s]+)*)$',
+);
+final _slashSeparatedFilePathPattern = RegExp(
+  r'^[A-Za-z0-9_-]+(?:[\\/][A-Za-z0-9_-]+)*[\\/][A-Za-z0-9_.-]+\.[A-Za-z0-9_.-]+$',
 );
 final _hexLikePattern = RegExp(
   r'^(?:0[xX])?(?=[0-9a-fA-F]{4,}$)(?=.*\d)[0-9a-fA-F]+$',
@@ -35,7 +38,10 @@ bool shouldIgnoreUntranslatedString(String englishText) {
   if (_urlPattern.hasMatch(trimmed)) return true;
   if (_windowsPathPattern.hasMatch(trimmed)) return true;
   if (_uncPathPattern.hasMatch(trimmed)) return true;
-  if (_relativeOrUnixPathPattern.hasMatch(trimmed)) {
+  if (_relativeOrAbsolutePathPattern.hasMatch(trimmed)) {
+    return true;
+  }
+  if (_slashSeparatedFilePathPattern.hasMatch(trimmed)) {
     return true;
   }
 

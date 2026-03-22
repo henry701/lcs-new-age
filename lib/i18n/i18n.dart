@@ -31,7 +31,8 @@ class LcsI18n {
   static String _currentLocale = 'en_US';
   static final Map<String, Map<String, dynamic>> _translations = {};
   static final Set<String> _missingTranslations = <String>{};
-  static final Set<String> _loggedUntranslatedKeys = <String>{};
+  static final Set<String> _warnedUntranslatedKeys = <String>{};
+  static final Set<String> _fileLoggedUntranslatedKeys = <String>{};
   static final RegExp _placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
 
   static String _localeScopedKey(String locale, String englishText) =>
@@ -40,7 +41,8 @@ class LcsI18n {
   static void _activateLocale(String locale) {
     if (_currentLocale != locale) {
       _missingTranslations.clear();
-      _loggedUntranslatedKeys.clear();
+      _warnedUntranslatedKeys.clear();
+      _fileLoggedUntranslatedKeys.clear();
     }
 
     _currentLocale = locale;
@@ -185,30 +187,30 @@ class LcsI18n {
         // Warn if translation is the same as input (except for en_US)
         if (_currentLocale != 'en_US' && translated == englishText) {
           final logKey = _localeScopedKey(_currentLocale, englishText);
-          if (_loggedUntranslatedKeys.contains(logKey)) {
-            return translated;
-          }
-
           final shouldIgnore = UntranslatedStringLogger.shouldIgnoreString(
             englishText,
           );
-          final isFirstOccurrence =
-              !shouldIgnore && _loggedUntranslatedKeys.add(logKey);
+          final shouldWarn =
+              !shouldIgnore && _warnedUntranslatedKeys.add(logKey);
+          final shouldLogToFile =
+              !shouldIgnore &&
+              gameOptions.logUntranslatedStrings &&
+              _fileLoggedUntranslatedKeys.add(logKey);
 
-          if (isFirstOccurrence) {
+          if (shouldWarn) {
             print(
               'LcsI18n: WARNING - Untranslated string in $_currentLocale: "$englishText"',
             );
+          }
 
-            if (gameOptions.logUntranslatedStrings) {
-              unawaited(
-                UntranslatedStringLogger.logUntranslatedString(
-                  englishText,
-                  _currentLocale,
-                  noTranslate: noTranslate,
-                ),
-              );
-            }
+          if (shouldLogToFile) {
+            unawaited(
+              UntranslatedStringLogger.logUntranslatedString(
+                englishText,
+                _currentLocale,
+                noTranslate: noTranslate,
+              ),
+            );
           }
         }
 
@@ -435,6 +437,10 @@ class LcsI18n {
       await _loadLocale(locale);
     }
 
+    if (locale != 'en_US' && !_translations.containsKey('en_US')) {
+      await _loadLocale('en_US');
+    }
+
     _activateLocale(locale);
     _initialized = true;
   }
@@ -450,6 +456,7 @@ class LcsI18n {
     _currentLocale = 'en_US';
     _translations.clear();
     _missingTranslations.clear();
-    _loggedUntranslatedKeys.clear();
+    _warnedUntranslatedKeys.clear();
+    _fileLoggedUntranslatedKeys.clear();
   }
 }

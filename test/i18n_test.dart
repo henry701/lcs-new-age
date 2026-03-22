@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -438,6 +439,49 @@ void main() {
       }
     });
 
+    test(
+      'catalog entries that still equal English can be logged after logging is enabled later',
+      () async {
+        const untranslatedCatalogKey = 'Buffalo, NY';
+        final tempWorkingDirectory = await Directory.systemTemp.createTemp(
+          'i18n_same_value_late_log_test_',
+        );
+        final tempLogDirectory = Directory(
+          '${tempWorkingDirectory.path}/translation_workspace',
+        );
+
+        try {
+          UntranslatedStringLogger.setLogDirectoryOverrideForTesting(
+            tempLogDirectory.path,
+          );
+
+          await LcsI18n.initialize('pt_BR');
+          expect(
+            LcsI18n.translate(untranslatedCatalogKey),
+            equals('Buffalo, NY'),
+          );
+
+          gameOptions.logUntranslatedStrings = true;
+          expect(
+            LcsI18n.translate(untranslatedCatalogKey),
+            equals('Buffalo, NY'),
+          );
+
+          final entry = await _waitForLoggedEntry(
+            untranslatedCatalogKey,
+            tempLogDirectory,
+          );
+          expect(entry['original'], equals(untranslatedCatalogKey));
+          expect(entry['locale'], equals('pt_BR'));
+        } finally {
+          UntranslatedStringLogger.setLogDirectoryOverrideForTesting(null);
+          if (tempWorkingDirectory.existsSync()) {
+            await tempWorkingDirectory.delete(recursive: true);
+          }
+        }
+      },
+    );
+
     test('locale switching works', () async {
       await LcsI18n.initialize('en_US');
       expect(LcsI18n.translate('Game Over'), equals('Game Over'));
@@ -452,6 +496,31 @@ void main() {
     test('setLocale initializes translations when called first', () async {
       await LcsI18n.setLocale('pt_BR');
       expect(LcsI18n.translate('Game Over'), equals('Fim de Jogo'));
+    });
+
+    test('setLocale preloads English fallback when called first', () async {
+      final logLines = <String>[];
+
+      await runZoned(
+        () async {
+          await LcsI18n.setLocale('pt_BR');
+          expect(LcsI18n.translate('Trivial'), equals('Trivial'));
+        },
+        zoneSpecification: ZoneSpecification(
+          print: (self, parent, zone, line) {
+            logLines.add(line);
+          },
+        ),
+      );
+
+      expect(
+        logLines,
+        contains('LcsI18n: Using English fallback for "Trivial" in pt_BR'),
+      );
+      expect(
+        logLines,
+        isNot(contains('LcsI18n: Missing translation for "Trivial" in pt_BR')),
+      );
     });
 
     test(

@@ -94,8 +94,11 @@ Future<void> mediaOverview() async {
           headline = "${headline.substring(0, 32).trim()}...";
         }
         DateTime date = ns.date;
-        String dateString =
-            "${getMonthShort(date.month)} ${date.day}, ${date.year}";
+        String dateString = LcsI18n.processString("{month} {day}, {year}", {
+          "month": getMonthShort(date.month),
+          "day": date.day,
+          "year": date.year,
+        });
         mvaddstrc(y, 40, lightGray, dateString);
         Map<View, double> impact = ns.effects;
         double totalImpact = impact.entries

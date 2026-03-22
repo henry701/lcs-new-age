@@ -248,10 +248,6 @@ class LcsI18n {
       return;
     }
 
-    if (_missingTranslations.contains(englishText)) {
-      return;
-    }
-
     final shouldIgnore = UntranslatedStringLogger.shouldIgnoreString(
       englishText,
     );
@@ -260,21 +256,21 @@ class LcsI18n {
     }
 
     final isNewMissing = _missingTranslations.add(englishText);
-    if (!isNewMissing) {
-      return;
+    if (isNewMissing) {
+      if (usesEnglishFallback) {
+        print(
+          'LcsI18n: Using English fallback for "$englishText" in $_currentLocale',
+        );
+      } else {
+        print(
+          'LcsI18n: Missing translation for "$englishText" in $_currentLocale',
+        );
+      }
     }
 
-    if (usesEnglishFallback) {
-      print(
-        'LcsI18n: Using English fallback for "$englishText" in $_currentLocale',
-      );
-    } else {
-      print(
-        'LcsI18n: Missing translation for "$englishText" in $_currentLocale',
-      );
-    }
-
-    if (gameOptions.logUntranslatedStrings) {
+    final logKey = _localeScopedKey(_currentLocale, englishText);
+    if (gameOptions.logUntranslatedStrings &&
+        _fileLoggedUntranslatedKeys.add(logKey)) {
       unawaited(
         UntranslatedStringLogger.logUntranslatedString(
           englishText,

@@ -171,20 +171,14 @@ Future<void> siegeCheck() async {
 
           if (policeSleeperWarning) {
             erase();
-            mvaddstrc(
+            addparagraph(
               8,
               1,
-              white,
-              "You have received advance warning from one of your agents regarding ",
-            );
-            mvaddstr(
-              9,
-              1,
-              "a government raid on the {location}.",
+              "You have received advance warning from one of your agents regarding a government raid on the {location}.",
               params: {"location": l.getName(includeCity: true)},
             );
 
-            int y = 11;
+            int y = console.y + 1;
             if (l.siege.escalationState == SiegeEscalation.police) {
               if (deathSquadsActive) {
                 mvaddstr(

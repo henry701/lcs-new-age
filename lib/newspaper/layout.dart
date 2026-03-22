@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/saveload/load_cpc_images.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -44,10 +45,14 @@ void preparePage(NewsStory ns, bool liberalguardian) {
 
     // DATE
     setColor(black, background: bgColor);
-    mvaddstr(0, 66 + (day < 10 ? 1 : 0), getMonthShort(month));
-    addstr(
-      " {day}, {year}",
-      params: {"day": day.toString(), "year": year.toString()},
+    mvaddstr(
+      0,
+      66 + (day < 10 ? 1 : 0),
+      LcsI18n.processString("{month} {day}, {year}", {
+        "month": getMonthShort(month),
+        "day": day,
+        "year": year,
+      }),
       noTranslate: true,
     );
   } else {

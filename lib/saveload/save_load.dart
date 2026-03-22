@@ -10,6 +10,7 @@ import 'package:lcs_new_age/daily/recruitment.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
@@ -120,14 +121,20 @@ Future<bool> loadGameMenu() async {
         String founder;
         String lastPlayedStr;
         if (lastPlayed != null) {
-          lastPlayedStr =
-              "${getMonthShort(lastPlayed.month)} ${lastPlayed.day}, ${lastPlayed.year}";
+          lastPlayedStr = LcsI18n.processString("{month} {day}, {year}", {
+            "month": getMonthShort(lastPlayed.month),
+            "day": lastPlayed.day,
+            "year": lastPlayed.year,
+          });
         } else {
           lastPlayedStr = "Unknown";
         }
         if (saveFile.gameState != null) {
-          inGameDate =
-              "${getMonthShort(saveFile.gameState!.date.month)} ${saveFile.gameState!.date.day}, ${saveFile.gameState!.date.year}";
+          inGameDate = LcsI18n.processString("{month} {day}, {year}", {
+            "month": getMonthShort(saveFile.gameState!.date.month),
+            "day": saveFile.gameState!.date.day,
+            "year": saveFile.gameState!.date.year,
+          });
 
           founder = _nameOfFounder(saveFile.gameState!);
         } else {

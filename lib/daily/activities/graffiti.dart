@@ -72,10 +72,10 @@ Future<void> doActivityGraffiti(List<Creature> graffiti) async {
       // Spotted by cops!
       String activity;
       if (graffiti[s].activity.view != null) {
-        activity = "working on the mural";
+        activity = LcsI18n.tr("working on the mural");
         graffiti[s].activity.view = null;
       } else {
-        activity = "spraying an LCS tag";
+        activity = LcsI18n.tr("spraying an LCS tag");
       }
 
       await showMessage(

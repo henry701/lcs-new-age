@@ -122,17 +122,11 @@ Future<_LocaleProcessResult> _processLocale({
     return const _LocaleProcessResult(hadErrors: true, changed: false);
   }
 
-  bool changedLegacy = false;
-  if (legacyFiles.isNotEmpty && fixMode) {
-    for (final file in legacyFiles) {
-      await file.delete();
-      changedLegacy = true;
-    }
-    print('  FIXED: removed ${legacyFiles.length} legacy unlabeled file(s)');
-  }
+  final changedLegacy = legacyFiles.isNotEmpty && fixMode;
 
   final fileMaps = <String, Map<String, dynamic>>{};
-  for (final file in files) {
+  final inputFiles = [...files, ...legacyFiles];
+  for (final file in inputFiles) {
     final fileName = file.path.split('/').last;
     try {
       final map =
@@ -167,7 +161,7 @@ Future<_LocaleProcessResult> _processLocale({
   };
 
   final currentContent = <String, String>{};
-  for (final file in files) {
+  for (final file in inputFiles) {
     final name = file.path.split('/').last;
     currentContent[name] = await file.readAsString();
   }

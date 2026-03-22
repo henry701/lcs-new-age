@@ -392,6 +392,40 @@ void main() {
       },
     );
 
+    test(
+      'missing translations can be logged after logging is enabled later',
+      () async {
+        const missingKey = 'definitelynotmatchinganypattern';
+        final tempWorkingDirectory = await Directory.systemTemp.createTemp(
+          'i18n_missing_late_log_test_',
+        );
+        final tempLogDirectory = Directory(
+          '${tempWorkingDirectory.path}/translation_workspace',
+        );
+
+        try {
+          UntranslatedStringLogger.setLogDirectoryOverrideForTesting(
+            tempLogDirectory.path,
+          );
+
+          await LcsI18n.initialize('pt_BR');
+          expect(LcsI18n.translate(missingKey), equals(missingKey));
+
+          gameOptions.logUntranslatedStrings = true;
+          expect(LcsI18n.translate(missingKey), equals(missingKey));
+
+          final entry = await _waitForLoggedEntry(missingKey, tempLogDirectory);
+          expect(entry['original'], equals(missingKey));
+          expect(entry['locale'], equals('pt_BR'));
+        } finally {
+          UntranslatedStringLogger.setLogDirectoryOverrideForTesting(null);
+          if (tempWorkingDirectory.existsSync()) {
+            await tempWorkingDirectory.delete(recursive: true);
+          }
+        }
+      },
+    );
+
     test('catalog entries that still equal English only log once', () async {
       const untranslatedCatalogKey = 'Buffalo, NY';
       final tempWorkingDirectory = await Directory.systemTemp.createTemp(

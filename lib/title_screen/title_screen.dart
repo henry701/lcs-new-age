@@ -140,6 +140,9 @@ Future<void> titleScreen() async {
 
 Future<void> optionsMenu() async {
   while (true) {
+    String toggleState(bool enabled) =>
+        enabled ? "&G${LcsI18n.tr("On")}&x" : "&R${LcsI18n.tr("Off")}&x";
+
     erase();
     setColor(lightGreen);
     mvaddstrCenter(2, "GAME OPTIONS");
@@ -150,7 +153,8 @@ Future<void> optionsMenu() async {
       6,
       4,
       "E",
-      "E - Encounter Warnings: ${gameOptions.encounterWarnings ? "&GOn&x" : "&ROff&x"}",
+      "E - Encounter Warnings: {state}",
+      params: {"state": toggleState(gameOptions.encounterWarnings)},
     );
     setColor(midGray);
     addparagraph(
@@ -167,7 +171,8 @@ Future<void> optionsMenu() async {
       console.y + 1,
       4,
       "M",
-      "M - Experimental Mouse Input: ${gameOptions.mouseInput ? "&GOn&x" : "&ROff&x"}",
+      "M - Experimental Mouse Input: {state}",
+      params: {"state": toggleState(gameOptions.mouseInput)},
     );
     setColor(midGray);
     addparagraph(
@@ -182,7 +187,8 @@ Future<void> optionsMenu() async {
       console.y + 1,
       4,
       "U",
-      "U - Log Untranslated Strings: ${gameOptions.logUntranslatedStrings ? "&GOn&x" : "&ROff&x"}",
+      "U - Log Untranslated Strings: {state}",
+      params: {"state": toggleState(gameOptions.logUntranslatedStrings)},
     );
     setColor(midGray);
     addparagraph(
@@ -198,7 +204,8 @@ Future<void> optionsMenu() async {
       console.y + 1,
       4,
       "P",
-      "P - Default Page Up/Down Keys: &G$interfacePgUp&x and &G$interfacePgDown&x",
+      "P - Default Page Up/Down Keys: {pgUp} and {pgDown}",
+      params: {"pgUp": "&G$interfacePgUp&x", "pgDown": "&G$interfacePgDown&x"},
     );
     setColor(midGray);
     addparagraph(
@@ -359,7 +366,11 @@ void titleScreenScores(HighScores? highScores, {int startY = 9}) {
     mvaddstr(
       startY + 3,
       44,
-      "Fastest Victory: ${getMonth(highScores.scoreList.first.month)} ${highScores.scoreList.first.year}",
+      "Fastest Victory: {month} {year}",
+      params: {
+        "month": getMonth(highScores.scoreList.first.month),
+        "year": highScores.scoreList.first.year,
+      },
     );
   }
 }

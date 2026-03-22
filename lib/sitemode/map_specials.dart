@@ -1672,8 +1672,9 @@ Future<void> specialBankVault() async {
           p.sleeperAgent &&
           p.type.id == CreatureTypeIds.bankManager) {
         await encounterMessage(
-          "Sleeper ${p.name} opens the vault, ",
+          "Sleeper {name} opens the vault, ",
           line2: "and will join the active LCS to avoid arrest.",
+          params: {"name": p.name},
         );
         canbreakin = true;
         p.location = p.base = squad[0].base;

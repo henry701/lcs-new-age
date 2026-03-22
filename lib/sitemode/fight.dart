@@ -227,14 +227,14 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
         clearMessageArea();
 
         final escapeMessage = (e.body.legok < 2 || e.blood < e.maxBlood * 0.45)
-            ? escapeCrawling.random
-            : escapeRunning.random;
+            ? LcsI18n.tr(escapeCrawling.random)
+            : LcsI18n.tr(escapeRunning.random);
         mvaddstrc(
           9,
           1,
           white,
-          "{name} $escapeMessage",
-          params: {"name": e.name},
+          "{name}{escape}",
+          params: {"name": e.name, "escape": escapeMessage},
         );
 
         encounter.remove(e);
@@ -256,8 +256,8 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
             9,
             1,
             white,
-            "{name} ${cowerInCombat.random}",
-            params: {"name": e.name},
+            "{name}{cower}",
+            params: {"name": e.name, "cower": LcsI18n.tr(cowerInCombat.random)},
           );
           await getKey();
         }
@@ -1130,30 +1130,24 @@ Future<void> hit(
       severamount += t.maxBlood * 2;
     }
 
+    Map<String, dynamic>? severMessageParams;
     if (severtype != SeverType.none &&
         damamount >= severamount &&
         !bruiseOnly) {
-      String NAME = // ignore: non_constant_identifier_names
-      t.name
-          .toUpperCase();
-      String PART = // ignore: non_constant_identifier_names
-      hitPart.name
-          .toUpperCase();
+      severMessageParams = {
+        "name": t.name.toUpperCase(),
+        "part": hitPart.name.toUpperCase(),
+      };
       if (severtype == SeverType.clean) {
         hitPart.cleanOff = true;
         if (hitPart.critical && !hitPart.weakSpot) {
-          str += "{NAME}'S {PART} IS SLICED IN HALF!";
+          str += "{name}'S {part} IS SLICED IN HALF!";
         } else {
-          str += "{NAME}'S {PART} IS SLICED OFF!";
+          str += "{name}'S {part} IS SLICED OFF!";
         }
-
-        str = str.replaceAll("{NAME}", NAME);
-        str = str.replaceAll("{PART}", PART);
       } else if (severtype == SeverType.nasty) {
         hitPart.nastyOff = true;
-        str += "{NAME}'S {PART} IS BLOWN APART!";
-        str = str.replaceAll("{NAME}", NAME);
-        str = str.replaceAll("{PART}", PART);
+        str += "{name}'S {part} IS BLOWN APART!";
       }
     }
 
@@ -1179,7 +1173,7 @@ Future<void> hit(
 
     if (str != "") {
       clearMessageArea();
-      mvaddstrc(9, 1, a.align.color, str);
+      mvaddstrc(9, 1, a.align.color, str, params: severMessageParams);
       printParty();
       printEncounter();
       await getKey();
@@ -1457,7 +1451,7 @@ Future<void> hit(
         clearMessageArea();
         setColor(a.align.color);
 
-        int roll = lcsRandom(10 + body.ribs > 0 ? 4 : 0);
+        int roll = lcsRandom(10 + (body.ribs > 0 ? 4 : 0));
         if (bruiseOnly) roll = 11;
 
         switch (roll) {
@@ -1592,7 +1586,7 @@ Future<void> hit(
 
               await getKey();
 
-              body.puncturedLeftKidney = true;
+              body.puncturedRightKidney = true;
               maxBlood(0.5);
             }
           case 9:

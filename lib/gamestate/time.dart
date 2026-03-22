@@ -1,4 +1,6 @@
-String getMonth(int month) => [
+import 'package:lcs_new_age/i18n/i18n.dart';
+
+const _monthNames = [
   "January",
   "February",
   "March",
@@ -11,9 +13,9 @@ String getMonth(int month) => [
   "October",
   "November",
   "December",
-][month - 1];
+];
 
-String getMonthShort(int month) => [
+const _monthShortNames = [
   "Jan",
   "Feb",
   "Mar",
@@ -26,4 +28,8 @@ String getMonthShort(int month) => [
   "Oct",
   "Nov",
   "Dec",
-][month - 1];
+];
+
+String getMonth(int month) => LcsI18n.tr(_monthNames[month - 1]);
+
+String getMonthShort(int month) => LcsI18n.tr(_monthShortNames[month - 1]);

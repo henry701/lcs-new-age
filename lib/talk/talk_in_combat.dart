@@ -7,6 +7,7 @@ import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/loot.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
@@ -647,7 +648,7 @@ Future<void> intimidate(Creature liberal) async {
               params: {
                 "name": e.name,
                 "weapon": e.equippedWeapon!.getName(),
-                "escape": escapeCrawling.random,
+                "escape": LcsI18n.tr(escapeCrawling.random),
               },
             );
           } else {
@@ -659,7 +660,7 @@ Future<void> intimidate(Creature liberal) async {
               params: {
                 "name": e.name,
                 "weapon": e.equippedWeapon!.getName(),
-                "escape": escapeRunning.random,
+                "escape": LcsI18n.tr(escapeRunning.random),
               },
             );
           }
@@ -671,7 +672,10 @@ Future<void> intimidate(Creature liberal) async {
               1,
               white,
               "{name} {escape}",
-              params: {"name": e.name, "escape": escapeCrawling.random},
+              params: {
+                "name": e.name,
+                "escape": LcsI18n.tr(escapeCrawling.random),
+              },
             );
           } else {
             mvaddstrc(
@@ -679,7 +683,10 @@ Future<void> intimidate(Creature liberal) async {
               1,
               white,
               "{name} {escape}",
-              params: {"name": e.name, "escape": escapeRunning.random},
+              params: {
+                "name": e.name,
+                "escape": LcsI18n.tr(escapeRunning.random),
+              },
             );
           }
         }

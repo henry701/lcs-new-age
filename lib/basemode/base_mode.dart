@@ -282,21 +282,23 @@ void printLocation(Site loc) {
     int eaters = numberEating(loc), days = foodDaysLeft(loc);
     if (eaters > 0) {
       if (days >= 1) {
-        mvaddstrc(
-          6,
-          50,
-          lightGray,
-          "$days day${days > 1 ? "s" : ""} of Food Left.",
-        );
+        final foodLeftText = days == 1
+            ? "1 day of Food Left."
+            : "{days} days of Food Left.";
+        mvaddstrc(6, 50, lightGray, foodLeftText, params: {"days": days});
       } else if (days == 0) {
         mvaddstrc(6, 50, red, "Not Enough Food");
       }
     }
+    final rationText = loc.compound.rations == 1
+        ? "1 Daily Ration"
+        : "{rations} Daily Rations";
     mvaddstrc(
       6,
       1,
       lightGray,
-      "${loc.compound.rations} Daily Ration${loc.compound.rations > 1 ? "s" : ""}",
+      rationText,
+      params: {"rations": loc.compound.rations},
     );
     mvaddstr(6, 30, "{eaters} Eating", params: {"eaters": eaters});
   }

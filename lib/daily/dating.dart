@@ -121,7 +121,10 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
   setColor(white);
   move(0, 0);
   String message;
-  Creature? lastDate;
+  final messageParams = <String, dynamic>{
+    "pName": p.name,
+    "location": p.location?.name,
+  };
   if (d.dates.length == 1) {
     if (p.clinicMonthsLeft > 0 || city == null) {
       message = "&W{pName} &whas a \"hot\" date with ";
@@ -133,8 +136,9 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
   }
   for (int ei = 0; ei < d.dates.length; ei++) {
     Creature e = d.dates[ei];
-    lastDate = e;
-    message += "&W{eName}";
+    final dateNameKey = "eName$ei";
+    messageParams[dateNameKey] = e.name;
+    message += "&W{$dateNameKey}";
 
     if (ei <= d.dates.length - 3) {
       message += "&w, ";
@@ -152,11 +156,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
   addparagraph(
     1,
     1,
-    LcsI18n.processString(message, {
-      "pName": p.name,
-      "eName": lastDate?.name ?? "",
-      "location": p.location?.name,
-    }),
+    LcsI18n.processString(message, messageParams),
     y2: console.width - 2,
   );
 
@@ -188,26 +188,27 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
         if (dateCount > 2) {
           addstr(
             "Unfortunately, they all turn up at the same time. Ruh roh...",
-            params: {},
           );
         } else {
-          addstr(
-            "Unfortunately, they turn up at the same time. Ruh roh...",
-            params: {},
-          );
+          addstr("Unfortunately, they turn up at the same time. Ruh roh...");
         }
 
         await getKey();
       default:
         move(console.y + 1, 0);
+        final subjectPronoun = switch (p.gender.heShe) {
+          "he" => LcsI18n.tr("he"),
+          "she" => LcsI18n.tr("she"),
+          _ => LcsI18n.tr("they"),
+        };
         if (d.dates.length > 2) {
           if (city != null) {
             addstr(
               "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.",
               params: {
                 "pName": p.name,
-                "heshe": p.gender.heShe,
-                "count": d.dates.length.toString(),
+                "heshe": subjectPronoun,
+                "count": d.dates.length,
               },
             );
           } else {
@@ -215,8 +216,8 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
               "{pName} realizes {heshe} has committed to {count} calls at once. Things go downhill fast.",
               params: {
                 "pName": p.name,
-                "heshe": p.gender.heShe,
-                "count": d.dates.length.toString(),
+                "heshe": subjectPronoun,
+                "count": d.dates.length,
               },
             );
           }

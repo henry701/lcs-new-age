@@ -35,6 +35,7 @@
   "Just Ask Them Nicely": "Just Ask Them Nicely",
   "Luís": "Luís",
   "MBiC": "MBiC",
+  "Manage Outdated ({version}) Saved Game": "Manage Outdated ({version}) Saved Game",
   "New You": "New You",
   "North Las Vegas, NV": "North Las Vegas, NV",
   "Not Enough Food": "Not Enough Food",
@@ -87,6 +88,7 @@
   "and later used the material for a Broadway play called {playName}.": "and later used the material for a Broadway play called {playName}.",
   "appointing more Conservative justices": "appointing more Conservative justices",
   "demonstrations, organizing unions, working for liberal ": "demonstrations, organizing unions, working for liberal ",
+  "desperately cries out to Jesus.": "desperately cries out to Jesus.",
   "don't hit like they used to, you can always just play covers of ": "don't hit like they used to, you can always just play covers of ",
   "elease, ": "elease, ",
   "expand the war on drugs": "expand the war on drugs",
@@ -101,7 +103,9 @@
   "of a full economic recovery.&r": "of a full economic recovery.&r",
   "prays silently...": "prays silently...",
   "rants about how the LCS are a bunch of LIBERALS and that's the ": "rants about how the LCS are a bunch of LIBERALS and that's the ",
+  "says \"Doubt they coulda gone far!\"": "says \"Doubt they coulda gone far!\"",
   "seems indignant at the suggestion.": "seems indignant at the suggestion.",
+  "shakes with fear.": "shakes with fear.",
   "signals, ": "signals, ",
   "silly and trivial.": "silly and trivial.",
   "soft luxury prisons": "soft luxury prisons",
@@ -129,6 +133,7 @@
   "{name}'s face is burned away!": "{name}'s face is burned away!",
   "{name}'s left eye is torn out!": "{name}'s left eye is torn out!",
   "{name}'s tongue is cut off!": "{name}'s tongue is cut off!",
+  "{pName} has dates to manage with {dateList} over video chat.": "{pName} has dates to manage with {dateList} over video chat.",
   "{text}▂": "{text}▂",
   "│   begins airing this week.  With the nationwide   │": "│   begins airing this week.  With the nationwide   │"
 }

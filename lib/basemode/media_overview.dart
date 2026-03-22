@@ -68,23 +68,31 @@ Future<void> mediaOverview() async {
                 name = squadStoryTextLocation(ns, false, includeOpening: false);
               }
               if (ns.liberalSpin) {
-                headline = "LCS Action $name";
+                headline = LcsI18n.processString("LCS Action {name}", {
+                  "name": name,
+                });
               } else {
-                headline = "LCS Rampage $name";
+                headline = LcsI18n.processString("LCS Rampage {name}", {
+                  "name": name,
+                });
               }
             case NewsStories.squadKilledInSiteAction:
-              headline = "Tragic LCS Strike";
+              headline = LcsI18n.tr("Tragic LCS Strike");
             case NewsStories.ccsKilledInSiteAction:
-              headline = "CCS Squad KIA";
+              headline = LcsI18n.tr("CCS Squad KIA");
             case NewsStories.ccsSiteAction:
               String name = "";
               if (ns.loc != null) {
                 name = squadStoryTextLocation(ns, true, includeOpening: false);
               }
               if (ns.liberalSpin) {
-                headline = "CCS Action $name";
+                headline = LcsI18n.processString("CCS Action {name}", {
+                  "name": name,
+                });
               } else {
-                headline = "CCS Rampage $name";
+                headline = LcsI18n.processString("CCS Rampage {name}", {
+                  "name": name,
+                });
               }
             default:
               headline = ns.body.split("\n").first.split(" - ").last;
@@ -99,7 +107,7 @@ Future<void> mediaOverview() async {
           "day": date.day,
           "year": date.year,
         });
-        mvaddstrc(y, 40, lightGray, dateString);
+        mvaddstrc(y, 40, lightGray, dateString, noTranslate: true);
         Map<View, double> impact = ns.effects;
         double totalImpact = impact.entries
             .where((e) => e.key != View.lcsKnown)

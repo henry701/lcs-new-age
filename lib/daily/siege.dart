@@ -670,16 +670,11 @@ Future<void> siegeCheck() async {
         );
         if (agentsleeper != null) {
           erase();
-          String agentText = LcsI18n.processString(
-            "{agent} has sent word that the CIA is planning ",
-            {"agent": agentsleeper.name},
-          );
-          mvaddstrc(8, 1, white, agentText);
-          mvaddstr(
-            9,
+          addparagraph(
+            8,
             1,
-            "to launch an attack on {location}!",
-            params: {"location": l.getName()},
+            "{agent} has sent word that the CIA is planning to launch an attack on {location}!",
+            params: {"agent": agentsleeper.name, "location": l.getName()},
           );
           await getKey();
         }
@@ -929,22 +924,19 @@ Future<void> siegeTurn() async {
         }
       }
 
-      String cops = l.siege.escalationState == SiegeEscalation.police
-          ? "cops"
-          : "troops";
-
       //ATTACK!
       bool attack = false;
       if (oneIn(12)) attack = true;
 
       if (attack) {
-        mvaddstrc(
-          8,
-          1,
-          lightGray,
-          "The {forces} are moving in! They're about to breach the front door!",
-          params: {"forces": cops},
-        );
+        final breachMessage = l.siege.escalationState == SiegeEscalation.police
+            ? LcsI18n.tr(
+                "The cops are moving in! They're about to breach the front door!",
+              )
+            : LcsI18n.tr(
+                "The troops are moving in! They're about to breach the front door!",
+              );
+        mvaddstrc(8, 1, lightGray, breachMessage, noTranslate: true);
         await getKey();
         l.siege.underAttack = true;
       } else {
@@ -955,13 +947,11 @@ Future<void> siegeTurn() async {
             !(l.compound.generator || l.compound.solarPanels) &&
             oneIn(10)) {
           nothingBadHappened = false;
-          mvaddstrc(
-            8,
-            1,
-            lightGray,
-            "The {forces} have cut the lights!",
-            params: {"forces": cops},
-          );
+          final lightsMessage =
+              l.siege.escalationState == SiegeEscalation.police
+              ? LcsI18n.tr("The cops have cut the lights!")
+              : LcsI18n.tr("The troops have cut the lights!");
+          mvaddstrc(8, 1, lightGray, lightsMessage, noTranslate: true);
           await getKey();
           l.siege.lightsOff = true;
         }
@@ -1161,7 +1151,7 @@ Future<void> siegeTurn() async {
             "Elite Journalist {journalist} from the {newsType} {publication} got into the compound somehow!",
             {
               "journalist": repname.firstLast,
-              "newsType": newsType,
+              "newsType": LcsI18n.tr(newsType),
               "publication": publicationName,
             },
           );
@@ -1196,7 +1186,7 @@ Future<void> siegeTurn() async {
 
             if (sum > bestvalue) {
               best = i;
-              bestvalue = sum - p.juice ~/ 20;
+              bestvalue = sum;
             }
           }
 
@@ -2079,8 +2069,12 @@ Future<void> conquerTextCCS() async {
           "of the CCS's morale and confidence is shattered.\n\n";
     }
 
-    String pacifistAction = pacifist ? "neutralized" : "destroyed";
-    String ccsAction = pacifist ? "CONVERTING" : "ERADICATING";
+    final pacifistAction = pacifist
+        ? LcsI18n.tr("neutralized")
+        : LcsI18n.tr("destroyed");
+    final ccsAction = pacifist
+        ? LcsI18n.tr("CONVERTING")
+        : LcsI18n.tr("ERADICATING");
     text +=
         "The CCS has been completely {pacifistAction}.  Now wasn't there a "
         "revolution to attend to?\n\n";
@@ -2134,7 +2128,9 @@ Future<void> stateBrokenLaws(Site loc) async {
   bool kidnappedThePresident =
       hostages.firstWhereOrNull((h) => h == uniqueCreatures.president) != null;
   if (kidnappedThePresident) {
-    kname = "President ${uniqueCreatures.president.properName.split(" ").last}";
+    kname = LcsI18n.processString("President {lastName}", {
+      "lastName": uniqueCreatures.president.properName.split(" ").last,
+    });
   }
   int typenum = brokenLaws.length;
 

@@ -8,6 +8,25 @@ import 'dart:math';
 
 import 'package:lcs_new_age/i18n/catalog_layout.dart';
 
+final _placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
+
+String _normalizeColorizedPlaceholders(String template) => template
+    .replaceAllMapped(_placeholderPattern, (match) => '{${match.group(1)!}}');
+
+String _normalizeArbKey(String key) {
+  if (key.startsWith('@')) {
+    return '@${_normalizeColorizedPlaceholders(key.substring(1))}';
+  }
+  return _normalizeColorizedPlaceholders(key);
+}
+
+dynamic _normalizeArbValue(dynamic value) {
+  if (value is String) {
+    return _normalizeColorizedPlaceholders(value);
+  }
+  return value;
+}
+
 void main(List<String> args) async {
   if (args.contains('--help') || args.contains('-h')) {
     print('Find and manage translatable strings in LCS New Age');
@@ -146,7 +165,8 @@ void main(List<String> args) async {
 
             // Merge entries into locale's combined translations
             for (final entry in arbData.entries) {
-              existingTranslations[locale]![entry.key] = entry.value;
+              existingTranslations[locale]![_normalizeArbKey(entry.key)] =
+                  _normalizeArbValue(entry.value);
             }
 
             // Track file for this locale
@@ -591,10 +611,16 @@ void _recordString(
   int lineNumber,
   String context,
 ) {
-  final key = text;
+  final normalizedText = _normalizeColorizedPlaceholders(text);
+  final key = normalizedText;
   stringInfo.putIfAbsent(
     key,
-    () => StringInfo(text: text, locations: [], count: 0, occurrenceKeys: {}),
+    () => StringInfo(
+      text: normalizedText,
+      locations: [],
+      count: 0,
+      occurrenceKeys: {},
+    ),
   );
 
   final info = stringInfo[key]!;
@@ -838,7 +864,7 @@ Future<void> _generateArbOutput(
   }
 
   print(
-    'Found ${newEntries.length ~/ 2 + newEntries.length % 2} new translatable strings for $targetLocale\n',
+    'Found ${newEntries.length} new translatable strings for $targetLocale\n',
   );
   print(
     'Add these entries to the canonical shard files in lib/l10n/app_${targetLocale}_part01..part32.arb:\n',

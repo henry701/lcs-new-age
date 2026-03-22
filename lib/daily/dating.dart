@@ -31,6 +31,43 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 part 'dating.g.dart';
 
+String _translatePronoun(String pronoun) {
+  return switch (pronoun) {
+    "he" => LcsI18n.tr("he"),
+    "she" => LcsI18n.tr("she"),
+    "they" => LcsI18n.tr("they"),
+    "his" => LcsI18n.tr("his"),
+    "her" => LcsI18n.tr("her"),
+    "him" => LcsI18n.tr("him"),
+    "their" => LcsI18n.tr("their"),
+    "them" => LcsI18n.tr("them"),
+    _ => pronoun,
+  };
+}
+
+String _translateCapitalizedPronoun(String pronoun) {
+  final translated = _translatePronoun(pronoun.toLowerCase());
+  if (translated.isEmpty) {
+    return translated;
+  }
+  return translated[0].toUpperCase() + translated.substring(1);
+}
+
+String _formatDateNameList(List<Creature> dates) {
+  final styledNames = dates.map((date) => "&W${date.name}&w").toList();
+  if (styledNames.length <= 1) {
+    return styledNames.firstOrNull ?? "";
+  }
+  if (styledNames.length == 2) {
+    return "${styledNames[0]}${LcsI18n.tr(" and ")}${styledNames[1]}";
+  }
+
+  final leadingNames = styledNames
+      .sublist(0, styledNames.length - 1)
+      .join(", ");
+  return "$leadingNames${LcsI18n.tr(", and ")}${styledNames.last}";
+}
+
 @JsonSerializable()
 class DatingSession {
   DatingSession(this.lcsMemberId, this.city);
@@ -120,45 +157,28 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
   erase();
   setColor(white);
   move(0, 0);
-  String message;
-  final messageParams = <String, dynamic>{
+  final dateIntroParams = <String, dynamic>{
     "pName": p.name,
+    "dateList": _formatDateNameList(d.dates),
     "location": p.location?.name,
   };
-  if (d.dates.length == 1) {
-    if (p.clinicMonthsLeft > 0 || city == null) {
-      message = "&W{pName} &whas a \"hot\" date with ";
-    } else {
-      message = "&W{pName} &whas a hot date with ";
-    }
-  } else {
-    message = "&W{pName} &whas dates to manage with ";
-  }
-  for (int ei = 0; ei < d.dates.length; ei++) {
-    Creature e = d.dates[ei];
-    final dateNameKey = "eName$ei";
-    messageParams[dateNameKey] = e.name;
-    message += "&W{$dateNameKey}";
-
-    if (ei <= d.dates.length - 3) {
-      message += "&w, ";
-    } else if (ei == d.dates.length - 2) {
-      message += "&w and ";
-    } else {
-      if (p.clinicMonthsLeft > 0) {
-        message += "&w at &W{location}";
-      } else if (city == null) {
-        message += "&w over video chat";
-      }
-      message += "&w.";
-    }
-  }
-  addparagraph(
-    1,
-    1,
-    LcsI18n.processString(message, messageParams),
-    y2: console.width - 2,
-  );
+  final dateIntro = switch ((
+    d.dates.length,
+    p.clinicMonthsLeft > 0,
+    city == null,
+  )) {
+    (1, true, _) =>
+      "{pName:white} has a \"hot\" date with {dateList} at {location:white}.",
+    (1, false, true) =>
+      "{pName:white} has a \"hot\" date with {dateList} over video chat.",
+    (1, false, false) => "{pName:white} has a hot date with {dateList}.",
+    (_, true, _) =>
+      "{pName:white} has dates to manage with {dateList} at {location:white}.",
+    (_, false, true) =>
+      "{pName:white} has dates to manage with {dateList} over video chat.",
+    _ => "{pName:white} has dates to manage with {dateList}.",
+  };
+  addparagraph(1, 1, dateIntro, params: dateIntroParams, x2: console.width - 2);
 
   await getKey();
 
@@ -196,11 +216,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
         await getKey();
       default:
         move(console.y + 1, 0);
-        final subjectPronoun = switch (p.gender.heShe) {
-          "he" => LcsI18n.tr("he"),
-          "she" => LcsI18n.tr("she"),
-          _ => LcsI18n.tr("they"),
-        };
+        final subjectPronoun = _translatePronoun(p.gender.heShe);
         if (d.dates.length > 2) {
           if (city != null) {
             addstr(
@@ -257,7 +273,10 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     ];
     List<String> dateFailList = city == null ? dateFailOnline : dateFail;
     move(console.y + 1, 0);
-    addstr("{name}{msg}", params: {"name": p.name, "msg": dateFailList.random});
+    addstr(
+      "{name}{msg}",
+      params: {"name": p.name, "msg": LcsI18n.tr(dateFailList.random)},
+    );
 
     await getKey();
 
@@ -340,7 +359,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     if (eIsSexworker) {
       avoidPayingText = LcsI18n.processString(
         "B - {name} expects to be paid for {hisHer} time.",
-        {"name": e.name, "hisHer": e.gender.hisHer},
+        {"name": e.name, "hisHer": _translatePronoun(e.gender.hisHer)},
       );
     } else if (sameCity) {
       avoidPayingText =
@@ -348,7 +367,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     } else {
       avoidPayingText = LcsI18n.processString(
         "B - Try to charm {himHer} with online dating.",
-        {"himHer": e.gender.himHer},
+        {"himHer": _translatePronoun(e.gender.himHer)},
       );
     }
     addOptionText(12, 0, "B", avoidPayingText, enabledWhen: canAvoidPaying);
@@ -488,8 +507,8 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
           }
         } else {
           warnMessage = !noProfanity
-              ? "not to fuck around!"
-              : "not to [resist]!";
+              ? LcsI18n.tr("not to fuck around!")
+              : LcsI18n.tr("not to [resist]!");
           kidnapMessage =
               "{pName} seizes {eName} from behind and warns {himHer} {warnMessage}";
           bonus += min(5, p.skill(Skill.martialArts) - 1);
@@ -502,7 +521,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
             "pName": p.name,
             "eName": e.name,
             "weapon": weapon,
-            "himHer": e.gender.himHer,
+            "himHer": _translatePronoun(e.gender.himHer),
             "warnMessage": warnMessage,
           },
         );
@@ -719,7 +738,11 @@ Future<DateResult> dateResult(
         setColor(yellow);
         addstr(
           "{pName} has learned all {heshe} can from {eName}.",
-          params: {"pName": p.name, "heshe": p.gender.heShe, "eName": e.name},
+          params: {
+            "pName": p.name,
+            "heshe": _translatePronoun(p.gender.heShe),
+            "eName": e.name,
+          },
         );
       } else {
         addstr(
@@ -783,6 +806,7 @@ Future<DateResult> dateResult(
         5 => "another",
         _ => "another",
       };
+      relationshipAdjective = LcsI18n.tr(relationshipAdjective);
       addstr(
         "{pName} isn't seductive enough to maintain {adj} relationship.",
         params: {"pName": p.name, "adj": relationshipAdjective},
@@ -810,7 +834,10 @@ Future<DateResult> dateResult(
       if (eIsSexworker) {
         addstr(
           "In fact, {eName} decides to put {hisHer} skills to work for the LCS!",
-          params: {"eName": e.name, "hisHer": e.gender.hisHer},
+          params: {
+            "eName": e.name,
+            "hisHer": _translatePronoun(e.gender.hisHer),
+          },
         );
         e.daysSinceJoined =
             0; // Reset to zero since we used this to track time dating
@@ -856,12 +883,18 @@ Future<DateResult> dateResult(
       setColor(lightGray);
       addstr(
         "What name will you give to {name} in {possessive} new life?",
-        params: {"name": e.properName, "possessive": e.gender.hisHer},
+        params: {
+          "name": e.properName,
+          "possessive": _translatePronoun(e.gender.hisHer),
+        },
       );
       move(3, 0);
       addstr(
         "If you do not enter anything, {subject} will keep {possessive} old name.",
-        params: {"subject": e.gender.heShe, "possessive": e.gender.hisHer},
+        params: {
+          "subject": _translatePronoun(e.gender.heShe),
+          "possessive": _translatePronoun(e.gender.hisHer),
+        },
       );
 
       e.name = await enterName(4, 0, e.properName, prefill: true);
@@ -940,8 +973,10 @@ Future<DateResult> dateResult(
       _ => "to wash {hisHer} hair.",
     };
     excuse = LcsI18n.processString(excuse, {
-      "hisHer": e.gender.hisHer,
-      "pet": ["cat.", "dog.", "fish.", "six-legged pig."][lcsRandom(4)],
+      "hisHer": _translatePronoun(e.gender.hisHer),
+      "pet": LcsI18n.tr(
+        ["cat.", "dog.", "fish.", "six-legged pig."][lcsRandom(4)],
+      ),
     });
     addstr(
       "{eName} had to leave early {excuse}",
@@ -950,7 +985,7 @@ Future<DateResult> dateResult(
     move(y++, 0);
     addstr(
       "{heSheCap} did still promise to meet up again tomorrow.",
-      params: {"heSheCap": e.gender.heSheCap},
+      params: {"heSheCap": _translateCapitalizedPronoun(e.gender.heSheCap)},
     );
 
     await getKey();

@@ -197,13 +197,15 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
           11,
           1,
           "A",
-          "A - Execute ${plural ? "a" : "the"} hostage",
+          plural ? "A - Execute a hostage" : "A - Execute the hostage",
         );
         addOptionText(
           12,
           1,
           "B",
-          "B - Offer to trade the hostage${plural ? "s" : ""} for freedom",
+          plural
+              ? "B - Offer to trade the hostages for freedom"
+              : "B - Offer to trade the hostage for freedom",
         );
 
         while (true) {
@@ -264,9 +266,9 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
             setColor(red);
             move(10, 1);
             if (noProfanity) {
-              addstr("\"Fuck! ");
-            } else {
               addstr("\"[No!] ");
+            } else {
+              addstr("\"Fuck! ");
             }
             switch (lcsRandom(5)) {
               case 0:
@@ -400,7 +402,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
         SiegeType.corporateMercs => "{name} pretends to be a mercenary.",
         SiegeType.none => "{name} sniffs around for Liberals.",
       };
-      String actionDetail = switch (activeSite!.siege.activeSiegeType) {
+      final actionDetail = switch (activeSite!.siege.activeSiegeType) {
         SiegeType.angryRuralMob => [
           "complains loudly about John Deere contracts.",
           "mutters about city folks messing things up.",
@@ -422,7 +424,13 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
         ].random,
         _ => "",
       };
-      addstr(action, params: {"name": liberal.name, "action": actionDetail});
+      final translatedActionDetail = actionDetail.isEmpty
+          ? actionDetail
+          : LcsI18n.tr(actionDetail);
+      addstr(
+        action,
+        params: {"name": liberal.name, "action": translatedActionDetail},
+      );
     } else {
       //Special bluff messages for various uniforms
       setColor(lightGreen);
@@ -581,7 +589,10 @@ Future<void> intimidate(Creature liberal) async {
         "Run away, and never return!",
         if (noProfanity) "[Please leave!]" else "Get the fuck out of here!",
         "I swear to Darwin I'll end you!",
-        "Don't make me ${noProfanity ? "[be mean]" : "fuck you up"}!",
+        if (noProfanity)
+          "Don't make me [be mean]!"
+        else
+          "Don't make me fuck you up!",
         "I pity the fool who stands against the LCS!",
         "Anybody feel like dying a hero?",
       ].random,
@@ -648,7 +659,7 @@ Future<void> intimidate(Creature liberal) async {
               params: {
                 "name": e.name,
                 "weapon": e.equippedWeapon!.getName(),
-                "escape": LcsI18n.tr(escapeCrawling.random),
+                "escape": LcsI18n.tr(escapeCrawling.random).trimLeft(),
               },
             );
           } else {
@@ -660,7 +671,7 @@ Future<void> intimidate(Creature liberal) async {
               params: {
                 "name": e.name,
                 "weapon": e.equippedWeapon!.getName(),
-                "escape": LcsI18n.tr(escapeRunning.random),
+                "escape": LcsI18n.tr(escapeRunning.random).trimLeft(),
               },
             );
           }
@@ -674,7 +685,7 @@ Future<void> intimidate(Creature liberal) async {
               "{name} {escape}",
               params: {
                 "name": e.name,
-                "escape": LcsI18n.tr(escapeCrawling.random),
+                "escape": LcsI18n.tr(escapeCrawling.random).trimLeft(),
               },
             );
           } else {
@@ -685,7 +696,7 @@ Future<void> intimidate(Creature liberal) async {
               "{name} {escape}",
               params: {
                 "name": e.name,
-                "escape": LcsI18n.tr(escapeRunning.random),
+                "escape": LcsI18n.tr(escapeRunning.random).trimLeft(),
               },
             );
           }

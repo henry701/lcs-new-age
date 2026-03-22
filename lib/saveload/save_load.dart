@@ -142,9 +142,9 @@ Future<bool> loadGameMenu() async {
           founder = "Error - Crash Expected";
         }
         addOptionText(y, 0, key, "{key} - ", params: {"key": key});
-        mvaddstr(y, 4, inGameDate);
+        mvaddstr(y, 4, inGameDate, noTranslate: true);
         mvaddstr(y, 20, founder);
-        mvaddstr(y, 50, lastPlayedStr);
+        mvaddstr(y, 50, lastPlayedStr, noTranslate: true);
         if (compareVersionStrings(version, "1.2.0") < 0) {
           setColor(orange);
         } else {
@@ -183,11 +183,13 @@ Future<bool> loadGameMenu() async {
 
 Future<bool> loadGame(SaveFile selectedSave) async {
   bool broken = selectedSave.gameState == null;
-  String brokenText = broken ? "Conservatively Broken " : "";
+  String titleText = broken
+      ? LcsI18n.tr("Manage Conservatively Broken Saved Game")
+      : LcsI18n.tr("Manage Saved Game");
   erase();
   int y = 3;
   if (!broken && compareVersionStrings(selectedSave.version, "1.2.0") < 0) {
-    brokenText = "Outdated (${selectedSave.version}) ";
+    titleText = LcsI18n.tr("Manage Outdated ({version}) Saved Game");
     setColor(orange);
     mvaddstr(
       y++,
@@ -211,14 +213,17 @@ Future<bool> loadGame(SaveFile selectedSave) async {
     1,
     1,
     lightGray,
-    "Manage {broken}Saved Game",
-    params: {"broken": brokenText},
+    titleText,
+    params: {"version": selectedSave.version},
+    noTranslate: true,
   );
   addOptionText(
     y++,
     1,
     "L",
-    "L - ${selectedSave.gameState != null ? "Load Game" : "Load Game (Crash Report Expected)"}",
+    selectedSave.gameState != null
+        ? "L - Load Game"
+        : "L - Load Game (Crash Report Expected)",
   );
   addOptionText(y++, 1, "D", "D - Delete Save");
   addOptionText(y++, 1, "B", "B - Backup Save");

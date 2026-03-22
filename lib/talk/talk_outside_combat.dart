@@ -10,6 +10,7 @@ import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/money.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/compound.dart';
@@ -24,9 +25,21 @@ import 'package:lcs_new_age/talk/talk_about_issues.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
+String _translateCapitalizedPronoun(String pronoun) {
+  final translated = LcsI18n.tr(pronoun.toLowerCase());
+  if (translated.isEmpty) {
+    return translated;
+  }
+  return translated[0].toUpperCase() + translated.substring(1);
+}
+
+String _localizedCountLabel(int count, String singular, String plural) {
+  return count == 1 ? LcsI18n.tr(singular) : LcsI18n.tr(plural);
+}
+
 Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
   bool nude = a.indecent;
-  String whileNaked = nude ? " while naked" : "";
+  String whileNaked = nude ? " ${LcsI18n.tr("while naked")}" : "";
   clearSceneAreas();
   mvaddstrcx(
     9,
@@ -102,47 +115,98 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
   }
 
   // relationship/recruits status
-  String recruitOverview = "";
+  final recruitOverview = StringBuffer();
+  final pronounCap = _translateCapitalizedPronoun(a.gender.heSheCap);
   if (a.subordinatesLeft <= 0) {
-    recruitOverview +=
-        "&m${a.name} cannot manage any${a.maxSubordinates > 0 ? " more " : " "}subordinates";
-    if (a.scheduledMeetings > 0) {
-      recruitOverview +=
-          ", but still has &W${a.scheduledMeetings}&m meeting${a.scheduledMeetings > 1 ? "s" : ""} scheduled";
-    }
+    final subordinateTemplate =
+        a.maxSubordinates > 0
+            ? a.scheduledMeetings > 0
+                ? "{name:midGray} cannot manage any more subordinates, but still has {meetingCount:white} {meetingLabel:midGray} scheduled."
+                : "{name:midGray} cannot manage any more subordinates."
+            : a.scheduledMeetings > 0
+            ? "{name:midGray} cannot manage any subordinates, but still has {meetingCount:white} {meetingLabel:midGray} scheduled."
+            : "{name:midGray} cannot manage any subordinates.";
+    recruitOverview.write(
+      LcsI18n.processString(subordinateTemplate, {
+        "name": a.name,
+        "meetingCount": a.scheduledMeetings,
+        "meetingLabel": _localizedCountLabel(
+          a.scheduledMeetings,
+          "meeting",
+          "meetings",
+        ),
+      }),
+    );
   } else {
-    recruitOverview +=
-        "&w${a.name} can manage &W${a.subordinatesLeft}&w more subordinate${a.subordinatesLeft > 1 ? "s" : ""}";
-    if (a.scheduledMeetings > 0) {
-      recruitOverview +=
-          ", and has &W${a.scheduledMeetings}&w meeting${a.scheduledMeetings > 1 ? "s" : ""} scheduled";
-    }
+    final subordinateTemplate =
+        a.scheduledMeetings > 0
+            ? "{name:lightGray} can manage {subordinateCount:white} more {subordinateLabel:lightGray}, and has {meetingCount:white} {meetingLabel:lightGray} scheduled."
+            : "{name:lightGray} can manage {subordinateCount:white} more {subordinateLabel:lightGray}.";
+    recruitOverview.write(
+      LcsI18n.processString(subordinateTemplate, {
+        "name": a.name,
+        "subordinateCount": a.subordinatesLeft,
+        "subordinateLabel": _localizedCountLabel(
+          a.subordinatesLeft,
+          "subordinate",
+          "subordinates",
+        ),
+        "meetingCount": a.scheduledMeetings,
+        "meetingLabel": _localizedCountLabel(
+          a.scheduledMeetings,
+          "meeting",
+          "meetings",
+        ),
+      }),
+    );
   }
-  recruitOverview += ". ";
-  if (a.scheduldeDates > 0 || a.scheduledMeetings > 0) {
-    recruitOverview += "&m${a.gender.heSheCap} ";
-  }
+  recruitOverview.write(" ");
+
   if (a.relationshipsLeft <= 0) {
-    recruitOverview +=
-        "&m${a.gender.heSheCap} cannot maintain any${a.maxRelationships > 0 ? " more " : " "}relationships";
-    if (a.scheduldeDates > 0) {
-      recruitOverview +=
-          ", but still has &W${a.scheduldeDates}&m hot date${a.scheduldeDates > 1 ? "s" : ""} lined up. ";
-    } else {
-      recruitOverview += ". ";
-    }
+    final relationshipTemplate =
+        a.maxRelationships > 0
+            ? a.scheduldeDates > 0
+                ? "{pronounCap:midGray} cannot maintain any more relationships, but still has {dateCount:white} {dateLabel:midGray} lined up."
+                : "{pronounCap:midGray} cannot maintain any more relationships."
+            : a.scheduldeDates > 0
+            ? "{pronounCap:midGray} cannot maintain any relationships, but still has {dateCount:white} {dateLabel:midGray} lined up."
+            : "{pronounCap:midGray} cannot maintain any relationships.";
+    recruitOverview.write(
+      LcsI18n.processString(relationshipTemplate, {
+        "pronounCap": pronounCap,
+        "dateCount": a.scheduldeDates,
+        "dateLabel": _localizedCountLabel(
+          a.scheduldeDates,
+          "hot date",
+          "hot dates",
+        ),
+      }),
+    );
   } else {
-    recruitOverview +=
-        "&w${a.gender.heSheCap} can maintain &W${a.relationshipsLeft}&w more relationship${a.relationshipsLeft > 1 ? "s" : ""}";
-    if (a.scheduldeDates == 0) {
-      recruitOverview += ". ";
-    } else {
-      recruitOverview +=
-          ", and has &W${a.scheduldeDates}&w hot date${a.scheduldeDates > 1 ? "s" : ""} lined up. ";
-    }
+    final relationshipTemplate =
+        a.scheduldeDates > 0
+            ? "{pronounCap:lightGray} can maintain {relationshipCount:white} more {relationshipLabel:lightGray}, and has {dateCount:white} {dateLabel:lightGray} lined up."
+            : "{pronounCap:lightGray} can maintain {relationshipCount:white} more {relationshipLabel:lightGray}.";
+    recruitOverview.write(
+      LcsI18n.processString(relationshipTemplate, {
+        "pronounCap": pronounCap,
+        "relationshipCount": a.relationshipsLeft,
+        "relationshipLabel": _localizedCountLabel(
+          a.relationshipsLeft,
+          "relationship",
+          "relationships",
+        ),
+        "dateCount": a.scheduldeDates,
+        "dateLabel": _localizedCountLabel(
+          a.scheduldeDates,
+          "hot date",
+          "hot dates",
+        ),
+      }),
+    );
   }
 
-  addparagraph(console.y + 2, 1, recruitOverview);
+  addparagraph(console.y + 2, 1, recruitOverview.toString(), noTranslate: true);
 
   while (true) {
     int c = await getKey();
@@ -190,12 +254,18 @@ Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
           tk.align != Alignment.liberal &&
           !animalsArePeopleToo) ||
       tk.type.tank) {
-    final String reaction = tk.type.tank
-        ? "rumbles disinterestedly."
+    final reaction = tk.type.tank
+        ? LcsI18n.tr("rumbles disinterestedly.")
         : tk.type.dog
-        ? "barks."
-        : "doesn't understand.";
-    mvaddstrc(12, 1, white, "{name} $reaction", params: {"name": tk.name});
+        ? LcsI18n.tr("barks.")
+        : LcsI18n.tr("doesn't understand.");
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} {reaction}",
+      params: {"name": tk.name, "reaction": reaction},
+    );
 
     await getKey();
     return true;
@@ -264,15 +334,15 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
     13,
     1,
     lightBlue,
-    "\"It'll be \${rent} a month.",
-    params: {"rent": rent.toString()},
+    "\"It'll be {rent} a month.",
+    params: {"rent": "\$$rent"},
   );
 
   mvaddstr(
     14,
     1,
-    "I'll need \${rent} now as a security deposit.\"",
-    params: {"rent": rent.toString()},
+    "I'll need {rent} now as a security deposit.\"",
+    params: {"rent": "\$$rent"},
   );
 
   await getKey();
@@ -567,7 +637,7 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
 Future<bool> talkToBankTeller(Creature a, Creature tk) async {
   clearSceneAreas();
   setColor(lightGray);
-  String whileNaked = a.indecent ? " while naked" : "";
+  String whileNaked = a.indecent ? " ${LcsI18n.tr("while naked")}" : "";
   addOptionText(
     11,
     1,
@@ -593,7 +663,7 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
   int c;
   do {
     c = await getKey();
-  } while (c < Key.a && c > Key.c);
+  } while (c < Key.a || c > Key.c);
 
   switch (c) {
     case Key.a:

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:lcs_new_age/engine/engine.dart';
@@ -45,16 +46,12 @@ void preparePage(NewsStory ns, bool liberalguardian) {
 
     // DATE
     setColor(black, background: bgColor);
-    mvaddstr(
-      0,
-      66 + (day < 10 ? 1 : 0),
-      LcsI18n.processString("{month} {day}, {year}", {
-        "month": getMonthShort(month),
-        "day": day,
-        "year": year,
-      }),
-      noTranslate: true,
-    );
+    final dateText = LcsI18n.processString("{month} {day}, {year}", {
+      "month": getMonthShort(month),
+      "day": day,
+      "year": year,
+    });
+    mvaddstr(0, max(0, 79 - dateText.length), dateText, noTranslate: true);
   } else {
     // PAGE
     setColor(black, background: bgColor);

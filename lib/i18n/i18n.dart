@@ -32,6 +32,7 @@ class LcsI18nException implements Exception {
 class LcsI18n {
   static bool _initialized = false;
   static String _currentLocale = 'en_US';
+  static AssetManifest? _assetManifest;
   static final Map<String, Map<String, dynamic>> _translations = {};
   static final Set<String> _missingTranslations = <String>{};
   static final Set<String> _warnedUntranslatedKeys = <String>{};
@@ -54,6 +55,11 @@ class LcsI18n {
 
   static String _normalizeColorizedPlaceholders(String template) => template
       .replaceAllMapped(_placeholderPattern, (match) => '{${match.group(1)!}}');
+
+  static Future<AssetManifest> _loadAssetManifest() async {
+    _assetManifest ??= await AssetManifest.loadFromAssetBundle(rootBundle);
+    return _assetManifest!;
+  }
 
   /// Initialize the translation system with the specified locale
   static Future<void> initialize([String locale = 'en_US']) async {
@@ -82,15 +88,15 @@ class LcsI18n {
   static Future<void> _loadLocale(String locale) async {
     try {
       // Load only canonical shard files (unlabeled legacy files are ignored).
-      final manifestContent = await rootBundle.loadString('AssetManifest.json');
-      final Map<String, dynamic> manifest =
-          json.decode(manifestContent) as Map<String, dynamic>;
       final shardRegex = RegExp(
         r'^lib/l10n/app_' + RegExp.escape(locale) + r'_part\d{2}\.arb$',
       );
-
-      final localeFiles = manifest.keys.where(shardRegex.hasMatch).toList()
-        ..sort(); // Sort to ensure consistent loading order
+      final localeFiles =
+          (await _loadAssetManifest())
+              .listAssets()
+              .where(shardRegex.hasMatch)
+              .toList()
+            ..sort(); // Sort to ensure consistent loading order
 
       if (localeFiles.isEmpty) {
         print('LcsI18n: No ARB files found for locale "$locale"');

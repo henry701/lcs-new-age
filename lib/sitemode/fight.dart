@@ -481,7 +481,7 @@ Future<bool> attack(
           case 0:
             addstr(
               "unleashes {gender_his_her} Stand on",
-              params: {"gender_his_her": a.gender.hisHer},
+              params: {"gender_his_her": LcsI18n.tr(a.gender.hisHer)},
             );
             maxNumberOfAttacks = 12;
             damageMultiplier = 1.5;
@@ -715,18 +715,16 @@ Future<bool> attack(
       if (alternate.attribute(Attribute.heart) > 8 &&
           alternate.attribute(Attribute.agility) > 4) {
         clearMessageArea();
-        String adverb = !t.alive ? " misguidedly" : " heroically";
+        final shieldMessage = !t.alive
+            ? LcsI18n.tr("{name1} misguidedly shields {name2}'s corpse!")
+            : LcsI18n.tr("{name1} heroically shields {name2}!");
         mvaddstrc(
           9,
           1,
           lightGreen,
-          "{name1}{adverb} shields {name2}{corpse}",
-          params: {
-            "name1": alternate.name,
-            "adverb": adverb,
-            "name2": t.name,
-            "corpse": !t.alive ? "'s corpse!" : "!",
-          },
+          shieldMessage,
+          params: {"name1": alternate.name, "name2": t.name},
+          noTranslate: true,
         );
 
         //Instant juice!! Way to take the bullet!!
@@ -832,7 +830,14 @@ Future<bool> attack(
     bool actionIncludesAttacker = false;
     if (addAutoConvert) {
       actionTemplate = " punches the {ism} out of {name}";
-      actionParams = {"ism": t.align.ism, "name": t.name};
+      actionParams = {
+        "ism": switch (t.align) {
+          Alignment.liberal => LcsI18n.tr("Liberalism"),
+          Alignment.moderate => LcsI18n.tr("moderation"),
+          Alignment.conservative => LcsI18n.tr("Conservatism"),
+        },
+        "name": t.name,
+      };
     } else if (sneakAttack) {
       actionTemplate = " stabs {target}";
       actionParams = {"target": targetDesc};
@@ -846,14 +851,9 @@ Future<bool> attack(
 
     // show multiple hits
     if (attackUsed.alwaysDescribeHit || bursthits > 1) {
-      String multiHit = switch (bursthits) {
-        1 => "",
-        2 => " twice",
-        3 => " three times",
-        4 => " four times",
-        5 => " five times",
-        _ => LcsI18n.processString(" {times} times", {"times": bursthits}),
-      };
+      String multiHit = bursthits == 1
+          ? ""
+          : LcsI18n.processString(" {times} times", {"times": bursthits});
       if (bursthits > 1 && !attackUsed.ranged && !addAutoConvert) {
         actionTemplate = "{attacker} strikes true on {target}";
         actionParams = {"attacker": a.name, "target": targetDesc};
@@ -979,7 +979,7 @@ Future<bool> attack(
         ].random;
         addstr(
           "{name}'s shot {result}",
-          params: {"name": a.name, "result": carChaseResult},
+          params: {"name": a.name, "result": LcsI18n.tr(carChaseResult)},
         );
       } else if (t.skillCheck(
         Skill.dodge,
@@ -995,7 +995,7 @@ Future<bool> attack(
         ].random;
         addstr(
           "{name} {action}",
-          params: {"name": t.name, "action": dodgeMessage},
+          params: {"name": t.name, "action": LcsI18n.tr(dodgeMessage)},
         );
       } else {
         addstr("{name} misses.", params: {"name": a.name});
@@ -1915,7 +1915,9 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
           "The {name} {reaction}",
           params: {
             "name": a.name,
-            "reaction": ["smokes...", "smolders.", "burns..."].random,
+            "reaction": LcsI18n.tr(
+              ["smokes...", "smolders.", "burns..."].random,
+            ),
           },
         );
 
@@ -1926,9 +1928,12 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
       if (noncombat) {
         clearMessageArea();
         final reaction = switch (lcsRandom(3)) {
-          0 => "yelps in pain...",
-          1 => noProfanity ? "[makes a stinky]." : "soils the floor.",
-          _ => "yowls pitifully...",
+          0 => LcsI18n.tr("yelps in pain..."),
+          1 =>
+            noProfanity
+                ? LcsI18n.tr("[makes a stinky].")
+                : LcsI18n.tr("soils the floor."),
+          _ => LcsI18n.tr("yowls pitifully..."),
         };
         mvaddstrc(
           9,
@@ -1946,84 +1951,90 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
         clearMessageArea();
         if (a.squad == null && !a.type.majorEnemy) a.nonCombatant = true;
         final reaction = switch (lcsRandom(54)) {
-          0 => "desperately cries out to Jesus.",
-          1 => noProfanity ? "[makes a stinky]." : "soils the floor.",
-          2 => "whimpers in a corner.",
-          3 => "begins to weep.",
-          4 => "vomits.",
-          5 => "chortles...",
-          6 => "screams in pain.",
-          7 => "asks for mother.",
-          8 => "prays softly...",
-          9 => "clutches at the wounds.",
-          10 => "reaches out and moans.",
-          11 => "hollers in pain.",
-          12 => "groans in agony.",
-          13 => "begins hyperventilating.",
-          14 => "shouts a prayer.",
-          15 => "coughs up blood.",
+          0 => LcsI18n.tr("desperately cries out to Jesus."),
+          1 =>
+            noProfanity
+                ? LcsI18n.tr("[makes a stinky].")
+                : LcsI18n.tr("soils the floor."),
+          2 => LcsI18n.tr("whimpers in a corner."),
+          3 => LcsI18n.tr("begins to weep."),
+          4 => LcsI18n.tr("vomits."),
+          5 => LcsI18n.tr("chortles..."),
+          6 => LcsI18n.tr("screams in pain."),
+          7 => LcsI18n.tr("asks for mother."),
+          8 => LcsI18n.tr("prays softly..."),
+          9 => LcsI18n.tr("clutches at the wounds."),
+          10 => LcsI18n.tr("reaches out and moans."),
+          11 => LcsI18n.tr("hollers in pain."),
+          12 => LcsI18n.tr("groans in agony."),
+          13 => LcsI18n.tr("begins hyperventilating."),
+          14 => LcsI18n.tr("shouts a prayer."),
+          15 => LcsI18n.tr("coughs up blood."),
           16 =>
             mode != GameMode.carChase
-                ? "stumbles against a wall."
-                : "leans against the door.",
-          17 => "begs for forgiveness.",
-          18 => "shouts \"Why have you forsaken me?\"",
-          19 => "murmurs \"Why Lord?   Why?\"",
-          20 => "whispers \"Am I dead?\"",
+                ? LcsI18n.tr("stumbles against a wall.")
+                : LcsI18n.tr("leans against the door."),
+          17 => LcsI18n.tr("begs for forgiveness."),
+          18 => LcsI18n.tr("shouts \"Why have you forsaken me?\""),
+          19 => LcsI18n.tr("murmurs \"Why Lord?   Why?\""),
+          20 => LcsI18n.tr("whispers \"Am I dead?\""),
           21 =>
             noProfanity
-                ? "[makes a mess], moaning."
-                : "pisses on the floor, moaning.",
-          22 => "whispers incoherently.",
+                ? LcsI18n.tr("[makes a mess], moaning.")
+                : LcsI18n.tr("pisses on the floor, moaning."),
+          22 => LcsI18n.tr("whispers incoherently."),
           23 =>
             a.body.eyeok > 1
-                ? "stares off into space."
+                ? LcsI18n.tr("stares off into space.")
                 : a.body.eyeok == 1
-                ? "stares into space with one empty eye."
-                : "stares out with hollow sockets.",
-          24 => "cries softly.",
-          25 => "yells until the scream cracks dry.",
+                ? LcsI18n.tr("stares into space with one empty eye.")
+                : LcsI18n.tr("stares out with hollow sockets."),
+          24 => LcsI18n.tr("cries softly."),
+          25 => LcsI18n.tr("yells until the scream cracks dry."),
           26 =>
             a.body.teeth > 1
-                ? "teeth start chattering."
+                ? LcsI18n.tr("teeth start chattering.")
                 : a.body.teeth == 1
-                ? "tooth starts chattering."
-                : "gums start chattering.",
-          27 => "starts shaking uncontrollably.",
-          28 => "looks strangely calm.",
-          29 => "nods off for a moment.",
-          30 => "starts drooling.",
-          31 => "seems lost in memories.",
-          32 => "shakes with fear.",
-          33 => "murmurs \"I'm so afraid...\"",
-          34 => "cries \"It can't be like this...\"",
+                ? LcsI18n.tr("tooth starts chattering.")
+                : LcsI18n.tr("gums start chattering."),
+          27 => LcsI18n.tr("starts shaking uncontrollably."),
+          28 => LcsI18n.tr("looks strangely calm."),
+          29 => LcsI18n.tr("nods off for a moment."),
+          30 => LcsI18n.tr("starts drooling."),
+          31 => LcsI18n.tr("seems lost in memories."),
+          32 => LcsI18n.tr("shakes with fear."),
+          33 => LcsI18n.tr("murmurs \"I'm so afraid...\""),
+          34 => LcsI18n.tr("cries \"It can't be like this...\""),
           35 =>
             a.age < 20 && !a.type.animal
-                ? "cries \"Mommy!\""
+                ? LcsI18n.tr("cries \"Mommy!\"")
                 : a.type.dog
-                ? "murmurs \"What about my puppies?\""
-                : "murmurs \"What about my offspring?\"",
-          36 => "shudders quietly.",
-          37 => "yowls pitifully.",
-          38 => "begins losing faith in God.",
-          39 => "muses quietly about death.",
-          40 => "asks for a blanket.",
-          41 => "shivers softly.",
-          42 => noProfanity ? "[makes a mess]." : "vomits up a clot of blood.",
+                ? LcsI18n.tr("murmurs \"What about my puppies?\"")
+                : LcsI18n.tr("murmurs \"What about my offspring?\""),
+          36 => LcsI18n.tr("shudders quietly."),
+          37 => LcsI18n.tr("yowls pitifully."),
+          38 => LcsI18n.tr("begins losing faith in God."),
+          39 => LcsI18n.tr("muses quietly about death."),
+          40 => LcsI18n.tr("asks for a blanket."),
+          41 => LcsI18n.tr("shivers softly."),
+          42 =>
+            noProfanity
+                ? LcsI18n.tr("[makes a mess].")
+                : LcsI18n.tr("vomits up a clot of blood."),
           43 =>
             noProfanity
-                ? "[makes a mess]."
-                : "spits up a cluster of bloody bubbles.",
-          44 => "pleads for mercy.",
-          45 => "quietly asks for coffee.",
-          46 => "looks resigned.",
-          47 => "scratches at the air.",
-          48 => "starts to giggle uncontrollably.",
-          49 => "wears a look of pain.",
-          50 => "questions God.",
-          51 => "whispers \"Mama baby.  Baby loves mama.\"",
-          52 => "asks for childhood toys frantically.",
-          _ => "murmurs \"But I go to church...\"",
+                ? LcsI18n.tr("[makes a mess].")
+                : LcsI18n.tr("spits up a cluster of bloody bubbles."),
+          44 => LcsI18n.tr("pleads for mercy."),
+          45 => LcsI18n.tr("quietly asks for coffee."),
+          46 => LcsI18n.tr("looks resigned."),
+          47 => LcsI18n.tr("scratches at the air."),
+          48 => LcsI18n.tr("starts to giggle uncontrollably."),
+          49 => LcsI18n.tr("wears a look of pain."),
+          50 => LcsI18n.tr("questions God."),
+          51 => LcsI18n.tr("whispers \"Mama baby.  Baby loves mama.\""),
+          52 => LcsI18n.tr("asks for childhood toys frantically."),
+          _ => LcsI18n.tr("murmurs \"But I go to church...\""),
         };
         mvaddstrc(
           9,
@@ -2041,17 +2052,17 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
       a.stunned--;
       clearMessageArea();
       final reaction = switch (lcsRandom(11)) {
-        0 => "seems hesitant.",
-        1 => "is caught in self-doubt.",
-        2 => "looks around uneasily.",
-        3 => "begins to weep.",
-        4 => "asks \"Is this right?\"",
-        5 => "asks for guidance.",
-        6 => "is caught in indecision.",
-        7 => "feels numb.",
-        8 => "prays quietly.",
-        9 => "searches for the truth.",
-        _ => "tears up.",
+        0 => LcsI18n.tr("seems hesitant."),
+        1 => LcsI18n.tr("is caught in self-doubt."),
+        2 => LcsI18n.tr("looks around uneasily."),
+        3 => LcsI18n.tr("begins to weep."),
+        4 => LcsI18n.tr("asks \"Is this right?\""),
+        5 => LcsI18n.tr("asks for guidance."),
+        6 => LcsI18n.tr("is caught in indecision."),
+        7 => LcsI18n.tr("feels numb."),
+        8 => LcsI18n.tr("prays quietly."),
+        9 => LcsI18n.tr("searches for the truth."),
+        _ => LcsI18n.tr("tears up."),
       };
       mvaddstrc(
         9,
@@ -2068,11 +2079,11 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
     if (!noncombat) {
       clearMessageArea();
       final reaction = switch (lcsRandom(5)) {
-        0 => "looks on with authority.",
-        1 => "waits patiently.",
-        2 => "sits in thought.",
-        3 => "breathes slowly.",
-        _ => "considers the situation.",
+        0 => LcsI18n.tr("looks on with authority."),
+        1 => LcsI18n.tr("waits patiently."),
+        2 => LcsI18n.tr("sits in thought."),
+        3 => LcsI18n.tr("breathes slowly."),
+        _ => LcsI18n.tr("considers the situation."),
       };
       mvaddstrc(
         9,
@@ -2178,8 +2189,8 @@ void addDeathMessage(Creature cr) {
       message,
       params: {
         "name": cr.name,
-        "hisHer": cr.gender.hisHer,
-        "himHer": cr.gender.himHer,
+        "hisHer": LcsI18n.tr(cr.gender.hisHer),
+        "himHer": LcsI18n.tr(cr.gender.himHer),
       },
     );
   } else {

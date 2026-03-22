@@ -440,7 +440,7 @@ Future<void> languageMenu() async {
       7,
       4,
       "P",
-      "Portuguese: ${gameOptions.language == 'pt_BR' ? '&GSelected&x' : 'Portugues'}",
+      "Portuguese: ${gameOptions.language == 'pt_BR' ? '&GSelected&x' : 'Português'}",
       enabledWhen: true,
     );
 

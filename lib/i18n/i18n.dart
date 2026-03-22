@@ -25,7 +25,10 @@ class LcsI18nException implements Exception {
 ///
 /// Example:
 ///   addstr("Press any key to continue.");  // Translates automatically
-///   addstr(LcsI18n.format("You hit the {target}!", {"target": "Conservative"}));
+///   addstr(
+///     "You hit the {target}!",
+///     params: {"target": "Conservative"},
+///   );
 class LcsI18n {
   static bool _initialized = false;
   static String _currentLocale = 'en_US';

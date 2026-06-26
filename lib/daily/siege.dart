@@ -373,6 +373,7 @@ Future<void> siegeCheck() async {
             }
           }
           l.loot.clear();
+          if (flagSecrecyWhenFlying(l.flyingFlag) < 0) l.hasFlag = false;
           vehiclePool.removeWhere((v) => v.location == l);
         }
       }
@@ -909,9 +910,9 @@ Future<void> siegeTurn() async {
         }
       }
 
-      for (int v = vehiclePool.length - 1; v >= 0; v--) {
-        if (vehiclePool[v].locationId == l.id) vehiclePool.removeAt(v);
-      }
+      l.loot.clear();
+      if (flagSecrecyWhenFlying(l.flyingFlag) < 0) l.hasFlag = false;
+      vehiclePool.removeWhere((v) => v.location == l);
 
       l.siege.activeSiegeType = SiegeType.none;
     }
@@ -1448,11 +1449,8 @@ Future<void> siegeDefeat() async {
 
   //CONFISCATE MATERIAL
   loc.loot.clear();
-  for (int v = vehiclePool.length - 1; v >= 0; v--) {
-    if (vehiclePool[v].location == loc) {
-      vehiclePool.removeAt(v);
-    }
-  }
+  if (flagSecrecyWhenFlying(loc.flyingFlag) < 0) loc.hasFlag = false;
+  vehiclePool.removeWhere((v) => v.location == loc);
 }
 
 enum SallyForthResult { defeated, escaped, brokeSiege }
@@ -1800,6 +1798,7 @@ Future<void> escapeOrEngage() async {
 
 /* siege - what happens when you escaped the siege */
 Future<void> escapeSiege(bool won) async {
+  Squad? squad = activeSquad;
   //TEXT IF DIDN'T WIN
   if (!won) {
     //GIVE INFO SCREEN
@@ -1838,10 +1837,10 @@ Future<void> escapeSiege(bool won) async {
     mvaddstr(11, 11, "doubtless be preparing another assault.");
 
     Site? homes;
-    if (activeSquad != null) {
-      if (activeSquad?.members.isNotEmpty == true) {
+    if (squad != null) {
+      if (squad.members.isNotEmpty == true) {
         homes = findSiteInSameCity(
-          activeSquad!.members.first.site!.city,
+          squad.members.first.site!.city,
           SiteType.homelessEncampment,
         );
       }
@@ -1857,17 +1856,20 @@ Future<void> escapeSiege(bool won) async {
     await getKey();
 
     //dump retrieved loot in homeless camp - is there anywhere better to put it?
-    if (activeSquad != null) homes?.addLootAndProcessMoney(activeSquad!.loot);
+    if (squad != null) homes?.addLootAndProcessMoney(squad.loot);
 
-    activeSquad = null; //active squad cannot be disbanded in removesquadinfo,
-    //but we need to disband current squad as the people are going to be 'away'.
+    squad = null; //active squad cannot be disbanded in removesquadinfo,
+    //but we need to disband current squad as the people are going to be 'away'.\
+
+    Site? loc = activeSite;
+    if (loc == null) return;
 
     //GET RID OF DEAD, etc.
-    if (activeSite!.rent > 1) activeSite!.controller = SiteController.unaligned;
+    if (loc.rent > 1) loc.controller = SiteController.unaligned;
 
     for (int i = pool.length - 1; i >= 0; i--) {
       Creature p = pool[i];
-      if (p.site != activeSite) continue;
+      if (p.site != loc) continue;
       if (!p.alive) {
         pool.removeAt(i);
         continue;
@@ -1886,27 +1888,22 @@ Future<void> escapeSiege(bool won) async {
       }
       p.base = homes;
     }
-    activeSite!.loot.clear();
+    loc.loot.clear();
+    if (flagSecrecyWhenFlying(loc.flyingFlag) < 0) loc.hasFlag = false;
+    vehiclePool.removeWhere((v) => v.location == loc);
 
-    for (int v = vehiclePool.length - 1; v >= 0; v--) {
-      if (vehiclePool[v].location == activeSite) {
-        vehiclePool.removeAt(v);
-      }
-    }
-
-    activeSite!.compound.fortified = false;
-    activeSite!.compound.rations = 0;
-    activeSite!.businessFront = false;
-    await initsite(activeSite!);
+    loc.compound.fortified = false;
+    loc.compound.rations = 0;
+    loc.businessFront = false;
+    await initsite(loc);
   }
 
   // If you won, increase the heat and escalate the siege
-  if (won && activeSite!.siege.activeSiegeType == SiegeType.police) {
-    activeSite!.heat += 1000;
-    activeSite!.siege.escalationState = activeSite!.siege.escalationState
-        .escalate();
+  if (won && loc.siege.activeSiegeType == SiegeType.police) {
+    loc.heat += 1000;
+    loc.siege.escalationState = loc.siege.escalationState.escalate();
   }
-  activeSite!.siege.activeSiegeType = SiegeType.none;
+  loc.siege.activeSiegeType = SiegeType.none;
 }
 
 /* siege - flavor text when you fought off the raid */

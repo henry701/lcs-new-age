@@ -29,7 +29,8 @@ If default extraction is empty but translation status shows untranslated keys:
 1. Generate per-part status:
    `dart run scripts/translation_status.dart --locale=pt_BR --per-part --json`
 2. Pick the worst non-complete part (`part01..part32`).
-3. Extract untranslated keys directly from `lib/l10n/app_pt_BR_<part>.arb` into a focused batch file.
+3. Build a focused batch manually from `lib/l10n/app_pt_BR_<part>.arb`.
+   There is currently no first-class per-part extractor script.
 4. Translate/merge/validate normally.
 
 Do not treat an empty default batch as completion unless global status confirms:
@@ -47,4 +48,5 @@ Do not treat an empty default batch as completion unless global status confirms:
 ## Notes
 
 - Canonical catalogs live under `lib/l10n/app_<locale>_part01.arb` ... `app_<locale>_part32.arb`.
+- Runtime untranslated logs are diagnostics only; they are not imported automatically into batch ARB files.
 - Do not commit files from this workspace.

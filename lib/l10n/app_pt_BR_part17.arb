@@ -169,6 +169,7 @@
   "{name}'s liver is blasted!": "O fígado de {name} é destruído!",
   "{name}'s nose is torn off!": "O nariz de {name} é arrancado!",
   "{name}'s right eye is burned away!": "O olho direito de {name} foi queimado!",
+  "{name}: <rummaging> {message}": "{name}: <procurando> {message}",
   "{pName} overpowers {eName} after a struggle.": "{pName} domina {eName} após uma luta.",
   "{prop}: ": "{prop}: "
 }

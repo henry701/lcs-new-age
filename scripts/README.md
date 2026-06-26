@@ -33,7 +33,10 @@ dart run scripts/find_translatable_strings.dart --hash-shards=32
 
 Notes:
 - Additive sync only: existing translated values are preserved.
+- Additive sync only: existing translated values are preserved, and dead source keys are not pruned automatically.
 - Detects wrapper literals plus random-list literals (`.random`, `[lcsRandom(...)]`).
+- Detects `LcsI18n.tr(...)` literals used for dynamic inserted values.
+- Not a full semantic extractor: some strings assigned to locals and only rendered later through wrappers can still require manual sweep work.
 
 ## merge_arb_entries.dart
 
@@ -54,6 +57,11 @@ Builds a translation batch from all locale files.
 ```bash
 dart run scripts/get_untranslated_strings.dart --locale=pt_BR --limit=50 --output=translation_workspace/untranslated_pt_BR.arb
 ```
+
+Notes:
+- Scans canonical ARB files only.
+- Does not import runtime untranslated-log shards.
+- Does not currently provide a first-class per-part focused exporter.
 
 ## translation_status.dart
 
@@ -79,6 +87,9 @@ dart run scripts/interpolation_status.dart --json
 Notes:
 - Use this before translator batches to identify strings that still rely on `$...` interpolation.
 - Extraction intentionally skips `$...` literals; convert to placeholder templates where practical (`{name}`, `{value}`, etc.).
+- Output includes:
+  - direct wrapper-argument hits: high-confidence
+  - wrapper-context hits: broader coverage for multiline/manual sweep review
 
 ## clean_untranslated.dart
 
@@ -142,17 +153,23 @@ dart run scripts/validate.dart
 ## Recommended Loop
 
 ```bash
-# 1) Refresh catalogs from code (additive)
+# 1) Sweep remaining interpolation / source-template debt
+dart run scripts/interpolation_status.dart --limit=40
+
+# 2) Refresh catalogs from code (additive)
 dart run scripts/find_translatable_strings.dart
 
-# 2) Extract a translation batch
+# 3) Inspect status
+dart run scripts/translation_status.dart
+
+# 4) Extract a translation batch
 dart run scripts/get_untranslated_strings.dart --locale=pt_BR --limit=50 --output=translation_workspace/untranslated_pt_BR.arb
 
-# 3) Translate the batch file
+# 5) Translate the batch file
 
-# 4) Merge translated entries
+# 6) Merge translated entries
 dart run scripts/merge_arb_entries.dart --locale=pt_BR --source=translation_workspace/untranslated_pt_BR.arb
 
-# 5) Validate canonical layout
+# 7) Validate canonical layout
 dart run scripts/maintain_arb_catalogs.dart --check
 ```

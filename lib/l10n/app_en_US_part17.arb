@@ -165,6 +165,7 @@
   "{name}'s liver is blasted!": "{name}'s liver is blasted!",
   "{name}'s nose is torn off!": "{name}'s nose is torn off!",
   "{name}'s right eye is burned away!": "{name}'s right eye is burned away!",
+  "{name}: <rummaging> {message}": "{name}: <rummaging> {message}",
   "{pName} overpowers {eName} after a struggle.": "{pName} overpowers {eName} after a struggle.",
   "{prop}: ": "{prop}: "
 }

@@ -9,6 +9,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/sitemode/chase_sequence.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -350,16 +351,16 @@ class CarTheftScene {
               "I wish I could hotwire this thing...",
             ].random;
           }
+          final renderedRummageMessage = LcsI18n.processString(rummageMessage, {
+            "expletive": noProfanity ? "[Shoot]" : "Fuck",
+            "expletive2": noProfanity ? "[Darn] it" : "Dammit",
+          });
           mvaddstrcx(
             y++,
             0,
             white,
-            "{name}: <rummaging> $rummageMessage",
-            params: {
-              "name": cr.name,
-              "expletive": noProfanity ? "[Shoot]" : "Fuck",
-              "expletive2": noProfanity ? "[Darn] it" : "Dammit",
-            },
+            "{name}: <rummaging> {message}",
+            params: {"name": cr.name, "message": renderedRummageMessage},
           );
 
           await getKey();
@@ -508,7 +509,8 @@ class CarTheftScene {
     bailed = true;
     erase();
     await pagedInterface(
-      headerPrompt: "What type of car will ${cr.name} try to find and steal today?",
+      headerPrompt:
+          "What type of car will ${cr.name} try to find and steal today?",
       headerKey: {4: "TYPE", 49: "DIFFICULTY TO FIND UNATTENDED"},
       footerPrompt: "Press a Letter to select a Type of Car",
       count: cart.length,

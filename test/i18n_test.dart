@@ -534,11 +534,12 @@ void main() {
 
     test('setLocale preloads English fallback when called first', () async {
       final logLines = <String>[];
+      const fallbackKey = 'Squad: ';
 
       await runZoned(
         () async {
           await LcsI18n.setLocale('pt_BR');
-          expect(LcsI18n.translate('Trivial'), equals('Trivial'));
+          expect(LcsI18n.translate(fallbackKey), equals(fallbackKey));
         },
         zoneSpecification: ZoneSpecification(
           print: (self, parent, zone, line) {
@@ -549,11 +550,13 @@ void main() {
 
       expect(
         logLines,
-        contains('LcsI18n: Using English fallback for "Trivial" in pt_BR'),
+        contains('LcsI18n: Using English fallback for "$fallbackKey" in pt_BR'),
       );
       expect(
         logLines,
-        isNot(contains('LcsI18n: Missing translation for "Trivial" in pt_BR')),
+        isNot(
+          contains('LcsI18n: Missing translation for "$fallbackKey" in pt_BR'),
+        ),
       );
     });
 

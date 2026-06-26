@@ -19,6 +19,7 @@ dart run scripts/translation_status.dart --locale=pt_BR --part=part07
 - All JSON objects are recursively sorted by key.
 - Keys must be unique across all files of a locale.
 - Catalog sync is additive only: existing translations are never overwritten by extraction.
+- Catalog sync does not prune dead source keys. Stale `en_US` keys can remain after source refactors until they are cleaned up separately.
 
 Validate/fix:
 
@@ -39,6 +40,24 @@ dart run scripts/maintain_arb_catalogs.dart --fix
 - Keep translated sentences roughly the same visual length as English when practical (CLI layout width is sensitive).
 - Avoid `$variable` interpolation in translatable templates. Prefer placeholder-based templates (`{value}`) with `params`.
 
+## Source Sweep Before Translation
+
+Do this before treating untranslated coverage as real translator work:
+
+1. Run `dart run scripts/interpolation_status.dart --limit=40`.
+2. Fix wrapper-adjacent `$...` interpolation by converting it to placeholder templates.
+3. Re-run `dart run scripts/find_translatable_strings.dart`.
+
+Important limitations:
+
+- `find_translatable_strings.dart` is additive-only. It does not remove dead source keys from catalogs.
+- `find_translatable_strings.dart` is not a full semantic extractor. It can miss some strings that are assigned to locals and only rendered later through wrappers.
+- `interpolation_status.dart` has two signal levels:
+  - direct wrapper-argument hits: high-confidence
+  - wrapper-context hits: broader, useful for multiline calls and manual sweep work
+
+Treat the scripts as good assistants, not proof that source-string cleanup is complete.
+
 ## Interpolation Audit
 
 Run this before large translation batches to identify remaining interpolated literals:
@@ -52,31 +71,36 @@ The extraction script intentionally skips literals containing `$...`, so unresol
 ## End-to-End Loop
 
 ```bash
-# 0) Optional but recommended: audit unresolved interpolation
+# 0) Audit unresolved interpolation / source sweep debt
 dart run scripts/interpolation_status.dart --limit=40
 
 # 1) Sync catalogs from source code (add missing keys only)
 dart run scripts/find_translatable_strings.dart
 
-# 2) Extract untranslated batch
+# 2) Check overall status before assuming remaining work is translation-only
+dart run scripts/translation_status.dart
+
+# 3) Extract untranslated batch
 dart run scripts/get_untranslated_strings.dart \
   --locale=pt_BR \
   --limit=50 \
   --output=translation_workspace/untranslated_pt_BR.arb
 
-# 2b) If extracted batch is empty but status still has untranslated keys:
-#     - Run per-part status JSON
-#     - pick a non-complete part and extract a focused per-part batch
+# 3b) If extracted batch is empty but status still has untranslated keys:
+#     - run per-part status JSON
+#     - pick a non-complete part
+#     - build a focused batch manually from that shard file
 #     - continue with translate/merge/validate
+#     - there is currently no first-class per-part extractor
 
-# 3) Translate values in translation_workspace/untranslated_pt_BR.arb
+# 4) Translate values in translation_workspace/untranslated_pt_BR.arb
 
-# 4) Merge translations back (hash-routed + canonical write)
+# 5) Merge translations back (hash-routed + canonical write)
 dart run scripts/merge_arb_entries.dart \
   --locale=pt_BR \
   --source=translation_workspace/untranslated_pt_BR.arb
 
-# 5) Validate canonical layout
+# 6) Validate canonical layout
 dart run scripts/maintain_arb_catalogs.dart --check
 ```
 
@@ -95,6 +119,7 @@ If the default `untranslated_pt_BR.arb` extraction is empty, do not assume compl
 ## Runtime Untranslated String Logging
 
 The game includes a runtime logging system that captures untranslated strings encountered during gameplay.
+These logs are diagnostics, not a first-class batch source.
 
 ### How it Works
 
@@ -107,16 +132,13 @@ These files are organized into 64 deterministic shards based on string hash.
 
 1. **Enable logging**: In the title screen, enable "Log Untranslated Strings"
 2. **Play the game**: Untranslated strings will be captured as you encounter them
-3. **Extract for translation**:
-   ```bash
-   # Convert runtime logs to ARB format for translation
-   dart run scripts/get_untranslated_strings.dart \
-     --locale=pt_BR \
-     --include-runtime-logs \
-     --output=translation_workspace/untranslated_pt_BR.arb
-   ```
+3. **Use the logs to find missing live strings**:
+   - compare them against `translation_status.dart`
+   - fix source templating/interpolation if needed
+   - add missing source keys with `find_translatable_strings.dart`
+4. **Translate and merge through the normal ARB workflow**
 
-4. **Translate and merge** as normal
+There is currently no supported `get_untranslated_strings.dart --include-runtime-logs` importer.
 
 ### Common Anti-Patterns
 

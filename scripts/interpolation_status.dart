@@ -140,6 +140,12 @@ void main(List<String> args) async {
       if (fileOrder != 0) return fileOrder;
       return a.line.compareTo(b.line);
     });
+  final contextualSample = wrapperContextInterpolated.toList()
+    ..sort((a, b) {
+      final fileOrder = a.file.compareTo(b.file);
+      if (fileOrder != 0) return fileOrder;
+      return a.line.compareTo(b.line);
+    });
 
   final report = {
     'totalInterpolatedLiterals': allInterpolated.length,
@@ -150,6 +156,17 @@ void main(List<String> args) async {
         .map((entry) => {'file': entry.key, 'count': entry.value})
         .toList(),
     'sampleWrapperArgumentInterpolation': sample
+        .take(max(0, limit))
+        .map(
+          (record) => {
+            'file': record.file,
+            'line': record.line,
+            'context': record.context,
+            'text': record.text,
+          },
+        )
+        .toList(),
+    'sampleWrapperContextInterpolation': contextualSample
         .take(max(0, limit))
         .map(
           (record) => {
@@ -184,6 +201,12 @@ void main(List<String> args) async {
   print('');
   print('Sample matches (wrapper call string args):');
   for (final record in sample.take(max(0, limit))) {
+    print('  ${record.file}:${record.line} (${record.context})');
+    print('    ${record.text}');
+  }
+  print('');
+  print('Sample matches (near wrapper context):');
+  for (final record in contextualSample.take(max(0, limit))) {
     print('  ${record.file}:${record.line} (${record.context})');
     print('    ${record.text}');
   }

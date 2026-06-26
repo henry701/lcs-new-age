@@ -7,6 +7,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/politics/states.dart';
 import 'package:lcs_new_age/sitemode/stealth.dart';
@@ -634,19 +635,19 @@ String letterAPlus(int index, {bool capitalize = true}) {
 void addDifficultyText(int y, int x, int difficulty) {
   if (difficulty < 0) difficulty = 0;
   var (Color color, String text) = switch (difficulty) {
-    0 => (lightGreen, "Trivial"),
-    1 => (lightBlue, "Very Easy"),
-    2 => (blue, "Easy"),
-    3 => (blue, "Below Average"),
-    4 => (lightGray, "Average"),
-    5 => (lightGray, "Above Average"),
-    6 => (yellow, "Hard"),
-    7 => (yellow, "Very Hard"),
-    8 => (orange, "Extremely Difficult"),
-    9 => (red, "Almost Impossible"),
-    _ => (darkRed, "Impossible"),
+    0 => (lightGreen, LcsI18n.tr("Trivial")),
+    1 => (lightBlue, LcsI18n.tr("Very Easy")),
+    2 => (blue, LcsI18n.tr("Easy")),
+    3 => (blue, LcsI18n.tr("Below Average")),
+    4 => (lightGray, LcsI18n.tr("Average")),
+    5 => (lightGray, LcsI18n.tr("Above Average")),
+    6 => (yellow, LcsI18n.tr("Hard")),
+    7 => (yellow, LcsI18n.tr("Very Hard")),
+    8 => (orange, LcsI18n.tr("Extremely Difficult")),
+    9 => (red, LcsI18n.tr("Almost Impossible")),
+    _ => (darkRed, LcsI18n.tr("Impossible")),
   };
-  mvaddstrc(y, x, color, text);
+  mvaddstrc(y, x, color, text, noTranslate: true);
 }
 
 Future<void> pagedInterface({

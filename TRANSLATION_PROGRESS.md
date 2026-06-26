@@ -51,3 +51,4 @@ Already translated entries are not overwritten.
 
 - Status and coverage: this file + command output.
 - Architecture and roadmap: `PLAN.md`.
+- Source-sweep cleanup and stale-key pruning are separate from the coverage commands above.

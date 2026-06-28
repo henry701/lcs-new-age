@@ -74,11 +74,12 @@ They produce grammatically broken or unorderable output in pt_BR (and other lang
 addstr("{medic} was able to slow the bleeding of {patient}'s wounds.",
        params: {"medic": medic.name, "patient": patient.name});
 
-// For random flavor attached to name:
-mvaddstrc(11, 0, red, "{name}{flavor}", params: {
-  "name": p.name,
-  "flavor": LcsI18n.tr(" is crushed inside the car."),
-});
+// For random flavor attached to name (use full template, not fragment):
+final flavor = [
+  "{name} is crushed inside the car.",
+  "{name} slams into a building!",
+].random;
+mvaddstrc(11, 0, red, flavor, params: {"name": p.name});
 ```
 
 **Never:**
@@ -89,11 +90,11 @@ addstr("'s wounds.");
 addstr(crashesFlavorText.random); // if it starts with space or 's
 ```
 
-Existing offenders (non-exhaustive; re-sweep before claiming quality-complete):
+Existing offenders (non-exhaustive; re-sweep before claiming quality-complete; see PLAN_NOTES for passes):
 
-- chase_sequence.dart: crashesFlavorText, diesFlavorText (some start with "'s " or space)
-- Similar lists in prison, daily, etc.
-- Raw Dart interp for display names: "$name's Pawnshop" (review whether these need i18n or should be generated from translated base + owner)
+- Similar lists in prison, daily (flavor fragments attached via {name}{frag} or tr(frag)).
+- Raw Dart interp for display names in site init (e.g. "${lastName()} Prison", prefix += suffix in drugHouse/warehouse cases).
+- Some stealth/haul name+reaction/status attachments.
 
 Before marking any i18n goal "done for runtime", convert these to full templates, add the complete keys to catalogs, remove the dead fragment keys (after confirming no live use), and re-validate.
 

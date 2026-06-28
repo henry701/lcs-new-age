@@ -222,14 +222,14 @@ Future<void> prison(Creature g) async {
 
 Future<void> rehabilitation(Creature g) async {
   const List<String> reeducationExperiences = [
-    " is subjected to rehabilitative therapy in prison.",
-    " works on a prison mural about political diversity.",
-    " routinely sees a Liberal therapist in prison.",
-    " participates in a group therapy session in prison.",
-    " sings songs with prisoners of all political persuasions.",
-    " is encouraged to befriend Conservatives in prison.",
-    " puts on an anti-crime performance in prison.",
-    " sees a video in prison by victims of political crime.",
+    "{name} is subjected to rehabilitative therapy in prison.",
+    "{name} works on a prison mural about political diversity.",
+    "{name} routinely sees a Liberal therapist in prison.",
+    "{name} participates in a group therapy session in prison.",
+    "{name} sings songs with prisoners of all political persuasions.",
+    "{name} is encouraged to befriend Conservatives in prison.",
+    "{name} puts on an anti-crime performance in prison.",
+    "{name} sees a video in prison by victims of political crime.",
   ];
 
   erase();
@@ -237,8 +237,8 @@ Future<void> rehabilitation(Creature g) async {
     8,
     1,
     white,
-    "{name}{experience}",
-    params: {"name": g.name, "experience": reeducationExperiences.random},
+    reeducationExperiences.random,
+    params: {"name": g.name},
   );
 
   await getKey();
@@ -304,55 +304,43 @@ Future<void> laborCamp(Creature g) async {
   // Escape attempt!
   if (g.hireId == null && oneIn(3)) {
     escaped = 2;
-    experience = " organizes a riot of oppressed prisoners...";
-    experience2 = " overwhelms the prison guards!";
+    experience = "{name} organizes a riot of oppressed prisoners...";
+    experience2 = "{name} overwhelms the prison guards!";
   } else if (g.skillCheck(Skill.disguise, Difficulty.heroic) && oneIn(5)) {
     escaped = 1;
-    experience = " wears an electrician's outfit...";
-    experience2 = " rides away with some contractors!";
+    experience = "{name} wears an electrician's outfit...";
+    experience2 = "{name} rides away with some contractors!";
     g.giveClothingType("CLOTHING_WORKCLOTHES");
   } else if (g.skillCheck(Skill.security, Difficulty.challenging) &&
       g.skillCheck(Skill.stealth, Difficulty.hard) &&
       oneIn(10)) {
     escaped = 1;
-    experience = " picks the lock on their leg chains...";
-    experience2 = " sneaks away!";
+    experience = "{name} picks the lock on their leg chains...";
+    experience2 = "{name} sneaks away!";
   } else if (g.skillCheck(Skill.science, Difficulty.hard) && oneIn(10)) {
     escaped = 1;
-    experience = " consumes drugs that simulate death...";
-    experience2 = " is thrown out with the trash!";
+    experience = "{name} consumes drugs that simulate death...";
+    experience2 = "{name} is thrown out with the trash!";
   }
 
   const List<String> laborCampExperiences = [
-    " is forced to operate dangerous machinery in prison.",
-    " is beaten by sadistic prison guards.",
-    " carries heavy burdens back and forth in prison labor camp.",
-    " does back-breaking work all month in prison.",
-    " gets in a brutal fight with another prisoner.",
-    " participates in a quickly-suppressed prison riot.",
-    " participates in a quickly-suppressed prison riot.",
+    "{name} is forced to operate dangerous machinery in prison.",
+    "{name} is beaten by sadistic prison guards.",
+    "{name} carries heavy burdens back and forth in prison labor camp.",
+    "{name} does back-breaking work all month in prison.",
+    "{name} gets in a brutal fight with another prisoner.",
+    "{name} participates in a quickly-suppressed prison riot.",
+    "{name} participates in a quickly-suppressed prison riot.",
   ];
 
   experience ??= laborCampExperiences.random;
 
   erase();
-  mvaddstrc(
-    8,
-    1,
-    white,
-    "{name}{experience}",
-    params: {"name": g.name, "experience": experience},
-  );
+  mvaddstrc(8, 1, white, experience, params: {"name": g.name});
   await getKey();
 
   if (experience2 != null) {
-    mvaddstrc(
-      9,
-      1,
-      white,
-      "{name}{experience}",
-      params: {"name": g.name, "experience": experience2},
-    );
+    mvaddstrc(9, 1, white, experience2, params: {"name": g.name});
     await getKey();
   }
 
@@ -402,53 +390,53 @@ Future<void> prisonScene(Creature g) async {
     if (g.hireId == null && oneIn(10)) {
       escaped = 2;
       experience =
-          " leads a riot with dozens of prisoners chanting the LCS slogan!";
+          "{name} leads a riot with dozens of prisoners chanting the LCS slogan!";
     } else if (g.skillCheck(Skill.computers, Difficulty.formidable) &&
         oneIn(5)) {
       escaped = 2;
       experience =
-          " codes a virus on a smuggled phone that opens the prison doors!";
+          "{name} codes a virus on a smuggled phone that opens the prison doors!";
     } else if (g.skillCheck(Skill.disguise, Difficulty.formidable) &&
         oneIn(5)) {
       escaped = 1;
       experience =
-          " puts on smuggled street clothes and calmly walks out of prison.";
+          "{name} puts on smuggled street clothes and calmly walks out of prison.";
       g.giveArmor(Clothing("CLOTHING_CLOTHES"), null);
     } else if (g.skillCheck(Skill.security, Difficulty.hard) &&
         g.skillCheck(Skill.stealth, Difficulty.hard) &&
         oneIn(5)) {
       escaped = 1;
       experience =
-          " jimmies the cell door and cuts the fence in the dead of night!";
+          "{name} jimmies the cell door and cuts the fence in the dead of night!";
     } else if (g.skillCheck(Skill.science, Difficulty.challenging) &&
         g.skillCheck(Skill.martialArts, Difficulty.challenging) &&
         oneIn(5)) {
       escaped = 1;
       experience =
-          " ODs on smuggled drugs, then breaks out of the medical ward!";
+          "{name} ODs on smuggled drugs, then breaks out of the medical ward!";
     }
   }
 
   const List<String> goodExperiences = [
-    " advertises the LCS every day to other inmates.",
-    " organizes a group of inmates to beat up on a serial rapist.",
-    " learns lots of little skills from other inmates.",
-    " gets a prison tattoo with the letters L-C-S.",
-    " thinks up new protest songs while in prison.",
+    "{name} advertises the LCS every day to other inmates.",
+    "{name} organizes a group of inmates to beat up on a serial rapist.",
+    "{name} learns lots of little skills from other inmates.",
+    "{name} gets a prison tattoo with the letters L-C-S.",
+    "{name} thinks up new protest songs while in prison.",
   ];
   const List<String> badExperiences = [
-    " gets sick for a few days from nasty prison food.",
-    " spends too much time working out at the prison gym.",
-    " is sexually assaulted by another prison inmate.",
-    " writes to a letter the warden swearing off political activism.",
-    " rats out one of the other inmates in exchange for benefits.",
+    "{name} gets sick for a few days from nasty prison food.",
+    "{name} spends too much time working out at the prison gym.",
+    "{name} is sexually assaulted by another prison inmate.",
+    "{name} writes to a letter the warden swearing off political activism.",
+    "{name} rats out one of the other inmates in exchange for benefits.",
   ];
   const List<String> generalExperiences = [
-    " mouths off to a prison guard and ends up in solitary.",
-    " gets high off drugs smuggled into the prison.",
-    " does nothing but read books at the prison library.",
-    " gets into a fight and is punished with latrine duty.",
-    " constantly tries thinking how to escape from prison.",
+    "{name} mouths off to a prison guard and ends up in solitary.",
+    "{name} gets high off drugs smuggled into the prison.",
+    "{name} does nothing but read books at the prison library.",
+    "{name} gets into a fight and is punished with latrine duty.",
+    "{name} constantly tries thinking how to escape from prison.",
   ];
 
   if (escaped == 0) {
@@ -475,13 +463,7 @@ Future<void> prisonScene(Creature g) async {
   if (experience == null) return;
 
   erase();
-  mvaddstrc(
-    8,
-    1,
-    white,
-    "{name}{experience}",
-    params: {"name": g.name, "experience": experience},
-  );
+  mvaddstrc(8, 1, white, experience, params: {"name": g.name});
 
   await getKey();
 

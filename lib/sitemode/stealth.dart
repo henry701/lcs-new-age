@@ -47,16 +47,10 @@ Future<void> noticeCheck({
     } else {
       clearMessageArea();
 
-      String reaction = e.align == Alignment.conservative
-          ? "and lets forth a piercing Conservative alarm cry!"
-          : "and shouts for help!";
-      mvaddstrc(
-        9,
-        1,
-        red,
-        "{name} observes your Liberal activity {reaction}",
-        params: {"name": e.name, "reaction": reaction},
-      );
+      final template = e.align == Alignment.conservative
+          ? "{name} observes your Liberal activity and lets forth a piercing Conservative alarm cry!"
+          : "{name} observes your Liberal activity and shouts for help!";
+      mvaddstrc(9, 1, red, template, params: {"name": e.name});
 
       siteAlarm = true;
 
@@ -394,30 +388,23 @@ Future<void> disguisecheck(int timer) async {
         }
       }
     } else {
-      String reaction = switch (true) {
+      final template = switch (true) {
         _
             when weapon != WeaponCheckResult.ok &&
                 weapon != WeaponCheckResult.inCharacter &&
                 !n.type.dog &&
                 !(politics.laws[Law.gunControl] ==
                     DeepAlignment.archConservative) =>
-          " takes one look at the Squad's Liberal Weapons",
+          "{name} takes one look at the Squad's Liberal Weapons and lets forth a piercing Conservative alarm cry!",
         _ when disguise == DisguiseQuality.alarming && !n.type.dog =>
-          " takes one look at the Squad's Liberal Armor",
-        _ => " looks at the Squad with Intolerance",
+          "{name} takes one look at the Squad's Liberal Armor and lets forth a piercing Conservative alarm cry!",
+        _ when n.type.dog =>
+          "{name} looks at the Squad with Intolerance and launches into angry Conservative barking!",
+        _ when n.align == Alignment.conservative =>
+          "{name} looks at the Squad with Intolerance and lets forth a piercing Conservative alarm cry!",
+        _ => "{name} looks at the Squad with Intolerance and shouts for help!",
       };
-      String alarm = n.type.dog
-          ? "and launches into angry Conservative barking!"
-          : n.align == Alignment.conservative
-          ? "and lets forth a piercing Conservative alarm cry!"
-          : "and shouts for help!";
-      mvaddstrc(
-        9,
-        1,
-        red,
-        "{name}{reaction} {alarm}",
-        params: {"name": n.name, "reaction": reaction, "alarm": alarm},
-      );
+      mvaddstrc(9, 1, red, template, params: {"name": n.name});
 
       siteAlarm = true;
     }

@@ -853,10 +853,7 @@ Future<bool> enemyCarUpdate() async {
             "{attacker} runs {defender} off the road!",
             "{attacker} sends {defender} into a spin!",
           ].random,
-          params: {
-            "attacker": enemyCarDriver.name,
-            "defender": yourDriverName,
-          },
+          params: {"attacker": enemyCarDriver.name, "defender": yourDriverName},
         );
         chaseSequence!.crash();
         await getKey();
@@ -956,13 +953,7 @@ Future<void> evasiverun() async {
         3 => "{name} destroys everything in its path to keep up!",
         _ => "{name} plows through a brick wall like it was nothing!",
       };
-      mvaddstrc(
-        9,
-        1,
-        yellow,
-        tankTemplate,
-        params: {"name": e.name},
-      );
+      mvaddstrc(9, 1, yellow, tankTemplate, params: {"name": e.name});
 
       await getKey();
     } else if (chaser < yourworst) {
@@ -1043,34 +1034,37 @@ Future<void> evasiverun() async {
         printParty();
       } else if (yourspeed[p]! < theirbest - 10) {
         clearMessageArea();
-        String message = p.name;
+        late final String captureTemplate;
         switch (encounter[0].type.id) {
           case CreatureTypeIds.policeChief:
           case CreatureTypeIds.cop:
-            message += " is seized, ";
             if (laws[Law.policeReform]! >= DeepAlignment.liberal) {
-              message += "pushed to the ground, and handcuffed!";
+              captureTemplate =
+                  "{name} is seized, pushed to the ground, and handcuffed!";
             } else {
               if (p.blood <= 10) {
-                message += "thrown to the ground, and TAZED TO DEATH!";
+                captureTemplate =
+                    "{name} is seized, thrown to the ground, and TAZED TO DEATH!";
               } else {
-                message += "thrown to the ground, and tazed repeatedly!";
+                captureTemplate =
+                    "{name} is seized, thrown to the ground, and tazed repeatedly!";
               }
               p.blood -= 10;
             }
           case CreatureTypeIds.deathSquad:
-            message +=
-                " is seized, thrown to the ground, and SHOT IN THE HEAD!";
+            captureTemplate =
+                "{name} is seized, thrown to the ground, and SHOT IN THE HEAD!";
             p.blood = 0;
           case CreatureTypeIds.tank:
-            message += " is CRUSHED beneath the tank's treads!";
+            captureTemplate = "{name} is CRUSHED beneath the tank's treads!";
             p.blood = 0;
           default:
-            message += " is seized, ";
             if (p.blood <= 60) {
-              message += "slammed against the ground, and BEATEN TO DEATH!";
+              captureTemplate =
+                  "{name} is seized, slammed against the ground, and BEATEN TO DEATH!";
             } else {
-              message += "slammed against the ground, and brutally beaten!";
+              captureTemplate =
+                  "{name} is seized, slammed against the ground, and brutally beaten!";
             }
             p.blood -= 60;
         }
@@ -1088,7 +1082,7 @@ Future<void> evasiverun() async {
 
         printParty();
         printChaseEncounter();
-        mvaddstrc(9, 1, lightBlue, message);
+        mvaddstrc(9, 1, lightBlue, captureTemplate, params: {"name": p.name});
 
         await getKey();
       } else {
@@ -1419,7 +1413,13 @@ Future<void> crashfriendlycar(Vehicle v) async {
     "Your {vehicle} skids out and crashes!",
     "Your {vehicle} hits another car and flips over!",
   ];
-  mvaddstrc(9, 1, purple, crashTemplates.random, params: {"vehicle": v.fullName()});
+  mvaddstrc(
+    9,
+    1,
+    purple,
+    crashTemplates.random,
+    params: {"vehicle": v.fullName()},
+  );
   printParty();
 
   await getKey();
@@ -1485,8 +1485,7 @@ Future<void> crashfriendlycar(Vehicle v) async {
         final deathTemplate = switch (lcsRandom(range)) {
           0 => "{name} slumps in {possessive} seat, out cold, and dies.",
           1 => "{name} is crushed by the impact.",
-          2 =>
-            "{name} struggles free of the car, then collapses lifelessly.",
+          2 => "{name} struggles free of the car, then collapses lifelessly.",
           _ => "{name} is crushed by the impact.",
         };
         mvaddstrc(
@@ -1569,13 +1568,7 @@ Future<void> crashenemycar(Vehicle v) async {
     2 => "The {vehicle} hits a parked car and flips over.",
     _ => "The {vehicle} slams into a building.",
   };
-  mvaddstrc(
-    9,
-    1,
-    lightBlue,
-    crashTemplate,
-    params: {"vehicle": v.fullName()},
-  );
+  mvaddstrc(9, 1, lightBlue, crashTemplate, params: {"vehicle": v.fullName()});
   if (lcsRandom(3) == 1) {
     move(10, 1);
     if (victimsum > 1) {

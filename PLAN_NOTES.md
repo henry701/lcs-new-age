@@ -261,3 +261,51 @@ When all green + render evidence, commit+push. Do not claim on gates alone.
 
 ---
 
+
+### 2026-06-28 continuation pass: extractor test + remaining fragment sweep
+
+- Re-audited branch from current worktree. Current branch is `feature/localization`; open PR found on fork as henry701/lcs-new-age#1. Upstream PR #18 is closed, so push target remains the existing branch/fork PR. `PLAN.md` remains untracked and untouched.
+- Added a regression test for the extractor using a temporary `lib/__i18n_extractor_fixture_test.dart` and `--glob`; red result confirmed the bug: a random-list string beginning with a literal space (`" slams into a wall."`) was extracted as a source key.
+- Fixed the extractor guard from ineffective `trimLeft().startsWith(" ")` to direct leading-whitespace detection plus trimmed apostrophe detection. Green result: `flutter test test/find_translatable_strings_test.dart`.
+- Swept the objective hotspots again. Remaining selected leading-fragment strings were in `lib/justice/prison.dart` prison escape scene and `lib/sitemode/chase_sequence.dart` capture/fall-behind message composition.
+- Converted the remaining prison escape strings to full `{name} ...` templates and converted chase capture message assembly from `p.name + fragment` to a single `captureTemplate` rendered with `params: {"name": p.name}`.
+- Found one more daily hotspot: `lib/daily/activities/trouble.dart` built `{name} ` / `Your Activists ` plus issue fragments with `message +=`. Added a static regression test, verified it failed, then converted every trouble issue message to full `{actor} ...` templates. Nuclear-mutant singular/plural text is now two complete templates instead of `{prefix}` + `{article}` + `{plural}` fragment stitching.
+- Added a static regression for raw interpolated possessives in `lib/`; red result found remaining newspaper/talk possessives. Converted each to complete `LcsI18n.processString` templates for the possessive phrase (`{name}'s ...` / `{person}'s ...`) so translators receive whole possessive units instead of hard-coded `$name's` English ordering.
+- Added a static site-name regression for `loc.name +=` and `loc.name = "$...` patterns. Converted warehouse prefix+suffix generation and remaining random site-name interpolation (forced labor camp, juice bar, vegan co-op, internet cafe, latte stand) to complete `LcsI18n.processString` templates with named placeholders. Also converted site+city display from raw interpolation to `{site}, {city}`.
+- Extended extractor coverage for wrapped multiline assignment literals (semicolon-terminated quoted lines) and multiline `processString` context; added regression coverage. This was needed after chase capture templates were assigned through a wrapped local variable and after possessive newspaper phrases used multiline `LcsI18n.processString` calls.
+- Converted the rib break/shatter output in `lib/sitemode/fight.dart` from `{name}'s ribs are ` + `broken!/shattered!` fragments to full templates for every singular/plural and broken/shattered case.
+- Removed confirmed-dead fragment keys from ARBs after `rg` showed no exact live source use: `{prefix}dressed up and pretended to be {article}radioactive mutant{plural}!`, `heroic actions."&r`, standalone `broken!`, and standalone `shattered!`.
+- Added/updated pt_BR translations for changed trouble, prison, chase, site-name, newspaper/talk possessive, and rib injury templates. Remaining same-as-English status from `translation_status.dart` includes broader legacy catalogue debt surfaced by extractor coverage and is not used as completion proof for the grammar sweep.
+- Updated targeted pt_BR runtime smoke evidence to cover the newly changed site-name, actor, chase, prison, rib, and possessive-title templates. Adjusted `pt_BR` wording where evidence showed awkward English order (`{name} Prison` now renders `Prisão {name}`) and where `{actor}` must work for both a named activist and a group (`Your Activists` now translates as singular collective `O grupo de ativistas`).
+
+### 2026-06-28 validation evidence for this pass
+
+Required validation run after the final ARB sync:
+
+1. `dart run scripts/find_translatable_strings.dart` → PASS, 6466 live strings, +0 added on final run.
+2. `dart run scripts/maintain_arb_catalogs.dart --check` → PASS, en_US and pt_BR canonical.
+3. `dart run scripts/translation_status.dart --json` → PASS command completed; current catalog snapshot: sourceKeys=6815, targetKeys=6899, missingInTarget=0, emptyInTarget=0, untranslatedAgainstSource=1028. This count includes broader legacy untranslated/dead-ish catalogue debt surfaced by expanded extractor coverage; the changed grammar-sensitive templates have targeted pt_BR translations and render evidence below.
+4. `dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` → PASS, 0 unallowlisted failures.
+5. `flutter test test/i18n_static_coverage_test.dart test/pt_br_runtime_catalog_smoke_test.dart test/i18n_test.dart test/console_wrapper_test.dart` → PASS, +75 all tests passed.
+6. `flutter test` → PASS, +194 all tests passed.
+7. Targeted pt_BR render evidence from runtime smoke:
+   - `{name} Prison` → `Prisão Silva`
+   - `{name} Army Base` → `Base do Exército Costa`
+   - `{adjective} {noun} Forced Labor Camp` → `Campo de Trabalho Forçado Vale Feliz`
+   - `{adjective} {siteType}` → `Armazém Abandonado`
+   - `{actor} marched downtown to protest wealth inqueality!` → `Maria marchou pelo centro contra a desigualdade de riqueza!`
+   - `{actor} marched downtown chanting Black Lives Matter!` → `O grupo de ativistas marchou pelo centro gritando Vidas Negras Importam!`
+   - `{name} is seized, thrown to the ground, and TAZED TO DEATH!` → `João é agarrado, jogado ao chão e MORTO A CHOQUES DE TASER!`
+   - `{name} leads a riot with dozens of prisoners chanting the LCS slogan!` → `Ana lidera um motim com dezenas de presos gritando o lema do LCS!`
+   - `{ribminus} of {name}'s ribs are broken!` → `3 costelas de Pedro foram quebradas!`
+   - `{name}'s {showName}` → `Alerta Livre de Lúcia`
+
+The targeted evidence has no orphan English possessive, no doubled spaces in those render outputs, no unresolved placeholders, and Portuguese word order is controlled by the full templates.
+- Post-push audit found six remaining same-as-English pt_BR possessive full-template values (`{body}'s body`, `{name}'s arguments/case/body`). Translated them to Portuguese genitive word order and re-ran `maintain_arb_catalogs --check` plus the required focused i18n/flutter test command; both passed.
+- Final post-amend validation on clean current state:
+  - `dart run scripts/find_translatable_strings.dart` → PASS, 6469 live strings, +0 added.
+  - `dart run scripts/maintain_arb_catalogs.dart --check` → PASS.
+  - `dart run scripts/translation_status.dart --json` → PASS command; sourceKeys=6815, targetKeys=6899, missingInTarget=0, emptyInTarget=0, untranslatedAgainstSource=1022.
+  - `dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` → PASS.
+  - Focused i18n/flutter command → PASS, +75.
+  - `flutter test` → PASS, +194.

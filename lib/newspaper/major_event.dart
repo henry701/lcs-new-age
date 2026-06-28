@@ -380,6 +380,10 @@ MajorEventContent generateMajorEventContent(
             ].random} ${[
               "Punk", "Kid", "Cell", "Shank", "Lockdown", "Inside", //
             ].random}";
+        final tourDeForceText = LcsI18n.processString(
+          "have these works been as poignant as {author}'s new tour-de-force, {book}.&r",
+          {"author": author.firstLast, "book": book},
+        );
         return MajorEventContent(
           headline: "ON THE INSIDE",
           storyText:
@@ -388,8 +392,7 @@ MajorEventContent generateMajorEventContent(
               "detail what goes on behind bars.  "
               "Although popular culture has used, or perhaps overused, the "
               "prison theme lately in its offerings for mass consumption, rarely "
-              "have these works been as poignant as ${author.firstLast}'s new "
-              "tour-de-force, $book.&r"
+              "$tourDeForceText"
               "  Take this excerpt, \""
               "Boots echoed in the corridor——three sets, measured, methodical.  "
               "The guards never rushed. They enjoyed this part.&r"
@@ -444,11 +447,7 @@ MajorEventContent generateMajorEventContent(
         ].random;
         String bookTitle = LcsI18n.processString(
           "{protagonist} and the {adjective} {noun}",
-          {
-            "protagonist": protagonist,
-            "adjective": adjective,
-            "noun": noun,
-          },
+          {"protagonist": protagonist, "adjective": adjective, "noun": noun},
         );
         FullName author = generateFullName();
         String authorName =
@@ -608,6 +607,11 @@ MajorEventContent generateMajorEventContent(
           "listened to a little too much Art Bell back in the day",
         ].random;
 
+        final monologueText = LcsI18n.processString(
+          "  {name}'s monologue for the evening began the way that fans had come to expect, with attacks on the \"liberal media establishment\" and the \"elite liberal agenda\".  But ",
+          {"name": radioHost.last},
+        );
+
         return MajorEventContent(
           headline: "AM IMPLOSION",
           storyText:
@@ -615,9 +619,7 @@ MajorEventContent generateMajorEventContent(
               "${radioHost.firstLast} went off for fifteen minutes in an "
               "inexplicable rant two nights ago during the syndicated radio "
               "program \"$showName\".&r"
-              "  ${radioHost.last}'s monologue for the evening began the way "
-              "that fans had come to expect, with attacks on the \"liberal "
-              "media establishment\" and the \"elite liberal agenda\".  But "
+              "$monologueText"
               "when the radio icon said, \"$wildQuote\", a former fan of "
               "the show, ${fan.firstLast}, knew that \"$fanNameForHost "
               "had $lostHisMind. And after that, it just got worse and "
@@ -1153,7 +1155,10 @@ MajorEventContent generateMajorEventContent(
                     : "${gender.hisHer} cellphone",
               4 =>
                 firstPerson
-                    ? "${firstName()}'s smooth synthetic voice and seductive word choice"
+                    ? LcsI18n.processString(
+                        "{name}'s smooth synthetic voice and seductive word choice",
+                        {"name": firstName()},
+                      )
                     : "an AI chatbot",
               5 =>
                 firstPerson
@@ -1588,6 +1593,10 @@ MajorEventContent generateMajorEventContent(
           Gender.male => "Mr. ",
           _ => "",
         };
+        final heroicActionsText = LcsI18n.processString(
+          "yet another {massShooting} if not for {hero}'s heroic actions.\"&r",
+          {"massShooting": massShooting, "hero": "$heroTitle${hero.last}"},
+        );
 
         return MajorEventContent(
           headline: "ARMED CITIZEN",
@@ -1606,17 +1615,22 @@ MajorEventContent generateMajorEventContent(
               "$heroAction before ${shooterGender.heShe} could hurt anyone "
               "else.&r"
               "  The spokesperson for the police department said, \"We'd have "
-              "yet another $massShooting if not for $heroTitle${hero.last}'s "
-              "heroic actions.\"&r",
+              "$heroicActionsText",
         );
       case View.womensRights:
         FullName author = generateFullName();
-        String bookTitle =
-            "${author.first} ${author.last}'s "
-            "memoir, \"${[
-              "Aborted Regret", "The Abortion Chronicles", "The Abortion Diaries",
+        String bookTitle = LcsI18n.processString(
+          "{author}'s memoir, \"{title}\"",
+          {
+            "author": "${author.first} ${author.last}",
+            "title": [
+              "Aborted Regret",
+              "The Abortion Chronicles",
+              "The Abortion Diaries",
               "The Abortion Papers", "The Abortion Files", //
-            ].random}\"";
+            ].random,
+          },
+        );
         FullName politician = generateFullName();
         String politicianName = "${politician.first} ${politician.last}";
         String callToAction = switch (laws[Law.abortion]) {
@@ -2072,6 +2086,14 @@ MajorEventContent generateMajorEventContent(
             "masturbated",
           ].random,
         };
+        final shockJockProgram = LcsI18n.processString("{name}'s {showName}", {
+          "name": shockJock.first,
+          "showName": showName,
+        });
+        final broadcastText = LcsI18n.processString(
+          "broadcast of the program \"{program}\", ",
+          {"program": shockJockProgram},
+        );
 
         return MajorEventContent(
           headline: "FM OBSCENITY",
@@ -2079,7 +2101,7 @@ MajorEventContent generateMajorEventContent(
               "${randomCityName()}"
               " - Infamous FM radio shock jock ${shockJock.firstLast} has "
               "brought radio entertainment to a new low.  During yesterday's "
-              "broadcast of the program \"${shockJock.first}'s $showName\", "
+              "$broadcastText"
               "${shockJock.firstLast} reportedly $shockingBehavior on the air.&r"
               "  Although ${shockJock.firstLast} later apologized, the FCC "
               "received several hundred complaints from irate listeners from "

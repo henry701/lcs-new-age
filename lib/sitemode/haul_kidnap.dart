@@ -317,13 +317,10 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
       if (prisoner.hireId == null) {
         addstr(" and a hostage is freed");
       } else {
-        String captureStatus = prisoner.justEscaped
-            ? " is recaptured"
-            : " is captured";
-        addstr(
-          " and {name}{status}",
-          params: {"name": prisoner.name, "status": captureStatus},
-        );
+        final captureStatus = prisoner.justEscaped
+            ? "and {name} is recaptured"
+            : "and {name} is captured";
+        addstr(captureStatus, params: {"name": prisoner.name});
       }
     } else if (situation == FreeHostageMessage.newLine) {
       clearMessageArea();
@@ -332,13 +329,10 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
       if (prisoner.hireId == null) {
         addstr("A hostage escapes!");
       } else {
-        String captureStatus = prisoner.justEscaped
-            ? "is recaptured."
-            : "is captured.";
-        addstr(
-          "{name} {status}",
-          params: {"name": prisoner.name, "status": captureStatus},
-        );
+        final captureStatus = prisoner.justEscaped
+            ? "{name} is recaptured."
+            : "{name} is captured.";
+        addstr(captureStatus, params: {"name": prisoner.name});
       }
     }
 

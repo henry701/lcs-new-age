@@ -252,31 +252,28 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     }
 
     const List<String> dateFail = [
-      " is publicly humiliated.",
-      " runs away.",
-      " escapes through the bathroom window.",
-      " spends the night getting drunk alone.",
-      " gets chased out by an angry mob.",
-      " gets stuck washing dishes all night.",
-      " is rescued by a passing Elite Liberal.",
-      " makes like a tree and leaves.",
+      "{name} is publicly humiliated.",
+      "{name} runs away.",
+      "{name} escapes through the bathroom window.",
+      "{name} spends the night getting drunk alone.",
+      "{name} gets chased out by an angry mob.",
+      "{name} gets stuck washing dishes all night.",
+      "{name} is rescued by a passing Elite Liberal.",
+      "{name} makes like a tree and leaves.",
     ];
     const List<String> dateFailOnline = [
-      " feels completely humiliated.",
-      " is quickly blocked.",
-      " is promptly told off.",
-      " spends the night getting drunk alone.",
-      " unplugs the power in shame.",
-      " sits in the dark feeling dumb.",
-      " spends the evening watching online videos.",
-      " gets lit up on social media.",
+      "{name} feels completely humiliated.",
+      "{name} is quickly blocked.",
+      "{name} is promptly told off.",
+      "{name} spends the night getting drunk alone.",
+      "{name} unplugs the power in shame.",
+      "{name} sits in the dark feeling dumb.",
+      "{name} spends the evening watching online videos.",
+      "{name} gets lit up on social media.",
     ];
-    List<String> dateFailList = city == null ? dateFailOnline : dateFail;
+    final template = (city == null ? dateFailOnline : dateFail).random;
     move(console.y + 1, 0);
-    addstr(
-      "{name}{msg}",
-      params: {"name": p.name, "msg": LcsI18n.tr(dateFailList.random)},
-    );
+    addstr(template, params: {"name": p.name});
 
     await getKey();
 

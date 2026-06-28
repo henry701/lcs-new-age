@@ -9,6 +9,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/dating.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/sitemode/site_display.dart';
@@ -775,7 +776,13 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           "I'm only bi when I'm drunk, and I'm not drunk.",
           "Heh, that's funny. And gay.",
           "No no no no, I'm not $aLesbian, I'm not $aLesbian, I swear!",
-          "Hot damn! This ${a.gender.manWoman}'s into me! I'm not even into $guys.",
+          LcsI18n.processString(
+            "Hot damn! This {person}'s into me! I'm not even into {people}.",
+            {
+              "person": LcsI18n.tr(a.gender.manWoman),
+              "people": LcsI18n.tr(guys),
+            },
+          ),
           "Great. The only person willing to be with me is another ${a.gender.manWoman}.",
           "I'm straight.",
           "Huh. ${capitalize(gayPeople)}.",

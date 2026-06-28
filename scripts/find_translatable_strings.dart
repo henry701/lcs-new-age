@@ -187,8 +187,8 @@ void main(List<String> args) async {
   final wrapperCallPatterns = _buildWrapperCallPatterns();
   final multilineContextPatterns = _buildMultilineContextPatterns();
   final multilineQuotedPatterns = [
-    RegExp(r'^\s*"((?:[^"\\]|\\.)*)"\s*,?\s*$'),
-    RegExp(r"^\s*'((?:[^'\\]|\\.)*)'\s*,?\s*$"),
+    RegExp(r'^\s*"((?:[^"\\]|\\.)*)"\s*[,;]?\s*$'),
+    RegExp(r"^\s*'((?:[^'\\]|\\.)*)'\s*[,;]?\s*$"),
   ];
 
   await for (final entity in libDir.list(recursive: true, followLinks: false)) {
@@ -286,8 +286,16 @@ void main(List<String> args) async {
 
         // Find string literals in variable assignments or returns that might be user-facing
         final otherPatterns = [
-          RegExp(r'\b([a-zA-Z_]\w*)\s*=\s*"((?:[^"\\]|\\.)*)"', multiLine: false),
-          RegExp(r"\b([a-zA-Z_]\w*)\s*=\s*'((?:[^'\\]|\\.)*)'", multiLine: false),
+          RegExp(
+            r'\b([a-zA-Z_]\w*)\s*=\s*"((?:[^"\\]|\\.)*)"',
+            multiLine: false,
+          ),
+          RegExp(
+            r"\b([a-zA-Z_]\w*)\s*=\s*'((?:[^'\\]|\\.)*)'",
+            multiLine: false,
+          ),
+          RegExp(r'=>\s*"((?:[^"\\]|\\.)*)"', multiLine: false),
+          RegExp(r"=>\s*'((?:[^'\\]|\\.)*)'", multiLine: false),
           RegExp(r'return\s+"((?:[^"\\]|\\.)*)"', multiLine: false),
           RegExp(r"return\s+'((?:[^'\\]|\\.)*)'", multiLine: false),
         ];
@@ -465,7 +473,8 @@ void _recordStringsFromChunk({
   literalMatches.sort((a, b) => a.$1.compareTo(b.$1));
 
   for (final literalMatch in literalMatches) {
-    final value = literalMatch.$2;
+    final raw = literalMatch.$2;
+    final value = _unescapeStringLiteral(raw);
     if (!_isUserFacing(value, minLength: 3, allowSingleWord: true)) {
       continue;
     }
@@ -508,8 +517,14 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
     // addstr family
     (RegExp(r'\baddstr\s*\(\s*"((?:[^"\\]|\\.)*)"'), 'addstr'),
     (RegExp(r"\baddstr\s*\(\s*'((?:[^'\\]|\\.)*)'"), 'addstr'),
-    (RegExp(r'\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'mvaddstr'),
-    (RegExp(r"\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'mvaddstr'),
+    (
+      RegExp(r'\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
+      'mvaddstr',
+    ),
+    (
+      RegExp(r"\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
+      'mvaddstr',
+    ),
     (RegExp(r'\baddstrc\s*\(\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'addstrc'),
     (RegExp(r"\baddstrc\s*\(\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'addstrc'),
     (
@@ -522,32 +537,64 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
     ),
     (RegExp(r'\baddstrx\s*\(\s*"((?:[^"\\]|\\.)*)"'), 'addstrx'),
     (RegExp(r"\baddstrx\s*\(\s*'((?:[^'\\]|\\.)*)'"), 'addstrx'),
-    (RegExp(r'\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'mvaddstrx'),
-    (RegExp(r"\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'mvaddstrx'),
+    (
+      RegExp(r'\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
+      'mvaddstrx',
+    ),
+    (
+      RegExp(r"\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
+      'mvaddstrx',
+    ),
     (RegExp(r'\baddstrcx\s*\(\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'addstrcx'),
     (RegExp(r"\baddstrcx\s*\(\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'addstrcx'),
     (
-      RegExp(r'\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
+      RegExp(
+        r'\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"',
+      ),
       'mvaddstrcx',
     ),
     (
-      RegExp(r"\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
+      RegExp(
+        r"\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'",
+      ),
       'mvaddstrcx',
     ),
-    (RegExp(r'\bmvaddstrRight\s*\([^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'mvaddstrRight'),
-    (RegExp(r"\bmvaddstrRight\s*\([^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'mvaddstrRight'),
-    (RegExp(r'\bmvaddstrCenter\s*\([^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'mvaddstrCenter'),
-    (RegExp(r"\bmvaddstrCenter\s*\([^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'mvaddstrCenter'),
-    (RegExp(r'\baddparagraph\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'addparagraph'),
-    (RegExp(r"\baddparagraph\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'addparagraph'),
+    (
+      RegExp(r'\bmvaddstrRight\s*\([^,]+,\s*"((?:[^"\\]|\\.)*)"'),
+      'mvaddstrRight',
+    ),
+    (
+      RegExp(r"\bmvaddstrRight\s*\([^,]+,\s*'((?:[^'\\]|\\.)*)'"),
+      'mvaddstrRight',
+    ),
+    (
+      RegExp(r'\bmvaddstrCenter\s*\([^,]+,\s*"((?:[^"\\]|\\.)*)"'),
+      'mvaddstrCenter',
+    ),
+    (
+      RegExp(r"\bmvaddstrCenter\s*\([^,]+,\s*'((?:[^'\\]|\\.)*)'"),
+      'mvaddstrCenter',
+    ),
+    (
+      RegExp(r'\baddparagraph\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
+      'addparagraph',
+    ),
+    (
+      RegExp(r"\baddparagraph\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
+      'addparagraph',
+    ),
 
     // Option wrapper family
     (
-      RegExp(r'\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
+      RegExp(
+        r'\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"',
+      ),
       'addOptionText',
     ),
     (
-      RegExp(r"\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
+      RegExp(
+        r"\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'",
+      ),
       'addOptionText',
     ),
     (
@@ -559,11 +606,15 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
       'addInlineOptionText',
     ),
     (
-      RegExp(r'\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
+      RegExp(
+        r'\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"',
+      ),
       'addCenteredOptionText',
     ),
     (
-      RegExp(r"\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
+      RegExp(
+        r"\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'",
+      ),
       'addCenteredOptionText',
     ),
 
@@ -571,8 +622,14 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
     (RegExp(r'\bLcsI18n\.tr\s*\(\s*"((?:[^"\\]|\\.)*)"\s*\)'), 'LcsI18n.tr'),
     (RegExp(r"\bLcsI18n\.tr\s*\(\s*'((?:[^'\\]|\\.)*)'\s*\)"), 'LcsI18n.tr'),
     // LcsI18n.processString() for templated user-facing generated text (site names etc)
-    (RegExp(r'LcsI18n\.processString\s*\(\s*"((?:[^"\\]|\\.)*)"'), 'LcsI18n.processString'),
-    (RegExp(r"LcsI18n\.processString\s*\(\s*'((?:[^'\\]|\\.)*)'"), 'LcsI18n.processString'),
+    (
+      RegExp(r'LcsI18n\.processString\s*\(\s*"((?:[^"\\]|\\.)*)"'),
+      'LcsI18n.processString',
+    ),
+    (
+      RegExp(r"LcsI18n\.processString\s*\(\s*'((?:[^'\\]|\\.)*)'"),
+      'LcsI18n.processString',
+    ),
   ];
 }
 
@@ -592,6 +649,7 @@ List<(String, RegExp)> _buildMultilineContextPatterns() {
     'addOptionText',
     'addInlineOptionText',
     'addCenteredOptionText',
+    'processString',
   ];
 
   return [
@@ -703,8 +761,12 @@ bool _isUserFacing(
   // fragments (e.g. "'s lifeless body...", " slams into...", leading whitespace starters).
   // These must only appear inside complete {name}... or {vehicle}... templates.
   // This prevents resyncs from reintroducing corrupt fragment keys into the catalogs.
-  final t = str.trimLeft();
-  if (t.startsWith("'") || t.startsWith(" ")) {
+  final trimmedLeft = str.trimLeft();
+  if (trimmedLeft.startsWith("'")) {
+    return false;
+  }
+  if (str.startsWith(RegExp(r'\s')) &&
+      RegExp(r'^[a-z]').hasMatch(trimmedLeft)) {
     return false;
   }
 

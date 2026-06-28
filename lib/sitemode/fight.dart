@@ -1614,31 +1614,35 @@ Future<void> hit(
             if (body.ribs > 0 && breakdam) {
               int ribminus = lcsRandom(min(body.ribs, damamount ~/ 20)) + 1;
 
-              move(9, 1);
-              if (ribminus > 1) {
-                addstr(
-                  ribminus == body.ribs
-                      ? "All {ribminus} of {name}'s ribs are "
-                      : "{ribminus} of {name}'s ribs are ",
-                  params: {"ribminus": ribminus, "name": target.name},
-                );
-              } else if (body.ribs > 1) {
-                addstr(
-                  "One of {name}'s ribs is ",
-                  params: {"name": target.name},
-                );
-              } else {
-                addstr(
-                  "{name}'s last unbroken rib is ",
-                  params: {"name": target.name},
-                );
-              }
-
-              if (attackUsed.shoots) {
-                addstr("shattered!");
-              } else {
-                addstr("broken!");
-              }
+              final ribMessage = switch ((
+                ribminus,
+                body.ribs,
+                attackUsed.shoots,
+              )) {
+                (final brokenCount, final totalRibs, true)
+                    when brokenCount == totalRibs =>
+                  "All {ribminus} of {name}'s ribs are shattered!",
+                (final brokenCount, _, true) when brokenCount > 1 =>
+                  "{ribminus} of {name}'s ribs are shattered!",
+                (1, final totalRibs, true) when totalRibs > 1 =>
+                  "One of {name}'s ribs is shattered!",
+                (1, _, true) => "{name}'s last unbroken rib is shattered!",
+                (final brokenCount, final totalRibs, false)
+                    when brokenCount == totalRibs =>
+                  "All {ribminus} of {name}'s ribs are broken!",
+                (final brokenCount, _, false) when brokenCount > 1 =>
+                  "{ribminus} of {name}'s ribs are broken!",
+                (1, final totalRibs, false) when totalRibs > 1 =>
+                  "One of {name}'s ribs is broken!",
+                (1, _, false) => "{name}'s last unbroken rib is broken!",
+                _ => "One of {name}'s ribs is broken!",
+              };
+              mvaddstr(
+                9,
+                1,
+                ribMessage,
+                params: {"ribminus": ribminus, "name": target.name},
+              );
 
               await getKey();
 

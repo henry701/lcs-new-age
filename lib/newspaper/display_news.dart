@@ -10,6 +10,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/siege.dart';
 import 'package:lcs_new_age/newspaper/ads.dart';
 import 'package:lcs_new_age/newspaper/filler.dart';
@@ -758,6 +759,10 @@ Future<void> displayStory(NewsStory ns, View? header) async {
         }
       }
 
+      final lastKnownLocationText = LcsI18n.processString(
+        "  According to sources, {name}'s last known location was the {location}.  Police were seen searching the surrounding area yesterday.",
+        {"name": ns.cr!.properName, "location": ns.cr!.workLocation.name},
+      );
       story = city;
       story +=
           " - The disappearance of ${ns.cr!.properName} is now "
@@ -776,10 +781,7 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           "To the citizens, please contact the department if you have any "
           "additional information.\""
           "&r"
-          "  According to sources, ${ns.cr!.properName}'s last known location was the "
-          "${ns.cr!.workLocation.name}.  Police were seen searching the "
-          "surrounding area yesterday."
-          "&r";
+          "$lastKnownLocationText&r";
 
       story += generateFiller(200);
       displayNewsStory(story, storyXStart, storyXEnd, y, ns);

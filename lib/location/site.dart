@@ -393,13 +393,13 @@ void initSiteName(Site loc) {
       do {
         String name = lastName();
         loc.shortName = "Condos";
-        loc.name = "$name Condominiums";
+        loc.name = LcsI18n.processString("{name} Condominiums", {"name": name});
       } while (loc.isDuplicateLocation());
     case SiteType.apartment:
       do {
         String name = lastName();
         loc.shortName = "Apartment";
-        loc.name = "$name Apartments";
+        loc.name = LcsI18n.processString("{name} Apartments", {"name": name});
       } while (loc.isDuplicateLocation());
     case SiteType.tenement:
       do {
@@ -414,10 +414,10 @@ void initSiteName(Site loc) {
         loc.shortName = "Projects";
       } while (loc.isDuplicateLocation());
     case SiteType.geneticsLab:
-      loc.name = "${lastName()} Genetics";
+      loc.name = LcsI18n.processString("{name} Genetics", {"name": lastName()});
       loc.shortName = "Genetics";
     case SiteType.cosmeticsLab:
-      loc.name = "${lastName()} Cosmetics";
+      loc.name = LcsI18n.processString("{name} Cosmetics", {"name": lastName()});
       loc.shortName = "Cosmetics";
     case SiteType.carDealership:
       String name = firstName(Gender.whiteMalePatriarch);
@@ -427,7 +427,7 @@ void initSiteName(Site loc) {
       loc.name = LcsI18n.processString("{name}'s Department Store", {"name": lastName()});
       loc.shortName = "Dept. Store";
     case SiteType.sweatshop:
-      loc.name = "${lastName()} Garment Makers";
+      loc.name = LcsI18n.processString("{name} Garment Makers", {"name": lastName()});
       loc.shortName = "Sweatshop";
     case SiteType.drugHouse:
       if (loc.controller == SiteController.lcs) {
@@ -480,7 +480,7 @@ void initSiteName(Site loc) {
       loc.name = "${adj.random} ${noun.random} Latte Stand";
       loc.shortName = "Latte";
     case SiteType.publicPark:
-      loc.name = "${lastName()} Park";
+      loc.name = LcsI18n.processString("{name} Park", {"name": lastName()});
       loc.shortName = "Park";
     case SiteType.barAndGrill:
       if (loc.controller == SiteController.lcs) {

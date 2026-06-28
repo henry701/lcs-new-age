@@ -27,6 +27,10 @@ dynamic _normalizeArbValue(dynamic value) {
   return value;
 }
 
+/// Unescape a captured string literal content (handles \' and \" etc from Dart source).
+String _unescapeStringLiteral(String raw) =>
+    raw.replaceAllMapped(RegExp(r'\\(.)'), (m) => m.group(1)!);
+
 void main(List<String> args) async {
   if (args.contains('--help') || args.contains('-h')) {
     print('Find and manage translatable strings in LCS New Age');
@@ -183,8 +187,8 @@ void main(List<String> args) async {
   final wrapperCallPatterns = _buildWrapperCallPatterns();
   final multilineContextPatterns = _buildMultilineContextPatterns();
   final multilineQuotedPatterns = [
-    RegExp(r'^\s*"([^"]+)"\s*,?\s*$'),
-    RegExp(r"^\s*'([^']+)'\s*,?\s*$"),
+    RegExp(r'^\s*"((?:[^"\\]|\\.)*)"\s*,?\s*$'),
+    RegExp(r"^\s*'((?:[^'\\]|\\.)*)'\s*,?\s*$"),
   ];
 
   await for (final entity in libDir.list(recursive: true, followLinks: false)) {
@@ -230,13 +234,14 @@ void main(List<String> args) async {
           final function = entry.$2;
 
           for (final match in pattern.allMatches(line)) {
-            final stringLiteral = match.group(1);
-            if (stringLiteral != null &&
-                _isUserFacing(
-                  stringLiteral,
-                  // LcsI18n.tr() typically uses single words for dynamic translations
-                  allowSingleWord: function == 'LcsI18n.tr',
-                )) {
+            final raw = match.group(1);
+            if (raw == null) continue;
+            final stringLiteral = _unescapeStringLiteral(raw);
+            if (_isUserFacing(
+              stringLiteral,
+              // LcsI18n.tr() typically uses single words for dynamic translations
+              allowSingleWord: function == 'LcsI18n.tr',
+            )) {
               _recordString(
                 stringInfo,
                 stringLiteral,
@@ -257,8 +262,10 @@ void main(List<String> args) async {
         );
         for (final pattern in multilineQuotedPatterns) {
           for (final match in pattern.allMatches(line)) {
-            final stringLiteral = match.group(1);
-            if (stringLiteral == null || !_isUserFacing(stringLiteral)) {
+            final raw = match.group(1);
+            if (raw == null) continue;
+            final stringLiteral = _unescapeStringLiteral(raw);
+            if (!_isUserFacing(stringLiteral)) {
               continue;
             }
 
@@ -279,16 +286,18 @@ void main(List<String> args) async {
 
         // Find string literals in variable assignments or returns that might be user-facing
         final otherPatterns = [
-          RegExp(r'\b([a-zA-Z_]\w*)\s*=\s*"([^"]{10,})"'),
-          RegExp(r"\b([a-zA-Z_]\w*)\s*=\s*'([^']{10,})'"),
-          RegExp(r'return\s+"([^"]{10,})"'),
-          RegExp(r"return\s+'([^']{10,})'"),
+          RegExp(r'\b([a-zA-Z_]\w*)\s*=\s*"((?:[^"\\]|\\.)*)"', multiLine: false),
+          RegExp(r"\b([a-zA-Z_]\w*)\s*=\s*'((?:[^'\\]|\\.)*)'", multiLine: false),
+          RegExp(r'return\s+"((?:[^"\\]|\\.)*)"', multiLine: false),
+          RegExp(r"return\s+'((?:[^'\\]|\\.)*)'", multiLine: false),
         ];
 
         for (final pattern in otherPatterns) {
           for (final match in pattern.allMatches(line)) {
-            final stringLiteral = match.group(match.groupCount);
-            if (stringLiteral != null && _isUserFacing(stringLiteral)) {
+            final raw = match.group(match.groupCount);
+            if (raw == null) continue;
+            final stringLiteral = _unescapeStringLiteral(raw);
+            if (_isUserFacing(stringLiteral)) {
               _recordString(
                 stringInfo,
                 stringLiteral,
@@ -497,70 +506,73 @@ int _lineNumberFromOffset(List<int> lineOffsets, int offset) {
 List<(RegExp, String)> _buildWrapperCallPatterns() {
   return [
     // addstr family
-    (RegExp(r'\baddstr\s*\(\s*"([^"]+)"'), 'addstr'),
-    (RegExp(r"\baddstr\s*\(\s*'([^']+)'"), 'addstr'),
-    (RegExp(r'\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'mvaddstr'),
-    (RegExp(r"\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"), 'mvaddstr'),
-    (RegExp(r'\baddstrc\s*\(\s*[^,]+,\s*"([^"]+)"'), 'addstrc'),
-    (RegExp(r"\baddstrc\s*\(\s*[^,]+,\s*'([^']+)'"), 'addstrc'),
+    (RegExp(r'\baddstr\s*\(\s*"((?:[^"\\]|\\.)*)"'), 'addstr'),
+    (RegExp(r"\baddstr\s*\(\s*'((?:[^'\\]|\\.)*)'"), 'addstr'),
+    (RegExp(r'\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'mvaddstr'),
+    (RegExp(r"\bmvaddstr\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'mvaddstr'),
+    (RegExp(r'\baddstrc\s*\(\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'addstrc'),
+    (RegExp(r"\baddstrc\s*\(\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'addstrc'),
     (
-      RegExp(r'\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"([^"]+)"'),
+      RegExp(r'\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
       'mvaddstrc',
     ),
     (
-      RegExp(r"\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'([^']+)'"),
+      RegExp(r"\bmvaddstrc\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
       'mvaddstrc',
     ),
-    (RegExp(r'\baddstrx\s*\(\s*"([^"]+)"'), 'addstrx'),
-    (RegExp(r"\baddstrx\s*\(\s*'([^']+)'"), 'addstrx'),
-    (RegExp(r'\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'mvaddstrx'),
-    (RegExp(r"\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"), 'mvaddstrx'),
-    (RegExp(r'\baddstrcx\s*\(\s*[^,]+,\s*"([^"]+)"'), 'addstrcx'),
-    (RegExp(r"\baddstrcx\s*\(\s*[^,]+,\s*'([^']+)'"), 'addstrcx'),
+    (RegExp(r'\baddstrx\s*\(\s*"((?:[^"\\]|\\.)*)"'), 'addstrx'),
+    (RegExp(r"\baddstrx\s*\(\s*'((?:[^'\\]|\\.)*)'"), 'addstrx'),
+    (RegExp(r'\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'mvaddstrx'),
+    (RegExp(r"\bmvaddstrx\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'mvaddstrx'),
+    (RegExp(r'\baddstrcx\s*\(\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'addstrcx'),
+    (RegExp(r"\baddstrcx\s*\(\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'addstrcx'),
     (
-      RegExp(r'\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"([^"]+)"'),
+      RegExp(r'\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
       'mvaddstrcx',
     ),
     (
-      RegExp(r"\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'([^']+)'"),
+      RegExp(r"\bmvaddstrcx\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
       'mvaddstrcx',
     ),
-    (RegExp(r'\bmvaddstrRight\s*\([^,]+,\s*"([^"]+)"'), 'mvaddstrRight'),
-    (RegExp(r"\bmvaddstrRight\s*\([^,]+,\s*'([^']+)'"), 'mvaddstrRight'),
-    (RegExp(r'\bmvaddstrCenter\s*\([^,]+,\s*"([^"]+)"'), 'mvaddstrCenter'),
-    (RegExp(r"\bmvaddstrCenter\s*\([^,]+,\s*'([^']+)'"), 'mvaddstrCenter'),
-    (RegExp(r'\baddparagraph\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'), 'addparagraph'),
-    (RegExp(r"\baddparagraph\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"), 'addparagraph'),
+    (RegExp(r'\bmvaddstrRight\s*\([^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'mvaddstrRight'),
+    (RegExp(r"\bmvaddstrRight\s*\([^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'mvaddstrRight'),
+    (RegExp(r'\bmvaddstrCenter\s*\([^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'mvaddstrCenter'),
+    (RegExp(r"\bmvaddstrCenter\s*\([^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'mvaddstrCenter'),
+    (RegExp(r'\baddparagraph\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'), 'addparagraph'),
+    (RegExp(r"\baddparagraph\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"), 'addparagraph'),
 
     // Option wrapper family
     (
-      RegExp(r'\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"([^"]+)"'),
+      RegExp(r'\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
       'addOptionText',
     ),
     (
-      RegExp(r"\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'([^']+)'"),
+      RegExp(r"\baddOptionText\s*\([^,]+,\s*[^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
       'addOptionText',
     ),
     (
-      RegExp(r'\baddInlineOptionText\s*\(\s*[^,]+,\s*"([^"]+)"'),
+      RegExp(r'\baddInlineOptionText\s*\(\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
       'addInlineOptionText',
     ),
     (
-      RegExp(r"\baddInlineOptionText\s*\(\s*[^,]+,\s*'([^']+)'"),
+      RegExp(r"\baddInlineOptionText\s*\(\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
       'addInlineOptionText',
     ),
     (
-      RegExp(r'\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*"([^"]+)"'),
+      RegExp(r'\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"'),
       'addCenteredOptionText',
     ),
     (
-      RegExp(r"\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*'([^']+)'"),
+      RegExp(r"\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
       'addCenteredOptionText',
     ),
 
     // LcsI18n.tr() calls for dynamic translations
-    (RegExp(r'\bLcsI18n\.tr\s*\(\s*"([^"]+)"\s*\)'), 'LcsI18n.tr'),
-    (RegExp(r"\bLcsI18n\.tr\s*\(\s*'([^']+)'\s*\)"), 'LcsI18n.tr'),
+    (RegExp(r'\bLcsI18n\.tr\s*\(\s*"((?:[^"\\]|\\.)*)"\s*\)'), 'LcsI18n.tr'),
+    (RegExp(r"\bLcsI18n\.tr\s*\(\s*'((?:[^'\\]|\\.)*)'\s*\)"), 'LcsI18n.tr'),
+    // LcsI18n.processString() for templated user-facing generated text (site names etc)
+    (RegExp(r'LcsI18n\.processString\s*\(\s*"((?:[^"\\]|\\.)*)"'), 'LcsI18n.processString'),
+    (RegExp(r"LcsI18n\.processString\s*\(\s*'((?:[^'\\]|\\.)*)'"), 'LcsI18n.processString'),
   ];
 }
 

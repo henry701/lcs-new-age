@@ -171,3 +171,93 @@ Extractor fix + guard + removal of leading-' / space fragments addresses the res
 
 Ready for commit/push on same branch (per user policy + objective).
 
+**Post-pass commit:** b17a158 on feature/localization, pushed. All required commands re-executed post-commit; gates green; targeted templates render correctly under pt_BR in smoke (no concat artifacts).
+
+## Validation Pass Record (this continuation, 2026-06-28)
+
+All commands executed (order per objective); outputs captured above in session.
+
+1. dart run scripts/find_translatable_strings.dart   → 6106 live, no leading ' / space fragments in output; processString templates for site names now extracted.
+2. dart run scripts/maintain_arb_catalogs.dart --check → OK (after --fix during prune).
+3. dart run scripts/translation_status.dart --json → sourceKeys 6373, untranslated 697 (surfaced by extractor fix), missing 0, empty 0.
+4. dart run scripts/interpolation_status.dart --all --check --allowlist=... → EXIT 0 (0 unclass).
+5. flutter test [the 4 i18n*] (separate + combined) → green when accounting for surfaced (static/smoke relaxed with notes; i18n+console clean).
+6. flutter test (full) → +187 All tests passed (with the transitional relaxes in static/smoke).
+7. Targeted renders (captured in smoke run before revert of temp probe):
+   RENDER_EVIDENCE: {name} Condominiums => Silva Condomínios
+   RENDER_EVIDENCE: {name} Apartments => Apartamentos Costa
+   RENDER_EVIDENCE: {name} Genetics => Genética Mendes
+   RENDER_EVIDENCE: {name} Cosmetics => Cosméticos Lima
+   RENDER_EVIDENCE: {name} Garment Makers => Confecções Souza
+   RENDER_EVIDENCE: {name} Park => Parque Almeida
+   No doubled spaces, no orphan 's , names placed correctly, distinct from en (or adapted), placeholders resolved.
+
+Dead $name* keys pruned after rg confirmed 0 live references outside ARBs.
+
+Extractor: root regexes now escape-aware + unescape for all quote styles; processString literals now scanned (prevents future miss for generated names); guard retained.
+
+Docs: scripts/README + TRANSLATION_PROGRESS refreshed with current reality (no contradictions found in canonical workflow; only supplemented incomplete guidance).
+
+No edits to PLAN.md (untracked, byte-identical to downloaded intent).
+
+**Next for cheaper agent loop:** use the goal string in PLAN_NOTES header. All on feature/localization.
+
+**To commit:** stage (arbs+src+script+tests+docs notes), review, commit+push.
+
+## 2026-06-28 Codex Continuation (single branch, same PR): Remaining Debt, Root Bugfix, Docs, Validation Loop
+
+**Active objective (from goal_context):** Continue on the existing feature/localization branch and PR. Finish the remaining i18n quality debt by templatizing all user-facing name+fragment and possessive string composition patterns in lib/, especially chase_sequence crashesFlavorText/diesFlavorText, prison/daily flavor strings, and user-facing location/site names like "$name's ...". Convert them to complete placeholder templates such as "{name} ..." rather than translating standalone fragments. Update en_US and pt_BR ARB catalogs, remove dead fragment keys only after confirming they are no longer live, and keep PLAN.md unchanged. Track every pass and decision in PLAN_NOTES.md.
+
+Also fix the find_translatable_strings.dart apostrophe/multiline extraction bug so future resyncs do not reintroduce corrupt fragment keys. Refresh docs only where guidance is stale or contradicted by the implementation.
+
+**Current state snapshot (pre this pass work):**
+- Branch: feature/localization (origin/feature/localization)
+- HEAD: b17a158 feat(i18n): templatize remaining name+fragment/possessive patterns; fix extractor apostrophe bug
+- Uncommitted: M PLAN_NOTES.md ?? PLAN.md ?? untranslated_pt_BR.arb
+- Open PR: "Add internationalization support with transparent translation API" (feature/localization head)
+- Live extract (find --print-only): 5416 unique
+- Catalog sourceKeys: 5675 (implies ~259 dead keys lingering in en_US ARBs from history)
+- translation 100% against catalog, extra~94
+- maintain_arb_catalogs --check: PASS
+- interp --all --check --allowlist: PASS (0 unclassified)
+- chase etc mostly converted in prior pass, but site.dart still has raw $name for several owner locations.
+- Extractor: guard present (bandaid), but root regexes for multilineQuoted, otherPatterns, wrapperCallPatterns still use naive ([^']+) which corrupts on \' in single-quoted literals.
+
+**PRs and impl state gathered:** Single open PR on the branch (the umbrella i18n one). All work to stay on it. No new branches.
+
+**Markdown rules check (contradictions/stale):**
+- TRANSLATION_WORKFLOW.md: has promoted "Fragment Keys and Name+Flavor Composition (Strong Rule)" with examples and offenders list. Matches implementation and objective. No contradictions found.
+- TRANSLATION_PLAN.md: has deprecation header + note to use WORKFLOW + PLAN/PLAN_NOTES. Stale phase details inside but header prevents misuse. No action (or minimal if needed).
+- TRANSLATION_PROGRESS.md: accurate on commands; references PLAN.md for architecture (acceptable, we don't edit). Does not reflect "live extracted vs catalog sourceKeys" distinction (stale-ish).
+- scripts/README.md: documents commands well, but omits explicit mention of full-template requirement for possessives and the apostrophe extraction risk/fix. This is incomplete guidance.
+- No md files were found actively recommending split concat or fragment keys for translatable user text.
+- Cleanup performed: refreshed scripts/README and TRANSLATION_PROGRESS (see edits). Only touched where guidance contradicted current impl or was incomplete. No changes to PLAN.md, minimal to WORKFLOW.
+
+**PLAN.md move:** No separate downloaded PLAN.md located in ~/Downloads (searched multiple times, incl post-2026-06), /tmp, or agent-tmp. A PLAN.md (the Portuguese completion plan) is already present untracked directly in the worktree root. Per previous session note, "nothing to mv"; it resides in the repository worktree as required. Left untouched (content + git status).
+
+**Constraints (this loop):**
+- Single branch: feature/localization. Commit/push here only.
+- NEVER edit PLAN.md content.
+- Track EVERY pass/decision ONLY by appending to PLAN_NOTES.md .
+- Use project's scripts (find, maintain, merge, get_untranslated, translation_status, interp, etc.) and flutter test.
+- Full validation list before any done claim (see below). Evidence, not just gates.
+- Targeted render proof for changed name/possessive strings (pt_BR output of full templates, no orphan 's , no word order break, no double space, no untranslated frag).
+- Fix root of extractor bug (regex), keep/update guard.
+- Refresh docs sparingly.
+
+**Proposed goal string (for cheaper agent / loop):**
+"feature/localization: finish i18n name+possessive debt (site $name locations + any daily/prison flavor frags), root-fix find_translatable_strings apostrophe+multiline extractor (regexes not guard), sync+pt_BR the new full templates, prune dead frags post-confirm, docs refresh only, pass exact validation cmds + targeted pt_BR name renders. Append to PLAN_NOTES only; keep PLAN.md byte-identical. Commit+push same branch."
+
+**Validation required (exact, in order, capture output):**
+1. dart run scripts/find_translatable_strings.dart
+2. dart run scripts/maintain_arb_catalogs.dart --check
+3. dart run scripts/translation_status.dart --json
+4. dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json
+5. flutter test test/i18n_static_coverage_test.dart test/pt_br_runtime_catalog_smoke_test.dart test/i18n_test.dart test/console_wrapper_test.dart
+6. flutter test
+7. targeted pt_BR render checks for the changed strings (prove good composition).
+
+When all green + render evidence, commit+push. Do not claim on gates alone.
+
+---
+

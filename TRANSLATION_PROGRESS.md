@@ -50,5 +50,6 @@ Already translated entries are not overwritten.
 ## Scope
 
 - Status and coverage: this file + command output.
-- Architecture and roadmap: `PLAN.md`.
-- Source-sweep cleanup and stale-key pruning are separate from the coverage commands above.
+- Architecture and roadmap: `PLAN.md` (do not edit) + `PLAN_NOTES.md`.
+- Source-sweep cleanup, name+fragment templating, and stale-key pruning are separate from the coverage commands above.
+- Note: `sourceKeys` in `translation_status --json` reflects keys present in en_US ARB shards (includes historical dead keys). Live extract count from `find_translatable_strings.dart --print-only` is authoritative for current source. Gap = dead keys eligible for prune after confirmation of no live references.

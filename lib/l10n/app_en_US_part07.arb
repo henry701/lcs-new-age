@@ -162,6 +162,7 @@
   "yesterday by tampering with equipment on the site.": "yesterday by tampering with equipment on the site.",
   "{count} Liberals are arrested.": "{count} Liberals are arrested.",
   "{label} Justice ": "{label} Justice ",
+  "{name} St. Housing Projects": "{name} St. Housing Projects",
   "{name} can't find any classes at {hisHer} level in {skill}.": "{name} can't find any classes at {hisHer} level in {skill}.",
   "{name} has turned Liberal!": "{name} has turned Liberal!",
   "{name} is back from vacation.": "{name} is back from vacation.",
@@ -177,5 +178,7 @@
   "{name}'s right kidney is blasted!": "{name}'s right kidney is blasted!",
   "{name}: <rummaging> $rummageMessage": "{name}: <rummaging> $rummageMessage",
   "{pName}'s ": "{pName}'s ",
-  "{pronoun} friend {friend}.": "{pronoun} friend {friend}."
+  "{pronoun} friend {friend}.": "{pronoun} friend {friend}.",
+  "{vehicle} comes to a rest facing backwards.": "{vehicle} comes to a rest facing backwards.",
+  "{vehicle} rams into you from behind!": "{vehicle} rams into you from behind!"
 }

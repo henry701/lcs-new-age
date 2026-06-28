@@ -32,7 +32,11 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
         p + 2,
         0,
         String.fromCharCode('1'.codePoint + p),
-        "${String.fromCharCode('1'.codePoint + p)} ${party[p].name}",
+        "{key} {name}",
+        params: {
+          "key": String.fromCharCode('1'.codePoint + p),
+          "name": party[p].name,
+        },
         baseColorKey: ColorKey.white,
       );
       if (party[p].isHoldingBody) addstrc(pink, "+H");

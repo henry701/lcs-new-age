@@ -5,7 +5,6 @@
   "# - Check the status of a squad Liberal": "# - Check the status of a squad Liberal",
   "$illegalImmigrant who captured national attention after ": "$illegalImmigrant who captured national attention after ",
   "&cGot Slack?&r&r": "&cGot Slack?&r&r",
-  "'s wounds.": "'s wounds.",
   "+2 Seduction, +1 Religion": "+2 Seduction, +1 Religion",
   ", including vehicles": ", including vehicles",
   "2 - Advocate Liberalism": "2 - Advocate Liberalism",
@@ -163,6 +162,7 @@
   "{city} - ": "{city} - ",
   "{hauler} hauls {carried}.": "{hauler} hauls {carried}.",
   "{heShe} has the skills to do something useful.": "{heShe} has the skills to do something useful.",
+  "{index} - {base}": "{index} - {base}",
   "{key} - {vehicle}": "{key} - {vehicle}",
   "{letter} - {desc}": "{letter} - {desc}",
   "{letter} - {option}": "{letter} - {option}",
@@ -180,5 +180,7 @@
   "{name}'s injuries require professional treatment.": "{name}'s injuries require professional treatment.",
   "{name}'s stomach is torn!": "{name}'s stomach is torn!",
   "{recruiter} shares {topic}.": "{recruiter} shares {topic}.",
-  "{squad} didn't have a car to get to {site}.": "{squad} didn't have a car to get to {site}."
+  "{squad} didn't have a car to get to {site}.": "{squad} didn't have a car to get to {site}.",
+  "{vehicle} moves to cut you off!": "{vehicle} moves to cut you off!",
+  "{vehicle} trails behind and is lost.": "{vehicle} trails behind and is lost."
 }

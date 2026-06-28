@@ -114,7 +114,8 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
         ++y,
         1,
         white,
-        "After more discussion, ${tk.name} agrees to come by later tonight.",
+        "After more discussion, {name} agrees to come by later tonight.",
+        params: {"name": tk.name},
       );
       await getKey();
       tk.nameCreature();
@@ -126,7 +127,8 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
         ++y,
         1,
         white,
-        "They chat briefly, but ${tk.name} has work to do.",
+        "They chat briefly, but {name} has work to do.",
+        params: {"name": tk.name},
       );
       await getKey();
     }

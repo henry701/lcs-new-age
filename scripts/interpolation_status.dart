@@ -13,6 +13,11 @@ void main(List<String> args) async {
     print('');
     print('Options:');
     print('  --json         Print JSON output');
+    print('  --all          Emit every match instead of samples');
+    print('  --check        Exit 1 when unclassified matches remain');
+    print(
+      '  --allowlist=PATH  JSON allowlist of classified non-translatable hits',
+    );
     print(
       '  --limit=N      Max rows for top files and sample output (default: 20)',
     );
@@ -21,7 +26,13 @@ void main(List<String> args) async {
   }
 
   final asJson = args.contains('--json');
+  final emitAll = args.contains('--all');
+  final checkMode = args.contains('--check');
+  final allowlistPath = _optionalArg(args, 'allowlist');
   final limit = int.tryParse(_arg(args, 'limit', defaultValue: '20')) ?? 20;
+  final allowlist = allowlistPath == null
+      ? const <_AllowlistEntry>[]
+      : _loadAllowlist(allowlistPath);
 
   final libDir = Directory('lib');
   if (!libDir.existsSync()) {
@@ -147,14 +158,83 @@ void main(List<String> args) async {
       return a.line.compareTo(b.line);
     });
 
+  final classifiedContext = <_MatchRecord>[];
+  final unclassifiedContext = <_MatchRecord>[];
+  for (final record in wrapperContextInterpolated) {
+    if (_isAllowlisted(record, allowlist)) {
+      classifiedContext.add(record);
+    } else {
+      unclassifiedContext.add(record);
+    }
+  }
+
+  final classifiedArgs = <_MatchRecord>[];
+  final unclassifiedArgs = <_MatchRecord>[];
+  for (final record in wrapperArgInterpolated) {
+    if (_isAllowlisted(record, allowlist)) {
+      classifiedArgs.add(record);
+    } else {
+      unclassifiedArgs.add(record);
+    }
+  }
+
+  final contextRows = emitAll ? contextualSample : contextualSample.take(max(0, limit));
+  final argRows = emitAll ? sample : sample.take(max(0, limit));
+
   final report = {
     'totalInterpolatedLiterals': allInterpolated.length,
     'wrapperContextInterpolatedLiterals': wrapperContextInterpolated.length,
     'wrapperArgumentInterpolatedLiterals': wrapperArgInterpolated.length,
+    'classifiedWrapperContextInterpolatedLiterals': classifiedContext.length,
+    'unclassifiedWrapperContextInterpolatedLiterals': unclassifiedContext.length,
+    'classifiedWrapperArgumentInterpolatedLiterals': classifiedArgs.length,
+    'unclassifiedWrapperArgumentInterpolatedLiterals': unclassifiedArgs.length,
     'topFilesByWrapperArgumentInterpolation': sortedFiles
         .take(max(0, limit))
         .map((entry) => {'file': entry.key, 'count': entry.value})
         .toList(),
+    'wrapperArgumentInterpolation': argRows
+        .map(
+          (record) => {
+            'file': record.file,
+            'line': record.line,
+            'context': record.context,
+            'text': record.text,
+          },
+        )
+        .toList(),
+    'wrapperContextInterpolation': contextRows
+        .map(
+          (record) => {
+            'file': record.file,
+            'line': record.line,
+            'context': record.context,
+            'text': record.text,
+          },
+        )
+        .toList(),
+    if (checkMode || emitAll) ...{
+      'unclassifiedWrapperArgumentInterpolation': unclassifiedArgs
+          .map(
+            (record) => {
+              'file': record.file,
+              'line': record.line,
+              'context': record.context,
+              'text': record.text,
+            },
+          )
+          .toList(),
+      'unclassifiedWrapperContextInterpolation': unclassifiedContext
+          .map(
+            (record) => {
+              'file': record.file,
+              'line': record.line,
+              'context': record.context,
+              'text': record.text,
+            },
+          )
+          .toList(),
+    },
     'sampleWrapperArgumentInterpolation': sample
         .take(max(0, limit))
         .map(
@@ -181,6 +261,10 @@ void main(List<String> args) async {
 
   if (asJson) {
     print(const JsonEncoder.withIndent('  ').convert(report));
+    if (checkMode &&
+        (unclassifiedContext.isNotEmpty || unclassifiedArgs.isNotEmpty)) {
+      exit(1);
+    }
     return;
   }
 
@@ -210,6 +294,16 @@ void main(List<String> args) async {
     print('  ${record.file}:${record.line} (${record.context})');
     print('    ${record.text}');
   }
+
+  if (checkMode &&
+      (unclassifiedContext.isNotEmpty || unclassifiedArgs.isNotEmpty)) {
+    print('');
+    print(
+      'Unclassified wrapper-context hits: ${unclassifiedContext.length}',
+    );
+    print('Unclassified wrapper-argument hits: ${unclassifiedArgs.length}');
+    exit(1);
+  }
 }
 
 String _arg(List<String> args, String name, {required String defaultValue}) {
@@ -220,6 +314,64 @@ String _arg(List<String> args, String name, {required String defaultValue}) {
     }
   }
   return defaultValue;
+}
+
+String? _optionalArg(List<String> args, String name) {
+  final prefix = '--$name=';
+  for (final arg in args) {
+    if (arg.startsWith(prefix)) {
+      return arg.substring(prefix.length);
+    }
+  }
+  return null;
+}
+
+List<_AllowlistEntry> _loadAllowlist(String path) {
+  final file = File(path);
+  if (!file.existsSync()) {
+    stderr.writeln('Error: allowlist not found: $path');
+    exit(1);
+  }
+  final decoded = json.decode(file.readAsStringSync()) as Map<String, dynamic>;
+  final entries = decoded['entries'];
+  if (entries is! List) {
+    stderr.writeln('Error: allowlist must contain an entries array');
+    exit(1);
+  }
+  return [
+    for (final entry in entries)
+      if (entry is Map<String, dynamic>)
+        _AllowlistEntry(
+          file: entry['file'] as String? ?? '',
+          context: entry['context'] as String? ?? '',
+          text: entry['text'] as String? ?? '',
+          reason: entry['reason'] as String? ?? '',
+        ),
+  ];
+}
+
+bool _isAllowlisted(_MatchRecord record, List<_AllowlistEntry> allowlist) {
+  for (final entry in allowlist) {
+    if (entry.file != record.file) continue;
+    if (entry.context.isNotEmpty && entry.context != record.context) continue;
+    if (entry.text.isNotEmpty && entry.text != record.text) continue;
+    return true;
+  }
+  return false;
+}
+
+class _AllowlistEntry {
+  const _AllowlistEntry({
+    required this.file,
+    required this.context,
+    required this.text,
+    required this.reason,
+  });
+
+  final String file;
+  final String context;
+  final String text;
+  final String reason;
 }
 
 bool _hasInterpolationMarker(String literal) {

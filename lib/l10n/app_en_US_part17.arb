@@ -108,8 +108,6 @@
   "debating issues. It's four times as effective as writing articles, ": "debating issues. It's four times as effective as writing articles, ",
   "destruction of private property": "destruction of private property",
   "ending the use of torture": "ending the use of torture",
-  "escue, ": "escue, ",
-  "et, ": "et, ",
   "even as a rash of people have begun to claim they've ": "even as a rash of people have begun to claim they've ",
   "for one of its news shows.  Guided by impressive ": "for one of its news shows.  Guided by impressive ",
   "gives {hostage} a live chicken to hold while {lead} plays ": "gives {hostage} a live chicken to hold while {lead} plays ",
@@ -167,5 +165,6 @@
   "{name}'s right eye is burned away!": "{name}'s right eye is burned away!",
   "{name}: <rummaging> {message}": "{name}: <rummaging> {message}",
   "{pName} overpowers {eName} after a struggle.": "{pName} overpowers {eName} after a struggle.",
-  "{prop}: ": "{prop}: "
+  "{prop}: ": "{prop}: ",
+  "{vehicle} is right on your tail!": "{vehicle} is right on your tail!"
 }

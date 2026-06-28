@@ -65,6 +65,7 @@
   "Persuasion or Seduction is used to convince them to join.": "Persuasion or Seduction is used to convince them to join.",
   "Politicians try to get votes thrown out when they don't like the results.": "Politicians try to get votes thrown out when they don't like the results.",
   "Post": "Post",
+  "President {name} has asked the new Congress to move quickly": "President {name} has asked the new Congress to move quickly",
   "Purchasing Goods": "Purchasing Goods",
   "Racial equality is guaranteed and vigorously enforced.": "Racial equality is guaranteed and vigorously enforced.",
   "Reactor Control Room": "Reactor Control Room",
@@ -161,5 +162,8 @@
   "{name} renounces the Liberal Crime Squad!": "{name} renounces the Liberal Crime Squad!",
   "{name} sits in a bar, drinking and staring at the wall.": "{name} sits in a bar, drinking and staring at the wall.",
   "{name} stands by the {vehicle}.": "{name} stands by the {vehicle}.",
-  "{name}'s right eye is torn out!": "{name}'s right eye is torn out!"
+  "{name} tips into a pool. The tank is trapped!": "{name} tips into a pool. The tank is trapped!",
+  "{name}'s right eye is torn out!": "{name}'s right eye is torn out!",
+  "{vehicle} pulls alongside you!": "{vehicle} pulls alongside you!",
+  "{vehicle} slides sideways into a building.": "{vehicle} slides sideways into a building."
 }

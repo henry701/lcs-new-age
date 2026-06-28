@@ -10,7 +10,6 @@
   " presses buttons randomly...": " presses buttons randomly...",
   " {ageGender}": " {ageGender}",
   "$drug and I'm hopeful some constructive dialogue will come ": "$drug and I'm hopeful some constructive dialogue will come ",
-  "$name St. ": "$name St. ",
   "+2 Security, +1 Driving": "+2 Security, +1 Driving",
   "+3 Charisma, +1 Intelligence, +2 Persuasion, +1 Law and Writing, +50 juice": "+3 Charisma, +1 Intelligence, +2 Persuasion, +1 Law and Writing, +50 juice",
   ", {holding} {hostage}": ", {holding} {hostage}",
@@ -155,7 +154,6 @@
   "the environment in ways that hurt not only humans, but animals too.": "the environment in ways that hurt not only humans, but animals too.",
   "the game. This feature is not complete and not All screens support ": "the game. This feature is not complete and not All screens support ",
   "the game. This feature is not complete and not all screens support ": "the game. This feature is not complete and not all screens support ",
-  "ve ever had was when I went to Mexico and drank the water,\",\n          \"I": "ve ever had was when I went to Mexico and drank the water,\",\n          \"I",
   "wearing well-concealed soft armor underneath, but ": "wearing well-concealed soft armor underneath, but ",
   "white supremacist literature": "white supremacist literature",
   "worry, we learned from the last time we invaded a country, ": "worry, we learned from the last time we invaded a country, ",
@@ -172,5 +170,7 @@
   "{name}'s shot {result}": "{name}'s shot {result}",
   "{name}'s {article} about this transforms the media narrative. ": "{name}'s {article} about this transforms the media narrative. ",
   "{name}, you are sentenced to ": "{name}, you are sentenced to ",
-  "{obj} in a series of elaborate role-playing scenarios ": "{obj} in a series of elaborate role-playing scenarios "
+  "{obj} in a series of elaborate role-playing scenarios ": "{obj} in a series of elaborate role-playing scenarios ",
+  "{vehicle} is riding your bumper!": "{vehicle} is riding your bumper!",
+  "{vehicle} stops by the side of the road.": "{vehicle} stops by the side of the road."
 }

@@ -5,12 +5,10 @@
   " hits another car and flips over!": " hits another car and flips over!",
   " looks around in panic.": " looks around in panic.",
   " shouts in alarm at the squad's Liberal Trespassing!": " shouts in alarm at the squad's Liberal Trespassing!",
-  "$enterText   $escapeText": "$enterText   $escapeText",
   "&w{name} &mdoesn't really &Kfeel anything...": "&w{name} &mdoesn't really &Kfeel anything...",
   ", Level {level}: Escape or Engage": ", Level {level}: Escape or Engage",
   "...and accidentally {action}!": "...and accidentally {action}!",
   "...until the computer just freezes up.": "...until the computer just freezes up.",
-  ": <rummaging> ": ": <rummaging> ",
   ": CONSERVATIVE REINFORCEMENTS INCOMING": ": CONSERVATIVE REINFORCEMENTS INCOMING",
   "A flat tax is in effect, and there is no capital gains or inheritance tax.": "A flat tax is in effect, and there is no capital gains or inheritance tax.",
   "A global ban on nuclear power and nuclear weapons is enforced by UN inspectors.": "A global ban on nuclear power and nuclear weapons is enforced by UN inspectors.",
@@ -165,9 +163,11 @@
   "workers' rights are eroded daily.": "workers' rights are eroded daily.",
   "you will have to defeat them all or run away to survive this": "you will have to defeat them all or run away to survive this",
   "you will make. Computer skill helps protect you from getting ": "you will make. Computer skill helps protect you from getting ",
+  "{driver} and {vehicle} race inches apart!": "{driver} and {vehicle} race inches apart!",
   "{himHer} go RIGHT NOW.": "{himHer} go RIGHT NOW.",
   "{himHer}. {heSheCap} just hopes ": "{himHer}. {heSheCap} just hopes ",
   "{journalist} canceled the interview halfway through ": "{journalist} canceled the interview halfway through ",
+  "{last} continues to ": "{last} continues to ",
   "{name} has escaped!": "{name} has escaped!",
   "{name} has reached level {level} in {skill}.": "{name} has reached level {level} in {skill}.",
   "{name} has starved to death.": "{name} has starved to death.",
@@ -182,5 +182,7 @@
   "{name}'s lower spine is broken!": "{name}'s lower spine is broken!",
   "{name}'s spleen is punctured!": "{name}'s spleen is punctured!",
   "{objPossessive} views.": "{objPossessive} views.",
-  "{pName} is slowly warming {eName}'s frozen Conservative heart.": "{pName} is slowly warming {eName}'s frozen Conservative heart."
+  "{pName} is slowly warming {eName}'s frozen Conservative heart.": "{pName} is slowly warming {eName}'s frozen Conservative heart.",
+  "{protagonist} and the {adjective} {noun}": "{protagonist} and the {adjective} {noun}",
+  "{vicePresident} ": "{vicePresident} "
 }

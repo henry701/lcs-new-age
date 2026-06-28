@@ -318,8 +318,7 @@ Future<void> activateSleeper(Creature cr) async {
           params: {"name": cr.name},
         );
         debugPrint(
-          "Unexpected sleeper activity type: "
-          "${cr.activity.type.name}",
+          'Unexpected sleeper activity type: ${cr.activity.type.name}',
         );
     }
 
@@ -404,7 +403,8 @@ Future<void> activateSleepersBulk() async {
         i + 1,
         58,
         "$i",
-        "$i - $name",
+        "{index} - {name}",
+        params: {"index": i.toString(), "name": name},
         baseColorKey: selectedactivity == i - 1 ? "W" : "w",
         enabledWhen: enabled,
       );

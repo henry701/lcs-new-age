@@ -152,7 +152,9 @@
   "toward {friend}.": "toward {friend}.",
   "was beaten severely yesterday": "was beaten severely yesterday",
   "younger": "younger",
+  "{attacker} runs {defender} off the road!": "{attacker} runs {defender} off the road!",
   "{hisHer} whole life without knowing it, and ": "{hisHer} whole life without knowing it, and ",
+  "{lastName} ": "{lastName} ",
   "{month} {day}, {year}": "{month} {day}, {year}",
   "{name} feels bad about LCS actions, and loses juice!": "{name} feels bad about LCS actions, and loses juice!",
   "{name} has been arrested in a prostitution sting!": "{name} has been arrested in a prostitution sting!",
@@ -167,5 +169,6 @@
   "{name} would ever join a left-wing terrorist organization.": "{name} would ever join a left-wing terrorist organization.",
   "{name}, the hostage, is kept off-air.": "{name}, the hostage, is kept off-air.",
   "{name}, you are sentenced to DEATH!": "{name}, you are sentenced to DEATH!",
-  "{squad} couldn't afford to travel to {site}.": "{squad} couldn't afford to travel to {site}."
+  "{squad} couldn't afford to travel to {site}.": "{squad} couldn't afford to travel to {site}.",
+  "{vehicle} can't keep up and disappears from view.": "{vehicle} can't keep up and disappears from view."
 }

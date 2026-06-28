@@ -1,5 +1,7 @@
 # LCS-New-Age Localization Implementation Plan
 
+> **Historical / Superseded.** The canonical workflow and rules now live in `TRANSLATION_WORKFLOW.md`. Status, completion gates, and pt_BR tracking are in `PLAN.md` (do not edit) + `PLAN_NOTES.md`. This file is kept only for early architecture decisions and Phase 1 templating examples. Do not follow its checklists for current work.
+
 ## Overview
 This document outlines a phased approach to implementing internationalization (i18n) and localization (l10n) for Liberal Crime Squad: New Age, preserving the existing curses-style architecture while enabling multi-language support.
 

@@ -386,7 +386,8 @@ Future<void> supremeCourt() async {
       addstrc(politics.court[j].color, politics.courtName[j].firstLast);
       addstrc(
         lightGray,
-        ", ${politics.court[j].label}, is appointed to the bench.",
+        ", {alignment}, is appointed to the bench.",
+        params: {"alignment": politics.court[j].label},
       );
 
       mvaddstrc(

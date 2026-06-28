@@ -14,6 +14,7 @@
   "Animals may own property, speak, marry, and become US citizens.": "Animals may own property, speak, marry, and become US citizens.",
   "Any Other Key - Continue the Struggle": "Any Other Key - Continue the Struggle",
   "Any other key - continue the Struggle": "Any other key - continue the Struggle",
+  "Arch-Conservative Vice President, {name}, a close ally of the": "Arch-Conservative Vice President, {name}, a close ally of the",
   "Army engineers detonate explosives and destroy the bollards!": "Army engineers detonate explosives and destroy the bollards!",
   "Art Sales": "Art Sales",
   "Better keep moving before the guard notices you're naked...": "Better keep moving before the guard notices you're naked...",
@@ -173,6 +174,7 @@
   "{pName} doesn't have the juice to recruit otherwise.": "{pName} doesn't have the juice to recruit otherwise.",
   "{pname}, aka {pcname}, is taken to the police station.": "{pname}, aka {pcname}, is taken to the police station.",
   "{recruit} isn't convinced {recruiter} really understands the problem.": "{recruit} isn't convinced {recruiter} really understands the problem.",
+  "{viewName}: {effectValueText}": "{viewName}: {effectValueText}",
   "{votes} Nay": "{votes} Nay",
   "│   bright Liberal guest finish a sentence.  Many   │": "│   bright Liberal guest finish a sentence.  Many   │",
   "│   in Los Angeles.  The entire thing is caught on  │": "│   in Los Angeles.  The entire thing is caught on  │"

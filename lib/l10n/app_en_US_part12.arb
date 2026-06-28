@@ -185,7 +185,9 @@
   "{name} reveals everything {pronoun} knows about the {site}.": "{name} reveals everything {pronoun} knows about the {site}.",
   "{name} tried to make {clothing}, but failed.": "{name} tried to make {clothing}, but failed.",
   "{name}'s neck is broken!": "{name}'s neck is broken!",
+  "{position} {oldLast} ": "{position} {oldLast} ",
   "{rescue} is unable to walk": "{rescue} is unable to walk",
   "{rescue} {condition}": "{rescue} {condition}",
+  "{vehicle} rapidly pulls back.": "{vehicle} rapidly pulls back.",
   "│   by impressive advertising, America tunes in.    │": "│   by impressive advertising, America tunes in.    │"
 }

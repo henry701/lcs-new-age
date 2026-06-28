@@ -111,7 +111,14 @@ Future<void> equip(List<Item>? loot) async {
     if ((c >= Key.a && c <= Key.r) || increaseammo || decreaseammo) {
       int slot = c - Key.a + page * 18;
       debugPrint(
-        "Key: ${String.fromCharCode(c)} Slot: $slot LootLength: ${loot.length}",
+        [
+          'Key:',
+          String.fromCharCode(c),
+          'Slot:',
+          slot,
+          'LootLength:',
+          loot.length,
+        ].join(' '),
       );
       if (increaseammo || decreaseammo) {
         slot = -999;
@@ -440,7 +447,12 @@ Future<void> equipmentBaseAssign() async {
         y,
         0,
         "${letterAPlus(y - 2)} - ",
-        "${letterAPlus(y - 2)} - ${items[p].equipTitle()}${items[p].stackSize > 1 ? " x${items[p].stackSize}" : ""}",
+        "{letter} - {item}{stack}",
+        params: {
+          "letter": letterAPlus(y - 2),
+          "item": items[p].equipTitle(),
+          "stack": items[p].stackSize > 1 ? " x${items[p].stackSize}" : "",
+        },
       );
       mvaddstrc(
         y,
@@ -461,7 +473,11 @@ Future<void> equipmentBaseAssign() async {
         y,
         51,
         "${y - 1}",
-        "${y - 1} - ${bases[p].getName(short: true, includeCity: true)}",
+        "{index} - {base}",
+        params: {
+          "index": (y - 1).toString(),
+          "base": bases[p].getName(short: true, includeCity: true),
+        },
         baseColorKey: p == selectedbase ? ColorKey.white : ColorKey.lightGray,
       );
     }

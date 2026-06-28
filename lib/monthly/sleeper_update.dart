@@ -682,15 +682,18 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
             setColor(lightGray);
             String paragraphText = LcsI18n.processString(
               "News from our {gender} in the White House: Under "
-              "intense pressure from the President, &$oldAlignColor{position} "
-              "&$oldAlignColor{lastName}&w "
-              "has agreed to adopt &$newAlignColor{alignment}&w "
+              "intense pressure from the President, {position:color} "
+              "{lastName:color} "
+              "has agreed to adopt {alignment:color} "
               "policies.",
               {
                 "gender": cr.gender.manWoman,
                 "position": positionToFill.displayName,
+                "positionColor": oldAlignColor,
                 "lastName": politics.execName[positionToFill]!.last,
+                "lastNameColor": oldAlignColor,
                 "alignment": bestPossibleAlign.label,
+                "alignmentColor": newAlignColor,
               },
             );
             addparagraph(6, 1, paragraphText);
@@ -716,16 +719,17 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
               String paragraphText = LcsI18n.processString(
                 "News from our {gender} in the White House: Under "
                 "intense pressure from the President, "
-                "&{oldAlignColor}Vice President {oldLast}&w "
+                "{vicePresident:color} "
                 "is resigning. The President already has a new second "
-                "in mind: &$newAlignColor{newFirstLast}&w "
+                "in mind: {newFirstLast:color} "
                 "is expected to pass confirmation in both the House and the "
                 "Senate.",
                 {
                   "gender": cr.gender.manWoman,
-                  "oldAlignColor": oldAlignColor,
-                  "oldLast": oldName.last,
+                  "vicePresident": "Vice President ${oldName.last}",
+                  "vicePresidentColor": oldAlignColor,
                   "newFirstLast": politics.execName[positionToFill]!.firstLast,
+                  "newFirstLastColor": newAlignColor,
                 },
               );
               addparagraph(6, 1, paragraphText);
@@ -733,16 +737,18 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
               String paragraphText = LcsI18n.processString(
                 "News from our {gender} in the White House: Under "
                 "intense pressure from the President, "
-                "&{oldAlignColor}{position} {oldLast}&w "
+                "{position:color} {oldLast:color} "
                 "is resigning. The President already has a new cabinet member "
-                "in mind: &$newAlignColor{newFirstLast}&w "
+                "in mind: {newFirstLast:color} "
                 "is expected to pass confirmation in the Senate.",
                 {
                   "gender": cr.gender.manWoman,
-                  "oldAlignColor": oldAlignColor,
                   "position": positionToFill.displayName,
+                  "positionColor": oldAlignColor,
                   "oldLast": oldName.last,
+                  "oldLastColor": oldAlignColor,
                   "newFirstLast": politics.execName[positionToFill]!.firstLast,
+                  "newFirstLastColor": newAlignColor,
                 },
               );
               addparagraph(6, 1, paragraphText);
@@ -765,16 +771,17 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
           setColor(lightGray);
           String paragraphText = LcsI18n.processString(
             "Update from our {gender} in the White House: "
-            "Despite the President's best efforts, &$oldAlignColor{position} "
-            "{last}&w continues to "
+            "Despite the President's best efforts, {position:color} "
+            "{last:color} continues to "
             "hold out against the internal push for more Liberal policies. "
             "The President is considering other options, but lacks the "
             "votes in Congress to confirm a more Liberal appointment.",
             {
               "gender": cr.gender.manWoman,
-              "oldAlignColor": oldAlignColor,
               "position": positionToFill.displayName,
+              "positionColor": oldAlignColor,
               "last": politics.execName[positionToFill]!.last,
+              "lastColor": oldAlignColor,
             },
           );
           addparagraph(6, 1, paragraphText);

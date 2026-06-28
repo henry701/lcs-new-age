@@ -58,6 +58,47 @@ Important limitations:
 
 Treat the scripts as good assistants, not proof that source-string cleanup is complete.
 
+## Fragment Keys and Name+Flavor Composition (Strong Rule)
+
+Fragment keys (e.g. `"'s wounds."`, `"'s lifeless body smashes through the windshield."`, `" slams into a building!"`, leading-space or trailing phrases) and name+fragment concatenation are defects for i18n.
+
+They produce grammatically broken or unorderable output in pt_BR (and other languages) because:
+
+- Word order and possessives differ.
+- The fragment cannot be translated in isolation with correct article/gender/case.
+
+**Required pattern:**
+
+```dart
+// Good: full template with placeholder
+addstr("{medic} was able to slow the bleeding of {patient}'s wounds.",
+       params: {"medic": medic.name, "patient": patient.name});
+
+// For random flavor attached to name:
+mvaddstrc(11, 0, red, "{name}{flavor}", params: {
+  "name": p.name,
+  "flavor": LcsI18n.tr(" is crushed inside the car."),
+});
+```
+
+**Never:**
+
+```dart
+addstr(name);
+addstr("'s wounds.");
+addstr(crashesFlavorText.random); // if it starts with space or 's
+```
+
+Existing offenders (non-exhaustive; re-sweep before claiming quality-complete):
+
+- chase_sequence.dart: crashesFlavorText, diesFlavorText (some start with "'s " or space)
+- Similar lists in prison, daily, etc.
+- Raw Dart interp for display names: "$name's Pawnshop" (review whether these need i18n or should be generated from translated base + owner)
+
+Before marking any i18n goal "done for runtime", convert these to full templates, add the complete keys to catalogs, remove the dead fragment keys (after confirming no live use), and re-validate.
+
+See also the completion PLAN.md (do not edit) for gate expectations around fragments.
+
 ## Interpolation Audit
 
 Run this before large translation batches to identify remaining interpolated literals:

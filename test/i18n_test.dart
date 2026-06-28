@@ -426,10 +426,10 @@ void main() {
       },
     );
 
-    test('catalog entries that still equal English only log once', () async {
-      const untranslatedCatalogKey = 'Buffalo, NY';
+    test('translated catalog entries are not logged as untranslated', () async {
+      const translatedCatalogKey = 'Buffalo, NY';
       final tempWorkingDirectory = await Directory.systemTemp.createTemp(
-        'i18n_same_value_log_test_',
+        'i18n_translated_catalog_log_test_',
       );
       final tempLogDirectory = Directory(
         '${tempWorkingDirectory.path}/translation_workspace',
@@ -444,27 +444,12 @@ void main() {
         await LcsI18n.initialize('pt_BR');
 
         expect(
-          LcsI18n.translate(untranslatedCatalogKey),
-          equals('Buffalo, NY'),
-        );
-        final firstEntry = await _waitForLoggedEntry(
-          untranslatedCatalogKey,
-          tempLogDirectory,
+          LcsI18n.translate(translatedCatalogKey),
+          equals('Buffalo, New York'),
         );
 
-        await Future<void>.delayed(const Duration(milliseconds: 25));
-        expect(
-          LcsI18n.translate(untranslatedCatalogKey),
-          equals('Buffalo, NY'),
-        );
-
-        await Future<void>.delayed(const Duration(milliseconds: 50));
-        final secondEntry = await _waitForLoggedEntry(
-          untranslatedCatalogKey,
-          tempLogDirectory,
-        );
-
-        expect(secondEntry['timestamp'], equals(firstEntry['timestamp']));
+        await Future<void>.delayed(const Duration(milliseconds: 75));
+        expect(tempLogDirectory.existsSync(), isFalse);
       } finally {
         UntranslatedStringLogger.setLogDirectoryOverrideForTesting(null);
         if (tempWorkingDirectory.existsSync()) {
@@ -474,11 +459,11 @@ void main() {
     });
 
     test(
-      'catalog entries that still equal English can be logged after logging is enabled later',
+      'translated catalog entries are not logged after logging is enabled later',
       () async {
-        const untranslatedCatalogKey = 'Buffalo, NY';
+        const translatedCatalogKey = 'Buffalo, NY';
         final tempWorkingDirectory = await Directory.systemTemp.createTemp(
-          'i18n_same_value_late_log_test_',
+          'i18n_translated_catalog_late_log_test_',
         );
         final tempLogDirectory = Directory(
           '${tempWorkingDirectory.path}/translation_workspace',
@@ -491,22 +476,18 @@ void main() {
 
           await LcsI18n.initialize('pt_BR');
           expect(
-            LcsI18n.translate(untranslatedCatalogKey),
-            equals('Buffalo, NY'),
+            LcsI18n.translate(translatedCatalogKey),
+            equals('Buffalo, New York'),
           );
 
           gameOptions.logUntranslatedStrings = true;
           expect(
-            LcsI18n.translate(untranslatedCatalogKey),
-            equals('Buffalo, NY'),
+            LcsI18n.translate(translatedCatalogKey),
+            equals('Buffalo, New York'),
           );
 
-          final entry = await _waitForLoggedEntry(
-            untranslatedCatalogKey,
-            tempLogDirectory,
-          );
-          expect(entry['original'], equals(untranslatedCatalogKey));
-          expect(entry['locale'], equals('pt_BR'));
+          await Future<void>.delayed(const Duration(milliseconds: 75));
+          expect(tempLogDirectory.existsSync(), isFalse);
         } finally {
           UntranslatedStringLogger.setLogDirectoryOverrideForTesting(null);
           if (tempWorkingDirectory.existsSync()) {
@@ -532,14 +513,14 @@ void main() {
       expect(LcsI18n.translate('Game Over'), equals('Fim de Jogo'));
     });
 
-    test('setLocale preloads English fallback when called first', () async {
+    test('setLocale reports missing keys not present in any catalog', () async {
       final logLines = <String>[];
-      const fallbackKey = 'Squad: ';
+      const missingKey = 'Squad: ';
 
       await runZoned(
         () async {
           await LcsI18n.setLocale('pt_BR');
-          expect(LcsI18n.translate(fallbackKey), equals(fallbackKey));
+          expect(LcsI18n.translate(missingKey), equals(missingKey));
         },
         zoneSpecification: ZoneSpecification(
           print: (self, parent, zone, line) {
@@ -550,13 +531,7 @@ void main() {
 
       expect(
         logLines,
-        contains('LcsI18n: Using English fallback for "$fallbackKey" in pt_BR'),
-      );
-      expect(
-        logLines,
-        isNot(
-          contains('LcsI18n: Missing translation for "$fallbackKey" in pt_BR'),
-        ),
+        contains('LcsI18n: Missing translation for "$missingKey" in pt_BR'),
       );
     });
 

@@ -51,7 +51,6 @@
   "Mobile, AL": "Mobile, AL",
   "Net change:": "Net change:",
   "Next is the electronic lock that will have to ": "Next is the electronic lock that will have to ",
-  "Nobody can carry Martyr ": "Nobody can carry Martyr ",
   "Only criminals have reason to fear police.": "Only criminals have reason to fear police.",
   "Persuasion, Street Smarts, and Business. It is significantly more ": "Persuasion, Street Smarts, and Business. It is significantly more ",
   "Polluter Equip": "Polluter Equip",
@@ -162,6 +161,8 @@
   "{number} - {name}": "{number} - {name}",
   "{profanity} cult. And ": "{profanity} cult. And ",
   "{pronoun} run into the arms of the waiting {siegers}. ": "{pronoun} run into the arms of the waiting {siegers}. ",
+  "{vehicle} pulls over as {driver} bleeds out.": "{vehicle} pulls over as {driver} bleeds out.",
+  "{vehicle} retreats from the pursuit.": "{vehicle} retreats from the pursuit.",
   "{year} (Age {age}, ": "{year} (Age {age}, ",
   "│     The police have brutally beaten a black man   │": "│     The police have brutally beaten a black man   │"
 }

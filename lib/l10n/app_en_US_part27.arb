@@ -8,7 +8,6 @@
   " slips the teller a note: ": " slips the teller a note: ",
   "$i - $name": "$i - $name",
   "$name St. Housing Projects": "$name St. Housing Projects",
-  "&$oldAlignColor{lastName}&w ": "&$oldAlignColor{lastName}&w ",
   "(A to have your parents reconsider)": "(A to have your parents reconsider)",
   "+2 Charisma, October 8th": "+2 Charisma, October 8th",
   "A Liberal friend tips you off on {name}'s whereabouts.": "A Liberal friend tips you off on {name}'s whereabouts.",
@@ -34,6 +33,7 @@
   "Current": "Current",
   "Cursors - Increase or decrease ammo allocation": "Cursors - Increase or decrease ammo allocation",
   "Deregulate Animal Research": "Deregulate Animal Research",
+  "Despite the President's best efforts, {position} ": "Despite the President's best efforts, {position} ",
   "Dodge: ": "Dodge: ",
   "Duluth, MN": "Duluth, MN",
   "During sentencing, the judge grants some leniency.": "During sentencing, the judge grants some leniency.",
@@ -201,5 +201,7 @@
   "{name} is cornered by a gang of right-wing hardliners.": "{name} is cornered by a gang of right-wing hardliners.",
   "{name} praises the Lord for this moment to converse.": "{name} praises the Lord for this moment to converse.",
   "{name} stares at the Conservatives.": "{name} stares at the Conservatives.",
-  "{obj} to visualize {possessive} feelings ": "{obj} to visualize {possessive} feelings "
+  "{obj} to visualize {possessive} feelings ": "{obj} to visualize {possessive} feelings ",
+  "{vehicle} gives up as {driver} loses confidence.": "{vehicle} gives up as {driver} loses confidence.",
+  "{vehicle} spins out and stops.": "{vehicle} spins out and stops."
 }

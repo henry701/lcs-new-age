@@ -18,6 +18,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -271,19 +272,25 @@ Future<ChaseOutcome> carChaseSequence() async {
         .reduce((a, b) => a.value < b.value ? a : b)
         .key;
     int nearestVehicleDistance = chase.enemyCarDistance[nearestVehicle] ?? 70;
+    final nearestVehicleName = nearestVehicle.fullName();
     if (nearestVehicleDistance <= 0) {
       mvaddstrc(
         9,
         1,
         lightGray,
-        "${nearestVehicle.fullName()} is right on your tail!",
+        "{vehicle} is right on your tail!",
+        params: {"vehicle": nearestVehicleName},
       );
     } else {
       mvaddstrc(
         9,
         1,
         lightGray,
-        "${nearestVehicle.fullName()} is ${nearestVehicleDistance * 5} feet back.",
+        "{vehicle} is {distance} feet back.",
+        params: {
+          "vehicle": nearestVehicleName,
+          "distance": (nearestVehicleDistance * 5).toString(),
+        },
       );
     }
 
@@ -418,7 +425,8 @@ Future<ChaseOutcome> carChaseSequence() async {
             9,
             1,
             lightGray,
-            "You open fire on the ${nearestVehicle.fullName()} from ",
+            "You open fire on the {vehicle} from ",
+            params: {"vehicle": nearestVehicle.fullName()},
           );
           switch (nearestVehicleDistance) {
             case <= 0:
@@ -758,20 +766,24 @@ Future<bool> enemyCarUpdate() async {
         1,
         red,
         [
-          "${enemyCar.fullName()} pulls alongside you!",
-          "${enemyCar.fullName()} rolls up and rides your tailgate!",
-          "${enemyCar.fullName()} is riding your bumper!",
-          "${enemyCar.fullName()} rams into you from behind!",
-          "${enemyCar.fullName()} draws dangerously close!",
-          "${enemyCar.fullName()} moves to cut you off!",
-          "${enemyCar.fullName()} tries to force you off the road!",
-          "${enemyCar.fullName()} tries to box you in!",
+          "{vehicle} pulls alongside you!",
+          "{vehicle} rolls up and rides your tailgate!",
+          "{vehicle} is riding your bumper!",
+          "{vehicle} rams into you from behind!",
+          "{vehicle} draws dangerously close!",
+          "{vehicle} moves to cut you off!",
+          "{vehicle} tries to force you off the road!",
+          "{vehicle} tries to box you in!",
         ].random,
+        params: {"vehicle": enemyCar.fullName()},
       );
       await getKey();
 
       Creature yourDriver = squad.where((p) => p.isDriver).toList().random;
       Vehicle yourCar = yourDriver.car!;
+      final yourCarName = yourCar.fullName();
+      final yourDriverName = yourDriver.name;
+      final enemyCarName = enemyCar.fullName();
       int attack =
           driveskill(enemyCarDriver, enemyCar) + lcsRandom(drivingRandomness);
       int defense =
@@ -782,7 +794,8 @@ Future<bool> enemyCarUpdate() async {
           10,
           1,
           red,
-          "${yourCar.fullName().toUpperCase()}'S DRIVER IS DEAD!",
+          "{vehicle}'S DRIVER IS DEAD!",
+          params: {"vehicle": yourCarName.toUpperCase()},
         );
         chaseSequence!.crash();
         await getKey();
@@ -794,11 +807,12 @@ Future<bool> enemyCarUpdate() async {
           1,
           red,
           [
-            "${yourDriver.name} completely loses control!!!",
-            "Your ${yourCar.fullName()} spins out of control!!!",
-            "Your ${yourCar.fullName()} fishtails wildly!!!",
-            "${yourDriver.name} loses control of the ${yourCar.fullName()}!!!",
+            "{driver} completely loses control!!!",
+            "Your {vehicle} spins out of control!!!",
+            "Your {vehicle} fishtails wildly!!!",
+            "{driver} loses control of the {vehicle}!!!",
           ].random,
+          params: {"driver": yourDriverName, "vehicle": yourCarName},
         );
         await getKey();
         chaseSequence!.crash();
@@ -811,12 +825,13 @@ Future<bool> enemyCarUpdate() async {
             1,
             yellow,
             [
-              "${yourCar.fullName()} slides sideways into a building.",
-              "${yourCar.fullName()} spins out and stops.",
-              "${yourCar.fullName()} skids to a stop.",
-              "${yourCar.fullName()} comes to a rest facing backwards.",
-              "${yourCar.fullName()} crashes into some greenery.",
+              "{vehicle} slides sideways into a building.",
+              "{vehicle} spins out and stops.",
+              "{vehicle} skids to a stop.",
+              "{vehicle} comes to a rest facing backwards.",
+              "{vehicle} crashes into some greenery.",
             ].random,
+            params: {"vehicle": yourCarName},
           );
           await getKey();
           mvaddstrc(
@@ -835,9 +850,13 @@ Future<bool> enemyCarUpdate() async {
           1,
           red,
           [
-            "${enemyCarDriver.name} runs ${yourDriver.name} off the road!",
-            "${enemyCarDriver.name} sends ${yourDriver.name} into a spin!",
+            "{attacker} runs {defender} off the road!",
+            "{attacker} sends {defender} into a spin!",
           ].random,
+          params: {
+            "attacker": enemyCarDriver.name,
+            "defender": yourDriverName,
+          },
         );
         chaseSequence!.crash();
         await getKey();
@@ -856,11 +875,12 @@ Future<bool> enemyCarUpdate() async {
           1,
           lightGreen,
           [
-            "${yourDriver.name} runs ${enemyCar.fullName()} off the road!",
-            "${yourDriver.name} hits ${enemyCar.fullName()} hard!",
-            "${yourDriver.name} sends ${enemyCar.fullName()} out of control!",
-            "${enemyCar.fullName()} spins out of control!",
+            "{driver} runs {vehicle} off the road!",
+            "{driver} hits {vehicle} hard!",
+            "{driver} sends {vehicle} out of control!",
+            "{vehicle} spins out of control!",
           ].random,
+          params: {"driver": yourDriverName, "vehicle": enemyCarName},
         );
         await getKey();
         await crashenemycar(enemyCar);
@@ -870,11 +890,12 @@ Future<bool> enemyCarUpdate() async {
           1,
           yellow,
           [
-            "Metal grinds on metal, but ${yourDriver.name} holds the line!",
-            "${yourDriver.name} and ${enemyCar.fullName()} trade paint!",
-            "${yourDriver.name} swerves, but recovers!",
-            "${yourDriver.name} and ${enemyCar.fullName()} race inches apart!",
+            "Metal grinds on metal, but {driver} holds the line!",
+            "{driver} and {vehicle} trade paint!",
+            "{driver} swerves, but recovers!",
+            "{driver} and {vehicle} race inches apart!",
           ].random,
+          params: {"driver": yourDriverName, "vehicle": enemyCarName},
         );
         await getKey();
       }
@@ -928,14 +949,20 @@ Future<void> evasiverun() async {
 
     if (e.type.tank && !oneIn(10)) {
       clearMessageArea();
-      String tankAction = switch (lcsRandom(4)) {
-        0 => "${e.name} plows through a brick wall like it was nothing!",
-        1 => "${e.name} charges down an alley, smashing both side walls out!",
-        2 => "${e.name} smashes straight through traffic, demolishing cars!",
-        3 => "${e.name} destroys everything in its path to keep up!",
-        _ => "${e.name} plows through a brick wall like it was nothing!",
+      final tankTemplate = switch (lcsRandom(4)) {
+        0 => "{name} plows through a brick wall like it was nothing!",
+        1 => "{name} charges down an alley, smashing both side walls out!",
+        2 => "{name} smashes straight through traffic, demolishing cars!",
+        3 => "{name} destroys everything in its path to keep up!",
+        _ => "{name} plows through a brick wall like it was nothing!",
       };
-      mvaddstrc(9, 1, yellow, tankAction);
+      mvaddstrc(
+        9,
+        1,
+        yellow,
+        tankTemplate,
+        params: {"name": e.name},
+      );
 
       await getKey();
     } else if (chaser < yourworst) {
@@ -945,7 +972,8 @@ Future<void> evasiverun() async {
           9,
           1,
           lightBlue,
-          "${e.name} tips into a pool. The tank is trapped!",
+          "{name} tips into a pool. The tank is trapped!",
+          params: {"name": e.name},
         );
       } else {
         mvaddstrc(
@@ -1315,7 +1343,7 @@ Future<bool> obstacledrive(
       } else if (reaction == CarChaseReaction.slowDown) {
         await slowDown(
           "carefully evade the truck",
-          "are on your ${noProfanity ? '[bumper]' : 'ass'}",
+          noProfanity ? "are on your [bumper]" : "are on your ass",
         );
       }
     case CarChaseObstacles.fruitStand:
@@ -1437,8 +1465,11 @@ Future<void> crashfriendlycar(Vehicle v) async {
             9,
             1,
             red,
-            "{name} ${diesFlavorText.random}",
-            params: {"name": p.prisoner!.name},
+            "{name}{flavor}",
+            params: {
+              "name": p.prisoner!.name,
+              "flavor": LcsI18n.tr(diesFlavorText.random),
+            },
           );
           printParty();
           await getKey();
@@ -1456,15 +1487,20 @@ Future<void> crashfriendlycar(Vehicle v) async {
         clearMessageArea();
         int range = 3;
         if (p.body.fullParalysis) range -= 1;
-        String deathMessage = switch (lcsRandom(range)) {
-          0 =>
-            "${p.name} slumps in ${p.gender.hisHer} seat, out cold, and dies.",
-          1 => "${p.name} is crushed by the impact.",
+        final deathTemplate = switch (lcsRandom(range)) {
+          0 => "{name} slumps in {possessive} seat, out cold, and dies.",
+          1 => "{name} is crushed by the impact.",
           2 =>
-            "${p.name} struggles free of the car, then collapses lifelessly.",
-          _ => "${p.name} is crushed by the impact.",
+            "{name} struggles free of the car, then collapses lifelessly.",
+          _ => "{name} is crushed by the impact.",
         };
-        mvaddstrc(9, 1, red, deathMessage);
+        mvaddstrc(
+          9,
+          1,
+          red,
+          deathTemplate,
+          params: {"name": p.name, "possessive": p.gender.hisHer},
+        );
         printParty();
 
         await getKey();
@@ -1478,16 +1514,32 @@ Future<void> crashfriendlycar(Vehicle v) async {
         clearMessageArea();
         int roll = lcsRandom(3);
         if (p.body.fullParalysis) roll = 1;
-        String survivalMessage = switch (roll) {
+        final survivalTemplate = switch (roll) {
           0 when p.equippedWeapon != null =>
-            "${p.name} grips the ${p.weapon.getName(sidearm: true)} and struggles to ${p.gender.hisHer} ${p.hasWheelchair ? "wheelchair." : "feet."}",
+            "{name} grips the {weapon} and struggles to {possessive} {limb}",
           0 =>
-            "${p.name} grips the car frame and struggles to ${p.gender.hisHer} ${p.hasWheelchair ? "wheelchair." : "feet."}",
-          1 => "${p.name} gasps in pain, but lives, for now.",
-          2 => "${p.name} crawls free of the car, shivering with pain.",
-          _ => "${p.name} gasps in pain, but lives, for now.",
+            "{name} grips the car frame and struggles to {possessive} {limb}",
+          1 => "{name} gasps in pain, but lives, for now.",
+          2 => "{name} crawls free of the car, shivering with pain.",
+          _ => "{name} gasps in pain, but lives, for now.",
         };
-        mvaddstrc(9, 1, yellow, survivalMessage);
+        mvaddstrc(
+          9,
+          1,
+          yellow,
+          survivalTemplate,
+          params: {
+            "name": p.name,
+            if (roll == 0 && p.equippedWeapon != null)
+              "weapon": p.weapon.getName(sidearm: true),
+            if (roll == 0) ...{
+              "possessive": p.gender.hisHer,
+              "limb": p.hasWheelchair
+                  ? LcsI18n.tr("wheelchair.")
+                  : LcsI18n.tr("feet."),
+            },
+          },
+        );
         if (roll == 2) p.dropWeapon();
         printParty();
         await getKey();
@@ -1516,13 +1568,19 @@ Future<void> crashenemycar(Vehicle v) async {
 
   //CRASH CAR
   clearMessageArea();
-  String crashMessage = switch (lcsRandom(3)) {
-    0 => "The ${v.fullName()} slams into a building.",
-    1 => "The ${v.fullName()} spins out and crashes.",
-    2 => "The ${v.fullName()} hits a parked car and flips over.",
-    _ => "The ${v.fullName()} slams into a building.",
+  final crashTemplate = switch (lcsRandom(3)) {
+    0 => "The {vehicle} slams into a building.",
+    1 => "The {vehicle} spins out and crashes.",
+    2 => "The {vehicle} hits a parked car and flips over.",
+    _ => "The {vehicle} slams into a building.",
   };
-  mvaddstrc(9, 1, lightBlue, crashMessage);
+  mvaddstrc(
+    9,
+    1,
+    lightBlue,
+    crashTemplate,
+    params: {"vehicle": v.fullName()},
+  );
   if (lcsRandom(3) == 1) {
     move(10, 1);
     if (victimsum > 1) {
@@ -1632,6 +1690,7 @@ Future<void> backOffEnemyCar(Vehicle v) async {
   Creature driver = encounter.firstWhere((e) => e.carId == v.id && e.isDriver);
   clearMessageArea();
   setColor(lightBlue);
+  final vehicleName = v.fullName();
   if (driver.blood < driver.maxBlood ~/ 2) {
     chaseSequence!.enemyCarDistance[v] = 80;
     mvaddstrc(
@@ -1639,15 +1698,16 @@ Future<void> backOffEnemyCar(Vehicle v) async {
       1,
       lightBlue,
       [
-        "${v.fullName()} pulls over as ${driver.name} bleeds out.",
-        "${v.fullName()} bails on the chase as the driver bleeds.",
-        "${v.fullName()} rapidly pulls back.",
-        "${v.fullName()} retreats from the pursuit.",
-        "${v.fullName()} stops by the side of the road.",
-        "${v.fullName()} bows out as ${driver.name} gives up.",
-        "${v.fullName()} backs away completely.",
-        "${v.fullName()} struggles due to ${driver.name}'s injuries.",
+        "{vehicle} pulls over as {driver} bleeds out.",
+        "{vehicle} bails on the chase as the driver bleeds.",
+        "{vehicle} rapidly pulls back.",
+        "{vehicle} retreats from the pursuit.",
+        "{vehicle} stops by the side of the road.",
+        "{vehicle} bows out as {driver} gives up.",
+        "{vehicle} backs away completely.",
+        "{vehicle} struggles due to {driver}'s injuries.",
       ].random,
+      params: {"vehicle": vehicleName, "driver": driver.name},
     );
   } else {
     mvaddstrc(
@@ -1655,16 +1715,17 @@ Future<void> backOffEnemyCar(Vehicle v) async {
       1,
       lightBlue,
       [
-        "${v.fullName()} couldn't keep up.",
-        "${v.fullName()} gives up as ${driver.name} loses confidence.",
-        "${v.fullName()} trails behind and is lost.",
-        "${v.fullName()} vanishes far behind you.",
-        "${v.fullName()} is left behind.",
-        "${v.fullName()} can't keep up and disappears from view.",
-        "${v.fullName()} bows out as ${driver.name} gives up.",
-        "${v.fullName()} backs away completely.",
-        "${v.fullName()} struggles to maintain speed and falls away.",
+        "{vehicle} couldn't keep up.",
+        "{vehicle} gives up as {driver} loses confidence.",
+        "{vehicle} trails behind and is lost.",
+        "{vehicle} vanishes far behind you.",
+        "{vehicle} is left behind.",
+        "{vehicle} can't keep up and disappears from view.",
+        "{vehicle} bows out as {driver} gives up.",
+        "{vehicle} backs away completely.",
+        "{vehicle} struggles to maintain speed and falls away.",
       ].random,
+      params: {"vehicle": vehicleName, "driver": driver.name},
     );
   }
   await getKey();

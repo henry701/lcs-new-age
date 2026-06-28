@@ -11,6 +11,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/ammo.dart';
 import 'package:lcs_new_age/items/ammo_type.dart';
 import 'package:lcs_new_age/items/attack.dart';
@@ -244,7 +245,11 @@ class Shop extends ShopOption {
         String letter = availableOptions[p].letter!.toUpperCase();
         String desc = availableOptions[p].halfscreenDescription();
         if (availableOptions[p] is ShopItem) {
-          desc += " (\$${(availableOptions[p] as ShopItem).price(false)})";
+          desc += LcsI18n.processString(
+            " (\${price})",
+            {"price": (availableOptions[p] as ShopItem).price(false).toString()},
+            noTranslate: true,
+          );
         }
         addInlineOptionText(
           letter,
@@ -352,7 +357,8 @@ class Shop extends ShopOption {
     ShopOption? chosenOption;
     erase();
     await pagedInterface(
-      headerPrompt: "What will ${buyer.name} buy?",
+      headerPrompt: "What will {name} buy?",
+      headerPromptParams: {"name": buyer.name},
       headerKey: {4: "PRODUCT NAME", 39: "PRICE"},
       footerPrompt: "Press a Letter to select an Option",
       count: availableOptions.length,
@@ -409,7 +415,8 @@ class Shop extends ShopOption {
     }
     */
     await pagedInterface(
-      headerPrompt: "What will ${buyer.name} buy?",
+      headerPrompt: "What will {name} buy?",
+      headerPromptParams: {"name": buyer.name},
       headerKey: {4: "NAME", 20: "AMMO TYPE", 47: "DAMAGE", 59: "PRICE"},
       footerPrompt: "Press a Letter to buy a Sufficiently Liberal Weapon",
       count: availableOptions.length * 2,
@@ -499,7 +506,8 @@ class Shop extends ShopOption {
         .where((o) => o.display())
         .toList();
     await pagedInterface(
-      headerPrompt: "What will ${buyer.name} buy?",
+      headerPrompt: "What will {name} buy?",
+      headerPromptParams: {"name": buyer.name},
       headerKey: {4: "NAME", 24: "DAMAGE", 39: "BOX SIZE", 59: "BOX PRICE"},
       footerPrompt: "Press a Letter to buy Ammo",
       topY: 9,
@@ -556,7 +564,8 @@ class Shop extends ShopOption {
         .where((o) => o.display())
         .toList();
     await pagedInterface(
-      headerPrompt: "What will ${buyer.name} buy?",
+      headerPrompt: "What will {name} buy?",
+      headerPromptParams: {"name": buyer.name},
       headerKey: {4: "NAME", 24: "SPECIAL TRAITS (IF ANY)", 59: "PRICE"},
       footerPrompt: "Press a Letter to buy Clothes",
       count: availableOptions.length,
@@ -871,7 +880,8 @@ class Shop extends ShopOption {
         24,
         0,
         "Z",
-        "Z - Surprise ${buyer.name} With a Random Mask",
+        "Z - Surprise {name} With a Random Mask",
+        params: {"name": buyer.name},
       );
 
       int c = await getKey();

@@ -47,7 +47,12 @@ Future<void> setupNewGame() async {
       y,
       0,
       key,
-      "[${ticked ? "X" : " "}] $key - $text",
+      "[{tick}] {key} - {text}",
+      params: {
+        "tick": ticked ? "X" : " ",
+        "key": key,
+        "text": text,
+      },
       enabledWhen: !disabled,
     );
   }
@@ -399,12 +404,14 @@ Future<void> aNewConservativeEra() async {
   mvaddstr(
     7,
     2,
-    "President ${oldPresident.firstLast} has resigned in disgrace.  His hardcore",
+    "President {name} has resigned in disgrace.  His hardcore",
+    params: {"name": oldPresident.firstLast},
   );
   mvaddstr(
     8,
     2,
-    "Arch-Conservative Vice President, ${execName[Exec.president]!.firstLast}, a close ally of the",
+    "Arch-Conservative Vice President, {name}, a close ally of the",
+    params: {"name": execName[Exec.president]!.firstLast},
   );
   mvaddstr(
     9,
@@ -431,7 +438,8 @@ Future<void> aNewConservativeEra() async {
   move(15, 2);
   setColor(red);
   addstr(
-    "President ${execName[Exec.president]!.firstLast} has asked the new Congress to move quickly",
+    "President {name} has asked the new Congress to move quickly",
+    params: {"name": execName[Exec.president]!.firstLast},
   );
   mvaddstr(16, 2, "to rubber stamp his radical Arch-Conservative agenda. ");
   setColor(lightGray);

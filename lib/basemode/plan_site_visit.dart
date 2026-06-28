@@ -54,7 +54,8 @@ Future<void> planSiteVisit() async {
         y,
         0,
         letter,
-        "$letter - $name",
+        "{letter} - {name}",
+        params: {"letter": letter, "name": name},
         enabledWhen:
             thisSite?.isClosed != true &&
             thisSite?.siege.underSiege != true &&
@@ -116,7 +117,8 @@ Future<void> planSiteVisit() async {
         y,
         0,
         letter,
-        "$letter - Travel to a Different City",
+        "{letter} - Travel to a Different City",
+        params: {"letter": letter},
         enabledWhen: haveCar && ledger.funds >= ticketPrice,
       );
       if (!haveCar) addstrc(yellow, " (Need Car)");

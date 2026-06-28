@@ -652,8 +652,10 @@ void addDifficultyText(int y, int x, int difficulty) {
 
 Future<void> pagedInterface({
   String headerPrompt = "",
+  Map<String, dynamic>? headerPromptParams,
   Map<int, String> headerKey = const {},
   String footerPrompt = "",
+  Map<String, dynamic>? footerPromptParams,
   int pageSize = 20,
   int linesPerOption = 1,
   int topY = 0,
@@ -668,10 +670,10 @@ Future<void> pagedInterface({
   int pageCount = (count / pageSize).ceil();
   while (true) {
     eraseArea(startY: topY, startX: 0, endY: pageSize + 3 + topY, endX: 80);
-    mvaddstrc(topY, 0, white, headerPrompt);
+    mvaddstrc(topY, 0, white, headerPrompt, params: headerPromptParams);
     addHeader(headerKey, y: topY + 1);
     setColor(lightGray);
-    mvaddstrx(pageSize + 2 + topY, 0, footerPrompt);
+    mvaddstrx(pageSize + 2 + topY, 0, footerPrompt, params: footerPromptParams);
     for (int i = 0; i + page * pageSize < count && i < pageSize; i++) {
       lineBuilder(
         i + 2 + topY,

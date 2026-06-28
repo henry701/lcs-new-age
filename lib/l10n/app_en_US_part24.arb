@@ -202,5 +202,7 @@
   "{name}'s helmet": "{name}'s helmet",
   "{name}'s liver is punctured!": "{name}'s liver is punctured!",
   "{name}'s spleen is blasted!": "{name}'s spleen is blasted!",
-  "{name}, the court sees no need to add to your existing sentence.": "{name}, the court sees no need to add to your existing sentence."
+  "{name}, the court sees no need to add to your existing sentence.": "{name}, the court sees no need to add to your existing sentence.",
+  "{vehicle} is {distance} feet back.": "{vehicle} is {distance} feet back.",
+  "{vehicle} rolls up and rides your tailgate!": "{vehicle} rolls up and rides your tailgate!"
 }

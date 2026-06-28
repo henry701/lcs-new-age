@@ -197,7 +197,10 @@ Future<void> readNewsStory(NewsStory ns) async {
             noTranslate: true,
             baseColorKey: 'x',
           );
-    return "$viewName: $effectValueText";
+    return LcsI18n.processString(
+      '{viewName}: {effectValueText}',
+      {'viewName': viewName, 'effectValueText': effectValueText},
+    );
   }).toList();
   setColor(lightGray);
   int y = console.y + 1;

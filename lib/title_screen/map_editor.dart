@@ -461,7 +461,11 @@ Future<void> editMap(String mapName) async {
         mvaddstr(
           23,
           0,
-          "Tile at (${console.hoverX}, ${console.hoverY! - 1}): ",
+          "Tile at ({x}, {y}): ",
+          params: {
+            "x": console.hoverX.toString(),
+            "y": (console.hoverY! - 1).toString(),
+          },
         );
         if (tile.wall) {
           addstr("Wall");

@@ -4,7 +4,6 @@
   " crawls off whispering...": " crawls off whispering...",
   " is promptly told off.": " is promptly told off.",
   "$city - Local authorities have come under intense scrutiny after ": "$city - Local authorities have come under intense scrutiny after ",
-  "$viewName: $effectValueText": "$viewName: $effectValueText",
   "...but now the screen is off and won't turn on.": "...but now the screen is off and won't turn on.",
   "3 - Steal Equipment": "3 - Steal Equipment",
   "A truck pulls out!": "A truck pulls out!",
@@ -90,7 +89,6 @@
   "demonstrations, organizing unions, working for liberal ": "demonstrations, organizing unions, working for liberal ",
   "desperately cries out to Jesus.": "desperately cries out to Jesus.",
   "don't hit like they used to, you can always just play covers of ": "don't hit like they used to, you can always just play covers of ",
-  "elease, ": "elease, ",
   "expand the war on drugs": "expand the war on drugs",
   "fabric of our institutions, holding back true equality.": "fabric of our institutions, holding back true equality.",
   "find Conservative AM Radio distasteful": "find Conservative AM Radio distasteful",
@@ -123,7 +121,7 @@
   "{eName} turns the topic of discussion to the {siteName}.": "{eName} turns the topic of discussion to the {siteName}.",
   "{lovers} Lover": "{lovers} Lover",
   "{month} {year}": "{month} {year}",
-  "{name} $escapeMessage": "{name} $escapeMessage",
+  "{name} grips the {weapon} and struggles to {possessive} {limb}": "{name} grips the {weapon} and struggles to {possessive} {limb}",
   "{name} is due to be executed next month.": "{name} is due to be executed next month.",
   "{name} is uncooperative": "{name} is uncooperative",
   "{name} lies on a park bench, wracked by regret.": "{name} lies on a park bench, wracked by regret.",
@@ -135,5 +133,6 @@
   "{name}'s tongue is cut off!": "{name}'s tongue is cut off!",
   "{pName} has dates to manage with {dateList} over video chat.": "{pName} has dates to manage with {dateList} over video chat.",
   "{text}▂": "{text}▂",
+  "{vehicle} bails on the chase as the driver bleeds.": "{vehicle} bails on the chase as the driver bleeds.",
   "│   begins airing this week.  With the nationwide   │": "│   begins airing this week.  With the nationwide   │"
 }

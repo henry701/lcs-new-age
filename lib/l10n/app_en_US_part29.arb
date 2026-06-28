@@ -171,5 +171,6 @@
   "{name} slips the teller a note: &G{note}": "{name} slips the teller a note: &G{note}",
   "{name} works the room like in Twelve Angry Men, and the jury ": "{name} works the room like in Twelve Angry Men, and the jury ",
   "{name}'s nose is burned away!": "{name}'s nose is burned away!",
-  "{name}'s {article} about this gets more views than usual. ": "{name}'s {article} about this gets more views than usual. "
+  "{name}'s {article} about this gets more views than usual. ": "{name}'s {article} about this gets more views than usual. ",
+  "{vehicle}'S DRIVER IS DEAD!": "{vehicle}'S DRIVER IS DEAD!"
 }

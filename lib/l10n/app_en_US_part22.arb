@@ -95,6 +95,7 @@
   "You screech through an empty lot to the next street.": "You screech through an empty lot to the next street.",
   "You take a risky shortcut through an alley.": "You take a risky shortcut through an alley.",
   "[I will harm every police officer], startin' with this [one] here.": "[I will harm every police officer], startin' with this [one] here.",
+  "[{tick}] {key} - {text}": "[{tick}] {key} - {text}",
   "a collection of banned books": "a collection of banned books",
   "a documentary on privacy rights": "a documentary on privacy rights",
   "a terror attack that would have occurred on American soil.&r": "a terror attack that would have occurred on American soil.&r",

@@ -42,7 +42,8 @@ Future<void> investInLocation(Site loc) async {
           8,
           1,
           "W",
-          "W - $fortifyText (\$2000)",
+          "W - {action} (\$2000)",
+          params: {"action": fortifyText},
           enabledWhen: ledger.funds >= 2000,
         );
       }
@@ -87,7 +88,8 @@ Future<void> investInLocation(Site loc) async {
           13,
           1,
           "P",
-          "P - Install a battery and Solar Panel array on the roof (\$${solarCost ~/ 1000},000)",
+          "P - Install a battery and Solar Panel array on the roof (\${cost})",
+          params: {"cost": "\$${solarCost ~/ 1000},000"},
           enabledWhen: ledger.funds >= solarCost,
         );
         if (laws[Law.gunControl] == DeepAlignment.archConservative) {
@@ -141,7 +143,8 @@ Future<void> investInLocation(Site loc) async {
         18,
         1,
         "D",
-        "D - Stockpile 5 days of diesel for the generator (\$$dieselCost)",
+        "D - Stockpile 5 days of diesel for the generator (\${cost})",
+        params: {"cost": "\$$dieselCost"},
         enabledWhen: ledger.funds >= dieselCost,
       );
     }

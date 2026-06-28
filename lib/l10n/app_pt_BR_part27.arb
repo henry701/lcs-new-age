@@ -44,6 +44,7 @@
   "Current": "Atual",
   "Cursors - Increase or decrease ammo allocation": "Setas - Aumentar ou diminuir alocação de munição",
   "Deregulate Animal Research": "Desregular Pesquisa Animal",
+  "Despite the President's best efforts, {position} ": "Apesar dos melhores esforços do presidente, {position} ",
   "Dodge: ": "Esquiva: ",
   "Duluth, MN": "Duluth, Minnesota",
   "During sentencing, the judge grants some leniency.": "Durante a sentença, o juiz concede alguma clemência.",
@@ -82,7 +83,7 @@
   "Look and act like you belong.": "Olhe e aja como se você pertencesse.",
   "Lord": "Senhor",
   "Lowell, MA": "Lowell, Massachusetts",
-  "MWC": "MWC",
+  "MWC": "MWC (classif.)",
   "Marijuana is decriminalized in some states.": "A maconha é descriminalizada em alguns estados.",
   "Meeting with {name}, {type}, {location}": "Reunião com {name}, {type}, {location}",
   "Mesquite, TX": "Mesquite, Texas",
@@ -204,7 +205,7 @@
   "whispers incoherently.": "murmura coisas sem sentido.",
   "will learn faster.": "aprenderá mais rápido.",
   "your ability to influence public opinion in the future. Mix up your ": "sua capacidade de influenciar a opinião pública no futuro. Misture seu ",
-  "{letter} - {description}": "{letter} - {description}",
+  "{letter} - {description}": "{letter} – {description}",
   "{member} acted with {squad} instead of {activity}.": "{member} agiu com {squad} em vez de {activity}.",
   "{name} asks if there's a ransom.": "{name} pergunta se há um resgate.",
   "{name} can't keep up!": "{name} não consegue acompanhar!",
@@ -213,5 +214,7 @@
   "{name} is cornered by a gang of right-wing hardliners.": "{name} está encurralado por uma gangue de linha-dura de direita.",
   "{name} praises the Lord for this moment to converse.": "{name} louva o Senhor por este momento para conversar.",
   "{name} stares at the Conservatives.": "{name} encara os Conservadores.",
-  "{obj} to visualize {possessive} feelings ": "{obj} para visualizar {possessive} sentimentos "
+  "{obj} to visualize {possessive} feelings ": "{obj} para visualizar {possessive} sentimentos ",
+  "{vehicle} gives up as {driver} loses confidence.": "{vehicle} desiste quando {driver} perde a confiança.",
+  "{vehicle} spins out and stops.": "{vehicle} gira fora de controle e para."
 }

@@ -127,6 +127,7 @@
   "hit all 36 pressure points of death on the guard": "hit all 36 pressure points of death on the guard",
   "in the state and federal governments. Sections precisely document the ": "in the state and federal governments. Sections precisely document the ",
   "increase test scores": "increase test scores",
+  "intense pressure from the President, {position} ": "intense pressure from the President, {position} ",
   "into a fine red mist.": "into a fine red mist.",
   "is bashed in the face with a shovel!": "is bashed in the face with a shovel!",
   "leaps into a spinning kick against": "leaps into a spinning kick against",
@@ -160,6 +161,7 @@
   "way and I wasn't elected to let our communities by terrorized ": "way and I wasn't elected to let our communities by terrorized ",
   "way to make money. Money earned is based on the activist's ": "way to make money. Money earned is based on the activist's ",
   "where they dissect even the most innocuous phrases for hidden biases ": "where they dissect even the most innocuous phrases for hidden biases ",
+  "{attacker} sends {defender} into a spin!": "{attacker} sends {defender} into a spin!",
   "{key} - {skill}": "{key} - {skill}",
   "{lead} could make this more coercive and convincing.": "{lead} could make this more coercive and convincing.",
   "{letter} - &{color}{name} {ageGender}": "{letter} - &{color}{name} {ageGender}",
@@ -175,5 +177,7 @@
   "{name}'s {article} about this lays out the evidence. ": "{name}'s {article} about this lays out the evidence. ",
   "{pName} still has more to learn from {eName}.": "{pName} still has more to learn from {eName}.",
   "{president} {name}": "{president} {name}",
-  "{squad} has arrived at {site}.": "{squad} has arrived at {site}."
+  "{squad} has arrived at {site}.": "{squad} has arrived at {site}.",
+  "{vehicle} is left behind.": "{vehicle} is left behind.",
+  "{vehicle} tries to force you off the road!": "{vehicle} tries to force you off the road!"
 }

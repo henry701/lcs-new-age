@@ -3,6 +3,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/filler.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
@@ -433,15 +434,22 @@ MajorEventContent generateMajorEventContent(
         );
       case View.freeSpeech:
         String protagonist = firstName();
-        String bookTitle =
-            "$protagonist "
-            "and the ${[
-              "Mysterious", "Magical", "Golden", "Invisible", //
-              "Wondrous", "Amazing", "Secret",
-            ].random} ${[
-              "School", "Castle", "Forest", "Wizard", //
-              "Thing", "Object", "Friend",
-            ].random}";
+        final adjective = [
+          "Mysterious", "Magical", "Golden", "Invisible", //
+          "Wondrous", "Amazing", "Secret",
+        ].random;
+        final noun = [
+          "School", "Castle", "Forest", "Wizard", //
+          "Thing", "Object", "Friend",
+        ].random;
+        String bookTitle = LcsI18n.processString(
+          "{protagonist} and the {adjective} {noun}",
+          {
+            "protagonist": protagonist,
+            "adjective": adjective,
+            "noun": noun,
+          },
+        );
         FullName author = generateFullName();
         String authorName =
             "${author.first} ${author.middle.substring(0, 1)}. ${author.last}";

@@ -145,6 +145,8 @@
   "yelps in pain...": "yelps in pain...",
   "you'll get the opportunity to run a special edition at the end of ": "you'll get the opportunity to run a special edition at the end of ",
   "{carrier} can no longer handle {prisoner}.": "{carrier} can no longer handle {prisoner}.",
+  "{driver} and {vehicle} trade paint!": "{driver} and {vehicle} trade paint!",
+  "{driver} sends {vehicle} out of control!": "{driver} sends {vehicle} out of control!",
   "{eName} can sense that things just aren't working out.": "{eName} can sense that things just aren't working out.",
   "{eName}'s fist is the last thing {pName} remembers seeing!": "{eName}'s fist is the last thing {pName} remembers seeing!",
   "{hostagePossessive}, then helps {obj} to ": "{hostagePossessive}, then helps {obj} to ",
@@ -158,6 +160,7 @@
   "{name}'s relevant skills: ": "{name}'s relevant skills: ",
   "{name}'s {armor}": "{name}'s {armor}",
   "{squad} couldn't use the {vehicle}.": "{squad} couldn't use the {vehicle}.",
+  "{vehicle} tries to box you in!": "{vehicle} tries to box you in!",
   "│   intelligence and charisma, showcasing the upsides   │": "│   intelligence and charisma, showcasing the upsides   │",
   "│   of consuming nuclear waste.                         │": "│   of consuming nuclear waste.                         │"
 }

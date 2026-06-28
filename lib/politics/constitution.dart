@@ -43,11 +43,13 @@ Future<void> tryToPurgeSupremeCourt() async {
 
     amendmentHeading();
 
-    String citizenWord = tossnum != 1 ? "citizens" : "citizen";
+
     mvaddstr(
       2,
       5,
-      "The following former $citizenWord are branded Arch-Conservative:",
+      tossnum != 1
+          ? "The following former citizens are branded Arch-Conservative:"
+          : "The following former citizen are branded Arch-Conservative:",
     );
 
     int y = 4;
@@ -645,6 +647,9 @@ void amendmentHeading() {
     0,
     0,
     white,
-    "Proposed Amendment ${romanNumeral(politics.constitutionalAmendments + 1)} to the United States Constitution:",
+    "Proposed Amendment {number} to the United States Constitution:",
+    params: {
+      "number": romanNumeral(politics.constitutionalAmendments + 1),
+    },
   );
 }

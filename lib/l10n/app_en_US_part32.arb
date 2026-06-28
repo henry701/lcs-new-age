@@ -14,6 +14,7 @@
   ": SECRET SERVICE RESPONDING": ": SECRET SERVICE RESPONDING",
   "ATM": "ATM",
   "Abilene, TX": "Abilene, TX",
+  "After more discussion, {name} agrees to come by later tonight.": "After more discussion, {name} agrees to come by later tonight.",
   "American": "American",
   "Assemble the squad!": "Assemble the squad!",
   "Assign Tasks to Liberals": "Assign Tasks to Liberals",
@@ -50,6 +51,7 @@
   "Ocala, FL": "Ocala, FL",
   "Ogden, UT": "Ogden, UT",
   "Park Bench": "Park Bench",
+  "Portuguese: {state}": "Portuguese: {state}",
   "Press a letter to specify passengers for that Liberal vehicle.": "Press a letter to specify passengers for that Liberal vehicle.",
   "Press any key to reflect on what has happened.    ": "Press any key to reflect on what has happened.    ",
   "Press any key to watch the decisions unfold.": "Press any key to watch the decisions unfold.",
@@ -161,6 +163,9 @@
   "{name}'s left lung is torn!": "{name}'s left lung is torn!",
   "{name}'s lower spine is shattered!": "{name}'s lower spine is shattered!",
   "{name}'s upper spine is broken!": "{name}'s upper spine is broken!",
+  "{vehicle} couldn't keep up.": "{vehicle} couldn't keep up.",
+  "{vehicle} spins out of control!": "{vehicle} spins out of control!",
+  "{vehicle} struggles to maintain speed and falls away.": "{vehicle} struggles to maintain speed and falls away.",
   "{votes} Yea": "{votes} Yea",
   "{votes} for Change": "{votes} for Change"
 }

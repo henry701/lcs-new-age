@@ -12,6 +12,7 @@ import 'package:lcs_new_age/daily/activities/fundraising.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -563,7 +564,8 @@ Future<void> _selectClothingToMake(Creature cr) async {
   erase();
   await pagedInterface(
     headerPrompt:
-        "Which will ${cr.name} try to make?  (Note: Half Cost if you have cloth)",
+        "Which will {name} try to make?  (Note: Half Cost if you have cloth)",
+    headerPromptParams: {"name": cr.name},
     headerKey: {4: "NAME", 37: "DIFFICULTY", 60: "COST"},
     footerPrompt: "Press a Letter to select a Type of Clothing",
     pageSize: 12,
@@ -746,8 +748,9 @@ void _clothingDetailFooter(
   setColor(white);
   String enterText = "Enter - Confirm Selection";
   String escapeText = "Escape - Cancel Making Clothing";
-  String fullText = "$enterText   $escapeText";
-  int startX = centerString(fullText);
+  int startX = centerString(
+    '${LcsI18n.tr(enterText)}   ${LcsI18n.tr(escapeText)}',
+  );
   move(23, startX);
   addInlineOptionText("Enter", enterText);
   addstr("  ");
@@ -765,7 +768,8 @@ Future<void> _selectSkillForEducation(
   }
   erase();
   await pagedInterface(
-    headerPrompt: "What skill will ${cr.name} $flavor?",
+    headerPrompt: "What skill will {name} {flavor}?",
+    headerPromptParams: {"name": cr.name, "flavor": flavor},
     headerKey: {4: "SKILL", 21: "NOW", 27: "MAX", 34: "DESCRIPTION"},
     footerPrompt: "Press a Letter to select a Skill",
     count: skills.length,
@@ -1114,7 +1118,8 @@ Future<void> _activateBulk() async {
         i + 1,
         51,
         "$i",
-        "$i - ${activity.name}",
+        "{index} - {name}",
+        params: {"index": i.toString(), "name": activity.name},
         baseColorKey: selectedActivity == activity ? "W" : "w",
       );
     }
@@ -1143,7 +1148,8 @@ Future<void> _activateBulk() async {
         y,
         0,
         letter,
-        "$letter - ${tempp.name}",
+        "{letter} - {name}",
+        params: {"letter": letter, "name": tempp.name},
         enabledWhen: isEnabled,
       );
 
@@ -1223,7 +1229,8 @@ Future<void> _selectTendHostage(Creature cr) async {
   }
   erase();
   await pagedInterface(
-    headerPrompt: "Which hostage will ${cr.name} be watching over?",
+    headerPrompt: "Which hostage will {name} be watching over?",
+    headerPromptParams: {"name": cr.name},
     headerKey: {
       4: "HOSTAGE NAME",
       25: "SKILL",

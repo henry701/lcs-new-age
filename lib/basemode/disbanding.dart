@@ -55,7 +55,11 @@ void printExec() {
     1,
     0,
     exec[Exec.president]!.color,
-    "President: ${execName[Exec.president]}, ${exec[Exec.president]!.label}",
+    "President: {name}, {label}",
+    params: {
+      "name": execName[Exec.president]!.firstLast,
+      "label": exec[Exec.president]!.label,
+    },
   );
   if (politics.execTerm == 1) {
     addstr(", 1st Term");

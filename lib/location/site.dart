@@ -7,6 +7,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/money.dart';
 import 'package:lcs_new_age/location/city.dart';
@@ -406,7 +407,10 @@ void initSiteName(Site loc) {
         do {
           name = lastName();
         } while (name.length > 7);
-        loc.name = "$name St. Housing Projects";
+        loc.name = LcsI18n.processString(
+          '{name} St. Housing Projects',
+          {'name': name},
+        );
         loc.shortName = "Projects";
       } while (loc.isDuplicateLocation());
     case SiteType.geneticsLab:
@@ -428,12 +432,15 @@ void initSiteName(Site loc) {
     case SiteType.drugHouse:
       if (loc.controller == SiteController.lcs) {
         String name = loc.name.split(" ").first;
-        loc.name = "$name St. Safehouse";
+        loc.name = LcsI18n.processString(
+          '{name} St. Safehouse',
+          {'name': name},
+        );
         loc.shortName = "Safehouse";
       } else {
         do {
           String name = lastName();
-          loc.name = "$name St. ";
+          loc.name = LcsI18n.processString('{name} St. ', {'name': name});
           if (laws[Law.drugs] == DeepAlignment.eliteLiberal) {
             switch (lcsRandom(4)) {
               case 0:

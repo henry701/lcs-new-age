@@ -1146,7 +1146,8 @@ Future<void> siegeTurn() async {
 
           erase();
           setColor(lightGray);
-          String publicationName = "$newsNameA $newsNameB";
+          String publicationName =
+              '${LcsI18n.tr(newsNameA)} ${LcsI18n.tr(newsNameB)}';
           String newsBody = LcsI18n.processString(
             "Elite Journalist {journalist} from the {newsType} {publication} got into the compound somehow!",
             {

@@ -169,6 +169,8 @@
   "{pName} isn't seductive enough to maintain {adj} relationship.": "{pName} isn't seductive enough to maintain {adj} relationship.",
   "{patient} will be at {location} for {time} {period}.": "{patient} will be at {location} for {time} {period}.",
   "{support}% support the Liberal Crime Squad": "{support}% support the Liberal Crime Squad",
+  "{type} {reaction}": "{type} {reaction}",
+  "{vehicle} vanishes far behind you.": "{vehicle} vanishes far behind you.",
   "{votes} for Status Quo": "{votes} for Status Quo",
   "│     A new show glamorizing the lives of the rich  │": "│     A new show glamorizing the lives of the rich  │"
 }

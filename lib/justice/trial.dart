@@ -158,7 +158,8 @@ Future<void> trial(Creature g) async {
     y++,
     1,
     "D",
-    "D - Pay \$5000 to hire Elite Liberal Attorney ${uniqueCreatures.aceLiberalAttorney.name}",
+    "D - Pay \$5000 to hire Elite Liberal Attorney {attorney}",
+    params: {"attorney": uniqueCreatures.aceLiberalAttorney.name},
     enabledWhen: ledger.funds >= 5000,
   );
   if (sleeperlawyer != null) {
@@ -166,7 +167,8 @@ Future<void> trial(Creature g) async {
       y++,
       1,
       "E",
-      "E - Accept sleeper ${sleeperlawyer.name}'s offer to assist pro bono",
+      "E - Accept sleeper {lawyer}'s offer to assist pro bono",
+      params: {"lawyer": sleeperlawyer.name},
     );
   }
   mvaddstrc(++y, 5, lightGray, "Your relevant skills if you defend yourself: ");

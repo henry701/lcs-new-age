@@ -440,18 +440,27 @@ Future<void> languageMenu() async {
     setColor(lightGray);
     mvaddstrCenter(4, "Select your preferred language");
 
+    String languageState(String locale, String label) =>
+        gameOptions.language == locale
+            ? "&G${LcsI18n.tr("Selected")}&x"
+            : label;
+
     addOptionText(
       6,
       4,
       "E",
-      "English: ${gameOptions.language == 'en_US' ? '&GSelected&x' : 'English'}",
+      "English: {state}",
+      params: {"state": languageState('en_US', LcsI18n.tr("English"))},
       enabledWhen: true,
     );
     addOptionText(
       7,
       4,
       "P",
-      "Portuguese: ${gameOptions.language == 'pt_BR' ? '&GSelected&x' : 'Português'}",
+      "Portuguese: {state}",
+      params: {
+        "state": languageState('pt_BR', LcsI18n.tr("Português")),
+      },
       enabledWhen: true,
     );
 

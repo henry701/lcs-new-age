@@ -182,6 +182,7 @@
   "{name}'s neck bones are shattered!": "{name}'s neck bones are shattered!",
   "{name}'s nose is blown off!": "{name}'s nose is blown off!",
   "{name}'s {clothing} has been destroyed.": "{name}'s {clothing} has been destroyed.",
+  "{vehicle} bows out as {driver} gives up.": "{vehicle} bows out as {driver} gives up.",
   "│     A major Cable News channel has hired a slick  │": "│     A major Cable News channel has hired a slick  │",
   "│     A mutant affected by nuclear power appears on a   │": "│     A mutant affected by nuclear power appears on a   │"
 }

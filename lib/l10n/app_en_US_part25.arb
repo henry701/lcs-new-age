@@ -145,5 +145,6 @@
   "{name}, ": "{name}, ",
   "{name}, {title}": "{name}, {title}",
   "{newboss} will take over for ": "{newboss} will take over for ",
-  "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast."
+  "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.",
+  "{vehicle} draws dangerously close!": "{vehicle} draws dangerously close!"
 }

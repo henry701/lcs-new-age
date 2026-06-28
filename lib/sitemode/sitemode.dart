@@ -18,6 +18,7 @@ import 'package:lcs_new_age/daily/siege.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -324,6 +325,7 @@ Future<void> _siteModeAux() async {
       addstrc(
         groundLoot.isNotEmpty || currentTile.loot ? lightGray : darkGray,
         "et, ",
+        noTranslate: true,
       );
       addstrc(blue, "M");
       addstrc(lightGray, "ap, ");
@@ -391,11 +393,11 @@ Future<void> _siteModeAux() async {
       if (!activeSiteUnderSiege) {
         if (freeable > 0 && (!enemy || !siteAlarm)) {
           addstrc(blue, "R");
-          addstrc(lightGray, "escue, ");
+          addstrc(lightGray, "escue, ", noTranslate: true);
         } else {
           if (hostages > 0) {
             addstrc(blue, "R");
-            addstrc(lightGray, "elease, ");
+            addstrc(lightGray, "elease, ", noTranslate: true);
           } else {
             addstrc(darkGray, "Release, ");
           }
@@ -731,7 +733,8 @@ Future<void> _siteModeAux() async {
                           9,
                           1,
                           white,
-                          "${encounter[tk].name} won't talk to you.",
+                          "{name} won't talk to you.",
+                          params: {"name": encounter[tk].name},
                         );
 
                         await getKey();
@@ -1730,11 +1733,41 @@ Future<void> _siteModeAux() async {
                   printEncounter();
                   if (currentTile.megaBloody) {
                     await encounterMessage(
-                      "${conservative.type.name} ${["looks around wildly, shocked by the gore.", "is looking around with great fear.", "is searching for the source of the blood.", "gasps in horror at the carnage.", "is looking around near the bloody mess.", "is trying to figure out who did this.", "is inspecting the crime scene.", "looks very on edge about the bloody mess."].random}",
+                      "{type} {reaction}",
+                      params: {
+                        "type": conservative.type.name,
+                        "reaction": LcsI18n.tr(
+                          [
+                            "looks around wildly, shocked by the gore.",
+                            "is looking around with great fear.",
+                            "is searching for the source of the blood.",
+                            "gasps in horror at the carnage.",
+                            "is looking around near the bloody mess.",
+                            "is trying to figure out who did this.",
+                            "is inspecting the crime scene.",
+                            "looks very on edge about the bloody mess.",
+                          ].random,
+                        ),
+                      },
                     );
                   } else {
                     await encounterMessage(
-                      "${conservative.type.name} ${["looks at the blood nervously.", "glances at the blood anxiously.", "seems agitated by the blood.", "is investigating the blood.", "glances around nervously.", "seems more on guard than usual.", "is looking around for threats.", "looks confused and upset."].random}",
+                      "{type} {reaction}",
+                      params: {
+                        "type": conservative.type.name,
+                        "reaction": LcsI18n.tr(
+                          [
+                            "looks at the blood nervously.",
+                            "glances at the blood anxiously.",
+                            "seems agitated by the blood.",
+                            "is investigating the blood.",
+                            "glances around nervously.",
+                            "seems more on guard than usual.",
+                            "is looking around for threats.",
+                            "looks confused and upset.",
+                          ].random,
+                        ),
+                      },
                     );
                   }
                 }
@@ -1858,7 +1891,8 @@ Future<void> _resolveSite() async {
           mvaddstr(
             8,
             1,
-            "Sleeper ${p.name} has been outed by your bold attack!",
+            "Sleeper {name} has been outed by your bold attack!",
+            params: {"name": p.name},
           );
 
           mvaddstr(

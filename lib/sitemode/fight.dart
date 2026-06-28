@@ -171,32 +171,33 @@ Future<void> squadMemberAttacks(
   }
 }
 
+// Action phrases (no leading space or possessive fragment). Used via {name} {action} or inserted.
 const List<String> escapeCrawling = [
-  " crawls off moaning...",
-  " crawls off whimpering...",
-  " crawls off trailing blood...",
-  " crawls off screaming...",
-  " crawls off crying...",
-  " crawls off sobbing...",
-  " crawls off whispering...",
-  " crawls off praying...",
-  " crawls off cursing...",
+  "crawls off moaning...",
+  "crawls off whimpering...",
+  "crawls off trailing blood...",
+  "crawls off screaming...",
+  "crawls off crying...",
+  "crawls off sobbing...",
+  "crawls off whispering...",
+  "crawls off praying...",
+  "crawls off cursing...",
 ];
 const List<String> escapeRunning = [
-  " makes a break for it!",
-  " escapes crying!",
-  " runs away!",
-  " gets out of there!",
-  " runs hollering!",
-  " bolts out of there!",
-  " runs away screaming!",
+  "makes a break for it!",
+  "escapes crying!",
+  "runs away!",
+  "gets out of there!",
+  "runs hollering!",
+  "bolts out of there!",
+  "runs away screaming!",
 ];
 const List<String> cowerInCombat = [
-  " cowers in fear.",
-  " cowers in the corner.",
-  " stays in cover.",
-  " looks around in panic.",
-  " stays low to the ground.",
+  "cowers in fear.",
+  "cowers in the corner.",
+  "stays in cover.",
+  "looks around in panic.",
+  "stays low to the ground.",
 ];
 
 Future<void> enemyattack(List<Creature> possibleEnemies) async {
@@ -226,15 +227,15 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
       if (runsAway && e.body is HumanoidBody) {
         clearMessageArea();
 
-        final escapeMessage = (e.body.legok < 2 || e.blood < e.maxBlood * 0.45)
-            ? LcsI18n.tr(escapeCrawling.random)
-            : LcsI18n.tr(escapeRunning.random);
+        final escapeAction = (e.body.legok < 2 || e.blood < e.maxBlood * 0.45)
+            ? escapeCrawling.random
+            : escapeRunning.random;
         mvaddstrc(
           9,
           1,
           white,
-          "{name}{escape}",
-          params: {"name": e.name, "escape": escapeMessage},
+          "{name} {escape}",
+          params: {"name": e.name, "escape": LcsI18n.tr(escapeAction)},
         );
 
         encounter.remove(e);
@@ -256,7 +257,7 @@ Future<void> enemyattack(List<Creature> possibleEnemies) async {
             9,
             1,
             white,
-            "{name}{cower}",
+            "{name} {cower}",
             params: {"name": e.name, "cower": LcsI18n.tr(cowerInCombat.random)},
           );
           await getKey();

@@ -687,6 +687,15 @@ bool _isUserFacing(
   // CRITICAL: Skip strings with $variable interpolation (not templated yet)
   if (str.contains('\$')) return false;
 
+  // Fix for apostrophe/multiline fragment bug: reject obvious name+flavor suffix/prefix
+  // fragments (e.g. "'s lifeless body...", " slams into...", leading whitespace starters).
+  // These must only appear inside complete {name}... or {vehicle}... templates.
+  // This prevents resyncs from reintroducing corrupt fragment keys into the catalogs.
+  final t = str.trimLeft();
+  if (t.startsWith("'") || t.startsWith(" ")) {
+    return false;
+  }
+
   // Include if it contains letters and has some meaningful content
   final hasLetters = RegExp(r'[a-zA-Z]').hasMatch(str);
   final hasContent = str.length >= 3;

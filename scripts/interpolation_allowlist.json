@@ -107,6 +107,24 @@
       "context": "addstrx",
       "text": "$openBracket$sleeperOpen$nameWithColor$sleeperClose$closeBracket",
       "reason": "Color-control bracket markup around translated name placeholder"
+    },
+    {
+      "file": "sitemode/site_display.dart",
+      "context": "mvaddstrc",
+      "text": "\\u250C${",
+      "reason": "Box-drawing layout glyph composition (variant capture)"
+    },
+    {
+      "file": "sitemode/site_display.dart",
+      "context": "mvaddstr",
+      "text": "\\u2514${",
+      "reason": "Box-drawing layout glyph composition (variant capture)"
+    },
+    {
+      "file": "basemode/activate_sleepers.dart",
+      "context": "mvaddstrc",
+      "text": "Unexpected sleeper activity type: ${cr.activity.type.name}",
+      "reason": "Debug-only internal enum name (non-translatable)"
     }
   ]
 }

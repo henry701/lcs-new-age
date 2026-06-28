@@ -302,9 +302,9 @@ void initSiteName(Site loc) {
     case SiteType.pawnShop:
       String name = lastName();
       if (laws[Law.gunControl] == DeepAlignment.eliteLiberal) {
-        loc.name = "$name's Pawnshop";
+        loc.name = LcsI18n.processString("{name}'s Pawnshop", {"name": name});
       } else {
-        loc.name = "$name Pawn & Gun";
+        loc.name = LcsI18n.processString("{name} Pawn & Gun", {"name": name});
       }
       loc.shortName = "Pawnshop";
     case SiteType.ceoHouse:
@@ -421,10 +421,10 @@ void initSiteName(Site loc) {
       loc.shortName = "Cosmetics";
     case SiteType.carDealership:
       String name = firstName(Gender.whiteMalePatriarch);
-      loc.name = "$name's Used Cars";
+      loc.name = LcsI18n.processString("{name}'s Used Cars", {"name": name});
       loc.shortName = "Car Dealer";
     case SiteType.departmentStore:
-      loc.name = "${lastName()}'s Department Store";
+      loc.name = LcsI18n.processString("{name}'s Department Store", {"name": lastName()});
       loc.shortName = "Dept. Store";
     case SiteType.sweatshop:
       loc.name = "${lastName()} Garment Makers";

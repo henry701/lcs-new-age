@@ -1,7 +1,6 @@
 {
   "  The military has already started training for the mission, ": "  The military has already started training for the mission, ",
   " BIAS ": " BIAS ",
-  " crawls off whispering...": " crawls off whispering...",
   " is promptly told off.": " is promptly told off.",
   "$city - Local authorities have come under intense scrutiny after ": "$city - Local authorities have come under intense scrutiny after ",
   "...but now the screen is off and won't turn on.": "...but now the screen is off and won't turn on.",
@@ -121,6 +120,8 @@
   "{eName} turns the topic of discussion to the {siteName}.": "{eName} turns the topic of discussion to the {siteName}.",
   "{lovers} Lover": "{lovers} Lover",
   "{month} {year}": "{month} {year}",
+  "{name} crawls off cursing...": "{name} crawls off cursing...",
+  "{name} crawls off moaning...": "{name} crawls off moaning...",
   "{name} grips the {weapon} and struggles to {possessive} {limb}": "{name} grips the {weapon} and struggles to {possessive} {limb}",
   "{name} is due to be executed next month.": "{name} is due to be executed next month.",
   "{name} is uncooperative": "{name} is uncooperative",

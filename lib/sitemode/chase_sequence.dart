@@ -1409,24 +1409,17 @@ Future<bool> dodgedrive({
 
 Future<void> crashfriendlycar(Vehicle v) async {
   sitestory?.drama.add(Drama.carCrash);
-  const List<String> crashesFlavorText = [
-    " slams into a building!",
-    " skids out and crashes!",
-    " hits another car and flips over!",
-  ];
-  const List<String> diesFlavorText = [
-    " is crushed inside the car.",
-    "'s lifeless body smashes through the windshield.",
-    " is thrown from the car and killed instantly.",
-  ];
 
   chaseSequence!.crash();
 
-  //CRASH CAR
+  //CRASH CAR - use full templates (no name+fragment composition)
   clearMessageArea();
-  mvaddstrc(9, 1, purple, "Your ");
-  addstr(v.fullName());
-  addstr(crashesFlavorText.random);
+  final crashTemplates = [
+    "Your {vehicle} slams into a building!",
+    "Your {vehicle} skids out and crashes!",
+    "Your {vehicle} hits another car and flips over!",
+  ];
+  mvaddstrc(9, 1, purple, crashTemplates.random, params: {"vehicle": v.fullName()});
   printParty();
 
   await getKey();
@@ -1456,20 +1449,22 @@ Future<void> crashfriendlycar(Vehicle v) async {
         }
       }
 
-      // Kill off hostages
+      // Kill off hostages - use full {name}-centric templates
       if (p.prisoner != null) {
         // Instant death
         if (p.prisoner!.alive) {
           clearMessageArea();
+          final hostageDeathTemplates = [
+            "{name} is crushed inside the car.",
+            "{name}'s lifeless body smashes through the windshield.",
+            "{name} is thrown from the car and killed instantly.",
+          ];
           mvaddstrc(
             9,
             1,
             red,
-            "{name}{flavor}",
-            params: {
-              "name": p.prisoner!.name,
-              "flavor": LcsI18n.tr(diesFlavorText.random),
-            },
+            hostageDeathTemplates.random,
+            params: {"name": p.prisoner!.name},
           );
           printParty();
           await getKey();

@@ -150,6 +150,7 @@
   "{lifeTerms} consecutive life terms in prison": "{lifeTerms} consecutive life terms in prison",
   "{medic} was able to slow the bleeding of {patient}'s wounds.": "{medic} was able to slow the bleeding of {patient}'s wounds.",
   "{name} couldn't {action}!": "{name} couldn't {action}!",
+  "{name} crawls off sobbing...": "{name} crawls off sobbing...",
   "{name} fiddles with the lock with no luck.": "{name} fiddles with the lock with no luck.",
   "{name} has no students and will stop {activity}.": "{name} has no students and will stop {activity}.",
   "{name} is left to be captured.": "{name} is left to be captured.",

@@ -162,6 +162,8 @@
   "{name} found a {car}.": "{name} found a {car}.",
   "{name} ignores {lead}.": "{name} ignores {lead}.",
   "{name} laughs nervously.": "{name} laughs nervously.",
+  "{name} looks around in panic.": "{name} looks around in panic.",
+  "{name} runs hollering!": "{name} runs hollering!",
   "{name} smashes in the door!": "{name} smashes in the door!",
   "{name} struggles and yells for help, but nobody comes.": "{name} struggles and yells for help, but nobody comes.",
   "{name} suggests {lead} should see a therapist to deal ": "{name} suggests {lead} should see a therapist to deal ",

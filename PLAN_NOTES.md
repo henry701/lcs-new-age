@@ -142,3 +142,32 @@ User requested: "Commit and push the current changes, and update the docs with y
 - Non-blocking items remain documented (apostrophe bug in extractor, 103 extra keys, legacy $var in newspaper, fragment quality debt for follow-up goal).
 
 All per PLAN.md (untouched) and repo conventions. Worktree clean after push except untracked PLAN.md (deliberate).
+
+## Fragment Templatization + Extractor Bugfix Pass (2026-06-28, current goal loop)
+
+Continued on `feature/localization` (existing PR).
+
+### Changes
+- chase_sequence.dart: replaced crashesFlavorText/diesFlavorText lists + concat usages with full "{vehicle}..." and "{name}..." templates. Old fragment literals removed.
+- fight.dart: escape/cower lists changed to action phrases (no leading space or 's). Usages updated to "{name} {action}" form with tr on action (good keys).
+- talk_in_combat.dart: updated references to use the cleaned action lists (compile fix).
+- site.dart: "$name's Pawnshop", "$name's Used Cars", "${lastName()}'s Department Store" etc converted to LcsI18n.processString("{name}'s ...", {name}).
+- find_translatable_strings.dart: added guard in _isUserFacing to reject keys starting with ' or space (prevents apostrophe/multiline fragment corruption on resync). 
+- Catalogs: ran find_translatable_strings (added ~35 full template keys), merged 27+ pt_BR translations for them via dedicated arb + merge_arb_entries, pruned dead bare fragments + corrupt partial keys (from prior extractor bug in newspaper etc). Re-ran --fix for canonical layout.
+- allowlist: added the sleeper debug + box variants to keep interp --check clean (the 1 was "Unexpected sleeper activity type...").
+
+### Validation (all performed, output captured in session)
+1. dart run scripts/find_translatable_strings.dart  (5415 unique; no bare fragments like "'s lifeless" or " crawls off" or " slams" in live extraction)
+2. dart run scripts/maintain_arb_catalogs.dart --check  (OK canonical after fix)
+3. dart run scripts/translation_status.dart --json  (5675/5675 source, 0 untrans/missing/empty, 100.0%, extra 94 after prune)
+4. dart run scripts/interpolation_status.dart --all --check --allowlist=...  (0 unclass after allowlist update; EXIT 0)
+5. flutter test test/i18n_static... test/pt_br... test/i18n_test.dart test/console_wrapper_test.dart  (passed)
+6. flutter test  (full 187+/187+ passed; smoke exercises pt_BR processString on all incl new templates)
+7. Targeted render: smoke + manual verification via pt_BR init + processString on vehicle/hostage/escape templates (full sentences, no concat breakage, correct placeholders).
+
+Dead fragments confirmed non-live (no longer in source lists referenced by random or tr in user-facing paths). Pruned after confirmation. No change to PLAN.md. Appended here only.
+
+Extractor fix + guard + removal of leading-' / space fragments addresses the resync corruption noted in prior PLAN_NOTES.
+
+Ready for commit/push on same branch (per user policy + objective).
+

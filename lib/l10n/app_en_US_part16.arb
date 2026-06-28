@@ -1,7 +1,6 @@
 {
   "  The Liberal Crime Squad hijacked a news broadcast, ": "  The Liberal Crime Squad hijacked a news broadcast, ",
   " acts natural.": " acts natural.",
-  " cowers in the corner.": " cowers in the corner.",
   " gets chased out by an angry mob.": " gets chased out by an angry mob.",
   " is rescued by a passing Elite Liberal.": " is rescued by a passing Elite Liberal.",
   " punches the {ism} out of {name}": " punches the {ism} out of {name}",
@@ -111,6 +110,7 @@
   "You fight like a dairy farmer!": "You fight like a dairy farmer!",
   "You weren't there when the country was on the verge of collapse.": "You weren't there when the country was on the verge of collapse.",
   "Youngstown, OH": "Youngstown, OH",
+  "Your {vehicle} hits another car and flips over!": "Your {vehicle} hits another car and flips over!",
   "[laid down in a bed with a woman]": "[laid down in a bed with a woman]",
   "a collection of studies on the health effects of marijuana": "a collection of studies on the health effects of marijuana",
   "a desire to continue their conversations and offering ": "a desire to continue their conversations and offering ",
@@ -173,6 +173,7 @@
   "{key} - {car}": "{key} - {car}",
   "{message}!": "{message}!",
   "{name} can't figure the lock out.": "{name} can't figure the lock out.",
+  "{name} crawls off crying...": "{name} crawls off crying...",
   "{name} explains the importance of capitalism.": "{name} explains the importance of capitalism.",
   "{name} looks at the walls.": "{name} looks at the walls.",
   "{name} looks forward serving the Liberal cause!": "{name} looks forward serving the Liberal cause!",

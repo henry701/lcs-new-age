@@ -1,7 +1,6 @@
 {
   "  The Liberal Crime Squad hijacked a news broadcast, ": "  O Liberal Crime Squad sequestrou uma transmissão de notícias, ",
   " acts natural.": " age naturalmente.",
-  " cowers in the corner.": " se encolhe num canto.",
   " gets chased out by an angry mob.": " é expulso por uma multidão furiosa.",
   " is rescued by a passing Elite Liberal.": " é resgatado por um Elite Liberal que passava.",
   " punches the {ism} out of {name}": " espanca o {ism} fora de {name}",
@@ -124,6 +123,7 @@
   "You fight like a dairy farmer!": "Você luta como um fazendeiro de laticínios!",
   "You weren't there when the country was on the verge of collapse.": "Você não estava lá quando o país estava à beira do colapso.",
   "Youngstown, OH": "Youngstown, Ohio",
+  "Your {vehicle} hits another car and flips over!": "O seu {vehicle} colide com outro carro e capota!",
   "[laid down in a bed with a woman]": "[deitado em uma cama com uma mulher]",
   "a collection of studies on the health effects of marijuana": "uma coleção de estudos sobre os efeitos da maconha na saúde",
   "a desire to continue their conversations and offering ": "um desejo de continuar suas conversas e oferecer ",
@@ -186,6 +186,7 @@
   "{key} - {car}": "{key} – {car}",
   "{message}!": "¡{message}!",
   "{name} can't figure the lock out.": "{name} não consegue entender a fechadura.",
+  "{name} crawls off crying...": "{name} rasteja chorando...",
   "{name} explains the importance of capitalism.": "{name} explica a importância do capitalismo.",
   "{name} looks at the walls.": "{name} olha para as paredes.",
   "{name} looks forward serving the Liberal cause!": "{name} está ansioso para servir a causa Liberal!",

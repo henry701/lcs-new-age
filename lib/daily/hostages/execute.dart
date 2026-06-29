@@ -68,13 +68,15 @@ Future<int> handleExecution(
     }
   } else {
     setColor(brown);
-    mvaddstr(y++, 0, "There is no one able to get up the nerve to ");
-    mvaddstr(
-      y++,
+    addparagraph(
+      y,
       0,
-      "execute {name} in cold blood.",
+      "There is no one able to get up the nerve to execute {name} in cold blood.",
+      y2: y + 1,
+      x2: 79,
       params: {"name": cr.name},
     );
+    y += 2;
 
     await getKey();
   }

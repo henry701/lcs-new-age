@@ -309,3 +309,41 @@ The targeted evidence has no orphan English possessive, no doubled spaces in tho
   - `dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` → PASS.
   - Focused i18n/flutter command → PASS, +75.
   - `flutter test` → PASS, +194.
+
+
+---
+
+### 2026-06-28 continuation pass: scoped fragment sweep after e093d07
+
+Current branch: `feature/localization`, clean at start of pass. The active goal remains open; this pass made progress but does **not** prove all interpolated/generated user-facing strings are fixed.
+
+Changes made:
+- Converted `lib/daily/dating.dart` split possessive schedule breakup text from `{pName}'s ` + adjective + suffix into one full template with `{eName}`, `{pName}`, and translated `{scheduleComplexity}`.
+- Converted dating conversion title prefixes (`The Liberal Rebirth of ` / `The Radicalization of ` + name) to full `{name}` templates.
+- Converted `lib/sitemode/fight.dart` attack announcement assembly from `attacker` + action + target + optional weapon fragments into full `{attacker} {action} {target}` templates. Dynamic action phrases are translated before insertion.
+- Converted `lib/daily/hostages/tend_hostage.dart` rapport sidebar split lines into full templates rendered through `addparagraph`.
+- Converted `lib/daily/hostages/execute.dart` execution hesitation split line into one full `{name}` template.
+- Converted `lib/talk/talk_outside_combat.dart` bank teller note/reaction fragments into full reaction sentence templates. Robbery-note text is translated before insertion.
+- Converted `lib/sitemode/miscactions.dart` hacking failure fragments into full `{name}`/`{target}` templates.
+- Converted `lib/sitemode/haul_kidnap.dart` hostage education title and inline hostage-freeing fragment to full templates.
+- Converted `lib/title_screen/high_scores.dart` ending + month/year composition to one full date template per ending.
+- Added static regression tests for combat attack templates, bank teller reactions, and high-score ending templates.
+- Updated `TRANSLATION_WORKFLOW.md` with the generated-prose/newspaper rule: translate complete story text before layout; do not trust post-layout line chunks to match ARB keys.
+
+Catalog/translation work:
+- Ran `dart run scripts/find_translatable_strings.dart`; it added 30 source keys after this pass.
+- Added pt_BR translations for the new full templates introduced here. Final status remains `sourceKeys=6853`, `targetKeys=6937`, `missingInTarget=0`, `emptyInTarget=0`, `untranslatedAgainstSource=1022`, `coveragePercent≈85.09%`. The remaining untranslated count is existing broader catalog/live-string debt, not introduced by this pass.
+
+Validation evidence from this pass:
+- `dart analyze lib/talk/talk_outside_combat.dart lib/sitemode/miscactions.dart lib/sitemode/haul_kidnap.dart lib/daily/dating.dart lib/title_screen/high_scores.dart` → PASS.
+- `dart run scripts/find_translatable_strings.dart` → PASS, 6447 live strings, +30 added before translation.
+- `dart run scripts/maintain_arb_catalogs.dart --check` → PASS.
+- `dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` → PASS, 0 unclassified interpolation hits.
+- `dart run scripts/translation_status.dart --json` → PASS, numbers above.
+- `flutter test test/i18n_static_coverage_test.dart test/pt_br_runtime_catalog_smoke_test.dart test/i18n_test.dart test/console_wrapper_test.dart` → PASS, +75.
+- `flutter test` → PASS, +194.
+
+Remaining known debt after this pass:
+- `lib/newspaper/display_news.dart`, `lib/newspaper/major_event.dart`, and `lib/newspaper/squad_story_text.dart` still contain substantial generated story interpolation/fragment composition. They need a larger builder-style pass so each story sentence/paragraph is translated as a complete template before `displayNewsStory()` lays it out.
+- Many dialogue paths still print speaker prefixes (`"{name} says, "`, `"{name} responds, "`) separately from quote text. This may be acceptable as UI convention, but it is not proven for all locales and should be audited/allowlisted or converted.
+- Broad pt_BR coverage is not complete: `translation_status.dart --json` reports 1022 same-as-source values. Runtime smoke currently tolerates this, so green tests are not proof of full Portuguese coverage.

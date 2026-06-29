@@ -715,44 +715,45 @@ void showInterrogationSidebar(InterrogationSession intr, Creature a) {
   //mvaddstr(++y, 40, "Rapport: ${rapport[a.id]?.toStringAsFixed(1) ?? 0}");
   move(y += 2, 40);
 
+  void addRapportText(String template, Map<String, dynamic> params) {
+    addparagraph(y, 40, template, y2: y + 1, x2: 79, params: params);
+    y += 2;
+  }
+
   if ((rapport[a.id] ?? 0) > 7) {
-    addstr("{name} chats warmly with", params: {"name": cr.name});
-    mvaddstr(
-      ++y,
-      40,
-      "{pronoun} friend {friend}.",
-      params: {"pronoun": cr.gender.hisHer, "friend": a.name},
-    );
+    addRapportText("{name} chats warmly with {pronoun} friend {friend}.", {
+      "name": cr.name,
+      "pronoun": cr.gender.hisHer,
+      "friend": a.name,
+    });
   } else if ((rapport[a.id] ?? 0) > 5) {
-    addstr("{name} looks forward to", params: {"name": cr.name});
-    mvaddstr(++y, 40, "these little chats.");
+    addRapportText("{name} looks forward to these little chats.", {
+      "name": cr.name,
+    });
   } else if ((rapport[a.id] ?? 0) > 3) {
-    addstr("{name} has mutual respect", params: {"name": cr.name});
-    mvaddstr(++y, 40, "for {friend}.", params: {"friend": a.name});
+    addRapportText("{name} has mutual respect for {friend}.", {
+      "name": cr.name,
+      "friend": a.name,
+    });
   } else if ((rapport[a.id] ?? 0) > 1) {
-    addstr(
-      "{name} lets {pronoun}",
-      params: {"name": cr.name, "pronoun": cr.gender.hisHer},
-    );
-    mvaddstr(++y, 40, "guard down a little.");
+    addRapportText("{name} lets {pronoun} guard down a little.", {
+      "name": cr.name,
+      "pronoun": cr.gender.hisHer,
+    });
   } else if ((rapport[a.id] ?? 0) > -1) {
-    addstr("{name} is uncooperative", params: {"name": cr.name});
-    mvaddstr(++y, 40, "toward {friend}.", params: {"friend": a.name});
+    addRapportText("{name} is uncooperative toward {friend}.", {
+      "name": cr.name,
+      "friend": a.name,
+    });
   } else if ((rapport[a.id] ?? 0) > -4) {
-    addstr("{name} is losing", params: {"name": a.name});
-    mvaddstr(
-      ++y,
-      40,
-      "patience with {prisoner}.",
-      params: {"prisoner": cr.name},
-    );
+    addRapportText("{name} is losing patience with {prisoner}.", {
+      "name": a.name,
+      "prisoner": cr.name,
+    });
   } else {
-    addstr("{name} is out of fucks", params: {"name": a.name});
-    mvaddstr(
-      ++y,
-      40,
-      "to give about {prisoner}.",
-      params: {"prisoner": cr.name},
-    );
+    addRapportText("{name} is out of fucks to give about {prisoner}.", {
+      "name": a.name,
+      "prisoner": cr.name,
+    });
   }
 }

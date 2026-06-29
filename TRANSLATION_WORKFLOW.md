@@ -100,6 +100,24 @@ Before marking any i18n goal "done for runtime", convert these to full templates
 
 See also the completion PLAN.md (do not edit) for gate expectations around fragments.
 
+
+## Generated Prose and Newspaper Stories
+
+Generated prose must be translated before layout. Do not rely on `displayNewsStory()` or console wrapping to translate arbitrary line-broken chunks after text has been concatenated; the wrapped lines will not match stable ARB keys.
+
+Use one of these patterns:
+
+```dart
+story += LcsI18n.processString(
+  "{city} - {subject} did {action}.",
+  {"city": city, "subject": subject, "action": LcsI18n.tr(action)},
+);
+```
+
+Or build the final sentence as a complete wrapper template at the point of display. Avoid appending translated fragments such as `"according "`, `"to police."`, or `"{name}'s "` across separate calls.
+
+Known high-risk areas: `lib/newspaper/display_news.dart`, `lib/newspaper/major_event.dart`, `lib/newspaper/squad_story_text.dart`, and dialogue code that prints `"{name} says, "` before a separate quote.
+
 ## Interpolation Audit
 
 Run this before large translation batches to identify remaining interpolated literals:

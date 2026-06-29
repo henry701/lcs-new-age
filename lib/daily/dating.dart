@@ -868,13 +868,10 @@ Future<DateResult> dateResult(
       erase();
 
       setColor(white);
-      move(0, 0);
-      if (e.align != Alignment.liberal) {
-        addstr("The Liberal Rebirth of ");
-      } else {
-        addstr("The Radicalization of ");
-      }
-      addstr(e.properName);
+      final titleTemplate = e.align != Alignment.liberal
+          ? "The Liberal Rebirth of {name}"
+          : "The Radicalization of {name}";
+      mvaddstr(0, 0, titleTemplate, params: {"name": e.properName});
 
       move(2, 0);
       setColor(lightGray);
@@ -1073,29 +1070,28 @@ Future<DateResult> dateResult(
         move(y++, 0);
       } else if (existingRelationships > 0 && lcsRandom(2) > 0) {
         setColor(purple);
+        final scheduleComplexity = switch (existingRelationships) {
+          5 => "awe-inspiring",
+          4 => "mind-bending",
+          3 => "intricate",
+          2 => "complicated",
+          1 => "busy",
+          _ => "unbelievably complicated",
+        };
         move(y++, 0);
-        addstr(
-          "The date starts well, but {eName} has no patience for ",
-          params: {"eName": e.name},
+        addparagraph(
+          y - 1,
+          0,
+          "The date starts well, but {eName} has no patience for {pName}'s {scheduleComplexity} schedule and prior relationships.",
+          y2: y,
+          x2: 79,
+          params: {
+            "eName": e.name,
+            "pName": p.name,
+            "scheduleComplexity": LcsI18n.tr(scheduleComplexity),
+          },
         );
-        move(y++, 0);
-        addstr("{pName}'s ", params: {"pName": p.name});
-        switch (existingRelationships) {
-          case 5:
-            addstr("awe-inspiring ");
-          case 4:
-            addstr("mind-bending ");
-          case 3:
-            addstr("intricate ");
-          case 2:
-            addstr("complicated ");
-          case 1:
-            addstr("busy ");
-          default:
-            addstr("unbelievably complicated ");
-        }
-        addstr("schedule and prior relationships.");
-
+        y += 2;
         move(y++, 0);
         addstr("This relationship is over.");
       } else {

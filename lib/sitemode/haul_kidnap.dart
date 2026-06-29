@@ -314,14 +314,12 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
 
   if (prisoner.alive) {
     if (situation == FreeHostageMessage.continueLine) {
-      if (prisoner.hireId == null) {
-        addstr(" and a hostage is freed");
-      } else {
-        final captureStatus = prisoner.justEscaped
-            ? "and {name} is recaptured"
-            : "and {name} is captured";
-        addstr(captureStatus, params: {"name": prisoner.name});
-      }
+      final captureStatus = prisoner.hireId == null
+          ? "and a hostage is freed"
+          : prisoner.justEscaped
+          ? "and {name} is recaptured"
+          : "and {name} is captured";
+      addstr(captureStatus, params: {"name": prisoner.name});
     } else if (situation == FreeHostageMessage.newLine) {
       clearMessageArea();
       setColor(white);
@@ -470,9 +468,7 @@ Future<void> kidnaptransfer(Creature cr, {Creature? kidnapper}) async {
   erase();
 
   setColor(white);
-  move(0, 0);
-  addstr("The Education of ");
-  addstr(cr.properName);
+  mvaddstr(0, 0, "The Education of {name}", params: {"name": cr.properName});
 
   move(2, 0);
   setColor(lightGray);

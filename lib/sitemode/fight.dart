@@ -445,80 +445,79 @@ Future<bool> attack(
   int maxNumberOfAttacks = attackUsed.numberOfAttacks;
   double damageMultiplier = 1;
 
-  mvaddstr(9, 1, "{name} ", params: {"name": a.name});
-  if (mistake) addstr("MISTAKENLY ");
+  String action = LcsI18n.tr(attackUsed.attackDescription.random);
   if (a.weapon.type.idName == "WEAPON_NONE") {
     int result = a.skillRoll(Skill.martialArts);
     if (a.body is HumanoidBody) {
       if (result < Difficulty.easy) {
-        addstr("flails at");
+        action = LcsI18n.tr("flails at");
         maxNumberOfAttacks = 1;
         damageMultiplier = 0.5;
       } else if (result < Difficulty.average) {
-        addstr("punches");
+        action = LcsI18n.tr("punches");
         maxNumberOfAttacks = 1;
         damageMultiplier = 1;
       } else if (result < Difficulty.hard) {
-        addstr("kicks");
+        action = LcsI18n.tr("kicks");
         maxNumberOfAttacks = 1;
         damageMultiplier = 1;
       } else if (result < Difficulty.mythic) {
         switch (lcsRandom(3)) {
           case 0:
-            addstr("pummels");
+            action = LcsI18n.tr("pummels");
             maxNumberOfAttacks = 6;
             damageMultiplier = 1;
           case 1:
-            addstr("combos");
+            action = LcsI18n.tr("combos");
             maxNumberOfAttacks = 4;
             damageMultiplier = 2;
           case 2:
-            addstr("jump kicks");
+            action = LcsI18n.tr("jump kicks");
             maxNumberOfAttacks = 1;
             damageMultiplier = 5;
         }
       } else {
         switch (lcsRandom(9)) {
           case 0:
-            addstr(
+            action = LcsI18n.processString(
               "unleashes {gender_his_her} Stand on",
-              params: {"gender_his_her": LcsI18n.tr(a.gender.hisHer)},
+              {"gender_his_her": LcsI18n.tr(a.gender.hisHer)},
             );
             maxNumberOfAttacks = 12;
             damageMultiplier = 1.5;
           case 1:
-            addstr("launches a flurry of kicks at");
+            action = LcsI18n.tr("launches a flurry of kicks at");
             maxNumberOfAttacks = 8;
             damageMultiplier = 2;
           case 2:
-            addstr("slows time and touches");
+            action = LcsI18n.tr("slows time and touches");
             addNastyOff = true;
             maxNumberOfAttacks = 1;
             damageMultiplier = 12;
           case 3:
-            addstr("leaps into the air and descends upon");
+            action = LcsI18n.tr("leaps into the air and descends upon");
             maxNumberOfAttacks = 3;
             damageMultiplier = 5;
           case 4:
-            addstr("suddenly appears behind");
+            action = LcsI18n.tr("suddenly appears behind");
             maxNumberOfAttacks = 4;
             damageMultiplier = 4;
           case 5:
-            addstr("hurls a ball of energy at");
+            action = LcsI18n.tr("hurls a ball of energy at");
             addNastyOff = true;
             maxNumberOfAttacks = 1;
             damageMultiplier = 12;
           case 6:
-            addstr("throws a stunning palm strike at");
+            action = LcsI18n.tr("throws a stunning palm strike at");
             addStun = true;
             maxNumberOfAttacks = 1;
             damageMultiplier = 0.5;
           case 7:
-            addstr("leaps into a spinning kick against");
+            action = LcsI18n.tr("leaps into a spinning kick against");
             maxNumberOfAttacks = 2;
             damageMultiplier = 6;
           case 8:
-            addstr("delivers the Bleeding Heart punch to");
+            action = LcsI18n.tr("delivers the Bleeding Heart punch to");
             addAutoConvert = true;
             torsoOnly = true;
             maxNumberOfAttacks = 1;
@@ -526,11 +525,11 @@ Future<bool> attack(
         }
       }
     } else if (a.weapon.typeName == "WEAPON_BITE") {
-      addstr("lunges with fangs out at");
+      action = LcsI18n.tr("lunges with fangs out at");
       maxNumberOfAttacks = 1;
       damageMultiplier = 1;
     } else {
-      addstr("attacks");
+      action = LcsI18n.tr("attacks");
       maxNumberOfAttacks = 1;
       damageMultiplier = 1;
     }
@@ -538,7 +537,7 @@ Future<bool> attack(
     if (attackUsed.canBackstab && a.align == Alignment.liberal && !mistake) {
       if (!t.noticedParty && !siteAlarm) {
         sneakAttack = true;
-        addstr("sneaks up on");
+        action = LcsI18n.tr("sneaks up on");
         if (siteAlarmTimer > 10 || siteAlarmTimer < 0) siteAlarmTimer = 10;
         t.noticedParty = true;
         t.isWillingToTalk = false;
@@ -546,20 +545,25 @@ Future<bool> attack(
     }
 
     if (!sneakAttack) {
-      addstr(attackUsed.attackDescription.random);
       siteAlarm = true;
     }
   }
 
-  addstr(" {name}", params: {"name": t.name});
-
-  if (a.equippedWeapon != null && !attackUsed.thrown) {
-    addstr(
-      " with a {weapon}",
-      params: {"weapon": a.weapon.getName(primary: true)},
-    );
-  }
-  addstr("!");
+  final attackParams = {
+    "attacker": a.name,
+    "action": action,
+    "target": t.name,
+    if (a.equippedWeapon != null && !attackUsed.thrown)
+      "weapon": a.weapon.getName(primary: true),
+  };
+  final attackTemplate = a.equippedWeapon != null && !attackUsed.thrown
+      ? (mistake
+            ? "{attacker} MISTAKENLY {action} {target} with a {weapon}!"
+            : "{attacker} {action} {target} with a {weapon}!")
+      : (mistake
+            ? "{attacker} MISTAKENLY {action} {target}!"
+            : "{attacker} {action} {target}!");
+  mvaddstr(9, 1, attackTemplate, params: attackParams);
 
   await getKey();
 

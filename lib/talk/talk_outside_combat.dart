@@ -118,14 +118,13 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
   final recruitOverview = StringBuffer();
   final pronounCap = _translateCapitalizedPronoun(a.gender.heSheCap);
   if (a.subordinatesLeft <= 0) {
-    final subordinateTemplate =
-        a.maxSubordinates > 0
-            ? a.scheduledMeetings > 0
-                ? "{name:midGray} cannot manage any more subordinates, but still has {meetingCount:white} {meetingLabel:midGray} scheduled."
-                : "{name:midGray} cannot manage any more subordinates."
-            : a.scheduledMeetings > 0
-            ? "{name:midGray} cannot manage any subordinates, but still has {meetingCount:white} {meetingLabel:midGray} scheduled."
-            : "{name:midGray} cannot manage any subordinates.";
+    final subordinateTemplate = a.maxSubordinates > 0
+        ? a.scheduledMeetings > 0
+              ? "{name:midGray} cannot manage any more subordinates, but still has {meetingCount:white} {meetingLabel:midGray} scheduled."
+              : "{name:midGray} cannot manage any more subordinates."
+        : a.scheduledMeetings > 0
+        ? "{name:midGray} cannot manage any subordinates, but still has {meetingCount:white} {meetingLabel:midGray} scheduled."
+        : "{name:midGray} cannot manage any subordinates.";
     recruitOverview.write(
       LcsI18n.processString(subordinateTemplate, {
         "name": a.name,
@@ -138,10 +137,9 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
       }),
     );
   } else {
-    final subordinateTemplate =
-        a.scheduledMeetings > 0
-            ? "{name:lightGray} can manage {subordinateCount:white} more {subordinateLabel:lightGray}, and has {meetingCount:white} {meetingLabel:lightGray} scheduled."
-            : "{name:lightGray} can manage {subordinateCount:white} more {subordinateLabel:lightGray}.";
+    final subordinateTemplate = a.scheduledMeetings > 0
+        ? "{name:lightGray} can manage {subordinateCount:white} more {subordinateLabel:lightGray}, and has {meetingCount:white} {meetingLabel:lightGray} scheduled."
+        : "{name:lightGray} can manage {subordinateCount:white} more {subordinateLabel:lightGray}.";
     recruitOverview.write(
       LcsI18n.processString(subordinateTemplate, {
         "name": a.name,
@@ -163,14 +161,13 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
   recruitOverview.write(" ");
 
   if (a.relationshipsLeft <= 0) {
-    final relationshipTemplate =
-        a.maxRelationships > 0
-            ? a.scheduldeDates > 0
-                ? "{pronounCap:midGray} cannot maintain any more relationships, but still has {dateCount:white} {dateLabel:midGray} lined up."
-                : "{pronounCap:midGray} cannot maintain any more relationships."
-            : a.scheduldeDates > 0
-            ? "{pronounCap:midGray} cannot maintain any relationships, but still has {dateCount:white} {dateLabel:midGray} lined up."
-            : "{pronounCap:midGray} cannot maintain any relationships.";
+    final relationshipTemplate = a.maxRelationships > 0
+        ? a.scheduldeDates > 0
+              ? "{pronounCap:midGray} cannot maintain any more relationships, but still has {dateCount:white} {dateLabel:midGray} lined up."
+              : "{pronounCap:midGray} cannot maintain any more relationships."
+        : a.scheduldeDates > 0
+        ? "{pronounCap:midGray} cannot maintain any relationships, but still has {dateCount:white} {dateLabel:midGray} lined up."
+        : "{pronounCap:midGray} cannot maintain any relationships.";
     recruitOverview.write(
       LcsI18n.processString(relationshipTemplate, {
         "pronounCap": pronounCap,
@@ -183,10 +180,9 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
       }),
     );
   } else {
-    final relationshipTemplate =
-        a.scheduldeDates > 0
-            ? "{pronounCap:lightGray} can maintain {relationshipCount:white} more {relationshipLabel:lightGray}, and has {dateCount:white} {dateLabel:lightGray} lined up."
-            : "{pronounCap:lightGray} can maintain {relationshipCount:white} more {relationshipLabel:lightGray}.";
+    final relationshipTemplate = a.scheduldeDates > 0
+        ? "{pronounCap:lightGray} can maintain {relationshipCount:white} more {relationshipLabel:lightGray}, and has {dateCount:white} {dateLabel:lightGray} lined up."
+        : "{pronounCap:lightGray} can maintain {relationshipCount:white} more {relationshipLabel:lightGray}.";
     recruitOverview.write(
       LcsI18n.processString(relationshipTemplate, {
         "pronounCap": pronounCap,
@@ -685,29 +681,25 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
         1,
         white,
         "{name} slips the teller a note: &G{note}",
-        params: {"name": a.name, "note": robberyNote},
+        params: {"name": a.name, "note": LcsI18n.tr(robberyNote)},
       );
 
       await getKey();
 
       if (activeSite!.hasHighSecurity) {
-        mvaddstrc(11, 1, white, "The bank teller reads the note, ");
-        switch (lcsRandom(5)) {
-          case 0:
-            addstr("gestures, ");
-          case 1:
-            addstr("signals, ");
-          case 2:
-            addstr("shouts, ");
-          case 3:
-            addstr("screams, ");
-          case 4:
-            addstr("gives a warning, ");
-        }
-        mvaddstr(
-          12,
+        final reaction = [
+          "gestures",
+          "signals",
+          "shouts",
+          "screams",
+          "gives a warning",
+        ].random;
+        mvaddstrc(
+          11,
           1,
-          "and dives for cover as the guards move in on the squad!",
+          white,
+          "The bank teller reads the note, {reaction}, and dives for cover as the guards move in on the squad!",
+          params: {"reaction": LcsI18n.tr(reaction)},
         );
 
         await getKey();
@@ -721,23 +713,19 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
         encounter.add(Creature.fromId(CreatureTypeIds.merc));
         encounter.add(Creature.fromId(CreatureTypeIds.merc));
       } else {
-        mvaddstrc(11, 1, white, "The bank teller reads the note, ");
-        switch (lcsRandom(5)) {
-          case 0:
-            addstr("nods calmly, ");
-          case 1:
-            addstr("looks startled, ");
-          case 2:
-            addstr("inhales sharply, ");
-          case 3:
-            addstr("sets the paper aside, ");
-          case 4:
-            addstr("looks up, ");
-        }
-        mvaddstr(
-          12,
+        final reaction = [
+          "nods calmly",
+          "looks startled",
+          "inhales sharply",
+          "sets the paper aside",
+          "looks up",
+        ].random;
+        mvaddstrc(
+          11,
           1,
-          "and slips several bricks of cash into the squad's bag.",
+          white,
+          "The bank teller reads the note, {reaction}, and slips several bricks of cash into the squad's bag.",
+          params: {"reaction": LcsI18n.tr(reaction)},
         );
 
         await getKey();

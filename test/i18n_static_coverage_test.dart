@@ -111,6 +111,43 @@ void main() {
       expect(source, isNot(contains('{prefix}')));
     });
 
+    test('combat attack announcements are single full templates', () {
+      final source = File('lib/sitemode/fight.dart').readAsStringSync();
+      expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));
+      expect(source, isNot(contains('addstr(" with a {weapon}"')));
+      expect(source, contains('{attacker} {action} {target}!'));
+      expect(source, contains('{attacker} {action} {target} with a {weapon}!'));
+    });
+
+    test('bank teller reactions are full sentence templates', () {
+      final source = File(
+        'lib/talk/talk_outside_combat.dart',
+      ).readAsStringSync();
+      expect(source, isNot(contains('addstr("gestures, "')));
+      expect(source, isNot(contains('addstr("nods calmly, "')));
+      expect(
+        source,
+        contains(
+          'The bank teller reads the note, {reaction}, and dives for cover',
+        ),
+      );
+      expect(
+        source,
+        contains(
+          'The bank teller reads the note, {reaction}, and slips several bricks',
+        ),
+      );
+    });
+
+    test('high score endings include the date in each full template', () {
+      final source = File(
+        'lib/title_screen/high_scores.dart',
+      ).readAsStringSync();
+      expect(source, isNot(contains('liberalized the country in "')));
+      expect(source, contains('liberalized the country in {month} {year}.'));
+      expect(source, contains('was defeated in {month} {year}.'));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

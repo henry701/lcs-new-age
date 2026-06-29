@@ -328,9 +328,14 @@ Future<UnlockResult> hack(HackTypes type) async {
       return UnlockResult.unlocked;
     } else {
       clearMessageArea();
-      mvaddstrc(9, 1, white, "{name}", params: {"name": hacker.name});
       if (hacker.skill(Skill.computers) < 2) {
-        addstr(" presses buttons randomly...");
+        mvaddstrc(
+          9,
+          1,
+          white,
+          "{name} presses buttons randomly...",
+          params: {"name": hacker.name},
+        );
         await getKey();
         mvaddstr(
           10,
@@ -349,14 +354,20 @@ Future<UnlockResult> hack(HackTypes type) async {
           ].random,
         );
       } else {
-        addstr(" couldn't");
-        if (blind) addstr(" see how to");
-        switch (type) {
-          case HackTypes.supercomputer:
-            addstr(" bypass the supercomputer security.");
-          case HackTypes.vault:
-            addstr(" bypass the vault's electronic lock.");
-        }
+        final target = switch (type) {
+          HackTypes.supercomputer => "the supercomputer security",
+          HackTypes.vault => "the vault's electronic lock",
+        };
+        final failureTemplate = blind
+            ? "{name} couldn't see how to bypass {target}."
+            : "{name} couldn't bypass {target}.";
+        mvaddstrc(
+          9,
+          1,
+          white,
+          failureTemplate,
+          params: {"name": hacker.name, "target": LcsI18n.tr(target)},
+        );
       }
 
       await getKey();

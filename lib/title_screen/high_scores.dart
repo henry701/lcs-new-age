@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/saveload/save_load.dart';
 import 'package:lcs_new_age/title_screen/game_over.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -174,41 +175,39 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
       setColor(lightGray);
     }
     move(y + 1, 0);
-    switch (s.endType) {
-      case Ending.victory:
-        addstr("The Liberal Crime Squad liberalized the country in ");
-      case Ending.policeSiege:
-        addstr("The Liberal Crime Squad was brought to justice in ");
-      case Ending.ciaSiege:
-        addstr("The Liberal Crime Squad was blotted out in ");
-      case Ending.hicksSiege:
-        addstr("The Liberal Crime Squad was mobbed in ");
-      case Ending.corporateSiege:
-        addstr("The Liberal Crime Squad was downsized in ");
-      case Ending.dead:
-        addstr("The Liberal Crime Squad was KIA in ");
-      case Ending.reaganified:
-        addstr("The country was Reaganified in ");
-      case Ending.prison:
-        addstr("The Liberal Crime Squad died in prison in ");
-      case Ending.executed:
-        addstr("The Liberal Crime Squad was executed in ");
-      case Ending.dating:
-        addstr("The Liberal Crime Squad was on vacation in ");
-      case Ending.hiding:
-        addstr("The Liberal Crime Squad was in permanent hiding in ");
-      case Ending.disbandLoss:
-        addstr("The Liberal Crime Squad was hunted down in ");
-      case Ending.dispersed:
-        addstr("The Liberal Crime Squad was scattered in ");
-      case Ending.ccsSiege:
-        addstr("The Liberal Crime Squad was out-Crime Squadded in ");
-      case Ending.unspecified:
-        addstr("The Liberal Crime Squad was defeated in ");
-    }
+    final endingTemplate = switch (s.endType) {
+      Ending.victory =>
+        "The Liberal Crime Squad liberalized the country in {month} {year}.",
+      Ending.policeSiege =>
+        "The Liberal Crime Squad was brought to justice in {month} {year}.",
+      Ending.ciaSiege =>
+        "The Liberal Crime Squad was blotted out in {month} {year}.",
+      Ending.hicksSiege =>
+        "The Liberal Crime Squad was mobbed in {month} {year}.",
+      Ending.corporateSiege =>
+        "The Liberal Crime Squad was downsized in {month} {year}.",
+      Ending.dead => "The Liberal Crime Squad was KIA in {month} {year}.",
+      Ending.reaganified => "The country was Reaganified in {month} {year}.",
+      Ending.prison =>
+        "The Liberal Crime Squad died in prison in {month} {year}.",
+      Ending.executed =>
+        "The Liberal Crime Squad was executed in {month} {year}.",
+      Ending.dating =>
+        "The Liberal Crime Squad was on vacation in {month} {year}.",
+      Ending.hiding =>
+        "The Liberal Crime Squad was in permanent hiding in {month} {year}.",
+      Ending.disbandLoss =>
+        "The Liberal Crime Squad was hunted down in {month} {year}.",
+      Ending.dispersed =>
+        "The Liberal Crime Squad was scattered in {month} {year}.",
+      Ending.ccsSiege =>
+        "The Liberal Crime Squad was out-Crime Squadded in {month} {year}.",
+      Ending.unspecified =>
+        "The Liberal Crime Squad was defeated in {month} {year}.",
+    };
     addstr(
-      "{month} {year}.",
-      params: {"month": getMonth(s.month), "year": s.year},
+      endingTemplate,
+      params: {"month": LcsI18n.tr(getMonth(s.month)), "year": s.year},
     );
     mvaddstr(
       y + 2,

@@ -763,25 +763,19 @@ Future<void> displayStory(NewsStory ns, View? header) async {
         "  According to sources, {name}'s last known location was the {location}.  Police were seen searching the surrounding area yesterday.",
         {"name": ns.cr!.properName, "location": ns.cr!.workLocation.name},
       );
-      story = city;
-      story +=
-          " - The disappearance of ${ns.cr!.properName} is now "
-          "considered a kidnapping, "
-          "according to a police spokesperson."
-          "&r"
-          "  ${generateFullName(Gender.maleBias).firstLast}, "
-          "speaking on behalf of the police department, stated "
-          "\"We now believe that ${ns.cr!.properName} was taken "
-          "${ns.cr!.daysSinceJoined - 1} days ago, by a person or "
-          "persons as yet undetermined.  "
-          "We have several leads and are confident that we will "
-          "bring ${ns.cr!.properName} back home and bring the "
-          "kidnappers to justice.  "
-          "As the investigation is ongoing, I cannot be more specific at this time.  "
-          "To the citizens, please contact the department if you have any "
-          "additional information.\""
-          "&r"
-          "$lastKnownLocationText&r";
+      final kidnappingLead = LcsI18n.processString(
+        "{city} - The disappearance of {name} is now considered a kidnapping, according to a police spokesperson.",
+        {"city": city, "name": ns.cr!.properName},
+      );
+      final kidnappingStatement = LcsI18n.processString(
+        '  {spokesperson}, speaking on behalf of the police department, stated "We now believe that {name} was taken {days} days ago, by a person or persons as yet undetermined.  We have several leads and are confident that we will bring {name} back home and bring the kidnappers to justice.  As the investigation is ongoing, I cannot be more specific at this time.  To the citizens, please contact the department if you have any additional information."',
+        {
+          "spokesperson": generateFullName(Gender.maleBias).firstLast,
+          "name": ns.cr!.properName,
+          "days": ns.cr!.daysSinceJoined - 1,
+        },
+      );
+      story = "$kidnappingLead&r$kidnappingStatement&r$lastKnownLocationText&r";
 
       story += generateFiller(200);
       displayNewsStory(story, storyXStart, storyXEnd, y, ns);

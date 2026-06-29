@@ -347,3 +347,45 @@ Remaining known debt after this pass:
 - `lib/newspaper/display_news.dart`, `lib/newspaper/major_event.dart`, and `lib/newspaper/squad_story_text.dart` still contain substantial generated story interpolation/fragment composition. They need a larger builder-style pass so each story sentence/paragraph is translated as a complete template before `displayNewsStory()` lays it out.
 - Many dialogue paths still print speaker prefixes (`"{name} says, "`, `"{name} responds, "`) separately from quote text. This may be acceptable as UI convention, but it is not proven for all locales and should be audited/allowlisted or converted.
 - Broad pt_BR coverage is not complete: `translation_status.dart --json` reports 1022 same-as-source values. Runtime smoke currently tolerates this, so green tests are not proof of full Portuguese coverage.
+
+---
+
+### 2026-06-28 continuation pass: generated-story audit and kidnap article template
+
+Committed and pushed the previous verified fragment pass as `a9ab790` on `feature/localization` before starting new edits.
+
+New audit findings:
+- Newspaper remains the largest i18n risk. `lib/newspaper/display_news.dart`, `lib/newspaper/major_event.dart`, and `lib/newspaper/squad_story_text.dart` still assemble article text from English fragments and raw interpolation before `displayNewsStory()` lays out wrapped chunks. Those chunks are not stable ARB keys.
+- `lib/newspaper/major_event.dart` needs article-by-article migration. It contains many raw `$...` generated prose paragraphs with names, counts, titles, and phrase fragments.
+- Talk files still have many speaker-prefix fragments (`{name} says, `, `{name} responds, `, `{name}: `). These need a policy: convert full quote lines where practical, or explicitly document/allowlist speaker labels as UI chrome only after confirming they are not grammatical sentence fragments.
+- Smaller remaining scoped targets from the audit: shop row fragments (`{letter} - `, price/count suffixes), daily siege casualty lists (`KILLED:` / `INJURED:` plus `{name}, `), and several siege outcome story paragraphs.
+
+Change made in this pass:
+- Converted the `NewsStories.kidnapReport` article body in `lib/newspaper/display_news.dart` from raw `${ns.cr...}` interpolation and `story +=` article composition to paragraph-level `LcsI18n.processString` templates. This is intentionally paragraph-level, not one giant article key, so the current extractor sees and syncs the runtime keys.
+- Added a static regression test that rejects the old raw `${ns.cr!.properName}` kidnap-story pattern and checks for the new `{city}`, `{name}`, `{spokesperson}`, and `{days}` template placeholders.
+- Synced catalogs and translated the two new pt_BR kidnap article paragraph keys.
+
+Current validation for this pass is pending below; goal remains open because the audit found substantial remaining generated-story and dialogue-prefix debt.
+
+---
+
+### 2026-06-28 continuation pass: kidnap newspaper story template
+
+Changes made:
+- Converted the kidnapping branch in `lib/newspaper/display_news.dart` from story text assembled with raw `${ns.cr!.properName}` / `${days}` interpolation into two complete `LcsI18n.processString` templates rendered before `displayNewsStory()` line wrapping.
+- Added en_US/pt_BR catalog entries for the complete kidnapping lead and police statement templates.
+- Added static regression coverage proving the kidnap branch no longer contains the old raw interpolated disappearance text and now contains `{city}`, `{name}`, `{spokesperson}`, and `{days}` placeholders.
+- Added targeted pt_BR runtime smoke evidence for the kidnapping lead/statement so this generated newspaper text is proven translated before layout.
+
+Validation evidence after final edits:
+1. `dart run scripts/find_translatable_strings.dart` → PASS, 6440 live strings, +0 added on final run.
+2. `dart run scripts/maintain_arb_catalogs.dart --check` → PASS, en_US and pt_BR canonical.
+3. `dart run scripts/translation_status.dart --json` → PASS command; sourceKeys=6855, targetKeys=6939, missingInTarget=0, emptyInTarget=0, untranslatedAgainstSource=1022, coveragePercent≈85.09%. Remaining untranslated count is existing broader catalog debt, not introduced by this pass.
+4. `dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` → PASS, 0 unclassified interpolation hits.
+5. `flutter test test/i18n_static_coverage_test.dart test/pt_br_runtime_catalog_smoke_test.dart test/i18n_test.dart test/console_wrapper_test.dart` → PASS.
+6. `flutter test` → PASS, +199 all tests passed.
+7. Targeted pt_BR render evidence from runtime smoke:
+   - Kidnap lead → `Curitiba - O desaparecimento de João agora é considerado um sequestro, segundo uma porta-voz da polícia.`
+   - Kidnap statement → `Roberta Silva, falando em nome do departamento de polícia... João foi levado há 12 dias... traremos João de volta para casa...`
+
+Known debt remains unchanged: larger newspaper generated prose (`major_event.dart`, `squad_story_text.dart`, other `display_news.dart` branches) still needs a bigger builder-style pass; broad pt_BR coverage remains below the earlier strict completion gate because extractor improvements surfaced legacy untranslated/dead-ish keys.

@@ -148,6 +148,17 @@ void main() {
       expect(source, contains('was defeated in {month} {year}.'));
     });
 
+    test('kidnap news story uses a full article template', () {
+      final source = File('lib/newspaper/display_news.dart').readAsStringSync();
+      expect(
+        source,
+        isNot(contains('The disappearance of \${ns.cr!.properName}')),
+      );
+      expect(source, contains('{city} - The disappearance of {name}'));
+      expect(source, contains('{spokesperson}, speaking on behalf'));
+      expect(source, contains('{days} days ago'));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

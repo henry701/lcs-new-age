@@ -125,6 +125,30 @@ void main() {
         }
       },
     );
+
+    test('kidnap news story templates render before layout in pt_BR', () {
+      final lead = LcsI18n.processString(
+        '{city} - The disappearance of {name} is now considered a kidnapping, according to a police spokesperson.',
+        {'city': 'Curitiba', 'name': 'João'},
+      );
+      final statement = LcsI18n.processString(
+        '  {spokesperson}, speaking on behalf of the police department, stated "We now believe that {name} was taken {days} days ago, by a person or persons as yet undetermined.  We have several leads and are confident that we will bring {name} back home and bring the kidnappers to justice.  As the investigation is ongoing, I cannot be more specific at this time.  To the citizens, please contact the department if you have any additional information."',
+        {'spokesperson': 'Roberta Silva', 'name': 'João', 'days': '12'},
+      );
+
+      // ignore: avoid_print
+      print('RENDER_EVIDENCE: kidnap lead => $lead');
+      // ignore: avoid_print
+      print('RENDER_EVIDENCE: kidnap statement => $statement');
+
+      expect(lead, contains('O desaparecimento de João'));
+      expect(lead, contains('sequestro'));
+      expect(lead, contains('segundo uma porta-voz da polícia'));
+      expect(statement, contains('Roberta Silva, falando em nome'));
+      expect(statement, contains('João foi levado há 12 dias'));
+      expect(statement, contains('traremos João de volta para casa'));
+      expect(_hasUnreplacedPlaceholders('$lead$statement'), isFalse);
+    });
   });
 }
 

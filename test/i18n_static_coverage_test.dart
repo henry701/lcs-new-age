@@ -148,6 +148,47 @@ void main() {
       expect(source, contains('was defeated in {month} {year}.'));
     });
 
+    test('shop sale totals are full currency templates', () {
+      final source = File('lib/sitemode/shop.dart').readAsStringSync();
+      expect(source, isNot(contains(r'{prefix} \${amount} {suffix}')));
+      expect(source, isNot(contains(r'{label}: \${ret}')));
+      expect(source, contains('You add {amount} to Liberal Funds.'));
+      expect(source, contains('Estimated Liberal Amount: {amount}'));
+    });
+
+    test('pickup-line generated responses use complete templates', () {
+      final source = File(
+        'lib/talk/drop_a_pickup_line.dart',
+      ).readAsStringSync();
+      expect(source, isNot(contains("\"Actually I'm \$aSuccubus")));
+      expect(source, isNot(contains(r'I like ${a.gender == Gender.female')));
+      expect(source, isNot(contains('my \$gay era')));
+      expect(source, isNot(contains('trans \$guyGirl')));
+      expect(source, isNot(contains('return "\$first \$second \$third"')));
+      expect(source, contains("Actually I'm {demon} from hell"));
+      expect(source, contains('I like {people}.'));
+      expect(source, contains('{first} {second} {third}'));
+      expect(source, contains('{name} responds'));
+      expect(source, contains('{name} looks away'));
+    });
+
+    test('siege generated prose uses complete translated templates', () {
+      final dailySiege = File('lib/daily/siege.dart').readAsStringSync();
+      final locationSiege = File('lib/location/siege.dart').readAsStringSync();
+      expect(locationSiege, isNot(contains(r'$namePart, aka')));
+      expect(locationSiege, contains('{properName}, aka {name}'));
+      expect(
+        dailySiege,
+        isNot(contains(r"'${LcsI18n.tr(newsNameA)} ${LcsI18n.tr(newsNameB)}'")),
+      );
+      expect(
+        dailySiege,
+        isNot(contains(r'&G${pool[best].name.toUpperCase()}')),
+      );
+      expect(dailySiege, contains('{firstWord} {secondWord}'));
+      expect(dailySiege, contains('&G{name} (singing):'));
+    });
+
     test('kidnap news story uses a full article template', () {
       final source = File('lib/newspaper/display_news.dart').readAsStringSync();
       expect(

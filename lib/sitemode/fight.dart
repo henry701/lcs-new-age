@@ -828,57 +828,52 @@ Future<bool> attack(
       targetDescParams,
     );
 
-    // Build the action and multiple hits description
-    String actionTemplate;
-    Map<String, dynamic> actionParams = {};
-    String multiHitDesc = "";
-    bool actionIncludesAttacker = false;
+    final describeHit = attackUsed.alwaysDescribeHit || bursthits > 1;
+    final attackMessageParams = <String, dynamic>{
+      "attacker": a.name,
+      "target": targetDesc,
+      if (describeHit) "description": LcsI18n.tr(attackUsed.hitDescription),
+      if (bursthits > 1) "times": bursthits,
+    };
+
+    String attackMessageTemplate;
     if (addAutoConvert) {
-      actionTemplate = " punches the {ism} out of {name}";
-      actionParams = {
-        "ism": switch (t.align) {
-          Alignment.liberal => LcsI18n.tr("Liberalism"),
-          Alignment.moderate => LcsI18n.tr("moderation"),
-          Alignment.conservative => LcsI18n.tr("Conservatism"),
-        },
-        "name": t.name,
+      attackMessageParams["ism"] = switch (t.align) {
+        Alignment.liberal => LcsI18n.tr("Liberalism"),
+        Alignment.moderate => LcsI18n.tr("moderation"),
+        Alignment.conservative => LcsI18n.tr("Conservatism"),
       };
-    } else if (sneakAttack) {
-      actionTemplate = " stabs {target}";
-      actionParams = {"target": targetDesc};
-    } else if (bursthits == 1 || attackUsed.ranged) {
-      actionTemplate = " hits {target}";
-      actionParams = {"target": targetDesc};
-    } else {
-      actionTemplate = " hits {target}";
-      actionParams = {"target": targetDesc};
-    }
-
-    // show multiple hits
-    if (attackUsed.alwaysDescribeHit || bursthits > 1) {
-      String multiHit = bursthits == 1
-          ? ""
-          : LcsI18n.processString(" {times} times", {"times": bursthits});
-      if (bursthits > 1 && !attackUsed.ranged && !addAutoConvert) {
-        actionTemplate = "{attacker} strikes true on {target}";
-        actionParams = {"attacker": a.name, "target": targetDesc};
-        actionIncludesAttacker = true;
+      if (bursthits > 1) {
+        attackMessageTemplate =
+            "{attacker} punches the {ism} out of {target}, {description} {times} times!";
+      } else if (describeHit) {
+        attackMessageTemplate =
+            "{attacker} punches the {ism} out of {target}, {description}!";
+      } else {
+        attackMessageTemplate = "{attacker} punches the {ism} out of {target}!";
       }
-      multiHitDesc = LcsI18n.processString(", {description}{hit}", {
-        "description": attackUsed.hitDescription,
-        "hit": multiHit,
-      });
+    } else if (bursthits > 1 && !attackUsed.ranged) {
+      attackMessageTemplate =
+          "{attacker} strikes true on {target}, {description} {times} times.";
+    } else if (sneakAttack) {
+      if (bursthits > 1) {
+        attackMessageTemplate =
+            "{attacker} stabs {target}, {description} {times} times.";
+      } else if (describeHit) {
+        attackMessageTemplate = "{attacker} stabs {target}, {description}.";
+      } else {
+        attackMessageTemplate = "{attacker} stabs {target}.";
+      }
+    } else if (bursthits > 1) {
+      attackMessageTemplate =
+          "{attacker} hits {target}, {description} {times} times.";
+    } else if (describeHit) {
+      attackMessageTemplate = "{attacker} hits {target}, {description}.";
+    } else {
+      attackMessageTemplate = "{attacker} hits {target}.";
     }
 
-    final action = LcsI18n.processString(actionTemplate, actionParams);
-    final fullMessage = actionIncludesAttacker
-        ? '$action$multiHitDesc'
-        : '${a.name}$action$multiHitDesc';
-    if (addAutoConvert) {
-      addstr("{message}!", params: {"message": fullMessage});
-    } else {
-      addstr("{message}.", params: {"message": fullMessage});
-    }
+    addstr(attackMessageTemplate, params: attackMessageParams);
     await getKey();
 
     bool aliveBefore = t.alive;

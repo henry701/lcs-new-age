@@ -648,7 +648,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
             _ => "a succubus",
           };
           addstr(
-            "\"Actually I'm $aSuccubus from hell, and you're my next victim.\"",
+            "\"Actually I'm {demon} from hell, and you're my next victim.\"",
+            params: {"demon": LcsI18n.tr(aSuccubus)},
           );
         case 46:
           addstr(
@@ -688,17 +689,11 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
 
     encounter.remove(tk);
   } else {
-    String responds = "responds";
     if (a.indecent) {
-      responds = "looks away";
+      mvaddstrc(y++, 1, white, "{name} looks away", params: {"name": tk.name});
+    } else {
+      mvaddstrc(y++, 1, white, "{name} responds", params: {"name": tk.name});
     }
-    mvaddstrc(
-      y++,
-      1,
-      white,
-      "{name} {response}",
-      params: {"name": tk.name, "response": responds},
-    );
     setColor(red);
     move(y++, 1);
     if (tk.type.id == CreatureTypeIds.corporateCEO) {
@@ -736,7 +731,7 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
     } else if (lgbtPenalty > 0 &&
         tk.align == Alignment.conservative &&
         oneIn(2)) {
-      String response = "Somethin's kinda buggin' me.";
+      String response = LcsI18n.tr("Somethin's kinda buggin' me.");
       if (sameSex) {
         String gay;
         String aLesbian;
@@ -761,21 +756,40 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
         }
 
         response = [
-          "With you? How progressive.",
-          "Did somebody tell you I'm gay? 'Cause I'm not.",
-          "I'm not interested.",
-          "I like ${a.gender == Gender.female ? "guys" : "girls"}.",
-          "I don't swing that way.",
-          "Wait, with another ${a.gender.manWoman}? I... I could, but... no.",
-          "Damn it, I told ${firstName()}, my $gay era was only a phase!",
+          LcsI18n.tr("With you? How progressive."),
+          LcsI18n.tr("Did somebody tell you I'm gay? 'Cause I'm not."),
+          LcsI18n.tr("I'm not interested."),
+          LcsI18n.processString("I like {people}.", {
+            "people": LcsI18n.tr(a.gender == Gender.female ? "guys" : "girls"),
+          }),
+          LcsI18n.tr("I don't swing that way."),
+          LcsI18n.processString(
+            "Wait, with another {person}? I... I could, but... no.",
+            {"person": LcsI18n.tr(a.gender.manWoman)},
+          ),
+          LcsI18n.processString(
+            "Damn it, I told {name}, my {era} era was only a phase!",
+            {"name": firstName(), "era": LcsI18n.tr(gay)},
+          ),
           "Jesus...",
-          "Lord save me from these $gayPeople sayin' weird things.",
-          "Y'all $gayPeople need Jesus.",
-          "Jesus, not again! It's gotta be my $cologne, $gays are all over me!",
-          "I'm not gay.",
-          "I'm only bi when I'm drunk, and I'm not drunk.",
-          "Heh, that's funny. And gay.",
-          "No no no no, I'm not $aLesbian, I'm not $aLesbian, I swear!",
+          LcsI18n.processString(
+            "Lord save me from these {people} sayin' weird things.",
+            {"people": LcsI18n.tr(gayPeople)},
+          ),
+          LcsI18n.processString("Y'all {people} need Jesus.", {
+            "people": LcsI18n.tr(gayPeople),
+          }),
+          LcsI18n.processString(
+            "Jesus, not again! It's gotta be my {cologne}, {people} are all over me!",
+            {"cologne": LcsI18n.tr(cologne), "people": LcsI18n.tr(gays)},
+          ),
+          LcsI18n.tr("I'm not gay."),
+          LcsI18n.tr("I'm only bi when I'm drunk, and I'm not drunk."),
+          LcsI18n.tr("Heh, that's funny. And gay."),
+          LcsI18n.processString(
+            "No no no no, I'm not {person}, I'm not {person}, I swear!",
+            {"person": LcsI18n.tr(aLesbian)},
+          ),
           LcsI18n.processString(
             "Hot damn! This {person}'s into me! I'm not even into {people}.",
             {
@@ -783,10 +797,17 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
               "people": LcsI18n.tr(guys),
             },
           ),
-          "Great. The only person willing to be with me is another ${a.gender.manWoman}.",
-          "I'm straight.",
-          "Huh. ${capitalize(gayPeople)}.",
-          "I like ${a.gender == Gender.female ? "men" : "ladies"}.",
+          LcsI18n.processString(
+            "Great. The only person willing to be with me is another {person}.",
+            {"person": LcsI18n.tr(a.gender.manWoman)},
+          ),
+          LcsI18n.tr("I'm straight."),
+          LcsI18n.processString("Huh. {people}.", {
+            "people": capitalize(LcsI18n.tr(gayPeople)),
+          }),
+          LcsI18n.processString("I like {people}.", {
+            "people": LcsI18n.tr(a.gender == Gender.female ? "men" : "ladies"),
+          }),
         ].random;
       } else if (trans) {
         Gender perceivedGender = forceGenderBinary(a.gender);
@@ -795,25 +816,54 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           Gender.female => "girl",
           _ => "person",
         };
+        String guyGirlPlural = switch (perceivedGender) {
+          Gender.male => "guys",
+          Gender.female => "girls",
+          _ => "people",
+        };
         response = [
-          "Jesus. Why are you trans ${guyGirl}s so fuckin' hot? Get outta here.",
-          "Nah, I don't find you trans folks attractive.",
-          "You some kinda queer?",
-          "Ho, shit! I dig it, but you know... I could never be seen sayin' yes.",
-          "No, I'm no chaser.",
-          "That's sweet of ye, but I like my gender as normative as possible.",
-          "Huh. I dig it. But no, I'm not gonna date a trans $guyGirl.",
-          "You're kinda hot for a trans $guyGirl, but I ain't that brave.",
-          "I'm not into that whole gender thing.",
-          "I find your gender confusing and that makes me uncomfortable.",
-          "Oh, uh... I don't think we can date, I don't have a pronoun.",
+          LcsI18n.processString(
+            "Jesus. Why are you trans {people} so fuckin' hot? Get outta here.",
+            {"people": LcsI18n.tr(guyGirlPlural)},
+          ),
+          LcsI18n.tr("Nah, I don't find you trans folks attractive."),
+          LcsI18n.tr("You some kinda queer?"),
+          LcsI18n.tr(
+            "Ho, shit! I dig it, but you know... I could never be seen sayin' yes.",
+          ),
+          LcsI18n.tr("No, I'm no chaser."),
+          LcsI18n.tr(
+            "That's sweet of ye, but I like my gender as normative as possible.",
+          ),
+          LcsI18n.processString(
+            "Huh. I dig it. But no, I'm not gonna date a trans {person}.",
+            {"person": LcsI18n.tr(guyGirl)},
+          ),
+          LcsI18n.processString(
+            "You're kinda hot for a trans {person}, but I ain't that brave.",
+            {"person": LcsI18n.tr(guyGirl)},
+          ),
+          LcsI18n.tr("I'm not into that whole gender thing."),
+          LcsI18n.tr(
+            "I find your gender confusing and that makes me uncomfortable.",
+          ),
+          LcsI18n.tr(
+            "Oh, uh... I don't think we can date, I don't have a pronoun.",
+          ),
           if (a.genderAssignedAtBirth == Gender.female)
-            "Why's your hair so short?"
+            LcsI18n.tr("Why's your hair so short?")
           else
-            "Why's your hair so long?",
-          "Heh, don't get hit on by a trans $guyGirl every day.",
-          "I don't know what gender you are and that makes me kinda frustrated.",
-          "Oh lawd have mercy, the libs are tryin' ta trans my gender.",
+            LcsI18n.tr("Why's your hair so long?"),
+          LcsI18n.processString(
+            "Heh, don't get hit on by a trans {person} every day.",
+            {"person": LcsI18n.tr(guyGirl)},
+          ),
+          LcsI18n.tr(
+            "I don't know what gender you are and that makes me kinda frustrated.",
+          ),
+          LcsI18n.tr(
+            "Oh lawd have mercy, the libs are tryin' ta trans my gender.",
+          ),
         ].random;
       }
       addstr("\"{response}\"", params: {"response": response});
@@ -1015,5 +1065,9 @@ String randomChurchName() {
   String first = ["Holy", "Sacred", "Abiding", "Faithful", "Eternal"].random;
   String second = ["Cross", "Hope", "Flame", "Family", "Refuge"].random;
   String third = ["Church", "Church", "Cathedral", "Temple", "Chapel"].random;
-  return "$first $second $third";
+  return LcsI18n.processString("{first} {second} {third}", {
+    "first": LcsI18n.tr(first),
+    "second": LcsI18n.tr(second),
+    "third": LcsI18n.tr(third),
+  });
 }

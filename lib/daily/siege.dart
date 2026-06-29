@@ -1146,8 +1146,13 @@ Future<void> siegeTurn() async {
 
           erase();
           setColor(lightGray);
-          String publicationName =
-              '${LcsI18n.tr(newsNameA)} ${LcsI18n.tr(newsNameB)}';
+          String publicationName = LcsI18n.processString(
+            "{firstWord} {secondWord}",
+            {
+              "firstWord": LcsI18n.tr(newsNameA),
+              "secondWord": LcsI18n.tr(newsNameB),
+            },
+          );
           String newsBody = LcsI18n.processString(
             "Elite Journalist {journalist} from the {newsType} {publication} got into the compound somehow!",
             {
@@ -1156,8 +1161,13 @@ Future<void> siegeTurn() async {
               "publication": publicationName,
             },
           );
-          addparagraph(1, 1, newsBody);
+          addparagraph(1, 1, newsBody, noTranslate: true);
           await getKey();
+
+          void appendNewsParagraph(String paragraph) {
+            newsBody += "\n\n$paragraph";
+            addparagraph(console.y + 1, 1, paragraph, noTranslate: true);
+          }
 
           NewsStory ns = NewsStory.unpublished(NewsStories.majorEvent);
           ns.loc = l;
@@ -1195,14 +1205,13 @@ Future<void> siegeTurn() async {
             "{name} decides to give an interview.",
             {"name": pool[best].name},
           );
-          newsBody += "\n\n$paragraph";
-          addparagraph(console.y + 1, 1, paragraph);
+          appendNewsParagraph(paragraph);
           await getKey();
 
-          paragraph =
-              "The interview is wide-ranging, covering a variety of topics.";
-          newsBody += "\n\n$paragraph";
-          addparagraph(console.y + 1, 1, paragraph);
+          paragraph = LcsI18n.tr(
+            "The interview is wide-ranging, covering a variety of topics.",
+          );
+          appendNewsParagraph(paragraph);
           await getKey();
 
           debugPrint("bestvalue: $bestvalue");
@@ -1212,65 +1221,98 @@ Future<void> siegeTurn() async {
           bool itsAboutDrugs = false;
 
           if (segmentpower < 15) {
-            String playName =
-                "${["Ridiculous", "Oblivious", "Clueless", "Inept", "The Wrong", "Semiconscious", "Empty-Headed", "Half-Baked", "Pot-Smoking", "Stoned"].random} ${["Liberal", "Socialist", "Anarchist", "Communist", "Marxist", "Green", "Leftist", "Guerrilla", "Rebel", "Radical", "Stoner"].random}";
+            String playName = LcsI18n.processString(
+              "{firstWord} {secondWord}",
+              {
+                "firstWord": LcsI18n.tr(
+                  [
+                    "Ridiculous",
+                    "Oblivious",
+                    "Clueless",
+                    "Inept",
+                    "The Wrong",
+                    "Semiconscious",
+                    "Empty-Headed",
+                    "Half-Baked",
+                    "Pot-Smoking",
+                    "Stoned",
+                  ].random,
+                ),
+                "secondWord": LcsI18n.tr(
+                  [
+                    "Liberal",
+                    "Socialist",
+                    "Anarchist",
+                    "Communist",
+                    "Marxist",
+                    "Green",
+                    "Leftist",
+                    "Guerrilla",
+                    "Rebel",
+                    "Radical",
+                    "Stoner",
+                  ].random,
+                ),
+              },
+            );
             ns.headline = playName.toUpperCase();
-            ns.publicationName = "On Broadway";
-            newsBody =
-                "&G${pool[best].name.toUpperCase()} (singing):\n"
-                "&wBarricaded tight, my snacks running low,\n"
-                "They're banging at the door, yelling \"Time to go!\"\n"
-                "The revolution's here, and the fight's at my door,\n"
-                "But I'd rather just get high and let my mind explore";
+            ns.publicationName = LcsI18n.tr("On Broadway");
+            newsBody = [
+              LcsI18n.processString("&G{name} (singing):", {
+                "name": pool[best].name.toUpperCase(),
+              }),
+              LcsI18n.tr("&wBarricaded tight, my snacks running low,"),
+              LcsI18n.tr(
+                "They're banging at the door, yelling \"Time to go!\"",
+              ),
+              LcsI18n.tr("The revolution's here, and the fight's at my door,"),
+              LcsI18n.tr(
+                "But I'd rather just get high and let my mind explore",
+              ),
+            ].join("\n");
             String paragraph = LcsI18n.processString(
               "{journalist} canceled the interview halfway through "
               "and later used the material for a Broadway play called {playName}.",
               {"journalist": repname.firstLast, "playName": playName},
             );
-            addparagraph(console.y + 1, 1, paragraph);
+            addparagraph(console.y + 1, 1, paragraph, noTranslate: true);
             itsAboutDrugs = true;
           } else if (segmentpower < 20) {
             String paragraph = LcsI18n.processString(
               "But the interview is so boring that {journalist} falls asleep.",
               {"journalist": repname.firstLast},
             );
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            appendNewsParagraph(paragraph);
           } else if (segmentpower < 25) {
             String paragraph = LcsI18n.processString(
               "But {name} stutters nervously the whole time.",
               {"name": pool[best].name},
             );
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            appendNewsParagraph(paragraph);
           } else if (segmentpower < 30) {
             String paragraph = LcsI18n.processString(
               "{name}'s verbal finesse leaves something to be desired.",
               {"name": pool[best].name},
             );
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            appendNewsParagraph(paragraph);
           } else if (segmentpower < 35) {
             String paragraph = LcsI18n.processString(
               "{name} represents the LCS well.",
               {"name": pool[best].name},
             );
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            appendNewsParagraph(paragraph);
           } else if (segmentpower < 50) {
-            String paragraph =
-                "The discussion was exciting and dynamic. "
-                "Even the Cable News and AM Radio spend days talking about it.";
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            String paragraph = LcsI18n.tr(
+              "The discussion was exciting and dynamic. Even the Cable News and AM Radio spend days talking about it.",
+            );
+            appendNewsParagraph(paragraph);
           } else {
             String paragraph = LcsI18n.processString(
               "{journalist} later went on to win a Pulitzer for it. "
               "Virtually everyone in America was moved by {name}'s words.",
               {"journalist": repname.firstLast, "name": pool[best].name},
             );
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            appendNewsParagraph(paragraph);
           }
 
           await getKey();

@@ -207,6 +207,7 @@
   "white supremacist literature": "literatura supremacista branca",
   "worry, we learned from the last time we invaded a country, ": "preocupação, aprendemos da última vez que invadimos um país, ",
   "{actor} organized a pro-tax flash mob in a ritzy area!": "{actor} organizou um flash mob pró-impostos em uma área chique!",
+  "{attacker} strikes true on {target}, {description} {times} times.": "{attacker} acerta {target} em cheio, {description} {times} vezes.",
   "{author}'s memoir, \"{title}\"": "as memórias de {author}, \"{title}\"",
   "{key} - ": "{key} – ",
   "{lead} goes to pick up the money at {location}. {subject} {action}...": "{lead} vai buscar o dinheiro em {location}. {subject} {action}...",

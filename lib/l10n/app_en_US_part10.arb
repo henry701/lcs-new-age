@@ -195,6 +195,7 @@
   "white supremacist literature": "white supremacist literature",
   "worry, we learned from the last time we invaded a country, ": "worry, we learned from the last time we invaded a country, ",
   "{actor} organized a pro-tax flash mob in a ritzy area!": "{actor} organized a pro-tax flash mob in a ritzy area!",
+  "{attacker} strikes true on {target}, {description} {times} times.": "{attacker} strikes true on {target}, {description} {times} times.",
   "{author}'s memoir, \"{title}\"": "{author}'s memoir, \"{title}\"",
   "{key} - ": "{key} - ",
   "{lead} goes to pick up the money at {location}. {subject} {action}...": "{lead} goes to pick up the money at {location}. {subject} {action}...",

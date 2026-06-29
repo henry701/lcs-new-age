@@ -38,7 +38,7 @@ Notes:
 - Detects `LcsI18n.tr(...)` literals used for dynamic inserted values.
 - Not a full semantic extractor: some strings assigned to locals and only rendered later through wrappers can still require manual sweep work.
 - **Critical:** User-facing name+possessive and fragment composition (e.g. "$name's Foo", name + "'s wounds", random flavor starting with ' or space) must be converted to complete placeholder templates (`"{name}'s Foo"`, `"{name} clutches at the wounds."`) BEFORE extraction. Fragments produce unorderable/grammatically invalid output in pt_BR and other locales. The extractor intentionally skips `$...`, apostrophe-led fragments, and lowercase leading-space fragments to avoid catalog pollution while still allowing intentionally indented complete sentences; convert fragments first.
-- Apostrophe handling: single-quoted Dart literals containing \' are handled by escape-aware regexes + unescape (applied in wrapper, other, multiline, random-list chunk, wrapped-assignment, switch-arrow, and multiline `processString` paths). Root cause for list-based flavor fragments fixed. Always prefer "..." for strings containing ' .
+- Apostrophe handling: wrapper/assignment patterns are escape-aware, and random-list chunk extraction is quote-aware so apostrophes inside double-quoted strings are not treated as separate single-quoted literals. Always prefer `"..."` for strings containing `'`.
 
 ## merge_arb_entries.dart
 

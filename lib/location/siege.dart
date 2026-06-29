@@ -215,16 +215,24 @@ Future<void> surrenderToAuthorities(Site loc) async {
     );
   }
   if (arrested.length == 1) {
-    String namePart = arrested.first.properName;
     if (arrested.first.properName != arrested.first.name) {
-      namePart = "$namePart, aka ${arrested.first.name}";
+      mvaddstr(
+        y += 2,
+        1,
+        "{properName}, aka {name}, is arrested.",
+        params: {
+          "properName": arrested.first.properName,
+          "name": arrested.first.name,
+        },
+      );
+    } else {
+      mvaddstr(
+        y += 2,
+        1,
+        "{name} is arrested.",
+        params: {"name": arrested.first.properName},
+      );
     }
-    mvaddstr(
-      y += 2,
-      1,
-      "{namePart} is arrested.",
-      params: {"namePart": namePart},
-    );
   } else if (arrested.length > 1) {
     mvaddstr(
       y += 2,

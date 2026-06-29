@@ -389,3 +389,26 @@ Validation evidence after final edits:
    - Kidnap statement → `Roberta Silva, falando em nome do departamento de polícia... João foi levado há 12 dias... traremos João de volta para casa...`
 
 Known debt remains unchanged: larger newspaper generated prose (`major_event.dart`, `squad_story_text.dart`, other `display_news.dart` branches) still needs a bigger builder-style pass; broad pt_BR coverage remains below the earlier strict completion gate because extractor improvements surfaced legacy untranslated/dead-ish keys.
+
+## 2026-06-29 continuation: talk/fight/siege/shop templating sweep
+
+Changed in this pass:
+- `lib/sitemode/fight.dart`: replaced attack-message fragment stitching (`action` + `multiHitDesc` + attacker prefix) with complete `LcsI18n.processString` templates for hit/stab/auto-convert/multi-hit variants.
+- `lib/talk/drop_a_pickup_line.dart`: converted dynamic pickup-line rejection responses (`$gay`, `$guyGirl`, succubus/incubus, random church name) to complete placeholder templates.
+- `lib/sitemode/shop.dart`: replaced shop sale-total label fragments (`{prefix} ${amount} {suffix}`, `{label}: ${ret}`) with complete currency templates.
+- `lib/daily/siege.dart` and `lib/location/siege.dart`: converted generated siege publication/play names, Broadway singer prefix, interview paragraphs, and `properName, aka name` arrest output to complete templates.
+- `scripts/find_translatable_strings.dart`: fixed random-list chunk extraction so apostrophes inside double-quoted strings are not misread as separate single-quoted literals. This prevents new corrupt keys such as `re kinda...` or `s sweet...` during catalog sync.
+- Catalogs: added pt_BR translations for the new live keys and pruned exact dead/corrupt keys left by earlier raw `$guyGirl`/apostrophe-fragment extraction.
+- Tests: added static assertions for shop sale totals, pickup-line generated responses, and siege generated prose.
+
+Validation performed:
+- `dart analyze scripts/find_translatable_strings.dart` → pass.
+- `dart run scripts/find_translatable_strings.dart` → added only current live keys after cleanup.
+- `dart run scripts/maintain_arb_catalogs.dart --check` → pass.
+- `dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` → pass with existing classified wrapper hits only.
+- Exact dead/corrupt catalog key scan for raw `$guyGirl`, `{aSuccubus}`, `n&wBarricaded...`, and known apostrophe-sliced fragments → pass.
+- `flutter test test/i18n_static_coverage_test.dart test/pt_br_runtime_catalog_smoke_test.dart test/console_wrapper_test.dart` → pass.
+
+Important remaining debt:
+- This does **not** complete the full objective. `lib/newspaper/major_event.dart`, `lib/newspaper/display_news.dart`, and `lib/newspaper/squad_story_text.dart` still contain many user-facing article/story strings assembled with Dart interpolation or `story +=` fragments before translation. Current `interpolation_status.dart` still only gates wrapper-adjacent interpolation; it does not prove newspaper/story generation is clean.
+- pt_BR is still not complete project-wide; the runtime smoke still logs many untranslated source keys. The static catalog invariants pass, but translation coverage is not 100%.

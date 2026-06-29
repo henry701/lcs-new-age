@@ -245,11 +245,9 @@ class Shop extends ShopOption {
         String letter = availableOptions[p].letter!.toUpperCase();
         String desc = availableOptions[p].halfscreenDescription();
         if (availableOptions[p] is ShopItem) {
-          desc += LcsI18n.processString(
-            " (\${price})",
-            {"price": (availableOptions[p] as ShopItem).price(false).toString()},
-            noTranslate: true,
-          );
+          desc += LcsI18n.processString(" (\${price})", {
+            "price": (availableOptions[p] as ShopItem).price(false).toString(),
+          }, noTranslate: true);
         }
         addInlineOptionText(
           letter,
@@ -694,12 +692,8 @@ class Shop extends ShopOption {
             8,
             1,
             white,
-            "{prefix} \${amount} {suffix}",
-            params: {
-              "prefix": "You add",
-              "amount": fenceamount.toString(),
-              "suffix": "to Liberal Funds.",
-            },
+            "You add {amount} to Liberal Funds.",
+            params: {"amount": "\$$fenceamount"},
           );
 
           await getKey();
@@ -728,8 +722,8 @@ class Shop extends ShopOption {
         mvaddstr(
           0,
           30,
-          "{label}: \${ret}",
-          params: {"label": "Estimated Liberal Amount", "ret": ret.toString()},
+          "Estimated Liberal Amount: {amount}",
+          params: {"amount": "\$$ret"},
         );
       }
 

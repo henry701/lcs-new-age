@@ -452,38 +452,55 @@ void _recordStringsFromChunk({
   required Map<String, StringInfo> stringInfo,
   required String relativePath,
 }) {
-  final literalMatches = <(int, String)>[];
-  final doubleQuoted = RegExp(r'"((?:[^"\\]|\\.)*)"');
-  final singleQuoted = RegExp(r"'((?:[^'\\]|\\.)*)'");
-
-  for (final match in doubleQuoted.allMatches(chunk)) {
-    final value = match.group(1);
-    if (value != null) {
-      literalMatches.add((match.start, value));
-    }
-  }
-
-  for (final match in singleQuoted.allMatches(chunk)) {
-    final value = match.group(1);
-    if (value != null) {
-      literalMatches.add((match.start, value));
-    }
-  }
-
-  literalMatches.sort((a, b) => a.$1.compareTo(b.$1));
-
-  for (final literalMatch in literalMatches) {
-    final raw = literalMatch.$2;
-    final value = _unescapeStringLiteral(raw);
+  for (final literalMatch in _scanQuotedStringLiterals(chunk)) {
+    final value = _unescapeStringLiteral(literalMatch.rawContent);
     if (!_isUserFacing(value, minLength: 3, allowSingleWord: true)) {
       continue;
     }
 
-    final prefix = chunk.substring(0, literalMatch.$1);
+    final prefix = chunk.substring(0, literalMatch.start);
     final relativeLine = '\n'.allMatches(prefix).length;
     final lineNumber = baseLine + relativeLine;
     _recordString(stringInfo, value, relativePath, lineNumber, context);
   }
+}
+
+List<_ChunkStringLiteral> _scanQuotedStringLiterals(String chunk) {
+  final literals = <_ChunkStringLiteral>[];
+  for (int i = 0; i < chunk.length; i++) {
+    final quote = chunk[i];
+    if (quote != '"' && quote != "'") {
+      continue;
+    }
+
+    final start = i;
+    final buffer = StringBuffer();
+    i++;
+    while (i < chunk.length) {
+      final char = chunk[i];
+      if (chunk.codeUnitAt(i) == 92 && i + 1 < chunk.length) {
+        buffer
+          ..write(char)
+          ..write(chunk[i + 1]);
+        i += 2;
+        continue;
+      }
+      if (char == quote) {
+        literals.add(_ChunkStringLiteral(start, buffer.toString()));
+        break;
+      }
+      buffer.write(char);
+      i++;
+    }
+  }
+  return literals;
+}
+
+class _ChunkStringLiteral {
+  const _ChunkStringLiteral(this.start, this.rawContent);
+
+  final int start;
+  final String rawContent;
 }
 
 List<int> _buildLineStartOffsets(String content) {

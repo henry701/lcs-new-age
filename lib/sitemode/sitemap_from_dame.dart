@@ -5,7 +5,7 @@ import 'package:lcs_new_age/sitemode/sitemap.dart';
 // The old guide to how the DAME maps work. DAME essentially doesn't exist
 // anymore so this is left here for reference. We need a new method for
 // editing custom maps moving forward.
-//  - Jonathan S. Fox, 2024
+//  - Ashley S. Fox, 2024
 //
 //  -----------------------------------------------------------------------
 //
@@ -49,7 +49,7 @@ import 'package:lcs_new_age/sitemode/sitemap.dart';
 // third floor, and so on. For example, a second floor to the industrial apartments would have the
 // name "ApartmentIndustrial2" in DAME, and export as "mapCSV_ApartmentIndustrial2_Tiles.csv".
 //
-//  - Jonathan S. Fox
+//  - Ashley S. Fox
 
 Future<bool> readDAMEMap(String filename) async {
   String prefix = "assets/maps/mapCSV_";

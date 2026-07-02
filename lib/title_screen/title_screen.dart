@@ -334,7 +334,7 @@ void printTitleScreen(HighScores? highScores) {
   setColor(RainbowFlag.lightBlue);
   addstr("NEW AGE");
   setColor(midGray);
-  mvaddstrCenter(4, "Maintained by Jonathan S. Fox, with gratitude to:");
+  mvaddstrCenter(4, "Maintained by Ashley S. Fox, with gratitude to:");
   mvaddstrCenter(
     5,
     "Bay 12 Games, IsaacG, SlatersQuest, TheCheshireCat, Kamal-Sadek,",

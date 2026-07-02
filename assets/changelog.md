@@ -2,6 +2,7 @@
 * Fixed a mobile bug that was keeping the software keyboard from appearing
 * Police and others will now take down heat-generating flags if they find them during a raid
 * You'll keep your old slogan if you cancel changing your slogan instead just getting "We need a slogan!"
+* Updated credits to use the name Ashley S. Fox
 
 ## 1.5.4 - 6/24/2026
 * Fixed a crash when getting into a footchase
@@ -859,13 +860,13 @@ With apologies to the many, many contributions of people over the years that I a
 * SlatersQuest uploads the first release of Terra Vitae, a long-running and ambitious feature-rich fork of Liberal Crime Squad 4.07
 
 ### April 2013
-* Jonathan S. Fox's last update as the maintainer for Liberal Crime Squad, version 4.07, before I got a job as a programmer and stopped thinking about LCS as much for almost 10 years
+* Ashley S. Fox's last update as the maintainer for Liberal Crime Squad, version 4.07, before they got a job as a programmer and stopped thinking about LCS as much for almost 10 years
 
 ### June 2007
 * We establish a repository for Liberal Crime Squad on Sourceforge; Grundee refactors the code base to lay the foundation for years of future development with a couple dozen contributors
 
 ### May 2007
-* Jonathan S. Fox uploads an unofficial update for Liberal Crime Squad, brazenly calling it 3.10
+* Ashley S. Fox uploads an unofficial update for Liberal Crime Squad, brazenly calling it 3.10
 
 ### August 2004
 * Bay 12 Games uploads the last official update for Liberal Crime Squad, version 3.09

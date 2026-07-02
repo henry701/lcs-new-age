@@ -7,7 +7,7 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 // This comment is included for posterity, but tabscript approach is extremely
 // outdated (from 2009) and the roadmap it gives will not be pursued.
-//  - Jonathan S. Fox, 2024
+//  - Ashley S. Fox, 2024
 //
 // ---------------------------------------------------------------------
 //
@@ -79,7 +79,7 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 // [ ] Organizations configuration? (are we still doing organizations?)
 // ... and more?
 //
-// ~ Jonathan S. Fox
+// ~ Ashley S. Fox
 
 const SITEMAP_ADDTYPE_OR = 1;
 const SITEMAP_ADDTYPE_ANDNOT = 2;
@@ -217,7 +217,13 @@ class ConfigSiteTile extends ConfigSiteCommand {
   @override
   void build() {
     for (SiteTile node in levelMap.range(
-        xstart, ystart, zstart, xend + 1, yend + 1, zend + 1)) {
+      xstart,
+      ystart,
+      zstart,
+      xend + 1,
+      yend + 1,
+      zend + 1,
+    )) {
       if (addtype == SITEMAP_ADDTYPE_OR) {
         node.flag |= tile;
       } else if (addtype == SITEMAP_ADDTYPE_ANDNOT) {
@@ -275,10 +281,22 @@ class ConfigSiteScript extends ConfigSiteCommand {
       }
     } else if (script == SitemapScripts.stairs) {
       generateStairs(
-          xstart, ystart, zstart, xend - xstart, yend - ystart, zend - zstart);
+        xstart,
+        ystart,
+        zstart,
+        xend - xstart,
+        yend - ystart,
+        zend - zstart,
+      );
     } else if (script == SitemapScripts.stairsRandom) {
       generateStairsRandom(
-          xstart, ystart, zstart, xend - xstart, yend - ystart, zend - zstart);
+        xstart,
+        ystart,
+        zstart,
+        xend - xstart,
+        yend - ystart,
+        zend - zstart,
+      );
     }
   }
 
@@ -420,27 +438,33 @@ class ConfigSiteScript extends ConfigSiteCommand {
       }
       // Stairs in secure areas should only lead into secure areas.
       // Removing secure tiles without secure tiles above them.
-      secure.removeWhere((element) =>
-          !secureAbove.any((e) => e.$1 == element.$1 && e.$2 == element.$2));
+      secure.removeWhere(
+        (element) =>
+            !secureAbove.any((e) => e.$1 == element.$1 && e.$2 == element.$2),
+      );
       // Stairs in unsecure areas should only lead into unsecure areas.
       // Removing unsecure tiles without unsecure tiles above them.
-      unsecure.removeWhere((element) =>
-          !unsecureAbove.any((e) => e.$1 == element.$1 && e.$2 == element.$2));
+      unsecure.removeWhere(
+        (element) =>
+            !unsecureAbove.any((e) => e.$1 == element.$1 && e.$2 == element.$2),
+      );
       // Place stairs in secure area if possible, otherwise unsecure area.
       if (secure.isNotEmpty) {
         (x, y) = secure.random;
         z = zi - 1;
         // The tile receiving the stairs down will not eligible for stairs
         // up later.
-        secureAbove
-            .removeWhere((element) => element.$1 == x && element.$2 == y);
+        secureAbove.removeWhere(
+          (element) => element.$1 == x && element.$2 == y,
+        );
       } else if (unsecure.isNotEmpty) {
         (x, y) = unsecure.random;
         z = zi - 1;
         // The tile receiving the stairs down will not eligible for stairs
         // up later.
-        unsecureAbove
-            .removeWhere((element) => element.$1 == x && element.$2 == y);
+        unsecureAbove.removeWhere(
+          (element) => element.$1 == x && element.$2 == y,
+        );
       } else {
         continue; //Nowhere to place stairs.
       }
@@ -551,12 +575,12 @@ class Coordinates {
 // Creates a unique during map creation
 class ConfigSiteUnique extends ConfigSiteCommand {
   ConfigSiteUnique(String value)
-      : xstart = (MAPX >> 1) - 5,
-        xend = (MAPX >> 1) + 5,
-        ystart = 10,
-        yend = 20,
-        zstart = 0,
-        zend = 0 {
+    : xstart = (MAPX >> 1) - 5,
+      xend = (MAPX >> 1) + 5,
+      ystart = 10,
+      yend = 20,
+      zstart = 0,
+      zend = 0 {
     unique = specialLookup(value);
   }
 
@@ -572,13 +596,15 @@ class ConfigSiteUnique extends ConfigSiteCommand {
 
     // Place unique
     List<Coordinates> secure = [], unsecure = [];
-    for (SiteTile node in levelMap.all.where((node) =>
-        node.x >= xstart &&
-        node.x <= xend &&
-        node.y >= ystart &&
-        node.y <= yend &&
-        node.z >= zstart &&
-        node.z <= zend)) {
+    for (SiteTile node in levelMap.all.where(
+      (node) =>
+          node.x >= xstart &&
+          node.x <= xend &&
+          node.y >= ystart &&
+          node.y <= yend &&
+          node.z >= zstart &&
+          node.z <= zend,
+    )) {
       if (node.door || node.wall || node.exit || node.outdoor) continue;
       if (node.special == TileSpecial.none) {
         if (node.restricted) {

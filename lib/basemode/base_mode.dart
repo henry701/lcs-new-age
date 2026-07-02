@@ -653,5 +653,5 @@ Future<void> updateTheSlogan() async {
   eraseLine(16);
   mvaddstrc(16, 0, lightGray, "What is your new slogan?");
   eraseLine(17);
-  slogan = await enterName(17, 0, "We need a slogan!");
+  slogan = await enterName(17, 0, slogan);
 }

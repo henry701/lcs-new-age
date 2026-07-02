@@ -104,7 +104,7 @@ Future<void> setupNewGame() async {
       "Option difficulty ratings: &GEasier &w- &YStandard &w- &RHarder",
     );
 
-    addOptionText(18, 2, "Any Other Key", "Any Other Key - Continue...");
+    addOptionText(18, 2, "Enter", "Enter - Continue...");
 
     int c = await getKey();
 
@@ -120,7 +120,9 @@ Future<void> setupNewGame() async {
       initiative = (initiative + 1) % initiativeChoices.length;
       continue;
     }
-    break;
+    if (c == Key.enter) {
+      break;
+    }
   }
 
   bool nightmarelaws = gameWorld == 1;

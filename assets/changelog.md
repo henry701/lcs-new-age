@@ -1,3 +1,8 @@
+## 1.5.5 - 7/2/2026
+* Fixed a mobile bug that was keeping the software keyboard from appearing
+* Police and others will now take down heat-generating flags if they find them during a raid
+* You'll keep your old slogan if you cancel changing your slogan instead just getting "We need a slogan!"
+
 ## 1.5.4 - 6/24/2026
 * Fixed a crash when getting into a footchase
 * Fixed a bug where older saves could cause liberals to camp at locations other than a safehouse, which would cause other downstream issues

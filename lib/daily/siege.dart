@@ -1838,7 +1838,7 @@ Future<void> escapeSiege(bool won) async {
 
     Site? homes;
     if (squad != null) {
-      if (squad.members.isNotEmpty == true) {
+      if (squad.members.isNotEmpty) {
         homes = findSiteInSameCity(
           squad.members.first.site!.city,
           SiteType.homelessEncampment,
@@ -1896,14 +1896,16 @@ Future<void> escapeSiege(bool won) async {
     loc.compound.rations = 0;
     loc.businessFront = false;
     await initsite(loc);
+  } else {
+    // If you won, increase the heat and escalate the siege
+    Site? loc = activeSite;
+    if (loc == null) return;
+    if (loc.siege.activeSiegeType == SiegeType.police) {
+      loc.heat += 1000;
+      loc.siege.escalationState = loc.siege.escalationState.escalate();
+    }
+    loc.siege.activeSiegeType = SiegeType.none;
   }
-
-  // If you won, increase the heat and escalate the siege
-  if (won && loc.siege.activeSiegeType == SiegeType.police) {
-    loc.heat += 1000;
-    loc.siege.escalationState = loc.siege.escalationState.escalate();
-  }
-  loc.siege.activeSiegeType = SiegeType.none;
 }
 
 /* siege - flavor text when you fought off the raid */

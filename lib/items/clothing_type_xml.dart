@@ -110,6 +110,10 @@ void parseClothingType(
             parseBool(element.innerText) ?? clothing.allowVisibleArmor;
       case "armor_allowed":
         clothing.allowedArmorIds.add(element.innerText);
+      case "culture":
+        clothing.culture.add(element.innerText);
+      case "gendered":
+        clothing.genderString = element.innerText;
       default:
         debugPrint("Unknown clothing type key: $key");
     }

@@ -4,6 +4,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/saveload/load_cpc_images.dart';
 import 'package:lcs_new_age/saveload/load_xml_data.dart';
+import 'package:lcs_new_age/saveload/save_load.dart';
 import 'package:lcs_new_age/title_screen/stack_trace/convert_stack_trace.dart';
 import 'package:lcs_new_age/title_screen/title_screen.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -22,6 +23,7 @@ Future<void> launchGame() async {
 
   await loadXmlData();
   await loadCpcGraphics();
+  await initStorage();
   while (true) {
     try {
       await titleScreen();

@@ -7,6 +7,8 @@ class GameOptions {
   static const String _interfacePgUpKey = 'interfacePgUp';
   static const String _languageKey = 'language';
   static const String _logUntranslatedKey = 'logUntranslatedStrings';
+  static const String _fontSizeKey = 'fontSize';
+  static const String _lighterToneKey = 'lighterTone';
   static const Set<String> supportedLanguages = {'en_US', 'pt_BR'};
 
   static String normalizeLanguage(String? language) =>
@@ -14,9 +16,11 @@ class GameOptions {
 
   bool encounterWarnings = false;
   bool mouseInput = true;
+  double fontSize = 16;
   String interfacePgUp = "[";
   String language = 'en_US';
   bool logUntranslatedStrings = false;
+  bool lighterTone = false;
 
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
@@ -24,10 +28,11 @@ class GameOptions {
     mouseInput = prefs.getBool(_mouseInputKey) ?? true;
     interfacePgUp = prefs.getString(_interfacePgUpKey) ?? "[";
     language = normalizeLanguage(prefs.getString(_languageKey));
-
     logUntranslatedStrings =
         prefs.getBool(_logUntranslatedKey) ??
         defaultLogUntranslatedStringsForPlatform;
+    fontSize = prefs.getDouble(_fontSizeKey) ?? 16;
+    lighterTone = prefs.getBool(_lighterToneKey) ?? false;
   }
 
   Future<void> save() async {
@@ -38,6 +43,8 @@ class GameOptions {
     language = normalizeLanguage(language);
     await prefs.setString(_languageKey, language);
     await prefs.setBool(_logUntranslatedKey, logUntranslatedStrings);
+    await prefs.setDouble(_fontSizeKey, fontSize);
+    await prefs.setBool(_lighterToneKey, lighterTone);
   }
 }
 

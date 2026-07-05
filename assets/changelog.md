@@ -1,3 +1,74 @@
+## 1.5.5 - 7/2/2026
+* Fixed a mobile bug that was keeping the software keyboard from appearing
+* Police and others will now take down heat-generating flags if they find them during a raid
+* You'll keep your old slogan if you cancel changing your slogan instead just getting "We need a slogan!"
+* Updated credits to use the name Ashley S. Fox
+
+## 1.5.4 - 6/24/2026
+* Fixed a crash when getting into a footchase
+* Fixed a bug where older saves could cause liberals to camp at locations other than a safehouse, which would cause other downstream issues
+* Fixed a bug where medical debt collectors could raid if you had high heat even if you didn't have outstanding medical bills
+
+## 1.5.3 - 6/22/2026
+* Reworked new game difficulty options screen and added a new combat initiative option, which allows switching to alternating/zipper initiative, where your squad and the enemy take turns attacking one at a time instead of your team attacking all at once at the start of the round
+* Added the ability of the healthcare industry to send armed accountants to your safehouse to recover unpaid hospital bills
+* Added an intel screen after clearing a CCS safehouse giving a nudge on where the remaining safehouses can be found and how you can reveal them; no mechanical effects, just should help with something most new players probably need to ask other players or check the wiki for
+* Revised how some messages appear when time is passing quickly, such as when everyone in the LCS is imprisoned
+* Made the CCS now able to emerge and grow stronger due to the passage of time, not just the liberalization of public opinion
+* Made the Landlord an Arch-Conservative foe; you can now make them a sleeper to get free rent, but can no longer threaten them for free rent
+* Added the ability of PMC mercs and Secret Service to block kidnapping attempts
+* Flagged Nursing Home Admin and Insurance CEO as major enemies so they don't flee combat
+* Fixed a crash when the Nursing Home Admin and Insurance CEO needs to be replaced
+* Fixed a cosmetic bug where conservative media would report on the very first CCS action as a rampage
+* Fixed a bug where disguises that are supposed to blend in at the condominiums were instead deemed very suspicious
+* Fixed a bug where all creatures would not save their heat value when the game is saved, nor load it when the game is loaded
+* Fixed a couple cases where a sleeper agent could resign from their post but not be replaced even when they have an important role in the world that should really be backfilled if someone abandons it
+
+## 1.5.2 - 6/18/2026
+* Added a main menu option to lighten the tone of the writing to be more neutral in some of the more visceral, bleak, and depressing areas of the game
+
+## 1.5.1 - 6/18/2026
+* Added the ability to fly other flags than the US flag and 24 new flag options to choose from
+* Added the ability to craft flags (and made most flags only available through crafting)
+* Added the ability to wave most flags during a siege for a weaker version of the burn flag effect
+* Changed some wording on save management and export for improved clarity (and exporting saves is now E instead of B)
+* Fixed a crash when stealing cheap jewelry from various locations
+* Fixed a bug where loot in the nursing home and insurance office locations wasn't working right
+* Added a hard limit on how long you can stay at the hospital in one visit before they just discharge you whether you're healed or not
+* Fixed a bug that could cause you to end up permanently in the hospital
+* Slowed the rate of heat decay on individuals
+* Changed LGBT in some contexts to LGBTQ or LGBTQ+ depending on vibes
+* Changed "Save Children from the LGBT Agenda" to "Save Children from Gender Ideology" for conservative legislation
+* Renamed the "sweatshops" issue to "labor rights" in some contexts
+* Added some 1.5.0 changelog items I overlooked (game text resizable, added medical bills)
+
+## 1.5.0 - 6/15/2026
+* Added Housing, Healthcare, and Retirement issues and corresponding laws
+* Added nursing home and insurance office locations, each with special interactive locations, secret documents, and new NPCs
+* Added six new major news stories, one positive and one negative for each of the new issues
+* Added Landlord Papers, which can only be provided by a Landlord sleeper
+* Updated the way data is saved to avoid limits on browser storage
+* Fixed an issue that prevented running the game offline on mobile
+* Changed display of unarmed attack when the character will use a built-in social attack to Voice
+* Made reductions in stats that block gaining more skill levels not permonently destroy previously accumulated experience toward higher skill levels
+* Allowed execution flavor text to wrap to the next line
+* Changed the balance of heat generation to make heat accumulate more quickly
+* Fixed a bug where hiding with a lit torch was calculated incorrectly
+* Fixed old age and middle age modifiers stacking incorrectly
+* Reduced the age that children become teenagers from 12 to 11
+* Increased the prices quoted in some of the newspaper ads
+* Fixed an issue where the homeless camp wasn't using the intended encounter list
+* Adjusted the wording on the free speech issue on various screens
+* Fixed some text formatting on the recruit overview when talking to people in the field
+* Updated the text when looting the armory to no longer refer to XM250 and XM7, instead just M250 and M7
+* Added TheCheshireCat to the special thanks credits on the title screen
+* Removed some extra lines that could come up during recruitment meetings that didn't make grammatical sense
+* Fixed grammar when a recruit thinks the recruiter is a dangerous extremist
+* Fixed the Liberal Guardian potentially using censorship and/or hate speech during C+ free speech laws
+* Fixed Ronald Reagan's death date
+* Added an option to change text size so the game window can be enlarged
+* Added medical bills and changed the way hospital visits heal people (it generally takes much less time to get discharged now)
+
 ## 1.4.9.HF.0 - 9/27/2025
 * First Fork Version
 * Upgrade dependencies and Flutter SDK version
@@ -798,13 +869,13 @@ With apologies to the many, many contributions of people over the years that I a
 * SlatersQuest uploads the first release of Terra Vitae, a long-running and ambitious feature-rich fork of Liberal Crime Squad 4.07
 
 ### April 2013
-* Jonathan S. Fox's last update as the maintainer for Liberal Crime Squad, version 4.07, before I got a job as a programmer and stopped thinking about LCS as much for almost 10 years
+* Ashley S. Fox's last update as the maintainer for Liberal Crime Squad, version 4.07, before they got a job as a programmer and stopped thinking about LCS as much for almost 10 years
 
 ### June 2007
 * We establish a repository for Liberal Crime Squad on Sourceforge; Grundee refactors the code base to lay the foundation for years of future development with a couple dozen contributors
 
 ### May 2007
-* Jonathan S. Fox uploads an unofficial update for Liberal Crime Squad, brazenly calling it 3.10
+* Ashley S. Fox uploads an unofficial update for Liberal Crime Squad, brazenly calling it 3.10
 
 ### August 2004
 * Bay 12 Games uploads the last official update for Liberal Crime Squad, version 3.09

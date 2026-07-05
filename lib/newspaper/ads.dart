@@ -1,5 +1,4 @@
 import 'package:lcs_new_age/engine/engine.dart';
-import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
@@ -87,7 +86,7 @@ void displaysinglead(
         case 1:
           ad = "&cFine Leather Chairs&r&r";
           ad += "&cSpecial Purchase&r";
-          ad += "&cNow \$${lcsRandom(201 + 400)}";
+          ad += "&cNow \$${lcsRandom(8) + 8}49.99";
           ad += "&r";
         case 2:
           ad = "&cParis Flea Market&r&r";
@@ -96,9 +95,9 @@ void displaysinglead(
         case 3:
           ad = "&cQuality Pre-Owned&r";
           ad += "&cVehicles&r";
-          ad += "&c${year - lcsRandom(15)} Lexus GS 300&r";
+          ad += "&c${2020 - lcsRandom(15)} Lexus GS 300&r";
           ad += "&cSedan 4D&r";
-          ad += "&cOnly \$${lcsRandom(16 + 15)}";
+          ad += "&cOnly \$${lcsRandom(19) + 3},750";
           ad += "&r";
         case 4:
           ad = "&cSpa&r";

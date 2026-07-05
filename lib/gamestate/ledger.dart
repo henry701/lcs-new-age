@@ -80,4 +80,5 @@ enum Expense {
   training,
   travel,
   augmentation,
+  hospitalBills;
 }

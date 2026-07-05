@@ -31,6 +31,7 @@ import 'package:lcs_new_age/sitemode/site_display.dart';
 import 'package:lcs_new_age/sitemode/sitemap.dart';
 import 'package:lcs_new_age/talk/talk_in_combat.dart';
 import 'package:lcs_new_age/utils/colors.dart';
+import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 /* attack handling for each side as a whole */
@@ -202,169 +203,234 @@ const List<String> cowerInCombat = [
 
 Future<void> enemyattack(List<Creature> possibleEnemies) async {
   for (int i = possibleEnemies.length - 1; i >= 0; i--) {
-    Creature e = possibleEnemies[i];
-    e.justAttacked = false;
-    if (!e.alive) continue;
+    if (!await enemyMemberAttacks(possibleEnemies[i], possibleEnemies)) return;
+  }
+}
 
-    // Moderate bouncers are converted to conservatives
-    if (siteAlarm &&
-        e.type.id == CreatureTypeIds.bouncer &&
-        e.align != Alignment.liberal) {
-      conservatize(e);
-    }
-    // Enemies notice you and become unwilling to talk
-    if (e.isEnemy) {
-      e.noticedParty = true;
-      e.isWillingToTalk = false;
-    }
+Future<bool> enemyMemberAttacks(
+  Creature e,
+  List<Creature> possibleEnemies,
+) async {
+  e.justAttacked = false;
+  if (!e.alive) return true;
 
-    // Fleeing npcs escape
-    if (mode != GameMode.carChase) {
-      bool runsAway = e.calculateWillRunAway() || e.nonCombatant;
-      if (mode == GameMode.carChase) runsAway = false;
-      if (e.cantRunAway) runsAway = false;
+  // Moderate bouncers are converted to conservatives
+  if (siteAlarm &&
+      e.type.id == CreatureTypeIds.bouncer &&
+      e.align != Alignment.liberal) {
+    conservatize(e);
+  }
+  // Enemies notice you and become unwilling to talk
+  if (e.isEnemy) {
+    e.noticedParty = true;
+    e.isWillingToTalk = false;
+  }
 
-      if (runsAway && e.body is HumanoidBody) {
+  // Fleeing npcs escape
+  if (mode != GameMode.carChase) {
+    bool runsAway = e.calculateWillRunAway() || e.nonCombatant;
+    if (mode == GameMode.carChase) runsAway = false;
+    if (e.cantRunAway) runsAway = false;
+
+    if (runsAway && e.body is HumanoidBody) {
+      clearMessageArea();
+
+      final escapeAction = (e.body.legok < 2 || e.blood < e.maxBlood * 0.45)
+          ? gameOptions.lighterTone
+                ? "crawls off..."
+                : escapeCrawling.random
+          : escapeRunning.random;
+      mvaddstrc(
+        9,
+        1,
+        white,
+        "{name} {escape}",
+        params: {"name": e.name, "escape": LcsI18n.tr(escapeAction)},
+      );
+
+      encounter.remove(e);
+      possibleEnemies.remove(e);
+      if (activeSiteUnderSiege) activeSite!.siege.kills++;
+
+      printParty();
+      printEncounter();
+
+      await getKey();
+
+      return true;
+    } else if (e.nonCombatant && e.cantRunAway) {
+      if (await incapacitated(e, false)) {
+        e.incapacitatedThisRound = true;
+      } else if (e.equippedWeapon != null) {
         clearMessageArea();
-
-        final escapeAction = (e.body.legok < 2 || e.blood < e.maxBlood * 0.45)
-            ? escapeCrawling.random
-            : escapeRunning.random;
         mvaddstrc(
           9,
           1,
           white,
-          "{name} {escape}",
-          params: {"name": e.name, "escape": LcsI18n.tr(escapeAction)},
+          "{name} {cower}",
+          params: {"name": e.name, "cower": LcsI18n.tr(cowerInCombat.random)},
         );
-
-        encounter.remove(e);
-        possibleEnemies.remove(e);
-        if (activeSiteUnderSiege) activeSite!.siege.kills++;
-
-        printParty();
-        printEncounter();
-
         await getKey();
-
-        continue;
-      } else if (e.nonCombatant && e.cantRunAway) {
-        if (await incapacitated(e, false)) {
-          e.incapacitatedThisRound = true;
-        } else if (e.equippedWeapon != null) {
-          clearMessageArea();
-          mvaddstrc(
-            9,
-            1,
-            white,
-            "{name} {cower}",
-            params: {"name": e.name, "cower": LcsI18n.tr(cowerInCombat.random)},
-          );
-          await getKey();
-        }
-        continue;
       }
+      return true;
     }
+  }
 
-    // Categorize targets into good and bad buckets
-    List<Creature> goodtarg = [];
-    List<Creature> badtarg = [];
-    if (e.isEnemy) {
-      for (Creature p in squad) {
-        if (p.alive) goodtarg.add(p);
-      }
-      for (Creature e2 in encounter) {
-        if (e2.alive && e2 != e) {
-          if (!activeSiteUnderSiege) {
+  // Categorize targets into good and bad buckets
+  List<Creature> goodtarg = [];
+  List<Creature> badtarg = [];
+  if (e.isEnemy) {
+    for (Creature p in squad) {
+      if (p.alive) goodtarg.add(p);
+    }
+    for (Creature e2 in encounter) {
+      if (e2.alive && e2 != e) {
+        if (!activeSiteUnderSiege) {
+          badtarg.add(e2);
+        } else {
+          if (e2.isEnemy) {
             badtarg.add(e2);
           } else {
-            if (e2.isEnemy) {
-              badtarg.add(e2);
-            } else {
-              goodtarg.add(e2);
-            }
+            goodtarg.add(e2);
           }
         }
       }
-    } else {
-      for (Creature e2 in possibleEnemies) {
-        if (e2.alive && e2.isEnemy && !e2.nonCombatant && e2.stunned <= 0) {
-          goodtarg.add(e2);
-        } else if (e2.alive && e2 != e) {
-          badtarg.add(e2);
-        }
+    }
+  } else {
+    for (Creature e2 in possibleEnemies) {
+      if (e2.alive && e2.isEnemy && !e2.nonCombatant && e2.stunned <= 0) {
+        goodtarg.add(e2);
+      } else if (e2.alive && e2 != e) {
+        badtarg.add(e2);
       }
     }
+  }
 
-    // Take no action if nobody they want to attack is present
-    if (goodtarg.isEmpty) return;
+  // Take no action if nobody they want to attack is present
+  if (goodtarg.isEmpty) return false;
 
-    Creature target = goodtarg.random;
+  Creature target = goodtarg.random;
 
-    // If the attack will be a social attack, it can't have friendly fire
-    bool canmistake = true;
-    if (e.attack.socialDamage) canmistake = false;
-    if (!e.attack.ranged) canmistake = false;
-    if (mode == GameMode.carChase) canmistake = false;
+  // If the attack will be a social attack, it can't have friendly fire
+  bool canmistake = true;
+  if (e.attack.socialDamage) canmistake = false;
+  if (!e.attack.ranged) canmistake = false;
+  if (mode == GameMode.carChase) canmistake = false;
 
-    if (canmistake) {
-      // Resolve hits on hostages and hauled liberals
-      if (e.isEnemy && target.prisoner != null && oneIn(2)) {
-        final prisoner = target.prisoner!;
-        await attack(e, prisoner, true);
-        if (!prisoner.alive) {
-          if (prisoner.align != Alignment.liberal || prisoner.body.fellApart) {
-            CreatureType prisonerType = prisoner.type;
+  if (canmistake) {
+    // Resolve hits on hostages and hauled liberals
+    if (e.isEnemy && target.prisoner != null && oneIn(2)) {
+      final prisoner = target.prisoner!;
+      await attack(e, prisoner, true);
+      if (!prisoner.alive) {
+        if (prisoner.align != Alignment.liberal || prisoner.body.fellApart) {
+          CreatureType prisonerType = prisoner.type;
 
-            if (prisonerType.majorEnemy) {
-              siteCrime += 30;
-            }
-
-            makeLoot(prisoner, groundLoot);
-
-            if (prisoner.body.fellApart) {
-              await encounterMessage(
-                "{attacker} drops {body}",
-                params: {
-                  "attacker": target.name,
-                  "body": LcsI18n.translate("the bloody mess"),
-                },
-              );
-            } else {
-              await encounterMessage(
-                "{name} drops {prisonerName}'s body.",
-                params: {"name": target.name, "prisonerName": prisoner.name},
-              );
-            }
-            target.prisoner = null;
+          if (prisonerType.majorEnemy) {
+            siteCrime += 30;
           }
-        }
-        continue;
-      }
 
-      // Resolve friendly fire and neutrals caught in the crossfire
-      if (oneIn(10 * e.weaponSkill + 10) && badtarg.isNotEmpty) {
-        target = badtarg.random;
-        if (target.justConverted) {
-          await attack(e, target, false);
-        } else {
-          await attack(e, target, true);
+          makeLoot(prisoner, groundLoot);
+
+          if (prisoner.body.fellApart) {
+            await encounterMessage(
+              "{attacker} drops {body}",
+              params: {
+                "attacker": target.name,
+                "body": LcsI18n.tr("the bloody mess"),
+              },
+            );
+          } else {
+            await encounterMessage(
+              "{name} drops {prisonerName}'s body.",
+              params: {"name": target.name, "prisonerName": prisoner.name},
+            );
+          }
+          target.prisoner = null;
         }
-        if (!target.alive) {
-          if (mode == GameMode.site) makeLoot(target, groundLoot);
-          encounter.remove(target);
-          possibleEnemies.remove(target);
-        }
-        continue;
       }
+      return true;
     }
 
-    // Resolve attack on the intended target
-    await attack(e, target, false);
-    if (!target.alive && encounter.contains(target)) {
-      if (mode == GameMode.site) makeLoot(target, groundLoot);
-      encounter.remove(target);
-      possibleEnemies.remove(target);
+    // Resolve friendly fire and neutrals caught in the crossfire
+    if (oneIn(10 * e.weaponSkill + 10) && badtarg.isNotEmpty) {
+      target = badtarg.random;
+      if (target.justConverted) {
+        await attack(e, target, false);
+      } else {
+        await attack(e, target, true);
+      }
+      if (!target.alive) {
+        if (mode == GameMode.site) makeLoot(target, groundLoot);
+        encounter.remove(target);
+        possibleEnemies.remove(target);
+      }
+      return true;
+    }
+  }
+
+  // Resolve attack on the intended target
+  await attack(e, target, false);
+  if (!target.alive && encounter.contains(target)) {
+    if (mode == GameMode.site) makeLoot(target, groundLoot);
+    encounter.remove(target);
+    possibleEnemies.remove(target);
+  }
+  return true;
+}
+
+Future<void> combatRound(List<Creature> validTargets) async {
+  bool wasAlarm = siteAlarm;
+
+  // A player ambush is any situation where the squad is attacking enemies
+  // in sitemode before the alarm is raised.
+  bool playerAmbush = mode == GameMode.site && !wasAlarm;
+
+  // Classic order: full squad round, then full enemy round.
+  if (!alternatingInitiative || playerAmbush) {
+    await youattack(validTargets);
+    await enemyattack(validTargets);
+    return;
+  }
+
+  // Alternating order: interleave attacks from squad and enemies.
+  List<Creature> squadActors = activeSquad?.livingMembers.toList() ?? [];
+  List<Creature> enemyActors = List.of(validTargets);
+  int rounds = max(squadActors.length, enemyActors.length);
+  for (int i = 0; i < rounds; i++) {
+    if (i < squadActors.length) {
+      Creature p = squadActors[i];
+      if (p.alive && (activeSquad?.members.contains(p) ?? false)) {
+        await squadMemberAttacks(p, wasAlarm, validTargets);
+      }
+    }
+    if (i < enemyActors.length) {
+      Creature e = enemyActors[i];
+      if (e.alive && validTargets.contains(e)) {
+        await enemyMemberAttacks(e, validTargets);
+      }
+    }
+  }
+
+  // Tail of youattack: raise the alarm if any enemy is still standing, and let
+  // allies in a besieged safehouse lay down cover fire.
+  for (Creature e in validTargets) {
+    if (e.alive && e.isEnemy) {
+      siteAlarm = true;
+      break;
+    }
+  }
+  if (activeSiteUnderSiege) {
+    for (Creature p in pool) {
+      if (!p.alive) continue;
+      if (p.align != Alignment.liberal) continue;
+      if (p.squad == activeSquad) continue;
+      if (p.location != activeSite) continue;
+
+      Attack? chosenAttack = p.getAttack(true, false, false);
+      if (chosenAttack != null) {
+        await squadMemberAttacks(p, wasAlarm, validTargets);
+      }
     }
   }
 }
@@ -1951,7 +2017,7 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
       }
     } else {
       a.incapacitatedThisRound = false;
-      if (noncombat) {
+      if (noncombat && !gameOptions.lighterTone) {
         clearMessageArea();
         if (a.squad == null && !a.type.majorEnemy) a.nonCombatant = true;
         final reaction = switch (lcsRandom(54)) {
@@ -2147,6 +2213,17 @@ void addDeathMessage(Creature cr) {
   setColor(yellow);
 
   move(9, 1);
+
+  if (gameOptions.lighterTone) {
+    String deathMessage = [
+      "dies.",
+      "is killed.",
+      "is dead.",
+      "is gone.",
+    ].random;
+    addstr("${cr.name} $deathMessage");
+    return;
+  }
 
   BodyPart? head = cr.body.parts.firstWhereOrNull((bp) => bp.name == "Head");
   BodyPart? body = cr.body.parts.firstWhereOrNull((bp) => bp.name == "Torso");

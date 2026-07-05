@@ -11,7 +11,11 @@ import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/utils/colors.dart';
+import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+
+// ignore: prefer_interpolation_to_compose_strings
+String _possessive(String name) => name + "'s";
 
 class MajorEventContent {
   const MajorEventContent({
@@ -52,6 +56,9 @@ NewsStory randomMajorEventStory() {
         View.pollution => Law.pollution,
         View.corporateCulture => Law.corporate,
         View.ceoSalary => Law.corporate,
+        View.healthcare => Law.healthcare,
+        View.retirement => Law.retirement,
+        View.housing => Law.housing,
         _ => null,
       };
       DeepAlignment banAlignment = DeepAlignment.eliteLiberal;
@@ -66,6 +73,8 @@ NewsStory randomMajorEventStory() {
         View.womensRights => Law.genderEquality,
         View.amRadio => Law.freeSpeech,
         View.animalResearch => Law.animalRights,
+        View.housing => Law.housing,
+        View.healthcare => Law.healthcare,
         _ => null,
       };
       DeepAlignment banAlignment = DeepAlignment.eliteLiberal;
@@ -139,9 +148,35 @@ MajorEventContent generateMajorEventContent(
   bool liberalSpin,
   NewsStory ns,
 ) {
+  bool zeroCensorship =
+      laws[Law.freeSpeech] == DeepAlignment.archConservative ||
+      ns.publicationAlignment == DeepAlignment.eliteLiberal;
+  bool maxCensorship = noProfanity && !zeroCensorship;
+
   if (liberalSpin) {
     switch (view) {
       case View.womensRights:
+        if (gameOptions.lighterTone || oneIn(2)) {
+          FullName organizer = generateFullName();
+          return MajorEventContent(
+            headline: "WOMEN'S MARCH",
+            storyText:
+                "${randomCityName()} - Tens of thousands marched downtown "
+                "today in support of women's rights, in one of the largest "
+                "demonstrations the city has seen in years.&r"
+                "   The Women's March, led by a coalition of women's rights "
+                "organizations, called for equal pay for equal work, "
+                "access to affordable healthcare, and the right to make "
+                "decisions about their own bodies.&r"
+                "   \"This fight is bigger than any one of us,\" organizer "
+                "${organizer.firstLast} said.  \"We need to stand together "
+                "and show that we are not going to be silenced. We need to "
+                "make sure that our voices are heard.\"&r"
+                "   The march proceeded peacefully and without incident.  "
+                "The atmosphere was festive and supportive, with many "
+                "bystanders cheering the women on.&r",
+          );
+        }
         FullName doctor = generateFullName(Gender.female);
         FullName perpetrator = generateFullName(Gender.male);
         String abortions = switch (laws[Law.genderEquality]) {
@@ -174,6 +209,26 @@ MajorEventContent generateMajorEventContent(
               "two children.&r",
         );
       case View.lgbtRights:
+        if (gameOptions.lighterTone || oneIn(2)) {
+          FullName organizer = generateFullName();
+          return MajorEventContent(
+            headline: "MARCH OF LOVE",
+            storyText:
+                "${randomCityName()} - A huge crowd gathered downtown today "
+                "for a march celebrating LGBT rights and calling for equal "
+                "treatment under the law.&r"
+                "   \"We're here to remind everyone that we are all equal, "
+                "that love is love, and that everyone deserves a chance at "
+                "happiness,\" said ${organizer.firstLast}, a local activist "
+                "who helped organize the march.  \"To everyone who came out "
+                "today, whether it was coming out to support us or coming "
+                "out to your friends and family, thank you!\"&r"
+                "   One bystander struck a supportive tone: \"It's just so "
+                "heartwarming to see people marching for the idea of just "
+                "being in love and being who they are. Who can argue with "
+                "that?\"&r",
+          );
+        }
         FullName victim = generateFullName(Gender.female);
         String victimDeadName = firstName(Gender.male);
         String victimFullName = laws[Law.lgbtRights]! < DeepAlignment.moderate
@@ -186,14 +241,17 @@ MajorEventContent generateMajorEventContent(
             "transsexual calling himself \"${victim.first}\"",
           _ => "trans woman",
         };
+        if (zeroCensorship) {
+          victimLabel = "trans woman";
+        }
         String murdered = [
           "dragged to death behind a pickup truck",
           "burned alive",
           "beaten to death",
         ].random;
         String actionTowardPolice = [
-          "throwing ${noProfanity ? "[juice boxes]" : "beer bottles"}",
-          "${noProfanity ? "[relieving themselves]" : "pissing"} out the window",
+          "throwing ${maxCensorship ? "[juice boxes]" : "beer bottles"}",
+          "${maxCensorship ? "[relieving themselves]" : "pissing"} out the window",
           "taking swipes",
         ].random;
         String chaseEnd = [
@@ -1068,6 +1126,79 @@ MajorEventContent generateMajorEventContent(
             );
         }
 
+      case View.healthcare:
+        String city = randomCityName();
+        FullName patient = generateFullName();
+        const adjective = ["United", "Human", "Blue", "First", "Golden"];
+        const noun = ["Cross", "Health", "Care", "Life", "Well"];
+        String insuranceCompany =
+            "${adjective.random} ${noun.random} Insurance";
+        String insuranceCompanyHoldingGroup = generateCompanyName();
+        return MajorEventContent(
+          headline: "DYING DENIAL",
+          storyText:
+              "$city - ${patient.firstLast} remembers when $insuranceCompany (a "
+              "subsidiary of $insuranceCompanyHoldingGroup) first "
+              "answered ${patient.gender.hisHer} call. The voice on the line was "
+              "polite, but it had the unmistakable sound of a computer voice. And "
+              "no matter how much he tried to get a human on the line, or to convince "
+              "the computer that he was dying, he couldn't get through.&r"
+              "  It took $insuranceCompany three months to answer "
+              "${_possessive(patient.last)} request for pre-approval for a life-saving procedure. And when they "
+              "finally did, ${_possessive(patient.last)} treatment was denied as an "
+              "elective procedure.&r"
+              "  \"I've never felt so helpless in my life,\" ${patient.last} said. "
+              "\"The procedure I needed was going to cost \$100,000, and I always "
+              "thought the point of insurance was in case things like this happened. "
+              "But they refused to pay for it, even though I was dying.\"&r",
+        );
+      case View.retirement:
+        String city = randomCityName();
+        String company = generateCompanyName();
+        FullName ceo = generateFullName(Gender.whiteMalePatriarch);
+        FullName retiree = generateFullName();
+        String pensionCutAmount = ["by 50%", "by 75%", "entirely"].random;
+        return MajorEventContent(
+          headline: "PENSIONS GONE",
+          storyText:
+              "$city - $company announced today that they could no longer "
+              "afford to fulfill the promises they made to their retirees, and would "
+              "be cutting pensions $pensionCutAmount. This follows on the news that "
+              "${_possessive(company)} stock price hit record highs on the back of its "
+              "recent booming earnings report.&r"
+              "  \"We're sorry to have to do this,\" said CEO ${ceo.firstLast}.  "
+              "\"But we have no choice.  "
+              "These pensions are unsustainable, and we need to cut costs to stay "
+              "profitable. But it's okay, because we're sorry. We're so sorry. "
+              "We messed up and we're really sorry. We're not going to fix it, but "
+              "we know your pain and we're really very sorry about it. And, if "
+              "I haven't made it clear enough: I'm sorry.\"&r"
+              "  \"The only apology I'll accept is my pension. This is a slap "
+              "in the face to the hardworking people who have "
+              "worked for the company for years,\" said ${retiree.firstLast}, a retired "
+              "$company employee.  \"These pensions were "
+              "part of the compensation package for our years of service. We were promised "
+              "that we would be taken care of when we retired, and now they're "
+              "just throwing us out.\"&r",
+        );
+      case View.housing:
+        String city = randomCityName();
+        return MajorEventContent(
+          headline: "PRICED OUT",
+          storyText:
+              "$city - A state of emergency has been declared by the "
+              "local government as the number of people living on the streets "
+              "has reached record levels amidst skyrocketing rent prices.&r"
+              "  \"This isn't just about the camps,\" Mayor ${lastName()} "
+              "said. \"This is about more and more people not being able to "
+              "make ends meet, even when they're working. Many of the "
+              "unhoused are still working, even with their lives overturned. "
+              "We need to take decisive action to bring down the cost of "
+              "housing in our city, or it's only going to get worse.\"&r"
+              "  In the last year, rents in the city have risen more than 20%, "
+              "significantly faster than the growth in wages, leading to a "
+              "growing number of people being priced out of their homes.",
+        );
       default:
         return MajorEventContent(
           headline: "BUGGY GAME",
@@ -1230,7 +1361,7 @@ MajorEventContent generateMajorEventContent(
                   "We're all doomed because the Tinky Winky issue won't die.",
                 9 => "Polls show people could not care less about Tinky Winky.",
                 10 =>
-                  "Is the effeminate Tinky Winky a symbol of the LGBT agenda?",
+                  "Is the effeminate Tinky Winky a symbol of the gay agenda?",
                 11 =>
                   "It's finally time to have a frank conversation about Tinky Winky.",
                 _ => "Teletubbies reruns reignite the Tinky Winky controversy.",
@@ -2107,6 +2238,121 @@ MajorEventContent generateMajorEventContent(
               "received several hundred complaints from irate listeners from "
               "all over the state.  A spokesperson for the FCC stated that the "
               "incident is under investigation.&r",
+        );
+      case View.healthcare:
+        String numberWaiting =
+            (7.1 +
+                    (gameState.date.difference(DateTime(2025, 1, 1)).inDays) *
+                        0.002)
+                .toStringAsFixed(1);
+        String governmentInsult = [
+          "Bunch of absolute muppets, they are",
+          "Shower of useless clowns",
+          "Couldn't organize a piss-up in a brewery",
+          "Wouldn't trust 'em to run a bath",
+          "A right shambles, the lot of them",
+        ].random;
+        return MajorEventContent(
+          headline: "NHS CRISIS",
+          storyText:
+              "London, United Kingdom - The National Health Service (NHS) "
+              "has been brought to its knees by record-breaking waiting times "
+              "for routine healthcare services as the number of people "
+              "waiting for hospital care and diagnostic tests continues to rise.&r"
+              "  \"This NHS situation has gone pear-shaped, you can't get "
+              "a GP appointment for love nor money these days,\" "
+              "said one fed-up Londoner. \"And last time I was in A&E there "
+              "were people left on trolleys in the corridors. "
+              "We need some real leadership from "
+              "Westminster or Downing Street if we want to get a grip on this "
+              "mess. I shan't hold my breath with this government though. "
+              "$governmentInsult.\"&r"
+              "  A total of $numberWaiting million patients are currently waiting "
+              "for planned hospital care, with more than a quarter of these "
+              "waiting longer than the NHS's 18-week target.&r",
+        );
+      case View.retirement:
+        String thinkTankAdjective = [
+          "American",
+          "United",
+          "Patriot",
+          "Family",
+          "Children's",
+          "National",
+        ].random;
+        String thinkTankNoun = [
+          "Heritage",
+          "Enterprise",
+          "Freedom",
+          "Liberty",
+          "Charity",
+          "Equality",
+        ].random;
+        String thinkTankNoun2 = [
+          "Partnership",
+          "Institute",
+          "Consortium",
+          "Forum",
+          "Center",
+          "Association",
+        ].random;
+        String thinkTankName =
+            "$thinkTankAdjective $thinkTankNoun $thinkTankNoun2";
+        FullName thinkTankSpokesperson = generateFullName(
+          Gender.whiteMalePatriarch,
+        );
+        FullName socialSecurityAdministrationSpokesperson = generateFullName(
+          Gender.whiteMalePatriarch,
+        );
+        String dateOfInsolvency = (DateTime.now().year + 5 + lcsRandom(5))
+            .toString();
+        return MajorEventContent(
+          headline: "INSECURITY",
+          storyText:
+              "Washington, DC - The Social Security Administration "
+              "has announced that the program is on the brink of insolvency, "
+              "with the trust fund expected to be depleted by $dateOfInsolvency. Meanwhile, "
+              "private healthcare accounts are thriving due to recent high "
+              "returns in the stock market.&r"
+              "  \"We've been saying for years that Social Security is an "
+              "unsustainable pyramid scheme, a fraud on the American people,\" "
+              "said ${thinkTankSpokesperson.firstLast}, a spokesperson for the "
+              "$thinkTankName. \"It's time for the American people to take "
+              "control of their own retirement and cut government inefficiency "
+              "and waste out of our futures.\"&r"
+              "  ${socialSecurityAdministrationSpokesperson.firstLast} from "
+              "the Social Security Administration offered a more measured "
+              "response. \"The Social Security Administration will continue to fulfill "
+              "its statutory mandates, but policy adjustments to balance "
+              "revenues and outflows will be necessary for long-term sustainability.\"&r",
+        );
+      case View.housing:
+        String city = randomCityName();
+        FullName resident = generateFullName();
+        return MajorEventContent(
+          headline: "PUBLIC SLUMS",
+          storyText:
+              "$city - The public housing crisis has reached a "
+              "tipping point, with record numbers of people living in overcrowded "
+              "and unsafe conditions. The crisis is being fueled by a combination "
+              "of rising cost of repairs and regulatory limits on rent, which is "
+              "leading to neglect and decay. The suppressed rent is also inviting "
+              "criminal elements and other unsavory characters to move in.&r"
+              "  \"This place seemed like a good idea when I moved in,\" "
+              "${resident.firstLast} said. \"And I guess the price is still pretty "
+              "okay, but now it's a dump. I'm thinking of moving out, I just "
+              "don't know where else I can afford to live.\"&r"
+              "  The city has been trying to address the crisis by investing in "
+              "new housing, but the costs are too high and the city is losing "
+              "money on every building it builds.&r"
+              "  \"We're trying to build enough public housing, "
+              "but the city can't outbuild growth. "
+              "We should really be looking to low-cost private "
+              "development in the long run. Unfortunately, it costs "
+              "\$220,000 in permits for "
+              "a private developer to build one new house in this city,\" said "
+              "the city's Planning Commissioner "
+              "${lastName(Gender.whiteMalePatriarch)}.&r",
         );
       default:
         return MajorEventContent(

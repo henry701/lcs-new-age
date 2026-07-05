@@ -84,7 +84,6 @@ Future<void> hospitalize(Site loc, Creature patient) async {
   int time = clinictime(patient);
 
   if (time > 0) {
-    patient.clinicMonthsLeft = time;
     patient.squad = null;
     patient.location = loc;
     patient.activity = Activity.none();

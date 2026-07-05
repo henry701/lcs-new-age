@@ -7,6 +7,8 @@ import 'package:lcs_new_age/items/ammo.dart';
 import 'package:lcs_new_age/items/ammo_type.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
+import 'package:lcs_new_age/items/flag.dart';
+import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/items/item_type.dart';
 import 'package:lcs_new_age/items/loot.dart';
 import 'package:lcs_new_age/items/loot_type.dart';
@@ -30,10 +32,12 @@ class Item implements Comparable<Item> {
       return Clothing(type.idName);
     } else if (type is AmmoType) {
       return Ammo(type.idName);
-    } else if (type is LootType) {
-      return Loot(type.idName);
     } else if (type.isMoney) {
       return Money(1);
+    } else if (type is LootType) {
+      return Loot(type.idName);
+    } else if (type is FlagType) {
+      return Flag(type.idName);
     } else {
       debugPrint("Item constructor: Unknown item type: $idName");
       return Item.superConstructor(type.idName);
@@ -50,10 +54,13 @@ class Item implements Comparable<Item> {
       return Clothing.fromJson(json);
     } else if (type is AmmoType) {
       return Ammo.fromJson(json);
+    } else if (type?.isMoney == true) {
+      // Must precede LootType: money is a LootType flagged isMoney.
+      return Money.fromJson(json);
     } else if (type is LootType) {
       return Loot.fromJson(json);
-    } else if (type?.isMoney == true) {
-      return Money.fromJson(json);
+    } else if (type is FlagType) {
+      return Flag.fromJson(json);
     } else {
       debugPrint("Item.fromJson: Unknown item type: ${json['typeName']}");
       return Item(json['typeName'])..stackSize = json['stackSize'];
@@ -72,6 +79,7 @@ class Item implements Comparable<Item> {
   bool get isClothing => false;
   bool get isAmmo => false;
   bool get isLoot => false;
+  bool get isFlag => false;
   bool get isForSale => type.fenceValue > 0;
 
   double get fenceValue => type.fenceValue;

@@ -991,9 +991,29 @@ void prepareEncounter(
           CreatureTypeIds.photographer: 5,
           CreatureTypeIds.cameraman: 5,
         });
+      case SiteType.nursingHome:
+        if (sec) weights.add(CreatureTypeIds.securityGuard, 15);
+        weights.addAll({
+          CreatureTypeIds.nursingHomeAttendant: 15,
+          CreatureTypeIds.nurse: 2,
+          CreatureTypeIds.dietician: 1,
+          CreatureTypeIds.physicalTherapist: 1,
+          CreatureTypeIds.socialWorker: 1,
+        });
+      case SiteType.insuranceOffice:
+        weights.addAll({
+          CreatureTypeIds.securityGuard: sec ? 100 : 10,
+          CreatureTypeIds.officeWorker: 40,
+          CreatureTypeIds.secretary: 20,
+          CreatureTypeIds.corporateManager: 5,
+          CreatureTypeIds.janitor: 5,
+          CreatureTypeIds.actuary: 5,
+          CreatureTypeIds.auditor: 1,
+          CreatureTypeIds.doctor: 1,
+        });
       case SiteType.homelessEncampment:
       default:
-        if (!lcs) {
+        if (!lcs || type == SiteType.homelessEncampment) {
           weights.addAll({
             CreatureTypeIds.janitor: 5,
             CreatureTypeIds.teenager: 20,
@@ -1025,6 +1045,15 @@ void prepareEncounter(
       for (int n = 0; n < lcsRandom(encnum - 1) + 1; n++) {
         encounter.add(Creature.fromId(lcsRandomWeighted(weights)));
       }
+    }
+  }
+
+  // A Liberal (sleeper) landlord runs a friendly building: any security
+  // guards they hired should also be Liberals.
+  if (activeSite?.controller == SiteController.lcs &&
+      (activeSite?.rent ?? 0) <= 0) {
+    for (Creature e in encounter) {
+      if (e.type.id == CreatureTypeIds.securityGuard) liberalize(e);
     }
   }
 }
@@ -1077,6 +1106,18 @@ Future<bool> addsiegeencounter(int type) async {
               case SiegeType.corporateMercs:
                 e = Creature.fromId(CreatureTypeIds.merc);
                 ensureIsArmed(e);
+              case SiegeType.medicalDebtCollectors:
+                e = Creature.fromId(
+                  lcsRandomWeighted({
+                    CreatureTypeIds.actuary: 1,
+                    CreatureTypeIds.cpa: 1,
+                    CreatureTypeIds.claimsAdjuster: 1,
+                    CreatureTypeIds.auditor: 1,
+                    CreatureTypeIds.officeWorker: 1,
+                  }),
+                );
+                conservatize(e);
+                e.giveWeaponAndAmmo("WEAPON_AR15", 4);
               case SiegeType.ccs:
                 e = Creature.fromId(CreatureTypeIds.ccsVigilante);
                 ensureIsArmed(e);

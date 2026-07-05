@@ -217,7 +217,6 @@ Future<void> doActivityTrouble(List<Creature> trouble) async {
       default:
         message = "{actor} protested against the game being buggy!";
         if (noProfanity) {
-          // How DARE you protest against the game being buggy!
           juiceval = 2;
           crime = Crime.unlawfulSpeech;
         } else {

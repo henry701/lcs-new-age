@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/money.dart';
 import 'package:lcs_new_age/location/city.dart';
@@ -82,6 +83,9 @@ class Site extends Location {
 
   @JsonKey()
   bool hasFlag = false;
+  @JsonKey(defaultValue: 'FLAG_US')
+  String flyingFlagId = 'FLAG_US';
+  FlagType? get flyingFlag => hasFlag ? flagTypes[flyingFlagId] : null;
   @JsonKey(includeToJson: true, includeFromJson: true, defaultValue: false)
   bool _businessFront = false;
   bool get businessFront {
@@ -164,6 +168,11 @@ class Site extends Location {
       type == SiteType.prison;
   bool get isSafehouse => controller == SiteController.lcs;
 
+  bool get chargesRent =>
+      type == SiteType.tenement ||
+      type == SiteType.apartment ||
+      type == SiteType.upscaleApartment;
+
   @override
   String getName({bool short = false, bool includeCity = false}) {
     String fullName = short
@@ -196,13 +205,8 @@ class Site extends Location {
     if (type == SiteType.upscaleApartment || discreet || businessFront) {
       protection = 80;
     }
-    if (laws[Law.flagBurning] == DeepAlignment.archConservative) {
-      if (hasFlag) {
-        protection += 30;
-      } else {
-        protection -= 10;
-      }
-    }
+    int flagSecrecy = flagSecrecyWhenFlying(flyingFlag);
+    if (flagSecrecy > 0) protection += flagSecrecy;
     return protection.clamp(0, 95);
   }
 
@@ -288,6 +292,56 @@ void initSiteName(Site loc) {
         loc.name = LcsI18n.processString("{name} Prison", {"name": owner});
         loc.shortName = LcsI18n.tr("Prison");
       }
+    case SiteType.universityHospital:
+      switch (loc.cityId) {
+        case 1: // Seattle
+          loc.name = "UW Medical Center";
+          loc.shortName = "UW Medical";
+        case 2: // New York
+          loc.name = "NewYork-Presbyterian Hospital";
+          loc.shortName = "NYP Hospital";
+        case 3: // Los Angeles
+          loc.name = "LA General Medical Center";
+          loc.shortName = "LA General";
+        case 4: // Washington DC
+          loc.name = "MedStar Washington";
+          loc.shortName = "MedStar";
+        default: // It is a mystery
+          loc.name = "University Hospital";
+          loc.shortName = "Hospital";
+      }
+    case SiteType.nursingHome:
+      const adjective = [
+        "Happy",
+        "Gentle",
+        "Quiet",
+        "Radiant",
+        "Loving",
+        "Tender",
+        "Joyful",
+      ];
+      const noun = [
+        "Journey",
+        "Moments",
+        "Compass",
+        "Touch",
+        "Oasis",
+        "Care",
+        "Reflections",
+      ];
+      loc.name = LcsI18n.processString("{adjective} {noun} Nursing Home", {
+        "adjective": LcsI18n.tr(adjective.random),
+        "noun": LcsI18n.tr(noun.random),
+      });
+      loc.shortName = "NursingHome";
+    case SiteType.insuranceOffice:
+      const adjective = ["United", "Human", "Blue", "First", "Golden"];
+      const noun = ["Cross", "Health", "Care", "Life", "Well"];
+      loc.name = LcsI18n.processString("{adjective} {noun} Insurance", {
+        "adjective": LcsI18n.tr(adjective.random),
+        "noun": LcsI18n.tr(noun.random),
+      });
+      loc.shortName = "Insurance";
     case SiteType.nuclearPlant:
       if (laws[Law.nuclearPower] == DeepAlignment.eliteLiberal) {
         loc.rename("Nuclear Waste Center", "Nuclear");

@@ -59,6 +59,8 @@ Future<void> siteMode(Site loc) async {
   if (!loc.siege.underSiege) {
     ccsSiegeKills = 0;
     ccsBossKills = 0;
+    ccsSiegeConverts = 0;
+    ccsBossConverts = 0;
 
     //Start at entrance to map
     locx = MAPX >> 1;
@@ -366,16 +368,16 @@ Future<void> _siteModeAux() async {
         graffiti ? "-graffiti, " : "se, ",
       );
       if (enemy && siteAlarm) {
-        bool canSneak = false;
+        bool cantSneak = false;
         for (Creature e in encounter) {
           if (e.alive && e.noticedParty) {
             // You can't sneak past this person; they already know you're there
-            canSneak = true;
+            cantSneak = true;
             break;
           }
         }
         addstrc(blue, "V");
-        if (!canSneak) {
+        if (!cantSneak) {
           addstrc(lightGray, "-Sneak, ");
         } else {
           addstrc(lightGray, "-Flee, ");
@@ -825,8 +827,7 @@ Future<void> _siteModeAux() async {
         if (subdue) {
           await _fightSubdued();
         } else {
-          await youattack(encounter);
-          await enemyattack(encounter);
+          await combatRound(encounter);
           await creatureadvance();
           encounterTimer++;
         }
@@ -1173,6 +1174,8 @@ Future<void> _siteModeAux() async {
           case TileSpecial.clubBouncerSecondVisit:
           case TileSpecial.apartmentLandlord:
           case TileSpecial.ceoOffice:
+          case TileSpecial.insuranceCEO:
+          case TileSpecial.nursingHomeManager:
           case TileSpecial.table:
           case TileSpecial.tent:
           case TileSpecial.computer:
@@ -1625,6 +1628,10 @@ Future<void> _siteModeAux() async {
               await specialBouncerAssessSquad();
             case TileSpecial.clubBouncerSecondVisit:
               specialBouncerGreetSquad();
+            case TileSpecial.insuranceCEO:
+              await specialInsuranceCEO();
+            case TileSpecial.nursingHomeManager:
+              await specialNursingHomeManager();
             case TileSpecial.ceoOffice:
               clearMessageArea();
               setColor(white);
@@ -1681,19 +1688,25 @@ Future<void> _siteModeAux() async {
               setColor(white);
               move(9, 1);
               currentTile.special = TileSpecial.none;
-              if (siteAlarm ||
-                  siteAlienated.alienated ||
-                  activeSiteUnderSiege) {
+              Creature landlord = uniqueCreatures.currentSiteCreature(
+                CreatureTypeIds.landlord,
+              );
+              if (activeSiteUnderSiege ||
+                  !landlord.alive ||
+                  landlord.location != activeSite) {
                 addstr("The landlord is out of the office.");
-
                 await getKey();
               } else {
                 addstr("The landlord is in.");
-
                 await getKey();
-
                 encounter.clear();
-                encounter.add(Creature.fromId(CreatureTypeIds.landlord));
+                // At high security the landlord keeps PMC bodyguards close.
+                if (activeSite!.hasHighSecurity &&
+                    landlord.align != Alignment.liberal) {
+                  encounter.add(Creature.fromId(CreatureTypeIds.merc));
+                  encounter.add(Creature.fromId(CreatureTypeIds.merc));
+                }
+                encounter.add(landlord);
               }
             case TileSpecial.bankTeller:
               await specialBankTeller();
@@ -1706,19 +1719,15 @@ Future<void> _siteModeAux() async {
               await specialOvalOffice();
             default:
               bool squadmoved = olocx != locx || olocy != locy || olocz != locz;
-              bool isApartment =
-                  activeSite!.type == SiteType.apartment ||
-                  activeSite!.type == SiteType.tenement ||
-                  activeSite!.type == SiteType.upscaleApartment;
 
-              if (squadmoved && isApartment) {
+              if (squadmoved && activeSite!.chargesRent) {
                 // Rarely encounter someone in apartments
                 if (!oneIn(3)) break;
               }
 
               prepareEncounter(siteType, activeSite!.highSecurity > 0);
 
-              if (isApartment && currentTile.restricted) {
+              if (activeSite!.chargesRent && currentTile.restricted) {
                 // Nobody likes you if you're breaking into their home
                 for (var e in encounter) {
                   conservatize(e);
@@ -1860,8 +1869,7 @@ Future<void> _resolveSite() async {
   if (!newsStories.contains(sitestory!)) newsStories.add(sitestory!);
 
   // Reset isWillingToTalk for unique creatures
-  uniqueCreatures.ceo.isWillingToTalk = true;
-  uniqueCreatures.president.isWillingToTalk = true;
+  uniqueCreatures.resetWillingToTalk();
 
   if (siteCrime > 50 + lcsRandom(50)) {
     if (activeSite!.controller == SiteController.unaligned) {

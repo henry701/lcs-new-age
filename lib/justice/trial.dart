@@ -1,6 +1,7 @@
 /* monthly - hold trial on a liberal */
 import 'dart:math';
 
+import 'package:lcs_new_age/basemode/blind_time_log.dart';
 import 'package:lcs_new_age/common_actions/common_actions.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -17,6 +18,9 @@ import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+
+// ignore: prefer_interpolation_to_compose_strings
+String _possessive(String name) => name + "'s";
 
 enum TrialOutcome { retrial, acquittal, guilty, lenience }
 
@@ -576,6 +580,38 @@ Future<void> trial(Creature g) async {
   } else {
     Clothing clothes = Clothing("CLOTHING_CLOTHES");
     g.giveArmor(clothes, null);
+  }
+  switch (trialOutcome) {
+    case TrialOutcome.retrial:
+      (String text) {
+        if (!canSeeThings) logBlindEvent(text);
+      }("${_possessive(g.name)} trial was hung and will be re-tried.");
+    case TrialOutcome.acquittal:
+      if (g.sentence == 0) {
+        logBlindEvent("${g.name} was acquitted and set free.");
+      } else {
+        logBlindEvent(
+          "${g.name} was acquitted but returns to prison to serve time.",
+        );
+      }
+    case TrialOutcome.guilty:
+    case TrialOutcome.lenience:
+      if (g.deathPenalty) {
+        logBlindEvent("${g.name} was sentenced to death.");
+      } else if (g.sentence < 0) {
+        logBlindEvent("${g.name} was sentenced to life in prison.");
+      } else if (g.sentence == 0) {
+        logBlindEvent("${g.name} was sentenced to time served and set free.");
+      } else if (g.sentence >= 36) {
+        logBlindEvent(
+          "${g.name} was sentenced to ${g.sentence ~/ 12} years in prison.",
+        );
+      } else {
+        logBlindEvent(
+          "${g.name} was sentenced to ${g.sentence} "
+          "month${g.sentence > 1 ? "s" : ""} in prison.",
+        );
+      }
   }
 }
 

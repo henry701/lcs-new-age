@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:lcs_new_age/basemode/blind_time_log.dart';
 import 'package:lcs_new_age/common_actions/common_actions.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
@@ -14,11 +15,28 @@ import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/utils/colors.dart';
+import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 /* monthly - move a liberal to jail */
 void imprison(Creature g) {
   g.location = findSiteInSameCity(g.location?.city, SiteType.prison);
+}
+
+String _juiceSuffix(int delta) {
+  if (delta == 0) return "";
+  return delta > 0 ? " (+$delta juice)" : " ($delta juice)";
+}
+
+Future<void> _prisonSceneLine(String text) async {
+  if (canSeeThings) {
+    erase();
+    mvaddstrc(8, 1, white, text);
+    await getKey();
+    erase();
+  } else {
+    logBlindEvent(text);
+  }
 }
 
 /* monthly - advances a liberal's prison time or executes them */
@@ -34,7 +52,7 @@ Future<void> prison(Creature g) async {
     "crucifixion",
     "head-squishing",
     "piranha tank swimming exhibition",
-    "forced sucking of Ronald Reagan's ass",
+    "vivisection",
     "covering with peanut butter and letting rats eat",
     "burying up to the neck in a fire ant nest",
     "running truck over the head",
@@ -50,7 +68,7 @@ Future<void> prison(Creature g) async {
     "blood draining",
     "chemical weapons test",
     "sale to a furniture maker",
-    "sale to a CEO as a personal pleasure toy",
+    "being fed into a meat processing plant",
     "sale to foreign slave traders",
     "exposure to degenerate Bay 12 Curses games",
   ];
@@ -112,13 +130,12 @@ Future<void> prison(Creature g) async {
           DeepAlignment.conservative => historicExecutionMethods.random,
           _ => supposedlyHumaneExecutionMethods.random,
         };
-        mvaddstr(
-          9,
-          1,
-          "Today, the Conservative Machine executed {name}",
-          params: {"name": g.name},
-        );
-        mvaddstr(10, 1, "by {method}.", params: {"method": method});
+        if (laws[Law.deathPenalty] == DeepAlignment.archConservative &&
+            gameOptions.lighterTone) {
+          method = historicExecutionMethods.random;
+        }
+        mvaddstr(9, 1, "Today, the Conservative Machine executed ${g.name}");
+        mvaddstr(10, 1, "by $method.");
 
         await getKey();
 
@@ -181,40 +198,51 @@ Future<void> prison(Creature g) async {
     //NOTIFY OF IMPENDING THINGS
     else if (g.sentence == 1) {
       if (g.deathPenalty) {
-        erase();
-        mvaddstrc(
-          8,
-          1,
-          yellow,
-          "{name} is due to be executed next month.",
-          params: {"name": g.name},
-        );
-
-        await getKey();
+        if (canSeeThings) {
+          erase();
+          mvaddstrc(
+            8,
+            1,
+            yellow,
+            "{name} is due to be executed next month.",
+            params: {"name": g.name},
+          );
+          await getKey();
+        } else {
+          logBlindEvent("${g.name} is due to be executed next month.");
+        }
       } else {
-        erase();
-        mvaddstrc(
-          8,
-          1,
-          white,
-          "{name} is due to be released next month.",
-          params: {"name": g.name},
-        );
-
-        await getKey();
+        if (canSeeThings) {
+          erase();
+          mvaddstrc(
+            8,
+            1,
+            white,
+            "{name} is due to be released next month.",
+            params: {"name": g.name},
+          );
+          await getKey();
+        } else {
+          logBlindEvent("${g.name} is due to be released next month.");
+        }
       }
     } else {
       if (g.deathPenalty) {
-        erase();
-        mvaddstrc(
-          8,
-          1,
-          yellow,
-          "{name} is due to be executed in {months} months.",
-          params: {"name": g.name, "months": g.sentence.toString()},
-        );
-
-        await getKey();
+        if (canSeeThings) {
+          erase();
+          mvaddstrc(
+            8,
+            1,
+            yellow,
+            "{name} is due to be executed in {months} months.",
+            params: {"name": g.name, "months": g.sentence.toString()},
+          );
+          await getKey();
+        } else {
+          logBlindEvent(
+            "${g.name} is due to be executed in ${g.sentence} months.",
+          );
+        }
       }
     }
   }
@@ -232,6 +260,11 @@ Future<void> rehabilitation(Creature g) async {
     "{name} sees a video in prison by victims of political crime.",
   ];
 
+  String experience = reeducationExperiences.random;
+  int juiceChange = 0;
+  int wisdomChange = 0;
+  bool renounced = false;
+
   erase();
   mvaddstrc(
     8,
@@ -241,9 +274,6 @@ Future<void> rehabilitation(Creature g) async {
     params: {"name": g.name},
   );
 
-  await getKey();
-
-  move(10, 1);
   if (!g.attributeCheck(Attribute.heart, Difficulty.formidable)) {
     if (g.juice > 0 && oneIn(2)) {
       mvaddstr(
@@ -252,6 +282,7 @@ Future<void> rehabilitation(Creature g) async {
         "{name} feels bad about LCS actions, and loses juice!",
         params: {"name": g.name},
       );
+      juiceChange = -50;
       addjuice(g, -50, 0);
     } else if (lcsRandom(15) > g.attribute(Attribute.wisdom) ||
         g.attribute(Attribute.wisdom) < g.attribute(Attribute.heart)) {
@@ -261,6 +292,7 @@ Future<void> rehabilitation(Creature g) async {
         "{name} silently grows Wiser...",
         params: {"name": g.name},
       );
+      wisdomChange = 1;
       g.adjustAttribute(Attribute.wisdom, 1);
     } else if (g.align == Alignment.liberal && g.seduced && oneIn(4)) {
       mvaddstr(
@@ -285,15 +317,20 @@ Future<void> rehabilitation(Creature g) async {
       }
 
       g.die();
+      renounced = true;
     }
   } else {
     mvaddstr(10, 1, "{name} remains strong.", params: {"name": g.name});
   }
 
-  await getKey();
-
-  erase();
-
+  if (wisdomChange != 0) {
+    await _prisonSceneLine("${g.name}$experience (+$wisdomChange wisdom)");
+  } else {
+    await _prisonSceneLine("${g.name}$experience${_juiceSuffix(juiceChange)}");
+  }
+  if (renounced) {
+    await _prisonSceneLine("${g.name} renounces the LCS!");
+  }
   return;
 }
 
@@ -342,13 +379,20 @@ Future<void> laborCamp(Creature g) async {
   if (experience2 != null) {
     mvaddstrc(9, 1, white, experience2, params: {"name": g.name});
     await getKey();
+
+    move(10, 1);
+    escape(g, escaped == 2);
+
+    await getKey();
+
+    erase();
+    return;
   }
 
-  move(10, 1);
-  if (escaped > 0) {
-    escape(g, escaped == 2);
-  } else if (oneIn(4)) {
+  // Routine scenes are a single line; death gets its own callout.
+  if (oneIn(4)) {
     if (g.health > 1) {
+      int before = g.juice;
       mvaddstrc(
         8,
         1,
@@ -358,11 +402,15 @@ Future<void> laborCamp(Creature g) async {
       );
       addjuice(g, -40, 0);
       addjuice(g, -10, -50);
+      await _prisonSceneLine(
+        "${g.name}$experience${_juiceSuffix(g.juice - before)}",
+      );
     } else {
       mvaddstrc(8, 1, red, "{name} is found dead.", params: {"name": g.name});
 
       g.die();
       g.location = null;
+      await _prisonSceneLine("${g.name} is found dead.");
     }
   } else {
     mvaddstrc(
@@ -373,10 +421,6 @@ Future<void> laborCamp(Creature g) async {
       params: {"name": g.name},
     );
   }
-
-  await getKey();
-
-  erase();
 
   return;
 }
@@ -469,6 +513,13 @@ Future<void> prisonScene(Creature g) async {
 
   move(10, 1);
   if (escaped > 0) {
+    erase();
+    mvaddstrc(8, 1, white, g.name);
+    addstr(experience);
+
+    await getKey();
+
+    move(10, 1);
     escape(g, escaped == 2);
   } else if (effect > 0) {
     mvaddstr(
@@ -495,9 +546,15 @@ Future<void> prisonScene(Creature g) async {
     );
   }
 
-  await getKey();
-
-  erase();
+  int before = g.juice;
+  if (effect > 0) {
+    addjuice(g, 20, 1000);
+  } else if (effect < 0) {
+    addjuice(g, -20, -30);
+  }
+  await _prisonSceneLine(
+    "${g.name}$experience${_juiceSuffix(g.juice - before)}",
+  );
 }
 
 void escape(Creature g, bool withFriends) {
@@ -524,6 +581,9 @@ void escape(Creature g, bool withFriends) {
     }
     if (numEscaped == 1) {
       mvaddstr(11, 1, "Another imprisoned LCS member also gets out!");
+      if (!canSeeThings) {
+        logBlindEvent("Another imprisoned LCS member also gets out!");
+      }
     } else if (numEscaped > 1) {
       mvaddstr(
         11,

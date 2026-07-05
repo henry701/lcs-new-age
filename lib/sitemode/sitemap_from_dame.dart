@@ -5,7 +5,7 @@ import 'package:lcs_new_age/sitemode/sitemap.dart';
 // The old guide to how the DAME maps work. DAME essentially doesn't exist
 // anymore so this is left here for reference. We need a new method for
 // editing custom maps moving forward.
-//  - Jonathan S. Fox, 2024
+//  - Ashley S. Fox, 2024
 //
 //  -----------------------------------------------------------------------
 //
@@ -49,7 +49,7 @@ import 'package:lcs_new_age/sitemode/sitemap.dart';
 // third floor, and so on. For example, a second floor to the industrial apartments would have the
 // name "ApartmentIndustrial2" in DAME, and export as "mapCSV_ApartmentIndustrial2_Tiles.csv".
 //
-//  - Jonathan S. Fox
+//  - Ashley S. Fox
 
 Future<bool> readDAMEMap(String filename) async {
   String prefix = "assets/maps/mapCSV_";
@@ -119,21 +119,7 @@ Future<bool> readMapFile(
     String mapString = await rootBundle.loadString(filename);
     debugPrint("Map file $filename loaded");
 
-    // abort if the file couldn't be opened
-    List<String> lines = mapString.split("\n");
-    for (int y = 0, z = zLevel; y < lines.length; y++) {
-      String line = lines[y];
-      line.trim();
-
-      // split csv
-      List<String> values = line.split(",");
-      for (int x = 0; x < values.length; x++) {
-        if (values[x].isEmpty) continue;
-
-        // pass values to callback
-        callback(x, y, z, int.parse(values[x]));
-      }
-    }
+    applyMapCsv(mapString, zLevel, callback);
   } catch (e) {
     debugPrint(e.toString());
     return false;
@@ -141,52 +127,75 @@ Future<bool> readMapFile(
   return true;
 }
 
+void applyMapCsv(
+  String mapString,
+  int zLevel,
+  void Function(int x, int y, int z, int value) callback,
+) {
+  List<String> lines = mapString.split("\n");
+  for (int y = 0; y < lines.length && y < MAPY; y++) {
+    List<String> values = lines[y].split(",");
+    for (int x = 0; x < values.length && x < MAPX; x++) {
+      if (values[x].trim().isEmpty) continue;
+      callback(x, y, zLevel, int.parse(values[x].trim()));
+    }
+  }
+}
+
+const Map<int, TileSpecial> specialCsvIds = {
+  1: TileSpecial.cagedRabbits,
+  2: TileSpecial.cagedMonsters,
+  3: TileSpecial.policeStationLockup,
+  4: TileSpecial.courthouseLockup,
+  5: TileSpecial.courthouseJuryRoom,
+  6: TileSpecial.prisonControl,
+  7: TileSpecial.prisonControlLow,
+  8: TileSpecial.prisonControlMedium,
+  9: TileSpecial.prisonControlHigh,
+  10: TileSpecial.intelSupercomputer,
+  11: TileSpecial.sweatshopEquipment,
+  12: TileSpecial.polluterEquipment,
+  13: TileSpecial.nuclearControlRoom,
+  14: TileSpecial.ceoSafe,
+  15: TileSpecial.ceoOffice,
+  16: TileSpecial.corporateFiles,
+  17: TileSpecial.radioBroadcastStudio,
+  18: TileSpecial.cableBroadcastStudio,
+  19: TileSpecial.apartmentLandlord,
+  20: TileSpecial.signOne,
+  21: TileSpecial.table,
+  22: TileSpecial.computer,
+  23: TileSpecial.parkBench,
+  24: TileSpecial.stairsUp,
+  25: TileSpecial.stairsDown,
+  26: TileSpecial.clubBouncer,
+  27: TileSpecial.clubBouncerSecondVisit,
+  28: TileSpecial.armory,
+  29: TileSpecial.displayCase,
+  30: TileSpecial.signTwo,
+  31: TileSpecial.signThree,
+  32: TileSpecial.securityCheckpoint,
+  33: TileSpecial.securityMetalDetectors,
+  34: TileSpecial.securitySecondVisit,
+  35: TileSpecial.bankVault,
+  36: TileSpecial.bankTeller,
+  37: TileSpecial.bankMoney,
+  38: TileSpecial.ccsBoss,
+  39: TileSpecial.ovalOfficeNW,
+  40: TileSpecial.ovalOfficeNE,
+  41: TileSpecial.ovalOfficeSW,
+  42: TileSpecial.ovalOfficeSE,
+};
+
+final Map<TileSpecial, int> _specialToCsvId = {
+  for (final MapEntry<int, TileSpecial> e in specialCsvIds.entries)
+    e.value: e.key,
+};
+
+int csvIdForSpecial(TileSpecial special) => _specialToCsvId[special] ?? 0;
+
 void readMapCBSpecials(int x, int y, int z, int i) {
-  levelMap[x][y][z].special = switch (i) {
-    1 => TileSpecial.cagedRabbits,
-    2 => TileSpecial.cagedMonsters,
-    3 => TileSpecial.policeStationLockup,
-    4 => TileSpecial.courthouseLockup,
-    5 => TileSpecial.courthouseJuryRoom,
-    6 => TileSpecial.prisonControl,
-    7 => TileSpecial.prisonControlLow,
-    8 => TileSpecial.prisonControlMedium,
-    9 => TileSpecial.prisonControlHigh,
-    10 => TileSpecial.intelSupercomputer,
-    11 => TileSpecial.sweatshopEquipment,
-    12 => TileSpecial.polluterEquipment,
-    13 => TileSpecial.nuclearControlRoom,
-    14 => TileSpecial.ceoSafe,
-    15 => TileSpecial.ceoOffice,
-    16 => TileSpecial.corporateFiles,
-    17 => TileSpecial.radioBroadcastStudio,
-    18 => TileSpecial.cableBroadcastStudio,
-    19 => TileSpecial.apartmentLandlord,
-    20 => TileSpecial.signOne,
-    21 => TileSpecial.table,
-    22 => TileSpecial.computer,
-    23 => TileSpecial.parkBench,
-    24 => TileSpecial.stairsUp,
-    25 => TileSpecial.stairsDown,
-    26 => TileSpecial.clubBouncer,
-    27 => TileSpecial.clubBouncerSecondVisit,
-    28 => TileSpecial.armory,
-    29 => TileSpecial.displayCase,
-    30 => TileSpecial.signTwo,
-    31 => TileSpecial.signThree,
-    32 => TileSpecial.securityCheckpoint,
-    33 => TileSpecial.securityMetalDetectors,
-    34 => TileSpecial.securitySecondVisit,
-    35 => TileSpecial.bankVault,
-    36 => TileSpecial.bankTeller,
-    37 => TileSpecial.bankMoney,
-    38 => TileSpecial.ccsBoss,
-    39 => TileSpecial.ovalOfficeNW,
-    40 => TileSpecial.ovalOfficeNE,
-    41 => TileSpecial.ovalOfficeSW,
-    42 => TileSpecial.ovalOfficeSE,
-    _ => TileSpecial.none,
-  };
+  levelMap[x][y][z].special = specialCsvIds[i] ?? TileSpecial.none;
 }
 
 void makeDoor(int x, int y, int z, {int flags = 0}) {
@@ -226,4 +235,18 @@ void readMapCBTiles(int x, int y, int z, int i) {
     default:
       levelMap[x][y][z].flag = 0;
   }
+}
+
+int csvIdForTile(SiteTile tile) {
+  if (tile.wall) return tile.metal ? 10 : 2;
+  if (tile.door) {
+    if (tile.metal) return 11;
+    if (tile.alarm) return 9;
+    return tile.locked ? 6 : 5;
+  }
+  if (tile.exit) return 3;
+  if (tile.grass) return 4;
+  if (tile.chainlink) return 8;
+  if (tile.restricted) return 7;
+  return 0;
 }

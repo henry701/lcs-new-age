@@ -452,8 +452,7 @@ Future<ChaseOutcome> carChaseSequence() async {
           }
           addstrc(lightGray, "!");
           await getKey();
-          await youattack(enemiesInNearestVehicle);
-          await enemyattack(enemiesInNearestVehicle);
+          await combatRound(enemiesInNearestVehicle);
           for (Vehicle v in chaseSequence!.enemycar) {
             chaseSequence!.enemyCarDistance[v] =
                 (chaseSequence!.enemyCarDistance[v] ?? 70) - lcsRandom(5);
@@ -633,8 +632,7 @@ Future<ChaseOutcome> footChaseSequence({
           await enemyattack(encounter);
           await creatureadvance();
         } else if (c == Key.f) {
-          await youattack(encounter);
-          await enemyattack(encounter);
+          await combatRound(encounter);
         }
         await creatureadvance();
       }

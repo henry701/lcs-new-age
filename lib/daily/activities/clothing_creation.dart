@@ -10,6 +10,7 @@ import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/loot.dart';
+import 'package:lcs_new_age/items/loot_type.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -151,6 +152,6 @@ Future<void> doActivityMakeClothing(Creature cr) async {
         );
         await getKey();
     }
-    cr.site?.loot.add(Loot("LOOT_RECYCLEDCLOTH"));
+    cr.site?.loot.add(Loot(LootTypeIds.recycledCloth));
   }
 }

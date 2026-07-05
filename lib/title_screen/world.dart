@@ -19,6 +19,7 @@ void makeWorld() {
       SiteType.policeStation,
       SiteType.courthouse,
       SiteType.bank,
+      SiteType.insuranceOffice,
       SiteType.amRadioStation,
       SiteType.latteStand,
       SiteType.barAndGrill,
@@ -26,6 +27,7 @@ void makeWorld() {
     ..addDistrict("U-District", "University District").addSites([
       SiteType.apartment,
       SiteType.universityHospital,
+      SiteType.nursingHome,
       SiteType.geneticsLab,
       SiteType.cosmeticsLab,
       SiteType.veganCoOp,
@@ -58,6 +60,7 @@ void makeWorld() {
       SiteType.policeStation,
       SiteType.courthouse,
       SiteType.bank,
+      SiteType.insuranceOffice,
       SiteType.corporateHQ,
       SiteType.amRadioStation,
       SiteType.cableNewsStation,
@@ -68,6 +71,7 @@ void makeWorld() {
     ..addDistrict("Brooklyn & Queens", "Long Island").addSites([
       SiteType.warehouse,
       SiteType.apartment,
+      SiteType.nursingHome,
       SiteType.universityHospital,
       SiteType.juiceBar,
       SiteType.internetCafe,
@@ -99,9 +103,11 @@ void makeWorld() {
       SiteType.latteStand,
       SiteType.homelessEncampment,
       SiteType.apartment,
+      SiteType.nursingHome,
       SiteType.policeStation,
       SiteType.courthouse,
       SiteType.bank,
+      SiteType.insuranceOffice,
       SiteType.corporateHQ,
       SiteType.universityHospital,
     ])
@@ -139,7 +145,6 @@ void makeWorld() {
     ..addCommercialDistrict()
     ..addDistrict("Downtown", "Downtown").addSites([
       SiteType.upscaleApartment,
-      SiteType.latteStand,
       SiteType.policeStation,
       SiteType.courthouse,
       SiteType.bank,

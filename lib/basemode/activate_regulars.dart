@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
+import 'package:lcs_new_age/basemode/flag.dart';
 import 'package:lcs_new_age/basemode/help_system.dart';
 import 'package:lcs_new_age/common_actions/equipment.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
@@ -15,6 +16,7 @@ import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
+import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
@@ -111,6 +113,7 @@ List<ActivityType> _acquisition = [
   ActivityType.recruiting,
   ActivityType.stealCars,
   ActivityType.makeClothing,
+  ActivityType.makeFlag,
   ActivityType.wheelchair,
 ];
 
@@ -456,7 +459,8 @@ Future<void> _acquisitionChoice(Creature c, int choice) async {
   if (choice == 1) c.activity = Activity(ActivityType.recruiting);
   if (choice == 2) c.activity = Activity(ActivityType.stealCars);
   if (choice == 3) await _selectClothingToMake(c);
-  if (choice == 4 && !c.canWalk && !c.hasWheelchair) {
+  if (choice == 4) await _selectFlagToMake(c);
+  if (choice == 5 && !c.canWalk && !c.hasWheelchair) {
     c.activity = Activity(ActivityType.wheelchair);
   }
 }
@@ -629,6 +633,85 @@ Future<void> _selectClothingToMake(Creature cr) async {
       ActivityType.makeClothing,
       idString:
           "${craftable[selectedClothingIndex].idName}:ARMOR$selectedArmorIndex",
+    );
+  }
+}
+
+Future<void> _selectFlagToMake(Creature cr) async {
+  List<FlagType> craftable =
+      flagTypes.values.where((f) => f.makeDifficulty >= 0).toList()
+        ..sort((a, b) {
+          int byDifficulty = a.makeDifficulty.compareTo(b.makeDifficulty);
+          if (byDifficulty != 0) return byDifficulty;
+          int byCategory = a.category.index.compareTo(b.category.index);
+          if (byCategory != 0) return byCategory;
+          return 0;
+        });
+  if (craftable.isEmpty) return;
+
+  int selected = 0;
+  bool confirmed = false;
+  void renderPreview() {
+    renderFlagPreview(
+      craftable[selected],
+      difficulty: craftable[selected].makeDifficultyFor(cr),
+      costLine: "\$${craftable[selected].makePrice}",
+      costColor: lightGreen,
+      cancelText: "Escape - Cancel Making Flag",
+    );
+  }
+
+  renderPreview();
+
+  await pagedInterface(
+    headerPrompt:
+        "Which will ${cr.name} try to make?  (Half cost if you have cloth)",
+    headerKey: const {
+      0: "FLAG",
+      40: "ISSUE",
+      56: "HEAT",
+      61: "DIFFICULTY",
+      75: "COST",
+    },
+    footerPrompt: "Crafted flags are stored in your safehouse inventory.",
+    pageSize: 12,
+    count: craftable.length,
+    showBackButton: false,
+    lineBuilder: (y, key, index) {
+      FlagType flag = craftable[index];
+      addOptionText(
+        y,
+        0,
+        key,
+        "$key - ${flag.name}",
+        baseColorKey: index == selected ? ColorKey.white : ColorKey.lightGray,
+      );
+      mvaddstrc(y, 40, lightGray, flag.view.label);
+      var (secrecyText, secrecyColor) = flagSecrecyText(flag);
+      mvaddstrc(y, 56, secrecyColor, secrecyText);
+      addDifficultyText(y, 61, flag.makeDifficultyFor(cr));
+      mvaddstrc(y, 75, lightGreen, "\$${flag.makePrice}");
+      // pagedInterface clears graphics on every redraw, so re-draw the preview
+      // once per frame, on the first row.
+    },
+    onChoice: (index) async {
+      selected = index;
+      renderPreview();
+      flush();
+      return false;
+    },
+    onOtherKey: (key) {
+      if (key == Key.enter) {
+        confirmed = true;
+        return true;
+      }
+      return false;
+    },
+  );
+  if (confirmed) {
+    cr.activity = Activity(
+      ActivityType.makeFlag,
+      idString: craftable[selected].idName,
     );
   }
 }

@@ -168,6 +168,13 @@ enum TileSpecial {
   ovalOfficeNE,
   ovalOfficeSW,
   ovalOfficeSE,
+  nursingHomeFiles,
+  nursingHomeManager,
+  nursingHomePatient,
+  nursingHomePatientDone,
+  insuranceFiles,
+  insuranceCEO,
+  insuranceClaimsTerminal,
 }
 
 class SiteTile {
@@ -596,6 +603,10 @@ void buildSiteFromTabScript(Site loc) {
       buildSite("GENERIC_ONEROOM");
     case SiteType.publicPark:
       buildSite("OUTDOOR_PUBLICPARK");
+    case SiteType.nursingHome:
+      buildSite("NURSING_HOME");
+    case SiteType.insuranceOffice:
+      buildSite("INSURANCE_OFFICES");
     default:
       buildSite("GENERIC_LOBBY");
   }
@@ -763,41 +774,43 @@ void clearSecurityFromLCSSafehouses(Site loc) {
   }
 }
 
+String dameMapNameForSiteType(SiteType type) => switch (type) {
+  SiteType.tenement => "ApartmentIndustrial",
+  SiteType.apartment => "ApartmentUniversity",
+  SiteType.upscaleApartment => "ApartmentDowntown",
+  SiteType.warehouse => "Warehouse",
+  SiteType.homelessEncampment => "HomelessCamp",
+  SiteType.drugHouse => "CrackHouse",
+  SiteType.barAndGrill => "BarAndGrill",
+  SiteType.bombShelter => "BombShelter",
+  SiteType.bunker => "Bunker",
+  SiteType.cosmeticsLab => "CosmeticsLab",
+  SiteType.geneticsLab => "GeneticsLab",
+  SiteType.policeStation => "PoliceStation",
+  SiteType.courthouse => "Courthouse",
+  SiteType.prison => "Prison",
+  SiteType.intelligenceHQ => "IntelligenceHQ",
+  SiteType.armyBase => "ArmyBase",
+  SiteType.fireStation => "FireStation",
+  SiteType.sweatshop => "Sweatshop",
+  SiteType.dirtyIndustry => "Factory",
+  SiteType.corporateHQ => "CorporateHQ",
+  SiteType.ceoHouse => "CEOHouse",
+  SiteType.amRadioStation => "RadioStation",
+  SiteType.cableNewsStation => "CableNews",
+  SiteType.juiceBar => "JuiceBar",
+  SiteType.internetCafe => "InternetCafe",
+  SiteType.latteStand => "LatteStand",
+  SiteType.veganCoOp => "VeganCoOp",
+  SiteType.publicPark => "Park",
+  SiteType.bank => "Bank",
+  SiteType.nuclearPlant => "NuclearPlant",
+  SiteType.whiteHouse => "WhiteHouse",
+  _ => "",
+};
+
 Future<bool> tryBuildSiteFromDAME(Site loc) async {
-  String mapName = switch (loc.type) {
-    SiteType.tenement => "ApartmentIndustrial",
-    SiteType.apartment => "ApartmentUniversity",
-    SiteType.upscaleApartment => "ApartmentDowntown",
-    SiteType.warehouse => "Warehouse",
-    SiteType.homelessEncampment => "HomelessCamp",
-    SiteType.drugHouse => "CrackHouse",
-    SiteType.barAndGrill => "BarAndGrill",
-    SiteType.bombShelter => "BombShelter",
-    SiteType.bunker => "Bunker",
-    SiteType.cosmeticsLab => "CosmeticsLab",
-    SiteType.geneticsLab => "GeneticsLab",
-    SiteType.policeStation => "PoliceStation",
-    SiteType.courthouse => "Courthouse",
-    SiteType.prison => "Prison",
-    SiteType.intelligenceHQ => "IntelligenceHQ",
-    SiteType.armyBase => "ArmyBase",
-    SiteType.fireStation => "FireStation",
-    SiteType.sweatshop => "Sweatshop",
-    SiteType.dirtyIndustry => "Factory",
-    SiteType.corporateHQ => "CorporateHQ",
-    SiteType.ceoHouse => "CEOHouse",
-    SiteType.amRadioStation => "RadioStation",
-    SiteType.cableNewsStation => "CableNews",
-    SiteType.juiceBar => "JuiceBar",
-    SiteType.internetCafe => "InternetCafe",
-    SiteType.latteStand => "LatteStand",
-    SiteType.veganCoOp => "VeganCoOp",
-    SiteType.publicPark => "Park",
-    SiteType.bank => "Bank",
-    SiteType.nuclearPlant => "NuclearPlant",
-    SiteType.whiteHouse => "WhiteHouse",
-    _ => "",
-  };
+  String mapName = dameMapNameForSiteType(loc.type);
   bool loaded = false;
   if (mapName != "") loaded = await readDAMEMap(mapName);
   return loaded;

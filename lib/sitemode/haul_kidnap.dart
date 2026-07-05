@@ -3,6 +3,7 @@ import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/conversion.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/hostages/tend_hostage.dart';
 import 'package:lcs_new_age/engine/engine.dart';
@@ -98,6 +99,42 @@ Future<void> kidnapattempt() async {
         target = viableTargets[index];
       }
       if (isBackKey(c)) return;
+    }
+
+    // Bodyguards!
+    Creature? guard;
+    for (Creature e in encounter) {
+      if (e.alive && e.type.bodyguard && e != target) {
+        guard = e;
+        break;
+      }
+    }
+    if (guard != null) {
+      bool proceed = await sitemodePrompt(
+        "${guard.name} stays close to ${target.name}, watching for trouble.",
+        "Try to take ${target.name} anyway? (Yes or No)",
+      );
+      if (!proceed) return;
+
+      if (guard.noticedParty ||
+          !kidnapper.skillCheck(Skill.stealth, Difficulty.formidable)) {
+        await encounterMessage(
+          "${guard.name} steps between the squad and ${target.name},",
+          line2: "eyeing the Liberals with suspicion.",
+          color: purple,
+        );
+
+        int time =
+            20 +
+            lcsRandom(10) -
+            guard.attribute(Attribute.intelligence) -
+            guard.attribute(Attribute.wisdom);
+        if (time < 1) time = 1;
+        if (siteAlarmTimer > time || siteAlarmTimer == -1) {
+          siteAlarmTimer = time;
+        }
+        return;
+      }
     }
 
     bool yellForHelp = false;
@@ -227,7 +264,13 @@ Future<void> kidnapattempt() async {
       siteAlarm = true;
     }
 
-    if (yellForHelp) {
+    if (yellForHelp || guard != null) {
+      if (guard != null) {
+        await encounterMessage(
+          "${guard.name}: \"10-78! Principal in danger!\"",
+          color: purple,
+        );
+      }
       bool present = encounter.any((e) => e.alive);
 
       if (present) {

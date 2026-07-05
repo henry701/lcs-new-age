@@ -5,6 +5,7 @@ import 'package:lcs_new_age/basemode/activate_regulars.dart';
 import 'package:lcs_new_age/basemode/activate_sleepers.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/basemode/base_actions.dart';
+import 'package:lcs_new_age/basemode/blind_time_log.dart';
 import 'package:lcs_new_age/basemode/disbanding.dart';
 import 'package:lcs_new_age/basemode/flag.dart';
 import 'package:lcs_new_age/basemode/invest_in_location.dart';
@@ -23,6 +24,8 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/items/flag.dart';
+import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/siege.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -43,6 +46,8 @@ Future<bool> baseMode() async {
     if (!forceWait) {
       await howTimesHaveChanged(daysWithoutVision);
       daysWithoutVision = 0;
+      // Vision restored; the time-passing log only covers blind stretches.
+      clearBlindLog();
     }
 
     int partySize = activeSquad?.members.length ?? 0;
@@ -134,6 +139,7 @@ Future<bool> baseMode() async {
               "{month} {day}, {year}",
               params: {"month": getMonth(month), "day": day, "year": year},
             );
+            displayBlindLog();
             refresh();
             await Future.delayed(const Duration(milliseconds: 100));
           }
@@ -205,7 +211,7 @@ void baseModeSquadSafehouseDisplay(Site? loc) {
   if (loc == null) return;
 
   if (loc.hasFlag) {
-    printFlag();
+    printFlag(loc.flyingFlag);
   }
 }
 
@@ -221,6 +227,8 @@ void printLocation(Site loc) {
         SiegeType.angryRuralMob => "An angry mob is storming this location!",
         SiegeType.corporateMercs =>
           "Corporate mercs are attacking this location!",
+        SiegeType.medicalDebtCollectors =>
+          "Debt collectors are raiding this location!",
         SiegeType.ccs => "The CCS is attacking this location!",
         _ => "Software bugs are attacking this location!",
       };
@@ -518,6 +526,62 @@ void baseModeOptionsDisplay(Site? loc) {
   }
 }
 
+void addFlagButton(int y, int x, Site loc) {
+  String label;
+  bool enabled;
+  bool highlight;
+  bool sieged = loc.siege.underSiege;
+  bool policeSiege = sieged && loc.siege.activeSiegeType == SiegeType.police;
+  bool ownsAnyFlag = loc.loot.any((i) => i is Flag);
+  if (policeSiege && loc.hasFlag) {
+    FlagType flag = loc.flyingFlag!;
+    if (flag.burns) {
+      if (!loc.siege.flagBurnUsed) {
+        label = "P - Protest: Burn the flag";
+        enabled = true;
+        highlight = true;
+      } else {
+        label = "P - Pride: Switch flags";
+        enabled = ownsAnyFlag;
+        highlight = false;
+      }
+    } else {
+      // Waving can be repeated, but only the first wave has any impact
+      enabled = true;
+      if (!loc.siege.flagWaveUsed) {
+        label = "P - Protest: Wave the flag defiantly";
+        highlight = true;
+      } else {
+        label = "P - Protest: Wave the flag again";
+        highlight = false;
+      }
+    }
+  } else if (sieged) {
+    label = loc.hasFlag ? "P - Pride: Switch flags" : "P - Pride: Raise a flag";
+    enabled = ownsAnyFlag;
+    highlight = false;
+  } else {
+    bool canSwitch = ownsAnyFlag || ledger.funds >= 20;
+    String price = ownsAnyFlag ? "" : "(\$20)";
+    enabled = canSwitch;
+    highlight = false;
+    if (loc.hasFlag) {
+      label = "P - Pride: Switch flags $price";
+    } else {
+      label = "P - Pride: Fly a flag here $price";
+    }
+  }
+
+  addOptionText(
+    y,
+    x,
+    "p",
+    label,
+    baseColorKey: highlight ? "G" : "w",
+    enabledWhen: enabled,
+  );
+}
+
 void printSafehouseSecurityBox(Site site) {
   int heat = site.heat;
   int heatProtection = site.heatProtection;
@@ -583,12 +647,12 @@ Future<bool> checkForVision() async {
     for (Creature c in pool) {
       if (c.isActiveLiberal) {
         cantSeeReason = CantSeeReason.none;
-        if (c.clinicMonthsLeft == 0) {
+        if (!c.hospitalized) {
           forceWait = false;
           break;
         }
       } else {
-        if (c.clinicMonthsLeft > 0 &&
+        if (c.hospitalized &&
             cantSeeReason.index > CantSeeReason.hospital.index) {
           cantSeeReason = CantSeeReason.hospital;
         } else if (c.vacationDaysLeft > 0 &&
@@ -627,5 +691,5 @@ Future<void> updateTheSlogan() async {
   eraseLine(16);
   mvaddstrc(16, 0, lightGray, "What is your new slogan?");
   eraseLine(17);
-  slogan = await enterName(17, 0, "We need a slogan!");
+  slogan = await enterName(17, 0, slogan);
 }

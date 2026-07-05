@@ -400,6 +400,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
         SiegeType.angryRuralMob => "{name} {action}",
         SiegeType.ccs => "{name} {action}",
         SiegeType.corporateMercs => "{name} pretends to be a mercenary.",
+        SiegeType.medicalDebtCollectors => "{name} pretends to be an accountant.",
         SiegeType.none => "{name} sniffs around for Liberals.",
       };
       final actionDetail = switch (activeSite!.siege.activeSiegeType) {

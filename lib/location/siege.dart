@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/creature/creature.dart';
@@ -38,9 +40,31 @@ class Siege {
   int timeuntilRuralMob = -1;
   int timeuntilccs = -1;
   int timeuntilcia = -1;
+  @JsonKey(defaultValue: -1)
+  int timeuntilmedical = -1;
+
+  /// Per-siege protest budget: the squad may burn one flag and wave one flag
+  /// during a police siege. Reset whenever a siege begins or ends.
+  @JsonKey(defaultValue: false)
+  bool flagBurnUsed = false;
+  @JsonKey(defaultValue: false)
+  bool flagWaveUsed = false;
+
+  void resetFlagProtests() {
+    flagBurnUsed = false;
+    flagWaveUsed = false;
+  }
 }
 
-enum SiegeType { none, police, cia, angryRuralMob, corporateMercs, ccs }
+enum SiegeType {
+  none,
+  police,
+  cia,
+  angryRuralMob,
+  corporateMercs,
+  medicalDebtCollectors,
+  ccs,
+}
 
 enum SiegeEscalation {
   police,
@@ -76,6 +100,8 @@ Future<void> giveUp(Site? loc) async {
   if (loc.rent > 0) loc.controller = SiteController.unaligned;
   if (loc.siege.activeSiegeType == SiegeType.police) {
     await surrenderToAuthorities(loc);
+  } else if (loc.siege.activeSiegeType == SiegeType.medicalDebtCollectors) {
+    await surrenderToMedicalIndustry(loc);
   } else {
     await surrenderAndDie(loc);
   }
@@ -127,6 +153,8 @@ Future<void> surrenderAndDie(Site loc) async {
       await checkForDefeat(Ending.hicksSiege);
     case SiegeType.corporateMercs:
       await checkForDefeat(Ending.corporateSiege);
+    case SiegeType.medicalDebtCollectors:
+      await checkForDefeat(Ending.medicalSiege);
     case SiegeType.ccs:
       await checkForDefeat(Ending.ccsSiege);
     case SiegeType.none:
@@ -317,4 +345,88 @@ Future<void> surrenderToAuthorities(Site loc) async {
       }
     }
   }
+}
+
+/// Non-lethal surrender to a medical industry debt-collection raid. Unlike the
+/// other non-police raiders, the debt collectors are here to collect, not to
+/// kill: they take whatever cash the squad can spare and write off the rest of
+/// the Liberals' hospital debt as a "good faith adjustment".
+Future<void> surrenderToMedicalIndustry(Site loc) async {
+  List<Creature> present = pool
+      .where((e) => e.location == loc && e.alive)
+      .toList();
+  List<Creature> liberals = present
+      .where((e) => e.align == Alignment.liberal)
+      .toList();
+
+  // Total unpaid hospital debt among the Liberals being shaken down.
+  int totalOwed = liberals.fold(0, (t, e) => t + e.medicalBills);
+
+  // The squad's cash covers what it can...
+  int fundsPaid = min(totalOwed, ledger.funds);
+  if (fundsPaid > 0) ledger.subtractFunds(fundsPaid, Expense.hospitalBills);
+
+  // ...and the collectors write off whatever the cash didn't cover as a "good
+  // faith adjustment", clearing every present Liberal's hospital debt.
+  int goodFaithAdjustment = totalOwed - fundsPaid;
+  for (Creature e in liberals) {
+    e.medicalBills = 0;
+  }
+
+  // The medical industry backs off for a couple of months.
+  loc.siege.timeuntilmedical = -60;
+
+  erase();
+
+  const int slipLeft = 20, slipRight = 59, slipTop = 1, slipBottom = 20;
+  const int textLeft = slipLeft + 2;
+  const int textRight = slipRight - 2;
+  const int moneyCol = 50;
+
+  setColor(black, background: lightGray);
+  for (int row = slipTop; row <= slipBottom; row++) {
+    mvaddstr(row, slipLeft, "".padRight(slipRight - slipLeft + 1));
+  }
+
+  void receiptLine(int row, String label, int amount) {
+    setColor(black, background: lightGray);
+    mvaddstr(row, textLeft, label);
+    int dotStart = textLeft + label.length;
+    if (moneyCol > dotStart) {
+      mvaddstr(row, dotStart, "".padRight(moneyCol - dotStart, "."));
+    }
+    mvaddstr(row, moneyCol, "\$$amount");
+  }
+
+  setColor(black, background: lightGray);
+  addparagraph(
+    slipTop + 1,
+    textLeft,
+    "MEDICAL DEBT COLLECTION RECEIPT FOR ${loc.name.toUpperCase()}:",
+    y2: 4,
+    x2: textRight,
+  );
+
+  int y = 6;
+  receiptLine(y++, "Total outstanding debt", totalOwed);
+  receiptLine(y++, "Cash paid", fundsPaid);
+  if (goodFaithAdjustment > 0) {
+    receiptLine(y++, "Good faith adjustment", goodFaithAdjustment);
+  }
+  y++;
+  receiptLine(y++, "Total debt cleared", totalOwed);
+  receiptLine(y++, "Total debt remaining", 0);
+
+  setColor(darkBlue, background: lightGray);
+  addparagraph(
+    slipBottom - 2,
+    textLeft,
+    "Personal note: Thank you!!! Enjoy the rest of the doughnuts.",
+    y2: slipBottom - 1,
+    x2: textRight,
+  );
+
+  setColor(lightGray);
+  addOptionText(23, slipLeft, "C", "Press C to Continue Liberally.");
+  while (await getKey() != Key.c) {}
 }

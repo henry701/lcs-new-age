@@ -12,6 +12,7 @@ import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/politics/states.dart';
 import 'package:lcs_new_age/sitemode/stealth.dart';
 import 'package:lcs_new_age/utils/colors.dart';
+import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -719,16 +720,30 @@ Future<void> pagedInterface({
 
 String capitalize(String str) => str[0].toUpperCase() + str.substring(1);
 
-Future<void> defeatMessages(String bright, String medium, String dark) async {
+Future<void> defeatMessages(
+  String bright,
+  String medium,
+  String dark, {
+  String? gentle,
+}) async {
+  // Lighter Tone: replace the three-beat "fading away" sequence with a single
+  // concise notification of the loss.
+  if (gameOptions.lighterTone && gentle != null) {
+    erase();
+    mvaddstrc(12, 6, white, gentle);
+    await getKey();
+    return;
+  }
+
   erase();
-  mvaddstrc(12, 10, white, bright);
+  mvaddstrc(12, 6, white, bright);
   await getKey();
 
   erase();
-  mvaddstrc(12, 12, lightGray, medium);
+  mvaddstrc(12, 8, lightGray, medium);
   await getKey();
 
   erase();
-  mvaddstrc(12, 14, darkGray, dark);
+  mvaddstrc(12, 10, darkGray, dark);
   await getKey();
 }

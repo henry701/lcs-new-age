@@ -186,6 +186,8 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
         "The Liberal Crime Squad was mobbed in {month} {year}.",
       Ending.corporateSiege =>
         "The Liberal Crime Squad was downsized in {month} {year}.",
+      Ending.medicalSiege =>
+        "The Liberal Crime Squad was billed to death in {month} {year}.",
       Ending.dead => "The Liberal Crime Squad was KIA in {month} {year}.",
       Ending.reaganified => "The country was Reaganified in {month} {year}.",
       Ending.prison =>

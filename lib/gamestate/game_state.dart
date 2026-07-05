@@ -40,6 +40,12 @@ class GameState {
   Map<String, dynamic> toJson() => _$GameStateToJson(this);
 
   int uniqueGameId = lcsRandom(10000000);
+
+  @JsonKey(defaultValue: false)
+  bool alternatingInitiative = false;
+  @JsonKey(defaultValue: false)
+  bool ccsAggressive = false;
+
   List<City> cities = [];
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<District> get districts =>
@@ -186,6 +192,7 @@ int get month => gameState.date.month;
 int get day => gameState.date.day;
 int get year => gameState.date.year;
 DateTime get date => gameState.date;
+DateTime get gameStartDate => DateTime(2023, DateTime.january, 1);
 int get disbandTime => gameState.disbandTime;
 bool get disbanding => gameState.disbanding;
 set disbanding(bool value) => gameState.disbanding = value;
@@ -310,6 +317,10 @@ bool get corporateFeudalism =>
     laws[Law.labor] == DeepAlignment.archConservative;
 bool get utterNightmare =>
     !laws.values.any((a) => a != DeepAlignment.archConservative);
+
+bool get alternatingInitiative => gameState.alternatingInitiative;
+bool get ccsAggressive => gameState.ccsAggressive;
+set ccsAggressive(bool value) => gameState.ccsAggressive = value;
 
 bool get offendedAngryRuralMobs => gameState.offendedAngryRuralMobs;
 set offendedAngryRuralMobs(bool value) =>

@@ -10,6 +10,7 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/loot.dart';
+import 'package:lcs_new_age/items/loot_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -51,7 +52,7 @@ Future<void> doActivityHacking(List<Creature> hack) async {
     switch (lcsRandom(6)) {
       case 0:
         msg += "pilfered files from a Corporate server.";
-        loot("LOOT_CORPFILES");
+        loot(LootTypeIds.corpFiles);
       case 1:
         msg += "caused a scare by breaking into a CIA network.";
         trackdif = Difficulty.mythic;
@@ -65,9 +66,9 @@ Future<void> doActivityHacking(List<Creature> hack) async {
       case 3:
         msg += "intercepted internal media emails.";
         if (oneIn(2)) {
-          loot("LOOT_CABLENEWSFILES");
+          loot(LootTypeIds.cableNewsFiles);
         } else {
-          loot("LOOT_AMRADIOFILES");
+          loot(LootTypeIds.amRadioFiles);
         }
       case 4:
         msg += "broke into military networks leaving LCS slogans.";
@@ -78,10 +79,10 @@ Future<void> doActivityHacking(List<Creature> hack) async {
         changePublicOpinion(View.lcsKnown, 5);
       case 5:
         msg += "uncovered information on dangerous research.";
-        loot("LOOT_RESEARCHFILES");
+        loot(LootTypeIds.researchFiles);
       case 6:
         msg += "discovered evidence of judicial corruption.";
-        loot("LOOT_JUDGEFILES");
+        loot(LootTypeIds.judgeFiles);
     }
   } else {
     // Minor hack

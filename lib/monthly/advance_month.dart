@@ -36,35 +36,50 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Future<void> advanceMonth() async {
   var oldlaw = Map.fromEntries(laws.entries);
-  switch (ccsState) {
-    case CCSStrength.inHiding:
-      if (politics.publicMood() > 60) {
-        for (Site s in sites.where(
-          (s) =>
-              s.controller == SiteController.unaligned &&
-              [
-                SiteType.barAndGrill,
-                SiteType.bombShelter,
-                SiteType.bunker,
-              ].contains(s.type),
-        )) {
-          s.controller = SiteController.ccs;
+  bool yearsSinceStart(int years) => !date.isBefore(
+    DateTime(
+      gameStartDate.year + years,
+      gameStartDate.month,
+      gameStartDate.day,
+    ),
+  );
+  if (canSeeThings) {
+    switch (ccsState) {
+      case CCSStrength.inHiding:
+        if (politics.publicMood() > 60 ||
+            (yearsSinceStart(1) && oneIn(3)) ||
+            ccsAggressive) {
+          for (Site s in sites.where(
+            (s) =>
+                s.controller == SiteController.unaligned &&
+                [
+                  SiteType.barAndGrill,
+                  SiteType.bombShelter,
+                  SiteType.bunker,
+                ].contains(s.type),
+          )) {
+            s.controller = SiteController.ccs;
+          }
+          ccsState = CCSStrength.active;
+          if (!ccsInPublicEye) {
+            publicOpinion[View.ccsHated] = politics.publicMood();
+          }
         }
-        ccsState = CCSStrength.active;
-        if (!ccsInPublicEye) {
-          publicOpinion[View.ccsHated] = politics.publicMood();
+      case CCSStrength.active:
+        if (politics.publicMood() > 80 ||
+            (yearsSinceStart(2) && oneIn(3)) ||
+            ccsAggressive) {
+          ccsState = CCSStrength.attacks;
         }
-      }
-    case CCSStrength.active:
-      if (politics.publicMood() > 80) {
-        ccsState = CCSStrength.attacks;
-      }
-    case CCSStrength.attacks:
-      if (politics.publicMood() > 90) {
-        ccsState = CCSStrength.sieges;
-      }
-    default:
-      break;
+      case CCSStrength.attacks:
+        if (politics.publicMood() > 90 ||
+            (yearsSinceStart(3) && oneIn(3)) ||
+            ccsAggressive) {
+          ccsState = CCSStrength.sieges;
+        }
+      default:
+        break;
+    }
   }
 
   //CLEAR RENT EXEMPTIONS

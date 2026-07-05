@@ -586,6 +586,8 @@ void setpriority(NewsStory ns) {
       ns.priority += drama[Drama.juryTampering]! * 30;
       ns.priority += drama[Drama.bankTellerRobbery]! * 30;
       ns.priority += drama[Drama.hijackedBroadcast]! * 30;
+      ns.priority += drama[Drama.openedNursingHomeSafe]! * 30;
+      ns.priority += drama[Drama.openedInsuranceSafe]! * 30;
 
       // Common site crimes
       ns.priority += drama[Drama.killedSomebody]! * 30; // uncapped

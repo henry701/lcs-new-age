@@ -7,6 +7,7 @@ import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/saveload/load_cmv_movies.dart';
 import 'package:lcs_new_age/utils/colors.dart';
+import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Future<void> runTelevisionNewsStories() async {
@@ -19,44 +20,46 @@ Future<void> runTelevisionNewsStories() async {
       if (newsStories[n].liberalSpin) {
         switch (newsStories[n].view) {
           case View.policeBehavior:
-            newsStories[n].headline = "POLICE BRUTALITY";
-            newsStories[n].body =
-                "The police have brutally beaten a black man in Los Angeles.  "
-                "The entire thing is caught on video by a passerby and it "
-                "saturates the news.";
-            await movie.loadmovie("lacops.cmv");
-            await movie.playmovie(0, 0, remapSkinTones: true);
+            if (!gameOptions.lighterTone && oneIn(5)) {
+              newsStories[n].headline = "POLICE BRUTALITY";
+              newsStories[n].body =
+                  "The police have brutally beaten a black man in Los Angeles.  "
+                  "The entire thing is caught on video by a passerby and it "
+                  "saturates the news.";
+              await movie.loadmovie("lacops.cmv");
+              await movie.playmovie(0, 0, remapSkinTones: true);
 
-            mvaddstrc(
-              19,
-              13,
-              white,
-              "┌───────────────────────────────────────────────────┐",
-            );
-            mvaddstr(
-              20,
-              13,
-              "│     The police have brutally beaten a black man   │",
-            );
-            mvaddstr(
-              21,
-              13,
-              "│   in Los Angeles.  The entire thing is caught on  │",
-            );
-            mvaddstr(
-              22,
-              13,
-              "│   video by a passerby and it saturates the news.  │",
-            );
-            mvaddstr(
-              23,
-              13,
-              "└───────────────────────────────────────────────────┘",
-            );
+              mvaddstrc(
+                19,
+                13,
+                white,
+                "┌───────────────────────────────────────────────────┐",
+              );
+              mvaddstr(
+                20,
+                13,
+                "│     The police have brutally beaten a black man   │",
+              );
+              mvaddstr(
+                21,
+                13,
+                "│   in Los Angeles.  The entire thing is caught on  │",
+              );
+              mvaddstr(
+                22,
+                13,
+                "│   video by a passerby and it saturates the news.  │",
+              );
+              mvaddstr(
+                23,
+                13,
+                "└───────────────────────────────────────────────────┘",
+              );
 
-            await getKey();
+              await getKey();
 
-            del = true;
+              del = true;
+            }
           case View.cableNews:
             newsStories[n].publication = Publication.cableNews;
             String str = "Tonight on a Cable News channel: ";

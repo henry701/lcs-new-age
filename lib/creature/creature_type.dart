@@ -76,6 +76,7 @@ class CreatureType {
   bool reportsToPolice = false;
   bool intimidationResistant = false;
   bool canPerformArrests = false;
+  bool bodyguard = false;
   bool animal = false;
   bool dog = false;
   bool get tank => id == CreatureTypeIds.tank;
@@ -97,6 +98,9 @@ class CreatureType {
 
   bool get majorEnemy =>
       id == CreatureTypeIds.corporateCEO ||
+      id == CreatureTypeIds.insuranceCEO ||
+      id == CreatureTypeIds.nursingHomeAdmin ||
+      id == CreatureTypeIds.landlord ||
       id == CreatureTypeIds.radioPersonality ||
       id == CreatureTypeIds.newsAnchor ||
       id == CreatureTypeIds.eminentScientist ||
@@ -156,7 +160,9 @@ class CreatureTypeIds {
   static const String eminentScientist = "CREATURE_SCIENTIST_EMINENT";
   static const String president = "CREATURE_PRESIDENT";
   static const String corporateManager = "CREATURE_CORPORATE_MANAGER";
+  static const String nursingHomeAdmin = "CREATURE_NURSING_HOME_ADMIN";
   static const String corporateCEO = "CREATURE_CORPORATE_CEO";
+  static const String insuranceCEO = "CREATURE_INSURANCE_CEO";
   static const String servant = "CREATURE_WORKER_SERVANT";
   static const String janitor = "CREATURE_WORKER_JANITOR";
   static const String sweatshopWorker = "CREATURE_WORKER_SWEATSHOP";
@@ -189,6 +195,10 @@ class CreatureTypeIds {
   static const String doctor = "CREATURE_DOCTOR";
   static const String psychologist = "CREATURE_PSYCHOLOGIST";
   static const String nurse = "CREATURE_NURSE";
+  static const String dietician = "CREATURE_DIETICIAN";
+  static const String physicalTherapist = "CREATURE_PHYSICAL_THERAPIST";
+  static const String nursingHomeAttendant = "CREATURE_NURSING_HOME_ATTENDANT";
+  static const String socialWorker = "CREATURE_SOCIAL_WORKER";
   static const String ccsArchConservative = "CREATURE_CCS_ARCHCONSERVATIVE";
   static const String ccsVigilante = "CREATURE_CCS_VIGILANTE";
   static const String sewerWorker = "CREATURE_SEWERWORKER";
@@ -209,6 +219,10 @@ class CreatureTypeIds {
   static const String telemarketer = "CREATURE_TELEMARKETER";
   static const String carSalesman = "CREATURE_CARSALESMAN";
   static const String officeWorker = "CREATURE_OFFICEWORKER";
+  static const String auditor = "CREATURE_AUDITOR";
+  static const String actuary = "CREATURE_ACTUARY";
+  static const String cpa = "CREATURE_CPA";
+  static const String claimsAdjuster = "CREATURE_CLAIMS_ADJUSTER";
   static const String footballCoach = "CREATURE_FOOTBALLCOACH";
   static const String sexWorker = "CREATURE_SEXWORKER";
   static const String mailman = "CREATURE_MAILMAN";
@@ -223,6 +237,7 @@ class CreatureTypeIds {
   static const String veteran = "CREATURE_VETERAN";
   static const String hardenedVeteran = "CREATURE_HARDENED_VETERAN";
   static const String soldier = "CREATURE_SOLDIER";
+  static const String militaryOfficer = "CREATURE_MILITARYOFFICER";
   static const String militaryPolice = "CREATURE_MILITARYPOLICE";
   static const String seal = "CREATURE_SEAL";
   static const String hippie = "CREATURE_HIPPIE";

@@ -467,6 +467,18 @@ Future<void> displayStory(NewsStory ns, View? header) async {
             if (did(Drama.musicalRampage)) {
               addDrama("a musical rampage", "performed an impromptu concert");
             }
+            if (did(Drama.openedNursingHomeSafe)) {
+              addDrama(
+                "accessed private documents",
+                "uncovered evidence of elder abuse",
+              );
+            }
+            if (did(Drama.openedInsuranceSafe)) {
+              addDrama(
+                "accessed private documents",
+                "uncovered evidence of insurance fraud",
+              );
+            }
 
             story +=
                 "."
@@ -685,6 +697,19 @@ Future<void> displayStory(NewsStory ns, View? header) async {
                 "known to work with several corporations we've had confrontations "
                 "with in the past.  *When* the police can't figure this one out, they're "
                 "just covering it up";
+          }
+        case SiegeType.medicalDebtCollectors:
+          if (!liberalguardian) {
+            story +=
+                "The victims were all found to have overdosed on drugs. "
+                "And there were bullet holes everywhere. The building was "
+                "more chewed up than the victims. Our lead theory is that "
+                "they did it to themselves, but who knows?";
+          } else {
+            story +=
+                "This was carried out by debt collectors for the medical "
+                "industry. They'll say otherwise, but we know the truth. "
+                "The sooner we can move to a single payer system, the better.";
           }
         case SiegeType.ccs:
           if (!liberalguardian) {

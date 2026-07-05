@@ -3,6 +3,7 @@ import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/location/compound_upgrades.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -160,64 +161,69 @@ Future<void> investInLocation(Site loc) async {
     if (isBackKey(c)) break;
     if (loc.upgradable) {
       if (c == Key.w) {
-        if (!loc.compound.fortified && ledger.funds >= 2000) {
-          ledger.subtractFunds(2000, Expense.compoundUpgrades);
+        int price = CompoundUpgrade.fortify.price;
+        if (!loc.compound.fortified && ledger.funds >= price) {
+          ledger.subtractFunds(price, Expense.compoundUpgrades);
           loc.compound.fortified = true;
         }
       }
       if (c == Key.c) {
-        if (!loc.compound.cameras && ledger.funds >= 2000) {
-          ledger.subtractFunds(2000, Expense.compoundUpgrades);
+        int price = CompoundUpgrade.cameras.price;
+        if (!loc.compound.cameras && ledger.funds >= price) {
+          ledger.subtractFunds(price, Expense.compoundUpgrades);
           loc.compound.cameras = true;
         }
       }
       if (c == Key.t) {
-        if (!loc.compound.boobyTraps && ledger.funds >= 3000) {
-          ledger.subtractFunds(3000, Expense.compoundUpgrades);
+        int price = CompoundUpgrade.boobyTraps.price;
+        if (!loc.compound.boobyTraps && ledger.funds >= price) {
+          ledger.subtractFunds(price, Expense.compoundUpgrades);
           loc.compound.boobyTraps = true;
         }
       }
       if (c == Key.b) {
-        if (!loc.compound.bollards && ledger.funds >= 3000) {
-          ledger.subtractFunds(3000, Expense.compoundUpgrades);
+        int price = CompoundUpgrade.bollards.price;
+        if (!loc.compound.bollards && ledger.funds >= price) {
+          ledger.subtractFunds(price, Expense.compoundUpgrades);
           loc.compound.bollards = true;
         }
       }
       if (c == Key.g) {
-        if (!loc.compound.generator && ledger.funds >= 3000) {
-          ledger.subtractFunds(3000, Expense.compoundUpgrades);
+        int price = CompoundUpgrade.generator.price;
+        if (!loc.compound.generator && ledger.funds >= price) {
+          ledger.subtractFunds(price, Expense.compoundUpgrades);
           loc.compound.generator = true;
         }
       }
       if (c == Key.p) {
+        int price = CompoundUpgrade.solarPanels.price;
         if (!loc.compound.solarPanels &&
             !loc.compound.aaGun &&
-            ledger.funds >= solarCost) {
-          ledger.subtractFunds(solarCost, Expense.compoundUpgrades);
+            ledger.funds >= price) {
+          ledger.subtractFunds(price, Expense.compoundUpgrades);
           loc.compound.solarPanels = true;
         }
       }
       if (c == Key.a) {
-        int aagunPrice = 200000;
-        if (laws[Law.gunControl] == DeepAlignment.archConservative) {
-          aagunPrice = 35000;
-        }
+        int price = CompoundUpgrade.aaGun.price;
         if (!loc.compound.aaGun &&
             !loc.compound.solarPanels &&
-            ledger.funds >= aagunPrice) {
-          ledger.subtractFunds(aagunPrice, Expense.compoundUpgrades);
+            ledger.funds >= price) {
+          ledger.subtractFunds(price, Expense.compoundUpgrades);
           loc.compound.aaGun = true;
         }
       }
       if (c == Key.v) {
-        if (!loc.compound.videoRoom && ledger.funds >= 2000) {
-          ledger.subtractFunds(2000, Expense.compoundUpgrades);
+        int price = CompoundUpgrade.videoRoom.price;
+        if (!loc.compound.videoRoom && ledger.funds >= price) {
+          ledger.subtractFunds(price, Expense.compoundUpgrades);
           loc.compound.videoRoom = true;
         }
       }
       if (c == Key.h) {
-        if (!loc.compound.hackerDen && ledger.funds >= 4000) {
-          ledger.subtractFunds(4000, Expense.compoundUpgrades);
+        int price = CompoundUpgrade.hackerDen.price;
+        if (!loc.compound.hackerDen && ledger.funds >= price) {
+          ledger.subtractFunds(price, Expense.compoundUpgrades);
           loc.compound.hackerDen = true;
         }
       }
@@ -235,8 +241,9 @@ Future<void> investInLocation(Site loc) async {
       }
     }
     if (c == Key.f) {
-      if (!loc.businessFront && !loc.discreet && ledger.funds >= 3000) {
-        ledger.subtractFunds(3000, Expense.compoundUpgrades);
+      int price = CompoundUpgrade.businessFront.price;
+      if (!loc.businessFront && !loc.discreet && ledger.funds >= price) {
+        ledger.subtractFunds(price, Expense.compoundUpgrades);
         loc.businessFront = true;
         do {
           String first = lastName(), second = lastName(), third = lastName();

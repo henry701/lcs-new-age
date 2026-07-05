@@ -39,6 +39,7 @@ Future<void> handleRelease(
       SiegeType.cia => "CIA agents",
       SiegeType.angryRuralMob => "people outside",
       SiegeType.corporateMercs => "corporate mercenaries",
+      SiegeType.medicalDebtCollectors => "debt collectors",
       SiegeType.ccs => "CCS vigilantes",
       _ => "giant bugs",
     };

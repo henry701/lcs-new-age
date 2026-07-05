@@ -8,12 +8,20 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
-Future<int> handleExecution(InterrogationSession intr, Creature lead,
-    List<Creature> tenders, int y) async {
+Future<int> handleExecution(
+  InterrogationSession intr,
+  Creature lead,
+  List<Creature> tenders,
+  int y,
+) async {
   Creature cr = intr.hostage;
   erase();
-  mvaddstrc(0, 0, white,
-      "The Final Education of ${cr.name}: Day ${cr.daysSinceJoined}");
+  mvaddstrc(
+    0,
+    0,
+    white,
+    "The Final Education of ${cr.name}: Day ${cr.daysSinceJoined}",
+  );
   Creature? killer;
 
   for (int i = 0; i < tenders.length; i++) {
@@ -31,14 +39,16 @@ Future<int> handleExecution(InterrogationSession intr, Creature lead,
     setColor(purple);
     cr.die();
     stats.kills++;
-    mvaddstr(y++, 0, "${lead.name} executes ${cr.name} by ");
-    addstr([
+    String method = [
       "burning photos of Ronald Reagan in front of ${cr.gender.himHer}.",
       "telling ${cr.gender.himHer} that taxes have been increased.",
       "forcing ${cr.gender.himHer} to listen to right-wing radio for 24 hours straight.",
       "showing ${cr.gender.himHer} a graph of rising global temperatures.",
       "forcing ${cr.gender.himHer} to actually read a book.",
-    ].random);
+    ].random;
+    addparagraph(y++, 0, "${lead.name} executes ${cr.name} by $method");
+
+    y = console.y + 1;
 
     await getKey();
 

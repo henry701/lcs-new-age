@@ -7,7 +7,7 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 // This comment is included for posterity, but tabscript approach is extremely
 // outdated (from 2009) and the roadmap it gives will not be pursued.
-//  - Jonathan S. Fox, 2024
+//  - Ashley S. Fox, 2024
 //
 // ---------------------------------------------------------------------
 //
@@ -79,7 +79,7 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 // [ ] Organizations configuration? (are we still doing organizations?)
 // ... and more?
 //
-// ~ Jonathan S. Fox
+// ~ Ashley S. Fox
 
 const SITEMAP_ADDTYPE_OR = 1;
 const SITEMAP_ADDTYPE_ANDNOT = 2;
@@ -217,7 +217,13 @@ class ConfigSiteTile extends ConfigSiteCommand {
   @override
   void build() {
     for (SiteTile node in levelMap.range(
-        xstart, ystart, zstart, xend + 1, yend + 1, zend + 1)) {
+      xstart,
+      ystart,
+      zstart,
+      xend + 1,
+      yend + 1,
+      zend + 1,
+    )) {
       if (addtype == SITEMAP_ADDTYPE_OR) {
         node.flag |= tile;
       } else if (addtype == SITEMAP_ADDTYPE_ANDNOT) {
@@ -275,10 +281,22 @@ class ConfigSiteScript extends ConfigSiteCommand {
       }
     } else if (script == SitemapScripts.stairs) {
       generateStairs(
-          xstart, ystart, zstart, xend - xstart, yend - ystart, zend - zstart);
+        xstart,
+        ystart,
+        zstart,
+        xend - xstart,
+        yend - ystart,
+        zend - zstart,
+      );
     } else if (script == SitemapScripts.stairsRandom) {
       generateStairsRandom(
-          xstart, ystart, zstart, xend - xstart, yend - ystart, zend - zstart);
+        xstart,
+        ystart,
+        zstart,
+        xend - xstart,
+        yend - ystart,
+        zend - zstart,
+      );
     }
   }
 
@@ -420,27 +438,33 @@ class ConfigSiteScript extends ConfigSiteCommand {
       }
       // Stairs in secure areas should only lead into secure areas.
       // Removing secure tiles without secure tiles above them.
-      secure.removeWhere((element) =>
-          !secureAbove.any((e) => e.$1 == element.$1 && e.$2 == element.$2));
+      secure.removeWhere(
+        (element) =>
+            !secureAbove.any((e) => e.$1 == element.$1 && e.$2 == element.$2),
+      );
       // Stairs in unsecure areas should only lead into unsecure areas.
       // Removing unsecure tiles without unsecure tiles above them.
-      unsecure.removeWhere((element) =>
-          !unsecureAbove.any((e) => e.$1 == element.$1 && e.$2 == element.$2));
+      unsecure.removeWhere(
+        (element) =>
+            !unsecureAbove.any((e) => e.$1 == element.$1 && e.$2 == element.$2),
+      );
       // Place stairs in secure area if possible, otherwise unsecure area.
       if (secure.isNotEmpty) {
         (x, y) = secure.random;
         z = zi - 1;
         // The tile receiving the stairs down will not eligible for stairs
         // up later.
-        secureAbove
-            .removeWhere((element) => element.$1 == x && element.$2 == y);
+        secureAbove.removeWhere(
+          (element) => element.$1 == x && element.$2 == y,
+        );
       } else if (unsecure.isNotEmpty) {
         (x, y) = unsecure.random;
         z = zi - 1;
         // The tile receiving the stairs down will not eligible for stairs
         // up later.
-        unsecureAbove
-            .removeWhere((element) => element.$1 == x && element.$2 == y);
+        unsecureAbove.removeWhere(
+          (element) => element.$1 == x && element.$2 == y,
+        );
       } else {
         continue; //Nowhere to place stairs.
       }
@@ -487,6 +511,12 @@ TileSpecial specialLookup(String value) {
     "STAIRS_DOWN" => TileSpecial.stairsDown,
     "CLUB_BOUNCER" => TileSpecial.clubBouncer,
     "CLUB_BOUNCER_SECONDVISIT" => TileSpecial.clubBouncerSecondVisit,
+    "NURSING_HOME_FILES" => TileSpecial.nursingHomeFiles,
+    "NURSING_HOME_MANAGER" => TileSpecial.nursingHomeManager,
+    "NURSING_HOME_PATIENT" => TileSpecial.nursingHomePatient,
+    "INSURANCE_FILES" => TileSpecial.insuranceFiles,
+    "INSURANCE_CEO" => TileSpecial.insuranceCEO,
+    "INSURANCE_CLAIMS_TERMINAL" => TileSpecial.insuranceClaimsTerminal,
     _ => TileSpecial.none,
   };
 }
@@ -545,12 +575,12 @@ class Coordinates {
 // Creates a unique during map creation
 class ConfigSiteUnique extends ConfigSiteCommand {
   ConfigSiteUnique(String value)
-      : xstart = (MAPX >> 1) - 5,
-        xend = (MAPX >> 1) + 5,
-        ystart = 10,
-        yend = 20,
-        zstart = 0,
-        zend = 0 {
+    : xstart = (MAPX >> 1) - 5,
+      xend = (MAPX >> 1) + 5,
+      ystart = 10,
+      yend = 20,
+      zstart = 0,
+      zend = 0 {
     unique = specialLookup(value);
   }
 
@@ -566,13 +596,15 @@ class ConfigSiteUnique extends ConfigSiteCommand {
 
     // Place unique
     List<Coordinates> secure = [], unsecure = [];
-    for (SiteTile node in levelMap.all.where((node) =>
-        node.x >= xstart &&
-        node.x <= xend &&
-        node.y >= ystart &&
-        node.y <= yend &&
-        node.z >= zstart &&
-        node.z <= zend)) {
+    for (SiteTile node in levelMap.all.where(
+      (node) =>
+          node.x >= xstart &&
+          node.x <= xend &&
+          node.y >= ystart &&
+          node.y <= yend &&
+          node.z >= zstart &&
+          node.z <= zend,
+    )) {
       if (node.door || node.wall || node.exit || node.outdoor) continue;
       if (node.special == TileSpecial.none) {
         if (node.restricted) {
@@ -605,51 +637,7 @@ class ConfigSiteUnique extends ConfigSiteCommand {
 // Adds a loot type during map creation
 class ConfigSiteLoot extends ConfigSiteCommand {
   ConfigSiteLoot(String value) : weight = 0 {
-    if (value == "FINECLOTH") {
-      loot = "LOOT_FINECLOTH";
-    } else if (value == "CHEMICAL") {
-      loot = "LOOT_CHEMICAL";
-    } else if (value == "PDA") {
-      loot = "LOOT_PDA";
-    } else if (value == "LABEQUIPMENT") {
-      loot = "LOOT_LABEQUIPMENT";
-    } else if (value == "LAPTOP") {
-      loot = "LOOT_COMPUTER";
-    } else if (value == "CHEAPJEWELERY") {
-      loot = "LOOT_CHEAPJEWELERY";
-    } else if (value == "SECRETDOCUMENTS") {
-      loot = "LOOT_SECRETDOCUMENTS";
-    } else if (value == "CEOPHOTOS") {
-      loot = "LOOT_CEOPHOTOS";
-    } else if (value == "INTHQDISK") {
-      loot = "LOOT_INTHQDISK";
-    } else if (value == "CORPFILES") {
-      loot = "LOOT_CORPFILES";
-    } else if (value == "JUDGEFILES") {
-      loot = "LOOT_JUDGEFILES";
-    } else if (value == "RESEARCHFILES") {
-      loot = "LOOT_RESEARCHFILES";
-    } else if (value == "PRISONFILES") {
-      loot = "LOOT_PRISONFILES";
-    } else if (value == "CABLENEWSFILES") {
-      loot = "LOOT_CABLENEWSFILES";
-    } else if (value == "AMRADIOFILES") {
-      loot = "LOOT_AMRADIOFILES";
-    } else if (value == "POLICERECORDS") {
-      loot = "LOOT_POLICERECORDS";
-    } else if (value == "FINEJEWELERY") {
-      loot = "LOOT_EXPENSIVEJEWELERY";
-    } else if (value == "CELLPHONE") {
-      loot = "LOOT_CELLPHONE";
-    } else if (value == "MICROPHONE") {
-      loot = "LOOT_MICROPHONE";
-    } else if (value == "WATCH") {
-      loot = "LOOT_WATCH";
-    } else if (value == "SILVERWARE") {
-      loot = "LOOT_SILVERWARE";
-    } else if (value == "TRINKET") {
-      loot = "LOOT_TRINKET";
-    }
+    loot = "LOOT_$value";
   }
 
   @override

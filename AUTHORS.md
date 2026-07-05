@@ -3,7 +3,7 @@ Project Authors
 
 Liberal Crime Squad was originally created in 2002 by Tarn Adams of Bay12Games. It was released as Open Source in 2004.
 
-Liberal Crime Squad: New Age is a complete rewrite and fork of Liberal Crime Squad created in 2024 by Jonathan S. Fox, a previous maintainer of Liberal Crime Squad.
+Liberal Crime Squad: New Age is a complete rewrite and fork of Liberal Crime Squad created in 2024 by Ashley S. Fox, a previous maintainer of Liberal Crime Squad.
 
 ## Liberal Crime Squad originally created by:
 
@@ -11,7 +11,7 @@ Liberal Crime Squad: New Age is a complete rewrite and fork of Liberal Crime Squ
 
 ## Liberal Crime Squad New Age created by:
 
-* Jonathan Stickles / Jonathan S. Fox (jonathansfox@gmail.com)
+* Ashley S. Fox (jonathansfox@gmail.com)
 
 ## Contributors to New Age:
 
@@ -24,11 +24,13 @@ Liberal Crime Squad: New Age is a complete rewrite and fork of Liberal Crime Squ
 
 * IsaacG's GitHub Fork - https://github.com/King-Drake/Liberal-Crime-Squad
 * SlatersQuest's Terra Vitae Mod
+* TheCheshireCat's Unity Version - https://github.com/Alex-McClelland/LCS_Unity
 
 ## Contributors prior to IsaacG's fork (2007-2015):
 
 * Addie MacGruer / addiemacgruer (2013) - made the Android port
 * Ari Rahikkala / arirahikkala (2009-2011) - direct contributor to main project
+* Ashley S. Fox (2007-2014, 2023) - maintainer of the game who revived the project and put out official releases
 * Azerty (2014) - made a Race & Ethnicities mod with 5 races and 10 cultures
 * BManx2000 (2011) - contributed code thru forums
 * Callum Davies (2012) - contributed code and Linux install instructions thru forums
@@ -51,7 +53,6 @@ Liberal Crime Squad: New Age is a complete rewrite and fork of Liberal Crime Squ
 * infernozeus (2011) - contributed code thru forums
 * Janus / brettflan (2010) - direct contributor to main project
 * jcarter2014 (2014) - direct contributor to main project
-* Jonathan Stickles / Jonathan S. Fox (2007-2014, 2023) - maintainer of the game who revived the project and put out official releases
 * KA101 (2013) - contributed maps
 * Kamal Sadek (2015) - augmentations and multiple save files
 * Kay12 (2011-2013) - contributed code and bug reports thru forums

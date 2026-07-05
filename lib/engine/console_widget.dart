@@ -15,7 +15,7 @@ class ConsoleWidget extends StatefulWidget {
   final Console console;
 
   void requestFocus() {
-    (globalKey.currentState as _ConsoleWidgetState?)?.focusNode.requestFocus();
+    (globalKey.currentState as _ConsoleWidgetState?)?.requestConsoleFocus();
   }
 
   @override
@@ -25,11 +25,24 @@ class ConsoleWidget extends StatefulWidget {
 class _ConsoleWidgetState extends State<ConsoleWidget> {
   late final FocusNode focusNode;
   late final FocusAttachment focusAttachment;
+  final FocusNode keyboardInputFocusNode = FocusNode();
   bool hasFocus = false;
   final TextEditingController textEditingController = TextEditingController();
   int? hoverX;
   int? hoverY;
   final GlobalKey mobileKeyboardLayerKey = GlobalKey();
+
+  bool get _isMobile =>
+      defaultTargetPlatform == TargetPlatform.android ||
+      defaultTargetPlatform == TargetPlatform.iOS;
+
+  void requestConsoleFocus() {
+    if (_isMobile) {
+      keyboardInputFocusNode.requestFocus();
+    } else {
+      focusNode.requestFocus();
+    }
+  }
 
   void updateHoverPosition(double dx, double dy) {
     double cellWidth = textSpanWidth / console.width;
@@ -112,22 +125,25 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
   void dispose() {
     focusNode.removeListener(_handleFocusChange);
     focusNode.dispose();
+    keyboardInputFocusNode.dispose();
     super.dispose();
   }
 
   double textSpanWidth = 1;
   double textSpanHeight = 1;
+  double fontSize = 16;
 
   @override
   void didChangeDependencies() {
+    fontSize = gameOptions.fontSize;
     widget.console.flush = () => setState(() {});
     super.didChangeDependencies();
     TextSpan fg = consoleDataToTextSpan(false);
     TextPainter textPainter = TextPainter(
-      strutStyle: const StrutStyle(
+      strutStyle: StrutStyle(
         height: 1,
         leading: 0,
-        fontSize: 20,
+        fontSize: fontSize,
       ),
       text: fg,
       textDirection: TextDirection.ltr,
@@ -214,7 +230,7 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
         text: text,
         style: TextStyle(
           fontFamily: "SourceCodePro",
-          fontSize: 16,
+          fontSize: gameOptions.fontSize,
           color: foreground,
           backgroundColor: bg ? background : null,
           //leadingDistribution: TextLeadingDistribution.even,
@@ -253,6 +269,9 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (gameOptions.fontSize != fontSize) {
+      didChangeDependencies();
+    }
     focusAttachment.reparent();
     TextSpan fg = consoleDataToTextSpan(false);
     return Material(
@@ -314,6 +333,14 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
           int y = (details.localPosition.dy / cellHeight).floor();
           console.handleMouseEvent(y, x, true);
         },
+        onPanEnd: (details) {
+          // Convert pan coordinates to console coordinates
+          double cellWidth = textSpanWidth / console.width;
+          double cellHeight = textSpanHeight / console.height;
+          int x = (details.localPosition.dx / cellWidth).floor();
+          int y = (details.localPosition.dy / cellHeight).floor();
+          console.handleMouseEvent(y, x, false);
+        },
         onTapUp: (details) {
           double cellWidth = textSpanWidth / console.width;
           double cellHeight = textSpanHeight / console.height;
@@ -328,7 +355,7 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
         },
         onTap: () {
           if (ChangelogWidget.globalKey.currentState?.showing != true) {
-            focusNode.requestFocus();
+            requestConsoleFocus();
           }
         },
         child: child,
@@ -349,30 +376,30 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
   }
 
   Widget mobileKeyboardLayer() {
-    if (defaultTargetPlatform == TargetPlatform.android ||
-        defaultTargetPlatform == TargetPlatform.iOS) {
+    if (_isMobile) {
       return Positioned.fill(
         key: mobileKeyboardLayerKey,
-        child: Visibility(
-          visible: false,
-          maintainState: true,
-          maintainAnimation: true,
-          maintainSize: true,
-          maintainInteractivity: true,
-          child: TextField(
-            minLines: 2,
-            maxLines: 80,
-            controller: textEditingController,
-            showCursor: false,
-            autocorrect: false,
-            enableSuggestions: false,
-            enableInteractiveSelection: false,
-            smartDashesType: SmartDashesType.disabled,
-            smartQuotesType: SmartQuotesType.disabled,
-            keyboardType: TextInputType.multiline,
-            textInputAction: TextInputAction.newline,
-            onChanged: onTextChanged,
+        child: TextField(
+          focusNode: keyboardInputFocusNode,
+          minLines: 2,
+          maxLines: 80,
+          controller: textEditingController,
+          showCursor: false,
+          cursorColor: Colors.transparent,
+          autocorrect: false,
+          enableSuggestions: false,
+          enableInteractiveSelection: false,
+          smartDashesType: SmartDashesType.disabled,
+          smartQuotesType: SmartQuotesType.disabled,
+          keyboardType: TextInputType.multiline,
+          textInputAction: TextInputAction.newline,
+          style: const TextStyle(color: Colors.transparent, fontSize: 1),
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            isCollapsed: true,
+            contentPadding: EdgeInsets.zero,
           ),
+          onChanged: onTextChanged,
         ),
       );
     } else {

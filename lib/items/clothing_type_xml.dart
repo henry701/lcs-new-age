@@ -72,7 +72,6 @@ void parseClothingType(ClothingType clothing, XmlElement xml,
         if (originalXml.containsKey(element.innerText)) {
           parseClothingType(clothing, originalXml[element.innerText]!,
               modifying: true);
-          debugPrint(originalXml[element.innerText]!.outerXml);
         } else {
           debugPrint("Modification of ${element.innerText} could not be "
               "completed because ${element.innerText} was not found");
@@ -102,6 +101,10 @@ void parseClothingType(ClothingType clothing, XmlElement xml,
             parseBool(element.innerText) ?? clothing.allowVisibleArmor;
       case "armor_allowed":
         clothing.allowedArmorIds.add(element.innerText);
+      case "culture":
+        clothing.culture.add(element.innerText);
+      case "gendered":
+        clothing.genderString = element.innerText;
       default:
         debugPrint("Unknown clothing type key: $key");
     }

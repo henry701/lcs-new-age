@@ -353,7 +353,7 @@ String _mediaIssueDescription(View v) => switch (v) {
       View.genetics => "genetic research",
       View.justices => "the Supreme Court",
       View.gunControl => "gun violence",
-      View.sweatshops => "sweatshops",
+      View.sweatshops => "labor rights",
       View.pollution => "pollution",
       View.corporateCulture => "corporations",
       View.ceoSalary => "billionaires",
@@ -367,6 +367,9 @@ String _mediaIssueDescription(View v) => switch (v) {
       View.lcsKnown => "the LCS",
       View.lcsLiked => "the LCS",
       View.ccsHated => "the CCS",
+      View.housing => "housing",
+      View.healthcare => "healthcare",
+      View.retirement => "retirement",
     };
 
 int _mediaSegmentPower() {

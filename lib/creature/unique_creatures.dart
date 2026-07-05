@@ -4,6 +4,7 @@ import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/politics/politics.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
@@ -50,11 +51,12 @@ class UniqueCreatures {
   @JsonKey(includeFromJson: false, includeToJson: false)
   Creature get aceLiberalAttorney {
     _aceLiberalAttorney ??= Creature.fromId(CreatureTypeIds.lawyer)
-      ..name = "${[
-        "Huang", "Astraea", "Saleem", "Imani", //
-      ].random} ${[
-        "Truth", "Justice", "Liberty", "Peace", //
-      ].random}";
+      ..name =
+          "${[
+            "Huang", "Astraea", "Saleem", "Imani", //
+          ].random} ${[
+            "Truth", "Justice", "Liberty", "Peace", //
+          ].random}";
     return _aceLiberalAttorney!;
   }
 
@@ -67,17 +69,87 @@ class UniqueCreatures {
     return _aceAttorneyArchRival!;
   }
 
+  @JsonKey(includeToJson: true, includeFromJson: true)
+  final Map<String, Map<String, Creature>> _siteCreatures = {};
+  Map<String, Creature> get currentSiteCreatures {
+    Location? site = gameState.activeSite;
+    if (site == null) return {};
+    return siteCreatures(site);
+  }
+
+  Map<String, Creature> siteCreatures(Location site) {
+    Map<String, Creature>? creatures = _siteCreatures[site.idString];
+    if (creatures == null) {
+      creatures = {};
+      _siteCreatures[site.idString] = creatures;
+    }
+    return creatures;
+  }
+
+  Creature currentSiteCreature(String typeId) {
+    Location? site = gameState.activeSite;
+    if (site == null) return Creature.fromId(typeId);
+    return siteCreature(typeId, site);
+  }
+
+  Creature siteCreature(String typeId, Location site) {
+    Map<String, Creature> creatures = siteCreatures(site);
+    Creature? creature = creatures[typeId];
+    if (creature == null) {
+      creature = Creature.fromId(typeId);
+      creature.location = gameState.activeSite;
+      creature.workLocation = gameState.activeSite;
+      creatures[typeId] = creature;
+    }
+    return creature;
+  }
+
   void newCEO() => _ceo = null;
   void newPresident() => _president = null;
 
   void syncWithPool() {
     if (_ceo != null) {
-      _ceo = poolAndProspects.firstWhere((p) => p.id == _ceo!.id,
-          orElse: () => _ceo!);
+      _ceo = poolAndProspects.firstWhere(
+        (p) => p.id == _ceo!.id,
+        orElse: () => _ceo!,
+      );
     }
     if (_president != null) {
-      _president = poolAndProspects.firstWhere((p) => p.id == _president!.id,
-          orElse: () => _president!);
+      _president = poolAndProspects.firstWhere(
+        (p) => p.id == _president!.id,
+        orElse: () => _president!,
+      );
     }
+    for (var siteCreatureList in _siteCreatures.values) {
+      for (var entry in siteCreatureList.entries) {
+        siteCreatureList[entry.key] = poolAndProspects.firstWhere(
+          (p) => p.id == entry.value.id,
+          orElse: () => entry.value,
+        );
+      }
+    }
+  }
+
+  void resetWillingToTalk() {
+    for (var c in allCreatures()) {
+      c.isWillingToTalk = true;
+    }
+  }
+
+  void replace(Creature cr) {
+    if (cr == ceo) newCEO();
+    if (cr == president) {
+      politics.promoteVP();
+    }
+    for (var siteCreatureList in _siteCreatures.values) {
+      siteCreatureList.removeWhere((_, creature) => creature.id == cr.id);
+    }
+  }
+
+  Iterable<Creature> allCreatures() {
+    return [
+      ceo,
+      president,
+    ].followedBy(_siteCreatures.values.expand((e) => e.values));
   }
 }

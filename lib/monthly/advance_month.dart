@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:lcs_new_age/basemode/activities.dart';
+import 'package:lcs_new_age/basemode/blind_time_log.dart';
 import 'package:lcs_new_age/basemode/disbanding.dart';
 import 'package:lcs_new_age/basemode/liberal_agenda.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
-import 'package:lcs_new_age/creature/body.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/advance_day.dart';
@@ -35,30 +35,50 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Future<void> advanceMonth() async {
   var oldlaw = Map.fromEntries(laws.entries);
-  switch (ccsState) {
-    case CCSStrength.inHiding:
-      if (politics.publicMood() > 60) {
-        for (Site s in sites.where((s) =>
-            s.controller == SiteController.unaligned &&
-            [SiteType.barAndGrill, SiteType.bombShelter, SiteType.bunker]
-                .contains(s.type))) {
-          s.controller = SiteController.ccs;
+  bool yearsSinceStart(int years) => !date.isBefore(
+    DateTime(
+      gameStartDate.year + years,
+      gameStartDate.month,
+      gameStartDate.day,
+    ),
+  );
+  if (canSeeThings) {
+    switch (ccsState) {
+      case CCSStrength.inHiding:
+        if (politics.publicMood() > 60 ||
+            (yearsSinceStart(1) && oneIn(3)) ||
+            ccsAggressive) {
+          for (Site s in sites.where(
+            (s) =>
+                s.controller == SiteController.unaligned &&
+                [
+                  SiteType.barAndGrill,
+                  SiteType.bombShelter,
+                  SiteType.bunker,
+                ].contains(s.type),
+          )) {
+            s.controller = SiteController.ccs;
+          }
+          ccsState = CCSStrength.active;
+          if (!ccsInPublicEye) {
+            publicOpinion[View.ccsHated] = politics.publicMood();
+          }
         }
-        ccsState = CCSStrength.active;
-        if (!ccsInPublicEye) {
-          publicOpinion[View.ccsHated] = politics.publicMood();
+      case CCSStrength.active:
+        if (politics.publicMood() > 80 ||
+            (yearsSinceStart(2) && oneIn(3)) ||
+            ccsAggressive) {
+          ccsState = CCSStrength.attacks;
         }
-      }
-    case CCSStrength.active:
-      if (politics.publicMood() > 80) {
-        ccsState = CCSStrength.attacks;
-      }
-    case CCSStrength.attacks:
-      if (politics.publicMood() > 90) {
-        ccsState = CCSStrength.sieges;
-      }
-    default:
-      break;
+      case CCSStrength.attacks:
+        if (politics.publicMood() > 90 ||
+            (yearsSinceStart(3) && oneIn(3)) ||
+            ccsAggressive) {
+          ccsState = CCSStrength.sieges;
+        }
+      default:
+        break;
+    }
   }
 
   //CLEAR RENT EXEMPTIONS
@@ -67,9 +87,11 @@ Future<void> advanceMonth() async {
   }
 
   //YOUR PAPER AND PUBLIC OPINION AND STUFF
-  Iterable<Creature> publishers = pool.where((p) =>
-      p.isActiveLiberal && p.activity.type == ActivityType.writeGuardian ||
-      p.activity.type == ActivityType.streamGuardian);
+  Iterable<Creature> publishers = pool.where(
+    (p) =>
+        p.isActiveLiberal && p.activity.type == ActivityType.writeGuardian ||
+        p.activity.type == ActivityType.streamGuardian,
+  );
 
   // Check for game over
   await checkForDefeat();
@@ -91,7 +113,8 @@ Future<void> advanceMonth() async {
     politics.publicInterest[entry.key] = entry.value ~/ 2;
   }
 
-  double conspower = 300 -
+  double conspower =
+      300 -
       publicOpinion[View.amRadio]! * 1.5 -
       publicOpinion[View.cableNews]! * 1.5;
 
@@ -213,9 +236,12 @@ Future<void> advanceMonth() async {
   //CONTROL LONG DISBANDS
   if (disbanding && year - disbandTime >= 50) {
     await defeatMessages(
-        "The Liberal Crime Squad is now just a memory.",
-        "The last LCS members have all been hunted down.",
-        "They will never see the utopia they dreamed of...");
+      "The Liberal Crime Squad is now just a memory.",
+      "The last LCS members have all been hunted down.",
+      "They will never see the utopia they dreamed of...",
+      gentle:
+          "The Liberal Crime Squad faded into history, its work unfinished.",
+    );
     HighScore yourScore = await saveHighScore(Ending.disbandLoss);
     await deleteSaveGame();
     await viewHighScores(yourScore);
@@ -234,9 +260,10 @@ Future<void> advanceMonth() async {
     if (p.sleeperAgent) continue;
     if (p.site?.type == SiteType.policeStation) {
       if (p.missing) {
-        await showMessage(
-            "Cops re-polluted ${p.name}'s mind with Conservatism!",
-            color: purple);
+        await showMessageOrLog(
+          "Cops re-polluted ${p.name}'s mind with Conservatism!",
+          color: purple,
+        );
         p.squad = null;
         pool.remove(p);
         continue;
@@ -244,10 +271,11 @@ Future<void> advanceMonth() async {
           laws[Law.immigration] != DeepAlignment.eliteLiberal) {
         bool execute =
             laws[Law.deathPenalty] == DeepAlignment.archConservative &&
-                laws[Law.immigration] == DeepAlignment.archConservative;
-        await showMessage(
-            "${p.name} has been handed over to ICE and ${execute ? "executed" : "deported"}!",
-            color: purple);
+            laws[Law.immigration] == DeepAlignment.archConservative;
+        await showMessageOrLog(
+          "${p.name} has been handed over to ICE and ${execute ? "executed" : "deported"}!",
+          color: purple,
+        );
 
         p.squad = null;
         pool.remove(p);
@@ -270,7 +298,8 @@ Future<void> advanceMonth() async {
 
         if (copstrength > 200) copstrength = 200;
 
-        int libstrength = p.juice +
+        int libstrength =
+            p.juice +
             (p.attribute(Attribute.heart) * 5) -
             (p.attribute(Attribute.wisdom) * 5) +
             (p.skill(Skill.psychology) * 5) +
@@ -293,26 +322,34 @@ Future<void> advanceMonth() async {
           //Issue a raid on this guy's base!
           p.base?.heat += 300;
 
-          erase();
-          mvaddstrc(8, 1, white, p.name);
-          if (p.brainwashed) {
-            addstr(" has reverted to Conservatism in police custody!");
+          String headline = p.brainwashed
+              ? "${p.name} reverted to Conservatism in police custody!"
+              : "${p.name} broke under pressure and ratted you out!";
+          if (canSeeThings) {
+            erase();
+            mvaddstrc(8, 1, white, headline);
+
+            await getKey();
+
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "The traitor will testify in court, and safehouses may be compromised.",
+            );
+
+            await getKey();
           } else {
-            addstr(" has broken under the pressure and ratted you out!");
+            logBlindEvent(headline);
           }
-
-          await getKey();
-
-          mvaddstrc(9, 1, white,
-              "The traitor will testify in court, and safehouses may be compromised.");
-
-          await getKey();
           p.squad = null;
           pool.remove(p);
           continue; //no trial for this person; skip to next person
         }
 
-        await showMessage("${p.name} is moved to the courthouse for trial.");
+        await showMessageOrLog(
+          "${p.name} is moved to the courthouse for trial.",
+        );
 
         p.location = findSiteInSameCity(p.site!.city, SiteType.courthouse);
         Clothing prisoner = Clothing("CLOTHING_PRISONER");
@@ -347,100 +384,6 @@ Future<void> advanceMonth() async {
   if (canSeeThings) await fundReport(false);
   ledger.resetMonthlyAmounts();
   if (clearScreenOnNextMessage) erase();
-
-  //HEAL CLINIC PE[OPLE
-  if(!disbanding) {
-    for (Creature p in pool) {
-      await healIfOnClinic(p);
-    }
-  }
-}
-
-Future<void> healIfOnClinic(Creature p) async {
-  if (!p.alive) return;
-  if (p.clinicMonthsLeft <= 0) return;
-  
-  p.clinicMonthsLeft--;
-  
-  for (BodyPart w in p.body.parts) {
-    w.heal();
-  }
-  
-  int healthdamage = 0;
-  HumanoidBody? body =
-      p.body is HumanoidBody ? p.body as HumanoidBody : null;
-  if (body != null) {
-    if (body.puncturedRightLung) {
-      body.puncturedRightLung = false;
-      if (oneIn(2)) healthdamage++;
-    }
-    if (body.puncturedLeftLung) {
-      body.puncturedLeftLung = false;
-      if (oneIn(2)) healthdamage++;
-    }
-    if (body.puncturedHeart) {
-      body.puncturedHeart = false;
-      if (!oneIn(3)) healthdamage++;
-    }
-    body.puncturedLiver = false;
-    body.puncturedStomach = false;
-    body.puncturedRightKidney = false;
-    body.puncturedLeftKidney = false;
-    body.puncturedSpleen = false;
-    body.ribs = body.maxRibs;
-    if (body.neck == InjuryState.untreated) {
-      body.neck = InjuryState.treated;
-    }
-    if (body.upperSpine == InjuryState.untreated) {
-      body.upperSpine = InjuryState.treated;
-    }
-    if (body.lowerSpine == InjuryState.untreated) {
-      body.lowerSpine = InjuryState.treated;
-    }
-  
-    // Inflict permanent health damage
-    p.permanentHealthDamage += healthdamage;
-  }
-  
-  if (p.blood <= p.maxBlood * 0.5 && p.clinicMonthsLeft <= 2) {
-    p.blood = (p.maxBlood * 0.5).floor();
-  }
-  if (p.blood <= p.maxBlood * 0.75 && p.clinicMonthsLeft <= 1) {
-    p.blood = (p.maxBlood * 0.75).floor();
-  }
-  
-  // If at clinic and in critical condition, transfer to university hospital
-  if (p.clinicMonthsLeft > 2 && p.site?.type == SiteType.clinic) {
-    Site? hospital =
-        findSiteInSameCity(p.site!.city, SiteType.universityHospital);
-    if (hospital != null) {
-      p.location = hospital;
-      mvaddstrc(8, 1, white, p.name);
-      addstr(" has been transferred to ");
-      addstr(hospital.name);
-      addstr(".");
-  
-      await getKey();
-    }
-  }
-  
-  // End treatment
-  if (p.clinicMonthsLeft == 0) {
-    p.blood = p.maxBlood;
-    p.activity = Activity.none();
-    await showMessage("${p.name} has left the ${p.site!.name}.");
-  
-    Site? hs =
-        findSiteInSameCity(p.site!.city, SiteType.homelessEncampment);
-  
-    if (hs != null &&
-        (p.base?.siege.underSiege != false ||
-            p.base?.controller != SiteController.lcs)) {
-      p.base = hs;
-    }
-  
-    p.location = p.base;
-  }
 }
 
 Future<void> winCheck() async {
@@ -460,9 +403,14 @@ Future<void> winCheck() async {
 }
 
 void renameBuildingsAfterLawChanges(
-    Map<Law, DeepAlignment> law, Map<Law, DeepAlignment> oldlaw) {
+  Map<Law, DeepAlignment> law,
+  Map<Law, DeepAlignment> oldlaw,
+) {
   void update(
-      SiteType siteType, List<Law> lawsToCheck, DeepAlignment alignment) {
+    SiteType siteType,
+    List<Law> lawsToCheck,
+    DeepAlignment alignment,
+  ) {
     if ((law.entries
                 .where((e) => lawsToCheck.contains(e.key))
                 .every((e) => e.value == alignment) ||
@@ -472,31 +420,43 @@ void renameBuildingsAfterLawChanges(
         lawsToCheck.any((l) => law[l] != oldlaw[l])) {
       sites
           .where(
-              (l) => l.type == siteType && l.controller != SiteController.lcs)
+            (l) => l.type == siteType && l.controller != SiteController.lcs,
+          )
           .forEach(initSiteName);
     }
   }
 
   // NOTE: make sure to keep code here matching code in initlocation() in locations.cpp for when names are changed
-  update(SiteType.policeStation, [Law.policeReform, Law.deathPenalty],
-      DeepAlignment.archConservative);
-  update(
-      SiteType.fireStation, [Law.freeSpeech], DeepAlignment.archConservative);
-  update(
-      SiteType.courthouse, [Law.deathPenalty], DeepAlignment.archConservative);
+  update(SiteType.policeStation, [
+    Law.policeReform,
+    Law.deathPenalty,
+  ], DeepAlignment.archConservative);
+  update(SiteType.fireStation, [
+    Law.freeSpeech,
+  ], DeepAlignment.archConservative);
+  update(SiteType.courthouse, [
+    Law.deathPenalty,
+  ], DeepAlignment.archConservative);
   update(SiteType.prison, [Law.prisons], DeepAlignment.archConservative);
-  update(SiteType.nuclearPlant, [Law.nuclearPower],
-      DeepAlignment.archConservative);
-  update(
-      SiteType.intelligenceHQ,
-      [Law.privacy, Law.prisons, Law.military, Law.policeReform],
-      DeepAlignment.archConservative);
-  update(
-      SiteType.armyBase,
-      [Law.privacy, Law.prisons, Law.military, Law.policeReform],
-      DeepAlignment.archConservative);
+  update(SiteType.nuclearPlant, [
+    Law.nuclearPower,
+  ], DeepAlignment.archConservative);
+  update(SiteType.intelligenceHQ, [
+    Law.privacy,
+    Law.prisons,
+    Law.military,
+    Law.policeReform,
+  ], DeepAlignment.archConservative);
+  update(SiteType.armyBase, [
+    Law.privacy,
+    Law.prisons,
+    Law.military,
+    Law.policeReform,
+  ], DeepAlignment.archConservative);
   update(SiteType.pawnShop, [Law.gunControl], DeepAlignment.eliteLiberal);
-  update(SiteType.ceoHouse, [Law.corporate, Law.taxes],
-      DeepAlignment.archConservative);
+  update(SiteType.ceoHouse, [
+    Law.corporate,
+    Law.taxes,
+  ], DeepAlignment.archConservative);
   update(SiteType.drugHouse, [Law.drugs], DeepAlignment.eliteLiberal);
 }

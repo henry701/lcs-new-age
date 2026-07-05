@@ -6,6 +6,7 @@ import 'package:lcs_new_age/daily/activities/bury_dead.dart';
 import 'package:lcs_new_age/daily/activities/car_theft.dart';
 import 'package:lcs_new_age/daily/activities/clothing_creation.dart';
 import 'package:lcs_new_age/daily/activities/clothing_repair.dart';
+import 'package:lcs_new_age/daily/activities/flag_creation.dart';
 import 'package:lcs_new_age/daily/activities/fundraising.dart';
 import 'package:lcs_new_age/daily/activities/graffiti.dart';
 import 'package:lcs_new_age/daily/activities/guardian.dart';
@@ -50,7 +51,7 @@ Future<void> soloActivities(bool disbanding) async {
   for (Creature p in pool) {
     p.income = 0;
     if (!p.alive) continue;
-    if (p.clinicMonthsLeft > 0) continue;
+    if (p.hospitalized) continue;
     if (p.vacationDaysLeft > 0) continue;
     if (p.hidingDaysLeft != 0) continue;
     p.location ??= p.base;
@@ -116,6 +117,11 @@ Future<void> soloActivities(bool disbanding) async {
         if (disbanding) continue;
         for (Creature p in people) {
           await doActivityMakeClothing(p);
+        }
+      case ActivityType.makeFlag:
+        if (disbanding) continue;
+        for (Creature p in people) {
+          await doActivityMakeFlag(p);
         }
       case ActivityType.wheelchair:
         if (disbanding) continue;

@@ -122,7 +122,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
   move(0, 0);
   String message = "&W${p.name} &whas ";
   if (d.dates.length == 1) {
-    if (p.clinicMonthsLeft > 0 || city == null) {
+    if (p.hospitalized || city == null) {
       message += "a \"hot\" date with ";
     } else {
       message += "a hot date with ";
@@ -139,7 +139,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     } else if (ei == d.dates.length - 2) {
       message += "&w and ";
     } else {
-      if (p.clinicMonthsLeft > 0) {
+      if (p.hospitalized) {
         message += "&w at &W${p.location?.name}";
       } else if (city == null) {
         message += "&w over video chat";
@@ -276,9 +276,8 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     addstrc(white, p.name);
     addstrc(lightGray, " approach the situation?");
 
-    bool canPay100 = ledger.funds >= 100 &&
-        p.clinicMonthsLeft == 0 &&
-        (sameCity || eIsSexworker);
+    bool canPay100 =
+        ledger.funds >= 100 && !p.hospitalized && (sameCity || eIsSexworker);
     String payText;
     if (sameCity) {
       if (eIsSexworker) {
@@ -311,7 +310,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     }
     addOptionText(12, 0, "B", avoidPayingText, enabledWhen: canAvoidPaying);
 
-    bool canGoOnVacation = p.clinicMonthsLeft == 0 &&
+    bool canGoOnVacation = !p.hospitalized &&
         p.blood == p.maxBlood &&
         ledger.funds >= vacationPrice;
     String vacationText;
@@ -330,9 +329,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     addOptionText(13, 0, "C", vacationText, enabledWhen: canGoOnVacation);
 
     addOptionText(14, 0, "D", "D - Break it off.");
-    if (e.align == Alignment.conservative &&
-        p.clinicMonthsLeft == 0 &&
-        sameCity) {
+    if (e.align == Alignment.conservative && !p.hospitalized && sameCity) {
       addOptionText(15, 0, "E", "E - Just kidnap the Conservative.");
     }
 
@@ -347,7 +344,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       aroll += thingsincommon * 3;
       if (c == Key.a &&
           ledger.funds >= 100 &&
-          p.clinicMonthsLeft == 0 &&
+          !p.hospitalized &&
           (sameCity || eIsSexworker)) {
         ledger.subtractFunds(100, Expense.dating);
         aroll += lcsRandom(10);
@@ -380,7 +377,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
 
       if (c == Key.c &&
           ledger.funds >= vacationPrice &&
-          p.clinicMonthsLeft == 0 &&
+          !p.hospitalized &&
           p.blood == p.maxBlood) {
         ledger.subtractFunds(vacationPrice, Expense.dating);
         for (int e2 = d.dates.length - 1; e2 >= 0; e2--) {
@@ -405,7 +402,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       }
       if (c == Key.e &&
           e.align == Alignment.conservative &&
-          p.clinicMonthsLeft == 0 &&
+          !p.hospitalized &&
           sameCity) {
         setColor(yellow);
         int bonus = 0;

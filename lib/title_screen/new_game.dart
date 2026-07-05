@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart' show Color;
 import 'package:lcs_new_age/creature/attributes.dart';
+import 'package:lcs_new_age/creature/body.dart';
 import 'package:lcs_new_age/creature/conversion.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -18,60 +20,113 @@ import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/title_screen/questions.dart';
+import 'package:lcs_new_age/title_screen/title_screen.dart';
 import 'package:lcs_new_age/utils/colors.dart';
+import 'package:lcs_new_age/utils/debug_flags.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
-
-const bool debugPresidentSleeper = false;
-const bool debugSiege = false;
-const String debugSiegeType = "cops"; // cops or cia for now
-const bool debugMartialArtsMaster = false;
-const bool debugEliteLiberalPublicOpinion = false;
-const bool debugPartyRescue = false;
-const bool debugAllItems = false;
-const bool megaFounderCheat = false;
 
 Future<void> setupNewGame() async {
   gameState = GameState();
-  bool classicmode = false;
-  bool strongccs = false;
-  bool nightmarelaws = false;
 
-  void checkBoxOption(int y, bool ticked, String key, String text,
-      {bool disabled = false}) {
-    addOptionText(y, 0, key, "[${ticked ? "X" : " "}] $key - $text",
-        enabledWhen: !disabled);
+  int gameWorld = 0;
+  int ccsOption = 1;
+  int initiative = 0;
+
+  final List<(String, String, Color)> gameWorldChoices = [
+    (
+      "The Times They Are a-Changin'",
+      "The country is beginning to slide into far-right authoritarianism.",
+      yellow,
+    ),
+    (
+      "The End of the World as We Know It",
+      "Liberalism is already forgotten.  Is it too late to fight back?",
+      red,
+    ),
+  ];
+  final List<(String, String, Color)> ccsChoices = [
+    ("Clear Blue Skies", "The CCS will never appear.", lightGreen),
+    (
+      "Bad Blood",
+      "A rival CCS will form eventually and grow stronger over time.",
+      yellow,
+    ),
+    (
+      "We Didn't Start The Fire",
+      "The CCS starts active and extremely strong.",
+      red,
+    ),
+  ];
+  final List<(String, String, Color)> initiativeChoices = [
+    (
+      "Power to the People",
+      "Team initiative: Your squad attacks first in each round.",
+      yellow,
+    ),
+    (
+      "Welcome to the Jungle",
+      "Zipper initiative: Teams take turns attacking one at a time.",
+      red,
+    ),
+  ];
+
+  void cyclingOption(
+    int y,
+    String key,
+    String category,
+    List<(String, String, Color)> choices,
+    int index,
+  ) {
+    var (name, description, color) = choices[index];
+    var colorKey = ColorKey.fromColor(color);
+    addOptionText(y, 2, key, "$key - $category:");
+    mvaddstrx(y, 35, "&$colorKey$name");
+    setColor(midGray);
+    mvaddstr(y + 1, 6, description);
   }
 
-  erase();
   while (true) {
-    mvaddstrc(4, 6, white,
-        "New Game of Liberal Crime Squad: Advanced Gameplay Options");
-    checkBoxOption(
-        7, classicmode, "A", "Classic Mode: No Conservative Crime Squad.");
-    checkBoxOption(9, strongccs, "B",
-        "We Didn't Start The Fire: The CCS starts active and extremely strong.",
-        disabled: classicmode);
-    checkBoxOption(11, nightmarelaws, "C",
-        "Nightmare Mode: Liberalism is forgotten. Is it too late to fight back?");
+    erase();
+    mvaddstrc(4, 6, white, "New Game of Liberal Crime Squad: Gameplay Options");
+    cyclingOption(
+      7,
+      "A",
+      "Starting Political Climate",
+      gameWorldChoices,
+      gameWorld,
+    );
+    cyclingOption(10, "B", "Conservative Crime Squad", ccsChoices, ccsOption);
+    cyclingOption(13, "C", "Combat Difficulty", initiativeChoices, initiative);
 
-    addOptionText(15, 0, "Any Other Key", "Any Other Key - Continue...");
+    mvaddstrx(
+      16,
+      2,
+      "Option difficulty ratings: &GEasier &w- &YStandard &w- &RHarder",
+    );
+
+    addOptionText(18, 2, "Enter", "Enter - Continue...");
 
     int c = await getKey();
 
     if (c == Key.a) {
-      classicmode = !classicmode;
+      gameWorld = (gameWorld + 1) % gameWorldChoices.length;
       continue;
     }
     if (c == Key.b) {
-      strongccs = !strongccs;
+      ccsOption = (ccsOption + 1) % ccsChoices.length;
       continue;
     }
     if (c == Key.c) {
-      nightmarelaws = !nightmarelaws;
+      initiative = (initiative + 1) % initiativeChoices.length;
       continue;
     }
-    break;
+    if (c == Key.enter) {
+      break;
+    }
   }
+
+  bool nightmarelaws = gameWorld == 1;
+  gameState.alternatingInitiative = initiative == 1;
 
   if (nightmarelaws) {
     for (Law l in Law.values) {
@@ -115,10 +170,14 @@ Future<void> setupNewGame() async {
       } while (politics.courtName[c].firstLast.length > 20);
     }
   }
-  if (classicmode) {
-    ccsState = CCSStrength.defeated;
-  } else if (strongccs) {
-    ccsState = CCSStrength.attacks;
+  switch (ccsOption) {
+    case 0: // Clear Blue Skies: the CCS never appears.
+      ccsState = CCSStrength.defeated;
+    case 2: // We Didn't Start The Fire: start active and at full strength.
+      ccsState = CCSStrength.sieges;
+      gameState.ccsAggressive = true;
+    default: // A Hard Rain's A-Gonna Fall: the CCS forms over time, as normal.
+      break;
   }
   if (debugEliteLiberalPublicOpinion) {
     for (int v = 0; v < View.values.length; v++) {
@@ -158,7 +217,7 @@ Future<void> makeCharacter() async {
   const List<Gender> sexOptions = [
     Gender.male,
     Gender.female,
-    Gender.nonbinary
+    Gender.nonbinary,
   ];
   founder.giveClothingType("CLOTHING_CLOTHES");
   String sexDesc() {
@@ -175,18 +234,33 @@ Future<void> makeCharacter() async {
 
     mvaddstrc(7, 2, lightGray, "Given Name: ");
     addstrc(white, first[sex]!);
-    addOptionText(7, 34, "A", "(A to have your parents reconsider)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      7,
+      34,
+      "A",
+      "(A to have your parents reconsider)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     mvaddstrc(9, 2, lightGray, "Family Name: ");
     addstrc(white, last);
-    addOptionText(9, 34, "B", "(B to be born to a different family)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      9,
+      34,
+      "B",
+      "(B to be born to a different family)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     mvaddstrc(11, 2, lightGray, "Sex at Birth: ");
     addstrc(white, sexDesc());
-    addOptionText(11, 34, "C", "(C to have the doctor check again)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      11,
+      34,
+      "C",
+      "(C to have the doctor check again)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     mvaddstrc(13, 2, lightGray, "Tragic Origin: ");
     if (letMeChoose) {
@@ -194,17 +268,31 @@ Future<void> makeCharacter() async {
     } else {
       addstrc(red, "Let Fate Decide");
     }
-    addOptionText(13, 34, "D", "(D to toggle choice or fate)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      13,
+      34,
+      "D",
+      "(D to toggle choice or fate)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     mvaddstrc(15, 2, lightGray, "City: ");
     addstrc(white, startingCity.getName(includeCity: true));
-    addOptionText(15, 34, "E", "(E to move at a young age)",
-        baseColorKey: ColorKey.midGray);
+    addOptionText(
+      15,
+      34,
+      "E",
+      "(E to move at a young age)",
+      baseColorKey: ColorKey.midGray,
+    );
 
     addOptionText(
-        19, 2, "Any Other Key", "Press any other key when ready to begin...",
-        baseColorKey: ColorKey.midGray);
+      19,
+      2,
+      "Any Other Key",
+      "Press any other key when ready to begin...",
+      baseColorKey: ColorKey.midGray,
+    );
 
     int c = await getKey();
     if (c == Key.a) {
@@ -223,6 +311,8 @@ Future<void> makeCharacter() async {
   }
 
   ledger.forceSetFunds(7);
+  if (debugAMilli) ledger.forceSetFunds(1000000);
+  if (debugFounderMedicalDebt) founder.medicalBills = 50000;
 
   founder.gender = founder.genderAssignedAtBirth = sex;
   founder.properName = "${first[sex]!} $last";
@@ -232,12 +322,15 @@ Future<void> makeCharacter() async {
   activeSquad = squads.first;
   pool.add(founder);
   founder.location = sites.firstWhere(
-      (l) => l.city == startingCity && l.controller == SiteController.lcs);
+    (l) => l.city == startingCity && l.controller == SiteController.lcs,
+  );
   founder.base = founder.site;
 
   if (debugSiege) {
-    founder.base =
-        findSiteInSameCity(founder.location!.city, SiteType.warehouse);
+    founder.base = findSiteInSameCity(
+      founder.location!.city,
+      SiteType.warehouse,
+    );
     if (debugSiegeType == "cia") {
       founder.base?.siege.timeuntilcia = 0;
       offendedCia = true;
@@ -289,13 +382,47 @@ Future<void> makeCharacter() async {
     founder.rawSkill[Skill.dodge] = founder.skillCap(Skill.dodge);
   }
 
+  if (debugBadlyInjured) {
+    for (var part in founder.body.parts) {
+      part.cut = true;
+      part.bleeding = 10;
+      part.torn = true;
+      part.relativeHealth = 0.5;
+      part.shot = true;
+      part.burned = true;
+      part.bruised = true;
+    }
+    if (founder.body is HumanoidBody) {
+      (founder.body as HumanoidBody).teeth = 5;
+      (founder.body as HumanoidBody).ribs = 5;
+      (founder.body as HumanoidBody).neck = InjuryState.untreated;
+      (founder.body as HumanoidBody).upperSpine = InjuryState.untreated;
+      (founder.body as HumanoidBody).lowerSpine = InjuryState.untreated;
+      (founder.body as HumanoidBody).missingRightEye = true;
+      (founder.body as HumanoidBody).missingLeftEye = true;
+      (founder.body as HumanoidBody).missingNose = true;
+      (founder.body as HumanoidBody).missingTongue = true;
+      (founder.body as HumanoidBody).puncturedRightLung = true;
+      (founder.body as HumanoidBody).puncturedLeftLung = true;
+      (founder.body as HumanoidBody).puncturedHeart = true;
+      (founder.body as HumanoidBody).puncturedLiver = true;
+      (founder.body as HumanoidBody).puncturedStomach = true;
+      (founder.body as HumanoidBody).puncturedRightKidney = true;
+      (founder.body as HumanoidBody).puncturedLeftKidney = true;
+      (founder.body as HumanoidBody).puncturedSpleen = true;
+    }
+    founder.blood = 1;
+  }
+
   if (debugPartyRescue) {
     for (int i = 0; i < 20; i++) {
       Creature c = Creature.fromId(CreatureTypeIds.collegeStudent);
       liberalize(c);
       c.nameCreature();
-      c.location =
-          findSiteInSameCity(founder.location?.city, SiteType.policeStation);
+      c.location = findSiteInSameCity(
+        founder.location?.city,
+        SiteType.policeStation,
+      );
       pool.add(c);
     }
 
@@ -325,31 +452,56 @@ Future<void> aNewConservativeEra() async {
 
   mvaddstrc(4, 2, lightGray, "The Year is $year.");
 
-  mvaddstr(6, 2,
-      "Following a series of violent protests from the far right, Conservative");
-  mvaddstr(7, 2,
-      "President ${oldPresident.firstLast} has resigned in disgrace.  His hardcore");
-  mvaddstr(8, 2,
-      "Arch-Conservative Vice President, ${execName[Exec.president]!.firstLast}, a close ally of the");
-  mvaddstr(9, 2,
-      "rioters, has been sworn in as the new President of the United States.");
+  mvaddstr(
+    6,
+    2,
+    "Following a series of violent protests from the far right, Conservative",
+  );
+  mvaddstr(
+    7,
+    2,
+    "President ${oldPresident.firstLast} has resigned in disgrace.  His hardcore",
+  );
+  mvaddstr(
+    8,
+    2,
+    "Arch-Conservative Vice President, ${execName[Exec.president]!.firstLast}, a close ally of the",
+  );
+  mvaddstr(
+    9,
+    2,
+    "rioters, has been sworn in as the new President of the United States.",
+  );
 
-  mvaddstr(11, 2,
-      "With Conservatives having swept into power in the recent midterm elections,");
-  mvaddstr(12, 2,
-      "and a Conservative majority in the Supreme Court of the United States,");
-  mvaddstr(13, 2,
-      "commentators are hailing it as the beginning of a new Conservative era.");
+  mvaddstr(
+    11,
+    2,
+    "With Conservatives having swept into power in the recent midterm elections,",
+  );
+  mvaddstr(
+    12,
+    2,
+    "and a Conservative majority in the Supreme Court of the United States,",
+  );
+  mvaddstr(
+    13,
+    2,
+    "commentators are hailing it as the beginning of a new Conservative era.",
+  );
 
   move(15, 2);
   setColor(red);
   addstr(
-      "President ${execName[Exec.president]!.firstLast} has asked the new Congress to move quickly");
+    "President ${execName[Exec.president]!.firstLast} has asked the new Congress to move quickly",
+  );
   mvaddstr(16, 2, "to rubber stamp his radical Arch-Conservative agenda. ");
   setColor(lightGray);
   addstr("The left seems");
-  mvaddstr(17, 2,
-      "powerless to stop this imminent trampling of Liberal Sanity and Justice.");
+  mvaddstr(
+    17,
+    2,
+    "powerless to stop this imminent trampling of Liberal Sanity and Justice.",
+  );
 
   mvaddstr(19, 2, "In this dark time, the Liberal Crime Squad is born...");
 

@@ -13,6 +13,7 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/loot.dart';
+import 'package:lcs_new_age/items/loot_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -81,6 +82,9 @@ void sleeperInfluence(Creature cr, Map<View, int> libpower) {
       power += cr.skill(Skill.science);
     case CreatureTypeIds.corporateCEO:
     case CreatureTypeIds.corporateManager:
+    case CreatureTypeIds.insuranceCEO:
+    case CreatureTypeIds.auditor:
+    case CreatureTypeIds.actuary:
       power += cr.skill(Skill.business);
     case CreatureTypeIds.priest:
     case CreatureTypeIds.nun:
@@ -94,6 +98,15 @@ void sleeperInfluence(Creature cr, Map<View, int> libpower) {
     case CreatureTypeIds.athlete:
     case CreatureTypeIds.cheerleader:
       power += cr.skill(Skill.dodge);
+    case CreatureTypeIds.socialWorker:
+    case CreatureTypeIds.psychologist:
+      power += cr.skill(Skill.psychology);
+    case CreatureTypeIds.nursingHomeAttendant:
+    case CreatureTypeIds.dietician:
+    case CreatureTypeIds.physicalTherapist:
+    case CreatureTypeIds.nurse:
+    case CreatureTypeIds.doctor:
+      power += cr.skill(Skill.firstAid);
     default:
       break;
   }
@@ -183,10 +196,13 @@ void sleeperInfluence(Creature cr, Map<View, int> libpower) {
         View.ceoSalary, View.taxes, View.corporateCulture,
         View.sweatshops, View.pollution, View.civilRights, //
       ], power);
+    /* Financial and housing block */
     case CreatureTypeIds.bankManager:
+    case CreatureTypeIds.auditor:
     case CreatureTypeIds.landlord:
       addIssues([
         View.taxes, View.civilRights, View.ceoSalary, //
+        View.housing, View.retirement, //
       ], power);
     /* Law enforcement and prisons block */
     case CreatureTypeIds.deathSquad:
@@ -221,6 +237,15 @@ void sleeperInfluence(Creature cr, Map<View, int> libpower) {
     /* Sweatshop workers */
     case CreatureTypeIds.sweatshopWorker:
       addIssues([View.sweatshops, View.immigration], power);
+    /* Healthcare industry block */
+    case CreatureTypeIds.doctor:
+    case CreatureTypeIds.nurse:
+    case CreatureTypeIds.socialWorker:
+    case CreatureTypeIds.nursingHomeAdmin:
+    case CreatureTypeIds.nursingHomeAttendant:
+    case CreatureTypeIds.dietician:
+    case CreatureTypeIds.physicalTherapist:
+      addIssues([View.healthcare, View.retirement, View.genetics], power);
     /* No influence at all block - for people were liberal anyway, or have no way of doing any good */
     case CreatureTypeIds.childLaborer:
     case CreatureTypeIds.genetic:
@@ -327,10 +352,10 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
     case CreatureTypeIds.agent:
     case CreatureTypeIds.president:
       if (ccsExposure.index >= CCSExposure.lcsGotData.index || !ccsActive) {
-        await leak("LOOT_SECRETDOCUMENTS", "secret intelligence files");
+        await leak(LootTypeIds.secretDocuments, "secret intelligence files");
       } else {
-        await leak(
-            "LOOT_CCS_BACKERLIST", "a list of the CCS's government backers");
+        await leak(LootTypeIds.ccsBackerList,
+            "a list of the CCS's government backers");
         ccsExposure = CCSExposure.lcsGotData;
       }
     case CreatureTypeIds.deathSquad:
@@ -339,49 +364,67 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
     case CreatureTypeIds.policeChief:
     case CreatureTypeIds.gangUnit:
       // Cops can leak police files to you
-      await leak("LOOT_POLICERECORDS", "secret police records");
+      await leak(LootTypeIds.policeRecords, "secret police records");
     case CreatureTypeIds.corporateManager:
     case CreatureTypeIds.corporateCEO:
-      await leak("LOOT_CORPFILES", "secret corporate documents");
+      await leak(LootTypeIds.corpFiles, "secret corporate documents");
     case CreatureTypeIds.educator:
     case CreatureTypeIds.prisonGuard:
-      await leak("LOOT_PRISONFILES", "internal prison records");
+      await leak(LootTypeIds.prisonFiles, "internal prison records");
     case CreatureTypeIds.newsAnchor:
-      await leak("LOOT_CABLENEWSFILES", "proof of systemic Cable News bias");
+      await leak(
+          LootTypeIds.cableNewsFiles, "proof of systemic Cable News bias");
     case CreatureTypeIds.radioPersonality:
-      await leak("LOOT_AMRADIOFILES", "proof of systemic AM Radio bias");
+      await leak(LootTypeIds.amRadioFiles, "proof of systemic AM Radio bias");
     case CreatureTypeIds.labTech:
     case CreatureTypeIds.eminentScientist:
-      await leak("LOOT_RESEARCHFILES", "internal animal research reports");
+      await leak(LootTypeIds.researchFiles, "internal animal research reports");
     case CreatureTypeIds.conservativeJudge:
     case CreatureTypeIds.liberalJudge:
-      await leak("LOOT_JUDGEFILES", "compromising files about another Judge");
+      await leak(
+          LootTypeIds.judgeFiles, "compromising files about another Judge");
     case CreatureTypeIds.ccsArchConservative:
       if (ccsExposure.index >= CCSExposure.lcsGotData.index) break;
       await leak(
-          "LOOT_CCS_BACKERLIST", "a list of the CCS's government backers");
+          LootTypeIds.ccsBackerList, "a list of the CCS's government backers");
       ccsExposure = CCSExposure.lcsGotData;
+    case CreatureTypeIds.landlord:
+      await leak(LootTypeIds.landlordPapers, "evidence of landlord misconduct");
+    case CreatureTypeIds.insuranceCEO:
+      await leak(LootTypeIds.insuranceFraudEvidence,
+          "evidence of fraudulent insurance practices");
+    case CreatureTypeIds.nursingHomeAdmin:
+      await leak(
+          LootTypeIds.elderAbuseEvidence, "evidence of systemic elder abuse");
     default:
       // 2/3 chance of not leaking anything
       if (!oneIn(3)) break;
       // Or find something interesting based on job location
       switch (cr.workSite?.type) {
         case SiteType.amRadioStation:
-          await leak("LOOT_AMRADIOFILES", "proof of systemic AM Radio bias");
+          await leak(
+              LootTypeIds.amRadioFiles, "proof of systemic AM Radio bias");
         case SiteType.cableNewsStation:
           await leak(
-              "LOOT_CABLENEWSFILES", "proof of systemic Cable News bias");
+              LootTypeIds.cableNewsFiles, "proof of systemic Cable News bias");
         case SiteType.whiteHouse:
         case SiteType.intelligenceHQ:
-          await leak("LOOT_SECRETDOCUMENTS", "secret intelligence files");
+          await leak(LootTypeIds.secretDocuments, "secret intelligence files");
         case SiteType.prison:
-          await leak("LOOT_PRISONFILES", "internal prison records");
+          await leak(LootTypeIds.prisonFiles, "internal prison records");
         case SiteType.geneticsLab:
         case SiteType.cosmeticsLab:
-          await leak("LOOT_RESEARCHFILES", "internal animal research reports");
+          await leak(
+              LootTypeIds.researchFiles, "internal animal research reports");
         case SiteType.corporateHQ:
         case SiteType.ceoHouse:
-          await leak("LOOT_CORPFILES", "secret corporate documents");
+          await leak(LootTypeIds.corpFiles, "secret corporate documents");
+        case SiteType.nursingHome:
+          await leak(LootTypeIds.elderAbuseEvidence,
+              "evidence of systemic elder abuse");
+        case SiteType.insuranceOffice:
+          await leak(LootTypeIds.insuranceFraudEvidence,
+              "evidence of fraudulent insurance practices");
         default:
           break;
       }
@@ -424,10 +467,14 @@ Future<void> sleeperEmbezzle(Creature cr, Map<View, int> libpower) async {
   switch (cr.type.id) {
     case CreatureTypeIds.corporateCEO:
     case CreatureTypeIds.president:
+    case CreatureTypeIds.insuranceCEO:
       income = (50000 * cr.infiltration).round();
     case CreatureTypeIds.eminentScientist:
     case CreatureTypeIds.corporateManager:
     case CreatureTypeIds.bankManager:
+    case CreatureTypeIds.auditor:
+    case CreatureTypeIds.actuary:
+    case CreatureTypeIds.nursingHomeAdmin:
       income = (5000 * cr.infiltration).round();
     default:
       income = (500 * cr.infiltration).round();

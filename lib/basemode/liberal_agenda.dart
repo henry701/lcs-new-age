@@ -11,19 +11,9 @@ import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
-enum AgendaVibe {
-  ongoing,
-  liberalVictory,
-  conservativeVictory,
-}
+enum AgendaVibe { ongoing, liberalVictory, conservativeVictory }
 
-enum AgendaPage {
-  main,
-  pollsA,
-  pollsB,
-  lawsA,
-  lawsB,
-}
+enum AgendaPage { main, pollsA, pollsB, lawsA, lawsB }
 
 Future<bool> liberalAgenda([AgendaVibe vibe = AgendaVibe.ongoing]) async {
   AgendaPage page = AgendaPage.main;
@@ -95,24 +85,46 @@ Future<bool> _confirmDisband() async {
   mvaddstrc(0, 0, white, "Are you sure you want to disband?");
 
   setColor(lightGray);
-  mvaddstr(2, 0,
-      "Disbanding scatters the Liberal Crime Squad, sending all of its members");
-  mvaddstr(3, 0,
-      "into hiding, free to pursue their own lives.  You will be able to observe");
-  mvaddstr(4, 0,
-      "the political situation in brief, and wait until a resolution is reached.");
+  mvaddstr(
+    2,
+    0,
+    "Disbanding scatters the Liberal Crime Squad, sending all of its members",
+  );
+  mvaddstr(
+    3,
+    0,
+    "into hiding, free to pursue their own lives.  You will be able to observe",
+  );
+  mvaddstr(
+    4,
+    0,
+    "the political situation in brief, and wait until a resolution is reached.",
+  );
 
-  mvaddstr(6, 0,
-      "If at any time you determine that the Liberal Crime Squad will be needed");
-  mvaddstr(7, 0,
-      "again, you may return to the homeless camp to restart the campaign.");
+  mvaddstr(
+    6,
+    0,
+    "If at any time you determine that the Liberal Crime Squad will be needed",
+  );
+  mvaddstr(
+    7,
+    0,
+    "again, you may return to the homeless camp to restart the campaign.",
+  );
 
-  mvaddstr(9, 0,
-      "Do not make this decision lightly.  If you do need to return to action,");
+  mvaddstr(
+    9,
+    0,
+    "Do not make this decision lightly.  If you do need to return to action,",
+  );
   mvaddstr(10, 0, "only the most devoted of your former members will return.");
 
-  mvaddstrc(13, 0, white,
-      "Type this Liberal phrase to confirm (press a wrong letter to rethink it):");
+  mvaddstrc(
+    13,
+    0,
+    white,
+    "Type this Liberal phrase to confirm (press a wrong letter to rethink it):",
+  );
 
   for (int pos = 0; pos < word.length;) {
     for (int x = 0; x < word.length; x++) {
@@ -182,7 +194,11 @@ void _mainPage(AgendaVibe vibe) {
     printSenate(11);
     for (int c = 0; c < politics.court.length; c++) {
       mvaddstrc(
-          3 + c, 56, politics.court[c].color, politics.courtName[c].firstLast);
+        3 + c,
+        56,
+        politics.court[c].color,
+        politics.courtName[c].firstLast,
+      );
     }
     setColor(lightGray);
   }
@@ -309,8 +325,10 @@ void _pollsPage(int start) {
     mvaddstrc(4, 0, lightGray, "$approval% have a favorable opinion of ");
     String president = "President";
     if (politics.constitutionalAmendments == 0) president = "King";
-    addstrc(exec[Exec.president]!.color,
-        "$president ${execName[Exec.president]!.firstLast}");
+    addstrc(
+      exec[Exec.president]!.color,
+      "$president ${execName[Exec.president]!.firstLast}",
+    );
     addstrc(lightGray, ".");
     String concern = "";
     if (politics.publicInterest[maxView]! < 5) {
@@ -364,10 +382,11 @@ void _pollsPage(int start) {
     move(y, 0);
     if (survey < 10) addchar('0');
     addstr(
-        "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ");
+      "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ",
+    );
     switch (v) {
       case View.lgbtRights:
-        addstr("support LGBT rights");
+        addstr("support LGBTQ+ rights");
       case View.deathPenalty:
         addstr("oppose the death penalty");
       case View.taxes:
@@ -383,7 +402,7 @@ void _pollsPage(int start) {
       case View.intelligence:
         addstr("want to stop government mass surveillance");
       case View.freeSpeech:
-        addstr("believe in unfettered free speech");
+        addstr("want more freedom to criticize the government");
       case View.genetics:
         addstr("support regulation of genetic research");
       case View.justices:
@@ -424,6 +443,12 @@ void _pollsPage(int start) {
         addstr("consider the Liberal Crime Squad a force for good");
       case View.ccsHated:
         addstr("want the Conservative Crime Squad brought to justice");
+      case View.housing:
+        addstr("want the government to provide affordable housing");
+      case View.healthcare:
+        addstr("support universal healthcare");
+      case View.retirement:
+        addstr("want a government-run retirement system");
     }
   }
 }
@@ -448,9 +473,9 @@ String _concernString(View view) {
       }
     case View.lgbtRights:
       if (publicOpinion[view]! > 50) {
-        return "protecting LGBT rights";
+        return "protecting LGBTQ+ rights";
       } else {
-        return "stopping the LGBT agenda";
+        return "stopping the LGBTQ+ agenda";
       }
     case View.deathPenalty:
       if (publicOpinion[view]! > 50) {
@@ -498,7 +523,7 @@ String _concernString(View view) {
       if (publicOpinion[view]! > 50) {
         return "protecting free speech";
       } else {
-        return "vulgarity in the media";
+        return "the media's vulgarity";
       }
     case View.genetics:
       if (publicOpinion[view]! > 50) {
@@ -591,6 +616,24 @@ String _concernString(View view) {
         return "the CCS terrorists";
       } else {
         return "the CCS patriots";
+      }
+    case View.housing:
+      if (publicOpinion[view]! > 50) {
+        return "the cost of housing";
+      } else {
+        return "socialists trying to control housing";
+      }
+    case View.healthcare:
+      if (publicOpinion[view]! > 50) {
+        return "the cost of healthcare";
+      } else {
+        return "socialists trying to control healthcare";
+      }
+    case View.retirement:
+      if (publicOpinion[view]! > 50) {
+        return "the cost of retirement";
+      } else {
+        return "socialists trying to control retirement";
       }
   }
 }

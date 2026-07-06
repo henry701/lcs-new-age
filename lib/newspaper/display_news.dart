@@ -542,35 +542,48 @@ Future<void> displayStory(NewsStory ns, View? header) async {
               }
             }
           } else if (did(Drama.legalGunUsed)) {
-            story +=
-                "  The $culprit was seen to use firearms that are commonly "
-                "sold in the state.&r";
+            story += LcsI18n.processString(
+              "  The {culprit} was seen to use firearms that are commonly sold in the state.&r",
+              {"culprit": culprit},
+            );
           } else if (did(Drama.illegalGunUsed)) {
-            story +=
-                "  The $culprit was seen to use firearms that are "
-                "illegal for civilians to own in this state.&r";
+            story += LcsI18n.processString(
+              "  The {culprit} was seen to use firearms that are illegal for civilians to own in this state.&r",
+              {"culprit": culprit},
+            );
           }
 
           if (!ccs) {
             if (oneIn(8)) {
               if (did(Drama.tagging)) {
-                story +=
-                    "  The slogan, \"$slogan\" was found painted on the walls.";
+                story += LcsI18n.processString(
+                  '  The slogan, "{slogan}" was found painted on the walls.',
+                  {"slogan": slogan},
+                );
               } else {
                 switch (lcsRandom(3)) {
                   case 0:
                     if (ns.type == NewsStories.squadKilledInSiteAction) {
-                      story +=
-                          "  One uttered the words, \"$slogan\" before passing out.";
+                      story += LcsI18n.processString(
+                        '  One uttered the words, "{slogan}" before passing out.',
+                        {"slogan": slogan},
+                      );
                     } else {
-                      story += "  As they left, they shouted, \"$slogan\"";
+                      story += LcsI18n.processString(
+                        '  As they left, they shouted, "{slogan}"',
+                        {"slogan": slogan},
+                      );
                     }
                   case 1:
-                    story +=
-                        "  One of them was rumored to have cried out, \"$slogan\"";
+                    story += LcsI18n.processString(
+                      '  One of them was rumored to have cried out, "{slogan}"',
+                      {"slogan": slogan},
+                    );
                   case 2:
-                    story +=
-                        "  Witnesses reported hearing the phrase, \"$slogan\"";
+                    story += LcsI18n.processString(
+                      '  Witnesses reported hearing the phrase, "{slogan}"',
+                      {"slogan": slogan},
+                    );
                 }
               }
               story += "&r";
@@ -606,14 +619,17 @@ Future<void> displayStory(NewsStory ns, View? header) async {
       story = city;
       story += " - ";
       if (ns.siegebodycount > 2) {
-        story += ns.siegebodycount.toString();
-        story += " bodies were "; //Gruesome pile, large pile.
+        story += LcsI18n.processString("{count} bodies were ", {
+          "count": ns.siegebodycount.toString(),
+        });
       } else if (ns.siegebodycount > 1) {
         story += " Two bodies were ";
       } else {
         story += " A body was ";
       }
-      story += " found in the ${ns.loc!.name} yesterday.";
+      story += LcsI18n.processString(" found in the {location} yesterday.", {
+        "location": ns.loc!.name,
+      });
       if (!liberalguardian) {
         story +=
             "  According to a spokesperson for "
@@ -800,13 +816,19 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           "days": ns.cr!.daysSinceJoined - 1,
         },
       );
-      story = "$kidnappingLead&r$kidnappingStatement&r$lastKnownLocationText&r";
+      story = "${[
+        kidnappingLead,
+        kidnappingStatement,
+        lastKnownLocationText,
+      ].join("&r")}&r";
 
       story += generateFiller(200);
       displayNewsStory(story, storyXStart, storyXEnd, y, ns);
 
     default:
-      story = "The news is not yet written. Report this as a bug.&r";
+      story = LcsI18n.tr(
+        "The news is not yet written. Report this as a bug.&r",
+      );
       displayNewsStory(story, storyXStart, storyXEnd, 3, ns);
   }
 
@@ -825,7 +847,10 @@ void displayCenteredNewsFont(
   if (ns.headline == "") {
     ns.headline = str;
   } else {
-    ns.headline += " $str";
+    ns.headline = LcsI18n.processString("{headline} {str}", {
+      "headline": ns.headline,
+      "str": str,
+    });
   }
   int width = -1;
   int s;

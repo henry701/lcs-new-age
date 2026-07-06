@@ -94,6 +94,19 @@ void main() {
       expect(offenders, isEmpty, reason: offenders.take(20).join('\n'));
     });
 
+    test('lib source has no possessive helper fragments', () {
+      final offenders = Directory('lib')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .where((file) => file.path.endsWith('.dart'))
+          .where((file) => !file.path.endsWith('.g.dart'))
+          .where((file) => file.readAsStringSync().contains("_possessive("))
+          .map((file) => file.path)
+          .toList();
+
+      expect(offenders, isEmpty, reason: offenders.join('\n'));
+    });
+
     test(
       'site names are assigned from full templates, not appended fragments',
       () {
@@ -198,6 +211,114 @@ void main() {
       expect(source, contains('{city} - The disappearance of {name}'));
       expect(source, contains('{spokesperson}, speaking on behalf'));
       expect(source, contains('{days} days ago'));
+    });
+
+    test('newspaper story fragments use complete templates', () {
+      final displayNews = File(
+        'lib/newspaper/display_news.dart',
+      ).readAsStringSync();
+      final majorEvent = File(
+        'lib/newspaper/major_event.dart',
+      ).readAsStringSync();
+      final squadStory = File(
+        'lib/newspaper/squad_story_text.dart',
+      ).readAsStringSync();
+
+      expect(displayNews, contains('The {culprit} was seen to use firearms'));
+      expect(
+        displayNews,
+        contains('The slogan, "{slogan}" was found painted on the walls.'),
+      );
+      expect(displayNews, contains('found in the {location} yesterday.'));
+      expect(
+        squadStory,
+        contains(
+          'A group calling itself the Liberal Crime Squad burst briefly onto the scene of political activism yesterday, according to a spokesperson from the police department.&r',
+        ),
+      );
+      expect(
+        squadStory,
+        contains(
+          'The notorious Liberal Crime Squad went on another rampage, but they got what they deserved.&r',
+        ),
+      );
+      expect(
+        squadStory,
+        contains(
+          'A gang of heavily armed vigilantes calling themselves the Conservative Crime Squad went on a suicidal rampage yesterday, according to a spokesperson from the police department.&r',
+        ),
+      );
+      expect(majorEvent, isNot(contains("String _possessive(")));
+      expect(
+        majorEvent,
+        contains('Investors out billions as {company} collapses.'),
+      );
+      expect(
+        majorEvent,
+        contains('The procedure I needed was going to cost {cost}'),
+      );
+      expect(majorEvent, contains('This major CEO {critique}.'));
+      expect(
+        majorEvent,
+        contains(
+          "Tens of thousands marched downtown today in support of women's rights",
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'A huge crowd gathered downtown today for a march celebrating LGBT rights',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains('An innocent citizen has been put to death {method}.'),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'A doctor that routinely performed {abortions} was ruthlessly gunned down',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'The nationwide manhunt is over after authorities finally caught {criminal}',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'A new study has found that {legalizing} {drug} could be the key',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains('As the U.S. military prepares to deploy to the {country}'),
+      );
+    });
+
+    test('new hostages, prison, siege, and fight templates stay complete', () {
+      final hostages = File(
+        'lib/daily/hostages/traumatize.dart',
+      ).readAsStringSync();
+      final prison = File('lib/justice/prison.dart').readAsStringSync();
+      final siege = File('lib/daily/siege.dart').readAsStringSync();
+      final fight = File('lib/sitemode/fight.dart').readAsStringSync();
+
+      expect(hostages, contains('{name} loses Heart.'));
+      expect(
+        hostages,
+        contains('{name} is haunted by the memory of the {action}.'),
+      );
+      expect(hostages, contains('{name} doesn\'t want to talk to anyone.'));
+      expect(prison, contains('{name} renounces the LCS!'));
+      expect(prison, contains('{experience}{suffix}'));
+      expect(prison, contains('(+{delta} juice)'));
+      expect(siege, contains('You have received a warning from {name}'));
+      expect(siege, contains('{location} Defense'));
+      expect(siege, contains('{site} in {city}'));
+      expect(fight, contains('{name} {deathMessage}'));
     });
 
     test('i18n completion gate target (PLAN.md)', () {

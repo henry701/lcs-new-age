@@ -14,9 +14,6 @@ import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
-// ignore: prefer_interpolation_to_compose_strings
-String _possessive(String name) => name + "'s";
-
 class MajorEventContent {
   const MajorEventContent({
     required this.headline,
@@ -160,21 +157,10 @@ MajorEventContent generateMajorEventContent(
           FullName organizer = generateFullName();
           return MajorEventContent(
             headline: "WOMEN'S MARCH",
-            storyText:
-                "${randomCityName()} - Tens of thousands marched downtown "
-                "today in support of women's rights, in one of the largest "
-                "demonstrations the city has seen in years.&r"
-                "   The Women's March, led by a coalition of women's rights "
-                "organizations, called for equal pay for equal work, "
-                "access to affordable healthcare, and the right to make "
-                "decisions about their own bodies.&r"
-                "   \"This fight is bigger than any one of us,\" organizer "
-                "${organizer.firstLast} said.  \"We need to stand together "
-                "and show that we are not going to be silenced. We need to "
-                "make sure that our voices are heard.\"&r"
-                "   The march proceeded peacefully and without incident.  "
-                "The atmosphere was festive and supportive, with many "
-                "bystanders cheering the women on.&r",
+            storyText: LcsI18n.processString(
+              "{city} - Tens of thousands marched downtown today in support of women's rights, in one of the largest demonstrations the city has seen in years.&r   The Women's March, led by a coalition of women's rights organizations, called for equal pay for equal work, access to affordable healthcare, and the right to make decisions about their own bodies.&r   \"This fight is bigger than any one of us,\" organizer {organizer} said.  \"We need to stand together and show that we are not going to be silenced. We need to make sure that our voices are heard.\"&r   The march proceeded peacefully and without incident.  The atmosphere was festive and supportive, with many bystanders cheering the women on.&r",
+              {"city": randomCityName(), "organizer": organizer.firstLast},
+            ),
           );
         }
         FullName doctor = generateFullName(Gender.female);
@@ -190,43 +176,29 @@ MajorEventContent generateMajorEventContent(
         }
         return MajorEventContent(
           headline: "CLINIC MURDER",
-          storyText:
-              "${randomCityName()} - A doctor that routinely performed "
-              "$abortions was ruthlessly gunned down outside of the "
-              "${lastName()} Clinic yesterday.  Dr. ${doctor.firstLast} "
-              "was walking to her car when, according to police reports, shots "
-              "were fired from a nearby vehicle.  She was hit ${lcsRandom(15) + 3} "
-              "times and died immediately in the parking lot.  The suspected "
-              "shooter, ${perpetrator.firstLast}, is in "
-              "custody.&r"
-              "  Witnesses report that ${perpetrator.last} remained at the scene "
-              "after the shooting, screaming verses of the Bible at the stunned "
-              "onlookers.  Someone called the police on a cellphone and they "
-              "arrived shortly thereafter.  ${perpetrator.last} surrendered "
-              "without a struggle, reportedly saying that God's work had been "
-              "completed.&r"
-              "  Dr. ${doctor.last} is survived by her husband and "
-              "two children.&r",
+          storyText: LcsI18n.processString(
+            "{city} - A doctor that routinely performed {abortions} was ruthlessly gunned down outside of the {clinic} yesterday.  Dr. {doctor} was walking to her car when, according to police reports, shots were fired from a nearby vehicle.  She was hit {hits} times and died immediately in the parking lot.  The suspected shooter, {perpetrator}, is in custody.&r  Witnesses report that {perpetratorLast} remained at the scene after the shooting, screaming verses of the Bible at the stunned onlookers.  Someone called the police on a cellphone and they arrived shortly thereafter.  {perpetratorLast} surrendered without a struggle, reportedly saying that God's work had been completed.&r  Dr. {doctorLast} is survived by her husband and two children.&r",
+            {
+              "city": randomCityName(),
+              "abortions": abortions,
+              "clinic": "${lastName()} Clinic",
+              "doctor": doctor.firstLast,
+              "hits": (lcsRandom(15) + 3).toString(),
+              "perpetrator": perpetrator.firstLast,
+              "perpetratorLast": perpetrator.last,
+              "doctorLast": doctor.last,
+            },
+          ),
         );
       case View.lgbtRights:
         if (gameOptions.lighterTone || oneIn(2)) {
           FullName organizer = generateFullName();
           return MajorEventContent(
             headline: "MARCH OF LOVE",
-            storyText:
-                "${randomCityName()} - A huge crowd gathered downtown today "
-                "for a march celebrating LGBT rights and calling for equal "
-                "treatment under the law.&r"
-                "   \"We're here to remind everyone that we are all equal, "
-                "that love is love, and that everyone deserves a chance at "
-                "happiness,\" said ${organizer.firstLast}, a local activist "
-                "who helped organize the march.  \"To everyone who came out "
-                "today, whether it was coming out to support us or coming "
-                "out to your friends and family, thank you!\"&r"
-                "   One bystander struck a supportive tone: \"It's just so "
-                "heartwarming to see people marching for the idea of just "
-                "being in love and being who they are. Who can argue with "
-                "that?\"&r",
+            storyText: LcsI18n.processString(
+              "{city} - A huge crowd gathered downtown today for a march celebrating LGBT rights and calling for equal treatment under the law.&r   \"We're here to remind everyone that we are all equal, that love is love, and that everyone deserves a chance at happiness,\" said {organizer}, a local activist who helped organize the march.  \"To everyone who came out today, whether it was coming out to support us or coming out to your friends and family, thank you!\"&r   One bystander struck a supportive tone: \"It's just so heartwarming to see people marching for the idea of just being in love and being who they are. Who can argue with that?\"&r",
+              {"city": randomCityName(), "organizer": organizer.firstLast},
+            ),
           );
         }
         FullName victim = generateFullName(Gender.female);
@@ -323,21 +295,20 @@ MajorEventContent generateMajorEventContent(
 
         return MajorEventContent(
           headline: "JUSTICE DEAD",
-          storyText:
-              "${randomStateName()} - An innocent citizen has been put "
-              "to death $byExecutionMethod.  "
-              "$victim was pronounced dead at $timeOfDeath yesterday at the "
-              "${lastName()} Correctional Facility.&r"
-              "  ${victim.last} was convicted in $yearConvicted of 13 "
-              "serial murders.  Since then, numerous pieces of exculpatory "
-              "evidence have been produced, including $exculpatoryEvidence.  "
-              "The state still went through with the execution, with "
-              "a spokesperson for the governor saying, \"$awfulReason\"&r"
-              "  Candlelight vigils were held throughout the country last night "
-              "during the execution, and more events are expected this evening.  "
-              "If there is a bright side to be found from this tragedy, it will "
-              "be that our nation is now evaluating the ease with which people "
-              "can be put to death in this country.&r",
+          storyText: LcsI18n.processString(
+            "{state} - An innocent citizen has been put to death {method}.  {victim} was pronounced dead at {time} yesterday at the {facility}.&r  {victimLast} was convicted in {year} of 13 serial murders.  Since then, numerous pieces of exculpatory evidence have been produced, including {evidence}.  The state still went through with the execution, with a spokesperson for the governor saying, \"{reason}\"&r  Candlelight vigils were held throughout the country last night during the execution, and more events are expected this evening.  If there is a bright side to be found from this tragedy, it will be that our nation is now evaluating the ease with which people can be put to death in this country.&r",
+            {
+              "state": randomStateName(),
+              "method": byExecutionMethod,
+              "victim": victim.firstLast,
+              "time": timeOfDeath,
+              "facility": "${lastName()} Correctional Facility",
+              "victimLast": victim.last,
+              "year": yearConvicted.toString(),
+              "evidence": exculpatoryEvidence,
+              "reason": awfulReason,
+            },
+          ),
         );
       case View.gunControl:
         FullName shooter = generateFullName(Gender.whiteMalePatriarch);
@@ -618,11 +589,26 @@ MajorEventContent generateMajorEventContent(
         return MajorEventContent(
           headline: "FINANCE FRAUD",
           pictureId: pictureDollarsDisappearing,
-          subheadline: "Investors out billions as $companyName collapses.",
+          subheadline: LcsI18n.processString(
+            "Investors out billions as {company} collapses.",
+            {"company": companyName},
+          ),
         );
       case View.ceoSalary:
-        String str =
-            "This major CEO ${["wants you to worship him like a god", "only works one day a week", "donated millions to the KKK", "hasn't paid taxes in over 20 years", "took out a contract on his wife", "doesn't know what his company does", "hunts endangered species for fun", "imprisoned and tortured an intern", "installed hidden cameras in an office bathroom", "owns slaves in three countries"].random}.";
+        String str = LcsI18n.processString("This major CEO {critique}.", {
+          "critique": [
+            "wants you to worship him like a god",
+            "only works one day a week",
+            "donated millions to the KKK",
+            "hasn't paid taxes in over 20 years",
+            "took out a contract on his wife",
+            "doesn't know what his company does",
+            "hunts endangered species for fun",
+            "imprisoned and tortured an intern",
+            "installed hidden cameras in an office bathroom",
+            "owns slaves in three countries",
+          ].random,
+        });
         return MajorEventContent(
           headline: "AMERICAN CEO",
           pictureId: pictureCEO,
@@ -839,20 +825,25 @@ MajorEventContent generateMajorEventContent(
 
         return MajorEventContent(
           headline: "DRUG STUDY",
-          storyText:
-              "${randomCityName()} - A new study has found that $legalizing "
-              "$drug could be the key to solving our economic woes.  "
-              "Researchers at ${lastName()} University discovered that "
-              "regular $drug use leads to $benefit, with some participants "
-              "even reporting that they $someEvenHadThisOutcome.&r"
-              "  \"The tax revenue alone could be used for "
-              "$thingYouCanDoWithTaxes,\" said Dr. ${lastName()}, lead "
-              "researcher on the study.  \"Plus, think of all the money we'd "
-              "save on law enforcement and prisons.  It's a win-win "
-              "situation.\"&r"
-              "  Local drug enthusiast ${enthusiast.firstLast} agrees.  "
-              "\"$enthusiastQuote\" ${enthusiast.last} said, while "
-              "$enthusiastActivity.&r",
+          storyText: LcsI18n.processString(
+            "{city} - A new study has found that {legalizing} {drug} could be the key to solving our economic woes.  Researchers at {university} discovered that regular {drug} use leads to {benefit}, with some participants even reporting that they {outcome}.&r  \"The tax revenue alone could be used for {taxUse},\" said Dr. {doctor}, lead researcher on the study.  \"Plus, think of all the money we'd save on law enforcement and prisons.  It's a win-win situation.\"&r  Local drug enthusiast {enthusiast} agrees.  \"{quote}\" {enthusiastLast} said, while {activity}.&r",
+            {
+              "city": randomCityName(),
+              "legalizing": legalizing,
+              "drug": drug,
+              "university": LcsI18n.processString("{name} University", {
+                "name": lastName(),
+              }),
+              "benefit": benefit,
+              "outcome": someEvenHadThisOutcome,
+              "taxUse": thingYouCanDoWithTaxes,
+              "doctor": lastName(),
+              "enthusiast": enthusiast.firstLast,
+              "quote": enthusiastQuote,
+              "enthusiastLast": enthusiast.last,
+              "activity": enthusiastActivity,
+            },
+          ),
         );
       case View.military:
         CountryName country = generateCountryName();
@@ -888,18 +879,17 @@ MajorEventContent generateMajorEventContent(
 
         return MajorEventContent(
           headline: "END THE WAR",
-          storyText:
-              "$city, $countryShort - More than 100,000 locals marched through "
-              "the capital demanding that the United States end its military "
-              "intervention into the $countryLong.&r"
-              "  \"Go home, Americans!\" one speaker demanded.  \"You have "
-              "been nothing but trouble here!  You think you are "
-              "$supposedMission, but all you are doing is $actualMission!  "
-              "Please, just go!\"&r"
-              "  While the intervention into $countryShort has been "
-              "controversial since the beginning, public opinion in the "
-              "country has sharply turned against the United States ever "
-              "since American forces $incident.&r",
+          storyText: LcsI18n.processString(
+            "{city}, {countryShort} - More than 100,000 locals marched through the capital demanding that the United States end its military intervention into the {countryLong}.&r  \"Go home, Americans!\" one speaker demanded.  \"You have been nothing but trouble here!  You think you are {supposedMission}, but all you are doing is {actualMission}!  Please, just go!\"&r  While the intervention into {countryShort} has been controversial since the beginning, public opinion in the country has sharply turned against the United States ever since American forces {incident}.&r",
+            {
+              "city": city,
+              "countryShort": countryShort,
+              "countryLong": countryLong,
+              "supposedMission": supposedMission,
+              "actualMission": actualMission,
+              "incident": incident,
+            },
+          ),
         );
 
       case View.policeBehavior:
@@ -1134,23 +1124,21 @@ MajorEventContent generateMajorEventContent(
         String insuranceCompany =
             "${adjective.random} ${noun.random} Insurance";
         String insuranceCompanyHoldingGroup = generateCompanyName();
+        final procedureCost = r'$100,000';
         return MajorEventContent(
           headline: "DYING DENIAL",
-          storyText:
-              "$city - ${patient.firstLast} remembers when $insuranceCompany (a "
-              "subsidiary of $insuranceCompanyHoldingGroup) first "
-              "answered ${patient.gender.hisHer} call. The voice on the line was "
-              "polite, but it had the unmistakable sound of a computer voice. And "
-              "no matter how much he tried to get a human on the line, or to convince "
-              "the computer that he was dying, he couldn't get through.&r"
-              "  It took $insuranceCompany three months to answer "
-              "${_possessive(patient.last)} request for pre-approval for a life-saving procedure. And when they "
-              "finally did, ${_possessive(patient.last)} treatment was denied as an "
-              "elective procedure.&r"
-              "  \"I've never felt so helpless in my life,\" ${patient.last} said. "
-              "\"The procedure I needed was going to cost \$100,000, and I always "
-              "thought the point of insurance was in case things like this happened. "
-              "But they refused to pay for it, even though I was dying.\"&r",
+          storyText: LcsI18n.processString(
+            "{city} - {fullName} remembers when {company} (a subsidiary of {holdingGroup}) first answered {possessivePronoun} call. The voice on the line was polite, but it had the unmistakable sound of a computer voice. And no matter how much he tried to get a human on the line, or to convince the computer that he was dying, he couldn't get through.&r  It took {company} three months to answer the request for pre-approval for a life-saving procedure from {lastName}. And when they finally did, the treatment of {lastName} was denied as an elective procedure.&r  \"I've never felt so helpless in my life,\" {lastName} said. \"The procedure I needed was going to cost {cost}, and I always thought the point of insurance was in case things like this happened. But they refused to pay for it, even though I was dying.\"&r",
+            {
+              "city": city,
+              "fullName": patient.firstLast,
+              "company": insuranceCompany,
+              "holdingGroup": insuranceCompanyHoldingGroup,
+              "possessivePronoun": patient.gender.hisHer,
+              "lastName": patient.last,
+              "cost": procedureCost,
+            },
+          ),
         );
       case View.retirement:
         String city = randomCityName();
@@ -1160,26 +1148,16 @@ MajorEventContent generateMajorEventContent(
         String pensionCutAmount = ["by 50%", "by 75%", "entirely"].random;
         return MajorEventContent(
           headline: "PENSIONS GONE",
-          storyText:
-              "$city - $company announced today that they could no longer "
-              "afford to fulfill the promises they made to their retirees, and would "
-              "be cutting pensions $pensionCutAmount. This follows on the news that "
-              "${_possessive(company)} stock price hit record highs on the back of its "
-              "recent booming earnings report.&r"
-              "  \"We're sorry to have to do this,\" said CEO ${ceo.firstLast}.  "
-              "\"But we have no choice.  "
-              "These pensions are unsustainable, and we need to cut costs to stay "
-              "profitable. But it's okay, because we're sorry. We're so sorry. "
-              "We messed up and we're really sorry. We're not going to fix it, but "
-              "we know your pain and we're really very sorry about it. And, if "
-              "I haven't made it clear enough: I'm sorry.\"&r"
-              "  \"The only apology I'll accept is my pension. This is a slap "
-              "in the face to the hardworking people who have "
-              "worked for the company for years,\" said ${retiree.firstLast}, a retired "
-              "$company employee.  \"These pensions were "
-              "part of the compensation package for our years of service. We were promised "
-              "that we would be taken care of when we retired, and now they're "
-              "just throwing us out.\"&r",
+          storyText: LcsI18n.processString(
+            "{city} - {company} announced today that they could no longer afford to fulfill the promises they made to their retirees, and would be cutting pensions {cutAmount}. This follows on the news that {company}'s stock price hit record highs on the back of its recent booming earnings report.&r  \"We're sorry to have to do this,\" said CEO {ceo}.  \"But we have no choice. These pensions are unsustainable, and we need to cut costs to stay profitable. But it's okay, because we're sorry. We're so sorry. We messed up and we're really sorry. We're not going to fix it, but we know your pain and we're really very sorry about it. And, if I haven't made it clear enough: I'm sorry.\"&r  \"The only apology I'll accept is my pension. This is a slap in the face to the hardworking people who have worked for the company for years,\" said {retiree}, a retired {company} employee.  \"These pensions were part of the compensation package for our years of service. We were promised that we would be taken care of when we retired, and now they're just throwing us out.\"&r",
+            {
+              "city": city,
+              "company": company,
+              "cutAmount": pensionCutAmount,
+              "ceo": ceo.firstLast,
+              "retiree": retiree.firstLast,
+            },
+          ),
         );
       case View.housing:
         String city = randomCityName();
@@ -1402,7 +1380,9 @@ MajorEventContent generateMajorEventContent(
             politics.house.any(
               (member) => member == DeepAlignment.archConservative,
             )
-            ? "Congressman ${lastName(Gender.whiteMalePatriarch)}"
+            ? LcsI18n.processString("Congressman {name}", {
+                "name": lastName(Gender.whiteMalePatriarch),
+              })
             : "some random local who walked up to our reporter and started "
                   "talking about how they're not a fan of immigration";
         String illegalImmigrant = switch (laws[Law.immigration]) {
@@ -1415,22 +1395,21 @@ MajorEventContent generateMajorEventContent(
 
         return MajorEventContent(
           headline: "FINALLY GONE",
-          storyText:
-              "${randomCityName()} - The nationwide manhunt is over "
-              "after authorities finally caught ${criminal.firstLast}, an "
-              "$illegalImmigrant who captured national attention after "
-              "${criminal.gender.heShe} was seen $crime in a viral video.&r"
-              "  \"We got ${criminal.gender.himHer}, but we all know "
-              "this $bastard should never have been here in the "
-              "first place.  Criminals like this are exactly why we need "
-              "$solution,\" said $congressman.  "
-              "\"We can't continue to allow our immigration laws to be "
-              "flouted by these sick monsters while our children "
-              "suffer.\"&r"
-              "  Local residents have expressed growing concern about the "
-              "impact of immigration on their community, with many "
-              "calling for new laws to help keep foreign criminals from "
-              "$impact.&r",
+          storyText: LcsI18n.processString(
+            "{city} - The nationwide manhunt is over after authorities finally caught {criminal}, an {immigrationStatus} who captured national attention after {heShe} was seen {crime} in a viral video.&r  \"We got {himHer}, but we all know this {bastard} should never have been here in the first place.  Criminals like this are exactly why we need {solution},\" said {congressman}.  \"We can't continue to allow our immigration laws to be flouted by these sick monsters while our children suffer.\"&r  Local residents have expressed growing concern about the impact of immigration on their community, with many calling for new laws to help keep foreign criminals from {impact}.&r",
+            {
+              "city": randomCityName(),
+              "criminal": criminal.firstLast,
+              "immigrationStatus": illegalImmigrant,
+              "heShe": criminal.gender.heShe,
+              "crime": crime,
+              "himHer": criminal.gender.himHer,
+              "bastard": bastard,
+              "solution": solution,
+              "congressman": congressman,
+              "impact": impact,
+            },
+          ),
         );
       case View.drugs:
         String drug = [
@@ -1504,27 +1483,10 @@ MajorEventContent generateMajorEventContent(
         CountryName country = generateCountryName();
         return MajorEventContent(
           headline: "ARMY ROLLS OUT",
-          storyText:
-              "Washington, D.C. - As the U.S. military prepares to deploy "
-              "to the ${country.name} to defend democracy against the threat "
-              "of terrorism, people around the country are "
-              "rallying behind the troops.&r"
-              "  \"We need to stand up for democracy and beat "
-              "the bad guys,\" said a military spokesperson.  \"Don't "
-              "worry, we learned from the last time we invaded a country, "
-              "and this one's going to be easy.  In and out, no problem.\"&r"
-              "  The military has already started training for the mission, "
-              "and the troops are ready to go.  \"I can't wait to shoot some "
-              "people,\" one particularly enthusiastic soldier said.  "
-              "\"I joined the military to go fight wars, so I'm really "
-              "looking forward to this.\"&r"
-              "  Meanwhile, on the home front, civilians across the country "
-              "are turning out to show their support for the troops.  "
-              "\"You can buy our new ${country.shortName} Invasion "
-              "Value Meal,\" a national fast food chain spokesperson said.  "
-              "\"It's a great way to show your patriotism.\"  At press time, "
-              "hundreds of people were lined up around the block in hopes of "
-              "getting the burger and fries.&r",
+          storyText: LcsI18n.processString(
+            "Washington, D.C. - As the U.S. military prepares to deploy to the {country} to defend democracy against the threat of terrorism, people around the country are rallying behind the troops.&r  \"We need to stand up for democracy and beat the bad guys,\" said a military spokesperson.  \"Don't worry, we learned from the last time we invaded a country, and this one's going to be easy.  In and out, no problem.\"&r  The military has already started training for the mission, and the troops are ready to go.  \"I can't wait to shoot some people,\" one particularly enthusiastic soldier said.  \"I joined the military to go fight wars, so I'm really looking forward to this.\"&r  Meanwhile, on the home front, civilians across the country are turning out to show their support for the troops.  \"You can buy our new {shortName} Invasion Value Meal,\" a national fast food chain spokesperson said.  \"It's a great way to show your patriotism.\"  At press time, hundreds of people were lined up around the block in hopes of getting the burger and fries.&r",
+            {"country": country.name, "shortName": country.shortName},
+          ),
         );
       case View.civilRights:
         switch (lcsRandom(3)) {

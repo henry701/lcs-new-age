@@ -24,7 +24,6 @@ jobs:
         with:
           path: |
             ${{ runner.os }}/.pub-cache
-            .dart_tool
           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: |
             ${{ runner.os }}-pub-

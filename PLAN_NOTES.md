@@ -412,3 +412,45 @@ Validation performed:
 Important remaining debt:
 - This does **not** complete the full objective. `lib/newspaper/major_event.dart`, `lib/newspaper/display_news.dart`, and `lib/newspaper/squad_story_text.dart` still contain many user-facing article/story strings assembled with Dart interpolation or `story +=` fragments before translation. Current `interpolation_status.dart` still only gates wrapper-adjacent interpolation; it does not prove newspaper/story generation is clean.
 - pt_BR is still not complete project-wide; the runtime smoke still logs many untranslated source keys. The static catalog invariants pass, but translation coverage is not 100%.
+
+## 2026-07-05 continuation: newspaper/trial fragment cleanup
+
+- Removed the last obvious `_possessive()` helper fragments from `lib/newspaper/major_event.dart` and `lib/justice/trial.dart`.
+- Converted the newspaper finance-fraud, CEO critique, Dying Denial, and Pensions Gone items to `LcsI18n.processString` templates.
+- Added static regression coverage for the newspaper templates and for any `_possessive(` helper reappearing under `lib/`.
+- Synced ARB catalogs after the source sweep and translated the newly added pt_BR entries for the converted newspaper/trial strings.
+- Validation still pending after this pass: canonical catalog check, interpolation gate, focused i18n tests, and full `flutter test`.
+
+## 2026-07-05 continuation: major_event template sweep
+
+- Converted additional major-event stories in `lib/newspaper/major_event.dart` to full `LcsI18n.processString` templates:
+  - `WOMEN'S MARCH`
+  - `MARCH OF LOVE`
+  - `CLINIC MURDER`
+  - `JUSTICE DEAD`
+- Added static regression coverage for the new newspaper templates.
+- Synced ARB catalogs and translated the four new pt_BR entries in `part01`, `part04`, and `part10`.
+- Validation after this batch:
+  - `maintain_arb_catalogs --check` PASS
+  - `translation_status --json` PASS (coverage still below 80%; more source keys surfaced, but no missing/empty values)
+  - `interpolation_status --all --check --allowlist=...` PASS with 818 total interpolated literals, 14 near-wrapper hits, 5 high-confidence wrapper-argument hits, 0 unclassified
+  - focused i18n tests PASS
+  - full `flutter test` PASS
+- Remaining debt is still substantial in `major_event.dart` plus `display_news.dart`, `squad_story_text.dart`, `talk/`, `fight.dart`, `siege.dart`, and `shop.dart`.
+
+## 2026-07-05 continuation: squad story / military article cleanup
+
+- Refactored `lib/newspaper/squad_story_text.dart` to remove the remaining fragment composition in the location/opening paragraphs.
+  - `squadStoryTextLocation()` now uses full templates for the location phrases and the elite-liberal descriptor variants.
+  - `squadStoryTextOpening()` now uses whole-sentence templates for the LCS/CCS opening paragraphs and the follow-up summary sentences.
+- Cleaned the easy headline stitch in `lib/newspaper/display_news.dart` by turning `ns.headline + " " + str` into a full template, and translated the fallback bug string.
+- Converted the `View.military` article in `lib/newspaper/major_event.dart` to a single `LcsI18n.processString` template with `{country}` and `{shortName}` placeholders instead of raw `${country.*}` interpolation.
+- Updated the affected `pt_BR` shard values for the new squad-story, military-story, and headline strings.
+- Validation after this pass:
+  - `dart run scripts/find_translatable_strings.dart` → 6636 unique strings; +1 source key synced for the military story refactor.
+  - `dart run scripts/maintain_arb_catalogs.dart --check` → PASS.
+  - `dart run scripts/translation_status.dart --json` → 7442 source / 7526 target / 5964 translated / 1477 untranslated / 80.15% coverage.
+  - `dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` → PASS, 792 interpolated literals total, 14 near-wrapper hits, 5 high-confidence wrapper-arg hits.
+  - `flutter test test/i18n_static_coverage_test.dart` → PASS.
+  - `flutter test test/pt_br_runtime_catalog_smoke_test.dart test/i18n_test.dart test/console_wrapper_test.dart` → PASS.
+  - `flutter test` → PASS.

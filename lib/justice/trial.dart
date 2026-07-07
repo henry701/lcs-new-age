@@ -2,26 +2,34 @@
 import 'dart:math';
 
 import 'package:lcs_new_age/basemode/blind_time_log.dart';
+
 import 'package:lcs_new_age/common_actions/common_actions.dart';
+
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/skills.dart';
+
 import 'package:lcs_new_age/engine/engine.dart';
+
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+
+import 'package:lcs_new_age/i18n/i18n.dart';
+
 import 'package:lcs_new_age/items/clothing.dart';
+
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/justice/prison.dart';
+
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
+
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
+
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
-
-// ignore: prefer_interpolation_to_compose_strings
-String _possessive(String name) => name + "'s";
-
+/* monthly - hold trial on a liberal */
 enum TrialOutcome { retrial, acquittal, guilty, lenience }
 
 Future<void> trial(Creature g) async {
@@ -583,9 +591,11 @@ Future<void> trial(Creature g) async {
   }
   switch (trialOutcome) {
     case TrialOutcome.retrial:
-      (String text) {
-        if (!canSeeThings) logBlindEvent(text);
-      }("${_possessive(g.name)} trial was hung and will be re-tried.");
+      final text = LcsI18n.processString(
+        "{name}'s trial was hung and will be re-tried.",
+        {"name": g.name},
+      );
+      if (!canSeeThings) logBlindEvent(text);
     case TrialOutcome.acquittal:
       if (g.sentence == 0) {
         logBlindEvent("${g.name} was acquitted and set free.");

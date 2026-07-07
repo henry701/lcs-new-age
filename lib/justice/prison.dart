@@ -7,6 +7,7 @@ import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location.dart';
@@ -25,7 +26,10 @@ void imprison(Creature g) {
 
 String _juiceSuffix(int delta) {
   if (delta == 0) return "";
-  return delta > 0 ? " (+$delta juice)" : " ($delta juice)";
+  return LcsI18n.processString(
+    delta > 0 ? " (+{delta} juice)" : " ({delta} juice)",
+    {"delta": delta.toString()},
+  );
 }
 
 Future<void> _prisonSceneLine(String text) async {
@@ -134,8 +138,14 @@ Future<void> prison(Creature g) async {
             gameOptions.lighterTone) {
           method = historicExecutionMethods.random;
         }
-        mvaddstr(9, 1, "Today, the Conservative Machine executed ${g.name}");
-        mvaddstr(10, 1, "by $method.");
+        mvaddstrc(
+          9,
+          1,
+          red,
+          "Today, the Conservative Machine executed {name}",
+          params: {"name": g.name},
+        );
+        mvaddstrc(10, 1, red, "by {method}.", params: {"method": method});
 
         await getKey();
 
@@ -209,7 +219,11 @@ Future<void> prison(Creature g) async {
           );
           await getKey();
         } else {
-          logBlindEvent("${g.name} is due to be executed next month.");
+          logBlindEvent(
+            LcsI18n.processString("{name} is due to be executed next month.", {
+              "name": g.name,
+            }),
+          );
         }
       } else {
         if (canSeeThings) {
@@ -223,7 +237,11 @@ Future<void> prison(Creature g) async {
           );
           await getKey();
         } else {
-          logBlindEvent("${g.name} is due to be released next month.");
+          logBlindEvent(
+            LcsI18n.processString("{name} is due to be released next month.", {
+              "name": g.name,
+            }),
+          );
         }
       }
     } else {
@@ -240,7 +258,10 @@ Future<void> prison(Creature g) async {
           await getKey();
         } else {
           logBlindEvent(
-            "${g.name} is due to be executed in ${g.sentence} months.",
+            LcsI18n.processString(
+              "{name} is due to be executed in {months} months.",
+              {"name": g.name, "months": g.sentence.toString()},
+            ),
           );
         }
       }
@@ -264,6 +285,9 @@ Future<void> rehabilitation(Creature g) async {
   int juiceChange = 0;
   int wisdomChange = 0;
   bool renounced = false;
+  final renderedExperience = LcsI18n.processString(experience, {
+    "name": g.name,
+  });
 
   erase();
   mvaddstrc(
@@ -324,12 +348,24 @@ Future<void> rehabilitation(Creature g) async {
   }
 
   if (wisdomChange != 0) {
-    await _prisonSceneLine("${g.name}$experience (+$wisdomChange wisdom)");
+    await _prisonSceneLine(
+      LcsI18n.processString("{experience} (+{wisdom} wisdom)", {
+        "experience": renderedExperience,
+        "wisdom": wisdomChange.toString(),
+      }),
+    );
   } else {
-    await _prisonSceneLine("${g.name}$experience${_juiceSuffix(juiceChange)}");
+    await _prisonSceneLine(
+      LcsI18n.processString("{experience}{suffix}", {
+        "experience": renderedExperience,
+        "suffix": _juiceSuffix(juiceChange),
+      }),
+    );
   }
   if (renounced) {
-    await _prisonSceneLine("${g.name} renounces the LCS!");
+    await _prisonSceneLine(
+      LcsI18n.processString("{name} renounces the LCS!", {"name": g.name}),
+    );
   }
   return;
 }
@@ -371,6 +407,9 @@ Future<void> laborCamp(Creature g) async {
   ];
 
   experience ??= laborCampExperiences.random;
+  final renderedExperience = LcsI18n.processString(experience, {
+    "name": g.name,
+  });
 
   erase();
   mvaddstrc(8, 1, white, experience, params: {"name": g.name});
@@ -403,14 +442,19 @@ Future<void> laborCamp(Creature g) async {
       addjuice(g, -40, 0);
       addjuice(g, -10, -50);
       await _prisonSceneLine(
-        "${g.name}$experience${_juiceSuffix(g.juice - before)}",
+        LcsI18n.processString("{experience}{suffix}", {
+          "experience": renderedExperience,
+          "suffix": _juiceSuffix(g.juice - before),
+        }),
       );
     } else {
       mvaddstrc(8, 1, red, "{name} is found dead.", params: {"name": g.name});
 
       g.die();
       g.location = null;
-      await _prisonSceneLine("${g.name} is found dead.");
+      await _prisonSceneLine(
+        LcsI18n.processString("{name} is found dead.", {"name": g.name}),
+      );
     }
   } else {
     mvaddstrc(
@@ -505,6 +549,9 @@ Future<void> prisonScene(Creature g) async {
   }
 
   if (experience == null) return;
+  final renderedExperience = LcsI18n.processString(experience, {
+    "name": g.name,
+  });
 
   erase();
   mvaddstrc(8, 1, white, experience, params: {"name": g.name});
@@ -514,8 +561,7 @@ Future<void> prisonScene(Creature g) async {
   move(10, 1);
   if (escaped > 0) {
     erase();
-    mvaddstrc(8, 1, white, g.name);
-    addstr(experience);
+    mvaddstrc(8, 1, white, renderedExperience, noTranslate: true);
 
     await getKey();
 
@@ -553,7 +599,10 @@ Future<void> prisonScene(Creature g) async {
     addjuice(g, -20, -30);
   }
   await _prisonSceneLine(
-    "${g.name}$experience${_juiceSuffix(g.juice - before)}",
+    LcsI18n.processString("{experience}{suffix}", {
+      "experience": renderedExperience,
+      "suffix": _juiceSuffix(g.juice - before),
+    }),
   );
 }
 

@@ -125,6 +125,18 @@
       "context": "mvaddstrc",
       "text": "Unexpected sleeper activity type: ${cr.activity.type.name}",
       "reason": "Debug-only internal enum name (non-translatable)"
+    },
+    {
+      "file": "basemode/activate_regulars.dart",
+      "context": "mvaddstrc",
+      "text": "\\$${flag.makePrice}",
+      "reason": "Numeric currency formatting"
+    },
+    {
+      "file": "basemode/review_mode.dart",
+      "context": "addstr",
+      "text": "\\$${tempp.medicalBills}",
+      "reason": "Numeric currency formatting"
     }
   ]
 }

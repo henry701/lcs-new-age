@@ -445,9 +445,9 @@ Future<void> siegeCheck() async {
               8,
               1,
               white,
-              "You have received a warning from {agent} that several Corporations are hiring mercenaries to attack {location}.",
+              "You have received a warning from {name} that several Corporations are hiring mercenaries to attack {location}.",
               params: {
-                "agent": ceoSleeper.name,
+                "name": ceoSleeper.name,
                 "location": l.getName(includeCity: true),
               },
             );
@@ -1878,7 +1878,10 @@ Future<void> sallyForthPart2(Site loc) async {
   // No squads at the location? Form a new one.
   if (activeSquad == null) {
     squads.add(Squad());
-    squads.last.name = "${activeSafehouse!.getName(short: true)} Defense";
+    squads.last.name = LcsI18n.processString(
+      "{location} Defense",
+      {"location": activeSafehouse!.getName(short: true)},
+    );
     int i = 0;
     for (Creature p in pool) {
       if (p.location == activeSafehouse &&
@@ -2004,7 +2007,10 @@ Future<void> escapeOrEngage() async {
   // No squads at the location? Form a new one.
   if (activeSquad == null) {
     squads.add(Squad());
-    squads.last.name = "${activeSafehouse!.getName(short: true)} Defense";
+    squads.last.name = LcsI18n.processString(
+      "{location} Defense",
+      {"location": activeSafehouse!.getName(short: true)},
+    );
     for (Creature p in activeSafehouse!.creaturesPresent.where(
       (p) => p.isActiveLiberal,
     )) {
@@ -2296,7 +2302,14 @@ Future<void> ccsRemainingSafehouseIntel(List<Site> remaining) async {
   mvaddstr(y++, 1, "Remaining CCS safehouses:");
   for (Site s in remaining) {
     setColor(lightGray);
-    mvaddstr(y++, 5, "${s.getName()} in ${s.city.getName()}");
+    mvaddstr(
+      y++,
+      5,
+      LcsI18n.processString("{site} in {city}", {
+        "site": s.getName(),
+        "city": s.city.getName(),
+      }),
+    );
     if (s.hidden) {
       anyHidden = true;
       addstrc(red, " (hidden CCS safehouse)");

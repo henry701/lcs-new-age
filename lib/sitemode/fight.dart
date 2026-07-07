@@ -2221,7 +2221,12 @@ void addDeathMessage(Creature cr) {
       "is dead.",
       "is gone.",
     ].random;
-    addstr("${cr.name} $deathMessage");
+    addstr(
+      LcsI18n.processString("{name} {deathMessage}", {
+        "name": cr.name,
+        "deathMessage": LcsI18n.tr(deathMessage),
+      }),
+    );
     return;
   }
 

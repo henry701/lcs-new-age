@@ -270,6 +270,70 @@ void main() {
           'A huge crowd gathered downtown today for a march celebrating LGBT rights',
         ),
       );
+      expect(majorEvent, isNot(contains("There's no good news story for \$view")));
+      expect(majorEvent, isNot(contains("There's no bad news story for \$view")));
+      expect(majorEvent, contains("There's no good news story for {view}"));
+      expect(majorEvent, contains("There's no bad news story for {view}"));
+      expect(
+        majorEvent,
+        contains(
+          'In an uplifting turn, a {massShooting} was prevented by a bystander with a gun.',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          '{modifier} {noun}: A new book lauding Reagan and the greatest generation.',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'Researchers {fromCountry} report that they have discovered an amazing new wonder drug.',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'The hostage crisis at the {prisonName} Correctional Facility ended tragically yesterday',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'A new book has quickly risen to the top of the bestseller lists, {bookTitle}.',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'The National Health Service (NHS) has been brought to its knees by record-breaking waiting times',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'The Social Security Administration has announced that the program is on the brink of insolvency',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'Several major companies have announced at a joint news conference here that they will be expanding their work forces',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'Infamous FM radio shock jock {shockJock} has brought radio entertainment to a new low.',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'The public housing crisis has reached a tipping point, with record numbers of people living in overcrowded and unsafe conditions.',
+        ),
+      );
       expect(
         majorEvent,
         contains('An innocent citizen has been put to death {method}.'),

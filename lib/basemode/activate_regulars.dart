@@ -683,7 +683,8 @@ Future<void> _selectFlagToMake(Creature cr) async {
         y,
         0,
         key,
-        "$key - ${flag.name}",
+        "{key} - {name}",
+        params: {"key": key, "name": flag.name},
         baseColorKey: index == selected ? ColorKey.white : ColorKey.lightGray,
       );
       mvaddstrc(y, 40, lightGray, flag.view.label);

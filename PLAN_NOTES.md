@@ -451,6 +451,45 @@ Important remaining debt:
   - `dart run scripts/maintain_arb_catalogs.dart --check` → PASS.
   - `dart run scripts/translation_status.dart --json` → 7442 source / 7526 target / 5964 translated / 1477 untranslated / 80.15% coverage.
   - `dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` → PASS, 792 interpolated literals total, 14 near-wrapper hits, 5 high-confidence wrapper-arg hits.
-  - `flutter test test/i18n_static_coverage_test.dart` → PASS.
-  - `flutter test test/pt_br_runtime_catalog_smoke_test.dart test/i18n_test.dart test/console_wrapper_test.dart` → PASS.
-  - `flutter test` → PASS.
+- `flutter test test/i18n_static_coverage_test.dart` → PASS.
+- `flutter test test/pt_br_runtime_catalog_smoke_test.dart test/i18n_test.dart test/console_wrapper_test.dart` → PASS.
+- `flutter test` → PASS.
+
+## 2026-07-05 current continuation audit
+
+- Branch: `feature/localization`
+- Current objective remains active: finish the source-templating sweep for remaining user-facing interpolations, with the backlog still concentrated in `newspaper/major_event.dart`, `talk/`, `fight.dart`, `siege.dart`, and `shop.dart`.
+- Latest code change in this turn:
+  - `lib/newspaper/major_event.dart` now templates the fallback stories for missing good/bad news instead of using raw `$view` interpolation.
+  - Added a regression check in `test/i18n_static_coverage_test.dart` so those fallbacks stay on full templates.
+- Fresh validation in this turn:
+  - `dart run scripts/find_translatable_strings.dart` → sync complete, 2 new strings added to both locales.
+  - `dart run scripts/maintain_arb_catalogs.dart --check` → PASS.
+  - `flutter test test/i18n_static_coverage_test.dart test/pt_br_runtime_catalog_smoke_test.dart` → PASS.
+- Translation status remains incomplete:
+  - `translation_status --json` still reports `7442` source keys, `7526` pt_BR keys, `5965` translated, `1477` untranslated, `0` missing, `0` empty, `80.15%` coverage.
+- No change to `PLAN.md`. Keep iterating on the broader sweep rather than treating the project as complete.
+
+## 2026-07-05 major_event generated-story sweep
+
+- Continued templatization in `lib/newspaper/major_event.dart`:
+  - `View.gunControl` now uses a single `LcsI18n.processString` article template.
+  - `View.animalResearch` now uses a single `LcsI18n.processString` article template.
+  - `View.prisons` now uses a single `LcsI18n.processString` article template.
+  - `View.womensRights` now uses a single `LcsI18n.processString` article template.
+  - `View.taxes` subheadline now uses `LcsI18n.processString`.
+- Added static coverage assertions for the new article templates so they stay full-template instead of regressing back to concatenated interpolation.
+- Synced catalogs and translated the new pt_BR entries for:
+  - the fallback `view` stories,
+  - the gun-control article,
+  - the animal-research article,
+  - the prison-hostage article,
+  - the women’s-rights article,
+  - the taxes blurb.
+- Validation after this pass:
+  - `dart run scripts/maintain_arb_catalogs.dart --check` → PASS
+  - `dart run scripts/translation_status.dart --json` → `7448` source / `7532` target / `5971` translated / `1477` untranslated / `80.17%` coverage
+  - `dart run scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` → PASS, `761` interpolated literals total
+  - `flutter test test/i18n_static_coverage_test.dart test/pt_br_runtime_catalog_smoke_test.dart test/i18n_test.dart test/console_wrapper_test.dart` → PASS
+  - `flutter test` → PASS
+- Residual debt still exists across the rest of `major_event.dart`, `talk/`, `fight.dart`, `siege.dart`, `shop.dart`, and other `lib/` interpolation sites.

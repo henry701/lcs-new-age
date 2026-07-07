@@ -1180,7 +1180,10 @@ MajorEventContent generateMajorEventContent(
       default:
         return MajorEventContent(
           headline: "BUGGY GAME",
-          storyText: "There's no good news story for $view",
+          storyText: LcsI18n.processString(
+            "There's no good news story for {view}",
+            {"view": view.label},
+          ),
         );
     }
   } else {
@@ -1694,21 +1697,21 @@ MajorEventContent generateMajorEventContent(
         return MajorEventContent(
           headline: "ARMED CITIZEN",
           subheadline: "SAVES LIVES",
-          storyText:
-              "${randomCityName()}"
-              " - In an uplifting turn, a $massShooting was prevented "
-              "by a bystander with a gun.  After ${shooter.firstLast} opened "
-              "fire at $venue, ${hero.firstLast} sprang into action.  "
-              "The citizen pulled a concealed handgun and fired once at the "
-              "shooter, forcing ${shooter.last} to take cover while others "
-              "called the police.&r"
-              "  Initially, $heroTitle${hero.last} attempted to talk down the "
-              "shooter, but as ${shooter.last} became more agitated, the heroic "
-              "citizen was forced to engage the shooter in a firefight, "
-              "$heroAction before ${shooterGender.heShe} could hurt anyone "
-              "else.&r"
-              "  The spokesperson for the police department said, \"We'd have "
-              "$heroicActionsText",
+          storyText: LcsI18n.processString(
+            "{city} - In an uplifting turn, a {massShooting} was prevented by a bystander with a gun.  After {shooter} opened fire at {venue}, {hero} sprang into action.  The citizen pulled a concealed handgun and fired once at the shooter, forcing {shooterLast} to take cover while others called the police.&r  Initially, {heroFormal} attempted to talk down the shooter, but as {shooterLast} became more agitated, the heroic citizen was forced to engage the shooter in a firefight, {heroAction} before {shooterPronoun} could hurt anyone else.&r  The spokesperson for the police department said, \"We'd have {heroicActionsText}",
+            {
+              "city": randomCityName(),
+              "massShooting": massShooting,
+              "shooter": shooter.firstLast,
+              "venue": venue,
+              "hero": hero.firstLast,
+              "shooterLast": shooter.last,
+              "heroFormal": "$heroTitle${hero.last}",
+              "heroAction": heroAction,
+              "shooterPronoun": shooterGender.heShe,
+              "heroicActionsText": heroicActionsText,
+            },
+          ),
         );
       case View.womensRights:
         FullName author = generateFullName();
@@ -1736,24 +1739,30 @@ MajorEventContent generateMajorEventContent(
         };
         return MajorEventContent(
           headline: "CLINIC REGRET",
-          storyText:
-              "${randomCityName()} - A new book has quickly risen to the top "
-              "of the bestseller lists, $bookTitle.  The author, a former "
-              "abortion doctor, has dedicated ${author.gender.hisHer} retirement "
-              "to discouraging women from having abortions.  The book includes many "
-              "stories about women who regret having abortions and interviews with "
-              "adult survivors of failed abortions.  Reviews say that the book is "
-              "powerful and moving, and many readers have changed the way they "
-              "think about the morality of abortion.&r"
-              "  According to U.S. Representative $politicianName, one of "
-              "the most vocal pro-life representatives in Congress, the book is "
-              "\"a clear message to Americans, calling on us to $callToAction.\"&r",
+          storyText: LcsI18n.processString(
+            "{city} - A new book has quickly risen to the top of the bestseller lists, {bookTitle}.  The author, a former abortion doctor, has dedicated {authorPossessive} retirement to discouraging women from having abortions.  The book includes many stories about women who regret having abortions and interviews with adult survivors of failed abortions.  Reviews say that the book is powerful and moving, and many readers have changed the way they think about the morality of abortion.&r  According to U.S. Representative {politicianName}, one of the most vocal pro-life representatives in Congress, the book is \"a clear message to Americans, calling on us to {callToAction}.\"&r",
+            {
+              "city": randomCityName(),
+              "bookTitle": bookTitle,
+              "authorPossessive": author.gender.hisHer,
+              "politicianName": politicianName,
+              "callToAction": callToAction,
+            },
+          ),
         );
       case View.taxes:
-        String str =
-            "${["Great", "Noble", "True", "Pure", "Golden"].random} ${[
-              "Leadership", "Courage", "Pioneer", "Communicator", "Faith", //
-            ].random}: A new book lauding Reagan and the greatest generation.";
+        String modifier = ["Great", "Noble", "True", "Pure", "Golden"].random;
+        String noun = [
+          "Leadership",
+          "Courage",
+          "Pioneer",
+          "Communicator",
+          "Faith", //
+        ].random;
+        String str = LcsI18n.processString(
+          "{modifier} {noun}: A new book lauding Reagan and the greatest generation.",
+          {"modifier": modifier, "noun": noun},
+        );
         return MajorEventContent(
           headline: "REAGAN THE MAN",
           pictureId: pictureReaganBook,
@@ -1798,20 +1807,16 @@ MajorEventContent generateMajorEventContent(
 
         return MajorEventContent(
           headline: "APE EXPLORERS",
-          storyText:
-              "${randomCityName()} - Researchers $fromCountry "
-              "report that they have discovered an amazing new wonder drug.  "
-              "Called $drugName, the drug apparently $drugEffect.&r"
-              "  Fielding questions about the ethics of their experiments from "
-              "reporters during a press conference yesterday, a spokesperson for "
-              "the research team stated that, \"It really isn't so bad as all "
-              "that.  Chimpanzees are very resilient creatures.  "
-              "$responseToEthics.  We have a very experienced research team.  "
-              "While we understand your concerns, any worries are entirely "
-              "unfounded.  I think the media should be focusing on the enormous "
-              "benefits of this drug.\"&r"
-              "  The first phase of human trials is slated to begin in a few "
-              "months.&r",
+          storyText: LcsI18n.processString(
+            "{city} - Researchers {fromCountry} report that they have discovered an amazing new wonder drug.  Called {drugName}, the drug apparently {drugEffect}.&r  Fielding questions about the ethics of their experiments from reporters during a press conference yesterday, a spokesperson for the research team stated that, \"It really isn't so bad as all that.  Chimpanzees are very resilient creatures.  {responseToEthics}.  We have a very experienced research team.  While we understand your concerns, any worries are entirely unfounded.  I think the media should be focusing on the enormous benefits of this drug.\"&r  The first phase of human trials is slated to begin in a few months.&r",
+            {
+              "city": randomCityName(),
+              "fromCountry": fromCountry,
+              "drugName": drugName,
+              "drugEffect": drugEffect,
+              "responseToEthics": responseToEthics,
+            },
+          ),
         );
       case View.policeBehavior:
         return MajorEventContent(
@@ -1888,22 +1893,23 @@ MajorEventContent generateMajorEventContent(
 
         return MajorEventContent(
           headline: "HOSTAGE SLAIN",
-          storyText:
-              "${randomCityName()}"
-              " - The hostage crisis at the $prisonName Correctional Facility "
-              "ended tragically yesterday with the death of both the prison "
-              "guard being held hostage and ${guardGender.hisHer} captor.&r"
-              "  Two weeks ago, convicted $rapist ${perp.firstLast}, an inmate "
-              "at $prisonName, overpowered ${guard.firstLast} and barricaded "
-              "${perpGender.himselfHerself} with the guard in a prison tower.  "
-              "Authorities locked down the prison and attempted to negotiate by "
-              "phone for ${lcsRandom(18) + 5} days, but talks were cut short when "
-              "${perp.firstLast} reportedly screamed into the receiver, \""
-              "$imKillingThisPig\"&r"
-              "  The tower was breached in an attempt to "
-              "reach the hostage, but ${perp.last} had already $killedTheGuard.  "
-              "The prisoner was $beatenToDeath while \"resisting capture\", "
-              "according to a prison spokesperson.&r",
+          storyText: LcsI18n.processString(
+            "{city} - The hostage crisis at the {prisonName} Correctional Facility ended tragically yesterday with the death of both the prison guard being held hostage and {guardPossessive} captor.&r  Two weeks ago, convicted {rapist} {perpFullName}, an inmate at {prisonName}, overpowered {guardFullName} and barricaded {perpPronounSelf} with the guard in a prison tower.  Authorities locked down the prison and attempted to negotiate by phone for {days} days, but talks were cut short when {perpFullName} reportedly screamed into the receiver, \"{imKillingThisPig}\"&r  The tower was breached in an attempt to reach the hostage, but {perpLast} had already {killedTheGuard}.  The prisoner was {beatenToDeath} while \"resisting capture\", according to a prison spokesperson.&r",
+            {
+              "city": randomCityName(),
+              "prisonName": prisonName,
+              "guardPossessive": guardGender.hisHer,
+              "rapist": rapist,
+              "perpFullName": perp.firstLast,
+              "guardFullName": guard.firstLast,
+              "perpPronounSelf": perpGender.himselfHerself,
+              "days": (lcsRandom(18) + 5).toString(),
+              "imKillingThisPig": imKillingThisPig,
+              "perpLast": perp.last,
+              "killedTheGuard": killedTheGuard,
+              "beatenToDeath": beatenToDeath,
+            },
+          ),
         );
       case View.intelligence:
         String terrorists = [
@@ -2129,24 +2135,13 @@ MajorEventContent generateMajorEventContent(
 
         return MajorEventContent(
           headline: "NEW JOBS",
-          storyText:
-              "${randomCityName()}"
-              " - Several major companies have announced at a joint news "
-              "conference here that they will be expanding their work forces "
-              "considerably during the next quarter.  Over thirty thousand jobs "
-              "are expected in the first month, with tech giant $techGiantName "
-              "increasing its payrolls by over ten thousand workers alone.  "
-              "Given the state of the economy recently and in light of the "
-              "tendency of large corporations to export jobs overseas these "
-              "days, this welcome news is bound to be a pleasant surprise to "
-              "those in the unemployment lines.&r"
-              "  The markets reportedly "
-              "responded to the announcement with mild interest, although the "
-              "dampened movement might be expected due to the uncertain futures "
-              "of some of the companies in the tech sector.  On the whole, "
-              "however, analysts suggest that not only does the expansion "
-              "speak to the health of the tech industry but is also indicative "
-              "of a full economic recovery.&r",
+          storyText: LcsI18n.processString(
+            "{city} - Several major companies have announced at a joint news conference here that they will be expanding their work forces considerably during the next quarter.  Over thirty thousand jobs are expected in the first month, with tech giant {techGiantName} increasing its payrolls by over ten thousand workers alone.  Given the state of the economy recently and in light of the tendency of large corporations to export jobs overseas these days, this welcome news is bound to be a pleasant surprise to those in the unemployment lines.&r  The markets reportedly responded to the announcement with mild interest, although the dampened movement might be expected due to the uncertain futures of some of the companies in the tech sector.  On the whole, however, analysts suggest that not only does the expansion speak to the health of the tech industry but is also indicative of a full economic recovery.&r",
+            {
+              "city": randomCityName(),
+              "techGiantName": techGiantName,
+            },
+          ),
         );
       case View.amRadio:
         FullName shockJock = generateFullName(Gender.male);
@@ -2183,23 +2178,17 @@ MajorEventContent generateMajorEventContent(
           "name": shockJock.first,
           "showName": showName,
         });
-        final broadcastText = LcsI18n.processString(
-          "broadcast of the program \"{program}\", ",
-          {"program": shockJockProgram},
-        );
-
         return MajorEventContent(
           headline: "FM OBSCENITY",
-          storyText:
-              "${randomCityName()}"
-              " - Infamous FM radio shock jock ${shockJock.firstLast} has "
-              "brought radio entertainment to a new low.  During yesterday's "
-              "$broadcastText"
-              "${shockJock.firstLast} reportedly $shockingBehavior on the air.&r"
-              "  Although ${shockJock.firstLast} later apologized, the FCC "
-              "received several hundred complaints from irate listeners from "
-              "all over the state.  A spokesperson for the FCC stated that the "
-              "incident is under investigation.&r",
+          storyText: LcsI18n.processString(
+            "{city} - Infamous FM radio shock jock {shockJock} has brought radio entertainment to a new low.  During yesterday's broadcast of the program \"{program}\", {shockJock} reportedly {behavior} on the air.&r  Although {shockJock} later apologized, the FCC received several hundred complaints from irate listeners from all over the state.  A spokesperson for the FCC stated that the incident is under investigation.&r",
+            {
+              "city": randomCityName(),
+              "shockJock": shockJock.firstLast,
+              "program": shockJockProgram,
+              "behavior": shockingBehavior,
+            },
+          ),
         );
       case View.healthcare:
         String numberWaiting =
@@ -2216,22 +2205,13 @@ MajorEventContent generateMajorEventContent(
         ].random;
         return MajorEventContent(
           headline: "NHS CRISIS",
-          storyText:
-              "London, United Kingdom - The National Health Service (NHS) "
-              "has been brought to its knees by record-breaking waiting times "
-              "for routine healthcare services as the number of people "
-              "waiting for hospital care and diagnostic tests continues to rise.&r"
-              "  \"This NHS situation has gone pear-shaped, you can't get "
-              "a GP appointment for love nor money these days,\" "
-              "said one fed-up Londoner. \"And last time I was in A&E there "
-              "were people left on trolleys in the corridors. "
-              "We need some real leadership from "
-              "Westminster or Downing Street if we want to get a grip on this "
-              "mess. I shan't hold my breath with this government though. "
-              "$governmentInsult.\"&r"
-              "  A total of $numberWaiting million patients are currently waiting "
-              "for planned hospital care, with more than a quarter of these "
-              "waiting longer than the NHS's 18-week target.&r",
+          storyText: LcsI18n.processString(
+            "London, United Kingdom - The National Health Service (NHS) has been brought to its knees by record-breaking waiting times for routine healthcare services as the number of people waiting for hospital care and diagnostic tests continues to rise.&r  \"This NHS situation has gone pear-shaped, you can't get a GP appointment for love nor money these days,\" said one fed-up Londoner. \"And last time I was in A&E there were people left on trolleys in the corridors. We need some real leadership from Westminster or Downing Street if we want to get a grip on this mess. I shan't hold my breath with this government though. {governmentInsult}.\"&r  A total of {numberWaiting} million patients are currently waiting for planned hospital care, with more than a quarter of these waiting longer than the NHS's 18-week target.&r",
+            {
+              "governmentInsult": governmentInsult,
+              "numberWaiting": numberWaiting,
+            },
+          ),
         );
       case View.retirement:
         String thinkTankAdjective = [
@@ -2270,33 +2250,26 @@ MajorEventContent generateMajorEventContent(
             .toString();
         return MajorEventContent(
           headline: "INSECURITY",
-          storyText:
-              "Washington, DC - The Social Security Administration "
-              "has announced that the program is on the brink of insolvency, "
-              "with the trust fund expected to be depleted by $dateOfInsolvency. Meanwhile, "
-              "private healthcare accounts are thriving due to recent high "
-              "returns in the stock market.&r"
-              "  \"We've been saying for years that Social Security is an "
-              "unsustainable pyramid scheme, a fraud on the American people,\" "
-              "said ${thinkTankSpokesperson.firstLast}, a spokesperson for the "
-              "$thinkTankName. \"It's time for the American people to take "
-              "control of their own retirement and cut government inefficiency "
-              "and waste out of our futures.\"&r"
-              "  ${socialSecurityAdministrationSpokesperson.firstLast} from "
-              "the Social Security Administration offered a more measured "
-              "response. \"The Social Security Administration will continue to fulfill "
-              "its statutory mandates, but policy adjustments to balance "
-              "revenues and outflows will be necessary for long-term sustainability.\"&r",
+          storyText: LcsI18n.processString(
+            "Washington, DC - The Social Security Administration has announced that the program is on the brink of insolvency, with the trust fund expected to be depleted by {dateOfInsolvency}. Meanwhile, private healthcare accounts are thriving due to recent high returns in the stock market.&r  \"We've been saying for years that Social Security is an unsustainable pyramid scheme, a fraud on the American people,\" said {thinkTankSpokesperson}, a spokesperson for the {thinkTankName}. \"It's time for the American people to take control of their own retirement and cut government inefficiency and waste out of our futures.\"&r  {ssaSpokesperson} from the Social Security Administration offered a more measured response. \"The Social Security Administration will continue to fulfill its statutory mandates, but policy adjustments to balance revenues and outflows will be necessary for long-term sustainability.\"&r",
+            {
+              "dateOfInsolvency": dateOfInsolvency,
+              "thinkTankSpokesperson": thinkTankSpokesperson.firstLast,
+              "thinkTankName": thinkTankName,
+              "ssaSpokesperson":
+                  socialSecurityAdministrationSpokesperson.firstLast,
+            },
+          ),
         );
       case View.housing:
         String city = randomCityName();
         FullName resident = generateFullName();
+        String publicHousingCrisis =
+            "The public housing crisis has reached a tipping point, with record numbers of people living in overcrowded and unsafe conditions.";
         return MajorEventContent(
           headline: "PUBLIC SLUMS",
           storyText:
-              "$city - The public housing crisis has reached a "
-              "tipping point, with record numbers of people living in overcrowded "
-              "and unsafe conditions. The crisis is being fueled by a combination "
+              "$city - $publicHousingCrisis The crisis is being fueled by a combination "
               "of rising cost of repairs and regulatory limits on rent, which is "
               "leading to neglect and decay. The suppressed rent is also inviting "
               "criminal elements and other unsavory characters to move in.&r"
@@ -2319,7 +2292,10 @@ MajorEventContent generateMajorEventContent(
       default:
         return MajorEventContent(
           headline: "BUGGY GAME",
-          storyText: "There's no bad news story for $view",
+          storyText: LcsI18n.processString(
+            "There's no bad news story for {view}",
+            {"view": view.label},
+          ),
         );
     }
   }

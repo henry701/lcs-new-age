@@ -7,6 +7,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
@@ -25,10 +26,11 @@ class _Question {
 }
 
 class _Option {
-  _Option(this.option, this.description, this.callback);
+  _Option(this.option, this.description, this.callback, {this.params});
   final String option;
   final String description;
   final Function() callback;
+  final Map<String, dynamic>? params;
 }
 
 enum Recruits { gang, none }
@@ -36,10 +38,10 @@ enum Recruits { gang, none }
 Future<void> characterCreationQuestions(Creature founder, bool choose) async {
   bool gay = false;
   Recruits recruits = Recruits.none;
-  String makeOutWith = switch (founder.gender) {
-    Gender.male => "another boy",
-    Gender.female => "another girl",
-    _ => "my friend",
+  final makeOutWith = switch (founder.gender) {
+    Gender.male => LcsI18n.tr("another boy"),
+    Gender.female => LcsI18n.tr("another girl"),
+    _ => LcsI18n.tr("my friend"),
   };
 
   List<_Question> questions = [
@@ -345,13 +347,14 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
         },
       ),
       _Option(
-        "I got caught making out with $makeOutWith.  So God hated me for that?",
+        "I got caught making out with {person}.  So God hated me for that?",
         "+2 Seduction, +1 Religion",
         () {
           founder.adjustSkill(Skill.seduction, 2);
           founder.adjustSkill(Skill.religion, 1);
           gay = true;
         },
+        params: {"person": makeOutWith},
       ),
     ]),
     _Question("I was only 15 when I ran away, and...", [
@@ -611,18 +614,27 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
       if (!choose && i != highlight) continue;
       _Option option = question.answers[i];
       String letter = letterAPlus(i);
+      final renderedOption = LcsI18n.processString(
+        option.option,
+        option.params,
+      );
+      final renderedDescription = LcsI18n.processString(
+        option.description,
+        null,
+      );
       if (choose) {
         addOptionText(
           y++,
           0,
           letter,
           "{letter} - {option}",
-          params: {"letter": letter, "option": option.option},
+          params: {"letter": letter, "option": renderedOption},
+          noTranslate: true,
         );
       } else {
-        mvaddstrc(y++, 4, lightGray, option.option);
+        mvaddstrc(y++, 4, lightGray, renderedOption, noTranslate: true);
       }
-      mvaddstrc(y++, 4, darkGray, option.description);
+      mvaddstrc(y++, 4, darkGray, renderedDescription, noTranslate: true);
     }
 
     printCreatureInfo(founder);

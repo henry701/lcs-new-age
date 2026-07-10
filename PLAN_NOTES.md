@@ -662,3 +662,8 @@ Important remaining debt:
 
 - Replaced price suffix concatenation in base flag actions with complete free/paid labels.
 - Manually added/updated the conditional paid-label catalog entries and pt_BR translations, then added a static regression check.
+
+## 2026-07-10 continuation: character-creation parameterized option
+
+- Added parameter support to character-creation option records and render each option/description before the outer option layout, avoiding double translation.
+- Converted the dynamic make-out question to a complete `{person}` template, translated all gender-dependent parameter values in pt_BR, and added a static regression test.

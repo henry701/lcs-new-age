@@ -759,6 +759,17 @@ void main() {
       expect(source, contains('{name} approves the {claim} claim.'));
     });
 
+    test('character-creation options render parameterized templates first', () {
+      final source = File('lib/title_screen/questions.dart').readAsStringSync();
+      expect(
+        source,
+        isNot(contains(r'"I got caught making out with $makeOutWith')),
+      );
+      expect(source, contains('"I got caught making out with {person}.'));
+      expect(source, contains('option.option,'));
+      expect(source, contains('renderedOption, noTranslate: true'));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

@@ -552,23 +552,20 @@ Future<void> siegeCheck() async {
         // Occasional advance warning before the raid.
         if (medicalSleeper != null || oneIn(5)) {
           erase();
-          String message = "";
-          message = "You have received ";
-          if (medicalSleeper != null) {
-            message += "a warning from ${medicalSleeper.name} ";
-          } else {
-            message += "an anonymous tip ";
-          }
-          message += "that the medical industry has ";
-          message += "dispatched an accounting team to ";
-          if (medicalSleeper != null) {
-            message += l.getName(includeCity: true);
-          } else {
-            message += "the LCS";
-          }
-          message += " to secure payment of unpaid hospital bills.";
+          final message = medicalSleeper != null
+              ? LcsI18n.processString(
+                  "You have received a warning from {sleeper} that the medical industry has dispatched an accounting team to {location} to secure payment of unpaid hospital bills.",
+                  {
+                    "sleeper": medicalSleeper.name,
+                    "location": l.getName(includeCity: true),
+                  },
+                )
+              : LcsI18n.processString(
+                  "You have received an anonymous tip that the medical industry has dispatched an accounting team to the LCS to secure payment of unpaid hospital bills.",
+                  const {},
+                );
           setColor(white);
-          addparagraph(8, 1, message);
+          addparagraph(8, 1, message, noTranslate: true);
           await getKey();
         }
       } else if (l.siege.timeuntilmedical > 0 && !l.siege.underSiege) {
@@ -1880,10 +1877,9 @@ Future<void> sallyForthPart2(Site loc) async {
   // No squads at the location? Form a new one.
   if (activeSquad == null) {
     squads.add(Squad());
-    squads.last.name = LcsI18n.processString(
-      "{location} Defense",
-      {"location": activeSafehouse!.getName(short: true)},
-    );
+    squads.last.name = LcsI18n.processString("{location} Defense", {
+      "location": activeSafehouse!.getName(short: true),
+    });
     int i = 0;
     for (Creature p in pool) {
       if (p.location == activeSafehouse &&
@@ -2009,10 +2005,9 @@ Future<void> escapeOrEngage() async {
   // No squads at the location? Form a new one.
   if (activeSquad == null) {
     squads.add(Squad());
-    squads.last.name = LcsI18n.processString(
-      "{location} Defense",
-      {"location": activeSafehouse!.getName(short: true)},
-    );
+    squads.last.name = LcsI18n.processString("{location} Defense", {
+      "location": activeSafehouse!.getName(short: true),
+    });
     for (Creature p in activeSafehouse!.creaturesPresent.where(
       (p) => p.isActiveLiberal,
     )) {

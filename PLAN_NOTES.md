@@ -559,3 +559,8 @@ Important remaining debt:
 - Converted pollution, corporate culture, AM-radio naming, healthcare insult, retirement think-tank naming, and housing prose to complete templates or translated dynamic values.
 - `rg` now finds no Dart interpolation in `lib/newspaper/major_event.dart`; the generated-story sweep in that file is complete at the lexical interpolation level.
 - Added the pollution article regression check and its pt_BR translation. The next source sweep must move outside major events and audit `newspaper/ads.dart`, `display_news.dart`, `talk/`, fight, siege, and shop.
+
+## 2026-07-10 continuation: daily medical-siege warning
+
+- Replaced incrementally concatenated medical-debt warning text in `lib/daily/siege.dart` with complete named-sleeper and anonymous-tip templates. Rendered messages are marked `noTranslate` after `processString` to avoid a second lookup.
+- Added both pt_BR translations and static regression checks. Continue the remaining non-newspaper sweep with talk option fragments, newspaper advertisements, and only after review the debug/currency-only interpolation sites.

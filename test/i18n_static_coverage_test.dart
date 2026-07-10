@@ -529,6 +529,16 @@ void main() {
         ),
       );
       expect(
+        dailySiege,
+        contains('You have received a warning from {sleeper}'),
+      );
+      expect(
+        dailySiege,
+        contains(
+          'You have received an anonymous tip that the medical industry',
+        ),
+      );
+      expect(
         locationSiege,
         contains('MEDICAL DEBT COLLECTION RECEIPT FOR {location}:'),
       );

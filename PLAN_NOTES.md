@@ -569,3 +569,9 @@ Important remaining debt:
 
 - Replaced the `whileNaked` suffix injection in `talk_outside_combat.dart` with whole normal/nude option templates. This preserves translator-controlled sentence grammar instead of appending an English fragment.
 - Added 14 pt_BR option translations and a regression assertion. The next broad scan remains newspaper ads/display layout plus user-facing generated composition outside the currently detected wrapper hits.
+
+## 2026-07-10 continuation: newspaper ad values and prelocalized layout
+
+- Converted interpolated newspaper-ad prices, year, and personal-ad fields into complete templates before wrapping. The ad renderer now explicitly marks prelocalized output as `noTranslate` while retaining normal story behavior for other callers.
+- Removed raw Dart interpolation from `ads.dart` and the kidnapping-story paragraph join. Added static regression coverage and pt_BR translations for the ad templates.
+- Remaining source scan findings in the named areas are debug-only fight/siege diagnostics, numeric currency parameters, and further user-facing composition in other newspaper/talk paths that require manual review.

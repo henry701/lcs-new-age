@@ -510,6 +510,25 @@ void main() {
       );
     });
 
+    test(
+      'newspaper ad values are rendered through templates before layout',
+      () {
+        final ads = File('lib/newspaper/ads.dart').readAsStringSync();
+        final displayNews = File(
+          'lib/newspaper/display_news.dart',
+        ).readAsStringSync();
+
+        expect(ads, contains('&cNow {amount}49.99'));
+        expect(ads, contains('&c{description} {who} {seeking}&r'));
+        expect(ads, isNot(contains(r'&cNow $${')));
+        expect(ads, isNot(contains(r'&c${sexdesc()}')));
+        expect(
+          displayNews,
+          contains('addstr(lines.first, noTranslate: noTranslate)'),
+        );
+      },
+    );
+
     test('menu, hospital, and debt-receipt output use full templates', () {
       final newGame = File('lib/title_screen/new_game.dart').readAsStringSync();
       final flag = File('lib/basemode/flag.dart').readAsStringSync();

@@ -1,7 +1,10 @@
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+
+String _dollars(int amount) => (StringBuffer(r'$')..write(amount)).toString();
 
 void displaysinglead(
   bool liberalguardian,
@@ -86,7 +89,9 @@ void displaysinglead(
         case 1:
           ad = "&cFine Leather Chairs&r&r";
           ad += "&cSpecial Purchase&r";
-          ad += "&cNow \$${lcsRandom(8) + 8}49.99";
+          ad += LcsI18n.processString("&cNow {amount}49.99", {
+            "amount": _dollars(lcsRandom(8) + 8),
+          });
           ad += "&r";
         case 2:
           ad = "&cParis Flea Market&r&r";
@@ -95,9 +100,13 @@ void displaysinglead(
         case 3:
           ad = "&cQuality Pre-Owned&r";
           ad += "&cVehicles&r";
-          ad += "&c${2020 - lcsRandom(15)} Lexus GS 300&r";
+          ad += LcsI18n.processString("&c{year} Lexus GS 300&r", {
+            "year": (2020 - lcsRandom(15)).toString(),
+          });
           ad += "&cSedan 4D&r";
-          ad += "&cOnly \$${lcsRandom(19) + 3},750";
+          ad += LcsI18n.processString("&cOnly {amount},750", {
+            "amount": _dollars(lcsRandom(19) + 3),
+          });
           ad += "&r";
         case 4:
           ad = "&cSpa&r";
@@ -120,8 +129,15 @@ void displaysinglead(
               ad += "Soulmate Wanted";
           }
           ad += "&r&r";
-          ad += "&c${sexdesc()} ${sexwho()} ${sexseek()}&r";
-          ad += "&c${sextype()} w/ ${sexwho()}&r";
+          ad += LcsI18n.processString("&c{description} {who} {seeking}&r", {
+            "description": sexdesc(),
+            "who": sexwho(),
+            "seeking": sexseek(),
+          });
+          ad += LcsI18n.processString("&c{type} w/ {who}&r", {
+            "type": sextype(),
+            "who": sexwho(),
+          });
         default:
           ad = "&cDebuggers Needed&r&r";
           ad += "&cIt Seems&r";
@@ -139,7 +155,7 @@ void displaysinglead(
         case 1:
           ad = "&cLiberal Defense Lawyer&r";
           ad += "&c";
-          ad += "${lcsRandom(11 + 20)}";
+          ad += lcsRandom(11 + 20).toString();
           ad += " Years Experience&r&r";
           ad += "&cCall Today&r";
         case 2:
@@ -172,8 +188,15 @@ void displaysinglead(
               ad += "Sex Partner Wanted";
           }
           ad += "&r&r";
-          ad += "&c${sexdesc()} ${sexwho()} ${sexseek()}&r";
-          ad += "&c${sextype()} w/ ${sexwho()}&r";
+          ad += LcsI18n.processString("&c{description} {who} {seeking}&r", {
+            "description": sexdesc(),
+            "who": sexwho(),
+            "seeking": sexseek(),
+          });
+          ad += LcsI18n.processString("&c{type} w/ {who}&r", {
+            "type": sextype(),
+            "who": sexwho(),
+          });
         default:
           ad = "&cDebuggers Needed&r&r";
           ad += "&cIt Seems&r";
@@ -182,7 +205,7 @@ void displaysinglead(
       }
     }
 
-    displayNewsStory(ad, storyXStart, storyXEnd, sy + 1, ns);
+    displayNewsStory(ad, storyXStart, storyXEnd, sy + 1, ns, true);
   }
 }
 

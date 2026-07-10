@@ -816,11 +816,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           "days": ns.cr!.daysSinceJoined - 1,
         },
       );
-      story = "${[
-        kidnappingLead,
-        kidnappingStatement,
-        lastKnownLocationText,
-      ].join("&r")}&r";
+      story = (StringBuffer(
+        [kidnappingLead, kidnappingStatement, lastKnownLocationText].join("&r"),
+      )..write("&r")).toString();
 
       story += generateFiller(200);
       displayNewsStory(story, storyXStart, storyXEnd, y, ns);
@@ -955,8 +953,9 @@ void displayNewsStory(
   List<int> storyXStart,
   List<int> storyXEnd,
   int y,
-  NewsStory? ns,
-) {
+  NewsStory? ns, [
+  bool noTranslate = false,
+]) {
   ns?.body = newsprintToWebFormat(story);
   List<String> text = [];
   List<bool> centered = [];
@@ -1020,7 +1019,7 @@ void displayNewsStory(
     } else {
       move(cury, storyXStart[cury]);
     }
-    addstr(lines.first);
+    addstr(lines.first, noTranslate: noTranslate);
     lines.removeAt(0);
     centered.removeAt(0);
   }

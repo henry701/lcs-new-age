@@ -24,6 +24,7 @@
   "%FIRSTLAST% asks %HELPER% to bring %HIM% a book.": "%FIRSTLAST% asks %HELPER% to bring %HIM% a book.",
   "%FIRSTLAST% has been lying in the same position all day.": "%FIRSTLAST% has been lying in the same position all day.",
   "%FIRSTLAST% swears bitterly at %HELPER%.": "%FIRSTLAST% swears bitterly at %HELPER%.",
+  "&c{description} {who} {seeking}&r": "&c{description} {who} {seeking}&r",
   "...but now the screen is off and won't turn on.": "...mas agora a tela está desligada e nãoliga.",
   "3 - Steal Equipment": "3 - Roubar Equipamento",
   "A - Quietly pass the teller a robbery note while naked.": "A - Passe discretamente ao caixa uma nota de assalto enquanto está nu.",

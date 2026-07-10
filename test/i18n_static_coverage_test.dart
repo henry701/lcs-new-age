@@ -328,6 +328,16 @@ void main() {
       );
       expect(
         majorEvent,
+        contains('{city} - The genetic foods industry staged a major event'),
+      );
+      expect(
+        majorEvent,
+        contains(
+          '{city} - The conviction of confessed serial killer {serialKiller}',
+        ),
+      );
+      expect(
+        majorEvent,
         isNot(contains(r'"${randomCityName()} - A local wedding venue')),
       );
       expect(

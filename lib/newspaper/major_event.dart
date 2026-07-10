@@ -2058,90 +2058,93 @@ MajorEventContent generateMajorEventContent(
           remapSkinTones: true,
         );
       case View.genetics:
-        String corporation =
-            "${[
-              "Altered", "Gene-tech", "DNA", "Proteomic", "Genomic", //
-            ].random} ${[
-              "Foods", "Agriculture", "Meals", "Farming", "Living", //
-            ].random}";
-        String product =
-            "${[
-              "Mega", "Epic", "Overlord", "Franken", "Transcendent", //
-            ].random} ${[
-              "Rice", "Beans", "Corn", "Wheat", "Potatoes", //
-            ].random}";
-        String benefit = [
-          "extends human life by a few minutes every bite",
-          "mends split-ends upon digestion.  Hair is also made glossier and thicker",
-          "allows people to see in complete darkness",
-          "causes a person to slowly attain their optimum weight with repeated use",
-          "cures the common cold",
-        ].random;
-        String incident = [
-          "guy going on a killing spree",
-          "gal turning blue and exploding",
-          "guy speaking in tongues and worshiping Satan",
-          "gal having a ruptured intestine",
-        ].random;
-        String hooey = [
-          "hooey", "poppycock", "horseradish", "skunk weed", "garbage", //
-        ].random;
+        String corporation = LcsI18n.processString("{first} {second}", {
+          "first": LcsI18n.tr(
+            ["Altered", "Gene-tech", "DNA", "Proteomic", "Genomic"].random,
+          ),
+          "second": LcsI18n.tr(
+            ["Foods", "Agriculture", "Meals", "Farming", "Living"].random,
+          ),
+        });
+        String product = LcsI18n.processString("{first} {second}", {
+          "first": LcsI18n.tr(
+            ["Mega", "Epic", "Overlord", "Franken", "Transcendent"].random,
+          ),
+          "second": LcsI18n.tr(
+            ["Rice", "Beans", "Corn", "Wheat", "Potatoes"].random,
+          ),
+        });
+        String benefit = LcsI18n.tr(
+          [
+            "extends human life by a few minutes every bite",
+            "mends split-ends upon digestion.  Hair is also made glossier and thicker",
+            "allows people to see in complete darkness",
+            "causes a person to slowly attain their optimum weight with repeated use",
+            "cures the common cold",
+          ].random,
+        );
+        String incident = LcsI18n.tr(
+          [
+            "guy going on a killing spree",
+            "gal turning blue and exploding",
+            "guy speaking in tongues and worshiping Satan",
+            "gal having a ruptured intestine",
+          ].random,
+        );
+        String hooey = LcsI18n.tr(
+          ["hooey", "poppycock", "horseradish", "skunk weed", "garbage"].random,
+        );
 
         return MajorEventContent(
           headline: "GM FOOD FAIRE",
-          storyText:
-              "${randomCityName()}"
-              " - The genetic foods industry staged a major event here yesterday "
-              "to showcase its upcoming products.  Over thirty companies set up "
-              "booths and gave talks to wide-eyed onlookers."
-              "&r"
-              "  One such corporation, $corporation, presented their product, "
-              "\"$product\", during an afternoon PowerPoint presentation.  "
-              "According to the public relations representative speaking, "
-              "this amazing new product actually $benefit.&r"
-              "  Spokespeople for the GM corporations were universal "
-              "in their dismissal of the criticism which often follows "
-              "the industry.  One in particular said, \""
-              "Look, these products are safe.  That thing about the "
-              "$incident is just a load of $hooey.  Would we stake the "
-              "reputation of our company on unsafe products?  No.  That's "
-              "just ridiculous.  I mean, sure companies have put unsafe "
-              "products out, but the GM industry operates at a higher ethical "
-              "standard.  That goes without saying.\"&r",
+          storyText: LcsI18n.processString(
+            "{city} - The genetic foods industry staged a major event here yesterday to showcase its upcoming products.  Over thirty companies set up booths and gave talks to wide-eyed onlookers.&r  One such corporation, {corporation}, presented their product, \"{product}\", during an afternoon PowerPoint presentation.  According to the public relations representative speaking, this amazing new product actually {benefit}.&r  Spokespeople for the GM corporations were universal in their dismissal of the criticism which often follows the industry.  One in particular said, \"Look, these products are safe.  That thing about the {incident} is just a load of {hooey}.  Would we stake the reputation of our company on unsafe products?  No.  That's just ridiculous.  I mean, sure companies have put unsafe products out, but the GM industry operates at a higher ethical standard.  That goes without saying.\"&r",
+            {
+              "city": randomCityName(),
+              "corporation": corporation,
+              "product": product,
+              "benefit": benefit,
+              "incident": incident,
+              "hooey": hooey,
+            },
+          ),
         );
       case View.justices:
         FullName serialKiller = generateFullName();
         Gender judgeGender = forceGenderBinary(Gender.nonbinary);
         FullName judge = generateFullName(judgeGender);
         String judgeReason = [
-          "mishearing of a ten-year-old's eyewitness testimony",
-          "general feelings about police corruption",
-          "belief that the crimes were a vast right-wing conspiracy",
-          "belief that ${serialKiller.last} deserved another chance",
-          "personal philosophy of liberty",
-          "close personal friendship with the ${serialKiller.last} family",
-          "consultations with a Magic 8-Ball",
+          LcsI18n.tr("mishearing of a ten-year-old's eyewitness testimony"),
+          LcsI18n.tr("general feelings about police corruption"),
+          LcsI18n.tr(
+            "belief that the crimes were a vast right-wing conspiracy",
+          ),
+          LcsI18n.processString("belief that {name} deserved another chance", {
+            "name": serialKiller.last,
+          }),
+          LcsI18n.tr("personal philosophy of liberty"),
+          LcsI18n.processString(
+            "close personal friendship with the {name} family",
+            {"name": serialKiller.last},
+          ),
+          LcsI18n.tr("consultations with a Magic 8-Ball"),
         ].random;
 
         return MajorEventContent(
           headline: "JUSTICE AMOK",
-          storyText:
-              "${randomCityName()}"
-              " - The conviction of confessed serial killer $serialKiller "
-              "was overturned by a federal judge yesterday.  Judge "
-              "${judge.firstLast} of the notoriously liberal court of appeals "
-              "here made the decision based on ${judgeGender.hisHer} "
-              "$judgeReason, despite the confession of ${serialKiller.last}, "
-              "which even Judge ${judge.last} grants was not coerced in any way.&r"
-              "  Ten years ago, ${serialKiller.last} was convicted of the "
-              "now-infamous ${lastName()} slayings.  After an intensive manhunt, "
-              "${serialKiller.last} was found with the murder weapon covered "
-              "in the victims' blood.  ${serialKiller.last} confessed and was "
-              "sentenced to life, saying \"Thank you for saving me from myself.  "
-              "If I were to be released, I would surely kill again.\"&r"
-              "  A spokesperson for the district attorney has stated that the "
-              "case will not be retried, due to the current economic doldrums "
-              "that have left the state completely strapped for cash.&r",
+          storyText: LcsI18n.processString(
+            "{city} - The conviction of confessed serial killer {serialKiller} was overturned by a federal judge yesterday.  Judge {judge} of the notoriously liberal court of appeals here made the decision based on {judgePossessive} {judgeReason}, despite the confession of {serialKillerLast}, which even Judge {judgeLast} grants was not coerced in any way.&r  Ten years ago, {serialKillerLast} was convicted of the now-infamous {slayingName} slayings.  After an intensive manhunt, {serialKillerLast} was found with the murder weapon covered in the victims' blood.  {serialKillerLast} confessed and was sentenced to life, saying \"Thank you for saving me from myself.  If I were to be released, I would surely kill again.\"&r  A spokesperson for the district attorney has stated that the case will not be retried, due to the current economic doldrums that have left the state completely strapped for cash.&r",
+            {
+              "city": randomCityName(),
+              "serialKiller": serialKiller.firstLast,
+              "judge": judge.firstLast,
+              "judgePossessive": LcsI18n.tr(judgeGender.hisHer),
+              "judgeReason": judgeReason,
+              "serialKillerLast": serialKiller.last,
+              "judgeLast": judge.last,
+              "slayingName": lastName(),
+            },
+          ),
         );
       case View.sweatshops:
         String storyText = month >= 8 && month <= 11

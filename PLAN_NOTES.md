@@ -547,3 +547,9 @@ Important remaining debt:
 - Removed name/pronoun and gang/religion fragments in the prison hostage story. The guard-death descriptions now use complete templates; user-facing pronouns are translated before insertion.
 - Added static checks for the animal-research, intelligence, and prison templates. Catalog layout/interpolation gate/full `flutter test` all pass.
 - Current status: `7618` source keys, `6076` translated, `1542` untranslated, `0` missing, `0` empty, `79.76%` coverage. Remaining generated-story work starts with genetics, justice, pollution, and housing branches.
+
+## 2026-07-10 continuation: genetics and justice prose
+
+- Converted the genetic-foods and justice articles to complete `LcsI18n.processString` templates. Corporation/product labels, incident claims, judge reasons, pronouns, full names, and slaying references now use placeholders or translated values.
+- Added static regression checks, catalog entries, and pt_BR translations for the new complete templates.
+- Focused catalog/static/runtime smoke validation passes. Current status: `7623` source keys, `6082` translated, `1541` untranslated, `0` missing, `0` empty, `79.78%` coverage. Continue with pollution, corporate-culture/AM-radio composition, retirement, and housing.

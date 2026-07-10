@@ -230,6 +230,7 @@
   "{name} quietly considers these ideas.": "{name} quietly considers these ideas.",
   "{name} returns to the safehouse after a few hours.": "{name} returns to the safehouse after a few hours.",
   "{name} talks about economic theory.": "{name} talks about economic theory.",
+  "{name} tried to make a {flag}, but failed.": "{name} tried to make a {flag}, but failed.",
   "{name} was unable to find a {oldCar} but did find a {newCar}.": "{name} was unable to find a {oldCar} but did find a {newCar}.",
   "{name} {action}": "{name} {action}",
   "{name}'s death sentence has been commuted to life, ": "{name}'s death sentence has been commuted to life, ",

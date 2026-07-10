@@ -16,8 +16,10 @@ String squadStoryTextLocation(
   }
   int posand = placename.indexOf('&');
   if (posand != -1) {
-    placename =
-        "${placename.substring(0, posand)}and${placename.substring(posand + 1)}";
+    placename = LcsI18n.processString("{before} and {after}", {
+      "before": placename.substring(0, posand).trim(),
+      "after": placename.substring(posand + 1).trim(),
+    });
   }
   final place = ccs ? mapCCSPlace(ns.loc!, placename) : placename;
   String locationPhrase = switch (ns.loc!.type) {

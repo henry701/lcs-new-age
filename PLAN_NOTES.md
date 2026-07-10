@@ -585,3 +585,12 @@ Important remaining debt:
 
 - Converted the nursing-home patient/manager and insurance claims/CEO dynamic messages to complete templates. Preprocessed `processString` output is now explicitly passed as `noTranslate` through encounter/prompt helpers to prevent a second lookup.
 - Added ten pt_BR translations and regression coverage. The legacy `%FIRST%` patient-state message system remains a distinct migration item: it requires replacing its custom token protocol rather than adding more interpolated fragments.
+
+## 2026-07-10 continuation: flag-creation and location-join audit
+
+- Converted every flag-creation outcome message to a complete `{name}`/`{flag}` template. `showMessage` now forwards `params` and `noTranslate` to the console wrapper so this user-facing API can render templates correctly.
+- Translated the nine new pt_BR flag templates and added a static regression assertion against reintroducing raw `cr.name`/`flag.name` interpolation.
+- Replaced the newspaper location `before + "and" + after` interpolation with the extracted `{before} and {after}` template; pt_BR uses `{before} e {after}`. This keeps conjunction placement under locale control.
+- Manual review of the remaining named-target interpolation sites found only debug diagnostics, numeric currency values passed as template parameters, color/layout control markup, or paragraph joining after each paragraph has already been localized. They remain intentionally classified rather than translated as prose.
+- Canonical workflow now states that the interpolation allowlist is exception-only and must never suppress user-facing composition.
+- Fresh validation: formatter, catalog check, extraction, interpolation gate (`414` total literals; `0` unclassified wrapper hits), focused i18n tests, and full `flutter test` passed. Current pt_BR catalog coverage is `6131/7673` (`79.90%`); templating is substantially ahead of translation completeness.

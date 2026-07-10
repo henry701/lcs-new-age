@@ -238,6 +238,7 @@
   "{name} smirks,": "{name} dá um sorrisinho,",
   "{name} stares at a church for hours, before going in.": "{name} olha para uma igreja por horas, antes de entrar.",
   "{name} was unable to track down a {type}.": "{name} não conseguiu encontrar um {type}.",
+  "{name} wasted the materials for a {flag}.": "{name} desperdiçou os materiais de uma {flag}.",
   "{name}'s heart is punctured!": "O coração de {name} é perfurado!",
   "{name}'s left lung is torn!": "O pulmão esquerdo de {name} é rasgado!",
   "{name}'s lower spine is shattered!": "A coluna inferior de {name} é esmagada!",

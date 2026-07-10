@@ -244,6 +244,7 @@
   "{name} quietly considers these ideas.": "{name} considera silenciosamente essas ideias.",
   "{name} returns to the safehouse after a few hours.": "{name} retorna ao esconderijo após algumas horas.",
   "{name} talks about economic theory.": "{name} fala sobre teoria econômica.",
+  "{name} tried to make a {flag}, but failed.": "{name} tentou fazer uma {flag}, mas falhou.",
   "{name} was unable to find a {oldCar} but did find a {newCar}.": "{name} não conseguiu encontrar um {oldCar} mas encontrou um {newCar}.",
   "{name} {action}": "{name}  {action}",
   "{name}'s death sentence has been commuted to life, ": "a sentença de morte de {name} foi comutada para prisão perpétua, ",

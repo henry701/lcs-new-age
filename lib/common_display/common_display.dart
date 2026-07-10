@@ -23,13 +23,15 @@ Future<void> showMessage(
   String message, {
   Color color = lightGray,
   bool delimeter = true,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) async {
   if (clearScreenOnNextMessage) {
     erase();
   } else if (delimeter) {
     makeDelimiter();
   }
-  mvaddstrc(8, 1, color, message);
+  mvaddstrc(8, 1, color, message, params: params, noTranslate: noTranslate);
   await getKey();
 }
 

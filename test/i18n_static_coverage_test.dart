@@ -124,6 +124,16 @@ void main() {
       expect(source, isNot(contains('{prefix}')));
     });
 
+    test('flag creation messages are complete actor templates', () {
+      final source = File(
+        'lib/daily/activities/flag_creation.dart',
+      ).readAsStringSync();
+      expect(source, isNot(contains(r'${cr.name}')));
+      expect(source, isNot(contains(r'${flag.name}')));
+      expect(source, contains('"{name} sewed a {flag}."'));
+      expect(source, contains('params: {"name": cr.name, "flag": flag.name}'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));
@@ -254,6 +264,8 @@ void main() {
           'A gang of heavily armed vigilantes calling themselves the Conservative Crime Squad went on a suicidal rampage yesterday, according to a spokesperson from the police department.&r',
         ),
       );
+      expect(squadStory, isNot(contains(r'"${placename.substring')));
+      expect(squadStory, contains('"{before} and {after}"'));
       expect(majorEvent, isNot(contains("String _possessive(")));
       expect(
         majorEvent,

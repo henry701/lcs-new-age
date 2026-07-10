@@ -58,6 +58,8 @@ Important limitations:
 
 Treat the scripts as good assistants, not proof that source-string cleanup is complete. In particular, the wrapper audit is intentionally narrow: inspect generated prose, local variables, and accumulated story text separately.
 
+An interpolation allowlist is an exception register, not a suppression mechanism. Add an entry only for non-prose implementation output (for example, debug diagnostics, control markup, or numeric/layout-only formatting), and record why it cannot be a translated template. Never allowlist user-facing names, prose, possessives, or sentence fragments; templatize those at their composition point instead.
+
 ## Fragment Keys and Name+Flavor Composition (Strong Rule)
 
 Fragment keys (e.g. `"'s wounds."`, `"'s lifeless body smashes through the windshield."`, `" slams into a building!"`, leading-space or trailing phrases) and name+fragment concatenation are defects for i18n.

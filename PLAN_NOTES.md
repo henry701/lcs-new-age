@@ -624,3 +624,8 @@ Important remaining debt:
 - Identified all direct display consumers and marked already-rendered descriptions `noTranslate`; callers that embed the description into a larger template keep the outer template responsible for rendering.
 - Preserved the multiple-activity label by translating it before no-translate display. Added static regression coverage.
 - Catalog validation, interpolation gate, and focused i18n tests pass.
+
+## 2026-07-10 continuation: kidnap guard prompts
+
+- Added parameter forwarding to `sitemodePrompt`, then converted all kidnap guard/target composition and the guard alert to complete templates.
+- Added four pt_BR translations and a static regression test. This shared prompt API change makes future site-mode prompts templatizable without pre-rendered strings.

@@ -111,17 +111,19 @@ Future<void> kidnapattempt() async {
     }
     if (guard != null) {
       bool proceed = await sitemodePrompt(
-        "${guard.name} stays close to ${target.name}, watching for trouble.",
-        "Try to take ${target.name} anyway? (Yes or No)",
+        "{guard} stays close to {target}, watching for trouble.",
+        "Try to take {target} anyway? (Yes or No)",
+        params: {"guard": guard.name, "target": target.name},
       );
       if (!proceed) return;
 
       if (guard.noticedParty ||
           !kidnapper.skillCheck(Skill.stealth, Difficulty.formidable)) {
         await encounterMessage(
-          "${guard.name} steps between the squad and ${target.name},",
+          "{guard} steps between the squad and {target},",
           line2: "eyeing the Liberals with suspicion.",
           color: purple,
+          params: {"guard": guard.name, "target": target.name},
         );
 
         int time =
@@ -267,8 +269,9 @@ Future<void> kidnapattempt() async {
     if (yellForHelp || guard != null) {
       if (guard != null) {
         await encounterMessage(
-          "${guard.name}: \"10-78! Principal in danger!\"",
+          "{guard}: \"10-78! Principal in danger!\"",
           color: purple,
+          params: {"guard": guard.name},
         );
       }
       bool present = encounter.any((e) => e.alive);

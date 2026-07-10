@@ -946,13 +946,14 @@ Future<bool> sitemodePromptOneLine(String line) async {
 Future<bool> sitemodePrompt(
   String line1,
   String line2, {
+  Map<String, dynamic>? params,
   bool noTranslate = false,
 }) async {
   clearMessageArea();
 
-  mvaddstrc(9, 1, white, line1, noTranslate: noTranslate);
+  mvaddstrc(9, 1, white, line1, params: params, noTranslate: noTranslate);
 
-  mvaddstr(10, 1, line2, noTranslate: noTranslate);
+  mvaddstr(10, 1, line2, params: params, noTranslate: noTranslate);
 
   while (true) {
     int c = await getKey();

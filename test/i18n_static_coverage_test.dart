@@ -184,6 +184,14 @@ void main() {
       expect(creatureInfo, contains('noTranslate: true'));
     });
 
+    test('kidnap guard messages use complete templates', () {
+      final source = File('lib/sitemode/haul_kidnap.dart').readAsStringSync();
+      expect(source, isNot(contains(r'"${guard.name}')));
+      expect(source, isNot(contains(r'${target.name}')));
+      expect(source, contains('"{guard} stays close to {target}'));
+      expect(source, contains('"Try to take {target} anyway?'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

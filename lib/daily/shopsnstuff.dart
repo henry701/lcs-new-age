@@ -13,6 +13,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/sitemode/shop.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -248,7 +249,12 @@ Future<void> dealership(Site loc) async {
         availablevehicle.add(vt);
         int price = sleepercarsalesman != null ? vt.sleeperprice : vt.price;
         vehicleprice.add(price);
-        vehicleoption.add("${vt.longName} (\$$price)");
+        vehicleoption.add(
+          LcsI18n.processString("{vehicle} ({price})", {
+            "vehicle": vt.longName,
+            "price": "\$$price",
+          }),
+        );
       }
       while (true) {
         carchoice = await choiceprompt(

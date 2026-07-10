@@ -165,6 +165,13 @@ void main() {
       expect(source, contains('LcsI18n.processString(longTemplate'));
     });
 
+    test('vehicle choice labels are complete templates', () {
+      final source = File('lib/daily/shopsnstuff.dart').readAsStringSync();
+      expect(source, isNot(contains(r'"${vt.longName}')));
+      expect(source, contains('"{vehicle} ({price})"'));
+      expect(source, contains('LcsI18n.processString'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

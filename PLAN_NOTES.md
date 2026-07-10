@@ -612,3 +612,8 @@ Important remaining debt:
 - Added 16 en_US/pt_BR catalog entries, including translated word order and conjunctions. Added static coverage.
 - Documented the extractor gap for destructured random template lists; those require explicit catalog merge and validation until extraction support is extended.
 - Catalog validation, wrapper interpolation gate, and focused i18n tests pass. Continue auditing similarly indirect local/generated display strings.
+
+## 2026-07-10 continuation: vehicle-choice label
+
+- Converted dealership vehicle labels from raw name/price interpolation to a complete `{vehicle}`/`{price}` template before `choiceprompt` nests them in its option template.
+- Added pt_BR display ordering and static regression coverage. This also confirms that already-rendered nested labels must be translated before higher-level option templates are composed.

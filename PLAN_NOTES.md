@@ -645,3 +645,9 @@ Important remaining debt:
 
 - Converted driver/passenger and squad-replacement text to complete templates; the replacement prompt now carries name and position as reorderable placeholders.
 - Manually merged conditional templates missed by extraction, translated pt_BR values, and added static regressions.
+
+## 2026-07-10 continuation: regular activity menu labels
+
+- Replaced optional English menu suffix fragments for hacker-den and studio requirements with complete enabled/disabled labels, and templatized the flag-crafting prompt.
+- Manually merged all conditional labels, translated pt_BR values, and removed the three obsolete `$need...` catalog keys after confirming no live source reference remains.
+- Added static coverage; catalog and pre-commit validation pass.

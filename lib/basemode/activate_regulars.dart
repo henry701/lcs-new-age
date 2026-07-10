@@ -317,12 +317,11 @@ void _activismSubmenu(Creature c) {
   _subActivity(ActivityType.communityService, "1 - Community Service");
   _subActivity(ActivityType.trouble, "2 - Liberal Disobedience");
   _subActivity(ActivityType.graffiti, "3 - Graffiti");
-  String needHackerDen = c.site?.compound.hackerDen != true
-      ? " (Need Den)"
-      : "";
   _subActivity(
     ActivityType.hacking,
-    "4 - Hacking$needHackerDen",
+    c.site?.compound.hackerDen != true
+        ? "4 - Hacking (Need Den)"
+        : "4 - Hacking",
     greyOut:
         c.rawSkill[Skill.computers]! == 0 || c.site?.compound.hackerDen != true,
   );
@@ -330,12 +329,11 @@ void _activismSubmenu(Creature c) {
     ActivityType.writeGuardian,
     "5 - Write Liberal Guardian Articles",
   );
-  String needVideoRoom = c.site?.compound.videoRoom != true
-      ? " (Need Studio)"
-      : "";
   _subActivity(
     ActivityType.streamGuardian,
-    "6 - Stream Guardian TV$needVideoRoom",
+    c.site?.compound.videoRoom != true
+        ? "6 - Stream Guardian TV (Need Studio)"
+        : "6 - Stream Guardian TV",
     greyOut: c.site?.compound.videoRoom != true,
   );
 }
@@ -412,12 +410,11 @@ void _illegalSubmenu(Creature c) {
     "2 - Prostitution",
     greyOut: c.age < 18,
   );
-  String needHackerDen = c.site?.compound.hackerDen != true
-      ? " (Need Den)"
-      : "";
   _subActivity(
     ActivityType.ccfraud,
-    "3 - Credit Card Fraud$needHackerDen",
+    c.site?.compound.hackerDen != true
+        ? "3 - Credit Card Fraud (Need Den)"
+        : "3 - Credit Card Fraud",
     greyOut:
         c.rawSkill[Skill.computers] == 0 || c.site?.compound.hackerDen != true,
   );
@@ -671,7 +668,8 @@ Future<void> _selectFlagToMake(Creature cr) async {
 
   await pagedInterface(
     headerPrompt:
-        "Which will ${cr.name} try to make?  (Half cost if you have cloth)",
+        "Which will {name} try to make?  (Half cost if you have cloth)",
+    headerPromptParams: {"name": cr.name},
     headerKey: const {
       0: "FLAG",
       40: "ISSUE",

@@ -220,6 +220,19 @@ void main() {
       );
     });
 
+    test('regular activity menus use whole labels and templates', () {
+      final source = File(
+        'lib/basemode/activate_regulars.dart',
+      ).readAsStringSync();
+      expect(source, isNot(contains(r'"4 - Hacking$needHackerDen"')));
+      expect(
+        source,
+        isNot(contains(r'"6 - Stream Guardian TV$needVideoRoom"')),
+      );
+      expect(source, isNot(contains(r'"Which will ${cr.name}')));
+      expect(source, contains('"Which will {name} try to make?'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

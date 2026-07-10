@@ -210,6 +210,16 @@ void main() {
       expect(source, contains('"{leading}, and {last}"'));
     });
 
+    test('squad vehicle choices use complete templates', () {
+      final source = File('lib/basemode/base_actions.dart').readAsStringSync();
+      expect(source, isNot(contains(r'${driver ?')));
+      expect(source, isNot(contains(r'" in Spot ${')));
+      expect(
+        source,
+        contains('"Choose squad member to replace {name} in Spot {spot}"'),
+      );
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

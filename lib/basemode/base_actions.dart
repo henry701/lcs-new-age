@@ -5,6 +5,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/daily/shopsnstuff.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 
@@ -71,7 +72,9 @@ Future<void> setVehicles() async {
           8,
           20,
           white,
-          "Choose a Liberal to ${driver ? "drive it" : "be a passenger"}.",
+          driver
+              ? "Choose a Liberal to drive it."
+              : "Choose a Liberal to be a passenger.",
         );
         c = (await getKey()) - '1'.codePoint;
       }
@@ -158,12 +161,13 @@ Future<void> orderparty() async {
     }
     makeDelimiter();
     setColor(white);
-    String str = "Choose squad member to replace ";
-    str += squad[oldPos - Key.num1].name;
-    str += " in Spot ${oldPos - Key.num1 + 1}";
+    final str = LcsI18n.processString(
+      "Choose squad member to replace {name} in Spot {spot}",
+      {"name": squad[oldPos - Key.num1].name, "spot": oldPos - Key.num1 + 1},
+    );
     int x = 39 - ((str.length - 1) >> 1);
     if (x < 0) x = 0;
-    mvaddstr(8, x, str);
+    mvaddstr(8, x, str, noTranslate: true);
 
     int newPos = await getKey();
 

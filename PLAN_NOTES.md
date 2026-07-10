@@ -640,3 +640,8 @@ Important remaining debt:
 
 - Replaced handcrafted two-name and Oxford-comma date-list joins with complete templates, preserving color markup as parameters.
 - Added pt_BR conjunction/order translations and a static guard so locale grammar controls the join rather than English fragments.
+
+## 2026-07-10 continuation: squad vehicle assignment prompts
+
+- Converted driver/passenger and squad-replacement text to complete templates; the replacement prompt now carries name and position as reorderable placeholders.
+- Manually merged conditional templates missed by extraction, translated pt_BR values, and added static regressions.

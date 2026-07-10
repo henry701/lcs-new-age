@@ -29,6 +29,7 @@ import 'package:lcs_new_age/politics/laws.dart';
 
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+
 /* monthly - hold trial on a liberal */
 enum TrialOutcome { retrial, acquittal, guilty, lenience }
 
@@ -598,29 +599,63 @@ Future<void> trial(Creature g) async {
       if (!canSeeThings) logBlindEvent(text);
     case TrialOutcome.acquittal:
       if (g.sentence == 0) {
-        logBlindEvent("${g.name} was acquitted and set free.");
+        logBlindEvent(
+          LcsI18n.processString("{name} was acquitted and set free.", {
+            "name": g.name,
+          }),
+        );
       } else {
         logBlindEvent(
-          "${g.name} was acquitted but returns to prison to serve time.",
+          LcsI18n.processString(
+            "{name} was acquitted but returns to prison to serve time.",
+            {"name": g.name},
+          ),
         );
       }
     case TrialOutcome.guilty:
     case TrialOutcome.lenience:
       if (g.deathPenalty) {
-        logBlindEvent("${g.name} was sentenced to death.");
+        logBlindEvent(
+          LcsI18n.processString("{name} was sentenced to death.", {
+            "name": g.name,
+          }),
+        );
       } else if (g.sentence < 0) {
-        logBlindEvent("${g.name} was sentenced to life in prison.");
+        logBlindEvent(
+          LcsI18n.processString("{name} was sentenced to life in prison.", {
+            "name": g.name,
+          }),
+        );
       } else if (g.sentence == 0) {
-        logBlindEvent("${g.name} was sentenced to time served and set free.");
+        logBlindEvent(
+          LcsI18n.processString(
+            "{name} was sentenced to time served and set free.",
+            {"name": g.name},
+          ),
+        );
       } else if (g.sentence >= 36) {
         logBlindEvent(
-          "${g.name} was sentenced to ${g.sentence ~/ 12} years in prison.",
+          LcsI18n.processString(
+            "{name} was sentenced to {years} years in prison.",
+            {"name": g.name, "years": g.sentence ~/ 12},
+          ),
         );
       } else {
-        logBlindEvent(
-          "${g.name} was sentenced to ${g.sentence} "
-          "month${g.sentence > 1 ? "s" : ""} in prison.",
-        );
+        if (g.sentence == 1) {
+          logBlindEvent(
+            LcsI18n.processString(
+              "{name} was sentenced to {months} month in prison.",
+              {"name": g.name, "months": g.sentence},
+            ),
+          );
+        } else {
+          logBlindEvent(
+            LcsI18n.processString(
+              "{name} was sentenced to {months} months in prison.",
+              {"name": g.name, "months": g.sentence},
+            ),
+          );
+        }
       }
   }
 }

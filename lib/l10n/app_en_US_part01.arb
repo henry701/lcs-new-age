@@ -233,6 +233,8 @@
   "{name} says,": "{name} says,",
   "{name} says, ": "{name} says, ",
   "{name} shoots up and collapses in a heap on the floor.": "{name} shoots up and collapses in a heap on the floor.",
+  "{name} was acquitted and set free.": "{name} was acquitted and set free.",
+  "{name} was acquitted but returns to prison to serve time.": "{name} was acquitted but returns to prison to serve time.",
   "{name} would ever join a left-wing terrorist organization.": "{name} would ever join a left-wing terrorist organization.",
   "{name}, the hostage, is kept off-air.": "{name}, the hostage, is kept off-air.",
   "{name}, you are sentenced to DEATH!": "{name}, you are sentenced to DEATH!",

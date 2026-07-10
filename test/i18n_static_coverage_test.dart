@@ -609,6 +609,20 @@ void main() {
       expect(fight, contains('{name} {deathMessage}'));
     });
 
+    test('trial outcome logs use complete templates', () {
+      final source = File('lib/justice/trial.dart').readAsStringSync();
+      expect(source, isNot(contains(r'logBlindEvent("${g.name}')));
+      expect(source, contains('{name} was acquitted and set free.'));
+      expect(
+        source,
+        contains('{name} was sentenced to {years} years in prison.'),
+      );
+      expect(
+        source,
+        contains('{name} was sentenced to {months} months in prison.'),
+      );
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

@@ -575,3 +575,8 @@ Important remaining debt:
 - Converted interpolated newspaper-ad prices, year, and personal-ad fields into complete templates before wrapping. The ad renderer now explicitly marks prelocalized output as `noTranslate` while retaining normal story behavior for other callers.
 - Removed raw Dart interpolation from `ads.dart` and the kidnapping-story paragraph join. Added static regression coverage and pt_BR translations for the ad templates.
 - Remaining source scan findings in the named areas are debug-only fight/siege diagnostics, numeric currency parameters, and further user-facing composition in other newspaper/talk paths that require manual review.
+
+## 2026-07-10 continuation: trial outcome logs
+
+- Converted the user-visible trial outcome log messages to complete templates, including singular/plural month sentences rather than an appended `s` fragment.
+- Added all corresponding pt_BR values and static regression coverage. The incremental charge list remains separate presentation work because it updates after each charge; it must be redesigned as a full list before treating `trial.dart` as source-sweep complete.

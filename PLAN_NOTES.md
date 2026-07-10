@@ -553,3 +553,9 @@ Important remaining debt:
 - Converted the genetic-foods and justice articles to complete `LcsI18n.processString` templates. Corporation/product labels, incident claims, judge reasons, pronouns, full names, and slaying references now use placeholders or translated values.
 - Added static regression checks, catalog entries, and pt_BR translations for the new complete templates.
 - Focused catalog/static/runtime smoke validation passes. Current status: `7623` source keys, `6082` translated, `1541` untranslated, `0` missing, `0` empty, `79.78%` coverage. Continue with pollution, corporate-culture/AM-radio composition, retirement, and housing.
+
+## 2026-07-10 continuation: remaining major-event interpolation sweep
+
+- Converted pollution, corporate culture, AM-radio naming, healthcare insult, retirement think-tank naming, and housing prose to complete templates or translated dynamic values.
+- `rg` now finds no Dart interpolation in `lib/newspaper/major_event.dart`; the generated-story sweep in that file is complete at the lexical interpolation level.
+- Added the pollution article regression check and its pt_BR translation. The next source sweep must move outside major events and audit `newspaper/ads.dart`, `display_news.dart`, `talk/`, fight, siege, and shop.

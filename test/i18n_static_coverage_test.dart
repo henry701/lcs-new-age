@@ -338,6 +338,10 @@ void main() {
       );
       expect(
         majorEvent,
+        contains('{city} - Pollution might not be so bad after all.'),
+      );
+      expect(
+        majorEvent,
         isNot(contains(r'"${randomCityName()} - A local wedding venue')),
       );
       expect(

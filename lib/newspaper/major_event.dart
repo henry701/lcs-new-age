@@ -2156,73 +2156,119 @@ MajorEventContent generateMajorEventContent(
           subheadline: storyText,
         );
       case View.pollution:
-        String thinkTankName =
-            "${[
-              "American", "United", "Patriot", "Family", "Children's", "National", //
-            ].random} ${[
-              "Heritage", "Enterprise", "Freedom", "Liberty", "Charity",
-              "Equality", //
-            ].random} ${[
-              "Partnership", "Institute", "Consortium", "Forum", "Center",
-              "Association", //
-            ].random}";
-        String absurdBehavior = [
-          "a modest intake of radioactive waste",
-          "a healthy dose of radiation",
-          "a bath in raw sewage",
-          "watching animals die in oil slicks",
-          "inhaling carbon monoxide",
-          "drinking a cup of fracking fluid a day",
-        ].random;
-        String pollutionBenefit = [
-          "purify the soul",
-          "increase test scores",
-          "increase a child's attention span",
-          "make children behave better",
-          "make shy children fit in",
-          "cure everything from abdominal ailments to zygomycosis",
-        ].random;
-        String scienceIsAnArtReally = [
-          "Research is complicated, and there are always two ways to think about things",
-          "The jury is still out on pollution.  You really have to keep an open mind",
-          "They've got their scientists, and we have ours.  The issue of pollution is wide open as it stands today",
-          "I just tried it myself and I feel like a million bucks!  *Coughs up blood*  I'm OK, that's just ketchup",
-        ].random;
-        String theLiberals = [
-          "the elitist liberal media",
-          "the vast left-wing education machine",
-          "the fruits, nuts, and flakes of the environmentalist left",
-          "leftists suffering from the mental disorder chemophobia",
-        ].random;
+        String thinkTankName = LcsI18n.processString(
+          "{first} {second} {third}",
+          {
+            "first": LcsI18n.tr(
+              [
+                "American",
+                "United",
+                "Patriot",
+                "Family",
+                "Children's",
+                "National",
+              ].random,
+            ),
+            "second": LcsI18n.tr(
+              [
+                "Heritage",
+                "Enterprise",
+                "Freedom",
+                "Liberty",
+                "Charity",
+                "Equality",
+              ].random,
+            ),
+            "third": LcsI18n.tr(
+              [
+                "Partnership",
+                "Institute",
+                "Consortium",
+                "Forum",
+                "Center",
+                "Association",
+              ].random,
+            ),
+          },
+        );
+        String absurdBehavior = LcsI18n.tr(
+          [
+            "a modest intake of radioactive waste",
+            "a healthy dose of radiation",
+            "a bath in raw sewage",
+            "watching animals die in oil slicks",
+            "inhaling carbon monoxide",
+            "drinking a cup of fracking fluid a day",
+          ].random,
+        );
+        String pollutionBenefit = LcsI18n.tr(
+          [
+            "purify the soul",
+            "increase test scores",
+            "increase a child's attention span",
+            "make children behave better",
+            "make shy children fit in",
+            "cure everything from abdominal ailments to zygomycosis",
+          ].random,
+        );
+        String scienceIsAnArtReally = LcsI18n.tr(
+          [
+            "Research is complicated, and there are always two ways to think about things",
+            "The jury is still out on pollution.  You really have to keep an open mind",
+            "They've got their scientists, and we have ours.  The issue of pollution is wide open as it stands today",
+            "I just tried it myself and I feel like a million bucks!  *Coughs up blood*  I'm OK, that's just ketchup",
+          ].random,
+        );
+        String theLiberals = LcsI18n.tr(
+          [
+            "the elitist liberal media",
+            "the vast left-wing education machine",
+            "the fruits, nuts, and flakes of the environmentalist left",
+            "leftists suffering from the mental disorder chemophobia",
+          ].random,
+        );
 
         return MajorEventContent(
           headline: "LOOKING UP",
-          storyText:
-              "${randomCityName()}"
-              " - Pollution might not be so bad after all.  The $thinkTankName "
-              "recently released a wide-ranging report detailing recent trends "
-              "and the latest science on the issue.  "
-              "Among the most startling of the think tank's findings is that "
-              "$absurdBehavior might actually $pollutionBenefit.&r"
-              "  When questioned about the science behind these results, "
-              "a spokesperson stated that, \"$scienceIsAnArtReally.  You have to "
-              "realize that $theLiberals often distort these issues to their own "
-              "advantage.  All we've done is introduced a little clarity into "
-              "the ongoing debate.  Why is there contention on the pollution "
-              "question?  It's because there's work left to be done.  We should "
-              "study much more before we urge any action.  Society really just "
-              "needs to take a breather on this one.  We don't see why there's "
-              "such a rush to judgment here.\"&r",
+          storyText: LcsI18n.processString(
+            "{city} - Pollution might not be so bad after all.  The {thinkTankName} recently released a wide-ranging report detailing recent trends and the latest science on the issue.  Among the most startling of the think tank's findings is that {absurdBehavior} might actually {pollutionBenefit}.&r  When questioned about the science behind these results, a spokesperson stated that, \"{scienceIsAnArtReally}.  You have to realize that {theLiberals} often distort these issues to their own advantage.  All we've done is introduced a little clarity into the ongoing debate.  Why is there contention on the pollution question?  It's because there's work left to be done.  We should study much more before we urge any action.  Society really just needs to take a breather on this one.  We don't see why there's such a rush to judgment here.\"&r",
+            {
+              "city": randomCityName(),
+              "thinkTankName": thinkTankName,
+              "absurdBehavior": absurdBehavior,
+              "pollutionBenefit": pollutionBenefit,
+              "scienceIsAnArtReally": scienceIsAnArtReally,
+              "theLiberals": theLiberals,
+            },
+          ),
         );
       case View.corporateCulture:
-        String techGiantName =
-            "${[
-              "Ameri", "Gen", "Oro", "Amelia", "Vivo", "Benji", "Amal", "Ply",
-              "Seli", "Rio", //
-            ].random}${[
-              "tech", "com", "zap", "cor", "dyne", "bless", "chip", "co", "wire",
-              "rex", //
-            ].random}";
+        String techGiantName = LcsI18n.processString("{prefix}{suffix}", {
+          "prefix": [
+            "Ameri",
+            "Gen",
+            "Oro",
+            "Amelia",
+            "Vivo",
+            "Benji",
+            "Amal",
+            "Ply",
+            "Seli",
+            "Rio",
+          ].random,
+          "suffix": [
+            "tech",
+            "com",
+            "zap",
+            "cor",
+            "dyne",
+            "bless",
+            "chip",
+            "co",
+            "wire",
+            "rex",
+          ].random,
+        });
 
         return MajorEventContent(
           headline: "NEW JOBS",
@@ -2233,13 +2279,15 @@ MajorEventContent generateMajorEventContent(
         );
       case View.amRadio:
         FullName shockJock = generateFullName(Gender.male);
-        String showName =
-            "${[
-              "Morning", "Commuter", "Jam", "Talk", "Radio", //
-            ].random} ${[
-              "Swamp", "Jolt", "Club", "Show", "Fandango", //
-            ].random}";
-        String shockingBehavior = switch (laws[Law.freeSpeech]) {
+        String showName = LcsI18n.processString("{first} {second}", {
+          "first": LcsI18n.tr(
+            ["Morning", "Commuter", "Jam", "Talk", "Radio"].random,
+          ),
+          "second": LcsI18n.tr(
+            ["Swamp", "Jolt", "Club", "Show", "Fandango"].random,
+          ),
+        });
+        String shockingBehavior = LcsI18n.tr(switch (laws[Law.freeSpeech]) {
           DeepAlignment.eliteLiberal => [
             "fucked",
             "encouraged listeners to call in and take a piss",
@@ -2261,7 +2309,7 @@ MajorEventContent generateMajorEventContent(
             "breastfed from a lactating woman",
             "masturbated",
           ].random,
-        };
+        });
         final shockJockProgram = LcsI18n.processString("{name}'s {showName}", {
           "name": shockJock.first,
           "showName": showName,
@@ -2284,13 +2332,15 @@ MajorEventContent generateMajorEventContent(
                     (gameState.date.difference(DateTime(2025, 1, 1)).inDays) *
                         0.002)
                 .toStringAsFixed(1);
-        String governmentInsult = [
-          "Bunch of absolute muppets, they are",
-          "Shower of useless clowns",
-          "Couldn't organize a piss-up in a brewery",
-          "Wouldn't trust 'em to run a bath",
-          "A right shambles, the lot of them",
-        ].random;
+        String governmentInsult = LcsI18n.tr(
+          [
+            "Bunch of absolute muppets, they are",
+            "Shower of useless clowns",
+            "Couldn't organize a piss-up in a brewery",
+            "Wouldn't trust 'em to run a bath",
+            "A right shambles, the lot of them",
+          ].random,
+        );
         return MajorEventContent(
           headline: "NHS CRISIS",
           storyText: LcsI18n.processString(
@@ -2302,32 +2352,42 @@ MajorEventContent generateMajorEventContent(
           ),
         );
       case View.retirement:
-        String thinkTankAdjective = [
-          "American",
-          "United",
-          "Patriot",
-          "Family",
-          "Children's",
-          "National",
-        ].random;
-        String thinkTankNoun = [
-          "Heritage",
-          "Enterprise",
-          "Freedom",
-          "Liberty",
-          "Charity",
-          "Equality",
-        ].random;
-        String thinkTankNoun2 = [
-          "Partnership",
-          "Institute",
-          "Consortium",
-          "Forum",
-          "Center",
-          "Association",
-        ].random;
+        String thinkTankAdjective = LcsI18n.tr(
+          [
+            "American",
+            "United",
+            "Patriot",
+            "Family",
+            "Children's",
+            "National",
+          ].random,
+        );
+        String thinkTankNoun = LcsI18n.tr(
+          [
+            "Heritage",
+            "Enterprise",
+            "Freedom",
+            "Liberty",
+            "Charity",
+            "Equality",
+          ].random,
+        );
+        String thinkTankNoun2 = LcsI18n.tr(
+          [
+            "Partnership",
+            "Institute",
+            "Consortium",
+            "Forum",
+            "Center",
+            "Association",
+          ].random,
+        );
         String thinkTankName =
-            "$thinkTankAdjective $thinkTankNoun $thinkTankNoun2";
+            LcsI18n.processString("{first} {second} {third}", {
+              "first": thinkTankAdjective,
+              "second": thinkTankNoun,
+              "third": thinkTankNoun2,
+            });
         FullName thinkTankSpokesperson = generateFullName(
           Gender.whiteMalePatriarch,
         );
@@ -2352,30 +2412,20 @@ MajorEventContent generateMajorEventContent(
       case View.housing:
         String city = randomCityName();
         FullName resident = generateFullName();
-        String publicHousingCrisis =
-            "The public housing crisis has reached a tipping point, with record numbers of people living in overcrowded and unsafe conditions.";
+        String publicHousingCrisis = LcsI18n.tr(
+          "The public housing crisis has reached a tipping point, with record numbers of people living in overcrowded and unsafe conditions.",
+        );
         return MajorEventContent(
           headline: "PUBLIC SLUMS",
-          storyText:
-              "$city - $publicHousingCrisis The crisis is being fueled by a combination "
-              "of rising cost of repairs and regulatory limits on rent, which is "
-              "leading to neglect and decay. The suppressed rent is also inviting "
-              "criminal elements and other unsavory characters to move in.&r"
-              "  \"This place seemed like a good idea when I moved in,\" "
-              "${resident.firstLast} said. \"And I guess the price is still pretty "
-              "okay, but now it's a dump. I'm thinking of moving out, I just "
-              "don't know where else I can afford to live.\"&r"
-              "  The city has been trying to address the crisis by investing in "
-              "new housing, but the costs are too high and the city is losing "
-              "money on every building it builds.&r"
-              "  \"We're trying to build enough public housing, "
-              "but the city can't outbuild growth. "
-              "We should really be looking to low-cost private "
-              "development in the long run. Unfortunately, it costs "
-              "\$220,000 in permits for "
-              "a private developer to build one new house in this city,\" said "
-              "the city's Planning Commissioner "
-              "${lastName(Gender.whiteMalePatriarch)}.&r",
+          storyText: LcsI18n.processString(
+            "{city} - {publicHousingCrisis} The crisis is being fueled by a combination of rising cost of repairs and regulatory limits on rent, which is leading to neglect and decay. The suppressed rent is also inviting criminal elements and other unsavory characters to move in.&r  \"This place seemed like a good idea when I moved in,\" {resident} said. \"And I guess the price is still pretty okay, but now it's a dump. I'm thinking of moving out, I just don't know where else I can afford to live.\"&r  The city has been trying to address the crisis by investing in new housing, but the costs are too high and the city is losing money on every building it builds.&r  \"We're trying to build enough public housing, but the city can't outbuild growth. We should really be looking to low-cost private development in the long run. Unfortunately, it costs \$220,000 in permits for a private developer to build one new house in this city,\" said the city's Planning Commissioner {commissioner}.&r",
+            {
+              "city": city,
+              "publicHousingCrisis": publicHousingCrisis,
+              "resident": resident.firstLast,
+              "commissioner": lastName(Gender.whiteMalePatriarch),
+            },
+          ),
         );
       default:
         return MajorEventContent(

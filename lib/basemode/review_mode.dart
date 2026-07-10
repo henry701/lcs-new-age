@@ -108,11 +108,11 @@ Future<void> reviewAssetsAndFormSquads() async {
               haveact = true;
             }
             if (multipleact) {
-              str = "Acting Individually";
+              str = LcsI18n.tr("Acting Individually");
               setColor(white);
             }
           }
-          mvaddstr(y, 51, str);
+          mvaddstr(y, 51, str, noTranslate: true);
         }
       } else if (p == squads.length) {
         addOptionText(
@@ -389,7 +389,7 @@ Future<void> reviewMode(ReviewMode mode) async {
           if (usepers) {
             // Let's add some color here...
             setColor(tempp.activity.color);
-            addstr(tempp.activity.description);
+            addstr(tempp.activity.description, noTranslate: true);
           }
         case ReviewMode.hostages:
           setColor(purple);

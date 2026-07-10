@@ -588,7 +588,14 @@ void printFullCreatureStats(
   // Add task
   mvaddstrc(12, 0, lightGray, "Task: ");
   setColor(cr.activity.color);
-  addparagraph(12, 6, cr.activity.description, y2: 14, x2: 26);
+  addparagraph(
+    12,
+    6,
+    cr.activity.description,
+    y2: 14,
+    x2: 26,
+    noTranslate: true,
+  );
   setColor(lightGray);
   // addstrc(cr.activity.color, cr.activity.description);
 

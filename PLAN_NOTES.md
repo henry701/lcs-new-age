@@ -617,3 +617,10 @@ Important remaining debt:
 
 - Converted dealership vehicle labels from raw name/price interpolation to a complete `{vehicle}`/`{price}` template before `choiceprompt` nests them in its option template.
 - Added pt_BR display ordering and static regression coverage. This also confirms that already-rendered nested labels must be translated before higher-level option templates are composed.
+
+## 2026-07-10 continuation: dynamic activity descriptions
+
+- Converted every dynamic activity-description branch (hostage, clothing, flag, site, study, and class) to complete templates and translated their pt_BR values.
+- Identified all direct display consumers and marked already-rendered descriptions `noTranslate`; callers that embed the description into a larger template keep the outer template responsible for rendering.
+- Preserved the multiple-activity label by translating it before no-translate display. Added static regression coverage.
+- Catalog validation, interpolation gate, and focused i18n tests pass.

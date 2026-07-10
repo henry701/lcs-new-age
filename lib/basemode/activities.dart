@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/activities/recruiting.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
@@ -48,19 +49,31 @@ class Activity {
   String get description {
     switch (type) {
       case ActivityType.interrogation:
-        return "Tending to ${creature?.name ?? "a bug"}";
+        return LcsI18n.processString("Tending to {creature}", {
+          "creature": creature?.name ?? LcsI18n.tr("a bug"),
+        });
       case ActivityType.makeClothing:
-        return "Making ${clothingType?.shortName ?? "a bug"}";
+        return LcsI18n.processString("Making {clothing}", {
+          "clothing": clothingType?.shortName ?? LcsI18n.tr("a bug"),
+        });
       case ActivityType.makeFlag:
-        return "Making ${flagType?.shortName ?? "a bug"}";
+        return LcsI18n.processString("Making {flag}", {
+          "flag": flagType?.shortName ?? LcsI18n.tr("a bug"),
+        });
       case ActivityType.visit:
-        return "Visiting ${location?.name ?? "a bug"}";
+        return LcsI18n.processString("Visiting {location}", {
+          "location": location?.name ?? LcsI18n.tr("a bug"),
+        });
       case ActivityType.study:
-        return "Practice ${skill?.displayName ?? "a bug"}";
+        return LcsI18n.processString("Practice {skill}", {
+          "skill": skill?.displayName ?? LcsI18n.tr("a bug"),
+        });
       case ActivityType.takeClass:
-        return "Learning ${skill?.displayName ?? "a bug"}";
+        return LcsI18n.processString("Learning {skill}", {
+          "skill": skill?.displayName ?? LcsI18n.tr("a bug"),
+        });
       default:
-        return type.label;
+        return LcsI18n.tr(type.label);
     }
   }
 

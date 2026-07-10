@@ -135,10 +135,11 @@ Future<void> doActivityTeach(List<Creature> teachers) async {
     }
     if (workload == 0) {
       await showMessage(
-        LcsI18n.processString(
-          "{name} has no students and will stop {activity}.",
-          {"name": teacher.name, "activity": teacher.activity.description},
-        ),
+        "{name} has no students and will stop {activity}.",
+        params: {
+          "name": teacher.name,
+          "activity": teacher.activity.description,
+        },
       );
       teacher.activity = Activity(ActivityType.none);
     }

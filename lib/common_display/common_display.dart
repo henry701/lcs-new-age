@@ -59,11 +59,11 @@ void printSquadActivityDescription(int y, int x, Squad squad) {
       previousActivity = true;
     }
     if (multipleActivities) {
-      str = "Acting Individually";
+      str = LcsI18n.tr("Acting Individually");
       setColor(white);
     }
   }
-  mvaddstr(y, x, str);
+  mvaddstr(y, x, str, noTranslate: true);
 }
 
 void makeDelimiter({int y = 8}) {

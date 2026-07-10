@@ -172,6 +172,18 @@ void main() {
       expect(source, contains('LcsI18n.processString'));
     });
 
+    test('dynamic activity descriptions are rendered before display', () {
+      final activity = File('lib/basemode/activities.dart').readAsStringSync();
+      final creatureInfo = File(
+        'lib/common_display/print_creature_info.dart',
+      ).readAsStringSync();
+      expect(activity, isNot(contains(r'"Tending to ${')));
+      expect(activity, isNot(contains(r'"Making ${')));
+      expect(activity, contains('"Tending to {creature}"'));
+      expect(activity, contains('"Practice {skill}"'));
+      expect(creatureInfo, contains('noTranslate: true'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

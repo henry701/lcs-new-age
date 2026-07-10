@@ -63,7 +63,13 @@ Future<void> activateRegulars() async {
         c.site?.isPartOfTheJusticeSystem == true ? yellow : lightGray,
         c.location?.getName(short: true, includeCity: true) ?? "In Hiding",
       );
-      mvaddstrc(y, 57, c.activity.color, c.activity.description);
+      mvaddstrc(
+        y,
+        57,
+        c.activity.color,
+        c.activity.description,
+        noTranslate: true,
+      );
       y++;
     }
     mvaddstrc(22, 0, lightGray, "Press a Letter to Assign an Activity.");

@@ -268,6 +268,7 @@
   "{name} lets {pronoun}": "{name} deixa {pronoun}",
   "{name} messed up and made an ugly, unusable flag.": "{name} estragou tudo e fez uma bandeira feia e inútil.",
   "{name} puts on an anti-crime performance in prison.": "{name} coloca uma performance anti-crime na prisão.",
+  "{name} will independently study {skill}.": "{name} vai estudar {skill} de forma independente.",
   "{name} will join the active LCS.": "{name} vai se juntar ao ECL ativo.",
   "{name} {escape}": "{name}  {escape}",
   "{name}'s Conservative beliefs are shaken.": "As crenças Conservadoras de {name} estão abaladas.",

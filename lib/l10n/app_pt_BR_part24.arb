@@ -257,6 +257,7 @@
   "{name} stitched something bad.": "{name} costurou algo ruim.",
   "{name} talks about {article}{location}, though it doesn't seem like {pronoun} knows anything new.": "{name} fala sobre {article}{location}, embora não pareça que {pronoun} saiba de algo novo.",
   "{name} teases {lead} a bit.": "{name} provoca {lead} um pouco.",
+  "{name} will bury the dead.": "{name} vai enterrar os mortos.",
   "{name} will dig around in the bugfield.": "{name} vai cavocar no campo de bugs.",
   "{name}'s helmet": "capacete de {name}",
   "{name}'s liver is punctured!": "O fígado de {name} foi perfurado!",

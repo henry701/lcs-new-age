@@ -145,6 +145,16 @@ void main() {
       expect(flag, contains('"Fly a flag over the {site}:"'));
     });
 
+    test('regular activity footer uses complete actor templates', () {
+      final source = File(
+        'lib/basemode/activate_regulars.dart',
+      ).readAsStringSync();
+      expect(source, isNot(contains(r'"${cr.name} will')));
+      expect(source, contains('"{name} will act with their squad."'));
+      expect(source, contains('"{name} will independently study {skill}."'));
+      expect(source, contains('activityMessage, noTranslate: true'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

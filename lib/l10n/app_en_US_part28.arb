@@ -250,6 +250,8 @@
   "{name} talks to {target}": "{name} talks to {target}",
   "{name} was sentenced to {years} years in prison.": "{name} was sentenced to {years} years in prison.",
   "{name} wears an electrician's outfit...": "{name} wears an electrician's outfit...",
+  "{name} will hit the streets and cause trouble.": "{name} will hit the streets and cause trouble.",
+  "{name} will recruit new members.": "{name} will recruit new members.",
   "{name}'s last unbroken rib is broken!": "{name}'s last unbroken rib is broken!",
   "{name}'s trial was hung and will be re-tried.": "{name}'s trial was hung and will be re-tried.",
   "{recruitName} thinks {pName} is dangerous extremist.": "{recruitName} thinks {pName} is dangerous extremist.",

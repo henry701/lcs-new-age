@@ -246,6 +246,7 @@
   "{name} sits in a bar, drinking and staring at the wall.": "{name} senta num bar, bebendo e olhando para a parede.",
   "{name} stands by the {vehicle}.": "{name} está ao lado do {vehicle}.",
   "{name} tips into a pool. The tank is trapped!": "{name} cai em uma piscina. O tanque está preso!",
+  "{name} will undergo surgery.": "{name} vai passar por cirurgia.",
   "{name}'s right eye is torn out!": "O olho direito de {name} foi arrancado!",
   "{pName} seizes {eName} from behind and warns {himHer} {warnMessage}": "{pName} seizes {eName} from behind and warns {himHer} {warnMessage}",
   "{vehicle} pulls alongside you!": "{vehicle} encosta ao seu lado!",

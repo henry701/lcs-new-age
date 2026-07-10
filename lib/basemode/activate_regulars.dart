@@ -885,42 +885,43 @@ Future<void> _selectSkillForEducation(
 }
 
 void _activityFooter(Creature cr) {
-  String activityMessage = switch (cr.activity.type) {
+  final activityMessageTemplate = switch (cr.activity.type) {
     ActivityType.none =>
-      "${cr.name} will lay low and tend to any laundry and mending.",
-    ActivityType.visit => "${cr.name} will act with ${cr.gender.hisHer} squad.",
-    ActivityType.augment => "${cr.name} will undergo surgery.",
-    ActivityType.bury => "${cr.name} will bury the dead.",
-    ActivityType.ccfraud => "${cr.name} will commit credit card fraud.",
-    ActivityType.clinic => "${cr.name} will go to the hospital.",
+      "{name} will lay low and tend to any laundry and mending.",
+    ActivityType.visit => "{name} will act with their squad.",
+    ActivityType.augment => "{name} will undergo surgery.",
+    ActivityType.bury => "{name} will bury the dead.",
+    ActivityType.ccfraud => "{name} will commit credit card fraud.",
+    ActivityType.clinic => "{name} will go to the hospital.",
     ActivityType.communityService =>
-      "${cr.name} will volunteer for a local nonprofit.",
-    ActivityType.donations => "${cr.name} will solicit donations.",
-    ActivityType.graffiti => "${cr.name} will spray graffiti.",
-    ActivityType.hacking => "${cr.name} will hack into private networks.",
-    ActivityType.interrogation => "${cr.name} will tend to hostages.",
-    ActivityType.makeClothing => "${cr.name} will make clothing.",
-    ActivityType.prostitution => "${cr.name} will have sex for money.",
-    ActivityType.recruiting => "${cr.name} will recruit new members.",
-    ActivityType.sellArt => "${cr.name} will make and sell art.",
-    ActivityType.sellDrugs => "${cr.name} will bake and sell weed brownies.",
-    ActivityType.sellMusic => "${cr.name} will perform live music for money.",
-    ActivityType.sellTshirts => "${cr.name} will make and sell clothing.",
-    ActivityType.stealCars => "${cr.name} will steal a car.",
+      "{name} will volunteer for a local nonprofit.",
+    ActivityType.donations => "{name} will solicit donations.",
+    ActivityType.graffiti => "{name} will spray graffiti.",
+    ActivityType.hacking => "{name} will hack into private networks.",
+    ActivityType.interrogation => "{name} will tend to hostages.",
+    ActivityType.makeClothing => "{name} will make clothing.",
+    ActivityType.prostitution => "{name} will have sex for money.",
+    ActivityType.recruiting => "{name} will recruit new members.",
+    ActivityType.sellArt => "{name} will make and sell art.",
+    ActivityType.sellDrugs => "{name} will bake and sell weed brownies.",
+    ActivityType.sellMusic => "{name} will perform live music for money.",
+    ActivityType.sellTshirts => "{name} will make and sell clothing.",
+    ActivityType.stealCars => "{name} will steal a car.",
     ActivityType.streamGuardian =>
-      "${cr.name} will stream for the Liberal Guardian.",
-    ActivityType.study =>
-      "${cr.name} will independently study ${cr.activity.skill?.displayName}.",
-    ActivityType.takeClass =>
-      "${cr.name} will take classes in ${cr.activity.skill?.displayName}.",
-    ActivityType.trouble =>
-      "${cr.name} will hit the streets and cause trouble.",
-    ActivityType.wheelchair => "${cr.name} will procure a wheelchair.",
+      "{name} will stream for the Liberal Guardian.",
+    ActivityType.study => "{name} will independently study {skill}.",
+    ActivityType.takeClass => "{name} will take classes in {skill}.",
+    ActivityType.trouble => "{name} will hit the streets and cause trouble.",
+    ActivityType.wheelchair => "{name} will procure a wheelchair.",
     ActivityType.writeGuardian =>
-      "${cr.name} will write articles for the Liberal Guardian.",
-    _ =>
-      "${cr.name} will report a bug to the developers: ${cr.activity.type.name}.",
+      "{name} will write articles for the Liberal Guardian.",
+    _ => "{name} will report a bug to the developers: {activity}.",
   };
+  final activityMessage = LcsI18n.processString(activityMessageTemplate, {
+    "name": cr.name,
+    "skill": cr.activity.skill?.displayName ?? "unknown skill",
+    "activity": cr.activity.type.name,
+  });
 
   // Determine if this activity needs additional info on line 23
   bool needsLine23 = switch (cr.activity.type) {
@@ -966,7 +967,7 @@ void _activityFooter(Creature cr) {
     _ => false,
   };
 
-  mvaddstrc(22, 3, lightGray, activityMessage);
+  mvaddstrc(22, 3, lightGray, activityMessage, noTranslate: true);
 
   if (needsLine23) {
     switch (cr.activity.type) {

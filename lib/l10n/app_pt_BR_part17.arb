@@ -230,6 +230,7 @@
   "{name} loses Heart and {reaction}": "{name} loses Heart and {reaction}",
   "{name} rejects the offer to join. {gender} {reaction}": "{name} rejeita a oferta de se juntar. {gender} {reaction}",
   "{name} whines loudly, voice crackling, then curls into a ball, unmoving.": "{name} chora alto, voz falhando, depois se encolhe em uma bola, imóvel.",
+  "{name} will steal a car.": "{name} vai roubar um carro.",
   "{name}'s liver is blasted!": "O fígado de {name} é destruído!",
   "{name}'s nose is torn off!": "O nariz de {name} é arrancado!",
   "{name}'s right eye is burned away!": "O olho direito de {name} foi queimado!",

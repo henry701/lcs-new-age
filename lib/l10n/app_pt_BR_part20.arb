@@ -252,6 +252,7 @@
   "{name} talks to {target} {ageGender}:": "{name} fala com {target} {ageGender}:",
   "{name} talks to {target}:": "{name} fala com {target}:",
   "{name} whistles.": "{name} assobia.",
+  "{name} will make and sell clothing.": "{name} vai fazer e vender roupas.",
   "{name} won't talk to you.": "{name} não quer falar com você.",
   "{name}'s Heart swells!": "O coração de {name} dispara!",
   "{name}'s left eye is burned away!": "O olho esquerdo de {name} foi queimado!",

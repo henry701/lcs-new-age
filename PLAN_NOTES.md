@@ -599,3 +599,9 @@ Important remaining debt:
 
 - Converted daily dispersal blind-log names, post-discharge message, and flag-site prompts to complete templates; added five pt_BR translations and static regressions.
 - The focused i18n suite, catalog integrity check, and interpolation allowlist gate pass. The broad remaining audit still includes basemode activity summaries and generated business/site names.
+
+## 2026-07-10 continuation: regular activity footer
+
+- Converted every regular-activity footer outcome to a full `{name}`-centric template before rendering. Skill and fallback activity values are now named parameters, and prelocalized output is marked `noTranslate` at the console boundary.
+- Replaced the gendered `his/her squad` phrase with the neutral full template "{name} will act with their squad." so pt_BR can use its natural possessive without relying on the legacy `her` catalog entry.
+- Added 27 English/pt_BR catalog templates and static regression coverage. Focused i18n tests and the interpolation gate pass; the next audit target is remaining generated names/status summaries in basemode and daily code.

@@ -217,6 +217,8 @@
   "{name} picks the lock on their leg chains...": "{name} picks the lock on their leg chains...",
   "{name} prays that health finds them both.": "{name} prays that health finds them both.",
   "{name} pretends to be a Secret Agent.": "{name} pretends to be a Secret Agent.",
+  "{name} will act with {pronoun} squad.": "{name} will act with {pronoun} squad.",
+  "{name} will hack into private networks.": "{name} will hack into private networks.",
   "{name}'s last unbroken rib is ": "{name}'s last unbroken rib is ",
   "{name}'s nose is cut off!": "{name}'s nose is cut off!",
   "{name}'s relevant skills: ": "{name}'s relevant skills: ",

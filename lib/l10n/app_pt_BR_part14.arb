@@ -218,6 +218,8 @@
   "{name} picks the lock on their leg chains...": "{name} picks the lock on their leg chains...",
   "{name} prays that health finds them both.": "{name} reza para que a saúde encontre ambos.",
   "{name} pretends to be a Secret Agent.": "{name} finge ser um Agente Secreto.",
+  "{name} will act with {pronoun} squad.": "{name} vai atuar com o esquadrão de {pronoun}.",
+  "{name} will hack into private networks.": "{name} vai invadir redes privadas.",
   "{name}'s last unbroken rib is ": "a última costela intacta de {name} está ",
   "{name}'s nose is cut off!": "o nariz de {name} é cortado!",
   "{name}'s relevant skills: ": "habilidades relevantes de {name}: ",

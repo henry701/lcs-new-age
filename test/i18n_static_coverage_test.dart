@@ -292,6 +292,26 @@ void main() {
       );
       expect(
         majorEvent,
+        contains('{city} - A local white supremacist group has seen a surge'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - A local company has been accused of discrimination'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - A {civilRightsMarch} blocked traffic'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - Torture isn\'t what it used to be'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - Perhaps parents can rest easier tonight.'),
+      );
+      expect(
+        majorEvent,
         isNot(contains(r'"${randomCityName()} - A local wedding venue')),
       );
       expect(

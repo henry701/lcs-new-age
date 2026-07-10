@@ -235,6 +235,7 @@
   "{name} plays along but somehow makes everything seem so ": "{name} coopera mas de alguma forma faz tudo parecer tão ",
   "{name} reveals everything {pronoun} knows about the {site}.": "{name} revela tudo que {pronoun} sabe sobre o {site}.",
   "{name} tried to make {clothing}, but failed.": "{name} tentou fazer {clothing}, mas falhou.",
+  "{name} {venueType}": "{venueType} {name}",
   "{name}'s neck is broken!": "o pescoço de {name} é quebrado!",
   "{pName} has a \"hot\" date with {dateList} over video chat.": "{pName} has a \"hot\" date with {dateList} over video chat.",
   "{position} {oldLast} ": "{position} {oldLast}, ",

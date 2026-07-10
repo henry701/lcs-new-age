@@ -1553,203 +1553,202 @@ MajorEventContent generateMajorEventContent(
         switch (lcsRandom(3)) {
           case 0:
             FullName racist = generateFullName(Gender.whiteMalePatriarch);
-            String racistDescription = [
-              "a famously garbage human being",
-              "a miserable hatemonger",
-              "a curmudgeon who hated everyone",
-              "one of the most infamous people to have ever lived in the area",
-              "who appears in history books as a symbol of white supremacy",
-            ].random;
+            String racistDescription = LcsI18n.tr(
+              [
+                "a famously garbage human being",
+                "a miserable hatemonger",
+                "a curmudgeon who hated everyone",
+                "one of the most infamous people to have ever lived in the area",
+                "who appears in history books as a symbol of white supremacy",
+              ].random,
+            );
             return MajorEventContent(
               headline: "STATUE GONE",
-              storyText:
-                  "${randomCityName()} - A local white supremacist group has "
-                  "seen a surge in membership after a local statue of a racist "
-                  "icon was removed from a local park.  The statue depicted "
-                  "${racist.first} ${racist.middle} ${racist.last}, "
-                  "$racistDescription.  The statue was eventually "
-                  "removed from the park after pressure from civil rights "
-                  "groups, leading to outrage from some who view the act as "
-                  "one of cultural genocide.&r"
-                  "  \"Why would we be sorry?  ${racist.firstLast} was an "
-                  "absolutely massive fascist, and "
-                  "we've been trying to get this statue removed for years,\" said "
-                  "a local civil rights leader.  "
-                  "\"Haters gonna hate, but we carried this day.\"&r"
-                  "  Back at the park, the sentiment was different.  \"This is "
-                  "a slap in the face to our heritage,\" one man yelled into a "
-                  "megaphone.  \"We're all good people here, we used to be "
-                  "friends with those people, but then they started asking for "
-                  "unreasonable things.  Removing Mr. ${racist.last} is "
-                  "symbolic of their larger effort to sideline our historic "
-                  "control of the country.  We're not going to let them do it!  "
-                  "White people, stand up!\"&r",
+              storyText: LcsI18n.processString(
+                "{city} - A local white supremacist group has seen a surge in membership after a local statue of a racist icon was removed from a local park.  The statue depicted {racistFormal}, {racistDescription}.  The statue was eventually removed from the park after pressure from civil rights groups, leading to outrage from some who view the act as one of cultural genocide.&r  \"Why would we be sorry?  {racist} was an absolutely massive fascist, and we've been trying to get this statue removed for years,\" said a local civil rights leader.  \"Haters gonna hate, but we carried this day.\"&r  Back at the park, the sentiment was different.  \"This is a slap in the face to our heritage,\" one man yelled into a megaphone.  \"We're all good people here, we used to be friends with those people, but then they started asking for unreasonable things.  Removing Mr. {racistLast} is symbolic of their larger effort to sideline our historic control of the country.  We're not going to let them do it!  White people, stand up!\"&r",
+                {
+                  "city": randomCityName(),
+                  "racistFormal":
+                      LcsI18n.processString("{first} {middle} {last}", {
+                        "first": racist.first,
+                        "middle": racist.middle,
+                        "last": racist.last,
+                      }),
+                  "racistDescription": racistDescription,
+                  "racist": racist.firstLast,
+                  "racistLast": racist.last,
+                },
+              ),
             );
           case 1:
             FullName newBoss = generateFullName();
             return MajorEventContent(
               headline: "WOKE HIRE",
-              storyText:
-                  "${randomCityName()} - A local company has been accused of "
-                  "discrimination after promoting ${newBoss.firstLast}, a "
-                  "black ${newBoss.gender.manWoman}, into a "
-                  "high-level position.  ${newBoss.last}, who had previously "
-                  "been a software engineer at the company for 27 years, "
-                  "has been cited by disgruntled employees as unqualified.&r"
-                  "  \"I got passed over for that lazy ass?\" "
-                  "said one mail room clerk who had never met the new boss "
-                  "and works in a completely different department.  "
-                  "\"I work way harder than ${newBoss.gender.heShe} does, "
-                  "everybody knows that.\"&r"
-                  "  The controversy has led to a wave of complaints against "
-                  "${newBoss.last}.  \"I bet ${newBoss.gender.heShe} doesn't "
-                  "even know how to use the computer,\" one employee said.  "
-                  "\"${newBoss.gender.heSheCap} probably just got promoted "
-                  "to make the company look good.\"&r",
+              storyText: LcsI18n.processString(
+                "{city} - A local company has been accused of discrimination after promoting {newBoss}, a black {person}, into a high-level position.  {newBossLast}, who had previously been a software engineer at the company for 27 years, has been cited by disgruntled employees as unqualified.&r  \"I got passed over for that lazy ass?\" said one mail room clerk who had never met the new boss and works in a completely different department.  \"I work way harder than {heShe} does, everybody knows that.\"&r  The controversy has led to a wave of complaints against {newBossLast}.  \"I bet {heShe} doesn't even know how to use the computer,\" one employee said.  \"{heSheCap} probably just got promoted to make the company look good.\"&r",
+                {
+                  "city": randomCityName(),
+                  "newBoss": newBoss.firstLast,
+                  "person": LcsI18n.tr(newBoss.gender.manWoman),
+                  "newBossLast": newBoss.last,
+                  "heShe": LcsI18n.tr(newBoss.gender.heShe),
+                  "heSheCap": LcsI18n.tr(newBoss.gender.heSheCap),
+                },
+              ),
             );
           default:
-            String civilRightsMarch = "large civil rights march";
-            String marchers = "marchers";
-            String conclusion = "the march completed without any violence";
-            String couldntCareLessAbout = "whatever the march was about";
-            String protesting = "protesting";
+            String civilRightsMarch = LcsI18n.tr("large civil rights march");
+            String marchers = LcsI18n.tr("marchers");
+            String conclusion = LcsI18n.tr(
+              "the march completed without any violence",
+            );
+            String couldntCareLessAbout = LcsI18n.tr(
+              "whatever the march was about",
+            );
+            String protesting = LcsI18n.tr("protesting");
             if (ns.publicationAlignment == DeepAlignment.archConservative) {
-              civilRightsMarch = "bunch of black people";
-              marchers = "black people";
-              conclusion =
-                  "finished whatever they were doing without any "
-                  "further incident";
-              couldntCareLessAbout = "all the noise they were making";
-              protesting = "kicking up all this fuss";
+              civilRightsMarch = LcsI18n.tr("bunch of black people");
+              marchers = LcsI18n.tr("black people");
+              conclusion = LcsI18n.tr(
+                "finished whatever they were doing without any further incident",
+              );
+              couldntCareLessAbout = LcsI18n.tr(
+                "all the noise they were making",
+              );
+              protesting = LcsI18n.tr("kicking up all this fuss");
             }
 
             return MajorEventContent(
               headline: "JAMMED UP",
-              storyText:
-                  "${randomCityName()} - A $civilRightsMarch blocked "
-                  "traffic on a major street for fifteen minutes, leading "
-                  "to frustration from drivers.&r"
-                  "  Although the $marchers moved on relatively quickly "
-                  "and $conclusion, many "
-                  "uninterested bystanders who couldn't care less about "
-                  "$couldntCareLessAbout were still annoyed that "
-                  "somebody was making them late.&r"
-                  "  \"I'm not sure why they're $protesting,\" said one "
-                  "driver who was stuck in traffic for fifteen minutes.  "
-                  "\"I wasn't really listening.  How do they have "
-                  "so much free time on their hands anyway?  Maybe they "
-                  "should get off their asses and get a job.  That "
-                  "would probably fix whatever it is they're going on "
-                  "about in the first place.\"&r",
+              storyText: LcsI18n.processString(
+                "{city} - A {civilRightsMarch} blocked traffic on a major street for fifteen minutes, leading to frustration from drivers.&r  Although the {marchers} moved on relatively quickly and {conclusion}, many uninterested bystanders who couldn't care less about {couldntCareLessAbout} were still annoyed that somebody was making them late.&r  \"I'm not sure why they're {protesting},\" said one driver who was stuck in traffic for fifteen minutes.  \"I wasn't really listening.  How do they have so much free time on their hands anyway?  Maybe they should get off their asses and get a job.  That would probably fix whatever it is they're going on about in the first place.\"&r",
+                {
+                  "city": randomCityName(),
+                  "civilRightsMarch": civilRightsMarch,
+                  "marchers": marchers,
+                  "conclusion": conclusion,
+                  "couldntCareLessAbout": couldntCareLessAbout,
+                  "protesting": protesting,
+                },
+              ),
             );
         }
       case View.torture:
-        String methodToMakeItMoreHuman = [
-          "scented candles and soothing music",
-          "before-and-after massages",
-          "a hot bath and a new pair of shoes",
-          "guided meditation to help them relax",
-          "opportunities to connect with an AI therapist",
-        ].random;
-        String insidiousPlot = [
-          "blow up the sun",
-          "destroy the moon",
-          "facilitate an alien invasion",
-          "attack and dethrone God",
-          "corrupt the youth of the world with space lasers",
-          "stop the jet stream",
-          "smite the earth with a plague of locusts",
-          "invent a new form of energy that would make the world a better place",
-        ].random;
+        String methodToMakeItMoreHuman = LcsI18n.tr(
+          [
+            "scented candles and soothing music",
+            "before-and-after massages",
+            "a hot bath and a new pair of shoes",
+            "guided meditation to help them relax",
+            "opportunities to connect with an AI therapist",
+          ].random,
+        );
+        String insidiousPlot = LcsI18n.tr(
+          [
+            "blow up the sun",
+            "destroy the moon",
+            "facilitate an alien invasion",
+            "attack and dethrone God",
+            "corrupt the youth of the world with space lasers",
+            "stop the jet stream",
+            "smite the earth with a plague of locusts",
+            "invent a new form of energy that would make the world a better place",
+          ].random,
+        );
         return MajorEventContent(
           headline: "COMFY TORTURE",
-          storyText:
-              "${randomCityName()} - Torture isn't what it used to be, "
-              "according to a leaked classified report.  The CIA has "
-              "pioneered a new method of humane torture that offsets the "
-              "physical agony with $methodToMakeItMoreHuman.&r"
-              "  \"I don't know who gave you that paper, but I guess now "
-              "that it's out, there's no harm confirming it,\" a CIA "
-              "spokesperson said.  \"We've been exploring the use of "
-              "luxury interrogation suites that achieve several major "
-              "benchmarks.  Focus groups agree that the new method looks "
-              "much more humane than the old ones, and the results are "
-              "nothing short of miraculous.  We had one guy confess "
-              "to everything we wanted him to confess, he even admitted "
-              "plotting to $insidiousPlot!  Good thing we stopped that "
-              "before it happened.\"&r"
-              "  While critics say this is just a new spin on old abuses, "
-              "some have hailed the new methods as the next stage in "
-              "interrogation techniques, and called on the approach to "
-              "be adopted by police forces across the country.&r",
+          storyText: LcsI18n.processString(
+            "{city} - Torture isn't what it used to be, according to a leaked classified report.  The CIA has pioneered a new method of humane torture that offsets the physical agony with {methodToMakeItMoreHuman}.&r  \"I don't know who gave you that paper, but I guess now that it's out, there's no harm confirming it,\" a CIA spokesperson said.  \"We've been exploring the use of luxury interrogation suites that achieve several major benchmarks.  Focus groups agree that the new method looks much more humane than the old ones, and the results are nothing short of miraculous.  We had one guy confess to everything we wanted him to confess, he even admitted plotting to {insidiousPlot}!  Good thing we stopped that before it happened.\"&r  While critics say this is just a new spin on old abuses, some have hailed the new methods as the next stage in interrogation techniques, and called on the approach to be adopted by police forces across the country.&r",
+            {
+              "city": randomCityName(),
+              "methodToMakeItMoreHuman": methodToMakeItMoreHuman,
+              "insidiousPlot": insidiousPlot,
+            },
+          ),
         );
       case View.deathPenalty:
         FullName serialKiller = generateFullName(Gender.whiteMalePatriarch);
-        String heWasFoundInPosessionOf = [
-          "pieces of another victim",
-          "bloody toys",
-          "a child's clothing stained with DNA evidence",
-          "seven junior high school yearbooks",
-          "two small backpacks",
-        ].random;
-        String conditionOfVictims = [
-          "carved with satanic symbols",
-          "sexually mutilated",
-          "missing all of their teeth",
-          "missing all of their fingers",
-          "without eyes",
-        ].random;
+        String heWasFoundInPosessionOf = LcsI18n.tr(
+          [
+            "pieces of another victim",
+            "bloody toys",
+            "a child's clothing stained with DNA evidence",
+            "seven junior high school yearbooks",
+            "two small backpacks",
+          ].random,
+        );
+        String conditionOfVictims = LcsI18n.tr(
+          [
+            "carved with satanic symbols",
+            "sexually mutilated",
+            "missing all of their teeth",
+            "missing all of their fingers",
+            "without eyes",
+          ].random,
+        );
         String victimsFound = noProfanity
-            ? "[in a better place]"
-            : "dead and $conditionOfVictims";
-        String theBreakthrough = [
-          "a victim called 911 just prior to being slain while still on the phone",
-          "the suspect carved an address into one of the bodies",
-          "an eye witness spotted the suspect luring a victim into a car",
-          "a blood trail was found on a road that led them to the suspect's car trunk",
-          "they found a victim in a ditch, still clinging to life",
-        ].random;
-        String howTheDAReacts =
-            laws[Law.deathPenalty] == DeepAlignment.eliteLiberal
-            ? "that the death penalty should really be an option"
-            : "it will be seeking the death penalty";
+            ? LcsI18n.tr("[in a better place]")
+            : LcsI18n.processString("dead and {condition}", {
+                "condition": conditionOfVictims,
+              });
+        String theBreakthrough = LcsI18n.tr(
+          [
+            "a victim called 911 just prior to being slain while still on the phone",
+            "the suspect carved an address into one of the bodies",
+            "an eye witness spotted the suspect luring a victim into a car",
+            "a blood trail was found on a road that led them to the suspect's car trunk",
+            "they found a victim in a ditch, still clinging to life",
+          ].random,
+        );
+        String howTheDAReacts = LcsI18n.tr(
+          laws[Law.deathPenalty] == DeepAlignment.eliteLiberal
+              ? "that the death penalty should really be an option"
+              : "it will be seeking the death penalty",
+        );
 
         return MajorEventContent(
           headline: "LET'S FRY 'EM",
-          storyText:
-              "${randomCityName()} - Perhaps parents can rest easier tonight.  "
-              "The authorities have apprehended their primary suspect in the "
-              "String of brutal child killings that has kept everyone in the area on edge, "
-              "according to a spokesperson for the police department here.&r"
-              "  $serialKiller was detained yesterday afternoon, reportedly in "
-              "possession of $heWasFoundInPosessionOf.  Over twenty children in "
-              "the past two years have gone missing, only to turn up later "
-              "$victimsFound.  Sources say that the police got a break in the "
-              "case when $theBreakthrough.&r"
-              "  The district attorney's office has already repeatedly said "
-              "$howTheDAReacts in this case.&r",
+          storyText: LcsI18n.processString(
+            "{city} - Perhaps parents can rest easier tonight.  The authorities have apprehended their primary suspect in the string of brutal child killings that has kept everyone in the area on edge, according to a spokesperson for the police department here.&r  {serialKiller} was detained yesterday afternoon, reportedly in possession of {heWasFoundInPossessionOf}.  Over twenty children in the past two years have gone missing, only to turn up later {victimsFound}.  Sources say that the police got a break in the case when {theBreakthrough}.&r  The district attorney's office has already repeatedly said {howTheDAReacts} in this case.&r",
+            {
+              "city": randomCityName(),
+              "serialKiller": serialKiller.firstLast,
+              "heWasFoundInPossessionOf": heWasFoundInPosessionOf,
+              "victimsFound": victimsFound,
+              "theBreakthrough": theBreakthrough,
+              "howTheDAReacts": howTheDAReacts,
+            },
+          ),
         );
       case View.gunControl:
         Gender shooterGender = Gender.male;
         FullName shooter = generateFullName(shooterGender);
         Gender heroGender = forceGenderBinary(Gender.nonbinary);
         FullName hero = generateFullName(heroGender);
-        String venue =
-            "${lastName()} ${[
-              "Mall", "Theater", "High School", "University", //
-            ].random}";
-        String massShooting = noProfanity ? "[hurting spree]" : "mass shooting";
+        String venue = LcsI18n.processString("{name} {venueType}", {
+          "name": lastName(),
+          "venueType": LcsI18n.tr(
+            ["Mall", "Theater", "High School", "University"].random,
+          ),
+        });
+        String massShooting = LcsI18n.tr(
+          noProfanity ? "[hurting spree]" : "mass shooting",
+        );
         String heroAction = noProfanity
-            ? "[putting the attacker to sleep]"
-            : "killing the attacker";
+            ? LcsI18n.tr("[putting the attacker to sleep]")
+            : LcsI18n.tr("killing the attacker");
         String heroTitle = switch (heroGender) {
-          Gender.female => "Ms. ",
-          Gender.male => "Mr. ",
+          Gender.female => LcsI18n.tr("Ms. "),
+          Gender.male => LcsI18n.tr("Mr. "),
           _ => "",
         };
+        final heroFormal = LcsI18n.processString("{title}{name}", {
+          "title": heroTitle,
+          "name": hero.last,
+        });
         final heroicActionsText = LcsI18n.processString(
           "yet another {massShooting} if not for {hero}'s heroic actions.\"&r",
-          {"massShooting": massShooting, "hero": "$heroTitle${hero.last}"},
+          {"massShooting": massShooting, "hero": heroFormal},
         );
 
         return MajorEventContent(
@@ -1764,7 +1763,7 @@ MajorEventContent generateMajorEventContent(
               "venue": venue,
               "hero": hero.firstLast,
               "shooterLast": shooter.last,
-              "heroFormal": "$heroTitle${hero.last}",
+              "heroFormal": heroFormal,
               "heroAction": heroAction,
               "shooterPronoun": shooterGender.heShe,
               "heroicActionsText": heroicActionsText,
@@ -1776,25 +1775,33 @@ MajorEventContent generateMajorEventContent(
         String bookTitle = LcsI18n.processString(
           "{author}'s memoir, \"{title}\"",
           {
-            "author": "${author.first} ${author.last}",
-            "title": [
-              "Aborted Regret",
-              "The Abortion Chronicles",
-              "The Abortion Diaries",
-              "The Abortion Papers", "The Abortion Files", //
-            ].random,
+            "author": LcsI18n.processString("{first} {last}", {
+              "first": author.first,
+              "last": author.last,
+            }),
+            "title": LcsI18n.tr(
+              [
+                "Aborted Regret",
+                "The Abortion Chronicles",
+                "The Abortion Diaries",
+                "The Abortion Papers", "The Abortion Files", //
+              ].random,
+            ),
           },
         );
         FullName politician = generateFullName();
-        String politicianName = "${politician.first} ${politician.last}";
-        String callToAction = switch (laws[Law.abortion]) {
+        String politicianName = LcsI18n.processString("{first} {last}", {
+          "first": politician.first,
+          "last": politician.last,
+        });
+        String callToAction = LcsI18n.tr(switch (laws[Law.abortion]) {
           DeepAlignment.archConservative =>
             "resisting any attempt by the "
                 "soulless elite to legalize the murder of children",
           _ =>
             "pass new laws to protect the most vulnerable children "
                 "in our society from being slaughtered by Liberals",
-        };
+        });
         return MajorEventContent(
           headline: "CLINIC REGRET",
           storyText: LcsI18n.processString(
@@ -1802,21 +1809,19 @@ MajorEventContent generateMajorEventContent(
             {
               "city": randomCityName(),
               "bookTitle": bookTitle,
-              "authorPossessive": author.gender.hisHer,
+              "authorPossessive": LcsI18n.tr(author.gender.hisHer),
               "politicianName": politicianName,
               "callToAction": callToAction,
             },
           ),
         );
       case View.taxes:
-        String modifier = ["Great", "Noble", "True", "Pure", "Golden"].random;
-        String noun = [
-          "Leadership",
-          "Courage",
-          "Pioneer",
-          "Communicator",
-          "Faith", //
-        ].random;
+        String modifier = LcsI18n.tr(
+          ["Great", "Noble", "True", "Pure", "Golden"].random,
+        );
+        String noun = LcsI18n.tr(
+          ["Leadership", "Courage", "Pioneer", "Communicator", "Faith"].random,
+        );
         String str = LcsI18n.processString(
           "{modifier} {noun}: A new book lauding Reagan and the greatest generation.",
           {"modifier": modifier, "noun": noun},

@@ -531,3 +531,11 @@ Important remaining debt:
 - Synced and translated 22 newly surfaced pt_BR keys, including both article templates and generated partner/drug values. Added static regression checks for the two full article templates.
 - Fresh structural validation passed: canonical ARB layout, interpolation gate (`0` unclassified wrapper context/argument hits), static coverage, and runtime catalog smoke.
 - Current status: `7590` source keys, `6053` translated, `1537` untranslated, `0` missing, `0` empty, `79.75%` coverage. The remaining objective is still substantial: continue the lower half of `major_event.dart`, then audit `talk/`, `fight.dart`, siege, shop, and all remaining generated prose before enabling the strict completion gate.
+
+## 2026-07-10 continuation: civil-rights, torture, death-penalty, gun-control, and women's-rights prose
+
+- Converted all three `View.civilRights` generated articles plus `View.torture` and `View.deathPenalty` to complete article templates. Dynamic phrases, names, pronouns, and the death-condition composition now enter through translated values or named placeholders.
+- Removed residual generated name/title interpolation in the `View.gunControl`, `View.womensRights`, and `View.taxes` branches. Venue names, formal honorifics, book authors, politician names, and subheadline words now use complete templates.
+- Added static regression checks for the new civil-rights, torture, and death-penalty article templates; synced and translated the newly discovered pt_BR templates/values.
+- Validation: canonical catalogs and the interpolation allowlist gate pass; full `flutter test` passes (`228` tests).
+- Current status: `7608` source keys, `6067` translated, `1541` untranslated, `0` missing, `0` empty, `79.75%` coverage. Continue with animal-research, prison, intelligence, and later major-event branches; then repeat the broader `talk/`, fight, siege, and shop audit.

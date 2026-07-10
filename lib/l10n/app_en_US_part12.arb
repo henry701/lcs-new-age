@@ -234,6 +234,7 @@
   "{name} plays along but somehow makes everything seem so ": "{name} plays along but somehow makes everything seem so ",
   "{name} reveals everything {pronoun} knows about the {site}.": "{name} reveals everything {pronoun} knows about the {site}.",
   "{name} tried to make {clothing}, but failed.": "{name} tried to make {clothing}, but failed.",
+  "{name} {venueType}": "{name} {venueType}",
   "{name}'s neck is broken!": "{name}'s neck is broken!",
   "{pName} has a \"hot\" date with {dateList} over video chat.": "{pName} has a \"hot\" date with {dateList} over video chat.",
   "{position} {oldLast} ": "{position} {oldLast} ",

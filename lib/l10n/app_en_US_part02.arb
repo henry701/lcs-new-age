@@ -262,6 +262,7 @@
   "{name}, you are sentenced to time served.  You are free to go.": "{name}, you are sentenced to time served.  You are free to go.",
   "{pName} has dates to manage with {dateList}.": "{pName} has dates to manage with {dateList}.",
   "{site}, {city}": "{site}, {city}",
+  "{squad} leaves {pronoun} alone.": "{squad} leaves {pronoun} alone.",
   "{squad} looks around {site}.": "{squad} looks around {site}.",
   "{subject} {action}.": "{subject} {action}."
 }

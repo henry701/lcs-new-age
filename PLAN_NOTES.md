@@ -580,3 +580,8 @@ Important remaining debt:
 
 - Converted the user-visible trial outcome log messages to complete templates, including singular/plural month sentences rather than an appended `s` fragment.
 - Added all corresponding pt_BR values and static regression coverage. The incremental charge list remains separate presentation work because it updates after each charge; it must be redesigned as a full list before treating `trial.dart` as source-sweep complete.
+
+## 2026-07-10 continuation: nursing-home and insurance special messages
+
+- Converted the nursing-home patient/manager and insurance claims/CEO dynamic messages to complete templates. Preprocessed `processString` output is now explicitly passed as `noTranslate` through encounter/prompt helpers to prevent a second lookup.
+- Added ten pt_BR translations and regression coverage. The legacy `%FIRST%` patient-state message system remains a distinct migration item: it requires replacing its custom token protocol rather than adding more interpolated fragments.

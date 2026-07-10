@@ -623,6 +623,14 @@ void main() {
       );
     });
 
+    test('nursing-home and insurance special messages use full templates', () {
+      final source = File('lib/sitemode/map_specials.dart').readAsStringSync();
+      expect(source, isNot(contains(r'"Mr. $patientLastName"')));
+      expect(source, contains('The squad has already checked up on {name}.'));
+      expect(source, contains('Claim: {claim}.'));
+      expect(source, contains('{name} approves the {claim} claim.'));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

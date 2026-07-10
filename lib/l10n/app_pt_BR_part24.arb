@@ -261,6 +261,7 @@
   "{name}'s liver is punctured!": "O fígado de {name} foi perfurado!",
   "{name}'s spleen is blasted!": "O baço de {name} foi destruído!",
   "{name}, the court sees no need to add to your existing sentence.": "{name}, o tribunal não vê necessidade de acrescentar à sua sentença existente.",
+  "{squad} checks up on {name}.": "{squad} visita {name}.",
   "{vehicle} is {distance} feet back.": "{vehicle} está a {distance} pés atrás.",
   "{vehicle} rolls up and rides your tailgate!": "{vehicle} encosta e fica na sua cola!"
 }

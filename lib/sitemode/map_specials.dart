@@ -943,12 +943,16 @@ Future<bool> sitemodePromptOneLine(String line) async {
   }
 }
 
-Future<bool> sitemodePrompt(String line1, String line2) async {
+Future<bool> sitemodePrompt(
+  String line1,
+  String line2, {
+  bool noTranslate = false,
+}) async {
   clearMessageArea();
 
-  mvaddstrc(9, 1, white, line1);
+  mvaddstrc(9, 1, white, line1, noTranslate: noTranslate);
 
-  mvaddstr(10, 1, line2);
+  mvaddstr(10, 1, line2, noTranslate: noTranslate);
 
   while (true) {
     int c = await getKey();
@@ -1347,13 +1351,22 @@ Future<void> specialNursingHomePatient({bool done = false}) async {
   String patientLastName = lastName();
   String patientFirstName = firstName(gender);
   String formal = patientLastName;
-  if (gender == Gender.male) formal = "Mr. $patientLastName";
-  if (gender == Gender.female) formal = "Mrs. $patientLastName";
+  if (gender == Gender.male) {
+    formal = LcsI18n.processString("Mr. {name}", {"name": patientLastName});
+  }
+  if (gender == Gender.female) {
+    formal = LcsI18n.processString("Mrs. {name}", {"name": patientLastName});
+  }
   PatientPersonality personality = PatientPersonality.values.random;
   nextRngSeed = oldSeed;
 
   if (done) {
-    await encounterMessage("The squad has already checked up on $formal.");
+    await encounterMessage(
+      LcsI18n.processString("The squad has already checked up on {name}.", {
+        "name": formal,
+      }),
+      noTranslate: true,
+    );
     return;
   }
 
@@ -1368,14 +1381,27 @@ Future<void> specialNursingHomePatient({bool done = false}) async {
   if (patientState.difficulty > Difficulty.automatic) experience = 10;
 
   // Indicate the squad is checking up on them
-  String squadName = squad.length > 1 ? "The squad" : squad[0].name;
-  await encounterMessage("$squadName checks up on $formal.");
+  String squadName = squad.length > 1 ? LcsI18n.tr("The squad") : squad[0].name;
+  await encounterMessage(
+    LcsI18n.processString("{squad} checks up on {name}.", {
+      "squad": squadName,
+      "name": formal,
+    }),
+    noTranslate: true,
+  );
 
   if (siteAlarm) {
     // Alarm prevents aiding residents
     await encounterMessage(
-      "$formal looks at the squad in fear and shouts for help.",
-      line2: "$squadName leaves ${gender.himHer} alone.",
+      LcsI18n.processString(
+        "{name} looks at the squad in fear and shouts for help.",
+        {"name": formal},
+      ),
+      line2: LcsI18n.processString("{squad} leaves {pronoun} alone.", {
+        "squad": squadName,
+        "pronoun": LcsI18n.tr(gender.himHer),
+      }),
+      noTranslate: true,
     );
   } else {
     // Resolve the attempt to aid the resident
@@ -1436,13 +1462,15 @@ Future<void> specialNursingHomeManager() async {
       printEncounter();
       if (activeSite!.hasHighSecurity) {
         await encounterMessage(
-          "${admin.name} cries, ",
+          LcsI18n.processString("{name} cries, ", {"name": admin.name}),
           line2: "\"It's them!  They're back!  SECURITY, HELP ME!!!\"",
+          noTranslate: true,
         );
       } else {
         await encounterMessage(
-          "${admin.name} cries, ",
+          LcsI18n.processString("{name} cries, ", {"name": admin.name}),
           line2: "\"It's them!  They're back!  NURSES, HELP ME!!!\"",
+          noTranslate: true,
         );
       }
       siteAlarm = true;
@@ -1553,8 +1581,12 @@ Future<void> specialInsuranceClaimsTerminal() async {
   }
 
   bool approve = await sitemodePrompt(
-    "Claim: $claimDescription.",
-    "Denied: $denialReason. Override and approve? (Yes or No)",
+    LcsI18n.processString("Claim: {claim}.", {"claim": claimDescription}),
+    LcsI18n.processString(
+      "Denied: {reason}. Override and approve? (Yes or No)",
+      {"reason": denialReason},
+    ),
+    noTranslate: true,
   );
   if (!approve) return;
 
@@ -1567,8 +1599,12 @@ Future<void> specialInsuranceClaimsTerminal() async {
 
   if (success) {
     await encounterMessage(
-      "${hacker.name} approves the $claimDescriptionShort claim.",
+      LcsI18n.processString("{name} approves the {claim} claim.", {
+        "name": hacker.name,
+        "claim": claimDescriptionShort,
+      }),
       color: lightGreen,
+      noTranslate: true,
     );
     juiceparty(5, 200);
     changePublicOpinion(View.healthcare, 1, coloredByLcsOpinions: true);
@@ -1606,8 +1642,9 @@ Future<void> specialInsuranceCEO() async {
       encounter.add(ceo);
       printEncounter();
       await encounterMessage(
-        "${ceo.name} cries, ",
+        LcsI18n.processString("{name} cries, ", {"name": ceo.name}),
         line2: "\"It's them!  They're back for me again!  Help!!!\"",
+        noTranslate: true,
       );
       siteAlarm = true;
 

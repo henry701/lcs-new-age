@@ -1027,14 +1027,24 @@ Future<void> _dailyHealing() async {
       if (p.medicalBills > 0) {
         erase();
         setColor(lightGray);
-        mvaddstr(6, 1, "${p.name} is being discharged from ${p.site!.name}.");
+        mvaddstr(
+          6,
+          1,
+          "{name} is being discharged from {site}.",
+          params: {"name": p.name, "site": p.site!.name},
+        );
         mvaddstrx(
           8,
           1,
-          "&w{name}'s hospital bill comes to &R\${bill}&w.",
-          params: {"name": p.name, "bill": p.medicalBills},
+          "&w{name}'s hospital bill comes to &R{bill}&w.",
+          params: {"name": p.name, "bill": "\$${p.medicalBills}"},
         );
-        mvaddstrx(9, 1, "The LCS has &G\$${ledger.funds}&w available.");
+        mvaddstrx(
+          9,
+          1,
+          "The LCS has &G{funds}&w available.",
+          params: {"funds": "\$${ledger.funds}"},
+        );
         addOptionText(
           11,
           1,

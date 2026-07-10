@@ -56,7 +56,7 @@ Important limitations:
   - direct wrapper-argument hits: high-confidence
   - wrapper-context hits: broader, useful for multiline calls and manual sweep work
 
-Treat the scripts as good assistants, not proof that source-string cleanup is complete.
+Treat the scripts as good assistants, not proof that source-string cleanup is complete. In particular, the wrapper audit is intentionally narrow: inspect generated prose, local variables, and accumulated story text separately.
 
 ## Fragment Keys and Name+Flavor Composition (Strong Rule)
 
@@ -90,13 +90,7 @@ addstr("'s wounds.");
 addstr(crashesFlavorText.random); // if it starts with space or 's
 ```
 
-Existing offenders (non-exhaustive; re-sweep before claiming quality-complete; see PLAN_NOTES for passes):
-
-- Similar lists in prison, daily (flavor fragments attached via {name}{frag} or tr(frag)).
-- Raw Dart interp for display names in site init (e.g. "${lastName()} Prison", prefix += suffix in drugHouse/warehouse cases).
-- Some stealth/haul name+reaction/status attachments.
-
-Before marking any i18n goal "done for runtime", convert these to full templates, add the complete keys to catalogs, remove the dead fragment keys (after confirming no live use), and re-validate.
+The historical examples above have been fixed in several paths, but they are not a substitute for a fresh sweep. Before marking any i18n goal complete, convert every live instance to a full template, add the complete keys to catalogs, remove dead fragment keys only after confirming no live use, and re-validate.
 
 See also the completion PLAN.md (do not edit) for gate expectations around fragments.
 

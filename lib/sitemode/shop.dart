@@ -245,8 +245,8 @@ class Shop extends ShopOption {
         String letter = availableOptions[p].letter!.toUpperCase();
         String desc = availableOptions[p].halfscreenDescription();
         if (availableOptions[p] is ShopItem) {
-          desc += LcsI18n.processString(" (\${price})", {
-            "price": (availableOptions[p] as ShopItem).price(false).toString(),
+          desc += LcsI18n.processString(" ({price})", {
+            "price": "\$${(availableOptions[p] as ShopItem).price(false)}",
           }, noTranslate: true);
         }
         addInlineOptionText(
@@ -375,13 +375,11 @@ class Shop extends ShopOption {
         );
         if (availableOptions[index] is ShopItem) {
           move(y, 39);
+          final price = StringBuffer(r'$')
+            ..write((availableOptions[index] as ShopItem).price(false));
           addstr(
-            "\${price}",
-            params: {
-              "price": (availableOptions[index] as ShopItem)
-                  .price(false)
-                  .toString(),
-            },
+            "{price}",
+            params: {"price": price.toString()},
             noTranslate: true,
           );
         }
@@ -468,20 +466,20 @@ class Shop extends ShopOption {
           }
           move(y, 59);
           addstr(
-            "\${price}",
+            "{price}",
             params: {
-              "price": (availableOptions[i] as ShopItem)
-                  .price(false)
-                  .toString(),
+              "price": "\$${(availableOptions[i] as ShopItem).price(false)}",
             },
             noTranslate: true,
           );
         }
       },
       onChoice: (index) async {
-        debugPrint(
-          "index: $index, availableOptions.length: ${availableOptions.length}",
-        );
+        final debugMessage = StringBuffer('index: ')
+          ..write(index)
+          ..write(', availableOptions.length: ')
+          ..write(availableOptions.length);
+        debugPrint(debugMessage.toString());
         if (index < availableOptions.length &&
             availableOptions[index].isAvailable()) {
           await availableOptions[index].choose(customers, buyer!, false);
@@ -535,11 +533,9 @@ class Shop extends ShopOption {
         addstr(ammo.boxSize.toString());
         move(y, 59);
         addstr(
-          "\${price}",
+          "{price}",
           params: {
-            "price": (availableOptions[index] as ShopItem)
-                .price(false)
-                .toString(),
+            "price": "\$${(availableOptions[index] as ShopItem).price(false)}",
           },
           noTranslate: true,
         );
@@ -584,11 +580,9 @@ class Shop extends ShopOption {
         addstr(clothing.traitsList(true).join(", "));
         move(y, 59);
         addstr(
-          "\${price}",
+          "{price}",
           params: {
-            "price": (availableOptions[index] as ShopItem)
-                .price(false)
-                .toString(),
+            "price": "\$${(availableOptions[index] as ShopItem).price(false)}",
           },
           noTranslate: true,
         );

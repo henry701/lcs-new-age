@@ -589,10 +589,11 @@ Future<void> siegeCheck() async {
         addparagraph(
           4,
           1,
-          "A small fleet of ambulances surrounds the front of ${l.getName()}. "
+          "A small fleet of ambulances surrounds the front of {location}. "
           "As they open, a bunch of office workers in cheap suits climb out "
           "while handling rifles that most of them look like they have "
           "no idea how to use.",
+          params: {"location": l.getName()},
         );
         await getKey();
         setColor(white);
@@ -622,7 +623,8 @@ Future<void> siegeCheck() async {
         addparagraph(
           console.y + 1,
           1,
-          "Hopsital debt collectors are moving to settle with the ${l.getName()}.",
+          "Hospital debt collectors are moving to settle with the {location}.",
+          params: {"location": l.getName()},
         );
         await getKey();
 

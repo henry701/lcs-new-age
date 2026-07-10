@@ -164,6 +164,7 @@
   "showing price discrimination depending on the race of the patient.": "showing price discrimination depending on the race of the patient.",
   "smashed the guard's skull with the toilet seat from ": "esmagou o crânio do guarda com o assento do vaso sanitário de ",
   "some have hailed the new methods as the next stage in ": "alguns saudaram os novos métodos como o próximo estágio em ",
+  "spraying bullets at": "atirando contra",
   "surrounding area yesterday.": "área circundante ontem.",
   "t come in.\"\",\n              {\"comment\": noProfanity ? \"[I won": "t come in.\"\",\n              {\"comment\": noProfanity ? \"[I won",
   "t keep up.\",\n        \"{vehicle} gives up as {driver} loses confidence.\",\n        \"{vehicle} trails behind and is lost.\",\n        \"{vehicle} vanishes far behind you.\",\n        \"{vehicle} is left behind.\",\n        \"{vehicle} can": "t keep up.\",\n        \"{vehicle} gives up as {driver} loses confidence.\",\n        \"{vehicle} trails behind and is lost.\",\n        \"{vehicle} vanishes far behind you.\",\n        \"{vehicle} is left behind.\",\n        \"{vehicle} can",
@@ -184,6 +185,7 @@
   "{key} - {name}": "{key} – {name}",
   "{location} Defense": "Defesa de {location}",
   "{mood}% of people have Liberal views": "{mood}% das pessoas têm visões Liberais",
+  "{name} Clinic": "Clínica {name}",
   "{name} Cosmetics": "Cosméticos {name}",
   "{name} Genetics": "Genética {name}",
   "{name} couldn't afford the supplies to run their class.": "{name} não tinha recursos para as aulas.",
@@ -209,6 +211,7 @@
   "{name}, {title}": "{name},  {title}",
   "{newboss} will take over for ": "{newboss} assumirá o lugar de ",
   "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} percebe que {heshe} se comprometeu a comer {count} refeições de uma vez. Tudo desanda rapidamente.",
+  "{possessive} arm was broken in multiple places": "{possessive} arm was broken in multiple places",
   "{properName}, aka {name}, is arrested.": "{properName}, vulgo {name}, é preso(a).",
   "{vehicle} draws dangerously close!": "{vehicle} se aproxima perigosamente!"
 }

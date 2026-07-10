@@ -45,6 +45,7 @@
       }
     }
   },
+  "A - Pay $100 for a one-on-one video call.": "A - Pay $100 for a one-on-one video call.",
   "A bill of animal rights is in place governing their treatment.": "Uma lei de direitos animais está em vigor regulando seu tratamento.",
   "A kid in the street!": "Uma criança na rua!",
   "A prominent journalist investigates further, but can't prove it's true.": "A prominent journalist investigates further, but can't prove it's true.",
@@ -76,6 +77,7 @@
   "Housing has become a privilege only for those worthy of it by virtue of wealth.": "Housing has become a privilege only for those worthy of it by virtue of wealth.",
   "I just know we're gonna get along great.": "Eu só sei que vamos nos dar muito bem.",
   "If everyone did a little more $drug, we'd have world peace by next Tuesday,": "Se todos fizessem um pouco mais de $drug, teríamos paz mundial até a próxima terça-feira,",
+  "If everyone did a little more {drug}, we'd have world peace by next Tuesday,": "Se todos usassem um pouco mais de {drug}, teríamos paz mundial até a próxima terça-feira,",
   "Import CSV map (.csv files)": "Import CSV map (.csv files)",
   "Indian": "Indiano",
   "Industry is subject to strict pollution regulations.": "A indústria está sujeita a rigorosas regulamentações de poluição.",
@@ -222,6 +224,7 @@
   "who appears in history books as a symbol of white supremacy": "que aparece em livros de história como um símbolo de supremacia branca",
   "yesterday by tampering with equipment on the site.": "ontem ao adulterar equipamentos no local.",
   "{actor} protested against the game being buggy!": "{actor} protestou contra os bugs do jogo!",
+  "{city} - A local wedding venue has conducted a so-called \"wedding\" between a {person} and {partner}.  The {person}, {primaryPartner}, was escorted down the aisle by {pronoun} spiritual guru, {spiritualGuide}.&r  \"I'm so happy to be here today,\" said {primaryPartner}.  \"I've been waiting for this day for so long.  I'm so glad to be able to share my love of {firstPersonPartner}.\"&r  Others haven't been so celebratory.  \"When we said the LGBTQ agenda was undermining the sanctity of marriage and the moral fabric of this country, this is exactly what we were talking about,\" said {activist}, a local activist who is clearly not a fan of the LGBTQ agenda.  \"I said it, didn't I? I said we were going to see somebody try to marry {partner}.  I literally said exactly that.\"&r  At press time, {spiritualGuideLast}, {activistLast}, and {primaryPartnerLast} were all seen making out in the parking lot, leading to some confusion in our press room about what the relationship between these people is and why we're reporting on any of this.&r": "{city} - Um local para casamentos realizou um suposto \"casamento\" entre {person} e {partner}.  {person}, {primaryPartner}, foi conduzido até o altar por {pronoun} guia espiritual, {spiritualGuide}.&r  \"Estou tão feliz por estar aqui hoje\", disse {primaryPartner}.  \"Esperei por este dia durante tanto tempo. Estou muito feliz por poder compartilhar meu amor por {firstPersonPartner}.\"&r  Outros não foram tão celebratórios.  \"Quando dissemos que a agenda LGBTQ estava minando a santidade do casamento e o tecido moral deste país, era exatamente disto que estávamos falando\", disse {activist}, um ativista local que claramente não é fã da agenda LGBTQ.  \"Eu disse, não disse? Eu disse que veríamos alguém tentar se casar com {partner}. Literalmente disse exatamente isso.\"&r  No momento da publicação, {spiritualGuideLast}, {activistLast} e {primaryPartnerLast} foram vistos se beijando no estacionamento, deixando nossa redação confusa sobre a relação dessas pessoas e sobre por que estamos noticiando isso.&r",
   "{count} Liberals are arrested.": "{count} Liberais são presos.",
   "{label} Justice ": "{label} Justiça ",
   "{lead} {activity}": "{lead} {activity}",
@@ -248,6 +251,7 @@
   "{name}: <rummaging> $rummageMessage": "{name}: <procurando> $rummageMessage",
   "{pName}'s ": "de {pName} ",
   "{pronoun} friend {friend}.": "amigo {friend} de {pronoun}.",
+  "{pronoun} fursona": "a fursona de {pronoun}",
   "{vehicle} comes to a rest facing backwards.": "{vehicle} para de costas para a frente.",
   "{vehicle} rams into you from behind!": "{vehicle} te atropela por trás!"
 }

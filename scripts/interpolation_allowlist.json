@@ -137,6 +137,12 @@
       "context": "addstr",
       "text": "\\$${tempp.medicalBills}",
       "reason": "Numeric currency formatting"
+    },
+    {
+      "file": "sitemode/shop.dart",
+      "context": "addstr",
+      "text": "index: $index, availableOptions.length: ${availableOptions.length}",
+      "reason": "Debug-only paged-interface trace; detected only by broad wrapper context"
     }
   ]
 }

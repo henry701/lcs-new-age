@@ -46,6 +46,7 @@
   "Choose squad member to move": "Escolha o membro do esquadrão para mover",
   "Church": "Igreja",
   "Communist": "Comunista",
+  "D - Stockpile 5 days of diesel for the generator ({cost})": "D - Stockpile 5 days of diesel for the generator ({cost})",
   "D - Surrender to authorities": "D - Render-se às autoridades",
   "Despite these claims, most of those deported, including ": "Apesar dessas alegações, a maioria dos deportados, incluindo ",
   "Do you want to permanently release this squad member from the LCS?": "Deseja liberar permanentemente este membro do esquadrão da LCS?",
@@ -201,6 +202,7 @@
   "{adjective} {noun} Internet Cafe": "Internet Café {noun} {adjective}",
   "{agent} has sent word that the CIA is planning to launch an attack on {location}!": "{agent} mandou avisar que a CIA está planejando lançar um ataque contra {location}!",
   "{attacker} stabs {target}.": "{attacker} esfaqueia {target}.",
+  "{city} - Police officer {officer} is under investigation for beating a suspect, {suspect}, until {condition}.  The suspect was handcuffed and in police custody when the attack took place.&r  {officerLast} insisted to investigators that the suspect was extremely violent and had to be subdued, even though {suspectLast} had gone to the police station {suspectReflexive} earlier in the day to surrender, and was reported by other officers to be very cooperative and compliant moments prior to being isolated with {officerLast}.&r  {officerLast} has been placed on paid leave.&r": "{city} - Police officer {officer} is under investigation for beating a suspect, {suspect}, until {condition}.  The suspect was handcuffed and in police custody when the attack took place.&r  {officerLast} insisted to investigators that the suspect was extremely violent and had to be subdued, even though {suspectLast} had gone to the police station {suspectReflexive} earlier in the day to surrender, and was reported by other officers to be very cooperative and compliant moments prior to being isolated with {officerLast}.&r  {officerLast} has been placed on paid leave.&r",
   "{distance} feet away": "{distance} pés de distância",
   "{driver} runs {vehicle} off the road!": "{driver} joga {vehicle} para fora da estrada!",
   "{name} catches a bus to the next city.": "{name} pega um ônibus para a próxima cidade.",
@@ -227,6 +229,7 @@
   "{name}'s lifeless body smashes through the windshield.": "O corpo sem vida de {name} atravessa o para-brisa.",
   "{name}'s tongue is torn out!": "A língua de {name} é arrancada!",
   "{name}'s {article} about this is electrifying. ": "O {article} de {name} sobre isso é eletrizante. ",
+  "{pronoun} anime waifu": "a waifu de anime de {pronoun}",
   "{recruiter} offers to let {recruit} join the LCS.": "{recruiter} oferece deixar {recruit} entrar no ECL.",
   "{squad} decided {site} was too hot to risk.": "{squad} decidiu que {site} estava muito perigoso para arriscar.",
   "│     A Cable News anchor just accidentally let a   │": "│     Um âncora de Cable News deixou escapar por acidente   │"

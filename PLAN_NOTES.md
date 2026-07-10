@@ -1,45 +1,39 @@
 # pt_BR Localization — Session Notes
 
-Last updated: 2026-06-27 (verification pass 63 — goal continuation audit)
+Last updated: 2026-07-10 (current continuation audit)
 
-## Goal status: COMPLETE
+## Goal status: ACTIVE
 
-All completion gates from `PLAN.md` pass. Independently re-verified 2026-06-27 (pass 63):
-`maintain_arb_catalogs --check` OK, `interpolation_status --all --check` exit 0
-(0 unclassified context, 0 unclassified argument; 15 context + 3 argument allowlisted),
-`translation_status` 5675/5675 @ 100%, static + runtime smoke green, full `flutter test` 187/187 green.
-
-Passes 4–62 (2026-06-27): same gate results; no regression observed across repeated verification runs.
+Current live state does **not** match the old completion claims. Recomputed status now shows:
+- `translation_status --json`: `7454` source keys, `5973` translated, `1481` untranslated, `0` missing, `0` empty, `80.13%` coverage.
+- `interpolation_status --limit=40`: `734` interpolated literals total, `14` near-wrapper hits, `5` high-confidence wrapper-argument hits in the sample output.
+- `TRANSLATION_WORKFLOW.md` remains the canonical rule set; `TRANSLATION_PLAN.md` is historical/superseded.
 
 ## Metrics
 
 ```json
 {
-  "sourceKeys": 5675,
-  "targetKeys": 5778,
-  "translatedAgainstSource": 5675,
-  "untranslatedAgainstSource": 0,
+  "sourceKeys": 7454,
+  "targetKeys": 7538,
+  "translatedAgainstSource": 5973,
+  "untranslatedAgainstSource": 1481,
   "missingInTarget": 0,
-  "extraInTarget": 103,
+  "extraInTarget": 84,
   "emptyInTarget": 0,
-  "coveragePercent": 100.0
+  "coveragePercent": 80.13147303461228
 }
 ```
 
-`extraInTarget` is legacy/pt-only keys (e.g. `Loading...`, `{attacker} hits {target}!`) kept intentionally — do not blind-prune; many are referenced by existing i18n tests.
+`extraInTarget` is legacy/pt-only keys kept intentionally for now; do not blind-prune until each key is audited against live usage.
 
 ## Completed
 
-- **Catalog coverage:** `5675/5675` live `en_US` source keys have distinct `pt_BR` translations.
-- **Static gate:** `lib/i18n/catalog_audit.dart` + `test/i18n_static_coverage_test.dart` (`passesCompletionGate == true`).
-- **Runtime smoke:** `test/pt_br_runtime_catalog_smoke_test.dart` (all source keys via `processString` + console wrappers).
-- **Interpolation gate:** `scripts/interpolation_status.dart --all --check --allowlist=scripts/interpolation_allowlist.json` — `0` unclassified hits (15 context + 3 argument classified in allowlist).
-- **Source sweep:** large `$…` → `{placeholder}` conversion across `chase_sequence`, basemode, sitemode, politics, title screen, etc.
-- **Placeholder parity fixes:** `{key} - {vehicle}`, `{key} - {skill}`, `{president} {name}`, `, {holding} {hostage}`, `{name1} {versus} {name2}`.
-- **Corrupt catalog cleanup:** removed `debugPrint`-derived `${…}` key from `app_pt_BR_part14.arb`.
-- **Infrastructure:** `catalog_audit.dart`, `interpolation_allowlist.json`, batch translation helpers under `~/tmp/agent-tmp/lcs-new-age/`.
+- **Catalog scaffolding:** hash-sharded ARB layout, `maintain_arb_catalogs.dart`, and `translation_status.dart` are in place.
+- **Docs:** `TRANSLATION_WORKFLOW.md` now carries the fragment/name-composition rule and canonical process notes.
+- **Allowlist:** `scripts/interpolation_allowlist.json` exists for currently classified non-user-facing interpolation.
+- **Validation shape:** static and runtime i18n tests exist and are used in the loop.
 
-## Validation commands (all pass)
+## Structural validation commands
 
 ```bash
 dart run scripts/maintain_arb_catalogs.dart --check
@@ -47,19 +41,21 @@ dart run scripts/interpolation_status.dart --json --all --check \
   --allowlist=scripts/interpolation_allowlist.json
 dart run scripts/translation_status.dart --json
 flutter test test/i18n_static_coverage_test.dart test/pt_br_runtime_catalog_smoke_test.dart
-flutter test   # 187 tests
+flutter test
 ```
+
+These commands prove catalog structure, placeholder parity, and the exercised smoke paths. They do **not** prove complete Portuguese coverage while `translation_status --json` reports untranslated keys. The static test keeps the strict completion assertion intentionally disabled until coverage reaches 100%; do not describe this as a passing completion gate.
 
 ## Follow-up (non-blocking)
 
-1. **`find_translatable_strings.dart` apostrophe bug** — can reintroduce corrupt fragment keys from `can't` / multiline splits; add extractor fix or post-sync cleanup before next large resync.
-2. **Newspaper `$var` ARB tokens** — legacy filler syntax (not Dart `${}`); static gate does not flag; migrate to `{identifier}` when touching newspaper strings.
-3. **103 extra pt_BR keys** — audit individually before pruning; cross-check `test/i18n_test.dart` and grep usage.
-4. **Commit/push** — only when user requests. Worktree has a large uncommitted diff on `feature/localization` (source sweep + ARB catalogs + tests); last commit `d2ca273`.
+1. **Source sweep debt** — continue converting user-facing interpolation in `newspaper/`, `talk/`, `fight.dart`, `siege.dart`, and `shop.dart` to full templates.
+2. **Translation debt** — pt_BR remains incomplete; sync and translate the newly surfaced live keys after each source pass.
+3. **Extra pt_BR keys** — audit before pruning; some are legacy tests or still-referenced compatibility entries.
+4. **Commit/push** — only when user requests.
 
 ## Next run
 
-No required work for goal completion. If resyncing catalogs after source edits:
+If resyncing catalogs after source edits:
 
 1. `dart run scripts/find_translatable_strings.dart` (watch for corrupt keys)
 2. Translate new keys → merge → `maintain_arb_catalogs --check`
@@ -493,3 +489,45 @@ Important remaining debt:
   - `flutter test test/i18n_static_coverage_test.dart test/pt_br_runtime_catalog_smoke_test.dart test/i18n_test.dart test/console_wrapper_test.dart` → PASS
   - `flutter test` → PASS
 - Residual debt still exists across the rest of `major_event.dart`, `talk/`, `fight.dart`, `siege.dart`, `shop.dart`, and other `lib/` interpolation sites.
+
+## 2026-07-10 continuation: restored bridge and major-event early branches
+
+- The terminal bridge recovered after the temporary `codex-code-mode-host` execution failure.
+- Corrected the stale top-level completion claim: live status remains active, not 100% complete.
+- Converted the `View.lgbtRights` hate-crime, `View.deathPenalty`, `View.gunControl`, and `View.taxes` generators in `lib/newspaper/major_event.dart` to full `LcsI18n.processString` templates.
+  - Generated names, dynamic article phrases, the time-of-death value, and censorship-specific terms now go through `LcsI18n.tr` or a placeholder template before the final article template is rendered.
+  - Removed raw article-level Dart interpolation from those branches.
+- Converted the new-game option label, flag detail/menu output, hospital discharge message, and medical-debt siege/receipt strings to complete templates.
+- Synced catalogs and translated the 37 newly surfaced pt_BR entries in this pass.
+- Current status after merge: `7493` source keys, `6010` translated, `1483` untranslated, `0` missing, `0` empty, `80.21%` coverage.
+- Added static regression coverage for the new major-event and direct console templates. Full validation is still required after the remaining generated-story sweep.
+
+## 2026-07-10 continuation: major-event prose and extractor hardening
+
+- Converted the `View.prisons`, `View.intelligence`, `View.freeSpeech`, and `View.justices` major-event branches to complete templates, including their generated names, titles, quotes, and dynamic prose.
+- Fixed `scripts/find_translatable_strings.dart` so quoted parameter-map keys nested in random lists are not extracted as catalog strings. The new guard skips a quoted literal followed by `:`; a `find_translatable_strings --print-only` rescan no longer reports the false key `"action"`.
+- Removed the previously polluted `"action"` key from both locale catalogs.
+- Synced the catalogs and translated the eight new pt_BR article/template entries. Current status: `7502` source keys, `6018` translated, `1484` untranslated, `0` missing, `0` empty, `80.22%` coverage.
+
+## 2026-07-10 continuation: radio, immigration, and civil-rights articles
+
+- Converted `View.amRadio`, `View.immigration`, `View.civilRights`, and the `View.ceoSalary` dynamic critique to complete templates with translated dynamic values.
+- Simplified the immigration tattoo descriptions to neutral full phrases (`a pet cat`, `a mother's name`) instead of gendered possessive fragments; removed the resulting dead catalog keys after confirming no live source reference remained.
+- Added pt_BR values for the seven newly surfaced article and phrase keys. Current status: `7510` source keys, `6025` translated, `1485` untranslated, `0` missing, `0` empty, `80.23%` coverage.
+
+## 2026-07-10 continuation: police, torture, and escaped-currency extraction
+
+- Converted all five `View.policeBehavior` outcomes and all three `View.torture` outcomes in `lib/newspaper/major_event.dart` to full `LcsI18n.processString` templates. Pronouns and injury descriptions now flow through translated dynamic parameters rather than Dart interpolation.
+- Localized generated parameter values in the liberal drugs, military, and healthcare stories; neutralized another possessive sandwich fragment.
+- Fixed `find_translatable_strings.dart` to distinguish an escaped Dart dollar (`\\$`, literal currency) from real `$variable` interpolation. The extractor now preserves escaped dollars through filtering, restores them before ARB write, and correctly discovers templates such as the bank-robbery article.
+- The fixed extractor exposed 36 previously skipped live keys, so measured pt_BR coverage temporarily moved to `79.71%` (`7566` source, `6031` translated, `1535` untranslated). This is newly measured catalog debt, not a regression in existing translations.
+- Remaining source sweep is still concentrated in the lower half of `major_event.dart`, then the residual `talk/`, `sitemode/fight.dart`, `daily/siege.dart`, and `sitemode/shop.dart` paths.
+
+## 2026-07-10 continuation: documentation correction, shop audit, wedding, and drug-panic stories
+
+- Corrected the canonical workflow and session notes: wrapper interpolation is a narrow signal, and structural/smoke checks must not be described as proof of complete pt_BR coverage while the strict catalog assertion remains disabled.
+- Removed the final two unclassified wrapper-context findings: shop price display now constructs numeric currency outside a string literal, and the nearby diagnostic trace is explicitly allowlisted as debug-only.
+- Converted the `View.lgbtRights` wedding story and `View.drugs` panic story in `lib/newspaper/major_event.dart` to single complete `LcsI18n.processString` article templates. Their dynamic prose now uses translated values or complete placeholder templates.
+- Synced and translated 22 newly surfaced pt_BR keys, including both article templates and generated partner/drug values. Added static regression checks for the two full article templates.
+- Fresh structural validation passed: canonical ARB layout, interpolation gate (`0` unclassified wrapper context/argument hits), static coverage, and runtime catalog smoke.
+- Current status: `7590` source keys, `6053` translated, `1537` untranslated, `0` missing, `0` empty, `79.75%` coverage. The remaining objective is still substantial: continue the lower half of `major_event.dart`, then audit `talk/`, `fight.dart`, siege, shop, and all remaining generated prose before enabling the strict completion gate.

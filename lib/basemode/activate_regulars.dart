@@ -143,8 +143,8 @@ Future<void> assignTask(Creature c) async {
       mvaddstr(
         0,
         0,
-        "{name} made \${income} yesterday. What now?",
-        params: {"name": c.name, "income": c.income},
+        "{name} made {income} yesterday. What now?",
+        params: {"name": c.name, "income": "\$${c.income}"},
       );
     } else {
       mvaddstr(
@@ -743,8 +743,8 @@ void _clothingDetailFooter(
     addstrc(lightBlue, armor.name);
     addstrc(
       lightGreen,
-      " \${price}",
-      params: {"price": (clothing.makePrice + armor.makePrice).toString()},
+      " {price}",
+      params: {"price": "\$${clothing.makePrice + armor.makePrice}"},
     );
 
     if (clothing.allowedArmor.length > 1) {

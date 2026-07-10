@@ -270,8 +270,34 @@ void main() {
           'A huge crowd gathered downtown today for a march celebrating LGBT rights',
         ),
       );
-      expect(majorEvent, isNot(contains("There's no good news story for \$view")));
-      expect(majorEvent, isNot(contains("There's no bad news story for \$view")));
+      expect(
+        majorEvent,
+        isNot(contains("There's no good news story for \$view")),
+      );
+      expect(
+        majorEvent,
+        isNot(contains("There's no bad news story for \$view")),
+      );
+      expect(
+        majorEvent,
+        contains(
+          r'{city} - A local wedding venue has conducted a so-called \"wedding\" between a {person} and {partner}.',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          '{city} - Chaos erupted online after self-proclaimed drug expert {drugExpert}',
+        ),
+      );
+      expect(
+        majorEvent,
+        isNot(contains(r'"${randomCityName()} - A local wedding venue')),
+      );
+      expect(
+        majorEvent,
+        isNot(contains(r'"${randomCityName()} - Chaos erupted online')),
+      );
       expect(majorEvent, contains("There's no good news story for {view}"));
       expect(majorEvent, contains("There's no bad news story for {view}"));
       expect(
@@ -359,6 +385,102 @@ void main() {
       expect(
         majorEvent,
         contains('As the U.S. military prepares to deploy to the {country}'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - {victim}, a {victimLabel}, was {murdered}'),
+      );
+      expect(
+        majorEvent,
+        contains(
+          '{city} - A student has gone on a {shootingRampage} at a local {school}.',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          '{modifier} {noun}: A new book further documenting the other side of Reagan.',
+        ),
+      );
+      expect(majorEvent, contains('{name} Clinic'));
+      expect(majorEvent, contains('{name} Correctional Facility'));
+      expect(
+        majorEvent,
+        contains(
+          '{city} - A former prisoner has written a book describing in horrifying detail',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains('Washington, DC - The FBI might be keeping tabs on you.'),
+      );
+      expect(
+        majorEvent,
+        contains(
+          "{city} - A children's story has been removed from libraries here",
+        ),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - Conservative federal judge {judge} has resigned'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - Well-known AM radio personality {radioHost}'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - Masked ICE agents seized dozens of people'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - {company} has announced a major overhaul'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - Two police officers, {officer1} and {officer2}'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - Police officer {officer} is under investigation'),
+      );
+      expect(
+        majorEvent,
+        contains('{city} - Police raided a warehouse where dozens'),
+      );
+      expect(
+        majorEvent,
+        contains('Washington, D.C. - Photos leaked from an overseas facility'),
+      );
+    });
+
+    test('menu, hospital, and debt-receipt output use full templates', () {
+      final newGame = File('lib/title_screen/new_game.dart').readAsStringSync();
+      final flag = File('lib/basemode/flag.dart').readAsStringSync();
+      final advanceDay = File('lib/daily/advance_day.dart').readAsStringSync();
+      final dailySiege = File('lib/daily/siege.dart').readAsStringSync();
+      final locationSiege = File('lib/location/siege.dart').readAsStringSync();
+
+      expect(newGame, isNot(contains(r'"$key - $category:"')));
+      expect(newGame, contains('"{key} - {category}:"'));
+      expect(flag, isNot(contains(r'"$key - ${flag.name}"')));
+      expect(flag, contains('"{key} - {name}"'));
+      expect(advanceDay, contains('{name} is being discharged from {site}.'));
+      expect(
+        dailySiege,
+        contains(
+          'A small fleet of ambulances surrounds the front of {location}.',
+        ),
+      );
+      expect(
+        dailySiege,
+        contains(
+          'Hospital debt collectors are moving to settle with the {location}.',
+        ),
+      );
+      expect(
+        locationSiege,
+        contains('MEDICAL DEBT COLLECTION RECEIPT FOR {location}:'),
       );
     });
 

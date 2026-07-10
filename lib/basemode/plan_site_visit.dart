@@ -124,8 +124,8 @@ Future<void> planSiteVisit() async {
       if (!haveCar) addstrc(yellow, " (Need Car)");
       addstrc(
         ledger.funds < ticketPrice ? red : green,
-        " (\${price})",
-        params: {"price": ticketPrice.toString()},
+        " ({price})",
+        params: {"price": "\$$ticketPrice"},
       );
     }
     setColor(lightGray);

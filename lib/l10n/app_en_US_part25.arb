@@ -161,6 +161,7 @@
   "showing price discrimination depending on the race of the patient.": "showing price discrimination depending on the race of the patient.",
   "smashed the guard's skull with the toilet seat from ": "smashed the guard's skull with the toilet seat from ",
   "some have hailed the new methods as the next stage in ": "some have hailed the new methods as the next stage in ",
+  "spraying bullets at": "spraying bullets at",
   "surrounding area yesterday.": "surrounding area yesterday.",
   "t come in.\"\",\n              {\"comment\": noProfanity ? \"[I won": "t come in.\"\",\n              {\"comment\": noProfanity ? \"[I won",
   "t keep up.\",\n        \"{vehicle} gives up as {driver} loses confidence.\",\n        \"{vehicle} trails behind and is lost.\",\n        \"{vehicle} vanishes far behind you.\",\n        \"{vehicle} is left behind.\",\n        \"{vehicle} can": "t keep up.\",\n        \"{vehicle} gives up as {driver} loses confidence.\",\n        \"{vehicle} trails behind and is lost.\",\n        \"{vehicle} vanishes far behind you.\",\n        \"{vehicle} is left behind.\",\n        \"{vehicle} can",
@@ -181,6 +182,7 @@
   "{key} - {name}": "{key} - {name}",
   "{location} Defense": "{location} Defense",
   "{mood}% of people have Liberal views": "{mood}% of people have Liberal views",
+  "{name} Clinic": "{name} Clinic",
   "{name} Cosmetics": "{name} Cosmetics",
   "{name} Genetics": "{name} Genetics",
   "{name} couldn't afford the supplies to run their class.": "{name} couldn't afford the supplies to run their class.",
@@ -206,6 +208,7 @@
   "{name}, {title}": "{name}, {title}",
   "{newboss} will take over for ": "{newboss} will take over for ",
   "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.",
+  "{possessive} arm was broken in multiple places": "{possessive} arm was broken in multiple places",
   "{properName}, aka {name}, is arrested.": "{properName}, aka {name}, is arrested.",
   "{vehicle} draws dangerously close!": "{vehicle} draws dangerously close!"
 }

@@ -89,7 +89,7 @@ Future<void> investInLocation(Site loc) async {
           13,
           1,
           "P",
-          "P - Install a battery and Solar Panel array on the roof (\${cost})",
+          "P - Install a battery and Solar Panel array on the roof ({cost})",
           params: {"cost": "\$${solarCost ~/ 1000},000"},
           enabledWhen: ledger.funds >= solarCost,
         );
@@ -144,7 +144,7 @@ Future<void> investInLocation(Site loc) async {
         18,
         1,
         "D",
-        "D - Stockpile 5 days of diesel for the generator (\${cost})",
+        "D - Stockpile 5 days of diesel for the generator ({cost})",
         params: {"cost": "\$$dieselCost"},
         enabledWhen: ledger.funds >= dieselCost,
       );

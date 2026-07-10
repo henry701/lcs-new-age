@@ -165,14 +165,14 @@ MajorEventContent generateMajorEventContent(
         }
         FullName doctor = generateFullName(Gender.female);
         FullName perpetrator = generateFullName(Gender.male);
-        String abortions = switch (laws[Law.genderEquality]) {
+        String abortions = LcsI18n.tr(switch (laws[Law.genderEquality]) {
           DeepAlignment.archConservative => "illegal abortion-murders",
           DeepAlignment.conservative => "illegal abortions",
           DeepAlignment.moderate => "semi-legal abortions",
           _ => "abortions",
-        };
+        });
         if (ns.publicationAlignment == DeepAlignment.eliteLiberal) {
-          abortions = "abortions";
+          abortions = LcsI18n.tr("abortions");
         }
         return MajorEventContent(
           headline: "CLINIC MURDER",
@@ -181,7 +181,9 @@ MajorEventContent generateMajorEventContent(
             {
               "city": randomCityName(),
               "abortions": abortions,
-              "clinic": "${lastName()} Clinic",
+              "clinic": LcsI18n.processString("{name} Clinic", {
+                "name": lastName(),
+              }),
               "doctor": doctor.firstLast,
               "hits": (lcsRandom(15) + 3).toString(),
               "perpetrator": perpetrator.firstLast,
@@ -204,72 +206,99 @@ MajorEventContent generateMajorEventContent(
         FullName victim = generateFullName(Gender.female);
         String victimDeadName = firstName(Gender.male);
         String victimFullName = laws[Law.lgbtRights]! < DeepAlignment.moderate
-            ? "$victimDeadName ${victim.last}"
+            ? LcsI18n.processString("{first} {last}", {
+                "first": victimDeadName,
+                "last": victim.last,
+              })
             : victim.firstLast;
         String victimLabel = switch (laws[Law.lgbtRights]) {
           DeepAlignment.archConservative =>
-            "${noProfanity ? "[confused man]" : "tranny"} calling himself \"${victim.first}\"",
-          DeepAlignment.conservative =>
-            "transsexual calling himself \"${victim.first}\"",
-          _ => "trans woman",
+            LcsI18n.processString("{description} calling himself \"{name}\"", {
+              "description": LcsI18n.tr(
+                noProfanity ? "[confused man]" : "tranny",
+              ),
+              "name": victim.first,
+            }),
+          DeepAlignment.conservative => LcsI18n.processString(
+            "transsexual calling himself \"{name}\"",
+            {"name": victim.first},
+          ),
+          _ => LcsI18n.tr("trans woman"),
         };
         if (zeroCensorship) {
-          victimLabel = "trans woman";
+          victimLabel = LcsI18n.tr("trans woman");
         }
-        String murdered = [
-          "dragged to death behind a pickup truck",
-          "burned alive",
-          "beaten to death",
-        ].random;
-        String actionTowardPolice = [
-          "throwing ${maxCensorship ? "[juice boxes]" : "beer bottles"}",
-          "${maxCensorship ? "[relieving themselves]" : "pissing"} out the window",
+        String murdered = LcsI18n.tr(
+          [
+            "dragged to death behind a pickup truck",
+            "burned alive",
+            "beaten to death",
+          ].random,
+        );
+        final actionTowardPoliceOptions = [
+          if (maxCensorship)
+            "throwing [juice boxes]"
+          else
+            "throwing beer bottles",
+          if (maxCensorship)
+            "[relieving themselves] out the window"
+          else
+            "pissing out the window",
           "taking swipes",
-        ].random;
-        String chaseEnd = [
-          "ran out of gas",
-          "collided with a manure truck",
-          "veered into a ditch",
-          "were surrounded by alert citizens",
-          "were caught in traffic",
-        ].random;
-        String despiteTheBan = switch (laws[Law.lgbtRights]) {
-          DeepAlignment.archConservative =>
-            noProfanity
-                ? ", even though transgenderism is deviant, as we all know"
-                : ", despite the fact that $victimFullName was a known transsexual",
-          _ => "",
-        };
-        String authorities = "Authorities";
+        ];
+        String actionTowardPolice = LcsI18n.tr(
+          actionTowardPoliceOptions.random,
+        );
+        String chaseEnd = LcsI18n.tr(
+          [
+            "ran out of gas",
+            "collided with a manure truck",
+            "veered into a ditch",
+            "were surrounded by alert citizens",
+            "were caught in traffic",
+          ].random,
+        );
+        String authorities = LcsI18n.tr("Authorities");
         if (ns.publicationAlignment == DeepAlignment.eliteLiberal) {
-          despiteTheBan = "";
-          victimLabel = "trans woman";
-          authorities = "In a rare case of justice, authorities";
+          victimLabel = LcsI18n.tr("trans woman");
+          authorities = LcsI18n.tr("In a rare case of justice, authorities");
         }
+        String prosecution = LcsI18n.processString(
+          laws[Law.lgbtRights] == DeepAlignment.archConservative &&
+                  ns.publicationAlignment != DeepAlignment.eliteLiberal
+              ? noProfanity
+                    ? "{authorities} have stated that they will vigorously prosecute this case as a hate crime, due to the aggravated nature of the offense, even though transgenderism is deviant, as we all know."
+                    : "{authorities} have stated that they will vigorously prosecute this case as a hate crime, due to the aggravated nature of the offense, despite the fact that {victim} was a known transsexual."
+              : "{authorities} have stated that they will vigorously prosecute this case as a hate crime, due to the aggravated nature of the offense.",
+          {"authorities": authorities, "victim": victimFullName},
+        );
 
         return MajorEventContent(
           headline: "CRIME OF HATE",
-          storyText:
-              "${randomCityName()} - $victimFullName, a "
-              "$victimLabel, was $murdered here yesterday.  "
-              "A police spokesperson reported that "
-              "four suspects were apprehended after a high speed chase.  Their "
-              "names have not yet been released.&r"
-              "  Witnesses of the freeway chase described the pickup of the "
-              "alleged murderers swerving wildly, $actionTowardPolice at the "
-              "pursuing police cruisers.  The chase ended when "
-              "the suspects $chaseEnd, at which point they were taken into "
-              "custody.  Nobody was seriously injured during the pursuit.&r"
-              "  $authorities have stated that they will vigorously prosecute "
-              "this case as a hate crime, due to the aggravated nature of the "
-              "offense$despiteTheBan.&r",
+          storyText: LcsI18n.processString(
+            "{city} - {victim}, a {victimLabel}, was {murdered} here yesterday.  A police spokesperson reported that four suspects were apprehended after a high speed chase.  Their names have not yet been released.&r  Witnesses of the freeway chase described the pickup of the alleged murderers swerving wildly, {actionTowardPolice} at the pursuing police cruisers.  The chase ended when the suspects {chaseEnd}, at which point they were taken into custody.  Nobody was seriously injured during the pursuit.&r  {prosecution}&r",
+            {
+              "city": randomCityName(),
+              "victim": victimFullName,
+              "victimLabel": victimLabel,
+              "murdered": murdered,
+              "actionTowardPolice": actionTowardPolice,
+              "chaseEnd": chaseEnd,
+              "prosecution": prosecution,
+            },
+          ),
         );
       case View.deathPenalty:
         FullName victim = generateFullName(Gender.male);
         String timeOfDeath =
-            "${lcsRandom(12) + 1}:${lcsRandom(6)}${lcsRandom(10)} ${oneIn(2) ? "AM" : "PM"}";
+            LcsI18n.processString("{hour}:{tens}{ones} {period}", {
+              "hour": lcsRandom(12) + 1,
+              "tens": lcsRandom(6),
+              "ones": lcsRandom(10),
+              "period": LcsI18n.tr(oneIn(2) ? "AM" : "PM"),
+            });
         int yearConvicted = year - lcsRandom(11) - 10;
-        String byExecutionMethod = switch (laws[Law.deathPenalty]) {
+        String byExecutionMethod = LcsI18n.tr(switch (laws[Law.deathPenalty]) {
           DeepAlignment.archConservative => [
             "on the cross",
             "in a fire ant nest",
@@ -281,17 +310,22 @@ MajorEventContent generateMajorEventContent(
             "in the electric chair",
           ].random,
           _ => "by lethal injection",
-        };
+        });
         String exculpatoryEvidence = [
-          "a confession from another convict",
-          "a battery of negative DNA tests",
-          "an admission from a former prosecutor that ${victim.last} was framed",
+          LcsI18n.tr("a confession from another convict"),
+          LcsI18n.tr("a battery of negative DNA tests"),
+          LcsI18n.processString(
+            "an admission from a former prosecutor that {name} was framed",
+            {"name": victim.last},
+          ),
         ].random;
-        String awfulReason = [
-          "Black male, 5'10\", 180 pounds.  We have our man, no question.",
-          "He was found guilty in a court of law.  End of story.",
-          "Anyone who kills innocent people deserves death.",
-        ].random;
+        String awfulReason = LcsI18n.tr(
+          [
+            "Black male, 5'10\", 180 pounds.  We have our man, no question.",
+            "He was found guilty in a court of law.  End of story.",
+            "Anyone who kills innocent people deserves death.",
+          ].random,
+        );
 
         return MajorEventContent(
           headline: "JUSTICE DEAD",
@@ -302,7 +336,10 @@ MajorEventContent generateMajorEventContent(
               "method": byExecutionMethod,
               "victim": victim.firstLast,
               "time": timeOfDeath,
-              "facility": "${lastName()} Correctional Facility",
+              "facility": LcsI18n.processString(
+                "{name} Correctional Facility",
+                {"name": lastName()},
+              ),
               "victimLast": victim.last,
               "year": yearConvicted.toString(),
               "evidence": exculpatoryEvidence,
@@ -313,79 +350,103 @@ MajorEventContent generateMajorEventContent(
       case View.gunControl:
         FullName shooter = generateFullName(Gender.whiteMalePatriarch);
         int schoolType = lcsRandom(4);
-        String school = [
-          "elementary school",
-          "middle school",
-          "high school",
-          "university",
-        ][schoolType];
-        String shooterAge = "${lcsRandom(6) + 6 + schoolType * 4}";
+        String school = LcsI18n.tr(
+          [
+            "elementary school",
+            "middle school",
+            "high school",
+            "university",
+          ][schoolType],
+        );
+        String shooterAge = (lcsRandom(6) + 6 + schoolType * 4).toString();
         String beforePolice =
             noProfanity && ns.publicationAlignment != DeepAlignment.eliteLiberal
-            ? "[hurt some people]"
-            : "killed ${2 + lcsRandom(30)} and wounded dozens more";
+            ? LcsI18n.tr("[hurt some people]")
+            : LcsI18n.processString("killed {count} and wounded dozens more", {
+                "count": 2 + lcsRandom(30),
+              });
         String unalived =
             noProfanity && ns.publicationAlignment != DeepAlignment.eliteLiberal
-            ? "[decided to stop]"
-            : "committed suicide";
+            ? LcsI18n.tr("[decided to stop]")
+            : LcsI18n.tr("committed suicide");
         String shootingRampage =
             noProfanity && ns.publicationAlignment != DeepAlignment.eliteLiberal
-            ? "[hurting spree]"
-            : "shooting rampage";
+            ? LcsI18n.tr("[hurting spree]")
+            : LcsI18n.tr("shooting rampage");
         String mowDown =
             noProfanity && ns.publicationAlignment != DeepAlignment.eliteLiberal
-            ? "[scare]"
-            : "mow down";
+            ? LcsI18n.tr("[scare]")
+            : LcsI18n.tr("mow down");
         String sprayingBulletsAt =
             noProfanity && ns.publicationAlignment != DeepAlignment.eliteLiberal
-            ? "[scaring]"
-            : "spraying bullets at";
+            ? LcsI18n.tr("[scaring]")
+            : LcsI18n.tr("spraying bullets at");
         String shot =
             noProfanity && ns.publicationAlignment != DeepAlignment.eliteLiberal
-            ? "[scared]"
-            : "shot";
+            ? LcsI18n.tr("[scared]")
+            : LcsI18n.tr("shot");
         String finallyArrived =
             ns.publicationAlignment == DeepAlignment.eliteLiberal
-            ? "finally arrived after forty minutes of loitering around "
-                  "uselessly outside the school"
-            : "arrived";
+            ? LcsI18n.tr(
+                "finally arrived after forty minutes of loitering around uselessly outside the school",
+              )
+            : LcsI18n.tr("arrived");
         String policeWereUseless =
             ns.publicationAlignment == DeepAlignment.eliteLiberal
-            ? "  The police did not enter the building at any point while "
-                  "the shooting was ongoing."
+            ? LcsI18n.tr(
+                "The police did not enter the building at any point while the shooting was ongoing.",
+              )
             : "";
         String journalFinding =
             ns.publicationAlignment == DeepAlignment.eliteLiberal
-            ? "surprised at how easy it was to get his hands on the guns"
-            : "disturbingly obsessed with guns and death";
+            ? LcsI18n.tr(
+                "surprised at how easy it was to get his hands on the guns",
+              )
+            : LcsI18n.tr("disturbingly obsessed with guns and death");
+        String schoolName = LcsI18n.processString("{name} {school}", {
+          "name": lastName(),
+          "school": school,
+        });
 
         return MajorEventContent(
           headline: "MASS SHOOTING",
-          storyText:
-              "${randomCityName()} - A student has gone on a "
-              "$shootingRampage at a local $school.  ${shooter.firstLast}, "
-              "$shooterAge, used a variety of "
-              "guns to $mowDown more than a dozen "
-              "classmates and two teachers at ${lastName()} $school.  "
-              "${shooter.firstLast} entered the $school while classes were in "
-              "session, then systematically started breaking into classrooms, "
-              "$sprayingBulletsAt students and "
-              "teachers inside.  When other students tried to wrestle the "
-              "weapons away from ${shooter.last}, they were "
-              "$shot as well.&r"
-              "  When the police $finallyArrived, the student had already "
-              "$beforePolice.  ${shooter.first} $unalived shortly afterwards."
-              "$policeWereUseless&r"
-              "  Investigators are currently searching the student's "
-              "belongings, and initial reports indicate that the student kept a "
-              "journal that showed ${shooter.first} was $journalFinding.&r",
+          storyText: LcsI18n.processString(
+            "{city} - A student has gone on a {shootingRampage} at a local {school}.  {shooter}, {shooterAge}, used a variety of guns to {mowDown} more than a dozen classmates and two teachers at {schoolName}.  {shooter} entered the {school} while classes were in session, then systematically started breaking into classrooms, {sprayingBulletsAt} students and teachers inside.  When other students tried to wrestle the weapons away from {shooterLast}, they were {shot} as well.&r  When the police {finallyArrived}, the student had already {beforePolice}.  {shooterFirst} {unalived} shortly afterwards.  {policeWereUseless}&r  Investigators are currently searching the student's belongings, and initial reports indicate that the student kept a journal that showed {shooterFirst} was {journalFinding}.&r",
+            {
+              "city": randomCityName(),
+              "shootingRampage": shootingRampage,
+              "school": school,
+              "shooter": shooter.firstLast,
+              "shooterAge": shooterAge,
+              "mowDown": mowDown,
+              "schoolName": schoolName,
+              "sprayingBulletsAt": sprayingBulletsAt,
+              "shooterLast": shooter.last,
+              "shot": shot,
+              "finallyArrived": finallyArrived,
+              "beforePolice": beforePolice,
+              "shooterFirst": shooter.first,
+              "unalived": unalived,
+              "policeWereUseless": policeWereUseless,
+              "journalFinding": journalFinding,
+            },
+          ),
         );
       case View.taxes:
         return MajorEventContent(
           headline: "REAGAN FLAWED",
           pictureId: pictureReaganBook,
-          subheadline:
-              "${["Dark", "Shadow", "Abyssal", "Orwellian", "Craggy"].random} ${["Actor", "Lord", "Emperor", "Puppet", "Dementia"].random}: A new book further documenting the other side of Reagan.",
+          subheadline: LcsI18n.processString(
+            "{modifier} {noun}: A new book further documenting the other side of Reagan.",
+            {
+              "modifier": LcsI18n.tr(
+                ["Dark", "Shadow", "Abyssal", "Orwellian", "Craggy"].random,
+              ),
+              "noun": LcsI18n.tr(
+                ["Actor", "Lord", "Emperor", "Puppet", "Dementia"].random,
+              ),
+            },
+          ),
         );
       case View.nuclearPower:
         return const MajorEventContent(
@@ -402,127 +463,125 @@ MajorEventContent generateMajorEventContent(
         );
       case View.prisons:
         FullName author = generateFullName();
-        String book =
-            "${[
-              "Nightmare", "Primal", "American", "Solitary", "The Pain",
-              "Orange", //
-            ].random} ${[
-              "Punk", "Kid", "Cell", "Shank", "Lockdown", "Inside", //
-            ].random}";
-        final tourDeForceText = LcsI18n.processString(
-          "have these works been as poignant as {author}'s new tour-de-force, {book}.&r",
-          {"author": author.firstLast, "book": book},
-        );
+        String book = LcsI18n.processString("{adjective} {noun}", {
+          "adjective": LcsI18n.tr(
+            [
+              "Nightmare",
+              "Primal",
+              "American",
+              "Solitary",
+              "The Pain",
+              "Orange",
+            ].random,
+          ),
+          "noun": LcsI18n.tr(
+            ["Punk", "Kid", "Cell", "Shank", "Lockdown", "Inside"].random,
+          ),
+        });
         return MajorEventContent(
           headline: "ON THE INSIDE",
-          storyText:
-              "${randomCityName()}"
-              " - A former prisoner has written a book describing in horrifying "
-              "detail what goes on behind bars.  "
-              "Although popular culture has used, or perhaps overused, the "
-              "prison theme lately in its offerings for mass consumption, rarely "
-              "$tourDeForceText"
-              "  Take this excerpt, \""
-              "Boots echoed in the corridor——three sets, measured, methodical.  "
-              "The guards never rushed. They enjoyed this part.&r"
-              "  \"You,\" one "
-              "snapped.  The baton swung before the word finished, sharpened by "
-              "boredom, aimed with deliberate cruelty.  The force was enough to "
-              "fold me in half.&r"
-              "  \"The others laughed——short, clipped sounds, "
-              "born of habit rather than amusement.  They hauled me up, shoving "
-              "me forward, past cells packed with hollow men.  The dim bulbs "
-              "hummed overhead, flickering weakly, as if even the light wanted to "
-              "leave.  I didn't ask where we were going.  The answer never "
-              "mattered.\"&r",
+          storyText: LcsI18n.processString(
+            "{city} - A former prisoner has written a book describing in horrifying detail what goes on behind bars.  Although popular culture has used, or perhaps overused, the prison theme lately in its offerings for mass consumption, rarely have these works been as poignant as {author}'s new tour-de-force, {book}.&r  Take this excerpt, \"Boots echoed in the corridor——three sets, measured, methodical.  The guards never rushed. They enjoyed this part.&r  \"You,\" one snapped.  The baton swung before the word finished, sharpened by boredom, aimed with deliberate cruelty.  The force was enough to fold me in half.&r  \"The others laughed——short, clipped sounds, born of habit rather than amusement.  They hauled me up, shoving me forward, past cells packed with hollow men.  The dim bulbs hummed overhead, flickering weakly, as if even the light wanted to leave.  I didn't ask where we were going.  The answer never mattered.\"&r",
+            {
+              "city": randomCityName(),
+              "author": author.firstLast,
+              "book": book,
+            },
+          ),
         );
       case View.intelligence:
-        String harmlessBehavior = [
-          "buying music with 'Explicit Lyrics' labels",
-          "helping homeless people",
-          "eating at vegan restaurants",
-          "drinking soy milk",
-          "reading too many books",
-        ].random;
+        String harmlessBehavior = LcsI18n.tr(
+          [
+            "buying music with 'Explicit Lyrics' labels",
+            "helping homeless people",
+            "eating at vegan restaurants",
+            "drinking soy milk",
+            "reading too many books",
+          ].random,
+        );
 
         return MajorEventContent(
           headline: "THE FBI FILES",
-          storyText:
-              "Washington, DC - The FBI might be keeping tabs on you.  "
-              "This newspaper yesterday received a collection of files from "
-              "a source in the Federal Bureau of Investigations.  The files "
-              "contain information on which people have been attending "
-              "demonstrations, organizing unions, working for liberal "
-              "organizations——even $harmlessBehavior.&r"
-              "  More disturbingly, the files make reference to a plan to "
-              "\"deal with the undesirables\", although this phrase is not "
-              "clarified.&r"
-              "  The FBI refused to comment initially, but when confronted "
-              "with the information, a spokesperson stated, \""
-              "Well, you know, there's privacy, and then there's privacy.  "
-              "It might be a bit presumptive to assume that these files deal "
-              "with the one and not the other.  You think about that before "
-              "you continue slanging accusations.\"&r",
+          storyText: LcsI18n.processString(
+            "Washington, DC - The FBI might be keeping tabs on you.  This newspaper yesterday received a collection of files from a source in the Federal Bureau of Investigations.  The files contain information on which people have been attending demonstrations, organizing unions, working for liberal organizations——even {behavior}.&r  More disturbingly, the files make reference to a plan to \"deal with the undesirables\", although this phrase is not clarified.&r  The FBI refused to comment initially, but when confronted with the information, a spokesperson stated, \"Well, you know, there's privacy, and then there's privacy.  It might be a bit presumptive to assume that these files deal with the one and not the other.  You think about that before you continue slanging accusations.\"&r",
+            {"behavior": harmlessBehavior},
+          ),
         );
       case View.freeSpeech:
         String protagonist = firstName();
-        final adjective = [
-          "Mysterious", "Magical", "Golden", "Invisible", //
-          "Wondrous", "Amazing", "Secret",
-        ].random;
-        final noun = [
-          "School", "Castle", "Forest", "Wizard", //
-          "Thing", "Object", "Friend",
-        ].random;
+        final adjective = LcsI18n.tr(
+          [
+            "Mysterious", "Magical", "Golden", "Invisible", //
+            "Wondrous", "Amazing", "Secret",
+          ].random,
+        );
+        final noun = LcsI18n.tr(
+          [
+            "School", "Castle", "Forest", "Wizard", //
+            "Thing", "Object", "Friend",
+          ].random,
+        );
         String bookTitle = LcsI18n.processString(
           "{protagonist} and the {adjective} {noun}",
           {"protagonist": protagonist, "adjective": adjective, "noun": noun},
         );
         FullName author = generateFullName();
         String authorName =
-            "${author.first} ${author.middle.substring(0, 1)}. ${author.last}";
-        String nationality = [
-          "British", "Indian", "Chinese", "Rwandan", //
-          "Palestinian", "Egyptian", "French", "German",
-          "Iraqi", "Bolivian", "Columbian",
-        ].random;
-        String ridiculousBanReason = [
-          "glorifies Satan worship and was spawned by demons from the pit",
-          "teaches children to kill their parents and hate life",
-          "causes violence in schools and is a gateway to cocaine use",
-          "breeds demonic thoughts that manifest themselves as dreams of murder",
-          "contains step-by-step instructions to summon the Prince of Darkness",
-        ].random;
+            LcsI18n.processString("{first} {middleInitial}. {last}", {
+              "first": author.first,
+              "middleInitial": author.middle.substring(0, 1),
+              "last": author.last,
+            });
+        String nationality = LcsI18n.tr(
+          [
+            "British", "Indian", "Chinese", "Rwandan", //
+            "Palestinian", "Egyptian", "French", "German",
+            "Iraqi", "Bolivian", "Columbian",
+          ].random,
+        );
+        String ridiculousBanReason = LcsI18n.tr(
+          [
+            "glorifies Satan worship and was spawned by demons from the pit",
+            "teaches children to kill their parents and hate life",
+            "causes violence in schools and is a gateway to cocaine use",
+            "breeds demonic thoughts that manifest themselves as dreams of murder",
+            "contains step-by-step instructions to summon the Prince of Darkness",
+          ].random,
+        );
         String childMisbehavior = [
-          "swore in class",
-          "cried because the story was too scary",
-          "said a magic spell at her parents",
-          "refused to eat her vegetables",
-          "threw a tantrum and refused to go to bed on time",
-          "${["pushed", "hit", "slapped", "insulted", "tripped"].random} "
-              "${["his", "her"].random} ${["older", "younger"].random} "
-              "${["brother", "sister"].random}",
+          LcsI18n.tr("swore in class"),
+          LcsI18n.tr("cried because the story was too scary"),
+          LcsI18n.tr("said a magic spell at her parents"),
+          LcsI18n.tr("refused to eat her vegetables"),
+          LcsI18n.tr("threw a tantrum and refused to go to bed on time"),
+          LcsI18n.processString("{action} {pronoun} {age} {sibling}", {
+            "action": LcsI18n.tr(
+              ["pushed", "hit", "slapped", "insulted", "tripped"].random,
+            ),
+            "pronoun": LcsI18n.tr(["his", "her"].random),
+            "age": LcsI18n.tr(["older", "younger"].random),
+            "sibling": LcsI18n.tr(["brother", "sister"].random),
+          }),
         ].random;
-        String sadChildQuote = [
-          "Mamma, is $protagonist dead?",
-          "Mamma, why did they kill $protagonist?",
-        ].random;
+        String sadChildQuote = LcsI18n.processString(
+          ["Mamma, is {name} dead?", "Mamma, why did they kill {name}?"].random,
+          {"name": protagonist},
+        );
 
         return MajorEventContent(
           headline: "BOOK BANNED",
-          storyText:
-              "${randomCityName()} - A children's story has been removed "
-              "from libraries here after the city bowed to pressure from "
-              "religious groups.&r"
-              "  The book, $bookTitle, is an immensely popular book by "
-              "$nationality author $authorName.  Although the title is "
-              "adored by children worldwide, some conservatives feel that "
-              "the book $ridiculousBanReason.  In their complaint, the groups "
-              "cited an incident involving a child that $childMisbehavior "
-              "as key evidence of the dark nature of the book.&r"
-              "  When the decision to ban the book was announced yesterday, "
-              "many area children spontaneously broke into tears.  One child "
-              "was heard saying, \"$sadChildQuote\"&r",
+          storyText: LcsI18n.processString(
+            "{city} - A children's story has been removed from libraries here after the city bowed to pressure from religious groups.&r  The book, {bookTitle}, is an immensely popular book by {nationality} author {authorName}.  Although the title is adored by children worldwide, some conservatives feel that the book {ridiculousBanReason}.  In their complaint, the groups cited an incident involving a child that {childMisbehavior} as key evidence of the dark nature of the book.&r  When the decision to ban the book was announced yesterday, many area children spontaneously broke into tears.  One child was heard saying, \"{sadChildQuote}\"&r",
+            {
+              "city": randomCityName(),
+              "bookTitle": bookTitle,
+              "nationality": nationality,
+              "authorName": authorName,
+              "ridiculousBanReason": ridiculousBanReason,
+              "childMisbehavior": childMisbehavior,
+              "sadChildQuote": sadChildQuote,
+            },
+          ),
         );
       case View.genetics:
         return const MajorEventContent(
@@ -534,42 +593,47 @@ MajorEventContent generateMajorEventContent(
       case View.justices:
         FullName judge = generateFullName(Gender.whiteMalePatriarch);
         FullName prostitute = generateFullName();
-        String judgeDid = [
-          "defied the federal government by putting a Ten Commandments monument in the local federal building",
-          "stated that, \"Segregation wasn't the bad idea everybody makes it out to be these days\"",
-        ].random;
-        String whatPoliceSaw = [
-          "the most perverse and spine-tingling debauchery imaginable, at least with only two people",
-          "the judge going to the bathroom in the vicinity of the prostitute",
-          "the prostitute hollering like a cowboy astride the judge",
-        ].random;
-        String prostituteLabel = "prostitute";
+        String judgeDid = LcsI18n.tr(
+          [
+            "defied the federal government by putting a Ten Commandments monument in the local federal building",
+            "stated that, \"Segregation wasn't the bad idea everybody makes it out to be these days\"",
+          ].random,
+        );
+        String whatPoliceSaw = LcsI18n.tr(
+          [
+            "the most perverse and spine-tingling debauchery imaginable, at least with only two people",
+            "the judge going to the bathroom in the vicinity of the prostitute",
+            "the prostitute hollering like a cowboy astride the judge",
+          ].random,
+        );
+        String prostituteLabel = LcsI18n.tr("prostitute");
         if (noProfanity &&
             ns.publicationAlignment != DeepAlignment.eliteLiberal) {
-          prostituteLabel = "[civil servant]";
+          prostituteLabel = LcsI18n.tr("[civil servant]");
         }
-        String whatTheJudgeOffered = [
-          "the arresting officers money",
-          "to let the officers join in",
-          "the arresting officers \"favors\"",
-        ].random;
+        String whatTheJudgeOffered = LcsI18n.tr(
+          [
+            "the arresting officers money",
+            "to let the officers join in",
+            "the arresting officers \"favors\"",
+          ].random,
+        );
 
         return MajorEventContent(
           headline: "IN CONTEMPT",
-          storyText:
-              "${randomCityName()} - Conservative federal judge "
-              "${judge.firstLast} has resigned in disgrace after being caught with a "
-              "$prostituteLabel.&r"
-              "  ${judge.last}, who once $judgeDid, was found with ${prostitute.firstLast} "
-              "last week in a hotel during a police sting operation.  "
-              "According to sources familiar with the particulars, "
-              "when police broke into the hotel room they saw $whatPoliceSaw.  "
-              "${judge.last} reportedly offered $whatTheJudgeOffered "
-              "in exchange for their silence.&r"
-              "  ${judge.last} could not be reached for comment, although an "
-              "aide stated that the judge would be going on a Bible retreat "
-              "for a few weeks to \"Make things right with the Almighty "
-              "Father.\"&r",
+          storyText: LcsI18n.processString(
+            "{city} - Conservative federal judge {judge} has resigned in disgrace after being caught with a {prostituteLabel}.&r  {judgeLast}, who once {judgeDid}, was found with {prostitute} last week in a hotel during a police sting operation.  According to sources familiar with the particulars, when police broke into the hotel room they saw {whatPoliceSaw}.  {judgeLast} reportedly offered {whatTheJudgeOffered} in exchange for their silence.&r  {judgeLast} could not be reached for comment, although an aide stated that the judge would be going on a Bible retreat for a few weeks to \"Make things right with the Almighty Father.\"&r",
+            {
+              "city": randomCityName(),
+              "judge": judge.firstLast,
+              "prostituteLabel": prostituteLabel,
+              "judgeLast": judge.last,
+              "judgeDid": judgeDid,
+              "prostitute": prostitute.firstLast,
+              "whatPoliceSaw": whatPoliceSaw,
+              "whatTheJudgeOffered": whatTheJudgeOffered,
+            },
+          ),
         );
       case View.sweatshops:
         return const MajorEventContent(
@@ -596,18 +660,20 @@ MajorEventContent generateMajorEventContent(
         );
       case View.ceoSalary:
         String str = LcsI18n.processString("This major CEO {critique}.", {
-          "critique": [
-            "wants you to worship him like a god",
-            "only works one day a week",
-            "donated millions to the KKK",
-            "hasn't paid taxes in over 20 years",
-            "took out a contract on his wife",
-            "doesn't know what his company does",
-            "hunts endangered species for fun",
-            "imprisoned and tortured an intern",
-            "installed hidden cameras in an office bathroom",
-            "owns slaves in three countries",
-          ].random,
+          "critique": LcsI18n.tr(
+            [
+              "wants you to worship him like a god",
+              "only works one day a week",
+              "donated millions to the KKK",
+              "hasn't paid taxes in over 20 years",
+              "took out a contract on his wife",
+              "doesn't know what his company does",
+              "hunts endangered species for fun",
+              "imprisoned and tortured an intern",
+              "installed hidden cameras in an office bathroom",
+              "owns slaves in three countries",
+            ].random,
+          ),
         });
         return MajorEventContent(
           headline: "AMERICAN CEO",
@@ -617,62 +683,57 @@ MajorEventContent generateMajorEventContent(
         );
       case View.amRadio:
         FullName radioHost = generateFullName(Gender.whiteMalePatriarch);
-        String showName =
-            "${[
-              "Straight", "Real", "True", //
-            ].random} ${[
-              "Talk", "Chat", "Discussion", //
-            ].random}";
-        String wildQuote = [
-          "and the Grays are going to take over the planet in the End Times",
-          "summoning a liberal chupacabra to suck our blood from us like a goat",
-          "I feel translucent rods passing through my body...  it's like making love to the future",
-          "and it's all a conspiracy against me, they're trying to trans my gender",
-          "we're talking about a centipede species with liberal membranes between its legs",
-          "everyone who has died in the last ten years is a paid actor",
-          "under my skin is a layer of nanobots that the government uses to control my thoughts",
-          "they're using space lasers to beam gay thoughts into our brains",
-        ].random;
+        String showName = LcsI18n.processString("{adjective} {noun}", {
+          "adjective": LcsI18n.tr(["Straight", "Real", "True"].random),
+          "noun": LcsI18n.tr(["Talk", "Chat", "Discussion"].random),
+        });
+        String wildQuote = LcsI18n.tr(
+          [
+            "and the Grays are going to take over the planet in the End Times",
+            "summoning a liberal chupacabra to suck our blood from us like a goat",
+            "I feel translucent rods passing through my body...  it's like making love to the future",
+            "and it's all a conspiracy against me, they're trying to trans my gender",
+            "we're talking about a centipede species with liberal membranes between its legs",
+            "everyone who has died in the last ten years is a paid actor",
+            "under my skin is a layer of nanobots that the government uses to control my thoughts",
+            "they're using space lasers to beam gay thoughts into our brains",
+          ].random,
+        );
         FullName fan = generateFullName();
-        String fanNameForHost = [
-          "my old hero", "my old idol", "the legend", //
-        ].random;
-        String fanSwear = switch (laws[Law.freeSpeech]) {
+        String fanNameForHost = LcsI18n.tr(
+          [
+            "my old hero", "my old idol", "the legend", //
+          ].random,
+        );
+        String fanSwear = LcsI18n.tr(switch (laws[Law.freeSpeech]) {
           DeepAlignment.archConservative => "[gosh darn]",
           DeepAlignment.eliteLiberal => "goddamn",
           _ => "g*dd*mn",
-        };
+        });
         if (ns.publicationAlignment == DeepAlignment.eliteLiberal) {
-          fanSwear = "goddamn";
+          fanSwear = LcsI18n.tr("goddamn");
         }
         String lostHisMind = [
-          "lost his $fanSwear mind",
-          "maybe gone a little off the deep end",
-          "listened to a little too much Art Bell back in the day",
+          LcsI18n.processString("lost his {swear} mind", {"swear": fanSwear}),
+          LcsI18n.tr("maybe gone a little off the deep end"),
+          LcsI18n.tr("listened to a little too much Art Bell back in the day"),
         ].random;
-
-        final monologueText = LcsI18n.processString(
-          "  {name}'s monologue for the evening began the way that fans had come to expect, with attacks on the \"liberal media establishment\" and the \"elite liberal agenda\".  But ",
-          {"name": radioHost.last},
-        );
 
         return MajorEventContent(
           headline: "AM IMPLOSION",
-          storyText:
-              "${randomCityName()} - Well-known AM radio personality "
-              "${radioHost.firstLast} went off for fifteen minutes in an "
-              "inexplicable rant two nights ago during the syndicated radio "
-              "program \"$showName\".&r"
-              "$monologueText"
-              "when the radio icon said, \"$wildQuote\", a former fan of "
-              "the show, ${fan.firstLast}, knew that \"$fanNameForHost "
-              "had $lostHisMind. And after that, it just got worse and "
-              "worse.\"&r"
-              "  ${radioHost.last} issued an apology later in the program, but "
-              "the damage might already be done.  According to a poll completed "
-              "yesterday, fully half of the host's most loyal supporters have "
-              "decided to leave the program for saner pastures.  Of these, "
-              "many said that they would be switching over to the FM band.&r",
+          storyText: LcsI18n.processString(
+            "{city} - Well-known AM radio personality {radioHost} went off for fifteen minutes in an inexplicable rant two nights ago during the syndicated radio program \"{showName}\".&r  {radioHostLast}'s monologue for the evening began the way that fans had come to expect, with attacks on the \"liberal media establishment\" and the \"elite liberal agenda\".  But when the radio icon said, \"{wildQuote}\", a former fan of the show, {fan}, knew that \"{fanNameForHost} had {lostHisMind}. And after that, it just got worse and worse.\"&r  {radioHostLast} issued an apology later in the program, but the damage might already be done.  According to a poll completed yesterday, fully half of the host's most loyal supporters have decided to leave the program for saner pastures.  Of these, many said that they would be switching over to the FM band.&r",
+            {
+              "city": randomCityName(),
+              "radioHost": radioHost.firstLast,
+              "showName": showName,
+              "radioHostLast": radioHost.last,
+              "wildQuote": wildQuote,
+              "fan": fan.firstLast,
+              "fanNameForHost": fanNameForHost,
+              "lostHisMind": lostHisMind,
+            },
+          ),
         );
       case View.immigration:
         const List<String> countries = [
@@ -689,139 +750,161 @@ MajorEventContent generateMajorEventContent(
         FullName immigrant = generateFullName();
         String immigrantCountry = countries.random;
         String differentCountry = "El Salvador";
-        String immigrantJob = [
-          "housekeeper",
-          "restaurant manager",
-          "delivery worker",
-          "factory worker",
-          "construction worker",
-          "janitor",
-          "sanitation worker",
-          "security guard",
-          "high school student",
-        ].random;
+        String immigrantJob = LcsI18n.tr(
+          [
+            "housekeeper",
+            "restaurant manager",
+            "delivery worker",
+            "factory worker",
+            "construction worker",
+            "janitor",
+            "sanitation worker",
+            "security guard",
+            "high school student",
+          ].random,
+        );
         String harmlessTattoo = [
-          "${immigrant.gender.hisHer} pet cat",
-          "${immigrant.gender.hisHer} mother's name",
-          "a paw print",
-          "a peace sign",
-          "a local sports team's mascot",
-          "an American flag surrounded by hearts",
-          if (lcsInPublicEye) "the letters 'LCS'",
+          LcsI18n.tr("a pet cat"),
+          LcsI18n.tr("a mother's name"),
+          LcsI18n.tr("a paw print"),
+          LcsI18n.tr("a peace sign"),
+          LcsI18n.tr("a local sports team's mascot"),
+          LcsI18n.tr("an American flag surrounded by hearts"),
+          if (lcsInPublicEye) LcsI18n.tr("the letters 'LCS'"),
         ].random;
 
         return MajorEventContent(
           headline: "BROKEN DREAMS",
-          storyText:
-              "${randomCityName()} - Masked ICE agents seized "
-              "dozens of people off the street in what terrified residents "
-              "described as a series of kidnappings yesterday.  The "
-              "targets were immediately forced onto a plane and sent to a "
-              "prison in $differentCountry, where most of them have never "
-              "been and are being held without trial or any legal "
-              "representation.&r"
-              "  An ICE spokesperson said that everyone arrested was \"The "
-              "worst of the worst.\"  As an example, they cited "
-              "${immigrant.firstLast}, a $immigrantJob from "
-              "$immigrantCountry, and showed photos of ${immigrant.gender.hisHer} "
-              "tattoo of $harmlessTattoo as proof of gang affiliation.  "
-              "Despite these claims, most of those deported, including "
-              "${immigrant.last}, have no known criminal record.&r"
-              "  \"This should never have happened,\" said "
-              "Mayor ${lastName()}.  \"These people are valued members of our "
-              "community who came to this country to work hard and provide "
-              "for their families.  They don't deserve to be treated this "
-              "way and I wasn't elected to let our communities by terrorized "
-              "by a gang of roving kidnappers.\"&r"
-              "  The mayor has directed local police to immediately stop "
-              "cooperating with ICE.&r",
+          storyText: LcsI18n.processString(
+            "{city} - Masked ICE agents seized dozens of people off the street in what terrified residents described as a series of kidnappings yesterday.  The targets were immediately forced onto a plane and sent to a prison in {differentCountry}, where most of them have never been and are being held without trial or any legal representation.&r  An ICE spokesperson said that everyone arrested was \"The worst of the worst.\"  As an example, they cited {immigrant}, a {immigrantJob} from {immigrantCountry}, and showed photos of a tattoo of {harmlessTattoo} as proof of gang affiliation.  Despite these claims, most of those deported, including {immigrantLast}, have no known criminal record.&r  \"This should never have happened,\" said Mayor {mayor}.  \"These people are valued members of our community who came to this country to work hard and provide for their families.  They don't deserve to be treated this way and I wasn't elected to let our communities by terrorized by a gang of roving kidnappers.\"&r  The mayor has directed local police to immediately stop cooperating with ICE.&r",
+            {
+              "city": randomCityName(),
+              "differentCountry": differentCountry,
+              "immigrant": immigrant.firstLast,
+              "immigrantJob": immigrantJob,
+              "immigrantCountry": immigrantCountry,
+              "harmlessTattoo": harmlessTattoo,
+              "immigrantLast": immigrant.last,
+              "mayor": lastName(),
+            },
+          ),
         );
       case View.civilRights:
         String companyName = generateCompanyName();
         FullName incitingIncidentEmployee = generateFullName();
+        String employeePronoun = LcsI18n.tr(
+          incitingIncidentEmployee.gender.heShe,
+        );
         String incitingIncident = [
-          "was fired for complaining about racist comments made by a white employee.",
-          "was bluntly informed that ${incitingIncidentEmployee.gender.heShe} "
-              "would never be promoted because ${incitingIncidentEmployee.gender.heShe} "
-              "is black.",
-          "was denied a raise because ${incitingIncidentEmployee.gender.heShe} "
-              "was deemed to be \"not the kind of person we want around here.\"",
+          LcsI18n.tr(
+            "was fired for complaining about racist comments made by a white employee.",
+          ),
+          LcsI18n.processString(
+            "was bluntly informed that {pronoun} would never be promoted because {pronoun} is black.",
+            {"pronoun": employeePronoun},
+          ),
+          LcsI18n.processString(
+            "was denied a raise because {pronoun} was deemed to be \"not the kind of person we want around here.\"",
+            {"pronoun": employeePronoun},
+          ),
         ].random;
         return MajorEventContent(
           headline: "BOYCOTT WINS",
-          storyText:
-              "${randomCityName()} - $companyName has announced a major "
-              "overhaul of its policies after a recent boycott campaign.  "
-              "Civil rights groups had been protesting the company's "
-              "lobbying efforts in support of discriminatory policies, "
-              "and called out a number of specific examples of "
-              "discrimination, but the boycott was sparked when "
-              "${incitingIncidentEmployee.firstLast} "
-              "$incitingIncident  The boycott quickly spread "
-              "through social media, causing sales to plummet and stock "
-              "prices to crash.&r"
-              "  In a statement released yesterday, $companyName apologized "
-              "for its past actions and said that it would be \"taking a long, "
-              "hard look at its policies\" and would be \"implementing a "
-              "series of changes to ensure that $companyName is a more "
-              "inclusive and welcoming place for all employees, customers, "
-              "and suppliers, including and especially black employees "
-              "that have been the subject of unequal treatment in the "
-              "past.\"&r"
-              "  $companyName has also promised to donate \$10,000,000 "
-              "to various civil rights groups, and to settle a lawsuit that "
-              "had been filed against it by ${incitingIncidentEmployee.firstLast}.&r",
+          storyText: LcsI18n.processString(
+            "{city} - {company} has announced a major overhaul of its policies after a recent boycott campaign.  Civil rights groups had been protesting the company's lobbying efforts in support of discriminatory policies, and called out a number of specific examples of discrimination, but the boycott was sparked when {employee} {incitingIncident}  The boycott quickly spread through social media, causing sales to plummet and stock prices to crash.&r  In a statement released yesterday, {company} apologized for its past actions and said that it would be \"taking a long, hard look at its policies\" and would be \"implementing a series of changes to ensure that {company} is a more inclusive and welcoming place for all employees, customers, and suppliers, including and especially black employees that have been the subject of unequal treatment in the past.\"&r  {company} has also promised to donate \$10,000,000 to various civil rights groups, and to settle a lawsuit that had been filed against it by {employee}.&r",
+            {
+              "city": randomCityName(),
+              "company": companyName,
+              "employee": incitingIncidentEmployee.firstLast,
+              "incitingIncident": incitingIncident,
+            },
+          ),
         );
       case View.drugs:
-        String drug = ["marijuana", "psilocybin", "MDMA", "LSD"].random;
-        String benefit = [
-          "improved ability to process trauma and grief",
-          "increased empathy",
-          "better social connections",
-          "reduced stress and anxiety",
-          "deeper self-awareness",
-        ].random;
-        String someEvenHadThisOutcome = [
-          "discovered the meaning of life",
-          "learned to communicate with plants",
-          "were better people overall",
-          "invented new colors",
-          "achieved perfect inner peace",
-          "unlocked the secrets of the universe",
-          "stopped being mad about the state of the country",
-        ].random;
-        String thingYouCanDoWithTaxes = [
-          "funding schools",
-          "building parks",
-          "fixing roads",
-          "expanding healthcare",
-          "supporting the arts",
-          "protecting the environment",
-          "helping the homeless",
-        ].random;
+        String drug = LcsI18n.tr(
+          ["marijuana", "psilocybin", "MDMA", "LSD"].random,
+        );
+        String benefit = LcsI18n.tr(
+          [
+            "improved ability to process trauma and grief",
+            "increased empathy",
+            "better social connections",
+            "reduced stress and anxiety",
+            "deeper self-awareness",
+          ].random,
+        );
+        String someEvenHadThisOutcome = LcsI18n.tr(
+          [
+            "discovered the meaning of life",
+            "learned to communicate with plants",
+            "were better people overall",
+            "invented new colors",
+            "achieved perfect inner peace",
+            "unlocked the secrets of the universe",
+            "stopped being mad about the state of the country",
+          ].random,
+        );
+        String thingYouCanDoWithTaxes = LcsI18n.tr(
+          [
+            "funding schools",
+            "building parks",
+            "fixing roads",
+            "expanding healthcare",
+            "supporting the arts",
+            "protecting the environment",
+            "helping the homeless",
+          ].random,
+        );
         FullName enthusiast = generateFullName();
         String enthusiastQuote = [
-          "The only thing we have to fear is fear itself... and maybe the DEA,",
-          "I've never been more productive in my life, except for that one time I tried to organize my sock drawer by color,",
-          "The government should be more concerned about people who don't do drugs.  I think there might be something wrong with them,",
-          "If everyone did a little more $drug, we'd have world peace by next Tuesday,",
-          "I used to think the world was flat, but then I tried $drug and realized it's actually a tesseract,",
-          "The only bad trip I've ever had was when I went to Mexico and drank the water,",
-          "I'm not saying $drug is the answer to all our problems, but it's definitely the answer to most of them,",
+          LcsI18n.tr(
+            "The only thing we have to fear is fear itself... and maybe the DEA,",
+          ),
+          LcsI18n.tr(
+            "I've never been more productive in my life, except for that one time I tried to organize my sock drawer by color,",
+          ),
+          LcsI18n.tr(
+            "The government should be more concerned about people who don't do drugs.  I think there might be something wrong with them,",
+          ),
+          LcsI18n.processString(
+            "If everyone did a little more {drug}, we'd have world peace by next Tuesday,",
+            {"drug": drug},
+          ),
+          LcsI18n.processString(
+            "I used to think the world was flat, but then I tried {drug} and realized it's actually a tesseract,",
+            {"drug": drug},
+          ),
+          LcsI18n.tr(
+            "The only bad trip I've ever had was when I went to Mexico and drank the water,",
+          ),
+          LcsI18n.processString(
+            "I'm not saying {drug} is the answer to all our problems, but it's definitely the answer to most of them,",
+            {"drug": drug},
+          ),
         ].random;
         String enthusiastActivity = [
-          "carefully arranging a collection of crystals in a perfect Fibonacci spiral",
-          "delicately stacking individual grains of rice into a perfect pyramid",
-          "slowly petting a cat and whispering detailed complements about its fur texture",
-          "using a ruler to ensure every piece of popcorn was evenly spaced in a bowl",
-          "precisely measuring the distance between bites of ${enthusiast.gender.hisHer} sandwich",
+          LcsI18n.tr(
+            "carefully arranging a collection of crystals in a perfect Fibonacci spiral",
+          ),
+          LcsI18n.tr(
+            "delicately stacking individual grains of rice into a perfect pyramid",
+          ),
+          LcsI18n.tr(
+            "slowly petting a cat and whispering detailed complements about its fur texture",
+          ),
+          LcsI18n.tr(
+            "using a ruler to ensure every piece of popcorn was evenly spaced in a bowl",
+          ),
+          LcsI18n.tr(
+            "precisely measuring the distance between bites of a sandwich",
+          ),
         ].random;
-        String legalizing = switch (politics.laws[Law.drugs]!) {
+        String legalizing = LcsI18n.tr(switch (politics.laws[Law.drugs]!) {
           DeepAlignment.archConservative ||
           DeepAlignment.conservative => "decriminalizing",
           DeepAlignment.moderate || DeepAlignment.liberal => "legalizing",
           DeepAlignment.eliteLiberal => "subsidizing",
-        };
+        });
 
         return MajorEventContent(
           headline: "DRUG STUDY",
@@ -851,31 +934,52 @@ MajorEventContent generateMajorEventContent(
         String countryShort = country.shortName;
         String city = country.capital;
         String supposedMission = [
-          "protecting our democracy",
-          "stopping the spread of communism",
-          "protecting us from that warlord ${lastName()}",
-          "promoting peace and stability",
+          LcsI18n.tr("protecting our democracy"),
+          LcsI18n.tr("stopping the spread of communism"),
+          LcsI18n.processString("protecting us from that warlord {name}", {
+            "name": lastName(),
+          }),
+          LcsI18n.tr("promoting peace and stability"),
         ].random;
         List<String> actualActivities = [
-          "giving guns to people with no training who end up killing our own people",
-          "raining drone strikes down on our families and children",
-          "giving cash aid that goes directly to the pockets of corrupt officials",
-          "protecting your corporate interests while they violate our local labor laws",
-          "torturing prisoners who you just end up releasing without charges",
-          "intercepting shipments of food and medical supplies we desperately need",
-          "bombing our electricity and water infrastructure",
-          "providing weapons to militias so they can pursue ethnic cleansing and make the violence even worse",
+          LcsI18n.tr(
+            "giving guns to people with no training who end up killing our own people",
+          ),
+          LcsI18n.tr("raining drone strikes down on our families and children"),
+          LcsI18n.tr(
+            "giving cash aid that goes directly to the pockets of corrupt officials",
+          ),
+          LcsI18n.tr(
+            "protecting your corporate interests while they violate our local labor laws",
+          ),
+          LcsI18n.tr(
+            "torturing prisoners who you just end up releasing without charges",
+          ),
+          LcsI18n.tr(
+            "intercepting shipments of food and medical supplies we desperately need",
+          ),
+          LcsI18n.tr("bombing our electricity and water infrastructure"),
+          LcsI18n.tr(
+            "providing weapons to militias so they can pursue ethnic cleansing and make the violence even worse",
+          ),
         ];
         String actualMission =
-            "${actualActivities.randomPop()}, ${actualActivities.randomPop()}, ${actualActivities.randomPop()}, and ${actualActivities.randomPop()}";
-        String incident = [
-          "bombed a wedding party, killing more than 30 people",
-          "accidentally started selling weapons directly to the enemy",
-          "somehow managed to shoot every one of the hostages and none of the "
-              "captors during a hostage rescue mission",
-          "bombed a local hospital used exclusively by civilians",
-          "shot down a civilian airliner, killing everyone on board",
-        ].random;
+            LcsI18n.processString("{first}, {second}, {third}, and {fourth}", {
+              "first": actualActivities.randomPop(),
+              "second": actualActivities.randomPop(),
+              "third": actualActivities.randomPop(),
+              "fourth": actualActivities.randomPop(),
+            });
+        String incident = LcsI18n.tr(
+          [
+            "bombed a wedding party, killing more than 30 people",
+            "accidentally started selling weapons directly to the enemy",
+            "somehow managed to shoot every one of the hostages and none of the "
+                "captors during a hostage rescue mission",
+            "bombed a local hospital used exclusively by civilians",
+            "shot down a civilian airliner, killing everyone on board",
+          ].random,
+        );
 
         return MajorEventContent(
           headline: "END THE WAR",
@@ -901,22 +1005,17 @@ MajorEventContent generateMajorEventContent(
             FullName officer2 = generateFullName(Gender.whiteMalePatriarch);
             return MajorEventContent(
               headline: "COP KILLS COP",
-              storyText:
-                  "${randomCityName()} - Undercover police officer "
-                  "${officer1.firstLast} has shot and killed an off-duty "
-                  "officer, ${officer2.firstLast}, in a case of apparent road "
-                  "rage.  ${officer1.last} told reporters that ${officer2.last} "
-                  "ran a red light then forced him off the road before drawing "
-                  "a gun and threatening to kill ${officer1.last} and his "
-                  "family.&r"
-                  "  Investigators are still trying to determine what "
-                  "happened, but both ${officer1.last} and ${officer2.last} "
-                  "had been the subject of numerous complaints in the past "
-                  "about threats of violence made to people outside the "
-                  "police department, and the incident has raised questions "
-                  "about the temperament of the police force and the safety of "
-                  "the public.&r"
-                  "  ${officer1.last} has been placed on paid leave.&r",
+              storyText: LcsI18n.processString(
+                "{city} - Undercover police officer {officer1} has shot and killed an off-duty officer, {officer2}, in a case of apparent road rage.  {officer1Last} told reporters that {officer2Last} ran a red light then forced him off the road before drawing a gun and threatening to kill {officer1Last} and {officer1Possessive} family.&r  Investigators are still trying to determine what happened, but both {officer1Last} and {officer2Last} had been the subject of numerous complaints in the past about threats of violence made to people outside the police department, and the incident has raised questions about the temperament of the police force and the safety of the public.&r  {officer1Last} has been placed on paid leave.&r",
+                {
+                  "city": randomCityName(),
+                  "officer1": officer1.firstLast,
+                  "officer2": officer2.firstLast,
+                  "officer1Last": officer1.last,
+                  "officer2Last": officer2.last,
+                  "officer1Possessive": LcsI18n.tr(officer1.gender.hisHer),
+                },
+              ),
             );
           case 1:
             // Police officers rob a bank
@@ -924,78 +1023,84 @@ MajorEventContent generateMajorEventContent(
             FullName officer2 = generateFullName(Gender.whiteMalePatriarch);
             return MajorEventContent(
               headline: "COPS ROB BANK",
-              storyText:
-                  "${randomCityName()} - Two police officers, "
-                  "${officer1.firstLast} and ${officer2.firstLast}, are "
-                  "suspected of robbing the First American Bank and making off "
-                  "with more than \$500,000.  The officers were caught on "
-                  "camera wearing ski masks and carrying guns, but performed "
-                  "the robbery in uniforms with their nametags visible and "
-                  "escaped the scene in their marked police vehicle.&r"
-                  "  After they returned to the police station, other officers "
-                  "searched their vehicle and found the money.  The two "
-                  "officers have insisted that while they were the ones to "
-                  "take the money, they were actually acting in self-defense "
-                  "after the money attacked them and they were forced to "
-                  "defend themselves.&r"
-                  "  Both officers have been placed on paid leave.&r",
+              storyText: LcsI18n.processString(
+                "{city} - Two police officers, {officer1} and {officer2}, are suspected of robbing the First American Bank and making off with more than \$500,000.  The officers were caught on camera wearing ski masks and carrying guns, but performed the robbery in uniforms with their nametags visible and escaped the scene in their marked police vehicle.&r  After they returned to the police station, other officers searched their vehicle and found the money.  The two officers have insisted that while they were the ones to take the money, they were actually acting in self-defense after the money attacked them and they were forced to defend themselves.&r  Both officers have been placed on paid leave.&r",
+                {
+                  "city": randomCityName(),
+                  "officer1": officer1.firstLast,
+                  "officer2": officer2.firstLast,
+                },
+              ),
             );
           case 2:
             // Police officer beats a suspect brutally for no damn reason
             FullName officer = generateFullName(Gender.whiteMalePatriarch);
             FullName suspect = generateFullName();
+            String suspectPossessive = LcsI18n.tr(suspect.gender.hisHer);
+            String suspectSubject = LcsI18n.tr(suspect.gender.heShe);
+            String suspectReflexive = LcsI18n.tr(suspect.gender.himselfHerself);
             String condition = [
-              "${suspect.gender.hisHer} face was completely caved in",
-              "${suspect.gender.hisHer} ribs were sticking out of ${suspect.gender.hisHer} chest",
-              "${suspect.gender.hisHer} arm was broken in multiple places",
-              "${suspect.gender.heShe} was paralyzed from the neck down",
-              "${suspect.gender.hisHer} lost all of ${suspect.gender.hisHer} teeth",
-              "${suspect.gender.hisHer} was vomiting blood",
-              "${suspect.gender.hisHer} all four of ${suspect.gender.hisHer} limbs were broken",
+              LcsI18n.processString(
+                "{possessive} face was completely caved in",
+                {"possessive": suspectPossessive},
+              ),
+              LcsI18n.processString(
+                "{possessive} ribs were sticking out of {possessive} chest",
+                {"possessive": suspectPossessive},
+              ),
+              LcsI18n.processString(
+                "{possessive} arm was broken in multiple places",
+                {"possessive": suspectPossessive},
+              ),
+              LcsI18n.processString(
+                "{subject} was paralyzed from the neck down",
+                {"subject": suspectSubject},
+              ),
+              LcsI18n.processString(
+                "{possessive} lost all of {possessive} teeth",
+                {"possessive": suspectPossessive},
+              ),
+              LcsI18n.processString("{subject} was vomiting blood", {
+                "subject": suspectSubject,
+              }),
+              LcsI18n.processString(
+                "all four of {possessive} limbs were broken",
+                {"possessive": suspectPossessive},
+              ),
             ].random;
             return MajorEventContent(
               headline: "COP BEATING",
-              storyText:
-                  "${randomCityName()} - Police officer "
-                  "${officer.firstLast} is under investigation for beating "
-                  "a suspect, ${suspect.firstLast}, until $condition.  The "
-                  "suspect was handcuffed and in police custody when the "
-                  "attack took place.&r"
-                  "  ${officer.last} insisted to investigators that the "
-                  "suspect was extremely violent and had to be subdued, even "
-                  "though ${suspect.last} had gone to the police station "
-                  "${suspect.gender.himselfHerself} earlier in the day to "
-                  "surrender, and was reported by other officers to be "
-                  "very cooperative and compliant moments prior to being "
-                  "isolated with ${officer.last}.&r"
-                  "  ${officer.last} has been placed on paid leave.&r",
+              storyText: LcsI18n.processString(
+                "{city} - Police officer {officer} is under investigation for beating a suspect, {suspect}, until {condition}.  The suspect was handcuffed and in police custody when the attack took place.&r  {officerLast} insisted to investigators that the suspect was extremely violent and had to be subdued, even though {suspectLast} had gone to the police station {suspectReflexive} earlier in the day to surrender, and was reported by other officers to be very cooperative and compliant moments prior to being isolated with {officerLast}.&r  {officerLast} has been placed on paid leave.&r",
+                {
+                  "city": randomCityName(),
+                  "officer": officer.firstLast,
+                  "suspect": suspect.firstLast,
+                  "condition": condition,
+                  "officerLast": officer.last,
+                  "suspectLast": suspect.last,
+                  "suspectReflexive": suspectReflexive,
+                },
+              ),
             );
           case 3:
             // Police officer steals $35,000 in drugs from evidence room
             FullName officer = generateFullName(Gender.whiteMalePatriarch);
             FullName suspect = generateFullName();
+            String officerPossessive = LcsI18n.tr(officer.gender.hisHer);
             return MajorEventContent(
               headline: "DIRTY COP",
-              storyText:
-                  "${randomCityName()} - Police officer "
-                  "${officer.firstLast} is under investigation for stealing "
-                  "\$35,000 worth of drugs from the evidence room.  The drugs "
-                  "were stashed in ${officer.gender.hisHer} personal vehicle, "
-                  "which was parked outside the police station, and in a bag "
-                  "marked \"Evidence.\"&r"
-                  "  The drugs had been placed into evidence by ${officer.last} "
-                  "earlier in the day after arresting ${suspect.firstLast} for "
-                  "possession of a controlled substance, before being replaced "
-                  "by a bag of powdered potato chips that ${officer.last} had "
-                  "been eating earlier that day.  ${officer.last} "
-                  "insisted that the drugs were not his and suggested "
-                  "that ${suspect.last} must have planted them there.  "
-                  "Investigators noted that ${suspect.last} was supervised in "
-                  "the police lockup for the entire duration of the incident, "
-                  "and that ${officer.last} had potato chip dust on his "
-                  "hands when he was spotted heading out to his car with the "
-                  "evidence bag in hand.&r"
-                  "  ${officer.last} has been placed on paid leave.&r",
+              storyText: LcsI18n.processString(
+                "{city} - Police officer {officer} is under investigation for stealing \$35,000 worth of drugs from the evidence room.  The drugs were stashed in {officerPossessive} personal vehicle, which was parked outside the police station, and in a bag marked \"Evidence.\"&r  The drugs had been placed into evidence by {officerLast} earlier in the day after arresting {suspect} for possession of a controlled substance, before being replaced by a bag of powdered potato chips that {officerLast} had been eating earlier that day.  {officerLast} insisted that the drugs were not {officerPossessive} and suggested that {suspectLast} must have planted them there.  Investigators noted that {suspectLast} was supervised in the police lockup for the entire duration of the incident, and that {officerLast} had potato chip dust on {officerPossessive} hands when he was spotted heading out to {officerPossessive} car with the evidence bag in hand.&r  {officerLast} has been placed on paid leave.&r",
+                {
+                  "city": randomCityName(),
+                  "officer": officer.firstLast,
+                  "officerPossessive": officerPossessive,
+                  "officerLast": officer.last,
+                  "suspect": suspect.firstLast,
+                  "suspectLast": suspect.last,
+                },
+              ),
             );
           default:
             // Police officers shoot a suspect and then convict the victim
@@ -1003,31 +1108,22 @@ MajorEventContent generateMajorEventContent(
             FullName officer = generateFullName(Gender.whiteMalePatriarch);
             FullName officer2 = generateFullName(Gender.whiteMalePatriarch);
             FullName suspect = generateFullName();
+            String suspectObject = LcsI18n.tr(suspect.gender.himHer);
             return MajorEventContent(
               headline: "COPS LIED",
-              storyText:
-                  "${randomCityName()} - Police officers "
-                  "${officer.firstLast} and ${officer2.firstLast} are under "
-                  "investigation for shooting ${suspect.firstLast} and then "
-                  "providing false testimony that resulted in the victim being "
-                  "wrongfully convicted of attempted murder.&r"
-                  "  The incident took place after ${officer.last} and "
-                  "${officer2.last} were called to a domestic disturbance at "
-                  "a neighbor's home.  ${officer.last} and ${officer2.last} "
-                  "entered the wrong building and opened fire on "
-                  "${suspect.last}, who was hit in the chest six times "
-                  "and nearly killed.&r"
-                  "  The officers accused ${suspect.last} "
-                  "of attacking them with a gun, and the jury convicted "
-                  "${suspect.last} of attempted murder and "
-                  "sentenced ${suspect.gender.himHer} to life in prison.  "
-                  "However, the subsequent leak of previously unreleased "
-                  "body camera footage "
-                  "revealed that ${suspect.last} was asleep when "
-                  "the officers entered the room and shot "
-                  "${suspect.gender.himHer}.&r"
-                  "  ${officer.last} and ${officer2.last} have been placed "
-                  "on paid leave.&r",
+              storyText: LcsI18n.processString(
+                "{city} - Police officers {officer1} and {officer2} are under investigation for shooting {suspect} and then providing false testimony that resulted in the victim being wrongfully convicted of attempted murder.&r  The incident took place after {officer1Last} and {officer2Last} were called to a domestic disturbance at a neighbor's home.  {officer1Last} and {officer2Last} entered the wrong building and opened fire on {suspectLast}, who was hit in the chest six times and nearly killed.&r  The officers accused {suspectLast} of attacking them with a gun, and the jury convicted {suspectLast} of attempted murder and sentenced {suspectObject} to life in prison.  However, the subsequent leak of previously unreleased body camera footage revealed that {suspectLast} was asleep when the officers entered the room and shot {suspectObject}.&r  {officer1Last} and {officer2Last} have been placed on paid leave.&r",
+                {
+                  "city": randomCityName(),
+                  "officer1": officer.firstLast,
+                  "officer2": officer2.firstLast,
+                  "suspect": suspect.firstLast,
+                  "officer1Last": officer.last,
+                  "officer2Last": officer2.last,
+                  "suspectLast": suspect.last,
+                  "suspectObject": suspectObject,
+                },
+              ),
             );
         }
 
@@ -1037,20 +1133,10 @@ MajorEventContent generateMajorEventContent(
             // Domestic black site raid
             return MajorEventContent(
               headline: "BLACK SITE",
-              storyText:
-                  "${randomCityName()} - Police raided a warehouse where dozens "
-                  "of missing Americans were found chained to the walls in small "
-                  "cells, most of them starved, tortured, and subjected to other "
-                  "forms of abuse.  The warehouse was located in a remote area "
-                  "of the county and was reportedly guarded by a mysterious "
-                  "security force that abandoned the building shortly before "
-                  "the police arrived.&r"
-                  "  All of the prisoners were released and taken to a local "
-                  "hospital for treatment.  Several of the victims have been "
-                  "identified as former political activists, including some "
-                  "who went missing years ago.&r"
-                  "  The federal government has denied any knowledge or "
-                  "involvement in the situation.&r",
+              storyText: LcsI18n.processString(
+                "{city} - Police raided a warehouse where dozens of missing Americans were found chained to the walls in small cells, most of them starved, tortured, and subjected to other forms of abuse.  The warehouse was located in a remote area of the county and was reportedly guarded by a mysterious security force that abandoned the building shortly before the police arrived.&r  All of the prisoners were released and taken to a local hospital for treatment.  Several of the victims have been identified as former political activists, including some who went missing years ago.&r  The federal government has denied any knowledge or involvement in the situation.&r",
+                {"city": randomCityName()},
+              ),
             );
           case 1:
             // Domestic law enforcement torture produces dozens of false
@@ -1058,83 +1144,76 @@ MajorEventContent generateMajorEventContent(
             String city = randomCityName();
             FullName suspect = generateFullName();
             FullName supposedVictim = generateFullName();
+            String suspectSubject = LcsI18n.tr(suspect.gender.heShe);
             return MajorEventContent(
               headline: "PAIN AND LIES",
-              storyText:
-                  "$city - Local authorities have come under intense scrutiny after "
-                  "a suspect, ${suspect.firstLast} confessed to a staggering "
-                  "list of crimes under police torture, only for the "
-                  "alleged murder victim, ${supposedVictim.firstLast}, to "
-                  "turn up alive.  A media investigation by a local "
-                  "newspaper revealed similar forced confessions, and in "
-                  "the subsequent scandal, several other suspects had their "
-                  "convictions overturned on appeal despite supposedly "
-                  "confessing to the crimes they were accused of.&r"
-                  "  Despite growing public outrage, the police department "
-                  "has completely denied wrongdoing.  \"We stand by the "
-                  "conviction of ${suspect.firstLast} in this case,\" a "
-                  "spokesperson said.  \"If ${suspect.gender.heShe} came "
-                  "out of 'The Confession Factory', as we like to call it, "
-                  "saying ${suspect.gender.heShe} killed "
-                  "${supposedVictim.last}, then that's what happened.  "
-                  "Why would anyone admit to a crime they didn't do?  That's "
-                  "stupid and you should all be embarrassed.  This fake "
-                  "news about ${supposedVictim.last} being alive is the "
-                  "real false confession.  The only issue here is public "
-                  "perception.\"&r"
-                  "  Despite claiming no wrongdoing, the police have placed "
-                  "the officers involved on paid leave.&r",
+              storyText: LcsI18n.processString(
+                "{city} - Local authorities have come under intense scrutiny after a suspect, {suspect}, confessed to a staggering list of crimes under police torture, only for the alleged murder victim, {supposedVictim}, to turn up alive.  A media investigation by a local newspaper revealed similar forced confessions, and in the subsequent scandal, several other suspects had their convictions overturned on appeal despite supposedly confessing to the crimes they were accused of.&r  Despite growing public outrage, the police department has completely denied wrongdoing.  \"We stand by the conviction of {suspect} in this case,\" a spokesperson said.  \"If {suspectSubject} came out of 'The Confession Factory', as we like to call it, saying {suspectSubject} killed {supposedVictimLast}, then that's what happened.  Why would anyone admit to a crime they didn't do?  That's stupid and you should all be embarrassed.  This fake news about {supposedVictimLast} being alive is the real false confession.  The only issue here is public perception.\"&r  Despite claiming no wrongdoing, the police have placed the officers involved on paid leave.&r",
+                {
+                  "city": city,
+                  "suspect": suspect.firstLast,
+                  "supposedVictim": supposedVictim.firstLast,
+                  "suspectSubject": suspectSubject,
+                  "supposedVictimLast": supposedVictim.last,
+                },
+              ),
             );
           default:
             // Overseas black site leak reveals torture
             FullName whistleblower = generateFullName();
             List<String> protestSigns = [
-              "We Prefer Our Spooks To Be At Least Somewhat Less Evil",
-              "Could You Just Not Do That",
-              "Just Ask Them Nicely",
-              "Torture Doesn't Even Work Anyway",
-              "Why Are We Having This Conversation Again",
+              LcsI18n.tr(
+                "We Prefer Our Spooks To Be At Least Somewhat Less Evil",
+              ),
+              LcsI18n.tr("Could You Just Not Do That"),
+              LcsI18n.tr("Just Ask Them Nicely"),
+              LcsI18n.tr("Torture Doesn't Even Work Anyway"),
+              LcsI18n.tr("Why Are We Having This Conversation Again"),
             ];
-            String allProtestSigns =
-                "\"${protestSigns.randomPop()}\", \"${protestSigns.randomPop()}\", and \"${protestSigns.randomPop()}\"";
+            String allProtestSigns = LcsI18n.processString(
+              "\"{first}\", \"{second}\", and \"{third}\"",
+              {
+                "first": protestSigns.randomPop(),
+                "second": protestSigns.randomPop(),
+                "third": protestSigns.randomPop(),
+              },
+            );
             return MajorEventContent(
               headline: "TORTURED",
-              storyText:
-                  "Washington, D.C. - Photos leaked from an "
-                  "overseas facility operated by the CIA reveals the brutal "
-                  "conditions that prisoners are subjected to.  The photos, "
-                  "which were revealed by whistleblower "
-                  "${whistleblower.firstLast}, show prisoners "
-                  "being tortured and abused by US agents.  The photos have "
-                  "caused an international outcry and prompted calls for the "
-                  "United Nations to investigate the United States' torture "
-                  "practices.&r"
-                  "  Response within the United States has been notably muted "
-                  "relative to the international outrage about the incident, "
-                  "with only a few small protests featuring tired-looking "
-                  "leftists carrying signs like $allProtestSigns.&r",
+              storyText: LcsI18n.processString(
+                "Washington, D.C. - Photos leaked from an overseas facility operated by the CIA reveals the brutal conditions that prisoners are subjected to.  The photos, which were revealed by whistleblower {whistleblower}, show prisoners being tortured and abused by US agents.  The photos have caused an international outcry and prompted calls for the United Nations to investigate the United States' torture practices.&r  Response within the United States has been notably muted relative to the international outrage about the incident, with only a few small protests featuring tired-looking leftists carrying signs like {protestSigns}.&r",
+                {
+                  "whistleblower": whistleblower.firstLast,
+                  "protestSigns": allProtestSigns,
+                },
+              ),
             );
         }
 
       case View.healthcare:
         String city = randomCityName();
         FullName patient = generateFullName();
+        String patientSubject = LcsI18n.tr(patient.gender.heShe);
         const adjective = ["United", "Human", "Blue", "First", "Golden"];
         const noun = ["Cross", "Health", "Care", "Life", "Well"];
         String insuranceCompany =
-            "${adjective.random} ${noun.random} Insurance";
+            LcsI18n.processString("{adjective} {noun} Insurance", {
+              "adjective": LcsI18n.tr(adjective.random),
+              "noun": LcsI18n.tr(noun.random),
+            });
         String insuranceCompanyHoldingGroup = generateCompanyName();
         final procedureCost = r'$100,000';
         return MajorEventContent(
           headline: "DYING DENIAL",
           storyText: LcsI18n.processString(
-            "{city} - {fullName} remembers when {company} (a subsidiary of {holdingGroup}) first answered {possessivePronoun} call. The voice on the line was polite, but it had the unmistakable sound of a computer voice. And no matter how much he tried to get a human on the line, or to convince the computer that he was dying, he couldn't get through.&r  It took {company} three months to answer the request for pre-approval for a life-saving procedure from {lastName}. And when they finally did, the treatment of {lastName} was denied as an elective procedure.&r  \"I've never felt so helpless in my life,\" {lastName} said. \"The procedure I needed was going to cost {cost}, and I always thought the point of insurance was in case things like this happened. But they refused to pay for it, even though I was dying.\"&r",
+            "{city} - {fullName} remembers when {company} (a subsidiary of {holdingGroup}) first answered {possessivePronoun} call. The voice on the line was polite, but it had the unmistakable sound of a computer voice. And no matter how much {patientSubject} tried to get a human on the line, or to convince the computer that {patientSubject} was dying, {patientSubject} couldn't get through.&r  It took {company} three months to answer the request for pre-approval for a life-saving procedure from {lastName}. And when they finally did, the treatment of {lastName} was denied as an elective procedure.&r  \"I've never felt so helpless in my life,\" {lastName} said. \"The procedure I needed was going to cost {cost}, and I always thought the point of insurance was in case things like this happened. But they refused to pay for it, even though I was dying.\"&r",
             {
               "city": city,
               "fullName": patient.firstLast,
               "company": insuranceCompany,
               "holdingGroup": insuranceCompanyHoldingGroup,
-              "possessivePronoun": patient.gender.hisHer,
+              "possessivePronoun": LcsI18n.tr(patient.gender.hisHer),
+              "patientSubject": patientSubject,
               "lastName": patient.last,
               "cost": procedureCost,
             },
@@ -1145,7 +1224,9 @@ MajorEventContent generateMajorEventContent(
         String company = generateCompanyName();
         FullName ceo = generateFullName(Gender.whiteMalePatriarch);
         FullName retiree = generateFullName();
-        String pensionCutAmount = ["by 50%", "by 75%", "entirely"].random;
+        String pensionCutAmount = LcsI18n.tr(
+          ["by 50%", "by 75%", "entirely"].random,
+        );
         return MajorEventContent(
           headline: "PENSIONS GONE",
           storyText: LcsI18n.processString(
@@ -1163,19 +1244,10 @@ MajorEventContent generateMajorEventContent(
         String city = randomCityName();
         return MajorEventContent(
           headline: "PRICED OUT",
-          storyText:
-              "$city - A state of emergency has been declared by the "
-              "local government as the number of people living on the streets "
-              "has reached record levels amidst skyrocketing rent prices.&r"
-              "  \"This isn't just about the camps,\" Mayor ${lastName()} "
-              "said. \"This is about more and more people not being able to "
-              "make ends meet, even when they're working. Many of the "
-              "unhoused are still working, even with their lives overturned. "
-              "We need to take decisive action to bring down the cost of "
-              "housing in our city, or it's only going to get worse.\"&r"
-              "  In the last year, rents in the city have risen more than 20%, "
-              "significantly faster than the growth in wages, leading to a "
-              "growing number of people being priced out of their homes.",
+          storyText: LcsI18n.processString(
+            "{city} - A state of emergency has been declared by the local government as the number of people living on the streets has reached record levels amidst skyrocketing rent prices.&r  \"This isn't just about the camps,\" Mayor {mayor} said. \"This is about more and more people not being able to make ends meet, even when they're working. Many of the unhoused are still working, even with their lives overturned. We need to take decisive action to bring down the cost of housing in our city, or it's only going to get worse.\"&r  In the last year, rents in the city have risen more than 20%, significantly faster than the growth in wages, leading to a growing number of people being priced out of their homes.",
+            {"city": city, "mayor": lastName()},
+          ),
         );
       default:
         return MajorEventContent(
@@ -1193,60 +1265,41 @@ MajorEventContent generateMajorEventContent(
           case 0:
             String cityName = randomCityName();
             FullName owner = generateFullName(Gender.whiteMalePatriarch);
-            String transgenderWoman = switch (politics.laws[Law.lgbtRights]) {
-              DeepAlignment.archConservative =>
-                "so-called \"transgender woman\"",
-              _ => "transgender woman",
-            };
-            String woman = switch (politics.laws[Law.lgbtRights]) {
+            String transgenderWoman = LcsI18n.tr(
+              switch (politics.laws[Law.lgbtRights]) {
+                DeepAlignment.archConservative =>
+                  "so-called \"transgender woman\"",
+                _ => "transgender woman",
+              },
+            );
+            String woman = LcsI18n.tr(switch (politics.laws[Law.lgbtRights]) {
               DeepAlignment.archConservative => "so-called \"woman\"",
               _ => "woman",
-            };
-            String cityReaction = "declared a state of emergency";
+            });
+            String cityReaction = LcsI18n.tr("declared a state of emergency");
             FullName activist = generateFullName(Gender.whiteMalePatriarch);
 
             return MajorEventContent(
               headline: "TOILET CRISIS",
-              storyText:
-                  "$cityName - The government of $cityName $cityReaction "
-                  "after a $transgenderWoman used the "
-                  "restroom at a local restaurant.  Reports indicate that the "
-                  "$woman \"needed to pee\" and \"felt like she had to go.\"&r"
-                  "  \"Not again,\" vented the restaurant's owner, "
-                  "${owner.firstLast}.  \"I don't know where trans people get "
-                  "off thinking they're allowed to use the toilet.  We need to "
-                  "draw a line in the sand by arresting trans people "
-                  "if they go in the toilet matching their identity and "
-                  "beating them up if they go in the toilet matching their "
-                  "birth.\"&r"
-                  "  \"He's right, you know,\" added "
-                  "${activist.firstLast}, a local anti-trans activist. \"We "
-                  "can't keep letting this happen.  It's well past time to "
-                  "stand up for traditional values and protect our children "
-                  "from these radical lunatics and their extremist potty "
-                  "agenda.\"&r",
+              storyText: LcsI18n.processString(
+                "{city} - The government of {city} {cityReaction} after a {transgenderWoman} used the restroom at a local restaurant.  Reports indicate that the {woman} \"needed to pee\" and \"felt like she had to go.\"&r  \"Not again,\" vented the restaurant's owner, {owner}.  \"I don't know where trans people get off thinking they're allowed to use the toilet.  We need to draw a line in the sand by arresting trans people if they go in the toilet matching their identity and beating them up if they go in the toilet matching their birth.\"&r  \"He's right, you know,\" added {activist}, a local anti-trans activist. \"We can't keep letting this happen.  It's well past time to stand up for traditional values and protect our children from these radical lunatics and their extremist potty agenda.\"&r",
+                {
+                  "city": cityName,
+                  "cityReaction": cityReaction,
+                  "transgenderWoman": transgenderWoman,
+                  "woman": woman,
+                  "owner": owner.firstLast,
+                  "activist": activist.firstLast,
+                },
+              ),
             );
           case 1:
             return MajorEventContent(
               headline: "GAY BOOKS",
-              storyText:
-                  "${randomCityName()} - A local library has come under "
-                  "fire after it was discovered that the library's "
-                  "\"diversity\" program was promoting books that were "
-                  "considered to be pornographic and offensive to "
-                  "traditional values.  The books, which were recommended to "
-                  "children as part of the library's diversity program, "
-                  "included titles such as \"Everybody Is Accepted\" and "
-                  "\"My Friend Has Two Dads\".&r"
-                  "  \"I'm terrified.  I thought I could bring my kids into "
-                  "the library and not have to worry about them being "
-                  "groomed by the liberal agenda to think gay people are "
-                  "human,\" said a local parent.  \"I have every right to "
-                  "decide who and what my kids should hate, and it shakes "
-                  "me to my core to think that this so-called 'library' "
-                  "is stocking books that say things I don't like.\"&r"
-                  "  Following the controversy, the library has decided to "
-                  "remove the books from its shelves.&r",
+              storyText: LcsI18n.processString(
+                "{city} - A local library has come under fire after it was discovered that the library's \"diversity\" program was promoting books that were considered to be pornographic and offensive to traditional values.  The books, which were recommended to children as part of the library's diversity program, included titles such as \"Everybody Is Accepted\" and \"My Friend Has Two Dads\".&r  \"I'm terrified.  I thought I could bring my kids into the library and not have to worry about them being groomed by the liberal agenda to think gay people are human,\" said a local parent.  \"I have every right to decide who and what my kids should hate, and it shakes me to my core to think that this so-called 'library' is stocking books that say things I don't like.\"&r  Following the controversy, the library has decided to remove the books from its shelves.&r",
+                {"city": randomCityName()},
+              ),
             );
           case 2:
             FullName primaryPartner = generateFullName();
@@ -1257,69 +1310,80 @@ MajorEventContent generateMajorEventContent(
             }) => switch (inappropriatePartnerIndex) {
               0 =>
                 firstPerson
-                    ? "my beloved ${firstName(Gender.female)}"
-                    : "${gender.hisHer} goldfish",
-              1 => firstPerson ? "baby grands" : "a piano",
-              2 => firstPerson ? "gas cooking" : "a stove",
+                    ? LcsI18n.processString("my beloved {name}", {
+                        "name": firstName(Gender.female),
+                      })
+                    : LcsI18n.processString("{pronoun} goldfish", {
+                        "pronoun": LcsI18n.tr(gender.hisHer),
+                      }),
+              1 =>
+                firstPerson ? LcsI18n.tr("baby grands") : LcsI18n.tr("a piano"),
+              2 =>
+                firstPerson ? LcsI18n.tr("gas cooking") : LcsI18n.tr("a stove"),
               3 =>
                 firstPerson
-                    ? "my ringa-ding-dingle"
-                    : "${gender.hisHer} cellphone",
+                    ? LcsI18n.tr("my ringa-ding-dingle")
+                    : LcsI18n.processString("{pronoun} cellphone", {
+                        "pronoun": LcsI18n.tr(gender.hisHer),
+                      }),
               4 =>
                 firstPerson
                     ? LcsI18n.processString(
                         "{name}'s smooth synthetic voice and seductive word choice",
                         {"name": firstName()},
                       )
-                    : "an AI chatbot",
+                    : LcsI18n.tr("an AI chatbot"),
               5 =>
                 firstPerson
-                    ? "albacore"
-                    : "a particularly tasty tuna fish casserole",
+                    ? LcsI18n.tr("albacore")
+                    : LcsI18n.tr("a particularly tasty tuna fish casserole"),
               6 =>
-                firstPerson ? "the Cavendish cultivar" : "a bunch of bananas",
-              7 => firstPerson ? "smear frames" : "a cartoon character",
+                firstPerson
+                    ? LcsI18n.tr("the Cavendish cultivar")
+                    : LcsI18n.tr("a bunch of bananas"),
+              7 =>
+                firstPerson
+                    ? LcsI18n.tr("smear frames")
+                    : LcsI18n.tr("a cartoon character"),
               8 =>
                 firstPerson
-                    ? "my beloved ${firstName(Gender.female)}"
-                    : "${gender.hisHer} anime waifu",
+                    ? LcsI18n.processString("my beloved {name}", {
+                        "name": firstName(Gender.female),
+                      })
+                    : LcsI18n.processString("{pronoun} anime waifu", {
+                        "pronoun": LcsI18n.tr(gender.hisHer),
+                      }),
               9 =>
                 firstPerson
-                    ? "big fluffy ears and a tail"
-                    : "${gender.hisHer} fursona",
+                    ? LcsI18n.tr("big fluffy ears and a tail")
+                    : LcsI18n.processString("{pronoun} fursona", {
+                        "pronoun": LcsI18n.tr(gender.hisHer),
+                      }),
               _ =>
                 firstPerson
-                    ? "my bug collection"
-                    : "an especially gross bug collection",
+                    ? LcsI18n.tr("my bug collection")
+                    : LcsI18n.tr("an especially gross bug collection"),
             };
             FullName spiritualGuide = generateFullName();
             FullName activist = generateFullName(Gender.whiteMalePatriarch);
             return MajorEventContent(
               headline: "WHAT THE LOVE",
-              storyText:
-                  "${randomCityName()} - A local wedding venue has "
-                  "conducted a so-called \"wedding\" between a "
-                  "${gender.manWoman} and ${inappropriatePartner()}.  The "
-                  "${gender.manWoman}, ${primaryPartner.firstLast}, "
-                  "was escorted down the aisle by ${gender.hisHer} spiritual "
-                  "guru, ${spiritualGuide.firstLast}.&r"
-                  "  \"I'm so happy to be here today,\" said "
-                  "${primaryPartner.firstLast}.  \"I've been waiting for "
-                  "this day for so long.  I'm so glad to be able to "
-                  "share my love of ${inappropriatePartner(firstPerson: true)}.\"&r"
-                  "  Others haven't been so celebratory.  \"When we said "
-                  "the LGBTQ agenda was undermining the sanctity of marriage "
-                  "and the moral fabric of this country, this is exactly what "
-                  "we were talking about,\" said ${activist.firstLast}, a "
-                  "local activist who is clearly not a fan of the LGBTQ "
-                  "agenda.  \"I said it, didn't I? I said we were going to "
-                  "see somebody try to marry ${inappropriatePartner()}.  I "
-                  "literally said exactly that.\"&r"
-                  "  At press time, ${spiritualGuide.last}, ${activist.last}, "
-                  "and ${primaryPartner.last} were all seen making out in the "
-                  "parking lot, leading to some confusion in our press room "
-                  "about what the relationship between these people is "
-                  "and why we're reporting on any of this.&r",
+              storyText: LcsI18n.processString(
+                "{city} - A local wedding venue has conducted a so-called \"wedding\" between a {person} and {partner}.  The {person}, {primaryPartner}, was escorted down the aisle by {pronoun} spiritual guru, {spiritualGuide}.&r  \"I'm so happy to be here today,\" said {primaryPartner}.  \"I've been waiting for this day for so long.  I'm so glad to be able to share my love of {firstPersonPartner}.\"&r  Others haven't been so celebratory.  \"When we said the LGBTQ agenda was undermining the sanctity of marriage and the moral fabric of this country, this is exactly what we were talking about,\" said {activist}, a local activist who is clearly not a fan of the LGBTQ agenda.  \"I said it, didn't I? I said we were going to see somebody try to marry {partner}.  I literally said exactly that.\"&r  At press time, {spiritualGuideLast}, {activistLast}, and {primaryPartnerLast} were all seen making out in the parking lot, leading to some confusion in our press room about what the relationship between these people is and why we're reporting on any of this.&r",
+                {
+                  "city": randomCityName(),
+                  "person": LcsI18n.tr(gender.manWoman),
+                  "partner": inappropriatePartner(),
+                  "primaryPartner": primaryPartner.firstLast,
+                  "pronoun": LcsI18n.tr(gender.hisHer),
+                  "spiritualGuide": spiritualGuide.firstLast,
+                  "firstPersonPartner": inappropriatePartner(firstPerson: true),
+                  "activist": activist.firstLast,
+                  "spiritualGuideLast": spiritualGuide.last,
+                  "activistLast": activist.last,
+                  "primaryPartnerLast": primaryPartner.last,
+                },
+              ),
             );
           default:
             return MajorEventContent(
@@ -1415,70 +1479,64 @@ MajorEventContent generateMajorEventContent(
           ),
         );
       case View.drugs:
-        String drug = [
-          "marijuana",
-          "cocaine",
-          "heroin",
-          "methamphetamine",
-          "fentanyl",
-          "prescription painkillers",
-          "MDMA",
-          "LSD",
-          "psilocybin mushrooms",
-        ].random;
+        String drug = LcsI18n.tr(
+          [
+            "marijuana",
+            "cocaine",
+            "heroin",
+            "methamphetamine",
+            "fentanyl",
+            "prescription painkillers",
+            "MDMA",
+            "LSD",
+            "psilocybin mushrooms",
+          ].random,
+        );
         FullName drugExpert = generateFullName();
         FullName influencer = generateFullName();
-        String hell = noProfanity ? "[heaven]" : "hell";
+        String hell = LcsI18n.tr(noProfanity ? "[heaven]" : "hell");
         String addendum = [
-          "I'm literally dead right now.",
-          "don't forget to like and subscribe.",
-          "if you come at me with $drug, you'd better not miss.",
-          "it's a blin wayzo thing, you wouldn't understand.",
-          "weepa weepa weepa, woof woof woof!",
-          "ciao, I'm out.",
-          "shoutout to my homies.",
-          "you should really try these chips, they're pretty good.",
-          "I ship it, I ship it, don't at me.",
+          LcsI18n.tr("I'm literally dead right now."),
+          LcsI18n.tr("don't forget to like and subscribe."),
+          LcsI18n.processString(
+            "if you come at me with {drug}, you'd better not miss.",
+            {"drug": drug},
+          ),
+          LcsI18n.tr("it's a blin wayzo thing, you wouldn't understand."),
+          LcsI18n.tr("weepa weepa weepa, woof woof woof!"),
+          LcsI18n.tr("ciao, I'm out."),
+          LcsI18n.tr("shoutout to my homies."),
+          LcsI18n.tr("you should really try these chips, they're pretty good."),
+          LcsI18n.tr("I ship it, I ship it, don't at me."),
         ].random;
-        String consequence = [
-          "instantly die",
-          "become a drug addict",
-          "get arrested",
-          "start hallucinating",
-          "get punched in the face by God",
-          "smell like a funky funk",
-          "develop mental health issues",
-          "be completely emasculated",
-          "lose your job",
-        ].random;
+        String consequence = LcsI18n.tr(
+          [
+            "instantly die",
+            "become a drug addict",
+            "get arrested",
+            "start hallucinating",
+            "get punched in the face by God",
+            "smell like a funky funk",
+            "develop mental health issues",
+            "be completely emasculated",
+            "lose your job",
+          ].random,
+        );
 
         return MajorEventContent(
           headline: "DRUG PANIC",
-          storyText:
-              "${randomCityName()} - Chaos erupted online after "
-              "self-proclaimed drug expert ${drugExpert.firstLast} "
-              "went viral with a short form video claiming that \"every "
-              "single person who comes within a six-foot radius of "
-              "$drug will $consequence.\"  The "
-              "panic took a bizarre turn when social media influencers "
-              "started dramatically faking their own drug-related deaths "
-              "to prove the point.&r"
-              "  \"I'm not even going to try to "
-              "explain this,\" said social media influencer "
-              "${influencer.firstLast}.  \"But it's funny as $hell.  Also, "
-              "$addendum\"&r"
-              "  Health officials are scrambling to communicate the truth, "
-              "even as a rash of people have begun to claim they've "
-              "overdosed on substances they haven't even used.  Critics "
-              "argue that the rampant misinformation is fueling "
-              "moral panic rather than addressing real addiction issues.  "
-              "\"Lying about drugs isn't going to stop anyone from trying "
-              "them, it's just discrediting our efforts to educate people "
-              "about the dangers of drugs in the eyes of those predisposed "
-              "to experiment,\" warned a spokesperson from the FDA.  "
-              "\"Still, I'm glad people are thinking about the dangers of "
-              "$drug and I'm hopeful some constructive dialogue will come "
-              "out of this.\"&r",
+          storyText: LcsI18n.processString(
+            "{city} - Chaos erupted online after self-proclaimed drug expert {drugExpert} went viral with a short form video claiming that \"every single person who comes within a six-foot radius of {drug} will {consequence}.\"  The panic took a bizarre turn when social media influencers started dramatically faking their own drug-related deaths to prove the point.&r  \"I'm not even going to try to explain this,\" said social media influencer {influencer}.  \"But it's funny as {hell}.  Also, {addendum}\"&r  Health officials are scrambling to communicate the truth, even as a rash of people have begun to claim they've overdosed on substances they haven't even used.  Critics argue that the rampant misinformation is fueling moral panic rather than addressing real addiction issues.  \"Lying about drugs isn't going to stop anyone from trying them, it's just discrediting our efforts to educate people about the dangers of drugs in the eyes of those predisposed to experiment,\" warned a spokesperson from the FDA.  \"Still, I'm glad people are thinking about the dangers of {drug} and I'm hopeful some constructive dialogue will come out of this.\"&r",
+            {
+              "city": randomCityName(),
+              "drugExpert": drugExpert.firstLast,
+              "drug": drug,
+              "consequence": consequence,
+              "influencer": influencer.firstLast,
+              "hell": hell,
+              "addendum": addendum,
+            },
+          ),
         );
       case View.military:
         // Major new deployment to fight in some foreign country that
@@ -2137,10 +2195,7 @@ MajorEventContent generateMajorEventContent(
           headline: "NEW JOBS",
           storyText: LcsI18n.processString(
             "{city} - Several major companies have announced at a joint news conference here that they will be expanding their work forces considerably during the next quarter.  Over thirty thousand jobs are expected in the first month, with tech giant {techGiantName} increasing its payrolls by over ten thousand workers alone.  Given the state of the economy recently and in light of the tendency of large corporations to export jobs overseas these days, this welcome news is bound to be a pleasant surprise to those in the unemployment lines.&r  The markets reportedly responded to the announcement with mild interest, although the dampened movement might be expected due to the uncertain futures of some of the companies in the tech sector.  On the whole, however, analysts suggest that not only does the expansion speak to the health of the tech industry but is also indicative of a full economic recovery.&r",
-            {
-              "city": randomCityName(),
-              "techGiantName": techGiantName,
-            },
+            {"city": randomCityName(), "techGiantName": techGiantName},
           ),
         );
       case View.amRadio:

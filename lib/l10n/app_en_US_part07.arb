@@ -33,6 +33,7 @@
   "5 - Sleepers ({sleepers})": "5 - Sleepers ({sleepers})",
   "7 - Away ({away})": "7 - Away ({away})",
   "<No Contact>": "<No Contact>",
+  "A - Pay $100 for a one-on-one video call.": "A - Pay $100 for a one-on-one video call.",
   "A bill of animal rights is in place governing their treatment.": "A bill of animal rights is in place governing their treatment.",
   "A kid in the street!": "A kid in the street!",
   "A prominent journalist investigates further, but can't prove it's true.": "A prominent journalist investigates further, but can't prove it's true.",
@@ -63,6 +64,7 @@
   "Housing has become a privilege only for those worthy of it by virtue of wealth.": "Housing has become a privilege only for those worthy of it by virtue of wealth.",
   "I just know we're gonna get along great.": "I just know we're gonna get along great.",
   "If everyone did a little more $drug, we'd have world peace by next Tuesday,": "If everyone did a little more $drug, we'd have world peace by next Tuesday,",
+  "If everyone did a little more {drug}, we'd have world peace by next Tuesday,": "If everyone did a little more {drug}, we'd have world peace by next Tuesday,",
   "Import CSV map (.csv files)": "Import CSV map (.csv files)",
   "Indian": "Indian",
   "Industry is subject to strict pollution regulations.": "Industry is subject to strict pollution regulations.",
@@ -208,6 +210,7 @@
   "who appears in history books as a symbol of white supremacy": "who appears in history books as a symbol of white supremacy",
   "yesterday by tampering with equipment on the site.": "yesterday by tampering with equipment on the site.",
   "{actor} protested against the game being buggy!": "{actor} protested against the game being buggy!",
+  "{city} - A local wedding venue has conducted a so-called \"wedding\" between a {person} and {partner}.  The {person}, {primaryPartner}, was escorted down the aisle by {pronoun} spiritual guru, {spiritualGuide}.&r  \"I'm so happy to be here today,\" said {primaryPartner}.  \"I've been waiting for this day for so long.  I'm so glad to be able to share my love of {firstPersonPartner}.\"&r  Others haven't been so celebratory.  \"When we said the LGBTQ agenda was undermining the sanctity of marriage and the moral fabric of this country, this is exactly what we were talking about,\" said {activist}, a local activist who is clearly not a fan of the LGBTQ agenda.  \"I said it, didn't I? I said we were going to see somebody try to marry {partner}.  I literally said exactly that.\"&r  At press time, {spiritualGuideLast}, {activistLast}, and {primaryPartnerLast} were all seen making out in the parking lot, leading to some confusion in our press room about what the relationship between these people is and why we're reporting on any of this.&r": "{city} - A local wedding venue has conducted a so-called \"wedding\" between a {person} and {partner}.  The {person}, {primaryPartner}, was escorted down the aisle by {pronoun} spiritual guru, {spiritualGuide}.&r  \"I'm so happy to be here today,\" said {primaryPartner}.  \"I've been waiting for this day for so long.  I'm so glad to be able to share my love of {firstPersonPartner}.\"&r  Others haven't been so celebratory.  \"When we said the LGBTQ agenda was undermining the sanctity of marriage and the moral fabric of this country, this is exactly what we were talking about,\" said {activist}, a local activist who is clearly not a fan of the LGBTQ agenda.  \"I said it, didn't I? I said we were going to see somebody try to marry {partner}.  I literally said exactly that.\"&r  At press time, {spiritualGuideLast}, {activistLast}, and {primaryPartnerLast} were all seen making out in the parking lot, leading to some confusion in our press room about what the relationship between these people is and why we're reporting on any of this.&r",
   "{count} Liberals are arrested.": "{count} Liberals are arrested.",
   "{label} Justice ": "{label} Justice ",
   "{lead} {activity}": "{lead} {activity}",
@@ -234,6 +237,7 @@
   "{name}: <rummaging> $rummageMessage": "{name}: <rummaging> $rummageMessage",
   "{pName}'s ": "{pName}'s ",
   "{pronoun} friend {friend}.": "{pronoun} friend {friend}.",
+  "{pronoun} fursona": "{pronoun} fursona",
   "{vehicle} comes to a rest facing backwards.": "{vehicle} comes to a rest facing backwards.",
   "{vehicle} rams into you from behind!": "{vehicle} rams into you from behind!"
 }

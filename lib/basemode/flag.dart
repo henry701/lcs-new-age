@@ -87,7 +87,7 @@ void flagMenuDetail(
     row = console.y + 1;
   }
   row = 20;
-  mvaddstrx(row, x, "&wIssue: &G${flag.view.label}");
+  mvaddstrx(row, x, "&wIssue: &G{label}", params: {"label": flag.view.label});
   row++;
   mvaddstrc(row, x, lightGray, "Heat: ");
   var (secrecyText, secrecyColor) = flagSecrecyText(flag);
@@ -189,7 +189,8 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
         y,
         0,
         key,
-        "$key - ${flag.name}",
+        "{key} - {name}",
+        params: {"key": key, "name": flag.name},
         baseColorKey: index == selected ? ColorKey.white : ColorKey.lightGray,
         enabledWhen: en,
       );

@@ -395,14 +395,15 @@ Future<void> surrenderToMedicalIndustry(Site loc) async {
     if (moneyCol > dotStart) {
       mvaddstr(row, dotStart, "".padRight(moneyCol - dotStart, "."));
     }
-    mvaddstr(row, moneyCol, "\$$amount");
+    mvaddstr(row, moneyCol, "{amount}", params: {"amount": amount});
   }
 
   setColor(black, background: lightGray);
   addparagraph(
     slipTop + 1,
     textLeft,
-    "MEDICAL DEBT COLLECTION RECEIPT FOR ${loc.name.toUpperCase()}:",
+    "MEDICAL DEBT COLLECTION RECEIPT FOR {location}:",
+    params: {"location": loc.name.toUpperCase()},
     y2: 4,
     x2: textRight,
   );

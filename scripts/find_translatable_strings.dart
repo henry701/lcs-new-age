@@ -9,6 +9,7 @@ import 'dart:math';
 import 'package:lcs_new_age/i18n/catalog_layout.dart';
 
 final _placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
+const _escapedDollarSentinel = '\u0000';
 
 String _normalizeColorizedPlaceholders(String template) => template
     .replaceAllMapped(_placeholderPattern, (match) => '{${match.group(1)!}}');
@@ -28,8 +29,9 @@ dynamic _normalizeArbValue(dynamic value) {
 }
 
 /// Unescape a captured string literal content (handles \' and \" etc from Dart source).
-String _unescapeStringLiteral(String raw) =>
-    raw.replaceAllMapped(RegExp(r'\\(.)'), (m) => m.group(1)!);
+String _unescapeStringLiteral(String raw) => raw
+    .replaceAll(r'\$', _escapedDollarSentinel)
+    .replaceAllMapped(RegExp(r'\\(.)'), (m) => m.group(1)!);
 
 void main(List<String> args) async {
   if (args.contains('--help') || args.contains('-h')) {
@@ -453,6 +455,10 @@ void _recordStringsFromChunk({
   required String relativePath,
 }) {
   for (final literalMatch in _scanQuotedStringLiterals(chunk)) {
+    final suffix = chunk.substring(literalMatch.end).trimLeft();
+    if (suffix.startsWith(':')) {
+      continue;
+    }
     final value = _unescapeStringLiteral(literalMatch.rawContent);
     if (!_isUserFacing(value, minLength: 3, allowSingleWord: true)) {
       continue;
@@ -486,7 +492,7 @@ List<_ChunkStringLiteral> _scanQuotedStringLiterals(String chunk) {
         continue;
       }
       if (char == quote) {
-        literals.add(_ChunkStringLiteral(start, buffer.toString()));
+        literals.add(_ChunkStringLiteral(start, i + 1, buffer.toString()));
         break;
       }
       buffer.write(char);
@@ -497,9 +503,10 @@ List<_ChunkStringLiteral> _scanQuotedStringLiterals(String chunk) {
 }
 
 class _ChunkStringLiteral {
-  const _ChunkStringLiteral(this.start, this.rawContent);
+  const _ChunkStringLiteral(this.start, this.end, this.rawContent);
 
   final int start;
+  final int end;
   final String rawContent;
 }
 
@@ -698,7 +705,9 @@ void _recordString(
   int lineNumber,
   String context,
 ) {
-  final normalizedText = _normalizeColorizedPlaceholders(text);
+  final normalizedText = _normalizeColorizedPlaceholders(
+    text.replaceAll(_escapedDollarSentinel, r'$'),
+  );
   final key = normalizedText;
   stringInfo.putIfAbsent(
     key,

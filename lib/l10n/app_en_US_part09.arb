@@ -138,6 +138,7 @@
   "Your Activists ": "Your Activists ",
   "[I am attracted to cattle].  [I am harming a police officer].": "[I am attracted to cattle].  [I am harming a police officer].",
   "[I won't look.]": "[I won't look.]",
+  "[decided to stop]": "[decided to stop]",
   "a miserable hatemonger": "a miserable hatemonger",
   "a reality TV episode on the lives of immigrants": "a reality TV episode on the lives of immigrants",
   "a series of undercover videos of factory farms and slaughterhouses ": "a series of undercover videos of factory farms and slaughterhouses ",
@@ -197,6 +198,7 @@
   "stumbles against a wall.": "stumbles against a wall.",
   "taking swipes": "taking swipes",
   "teachers inside.  When other students tried to wrestle the ": "teachers inside.  When other students tried to wrestle the ",
+  "throwing beer bottles": "throwing beer bottles",
   "to a Liberal Crime Squad spokesperson.": "to a Liberal Crime Squad spokesperson.",
   "to a subordinate, demanding she submit to a sexual relationship.": "to a subordinate, demanding she submit to a sexual relationship.",
   "to make sure to follow the name of every LGBT figure ": "to make sure to follow the name of every LGBT figure ",
@@ -209,6 +211,7 @@
   "you will make. Computer skill helps protect you from getting ": "you will make. Computer skill helps protect you from getting ",
   "{actor} disrupted a traditional wedding at a church!": "{actor} disrupted a traditional wedding at a church!",
   "{actor} went downtown and reenacted a police beating!": "{actor} went downtown and reenacted a police beating!",
+  "{city} - A children's story has been removed from libraries here after the city bowed to pressure from religious groups.&r  The book, {bookTitle}, is an immensely popular book by {nationality} author {authorName}.  Although the title is adored by children worldwide, some conservatives feel that the book {ridiculousBanReason}.  In their complaint, the groups cited an incident involving a child that {childMisbehavior} as key evidence of the dark nature of the book.&r  When the decision to ban the book was announced yesterday, many area children spontaneously broke into tears.  One child was heard saying, \"{sadChildQuote}\"&r": "{city} - A children's story has been removed from libraries here after the city bowed to pressure from religious groups.&r  The book, {bookTitle}, is an immensely popular book by {nationality} author {authorName}.  Although the title is adored by children worldwide, some conservatives feel that the book {ridiculousBanReason}.  In their complaint, the groups cited an incident involving a child that {childMisbehavior} as key evidence of the dark nature of the book.&r  When the decision to ban the book was announced yesterday, many area children spontaneously broke into tears.  One child was heard saying, \"{sadChildQuote}\"&r",
   "{driver} and {vehicle} race inches apart!": "{driver} and {vehicle} race inches apart!",
   "{himHer} go RIGHT NOW.": "{himHer} go RIGHT NOW.",
   "{himHer}. {heSheCap} just hopes ": "{himHer}. {heSheCap} just hopes ",
@@ -237,6 +240,7 @@
   "{name}'s spleen is punctured!": "{name}'s spleen is punctured!",
   "{objPossessive} views.": "{objPossessive} views.",
   "{pName} is slowly warming {eName}'s frozen Conservative heart.": "{pName} is slowly warming {eName}'s frozen Conservative heart.",
+  "{pronoun} goldfish": "{pronoun} goldfish",
   "{protagonist} and the {adjective} {noun}": "{protagonist} and the {adjective} {noun}",
   "{vicePresident} ": "{vicePresident} "
 }

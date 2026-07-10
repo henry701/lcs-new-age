@@ -79,8 +79,19 @@ Future<void> setupNewGame() async {
   ) {
     var (name, description, color) = choices[index];
     var colorKey = ColorKey.fromColor(color);
-    addOptionText(y, 2, key, "$key - $category:");
-    mvaddstrx(y, 35, "&$colorKey$name");
+    addOptionText(
+      y,
+      2,
+      key,
+      "{key} - {category}:",
+      params: {"key": key, "category": category},
+    );
+    mvaddstrx(
+      y,
+      35,
+      "&{colorKey}{name}",
+      params: {"colorKey": colorKey, "name": name},
+    );
     setColor(midGray);
     mvaddstr(y + 1, 6, description);
   }

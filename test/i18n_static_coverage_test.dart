@@ -529,6 +529,23 @@ void main() {
       },
     );
 
+    test('swept generated-news sources contain no raw Dart interpolation', () {
+      final interpolation = RegExp(r'\$(?:\{|[A-Za-z_])');
+      final sources = [
+        'lib/newspaper/major_event.dart',
+        'lib/newspaper/ads.dart',
+      ];
+
+      for (final path in sources) {
+        final source = File(path).readAsStringSync();
+        expect(
+          interpolation.hasMatch(source),
+          isFalse,
+          reason: 'Raw interpolation remains in $path',
+        );
+      }
+    });
+
     test('menu, hospital, and debt-receipt output use full templates', () {
       final newGame = File('lib/title_screen/new_game.dart').readAsStringSync();
       final flag = File('lib/basemode/flag.dart').readAsStringSync();

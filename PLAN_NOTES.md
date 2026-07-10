@@ -629,3 +629,9 @@ Important remaining debt:
 
 - Added parameter forwarding to `sitemodePrompt`, then converted all kidnap guard/target composition and the guard alert to complete templates.
 - Added four pt_BR translations and a static regression test. This shared prompt API change makes future site-mode prompts templatizable without pre-rendered strings.
+
+## 2026-07-10 continuation: car-theft weapon and target prompts
+
+- Replaced optional `" with a {weapon}"` fragments with complete armed/unarmed window-action templates.
+- Templatized the car-theft target prompt and added five manually merged en_US/pt_BR keys because conditional multiline templates remain outside extractor coverage.
+- Added a static regression test. This batch preserves grammar and article placement for every locale.

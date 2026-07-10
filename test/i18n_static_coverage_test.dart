@@ -192,6 +192,16 @@ void main() {
       expect(source, contains('"Try to take {target} anyway?'));
     });
 
+    test('car theft messages do not append weapon fragments', () {
+      final source = File(
+        'lib/daily/activities/car_theft.dart',
+      ).readAsStringSync();
+      expect(source, isNot(contains(r'" with a ${cr.weapon')));
+      expect(source, isNot(contains('smashes the window{weapon}')));
+      expect(source, contains('smashes the window with a {weapon}.'));
+      expect(source, contains('What type of car will {name} try to find'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

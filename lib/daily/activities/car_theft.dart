@@ -128,29 +128,35 @@ class CarTheftScene {
         int difficulty = Difficulty.easy - windowDamage;
 
         if (cr.attributeCheck(Attribute.strength, difficulty)) {
-          String weaponDesc = (cr.weapon.type.meleeAttack?.damage ?? 0) > 10
-              ? " with a ${cr.weapon.getName(sidearm: true)}"
-              : "";
+          final hasWeapon = (cr.weapon.type.meleeAttack?.damage ?? 0) > 10;
           mvaddstrc(
             16,
             0,
             white,
-            "{name} smashes the window{weapon}.",
-            params: {"name": cr.name, "weapon": weaponDesc},
+            hasWeapon
+                ? "{name} smashes the window with a {weapon}."
+                : "{name} smashes the window.",
+            params: {
+              "name": cr.name,
+              "weapon": cr.weapon.getName(sidearm: true),
+            },
           );
           windowDamage = 10;
           await getKey();
           entered = true;
         } else {
-          String weaponDesc = (cr.weapon.type.meleeAttack?.damage ?? 0) > 10
-              ? " with a ${cr.weapon.getName(sidearm: true)}"
-              : "";
+          final hasWeapon = (cr.weapon.type.meleeAttack?.damage ?? 0) > 10;
           mvaddstrc(
             16,
             0,
             white,
-            "{name} cracks the window{weapon} but it is still somewhat intact.",
-            params: {"name": cr.name, "weapon": weaponDesc},
+            hasWeapon
+                ? "{name} cracks the window with a {weapon}, but it is still somewhat intact."
+                : "{name} cracks the window, but it is still somewhat intact.",
+            params: {
+              "name": cr.name,
+              "weapon": cr.weapon.getName(sidearm: true),
+            },
           );
           windowDamage++;
           await getKey();
@@ -509,8 +515,8 @@ class CarTheftScene {
     bailed = true;
     erase();
     await pagedInterface(
-      headerPrompt:
-          "What type of car will ${cr.name} try to find and steal today?",
+      headerPrompt: "What type of car will {name} try to find and steal today?",
+      headerPromptParams: {"name": cr.name},
       headerKey: {4: "TYPE", 49: "DIFFICULTY TO FIND UNATTENDED"},
       footerPrompt: "Press a Letter to select a Type of Car",
       count: cart.length,

@@ -223,6 +223,7 @@
   "{driver} loses control of the {vehicle}!!!": "{driver} loses control of the {vehicle}!!!",
   "{eName} swings the {weapon} and knocks {pName} out!": "{eName} swings the {weapon} and knocks {pName} out!",
   "{employee} {incident}": "{employee} {incident}",
+  "{first} & {second} Accounts": "{first} & {second} Accounts",
   "{key} {name}": "{key} {name}",
   "{leadName} would even suggest such a thing.": "{leadName} would even suggest such a thing.",
   "{name} abandoned the LCS.": "{name} abandoned the LCS.",

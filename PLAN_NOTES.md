@@ -605,3 +605,10 @@ Important remaining debt:
 - Converted every regular-activity footer outcome to a full `{name}`-centric template before rendering. Skill and fallback activity values are now named parameters, and prelocalized output is marked `noTranslate` at the console boundary.
 - Replaced the gendered `his/her squad` phrase with the neutral full template "{name} will act with their squad." so pt_BR can use its natural possessive without relying on the legacy `her` catalog entry.
 - Added 27 English/pt_BR catalog templates and static regression coverage. Focused i18n tests and the interpolation gate pass; the next audit target is remaining generated names/status summaries in basemode and daily code.
+
+## 2026-07-10 continuation: generated business-front names
+
+- Converted all randomized business-front names from raw last-name interpolation to complete `{first}`/`{second}`/`{third}` templates before assigning the user-visible site name.
+- Added 16 en_US/pt_BR catalog entries, including translated word order and conjunctions. Added static coverage.
+- Documented the extractor gap for destructured random template lists; those require explicit catalog merge and validation until extraction support is extended.
+- Catalog validation, wrapper interpolation gate, and focused i18n tests pass. Continue auditing similarly indirect local/generated display strings.

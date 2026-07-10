@@ -3,6 +3,7 @@ import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/compound_upgrades.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -247,26 +248,30 @@ Future<void> investInLocation(Site loc) async {
         loc.businessFront = true;
         do {
           String first = lastName(), second = lastName(), third = lastName();
-          String short, long;
-          (short, long) = [
-            ("Life Ins.", "$first Life Insurance"),
-            ("Manpower", "$first Manpower, LLC"),
-            ("Holding", "$first Holding Company"),
-            ("Services", "$first Elite Services"),
-            ("Design", "$first Design Agency"),
-            ("Realty", "$first Real Estate"),
-            ("Disposal", "$first Waste Disposal"),
-            ("Accounts", "$first & $second Accounts"),
-            ("Advisory", "$first Advisory"),
-            ("Finance", "$first $second Finance"),
-            ("Legal", "$first & $second Legal"),
-            ("Software", "$first Software"),
-            ("Technic", "$first Technical"),
-            ("Global", "$first Global"),
-            ("Partners", "$first $second $third Partnership"),
+          String short, longTemplate;
+          (short, longTemplate) = [
+            ("Life Ins.", "{first} Life Insurance"),
+            ("Manpower", "{first} Manpower, LLC"),
+            ("Holding", "{first} Holding Company"),
+            ("Services", "{first} Elite Services"),
+            ("Design", "{first} Design Agency"),
+            ("Realty", "{first} Real Estate"),
+            ("Disposal", "{first} Waste Disposal"),
+            ("Accounts", "{first} & {second} Accounts"),
+            ("Advisory", "{first} Advisory"),
+            ("Finance", "{first} {second} Finance"),
+            ("Legal", "{first} & {second} Legal"),
+            ("Software", "{first} Software"),
+            ("Technic", "{first} Technical"),
+            ("Global", "{first} Global"),
+            ("Partners", "{first} {second} {third} Partnership"),
             ("Acme", "Acme LLC Co. Inc."),
           ].random;
-          loc.frontName = long;
+          loc.frontName = LcsI18n.processString(longTemplate, {
+            "first": first,
+            "second": second,
+            "third": third,
+          });
           loc.shortName = short;
         } while (sites.where((l) => l.shortName == loc.shortName).length > 1);
       }

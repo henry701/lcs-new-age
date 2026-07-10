@@ -39,6 +39,7 @@ Notes:
 - Not a full semantic extractor: some strings assigned to locals and only rendered later through wrappers can still require manual sweep work.
 - **Critical:** User-facing name+possessive and fragment composition (e.g. "$name's Foo", name + "'s wounds", random flavor starting with ' or space) must be converted to complete placeholder templates (`"{name}'s Foo"`, `"{name} clutches at the wounds."`) BEFORE extraction. Fragments produce unorderable/grammatically invalid output in pt_BR and other locales. The extractor intentionally skips `$...`, apostrophe-led fragments, and lowercase leading-space fragments to avoid catalog pollution while still allowing intentionally indented complete sentences; convert fragments first.
 - Apostrophe handling: wrapper/assignment patterns are escape-aware, and random-list chunk extraction is quote-aware so apostrophes inside double-quoted strings are not treated as separate single-quoted literals. Always prefer `"..."` for strings containing `'`.
+- Generated templates selected through destructuring (for example `(short, template) = [...].random`) are not reliably discovered. Add their complete keys to both canonical catalogs with `merge_arb_entries.dart`, then run the catalog check; do not leave those generated names as raw interpolation.
 
 ## merge_arb_entries.dart
 

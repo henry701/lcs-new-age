@@ -239,6 +239,8 @@
   "{eName} brazenly tackles {pName}!": "{eName} enfrentando {pName}!",
   "{eaters} Eating": "{eaters} Comendo",
   "{expletive}!  Where are they?!": "{expletive}!  Onde estão?!",
+  "{first} Life Insurance": "Seguros de Vida {first}",
+  "{first} {second} Finance": "Finanças {first} {second}",
   "{key} - {car}": "{key} – {car}",
   "{message}!": "¡{message}!",
   "{name} can't figure the lock out.": "{name} não consegue entender a fechadura.",

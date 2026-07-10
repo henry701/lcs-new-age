@@ -155,6 +155,16 @@ void main() {
       expect(source, contains('activityMessage, noTranslate: true'));
     });
 
+    test('business-front names are complete templates', () {
+      final source = File(
+        'lib/basemode/invest_in_location.dart',
+      ).readAsStringSync();
+      expect(source, isNot(contains(r'"$first')));
+      expect(source, isNot(contains(r'"$first & $second')));
+      expect(source, contains('"{first} & {second} Accounts"'));
+      expect(source, contains('LcsI18n.processString(longTemplate'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

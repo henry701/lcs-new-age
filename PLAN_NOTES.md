@@ -651,3 +651,9 @@ Important remaining debt:
 - Replaced optional English menu suffix fragments for hacker-den and studio requirements with complete enabled/disabled labels, and templatized the flag-crafting prompt.
 - Manually merged all conditional labels, translated pt_BR values, and removed the three obsolete `$need...` catalog keys after confirming no live source reference remains.
 - Added static coverage; catalog and pre-commit validation pass.
+
+## 2026-07-10 continuation: age and gender summaries
+
+- Replaced estimated-age suffix/interpolation and gender/trans fragments with complete locale-controlled templates.
+- Added localized gender labels plus pt_BR age-decade and trans-person wording; manually merged compact templates missed by extraction.
+- Added static regression coverage and validated catalog integrity before commit.

@@ -17,6 +17,8 @@
   "\"White genocide\"": "\"White genocide\"",
   "\"Yes. Nice and easy.\"": "\"Yes. Nice and easy.\"",
   "%HELPER% helps %FIRST% remember them.": "%HELPER% helps %FIRST% remember them.",
+  "({age}, {gender})": "({gender}, {age})",
+  "({age}, {gender}, Trans)": "({gender}, {age}, pessoa trans)",
   "+1 Firearms, AK-102": "+1 Armas, AK-102",
   "-Flee, ": "-Fugir, ",
   "...  stabbed with, maybe, pitchforks.  There may have ": "...  esfaqueado com, talvez, forcados.  Pode ter ",

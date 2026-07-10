@@ -9,6 +9,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -287,21 +288,35 @@ void printWounds(Creature cr, {int y = 2, int x = 49}) {
 }
 
 String creatureAgeAndGender(Creature person) {
-  String age;
+  final age = person.age;
+  late final String ageDescription;
   if (person.body is! HumanoidBody) {
     // Animals and machines; +-2
-    age = "${person.age + person.birthDate.day % 5 - 2}?";
+    ageDescription = LcsI18n.processString("{age}?", {
+      "age": age + person.birthDate.day % 5 - 2,
+    });
   } else if (person.age < 20) {
     // Children and teens; +-1
-    age = "${person.age + person.birthDate.day % 3 - 1}?";
+    ageDescription = LcsI18n.processString("{age}?", {
+      "age": age + person.birthDate.day % 3 - 1,
+    });
   } else {
     // Adults; just assess a decade
-    age = "${person.age - (person.age % 10)}s";
+    ageDescription = LcsI18n.processString("{age}s", {"age": age - (age % 10)});
   }
 
-  // Assess their gender Liberally
-  String trans = person.gender != person.genderAssignedAtBirth ? ", Trans" : "";
-  return "($age, ${capitalize(person.gender.name)}$trans)";
+  final gender = switch (person.gender.simplified) {
+    Gender.nonbinary => LcsI18n.tr("Nonbinary"),
+    Gender.male => LcsI18n.tr("Male"),
+    Gender.female => LcsI18n.tr("Female"),
+    _ => throw StateError('Unexpected simplified gender'),
+  };
+  return LcsI18n.processString(
+    person.gender == person.genderAssignedAtBirth
+        ? "({age}, {gender})"
+        : "({age}, {gender}, Trans)",
+    {"age": ageDescription, "gender": gender},
+  );
 }
 
 /* full character sheet with surrounding interface */

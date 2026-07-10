@@ -204,6 +204,7 @@
   "yells \"I think they went that-a-way!\"": "grita \"Acho que eles foram praquele lado!\"",
   "zac": "-zac",
   "{actor} dressed up and pretended to be radioactive mutants!": "{actor} se fantasiou e fingiu ser mutantes radioativos!",
+  "{age}?": "{age} anos?",
   "{attacker} hits {target}, {description} {times} times.": "{attacker} acerta {target}, {description} {times} vezes.",
   "{attacker} punches the {ism} out of {target}, {description} {times} times!": "{attacker} arranca o {ism} de {target} no soco, {description} {times} vezes!",
   "{city} - ": "{city} – ",

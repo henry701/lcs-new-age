@@ -198,6 +198,7 @@
   "yells \"I think they went that-a-way!\"": "yells \"I think they went that-a-way!\"",
   "zac": "zac",
   "{actor} dressed up and pretended to be radioactive mutants!": "{actor} dressed up and pretended to be radioactive mutants!",
+  "{age}?": "{age}?",
   "{attacker} hits {target}, {description} {times} times.": "{attacker} hits {target}, {description} {times} times.",
   "{attacker} punches the {ism} out of {target}, {description} {times} times!": "{attacker} punches the {ism} out of {target}, {description} {times} times!",
   "{city} - ": "{city} - ",

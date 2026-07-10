@@ -233,6 +233,16 @@ void main() {
       expect(source, contains('"Which will {name} try to make?'));
     });
 
+    test('age and gender summaries use complete templates', () {
+      final source = File(
+        'lib/common_display/print_creature_info.dart',
+      ).readAsStringSync();
+      expect(source, isNot(contains(r'"${person.age')));
+      expect(source, isNot(contains(r'"($age,')));
+      expect(source, contains('"({age}, {gender})"'));
+      expect(source, contains('"({age}, {gender}, Trans)"'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

@@ -594,3 +594,8 @@ Important remaining debt:
 - Manual review of the remaining named-target interpolation sites found only debug diagnostics, numeric currency values passed as template parameters, color/layout control markup, or paragraph joining after each paragraph has already been localized. They remain intentionally classified rather than translated as prose.
 - Canonical workflow now states that the interpolation allowlist is exception-only and must never suppress user-facing composition.
 - Fresh validation: formatter, catalog check, extraction, interpolation gate (`414` total literals; `0` unclassified wrapper hits), focused i18n tests, and full `flutter test` passed. Current pt_BR catalog coverage is `6131/7673` (`79.90%`); templating is substantially ahead of translation completeness.
+
+## 2026-07-10 continuation: daily blind log and flag prompts
+
+- Converted daily dispersal blind-log names, post-discharge message, and flag-site prompts to complete templates; added five pt_BR translations and static regressions.
+- The focused i18n suite, catalog integrity check, and interpolation allowlist gate pass. The broad remaining audit still includes basemode activity summaries and generated business/site names.

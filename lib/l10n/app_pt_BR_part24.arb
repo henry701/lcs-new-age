@@ -248,6 +248,7 @@
   "{name} drops the {weapon} and {escape}": "{name} larga a {weapon} e {escape}",
   "{name} falls apart and is dead.": "{name} falls apart and is dead.",
   "{name} feels completely humiliated.": "{name} feels completely humiliated.",
+  "{name} has been discharged from {site}.": "{name} recebeu alta de {site}.",
   "{name} has reverted to Conservatism in police custody!": "{name} reverteu ao Conservadorismo sob custódia policial!",
   "{name} is rehabilitated and freed.": "{name} é reabilitado e libertado.",
   "{name} participates in a quickly-suppressed prison riot.": "{name} participates in a quickly-suppressed prison riot.",

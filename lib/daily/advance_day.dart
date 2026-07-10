@@ -19,6 +19,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/compound.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -607,7 +608,12 @@ Future<void> dispersalCheck() async {
             await getKey();
             mvaddstrc(9, 1, lightGreen, "The Liberal has gone into hiding...");
             await getKey();
-            logBlindEvent("${p.name} lost touch with the Liberal Crime Squad.");
+            logBlindEvent(
+              LcsI18n.processString(
+                "{name} lost touch with the Liberal Crime Squad.",
+                {"name": p.name},
+              ),
+            );
           } else if (dispersalStatus[p] == DispersalTypes.abandonLCS) {
             mvaddstrc(
               8,
@@ -617,7 +623,11 @@ Future<void> dispersalCheck() async {
               params: {"name": p.name},
             );
             await getKey();
-            logBlindEvent("${p.name} abandoned the LCS.");
+            logBlindEvent(
+              LcsI18n.processString("{name} abandoned the LCS.", {
+                "name": p.name,
+              }),
+            );
           } else if (dispersalStatus[p] == DispersalTypes.noContact) {
             mvaddstrc(
               8,
@@ -627,7 +637,12 @@ Future<void> dispersalCheck() async {
               params: {"name": p.name},
             );
             await getKey();
-            logBlindEvent("${p.name} lost touch with the Liberal Crime Squad.");
+            logBlindEvent(
+              LcsI18n.processString(
+                "{name} lost touch with the Liberal Crime Squad.",
+                {"name": p.name},
+              ),
+            );
           }
         }
 
@@ -1066,7 +1081,8 @@ Future<void> _dailyHealing() async {
         }
       } else {
         await showMessage(
-          "${p.name} has been discharged from ${p.site!.name}.",
+          "{name} has been discharged from {site}.",
+          params: {"name": p.name, "site": p.site!.name},
         );
       }
 

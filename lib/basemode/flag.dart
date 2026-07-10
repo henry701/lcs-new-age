@@ -12,6 +12,7 @@ import 'package:lcs_new_age/engine/console_graphic.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/flag.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
@@ -163,9 +164,13 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
 
   String prompt;
   if (loc.hasFlag) {
-    prompt = "Change the flag flying over the ${loc.getName(short: true)}:";
+    prompt = LcsI18n.processString("Change the flag flying over the {site}:", {
+      "site": loc.getName(short: true),
+    });
   } else {
-    prompt = "Fly a flag over the ${loc.getName(short: true)}:";
+    prompt = LcsI18n.processString("Fly a flag over the {site}:", {
+      "site": loc.getName(short: true),
+    });
   }
   String footer;
   if (ownedOnly) {

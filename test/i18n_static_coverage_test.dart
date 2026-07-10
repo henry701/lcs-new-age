@@ -134,6 +134,17 @@ void main() {
       expect(source, contains('params: {"name": cr.name, "flag": flag.name}'));
     });
 
+    test('daily activity and flag prompts use complete templates', () {
+      final advanceDay = File('lib/daily/advance_day.dart').readAsStringSync();
+      final flag = File('lib/basemode/flag.dart').readAsStringSync();
+      expect(advanceDay, isNot(contains(r'logBlindEvent("${p.name}')));
+      expect(advanceDay, isNot(contains(r'"${p.name} has been discharged')));
+      expect(advanceDay, contains('"{name} has been discharged from {site}."'));
+      expect(flag, isNot(contains(r'${loc.getName(short: true)}')));
+      expect(flag, contains('"Change the flag flying over the {site}:"'));
+      expect(flag, contains('"Fly a flag over the {site}:"'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

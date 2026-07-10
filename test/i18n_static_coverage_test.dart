@@ -150,6 +150,12 @@ void main() {
           'The bank teller reads the note, {reaction}, and slips several bricks',
         ),
       );
+      expect(source, isNot(contains('whileNaked')));
+      expect(source, contains('A - Quietly pass the teller a robbery note.'));
+      expect(
+        source,
+        contains('A - Quietly pass the teller a robbery note while naked.'),
+      );
     });
 
     test('high score endings include the date in each full template', () {

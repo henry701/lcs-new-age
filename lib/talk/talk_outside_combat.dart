@@ -38,8 +38,7 @@ String _localizedCountLabel(int count, String singular, String plural) {
 }
 
 Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
-  bool nude = a.indecent;
-  String whileNaked = nude ? " ${LcsI18n.tr("while naked")}" : "";
+  String optionText(String normal, String naked) => a.indecent ? naked : normal;
   clearSceneAreas();
   mvaddstrcx(
     9,
@@ -58,23 +57,29 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
     console.y + 2,
     1,
     "A",
-    "A - Strike up a conversation about politics{whileNaked}.",
-    params: {"whileNaked": whileNaked},
+    optionText(
+      "A - Strike up a conversation about politics.",
+      "A - Strike up a conversation about politics while naked.",
+    ),
   );
   addOptionText(
     console.y + 1,
     1,
     "B",
-    "B - Drop a pickup line{whileNaked}.",
+    optionText(
+      "B - Drop a pickup line.",
+      "B - Drop a pickup line while naked.",
+    ),
     enabledWhen: tk.canDate(a),
-    params: {"whileNaked": whileNaked},
   );
   addOptionText(
     console.y + 1,
     1,
     "C",
-    "C - On second thought, don't say anything{whileNaked}.",
-    params: {"whileNaked": whileNaked},
+    optionText(
+      "C - On second thought, don't say anything.",
+      "C - On second thought, don't say anything while naked.",
+    ),
   );
 
   if (tk.type.id == CreatureTypeIds.landlord) {
@@ -83,16 +88,17 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
         14,
         1,
         "D",
-        "D - Rent a room{whileNaked}.",
-        params: {"whileNaked": whileNaked},
+        optionText("D - Rent a room.", "D - Rent a room while naked."),
       );
     } else if (activeSite?.controller == SiteController.lcs) {
       addOptionText(
         14,
         1,
         "D",
-        "D - Stop renting a room{whileNaked}.",
-        params: {"whileNaked": whileNaked},
+        optionText(
+          "D - Stop renting a room.",
+          "D - Stop renting a room while naked.",
+        ),
       );
     }
   } else if (tk.type.id == CreatureTypeIds.gangMember ||
@@ -101,16 +107,14 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
       14,
       1,
       "D",
-      "D - Buy weapons{whileNaked}.",
-      params: {"whileNaked": whileNaked},
+      optionText("D - Buy weapons.", "D - Buy weapons while naked."),
     );
   } else if (tk.type.id == CreatureTypeIds.bankTeller) {
     addOptionText(
       14,
       1,
       "D",
-      "D - Rob the bank{whileNaked}.",
-      params: {"whileNaked": whileNaked},
+      optionText("D - Rob the bank.", "D - Rob the bank while naked."),
     );
   }
 
@@ -633,27 +637,33 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
 Future<bool> talkToBankTeller(Creature a, Creature tk) async {
   clearSceneAreas();
   setColor(lightGray);
-  String whileNaked = a.indecent ? " ${LcsI18n.tr("while naked")}" : "";
+  String optionText(String normal, String naked) => a.indecent ? naked : normal;
   addOptionText(
     11,
     1,
     "A",
-    "A - Quietly pass the teller a robbery note{whileNaked}.",
-    params: {"whileNaked": whileNaked},
+    optionText(
+      "A - Quietly pass the teller a robbery note.",
+      "A - Quietly pass the teller a robbery note while naked.",
+    ),
   );
   addOptionText(
     12,
     1,
     "B",
-    "B - Threaten bystanders and demand access to the vault{whileNaked}.",
-    params: {"whileNaked": whileNaked},
+    optionText(
+      "B - Threaten bystanders and demand access to the vault.",
+      "B - Threaten bystanders and demand access to the vault while naked.",
+    ),
   );
   addOptionText(
     13,
     1,
     "C",
-    "C - On second thought, don't rob the bank{whileNaked}.",
-    params: {"whileNaked": whileNaked},
+    optionText(
+      "C - On second thought, don't rob the bank.",
+      "C - On second thought, don't rob the bank while naked.",
+    ),
   );
 
   int c;

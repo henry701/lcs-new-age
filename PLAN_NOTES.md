@@ -564,3 +564,8 @@ Important remaining debt:
 
 - Replaced incrementally concatenated medical-debt warning text in `lib/daily/siege.dart` with complete named-sleeper and anonymous-tip templates. Rendered messages are marked `noTranslate` after `processString` to avoid a second lookup.
 - Added both pt_BR translations and static regression checks. Continue the remaining non-newspaper sweep with talk option fragments, newspaper advertisements, and only after review the debug/currency-only interpolation sites.
+
+## 2026-07-10 continuation: naked-talk option fragments
+
+- Replaced the `whileNaked` suffix injection in `talk_outside_combat.dart` with whole normal/nude option templates. This preserves translator-controlled sentence grammar instead of appending an English fragment.
+- Added 14 pt_BR option translations and a regression assertion. The next broad scan remains newspaper ads/display layout plus user-facing generated composition outside the currently detected wrapper hits.

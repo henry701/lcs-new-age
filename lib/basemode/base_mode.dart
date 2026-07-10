@@ -562,13 +562,16 @@ void addFlagButton(int y, int x, Site loc) {
     highlight = false;
   } else {
     bool canSwitch = ownsAnyFlag || ledger.funds >= 20;
-    String price = ownsAnyFlag ? "" : "(\$20)";
     enabled = canSwitch;
     highlight = false;
     if (loc.hasFlag) {
-      label = "P - Pride: Switch flags $price";
+      label = ownsAnyFlag
+          ? "P - Pride: Switch flags"
+          : "P - Pride: Switch flags (\$20)";
     } else {
-      label = "P - Pride: Fly a flag here $price";
+      label = ownsAnyFlag
+          ? "P - Pride: Fly a flag here"
+          : "P - Pride: Fly a flag here (\$20)";
     }
   }
 

@@ -243,6 +243,13 @@ void main() {
       expect(source, contains('"({age}, {gender}, Trans)"'));
     });
 
+    test('base flag labels do not append a price fragment', () {
+      final source = File('lib/basemode/base_mode.dart').readAsStringSync();
+      expect(source, isNot(contains(r'"P - Pride: Switch flags $price"')));
+      expect(source, isNot(contains(r'"P - Pride: Fly a flag here $price"')));
+      expect(source, contains(r'"P - Pride: Switch flags (\$20)"'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

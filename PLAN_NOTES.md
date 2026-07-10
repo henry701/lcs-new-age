@@ -657,3 +657,8 @@ Important remaining debt:
 - Replaced estimated-age suffix/interpolation and gender/trans fragments with complete locale-controlled templates.
 - Added localized gender labels plus pt_BR age-decade and trans-person wording; manually merged compact templates missed by extraction.
 - Added static regression coverage and validated catalog integrity before commit.
+
+## 2026-07-10 continuation: base flag-price labels
+
+- Replaced price suffix concatenation in base flag actions with complete free/paid labels.
+- Manually added/updated the conditional paid-label catalog entries and pt_BR translations, then added a static regression check.

@@ -59,13 +59,19 @@ String _formatDateNameList(List<Creature> dates) {
     return styledNames.firstOrNull ?? "";
   }
   if (styledNames.length == 2) {
-    return "${styledNames[0]}${LcsI18n.tr(" and ")}${styledNames[1]}";
+    return LcsI18n.processString("{first} and {second}", {
+      "first": styledNames[0],
+      "second": styledNames[1],
+    });
   }
 
   final leadingNames = styledNames
       .sublist(0, styledNames.length - 1)
       .join(", ");
-  return "$leadingNames${LcsI18n.tr(", and ")}${styledNames.last}";
+  return LcsI18n.processString("{leading}, and {last}", {
+    "leading": leadingNames,
+    "last": styledNames.last,
+  });
 }
 
 @JsonSerializable()

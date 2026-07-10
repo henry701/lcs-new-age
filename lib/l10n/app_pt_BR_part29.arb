@@ -229,6 +229,7 @@
   "{days} ": "{days}  ",
   "{eName} had to leave early {excuse}": "{eName} teve que sair cedo {excuse}",
   "{first} {second} {third} Partnership": "Parceria {first} {second} {third}",
+  "{leading}, and {last}": "{leading} e {last}",
   "{lead} attempts to recruit {name} to the Liberal Crime Squad. ": "{lead} tenta recrutar {name} para o Liberal Crime Squad. ",
   "{name} ": "{name}  ",
   "{name} asks {lead} if {leadPronoun} ever think{leadS} about Jesus.": "{name} pergunta a {lead} se {leadPronoun} já pensa{leadS} em Jesus.",

@@ -202,6 +202,14 @@ void main() {
       expect(source, contains('What type of car will {name} try to find'));
     });
 
+    test('dating name lists use locale-controlled templates', () {
+      final source = File('lib/daily/dating.dart').readAsStringSync();
+      expect(source, isNot(contains(r'"${styledNames[0]}')));
+      expect(source, isNot(contains(r'"$leadingNames')));
+      expect(source, contains('"{first} and {second}"'));
+      expect(source, contains('"{leading}, and {last}"'));
+    });
+
     test('combat attack announcements are single full templates', () {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));

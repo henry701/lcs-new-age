@@ -217,6 +217,7 @@
   "{days} ": "{days} ",
   "{eName} had to leave early {excuse}": "{eName} had to leave early {excuse}",
   "{first} {second} {third} Partnership": "{first} {second} {third} Partnership",
+  "{leading}, and {last}": "{leading}, and {last}",
   "{lead} attempts to recruit {name} to the Liberal Crime Squad. ": "{lead} attempts to recruit {name} to the Liberal Crime Squad. ",
   "{name} ": "{name} ",
   "{name} asks {lead} if {leadPronoun} ever think{leadS} about Jesus.": "{name} asks {lead} if {leadPronoun} ever think{leadS} about Jesus.",

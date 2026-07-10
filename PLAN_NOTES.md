@@ -635,3 +635,8 @@ Important remaining debt:
 - Replaced optional `" with a {weapon}"` fragments with complete armed/unarmed window-action templates.
 - Templatized the car-theft target prompt and added five manually merged en_US/pt_BR keys because conditional multiline templates remain outside extractor coverage.
 - Added a static regression test. This batch preserves grammar and article placement for every locale.
+
+## 2026-07-10 continuation: dating-name lists
+
+- Replaced handcrafted two-name and Oxford-comma date-list joins with complete templates, preserving color markup as parameters.
+- Added pt_BR conjunction/order translations and a static guard so locale grammar controls the join rather than English fragments.

@@ -1839,34 +1839,45 @@ MajorEventContent generateMajorEventContent(
               "OPEC cuts oil production sharply in response to a US foreign policy decision.",
         );
       case View.animalResearch:
-        String country = [
-          "Russia", "North Korea", "Cuba", "Iran", "China", //
-        ].random;
+        String country = LcsI18n.tr(
+          ["Russia", "North Korea", "Cuba", "Iran", "China"].random,
+        );
         String fromCountry = switch (laws[Law.animalRights]) {
-          DeepAlignment.eliteLiberal => "from $country",
-          _ => "here",
+          DeepAlignment.eliteLiberal => LcsI18n.processString(
+            "from {country}",
+            {"country": country},
+          ),
+          _ => LcsI18n.tr("here"),
         };
-        String drugName =
-            "${[
-              if (noProfanity) "Bum" else "Anal", "Colo", "Lacta", "Pur", "Loba", //
-            ].random}${[
-              "nephrin", "tax", "zac", "thium", "drene", //
-            ].random}";
-        String drugEffect = [
-          "boosts intelligence in chimpanzees",
-          if (noProfanity)
-            "[helps chimpanzees reproduce]"
-          else
-            "corrects erectile dysfunction in chimpanzees",
-          "allows chimpanzees to move blocks with their minds",
-          "allows chimpanzees to fly short distances",
-          "increases the attention span of young chimpanzees",
-        ].random;
-        String responseToEthics = [
-          "The ones that survived are all doing very well",
-          "They hardly notice when you drill their brains out, if you're fast",
-          "When we started muffling the screams of our subjects, the other chimps all calmed down quite a bit",
-        ].random;
+        String drugName = LcsI18n.processString("{prefix}{suffix}", {
+          "prefix": [
+            if (noProfanity) "Bum" else "Anal",
+            "Colo",
+            "Lacta",
+            "Pur",
+            "Loba",
+          ].random,
+          "suffix": ["nephrin", "tax", "zac", "thium", "drene"].random,
+        });
+        String drugEffect = LcsI18n.tr(
+          [
+            "boosts intelligence in chimpanzees",
+            if (noProfanity)
+              "[helps chimpanzees reproduce]"
+            else
+              "corrects erectile dysfunction in chimpanzees",
+            "allows chimpanzees to move blocks with their minds",
+            "allows chimpanzees to fly short distances",
+            "increases the attention span of young chimpanzees",
+          ].random,
+        );
+        String responseToEthics = LcsI18n.tr(
+          [
+            "The ones that survived are all doing very well",
+            "They hardly notice when you drill their brains out, if you're fast",
+            "When we started muffling the screams of our subjects, the other chimps all calmed down quite a bit",
+          ].random,
+        );
 
         return MajorEventContent(
           headline: "APE EXPLORERS",
@@ -1891,68 +1902,89 @@ MajorEventContent generateMajorEventContent(
         FullName perp = generateFullName(perpGender);
         Gender guardGender = forceGenderBinary(Gender.maleBias);
         FullName guard = generateFullName(guardGender);
-        String rapist = noProfanity ? "[reproduction fiend]" : "rapist";
+        String rapist = LcsI18n.tr(
+          noProfanity ? "[reproduction fiend]" : "rapist",
+        );
         String prisonName = lastName();
-        String imKillingThisPig = [
-          switch (laws[Law.freeSpeech]) {
-            DeepAlignment.eliteLiberal =>
-              "Ah, fuck this shit.  This punk bitch is fuckin' dead!",
-            DeepAlignment.archConservative =>
-              "Ah, [I am unhappy].  This [police officer will be harmed]!",
-            _ => "Ah, f*ck this sh*t.  This punk b*tch is f*ckin' dead!",
-          },
-          switch (laws[Law.freeSpeech]) {
-            DeepAlignment.eliteLiberal =>
-              "Fuck a muthafuckin' bull.  I'm killin' this pig shit.",
-            DeepAlignment.archConservative =>
-              "[I am attracted to cattle].  [I am harming a police officer].",
-            _ => "F*ck a m*th*f*ck*n' bull.  I'm killin' this pig sh*t.",
-          },
-          switch (laws[Law.freeSpeech]) {
-            DeepAlignment.eliteLiberal =>
-              "Why the fuck am I talkin' to you?  I'd rather kill this pig.",
-            DeepAlignment.archConservative =>
-              "Why [are we speaking]?  I'd rather [harm this police officer].",
-            _ => "Why the f*ck am I talkin' to you?  I'd rather kill this pig.",
-          },
-          switch (laws[Law.freeSpeech]) {
-            DeepAlignment.eliteLiberal =>
-              "Imma kill all you bitches, startin' with this muthafucker here.",
-            DeepAlignment.archConservative =>
-              "[I will harm every police officer], startin' with this [one] here.",
-            _ =>
-              "Imma kill all you b*tches, startin' with this m*th*f*ck*r here.",
-          },
-        ].random;
-        String killedTheGuard = switch (laws[Law.freeSpeech]) {
-          DeepAlignment.archConservative => "[harmed] the guard",
-          DeepAlignment.conservative => "killed the guard",
-          _ => [
-            "slit the guard's throat with a shank",
-            "strangled the guard to death with a knotted bed sheet",
-            "chewed out the guard's throat",
-            "smashed the guard's skull with the toilet seat from "
-                "${perpGender.hisHer} cell",
-            "shot the guard with ${guardGender.hisHer} own gun",
-            "poisoned the guard with drugs smuggled into the prison by "
-                "the ${["Crips", "Bloods"].random}",
-            "hit all 36 pressure points of death on the guard",
-            "electrocuted the guard with high-voltage wires",
-            "thrown the guard out the top-story window",
-            "taken the guard to the execution chamber and finished "
-                "${guardGender.himHer} off",
-            "tricked another guard into shooting the guard dead",
-            "burnt the guard to a crisp using a lighter and some gasoline",
-            "eaten the guard's liver with some fava beans and a nice chianti",
-            "performed deadly experiments on the guard unheard of since "
-                "Dr. Mengele",
-            "sacrificed the guard on a makeshift "
-                "${["satanic", "neo-pagan"].random} altar",
+        String imKillingThisPig = LcsI18n.tr(
+          [
+            switch (laws[Law.freeSpeech]) {
+              DeepAlignment.eliteLiberal =>
+                "Ah, fuck this shit.  This punk bitch is fuckin' dead!",
+              DeepAlignment.archConservative =>
+                "Ah, [I am unhappy].  This [police officer will be harmed]!",
+              _ => "Ah, f*ck this sh*t.  This punk b*tch is f*ckin' dead!",
+            },
+            switch (laws[Law.freeSpeech]) {
+              DeepAlignment.eliteLiberal =>
+                "Fuck a muthafuckin' bull.  I'm killin' this pig shit.",
+              DeepAlignment.archConservative =>
+                "[I am attracted to cattle].  [I am harming a police officer].",
+              _ => "F*ck a m*th*f*ck*n' bull.  I'm killin' this pig sh*t.",
+            },
+            switch (laws[Law.freeSpeech]) {
+              DeepAlignment.eliteLiberal =>
+                "Why the fuck am I talkin' to you?  I'd rather kill this pig.",
+              DeepAlignment.archConservative =>
+                "Why [are we speaking]?  I'd rather [harm this police officer].",
+              _ =>
+                "Why the f*ck am I talkin' to you?  I'd rather kill this pig.",
+            },
+            switch (laws[Law.freeSpeech]) {
+              DeepAlignment.eliteLiberal =>
+                "Imma kill all you bitches, startin' with this muthafucker here.",
+              DeepAlignment.archConservative =>
+                "[I will harm every police officer], startin' with this [one] here.",
+              _ =>
+                "Imma kill all you b*tches, startin' with this m*th*f*ck*r here.",
+            },
           ].random,
+        );
+        String killedTheGuard = switch (laws[Law.freeSpeech]) {
+          DeepAlignment.archConservative => LcsI18n.tr("[harmed] the guard"),
+          DeepAlignment.conservative => LcsI18n.tr("killed the guard"),
+          _ => LcsI18n.tr(
+            [
+              "slit the guard's throat with a shank",
+              "strangled the guard to death with a knotted bed sheet",
+              "chewed out the guard's throat",
+              LcsI18n.processString(
+                "smashed the guard's skull with the toilet seat from {possessive} cell",
+                {"possessive": LcsI18n.tr(perpGender.hisHer)},
+              ),
+              LcsI18n.processString(
+                "shot the guard with {possessive} own gun",
+                {"possessive": LcsI18n.tr(guardGender.hisHer)},
+              ),
+              LcsI18n.processString(
+                "poisoned the guard with drugs smuggled into the prison by the {gang}",
+                {
+                  "gang": LcsI18n.tr(["Crips", "Bloods"].random),
+                },
+              ),
+              "hit all 36 pressure points of death on the guard",
+              "electrocuted the guard with high-voltage wires",
+              "thrown the guard out the top-story window",
+              LcsI18n.processString(
+                "taken the guard to the execution chamber and finished {pronoun} off",
+                {"pronoun": LcsI18n.tr(guardGender.himHer)},
+              ),
+              "tricked another guard into shooting the guard dead",
+              "burnt the guard to a crisp using a lighter and some gasoline",
+              "eaten the guard's liver with some fava beans and a nice chianti",
+              "performed deadly experiments on the guard unheard of since Dr. Mengele",
+              LcsI18n.processString(
+                "sacrificed the guard on a makeshift {religion} altar",
+                {
+                  "religion": LcsI18n.tr(["satanic", "neo-pagan"].random),
+                },
+              ),
+            ].random,
+          ),
         };
         String beatenToDeath = noProfanity
-            ? "[also harmed]"
-            : "beaten to death";
+            ? LcsI18n.tr("[also harmed]")
+            : LcsI18n.tr("beaten to death");
 
         return MajorEventContent(
           headline: "HOSTAGE SLAIN",
@@ -1961,11 +1993,11 @@ MajorEventContent generateMajorEventContent(
             {
               "city": randomCityName(),
               "prisonName": prisonName,
-              "guardPossessive": guardGender.hisHer,
+              "guardPossessive": LcsI18n.tr(guardGender.hisHer),
               "rapist": rapist,
               "perpFullName": perp.firstLast,
               "guardFullName": guard.firstLast,
-              "perpPronounSelf": perpGender.himselfHerself,
+              "perpPronounSelf": LcsI18n.tr(perpGender.himselfHerself),
               "days": (lcsRandom(18) + 5).toString(),
               "imKillingThisPig": imKillingThisPig,
               "perpLast": perp.last,
@@ -1975,54 +2007,47 @@ MajorEventContent generateMajorEventContent(
           ),
         );
       case View.intelligence:
-        String terrorists = [
-          "white supremacists",
-          "Islamic fundamentalists",
-          "outcast goths from a suburban high school",
-        ].random;
-        String censoredAttack = [
-          "[land] planes [on apartment buildings]",
-          "[put] fertilizer [on plants] at a federal building",
-          "[show up uninvited to] a warship",
-          "[give children owies and boo-boos]",
-          "[cause a traffic jam on] a major bridge",
-          "[take] the president [on vacation]",
-          "[hurt] the president",
-          "[vandalize] the Capitol Building",
-          "detonate [fireworks] in New York",
-        ].random;
-        String terroristAttack = [
-          "fly planes into skyscrapers",
-          "detonate a fertilizer bomb a federal building",
-          "ram a motorboat loaded with explosives into a warship",
-          "detonate explosives on a school bus",
-          "blow out a section of a major bridge",
-          "kidnap the president",
-          "assassinate the president",
-          "destroy the Capitol Building",
-          "detonate a nuclear bomb in New York",
-        ].random;
+        String terrorists = LcsI18n.tr(
+          [
+            "white supremacists",
+            "Islamic fundamentalists",
+            "outcast goths from a suburban high school",
+          ].random,
+        );
+        String censoredAttack = LcsI18n.tr(
+          [
+            "[land] planes [on apartment buildings]",
+            "[put] fertilizer [on plants] at a federal building",
+            "[show up uninvited to] a warship",
+            "[give children owies and boo-boos]",
+            "[cause a traffic jam on] a major bridge",
+            "[take] the president [on vacation]",
+            "[hurt] the president",
+            "[vandalize] the Capitol Building",
+            "detonate [fireworks] in New York",
+          ].random,
+        );
+        String terroristAttack = LcsI18n.tr(
+          [
+            "fly planes into skyscrapers",
+            "detonate a fertilizer bomb a federal building",
+            "ram a motorboat loaded with explosives into a warship",
+            "detonate explosives on a school bus",
+            "blow out a section of a major bridge",
+            "kidnap the president",
+            "assassinate the president",
+            "destroy the Capitol Building",
+            "detonate a nuclear bomb in New York",
+          ].random,
+        );
         String attackChoice = noProfanity ? censoredAttack : terroristAttack;
 
         return MajorEventContent(
           headline: "DODGED BULLET",
-          storyText:
-              "Washington, DC - The CIA announced yesterday that it has averted "
-              "a terror attack that would have occurred on American soil.&r"
-              "  According to a spokesperson for the agency, $terrorists "
-              "planned to $attackChoice.  "
-              "However, intelligence garnered from deep within the mysterious "
-              "terrorist organization allowed the plot to be foiled just days "
-              "before it was to occur.&r"
-              "  The spokesperson further stated, \""
-              "I won't compromise our sources and methods, but let me just say "
-              "that we are grateful to the Congress and this Administration for "
-              "providing us with the tools we need to neutralize these enemies of "
-              "civilization before they can destroy American families.  "
-              "However, let me also say that there's more that needs to be done.  "
-              "The Head of the Agency will be sending a request to Congress "
-              "for what we feel are the essential tools for combating terrorism in "
-              "this new age.\"&r",
+          storyText: LcsI18n.processString(
+            "Washington, DC - The CIA announced yesterday that it has averted a terror attack that would have occurred on American soil.&r  According to a spokesperson for the agency, {terrorists} planned to {attackChoice}.  However, intelligence garnered from deep within the mysterious terrorist organization allowed the plot to be foiled just days before it was to occur.&r  The spokesperson further stated, \"I won't compromise our sources and methods, but let me just say that we are grateful to the Congress and this Administration for providing us with the tools we need to neutralize these enemies of civilization before they can destroy American families.  However, let me also say that there's more that needs to be done.  The Head of the Agency will be sending a request to Congress for what we feel are the essential tools for combating terrorism in this new age.\"&r",
+            {"terrorists": terrorists, "attackChoice": attackChoice},
+          ),
         );
       case View.freeSpeech:
         return const MajorEventContent(

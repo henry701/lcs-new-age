@@ -539,3 +539,11 @@ Important remaining debt:
 - Added static regression checks for the new civil-rights, torture, and death-penalty article templates; synced and translated the newly discovered pt_BR templates/values.
 - Validation: canonical catalogs and the interpolation allowlist gate pass; full `flutter test` passes (`228` tests).
 - Current status: `7608` source keys, `6067` translated, `1541` untranslated, `0` missing, `0` empty, `79.75%` coverage. Continue with animal-research, prison, intelligence, and later major-event branches; then repeat the broader `talk/`, fight, siege, and shop audit.
+
+## 2026-07-10 continuation: animal research, prison fragments, and intelligence prose
+
+- Replaced the remaining generated composition in `View.animalResearch`, including country labels and synthetic drug names, with complete templates and translated values.
+- Converted the intelligence article to one `LcsI18n.processString` template with translated terrorist/attack parameters.
+- Removed name/pronoun and gang/religion fragments in the prison hostage story. The guard-death descriptions now use complete templates; user-facing pronouns are translated before insertion.
+- Added static checks for the animal-research, intelligence, and prison templates. Catalog layout/interpolation gate/full `flutter test` all pass.
+- Current status: `7618` source keys, `6076` translated, `1542` untranslated, `0` missing, `0` empty, `79.76%` coverage. Remaining generated-story work starts with genetics, justice, pollution, and housing branches.

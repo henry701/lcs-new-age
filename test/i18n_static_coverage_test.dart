@@ -312,6 +312,22 @@ void main() {
       );
       expect(
         majorEvent,
+        contains('{city} - Researchers {fromCountry} report that they have'),
+      );
+      expect(
+        majorEvent,
+        contains(
+          'Washington, DC - The CIA announced yesterday that it has averted',
+        ),
+      );
+      expect(
+        majorEvent,
+        contains(
+          "smashed the guard's skull with the toilet seat from {possessive} cell",
+        ),
+      );
+      expect(
+        majorEvent,
         isNot(contains(r'"${randomCityName()} - A local wedding venue')),
       );
       expect(

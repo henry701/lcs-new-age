@@ -917,6 +917,13 @@ void main() {
       expect(controller, isNot(contains(r"'This ${siteType.name} map")));
     });
 
+    test('map editor door labels use whole translated variants', () {
+      final tools = File('lib/map_editor/editor_tools.dart').readAsStringSync();
+      expect(tools, contains("LcsI18n.tr('Locked alarmed metal door')"));
+      expect(tools, contains("LcsI18n.tr('Alarmed door')"));
+      expect(tools, isNot(contains(r"'${joined[0].toUpperCase()}")));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

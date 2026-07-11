@@ -4,6 +4,7 @@ import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -34,7 +35,9 @@ class UniqueCreatures {
   Creature get president {
     _president ??= Creature.fromId(CreatureTypeIds.president)
       ..properName = politics.execName[Exec.president]!.firstLast
-      ..name = "President ${politics.execName[Exec.president]!.last}"
+      ..name = LcsI18n.processString("President {last}", {
+        "last": politics.execName[Exec.president]!.last,
+      })
       ..gender = politics.execName[Exec.president]!.gender
       ..genderAssignedAtBirth = politics.execName[Exec.president]!.gender
       ..align = politics.exec[Exec.president]!.shallow

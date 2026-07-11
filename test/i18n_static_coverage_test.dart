@@ -943,6 +943,23 @@ void main() {
       },
     );
 
+    test('page controls and presidential titles use complete templates', () {
+      final options = File(
+        'lib/utils/interface_options.dart',
+      ).readAsStringSync();
+      final unique = File(
+        'lib/creature/unique_creatures.dart',
+      ).readAsStringSync();
+      expect(options, contains('"{key} - Previous"'));
+      expect(
+        options,
+        contains('"{keys} - View other Liberal pages ({current}/{max})"'),
+      );
+      expect(options, isNot(contains(r'return "$str - Previous"')));
+      expect(unique, contains('"President {last}"'));
+      expect(unique, isNot(contains(r'"President ${politics.execName')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

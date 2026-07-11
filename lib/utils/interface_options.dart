@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 
 String get interfacePgUp => gameOptions.interfacePgUp;
@@ -46,7 +47,7 @@ String get previousPageStr {
   } else {
     str = "PGUP";
   }
-  return "$str - Previous";
+  return LcsI18n.processString("{key} - Previous", {"key": str});
 }
 
 String get nextPageStr {
@@ -58,7 +59,7 @@ String get nextPageStr {
   } else {
     str = "PGDN";
   }
-  return "$str - Next";
+  return LcsI18n.processString("{key} - Next", {"key": str});
 }
 
 String get pageStr {
@@ -72,7 +73,9 @@ String get pageStr {
   } else {
     str = "PGUP/PGDN";
   }
-  return "$str - View other Liberal pages";
+  return LcsI18n.processString("{keys} - View other Liberal pages", {
+    "keys": str,
+  });
 }
 
 String pageStrWithCurrentAndMax(int current, int max) {
@@ -86,7 +89,10 @@ String pageStrWithCurrentAndMax(int current, int max) {
   } else {
     str = "PGUP/PGDN";
   }
-  return "$str - View other Liberal pages ($current/$max)";
+  return LcsI18n.processString(
+    "{keys} - View other Liberal pages ({current}/{max})",
+    {"keys": str, "current": current, "max": max},
+  );
 }
 
 void addPageButtons({

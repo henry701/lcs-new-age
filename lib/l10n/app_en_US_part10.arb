@@ -74,6 +74,8 @@
   "Enter - Back one step": "Enter - Back one step",
   "Error exporting map: {error}": "Error exporting map: {error}",
   "Family": "Family",
+  "Floor {upper} has stairs down, but floor {lower} has no stairs up.": "Floor {upper} has stairs down, but floor {lower} has no stairs up.",
+  "Floors {lower} and {upper} have no stairs connecting them.": "Floors {lower} and {upper} have no stairs connecting them.",
   "Fortify the bomb shelter entrances": "Fortify the bomb shelter entrances",
   "Fortify the compound for a siege": "Fortify the compound for a siege",
   "Genomic": "Genomic",

@@ -243,6 +243,7 @@
   "{rescue} is unable to walk": "{rescue} é incapaz de andar",
   "{rescue} {condition}": "{rescue}, {condition}",
   "{ribminus} of {name}'s ribs are shattered!": "{ribminus} costelas de {name} foram estilhaçadas!",
+  "{special} at ({x}, {y}) on floor {floor} is unreachable from the entrance.": "{special} em ({x}, {y}), no andar {floor}, não pode ser alcançado a partir da entrada.",
   "{vehicle} rapidly pulls back.": "{vehicle} recua rapidamente.",
   "│   by impressive advertising, America tunes in.    │": "│   por publicidade impressionante, a América ajusta.    │"
 }

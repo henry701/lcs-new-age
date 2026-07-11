@@ -85,6 +85,8 @@
   "Enter - Back one step": "Enter - Voltar um passo",
   "Error exporting map: {error}": "Erro ao exportar mapa: {error}",
   "Family": "Família",
+  "Floor {upper} has stairs down, but floor {lower} has no stairs up.": "O andar {upper} tem escadas para baixo, mas o andar {lower} não tem escadas para cima.",
+  "Floors {lower} and {upper} have no stairs connecting them.": "Os andares {lower} e {upper} não têm escadas conectando-os.",
   "Fortify the bomb shelter entrances": "Fortificar as entradas do abrigo antibomba",
   "Fortify the compound for a siege": "Fortificar o complexo para um cerco",
   "French: {status}": "Francês: {status}",

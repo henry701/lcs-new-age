@@ -895,6 +895,28 @@ void main() {
       expect(editor, isNot(contains(r"'Export failed: $e'")));
     });
 
+    test('map editor validation issues use complete templates', () {
+      final controller = File(
+        'lib/map_editor/map_editor_controller.dart',
+      ).readAsStringSync();
+      expect(
+        controller,
+        contains("'Entrance at ({x}, {y}) is blocked — squads cannot enter.'"),
+      );
+      expect(
+        controller,
+        contains(
+          "'Floors {lower} and {upper} have no stairs connecting them.'",
+        ),
+      );
+      expect(
+        controller,
+        contains("'This {site} map has no {objective} (the site objective).'"),
+      );
+      expect(controller, isNot(contains(r"'Floor $floorCount has stairs")));
+      expect(controller, isNot(contains(r"'This ${siteType.name} map")));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

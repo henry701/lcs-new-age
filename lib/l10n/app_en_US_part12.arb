@@ -242,6 +242,7 @@
   "{rescue} is unable to walk": "{rescue} is unable to walk",
   "{rescue} {condition}": "{rescue} {condition}",
   "{ribminus} of {name}'s ribs are shattered!": "{ribminus} of {name}'s ribs are shattered!",
+  "{special} at ({x}, {y}) on floor {floor} is unreachable from the entrance.": "{special} at ({x}, {y}) on floor {floor} is unreachable from the entrance.",
   "{vehicle} rapidly pulls back.": "{vehicle} rapidly pulls back.",
   "│   by impressive advertising, America tunes in.    │": "│   by impressive advertising, America tunes in.    │"
 }

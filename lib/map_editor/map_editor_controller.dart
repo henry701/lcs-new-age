@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/map_editor/editor_tools.dart';
 import 'package:lcs_new_age/sitemode/sitemap.dart';
@@ -176,7 +177,10 @@ class MapEditorController extends ChangeNotifier {
         entrance.chainlink ||
         entrance.metal) {
       issues.add(
-        'Entrance at (${MAPX >> 1}, 1) is blocked — squads cannot enter.',
+        LcsI18n.processString(
+          'Entrance at ({x}, {y}) is blocked — squads cannot enter.',
+          {'x': MAPX >> 1, 'y': 1},
+        ),
       );
     }
     int upOn(int z) => levelMap
@@ -191,30 +195,49 @@ class MapEditorController extends ChangeNotifier {
       issues.add('Floor 1 has stairs down, but it is the ground floor.');
     }
     if (upOn(floorCount - 1) > 0) {
-      issues.add('Floor $floorCount has stairs up, but it is the top floor.');
+      issues.add(
+        LcsI18n.processString(
+          'Floor {floor} has stairs up, but it is the top floor.',
+          {'floor': floorCount},
+        ),
+      );
     }
     for (int z = 0; z < floorCount - 1; z++) {
       final bool up = upOn(z) > 0;
       final bool down = downOn(z + 1) > 0;
       if (up && !down) {
         issues.add(
-          'Floor ${z + 1} has stairs up, but floor ${z + 2} has no stairs down.',
+          LcsI18n.processString(
+            'Floor {lower} has stairs up, but floor {upper} has no stairs down.',
+            {'lower': z + 1, 'upper': z + 2},
+          ),
         );
       } else if (!up && down) {
         issues.add(
-          'Floor ${z + 2} has stairs down, but floor ${z + 1} has no stairs up.',
+          LcsI18n.processString(
+            'Floor {upper} has stairs down, but floor {lower} has no stairs up.',
+            {'upper': z + 2, 'lower': z + 1},
+          ),
         );
       } else if (!up && !down) {
         issues.add(
-          'Floors ${z + 1} and ${z + 2} have no stairs connecting them.',
+          LcsI18n.processString(
+            'Floors {lower} and {upper} have no stairs connecting them.',
+            {'lower': z + 1, 'upper': z + 2},
+          ),
         );
       }
     }
     final TileSpecial? objective = _objectiveSpecialFor(siteType);
     if (objective != null && !levelMap.all.any((t) => t.special == objective)) {
       issues.add(
-        'This ${siteType.name} map has no '
-        '${specialLabel(objective)} (the site objective).',
+        LcsI18n.processString(
+          'This {site} map has no {objective} (the site objective).',
+          {
+            'site': LcsI18n.tr(siteType.name),
+            'objective': LcsI18n.tr(specialLabel(objective)),
+          },
+        ),
       );
     }
     final bool entranceImpassable =
@@ -226,8 +249,15 @@ class MapEditorController extends ChangeNotifier {
           if (tile.special != TileSpecial.none &&
               !reachable.contains((tile.x, tile.y, z))) {
             issues.add(
-              '${specialLabel(tile.special)} at (${tile.x}, '
-              '${tile.y}) on floor ${z + 1} is unreachable from the entrance.',
+              LcsI18n.processString(
+                '{special} at ({x}, {y}) on floor {floor} is unreachable from the entrance.',
+                {
+                  'special': LcsI18n.tr(specialLabel(tile.special)),
+                  'x': tile.x,
+                  'y': tile.y,
+                  'floor': z + 1,
+                },
+              ),
             );
           }
         }

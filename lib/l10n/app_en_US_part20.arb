@@ -257,5 +257,6 @@
   "{pName} has dates to manage with {dateList} at {location}.": "{pName} has dates to manage with {dateList} at {location}.",
   "{recruit} found {recruiter}'s views to be insightful.": "{recruit} found {recruiter}'s views to be insightful.",
   "{squad} paid {price} to travel to {site}.": "{squad} paid {price} to travel to {site}.",
+  "{width} × {height} · Floor {current}/{count}": "{width} × {height} · Floor {current}/{count}",
   "│   viewers across the nation were listening.       │": "│   viewers across the nation were listening.       │"
 }

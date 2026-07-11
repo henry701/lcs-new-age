@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/main.dart';
 import 'package:lcs_new_age/map_editor/editor_tools.dart';
@@ -280,7 +281,10 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
         SizedBox(
           width: 78,
           child: Text(
-            'Floor ${controller.currentFloor + 1} / ${controller.floorCount}',
+            LcsI18n.processString('Floor {current} / {count}', {
+              'current': controller.currentFloor + 1,
+              'count': controller.floorCount,
+            }),
             textAlign: TextAlign.center,
             style: const TextStyle(color: editorTextPrimary, fontSize: 13),
           ),
@@ -446,9 +450,16 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
             const Icon(Icons.directions_walk, size: 14, color: editorAccent),
             const SizedBox(width: 6),
             Text(
-              'Preview — arrow keys move, Esc exits · Floor '
-              '${controller.currentFloor + 1}/${controller.floorCount} · '
-              'pos (${controller.playerX}, ${controller.playerY})',
+              LcsI18n.processString(
+                'Preview — arrow keys move, Esc exits · Floor '
+                '{current}/{count} · pos ({x}, {y})',
+                {
+                  'current': controller.currentFloor + 1,
+                  'count': controller.floorCount,
+                  'x': controller.playerX,
+                  'y': controller.playerY,
+                },
+              ),
               style: const TextStyle(color: editorTextPrimary, fontSize: 12),
             ),
           ],
@@ -468,12 +479,22 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
           ),
           const SizedBox(width: 18),
           Text(
-            'Paint: ${controller.brush?.label ?? 'none'}',
+            LcsI18n.processString('Paint: {brush}', {
+              'brush': LcsI18n.tr(controller.brush?.label ?? 'none'),
+            }),
             style: const TextStyle(color: editorTextSecondary, fontSize: 12),
           ),
           const Spacer(),
           Text(
-            '$MAPX × $MAPY · Floor ${controller.currentFloor + 1}/${controller.floorCount}',
+            LcsI18n.processString(
+              '{width} × {height} · Floor {current}/{count}',
+              {
+                'width': MAPX,
+                'height': MAPY,
+                'current': controller.currentFloor + 1,
+                'count': controller.floorCount,
+              },
+            ),
             style: const TextStyle(color: editorTextTertiary, fontSize: 12),
           ),
         ],
@@ -490,9 +511,17 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
         : tileTerrainLabel(tile);
     final int specialId = csvIdForSpecial(tile.special);
     final String ids = specialId > 0
-        ? 'tile ${csvIdForTile(tile)}, special $specialId'
-        : 'tile ${csvIdForTile(tile)}';
-    return '(${hov.$1}, ${hov.$2}) — $desc  [$ids]';
+        ? LcsI18n.processString('tile {tile}, special {special}', {
+            'tile': csvIdForTile(tile),
+            'special': specialId,
+          })
+        : LcsI18n.processString('tile {tile}', {'tile': csvIdForTile(tile)});
+    return LcsI18n.processString('({x}, {y}) — {description}  [{ids}]', {
+      'x': hov.$1,
+      'y': hov.$2,
+      'description': LcsI18n.tr(desc),
+      'ids': ids,
+    });
   }
 
   // True when a text field (e.g. the specials filter) has focus, so editor
@@ -627,7 +656,14 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
     }
     controller.loadImportedCsv(base, tiles, specials);
     messenger.showSnackBar(
-      SnackBar(content: Text('Imported "$base" (${tiles.length} floor(s)).')),
+      SnackBar(
+        content: Text(
+          LcsI18n.processString('Imported "{name}" ({count} floor(s)).', {
+            'name': base,
+            'count': tiles.length,
+          }),
+        ),
+      ),
     );
   }
 
@@ -639,7 +675,11 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
         builder: (context) => AlertDialog(
           backgroundColor: editorPanelBg,
           title: Text(
-            issues.isEmpty ? 'No issues found' : '${issues.length} issue(s)',
+            issues.isEmpty
+                ? LcsI18n.tr('No issues found')
+                : LcsI18n.processString('{count} issue(s)', {
+                    'count': issues.length,
+                  }),
             style: const TextStyle(color: editorTextPrimary, fontSize: 16),
           ),
           content: issues.isEmpty
@@ -725,14 +765,23 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
       messenger.showSnackBar(
         SnackBar(
           content: Text(
-            'Exported ${controller.floorCount} floor(s) to mapCSV_$base.zip',
+            LcsI18n.processString('Exported {count} floor(s) to {filename}', {
+              'count': controller.floorCount,
+              'filename': 'mapCSV_$base.zip',
+            }),
           ),
           duration: const Duration(seconds: 3),
         ),
       );
     } catch (e) {
       if (!mounted) return;
-      messenger.showSnackBar(SnackBar(content: Text('Export failed: $e')));
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            LcsI18n.processString('Export failed: {error}', {'error': e}),
+          ),
+        ),
+      );
     }
   }
 

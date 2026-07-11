@@ -882,6 +882,19 @@ void main() {
       },
     );
 
+    test('map editor status and result messages use complete templates', () {
+      final editor = File(
+        'lib/map_editor/map_editor_screen.dart',
+      ).readAsStringSync();
+      expect(editor, contains("'Floor {current} / {count}'"));
+      expect(editor, contains("'Imported \"{name}\" ({count} floor(s)).'"));
+      expect(editor, contains("'Exported {count} floor(s) to {filename}'"));
+      expect(editor, contains("'Export failed: {error}'"));
+      expect(editor, isNot(contains(r"'Floor ${controller.currentFloor")));
+      expect(editor, isNot(contains(r'''Text('Imported "$base"''')));
+      expect(editor, isNot(contains(r"'Export failed: $e'")));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

@@ -260,5 +260,6 @@
   "{pName} has dates to manage with {dateList} at {location}.": "{pName} tem encontros para administrar com {dateList} em {location}.",
   "{recruit} found {recruiter}'s views to be insightful.": "{recruit} achou as opiniões de {recruiter} perspicazes.",
   "{squad} paid {price} to travel to {site}.": "{squad} pagou {price} para viajar para {site}.",
+  "{width} × {height} · Floor {current}/{count}": "{width} × {height} · Andar {current}/{count}",
   "│   viewers across the nation were listening.       │": "│   espectadores de todo o país estavam ouvindo.       │"
 }

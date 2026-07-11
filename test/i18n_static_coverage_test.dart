@@ -960,6 +960,19 @@ void main() {
       expect(unique, isNot(contains(r'"President ${politics.execName')));
     });
 
+    test('generated monster and attorney names use structural templates', () {
+      final monsters = File(
+        'lib/creature/monster_name.dart',
+      ).readAsStringSync();
+      final unique = File(
+        'lib/creature/unique_creatures.dart',
+      ).readAsStringSync();
+      expect(monsters, contains('"{first} {middle}{last}"'));
+      expect(monsters, isNot(contains(r'return "$first ${colors.random}')));
+      expect(unique, contains('LcsI18n.processString("{first} {last}"'));
+      expect(unique, isNot(contains(r'"${[')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

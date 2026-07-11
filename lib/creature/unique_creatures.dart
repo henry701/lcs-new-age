@@ -54,12 +54,14 @@ class UniqueCreatures {
   @JsonKey(includeFromJson: false, includeToJson: false)
   Creature get aceLiberalAttorney {
     _aceLiberalAttorney ??= Creature.fromId(CreatureTypeIds.lawyer)
-      ..name =
-          "${[
-            "Huang", "Astraea", "Saleem", "Imani", //
-          ].random} ${[
-            "Truth", "Justice", "Liberty", "Peace", //
-          ].random}";
+      ..name = LcsI18n.processString("{first} {last}", {
+        "first": [
+          "Huang", "Astraea", "Saleem", "Imani", //
+        ].random,
+        "last": [
+          "Truth", "Justice", "Liberty", "Peace", //
+        ].random,
+      });
     return _aceLiberalAttorney!;
   }
 

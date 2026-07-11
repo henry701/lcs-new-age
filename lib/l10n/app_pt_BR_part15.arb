@@ -190,6 +190,7 @@
   "{eName} enjoys discussing {pName}'s unique life philosophy...": "{eName} gosta de discutir a filosofia de vida única de {pName}...",
   "{first} Advisory": "Consultoria {first}",
   "{first} Global": "Global {first}",
+  "{first} {middle}{last}": "{first} {middle}{last}",
   "{letter} - ": "{letter} – ",
   "{letter} - {title}": "{letter} – {title}",
   "{name} collapses lifelessly.": "{name} collapses lifelessly.",

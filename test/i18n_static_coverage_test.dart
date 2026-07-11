@@ -770,6 +770,43 @@ void main() {
       expect(source, contains('renderedOption, noTranslate: true'));
     });
 
+    test('priority source areas contain no unreviewed interpolation', () {
+      const paths = [
+        'lib/newspaper',
+        'lib/talk',
+        'lib/sitemode/fight.dart',
+        'lib/daily/siege.dart',
+        'lib/sitemode/shop.dart',
+      ];
+      final interpolation = RegExp(r'(?<!\\)\$(?:\{|[A-Za-z_])');
+      final offenders = <String>[];
+
+      for (final path in paths) {
+        final entity = FileSystemEntity.typeSync(path);
+        final files = entity == FileSystemEntityType.directory
+            ? Directory(path)
+                  .listSync(recursive: true)
+                  .whereType<File>()
+                  .where((file) => file.path.endsWith('.dart'))
+            : [File(path)];
+        for (final file in files.where(
+          (file) => !file.path.endsWith('.g.dart'),
+        )) {
+          final lines = file.readAsLinesSync();
+          for (var index = 0; index < lines.length; index++) {
+            if (interpolation.hasMatch(lines[index]) &&
+                !_isReviewedPriorityInterpolation(file.path, lines[index])) {
+              offenders.add(
+                '${file.path}:${index + 1}: ${lines[index].trim()}',
+              );
+            }
+          }
+        }
+      }
+
+      expect(offenders, isEmpty, reason: offenders.join('\n'));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);
@@ -805,4 +842,32 @@ String _formatInterpolationIssues(List<CatalogInterpolationIssue> issues) {
     buffer.writeln('  ${issue.key} => ${issue.value}');
   }
   return buffer.toString();
+}
+
+bool _isReviewedPriorityInterpolation(String path, String line) {
+  final trimmed = line.trim();
+
+  // Developer diagnostics and commented-out diagnostics never reach players.
+  if (trimmed.startsWith('//') || trimmed.contains('debugPrint(')) return true;
+
+  // json_serializable helper symbols are identifiers, not interpolation.
+  if (trimmed.contains(r'_$NewsStory')) return true;
+
+  // Currency interpolation formats only a value passed into a complete
+  // surrounding template; it does not compose translatable prose.
+  if ((trimmed.startsWith('params:') || trimmed.startsWith('"price":')) &&
+      trimmed.contains(r'\$$')) {
+    return true;
+  }
+
+  if (path == 'lib/daily/siege.dart') {
+    // Continuation lines belonging to multiline debugPrint calls.
+    if (trimmed.startsWith('"Heat from ') || trimmed.startsWith('"Heat for ')) {
+      return true;
+    }
+    // Paragraphs are translated independently; this joins them for layout.
+    if (trimmed == r'newsBody += "\n\n$paragraph";') return true;
+  }
+
+  return false;
 }

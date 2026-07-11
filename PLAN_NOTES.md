@@ -667,3 +667,9 @@ Important remaining debt:
 
 - Added parameter support to character-creation option records and render each option/description before the outer option layout, avoiding double translation.
 - Converted the dynamic make-out question to a complete `{person}` template, translated all gender-dependent parameter values in pt_BR, and added a static regression test.
+
+## 2026-07-10 continuation: priority-area interpolation completion gate
+
+- Added a source-wide static gate for `newspaper/`, `talk/`, `fight.dart`, `daily/siege.dart`, and `shop.dart` after the wrapper-only gate proved too narrow to establish completion.
+- Verified the gate red first on the remaining 28 raw matches, then classified only developer diagnostics, json_serializable identifiers, currency-only parameter values, and the join between already-translated newspaper paragraphs.
+- Any future unreviewed interpolation in these priority paths now fails the i18n static suite. Canonical workflow documentation records the exact exception boundary.

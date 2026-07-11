@@ -58,6 +58,8 @@ Important limitations:
 
 Treat the scripts as good assistants, not proof that source-string cleanup is complete. In particular, the wrapper audit is intentionally narrow: inspect generated prose, local variables, and accumulated story text separately.
 
+The static i18n suite also enforces a broader priority-area gate over `newspaper/`, `talk/`, `fight.dart`, `siege.dart`, and `shop.dart`. Its reviewed exceptions are limited to developer diagnostics, generated serialization identifiers, currency-only parameter formatting, and joining paragraphs that were translated before layout. Any other raw interpolation in those paths fails the suite and must be converted to a complete template.
+
 An interpolation allowlist is an exception register, not a suppression mechanism. Add an entry only for non-prose implementation output (for example, debug diagnostics, control markup, or numeric/layout-only formatting), and record why it cannot be a translated template. Never allowlist user-facing names, prose, possessives, or sentence fragments; templatize those at their composition point instead.
 
 ## Fragment Keys and Name+Flavor Composition (Strong Rule)

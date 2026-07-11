@@ -443,17 +443,28 @@ Future<void> equipmentBaseAssign() async {
       p < items.length && p < pageLoot * 19 + 19;
       p++, y++
     ) {
-      addOptionText(
-        y,
-        0,
-        "${letterAPlus(y - 2)} - ",
-        "{letter} - {item}{stack}",
-        params: {
-          "letter": letterAPlus(y - 2),
-          "item": items[p].equipTitle(),
-          "stack": items[p].stackSize > 1 ? " x${items[p].stackSize}" : "",
-        },
-      );
+      final params = {
+        "letter": letterAPlus(y - 2),
+        "item": items[p].equipTitle(),
+        "count": items[p].stackSize,
+      };
+      if (items[p].stackSize > 1) {
+        addOptionText(
+          y,
+          0,
+          "${letterAPlus(y - 2)} - ",
+          "{letter} - {item} x{count}",
+          params: params,
+        );
+      } else {
+        addOptionText(
+          y,
+          0,
+          "${letterAPlus(y - 2)} - ",
+          "{letter} - {item}",
+          params: params,
+        );
+      }
       mvaddstrc(
         y,
         25,

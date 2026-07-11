@@ -222,6 +222,7 @@
   "{clothing} (d)": "{clothing} (danificada)",
   "{first} and {second}": "{first} e {second}",
   "{heSheCap} did still promise to meet up again tomorrow.": "{heSheCap} ainda prometeu se encontrar novamente amanhã.",
+  "{letter} - {item} x{count}": "{letter} - {item} × {count}",
   "{name} brandishes the {weapon}.": "{name} brande a {weapon}.",
   "{name} cracks the window with a {weapon}, but it is still somewhat intact.": "{name} racha a janela com {weapon}, mas ela ainda está parcialmente intacta.",
   "{name} cries silently for mother, breathing slowly, then not at all.": "{name} chora silenciosamente pela mãe, respirando lentamente, e então para de vez.",

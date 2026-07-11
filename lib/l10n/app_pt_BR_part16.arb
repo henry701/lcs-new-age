@@ -243,6 +243,7 @@
   "{first} Life Insurance": "Seguros de Vida {first}",
   "{first} {second} Finance": "Finanças {first} {second}",
   "{key} - {car}": "{key} – {car}",
+  "{letter} - {item}": "{letter} - {item}",
   "{message}!": "¡{message}!",
   "{name} can't figure the lock out.": "{name} não consegue entender a fechadura.",
   "{name} crawls off crying...": "{name} rasteja chorando...",

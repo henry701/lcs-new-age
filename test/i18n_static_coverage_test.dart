@@ -842,6 +842,15 @@ void main() {
       expect(elections, isNot(contains(r'"WA Initiative ${')));
     });
 
+    test('equipment movement stack counts use complete templates', () {
+      final equipment = File(
+        'lib/common_actions/equipment.dart',
+      ).readAsStringSync();
+      expect(equipment, contains('"{letter} - {item} x{count}"'));
+      expect(equipment, isNot(contains(r'"stack": items[p].stackSize')));
+      expect(equipment, isNot(contains(r'" x${items[p].stackSize}"')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

@@ -511,7 +511,7 @@ void rainbowLine(
 void addQuote() {
   List<List<String>> quotes = [
     [
-      "\"For some, a dream come true $emDash",
+      "\"For some, a dream come true —",
       "to others, an offensive piece of crap!\"",
     ],
   ];

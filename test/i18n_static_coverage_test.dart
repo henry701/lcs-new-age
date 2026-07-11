@@ -851,6 +851,18 @@ void main() {
       expect(equipment, isNot(contains(r'" x${items[p].stackSize}"')));
     });
 
+    test('funds display uses a complete translated currency template', () {
+      final display = File(
+        'lib/common_display/common_display.dart',
+      ).readAsStringSync();
+      expect(display, contains('"Money: {amount}"'));
+      expect(
+        display,
+        isNot(contains(r'String str = "$prefix \$${ledger.funds}"')),
+      );
+      expect(display, contains('text,\n    noTranslate: true'));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

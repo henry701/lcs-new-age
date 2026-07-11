@@ -35,14 +35,17 @@ Future<void> showMessage(
   await getKey();
 }
 
-void printFunds({
-  int y = 0,
-  int offsetFromRight = 1,
-  String prefix = "Money: ",
-  Color color = lightGray,
-}) {
-  String str = "$prefix \$${ledger.funds}";
-  mvaddstrc(y, console.width - str.length - offsetFromRight, color, str);
+void printFunds({int y = 0, int offsetFromRight = 1, Color color = lightGray}) {
+  final text = LcsI18n.processString("Money: {amount}", {
+    "amount": "\$${ledger.funds}",
+  });
+  mvaddstrc(
+    y,
+    console.width - text.length - offsetFromRight,
+    color,
+    text,
+    noTranslate: true,
+  );
 }
 
 void printSquadActivityDescription(int y, int x, Squad squad) {

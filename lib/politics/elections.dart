@@ -4,6 +4,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -775,26 +776,77 @@ enum InitiativeStates {
 
 String nameBallotMeasure() {
   return switch (InitiativeStates.values.random) {
-    InitiativeStates.alaska => "AK Measure ${lcsRandom(3) + 1}",
-    InitiativeStates.arizona => "AZ Amendment ${lcsRandom(3) + 1}",
-    InitiativeStates.arkansas => "AR Amendment ${lcsRandom(3) + 1}",
-    InitiativeStates.california => "CA Proposition ${lcsRandom(10) + 1}",
-    InitiativeStates.colorado => "CO Proposition ${140 + lcsRandom(30)}",
-    InitiativeStates.idaho => "ID Amendment ${lcsRandom(5) + 1}",
-    InitiativeStates.maine => "ME Question ${lcsRandom(3) + 1}",
-    InitiativeStates.massachusetts => "MA Question ${lcsRandom(3) + 1}",
-    InitiativeStates.michigan => "MI Proposal ${lcsRandom(3) + 1}",
-    InitiativeStates.missouri => "MO Amendment ${lcsRandom(3) + 1}",
-    InitiativeStates.montana => "MT Amendment ${60 + lcsRandom(20)}",
-    InitiativeStates.nebraska => "NE Initiative ${440 + lcsRandom(100)}",
-    InitiativeStates.nevada => "NV Question ${lcsRandom(5) + 1}",
-    InitiativeStates.northDakota => "ND Measure ${lcsRandom(3) + 1}",
-    InitiativeStates.ohio => "OH Issue ${lcsRandom(3) + 1}",
-    InitiativeStates.oklahoma => "OK Question ${800 + lcsRandom(100)}",
-    InitiativeStates.oregon => "OR Measure ${120 + lcsRandom(20)}",
-    InitiativeStates.southDakota => "SD Measure ${30 + lcsRandom(10)}",
-    InitiativeStates.utah => "UT Amendment ${letterAPlus(lcsRandom(7))}",
-    InitiativeStates.washington => "WA Initiative ${900 + lcsRandom(1000)}",
-    InitiativeStates.wyoming => "WY Amendment ${letterAPlus(lcsRandom(3))}",
+    InitiativeStates.alaska => LcsI18n.processString("AK Measure {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.arizona => LcsI18n.processString("AZ Amendment {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.arkansas => LcsI18n.processString(
+      "AR Amendment {number}",
+      {"number": lcsRandom(3) + 1},
+    ),
+    InitiativeStates.california => LcsI18n.processString(
+      "CA Proposition {number}",
+      {"number": lcsRandom(10) + 1},
+    ),
+    InitiativeStates.colorado => LcsI18n.processString(
+      "CO Proposition {number}",
+      {"number": 140 + lcsRandom(30)},
+    ),
+    InitiativeStates.idaho => LcsI18n.processString("ID Amendment {number}", {
+      "number": lcsRandom(5) + 1,
+    }),
+    InitiativeStates.maine => LcsI18n.processString("ME Question {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.massachusetts => LcsI18n.processString(
+      "MA Question {number}",
+      {"number": lcsRandom(3) + 1},
+    ),
+    InitiativeStates.michigan => LcsI18n.processString("MI Proposal {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.missouri => LcsI18n.processString(
+      "MO Amendment {number}",
+      {"number": lcsRandom(3) + 1},
+    ),
+    InitiativeStates.montana => LcsI18n.processString("MT Amendment {number}", {
+      "number": 60 + lcsRandom(20),
+    }),
+    InitiativeStates.nebraska => LcsI18n.processString(
+      "NE Initiative {number}",
+      {"number": 440 + lcsRandom(100)},
+    ),
+    InitiativeStates.nevada => LcsI18n.processString("NV Question {number}", {
+      "number": lcsRandom(5) + 1,
+    }),
+    InitiativeStates.northDakota => LcsI18n.processString(
+      "ND Measure {number}",
+      {"number": lcsRandom(3) + 1},
+    ),
+    InitiativeStates.ohio => LcsI18n.processString("OH Issue {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.oklahoma => LcsI18n.processString("OK Question {number}", {
+      "number": 800 + lcsRandom(100),
+    }),
+    InitiativeStates.oregon => LcsI18n.processString("OR Measure {number}", {
+      "number": 120 + lcsRandom(20),
+    }),
+    InitiativeStates.southDakota => LcsI18n.processString(
+      "SD Measure {number}",
+      {"number": 30 + lcsRandom(10)},
+    ),
+    InitiativeStates.utah => LcsI18n.processString("UT Amendment {number}", {
+      "number": letterAPlus(lcsRandom(7)),
+    }),
+    InitiativeStates.washington => LcsI18n.processString(
+      "WA Initiative {number}",
+      {"number": 900 + lcsRandom(1000)},
+    ),
+    InitiativeStates.wyoming => LcsI18n.processString("WY Amendment {number}", {
+      "number": letterAPlus(lcsRandom(3)),
+    }),
   };
 }

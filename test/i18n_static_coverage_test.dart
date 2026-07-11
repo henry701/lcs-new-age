@@ -833,6 +833,15 @@ void main() {
       expect(sleepers, isNot(contains(r'"Vice President ${oldName.last}"')));
     });
 
+    test('ballot measure names use complete numbered templates', () {
+      final elections = File('lib/politics/elections.dart').readAsStringSync();
+      expect(elections, contains('"AK Measure {number}"'));
+      expect(elections, contains('"WA Initiative {number}"'));
+      expect(elections, contains('LcsI18n.processString('));
+      expect(elections, isNot(contains(r'"AK Measure ${')));
+      expect(elections, isNot(contains(r'"WA Initiative ${')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

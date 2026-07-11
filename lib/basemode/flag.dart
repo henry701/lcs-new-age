@@ -277,8 +277,9 @@ void renderFlagPreview(
   );
   setColor(white);
   String enterText = "Enter - Confirm Selection";
-  String fullText = "$enterText   $cancelText";
-  move(23, centerString(fullText));
+  final footerWidth =
+      LcsI18n.tr(enterText).length + 3 + LcsI18n.tr(cancelText).length;
+  move(23, (console.width - footerWidth) ~/ 2);
   addInlineOptionText("Enter", enterText);
   addstr("  ");
   addInlineOptionText("Escape", cancelText);

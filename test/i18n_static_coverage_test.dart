@@ -863,6 +863,25 @@ void main() {
       expect(display, contains('text,\n    noTranslate: true'));
     });
 
+    test(
+      'localized option footers measure translated labels independently',
+      () {
+        final flag = File('lib/basemode/flag.dart').readAsStringSync();
+        final regulars = File(
+          'lib/basemode/activate_regulars.dart',
+        ).readAsStringSync();
+        expect(flag, isNot(contains(r'"$enterText   $cancelText"')));
+        expect(flag, contains('LcsI18n.tr(cancelText).length'));
+        expect(
+          regulars,
+          isNot(
+            contains(r"'${LcsI18n.tr(enterText)}   ${LcsI18n.tr(escapeText)}'"),
+          ),
+        );
+        expect(regulars, contains('LcsI18n.tr(escapeText).length'));
+      },
+    );
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

@@ -836,9 +836,9 @@ void _clothingDetailFooter(
   setColor(white);
   String enterText = "Enter - Confirm Selection";
   String escapeText = "Escape - Cancel Making Clothing";
-  int startX = centerString(
-    '${LcsI18n.tr(enterText)}   ${LcsI18n.tr(escapeText)}',
-  );
+  int footerWidth =
+      LcsI18n.tr(enterText).length + 3 + LcsI18n.tr(escapeText).length;
+  int startX = (console.width - footerWidth) ~/ 2;
   move(23, startX);
   addInlineOptionText("Enter", enterText);
   addstr("  ");

@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/body.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/item.dart';
@@ -156,7 +157,7 @@ class Clothing extends Item {
     if (quality > type.durability) {
       return "Tattered Rags";
     } else if (damaged) {
-      return "${type.name} (d)";
+      return LcsI18n.processString("{clothing} (d)", {"clothing": type.name});
     } else {
       return type.name;
     }

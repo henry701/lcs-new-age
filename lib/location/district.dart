@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -42,7 +43,10 @@ class District implements Location {
       return shortName;
     } else {
       if (includeCity) {
-        return "$name, ${city.name}";
+        return LcsI18n.processString("{district}, {city}", {
+          "district": name,
+          "city": city.name,
+        });
       } else {
         return name;
       }

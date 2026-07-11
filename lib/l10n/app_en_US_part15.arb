@@ -212,6 +212,7 @@
   "{pronoun} run into the arms of the waiting {siegers}. ": "{pronoun} run into the arms of the waiting {siegers}. ",
   "{vehicle} pulls over as {driver} bleeds out.": "{vehicle} pulls over as {driver} bleeds out.",
   "{vehicle} retreats from the pursuit.": "{vehicle} retreats from the pursuit.",
+  "{weapon} ({ammo})": "{weapon} ({ammo})",
   "{year} (Age {age}, ": "{year} (Age {age}, ",
   "│     The police have brutally beaten a black man   │": "│     The police have brutally beaten a black man   │"
 }

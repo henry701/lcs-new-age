@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 import 'package:lcs_new_age/vehicles/vehicle_type.dart';
@@ -32,24 +33,21 @@ class Vehicle {
   String get shortName => type.shortName;
 
   String fullName({bool extraVerbose = false}) {
-    String s = '';
-    int words = 0;
-    if (heat > 0) {
-      s = "Stolen ";
-      words++;
-    }
-    if (type.displayColor) {
-      s += "$color ";
-      words++;
-    }
-    if (words < 2) {
-      s += "$year ";
-    }
-    if (!extraVerbose) {
-      s += type.shortName;
-    } else {
-      s += type.longName;
-    }
-    return s;
+    final vehicle = extraVerbose ? type.longName : type.shortName;
+    final stolen = heat > 0;
+    final showColor = type.displayColor;
+    final showYear = !stolen || !showColor;
+    final template = switch ((stolen, showColor, showYear)) {
+      (true, true, false) => "Stolen {color} {vehicle}",
+      (true, false, true) => "Stolen {year} {vehicle}",
+      (false, true, true) => "{color} {year} {vehicle}",
+      (false, false, true) => "{year} {vehicle}",
+      _ => "{vehicle}",
+    };
+    return LcsI18n.processString(template, {
+      "color": LcsI18n.tr(color),
+      "year": year,
+      "vehicle": LcsI18n.tr(vehicle),
+    });
   }
 }

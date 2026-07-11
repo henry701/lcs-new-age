@@ -789,7 +789,10 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
                 "Senate.",
                 {
                   "gender": cr.gender.manWoman,
-                  "vicePresident": "Vice President ${oldName.last}",
+                  "vicePresident": LcsI18n.processString(
+                    "Vice President {last}",
+                    {"last": oldName.last},
+                  ),
                   "vicePresidentColor": oldAlignColor,
                   "newFirstLast": politics.execName[positionToFill]!.firstLast,
                   "newFirstLastColor": newAlignColor,

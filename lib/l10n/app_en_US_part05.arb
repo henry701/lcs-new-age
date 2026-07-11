@@ -130,6 +130,7 @@
   "Uses Psychology and other social skills.": "Uses Psychology and other social skills.",
   "Vallejo, CA": "Vallejo, CA",
   "Vice President ": "Vice President ",
+  "Vice President {last}": "Vice President {last}",
   "WAGE THEFT": "WAGE THEFT",
   "Warehouse": "Warehouse",
   "Washington, DC - The Social Security Administration has announced that the program is on the brink of insolvency, with the trust fund expected to be depleted by {dateOfInsolvency}. Meanwhile, private healthcare accounts are thriving due to recent high returns in the stock market.&r  \"We've been saying for years that Social Security is an unsustainable pyramid scheme, a fraud on the American people,\" said {thinkTankSpokesperson}, a spokesperson for the {thinkTankName}. \"It's time for the American people to take control of their own retirement and cut government inefficiency and waste out of our futures.\"&r  {ssaSpokesperson} from the Social Security Administration offered a more measured response. \"The Social Security Administration will continue to fulfill its statutory mandates, but policy adjustments to balance revenues and outflows will be necessary for long-term sustainability.\"&r": "Washington, DC - The Social Security Administration has announced that the program is on the brink of insolvency, with the trust fund expected to be depleted by {dateOfInsolvency}. Meanwhile, private healthcare accounts are thriving due to recent high returns in the stock market.&r  \"We've been saying for years that Social Security is an unsustainable pyramid scheme, a fraud on the American people,\" said {thinkTankSpokesperson}, a spokesperson for the {thinkTankName}. \"It's time for the American people to take control of their own retirement and cut government inefficiency and waste out of our futures.\"&r  {ssaSpokesperson} from the Social Security Administration offered a more measured response. \"The Social Security Administration will continue to fulfill its statutory mandates, but policy adjustments to balance revenues and outflows will be necessary for long-term sustainability.\"&r",
@@ -235,5 +236,6 @@
   "{name} wanders aimlessly through the city, unable to think.": "{name} wanders aimlessly through the city, unable to think.",
   "{name} works through the night on a large mural.": "{name} works through the night on a large mural.",
   "{name} {ageGender}": "{name} {ageGender}",
-  "{name}'s left lung is punctured!": "{name}'s left lung is punctured!"
+  "{name}'s left lung is punctured!": "{name}'s left lung is punctured!",
+  "{year} {vehicle}": "{year} {vehicle}"
 }

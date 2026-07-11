@@ -807,6 +807,32 @@ void main() {
       expect(offenders, isEmpty, reason: offenders.join('\n'));
     });
 
+    test('composed item and location labels use complete templates', () {
+      final district = File('lib/location/district.dart').readAsStringSync();
+      final weapon = File('lib/items/weapon.dart').readAsStringSync();
+      final clothing = File('lib/items/clothing.dart').readAsStringSync();
+
+      expect(district, contains('"{district}, {city}"'));
+      expect(district, isNot(contains(r'"$name, ${city.name}"')));
+      expect(weapon, contains('"{weapon} ({ammo})"'));
+      expect(weapon, isNot(contains(r'et += " ($ammo)"')));
+      expect(clothing, contains('"{clothing} (d)"'));
+      expect(clothing, isNot(contains(r'"${type.name} (d)"')));
+    });
+
+    test('vehicle and officeholder names use locale-controlled templates', () {
+      final vehicle = File('lib/vehicles/vehicle.dart').readAsStringSync();
+      final sleepers = File(
+        'lib/monthly/sleeper_update.dart',
+      ).readAsStringSync();
+
+      expect(vehicle, contains('"Stolen {color} {vehicle}"'));
+      expect(vehicle, contains('"{color} {year} {vehicle}"'));
+      expect(vehicle, isNot(contains(r's += "$color "')));
+      expect(sleepers, contains('"Vice President {last}"'));
+      expect(sleepers, isNot(contains(r'"Vice President ${oldName.last}"')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

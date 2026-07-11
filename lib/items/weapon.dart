@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/ammo.dart';
 import 'package:lcs_new_age/items/ammo_type.dart';
 import 'package:lcs_new_age/items/attack.dart';
@@ -79,7 +80,12 @@ class Weapon extends Item {
   @override
   String equipTitle({bool full = false}) {
     String et = type.name;
-    if (ammo > 0) et += " ($ammo)";
+    if (ammo > 0) {
+      et = LcsI18n.processString("{weapon} ({ammo})", {
+        "weapon": et,
+        "ammo": ammo,
+      });
+    }
     return et;
   }
 

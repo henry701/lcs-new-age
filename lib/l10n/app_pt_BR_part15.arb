@@ -214,6 +214,7 @@
   "{name}'s right lung is blasted!": "o pulmão direito de {name} é explodido!",
   "{name}'s upper spine is shattered!": "a coluna superior de {name} está destruída!",
   "{number} - {name}": "{number} – {name}",
+  "{prefix}{stem} {type}": "{prefix}{stem} {type}",
   "{profanity} cult. And ": "seita {profanity}. E ",
   "{pronoun} run into the arms of the waiting {siegers}. ": "{pronoun} corre para os braços dos {siegers} que esperam. ",
   "{vehicle} pulls over as {driver} bleeds out.": "{vehicle} para na beira da estrada enquanto {driver} sangra até morrer.",

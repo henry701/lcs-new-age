@@ -280,7 +280,9 @@
   "{name}'s right kidney is torn!": "o rim direito de {name} é arrancado!",
   "{name}'s tongue is blown off!": "a língua de {name} é explodida!",
   "{name}{reaction} {alarm}": "{name}{reaction} — {alarm}",
+  "{prefix} {suffix}": "{prefix} {suffix}",
   "{ribminus} of {name}'s ribs are broken!": "{ribminus} costelas de {name} foram quebradas!",
   "{site} in {city}": "{site} em {city}",
+  "{title} of {country}": "{title} de {country}",
   "│   advertising blitz, it's bound to be popular.    │": "│   blitz publicitária, com certeza será popular.    │"
 }

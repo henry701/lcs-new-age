@@ -267,7 +267,9 @@
   "{name}'s right kidney is torn!": "{name}'s right kidney is torn!",
   "{name}'s tongue is blown off!": "{name}'s tongue is blown off!",
   "{name}{reaction} {alarm}": "{name}{reaction} {alarm}",
+  "{prefix} {suffix}": "{prefix} {suffix}",
   "{ribminus} of {name}'s ribs are broken!": "{ribminus} of {name}'s ribs are broken!",
   "{site} in {city}": "{site} in {city}",
+  "{title} of {country}": "{title} of {country}",
   "│   advertising blitz, it's bound to be popular.    │": "│   advertising blitz, it's bound to be popular.    │"
 }

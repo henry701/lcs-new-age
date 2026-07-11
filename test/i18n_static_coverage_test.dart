@@ -973,6 +973,16 @@ void main() {
       expect(unique, isNot(contains(r'"${[')));
     });
 
+    test('personal, country, capital, and company names use templates', () {
+      final names = File('lib/creature/name.dart').readAsStringSync();
+      expect(names, contains('"{first} {middle} {last}"'));
+      expect(names, contains('"{title} of {country}"'));
+      expect(names, contains('"{prefix} {suffix}"'));
+      expect(names, contains('"{prefix}{stem} {type}"'));
+      expect(names, isNot(contains(r'"$first $middle $last"')));
+      expect(names, isNot(contains(r'"St. ${lastName()}"')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

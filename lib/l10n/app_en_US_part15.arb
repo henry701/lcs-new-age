@@ -210,6 +210,7 @@
   "{name}'s right lung is blasted!": "{name}'s right lung is blasted!",
   "{name}'s upper spine is shattered!": "{name}'s upper spine is shattered!",
   "{number} - {name}": "{number} - {name}",
+  "{prefix}{stem} {type}": "{prefix}{stem} {type}",
   "{profanity} cult. And ": "{profanity} cult. And ",
   "{pronoun} run into the arms of the waiting {siegers}. ": "{pronoun} run into the arms of the waiting {siegers}. ",
   "{vehicle} pulls over as {driver} bleeds out.": "{vehicle} pulls over as {driver} bleeds out.",

@@ -59,33 +59,19 @@ Future<void> tryToPurgeSupremeCourt() async {
       }
     }
 
-    mvaddstr(
-      y + 1,
-      5,
-      "In particular, the aforementioned former ${tossnum != 1 ? "citizens" : "citizen"} may",
-    );
-    mvaddstr(
-      y + 2,
-      0,
-      "not serve on the Supreme Court.  Said former ${tossnum != 1 ? "citizens" : "citizen"} will",
-    );
-    mvaddstr(
-      y + 3,
-      0,
-      "be deported to ${tossnum != 1 ? "Conservative countries" : "a Conservative country"} of the President's",
-    );
-    mvaddstr(
-      y + 4,
-      0,
-      "choosing to be replaced by ${tossnum != 1 ? "Proper Justices" : "a Proper Justice"}",
-    );
-    addstr(", also of");
-    mvaddstr(
-      y + 5,
-      0,
-      "the President's choosing with the advice and consent of",
-    );
-    mvaddstr(y + 6, 0, "the Senate.");
+    if (tossnum == 1) {
+      addparagraph(
+        y + 1,
+        0,
+        "In particular, the aforementioned former citizen may not serve on the Supreme Court. Said former citizen will be deported to a Conservative country of the President's choosing to be replaced by a Proper Justice, also of the President's choosing with the advice and consent of the Senate.",
+      );
+    } else {
+      addparagraph(
+        y + 1,
+        0,
+        "In particular, the aforementioned former citizens may not serve on the Supreme Court. Said former citizens will be deported to Conservative countries of the President's choosing to be replaced by Proper Justices, also of the President's choosing with the advice and consent of the Senate.",
+      );
+    }
 
     mvaddstr(24, 0, "Press 'C' to watch the ratification process unfold.");
 

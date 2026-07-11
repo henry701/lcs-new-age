@@ -924,6 +924,25 @@ void main() {
       expect(tools, isNot(contains(r"'${joined[0].toUpperCase()}")));
     });
 
+    test(
+      'constitutional purge prose uses complete singular/plural paragraphs',
+      () {
+        final constitution = File(
+          'lib/politics/constitution.dart',
+        ).readAsStringSync();
+        expect(
+          constitution,
+          contains('the aforementioned former citizen may not serve'),
+        );
+        expect(
+          constitution,
+          contains('the aforementioned former citizens may not serve'),
+        );
+        expect(constitution, isNot(contains(r'${tossnum != 1')));
+        expect(constitution, isNot(contains('addstr(", also of")')));
+      },
+    );
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

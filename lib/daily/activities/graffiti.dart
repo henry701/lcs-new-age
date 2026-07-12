@@ -97,16 +97,14 @@ Future<void> doActivityGraffiti(List<Creature> graffiti) async {
         issue = graffiti[s].activity.view ?? View.lcsKnown;
         power = graffiti[s].skillRoll(Skill.art) ~/ 3;
 
-        String quality = power > 3 ? " ${LcsI18n.tr("beautiful")}" : "";
+        final template = power > 3
+            ? "{name} has completed a beautiful mural about {issue}."
+            : "{name} has completed a mural about {issue}.";
         await showMessage(
-          LcsI18n.processString(
-            "{name} has completed a{quality} mural about {issue}.",
-            {
-              "name": graffiti[s].name,
-              "quality": quality,
-              "issue": issue.label,
-            },
-          ),
+          LcsI18n.processString(template, {
+            "name": graffiti[s].name,
+            "issue": LcsI18n.tr(issue.label),
+          }),
         );
 
         graffiti[s].activity.view = null;
@@ -128,7 +126,7 @@ Future<void> doActivityGraffiti(List<Creature> graffiti) async {
       await showMessage(
         LcsI18n.processString(
           "{name} has begun work on a large mural about {issue}.",
-          {"name": graffiti[s].name, "issue": issue.label},
+          {"name": graffiti[s].name, "issue": LcsI18n.tr(issue.label)},
         ),
       );
 

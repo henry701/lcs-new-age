@@ -1037,6 +1037,23 @@ void main() {
       expect(trial, isNot(contains(r'charges += "${g.wantedForCrimes')));
     });
 
+    test('graffiti mural quality uses complete sentence variants', () {
+      final graffiti = File(
+        'lib/daily/activities/graffiti.dart',
+      ).readAsStringSync();
+      expect(
+        graffiti,
+        contains('"{name} has completed a beautiful mural about {issue}."'),
+      );
+      expect(
+        graffiti,
+        contains('"{name} has completed a mural about {issue}."'),
+      );
+      expect(graffiti, contains('LcsI18n.tr(issue.label)'));
+      expect(graffiti, isNot(contains('a{quality} mural')));
+      expect(graffiti, isNot(contains(r'LcsI18n.tr("beautiful")')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

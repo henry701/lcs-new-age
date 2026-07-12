@@ -53,3 +53,19 @@ Already translated entries are not overwritten.
 - Architecture and roadmap: `PLAN.md` (do not edit) + `PLAN_NOTES.md`.
 - Source-sweep cleanup, name+fragment templating, and stale-key pruning are separate from the coverage commands above.
 - Note: `sourceKeys` in `translation_status --json` reflects keys present in en_US ARB shards (includes historical dead keys). Live extract count from `find_translatable_strings.dart --print-only` is authoritative for current source. Gap = dead keys eligible for prune after confirmation of no live references.
+
+## Interpolation Sweep Verification
+
+The source sweep is complete only when this gate exits successfully:
+
+```bash
+dart run scripts/interpolation_status.dart --check --json
+```
+
+The command rejects both unclassified wrapper-adjacent interpolation and stale
+entries in `scripts/interpolation_allowlist.json`. The allowlist may contain
+only documented non-prose output (diagnostics, control markup, numeric/layout
+values, and currency values passed into a complete template). Full-corpus
+inspection remains available through `dart run scripts/interpolation_status.dart
+--all --json`; the static i18n suite independently enforces the priority
+gameplay areas.

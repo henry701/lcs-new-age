@@ -1,6 +1,7 @@
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/item_type.dart';
 import 'package:lcs_new_age/items/weapon_type.dart';
@@ -113,7 +114,11 @@ class ClothingType extends ItemType {
       }
     }
     if (includeArmor && (specifiedArmorUpgrade?.bodyArmor ?? 0) > 0) {
-      traits.add("Armor [${specifiedArmorUpgrade!.bodyArmor}]");
+      traits.add(
+        LcsI18n.processString("Armor [{armor}]", {
+          "armor": specifiedArmorUpgrade!.bodyArmor,
+        }),
+      );
     }
     if (specifiedArmorUpgrade?.fireResistant ?? false) {
       traits.add("Fire Resistant");

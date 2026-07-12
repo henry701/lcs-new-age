@@ -227,6 +227,7 @@
   "{killer} executes {victim} by ": "{killer} executes {victim} by ",
   "{lead} somehow ends up on the defensive as {name} calls ": "{lead} somehow ends up on the defensive as {name} calls ",
   "{letter} - {name} {ageGender}": "{letter} - {name} {ageGender}",
+  "{letter} - {title} {stackSuffix}": "{letter} - {title} {stackSuffix}",
   "{name} approves the {claim} claim.": "{name} approves the {claim} claim.",
   "{name} brandishes the {weapon}!": "{name} brandishes the {weapon}!",
   "{name} carries heavy burdens back and forth in prison labor camp.": "{name} carries heavy burdens back and forth in prison labor camp.",

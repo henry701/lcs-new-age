@@ -184,6 +184,7 @@
   "{city} - Infamous FM radio shock jock {shockJock} has brought radio entertainment to a new low.  During yesterday's broadcast of the program \"{program}\", {shockJock} reportedly {behavior} on the air.&r  Although {shockJock} later apologized, the FCC received several hundred complaints from irate listeners from all over the state.  A spokesperson for the FCC stated that the incident is under investigation.&r": "{city} - Infamous FM radio shock jock {shockJock} has brought radio entertainment to a new low.  During yesterday's broadcast of the program \"{program}\", {shockJock} reportedly {behavior} on the air.&r  Although {shockJock} later apologized, the FCC received several hundred complaints from irate listeners from all over the state.  A spokesperson for the FCC stated that the incident is under investigation.&r",
   "{city} - The disappearance of {name} is now considered a kidnapping, according to a police spokesperson.": "{city} - The disappearance of {name} is now considered a kidnapping, according to a police spokesperson.",
   "{eName} turns the topic of discussion to the {siteName}.": "{eName} turns the topic of discussion to the {siteName}.",
+  "{helper} talks with {first} and learns the aides verbally abuse {him}.": "{helper} talks with {first} and learns the aides verbally abuse {him}.",
   "{lovers} Lover": "{lovers} Lover",
   "{month} {year}": "{month} {year}",
   "{name} can't sleep for days.": "{name} can't sleep for days.",

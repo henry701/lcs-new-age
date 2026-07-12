@@ -771,9 +771,16 @@ void main() {
     test('nursing-home and insurance special messages use full templates', () {
       final source = File('lib/sitemode/map_specials.dart').readAsStringSync();
       expect(source, isNot(contains(r'"Mr. $patientLastName"')));
+      expect(source, isNot(contains('%FIRSTLAST%')));
       expect(source, contains('The squad has already checked up on {name}.'));
       expect(source, contains('Claim: {claim}.'));
       expect(source, contains('{name} approves the {claim} claim.'));
+      expect(
+        source,
+        contains('{firstLast} is lonely and feels isolated here.'),
+      );
+      expect(source, contains('LcsI18n.processString(template,'));
+      expect(source, contains('noTranslate: true'));
     });
 
     test('character-creation options render parameterized templates first', () {
@@ -864,6 +871,9 @@ void main() {
         'lib/common_actions/equipment.dart',
       ).readAsStringSync();
       expect(equipment, contains('"{letter} - {item} x{count}"'));
+      expect(equipment, contains('"{letter} - {title} {stackSuffix}"'));
+      expect(equipment, contains('"{title} {selection}"'));
+      expect(equipment, contains('"{selected}/{total}"'));
       expect(equipment, isNot(contains(r'"stack": items[p].stackSize')));
       expect(equipment, isNot(contains(r'" x${items[p].stackSize}"')));
     });

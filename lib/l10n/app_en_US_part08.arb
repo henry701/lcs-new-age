@@ -227,6 +227,7 @@
   "{name} will undergo surgery.": "{name} will undergo surgery.",
   "{name}'s right eye is torn out!": "{name}'s right eye is torn out!",
   "{pName} seizes {eName} from behind and warns {himHer} {warnMessage}": "{pName} seizes {eName} from behind and warns {himHer} {warnMessage}",
+  "{title} {selection}": "{title} {selection}",
   "{vehicle} pulls alongside you!": "{vehicle} pulls alongside you!",
   "{vehicle} slides sideways into a building.": "{vehicle} slides sideways into a building."
 }

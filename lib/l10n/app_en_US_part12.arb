@@ -218,6 +218,7 @@
   "{city} - {victim}, a {victimLabel}, was {murdered} here yesterday.  A police spokesperson reported that four suspects were apprehended after a high speed chase.  Their names have not yet been released.&r  Witnesses of the freeway chase described the pickup of the alleged murderers swerving wildly, {actionTowardPolice} at the pursuing police cruisers.  The chase ended when the suspects {chaseEnd}, at which point they were taken into custody.  Nobody was seriously injured during the pursuit.&r  {prosecution}&r": "{city} - {victim}, a {victimLabel}, was {murdered} here yesterday.  A police spokesperson reported that four suspects were apprehended after a high speed chase.  Their names have not yet been released.&r  Witnesses of the freeway chase described the pickup of the alleged murderers swerving wildly, {actionTowardPolice} at the pursuing police cruisers.  The chase ended when the suspects {chaseEnd}, at which point they were taken into custody.  Nobody was seriously injured during the pursuit.&r  {prosecution}&r",
   "{gname}'s best friend from childhood on the jury.": "{gname}'s best friend from childhood on the jury.",
   "{guard}: \"10-78! Principal in danger!\"": "{guard}: \"10-78! Principal in danger!\"",
+  "{helper} isn't sure what to do about that.": "{helper} isn't sure what to do about that.",
   "{hostage} gets in touch with {lead} later, expressing ": "{hostage} gets in touch with {lead} later, expressing ",
   "{index} - {name}": "{index} - {name}",
   "{last}&w continues to ": "{last}&w continues to ",

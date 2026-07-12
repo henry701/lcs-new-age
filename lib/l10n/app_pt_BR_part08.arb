@@ -253,6 +253,7 @@
   "{name} will undergo surgery.": "{name} vai passar por cirurgia.",
   "{name}'s right eye is torn out!": "O olho direito de {name} foi arrancado!",
   "{pName} seizes {eName} from behind and warns {himHer} {warnMessage}": "{pName} seizes {eName} from behind and warns {himHer} {warnMessage}",
+  "{title} {selection}": "{title} {selection}",
   "{vehicle} pulls alongside you!": "{vehicle} encosta ao seu lado!",
   "{vehicle} slides sideways into a building.": "{vehicle} desliza de lado contra um prédio."
 }

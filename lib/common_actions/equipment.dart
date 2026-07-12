@@ -10,6 +10,7 @@ import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/ammo.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/item.dart';
@@ -45,20 +46,20 @@ Future<void> equip(List<Item>? loot) async {
     int x = 1, y = 10;
     for (int l = page * 18; l < loot.length && l < page * 18 + 18; l++) {
       String let = letterAPlus(l - page * 18, capitalize: true);
+      final stackSuffix = loot[l].stackSize > 1 && !loot[l].type.isMoney
+          ? LcsI18n.processString("x{count}", {"count": loot[l].stackSize})
+          : "";
       addOptionText(
         y,
         x,
         let,
-        "{letter} - {title}",
-        params: {"letter": let, "title": loot[l].equipTitle()},
+        "{letter} - {title} {stackSuffix}",
+        params: {
+          "letter": let,
+          "title": loot[l].equipTitle(),
+          "stackSuffix": stackSuffix,
+        },
       );
-      if (loot[l].stackSize > 1 && !loot[l].type.isMoney) {
-        addstrc(
-          lightGray,
-          " x{count}",
-          params: {"count": loot[l].stackSize.toString()},
-        );
-      }
 
       x += 26;
       if (x > 53) {
@@ -330,19 +331,24 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
       mvaddstrc(y, x, lightGray, "{letter} - ", params: {"letter": str});
 
       Color baseColor = selected[l] > 0 ? lightGreen : lightGray;
-      source[l].printEquipTitle(baseColor: baseColor);
-
-      String s = "";
+      String selection = "";
       if (source[l].stackSize > 1) {
-        s += " ";
         if (selected[l] > 0) {
-          s += "${selected[l]}/";
+          selection = LcsI18n.processString("{selected}/{total}", {
+            "selected": selected[l],
+            "total": source[l].stackSize,
+          });
         } else {
-          s += "x";
+          selection = LcsI18n.processString("x{total}", {
+            "total": source[l].stackSize,
+          });
         }
-        s += source[l].stackSize.toString();
       }
-      addstrc(baseColor, s);
+      addstrc(
+        baseColor,
+        "{title} {selection}",
+        params: {"title": source[l].equipTitle(), "selection": selection},
+      );
 
       x += 26;
       if (x > 53) {

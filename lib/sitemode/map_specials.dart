@@ -1150,7 +1150,7 @@ class PatientState {
     this.skill, {
     this.difficulty = Difficulty.automatic,
     this.juice = 5,
-    this.failMessage = "%HELPER% isn't sure what to do about that.",
+    this.failMessage = "{helper} isn't sure what to do about that.",
   });
   String description;
   int juice;
@@ -1250,92 +1250,92 @@ PatientState _getPatientState(PatientPersonality personality) {
   switch (lcsRandomWeighted<PatientStateKey>(stateWeights)) {
     case PatientStateKey.lonely:
       return PatientState(
-        "%FIRSTLAST% is lonely and feels isolated here.",
-        "%HELPER% sits and talks with %FIRST% for a while.",
+        "{firstLast} is lonely and feels isolated here.",
+        "{helper} sits and talks with {first} for a while.",
         Skill.psychology,
       );
     case PatientStateKey.lyingInSamePosition:
       return PatientState(
-        "%FIRSTLAST% has been lying in the same position all day.",
-        "%HELPER% repositions %FIRST% so %HE% is more comfortable.",
+        "{firstLast} has been lying in the same position all day.",
+        "{helper} repositions {first} so {he} is more comfortable.",
         Skill.firstAid,
         difficulty: Difficulty.easy,
       );
     case PatientStateKey.pillsLookWrong:
       return PatientState(
-        "%FIRSTLAST% says the pills don't look right.",
-        "%HELPER% checks %FIRST%'s chart and gets %HIM% the right medication.",
+        "{firstLast} says the pills don't look right.",
+        "{helper} checks {first}'s chart and gets {him} the right medication.",
         Skill.firstAid,
         difficulty: Difficulty.average,
       );
     case PatientStateKey.bruiseOnLeftCheek:
       return PatientState(
-        "%FIRSTLAST% has a bruise on %HIS% left cheek.",
-        "%FIRST% confides in %HELPER% that one of the aides hit %HIM%.",
+        "{firstLast} has a bruise on {his} left cheek.",
+        "{first} confides in {helper} that one of the aides hit {him}.",
         Skill.psychology,
         difficulty: Difficulty.easy,
       );
     case PatientStateKey.leftInSoiledClothing:
       return PatientState(
-        "%FIRSTLAST% has been left in soiled clothing.",
-        "%HELPER% helps %FIRST% get into a new set of clothes.",
+        "{firstLast} has been left in soiled clothing.",
+        "{helper} helps {first} get into a new set of clothes.",
         Skill.firstAid,
       );
     case PatientStateKey.leftInRestraints:
       return PatientState(
-        "%FIRSTLAST% has been left in restraints as a punishment.",
-        "%HELPER% releases the restraints so %FIRST% can move.",
+        "{firstLast} has been left in restraints as a punishment.",
+        "{helper} releases the restraints so {first} can move.",
         Skill.security,
       );
     case PatientStateKey.gladToHaveVisitor:
       return PatientState(
-        "%FIRSTLAST% is glad to have a visitor.",
-        "%HELPER% sits and talks with %FIRST% for a while.",
+        "{firstLast} is glad to have a visitor.",
+        "{helper} sits and talks with {first} for a while.",
         Skill.psychology,
       );
     case PatientStateKey.hallucinatesDeceasedRelative:
       return PatientState(
-        "%FIRSTLAST% mistakes %HELPER% for a deceased relative.",
-        "%HELPER% helps %FIRST% remember them.",
+        "{firstLast} mistakes {helper} for a deceased relative.",
+        "{helper} helps {first} remember them.",
         Skill.psychology,
         difficulty: Difficulty.easy,
       );
     case PatientStateKey.suspectsTheft:
       return PatientState(
-        "%FIRSTLAST% asks if %HELPER% is here to steal from %HIM%.",
-        "%FIRST% confides in %HELPER% that one of the aides steals from %HIM%.",
+        "{firstLast} asks if {helper} is here to steal from {him}.",
+        "{first} confides in {helper} that one of the aides steals from {him}.",
         Skill.psychology,
         difficulty: Difficulty.average,
       );
     case PatientStateKey.swearsAtHelper:
       return PatientState(
-        "%FIRSTLAST% swears bitterly at %HELPER%.",
-        "%HELPER% talks with %FIRST% and learns the aides verbally abuse %HIM%.",
+        "{firstLast} swears bitterly at {helper}.",
+        "{helper} talks with {first} and learns the aides verbally abuse {him}.",
         Skill.psychology,
         difficulty: Difficulty.average,
       );
     case PatientStateKey.inGoodSpirits:
       return PatientState(
-        "%FIRSTLAST% seems to be in good spirits.",
-        "%HELPER% sits and talks with %FIRST%. It's nice to see %HIM% happy.",
+        "{firstLast} seems to be in good spirits.",
+        "{helper} sits and talks with {first}. It's nice to see {him} happy.",
         Skill.psychology,
       );
     case PatientStateKey.asksForBook:
       return PatientState(
-        "%FIRSTLAST% asks %HELPER% to bring %HIM% a book.",
-        "%HELPER% hands %FIRST% a book.",
+        "{firstLast} asks {helper} to bring {him} a book.",
+        "{helper} hands {first} a book.",
         Skill.writing,
       );
     case PatientStateKey.asksForChannelChange:
       return PatientState(
-        "%FIRSTLAST% asks %HELPER% to change the TV channel.",
-        "%HELPER% changes the channel.",
+        "{firstLast} asks {helper} to change the TV channel.",
+        "{helper} changes the channel.",
         Skill.computers,
       );
     case PatientStateKey.asksForRadio:
       return PatientState(
-        "%FIRSTLAST% asks %HELPER% to turn the radio on.",
-        "%HELPER% turns on the radio.",
+        "{firstLast} asks {helper} to turn the radio on.",
+        "{helper} turns on the radio.",
         Skill.music,
       );
   }
@@ -1417,19 +1417,24 @@ Future<void> specialNursingHomePatient({bool done = false}) async {
     }
     helper.train(patientState.skill, experience);
 
-    // Fill in the variables in the state description and success/fail messages
-    String fillMessage(String message) => message
-        .replaceAll("%FIRSTLAST%", "$patientFirstName $patientLastName")
-        .replaceAll("%FIRST%", patientFirstName)
-        .replaceAll("%HIS%", gender.hisHer)
-        .replaceAll("%HIM%", gender.himHer)
-        .replaceAll("%HE%", gender.heShe)
-        .replaceAll("%HELPER%", helper.name);
+    // Translate the complete state template before rendering it for layout.
+    String fillMessage(String template) => LcsI18n.processString(template, {
+      "firstLast": LcsI18n.processString("{first} {last}", {
+        "first": patientFirstName,
+        "last": patientLastName,
+      }),
+      "first": patientFirstName,
+      "his": LcsI18n.tr(gender.hisHer),
+      "him": LcsI18n.tr(gender.himHer),
+      "he": LcsI18n.tr(gender.heShe),
+      "helper": helper.name,
+    });
 
     // Show the result
     await encounterMessage(
       fillMessage(patientState.description),
       line2: fillMessage(resultMessage),
+      noTranslate: true,
     );
 
     currentTile.special = TileSpecial.nursingHomePatientDone;

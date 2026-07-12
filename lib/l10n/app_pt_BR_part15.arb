@@ -223,5 +223,6 @@
   "{vehicle} retreats from the pursuit.": "{vehicle} recua da perseguição.",
   "{weapon} ({ammo})": "{weapon} (munição: {ammo})",
   "{year} (Age {age}, ": "{year} (Idade {age}, ",
+  "~{current}": "~{current}",
   "│     The police have brutally beaten a black man   │": "│     A polícia espancou brutalmente um homem negro   │"
 }

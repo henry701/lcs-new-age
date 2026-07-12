@@ -220,11 +220,11 @@ class Clothing extends Item {
       case 7:
         precision = 2;
       default:
-        return "+$armorValue";
+        return LcsI18n.processString("+{armor}", {"armor": armorValue});
     }
     int roundedArmor = (armorValue / precision).round() * precision;
     roundedArmor = roundedArmor.clamp(0, armorValue);
-    return "+~$roundedArmor";
+    return LcsI18n.processString("+~{armor}", {"armor": roundedArmor});
   }
 
   @override

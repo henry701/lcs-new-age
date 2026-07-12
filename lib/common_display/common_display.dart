@@ -170,15 +170,23 @@ String _getHealthDisplayForSkill(
       precision = 2;
     default:
       return small
-          ? "${creature.blood}"
-          : "${creature.blood}/${creature.maxBlood}";
+          ? LcsI18n.processString("{current}", {"current": creature.blood})
+          : LcsI18n.processString("{current}/{max}", {
+              "current": creature.blood,
+              "max": creature.maxBlood,
+            });
   }
   int roundedCurrent = (currentHP / precision).round() * precision;
   int roundedMax = (maxHP / precision).round() * precision;
   // Ensure we don't exceed actual values
   roundedCurrent = roundedCurrent.clamp(0, currentHP);
   roundedMax = roundedMax.clamp(roundedCurrent, maxHP);
-  return small ? "~$roundedCurrent" : "~$roundedCurrent/$roundedMax";
+  return small
+      ? LcsI18n.processString("~{current}", {"current": roundedCurrent})
+      : LcsI18n.processString("~{current}/{max}", {
+          "current": roundedCurrent,
+          "max": roundedMax,
+        });
 }
 
 String romanNumeral(int num) {

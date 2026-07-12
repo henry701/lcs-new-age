@@ -28,6 +28,7 @@
   "$sprayingBulletsAt students and ": "$sprayingBulletsAt students and ",
   "%FIRSTLAST% has been left in soiled clothing.": "%FIRSTLAST% has been left in soiled clothing.",
   "+2 Disguise, +1 Charisma": "+2 Disguise, +1 Charisma",
+  "+~{armor}": "+~{armor}",
   "...and manages to install DOOM. Which is cool, but unhelpful.": "...and manages to install DOOM. Which is cool, but unhelpful.",
   "8 - Review and Move Equipment ({equipment})": "8 - Review and Move Equipment ({equipment})",
   "9 - Dissolve the squad.": "9 - Dissolve the squad.",

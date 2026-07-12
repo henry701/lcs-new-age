@@ -219,5 +219,6 @@
   "{vehicle} retreats from the pursuit.": "{vehicle} retreats from the pursuit.",
   "{weapon} ({ammo})": "{weapon} ({ammo})",
   "{year} (Age {age}, ": "{year} (Age {age}, ",
+  "~{current}": "~{current}",
   "│     The police have brutally beaten a black man   │": "│     The police have brutally beaten a black man   │"
 }

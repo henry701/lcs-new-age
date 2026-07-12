@@ -66,9 +66,9 @@ bool flagOwned(Site loc, FlagType flag) =>
     c = lightGray;
   }
   if (s > 0) {
-    return ("+$s", c);
+    return (LcsI18n.processString("+{value}", {"value": s}), c);
   } else if (s < 0) {
-    return ("$s", c);
+    return (LcsI18n.processString("{value}", {"value": s}), c);
   } else {
     return ("0", c);
   }

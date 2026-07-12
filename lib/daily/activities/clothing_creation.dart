@@ -5,6 +5,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
@@ -67,22 +68,26 @@ Future<void> doActivityMakeClothing(Creature cr) async {
     String rate;
     switch (quality) {
       case 1:
-        rate = "first";
+        rate = LcsI18n.tr("first");
       case 2:
-        rate = "second";
+        rate = LcsI18n.tr("second");
       case 3:
-        rate = "third";
+        rate = LcsI18n.tr("third");
       case 4:
-        rate = "fourth";
+        rate = LcsI18n.tr("fourth");
       default:
-        rate = "${quality}th";
+        rate = LcsI18n.processString("{quality}th", {"quality": quality});
     }
     mvaddstrc(
       8,
       1,
       lightGray,
       "{name} created {rate}-rate {clothing}.",
-      params: {"name": cr.name, "rate": rate, "clothing": clothing.name},
+      params: {
+        "name": cr.name,
+        "rate": rate,
+        "clothing": LcsI18n.tr(clothing.name),
+      },
     );
     await getKey();
     cr.site?.loot.add(it);
@@ -103,7 +108,7 @@ Future<void> doActivityMakeClothing(Creature cr) async {
           1,
           lightGray,
           "{name} wasted the materials for a {clothing}.",
-          params: {"name": cr.name, "clothing": clothing.name},
+          params: {"name": cr.name, "clothing": LcsI18n.tr(clothing.name)},
         );
         await getKey();
       case 2:
@@ -112,7 +117,7 @@ Future<void> doActivityMakeClothing(Creature cr) async {
           1,
           lightGray,
           "{name} tried to make {clothing}, but failed.",
-          params: {"name": cr.name, "clothing": clothing.name},
+          params: {"name": cr.name, "clothing": LcsI18n.tr(clothing.name)},
         );
         await getKey();
       case 3:

@@ -1054,6 +1054,15 @@ void main() {
       expect(graffiti, isNot(contains(r'LcsI18n.tr("beautiful")')));
     });
 
+    test('clothing quality ordinal and name translate before insertion', () {
+      final creation = File(
+        'lib/daily/activities/clothing_creation.dart',
+      ).readAsStringSync();
+      expect(creation, contains('LcsI18n.processString("{quality}th"'));
+      expect(creation, contains('"clothing": LcsI18n.tr(clothing.name)'));
+      expect(creation, isNot(contains(r'rate = "${quality}th"')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

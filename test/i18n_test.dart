@@ -83,7 +83,7 @@ void main() {
     test('translate simple strings in English', () async {
       await LcsI18n.initialize('en_US');
 
-      expect(LcsI18n.translate('Loading...'), equals('Loading...'));
+      expect(LcsI18n.translate('Game Over'), equals('Game Over'));
       expect(LcsI18n.translate('Game Over'), equals('Game Over'));
       expect(
         LcsI18n.translate('Press any key to continue.'),
@@ -94,7 +94,10 @@ void main() {
     test('translate simple strings in Portuguese', () async {
       await LcsI18n.initialize('pt_BR');
 
-      expect(LcsI18n.translate('Loading...'), equals('Carregando...'));
+      expect(
+        LcsI18n.translate('Loading Liberal Crime Squad...'),
+        equals('Carregando Liberal Crime Squad...'),
+      );
       expect(LcsI18n.translate('Game Over'), equals('Fim de Jogo'));
       expect(
         LcsI18n.translate('Press any key to continue.'),
@@ -117,8 +120,11 @@ void main() {
       );
 
       expect(
-        LcsI18n.format('You hit the {target}!', {'target': 'Conservative'}),
-        equals('You hit the Conservative!'),
+        LcsI18n.format('{attacker} hits {target}.', {
+          'attacker': 'Alice',
+          'target': 'Conservative',
+        }),
+        equals('Alice hits Conservative.'),
       );
     });
 
@@ -126,15 +132,18 @@ void main() {
       await LcsI18n.initialize('pt_BR');
 
       expect(
-        LcsI18n.processString('You hit the {target}!', {
+        LcsI18n.processString('{attacker} hits {target}.', {
+          'attacker': 'Alice',
           'target': 'Conservador',
         }),
-        equals('Você acertou o Conservador!'),
+        equals('Alice acerta Conservador.'),
       );
 
       expect(
-        LcsI18n.processString('You have {count} items.', {'count': '5'}),
-        equals('Você tem 5 itens.'),
+        LcsI18n.processString('{count} other LCS members escape in the riot!', {
+          'count': '5',
+        }),
+        equals('5 outros membros do LCS escapam no motim!'),
       );
     });
 
@@ -146,14 +155,20 @@ void main() {
         // format() only replaces placeholders, does not translate
         // The template stays in English
         expect(
-          LcsI18n.format('Hello {name}!', {'name': 'Maria'}),
-          equals('Hello Maria!'),
+          LcsI18n.format('{attacker} hits {target}.', {
+            'attacker': 'Alice',
+            'target': 'Maria',
+          }),
+          equals('Alice hits Maria.'),
         );
 
         // For translation + formatting, use processString()
         expect(
-          LcsI18n.processString('Hello {name}!', {'name': 'Maria'}),
-          equals('Olá Maria!'),
+          LcsI18n.processString('{attacker} hits {target}.', {
+            'attacker': 'Alice',
+            'target': 'Maria',
+          }),
+          equals('Alice acerta Maria.'),
         );
       },
     );
@@ -161,24 +176,26 @@ void main() {
     test('plural handling - zero in English', () async {
       await LcsI18n.initialize('en_US');
       expect(
-        LcsI18n.translate('You have no items.'),
-        equals('You have no items.'),
+        LcsI18n.translate('Another imprisoned LCS member also gets out!'),
+        equals('Another imprisoned LCS member also gets out!'),
       );
     });
 
     test('plural handling - one in English', () async {
       await LcsI18n.initialize('en_US');
       expect(
-        LcsI18n.translate('You have one item.'),
-        equals('You have one item.'),
+        LcsI18n.translate('You have escaped!'),
+        equals('You have escaped!'),
       );
     });
 
     test('plural handling - other in English', () async {
       await LcsI18n.initialize('en_US');
       expect(
-        LcsI18n.format('You have {count} items.', {'count': 5}),
-        equals('You have 5 items.'),
+        LcsI18n.format('{count} other LCS members escape in the riot!', {
+          'count': 5,
+        }),
+        equals('5 other LCS members escape in the riot!'),
       );
     });
 
@@ -186,18 +203,17 @@ void main() {
       await LcsI18n.initialize('pt_BR');
 
       expect(
-        LcsI18n.translate('You have no items.'),
-        equals('Você não tem itens.'),
+        LcsI18n.translate('Another imprisoned LCS member also gets out!'),
+        equals('Outro membro preso do LCS também escapa!'),
       );
 
-      expect(
-        LcsI18n.translate('You have one item.'),
-        equals('Você tem um item.'),
-      );
+      expect(LcsI18n.translate('You have escaped!'), equals('Você escapou!'));
 
       expect(
-        LcsI18n.processString('You have {count} items.', {'count': '5'}),
-        equals('Você tem 5 itens.'),
+        LcsI18n.processString('{count} other LCS members escape in the riot!', {
+          'count': '5',
+        }),
+        equals('5 outros membros do LCS escapam no motim!'),
       );
     });
 
@@ -209,10 +225,10 @@ void main() {
         equals('Another imprisoned LCS member also gets out!'),
       );
       expect(
-        LcsI18n.format('{count} other LCS members escape in riot!', {
+        LcsI18n.format('{count} other LCS members escape in the riot!', {
           'count': 5,
         }),
-        equals('5 other LCS members escape in riot!'),
+        equals('5 other LCS members escape in the riot!'),
       );
     });
 
@@ -233,26 +249,28 @@ void main() {
 
     test('shorthand tr() method works', () async {
       await LcsI18n.initialize('en_US');
-      expect(LcsI18n.tr('Loading...'), equals('Loading...'));
+      expect(LcsI18n.tr('Game Over'), equals('Game Over'));
     });
 
     test('processString translates and formats in English', () async {
       await LcsI18n.initialize('en_US');
       expect(
-        LcsI18n.processString('You hit the {target}!', {
+        LcsI18n.processString('{attacker} hits {target}.', {
+          'attacker': 'Alice',
           'target': 'Conservative',
         }),
-        equals('You hit the Conservative!'),
+        equals('Alice hits Conservative.'),
       );
     });
 
     test('processString translates and formats in Portuguese', () async {
       await LcsI18n.initialize('pt_BR');
       expect(
-        LcsI18n.processString('You hit the {target}!', {
+        LcsI18n.processString('{attacker} hits {target}.', {
+          'attacker': 'Alice',
           'target': 'Conservador',
         }),
-        equals('Você acertou o Conservador!'),
+        equals('Alice acerta Conservador.'),
       );
     });
 
@@ -275,22 +293,35 @@ void main() {
       () async {
         await LcsI18n.initialize('pt_BR');
         expect(
-          LcsI18n.processString(' punches the {ism} out of {name}', {
-            'ism': 'conservadorismo',
-            'name': 'Bob',
-          }),
-          equals(' espanca o conservadorismo fora de Bob'),
+          LcsI18n.processString(
+            '{attacker} punches the {ism} out of {target}!',
+            {'attacker': 'Alice', 'ism': 'conservadorismo', 'target': 'Bob'},
+          ),
+          equals('Alice arranca o conservadorismo de Bob no soco!'),
         );
         expect(
-          LcsI18n.processString('{attacker} strikes true on {target}', {
-            'attacker': 'Alice',
-            'target': 'o braço',
-          }),
-          equals('Alice acerta em cheio em o braço'),
+          LcsI18n.processString(
+            '{attacker} strikes true on {target}, {description} {times} times.',
+            {
+              'attacker': 'Alice',
+              'target': 'o braço',
+              'description': 'sem hesitar',
+              'times': '2',
+            },
+          ),
+          equals('Alice acerta o braço em cheio, sem hesitar 2 vezes.'),
         );
         expect(
-          LcsI18n.processString(' {times} times', {'times': 7}),
-          equals(' 7 vezes'),
+          LcsI18n.processString(
+            '{attacker} hits {target}, {description} {times} times.',
+            {
+              'attacker': 'Alice',
+              'target': 'o braço',
+              'description': 'sem hesitar',
+              'times': '2',
+            },
+          ),
+          equals('Alice acerta o braço, sem hesitar 2 vezes.'),
         );
         expect(
           LcsI18n.processString("{name} drops {prisonerName}'s body.", {
@@ -324,10 +355,11 @@ void main() {
     test('processString with noTranslate skips translation', () async {
       await LcsI18n.initialize('pt_BR');
       expect(
-        LcsI18n.processString('You hit the {target}!', {
+        LcsI18n.processString('{attacker} hits {target}.', {
+          'attacker': 'Alice',
           'target': 'Conservador',
         }, noTranslate: true),
-        equals('You hit the Conservador!'),
+        equals('Alice hits Conservador.'),
       );
     });
 
@@ -342,8 +374,8 @@ void main() {
       () async {
         await LcsI18n.initialize('zz_ZZ');
 
-        const fallbackKey = 'Loading...';
-        expect(LcsI18n.translate(fallbackKey), equals('Loading...'));
+        const fallbackKey = 'Game Over';
+        expect(LcsI18n.translate(fallbackKey), equals('Game Over'));
         expect(LcsI18n.getMissingTranslations(), contains(fallbackKey));
       },
     );
@@ -351,7 +383,7 @@ void main() {
     test(
       'English fallback logging only writes each missing key once',
       () async {
-        const fallbackKey = 'Loading...';
+        const fallbackKey = 'Game Over';
         final tempWorkingDirectory = await Directory.systemTemp.createTemp(
           'i18n_missing_log_test_',
         );
@@ -367,14 +399,14 @@ void main() {
 
           await LcsI18n.initialize('zz_ZZ');
 
-          expect(LcsI18n.translate(fallbackKey), equals('Loading...'));
+          expect(LcsI18n.translate(fallbackKey), equals('Game Over'));
           final firstEntry = await _waitForLoggedEntry(
             fallbackKey,
             tempLogDirectory,
           );
 
           await Future<void>.delayed(const Duration(milliseconds: 25));
-          expect(LcsI18n.translate(fallbackKey), equals('Loading...'));
+          expect(LcsI18n.translate(fallbackKey), equals('Game Over'));
 
           await Future<void>.delayed(const Duration(milliseconds: 50));
           final secondEntry = await _waitForLoggedEntry(
@@ -427,7 +459,7 @@ void main() {
     );
 
     test('translated catalog entries are not logged as untranslated', () async {
-      const translatedCatalogKey = 'Buffalo, NY';
+      const translatedCatalogKey = 'White Plains, NY';
       final tempWorkingDirectory = await Directory.systemTemp.createTemp(
         'i18n_translated_catalog_log_test_',
       );
@@ -445,7 +477,7 @@ void main() {
 
         expect(
           LcsI18n.translate(translatedCatalogKey),
-          equals('Buffalo, New York'),
+          equals('White Plains, New York'),
         );
 
         await Future<void>.delayed(const Duration(milliseconds: 75));
@@ -461,7 +493,7 @@ void main() {
     test(
       'translated catalog entries are not logged after logging is enabled later',
       () async {
-        const translatedCatalogKey = 'Buffalo, NY';
+        const translatedCatalogKey = 'White Plains, NY';
         final tempWorkingDirectory = await Directory.systemTemp.createTemp(
           'i18n_translated_catalog_late_log_test_',
         );
@@ -477,13 +509,13 @@ void main() {
           await LcsI18n.initialize('pt_BR');
           expect(
             LcsI18n.translate(translatedCatalogKey),
-            equals('Buffalo, New York'),
+            equals('White Plains, New York'),
           );
 
           gameOptions.logUntranslatedStrings = true;
           expect(
             LcsI18n.translate(translatedCatalogKey),
-            equals('Buffalo, New York'),
+            equals('White Plains, New York'),
           );
 
           await Future<void>.delayed(const Duration(milliseconds: 75));
@@ -719,12 +751,12 @@ void main() {
         await LcsI18n.initialize('pt_BR');
 
         final result = LcsI18n.processString(
-          "Loading...",
+          "Loading Liberal Crime Squad...",
           null,
           baseColorKey: 'w',
         );
 
-        expect(result, equals('Carregando...'));
+        expect(result, equals('Carregando Liberal Crime Squad...'));
       });
 
       test(

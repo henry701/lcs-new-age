@@ -1199,14 +1199,7 @@ void main() {
 
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
-      // Strict: expect(audit.passesCompletionGate, isTrue);
-      // Temporarily tolerant while resolving 727 untranslated (dialogue + post-extractor fragments).
-      // Re-enable strict assert + remove tolerance once live coverage reaches 100%.
-      expect(
-        audit.passesCompletionGate || audit.untranslatedAgainstSource > 0,
-        isTrue,
-        reason: 'Gate should pass or we are tracking remaining work',
-      );
+      expect(audit.passesCompletionGate, isTrue);
     });
   });
 }

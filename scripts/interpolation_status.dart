@@ -68,7 +68,15 @@ void main(List<String> args) async {
     if (entity.path.endsWith('.g.dart')) continue;
 
     final relativePath = entity.path.replaceFirst('${libDir.path}/', '');
-    final content = await entity.readAsString();
+    // A concurrent test or tooling process may remove a transient source file
+    // after directory enumeration. Treat that race as a skipped file rather
+    // than failing the entire repository audit.
+    final String content;
+    try {
+      content = await entity.readAsString();
+    } on FileSystemException {
+      continue;
+    }
     final lines = content.split('\n');
     final lineOffsets = _buildLineStartOffsets(content);
 

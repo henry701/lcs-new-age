@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -97,6 +98,38 @@ The safehouse is secure.""",
       expect(
         result.stdout.toString(),
         contains('{name} wins the battle.\n\nThe safehouse is secure.'),
+      );
+    },
+    timeout: const Timeout(Duration(minutes: 2)),
+  );
+
+  test(
+    'extractor emits a machine-readable live key set',
+    () async {
+      await fixture.writeAsString(r'''
+void renderJson() {
+  addstr('A live localization key.');
+}
+''');
+
+      final result = await Process.run('dart', [
+        'run',
+        'scripts/find_translatable_strings.dart',
+        '--json',
+        '--glob=__i18n_extractor_fixture_test.dart',
+      ]);
+
+      expect(result.exitCode, 0, reason: result.stderr.toString());
+      final entries = jsonDecode(result.stdout.toString()) as List<dynamic>;
+      expect(
+        entries,
+        contains(
+          isA<Map<String, dynamic>>().having(
+            (entry) => entry['text'],
+            'text',
+            'A live localization key.',
+          ),
+        ),
       );
     },
     timeout: const Timeout(Duration(minutes: 2)),

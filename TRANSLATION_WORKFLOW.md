@@ -54,7 +54,8 @@ Do this before treating untranslated coverage as real translator work:
 
 Important limitations:
 
-- `find_translatable_strings.dart` is additive-only. It does not remove dead source keys from catalogs.
+- `find_translatable_strings.dart` is additive by default. Use its explicit
+  `--prune-dead` mode only after reviewing the current extracted key set.
 - `find_translatable_strings.dart` is not a full semantic extractor. It can miss some strings that are assigned to locals and only rendered later through wrappers.
 - It can also miss literal templates passed to `LcsI18n.processString` when the rendered result is assigned to a local before display. After adding such a template, verify the exact key exists in both locale catalogs; if it does not, merge a small ARB file with `merge_arb_entries.dart` rather than assuming extraction succeeded.
 - `interpolation_status.dart` has two signal levels:
@@ -62,6 +63,17 @@ Important limitations:
   - wrapper-context hits: broader, useful for multiline calls and manual sweep work
 
 Treat the scripts as good assistants, not proof that source-string cleanup is complete. In particular, the wrapper audit is intentionally narrow: inspect generated prose, local variables, and accumulated story text separately.
+
+After confirming those manual checks, capture the authoritative extracted key
+set and prune stale non-metadata catalog keys from both locales:
+
+```bash
+dart run scripts/find_translatable_strings.dart --json > /tmp/live-i18n-keys.json
+dart run scripts/find_translatable_strings.dart --prune-dead
+```
+
+`--prune-dead` is deliberately opt-in because the extractor is not semantic;
+keep the JSON evidence and preserve any verified generated templates first.
 
 For the all-lib review corpus (including diagnostics and internal formatting), use:
 

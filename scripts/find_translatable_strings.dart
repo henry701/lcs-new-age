@@ -47,6 +47,9 @@ void main(List<String> args) async {
       '  --no-modify                Do not modify ARB files (print summary only)',
     );
     print(
+      '  --prune-dead               Remove catalog keys absent from the extracted live key set',
+    );
+    print(
       '  --generate-arb             Generate ARB JSON for untranslated strings',
     );
     print(
@@ -95,8 +98,6 @@ void main(List<String> args) async {
     return;
   }
 
-  print('Finding translatable strings in LCS New Age...\n');
-
   final scriptDir = Directory.current;
   Directory libDir;
 
@@ -118,7 +119,15 @@ void main(List<String> args) async {
 
   // Parse command line arguments
   final printOnly = args.contains('--print-only') || args.contains('--dry-run');
-  final noModify = args.contains('--no-modify') || printOnly;
+  final outputJson = args.contains('--json');
+  final noModify = args.contains('--no-modify') || printOnly || outputJson;
+  final pruneDead = args.contains('--prune-dead');
+  if (pruneDead && noModify) {
+    stderr.writeln(
+      'Error: --prune-dead cannot be combined with read-only output modes',
+    );
+    exit(1);
+  }
   final generateArb = args.contains('--generate-arb');
   final localeArg = args.firstWhere(
     (arg) => arg.startsWith('--locale='),
@@ -135,6 +144,10 @@ void main(List<String> args) async {
   if (hashShards <= 0) {
     print('Error: --hash-shards must be > 0');
     exit(1);
+  }
+
+  if (!outputJson) {
+    print('Finding translatable strings in LCS New Age...\n');
   }
 
   // Parse file globs
@@ -345,6 +358,12 @@ void main(List<String> args) async {
   final sortedStrings = stringInfo.values.toList();
   sortedStrings.sort((a, b) => b.count.compareTo(a.count));
 
+  if (outputJson) {
+    const encoder = JsonEncoder.withIndent('  ');
+    print(encoder.convert(sortedStrings.map((info) => info.toJson()).toList()));
+    return;
+  }
+
   // Print summary
   print('Found ${sortedStrings.length} unique translatable strings in code');
   print('');
@@ -368,6 +387,7 @@ void main(List<String> args) async {
       targetLocale == 'all' ? null : targetLocale,
       l10nPath,
       hashShards,
+      pruneDead,
     );
   }
 }
@@ -856,6 +876,7 @@ Future<void> _modifyArbFiles(
   String? targetLocale,
   String l10nPath,
   int hashShards,
+  bool pruneDead,
 ) async {
   final localesToProcess = targetLocale != null
       ? [targetLocale]
@@ -874,6 +895,17 @@ Future<void> _modifyArbFiles(
     );
     final files = localeFileLists[locale] ?? [];
     int addedToThisLocale = 0;
+    int prunedFromThisLocale = 0;
+    if (pruneDead) {
+      final liveKeys = sortedStrings.map((info) => info.text).toSet();
+      final deadKeys = existingArb.keys
+          .where((key) => !key.startsWith('@') && !liveKeys.contains(key))
+          .toList();
+      for (final key in deadKeys) {
+        existingArb.remove(key);
+      }
+      prunedFromThisLocale = deadKeys.length;
+    }
     for (final info in sortedStrings) {
       if (!existingArb.containsKey(info.text)) {
         existingArb[info.text] = info.text;
@@ -903,10 +935,12 @@ Future<void> _modifyArbFiles(
       'total': totalStrings,
       'files': shards.length,
       'added': addedToThisLocale,
+      'pruned': prunedFromThisLocale,
     };
 
     print(
-      '✓ $locale: Added $addedToThisLocale strings ($totalStrings total in ${shards.length} file(s))',
+      '✓ $locale: Added $addedToThisLocale strings, pruned $prunedFromThisLocale dead keys '
+      '($totalStrings total in ${shards.length} file(s))',
     );
   }
 
@@ -920,7 +954,8 @@ Future<void> _modifyArbFiles(
       final locale = entry.key;
       final stats = entry.value;
       print(
-        '  $locale: ${stats['total']} strings in ${stats['files']} file(s) (+${stats['added']} new)',
+        '  $locale: ${stats['total']} strings in ${stats['files']} file(s) '
+        '(+${stats['added']} new, -${stats['pruned']} dead)',
       );
     }
   }
@@ -1057,4 +1092,10 @@ class StringInfo {
   List<String> locations;
   int count;
   Set<String> occurrenceKeys;
+
+  Map<String, dynamic> toJson() => {
+    'text': text,
+    'count': count,
+    'locations': locations,
+  };
 }

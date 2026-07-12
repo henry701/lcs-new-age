@@ -19,11 +19,16 @@ void main() {
       await LcsI18n.initialize();
 
       // Test that we can use plain English strings
-      expect(() => LcsI18n.translate('Loading...'), returnsNormally);
+      expect(
+        () => LcsI18n.translate('Loading Liberal Crime Squad...'),
+        returnsNormally,
+      );
       expect(() => LcsI18n.translate('Game Over'), returnsNormally);
       expect(
-        () =>
-            LcsI18n.format('You hit the {target}!', {'target': 'Conservative'}),
+        () => LcsI18n.format('{attacker} hits {target}.', {
+          'attacker': 'Alice',
+          'target': 'Conservative',
+        }),
         returnsNormally,
       );
     });
@@ -32,14 +37,14 @@ void main() {
       await LcsI18n.initialize();
 
       // Test NCurses-style: plain English in code
-      final result = LcsI18n.processString('You hit the {target}!', {
+      final result = LcsI18n.processString('{attacker} hits {target}.', {
+        'attacker': 'Alice',
         'target': 'Conservative',
       });
 
-      expect(result, equals('You hit the Conservative!'));
+      expect(result, equals('Alice hits Conservative.'));
       expect(result, isA<String>());
       expect(result, isNotEmpty);
     });
-
   });
 }

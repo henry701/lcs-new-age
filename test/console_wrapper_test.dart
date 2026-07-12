@@ -40,13 +40,19 @@ void main() {
 
     test('addstr with params formats string', () {
       expect(() {
-        addstr('You hit the {target}!', params: {'target': 'Conservative'});
+        addstr(
+          '{attacker} hits {target}.',
+          params: {'attacker': 'Alice', 'target': 'Conservative'},
+        );
       }, returnsNormally);
     });
 
     test('addstr with count formats string', () {
       expect(() {
-        addstr('You have {count} items.', params: {'count': 5});
+        addstr(
+          '{count} other LCS members escape in the riot!',
+          params: {'count': 5},
+        );
       }, returnsNormally);
     });
 
@@ -71,17 +77,23 @@ void main() {
     test('addstr format actually translates correctly in English', () async {
       resetConsole();
       await LcsI18n.initialize('en_US');
-      addstr('You hit the {target}!', params: {'target': 'Conservative'});
-      expect(getConsoleLine(0), equals('You hit the Conservative!'));
+      addstr(
+        '{attacker} hits {target}.',
+        params: {'attacker': 'Alice', 'target': 'Conservative'},
+      );
+      expect(getConsoleLine(0), equals('Alice hits Conservative.'));
     });
 
     test('addstr format actually translates correctly in Portuguese', () async {
       resetConsole();
       await LcsI18n.initialize('pt_BR');
-      // Values like creature types may need translation at call site
-      final target = LcsI18n.tr('Conservative');
-      addstr('You hit the {target}!', params: {'target': target});
-      expect(getConsoleLine(0), equals('Você acertou o Conservador!'));
+      // Values like creature types are translated at the call site.
+      const target = 'Conservador';
+      addstr(
+        '{attacker} hits {target}.',
+        params: {'attacker': 'Alice', 'target': target},
+      );
+      expect(getConsoleLine(0), equals('Alice acerta Conservador.'));
     });
 
     test(
@@ -190,9 +202,11 @@ void main() {
       () async {
         resetConsole();
         await LcsI18n.initialize('pt_BR');
-        // "You hit the {target}!" translates to "Você acertou o {target}!"
-        addstr('You hit the {target}!', params: {'target': 'Inimigo'});
-        expect(getConsoleLine(0), equals('Você acertou o Inimigo!'));
+        addstr(
+          '{attacker} hits {target}.',
+          params: {'attacker': 'Alice', 'target': 'Inimigo'},
+        );
+        expect(getConsoleLine(0), equals('Alice acerta Inimigo.'));
       },
     );
   });

@@ -27,13 +27,21 @@ dart run scripts/find_translatable_strings.dart
 # Extraction only (no writes)
 dart run scripts/find_translatable_strings.dart --print-only
 
+# Machine-readable current key set, useful before a dead-key review
+dart run scripts/find_translatable_strings.dart --json > /tmp/live-i18n-keys.json
+
+# Remove reviewed dead non-metadata keys from all locale catalogs
+dart run scripts/find_translatable_strings.dart --prune-dead
+
 # Control shard count explicitly
 dart run scripts/find_translatable_strings.dart --hash-shards=32
 ```
 
 Notes:
-- Additive sync only: existing translated values are preserved.
-- Additive sync only: existing translated values are preserved, and dead source keys are not pruned automatically.
+- Additive sync is the default: existing translated values are preserved and
+  dead source keys are not pruned automatically.
+- `--prune-dead` is opt-in and removes only non-metadata keys absent from the
+  current extraction; review `--json` output and generated-template omissions first.
 - Detects wrapper literals plus random-list literals (`.random`, `[lcsRandom(...)]`).
 - Detects `LcsI18n.tr(...)` literals used for dynamic inserted values.
 - Detects `LcsI18n.processString(...)` templates, including triple-quoted multiline templates, as one complete catalog key. Use that form for generated multi-paragraph prose; do not concatenate translated paragraphs before layout.

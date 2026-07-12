@@ -24,9 +24,9 @@ void main() {
         final params = synthesizePlaceholderValues(key);
         try {
           final result = LcsI18n.processString(key, params);
-          // Tolerate same-as during extractor bugfix landing + name debt pass (hundreds of
-          // apostrophe-containing strings newly properly extracted; full pt_BR fill is next goal).
-          // Name templates we addressed render distinctly (see prior RENDER_EVIDENCE).
+          if (result == key) {
+            failures.add('same-as-source translation: $key');
+          }
           if (_hasUnreplacedPlaceholders(result)) {
             failures.add('unreplaced placeholders: $key => $result');
           }
@@ -36,6 +36,11 @@ void main() {
       }
 
       expect(failures, isEmpty, reason: failures.take(25).join('\n'));
+      expect(
+        LcsI18n.getMissingTranslations(),
+        isEmpty,
+        reason: 'pt_BR runtime fallback/missing keys were recorded',
+      );
     });
 
     test('console wrappers render translated pt_BR templates with params', () {
@@ -43,7 +48,10 @@ void main() {
       move(0, 0);
 
       expect(() {
-        addstr('You hit the {target}!', params: {'target': 'Inimigo'});
+        addstr(
+          '{attacker} hits {target}.',
+          params: {'attacker': 'Alice', 'target': 'Inimigo'},
+        );
         mvaddstr(1, 0, '{name} has been rescued.', params: {'name': 'Maria'});
         addstrc(
           lightGray,

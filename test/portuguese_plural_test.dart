@@ -12,27 +12,30 @@ void main() async {
 
     tearDown(LcsI18n.reset);
 
-    // Test singular form (uses English source key as lookup)
-    test('singular form', () async {
+    test('live singular form', () async {
       await LcsI18n.initialize('pt_BR');
-      final result = LcsI18n.translate('You have one item.');
-      expect(result, 'Você tem um item.');
+      final result = LcsI18n.translate(
+        'Another imprisoned LCS member also gets out!',
+      );
+      expect(result, 'Outro membro preso do LCS também escapa!');
     });
 
-    // Test plural form with parameter (must use processString for parameter replacement)
-    test('plural form with parameter', () async {
+    test('live plural form with parameter', () async {
       await LcsI18n.initialize('pt_BR');
-      final result = LcsI18n.processString('You have {count} items.', {
-        'count': '2',
-      });
-      expect(result, 'Você tem 2 itens.');
+      final result = LcsI18n.processString(
+        '{count} other LCS members escape in the riot!',
+        {'count': '2'},
+      );
+      expect(result, '2 outros membros do LCS escapam no motim!');
     });
 
     // Test English locale returns English source strings
     test('English locale returns English', () async {
       await LcsI18n.initialize('en_US');
-      final result = LcsI18n.translate('You have one item.');
-      expect(result, 'You have one item.');
+      final result = LcsI18n.translate(
+        'Another imprisoned LCS member also gets out!',
+      );
+      expect(result, 'Another imprisoned LCS member also gets out!');
     });
 
     // Test that unknown strings are returned as-is (not thrown)

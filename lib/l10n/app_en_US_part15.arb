@@ -19,6 +19,7 @@
   "$abortions was ruthlessly gunned down outside of the ": "$abortions was ruthlessly gunned down outside of the ",
   "$str - Previous": "$str - Previous",
   "+1 Business, $1000": "+1 Business, $1000",
+  "+{amount}": "+{amount}",
   ", and ": ", and ",
   "6 - The Dead ({dead})": "6 - The Dead ({dead})",
   "A - Spend $50 on props and a{articlePart}book for them to keep.": "A - Spend $50 on props and a{articlePart}book for them to keep.",

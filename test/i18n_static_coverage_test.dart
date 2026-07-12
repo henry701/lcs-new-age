@@ -983,6 +983,16 @@ void main() {
       expect(names, isNot(contains(r'"St. ${lastName()}"')));
     });
 
+    test('monthly finance values use locale-controlled currency templates', () {
+      final monthly = File('lib/monthly/lcs_monthly.dart').readAsStringSync();
+      expect(monthly, contains('"+{amount}"'));
+      expect(monthly, contains('"-{amount}"'));
+      expect(monthly, contains('"(+{amount})"'));
+      expect(monthly, contains('"(-{amount})"'));
+      expect(monthly, isNot(contains(r'"+\$${ledger.income[inc]}"')));
+      expect(monthly, isNot(contains(r'" (-\$${dailymoney.abs()})"')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

@@ -52,6 +52,7 @@ Important limitations:
 
 - `find_translatable_strings.dart` is additive-only. It does not remove dead source keys from catalogs.
 - `find_translatable_strings.dart` is not a full semantic extractor. It can miss some strings that are assigned to locals and only rendered later through wrappers.
+- It can also miss literal templates passed to `LcsI18n.processString` when the rendered result is assigned to a local before display. After adding such a template, verify the exact key exists in both locale catalogs; if it does not, merge a small ARB file with `merge_arb_entries.dart` rather than assuming extraction succeeded.
 - `interpolation_status.dart` has two signal levels:
   - direct wrapper-argument hits: high-confidence
   - wrapper-context hits: broader, useful for multiline calls and manual sweep work

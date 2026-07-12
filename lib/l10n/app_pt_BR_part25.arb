@@ -38,6 +38,7 @@
   "&cMarijuana Dispensary&r&r": "&cDistribuidora de Maconha&r&r",
   "(C to have the doctor check again)": "(C para o médico verificar novamente)",
   "+~$roundedArmor": "+~$RoundedArmor",
+  "-{amount}": "-{amount}",
   "@Language selection affects all text in the game. Changes take effect immediately.": {},
   "A - Quietly pass the teller a robbery note.": "A - Passe discretamente ao caixa uma nota de assalto.",
   "A - There is no expectation to spend money on this date.": "A - Não há expectativa de gastar dinheiro nesta data.",

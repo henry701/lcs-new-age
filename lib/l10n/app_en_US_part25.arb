@@ -38,6 +38,7 @@
   "&cMarijuana Dispensary&r&r": "&cMarijuana Dispensary&r&r",
   "(C to have the doctor check again)": "(C to have the doctor check again)",
   "+~$roundedArmor": "+~$roundedArmor",
+  "-{amount}": "-{amount}",
   "A - Quietly pass the teller a robbery note.": "A - Quietly pass the teller a robbery note.",
   "A - There is no expectation to spend money on this date.": "A - There is no expectation to spend money on this date.",
   "A tiny bit of juice.  It's not *real* though, you know?": "A tiny bit of juice.  It's not *real* though, you know?",

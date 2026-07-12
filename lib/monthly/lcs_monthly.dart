@@ -24,6 +24,8 @@ import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
+String _currencyAmount(num value) => "\$$value";
+
 Future<void> fundReport(bool disbanding) async {
   if (disbanding) return;
 
@@ -60,13 +62,19 @@ Future<void> fundReport(bool disbanding) async {
         if (page == numpages - 1) {
           mvaddstrc(y, 0, lightGray, dotdotdot);
           setColor(green);
-          num = "+\$${ledger.income[inc]}";
+          num = LcsI18n.processString("+{amount}", {
+            "amount": _currencyAmount(ledger.income[inc]!),
+          });
           mvaddstr(y, 60 - num.length, num);
           if (ledger.dailyIncome[inc] != 0) {
-            num = " (+\$${ledger.dailyIncome[inc]})";
+            num = LcsI18n.processString("(+{amount})", {
+              "amount": _currencyAmount(ledger.dailyIncome[inc]!),
+            });
           } else {
             setColor(lightGray);
-            num = " (\$0)";
+            num = LcsI18n.processString("({amount})", {
+              "amount": _currencyAmount(0),
+            });
           }
           mvaddstr(y, 73 - num.length, num);
           setColor(lightGray);
@@ -120,9 +128,13 @@ Future<void> fundReport(bool disbanding) async {
         if (page == numpages - 1) {
           mvaddstrc(y, 0, lightGray, dotdotdot);
           setColor(darkRed);
-          num = "-\$${ledger.expense[exp]}";
+          num = LcsI18n.processString("-{amount}", {
+            "amount": _currencyAmount(ledger.expense[exp]!),
+          });
           mvaddstr(y, 60 - num.length, num);
-          num = " (-\$${ledger.dailyExpense[exp]})";
+          num = LcsI18n.processString("(-{amount})", {
+            "amount": _currencyAmount(ledger.dailyExpense[exp]!),
+          });
           mvaddstr(y, 73 - num.length, num);
           setColor(lightGray);
           switch (exp) {
@@ -178,25 +190,36 @@ Future<void> fundReport(bool disbanding) async {
         mvaddstrc(y, 0, white, "Net Change This Month (Day):");
         if (totalmoney > 0) {
           setColor(lightGreen);
-          num = "+";
+          num = LcsI18n.processString("+{amount}", {
+            "amount": _currencyAmount(totalmoney.abs()),
+          });
         } else if (totalmoney < 0) {
           setColor(red);
-          num = "-";
+          num = LcsI18n.processString("-{amount}", {
+            "amount": _currencyAmount(totalmoney.abs()),
+          });
         } else {
           setColor(white);
-          num = "";
+          num = LcsI18n.processString("{amount}", {
+            "amount": _currencyAmount(0),
+          });
         }
-        num += "\$${totalmoney.abs()}";
         mvaddstr(y, 60 - num.length, num);
         if (dailymoney > 0) {
           setColor(lightGreen);
-          num = " (+\$${dailymoney.abs()})";
+          num = LcsI18n.processString("(+{amount})", {
+            "amount": _currencyAmount(dailymoney.abs()),
+          });
         } else if (dailymoney < 0) {
           setColor(red);
-          num = " (-\$${dailymoney.abs()})";
+          num = LcsI18n.processString("(-{amount})", {
+            "amount": _currencyAmount(dailymoney.abs()),
+          });
         } else {
           setColor(white);
-          num = " (\$0)";
+          num = LcsI18n.processString("({amount})", {
+            "amount": _currencyAmount(0),
+          });
         }
         mvaddstr(y, 73 - num.length, num);
       }
@@ -235,7 +258,9 @@ Future<void> fundReport(bool disbanding) async {
         mvaddstrc(y, 0, lightGray, dotdotdot);
         mvaddstr(y, 0, label);
         setColor(value > 0 ? green : lightGray);
-        num = "\$$value";
+        num = LcsI18n.processString("{amount}", {
+          "amount": _currencyAmount(value),
+        });
         mvaddstr(y, 60 - num.length, num);
       }
 

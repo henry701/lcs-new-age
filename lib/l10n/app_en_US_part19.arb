@@ -25,6 +25,7 @@
   "%FIRSTLAST% has been lying in the same position all day.": "%FIRSTLAST% has been lying in the same position all day.",
   "%FIRSTLAST% swears bitterly at %HELPER%.": "%FIRSTLAST% swears bitterly at %HELPER%.",
   "&c{description} {who} {seeking}&r": "&c{description} {who} {seeking}&r",
+  "({amount})": "({amount})",
   "...but now the screen is off and won't turn on.": "...but now the screen is off and won't turn on.",
   "3 - Steal Equipment": "3 - Steal Equipment",
   "A - Quietly pass the teller a robbery note while naked.": "A - Quietly pass the teller a robbery note while naked.",

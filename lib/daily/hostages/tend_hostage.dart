@@ -218,10 +218,18 @@ Future<void> tendHostage(InterrogationSession intr) async {
     }) {
       move(y++, 0);
       bool active = techniques[technique] ?? false;
-      String text = ifActive;
+      String text = LcsI18n.processString(
+        ifActive,
+        params,
+        noTranslate: noTranslate,
+      );
       if (cost > 0) {
-        String costStr = "(\$$cost)";
-        text = text.padRight(30 - costStr.length, ' ') + costStr;
+        final costText = "\$$cost";
+        final labelWidth = (27 - costText.length).clamp(0, 27);
+        text = LcsI18n.processString("{label} ({cost})", {
+          "label": text.padRight(labelWidth),
+          "cost": costText,
+        });
       }
       addInlineOptionText(
         letter,
@@ -229,7 +237,6 @@ Future<void> tendHostage(InterrogationSession intr) async {
         params: {"letter": letter, "text": text},
         enabledWhen: ledger.funds >= cost && enabled,
         baseColorKey: active ? colorKey : ColorKey.midGray,
-        noTranslate: noTranslate,
       );
     }
 

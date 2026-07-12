@@ -220,6 +220,7 @@
   "{eName} was leaking information to the police the whole time!": "{eName} estava vazando informações para a polícia o tempo todo!",
   "{key} - &{colorKey}{headline}": "{key} – &{colorKey}{headline}",
   "{key} - Previous Page": "{key} - Página Anterior",
+  "{label} ({cost})": "{label} ({cost})",
   "{lead} is unable to shake {name}'s religious conviction.": "{lead} não consegue abalar a convicção religiosa de {name}.",
   "{letter} - {text}": "{letter} – {text}",
   "{lifeTerms} consecutive life terms in prison": "{lifeTerms} penas de prisão perpétua consecutivas",

@@ -993,6 +993,20 @@ void main() {
       expect(monthly, isNot(contains(r'" (-\$${dailymoney.abs()})"')));
     });
 
+    test(
+      'hostage plan labels render their params and costs before display',
+      () {
+        final hostage = File(
+          'lib/daily/hostages/tend_hostage.dart',
+        ).readAsStringSync();
+        expect(hostage, contains('String text = LcsI18n.processString('));
+        expect(hostage, contains('ifActive,\n        params,'));
+        expect(hostage, contains('"{label} ({cost})"'));
+        expect(hostage, isNot(contains(r'String costStr = "(\$$cost)"')));
+        expect(hostage, isNot(contains('String text = ifActive;')));
+      },
+    );
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

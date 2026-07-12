@@ -71,4 +71,34 @@ void renderCapture() {
     },
     timeout: const Timeout(Duration(minutes: 2)),
   );
+
+  test(
+    'extractor captures triple-quoted processString templates as one key',
+    () async {
+      await fixture.writeAsString(r'''
+void renderVictory() {
+  LcsI18n.processString(
+    """{name} wins the battle.
+
+The safehouse is secure.""",
+    {"name": "Jane"},
+  );
+}
+''');
+
+      final result = await Process.run('dart', [
+        'run',
+        'scripts/find_translatable_strings.dart',
+        '--print-only',
+        '--glob=__i18n_extractor_fixture_test.dart',
+      ]);
+
+      expect(result.exitCode, 0, reason: result.stderr.toString());
+      expect(
+        result.stdout.toString(),
+        contains('{name} wins the battle.\n\nThe safehouse is secure.'),
+      );
+    },
+    timeout: const Timeout(Duration(minutes: 2)),
+  );
 }

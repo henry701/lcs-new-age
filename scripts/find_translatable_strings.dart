@@ -187,6 +187,8 @@ void main(List<String> args) async {
 
   final stringInfo = <String, StringInfo>{};
   final wrapperCallPatterns = _buildWrapperCallPatterns();
+  final tripleQuotedProcessStringPatterns =
+      _buildTripleQuotedProcessStringPatterns();
   final multilineContextPatterns = _buildMultilineContextPatterns();
   final multilineQuotedPatterns = [
     RegExp(r'^\s*"((?:[^"\\]|\\.)*)"\s*[,;]?\s*$'),
@@ -224,6 +226,23 @@ void main(List<String> args) async {
         stringInfo: stringInfo,
         relativePath: relativePath,
       );
+
+      for (final pattern in tripleQuotedProcessStringPatterns) {
+        for (final match in pattern.allMatches(content)) {
+          final raw = match.group(1);
+          if (raw == null) continue;
+          final stringLiteral = _unescapeStringLiteral(raw);
+          if (_isUserFacing(stringLiteral)) {
+            _recordString(
+              stringInfo,
+              stringLiteral,
+              relativePath,
+              _lineNumberAtOffset(content, match.start),
+              'LcsI18n.processString',
+            );
+          }
+        }
+      }
 
       // First pass: process line by line for simple cases
       for (int i = 0; i < lines.length; i++) {
@@ -656,6 +675,14 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
     ),
   ];
 }
+
+List<RegExp> _buildTripleQuotedProcessStringPatterns() => [
+  RegExp(r'LcsI18n\.processString\s*\(\s*"""([\s\S]*?)"""'),
+  RegExp("LcsI18n\\.processString\\s*\\(\\s*'''([\\s\\S]*?)'''"),
+];
+
+int _lineNumberAtOffset(String content, int offset) =>
+    '\n'.allMatches(content.substring(0, offset)).length + 1;
 
 List<(String, RegExp)> _buildMultilineContextPatterns() {
   const wrapperFunctions = [

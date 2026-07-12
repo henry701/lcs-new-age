@@ -673,3 +673,9 @@ Important remaining debt:
 - Added a source-wide static gate for `newspaper/`, `talk/`, `fight.dart`, `daily/siege.dart`, and `shop.dart` after the wrapper-only gate proved too narrow to establish completion.
 - Verified the gate red first on the remaining 28 raw matches, then classified only developer diagnostics, json_serializable identifiers, currency-only parameter values, and the join between already-translated newspaper paragraphs.
 - Any future unreviewed interpolation in these priority paths now fails the i18n static suite. Canonical workflow documentation records the exact exception boundary.
+
+## 2026-07-12 continuation: CCS victory prose and extractor coverage
+
+- Replaced `conquerTextCCS` paragraph accumulation with one complete `LcsI18n.processString` template per outcome, so generated multi-paragraph victory text is translated before layout and `{pacifistAction}` / `{ccsAction}` remain reorderable.
+- Added all eight complete outcomes to en_US and pt_BR catalogs; removed the transient partial keys produced during the source conversion.
+- Added extraction support and a regression test for triple-quoted `LcsI18n.processString` templates. This makes multi-paragraph templates discoverable as one key rather than relying on manual catalog insertion.

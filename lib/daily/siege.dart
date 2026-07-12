@@ -2188,74 +2188,86 @@ Future<void> conquerTextCCS() async {
   erase();
   mvaddstrc(1, 26, lightGreen, "* * * * *   VICTORY   * * * * *");
 
-  String text = "";
+  late final String text;
   if (ccsBaseKills < 3) {
     if (ccsSiegeConverts > 10) {
-      text +=
-          "Music still ringing in their ears, the squad revels in "
-          "their victory.\n\n";
-    } else if (ccsBossConverts > 0) {
-      text +=
-          "The CCS Lieutenant lost in self-realization, the squad "
-          "slips away.\n\n";
-    } else if (ccsSiegeKills > 10) {
-      text +=
-          "Gunfire still ringing in their ears, the squad revels in "
-          "their victory.\n\n";
-    } else {
-      text +=
-          "The CCS Lieutenant lying dead at their feet, the squad "
-          "slips away.\n\n";
-    }
-    text +=
-        "The CCS Founder wasn't here, but for now, their power has been "
-        "severely weakened.  Once the safehouse cools off, this will make a "
-        "fine base for our future Liberal operations.";
-  } else {
-    bool pacifist = false;
-    if (ccsSiegeConverts > 10) {
-      text +=
-          "Music still ringing in their ears, the squad revels in "
-          "their final victory.\n\n"
-          "As your Liberals speak to the former CCS members, it is increasingly "
-          "clear that this was the CCS's last safehouse.\n\n";
-      pacifist = true;
-    } else if (ccsBossConverts > 0) {
-      text +=
-          "The CCS Founder lost in self-realization, the squad "
-          "slips away.\n\n"
-          "With even its Founder swearing off Conservatism forever, the last "
-          "of the CCS's morale and confidence is shattered.\n\n";
-      pacifist = true;
-    } else if (ccsSiegeKills > 10) {
-      text +=
-          "Gunfire still ringing in their ears, the squad revels in their "
-          "final victory.\n\n"
-          "As your Liberals pick through the remains of the safehouse, it is "
-          "increasingly clear that this was the CCS's last safehouse.\n\n";
-    } else {
-      text +=
-          "The CCS Founder lying dead at their feet, the squad "
-          "slips away.\n\n"
-          "With its leadership crushed by the forces of Liberalism, the last "
-          "of the CCS's morale and confidence is shattered.\n\n";
-    }
+      text = LcsI18n.processString(
+        """Music still ringing in their ears, the squad revels in their victory.
 
-    final pacifistAction = pacifist
-        ? LcsI18n.tr("neutralized")
-        : LcsI18n.tr("destroyed");
-    final ccsAction = pacifist
-        ? LcsI18n.tr("CONVERTING")
-        : LcsI18n.tr("ERADICATING");
-    text +=
-        "The CCS has been completely {pacifistAction}.  Now wasn't there a "
-        "revolution to attend to?\n\n";
-    text +=
-        "+200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD";
-    text = LcsI18n.processString(text, {
-      "pacifistAction": pacifistAction,
-      "ccsAction": ccsAction,
-    });
+The CCS Founder wasn't here, but for now, their power has been severely weakened.  Once the safehouse cools off, this will make a fine base for our future Liberal operations.""",
+        null,
+      );
+    } else if (ccsBossConverts > 0) {
+      text = LcsI18n.processString(
+        """The CCS Lieutenant lost in self-realization, the squad slips away.
+
+The CCS Founder wasn't here, but for now, their power has been severely weakened.  Once the safehouse cools off, this will make a fine base for our future Liberal operations.""",
+        null,
+      );
+    } else if (ccsSiegeKills > 10) {
+      text = LcsI18n.processString(
+        """Gunfire still ringing in their ears, the squad revels in their victory.
+
+The CCS Founder wasn't here, but for now, their power has been severely weakened.  Once the safehouse cools off, this will make a fine base for our future Liberal operations.""",
+        null,
+      );
+    } else {
+      text = LcsI18n.processString(
+        """The CCS Lieutenant lying dead at their feet, the squad slips away.
+
+The CCS Founder wasn't here, but for now, their power has been severely weakened.  Once the safehouse cools off, this will make a fine base for our future Liberal operations.""",
+        null,
+      );
+    }
+  } else {
+    final pacifist = ccsSiegeConverts > 10 || ccsBossConverts > 0;
+    final pacifistAction = LcsI18n.tr(pacifist ? "neutralized" : "destroyed");
+    final ccsAction = LcsI18n.tr(pacifist ? "CONVERTING" : "ERADICATING");
+    if (ccsSiegeConverts > 10) {
+      text = LcsI18n.processString(
+        """Music still ringing in their ears, the squad revels in their final victory.
+
+As your Liberals speak to the former CCS members, it is increasingly clear that this was the CCS's last safehouse.
+
+The CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?
+
++200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD""",
+        {"pacifistAction": pacifistAction, "ccsAction": ccsAction},
+      );
+    } else if (ccsBossConverts > 0) {
+      text = LcsI18n.processString(
+        """The CCS Founder lost in self-realization, the squad slips away.
+
+With even its Founder swearing off Conservatism forever, the last of the CCS's morale and confidence is shattered.
+
+The CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?
+
++200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD""",
+        {"pacifistAction": pacifistAction, "ccsAction": ccsAction},
+      );
+    } else if (ccsSiegeKills > 10) {
+      text = LcsI18n.processString(
+        """Gunfire still ringing in their ears, the squad revels in their final victory.
+
+As your Liberals pick through the remains of the safehouse, it is increasingly clear that this was the CCS's last safehouse.
+
+The CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?
+
++200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD""",
+        {"pacifistAction": pacifistAction, "ccsAction": ccsAction},
+      );
+    } else {
+      text = LcsI18n.processString(
+        """The CCS Founder lying dead at their feet, the squad slips away.
+
+With its leadership crushed by the forces of Liberalism, the last of the CCS's morale and confidence is shattered.
+
+The CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?
+
++200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD""",
+        {"pacifistAction": pacifistAction, "ccsAction": ccsAction},
+      );
+    }
 
     for (Creature p in pool) {
       addjuice(p, 200, 1000);

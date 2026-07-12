@@ -371,6 +371,11 @@ void main() {
       );
       expect(dailySiege, contains('{firstWord} {secondWord}'));
       expect(dailySiege, contains('&G{name} (singing):'));
+      expect(dailySiege, isNot(contains('text +=')));
+      expect(
+        dailySiege,
+        contains('The CCS has been completely {pacifistAction}.'),
+      );
     });
 
     test('kidnap news story uses a full article template', () {

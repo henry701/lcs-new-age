@@ -45,6 +45,10 @@ dart run scripts/maintain_arb_catalogs.dart --fix
 Do this before treating untranslated coverage as real translator work:
 
 1. Run `dart run scripts/interpolation_status.dart --limit=40`.
+   For a gate suitable for CI or an agent loop, run
+   `dart run scripts/interpolation_status.dart --check --json`. It loads the
+   tracked default allowlist and fails on either an unclassified hit or a stale
+   allowlist entry.
 2. Fix wrapper-adjacent `$...` interpolation by converting it to placeholder templates.
 3. Re-run `dart run scripts/find_translatable_strings.dart`.
 
@@ -61,7 +65,14 @@ Treat the scripts as good assistants, not proof that source-string cleanup is co
 
 The static i18n suite also enforces a broader priority-area gate over `newspaper/`, `talk/`, `fight.dart`, `siege.dart`, and `shop.dart`. Its reviewed exceptions are limited to developer diagnostics, generated serialization identifiers, currency-only parameter formatting, and joining paragraphs that were translated before layout. Any other raw interpolation in those paths fails the suite and must be converted to a complete template.
 
-An interpolation allowlist is an exception register, not a suppression mechanism. Add an entry only for non-prose implementation output (for example, debug diagnostics, control markup, or numeric/layout-only formatting), and record why it cannot be a translated template. Never allowlist user-facing names, prose, possessives, or sentence fragments; templatize those at their composition point instead.
+An interpolation allowlist is an exception register, not a suppression mechanism.
+The tracked file is `scripts/interpolation_allowlist.json`; the audit loads it
+by default. Add an entry only for non-prose implementation output (for example,
+debug diagnostics, control markup, currency-only values, or numeric/layout-only
+formatting), and record why it cannot be a translated template. The strict
+check rejects stale entries, so remove an exception as soon as its source is
+converted. Never allowlist user-facing names, prose, possessives, or sentence
+fragments; templatize those at their composition point instead.
 
 ## Fragment Keys and Name+Flavor Composition (Strong Rule)
 
@@ -122,7 +133,7 @@ Known high-risk areas: `lib/newspaper/display_news.dart`, `lib/newspaper/major_e
 Run this before large translation batches to identify remaining interpolated literals:
 
 ```bash
-dart run scripts/interpolation_status.dart --limit=40
+dart run scripts/interpolation_status.dart --check --json
 ```
 
 The extraction script intentionally skips literals containing `$...`, so unresolved interpolated templates should be converted to placeholder-based strings before expecting catalog extraction.

@@ -402,7 +402,7 @@ Future<void> activateSleepersBulk() async {
       addOptionText(
         i + 1,
         58,
-        "$i",
+        i.toString(),
         "{index} - {name}",
         params: {"index": i.toString(), "name": name},
         baseColorKey: selectedactivity == i - 1 ? "W" : "w",

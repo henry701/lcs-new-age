@@ -1248,11 +1248,18 @@ void printname(Creature cr) {
   final closeBracket = bracketcolor != null
       ? "&${ColorKey.fromColor(bracketcolor)}]"
       : "";
-  final nameWithColor = "&${ColorKey.fromColor(namecolor)}{name}";
+  final name = LcsI18n.processString("{name}", {"name": cr.name});
+  final nameWithColor = "&${ColorKey.fromColor(namecolor)}$name";
 
   addstrx(
-    "$openBracket$sleeperOpen$nameWithColor$sleeperClose$closeBracket",
-    params: {"name": cr.name},
+    [
+      openBracket,
+      sleeperOpen,
+      nameWithColor,
+      sleeperClose,
+      closeBracket,
+    ].join(),
+    noTranslate: true,
   );
 }
 

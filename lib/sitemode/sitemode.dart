@@ -659,11 +659,19 @@ Future<void> _siteModeAux() async {
                 );
                 printSkillValue(p, Skill.persuasion, y, 34, showCap: false);
                 addstr(
-                  " (${p.maxSubordinates - p.subordinatesLeft}/${p.maxSubordinates})",
+                  " ({current}/{total})",
+                  params: {
+                    "current": p.maxSubordinates - p.subordinatesLeft,
+                    "total": p.maxSubordinates,
+                  },
                 );
                 printSkillValue(p, Skill.seduction, y, 51, showCap: false);
                 addstr(
-                  " (${p.maxRelationships - p.relationshipsLeft}/${p.maxRelationships})",
+                  " ({current}/{total})",
+                  params: {
+                    "current": p.maxRelationships - p.relationshipsLeft,
+                    "total": p.maxRelationships,
+                  },
                 );
                 printSkillValue(p, Skill.disguise, y, 66, showCap: false);
                 y++;

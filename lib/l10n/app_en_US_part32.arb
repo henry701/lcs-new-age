@@ -235,6 +235,7 @@
   "{name}'s left lung is torn!": "{name}'s left lung is torn!",
   "{name}'s lower spine is shattered!": "{name}'s lower spine is shattered!",
   "{name}'s upper spine is broken!": "{name}'s upper spine is broken!",
+  "{percent}% ": "{percent}% ",
   "{vegetable} {noun} Vegan Co-op": "{vegetable} {noun} Vegan Co-op",
   "{vehicle} couldn't keep up.": "{vehicle} couldn't keep up.",
   "{vehicle} spins out of control!": "{vehicle} spins out of control!",

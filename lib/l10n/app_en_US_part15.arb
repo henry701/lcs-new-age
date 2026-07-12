@@ -188,6 +188,7 @@
   "{first} Advisory": "{first} Advisory",
   "{first} Global": "{first} Global",
   "{first} {middle}{last}": "{first} {middle}{last}",
+  "{last}, {suffix}": "{last}, {suffix}",
   "{letter} - ": "{letter} - ",
   "{letter} - {title}": "{letter} - {title}",
   "{name} collapses lifelessly.": "{name} collapses lifelessly.",

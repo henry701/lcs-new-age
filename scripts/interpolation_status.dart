@@ -16,7 +16,7 @@ void main(List<String> args) async {
     print('  --all          Emit every match instead of samples');
     print('  --check        Exit 1 when unclassified matches remain');
     print(
-      '  --allowlist=PATH  JSON allowlist of classified non-translatable hits',
+      '  --allowlist=PATH  JSON allowlist (default: scripts/interpolation_allowlist.json)',
     );
     print(
       '  --limit=N      Max rows for top files and sample output (default: 20)',
@@ -28,11 +28,10 @@ void main(List<String> args) async {
   final asJson = args.contains('--json');
   final emitAll = args.contains('--all');
   final checkMode = args.contains('--check');
-  final allowlistPath = _optionalArg(args, 'allowlist');
+  final allowlistPath =
+      _optionalArg(args, 'allowlist') ?? 'scripts/interpolation_allowlist.json';
   final limit = int.tryParse(_arg(args, 'limit', defaultValue: '20')) ?? 20;
-  final allowlist = allowlistPath == null
-      ? const <_AllowlistEntry>[]
-      : _loadAllowlist(allowlistPath);
+  final allowlist = _loadAllowlist(allowlistPath);
 
   final libDir = Directory('lib');
   if (!libDir.existsSync()) {
@@ -159,10 +158,12 @@ void main(List<String> args) async {
     });
 
   final classifiedContext = <_MatchRecord>[];
+  final matchedAllowlistEntries = <_AllowlistEntry>{};
   final unclassifiedContext = <_MatchRecord>[];
   for (final record in wrapperContextInterpolated) {
     if (_isAllowlisted(record, allowlist)) {
       classifiedContext.add(record);
+      matchedAllowlistEntries.add(_matchingAllowlistEntry(record, allowlist)!);
     } else {
       unclassifiedContext.add(record);
     }
@@ -173,22 +174,30 @@ void main(List<String> args) async {
   for (final record in wrapperArgInterpolated) {
     if (_isAllowlisted(record, allowlist)) {
       classifiedArgs.add(record);
+      matchedAllowlistEntries.add(_matchingAllowlistEntry(record, allowlist)!);
     } else {
       unclassifiedArgs.add(record);
     }
   }
 
-  final contextRows = emitAll ? contextualSample : contextualSample.take(max(0, limit));
+  final contextRows = emitAll
+      ? contextualSample
+      : contextualSample.take(max(0, limit));
   final argRows = emitAll ? sample : sample.take(max(0, limit));
+  final unusedAllowlistEntries = allowlist
+      .where((entry) => !matchedAllowlistEntries.contains(entry))
+      .toList();
 
   final report = {
     'totalInterpolatedLiterals': allInterpolated.length,
     'wrapperContextInterpolatedLiterals': wrapperContextInterpolated.length,
     'wrapperArgumentInterpolatedLiterals': wrapperArgInterpolated.length,
     'classifiedWrapperContextInterpolatedLiterals': classifiedContext.length,
-    'unclassifiedWrapperContextInterpolatedLiterals': unclassifiedContext.length,
+    'unclassifiedWrapperContextInterpolatedLiterals':
+        unclassifiedContext.length,
     'classifiedWrapperArgumentInterpolatedLiterals': classifiedArgs.length,
     'unclassifiedWrapperArgumentInterpolatedLiterals': unclassifiedArgs.length,
+    'unusedAllowlistEntries': unusedAllowlistEntries.length,
     'topFilesByWrapperArgumentInterpolation': sortedFiles
         .take(max(0, limit))
         .map((entry) => {'file': entry.key, 'count': entry.value})
@@ -214,6 +223,9 @@ void main(List<String> args) async {
         )
         .toList(),
     if (checkMode || emitAll) ...{
+      'unusedAllowlist': unusedAllowlistEntries
+          .map((entry) => entry.toJson())
+          .toList(),
       'unclassifiedWrapperArgumentInterpolation': unclassifiedArgs
           .map(
             (record) => {
@@ -262,7 +274,9 @@ void main(List<String> args) async {
   if (asJson) {
     print(const JsonEncoder.withIndent('  ').convert(report));
     if (checkMode &&
-        (unclassifiedContext.isNotEmpty || unclassifiedArgs.isNotEmpty)) {
+        (unclassifiedContext.isNotEmpty ||
+            unclassifiedArgs.isNotEmpty ||
+            unusedAllowlistEntries.isNotEmpty)) {
       exit(1);
     }
     return;
@@ -296,12 +310,13 @@ void main(List<String> args) async {
   }
 
   if (checkMode &&
-      (unclassifiedContext.isNotEmpty || unclassifiedArgs.isNotEmpty)) {
+      (unclassifiedContext.isNotEmpty ||
+          unclassifiedArgs.isNotEmpty ||
+          unusedAllowlistEntries.isNotEmpty)) {
     print('');
-    print(
-      'Unclassified wrapper-context hits: ${unclassifiedContext.length}',
-    );
+    print('Unclassified wrapper-context hits: ${unclassifiedContext.length}');
     print('Unclassified wrapper-argument hits: ${unclassifiedArgs.length}');
+    print('Unused allowlist entries: ${unusedAllowlistEntries.length}');
     exit(1);
   }
 }
@@ -338,26 +353,57 @@ List<_AllowlistEntry> _loadAllowlist(String path) {
     stderr.writeln('Error: allowlist must contain an entries array');
     exit(1);
   }
-  return [
-    for (final entry in entries)
-      if (entry is Map<String, dynamic>)
-        _AllowlistEntry(
-          file: entry['file'] as String? ?? '',
-          context: entry['context'] as String? ?? '',
-          text: entry['text'] as String? ?? '',
-          reason: entry['reason'] as String? ?? '',
-        ),
-  ];
+  final allowlist = <_AllowlistEntry>[];
+  final seen = <String>{};
+  for (var index = 0; index < entries.length; index++) {
+    final rawEntry = entries[index];
+    if (rawEntry is! Map<String, dynamic>) {
+      _invalidAllowlist(path, 'entry $index is not an object');
+    }
+    final entry = _AllowlistEntry(
+      file: rawEntry['file'] as String? ?? '',
+      context: rawEntry['context'] as String? ?? '',
+      text: rawEntry['text'] as String? ?? '',
+      reason: rawEntry['reason'] as String? ?? '',
+    );
+    if (entry.file.isEmpty ||
+        entry.context.isEmpty ||
+        entry.text.isEmpty ||
+        entry.reason.trim().isEmpty) {
+      _invalidAllowlist(
+        path,
+        'entry $index must include non-empty file, context, text, and reason',
+      );
+    }
+    final key = '${entry.file}\u0000${entry.context}\u0000${entry.text}';
+    if (!seen.add(key)) {
+      _invalidAllowlist(path, 'entry $index duplicates an earlier entry');
+    }
+    allowlist.add(entry);
+  }
+  return allowlist;
+}
+
+Never _invalidAllowlist(String path, String message) {
+  stderr.writeln('Error: invalid allowlist $path: $message');
+  exit(1);
 }
 
 bool _isAllowlisted(_MatchRecord record, List<_AllowlistEntry> allowlist) {
+  return _matchingAllowlistEntry(record, allowlist) != null;
+}
+
+_AllowlistEntry? _matchingAllowlistEntry(
+  _MatchRecord record,
+  List<_AllowlistEntry> allowlist,
+) {
   for (final entry in allowlist) {
     if (entry.file != record.file) continue;
     if (entry.context.isNotEmpty && entry.context != record.context) continue;
     if (entry.text.isNotEmpty && entry.text != record.text) continue;
-    return true;
+    return entry;
   }
-  return false;
+  return null;
 }
 
 class _AllowlistEntry {
@@ -372,6 +418,13 @@ class _AllowlistEntry {
   final String context;
   final String text;
   final String reason;
+
+  Map<String, String> toJson() => {
+    'file': file,
+    'context': context,
+    'text': text,
+    'reason': reason,
+  };
 }
 
 bool _hasInterpolationMarker(String literal) {

@@ -397,7 +397,11 @@ void _pollsPage(int start) {
     move(y, 0);
     if (survey < 10) addchar('0');
     addstr(
-      "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ",
+      "{percent}% ",
+      params: {
+        "percent":
+            "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}",
+      },
     );
     switch (v) {
       case View.lgbtRights:

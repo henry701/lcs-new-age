@@ -85,6 +85,7 @@ Reports remaining string interpolation usage in `lib/`, including a high-confide
 ```bash
 dart run scripts/interpolation_status.dart --limit=40
 dart run scripts/interpolation_status.dart --json
+dart run scripts/interpolation_status.dart --check --json
 ```
 
 Notes:
@@ -93,6 +94,11 @@ Notes:
 - Output includes:
   - direct wrapper-argument hits: high-confidence
   - wrapper-context hits: broader coverage for multiline/manual sweep review
+- The tracked `scripts/interpolation_allowlist.json` is loaded by default.
+  `--check` fails for unclassified hits **and** stale allowlist entries. Each
+  allowlist entry must be an exact file/context/literal match with a reason and
+  may cover only diagnostics, control markup, or numeric/layout-only output.
+  It must never suppress player-facing prose, names, possessives, or fragments.
 
 ## clean_untranslated.dart
 
@@ -157,7 +163,7 @@ dart run scripts/validate.dart
 
 ```bash
 # 1) Sweep remaining interpolation / source-template debt
-dart run scripts/interpolation_status.dart --limit=40
+dart run scripts/interpolation_status.dart --check --json
 
 # 2) Refresh catalogs from code (additive)
 dart run scripts/find_translatable_strings.dart

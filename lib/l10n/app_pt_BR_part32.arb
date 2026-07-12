@@ -246,6 +246,7 @@
   "{name}'s left lung is torn!": "O pulmão esquerdo de {name} é rasgado!",
   "{name}'s lower spine is shattered!": "A coluna inferior de {name} é esmagada!",
   "{name}'s upper spine is broken!": "A coluna superior de {name} está quebrada!",
+  "{percent}% ": "{percent}% ",
   "{vegetable} {noun} Vegan Co-op": "Cooperativa Vegana {noun} {vegetable}",
   "{vehicle} couldn't keep up.": "{vehicle} não conseguiu acompanhar.",
   "{vehicle} spins out of control!": "{vehicle} sai girando fora de controle!",

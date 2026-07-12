@@ -1,6 +1,7 @@
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -139,7 +140,10 @@ void printMood() {
 
 String summaryText(List<int> body) => List.generate(
   5,
-  (i) => "${body[4 - i]} ${DeepAlignment.values[4 - i].short}",
+  (i) => LcsI18n.processString("{count} {alignment}", {
+    "count": body[4 - i],
+    "alignment": LcsI18n.tr(DeepAlignment.values[4 - i].short),
+  }),
 ).join(", ");
 
 List<int> summarizePoliticalBody(List<DeepAlignment> body) {

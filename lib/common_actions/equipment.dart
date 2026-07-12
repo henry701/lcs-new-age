@@ -452,7 +452,7 @@ Future<void> equipmentBaseAssign() async {
         addOptionText(
           y,
           0,
-          "${letterAPlus(y - 2)} - ",
+          letterAPlus(y - 2),
           "{letter} - {item} x{count}",
           params: params,
         );
@@ -460,7 +460,7 @@ Future<void> equipmentBaseAssign() async {
         addOptionText(
           y,
           0,
-          "${letterAPlus(y - 2)} - ",
+          letterAPlus(y - 2),
           "{letter} - {item}",
           params: params,
         );
@@ -483,7 +483,7 @@ Future<void> equipmentBaseAssign() async {
       addOptionText(
         y,
         51,
-        "${y - 1}",
+        (y - 1).toString(),
         "{index} - {base}",
         params: {
           "index": (y - 1).toString(),

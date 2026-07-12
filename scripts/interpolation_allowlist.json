@@ -1,148 +1,58 @@
 {
   "entries": [
     {
-      "file": "engine/engine.dart",
-      "context": "addstrx",
-      "text": "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
-      "reason": "Color-control markup for inline option highlighting"
-    },
-    {
-      "file": "engine/engine.dart",
-      "context": "addstrx",
-      "text": "&$disabledColorKey$renderedText",
-      "reason": "Color-control markup for disabled inline options"
-    },
-    {
-      "file": "sitemode/newencounter.dart",
-      "context": "addstr",
-      "text": "Siege type ${activeSite!.siege.activeSiegeType} missing!\\n",
-      "reason": "Debug-only developer string"
-    },
-    {
-      "file": "title_screen/map_editor.dart",
-      "context": "addOptionText",
-      "text": "tile_$i",
-      "reason": "Map editor internal tile identifier"
-    },
-    {
-      "file": "title_screen/map_editor.dart",
-      "context": "addOptionText",
-      "text": "special_$i",
-      "reason": "Map editor internal special-tile identifier"
-    },
-    {
-      "file": "basemode/activate_regulars.dart",
-      "context": "addOptionText",
-      "text": "$i",
-      "reason": "Numeric menu index only"
-    },
-    {
-      "file": "basemode/activate_sleepers.dart",
-      "context": "addOptionText",
-      "text": "$i",
-      "reason": "Numeric menu index only"
-    },
-    {
-      "file": "basemode/activate_regulars.dart",
-      "context": "addstrc",
-      "text": " (${armorIndex + 1}/${clothing.allowedArmor.length})",
-      "reason": "Pure numeric pagination indicator"
-    },
-    {
-      "file": "sitemode/sitemode.dart",
-      "context": "addstr",
-      "text": " (${p.maxSubordinates - p.subordinatesLeft}/${p.maxSubordinates})",
-      "reason": "Pure numeric capacity indicator"
-    },
-    {
-      "file": "sitemode/sitemode.dart",
-      "context": "addstr",
-      "text": " (${p.maxRelationships - p.relationshipsLeft}/${p.maxRelationships})",
-      "reason": "Pure numeric capacity indicator"
-    },
-    {
-      "file": "basemode/liberal_agenda.dart",
-      "context": "addstr",
-      "text": "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ",
-      "reason": "Computed percentage formatting"
-    },
-    {
-      "file": "politics/elections.dart",
-      "context": "mvaddstr",
-      "text": "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}",
-      "reason": "Computed vote tally formatting"
-    },
-    {
-      "file": "common_actions/equipment.dart",
-      "context": "addOptionText",
-      "text": "${letterAPlus(y - 2)} - ",
-      "reason": "Generated hotkey letter prefix"
-    },
-    {
-      "file": "common_actions/equipment.dart",
-      "context": "addOptionText",
-      "text": "${y - 1}",
-      "reason": "Numeric slot index only"
-    },
-    {
       "file": "basemode/activate_regulars.dart",
       "context": "mvaddstrc",
-      "text": "${LcsI18n.tr(enterText)}   ${LcsI18n.tr(escapeText)}",
-      "reason": "Already translates dynamic fragments before layout measurement"
-    },
-    {
-      "file": "sitemode/site_display.dart",
-      "context": "mvaddstrc",
-      "text": "\\u250C${",
-      "reason": "Box-drawing layout glyph composition"
-    },
-    {
-      "file": "sitemode/site_display.dart",
-      "context": "mvaddstr",
-      "text": "\\u2514${",
-      "reason": "Box-drawing layout glyph composition"
-    },
-    {
-      "file": "basemode/review_mode.dart",
-      "context": "addstrx",
-      "text": "$openBracket$sleeperOpen$nameWithColor$sleeperClose$closeBracket",
-      "reason": "Color-control bracket markup around translated name placeholder"
-    },
-    {
-      "file": "sitemode/site_display.dart",
-      "context": "mvaddstrc",
-      "text": "\\u250C${",
-      "reason": "Box-drawing layout glyph composition (variant capture)"
-    },
-    {
-      "file": "sitemode/site_display.dart",
-      "context": "mvaddstr",
-      "text": "\\u2514${",
-      "reason": "Box-drawing layout glyph composition (variant capture)"
+      "text": "\\$${flag.makePrice}",
+      "reason": "Currency-only value; no prose or user-facing composition."
     },
     {
       "file": "basemode/activate_sleepers.dart",
       "context": "mvaddstrc",
       "text": "Unexpected sleeper activity type: ${cr.activity.type.name}",
-      "reason": "Debug-only internal enum name (non-translatable)"
+      "reason": "Developer diagnostic falsely associated with the nearby wrapper by the line-based audit."
     },
     {
-      "file": "basemode/activate_regulars.dart",
-      "context": "mvaddstrc",
-      "text": "\\$${flag.makePrice}",
-      "reason": "Numeric currency formatting"
+      "file": "basemode/liberal_agenda.dart",
+      "context": "addstr",
+      "text": "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}",
+      "reason": "Locale-neutral numeric percentage value passed to a complete translated template."
     },
     {
       "file": "basemode/review_mode.dart",
       "context": "addstr",
       "text": "\\$${tempp.medicalBills}",
-      "reason": "Numeric currency formatting"
+      "reason": "Currency-only value; no prose or user-facing composition."
     },
     {
-      "file": "sitemode/shop.dart",
-      "context": "addstr",
-      "text": "index: $index, availableOptions.length: ${availableOptions.length}",
-      "reason": "Debug-only paged-interface trace; detected only by broad wrapper context"
+      "file": "engine/engine.dart",
+      "context": "addstrx",
+      "text": "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
+      "reason": "Internal console color-control markup assembled after a complete option label is translated."
+    },
+    {
+      "file": "engine/engine.dart",
+      "context": "addstrx",
+      "text": "&$disabledColorKey$renderedText",
+      "reason": "Internal console color-control markup assembled after a complete option label is translated."
+    },
+    {
+      "file": "politics/elections.dart",
+      "context": "mvaddstr",
+      "text": "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}",
+      "reason": "Locale-neutral numeric percentage value passed to a complete translated template."
+    },
+    {
+      "file": "sitemode/site_display.dart",
+      "context": "mvaddstrc",
+      "text": "\\u250C${",
+      "reason": "Box-drawing frame only; contains no human language."
+    },
+    {
+      "file": "sitemode/site_display.dart",
+      "context": "mvaddstr",
+      "text": "\\u2514${",
+      "reason": "Box-drawing frame only; contains no human language."
     }
   ]
 }

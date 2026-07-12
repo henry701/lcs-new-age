@@ -258,6 +258,23 @@ void main() {
       expect(source, contains('{attacker} {action} {target} with a {weapon}!'));
     });
 
+    test('remaining menu counters and rendered names use templates', () {
+      final regulars = File(
+        'lib/basemode/activate_regulars.dart',
+      ).readAsStringSync();
+      final siteMode = File('lib/sitemode/sitemode.dart').readAsStringSync();
+      final agenda = File(
+        'lib/basemode/liberal_agenda.dart',
+      ).readAsStringSync();
+      final review = File('lib/basemode/review_mode.dart').readAsStringSync();
+
+      expect(regulars, contains('" ({current}/{total})"'));
+      expect(siteMode, contains('" ({current}/{total})"'));
+      expect(agenda, contains('"{percent}% "'));
+      expect(review, contains('LcsI18n.processString("{name}"'));
+      expect(review, contains('noTranslate: true'));
+    });
+
     test('bank teller reactions are full sentence templates', () {
       final source = File(
         'lib/talk/talk_outside_combat.dart',

@@ -49,6 +49,7 @@ Minimal loop:
 
 ```bash
 dart run scripts/interpolation_status.dart --limit=40
+dart run scripts/interpolation_status.dart --check --json
 dart run scripts/find_translatable_strings.dart
 dart run scripts/translation_status.dart
 dart run scripts/get_untranslated_strings.dart --locale=pt_BR --limit=50 --output=translation_workspace/untranslated_pt_BR.arb

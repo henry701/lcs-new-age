@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -79,8 +80,10 @@ Future<void> supremeCourt() async {
           scase[c] == Law.corporate ||
           scase[c] == Law.animalRights ||
           scase[c] == Law.pollution) {
-        name2 =
-            "${lastName(Gender.whiteMalePatriarch)}, ${["Inc.", "L.L.C.", "Corp.", "Co.", "Ltd."].random}";
+        name2 = LcsI18n.processString("{last}, {suffix}", {
+          "last": lastName(Gender.whiteMalePatriarch),
+          "suffix": ["Inc.", "L.L.C.", "Corp.", "Co.", "Ltd."].random,
+        });
       }
       if (oneIn(2)) {
         String swap = name1;

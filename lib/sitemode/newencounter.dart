@@ -1122,8 +1122,8 @@ Future<bool> addsiegeencounter(int type) async {
                 e = Creature.fromId(CreatureTypeIds.ccsVigilante);
                 ensureIsArmed(e);
               default:
-                addstr(
-                  "Siege type ${activeSite!.siege.activeSiegeType} missing!\n",
+                debugPrint(
+                  "Siege type ${activeSite!.siege.activeSiegeType} missing!",
                 );
                 await getKey();
                 return false;

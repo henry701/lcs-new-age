@@ -754,7 +754,11 @@ void _clothingDetailFooter(
     if (clothing.allowedArmor.length > 1) {
       addstrc(
         lightGray,
-        " (${armorIndex + 1}/${clothing.allowedArmor.length})",
+        " ({current}/{total})",
+        params: {
+          "current": armorIndex + 1,
+          "total": clothing.allowedArmor.length,
+        },
       );
     }
     addInlineOptionText(
@@ -1206,7 +1210,7 @@ Future<void> _activateBulk() async {
       addOptionText(
         i + 1,
         51,
-        "$i",
+        i.toString(),
         "{index} - {name}",
         params: {"index": i.toString(), "name": activity.name},
         baseColorKey: selectedActivity == activity ? "W" : "w",

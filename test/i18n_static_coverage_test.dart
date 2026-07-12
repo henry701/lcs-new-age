@@ -1007,6 +1007,24 @@ void main() {
       },
     );
 
+    test('founder, CEO, level, and pronoun labels use complete templates', () {
+      final newGame = File('lib/title_screen/new_game.dart').readAsStringSync();
+      final questions = File(
+        'lib/title_screen/questions.dart',
+      ).readAsStringSync();
+      final creatures = File(
+        'lib/creature/hardcoded_creature_type_stuff.dart',
+      ).readAsStringSync();
+      final levels = File('lib/creature/level.dart').readAsStringSync();
+
+      expect(newGame, contains('"{first} {last}"'));
+      expect(questions, contains("{pronoun} didn't even come close."));
+      expect(creatures, contains('"CEO {name}"'));
+      expect(levels, contains('"{title} {numeral}"'));
+      expect(newGame, isNot(contains(r'"${first[sex]!} $last"')));
+      expect(creatures, isNot(contains(r'"CEO ${cr.properName}"')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

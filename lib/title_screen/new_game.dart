@@ -10,6 +10,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/item_type.dart';
 import 'package:lcs_new_age/location/city.dart';
@@ -326,7 +327,10 @@ Future<void> makeCharacter() async {
   if (debugFounderMedicalDebt) founder.medicalBills = 50000;
 
   founder.gender = founder.genderAssignedAtBirth = sex;
-  founder.properName = "${first[sex]!} $last";
+  founder.properName = LcsI18n.processString("{first} {last}", {
+    "first": first[sex]!,
+    "last": last,
+  });
   founder.name = founder.properName;
   squads.add(Squad()..name = "The Liberal Crime Squad");
   founder.squad = squads.first;

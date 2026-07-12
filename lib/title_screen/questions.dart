@@ -386,8 +386,10 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
         },
       ),
       _Option(
-        "I volunteered for a left-wing candidate.  "
-            "${forceGenderBinary(Gender.nonbinary).heSheCap} didn't even come close.",
+        LcsI18n.processString(
+          "I volunteered for a left-wing candidate.  {pronoun} didn't even come close.",
+          {"pronoun": LcsI18n.tr(forceGenderBinary(Gender.nonbinary).heSheCap)},
+        ),
         "+2 Persuasion, +1 Law, +1 Charisma",
         () {
           founder.adjustSkill(Skill.persuasion, 2);

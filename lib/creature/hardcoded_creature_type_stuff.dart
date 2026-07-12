@@ -10,6 +10,7 @@ import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -85,7 +86,7 @@ void applyHardcodedCreatureTypeStuff(Creature cr, CreatureType type) {
       }
     case CreatureTypeIds.corporateCEO:
       cr.properName = generateFullName(Gender.whiteMalePatriarch).firstLast;
-      cr.name = "CEO ${cr.properName}";
+      cr.name = LcsI18n.processString("CEO {name}", {"name": cr.properName});
       cr.alreadyNamed = true;
     case CreatureTypeIds.nonUnionWorker:
       giveCivilianWeapon(cr);

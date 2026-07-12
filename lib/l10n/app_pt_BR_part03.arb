@@ -214,6 +214,7 @@
   "{distance} feet away": "{distance} pés de distância",
   "{driver} runs {vehicle} off the road!": "{driver} joga {vehicle} para fora da estrada!",
   "{first} {middle} {last}": "{first} {middle} {last}",
+  "{items}, and {last}": "{items} e {last}",
   "{name} catches a bus to the next city.": "{name} pega um ônibus para a próxima cidade.",
   "{name} destroys everything in its path to keep up!": "{name} destroys everything in its path to keep up!",
   "{name} doesn't resist.": "{name} não resiste.",

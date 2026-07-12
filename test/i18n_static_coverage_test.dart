@@ -1025,6 +1025,18 @@ void main() {
       expect(creatures, isNot(contains(r'"CEO ${cr.properName}"')));
     });
 
+    test('trial charges use complete defendant, count, and list templates', () {
+      final trial = File('lib/justice/trial.dart').readAsStringSync();
+      expect(
+        trial,
+        contains('"The defendant, {name}, is charged with {charges}."'),
+      );
+      expect(trial, contains('"{count} counts of {crime}"'));
+      expect(trial, contains('"{first} and {second}"'));
+      expect(trial, isNot(contains(r'"The defendant, ${g.properName}')));
+      expect(trial, isNot(contains(r'charges += "${g.wantedForCrimes')));
+    });
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       // Strict: expect(audit.passesCompletionGate, isTrue);

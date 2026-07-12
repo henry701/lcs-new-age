@@ -212,6 +212,7 @@
   "{distance} feet away": "{distance} feet away",
   "{driver} runs {vehicle} off the road!": "{driver} runs {vehicle} off the road!",
   "{first} {middle} {last}": "{first} {middle} {last}",
+  "{items}, and {last}": "{items}, and {last}",
   "{name} catches a bus to the next city.": "{name} catches a bus to the next city.",
   "{name} destroys everything in its path to keep up!": "{name} destroys everything in its path to keep up!",
   "{name} doesn't resist.": "{name} doesn't resist.",

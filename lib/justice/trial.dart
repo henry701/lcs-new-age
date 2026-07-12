@@ -61,13 +61,12 @@ Future<void> trial(Creature g) async {
     weakEvidencePenalty = 60;
   }
 
-  int typenum = 0, scarefactor = 0;
+  int scarefactor = 0;
   // *JDS* Scarefactor is the severity of the case against you; if you're a really
   // nasty person with a wide variety of major charges against you, then scarefactor
   // can get up there
 
   for (var c in g.wantedForCrimes.entries.where((e) => e.value > 0)) {
-    typenum++;
     scarefactor += sqrt(crimeHeat(c.key) * c.value).round();
   }
 
@@ -103,21 +102,46 @@ Future<void> trial(Creature g) async {
     addstr("The judge reads the charges:");
   }
 
-  String charges = "The defendant, ${g.properName}, is charged with ";
+  final chargeItems = <String>[];
+
+  String formatChargeList() {
+    if (chargeItems.length == 1) return chargeItems.single;
+    if (chargeItems.length == 2) {
+      return LcsI18n.processString("{first} and {second}", {
+        "first": chargeItems.first,
+        "second": chargeItems.last,
+      });
+    }
+    String leadingItems = chargeItems.first;
+    for (final item in chargeItems.skip(1).take(chargeItems.length - 2)) {
+      leadingItems = LcsI18n.processString("{items}, {item}", {
+        "items": leadingItems,
+        "item": item,
+      });
+    }
+    return LcsI18n.processString("{items}, and {last}", {
+      "items": leadingItems,
+      "last": chargeItems.last,
+    });
+  }
 
   Future<void> listCrime(Crime crime) async {
-    typenum--;
-    if (g.wantedForCrimes[crime]! > 0) {
-      if (g.wantedForCrimes[crime]! > 1) {
-        charges += "${g.wantedForCrimes[crime]!} counts of ";
-      }
-      charges += crime.chargedWith;
-    }
-    if (typenum > 1) charges += ", ";
-    if (typenum == 1) charges += " and ";
-    if (typenum == 0) charges += ".";
+    final count = g.wantedForCrimes[crime]!;
+    final translatedCrime = LcsI18n.tr(crime.chargedWith);
+    chargeItems.add(
+      count > 1
+          ? LcsI18n.processString("{count} counts of {crime}", {
+              "count": count,
+              "crime": translatedCrime,
+            })
+          : translatedCrime,
+    );
+    final charges = LcsI18n.processString(
+      "The defendant, {name}, is charged with {charges}.",
+      {"name": g.properName, "charges": formatChargeList()},
+    );
     setColor(red);
-    addparagraph(5, 1, charges);
+    addparagraph(5, 1, charges, noTranslate: true);
     await getKey();
   }
 

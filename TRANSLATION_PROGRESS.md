@@ -56,16 +56,24 @@ Already translated entries are not overwritten.
 
 ## Interpolation Sweep Verification
 
-The source sweep is complete only when this gate exits successfully:
+The wrapper-adjacent sweep is complete only when this gate exits successfully:
 
 ```bash
 dart run scripts/interpolation_status.dart --check --json
 ```
 
 The command rejects both unclassified wrapper-adjacent interpolation and stale
-entries in `scripts/interpolation_allowlist.json`. The allowlist may contain
-only documented non-prose output (diagnostics, control markup, numeric/layout
-values, and currency values passed into a complete template). Full-corpus
-inspection remains available through `dart run scripts/interpolation_status.dart
---all --json`; the static i18n suite independently enforces the priority
+entries in `scripts/interpolation_allowlist.json`.
+
+Repo-wide completion additionally requires:
+
+```bash
+dart run scripts/interpolation_status.dart --all --check --json
+```
+
+`allEntries` in the same allowlist records every remaining literal by file,
+line, exact text, and rationale. It may contain only documented diagnostics,
+internal identifiers, console control/layout markup, numeric formatting, or
+other non-prose output. The strict command rejects both unclassified literals
+and stale entries; the static i18n suite independently enforces priority
 gameplay areas.

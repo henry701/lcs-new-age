@@ -88,10 +88,14 @@ dart run scripts/interpolation_status.dart --limit=40
 dart run scripts/interpolation_status.dart --json
 dart run scripts/interpolation_status.dart --check --json
 dart run scripts/interpolation_status.dart --all --json > /tmp/interpolation-audit.json
+dart run scripts/interpolation_status.dart --all --check --json
 ```
 
 Notes:
 - Use this before translator batches to identify strings that still rely on `$...` interpolation.
+- Use `--all --check` for repo-wide completion: it fails until every raw
+  interpolation is either removed or has a precise file/line/text rationale in
+  `allEntries` of `scripts/interpolation_allowlist.json`.
 - Extraction intentionally skips `$...` literals; convert to placeholder templates where practical (`{name}`, `{value}`, etc.).
 - Output includes:
   - direct wrapper-argument hits: high-confidence

@@ -920,6 +920,24 @@ void main() {
       expect(offenders, isEmpty, reason: offenders.join('\n'));
     });
 
+    test('full interpolation audit classifies every lib interpolation', () {
+      final result = Process.runSync('dart', [
+        'run',
+        'scripts/interpolation_status.dart',
+        '--all',
+        '--check',
+        '--json',
+      ]);
+      expect(result.exitCode, 0, reason: result.stderr);
+      final audit = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      expect(
+        audit['unclassifiedAllInterpolation'],
+        isEmpty,
+        reason:
+            'All lib interpolations must be localized or explicitly classified.',
+      );
+    });
+
     test('composed item and location labels use complete templates', () {
       final district = File('lib/location/district.dart').readAsStringSync();
       final weapon = File('lib/items/weapon.dart').readAsStringSync();

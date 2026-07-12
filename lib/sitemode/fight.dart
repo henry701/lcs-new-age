@@ -1207,13 +1207,13 @@ Future<void> hit(
       if (severtype == SeverType.clean) {
         hitPart.cleanOff = true;
         if (hitPart.critical && !hitPart.weakSpot) {
-          str += "{name}'S {part} IS SLICED IN HALF!";
+          str = "{name}'S {part} IS SLICED IN HALF!";
         } else {
-          str += "{name}'S {part} IS SLICED OFF!";
+          str = "{name}'S {part} IS SLICED OFF!";
         }
       } else if (severtype == SeverType.nasty) {
         hitPart.nastyOff = true;
-        str += "{name}'S {part} IS BLOWN APART!";
+        str = "{name}'S {part} IS BLOWN APART!";
       }
     }
 

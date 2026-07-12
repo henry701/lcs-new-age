@@ -237,6 +237,7 @@
   "{name} responds, ": "{name} responde, ",
   "{name} shivers silently, whispering a prayer, then all is still.": "{name} shivers silently, whispering a prayer, then all is still.",
   "{name} will be returned to prison to resume {pronoun} earlier sentence.": "{name} será devolvido à prisão para continuar a sentença anterior de {pronoun}.",
+  "{name}'S {part} IS SLICED IN HALF!": "A PARTE {part} DE {name} FOI CORTADA AO MEIO!",
   "{name}'s Used Cars": "Carros Usados de {name}",
   "{name}'s last unbroken rib is shattered!": "A última costela inteira de {name} foi estilhaçada!",
   "{name}'s lifeless body smashes through the windshield.": "O corpo sem vida de {name} atravessa o para-brisa.",

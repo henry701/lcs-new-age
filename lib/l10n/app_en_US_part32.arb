@@ -207,6 +207,7 @@
   "{actor} held an anti-censorship street performance!": "{actor} held an anti-censorship street performance!",
   "{attacker} punches the {ism} out of {target}, {description}!": "{attacker} punches the {ism} out of {target}, {description}!",
   "{eName} was leaking information to the police the whole time!": "{eName} was leaking information to the police the whole time!",
+  "{first} {second} with {host}": "{first} {second} with {host}",
   "{key} - &{colorKey}{headline}": "{key} - &{colorKey}{headline}",
   "{key} - Previous Page": "{key} - Previous Page",
   "{label} ({cost})": "{label} ({cost})",

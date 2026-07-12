@@ -2,6 +2,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/politics/views.dart';
@@ -62,27 +63,31 @@ Future<void> runTelevisionNewsStories() async {
             }
           case View.cableNews:
             newsStories[n].publication = Publication.cableNews;
-            String str = "Tonight on a Cable News channel: ";
-            String showName = [
+            final showFirstWord = [
               "Inside",
               "Hard",
               "Lightning",
               "Washington",
               "Capital",
             ].random;
-            showName += [
-              " Record",
-              " Night",
-              " Talk",
-              " Insider",
-              " Report",
+            final showSecondWord = [
+              "Record",
+              "Night",
+              "Talk",
+              "Insider",
+              "Report",
             ].random;
-            showName += " with ";
-            String bname = generateFullName(
-              Gender.whiteMalePatriarch,
-            ).firstLast;
-            showName += bname;
-            str += showName;
+            final bname = generateFullName(Gender.whiteMalePatriarch).firstLast;
+            final showName =
+                LcsI18n.processString("{first} {second} with {host}", {
+                  "first": LcsI18n.tr(showFirstWord),
+                  "second": LcsI18n.tr(showSecondWord),
+                  "host": bname,
+                });
+            final str = LcsI18n.processString(
+              "Tonight on a Cable News channel: {showName}",
+              {"showName": showName},
+            );
             newsStories[n].headline = showName.toUpperCase();
             newsStories[n].body =
                 "A Cable News anchor just accidentally let a Liberal guest "

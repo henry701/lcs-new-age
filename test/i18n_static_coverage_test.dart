@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -145,6 +146,26 @@ void main() {
       expect(flag, contains('"Fly a flag over the {site}:"'));
     });
 
+    test('recruitment options use complete grammar variants', () {
+      final source = File('lib/daily/recruitment.dart').readAsStringSync();
+      expect(source, isNot(contains('articlePart')));
+      expect(source, isNot(contains('recruitmentText +=')));
+      expect(
+        source,
+        contains(r'"A - Spend \$50 on props and a book for them to keep."'),
+      );
+      expect(
+        source,
+        contains(r'"A - Spend \$50 on props and an e-book for them to keep."'),
+      );
+      expect(source, contains('"C - {recruit} joins the LCS."'));
+      expect(
+        source,
+        contains('"C - {recruiter} needs more Juice to recruit."'),
+      );
+      expect(source, contains('"C - {recruit} isn\'t ready to join the LCS."'));
+    });
+
     test('regular activity footer uses complete actor templates', () {
       final source = File(
         'lib/basemode/activate_regulars.dart',
@@ -254,6 +275,7 @@ void main() {
       final source = File('lib/sitemode/fight.dart').readAsStringSync();
       expect(source, isNot(contains('mvaddstr(9, 1, "{name} "')));
       expect(source, isNot(contains('addstr(" with a {weapon}"')));
+      expect(source, isNot(contains('str += "{name}')));
       expect(source, contains('{attacker} {action} {target}!'));
       expect(source, contains('{attacker} {action} {target} with a {weapon}!'));
     });
@@ -655,6 +677,14 @@ void main() {
       );
     });
 
+    test('cable-news show names use complete templates', () {
+      final source = File('lib/newspaper/television.dart').readAsStringSync();
+      expect(source, isNot(contains('showName +=')));
+      expect(source, isNot(contains('str += showName')));
+      expect(source, contains('"{first} {second} with {host}"'));
+      expect(source, contains('"Tonight on a Cable News channel: {showName}"'));
+    });
+
     test(
       'newspaper ad values are rendered through templates before layout',
       () {
@@ -827,6 +857,60 @@ void main() {
           }
         }
       }
+
+      expect(offenders, isEmpty, reason: offenders.join('\n'));
+    });
+
+    test('full interpolation audit classifies every priority-area raw literal', () {
+      final result = Process.runSync('dart', [
+        'run',
+        'scripts/interpolation_status.dart',
+        '--all',
+        '--json',
+      ]);
+      expect(result.exitCode, 0, reason: result.stderr);
+      final audit = jsonDecode(result.stdout as String) as Map<String, dynamic>;
+      final records = (audit['allInterpolation'] as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+      const priorityPaths = {
+        'daily/siege.dart',
+        'newspaper/display_news.dart',
+        'sitemode/fight.dart',
+        'sitemode/shop.dart',
+        'talk/talk_about_issues.dart',
+        'talk/talk_outside_combat.dart',
+      };
+      const reviewed = {
+        r'daily/siege.dart:Heat from ${p.name}: ${p.heat} -> ${sqrt(p.heat).ceil()}',
+        r'daily/siege.dart:Heat for ${l.getName()}: $beforeHeat -> ${l.heat} ($beforeCrimes -> $crimes)',
+        r'daily/siege.dart:\n\n$paragraph',
+        r'daily/siege.dart:bestvalue: $bestvalue',
+        r'daily/siege.dart:segmentpower: $segmentpower',
+        r'daily/siege.dart:\$$confiscated',
+        r'newspaper/display_news.dart:typesum: $typesum',
+        r'sitemode/fight.dart:${a.name} rolls $aroll + $bonus, ${t.name} rolls $droll',
+        r'sitemode/fight.dart:Damage mod: $mod, damage before application: $damamount',
+        r'sitemode/fight.dart:Damage reduced to $damamount',
+        r'sitemode/fight.dart:Damage increased to $damamount',
+        r'sitemode/fight.dart:Random: $random, fixed: $fixed, hits: $bursthits',
+        r'sitemode/fight.dart:Initial damage roll: $damamount',
+        r'sitemode/fight.dart:Final damage after hit location effects: $damamount',
+        r'sitemode/fight.dart:Target blood before hit: ${target.blood}/${target.maxBlood}',
+        r'sitemode/fight.dart:Target blood after hit: ${target.blood}/${target.maxBlood}',
+        r'sitemode/fight.dart:Making loot for ${cr.name} into $lootPile',
+        r'sitemode/shop.dart:\$${(availableOptions[p] as ShopItem).price(false)}',
+        r'sitemode/shop.dart:\$${(availableOptions[i] as ShopItem).price(false)}',
+        r'sitemode/shop.dart:\$${(availableOptions[index] as ShopItem).price(false)}',
+        r'sitemode/shop.dart:\$$fenceamount',
+        r'sitemode/shop.dart:\$$ret',
+        r'talk/talk_about_issues.dart:Talk about issues: $succeeded, $difficulty',
+        r'talk/talk_outside_combat.dart:\$$rent',
+      };
+      final offenders = records
+          .where((record) => priorityPaths.contains(record['file']))
+          .map((record) => '${record['file']}:${record['text']}')
+          .where((entry) => !reviewed.contains(entry))
+          .toList();
 
       expect(offenders, isEmpty, reason: offenders.join('\n'));
     });

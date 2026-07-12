@@ -63,6 +63,18 @@ Important limitations:
 
 Treat the scripts as good assistants, not proof that source-string cleanup is complete. In particular, the wrapper audit is intentionally narrow: inspect generated prose, local variables, and accumulated story text separately.
 
+For the all-lib review corpus (including diagnostics and internal formatting), use:
+
+```bash
+dart run scripts/interpolation_status.dart --all --json > /tmp/interpolation-audit.json
+```
+
+Review every non-generated entry that is not clearly a diagnostic, file/key
+identifier, console-color control sequence, or numeric/layout-only value. The
+priority paths have a stricter static gate; current reviewed exceptions there
+are debug diagnostics, currency values passed into complete templates, and
+paragraph joins after each paragraph has already been translated.
+
 The static i18n suite also enforces a broader priority-area gate over `newspaper/`, `talk/`, `fight.dart`, `siege.dart`, and `shop.dart`. Its reviewed exceptions are limited to developer diagnostics, generated serialization identifiers, currency-only parameter formatting, and joining paragraphs that were translated before layout. Any other raw interpolation in those paths fails the suite and must be converted to a complete template.
 
 An interpolation allowlist is an exception register, not a suppression mechanism.

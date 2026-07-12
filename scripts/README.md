@@ -86,6 +86,7 @@ Reports remaining string interpolation usage in `lib/`, including a high-confide
 dart run scripts/interpolation_status.dart --limit=40
 dart run scripts/interpolation_status.dart --json
 dart run scripts/interpolation_status.dart --check --json
+dart run scripts/interpolation_status.dart --all --json > /tmp/interpolation-audit.json
 ```
 
 Notes:
@@ -94,6 +95,8 @@ Notes:
 - Output includes:
   - direct wrapper-argument hits: high-confidence
   - wrapper-context hits: broader coverage for multiline/manual sweep review
+  - `--all`: every raw interpolated literal, including implementation-only
+    diagnostics and identifiers, for the full manual audit corpus
 - The tracked `scripts/interpolation_allowlist.json` is loaded by default.
   `--check` fails for unclassified hits **and** stale allowlist entries. Each
   allowlist entry must be an exact file/context/literal match with a reason and

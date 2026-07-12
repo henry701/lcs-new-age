@@ -202,15 +202,10 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     params: {"name": p.name},
   );
 
-  String articlePart = inPerson ? " " : "n e-";
-  addOptionText(
-    13,
-    0,
-    "A",
-    "A - Spend \$50 on props and a{articlePart}book for them to keep.",
-    params: {"articlePart": articlePart},
-    enabledWhen: ledger.funds >= 50,
-  );
+  final bookOption = inPerson
+      ? "A - Spend \$50 on props and a book for them to keep."
+      : "A - Spend \$50 on props and an e-book for them to keep.";
+  addOptionText(13, 0, "A", bookOption, enabledWhen: ledger.funds >= 50);
   addOptionText(
     14,
     0,
@@ -218,21 +213,17 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     "B - Just casually chat with them and discuss politics.",
   );
 
-  bool canRecruit = false;
-  String recruitmentText = "C - ";
-  if (p.subordinatesLeft > 0 && r.eagerness >= 4) {
-    canRecruit = true;
-    recruitmentText += "{recruit} joins the LCS.";
-  } else if (p.subordinatesLeft <= 0) {
-    recruitmentText += "{recruiter} needs more Juice to recruit.";
-  } else {
-    recruitmentText += "{recruit} isn't ready to join the LCS.";
-  }
+  final canRecruit = p.subordinatesLeft > 0 && r.eagerness >= 4;
+  final recruitmentOption = canRecruit
+      ? "C - {recruit} joins the LCS."
+      : p.subordinatesLeft <= 0
+      ? "C - {recruiter} needs more Juice to recruit."
+      : "C - {recruit} isn't ready to join the LCS.";
   addOptionText(
     15,
     0,
     "C",
-    recruitmentText,
+    recruitmentOption,
     params: {"recruiter": p.name, "recruit": r.recruit.name},
     enabledWhen: canRecruit,
   );

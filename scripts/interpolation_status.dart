@@ -42,8 +42,12 @@ void main(List<String> args) async {
   final wrapperPatterns = _buildWrapperCallPatterns();
   final contextPatterns = _buildMultilineContextPatterns();
   final allQuotedPatterns = [
-    RegExp(r'"((?:[^"\\]|\\.)*)"'),
-    RegExp(r"'((?:[^'\\]|\\.)*)'"),
+    // A normal Dart quote literal cannot cross a line. Deliberately skip
+    // triple-quoted strings here: their interpolation is handled by the
+    // wrapper-context/manual generated-prose audit instead of pairing quotes
+    // from unrelated source lines.
+    RegExp(r'"((?:[^"\\\r\n]|\\.)*)"'),
+    RegExp(r"'((?:[^'\\\r\n]|\\.)*)'"),
   ];
   final multilineQuotedPatterns = [
     RegExp(r'^\s*"([^"]+)"\s*,?\s*$'),
@@ -222,6 +226,22 @@ void main(List<String> args) async {
           },
         )
         .toList(),
+    if (emitAll) ...{
+      'allInterpolation':
+          (allInterpolated.toList()..sort((a, b) {
+                final fileOrder = a.file.compareTo(b.file);
+                if (fileOrder != 0) return fileOrder;
+                return a.line.compareTo(b.line);
+              }))
+              .map(
+                (record) => {
+                  'file': record.file,
+                  'line': record.line,
+                  'text': record.text,
+                },
+              )
+              .toList(),
+    },
     if (checkMode || emitAll) ...{
       'unusedAllowlist': unusedAllowlistEntries
           .map((entry) => entry.toJson())

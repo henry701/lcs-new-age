@@ -7,8 +7,6 @@
   "  The events took place {locationPhrase}, the Conservative headquarters of one of the biggest privacy violators in the world.  ": "  Os eventos ocorreram {locationPhrase}, a sede conservadora de uma das maiores violadoras de privacidade do mundo.  ",
   "  Witnesses reported hearing the phrase, \"{slogan}\"": "  Witnesses reported hearing the phrase, \"{slogan}\"",
   " - {name}": " – {name}",
-  " Insider": " Informante",
-  " Night": " Noite",
   " doesn't understand.": " não entende.",
   " is subjected to rehabilitative therapy in prison.": " é submetido a terapia de reabilitação na prisão.",
   " spends too much time working out at the prison gym.": " passa tempo demais se exercitando na academia da prisão.",
@@ -52,6 +50,7 @@
     }
   },
   "A - Pawn all Ammunition": "A - Penhorar toda a munição",
+  "A - Spend $50 on props and an e-book for them to keep.": "A - Gaste $50 em adereços e em um e-book para eles guardarem.",
   "Abandoned": "Abandonado",
   "According to an LCS spokesperson, \"": "According to an LCS spokesperson, \"",
   "Acting Individually": "Agindo Individualmente",

@@ -218,6 +218,7 @@
   "{actor} held an anti-censorship street performance!": "{actor} fez uma performance de rua contra a censura!",
   "{attacker} punches the {ism} out of {target}, {description}!": "{attacker} arranca o {ism} de {target} no soco, {description}!",
   "{eName} was leaking information to the police the whole time!": "{eName} estava vazando informações para a polícia o tempo todo!",
+  "{first} {second} with {host}": "{first} {second} com {host}",
   "{key} - &{colorKey}{headline}": "{key} – &{colorKey}{headline}",
   "{key} - Previous Page": "{key} - Página Anterior",
   "{label} ({cost})": "{label} ({cost})",

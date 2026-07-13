@@ -11,7 +11,7 @@
   "\"Oooo, we should get stoned too!  He he.\"": "\"Oooo, deveríamos ficar chapados também! Ele ele.\"",
   "\"Touch me and you'll regret it.\" <crosses arms>": "\"Toque-me e você se arrependerá.\" <cruza os braços>",
   "\"Weird.\"": "\"Esquisito.\"",
-  "\"You don't sweat much for a fat {chick}.\"": "\"Você não se preocupa muito por um {chick} gordo.\"",
+  "\"You don't sweat much for a fat {chick}.\"": "\"Você não sua muito para um {chick} gordo.\"",
   "&w{name}'s hospital bill comes to &R{bill}&w.": "&w A conta do hospital de {name} chega a &R {bill} &w .",
   "({capacity}) ": "({capacity})  ",
   "+1 Law, +1 Agility": "+1 Direito, +1 Agilidade",
@@ -29,7 +29,7 @@
     }
   },
   "@When mouse input is on, you can use the mouse to select options in the game. This feature is not complete and not All screens support mouse input. Default is on.": {},
-  "A - Pay $100 for a night together.": "R - Pague $ 100 por uma noite juntos.",
+  "A - Pay $100 for a night together.": "A - Pague $ 100 por uma noite juntos.",
   "A group of would-be patriots calling themselves the Conservative Crime Squad burst briefly onto the scene of political activism yesterday, according to a spokesperson from the police department.&r": "Um grupo de supostos patriotas que se autodenominam o Esquadrão Conservador de Crime irrompeu brevemente no cenário do ativismo político ontem, segundo um porta-voz do departamento de polícia.&r",
   "A mutant affected by nuclear power appears on a popular ": "Um mutante afetado por energia nuclear aparece em um popular ",
   "A response has been received from {name}'s relatives:": "Uma resposta foi recebida dos parentes de {name}:",

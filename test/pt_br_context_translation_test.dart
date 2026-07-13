@@ -296,4 +296,46 @@ void main() {
       contains('que é uma pessoa negra ({person})'),
     );
   });
+
+  test('site action labels translate as complete options', () {
+    const expected = {
+      'W,A,D,X - Move, ': 'W,A,D,X - Mover, ',
+      'G - Get, ': 'G - Pegar, ',
+      'M - Map, ': 'M - Mapa, ',
+      'E - Equip, ': 'E - Equipar, ',
+      'S - Stall, ': 'S - Parar, ',
+      'L - Load, ': 'L - Carregar, ',
+      'O - Order, ': 'O - Ordenar, ',
+      'U - Graffiti, ': 'U - Fazer grafite, ',
+      'U - Use, ': 'U - Usar, ',
+      'V - Sneak, ': 'V - Esgueirar-se, ',
+      'V - Flee, ': 'V - Fugir, ',
+      'F - Fight, ': 'F - Lutar, ',
+      'K - Kidnap, ': 'K - Sequestrar, ',
+      'T - Talk, ': 'T - Falar, ',
+      'R - Rescue, ': 'R - Resgatar, ',
+      'R - Release, ': 'R - Libertar, ',
+      'R - Reorganize, ': 'R - Reorganizar, ',
+    };
+
+    for (final entry in expected.entries) {
+      expect(catalog[entry.key], entry.value, reason: entry.key);
+    }
+  });
+
+  test('short contextual phrases keep their intended meaning', () {
+    expect(
+      catalog['a SWAT team descends on the location'],
+      'uma equipe da SWAT invade o local',
+    );
+    expect(catalog['Fuck The Police Day'], 'Dia de FODA-SE A POLÍCIA');
+    expect(
+      catalog['make shy children fit in'],
+      'fazer crianças tímidas se enturmarem',
+    );
+    expect(
+      catalog['The Liberal Guardian runs a story featuring salacious love letters from a major CEO '],
+      'O Guardião Liberal publica uma matéria com cartas de amor picantes de um CEO importante ',
+    );
+  });
 }

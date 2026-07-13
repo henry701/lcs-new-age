@@ -310,36 +310,27 @@ Future<void> _siteModeAux() async {
 
     //PRINT SITE INSTRUCTIONS
     if (partyalive) {
+      void addSiteOption(String key, String label, {bool enabledWhen = true}) {
+        addInlineOptionText(key, label, enabledWhen: enabledWhen);
+      }
+
       if (!enemy || !siteAlarm) {
         setColor(lightGray);
       } else {
         setColor(darkGray);
       }
-      mvaddstrc(23, 1, blue, "W");
-      addstrc(lightGray, ",");
-      addstrc(blue, "A");
-      addstrc(lightGray, ",");
-      addstrc(blue, "D");
-      addstrc(lightGray, ",");
-      addstrc(blue, "X");
-      addstrc(lightGray, "-Move, ");
-      addstrc(groundLoot.isNotEmpty || currentTile.loot ? blue : darkGray, "G");
-      addstrc(
-        groundLoot.isNotEmpty || currentTile.loot ? lightGray : darkGray,
-        "et, ",
-        noTranslate: true,
+      mvaddstr(23, 1, "");
+      addSiteOption("W", "W,A,D,X - Move, ");
+      addSiteOption(
+        "G",
+        "G - Get, ",
+        enabledWhen: groundLoot.isNotEmpty || currentTile.loot,
       );
-      addstrc(blue, "M");
-      addstrc(lightGray, "ap, ");
-      addstrc(blue, "E");
-      addstrc(lightGray, "quip, ");
-      addstrc(blue, "S");
-      addstrc(lightGray, "tall, ");
-      addstrc(!enemy || !siteAlarm ? lightGray : darkGray, "re");
-      addstrc(!enemy || !siteAlarm ? blue : darkGray, "L");
-      addstrc(!enemy || !siteAlarm ? lightGray : darkGray, "oad, ");
-      addstrc(partysize > 1 ? blue : darkGray, "O");
-      addstrc(partysize > 1 ? lightGray : darkGray, "rder,");
+      addSiteOption("M", "M - Map, ");
+      addSiteOption("E", "E - Equip, ");
+      addSiteOption("S", "S - Stall, ");
+      addSiteOption("L", "L - Load, ", enabledWhen: !enemy || !siteAlarm);
+      addSiteOption("O", "O - Order, ", enabledWhen: partysize > 1);
       bool graffiti = false;
       bool useColor;
       if (currentTile.special != TileSpecial.none &&
@@ -362,10 +353,11 @@ Future<void> _siteModeAux() async {
       } else {
         useColor = false;
       }
-      mvaddstrc(24, 1, useColor ? blue : darkGray, "U");
-      addstrc(
-        useColor ? lightGray : darkGray,
-        graffiti ? "-graffiti, " : "se, ",
+      mvaddstr(24, 1, "");
+      addSiteOption(
+        "U",
+        graffiti ? "U - Graffiti, " : "U - Use, ",
+        enabledWhen: useColor,
       );
       if (enemy && siteAlarm) {
         bool cantSneak = false;
@@ -376,43 +368,31 @@ Future<void> _siteModeAux() async {
             break;
           }
         }
-        addstrc(blue, "V");
-        if (!cantSneak) {
-          addstrc(lightGray, "-Sneak, ");
-        } else {
-          addstrc(lightGray, "-Flee, ");
-        }
+        addSiteOption("V", cantSneak ? "V - Flee, " : "V - Sneak, ");
       } else {
-        setColor(darkGray);
-        addstr("V-Flee, ");
+        addSiteOption("V", "V - Flee, ", enabledWhen: false);
       }
-      addstrc(enemy ? blue : darkGray, "F");
-      addstrc(enemy ? lightGray : darkGray, "ight, ");
-      addstrc(enemy ? blue : darkGray, "K");
-      addstrc(enemy ? lightGray : darkGray, "idnap, ");
-      addstrc(talkers > 0 ? blue : darkGray, "T");
-      addstrc(talkers > 0 ? lightGray : darkGray, "alk, ");
+      addSiteOption("F", "F - Fight, ", enabledWhen: enemy);
+      addSiteOption("K", "K - Kidnap, ", enabledWhen: enemy);
+      addSiteOption("T", "T - Talk, ", enabledWhen: talkers > 0);
       if (!activeSiteUnderSiege) {
         if (freeable > 0 && (!enemy || !siteAlarm)) {
-          addstrc(blue, "R");
-          addstrc(lightGray, "escue, ", noTranslate: true);
+          addSiteOption("R", "R - Rescue, ");
         } else {
           if (hostages > 0) {
-            addstrc(blue, "R");
-            addstrc(lightGray, "elease, ", noTranslate: true);
+            addSiteOption("R", "R - Release, ");
           } else {
-            addstrc(darkGray, "Release, ");
+            addSiteOption("R", "R - Release, ", enabledWhen: false);
           }
         }
       } else {
         if (libnum > 6) {
-          addstrc(blue, "R");
-          addstrc(lightGray, "eorganize, ");
+          addSiteOption("R", "R - Reorganize, ");
         } else {
-          addstrc(darkGray, "Reorganize, ");
+          addSiteOption("R", "R - Reorganize, ", enabledWhen: false);
         }
       }
-      addstrc(blue, "?");
+      addstr("?", noTranslate: true);
     } else {
       //DESTROY ALL CARS BROUGHT ALONG WITH PARTY
       if (!activeSiteUnderSiege) {

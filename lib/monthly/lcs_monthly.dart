@@ -540,8 +540,7 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       addparagraph(6, 1, story);
     case LootTypeIds.ceoLoveLetters:
       story =
-          "The Liberal Guardian runs a story featuring salacious love letters from a";
-      mvaddstr(7, 1, "major CEO ");
+          "The Liberal Guardian runs a story featuring salacious love letters from a major CEO ";
       switch (lcsRandom(8)) {
         case 0:
           story += "addressed to his pet dog.  Yikes.";

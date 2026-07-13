@@ -571,4 +571,87 @@ void main() {
       isEmpty,
     );
   });
+
+  test('recent context audit keeps idioms and composed fragments grammatical', () {
+    expect(
+      catalog["\"That's sick.  I can do sick tonight.\""],
+      '"Isso é doentio. Posso fazer algo doentio hoje à noite."',
+    );
+    expect(
+      catalog["\"Were you dropped as a child?\""],
+      '"Você caiu de cabeça quando era criança?"',
+    );
+    expect(
+      catalog["\"You got anything to smoke on you?\" "],
+      '"Você tem algo para fumar aí?" ',
+    );
+    expect(catalog['The CCS has been broken!'], 'O CCS foi desmantelado!');
+    expect(catalog['Great Person'], 'Pessoa Notável');
+    expect(
+      catalog['You see a display case containing {item}.'],
+      'Você vê uma vitrine contendo {item}.',
+    );
+    expect(
+      catalog['{pName} seizes {eName} from behind and warns {himHer} {warnMessage}'],
+      '{pName} agarra {eName} por trás e avisa {himHer} {warnMessage}',
+    );
+    expect(
+      catalog['the owner of the house seemed very frantic about some missing property.'],
+      'o dono da casa parecia muito aflito por causa de alguns bens desaparecidos.',
+    );
+    expect(
+      catalog['looks around cautiously, unsure what to make of this.'],
+      'olha ao redor com cautela, sem saber o que pensar disso.',
+    );
+    expect(
+      catalog['Your artists will put their own names out there and gain in street '],
+      'Seus artistas divulgarão seus próprios nomes e ganharão ',
+    );
+    expect(
+      catalog['credibility, gaining juice over time. Tagging caps out at 50 '],
+      'credibilidade nas ruas, ganhando energia com o tempo. As pichações chegam ao limite de 50 ',
+    );
+    expect(
+      catalog['Recruiting is a safe way to meet people of a specific job.  Not '],
+      'Recrutar é uma forma segura de conhecer pessoas de uma profissão específica.  Não ',
+    );
+    expect(
+      catalog['looking out of place. Obvious displays of heavier armor are '],
+      'parecer fora de lugar. Sinais óbvios de armaduras mais pesadas são ',
+    );
+    expect(
+      catalog['The entire thing is caught on video by a passerby and it '],
+      'Tudo é gravado em vídeo por um transeunte e ',
+    );
+    expect(
+      catalog['world has been changed by the experience.'],
+      'mundo foi mudada pela experiência.',
+    );
+    expect(catalog['Intel computer'], 'Computador Intel');
+    expect(catalog['delivery worker'], 'entregador');
+    expect(
+      catalog['"Stop, drop and roll, baby.  You are on fire."'],
+      '"Pare, deite-se e role, querida. Você está pegando fogo."',
+    );
+    expect(
+      catalog['and edgy your merch is. You\'re just not cool enough for your merch '],
+      'e ousada é sua mercadoria. Você simplesmente não é legal o suficiente para sua mercadoria ',
+    );
+    expect(
+      catalog['edgy your art is. You\'re just not cool enough for your art to draw '],
+      'ousada é sua arte. Você simplesmente não é legal o suficiente para sua arte atrair ',
+    );
+    expect(
+      catalog['some blog posts up on the internet, but it will take a long time '],
+      'algumas publicações em blogs na internet, mas vai levar muito tempo ',
+    );
+    expect(
+      catalog['anyone write or stream regularly to publish a special edition, but '],
+      'alguém escreva ou transmita regularmente para publicar uma edição especial, mas ',
+    );
+    expect(
+      catalog['The government works to accommodate potential immigrants.'],
+      'O governo trabalha para acolher potenciais imigrantes.',
+    );
+  });
 }

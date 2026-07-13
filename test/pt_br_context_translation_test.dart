@@ -653,5 +653,18 @@ void main() {
       catalog['The government works to accommodate potential immigrants.'],
       'O governo trabalha para acolher potenciais imigrantes.',
     );
+    expect(
+      catalog['  The events took place {locationPhrase}, known for its rich and snooty residents.  '],
+      '  Os eventos ocorreram {locationPhrase}, local conhecido por seus moradores ricos e esnobes.  ',
+    );
+    expect(
+      catalog['  The events took place {locationPhrase}, known for its Extreme Conservative Bias.  '],
+      '  Os eventos ocorreram {locationPhrase}, local conhecido por seu viés conservador extremo.  ',
+    );
+    expect(
+      catalog['The road is lined with trees, their branches a blur.'],
+      'A estrada é ladeada por árvores; os galhos passam como borrões.',
+    );
+    expect(catalog['The broadcast is mediocre.'], 'A transmissão é medíocre.');
   });
 }

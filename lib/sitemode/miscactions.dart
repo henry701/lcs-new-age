@@ -466,7 +466,7 @@ String _mediaQualityDescriptionTemplate(
     < 25 => "The Squad sounds utterly clueless.",
     < 35 => "The segment really sucks.",
     < 45 => "It is a very boring hour.",
-    < 55 => "It is mediocre {medium}.",
+    < 55 => "The broadcast is mediocre.",
     < 70 => "The show was all right.",
     < 85 => "The Squad put on a good show.",
     < 100 => "It was thought-provoking, even humorous.",

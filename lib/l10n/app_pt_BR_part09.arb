@@ -226,7 +226,7 @@
   "{name}'s spleen is punctured!": "o baço de {name} é perfurado!",
   "{objPossessive} views.": "visualizações de {objPossessive}.",
   "{pName} is slowly warming {eName}'s frozen Conservative heart.": "{pName} está aquecendo lentamente o coração congelado do Conservador {eName}.",
-  "{pronoun} goldfish": "o peixinho dourado de {pronoun}",
+  "{pronoun} goldfish": "o peixinho dourado {pronoun}",
   "{protagonist} and the {adjective} {noun}": "{protagonist} e o {adjective} {noun}",
   "{vicePresident} ": "{vicePresident}, "
 }

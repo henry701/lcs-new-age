@@ -194,7 +194,7 @@
   "{name} would ever join a left-wing terrorist organization.": "{name} jamais se juntaria a uma organização terrorista de esquerda.",
   "{name}, the hostage, is kept off-air.": "{name}, o refém, fica fora do ar.",
   "{name}, you are sentenced to DEATH!": "{name}, você foi condenado à MORTE!",
-  "{pronoun} cellphone": "o celular de {pronoun}",
+  "{pronoun} cellphone": "o celular {pronoun}",
   "{squad} couldn't afford to travel to {site}.": "{squad} não pôde pagar para viajar para {site}.",
   "{vehicle} can't keep up and disappears from view.": "{vehicle} não consegue acompanhar e some de vista."
 }

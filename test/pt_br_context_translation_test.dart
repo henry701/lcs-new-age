@@ -86,4 +86,39 @@ void main() {
     expect(catalog['bypass the vault\'s electronic lock'],
         'contornar a fechadura eletrônica do cofre');
   });
+
+  test('possessive and object pronouns keep Portuguese word order', () {
+    expect(catalog['{pronoun} cellphone'], 'o celular {pronoun}');
+    expect(catalog['{pronoun} goldfish'], 'o peixinho dourado {pronoun}');
+    expect(catalog['{pronoun} fursona'], 'a fursona {pronoun}');
+    expect(catalog['{pronoun} anime waifu'], 'a waifu de anime {pronoun}');
+    expect(
+      catalog['{name} will be returned to prison to resume {pronoun} earlier sentence.'],
+      '{name} será devolvido à prisão para continuar cumprindo a pena anterior {pronoun}.',
+    );
+    expect(
+      catalog['The ransom money is lost in the chaos, but {lead} manages to escape with {possessive} life.'],
+      contains('com a vida {possessive}'),
+    );
+    expect(
+      catalog['{possessive} face was completely caved in'],
+      'o rosto {possessive} fosse completamente esmagado',
+    );
+    expect(
+      catalog['{possessive} arm was broken in multiple places'],
+      'o braço {possessive} fosse quebrado em vários lugares',
+    );
+    expect(
+      catalog['{subject} was paralyzed from the neck down'],
+      '{subject} perdesse os movimentos do pescoço para baixo',
+    );
+    expect(
+      catalog['{subject} was vomiting blood'],
+      '{subject} vomitasse sangue',
+    );
+    expect(
+      catalog['looks like {pronoun} might have changed {possessive} mind about some things.'],
+      'parece que {pronoun} pode ter mudado o ponto de vista {possessive} sobre algumas coisas.',
+    );
+  });
 }

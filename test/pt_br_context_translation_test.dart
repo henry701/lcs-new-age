@@ -67,24 +67,40 @@ void main() {
   });
 
   test('audited phrases do not retain literal or non-Portuguese wording', () {
-    expect(catalog['{letter} - Travel to a Different City'],
-        '{letter} - Viajar para outra cidade');
-    expect(catalog['{name} charms the jury into not calling the guards, but fails '],
-        contains('júri'));
-    expect(catalog['{name} knocks on people\'s doors, turned away every time.'],
-        contains('rejeitado'));
+    expect(
+      catalog['{letter} - Travel to a Different City'],
+      '{letter} - Viajar para outra cidade',
+    );
+    expect(
+      catalog['{name} charms the jury into not calling the guards, but fails '],
+      contains('júri'),
+    );
+    expect(
+      catalog['{name} knocks on people\'s doors, turned away every time.'],
+      contains('rejeitado'),
+    );
     expect(catalog['Legislative Agenda {year}'], 'Agenda Legislativa {year}');
-    expect(catalog['{name} brandishes the {weapon}!'],
-        '{name} empunha o {weapon}!');
-    expect(catalog['a video tour of the Chernobyl dead zone'],
-        'um vídeo mostrando a zona morta de Chernobyl');
+    expect(
+      catalog['{name} brandishes the {weapon}!'],
+      '{name} empunha o {weapon}!',
+    );
+    expect(
+      catalog['a video tour of the Chernobyl dead zone'],
+      'um vídeo mostrando a zona morta de Chernobyl',
+    );
     expect(catalog['cowers in the corner.'], 'Encolhe-se no canto.');
-    expect(catalog['crawls off trailing blood...'],
-        'Rasteja para longe, deixando um rastro de sangue...');
-    expect(catalog['issue with you, we\'re not gonna try to bring you to justice '],
-        startsWith('político com você'));
-    expect(catalog['bypass the vault\'s electronic lock'],
-        'contornar a fechadura eletrônica do cofre');
+    expect(
+      catalog['crawls off trailing blood...'],
+      'Rasteja para longe, deixando um rastro de sangue...',
+    );
+    expect(
+      catalog['issue with you, we\'re not gonna try to bring you to justice '],
+      startsWith('político com você'),
+    );
+    expect(
+      catalog['bypass the vault\'s electronic lock'],
+      'contornar a fechadura eletrônica do cofre',
+    );
   });
 
   test('possessive and object pronouns keep Portuguese word order', () {
@@ -119,6 +135,30 @@ void main() {
     expect(
       catalog['looks like {pronoun} might have changed {possessive} mind about some things.'],
       'parece que {pronoun} pode ter mudado o ponto de vista {possessive} sobre algumas coisas.',
+    );
+  });
+
+  test('reviewed action translations preserve their gameplay context', () {
+    expect(catalog['{name} unlocks the cell!'], '{name} destranca a cela!');
+    expect(
+      catalog['President {name} has been impeached for corruption.'],
+      'O presidente {name} sofreu impeachment por corrupção.',
+    );
+    expect(
+      catalog['{name} gets high off drugs smuggled into the prison.'],
+      '{name} fica chapado com drogas contrabandeadas para a prisão.',
+    );
+    expect(
+      catalog['{name} will hit the streets and cause trouble.'],
+      '{name} vai às ruas causar problemas.',
+    );
+    expect(
+      catalog['C - Spend a week and {price} on a cheap vacation (stands up other dates).'],
+      'C - Passar uma semana e gastar {price} em férias baratas (cancela outros encontros).',
+    );
+    expect(
+      catalog['CABLE NEWS BIAS REVEALED'],
+      'VIÉS DAS NOTÍCIAS A CABO REVELADO',
     );
   });
 }

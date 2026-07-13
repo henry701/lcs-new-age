@@ -274,13 +274,13 @@
     },
     {
       "file": "daily/hostages/ransom.dart",
-      "line": 88,
+      "line": 90,
       "text": "\\$${intr.ransomAmount}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "daily/hostages/ransom.dart",
-      "line": 164,
+      "line": 166,
       "text": "\\$${intr.ransomAmount}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -988,79 +988,79 @@
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 67,
+      "line": 75,
       "text": "$locale",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 71,
+      "line": 79,
       "text": "$locale",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 82,
+      "line": 90,
       "text": "$locale",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 102,
+      "line": 110,
       "text": "$locale",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 127,
+      "line": 135,
       "text": "$normalizedKey",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 140,
+      "line": 148,
       "text": "$locale",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 150,
+      "line": 158,
       "text": "$locale",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 156,
+      "line": 164,
       "text": "$locale",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 186,
+      "line": 194,
       "text": "$englishText",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 211,
+      "line": 219,
       "text": "$englishText",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 244,
+      "line": 252,
       "text": "$englishText",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 268,
+      "line": 276,
       "text": "$englishText",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 272,
+      "line": 280,
       "text": "$englishText",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
@@ -1072,139 +1072,145 @@
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 43,
+      "line": 51,
       "text": "$locale::$englishText",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 57,
+      "line": 65,
       "text": "{${match.group(1)!}}",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 67,
+      "line": 75,
       "text": "LcsI18n: Already initialized with locale \"$locale\"",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 71,
+      "line": 79,
       "text": "LcsI18n: Initializing with locale \"$locale\"",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 82,
+      "line": 90,
       "text": "LcsI18n: Successfully initialized with locale \"$locale\"",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 102,
+      "line": 110,
       "text": "LcsI18n: No ARB files found for locale \"$locale\"",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 127,
+      "line": 135,
       "text": "LcsI18n: WARNING - Duplicate key \"$normalizedKey\" found in $file (previously loaded)",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 134,
+      "line": 142,
       "text": "LcsI18n: Failed to load $file: $e",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 140,
+      "line": 148,
       "text": "LcsI18n: ERROR - Found ${duplicateKeys.length} duplicate keys across ${localeFiles.length} files for locale \"$locale\"",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 143,
+      "line": 151,
       "text": "LcsI18n: Duplicate keys: ${duplicateKeys.take(5).join(\", \")}${duplicateKeys.length > 5 ? \"...\" : \"\"}",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 150,
+      "line": 158,
       "text": "LcsI18n: Loaded ${mergedTranslations.length} translations from ${localeFiles.length} file(s) for locale \"$locale\"",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 156,
+      "line": 164,
       "text": "LcsI18n: Failed to load locale \"$locale\": $e",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 186,
+      "line": 194,
       "text": "LcsI18n: Not initialized, returning original text: \"$englishText\"",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 211,
+      "line": 219,
       "text": "LcsI18n: WARNING - Untranslated string in $_currentLocale: \"$englishText\"",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 244,
+      "line": 252,
       "text": "LcsI18n: Translation error for \"$englishText\": $e",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 268,
+      "line": 276,
       "text": "LcsI18n: Using English fallback for \"$englishText\" in $_currentLocale",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 272,
+      "line": 280,
       "text": "LcsI18n: Missing translation for \"$englishText\" in $_currentLocale",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 308,
+      "line": 315,
+      "text": "$pronoun (possessive)",
+      "reason": "Localization infrastructure for translating pronoun role keys; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 331,
       "text": "{$key}",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 372,
+      "line": 418,
       "text": "{$paramName}",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 396,
+      "line": 442,
       "text": "{$paramName}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 421,
+      "line": 470,
       "text": "${paramName}Color",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 423,
+      "line": 472,
       "text": "&$colorKey$value&$baseColorKey",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 433,
+      "line": 482,
       "text": "&$colorKey$value&$baseColorKey",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
@@ -1246,25 +1252,25 @@
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 156,
+      "line": 158,
       "text": "{${match.group(1)!}}",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 177,
+      "line": 179,
       "text": "ARB directory not found: $arbDirPath",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 293,
+      "line": 297,
       "text": "^app_${RegExp.escape(locale)}_part(\\\\d+)\\\\.arb\\$",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 359,
+      "line": 363,
       "text": "${name}Color",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },

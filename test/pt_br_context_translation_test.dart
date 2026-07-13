@@ -126,6 +126,22 @@ void main() {
       catalog['Preview — arrow keys move, Esc exits · Floor '],
       'Prévia — use as setas para mover, Esc para sair · Andar ',
     );
+    expect(
+      catalog['The pursuing headlights flash in your mirrors.'],
+      'Os faróis dos carros que perseguem você piscam nos seus retrovisores.',
+    );
+    expect(
+      catalog['is forced into a headlock!'],
+      'é imobilizado com uma chave de cabeça!',
+    );
+    expect(
+      catalog['media, the Conservative masses are pouring into {district} '],
+      'sociais, as massas conservadoras invadem {district} ',
+    );
+    expect(
+      catalog['speaks into a loudspeaker: "Liberal Crime Squad! We\'re here '],
+      'fala em um alto-falante: "Esquadrão do Crime Liberal! Estamos aqui.',
+    );
     expect(catalog['"Huh?" <looks dumbfounded>'], '"Hã?" <parece estupefato>');
     expect(
       catalog.values.where((value) => value.contains('se autodenominam')),

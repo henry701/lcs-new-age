@@ -160,5 +160,17 @@ void main() {
       catalog['CABLE NEWS BIAS REVEALED'],
       'VIÉS DAS NOTÍCIAS A CABO REVELADO',
     );
+    expect(
+      catalog['{name} asks {lead} if {leadPronoun} ever think about Jesus.'],
+      '{name} pergunta a {lead} se {leadPronoun} já pensa em Jesus.',
+    );
+    expect(
+      catalog['{name} asks {lead} if {leadPronoun} ever thinks about Jesus.'],
+      '{name} pergunta a {lead} se {leadPronoun} já pensa em Jesus.',
+    );
+    expect(
+      catalog['{leadHisHer} mind if {leadHeShe} thinks '],
+      'mente {leadHisHer} se {leadHeShe} pensa ',
+    );
   });
 }

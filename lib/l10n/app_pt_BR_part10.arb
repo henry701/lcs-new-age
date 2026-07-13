@@ -198,6 +198,7 @@
   "{key} - ": "{key} – ",
   "{key} - {category}:": "{key} - {category}:",
   "{lead} goes to pick up the money at {location}. {subject} {action}...": "{lead} vai buscar o dinheiro em {location}. {subject} {action}...",
+  "{name} asks {lead} if {leadPronoun} ever think about Jesus.": "{name} pergunta a {lead} se {leadPronoun} já pensa em Jesus.",
   "{name} couldn't see how to {action}!": "{name} não conseguiu ver como {action}!",
   "{name} dies instantly.": "{name} morre instantaneamente.",
   "{name} dismisses the activities and asks some rather ": "{name} dispensa as atividades e pergunta algumas ",

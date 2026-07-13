@@ -188,6 +188,7 @@
   "{key} - ": "{key} - ",
   "{key} - {category}:": "{key} - {category}:",
   "{lead} goes to pick up the money at {location}. {subject} {action}...": "{lead} goes to pick up the money at {location}. {subject} {action}...",
+  "{name} asks {lead} if {leadPronoun} ever think about Jesus.": "{name} asks {lead} if {leadPronoun} ever think about Jesus.",
   "{name} couldn't see how to {action}!": "{name} couldn't see how to {action}!",
   "{name} dies instantly.": "{name} dies instantly.",
   "{name} dismisses the activities and asks some rather ": "{name} dismisses the activities and asks some rather ",

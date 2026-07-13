@@ -1,6 +1,7 @@
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/dice.dart';
+import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/hostages/tend_hostage.dart';
 import 'package:lcs_new_age/engine/engine.dart';
@@ -339,6 +340,9 @@ Future<void> handleLoveBombing(
         intr.rapport[lead.id] =
             (intr.rapport[lead.id] ?? 0) - lcsRandom(10) * 0.1;
       } else if (cr.skill(Skill.religion) > lead.skill(Skill.religion)) {
+        final religionQuestion = lead.gender == Gender.nonbinary
+            ? "{name} asks {lead} if {leadPronoun} ever think about Jesus."
+            : "{name} asks {lead} if {leadPronoun} ever thinks about Jesus.";
         description = LcsI18n.processString(
           [
             "{lead} is unable to shake {name}'s religious conviction.",
@@ -347,14 +351,13 @@ Future<void> handleLoveBombing(
             "{name} explains the Conservative tenets of {namePossessive} faith.",
             "{name} praises the Lord for this moment to converse.",
             "{name} prays that health finds them both.",
-            "{name} asks {lead} if {leadPronoun} ever think{leadS} about Jesus.",
+            religionQuestion,
           ].random,
           {
             "name": cr.name,
             "lead": lead.name,
             "namePossessive": cr.gender.hisHer,
             "leadPronoun": lead.gender.heShe,
-            "leadS": lead.gender.s,
           },
         );
         lead.train(Skill.religion, cr.skill(Skill.religion) * 4);

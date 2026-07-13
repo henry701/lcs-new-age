@@ -331,7 +331,7 @@ void main() {
     );
     expect(
       catalog["\"Stand still so I can pick you up!\""],
-      "\"Fique parado para eu poder pegá-lo!\"",
+      "\"Fique parado para eu poder te levantar!\"",
     );
     expect(catalog['at the Shopping Mall'], 'no shopping center');
     expect(catalog['blood draining'], 'drenagem de sangue');
@@ -548,7 +548,64 @@ void main() {
   test('reviewed UI and dialogue translations preserve gameplay context', () {
     expect(
       catalog["\"Are you Jamaican?  Cuz Jamaican me horny.\""],
-      '"Você é jamaicano? Porque você me deixa excitado."',
+      '"Você é jamaicano? Porque você me deixa com tesão."',
+    );
+    expect(
+      catalog[
+        "\"Let's play trains...  you can sit on my face and I will chew chew chew.\""
+      ],
+      '"Vamos brincar de trem... você pode sentar na minha cara e eu vou fazer tchu-tchu-tchu."',
+    );
+    expect(
+      catalog[
+        "\"Are you tired?  You've been running around in my thoughts all day.\""
+      ],
+      '"Você está cansado? Você passou o dia todo correndo pela minha cabeça."',
+    );
+    expect(
+      catalog[
+        "\"If I said you had a nice body, would you hold it against me?\""
+      ],
+      '"Se eu dissesse que você tem um corpo bonito, você o pressionaria contra mim?"',
+    );
+    expect(
+      catalog['"Bi~ the way, are you free tonight?"'],
+      '"Bi~ falando nisso, você está livre esta noite?"',
+    );
+    expect(
+      catalog['"I\'d love to see something swell."'],
+      '"Adoraria ver algo crescer."',
+    );
+    expect(
+      catalog['"Do you want to see something swell?"'],
+      '"Você quer ver algo crescer?"',
+    );
+    expect(
+      catalog[
+        '"What do you say we go behind a rock and get a little boulder?"'
+      ],
+      '"O que você acha de irmos atrás de uma pedra e ficarmos um pouco mais ousados?"',
+    );
+    expect(
+      catalog['"Fucking LCS bullshit..."'],
+      '"Que merda de LCS..."',
+    );
+    expect(catalog['rumbles disinterestedly.'], 'ronca o motor com desinteresse.');
+    expect(
+      catalog[
+        '"Daaaaaamn {girl}, I want to wrap your legs around my face and '
+      ],
+      '"Caramba, {girl}, eu quero envolver suas pernas em volta do meu rosto e ',
+    );
+    expect(
+      catalog[
+        '"If I could change the alphabet baby, I would put the U and I together!"'
+      ],
+      '"Se eu pudesse mudar o alfabeto, baby, eu colocaria o você e o eu juntos!"',
+    );
+    expect(
+      catalog['"Wanna play army?  You lie down and I\'ll blow you away."'],
+      '"Quer brincar de soldado? Deite-se e eu te elimino com um disparo."',
     );
     expect(
       catalog["\"I can't let you take that in.\""],

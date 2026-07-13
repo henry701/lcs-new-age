@@ -1230,6 +1230,18 @@ void main() {
         isNot(contains('A autora')),
       ),
     );
+    expect(
+      catalog['tampering with lab animals'],
+      'maus-tratos a animais de laboratório',
+    );
+    expect(
+      catalog['an end.&r'],
+      'um fim.&r',
+    );
+    expect(
+      catalog['One vehicle crashed.  '],
+      'Um veículo bateu.  ',
+    );
   });
 
   test('monthly loot expose fragments translate before story assembly', () {

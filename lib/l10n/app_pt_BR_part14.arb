@@ -200,6 +200,6 @@
   "{subject} was vomiting blood": "{subject} vomitasse sangue",
   "{vehicle} ({price})": "{vehicle} — {price}",
   "{vehicle} tries to box you in!": "{vehicle} tenta te encurralar!",
-  "│   intelligence and charisma, showcasing the upsides   │": "│   inteligência e carisma, mostrando as vantagens   │",
-  "│   of consuming nuclear waste.                         │": "│   de consumir resíduos nucleares.                         │"
+  "│   intelligence and charisma, showcasing the upsides   │": "│   inteligência e carisma, mostrando as vantagens      │",
+  "│   of consuming nuclear waste.                         │": "│   de consumir resíduos nucleares.                     │"
 }

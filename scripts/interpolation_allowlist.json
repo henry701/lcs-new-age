@@ -562,7 +562,7 @@
     },
     {
       "file": "newspaper/display_news.dart",
-      "line": 408,
+      "line": 419,
       "text": "typesum: $typesum",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

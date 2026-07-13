@@ -65,6 +65,10 @@ Future<void> displayStory(NewsStory ns, View? header) async {
       story = city;
       story += " - ";
 
+      void appendNews(String text) {
+        story += LcsI18n.tr(text);
+      }
+
       Map<Drama, int> drama = {for (Drama c in Drama.values) c: 0};
       for (var c in ns.drama) {
         drama.update(c, (level) => level + 1);
@@ -121,67 +125,63 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           }
           story += "&r";
         case NewsStories.squadEscapedSiege:
-          story +=
-              "Members of the Liberal Crime Squad "
-              "escaped from a police siege yesterday, according ";
+          appendNews("Members of the Liberal Crime Squad ");
+          appendNews("escaped from a police siege yesterday, according ");
           if (!liberalguardian) {
-            story += "to a spokesperson from the police department.";
+            appendNews("to a spokesperson from the police department.");
           } else {
-            story += "to a Liberal Crime Squad spokesperson.";
+            appendNews("to a Liberal Crime Squad spokesperson.");
           }
           story += "&r";
         case NewsStories.squadFledAttack:
-          story +=
-              "Members of the Liberal Crime Squad "
-              "escaped from police officers during a raid yesterday, according ";
+          appendNews("Members of the Liberal Crime Squad ");
+          appendNews("escaped from police officers during a raid yesterday, according ");
           if (!liberalguardian) {
-            story += "to a spokesperson from the police department.";
+            appendNews("to a spokesperson from the police department.");
           } else {
-            story += "to a Liberal Crime Squad spokesperson.";
+            appendNews("to a Liberal Crime Squad spokesperson.");
           }
           story += "&r";
         case NewsStories.squadDefended:
-          story +=
-              "Members of the Liberal Crime Squad "
-              "fought off a police raid yesterday, according ";
+          appendNews("Members of the Liberal Crime Squad ");
+          appendNews("fought off a police raid yesterday, according ");
           if (!liberalguardian) {
-            story += "to a spokesperson from the police department.";
+            appendNews("to a spokesperson from the police department.");
           } else {
-            story += "to a Liberal Crime Squad spokesperson.";
+            appendNews("to a Liberal Crime Squad spokesperson.");
           }
           story += "&r";
         case NewsStories.squadBrokeSiege:
-          story +=
-              "Members of the Liberal Crime Squad "
-              "violently broke a police siege yesterday, according ";
+          appendNews("Members of the Liberal Crime Squad ");
+          appendNews("violently broke a police siege yesterday, according ");
           if (!liberalguardian) {
-            story += "to a spokesperson from the police department.";
+            appendNews("to a spokesperson from the police department.");
           } else {
-            story += "to a Liberal Crime Squad spokesperson.";
+            appendNews("to a Liberal Crime Squad spokesperson.");
           }
           story += "&r";
         case NewsStories.squadKilledInSiegeAttack:
-          story += "Members of the Liberal Crime Squad were ";
+          appendNews("Members of the Liberal Crime Squad were ");
           if (!liberalguardian) {
-            story +=
-                "slain during a police raid yesterday, according "
-                "to a spokesperson from the police department.";
+            appendNews("slain during a police raid yesterday, according ");
+            appendNews("to a spokesperson from the police department.");
           } else {
-            story +=
-                "murdered during a police raid yesterday, according "
-                "to a Liberal Crime Squad spokesperson.";
+            appendNews("murdered during a police raid yesterday, according ");
+            appendNews("to a Liberal Crime Squad spokesperson.");
           }
           story += "&r";
         case NewsStories.squadKilledInSiegeEscape:
-          story += "Members of the Liberal Crime Squad were ";
+          appendNews("Members of the Liberal Crime Squad were ");
           if (!liberalguardian) {
-            story +=
-                "slain trying to escape from a police siege yesterday, according "
-                "to a spokesperson from the police department.";
+            appendNews(
+              "slain trying to escape from a police siege yesterday, according ",
+            );
+            appendNews("to a spokesperson from the police department.");
           } else {
-            story +=
-                "murdered trying to escape from a police siege yesterday, according "
-                "to a Liberal Crime Squad spokesperson.";
+            appendNews(
+              "murdered trying to escape from a police siege yesterday, according ",
+            );
+            appendNews("to a Liberal Crime Squad spokesperson.");
           }
           story += "&r";
         default:
@@ -222,29 +222,38 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           if (did(Drama.shutDownReactor)) {
             if (laws[Law.nuclearPower] == DeepAlignment.eliteLiberal) {
               if (!liberalguardian) {
-                story +=
-                    "  According to sources that were at the scene, "
-                    "the Liberal Crime Squad contaminated the state's water supply"
-                    "yesterday by tampering with equipment on the site."
-                    "&r";
+                appendNews("  According to sources that were at the scene, ");
+                appendNews(
+                  "the Liberal Crime Squad contaminated the state's water supply",
+                );
+                story += " ";
+                appendNews("yesterday by tampering with equipment on the site.");
+                story += "&r";
               } else {
-                story +=
-                    "  The Liberal Crime Squad tampered with the state's water supply yesterday, "
-                    "demonstrating the extreme dangers of Nuclear Waste. "
-                    "&r";
+                appendNews(
+                  "  The Liberal Crime Squad tampered with the state's water supply yesterday, ",
+                );
+                appendNews(
+                  "demonstrating the extreme dangers of Nuclear Waste. ",
+                );
+                story += "&r";
               }
             } else {
               if (!liberalguardian) {
-                story +=
-                    "  According to sources that were at the scene, "
-                    "the Liberal Crime Squad nearly caused a catastrophic meltdown of the nuclear "
-                    "reactor."
-                    "&r";
+                appendNews("  According to sources that were at the scene, ");
+                appendNews(
+                  "the Liberal Crime Squad nearly caused a catastrophic meltdown of the nuclear ",
+                );
+                appendNews("reactor.");
+                story += "&r";
               } else {
-                story +=
-                    "  The Liberal Crime Squad brought the reactor to the verge of a nuclear meltdown, "
-                    "demonstrating the extreme vulnerability and danger of Nuclear Power Plants. "
-                    "&r";
+                appendNews(
+                  "  The Liberal Crime Squad brought the reactor to the verge of a nuclear meltdown, ",
+                );
+                appendNews(
+                  "demonstrating the extreme vulnerability and danger of Nuclear Power Plants. ",
+                );
+                story += "&r";
               }
             }
           }
@@ -394,23 +403,25 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           if (typesum > 0) {
             if (!ccs) {
               if (!liberalguardian) {
-                story +=
-                    "  Further details are sketchy, but police sources suggest that the LCS "
-                    "engaged in ";
+                appendNews(
+                  "  Further details are sketchy, but police sources suggest that the LCS ",
+                );
+                appendNews("engaged in ");
               } else {
-                story += "  The Liberal Crime Squad ";
+                appendNews("  The Liberal Crime Squad ");
               }
             } else {
-              story +=
-                  "  Further details are sketchy, but police sources suggest that the CCS "
-                  "engaged in ";
+              appendNews(
+                "  Further details are sketchy, but police sources suggest that the CCS ",
+              );
+              appendNews("engaged in ");
             }
             debugPrint("typesum: $typesum");
             void addDrama(String drama, [String? alt]) {
               if (!liberalguardian || ccs) {
-                story += drama;
+                story += LcsI18n.tr(drama);
               } else {
-                story += alt ?? drama;
+                story += LcsI18n.tr(alt ?? drama);
               }
               if (typesum >= 3) {
                 story += ", ";
@@ -487,34 +498,36 @@ Future<void> displayStory(NewsStory ns, View? header) async {
 
           if (did(Drama.carChase)) {
             if (!liberalguardian || ccs) {
-              story +=
-                  "  It is known that there was a high-speed chase "
-                  "following the incident.  ";
+              appendNews("  It is known that there was a high-speed chase ");
+              appendNews("following the incident.  ");
             } else {
-              story +=
-                  "  Conservative operatives engaged in a reckless "
-                  "pursuit of the LCS.  ";
+              appendNews("  Conservative operatives engaged in a reckless ");
+              appendNews("pursuit of the LCS.  ");
             }
 
             if (did(Drama.carCrash)) {
               if (drama[Drama.carCrash]! > 1) {
-                story += drama[Drama.carCrash].toString();
-                story += " vehicles crashed.  ";
+                story += LcsI18n.processString(
+                  "{count} vehicles crashed.  ",
+                  {"count": drama[Drama.carCrash].toString()},
+                );
               } else {
-                story += "One vehicle crashed.  ";
+                appendNews("One vehicle crashed.  ");
               }
               if (!liberalguardian || ccs) {
-                story += "Details about injuries were not released.  ";
+                appendNews("Details about injuries were not released.  ");
               }
             }
 
             if (did(Drama.footChase)) {
               if (!liberalguardian || ccs) {
-                story +=
-                    "There was also a foot chase when the suspect or suspects bailed out after the high-speed pursuit.  ";
+                appendNews(
+                  "There was also a foot chase when the suspect or suspects bailed out after the high-speed pursuit.  ",
+                );
               } else {
-                story +=
-                    "The Liberal Crime Squad ended the dangerous high-speed chase in order to protect the public, and attempted to escape on foot.  ";
+                appendNews(
+                  "The Liberal Crime Squad ended the dangerous high-speed chase in order to protect the public, and attempted to escape on foot.  ",
+                );
               }
             }
             story += "&r";
@@ -523,22 +536,19 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           String culprit = ccs ? "CCS" : "LCS";
           if (ns.publicationAlignment == DeepAlignment.archConservative) {
             if (ns.type == NewsStories.squadKilledInSiteAction) {
-              story +=
-                  "  A prominent gun advocacy group remarked that it was only "
-                  "thanks to the bravery of people carrying guns that this "
-                  "didn't turn out worse, and those who stood by and did nothing "
-                  "were just as guilty as the ones who committed the crime.&r";
+              appendNews("  A prominent gun advocacy group remarked that it was only ");
+              appendNews("thanks to the bravery of people carrying guns that this ");
+              appendNews("didn't turn out worse, and those who stood by and did nothing ");
+              appendNews("were just as guilty as the ones who committed the crime.&r");
             } else {
               if (ccs) {
-                story +=
-                    "  A prominent gun advocacy group noted that increased "
-                    "gun ownership would help to bring violence like this to "
-                    "an end.&r";
+                appendNews("  A prominent gun advocacy group noted that increased ");
+                appendNews("gun ownership would help to bring violence like this to ");
+                appendNews("an end.&r");
               } else {
-                story +=
-                    "  A prominent gun advocacy group noted that it was "
-                    "unfortunate that there weren't more armed citizens in "
-                    "the area to stop this from happening.&r";
+                appendNews("  A prominent gun advocacy group noted that it was ");
+                appendNews("unfortunate that there weren't more armed citizens in ");
+                appendNews("the area to stop this from happening.&r");
               }
             }
           } else if (did(Drama.legalGunUsed)) {

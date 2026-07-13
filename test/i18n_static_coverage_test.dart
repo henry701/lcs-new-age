@@ -1148,6 +1148,18 @@ void main() {
       expect(monthly, isNot(contains('story += "sexually assaulting')));
     });
 
+    test('crime news drama fragments translate before story assembly', () {
+      final displayNews = File(
+        'lib/newspaper/display_news.dart',
+      ).readAsStringSync();
+      expect(displayNews, contains('void appendNews(String text)'));
+      expect(displayNews, contains('story += LcsI18n.tr(text);'));
+      expect(displayNews, contains('appendNews("Members of the Liberal Crime Squad ");'));
+      expect(displayNews, contains('story += LcsI18n.tr(drama);'));
+      expect(displayNews, contains('appendNews("One vehicle crashed.  ");'));
+      expect(displayNews, isNot(contains('story += "arson"')));
+    });
+
     test(
       'hostage plan labels render their params and costs before display',
       () {

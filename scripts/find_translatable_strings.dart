@@ -271,10 +271,21 @@ void main(List<String> args) async {
             final raw = match.group(1);
             if (raw == null) continue;
             final stringLiteral = _unescapeStringLiteral(raw);
+            final allowHeadlineTokens =
+                function == 'LcsI18n.tr' ||
+                function == 'displayCenteredNewsFont' ||
+                function == 'headline';
+            if (function == 'headline' &&
+                (stringLiteral.length > 48 ||
+                    stringLiteral.startsWith('The ') ||
+                    stringLiteral.startsWith('A '))) {
+              continue;
+            }
             if (_isUserFacing(
               stringLiteral,
-              // LcsI18n.tr() typically uses single words for dynamic translations
-              allowSingleWord: function == 'LcsI18n.tr',
+              minLength: allowHeadlineTokens ? 3 : 4,
+              // Tabloid headlines are often ALL CAPS tokens like "CCS MASSACRE".
+              allowSingleWord: allowHeadlineTokens,
             )) {
               _recordString(
                 stringInfo,
@@ -679,6 +690,28 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
         r"\baddCenteredOptionText\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'",
       ),
       'addCenteredOptionText',
+    ),
+
+    // Newspaper tabloid headlines (5x5 caps font; translated inside displayCenteredNewsFont)
+    (
+      RegExp(
+        r'\bdisplayCenteredNewsFont\s*\(\s*"((?:[^"\\]|\\.)*)"',
+      ),
+      'displayCenteredNewsFont',
+    ),
+    (
+      RegExp(
+        r"\bdisplayCenteredNewsFont\s*\(\s*'((?:[^'\\]|\\.)*)'",
+      ),
+      'displayCenteredNewsFont',
+    ),
+    (
+      RegExp(r'\bheadline:\s*"((?:[^"\\]|\\.)*)"'),
+      'headline',
+    ),
+    (
+      RegExp(r"\bheadline:\s*'((?:[^'\\]|\\.)*)'"),
+      'headline',
     ),
 
     // LcsI18n.tr() calls for dynamic translations

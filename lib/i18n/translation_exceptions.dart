@@ -19,7 +19,9 @@ const Set<String> structuralTranslationKeys = {
   '3 - Hospital ({hospital})',
   '{first} {middleInitial}. {last}',
   ' ({price})',
+  'CEO',
+  'Cuba',
   'DNA',
   'DEO VINDICE',
-  'Cuba',
+  'KINKY WINKY',
 };

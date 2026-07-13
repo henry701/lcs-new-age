@@ -911,7 +911,11 @@ void displayCenteredNewsFont(
   int y,
   NewsStory ns, {
   bool? useBigFont,
+  bool noTranslate = false,
 }) {
+  if (!noTranslate) {
+    str = LcsI18n.tr(str);
+  }
   if (ns.headline == "") {
     ns.headline = str;
   } else {

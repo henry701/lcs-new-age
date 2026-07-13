@@ -1172,6 +1172,15 @@ void main() {
       expect(displayNews, isNot(contains('story += "The bodies had no faces or "')));
     });
 
+    test('centered newspaper headlines translate in displayCenteredNewsFont', () {
+      final displayNews = File(
+        'lib/newspaper/display_news.dart',
+      ).readAsStringSync();
+      expect(displayNews, contains('str = LcsI18n.tr(str);'));
+      expect(displayNews, contains('displayCenteredNewsFont("CCS MASSACRE"'));
+      expect(displayNews, contains('displayCenteredNewsFont("KIDNAPPED"'));
+    });
+
     test(
       'hostage plan labels render their params and costs before display',
       () {

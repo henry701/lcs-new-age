@@ -331,7 +331,7 @@ void main() {
     );
     expect(
       catalog["\"Stand still so I can pick you up!\""],
-      "\"Fique parado para eu poder te levantar!\"",
+      "\"Fique parado para eu poder te cantar!\"",
     );
     expect(catalog['at the Shopping Mall'], 'no shopping center');
     expect(catalog['blood draining'], 'drenagem de sangue');
@@ -574,11 +574,11 @@ void main() {
     );
     expect(
       catalog['"I\'d love to see something swell."'],
-      '"Adoraria ver algo crescer."',
+      '"Adoraria ver algo inchar."',
     );
     expect(
       catalog['"Do you want to see something swell?"'],
-      '"Você quer ver algo crescer?"',
+      '"Quer ver algo inchar?"',
     );
     expect(
       catalog[
@@ -605,7 +605,7 @@ void main() {
     );
     expect(
       catalog['"Wanna play army?  You lie down and I\'ll blow you away."'],
-      '"Quer brincar de soldado? Deite-se e eu te elimino com um disparo."',
+      '"Quer brincar de soldado? Deite-se que eu te explodo."',
     );
     expect(
       catalog["\"I can't let you take that in.\""],
@@ -1053,6 +1053,65 @@ void main() {
     expect(
       catalog['"Tonight?  I can make space for a gay old time."'],
       '"Hoje à noite? Posso abrir espaço para uma noitada bem gay."',
+    );
+  });
+
+  test('pickup innuendo and CEO critique fragments stay idiomatic', () {
+    expect(
+      catalog['"Wanna play army?  You lie down and I\'ll blow you away."'],
+      '"Quer brincar de soldado? Deite-se que eu te explodo."',
+    );
+    expect(
+      catalog['"Do you want to see something swell?"'],
+      '"Quer ver algo inchar?"',
+    );
+    expect(
+      catalog['"I\'d love to see something swell."'],
+      '"Adoraria ver algo inchar."',
+    );
+    expect(
+      catalog['"I\'d rather feel something swell."'],
+      '"Prefiro sentir algo inchar."',
+    );
+    expect(
+      catalog['"I\'d rather let you feel something swell."'],
+      '"Prefiro deixar você sentir algo inchar."',
+    );
+    expect(
+      catalog['"Stand still so I can pick you up!"'],
+      '"Fique parado para eu poder te cantar!"',
+    );
+    expect(
+      catalog['Because I can\'t help but check out your package."'],
+      'Porque não consigo deixar de secar seu pacote."',
+    );
+    expect(
+      catalog[
+        '"Because I could have sworn you were checking out my packages."'
+      ],
+      '"Porque eu poderia jurar que você estava secando meus pacotes."',
+    );
+    expect(
+      catalog['"I know I\'ve seen you on the back of a milk carton, '],
+      '"Sei que já te vi na caixa de leite de desaparecido, ',
+    );
+    expect(
+      catalog['imprisoned and tortured an intern'],
+      'prendeu e torturou um estagiário',
+    );
+    expect(
+      catalog['breastfed from a lactating woman'],
+      'mamou numa mulher lactante',
+    );
+    expect(
+      catalog[
+        'I just tried it myself and I feel like a million bucks!  *Coughs up blood*  I\'m OK, that\'s just ketchup'
+      ],
+      contains('ketchup'),
+    );
+    expect(
+      catalog['leftists suffering from the mental disorder chemophobia'],
+      contains('quimofobia'),
     );
   });
 }

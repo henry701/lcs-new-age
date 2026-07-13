@@ -1264,5 +1264,13 @@ void main() {
       catalog["{name}'s {article} about this is electrifying. "],
       '{article} de {name} sobre isso é eletrizante. ',
     );
+    expect(
+      catalog['│   by impressive advertising, America tunes in.    │'],
+      contains('sintoniza'),
+    );
+    expect(
+      catalog['│   by impressive advertising, America tunes in.    │'],
+      isNot(contains('ajusta')),
+    );
   });
 }

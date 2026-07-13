@@ -783,15 +783,15 @@ void main() {
   test('pickup-line failure responses preserve insults, puns, and stage directions', () {
     expect(
       catalog["'Cause you're inspiring an uprising in my lower class.\""],
-      "'Cause você está inspirando um levante na minha classe trabalhadora.\"",
+      'Porque você está inspirando um levante na minha classe trabalhadora."',
     );
     expect(
       catalog["'Cause I seem to be inspiring an uprising in your lower class.\""],
-      "'Cause parece que estou inspirando um levante na sua classe trabalhadora.\"",
+      'Porque parece que estou inspirando um levante na sua classe trabalhadora."',
     );
     expect(
       catalog["'Cause you're bringing some heat to my lower class.\""],
-      "'Cause você está esquentando a minha classe trabalhadora.\"",
+      'Porque você está esquentando a minha classe trabalhadora."',
     );
     expect(
       catalog['"You\'re such an asshole!" <pouts>'],
@@ -835,7 +835,7 @@ void main() {
     );
     expect(
       catalog['"Hot damn.  You\'re built like a brick shithouse, {honey}."'],
-      '"Caramba. Você é sólida que nem casa de tijolo, {honey}."',
+      '"Caramba. Você é forte que nem uma latrina de tijolo, {honey}."',
     );
   });
 
@@ -1112,6 +1112,69 @@ void main() {
     expect(
       catalog['leftists suffering from the mental disorder chemophobia'],
       contains('quimofobia'),
+    );
+  });
+
+  test('major_event and pickup fragments compose without grammar bugs', () {
+    final pensionKey = englishCatalog.keys.singleWhere(
+      (key) => key.contains('cutting pensions {cutAmount}'),
+    );
+    final pensionStory = catalog[pensionKey]!;
+    for (final cutAmount in {
+      'by 50%': 'em 50%',
+      'by 75%': 'em 75%',
+      'entirely': 'por completo',
+    }.entries) {
+      final composed = pensionStory.replaceAll(
+        '{cutAmount}',
+        catalog[cutAmount.key]!,
+      );
+      expect(
+        composed,
+        contains('cortaria as pensões ${cutAmount.value}'),
+        reason: cutAmount.key,
+      );
+    }
+    expect(pensionStory, isNot(contains('em {cutAmount}')));
+
+    expect(catalog['fucked'], 'fodeu');
+    expect(
+      catalog['the arresting officers "favors"'],
+      '"favores" aos policiais que prenderam',
+    );
+    expect(
+      catalog['to let the officers join in'],
+      'deixar os oficiais participarem',
+    );
+    expect(
+      catalog['lost his {swear} mind'],
+      'perdeu o juízo, {swear}',
+    );
+    expect(
+      catalog["'Cause you're inspiring an uprising in my lower class.\""],
+      'Porque você está inspirando um levante na minha classe trabalhadora."',
+    );
+    expect(
+      catalog[
+        '"Hot damn.  You\'re built like a brick shithouse, {honey}."'
+      ],
+      '"Caramba. Você é forte que nem uma latrina de tijolo, {honey}."',
+    );
+    expect(
+      catalog[
+        'screamed "Fuck the police those goddamn motherfuckers.  I got a fucking ticket this morning and I\'m fucking pissed as shit."'
+      ],
+      contains('multa'),
+    );
+    expect(
+      catalog[
+        'pass new laws to protect the most vulnerable children '
+      ],
+      'aprovar novas leis para proteger as crianças mais vulneráveis ',
+    );
+    expect(
+      catalog['in our society from being slaughtered by Liberals'],
+      'em nossa sociedade de serem massacrados pelos Liberais',
     );
   });
 }

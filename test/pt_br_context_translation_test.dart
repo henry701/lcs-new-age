@@ -137,7 +137,7 @@ void main() {
     );
     expect(
       catalog['"A human after my own heart, in more ways than one."'],
-      '"Uma pessoa segundo o meu coração, de várias maneiras."',
+      '"Uma pessoa feita à minha medida, de várias maneiras."',
     );
     expect(catalog['{name1} {versus} {name2}'], '{name1} {versus} {name2}');
     expect(
@@ -635,11 +635,11 @@ void main() {
     );
     expect(
       catalog['and edgy your merch is. You\'re just not cool enough for your merch '],
-      'e ousada é sua mercadoria. Você simplesmente não é legal o suficiente para sua mercadoria ',
+      'e ousada é sua mercadoria. Você simplesmente não é descolado o suficiente para sua mercadoria ',
     );
     expect(
       catalog['edgy your art is. You\'re just not cool enough for your art to draw '],
-      'ousada é sua arte. Você simplesmente não é legal o suficiente para sua arte atrair ',
+      'ousada é sua arte. Você simplesmente não é descolado o suficiente para sua arte atrair ',
     );
     expect(
       catalog['some blog posts up on the internet, but it will take a long time '],

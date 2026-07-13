@@ -734,7 +734,7 @@ void main() {
       catalog[
         'Because I could have sworn you were checking out my package."'
       ],
-      'Porque eu poderia jurar que você estava secando meu pacote."',
+      '"Porque eu poderia jurar que você estava secando meu pacote."',
     );
     expect(
       catalog['"Yeah, and you\'re going to repay me tonight."'],
@@ -962,6 +962,70 @@ void main() {
     expect(
       catalog['"The last thing I need is another sex scandal."'],
       '"A última coisa que preciso é de outro escândalo sexual."',
+    );
+  });
+
+  test('major newspaper satire keeps ironic voice and grammar', () {
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.contains('assassino em série confesso'),
+      ),
+      allOf(
+        contains('tribunal de apelações notoriamente liberal daqui'),
+        contains('Obrigado por me salvar de mim mesmo'),
+        contains('crise econômica atual'),
+      ),
+    );
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.contains('indústria de alimentos geneticamente modificados'),
+      ),
+      allOf(
+        contains('este incrível novo produto na verdade {benefit}'),
+        contains('pura {hooey}'),
+        contains('padrão ético superior'),
+      ),
+    );
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.startsWith('{city} - A poluição talvez não seja tão ruim'),
+      ),
+      contains('só precisa tirar um fôlego neste caso'),
+    );
+  });
+
+  test('pickup puns stay consistent across variants', () {
+    expect(
+      catalog['"Winter\'s coming.  You\'d better bust more than one."'],
+      '"O inverno está chegando. É melhor estourar mais de uma."',
+    );
+    expect(
+      catalog['"Winter\'s coming.  I\'d better bust more than one."'],
+      '"O inverno está chegando. É melhor eu estourar mais de um."',
+    );
+    expect(
+      catalog['"Hey pop tart, fancy coming in my toaster of love?"'],
+      '"Ei, tortinha, gostaria de entrar na minha torradeira do amor?"',
+    );
+    expect(
+      catalog['"Hey, fancy letting my pop tart into your toaster of love?"'],
+      '"Que tal deixar minha tortinha entrar na sua torradeira do amor?"',
+    );
+    expect(
+      catalog['"Come to me armed, and I\'ll tell you to take a hike."'],
+      '"Venha armado falar comigo e eu mando você cair fora."',
+    );
+    expect(
+      catalog['"If I said you had a nice body, would you hold it against me?"'],
+      '"Se eu dissesse que você tem um corpo bonito, deixaria eu encostar ele em mim?"',
+    );
+    expect(
+      catalog['"Are you Jamaican?  Cuz Jamaican me horny."'],
+      '"Você é da Jamaica? Porque você já me deixou com tesão."',
+    );
+    expect(
+      catalog['"What do you say we go behind a rock and get a little boulder?"'],
+      '"O que você acha de irmos atrás de uma pedra e ficarmos um pouco mais atrevidos?"',
     );
   });
 }

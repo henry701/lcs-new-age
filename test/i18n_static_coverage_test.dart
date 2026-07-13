@@ -1160,6 +1160,18 @@ void main() {
       expect(displayNews, isNot(contains('story += "arson"')));
     });
 
+    test('massacre news story fragments translate before story assembly', () {
+      final displayNews = File(
+        'lib/newspaper/display_news.dart',
+      ).readAsStringSync();
+      expect(displayNews, contains('appendNews("Two bodies were ");'));
+      expect(displayNews, contains('appendNews("A body was ");'));
+      expect(displayNews, contains('appendNews("victims were members ");'));
+      expect(displayNews, contains('appendNews("It was execution style.  Professional.  We\'ve got nothing");'));
+      expect(displayNews, isNot(contains('story += " Two bodies were "')));
+      expect(displayNews, isNot(contains('story += "The bodies had no faces or "')));
+    });
+
     test(
       'hostage plan labels render their params and costs before display',
       () {

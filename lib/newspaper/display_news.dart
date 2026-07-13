@@ -32,12 +32,16 @@ Future<void> displayStory(NewsStory ns, View? header) async {
   erase();
   preparePage(ns, liberalguardian);
 
-  String story;
+  String story = '';
   List<int> storyXStart = [for (var i = 0; i < 25; i++) 1];
   List<int> storyXEnd = [for (var i = 0; i < 25; i++) 78];
   displayAds(ns, liberalguardian, storyXStart, storyXEnd);
 
   String city = ns.loc?.city.name ?? randomCityName();
+
+  void appendNews(String text) {
+    story += LcsI18n.tr(text);
+  }
 
   switch (ns.type) {
     case NewsStories.majorEvent:
@@ -65,10 +69,6 @@ Future<void> displayStory(NewsStory ns, View? header) async {
       story = city;
       story += " - ";
 
-      void appendNews(String text) {
-        story += LcsI18n.tr(text);
-      }
-
       Map<Drama, int> drama = {for (Drama c in Drama.values) c: 0};
       for (var c in ns.drama) {
         drama.update(c, (level) => level + 1);
@@ -76,52 +76,80 @@ Future<void> displayStory(NewsStory ns, View? header) async {
 
       switch (ns.type) {
         case NewsStories.ccsNoBackers:
-          story +=
-              "The FBI investigation into the Conservative Crime Squad's government connections has led to the arrest of more than "
-              "a dozen elected officials and revealed extensive corruption in law enforcement."
-              "&r"
-              "  \"The uphevals in the police force, and arrest of corrupt officials, are only the beginning,\" FBI Chief "
-              "Roberta T. Malton said during a news conference.  \"A major focus "
-              "of our efforts will be on the complete destruction of the Conservative Crime Squad. Within six months, we'll have their "
-              "entire leadership, dead or alive. I personally guarantee it.\""
-              "&r";
+          appendNews(
+            "The FBI investigation into the Conservative Crime Squad's government connections has led to the arrest of more than ",
+          );
+          appendNews(
+            "a dozen elected officials and revealed extensive corruption in law enforcement.",
+          );
+          story += "&r";
+          appendNews(
+            "  \"The uphevals in the police force, and arrest of corrupt officials, are only the beginning,\" FBI Chief ",
+          );
+          appendNews(
+            "Roberta T. Malton said during a news conference.  \"A major focus ",
+          );
+          appendNews(
+            "of our efforts will be on the complete destruction of the Conservative Crime Squad. Within six months, we'll have their ",
+          );
+          appendNews(
+            "entire leadership, dead or alive. I personally guarantee it.\"",
+          );
+          story += "&r";
         case NewsStories.ccsDefeated:
-          story +=
-              "An elite FBI force conducted simultaneous "
-              "raids on several suspected Conservative Crime Squad safehouses in the early hours. Despite resistance from "
-              "CCS terrorists armed with automatic weapons and body armor, no FBI agents were killed in the raids, and all "
-              "three raids were successful. Seventeen suspects were killed in the fighting, and twenty-three are "
-              "now in custody."
-              "&r"
-              "  The Conservative Crime Squad fell on hard times when the alternative news site Liberal Guardian published "
-              "1147 pages of documents showing extensive government support for the group. The ensuing scandal "
-              "led to the arrest of twenty-five members of Congress, as well as several leadership figures in the "
-              "Conservative Party's National Committee."
-              "&r"
-              "  \"I want parents to rest easy tonight,\" FBI Chief "
-              "Roberta T. Malton said during a news conference to announce the raids.  \"You don't need the Liberal Crime Squad "
-              "to protect you. The Government can handle it.\""
-              "&r";
+          appendNews("An elite FBI force conducted simultaneous ");
+          appendNews(
+            "raids on several suspected Conservative Crime Squad safehouses in the early hours. Despite resistance from ",
+          );
+          appendNews(
+            "CCS terrorists armed with automatic weapons and body armor, no FBI agents were killed in the raids, and all ",
+          );
+          appendNews(
+            "three raids were successful. Seventeen suspects were killed in the fighting, and twenty-three are ",
+          );
+          appendNews("now in custody.");
+          story += "&r";
+          appendNews(
+            "  The Conservative Crime Squad fell on hard times when the alternative news site Liberal Guardian published ",
+          );
+          appendNews(
+            "1147 pages of documents showing extensive government support for the group. The ensuing scandal ",
+          );
+          appendNews(
+            "led to the arrest of twenty-five members of Congress, as well as several leadership figures in the ",
+          );
+          appendNews("Conservative Party's National Committee.");
+          story += "&r";
+          appendNews("  \"I want parents to rest easy tonight,\" FBI Chief ");
+          appendNews(
+            "Roberta T. Malton said during a news conference to announce the raids.  \"You don't need the Liberal Crime Squad ",
+          );
+          appendNews("to protect you. The Government can handle it.\"");
+          story += "&r";
         case NewsStories.arrestGoneWrong:
         case NewsStories.carTheft:
-          story +=
-              "A routine arrest went horribly wrong yesterday, "
-              "according to a spokesperson from the police department.&r"
-              "  A suspect, whose identity is unclear, killed ";
+          appendNews("A routine arrest went horribly wrong yesterday, ");
+          appendNews(
+            "according to a spokesperson from the police department.&r",
+          );
+          appendNews("  A suspect, whose identity is unclear, killed ");
           if (drama[Drama.killedSomebody]! > 1) {
-            story += drama[Drama.killedSomebody].toString();
-            story += " police officers that were";
+            story += LcsI18n.processString("{count} police officers that were", {
+              "count": drama[Drama.killedSomebody].toString(),
+            });
           } else {
-            story += "a police officer that was";
+            appendNews("a police officer that was");
           }
-          story += " attempting to perform an arrest.  ";
+          appendNews(" attempting to perform an arrest.  ");
 
           if (drama[Drama.killedSomebody]! > 1) {
-            story +=
-                "The names of the officers have not been released pending notification of their families.";
+            appendNews(
+              "The names of the officers have not been released pending notification of their families.",
+            );
           } else {
-            story +=
-                "The name of the officer has not been released pending notification of the officer's family.";
+            appendNews(
+              "The name of the officer has not been released pending notification of the officer's family.",
+            );
           }
           story += "&r";
         case NewsStories.squadEscapedSiege:
@@ -259,140 +287,164 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           }
           if (did(Drama.openedPoliceLockup)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to sources that were at the scene, "
-                  "the Liberal Crime Squad allegedly freed or attempted to free prisoners from the police lockup."
-                  "&r";
+              appendNews("  According to sources that were at the scene, ");
+              appendNews(
+                "the Liberal Crime Squad allegedly freed or attempted to free prisoners from the police lockup.",
+              );
+              story += "&r";
             } else {
-              story +=
-                  "  The Liberal Crime Squad attempted to rescue innocent people from the police lockup, "
-                  "saving them from torture and brutality at the hands of Conservative police interrogators."
-                  "&r";
+              appendNews(
+                "  The Liberal Crime Squad attempted to rescue innocent people from the police lockup, ",
+              );
+              appendNews(
+                "saving them from torture and brutality at the hands of Conservative police interrogators.",
+              );
+              story += "&r";
             }
           }
           if (did(Drama.bankVaultRobbery)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to sources that were at the scene, "
-                  "the Liberal Crime Squad opened the bank vault, which held more than \$100,000 at the time."
-                  "&r";
+              appendNews("  According to sources that were at the scene, ");
+              appendNews(
+                "the Liberal Crime Squad opened the bank vault, which held more than \$100,000 at the time.",
+              );
+              story += "&r";
             } else {
-              story +=
-                  "  The Liberal Crime Squad opened the bank vault, "
-                  "showing the triumph of Liberal ideals over Conservative economics."
-                  "&r";
+              appendNews("  The Liberal Crime Squad opened the bank vault, ");
+              appendNews(
+                "showing the triumph of Liberal ideals over Conservative economics.",
+              );
+              story += "&r";
             }
           } else if (did(Drama.bankStickup)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to sources that were at the scene, "
-                  "the Liberal Crime Squad threatened innocent bystanders in order to rob the bank vault."
-                  "&r";
+              appendNews("  According to sources that were at the scene, ");
+              appendNews(
+                "the Liberal Crime Squad threatened innocent bystanders in order to rob the bank vault.",
+              );
+              story += "&r";
             } else {
-              story +=
-                  "  The Liberal Crime Squad demanded access to the bank vault, "
-                  "hoping to acquire the resources to overcome evil."
-                  "&r";
+              appendNews(
+                "  The Liberal Crime Squad demanded access to the bank vault, ",
+              );
+              appendNews(
+                "hoping to acquire the resources to overcome evil.",
+              );
+              story += "&r";
             }
           }
           if (did(Drama.openedCourthouseLockup)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to sources that were at the scene, "
-                  "the Liberal Crime Squad allegedly freed or attempted to free prisoners from the courthouse lockup."
-                  "&r";
+              appendNews("  According to sources that were at the scene, ");
+              appendNews(
+                "the Liberal Crime Squad allegedly freed or attempted to free prisoners from the courthouse lockup.",
+              );
+              story += "&r";
             } else {
-              story +=
-                  "  The Liberal Crime Squad attempted to rescue innocent people from the courthouse lockup, "
-                  "saving them from the highly corrupt Conservative justice system."
-                  "&r";
+              appendNews(
+                "  The Liberal Crime Squad attempted to rescue innocent people from the courthouse lockup, ",
+              );
+              appendNews(
+                "saving them from the highly corrupt Conservative justice system.",
+              );
+              story += "&r";
             }
           }
           if (did(Drama.releasedPrisoners)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to sources that were at the scene, "
-                  "the Liberal Crime Squad allegedly freed prisoners while in the facility."
-                  "&r";
+              appendNews("  According to sources that were at the scene, ");
+              appendNews(
+                "the Liberal Crime Squad allegedly freed prisoners while in the facility.",
+              );
+              story += "&r";
             } else {
-              story +=
-                  "  The Liberal Crime Squad attempted to rescue innocent people from the abusive Conservative conditions "
-                  "at the prison."
-                  "&r";
+              appendNews(
+                "  The Liberal Crime Squad attempted to rescue innocent people from the abusive Conservative conditions ",
+              );
+              appendNews("at the prison.");
+              story += "&r";
             }
           }
           if (did(Drama.juryTampering)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to police sources that were at the scene, "
-                  "the Liberal Crime Squad allegedly violated the sacred "
-                  "trust and attempted to influence a jury."
-                  "&r";
+              appendNews("  According to police sources that were at the scene, ");
+              appendNews("the Liberal Crime Squad allegedly violated the sacred ");
+              appendNews("trust and attempted to influence a jury.");
+              story += "&r";
             } else {
-              story +=
-                  "  The Liberal Crime Squad has apologized over reports that the operation "
-                  "may have interfered with jury deliberations."
-                  "&r";
+              appendNews(
+                "  The Liberal Crime Squad has apologized over reports that the operation ",
+              );
+              appendNews("may have interfered with jury deliberations.");
+              story += "&r";
             }
           }
           if (did(Drama.hackedIntelSupercomputer)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to police sources that were at the scene, "
-                  "intelligence officials seemed very nervous about something."
-                  "&r";
+              appendNews("  According to police sources that were at the scene, ");
+              appendNews(
+                "intelligence officials seemed very nervous about something.",
+              );
+              story += "&r";
             } else {
-              story +=
-                  "  Liberal Crime Squad computer specialists worked to liberate information from CIA computers."
-                  "&r";
+              appendNews(
+                "  Liberal Crime Squad computer specialists worked to liberate information from CIA computers.",
+              );
+              story += "&r";
             }
           }
           if (did(Drama.openedArmory)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to sources, "
-                  "the Liberal Crime Squad attempted to break into the armory."
-                  "&r";
+              appendNews("  According to sources, ");
+              appendNews(
+                "the Liberal Crime Squad attempted to break into the armory.",
+              );
+              story += "&r";
             } else {
-              story +=
-                  "  Liberal Crime Squad infiltration specialists worked to liberate weapons from the oppressors."
-                  "&r";
+              appendNews(
+                "  Liberal Crime Squad infiltration specialists worked to liberate weapons from the oppressors.",
+              );
+              story += "&r";
             }
           }
           if (did(Drama.openedCEOSafe)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to police sources that were at the scene, "
-                  "the owner of the house seemed very frantic about some missing property."
-                  "&r";
+              appendNews("  According to police sources that were at the scene, ");
+              appendNews(
+                "the owner of the house seemed very frantic about some missing property.",
+              );
+              story += "&r";
             } else {
-              story +=
-                  "  The Liberal Crime Squad was attempting to uncover the CEO's Conservative corruption."
-                  "&r";
+              appendNews(
+                "  The Liberal Crime Squad was attempting to uncover the CEO's Conservative corruption.",
+              );
+              story += "&r";
             }
           }
           if (did(Drama.stoleCorpFiles)) {
             if (!liberalguardian) {
-              story +=
-                  "  According to police sources that were at the scene, "
-                  "executives on the scene seemed very nervous about something."
-                  "&r";
+              appendNews("  According to police sources that were at the scene, ");
+              appendNews(
+                "executives on the scene seemed very nervous about something.",
+              );
+              story += "&r";
             } else {
-              story +=
-                  "  The Liberal Crime Squad was attempting to uncover the company's Conservative corruption."
-                  "&r";
+              appendNews(
+                "  The Liberal Crime Squad was attempting to uncover the company's Conservative corruption.",
+              );
+              story += "&r";
             }
           }
           if (did(Drama.hijackedBroadcast)) {
             if (!liberalguardian) {
-              story +=
-                  "  The Liberal Crime Squad hijacked a news broadcast, "
-                  "interrupting regular programming."
-                  "&r";
+              appendNews("  The Liberal Crime Squad hijacked a news broadcast, ");
+              appendNews("interrupting regular programming.");
+              story += "&r";
             } else {
-              story +=
-                  "  The Liberal Crime Squad delivered its message to the masses today."
-                  "&r";
+              appendNews(
+                "  The Liberal Crime Squad delivered its message to the masses today.",
+              );
+              story += "&r";
             }
           }
 
@@ -633,124 +685,132 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           "count": ns.siegebodycount.toString(),
         });
       } else if (ns.siegebodycount > 1) {
-        story += " Two bodies were ";
+        appendNews("Two bodies were ");
       } else {
-        story += " A body was ";
+        appendNews("A body was ");
       }
       story += LcsI18n.processString(" found in the {location} yesterday.", {
         "location": ns.loc!.name,
       });
       if (!liberalguardian) {
-        story +=
-            "  According to a spokesperson for "
-            "the police department, the matter is under investigation as a homicide."
-            "&r"
-            "  Privately, sources in the department confide that there aren't any leads.  "
-            "According to one person familiar with the case, \"";
+        appendNews("  According to a spokesperson for ");
+        appendNews(
+          "the police department, the matter is under investigation as a homicide.",
+        );
+        story += "&r";
+        appendNews(
+          "  Privately, sources in the department confide that there aren't any leads.  ",
+        );
+        appendNews('According to one person familiar with the case, "');
       } else {
-        story +=
-            "  The police have opened an investigation into the massacre, but seem "
-            "unwilling to pursue the case with any serious effort."
-            "&r"
-            "  The Liberal Crime Squad has claimed that the ";
+        appendNews(
+          "  The police have opened an investigation into the massacre, but seem ",
+        );
+        appendNews("unwilling to pursue the case with any serious effort.");
+        story += "&r";
+        appendNews("  The Liberal Crime Squad has claimed that the ");
         if (ns.siegebodycount > 1) {
-          story += "victims were members ";
+          appendNews("victims were members ");
         } else {
-          story += "victim was a member ";
+          appendNews("victim was a member ");
         }
-        story +=
-            "of the LCS targeted simply due to their political beliefs.  "
-            "According to an LCS spokesperson, \"";
+        appendNews("of the LCS targeted simply due to their political beliefs.  ");
+        appendNews('According to an LCS spokesperson, "');
       }
       switch (ns.siegetype) {
         case SiegeType.none:
-          story +=
-              "We have no idea who did this, or why, or how it happened.  "
-              "It's a complete mystery.  A bug in the game even.  "
-              "We're working closely with the programmers to find out what happened.\"";
+          appendNews("We have no idea who did this, or why, or how it happened.  ");
+          appendNews("It's a complete mystery.  A bug in the game even.  ");
+          appendNews(
+            "We're working closely with the programmers to find out what happened.\"",
+          );
         case SiegeType.cia:
           if (!liberalguardian) {
             if (ns.siegebodycount > 1) {
-              story += "The bodies had no faces or ";
+              appendNews("The bodies had no faces or ");
             } else {
-              story += "The body had no face or ";
+              appendNews("The body had no face or ");
             }
-            story += "fingerprints.  Like, it was all smooth.  ";
+            appendNews("fingerprints.  Like, it was all smooth.  ");
             if (noProfanity) {
-              story += "[Strangest] thing I've ever seen";
+              appendNews("[Strangest] thing I've ever seen");
             } else if (laws[Law.freeSpeech] == DeepAlignment.eliteLiberal) {
-              story += "Damnedest thing I've ever seen";
+              appendNews("Damnedest thing I've ever seen");
             } else {
-              story += "D*mnd*st thing I've ever seen";
+              appendNews("D*mnd*st thing I've ever seen");
             }
           } else {
-            story +=
-                "We have strong evidence that this was an extra-judicial slaughter "
-                "carried out by the Central Intelligence Agency in retaliation for our "
-                "previous actions to uncover human rights abuses and corruption in the "
-                "intelligence community";
+            appendNews(
+              "We have strong evidence that this was an extra-judicial slaughter ",
+            );
+            appendNews(
+              "carried out by the Central Intelligence Agency in retaliation for our ",
+            );
+            appendNews(
+              "previous actions to uncover human rights abuses and corruption in the ",
+            );
+            appendNews("intelligence community");
           }
         case SiegeType.police:
           if (!liberalguardian) {
-            story +=
-                "It's just a gang-related incident.  "
-                "You know, the usual.  "
-                "Some people just don't know how to live in a civilized society";
+            appendNews("It's just a gang-related incident.  ");
+            appendNews("You know, the usual.  ");
+            appendNews(
+              "Some people just don't know how to live in a civilized society",
+            );
           } else {
-            story +=
-                "It was the cops.  They'll say otherwise, but we know the truth.  "
-                "There is no excusing this kind of brutality.  We will not rest until "
-                "this kind of government-condoned violence is stopped.  We will not be "
-                "intimidated, and we will not be silenced";
+            appendNews("It was the cops.  They'll say otherwise, but we know the truth.  ");
+            appendNews(
+              "There is no excusing this kind of brutality.  We will not rest until ",
+            );
+            appendNews("this kind of government-condoned violence is stopped.  We will not be ");
+            appendNews("intimidated, and we will not be silenced");
           }
         case SiegeType.angryRuralMob:
           if (!liberalguardian) {
-            story +=
-                "...  stabbed with, maybe, pitchforks.  There may have "
-                "been bite marks.  Nothing recognizable left.  Complete carnage.";
+            appendNews("...  stabbed with, maybe, pitchforks.  There may have ");
+            appendNews("been bite marks.  Nothing recognizable left.  Complete carnage.");
           } else {
-            story +=
-                "We have reason to believe that this brutal massacre was "
-                "inspired by the Conservative media's brainwashing propaganda";
+            appendNews("We have reason to believe that this brutal massacre was ");
+            appendNews(
+              "inspired by the Conservative media's brainwashing propaganda",
+            );
           }
         case SiegeType.corporateMercs:
           if (!liberalguardian) {
-            story +=
-                "It was execution style.  Professional.  We've got nothing";
+            appendNews("It was execution style.  Professional.  We've got nothing");
           } else {
-            story +=
-                "This massacre has the signature mark of a group of mercenaries "
-                "known to work with several corporations we've had confrontations "
-                "with in the past.  *When* the police can't figure this one out, they're "
-                "just covering it up";
+            appendNews("This massacre has the signature mark of a group of mercenaries ");
+            appendNews(
+              "known to work with several corporations we've had confrontations ",
+            );
+            appendNews(
+              "with in the past.  *When* the police can't figure this one out, they're ",
+            );
+            appendNews("just covering it up");
           }
         case SiegeType.medicalDebtCollectors:
           if (!liberalguardian) {
-            story +=
-                "The victims were all found to have overdosed on drugs. "
-                "And there were bullet holes everywhere. The building was "
-                "more chewed up than the victims. Our lead theory is that "
-                "they did it to themselves, but who knows?";
+            appendNews("The victims were all found to have overdosed on drugs. ");
+            appendNews("And there were bullet holes everywhere. The building was ");
+            appendNews("more chewed up than the victims. Our lead theory is that ");
+            appendNews("they did it to themselves, but who knows?");
           } else {
-            story +=
-                "This was carried out by debt collectors for the medical "
-                "industry. They'll say otherwise, but we know the truth. "
-                "The sooner we can move to a single payer system, the better.";
+            appendNews("This was carried out by debt collectors for the medical ");
+            appendNews("industry. They'll say otherwise, but we know the truth. ");
+            appendNews("The sooner we can move to a single payer system, the better.");
           }
         case SiegeType.ccs:
           if (!liberalguardian) {
-            story +=
-                "Look, it was a Conservative Crime Squad hit, that's all we know, "
-                "no names, no faces, not even where it happened really";
+            appendNews("Look, it was a Conservative Crime Squad hit, that's all we know, ");
+            appendNews("no names, no faces, not even where it happened really");
           } else {
-            story +=
-                "This is the doing of the Conservative Crime Squad butchers.  "
-                "They have to be stopped before they kill again";
+            appendNews("This is the doing of the Conservative Crime Squad butchers.  ");
+            appendNews("They have to be stopped before they kill again");
           }
       }
-      story +=
-          ".\"  "
-          "&r";
+      story += ".\"  ";
+      story += "&r";
 
       story += generateFiller(200);
       displayNewsStory(story, storyXStart, storyXEnd, y, ns);

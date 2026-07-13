@@ -256,7 +256,7 @@ void main() {
     );
     expect(
       catalog['mutters "fuck yes" under {hisHer} breath.'],
-      'murmura "foda-se, sim" por entre os dentes {hisHer}.',
+      'murmura "caralho, sim" baixinho, no fôlego {hisHer}.',
     );
     expect(
       catalog['looks like {pronoun} might have changed {possessive} mind about some things.'],
@@ -357,7 +357,7 @@ void main() {
     );
     expect(
       catalog["instructing a female anchor to 'slim down or get a new job'."],
-      "instruir uma apresentadora a 'emagrecer ou conseguir um novo emprego'.",
+      "instruindo uma apresentadora a 'emagrecer ou conseguir um novo emprego'.",
     );
     expect(
       catalog["\"All we are saying is give fleas a chance.\""],
@@ -431,7 +431,7 @@ void main() {
     );
     expect(
       catalog['{city} - A new book has quickly risen to the top of the bestseller lists, {bookTitle}.  The author, a former abortion doctor, has dedicated {authorPossessive} retirement to discouraging women from having abortions.  The book includes many stories about women who regret having abortions and interviews with adult survivors of failed abortions.  Reviews say that the book is powerful and moving, and many readers have changed the way they think about the morality of abortion.&r  According to U.S. Representative {politicianName}, one of the most vocal pro-life representatives in Congress, the book is "a clear message to Americans, calling on us to {callToAction}."&r'],
-      contains('ex-médica que realizava abortos'),
+      contains('ex-médico abortista'),
     );
     expect(catalog['{name} unlocks the cell!'], '{name} destranca a cela!');
     expect(
@@ -548,7 +548,7 @@ void main() {
   test('reviewed UI and dialogue translations preserve gameplay context', () {
     expect(
       catalog["\"Are you Jamaican?  Cuz Jamaican me horny.\""],
-      '"Você é da Jamaica? Porque você já me deixou com tesão."',
+      '"Você é da Jamaica? Porque já me deixou com tesão."',
     );
     expect(
       catalog[
@@ -764,7 +764,7 @@ void main() {
     );
     expect(
       catalog['"My sex could do even more."'],
-      '"Minha sexualidade poderia te deixar ainda mais nervoso."',
+      '"Meu sexo poderia te deixar ainda mais nervoso."',
     );
     expect(
       catalog['"Want me to keep \'em on in bed?"'],
@@ -894,7 +894,7 @@ void main() {
     );
     expect(
       catalog['"Is that a keg in your pants?  Cuz I\'d love to tap that ass."'],
-      '"É um barril nas suas calças? Porque eu adoraria dar uma tapinha nesse traseiro."',
+      '"É um barril nas suas calças? Porque eu adoraria abrir essa torneira."',
     );
     expect(
       catalog["it's a blin wayzo thing, you wouldn't understand."],
@@ -1040,7 +1040,7 @@ void main() {
     );
     expect(
       catalog['"Are you Jamaican?  Cuz Jamaican me horny."'],
-      '"Você é da Jamaica? Porque você já me deixou com tesão."',
+      '"Você é da Jamaica? Porque já me deixou com tesão."',
     );
     expect(
       catalog['"What do you say we go behind a rock and get a little boulder?"'],
@@ -1175,6 +1175,60 @@ void main() {
     expect(
       catalog['in our society from being slaughtered by Liberals'],
       'em nossa sociedade de serem massacrados pelos Liberais',
+    );
+  });
+
+  test('newspaper fragments and pickup idioms avoid literal mistranslations', () {
+    expect(
+      catalog[
+        '"Fuck me if I\'m wrong but you want to kiss me, right?"'
+      ],
+      '"Me fode se eu estiver errado, mas você quer me beijar, certo?"',
+    );
+    expect(
+      catalog['"This isn\'t a goth club, ripped clothes don\'t cut it here."'],
+      '"Isto não é um clube gótico; roupas rasgadas não servem aqui."',
+    );
+    expect(
+      catalog['"This isn\'t a goth club, bloody clothes don\'t cut it here."'],
+      '"Isto não é um clube gótico; roupas ensanguentadas não servem aqui."',
+    );
+    expect(
+      catalog[
+        'documenting a conspiracy to coordinate rents across multiple major land ownership companies.'
+      ],
+      startsWith('documentando'),
+    );
+    expect(
+      catalog[
+        'documenting the use of an AI system specifically designed to coordinate rent price fixing.'
+      ],
+      startsWith('documentando'),
+    );
+    expect(
+      catalog['documenting overmedication as a form of chemical restraint.'],
+      startsWith('documentando'),
+    );
+    expect(
+      catalog[
+        'Ho, shit! I dig it, but you know... I could never be seen sayin\' yes.'
+      ],
+      'Puta merda, curti! Mas sabe... nunca poderia ser visto dizendo sim.',
+    );
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.contains('preguiçoso de merda'),
+      ),
+      contains('Me passaram para trás'),
+    );
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.contains('ex-médico abortista'),
+      ),
+      allOf(
+        contains('O autor'),
+        isNot(contains('A autora')),
+      ),
     );
   });
 }

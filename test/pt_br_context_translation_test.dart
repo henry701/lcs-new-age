@@ -584,7 +584,7 @@ void main() {
       catalog[
         '"What do you say we go behind a rock and get a little boulder?"'
       ],
-      '"O que você acha de irmos atrás de uma pedra e ficarmos um pouco mais atrevidos?"',
+      '"O que você acha de irmos atrás de um rochedo e ficarmos um pouquinho mais ousados?"',
     );
     expect(
       catalog['"Fucking LCS bullshit..."'],
@@ -963,7 +963,7 @@ void main() {
     );
     expect(
       catalog['"At least then you\'d be liquidated." <stares intently>'],
-      '"Pelo menos, seria liquidado." <olha fixamente>',
+      '"Pelo menos você seria liquefeito." <olha fixamente>',
     );
     expect(
       catalog['"This ain\'t Brokeback Mountain, son."'],
@@ -1044,11 +1044,11 @@ void main() {
     );
     expect(
       catalog['"What do you say we go behind a rock and get a little boulder?"'],
-      '"O que você acha de irmos atrás de uma pedra e ficarmos um pouco mais atrevidos?"',
+      '"O que você acha de irmos atrás de um rochedo e ficarmos um pouquinho mais ousados?"',
     );
     expect(
       catalog['"Oooo, we should get stoned too!  He he."'],
-      '"Oooo, a gente também devia ficar um pouco mais atrevidos! He he."',
+      '"Oooo, a gente também devia ficar chapado! He he."',
     );
     expect(
       catalog['"Tonight?  I can make space for a gay old time."'],

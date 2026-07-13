@@ -389,6 +389,27 @@ void main() {
       'revogar impostos redistributivos',
     );
     expect(
+      catalog['Uses Computers.  Requires a Hacker Den.'],
+      'Usa Computadores.  Requer um Covil de Hackers.',
+    );
+    expect(catalog['HACKER DEN'], 'COVIL DE HACKERS');
+    expect(
+      catalog["Oh, uh... I don't think we can date, I don't have a pronoun."],
+      'Ah, hum... Acho que não podemos namorar; não tenho um pronome.',
+    );
+    expect(
+      catalog["\"Uh, maybe you should wash... replace... those clothes.\""],
+      "\"Hum, talvez você devesse lavar... substituir... essas roupas.\"",
+    );
+    expect(
+      catalog["Nah, I don't find you trans folks attractive."],
+      'Não, não acho vocês pessoas trans atraentes.',
+    );
+    expect(
+      catalog['a crowded movie theater lobby'],
+      'um saguão de cinema lotado',
+    );
+    expect(
       catalog['UNDER ATTACK: ESCAPE OR ENGAGE'],
       'SOB ATAQUE: FUGIR OU ENFRENTAR',
     );

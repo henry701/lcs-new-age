@@ -33,7 +33,7 @@
     }
   },
   "A - Accept.": "A - Aceitar.",
-  "A Cable News anchor just accidentally let a Liberal guest ": "Um âncora de TV a cabo acabou deixando escapar por acidente um convidado liberal ",
+  "A Cable News anchor just accidentally let a Liberal guest ": "Uma âncora de TV a cabo acabou deixando escapar por acidente um convidado Liberal ",
   "Agi: {agi}": "Agilidade: {agi}",
   "Alarms go off!": "Alarmes disparam!",
   "B - Threaten hostages": "B - Ameaçar reféns",
@@ -103,7 +103,7 @@
   "Retirement has been integrated with UBI and is no longer based on age or work.": "A aposentadoria foi integrada à Renda Básica Universal e não depende mais de idade ou trabalho.",
   "Rio": "Rio (marca)",
   "Ronald Reagan is to be King, forever, even after death.": "Ronald Reagan deve ser Rei, para sempre, mesmo após a morte.",
-  "Run, you Conservative swine!": "Corra, você porco Conservador!",
+  "Run, you Conservative swine!": "Corra, seu porco Conservador!",
   "Same sex marriages are not legally recognized.": "Casamentos entre pessoas do mesmo sexo não são legalmente reconhecidos.",
   "Santa Clara, CA": "Santa Clara, California",
   "Shadow": "Sombra",
@@ -178,7 +178,7 @@
   "is caught in the act of trying to escape": "é pego no ato de tentar escapar",
   "limit protections for noncitizens": "limitar proteções para não-cidadãos",
   "looks like {heShe} is trying to figure out what to say.": "parece que {heShe} está tentando descobrir o que dizer.",
-  "looks on with authority.": "observa com autoridade.",
+  "looks on with authority.": "observa com ar de autoridade.",
   "make children behave better": "fazer crianças se comportarem melhor",
   "makes sure there are no obvious cops in the area": "certifica-se de que não há policiais à vista na área",
   "of the Liberal Crime Squad!": "do Esquadrão do Crime Liberal!",
@@ -195,7 +195,7 @@
   "slain trying to escape from a police siege yesterday, according ": "morto tentando escapar de um cerco policial ontem, segundo ",
   "so {lead} can show unconditional acceptance and ": "para que {lead} possa mostrar aceitação incondicional e ",
   "stated that, \"Segregation wasn't the bad idea everybody makes it out to be these days\"": "declarou que \"a segregação não era a má ideia que todo mundo diz hoje em dia\"",
-  "the cost of healthcare": "o custo da saúde",
+  "the cost of healthcare": "o custo dos cuidados de saúde",
   "to be served concurrently with your existing sentence.": "a ser cumprida simultaneamente com sua pena atual.",
   "to rubber stamp his radical Arch-Conservative agenda. ": "para carimbar sua agenda radical Arqui-Conservadora. ",
   "two small backpacks": "duas mochilas pequenas",
@@ -217,7 +217,7 @@
   "{name} puts on an anti-crime performance in prison.": "{name} faz uma apresentação anticrime na prisão.",
   "{name} will independently study {skill}.": "{name} vai estudar {skill} de forma independente.",
   "{name} will join the active LCS.": "{name} vai se juntar ao LCS ativo.",
-  "{name} {escape}": "{name}  {escape}",
+  "{name} {escape}": "{name} {escape}",
   "{name}'S {part} IS SLICED OFF!": "A PARTE {part} DE {name} FOI DECEPADA!",
   "{name}'s Conservative beliefs are shaken.": "As crenças Conservadoras de {name} estão abaladas.",
   "{name}'s arguments are pretty good.": "Os argumentos de {name} são muito bons.",
@@ -227,5 +227,5 @@
   "{site}, {city}": "{city} — {site}",
   "{squad} leaves {pronoun} alone.": "{squad} deixa {pronoun} em paz.",
   "{squad} looks around {site}.": "{squad} olha ao redor de {site}.",
-  "{subject} {action}.": "{subject}: {action}."
+  "{subject} {action}.": "{subject} {action}."
 }

@@ -141,7 +141,7 @@
   "crumples under a flurry of blows!": "desmorona sob uma saraivada de golpes!",
   "does the Matrix dodge!": "faz a esquiva Matrix!",
   "get you into the news and make you a household name if you're not ": "vai colocá-lo nas notícias e torná-lo conhecido se você não for ",
-  "gets away by the skin of {possessive} teeth": "escapa por um triz, quase perdendo os dentes {possessive}",
+  "gets away by the skin of {possessive} teeth": "escapa por um triz, por pouco não perde os dentes {possessive}",
   "is quickly overwhelmed and arrested": "é rapidamente dominado e preso",
   "is tackled to the ground by officers": "é jogado no chão pelos oficiais",
   "jump kicks": "chutes voadores",
@@ -177,7 +177,7 @@
   "{driver} runs {vehicle} off the road!": "{driver} joga {vehicle} para fora da estrada!",
   "{firstLast} has been left in restraints as a punishment.": "Mantiveram {firstLast} sob algemas como punição.",
   "{firstLast} swears bitterly at {helper}.": "{firstLast} xinga {helper} amargamente.",
-  "{first} {middle} {last}": "Nome: {first} {middle} {last}",
+  "{first} {middle} {last}": "{first} {middle} {last}",
   "{helper} repositions {first} so {he} is more comfortable.": "{helper} reposiciona {first} para que {he} fique mais confortável.",
   "{items}, and {last}": "{items} e {last}",
   "{name} catches a bus to the next city.": "{name} pega um ônibus para a próxima cidade.",
@@ -207,5 +207,5 @@
   "{pronoun} anime waifu": "a waifu de anime {pronoun}",
   "{recruiter} offers to let {recruit} join the LCS.": "{recruiter} oferece deixar {recruit} entrar no LCS.",
   "{squad} decided {site} was too hot to risk.": "{squad} decidiu que {site} estava muito perigoso para arriscar.",
-  "│     A Cable News anchor just accidentally let a   │": "│     Um âncora de TV a cabo deixou escapar por acidente │"
+  "│     A Cable News anchor just accidentally let a   │": "│     Uma âncora de TV a cabo deixou escapar por acidente │"
 }

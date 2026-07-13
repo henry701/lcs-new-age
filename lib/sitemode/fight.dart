@@ -1734,7 +1734,7 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
     "{attacker} {attack} {target}!",
     params: {
       "attacker": a.name,
-      "attack": attackUsed.attackDescription.random,
+      "attack": LcsI18n.tr(attackUsed.attackDescription.random),
       "target": t.name,
     },
   );

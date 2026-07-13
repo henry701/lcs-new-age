@@ -1211,6 +1211,56 @@ void main() {
       expect(creation, isNot(contains(r'rate = "${quality}th"')));
     });
 
+    test(
+      'generated dynamic action and question phrases translate before insertion',
+      () {
+        final ransom = File(
+          'lib/daily/hostages/ransom.dart',
+        ).readAsStringSync();
+        final interrogation = File(
+          'lib/daily/hostages/interrogate.dart',
+        ).readAsStringSync();
+        final hardliner = File(
+          'lib/daily/activities/hardliner_fight.dart',
+        ).readAsStringSync();
+
+        expect(ransom, isNot(contains('"action": [')));
+        expect(interrogation, isNot(contains('"action": [')));
+        expect(interrogation, isNot(contains('"question": [')));
+        expect(hardliner, isNot(contains('"action": [')));
+        expect(
+          hardliner,
+          contains('"result": LcsI18n.tr(noProfanity ? "[tar]" : "shit")'),
+        );
+
+        final recruitment = File(
+          'lib/daily/recruitment.dart',
+        ).readAsStringSync();
+        final lovebomb = File(
+          'lib/daily/hostages/lovebomb.dart',
+        ).readAsStringSync();
+        final fight = File('lib/sitemode/fight.dart').readAsStringSync();
+        expect(
+          recruitment,
+          contains('"topic": LcsI18n.tr(_issueEventStrings.random)'),
+        );
+        expect(
+          recruitment,
+          contains('"law": LcsI18n.tr(Law.values.random.label)'),
+        );
+        expect(lovebomb, contains('"activity": LcsI18n.tr('));
+        expect(lovebomb, contains('"holiday": LcsI18n.tr('));
+        expect(
+          lovebomb,
+          contains('"item1": LcsI18n.tr(miniOptions.randomPop())'),
+        );
+        expect(
+          fight,
+          contains('"attack": LcsI18n.tr(attackUsed.attackDescription.random)'),
+        );
+      },
+    );
+
     test('i18n completion gate target (PLAN.md)', () {
       // Gate implemented in CatalogAuditResult.passesCompletionGate.
       expect(audit.passesCompletionGate, isTrue);

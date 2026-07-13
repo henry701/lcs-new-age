@@ -44,183 +44,189 @@ Future<void> handleLoveBombing(
     ];
     message = LcsI18n.processString("{lead} {activity}", {
       "lead": lead.name,
-      "activity": [
-        "serves {hostage} an incredible vegan feast, complete with quinoa "
-            "casserole and an oat milk latte, insisting that {pronoun} "
-            "try it all while {lead} explains the comparative carbon "
-            "footprint of the ingredients and contrasts this against the "
-            "carbon footprint of a traditional meat-based meal.",
-        "holds an in-depth microaggression workshop with {hostage}, engaging "
-            "{obj} in a series of elaborate role-playing scenarios "
-            "where they dissect even the most innocuous phrases for hidden biases "
-            "and discuss how this impacts {hostage} and others around them.",
-        "puts together a poetry slam for {hostage}, where at first {lead} "
-            "reads some of {leadPossessive} own poetry before {hostage} "
-            "is given the stage to join in with several verses of {hostagePossessive} own, "
-            "to be followed by a long discussion about the poetic form and the "
-            "lived experiences that feed into their respective verses.",
-        "holds a mock protest to bring {hostage} into the movement in spirit, "
-            "starting with an extended planning session where they pick out "
-            "phrases and put together protest signs about issues that really "
-            "matter to {hostagePossessive}.",
-        "holds a movie night with {hostage}, with a marathon of documentaries "
-            "on topics like renewable energy and intersectionality, pausing "
-            "frequently for collaborative discussions on \"what it all means\".",
-        "has {hostage} brainstorm protest sign ideas on issues that matter to "
-            "{hostagePossessive}, then helps {obj} to "
-            "put together a sign {hostagePronoun} can take out into the street "
-            "once {hostage} is released.",
-        "puts on a drag brunch for {hostage}, encouraging {obj} to "
-            "embrace self-expression and self-love through glitter, pancakes, "
-            "and RuPaul quotes.",
-        "sets up a supervised drug experimentation day for {hostage}, with a "
-            "variety of substances to try, including Cannabis, LSD, MDMA, "
-            "and psilocybin, making sure that {hostagePronoun} is "
-            "comfortable with the process and has a safe space to explore "
-            "altered states of consciousness while minimizing risk to "
-            "{hostagePossessive} health.",
-        "assigns {hostage} a stack of progressive literature, focused on readings "
-            "from bell hooks, Audre Lorde, and other feminist icons, so {hostagePronoun} "
-            "can break through the barriers of {hostagePossessive} old mindset "
-            "and start to understand the importance of intersectional feminism.",
-        "assigns {hostage} a stack of progressive literature, focused on readings "
-            "from Ngũgĩ wa Thiong'o, Edward Said, and other postcolonial theorists, "
-            "so {hostagePronoun} can start to understand the importance of "
-            "decolonizing {hostagePossessive} mind.",
-        "assigns {hostage} a stack of progressive literature, focused on readings "
-            "from Angela Davis, Frantz Fanon, and other revolutionary thinkers, "
-            "so {hostagePronoun} can start to understand some of the ideas "
-            "that underpin revolutionary left-wing politics.",
-        "assigns {hostage} a stack of progressive literature, focused on readings "
-            "from Peter Kropotkin, Emma Goldman, and other anarchist thinkers, "
-            "so {hostagePronoun} can start to question the absolute authority "
-            "of the state and the need for a more just and equitable society.",
-        "assigns {hostage} a stack of progressive literature, focused on readings "
-            "from Judith Butler, Michel Foucault, and other queer theorists, "
-            "so {hostagePronoun} can start to understand the politics of "
-            "queer liberation and the fight against gender-based oppression.",
-        "holds a mandatory self-care bootcamp for {hostage}, complete with yoga "
-            "sessions, aromatherapy, and journaling prompts like \"What does "
-            "your political inner child look like?\"",
-        "hosts a \"paint your feelings\" session for {hostage}, where {hostagePronoun} "
-            "is encouraged to express the flaws in {hostagePossessive} ideology "
-            "through abstract art, with no judgment or critique, but a deep "
-            "compassion.",
-        "organizes a personalized concert of protest-inspired music, inviting "
-            "{hostage} to join in on the harmonies, with a focus on uplifting "
-            "songs about love and unity early in the session, and then moving "
-            "into more complex and forceful pieces as the session progresses.",
-        "holds an inclusive fashion show for {hostage}, where {hostagePronoun} "
-            "can try on a variety of outfits that challenge traditional gender "
-            "norms and incorporate elements of niche subcultures, each item "
-            "linked to a discussion about the history and significance of the "
-            "style and the subculture it comes from.",
-        "brings in gardening supplies and teaches {hostage} how to grow {hostagePossessive} own "
-            "food, narrating how sowing literal seeds of change mirrors the "
-            "LCS's mission to uproot harmful ideologies.",
-        "builds an intricate escape room for {hostage}, full of puzzles about "
-            "systemic inequality, where {hostagePronoun} can only solve each "
-            "puzzle by first escaping {hostagePossessive} old mindset.",
-        "stages a puppet show for {hostage}, featuring characters like "
-            "Karl Marx and Rosa Luxemburg in a series of skits about the "
-            "history of the LCS and the importance of revolutionary "
-            "politics.",
-        "throws a holiday party for {hostage} celebrating {holiday}, complete with a {item1}, a {item2}, and a {item3}.",
-        "gives {hostage} a live chicken to hold while {lead} plays "
-            "a series of undercover videos of factory farms and slaughterhouses "
-            "for {hostagePossessive}, then encourages {obj} to "
-            "get in touch with {hostagePossessive} true feelings.",
-      ].random,
+      "activity": LcsI18n.tr(
+        [
+          "serves {hostage} an incredible vegan feast, complete with quinoa "
+              "casserole and an oat milk latte, insisting that {pronoun} "
+              "try it all while {lead} explains the comparative carbon "
+              "footprint of the ingredients and contrasts this against the "
+              "carbon footprint of a traditional meat-based meal.",
+          "holds an in-depth microaggression workshop with {hostage}, engaging "
+              "{obj} in a series of elaborate role-playing scenarios "
+              "where they dissect even the most innocuous phrases for hidden biases "
+              "and discuss how this impacts {hostage} and others around them.",
+          "puts together a poetry slam for {hostage}, where at first {lead} "
+              "reads some of {leadPossessive} own poetry before {hostage} "
+              "is given the stage to join in with several verses of {hostagePossessive} own, "
+              "to be followed by a long discussion about the poetic form and the "
+              "lived experiences that feed into their respective verses.",
+          "holds a mock protest to bring {hostage} into the movement in spirit, "
+              "starting with an extended planning session where they pick out "
+              "phrases and put together protest signs about issues that really "
+              "matter to {hostagePossessive}.",
+          "holds a movie night with {hostage}, with a marathon of documentaries "
+              "on topics like renewable energy and intersectionality, pausing "
+              "frequently for collaborative discussions on \"what it all means\".",
+          "has {hostage} brainstorm protest sign ideas on issues that matter to "
+              "{hostagePossessive}, then helps {obj} to "
+              "put together a sign {hostagePronoun} can take out into the street "
+              "once {hostage} is released.",
+          "puts on a drag brunch for {hostage}, encouraging {obj} to "
+              "embrace self-expression and self-love through glitter, pancakes, "
+              "and RuPaul quotes.",
+          "sets up a supervised drug experimentation day for {hostage}, with a "
+              "variety of substances to try, including Cannabis, LSD, MDMA, "
+              "and psilocybin, making sure that {hostagePronoun} is "
+              "comfortable with the process and has a safe space to explore "
+              "altered states of consciousness while minimizing risk to "
+              "{hostagePossessive} health.",
+          "assigns {hostage} a stack of progressive literature, focused on readings "
+              "from bell hooks, Audre Lorde, and other feminist icons, so {hostagePronoun} "
+              "can break through the barriers of {hostagePossessive} old mindset "
+              "and start to understand the importance of intersectional feminism.",
+          "assigns {hostage} a stack of progressive literature, focused on readings "
+              "from Ngũgĩ wa Thiong'o, Edward Said, and other postcolonial theorists, "
+              "so {hostagePronoun} can start to understand the importance of "
+              "decolonizing {hostagePossessive} mind.",
+          "assigns {hostage} a stack of progressive literature, focused on readings "
+              "from Angela Davis, Frantz Fanon, and other revolutionary thinkers, "
+              "so {hostagePronoun} can start to understand some of the ideas "
+              "that underpin revolutionary left-wing politics.",
+          "assigns {hostage} a stack of progressive literature, focused on readings "
+              "from Peter Kropotkin, Emma Goldman, and other anarchist thinkers, "
+              "so {hostagePronoun} can start to question the absolute authority "
+              "of the state and the need for a more just and equitable society.",
+          "assigns {hostage} a stack of progressive literature, focused on readings "
+              "from Judith Butler, Michel Foucault, and other queer theorists, "
+              "so {hostagePronoun} can start to understand the politics of "
+              "queer liberation and the fight against gender-based oppression.",
+          "holds a mandatory self-care bootcamp for {hostage}, complete with yoga "
+              "sessions, aromatherapy, and journaling prompts like \"What does "
+              "your political inner child look like?\"",
+          "hosts a \"paint your feelings\" session for {hostage}, where {hostagePronoun} "
+              "is encouraged to express the flaws in {hostagePossessive} ideology "
+              "through abstract art, with no judgment or critique, but a deep "
+              "compassion.",
+          "organizes a personalized concert of protest-inspired music, inviting "
+              "{hostage} to join in on the harmonies, with a focus on uplifting "
+              "songs about love and unity early in the session, and then moving "
+              "into more complex and forceful pieces as the session progresses.",
+          "holds an inclusive fashion show for {hostage}, where {hostagePronoun} "
+              "can try on a variety of outfits that challenge traditional gender "
+              "norms and incorporate elements of niche subcultures, each item "
+              "linked to a discussion about the history and significance of the "
+              "style and the subculture it comes from.",
+          "brings in gardening supplies and teaches {hostage} how to grow {hostagePossessive} own "
+              "food, narrating how sowing literal seeds of change mirrors the "
+              "LCS's mission to uproot harmful ideologies.",
+          "builds an intricate escape room for {hostage}, full of puzzles about "
+              "systemic inequality, where {hostagePronoun} can only solve each "
+              "puzzle by first escaping {hostagePossessive} old mindset.",
+          "stages a puppet show for {hostage}, featuring characters like "
+              "Karl Marx and Rosa Luxemburg in a series of skits about the "
+              "history of the LCS and the importance of revolutionary "
+              "politics.",
+          "throws a holiday party for {hostage} celebrating {holiday}, complete with a {item1}, a {item2}, and a {item3}.",
+          "gives {hostage} a live chicken to hold while {lead} plays "
+              "a series of undercover videos of factory farms and slaughterhouses "
+              "for {hostagePossessive}, then encourages {obj} to "
+              "get in touch with {hostagePossessive} true feelings.",
+        ].random,
+      ),
       "hostage": cr.name,
       "pronoun": cr.gender.heShe,
       "obj": cr.gender.himHer,
       "leadPossessive": lead.gender.hisHer,
       "hostagePossessive": cr.gender.hisHer,
       "hostagePronoun": cr.gender.heShe,
-      "holiday": [
-        "Intersectional Justice Jubilee",
-        "Hug-Your-Haters Day",
-        "Intersectionality Awareness Day",
-        "Queer Liberation Day",
-        "Decolonization Day",
-        "Anarchist Abolitionist Day",
-        "Feminist Resistance Day",
-        "Trans Unity Day",
-        "Rainbow Butterfly Day",
-        "Incredible Inclusivity Day",
-        "Black Power Day",
-        "African Roots Day",
-        "Black And Proud Day",
-        "Black Lives Do In Fact Matter Day",
-        "Love Wins Day",
-        "Liberalism Day",
-        "Leftist Pride Day",
-        "Social Justice Day",
-        "Adopt-A-Conservative Day",
-        "Fuck The Police Day",
-        "Radical Self-Care Day",
-        "Resistance Day",
-        "Even Prouder Pride Day",
-        "I'm A Liberal Day",
-        "Damn It's Good To Be A Liberal Day",
-        "Liberalism Is The New Black Day",
-        "Join The LCS Day",
-        "Stop Being A Conservative Day",
-      ].random,
-      "item1": miniOptions.randomPop(),
-      "item2": miniOptions.randomPop(),
-      "item3": miniOptions.randomPop(),
+      "holiday": LcsI18n.tr(
+        [
+          "Intersectional Justice Jubilee",
+          "Hug-Your-Haters Day",
+          "Intersectionality Awareness Day",
+          "Queer Liberation Day",
+          "Decolonization Day",
+          "Anarchist Abolitionist Day",
+          "Feminist Resistance Day",
+          "Trans Unity Day",
+          "Rainbow Butterfly Day",
+          "Incredible Inclusivity Day",
+          "Black Power Day",
+          "African Roots Day",
+          "Black And Proud Day",
+          "Black Lives Do In Fact Matter Day",
+          "Love Wins Day",
+          "Liberalism Day",
+          "Leftist Pride Day",
+          "Social Justice Day",
+          "Adopt-A-Conservative Day",
+          "Fuck The Police Day",
+          "Radical Self-Care Day",
+          "Resistance Day",
+          "Even Prouder Pride Day",
+          "I'm A Liberal Day",
+          "Damn It's Good To Be A Liberal Day",
+          "Liberalism Is The New Black Day",
+          "Join The LCS Day",
+          "Stop Being A Conservative Day",
+        ].random,
+      ),
+      "item1": LcsI18n.tr(miniOptions.randomPop()),
+      "item2": LcsI18n.tr(miniOptions.randomPop()),
+      "item3": LcsI18n.tr(miniOptions.randomPop()),
     });
   } else {
     message = LcsI18n.processString("{lead} {activity}", {
       "lead": lead.name,
-      "activity": [
-        "raves about how good vegan food is to {hostage}.",
-        "explains microaggressions to {hostage}.",
-        "recites some spoken word poetry for {hostage}.",
-        "quizzes {hostage} about correct recycling habits.",
-        "enthuses about the benefits of regular meditation to {hostage} "
-            "and offers to teach {obj} how to do it.",
-        "shows {hostage} pictures of people having fun at a protest and "
-            "suggests {pronoun} would get a lot out of it.",
-        "describes a progressive film to {hostage} and tells {obj} "
-            "about what it means.",
-        "tells {hostage} about some clever protest signs people have come up "
-            "with in the past.",
-        "tells {hostage} how much fun drag shows are and offers to answer "
-            "any questions {obj} has about them.",
-        "recommends {hostage} read some theory when {pronoun} gets "
-            "a chance, and tries to explain some of the complex ideas "
-            "from memory.",
-        "asks {hostage} \"What does your political inner child look like?\"",
-        "tries to do a guided meditation with {hostage}, and asks "
-            "{obj} to visualize {possessive} feelings "
-            "like a painting.",
-        "plays a selection of protest songs on {leadPossessive} cell "
-            "phone and asks {obj} what {pronoun} thinks "
-            "they mean.",
-        "challenges {hostage} to imagine a world without posessions, and "
-            "wonders if {pronoun} can.",
-        "suggests {hostage} would look good in a hemp tunic.",
-        "says {hostage} would could be a totally epic left-wing punk rebel "
-            "if {pronoun} is interested in that sort of thing.",
-        "tells {hostage} about the importance of intersectionality.",
-        "explains to {hostage} that fair trade coffee actually tastes better "
-            "and is better for the world.",
-        "works with {hostage} to imagine the best possible world.",
-        "asks {hostage} to imagine a world without prisons, and tries to "
-            "engage {obj} in a discussion about how "
-            "conflicts would be resolved if locking people away wasn't "
-            "an option.",
-        "asks {hostage} to imagine a world without borders, where moving "
-            "between countries is as easy as moving between cities.",
-        "tries to help {hostage} escape {possessive} old mindset.",
-        "encourages {hostage} to admit {possessive} past mistakes, "
-            "everything {pronoun} feels guilty or ashamed of, "
-            "so {lead} can show unconditional acceptance and "
-            "understanding of them instead of the rejection {hostage} was "
-            "expecting.",
-      ].random,
+      "activity": LcsI18n.tr(
+        [
+          "raves about how good vegan food is to {hostage}.",
+          "explains microaggressions to {hostage}.",
+          "recites some spoken word poetry for {hostage}.",
+          "quizzes {hostage} about correct recycling habits.",
+          "enthuses about the benefits of regular meditation to {hostage} "
+              "and offers to teach {obj} how to do it.",
+          "shows {hostage} pictures of people having fun at a protest and "
+              "suggests {pronoun} would get a lot out of it.",
+          "describes a progressive film to {hostage} and tells {obj} "
+              "about what it means.",
+          "tells {hostage} about some clever protest signs people have come up "
+              "with in the past.",
+          "tells {hostage} how much fun drag shows are and offers to answer "
+              "any questions {obj} has about them.",
+          "recommends {hostage} read some theory when {pronoun} gets "
+              "a chance, and tries to explain some of the complex ideas "
+              "from memory.",
+          "asks {hostage} \"What does your political inner child look like?\"",
+          "tries to do a guided meditation with {hostage}, and asks "
+              "{obj} to visualize {possessive} feelings "
+              "like a painting.",
+          "plays a selection of protest songs on {leadPossessive} cell "
+              "phone and asks {obj} what {pronoun} thinks "
+              "they mean.",
+          "challenges {hostage} to imagine a world without posessions, and "
+              "wonders if {pronoun} can.",
+          "suggests {hostage} would look good in a hemp tunic.",
+          "says {hostage} would could be a totally epic left-wing punk rebel "
+              "if {pronoun} is interested in that sort of thing.",
+          "tells {hostage} about the importance of intersectionality.",
+          "explains to {hostage} that fair trade coffee actually tastes better "
+              "and is better for the world.",
+          "works with {hostage} to imagine the best possible world.",
+          "asks {hostage} to imagine a world without prisons, and tries to "
+              "engage {obj} in a discussion about how "
+              "conflicts would be resolved if locking people away wasn't "
+              "an option.",
+          "asks {hostage} to imagine a world without borders, where moving "
+              "between countries is as easy as moving between cities.",
+          "tries to help {hostage} escape {possessive} old mindset.",
+          "encourages {hostage} to admit {possessive} past mistakes, "
+              "everything {pronoun} feels guilty or ashamed of, "
+              "so {lead} can show unconditional acceptance and "
+              "understanding of them instead of the rejection {hostage} was "
+              "expecting.",
+        ].random,
+      ),
       "hostage": cr.name,
       "pronoun": cr.gender.heShe,
       "obj": cr.gender.himHer,

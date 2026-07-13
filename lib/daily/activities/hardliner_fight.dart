@@ -35,16 +35,18 @@ Future<void> hardlinerFight(Creature cr) async {
         await showMessage(
           LcsI18n.processString("{name} {action}", {
             "name": cr.name,
-            "action": [
-              "breaks the arm of the nearest person!",
-              "knees a guy in the balls!",
-              "knocks one out with a fist to the face!",
-              "bites some asshole's ear off!",
-              "smashes one of them in the jaw!",
-              "shakes off a grab from behind!",
-              "yells the slogan!",
-              "knocks two of their heads together!",
-            ].random,
+            "action": LcsI18n.tr(
+              [
+                "breaks the arm of the nearest person!",
+                "knees a guy in the balls!",
+                "knocks one out with a fist to the face!",
+                "bites some asshole's ear off!",
+                "smashes one of them in the jaw!",
+                "shakes off a grab from behind!",
+                "yells the slogan!",
+                "knocks two of their heads together!",
+              ].random,
+            ),
           }),
           color: lightBlue,
         );
@@ -53,16 +55,18 @@ Future<void> hardlinerFight(Creature cr) async {
         await showMessage(
           LcsI18n.processString("{name} {action}", {
             "name": cr.name,
-            "action": [
-              "is held down and kicked by three guys!",
-              "gets pummeled!",
-              "gets hit by a sharp rock!",
-              "is thrown against the sidewalk!",
-              "is bashed in the face with a shovel!",
-              "is forced into a headlock!",
-              "crumples under a flurry of blows!",
-              "is hit in the chest with a pipe!",
-            ].random,
+            "action": LcsI18n.tr(
+              [
+                "is held down and kicked by three guys!",
+                "gets pummeled!",
+                "gets hit by a sharp rock!",
+                "is thrown against the sidewalk!",
+                "is bashed in the face with a shovel!",
+                "is forced into a headlock!",
+                "crumples under a flurry of blows!",
+                "is hit in the chest with a pipe!",
+              ].random,
+            ),
           }),
           color: yellow,
         );
@@ -75,7 +79,10 @@ Future<void> hardlinerFight(Creature cr) async {
       await showMessage(
         LcsI18n.processString(
           "{name} beat the {result} out of everyone who got close!",
-          {"name": cr.name, "result": noProfanity ? "[tar]" : "shit"},
+          {
+            "name": cr.name,
+            "result": LcsI18n.tr(noProfanity ? "[tar]" : "shit"),
+          },
         ),
         color: lightGreen,
       );

@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
@@ -312,7 +313,10 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           y++,
           0,
           "{recruiter} shares {topic}.",
-          params: {"recruiter": p.name, "topic": _issueEventStrings.random},
+          params: {
+            "recruiter": p.name,
+            "topic": LcsI18n.tr(_issueEventStrings.random),
+          },
         );
 
         await getKey();
@@ -325,7 +329,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           params: {
             "recruiter": p.name,
             "gender": p.gender.hisHer,
-            "law": Law.values.random.label,
+            "law": LcsI18n.tr(Law.values.random.label),
           },
         );
 

@@ -25,24 +25,28 @@ Future<void> handleFirmInterrogation(
     {
       "lead": lead.name,
       "hostage": cr.name,
-      "action": [
-        "asking",
-        "demanding",
-        "saying",
-        "pressing {possessive} by saying",
-        "probing {possessive} by saying",
-      ].random,
+      "action": LcsI18n.tr(
+        [
+          "asking",
+          "demanding",
+          "saying",
+          "pressing {possessive} by saying",
+          "probing {possessive} by saying",
+        ].random,
+      ),
       "possessive": cr.gender.hisHer,
-      "question": [
-        "What do you know?",
-        "Where do you work?",
-        if (ccsActive) "What do you know about the CCS?",
-        "Give up your secrets!",
-        "Tell us what you know!",
-        "We need information!",
-        "What are you hiding?",
-        "What's really going on?",
-      ].random,
+      "question": LcsI18n.tr(
+        [
+          "What do you know?",
+          "Where do you work?",
+          if (ccsActive) "What do you know about the CCS?",
+          "Give up your secrets!",
+          "Tell us what you know!",
+          "We need information!",
+          "What are you hiding?",
+          "What's really going on?",
+        ].random,
+      ),
     },
   );
   addparagraph(y, 0, message);
@@ -57,14 +61,16 @@ Future<void> handleFirmInterrogation(
         0,
         LcsI18n.processString("{name} {action}", {
           "name": cr.name,
-          "action": [
-            "prays silently...",
-            "seeks strength in faith.",
-            "tries to find inner peace.",
-            "looks to God for guidance.",
-            "whispers a prayer.",
-            "asks for divine help.",
-          ].random,
+          "action": LcsI18n.tr(
+            [
+              "prays silently...",
+              "seeks strength in faith.",
+              "tries to find inner peace.",
+              "looks to God for guidance.",
+              "whispers a prayer.",
+              "asks for divine help.",
+            ].random,
+          ),
         }),
       );
     } else {

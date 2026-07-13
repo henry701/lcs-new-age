@@ -78,12 +78,14 @@ Future<void> handleRansomNote(
       "{lead} prepares a ransom demand by {method}. The demand is set at {amount}. It may take some time for a response...",
       {
         "lead": lead.name,
-        "method": [
-          "attaching a photo of {hostage} to a note made from magazine clippings",
-          "recording a video of {hostage} in captivity",
-          "attaching a personal letter from {hostage} spelling out the LCS's demands",
-          "recording audio of {hostage} reading a prepared statement",
-        ].random,
+        "method": LcsI18n.tr(
+          [
+            "attaching a photo of {hostage} to a note made from magazine clippings",
+            "recording a video of {hostage} in captivity",
+            "attaching a personal letter from {hostage} spelling out the LCS's demands",
+            "recording audio of {hostage} reading a prepared statement",
+          ].random,
+        ),
         "hostage": cr.name,
         "amount": "\$${intr.ransomAmount}",
       },
@@ -206,14 +208,16 @@ Future<bool> handleRansomPayment(
           "lead": lead.name,
           "location": location,
           "subject": lead.gender.heSheCap,
-          "action": [
-            "scouts the area carefully before approaching",
-            "arrives early to check for any suspicious activity",
-            "maps out an escape plan in case things go south",
-            "keeps {possessive} eyes peeled for any signs of trouble",
-            "makes sure to have multiple escape routes",
-            "stays alert for any unusual patterns in the area",
-          ].random,
+          "action": LcsI18n.tr(
+            [
+              "scouts the area carefully before approaching",
+              "arrives early to check for any suspicious activity",
+              "maps out an escape plan in case things go south",
+              "keeps {possessive} eyes peeled for any signs of trouble",
+              "makes sure to have multiple escape routes",
+              "stays alert for any unusual patterns in the area",
+            ].random,
+          ),
           "possessive": lead.gender.hisHer,
         },
       ),
@@ -228,17 +232,19 @@ Future<bool> handleRansomPayment(
           "lead": lead.name,
           "location": location,
           "subject": lead.gender.heSheCap,
-          "action": [
-            "heads straight for the money",
-            "moves quickly to the pickup spot",
-            "makes a beeline for the drop location",
-            "goes right to where the money should be",
-            "takes a quick look around before proceeding",
-            "glances around briefly before moving in",
-            "makes sure there are no obvious cops in the area",
-            "makes a cursory scan of the area",
-            "makes sure to act casual and nonchalant",
-          ].random,
+          "action": LcsI18n.tr(
+            [
+              "heads straight for the money",
+              "moves quickly to the pickup spot",
+              "makes a beeline for the drop location",
+              "goes right to where the money should be",
+              "takes a quick look around before proceeding",
+              "glances around briefly before moving in",
+              "makes sure there are no obvious cops in the area",
+              "makes a cursory scan of the area",
+              "makes sure to act casual and nonchalant",
+            ].random,
+          ),
         },
       ),
     );
@@ -342,16 +348,18 @@ Future<bool> handleRansomAmbush(
       0,
       LcsI18n.processString("As {lead} approaches the money, {event}!", {
         "lead": lead.name,
-        "event": [
-          "police officers suddenly emerge from hiding",
-          "a SWAT team descends on the location",
-          "undercover agents reveal themselves",
-          "a trap is sprung",
-          "the area is suddenly flooded with law enforcement",
-          "sirens blare as cop cars surround the area",
-          "a police helicopter appears overhead",
-          "snipers take up positions on nearby rooftops",
-        ].random,
+        "event": LcsI18n.tr(
+          [
+            "police officers suddenly emerge from hiding",
+            "a SWAT team descends on the location",
+            "undercover agents reveal themselves",
+            "a trap is sprung",
+            "the area is suddenly flooded with law enforcement",
+            "sirens blare as cop cars surround the area",
+            "a police helicopter appears overhead",
+            "snipers take up positions on nearby rooftops",
+          ].random,
+        ),
       }),
     );
     y = console.y + 1;
@@ -366,16 +374,18 @@ Future<bool> handleRansomAmbush(
         0,
         LcsI18n.processString("{lead} {action}.", {
           "lead": lead.name,
-          "action": [
-            "quickly spots the trap and slips away before the cops can close in",
-            "uses {possessive} knowledge of the area to find an escape route",
-            "recognizes the setup and evades the ambush with a combination of luck and street smarts",
-            "moves quickly and manages to slip through their net",
-            "identifies the weak point in their perimeter and exploits it",
-            "uses {possessive} street smarts to outmaneuver the police",
-            "finds a way to blend into the surroundings and disappear",
-            "uses {possessive} experience to escape the trap",
-          ].random,
+          "action": LcsI18n.tr(
+            [
+              "quickly spots the trap and slips away before the cops can close in",
+              "uses {possessive} knowledge of the area to find an escape route",
+              "recognizes the setup and evades the ambush with a combination of luck and street smarts",
+              "moves quickly and manages to slip through their net",
+              "identifies the weak point in their perimeter and exploits it",
+              "uses {possessive} street smarts to outmaneuver the police",
+              "finds a way to blend into the surroundings and disappear",
+              "uses {possessive} experience to escape the trap",
+            ].random,
+          ),
           "possessive": lead.gender.hisHer,
         }),
       );
@@ -400,15 +410,17 @@ Future<bool> handleRansomAmbush(
           0,
           LcsI18n.processString("{subject} {action}.", {
             "subject": lead.gender.heSheCap,
-            "action": [
-              "is quickly overwhelmed and arrested",
-              "is tackled to the ground by officers",
-              "is surrounded and has no choice but to surrender",
-              "is caught in the act of trying to escape",
-              "is apprehended after a brief struggle",
-              "is taken into custody without incident",
-              "is handcuffed and led away",
-            ].random,
+            "action": LcsI18n.tr(
+              [
+                "is quickly overwhelmed and arrested",
+                "is tackled to the ground by officers",
+                "is surrounded and has no choice but to surrender",
+                "is caught in the act of trying to escape",
+                "is apprehended after a brief struggle",
+                "is taken into custody without incident",
+                "is handcuffed and led away",
+              ].random,
+            ),
           }),
         );
         y = console.y + 1;
@@ -422,13 +434,15 @@ Future<bool> handleRansomAmbush(
           0,
           LcsI18n.processString("{subject} {action}...", {
             "subject": lead.gender.heSheCap,
-            "action": [
-              "somehow manages to slip away in the confusion",
-              "gets lucky and finds an escape route",
-              "manages to evade capture through sheer luck",
-              "finds a way to escape despite {possessive} mistakes",
-              "gets away by the skin of {possessive} teeth",
-            ].random,
+            "action": LcsI18n.tr(
+              [
+                "somehow manages to slip away in the confusion",
+                "gets lucky and finds an escape route",
+                "manages to evade capture through sheer luck",
+                "finds a way to escape despite {possessive} mistakes",
+                "gets away by the skin of {possessive} teeth",
+              ].random,
+            ),
             "possessive": lead.gender.hisHer,
           }),
         );
@@ -455,15 +469,17 @@ Future<bool> handleRansomAmbush(
         0,
         LcsI18n.processString("{lead} {action}.", {
           "lead": lead.name,
-          "action": [
-            "is quickly overwhelmed and arrested",
-            "accidentally runs right into the arms of several waiting officers",
-            "is completely boxed in and has no choice but to surrender",
-            "is caught in the act of trying to escape",
-            "is apprehended after a brief struggle",
-            "has no path to escape and is quickly handcuffed",
-            "is handcuffed and led away",
-          ].random,
+          "action": LcsI18n.tr(
+            [
+              "is quickly overwhelmed and arrested",
+              "accidentally runs right into the arms of several waiting officers",
+              "is completely boxed in and has no choice but to surrender",
+              "is caught in the act of trying to escape",
+              "is apprehended after a brief struggle",
+              "has no path to escape and is quickly handcuffed",
+              "is handcuffed and led away",
+            ].random,
+          ),
         }),
       );
       y = console.y + 1;
@@ -479,15 +495,17 @@ Future<bool> handleRansomAmbush(
       0,
       LcsI18n.processString("{lead} retrieves the ransom money and {action}.", {
         "lead": lead.name,
-        "action": [
-          "quickly walks away from the scene",
-          "walks away without any further trouble",
-          "leaves the area without being noticed",
-          "returns with the money in hand",
-          "gets away clean with the money",
-          "manages to avoid any trouble",
-          "makes it back to the safehouse without incident",
-        ].random,
+        "action": LcsI18n.tr(
+          [
+            "quickly walks away from the scene",
+            "walks away without any further trouble",
+            "leaves the area without being noticed",
+            "returns with the money in hand",
+            "gets away clean with the money",
+            "manages to avoid any trouble",
+            "makes it back to the safehouse without incident",
+          ].random,
+        ),
       }),
     );
     y = console.y + 1;

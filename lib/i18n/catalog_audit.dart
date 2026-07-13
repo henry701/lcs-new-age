@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:lcs_new_age/i18n/translation_exceptions.dart';
+
 /// Result of comparing source and target ARB catalogs for localization gates.
 class CatalogAuditResult {
   const CatalogAuditResult({
@@ -202,7 +204,9 @@ CatalogAuditResult auditArbCatalogs({
       untranslatedKeys.add(key);
       continue;
     }
-    if (value == key && catalogControlPrefixPattern.stringMatch(key) == null) {
+    if (value == key &&
+        catalogControlPrefixPattern.stringMatch(key) == null &&
+        !structuralTranslationKeys.contains(key)) {
       untranslatedKeys.add(key);
     } else {
       translatedAgainstSource++;

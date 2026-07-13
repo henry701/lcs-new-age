@@ -4,6 +4,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:lcs_new_age/i18n/translation_exceptions.dart';
+
 void main(List<String> args) {
   if (args.contains('--help') || args.contains('-h')) {
     print('Translation status for hash-sharded ARB catalogs');
@@ -288,7 +290,7 @@ _TranslationStats _computeStats({
       untranslatedAgainstSource++;
       continue;
     }
-    if (value == key) {
+    if (value == key && !structuralTranslationKeys.contains(key)) {
       untranslatedAgainstSource++;
     } else {
       translatedAgainstSource++;

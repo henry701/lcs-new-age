@@ -75,6 +75,8 @@ void main() {
       'WY Amendment {number}',
       'AK Measure {number}',
       'CA Proposition {number}',
+      'NE Initiative {number}',
+      'WA Initiative {number}',
     ]) {
       expect(
         catalog[key],
@@ -91,6 +93,44 @@ void main() {
     expect(catalog['NO LOVE LOST'], 'INIMIZADE DECLARADA');
     expect(catalog['LIGHTS OUT'], 'LUZES APAGADAS');
     expect(catalog['No ammo required!'], 'Não requer munição!');
+    expect(
+      catalog['AM RADIO PROPAGANDA EXPOSED'],
+      'PROPAGANDA DE RÁDIO AM EXPOSTA',
+    );
+    expect(
+      catalog['Defund Healthcare Programs'],
+      'Cortar o Financiamento de Programas de Saúde',
+    );
+    expect(
+      catalog['Drug Addiction Treatment'],
+      'Tratamento da Dependência Química',
+    );
+    expect(catalog['ER visit'], 'Visita ao Pronto-Socorro');
+    expect(catalog['Protect LGBTQ+ Rights'], 'Proteger os Direitos LGBTQ+');
+    expect(catalog['DNA'], 'DNA');
+    expect(
+      catalog["Couldn't organize a piss-up in a brewery"],
+      'Não conseguiria organizar nem uma festa numa cervejaria.',
+    );
+    expect(
+      catalog["Wouldn't trust 'em to run a bath"],
+      'Não confiaria neles nem para preparar um banho.',
+    );
+    expect(
+      catalog['I have some sweet pens we can sign the paperwork with, and we '],
+      'Tenho umas canetas bacanas com as quais podemos assinar a papelada, e ',
+    );
+    expect(catalog['DEO VINDICE'], 'DEO VINDICE');
+    expect(catalog['{name1} {versus} {name2}'], '{name1} {versus} {name2}');
+    expect(
+      catalog['Preview — arrow keys move, Esc exits · Floor '],
+      'Prévia — use as setas para mover, Esc para sair · Andar ',
+    );
+    expect(catalog['"Huh?" <looks dumbfounded>'], '"Hã?" <parece estupefato>');
+    expect(
+      catalog.values.where((value) => value.contains('se autodenominam')),
+      isEmpty,
+    );
     expect(catalog['A fruit seller is squashed!'], contains('esmagado'));
     expect(
       catalog['do not trust Conservative Cable News'],

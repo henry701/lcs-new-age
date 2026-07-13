@@ -158,6 +158,54 @@ void main() {
       expect(result, equals('parece ter esperado por isso a vida toda dele.'));
     });
 
+    test('distinguishes feminine possessive and object pronouns', () async {
+      await LcsI18n.initialize('pt_BR');
+
+      final possessive = LcsI18n.processString(
+        'seems to have been waiting for this {hisHer} whole life.',
+        {'hisHer': 'her'},
+      );
+      final object = LcsI18n.processString(
+        'B - Try to charm {himHer} with online dating.',
+        {'himHer': 'her'},
+      );
+
+      expect(
+        possessive,
+        equals('parece ter esperado por isso a vida toda dela.'),
+      );
+      expect(object, equals('B - Tente encantar ela com namoro online.'));
+    });
+
+    test('translates standalone subject pronouns', () async {
+      await LcsI18n.initialize('pt_BR');
+
+      expect(LcsI18n.tr('he'), equals('ele'));
+      expect(LcsI18n.tr('she'), equals('ela'));
+      expect(LcsI18n.tr('they'), equals('elu'));
+    });
+
+    test('translates pronouns according to grammatical role', () async {
+      await LcsI18n.initialize('pt_BR');
+
+      expect(
+        LcsI18n.translatePronoun('her', role: PronounRole.possessive),
+        equals('dela'),
+      );
+      expect(
+        LcsI18n.translatePronoun('her', role: PronounRole.object),
+        equals('ela'),
+      );
+      expect(
+        LcsI18n.translatePronoun('they', role: PronounRole.subject),
+        equals('elu'),
+      );
+      expect(
+        LcsI18n.translatePronoun('their', role: PronounRole.possessive),
+        equals('delu'),
+      );
+    });
+
     test(
       'format() does not translate - use processString() for translation',
       () async {

@@ -18,6 +18,8 @@ class LcsI18nException implements Exception {
   String toString() => 'LcsI18nException: $message';
 }
 
+enum PronounRole { subject, object, possessive }
+
 /// Central translation interface for LCS New Age
 ///
 /// NCurses-style API: Use English strings directly in code.
@@ -301,6 +303,21 @@ class LcsI18n {
     bool noTranslate = false,
   }) => translate(englishText, context: context, noTranslate: noTranslate);
 
+  static String translatePronoun(
+    String pronoun, {
+    required PronounRole role,
+  }) {
+    if (_currentLocale == 'en_US') {
+      return pronoun;
+    }
+
+    final key = switch (role) {
+      PronounRole.possessive => '$pronoun (possessive)',
+      PronounRole.subject || PronounRole.object => pronoun,
+    };
+    return translate(key);
+  }
+
   /// Format a string with named parameters (placeholder replacement only)
   ///
   /// Does NOT translate - use [translate] first or [processString] for both.
@@ -316,10 +333,25 @@ class LcsI18n {
     return result;
   }
 
-  static String _translateParameterValue(String value) {
+  static bool _isPossessiveParameter(String parameterName) {
+    final normalized = parameterName.toLowerCase();
+    return normalized == 'hisher' ||
+        normalized.endsWith('hisher') ||
+        normalized.contains('possessive');
+  }
+
+  static String _translateParameterValue(String parameterName, String value) {
     if (_currentLocale == 'en_US' ||
         !_translatablePronounParameters.contains(value)) {
       return value;
+    }
+    if (_isPossessiveParameter(parameterName)) {
+      return switch (value) {
+        'his' => translate('his (possessive)'),
+        'her' => translate('her (possessive)'),
+        'their' => translate('their (possessive)'),
+        _ => translate(value),
+      };
     }
     return translate(value);
   }
@@ -424,7 +456,7 @@ class LcsI18n {
       final rawValue = params[paramName]?.toString();
       final value = rawValue == null
           ? match.group(0)!
-          : _translateParameterValue(rawValue);
+          : _translateParameterValue(paramName, rawValue);
 
       // Check if this parameter had a color specification
       final colorSpec = colorMappings[paramName];

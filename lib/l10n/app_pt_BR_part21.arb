@@ -161,7 +161,7 @@
   "demonstrating the extreme dangers of Nuclear Waste. ": "demonstrando os perigos extremos do Lixo Nuclear. ",
   "direct and straightforward wording. This affects how your people are ": "redação direta e direta. Isso afeta como seu pessoal é",
   "evidence of systemic elder abuse": "evidência de abuso sistêmico de idosos",
-  "finds a way to escape despite {possessive} mistakes": "encontra uma forma de escapar apesar dos erros de {possessive}",
+  "finds a way to escape despite {possessive} mistakes": "encontra uma forma de escapar apesar dos erros {possessive}",
   "for {hostagePossessive}, then encourages {obj} to ": "para {hostagePossessive}, então encoraja {obj} a ",
   "gun ownership would help to bring violence like this to ": "posse de armas ajudaria a trazer violência como essa para ",
   "has a cap on how much you can learn. People with higher skill ": "tem um limite de quanto você pode aprender. Pessoas com habilidade maior ",
@@ -218,7 +218,7 @@
   "{name}'s last tooth is ": "O último dente de {name} está ",
   "{name}'s right lung is torn!": "O pulmão direito de {name} está rasgado!",
   "{name}'s tooth has been pulled out with pliers!": "O dente de {name} foi arrancado com alicate!",
-  "{possessive} ribs were sticking out of {possessive} chest": "Costelas de {possessive} estavam saindo do peito de {possessive}",
+  "{possessive} ribs were sticking out of {possessive} chest": "As costelas {possessive} estavam saindo do peito {possessive}",
   "{recruiter} accidentally missed the meeting with {recruit}": "{recruiter} perdeu acidentalmente a reunião com {recruit}",
   "{recruiter} explains {gender} views on {law}.": "{recruiter} explica as visões de {gender} sobre {law}.",
   "{recruit} is skeptical about some of {recruiter}'s arguments.": "{recruit} é cético em relação a alguns dos argumentos de {recruiter}."

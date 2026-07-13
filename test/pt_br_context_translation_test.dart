@@ -302,36 +302,36 @@ void main() {
 
   test('reviewed action translations preserve their gameplay context', () {
     expect(
-      catalog['\"Dude... that\'s like... totally bumming me.\"'],
-      '\"Cara... isso está me deixando muito para baixo.\"',
+      catalog["\"Dude... that's like... totally bumming me.\""],
+      "\"Cara... isso está me deixando muito para baixo.\"",
     );
     expect(
-      catalog['\"Hey, you wanna go rub one off?\"'],
-      '\"Ei, quer bater uma?\"',
+      catalog["\"Hey, you wanna go rub one off?\""],
+      "\"Ei, quer bater uma?\"",
     );
     expect(
-      catalog['\"Absolutely not. Clean up a bit.\"'],
-      '\"De jeito nenhum. Dê uma limpada.\"',
+      catalog["\"Absolutely not. Clean up a bit.\""],
+      "\"De jeito nenhum. Dê uma limpada.\"",
     );
     expect(
-      catalog['\"Fine.  Clear out your room.\"'],
-      '\"Tudo bem. Desocupe seu quarto.\"',
+      catalog["\"Fine.  Clear out your room.\""],
+      "\"Tudo bem. Desocupe seu quarto.\"",
     );
     expect(
-      catalog['\"Can\'t come through here, youngster.\"'],
-      '\"Você não pode passar por aqui, jovem.\"',
+      catalog["\"Can't come through here, youngster.\""],
+      "\"Você não pode passar por aqui, jovem.\"",
     );
     expect(
-      catalog['\"Not after I do this.\" <shits pants>'],
-      '\"Não depois que eu fizer isto.\"',
+      catalog["\"Not after I do this.\" <shits pants>"],
+      "\"Não depois que eu fizer isto.\"",
     );
     expect(
-      catalog['\"Non-targets please leave the site.\"'],
-      '\"Pessoas que não são alvos, por favor, saiam do local.\"',
+      catalog["\"Non-targets please leave the site.\""],
+      "\"Pessoas que não são alvos, por favor, saiam do local.\"",
     );
     expect(
-      catalog['\"Stand still so I can pick you up!\"'],
-      '\"Fique parado para eu poder pegá-lo!\"',
+      catalog["\"Stand still so I can pick you up!\""],
+      "\"Fique parado para eu poder pegá-lo!\"",
     );
     expect(catalog['at the Shopping Mall'], 'no shopping center');
     expect(catalog['blood draining'], 'drenagem de sangue');

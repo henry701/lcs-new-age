@@ -548,7 +548,7 @@ void main() {
   test('reviewed UI and dialogue translations preserve gameplay context', () {
     expect(
       catalog["\"Are you Jamaican?  Cuz Jamaican me horny.\""],
-      '"Você é jamaicano? Porque você me deixa com tesão."',
+      '"Você é da Jamaica? Porque você já me deixou com tesão."',
     );
     expect(
       catalog[
@@ -566,7 +566,7 @@ void main() {
       catalog[
         "\"If I said you had a nice body, would you hold it against me?\""
       ],
-      '"Se eu dissesse que você tem um corpo bonito, você o pressionaria contra mim?"',
+      '"Se eu dissesse que você tem um corpo bonito, deixaria eu encostar ele em mim?"',
     );
     expect(
       catalog['"Bi~ the way, are you free tonight?"'],
@@ -584,7 +584,7 @@ void main() {
       catalog[
         '"What do you say we go behind a rock and get a little boulder?"'
       ],
-      '"O que você acha de irmos atrás de uma pedra e ficarmos um pouco mais ousados?"',
+      '"O que você acha de irmos atrás de uma pedra e ficarmos um pouco mais atrevidos?"',
     );
     expect(
       catalog['"Fucking LCS bullshit..."'],
@@ -836,6 +836,132 @@ void main() {
     expect(
       catalog['"Hot damn.  You\'re built like a brick shithouse, {honey}."'],
       '"Caramba. Você é sólida que nem casa de tijolo, {honey}."',
+    );
+  });
+
+  test('LGBT rejection pool preserves idioms and insult tone', () {
+    expect(catalog["No, I'm no chaser."], 'Não, não sou chaser.');
+    expect(catalog["I don't swing that way."], 'Não curto desse lado.');
+    expect(
+      catalog["Did somebody tell you I'm gay? 'Cause I'm not."],
+      'Alguém te disse que sou gay? Porque não sou.',
+    );
+    expect(
+      catalog["Heh, that's funny. And gay."],
+      'Heh, isso é engraçado. E gay.',
+    );
+    expect(
+      catalog["I'm only bi when I'm drunk, and I'm not drunk."],
+      'Eu só sou bissexual quando estou bêbado, e não estou bêbado.',
+    );
+    expect(
+      catalog['Oh lawd have mercy, the libs are tryin\' ta trans my gender.'],
+      'Oh meu Deus, tem misericórdia, os liberais estão tentando transicionar meu gênero.',
+    );
+  });
+
+  test('newspaper satire keeps ironic police and pundit voice', () {
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.contains('Fábrica de Confissões'),
+      ),
+      allOf(
+        contains('notícias falsas'),
+        contains('verdadeira confissão falsa'),
+        contains('licença remunerada'),
+      ),
+    );
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.startsWith('Washington, DC - O FBI pode estar de olho'),
+      ),
+      allOf(
+        contains('indesejáveis'),
+        contains('há privacidade e há privacidade'),
+        contains('espalhando acusações por aí'),
+      ),
+    );
+  });
+
+  test('meme and pun pickups keep source flavor where possible', () {
+    expect(
+      catalog['All my base, are belong to you."'],
+      'Toda a sua base são pertencem a você."',
+    );
+    expect(
+      catalog['"If you were a laser, you\'d be set on \'stunning\'."'],
+      '"Se você fosse um laser, estaria no modo \'atordoante\'."',
+    );
+    expect(
+      catalog['"Is that a keg in your pants?  Cuz I\'d love to tap that ass."'],
+      '"É um barril nas suas calças? Porque eu adoraria dar uma tapinha nesse traseiro."',
+    );
+    expect(
+      catalog["it's a blin wayzo thing, you wouldn't understand."],
+      'é coisa de blin wayzo, você não entenderia.',
+    );
+    expect(
+      catalog['"Not my problem..." {name} <turns away>'],
+      '"Não é problema meu..." {name} <se afasta>',
+    );
+  });
+
+  test('additional pickup-line failure responses preserve stage directions', () {
+    expect(
+      catalog['"Go use a real bathroom, ya hick." <points towards bathroom>'],
+      '"Vá usar um banheiro de verdade, seu caipira." <aponta para o banheiro>',
+    );
+    expect(
+      catalog['"You fuck squirrels?" <looks dumbfounded>'],
+      '"Você fode esquilos?" <parece estupefato>',
+    );
+    expect(
+      catalog['"I hate puns!  You suck at comedy." <frowns>'],
+      '"Odeio trocadilhos! Você é péssimo em comédia." <franze a testa>',
+    );
+    expect(
+      catalog['"Yes, now go away." <points to exit>'],
+      '"Sim, agora vá embora." <aponta para a saída>',
+    );
+    expect(
+      catalog['"We got a kindergarten dropout over here!" <points and laughs>'],
+      '"Temos um aluno que abandonou o jardim de infância aqui!" <aponta e ri>',
+    );
+    expect(
+      catalog['"I\'m about to put a voodoo curse on yo ass..." <starts chanting>'],
+      '"Vou lançar uma maldição vodu na sua bunda..." <começa a entoar cantos>',
+    );
+    expect(
+      catalog['"No, I don\'t want to infect anyone else with herpes." <sighs>'],
+      '"Não, não quero infectar mais ninguém com herpes." <suspira>',
+    );
+    expect(
+      catalog['"That meme is older than dirt." <shakes head>'],
+      '"Esse meme é mais velho que a própria terra." <balança a cabeça>',
+    );
+    expect(
+      catalog['"Touch me and you\'ll regret it." <crosses arms>'],
+      '"Toque-me e você se arrependerá." <cruza os braços>',
+    );
+    expect(
+      catalog['"Yes, I\'m an alien, you inferior Earth scum." <reaches for ray gun>'],
+      '"Sim, sou um alienígena, sua escória inferior da Terra." <pega a arma de raios>',
+    );
+    expect(
+      catalog['"I don\'t believe in astrology, you ignoramus." <blinds you with science>'],
+      '"Eu não acredito em astrologia, seu ignorante." <cega você com a ciência>',
+    );
+    expect(
+      catalog['"At least then you\'d be liquidated." <stares intently>'],
+      '"Pelo menos, seria liquidado." <olha fixamente>',
+    );
+    expect(
+      catalog['"This ain\'t Brokeback Mountain, son."'],
+      '"Isto não é a Montanha Brokeback, filho."',
+    );
+    expect(
+      catalog['"The last thing I need is another sex scandal."'],
+      '"A última coisa que preciso é de outro escândalo sexual."',
     );
   });
 }

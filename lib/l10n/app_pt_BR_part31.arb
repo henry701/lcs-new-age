@@ -12,7 +12,7 @@
   "\"Touch me and you'll regret it.\" <crosses arms>": "\"Toque-me e você se arrependerá.\" <cruza os braços>",
   "\"Weird.\"": "\"Esquisito.\"",
   "\"You don't sweat much for a fat {chick}.\"": "\"Você não sua muito para um {chick} gordo.\"",
-  "&w{name}'s hospital bill comes to &R{bill}&w.": "&w A conta do hospital de {name} chega a &R {bill} &w .",
+  "&w{name}'s hospital bill comes to &R{bill}&w.": "&wA conta hospitalar de {name} chega a &R{bill}&w.",
   "({capacity}) ": "({capacity})  ",
   "+1 Law, +1 Agility": "+1 Direito, +1 Agilidade",
   "+2 Agility, June 30th": "+2 Agilidade, 30 de Junho",

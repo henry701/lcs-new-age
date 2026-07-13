@@ -96,7 +96,7 @@ void main() {
 
       expect(
         LcsI18n.translate('Loading Liberal Crime Squad...'),
-        equals('Carregando Liberal Crime Squad...'),
+        equals('Carregando Esquadrão do Crime Liberal...'),
       );
       expect(LcsI18n.translate('Game Over'), equals('Fim de Jogo'));
       expect(
@@ -155,7 +155,10 @@ void main() {
         {'hisHer': 'his'},
       );
 
-      expect(result, equals('parece ter esperado por isso a vida toda dele.'));
+      expect(
+        result,
+        equals('parece estar esperando por isso durante toda a vida dele.'),
+      );
     });
 
     test('distinguishes feminine possessive and object pronouns', () async {
@@ -172,7 +175,7 @@ void main() {
 
       expect(
         possessive,
-        equals('parece ter esperado por isso a vida toda dela.'),
+        equals('parece estar esperando por isso durante toda a vida dela.'),
       );
       expect(object, equals('B - Tente encantar ela com namoro online.'));
     });
@@ -815,7 +818,7 @@ void main() {
           baseColorKey: 'w',
         );
 
-        expect(result, equals('Carregando Liberal Crime Squad...'));
+        expect(result, equals('Carregando Esquadrão do Crime Liberal...'));
       });
 
       test(

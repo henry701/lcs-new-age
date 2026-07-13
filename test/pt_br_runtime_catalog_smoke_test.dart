@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/i18n/catalog_audit.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/i18n/translation_exceptions.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
 void main() {
@@ -24,7 +25,7 @@ void main() {
         final params = synthesizePlaceholderValues(key);
         try {
           final result = LcsI18n.processString(key, params);
-          if (result == key) {
+          if (result == key && !structuralTranslationKeys.contains(key)) {
             failures.add('same-as-source translation: $key');
           }
           if (_hasUnreplacedPlaceholders(result)) {

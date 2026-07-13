@@ -32,4 +32,35 @@ void main() {
       ),
     );
   });
+
+  test('completion gate fails when a control prefix is altered', () {
+    final audit = CatalogAuditResult(
+      sourceLocale: 'en_US',
+      targetLocale: 'pt_BR',
+      sourceKeys: 1,
+      targetKeys: 1,
+      translatedAgainstSource: 1,
+      untranslatedAgainstSource: 0,
+      missingInTarget: 0,
+      extraInTarget: 0,
+      emptyInTarget: 0,
+      coveragePercent: 100,
+      untranslatedKeys: const [],
+      missingKeys: const [],
+      emptyKeys: const [],
+      placeholderMismatches: const [],
+      rawInterpolationInTarget: const [],
+      prefixMismatches: const [
+        CatalogPrefixMismatch(
+          key: 'A - Continue',
+          sourcePrefix: 'A - ',
+          targetPrefix: '',
+        ),
+      ],
+      duplicateKeys: const [],
+      malformedFiles: const [],
+    );
+
+    expect(audit.passesCompletionGate, isFalse);
+  });
 }

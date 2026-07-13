@@ -50,7 +50,7 @@ class CatalogAuditResult {
       missingInTarget == 0 &&
       emptyInTarget == 0 &&
       placeholderMismatches.isEmpty &&
-      rawInterpolationInTarget.isEmpty &&
+      rawInterpolationInTarget.isEmpty && prefixMismatches.isEmpty &&
       duplicateKeys.isEmpty &&
       malformedFiles.isEmpty &&
       translatedAgainstSource == sourceKeys &&

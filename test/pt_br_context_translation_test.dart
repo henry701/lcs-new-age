@@ -121,6 +121,24 @@ void main() {
       'Tenho umas canetas bacanas com as quais podemos assinar a papelada, e ',
     );
     expect(catalog['DEO VINDICE'], 'DEO VINDICE');
+    expect(
+      catalog['A - Spend a hundred bucks to take {firstName} out on the town.'],
+      'A - Gastar cem dólares para sair com {firstName}.',
+    );
+    expect(catalog["You're in for it now!"], 'Você está encrencado agora!');
+    expect(catalog['PUNDITS DOWN'], 'COMENTARISTAS DERRUBADOS');
+    expect(
+      catalog['Rent stabilization laws and subsidies are in place to keep housing affordable.'],
+      'Existem leis de estabilização de aluguéis e subsídios para manter a habitação acessível.',
+    );
+    expect(
+      catalog['a busy downtown intersection'],
+      'um cruzamento movimentado no centro',
+    );
+    expect(
+      catalog['"A human after my own heart, in more ways than one."'],
+      '"Uma pessoa segundo o meu coração, de várias maneiras."',
+    );
     expect(catalog['{name1} {versus} {name2}'], '{name1} {versus} {name2}');
     expect(
       catalog['Preview — arrow keys move, Esc exits · Floor '],
@@ -255,6 +273,30 @@ void main() {
     expect(
       catalog['get in touch with {hostagePossessive} true feelings.'],
       'entrar em contato com os verdadeiros sentimentos {hostagePossessive}.',
+    );
+    expect(
+      catalog['gets away by the skin of {possessive} teeth'],
+      'escapa por um triz, quase perdendo os dentes {possessive}',
+    );
+    expect(
+      catalog['{name} is beginning to see the error of {possessive} ways.'],
+      '{name} está começando a perceber os próprios erros {possessive}.',
+    );
+    expect(
+      catalog['brings in gardening supplies and teaches {hostage} how to grow {hostagePossessive} own '],
+      'traz suprimentos de jardinagem e ensina {hostage} a cultivar a própria comida {hostagePossessive} ',
+    );
+    expect(
+      catalog['unleashes {gender_his_her} Stand on'],
+      'libera {gender_his_her} Stand contra',
+    );
+    expect(
+      catalog['sacrificed the guard on a makeshift {religion} altar'],
+      'sacrificado o guarda em um altar {religion} improvisado',
+    );
+    expect(
+      catalog['{name} ODs on smuggled drugs, then breaks out of the medical ward!'],
+      '{name} sofre uma overdose de drogas contrabandeadas e depois foge da enfermaria médica!',
     );
   });
 

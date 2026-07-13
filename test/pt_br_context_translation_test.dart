@@ -453,6 +453,8 @@ void main() {
     );
     expect(catalog['Police Officer'], 'Oficial de Polícia');
     expect(catalog['via video chat.'], 'por videochamada.');
+    expect(catalog['questioning'], 'interrogatório');
+    expect(catalog['murder'], 'homicídio');
     expect(
       catalog['{name} is reporting in at the {location}.'],
       '{name} está se apresentando em {location}.',

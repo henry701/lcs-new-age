@@ -2423,11 +2423,12 @@ Future<void> stateBrokenLaws(Site loc) async {
       );
     }
   } else {
-    String crimeName =
-        Crime.values
-            .firstWhereOrNull((c) => brokenLaws.contains(c))
-            ?.wantedFor ??
-        "questioning";
+    String crimeName = LcsI18n.tr(
+      Crime.values
+              .firstWhereOrNull((c) => brokenLaws.contains(c))
+              ?.chargedWith ??
+          "questioning",
+    );
     if (typenum > 1) {
       mvaddstrc(
         4,

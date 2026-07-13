@@ -752,7 +752,7 @@ void printFullCreatureCrimes(Creature cr) {
       5 + i ~/ 2,
       40 * (i % 2),
       "{crime}: ",
-      params: {"crime": crime.wantedFor},
+      params: {"crime": LcsI18n.tr(crime.chargedWith)},
     );
     mvaddstr(
       5 + i ~/ 2,

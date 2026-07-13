@@ -252,6 +252,20 @@ void main() {
       expect(sleeperJoin, contains('LcsI18n.tr(location.name)'));
     });
 
+    test('crime labels translate before template insertion', () {
+      final mapSpecials = File(
+        'lib/sitemode/map_specials.dart',
+      ).readAsStringSync();
+      final creatureInfo = File(
+        'lib/common_display/print_creature_info.dart',
+      ).readAsStringSync();
+      final siege = File('lib/daily/siege.dart').readAsStringSync();
+      expect(mapSpecials, contains('"crime": LcsI18n.tr(crime)'));
+      expect(creatureInfo, contains('LcsI18n.tr(crime.chargedWith)'));
+      expect(siege, contains('?.chargedWith'));
+      expect(siege, contains('LcsI18n.tr('));
+    });
+
     test('car theft messages do not append weapon fragments', () {
       final source = File(
         'lib/daily/activities/car_theft.dart',

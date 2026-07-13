@@ -735,14 +735,14 @@ Future<void> specialCourthouseJury() async {
       await encounterMessage(
         "{name} works the room like in Twelve Angry Men, and the jury ",
         line2: "concludes that {crime} isn't worth yet another execution.",
-        params: {"name": maxp.name, "crime": crime},
+        params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
       );
       addjuice(maxp, 25, 1000);
     } else {
       await encounterMessage(
         "{name} works the room like in Twelve Angry Men, and the jury ",
         line2: "concludes that {crime} wasn't really wrong here.",
-        params: {"name": maxp.name, "crime": crime},
+        params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
       );
       addjuice(maxp, 25, 200);
     }
@@ -751,13 +751,13 @@ Future<void> specialCourthouseJury() async {
       await encounterMessage(
         "{name} charms the jury into not calling the guards, but fails ",
         line2: "to show why {crime} should go unpunished.",
-        params: {"name": maxp.name, "crime": crime},
+        params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
       );
     } else if (successLaw) {
       await encounterMessage(
         "{name} presents a complex lecture on the many nuances of ",
         line2: "the law around {crime}, but the jurors just fall asleep.",
-        params: {"name": maxp.name, "crime": crime},
+        params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
       );
     } else {
       await encounterMessage(

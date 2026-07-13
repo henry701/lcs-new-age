@@ -19,6 +19,7 @@ class CatalogAuditResult {
     required this.emptyKeys,
     required this.placeholderMismatches,
     required this.rawInterpolationInTarget,
+    required this.prefixMismatches,
     required this.duplicateKeys,
     required this.malformedFiles,
   });
@@ -38,6 +39,7 @@ class CatalogAuditResult {
   final List<String> emptyKeys;
   final List<CatalogPlaceholderMismatch> placeholderMismatches;
   final List<CatalogInterpolationIssue> rawInterpolationInTarget;
+  final List<CatalogPrefixMismatch> prefixMismatches;
   final List<String> duplicateKeys;
   final List<String> malformedFiles;
 
@@ -66,6 +68,7 @@ class CatalogAuditResult {
       'coveragePercent': coveragePercent,
       'placeholderMismatchCount': placeholderMismatches.length,
       'rawInterpolationInTargetCount': rawInterpolationInTarget.length,
+      'prefixMismatchCount': prefixMismatches.length,
       'duplicateKeyCount': duplicateKeys.length,
       'malformedFileCount': malformedFiles.length,
       'passesCompletionGate': passesCompletionGate,
@@ -92,15 +95,64 @@ class CatalogInterpolationIssue {
   final String value;
 }
 
+class CatalogPrefixMismatch {
+  const CatalogPrefixMismatch({
+    required this.key,
+    required this.sourcePrefix,
+    required this.targetPrefix,
+  });
+
+  final String key;
+  final String sourcePrefix;
+  final String targetPrefix;
+
+  Map<String, String> toJson() => {
+    'key': key,
+    'sourcePrefix': sourcePrefix,
+    'targetPrefix': targetPrefix,
+  };
+}
+
 final RegExp catalogPlaceholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
 
-final RegExp catalogRawInterpolationPattern = RegExp(
-  r'(?<!\\)\$\{',
-);
+final RegExp catalogRawInterpolationPattern = RegExp(r'(?<!\\)\$\{');
+
+/// Prefixes that are part of the game's input/display contract rather than
+/// translatable prose. Keep this deliberately narrow to avoid constraining
+/// ordinary translated sentences that happen to start with a letter.
+final RegExp catalogControlPrefixPattern = RegExp(r'^(?:Enter|[A-Z0-9]) - ');
+
+List<CatalogPrefixMismatch> findCatalogPrefixMismatches({
+  required Map<String, String> sourceEntries,
+  required Map<String, String> targetEntries,
+}) {
+  final mismatches = <CatalogPrefixMismatch>[];
+  for (final entry in sourceEntries.entries) {
+    final sourcePrefix = catalogControlPrefixPattern.stringMatch(entry.key);
+    if (sourcePrefix == null) continue;
+    final targetValue = targetEntries[entry.key];
+    if (targetValue == null) continue;
+    final targetPrefix =
+        catalogControlPrefixPattern.stringMatch(targetValue) ?? '';
+    if (targetPrefix != sourcePrefix) {
+      mismatches.add(
+        CatalogPrefixMismatch(
+          key: entry.key,
+          sourcePrefix: sourcePrefix,
+          targetPrefix: targetPrefix,
+        ),
+      );
+    }
+  }
+  mismatches.sort((a, b) => a.key.compareTo(b.key));
+  return mismatches;
+}
 
 /// Normalize `{name:color}` placeholders to `{name}` for parity checks.
 String normalizeCatalogPlaceholders(String template) {
   return template.replaceAllMapped(catalogPlaceholderPattern, (match) {
+    // Keep the placeholder syntax explicit for the catalog audit.
+    // ignore: prefer_interpolation_to_compose_strings
     return '{${match.group(1)!}}';
   });
 }
@@ -150,7 +202,7 @@ CatalogAuditResult auditArbCatalogs({
       untranslatedKeys.add(key);
       continue;
     }
-    if (value == key) {
+    if (value == key && catalogControlPrefixPattern.stringMatch(key) == null) {
       untranslatedKeys.add(key);
     } else {
       translatedAgainstSource++;
@@ -188,6 +240,11 @@ CatalogAuditResult auditArbCatalogs({
   }
   rawInterpolationInTarget.sort((a, b) => a.key.compareTo(b.key));
 
+  final prefixMismatches = findCatalogPrefixMismatches(
+    sourceEntries: sourceEntries,
+    targetEntries: targetEntries,
+  );
+
   final totalSource = sourceKeys.length;
   final coverage = totalSource == 0
       ? 0.0
@@ -209,8 +266,12 @@ CatalogAuditResult auditArbCatalogs({
     emptyKeys: emptyKeys,
     placeholderMismatches: placeholderMismatches,
     rawInterpolationInTarget: rawInterpolationInTarget,
+    prefixMismatches: prefixMismatches,
     duplicateKeys: [...sourceLoad.duplicateKeys, ...targetLoad.duplicateKeys],
-    malformedFiles: [...sourceLoad.malformedFiles, ...targetLoad.malformedFiles],
+    malformedFiles: [
+      ...sourceLoad.malformedFiles,
+      ...targetLoad.malformedFiles,
+    ],
   );
 }
 
@@ -230,12 +291,13 @@ class _LocaleLoadResult {
 
 _LocaleLoadResult _loadLocaleCatalog(Directory arbDir, String locale) {
   final regex = RegExp('^app_${RegExp.escape(locale)}_part(\\d+)\\.arb\$');
-  final files = arbDir
-      .listSync()
-      .whereType<File>()
-      .where((file) => regex.hasMatch(_basename(file)))
-      .toList()
-    ..sort((a, b) => a.path.compareTo(b.path));
+  final files =
+      arbDir
+          .listSync()
+          .whereType<File>()
+          .where((file) => regex.hasMatch(_basename(file)))
+          .toList()
+        ..sort((a, b) => a.path.compareTo(b.path));
 
   final mergedRaw = <String, dynamic>{};
   final stringEntries = <String, String>{};
@@ -259,11 +321,12 @@ _LocaleLoadResult _loadLocaleCatalog(Directory arbDir, String locale) {
     }
   }
 
-  final duplicateKeys = keyLocations.entries
-      .where((entry) => entry.value.length > 1)
-      .map((entry) => entry.key)
-      .toList()
-    ..sort();
+  final duplicateKeys =
+      keyLocations.entries
+          .where((entry) => entry.value.length > 1)
+          .map((entry) => entry.key)
+          .toList()
+        ..sort();
 
   return _LocaleLoadResult(
     stringEntries: stringEntries,
@@ -317,7 +380,9 @@ String _sampleValueForPlaceholder(String name) {
       lower.contains('amount')) {
     return '1000';
   }
-  if (lower.contains('day') || lower.contains('hour') || lower.contains('year')) {
+  if (lower.contains('day') ||
+      lower.contains('hour') ||
+      lower.contains('year')) {
     return '5';
   }
   return 'Exemplo';

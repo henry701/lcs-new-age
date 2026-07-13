@@ -55,6 +55,20 @@ void main() {
       );
     });
 
+    test('translated control prefixes remain unchanged', () {
+      expect(
+        audit.prefixMismatches,
+        isEmpty,
+        reason: audit.prefixMismatches
+            .map(
+              (mismatch) =>
+                  '${mismatch.key}: expected ${mismatch.sourcePrefix}, '
+                  'found ${mismatch.targetPrefix}',
+            )
+            .join('\n'),
+      );
+    });
+
     test('pt_BR catalog values do not contain raw Dart interpolation', () {
       expect(
         audit.rawInterpolationInTarget,

@@ -87,6 +87,17 @@ dart run scripts/translation_status.dart --per-part
 dart run scripts/translation_status.dart --locale=pt_BR --part=part07
 ```
 
+## validate_catalog_prefixes.dart
+
+Checks that translated control labels preserve their source prefixes, such as
+`A -`, `1 -`, and `Enter -`. These prefixes are part of the game's input/display
+contract and must not be replaced with translated words, en dashes, or removed.
+
+```bash
+dart run scripts/validate_catalog_prefixes.dart
+dart run scripts/validate_catalog_prefixes.dart --json
+```
+
 ## interpolation_status.dart
 
 Reports remaining string interpolation usage in `lib/`, including a high-confidence subset in console wrapper string arguments.

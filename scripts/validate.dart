@@ -6,6 +6,7 @@
  * Runs all validations that should pass before committing:
  * 1. Runs dart_pre_commit (analyze + test)
  * 2. Validates ARB files are canonical (hash-sharded + recursively sorted)
+ * 3. Validates translated control prefixes remain intact
  *
  * Usage: dart run scripts/validate.dart
  */
@@ -49,6 +50,23 @@ void main(List<String> args) async {
     exit(1);
   }
   if (verbose) print('  OK: ARB catalogs are canonical\n');
+
+  // Step 3: Validate input/display control prefixes in translations
+  if (verbose) print('Validating translated control prefixes...');
+  final prefixValidationResult = await Process.run('dart', [
+    'run',
+    'scripts/validate_catalog_prefixes.dart',
+  ]);
+  if (prefixValidationResult.exitCode != 0) {
+    print('FAIL: translated control prefixes were changed or removed');
+    print(prefixValidationResult.stdout);
+    if ((prefixValidationResult.stderr as String).trim().isNotEmpty) {
+      print(prefixValidationResult.stderr);
+    }
+    print('\n⚠️  Commit has NOT been performed.');
+    exit(1);
+  }
+  if (verbose) print('  OK: translated control prefixes are intact\n');
 
   print('✓ All validations passed');
 }

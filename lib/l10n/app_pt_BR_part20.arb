@@ -209,7 +209,7 @@
   "{name} won't talk to you.": "{name} não quer falar com você.",
   "{name}'s Heart swells!": "O coração de {name} dispara!",
   "{name}'s left eye is burned away!": "O olho esquerdo de {name} foi queimado!",
-  "{pName} has dates to manage with {dateList} at {location}.": "{pName} tem encontros para administrar com {dateList} em {location}.",
+  "{pName} has dates to manage with {dateList} at {location}.": "{pName} tem encontros marcados com {dateList} em {location}.",
   "{recruit} found {recruiter}'s views to be insightful.": "{recruit} achou as opiniões de {recruiter} perspicazes.",
   "{squad} paid {price} to travel to {site}.": "{squad} pagou {price} para viajar para {site}.",
   "│   viewers across the nation were listening.       │": "│   espectadores de todo o país estavam ouvindo.       │"

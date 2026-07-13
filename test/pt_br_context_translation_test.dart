@@ -1231,4 +1231,27 @@ void main() {
       ),
     );
   });
+
+  test('monthly loot expose fragments translate before story assembly', () {
+    expect(
+      catalog['showing a pattern of unfair evictions.'],
+      'mostrando um padrão de despejos injustos.',
+    );
+    expect(
+      catalog['documenting neglect caused by chronic understaffing.'],
+      'documentando negligência causada por falta crônica de pessoal.',
+    );
+    expect(
+      catalog['sexually assaulting animals.'],
+      'agredindo sexualmente animais.',
+    );
+    expect(
+      catalog['mandating negative coverage of Liberal politicians.'],
+      'determinando cobertura negativa de políticos Liberais.',
+    );
+    expect(
+      catalog['to systematically promote hostility toward Black people.'],
+      'para promover sistematicamente hostilidade contra pessoas negras.',
+    );
+  });
 }

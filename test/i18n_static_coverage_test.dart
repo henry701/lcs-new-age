@@ -1141,6 +1141,13 @@ void main() {
       expect(monthly, isNot(contains(r'" (-\$${dailymoney.abs()})"')));
     });
 
+    test('monthly loot expose stories translate fragments before display', () {
+      final monthly = File('lib/monthly/lcs_monthly.dart').readAsStringSync();
+      expect(monthly, contains('story += LcsI18n.tr('));
+      expect(monthly, contains('addparagraph(startY, 1, story, noTranslate: true)'));
+      expect(monthly, isNot(contains('story += "sexually assaulting')));
+    });
+
     test(
       'hostage plan labels render their params and costs before display',
       () {

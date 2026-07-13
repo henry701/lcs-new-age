@@ -38,6 +38,12 @@ class LcsI18n {
   static final Set<String> _warnedUntranslatedKeys = <String>{};
   static final Set<String> _fileLoggedUntranslatedKeys = <String>{};
   static final RegExp _placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
+  static const Set<String> _translatablePronounParameters = {
+    'his',
+    'her',
+    'their',
+    'them',
+  };
 
   static String _localeScopedKey(String locale, String englishText) =>
       '$locale::$englishText';
@@ -310,6 +316,14 @@ class LcsI18n {
     return result;
   }
 
+  static String _translateParameterValue(String value) {
+    if (_currentLocale == 'en_US' ||
+        !_translatablePronounParameters.contains(value)) {
+      return value;
+    }
+    return translate(value);
+  }
+
   /// Color name to ColorKey mapping for inline color syntax
   static const Map<String, String> _colorNameToKey = {
     'white': 'W',
@@ -407,7 +421,10 @@ class LcsI18n {
 
     result = result.replaceAllMapped(cleanPlaceholderPattern, (match) {
       final paramName = match.group(1)!;
-      final value = params[paramName]?.toString() ?? match.group(0)!;
+      final rawValue = params[paramName]?.toString();
+      final value = rawValue == null
+          ? match.group(0)!
+          : _translateParameterValue(rawValue);
 
       // Check if this parameter had a color specification
       final colorSpec = colorMappings[paramName];

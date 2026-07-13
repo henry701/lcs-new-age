@@ -147,6 +147,17 @@ void main() {
       );
     });
 
+    test('processString translates raw English pronoun parameters', () async {
+      await LcsI18n.initialize('pt_BR');
+
+      final result = LcsI18n.processString(
+        'seems to have been waiting for this {hisHer} whole life.',
+        {'hisHer': 'his'},
+      );
+
+      expect(result, equals('parece ter esperado por isso a vida toda dele.'));
+    });
+
     test(
       'format() does not translate - use processString() for translation',
       () async {

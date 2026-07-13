@@ -65,4 +65,25 @@ void main() {
       contains('sistema de saúde'),
     );
   });
+
+  test('audited phrases do not retain literal or non-Portuguese wording', () {
+    expect(catalog['{letter} - Travel to a Different City'],
+        '{letter} - Viajar para outra cidade');
+    expect(catalog['{name} charms the jury into not calling the guards, but fails '],
+        contains('júri'));
+    expect(catalog['{name} knocks on people\'s doors, turned away every time.'],
+        contains('rejeitado'));
+    expect(catalog['Legislative Agenda {year}'], 'Agenda Legislativa {year}');
+    expect(catalog['{name} brandishes the {weapon}!'],
+        '{name} empunha o {weapon}!');
+    expect(catalog['a video tour of the Chernobyl dead zone'],
+        'um vídeo mostrando a zona morta de Chernobyl');
+    expect(catalog['cowers in the corner.'], 'Encolhe-se no canto.');
+    expect(catalog['crawls off trailing blood...'],
+        'Rasteja para longe, deixando um rastro de sangue...');
+    expect(catalog['issue with you, we\'re not gonna try to bring you to justice '],
+        startsWith('político com você'));
+    expect(catalog['bypass the vault\'s electronic lock'],
+        'contornar a fechadura eletrônica do cofre');
+  });
 }

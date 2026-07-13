@@ -188,7 +188,7 @@
   "{letter} - {name} {ageGender}": "{letter} – {name} {ageGender}",
   "{letter} - {title} {stackSuffix}": "{letter} - {title} {stackSuffix} (pilha)",
   "{name} approves the {claim} claim.": "{name} aprova a solicitação de {claim}.",
-  "{name} brandishes the {weapon}!": "{name} brande o {weapon}!",
+  "{name} brandishes the {weapon}!": "{name} empunha o {weapon}!",
   "{name} carries heavy burdens back and forth in prison labor camp.": "{name} carrega pesos de um lado para o outro no campo de trabalho prisional.",
   "{name} consumes drugs that simulate death...": "{name} consome drogas que simulam a morte...",
   "{name} coughs.": "{name} tosse.",

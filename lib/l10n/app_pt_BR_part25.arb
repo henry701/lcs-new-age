@@ -57,7 +57,7 @@
   "Great. The only person willing to be with me is another {person}.": "Ótimo. A única pessoa disposta a ficar comigo é outro(a) {person}.",
   "Green Bay, WI": "Green Bay, Wisconsin",
   "I celebrated.  I'd saved a thousand bucks!": "Eu comemorei.  Eu tinha economizado mil pilas!",
-  "If you do not enter anything, {subject} will keep {possessive} old name.": "Se você não digitar nada, {subject} vai manter {possessive} nome antigo.",
+  "If you do not enter anything, {subject} will keep {possessive} old name.": "Se você não digitar nada, {subject} vai manter o nome antigo {possessive}.",
   "Immigration Reform": "Reforma de Imigração",
   "Impossible": "Impossível",
   "Industry is subject to minimal pollution regulations.": "A indústria está sujeita a regulamentações mínimas de poluição.",
@@ -180,7 +180,7 @@
   "{name}, {title}": "{name},  {title}",
   "{newboss} will take over for ": "{newboss} assumirá o lugar de ",
   "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} percebe que {heshe} se comprometeu a comer {count} refeições de uma vez. Tudo desanda rapidamente.",
-  "{possessive} arm was broken in multiple places": "O braço {possessive} foi quebrado em vários lugares",
+  "{possessive} arm was broken in multiple places": "o braço {possessive} ser quebrado em vários lugares",
   "{properName}, aka {name}, is arrested.": "{properName}, vulgo {name}, é preso(a).",
   "{vehicle} draws dangerously close!": "{vehicle} se aproxima perigosamente!"
 }

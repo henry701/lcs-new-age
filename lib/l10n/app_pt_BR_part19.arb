@@ -132,7 +132,7 @@
   "seems indignant at the suggestion.": "parece indignado com a sugestão.",
   "shakes with fear.": "treme de medo.",
   "silly and trivial.": "bobo e trivial.",
-  "smashed the guard's skull with the toilet seat from {possessive} cell": "esmagado o crânio do guarda com o assento do vaso sanitário da cela de {possessive}",
+  "smashed the guard's skull with the toilet seat from {possessive} cell": "esmagado o crânio do guarda com o assento do vaso sanitário da cela {possessive}",
   "soft luxury prisons": "prisões de luxo confortáveis",
   "somehow manages to slip away in the confusion": "consegue escapar na confusão de alguma forma",
   "strengthen the defense industry": "fortalecer a indústria de defesa",
@@ -169,7 +169,7 @@
   "{name}'s tongue is cut off!": "A língua de {name} foi cortada!",
   "{pName} grabs the Conservative from behind, holding the {weapon} to the corporate slave's throat!": "{pName} agarra o conservador por trás, segurando o {weapon} na garganta do escravo corporativo!",
   "{pName} has dates to manage with {dateList} over video chat.": "{pName} tem encontros marcados com {dateList} por videochamada.",
-  "{subject} was paralyzed from the neck down": "{subject} ficou paralisado do pescoço para baixo",
+  "{subject} was paralyzed from the neck down": "{subject} perder os movimentos do pescoço para baixo",
   "{text}▂": "{text} ▂",
   "{vehicle} bails on the chase as the driver bleeds.": "{vehicle} abandona a perseguição enquanto o motorista sangra.",
   "│   begins airing this week.  With the nationwide   │": "│   começa a ser exibido esta semana. Com a   │"

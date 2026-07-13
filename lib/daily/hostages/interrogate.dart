@@ -30,11 +30,12 @@ Future<void> handleFirmInterrogation(
           "asking",
           "demanding",
           "saying",
-          "pressing {possessive} by saying",
-          "probing {possessive} by saying",
+          "pressing {himHer} by saying",
+          "probing {himHer} by saying",
         ].random,
       ),
       "possessive": cr.gender.hisHer,
+      "himHer": cr.gender.himHer,
       "question": LcsI18n.tr(
         [
           "What do you know?",

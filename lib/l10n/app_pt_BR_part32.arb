@@ -197,7 +197,7 @@
   "{name} has left the {site}.": "{name} saiu do {site}.",
   "{name} has no students and will stop {activity}.": "{name} não tem alunos e vai parar de {activity}.",
   "{name} is gone.": "{name} desapareceu.",
-  "{name} is left to be captured.": "{name} é deixado para ser capturado.",
+  "{name} is left to be captured.": "Deixam {name} para trás antes da captura.",
   "{name} is still on your tail!": "{name} ainda está no seu encalço!",
   "{name} jimmies the car door open.": "{name} força a porta do carro aberta.",
   "{name} only stays loyal to the LCS for {boss}.": "{name} só permanece leal ao LCS por causa de {boss}.",

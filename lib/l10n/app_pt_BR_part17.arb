@@ -190,7 +190,7 @@
   "{name} draws strength from God.": "{name} tira força de Deus.",
   "{name} has been arrested.": "A polícia deteve {name}.",
   "{name} is close, but can't quite get the lock open.": "{name} está perto, mas não consegue abrir a fechadura.",
-  "{name} is found dead.": "{name} foi encontrado(a) morto(a).",
+  "{name} is found dead.": "Encontraram {name} sem vida.",
   "{name} just stares.": "{name} apenas encara.",
   "{name} rejects the offer to join. {gender} {reaction}": "{name} rejeita a oferta de se juntar. {gender} {reaction}",
   "{name} whines loudly, voice crackling, then curls into a ball, unmoving.": "{name} choraminga em voz alta, com a voz falhando, depois se encolhe numa bola, imóvel.",

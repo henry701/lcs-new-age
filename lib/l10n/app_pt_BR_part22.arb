@@ -202,7 +202,7 @@
   "{name1} heroically shields {name2}!": "{name1} protege {name2} heroicamente!",
   "{name} engages but is not swayed.": "{name} participa mas não se deixa convencer.",
   "{name} fades into the shadows.": "{name} desaparece nas sombras.",
-  "{name} has been released.": "{name} foi libertado.",
+  "{name} has been released.": "Liberaram {name}.",
   "{name} has reached {hisHer} potential in {skill}.": "{name} atingiu o potencial {hisHer} em {skill}.",
   "{name} looks at the Squad with Intolerance and lets forth a piercing Conservative alarm cry!": "{name} olha para o Esquadrão com Intolerância e solta um grito de alarme Conservador penetrante!",
   "{name} managed to set up a meeting with ": "{name} conseguiu marcar um encontro com ",

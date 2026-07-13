@@ -150,7 +150,7 @@
   "{last}, {suffix}": "{last}, {suffix} (nome)",
   "{letter} - ": "{letter} – ",
   "{name} collapses lifelessly.": "{name} colapsa sem vida.",
-  "{name} is due to be executed in {months} months.": "{name} está programado para ser executado em {months} meses.",
+  "{name} is due to be executed in {months} months.": "A execução de {name} está marcada para daqui a {months} meses.",
   "{name} is now {age} years old.": "{name} agora tem {age} anos.",
   "{name} made a nightmarish flag monster.": "{name} fez uma bandeira monstruosa e assustadora.",
   "{name} presses the big red button!": "{name} pressiona o botão vermelho grande!",

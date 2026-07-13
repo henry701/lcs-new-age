@@ -900,6 +900,16 @@ void main() {
       catalog["it's a blin wayzo thing, you wouldn't understand."],
       'é coisa de blin wayzo, você não entenderia.',
     );
+    expect(catalog['Cuba'], 'Cuba');
+    expect(
+      catalog['the fruits, nuts, and flakes of the environmentalist left'],
+      'as frutas, as nozes e os malucos da esquerda ambientalista',
+    );
+    expect(
+      catalog[
+          '"It\'s you!!  Somebody set up us the bomb.  Move \'Zig\'.  For great justice."'],
+      '"É você!! Alguém nos armou a bomba. Move \'Zig\'. Por grande justiça."',
+    );
     expect(
       catalog['"Not my problem..." {name} <turns away>'],
       '"Não é problema meu..." {name} <se afasta>',
@@ -992,6 +1002,15 @@ void main() {
       ),
       contains('só precisa tirar um fôlego neste caso'),
     );
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.startsWith('{city} - Agentes mascarados da ICE'),
+      ),
+      allOf(
+        contains('Não merecem ser tratadas assim'),
+        contains('deixar nossas comunidades serem aterrorizadas'),
+      ),
+    );
   });
 
   test('pickup puns stay consistent across variants', () {
@@ -1026,6 +1045,14 @@ void main() {
     expect(
       catalog['"What do you say we go behind a rock and get a little boulder?"'],
       '"O que você acha de irmos atrás de uma pedra e ficarmos um pouco mais atrevidos?"',
+    );
+    expect(
+      catalog['"Oooo, we should get stoned too!  He he."'],
+      '"Oooo, a gente também devia ficar um pouco mais atrevidos! He he."',
+    );
+    expect(
+      catalog['"Tonight?  I can make space for a gay old time."'],
+      '"Hoje à noite? Posso abrir espaço para uma noitada bem gay."',
     );
   });
 }

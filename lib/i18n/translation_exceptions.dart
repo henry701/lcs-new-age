@@ -21,4 +21,5 @@ const Set<String> structuralTranslationKeys = {
   ' ({price})',
   'DNA',
   'DEO VINDICE',
+  'Cuba',
 };

@@ -302,6 +302,64 @@ void main() {
 
   test('reviewed action translations preserve their gameplay context', () {
     expect(
+      catalog['\"Dude... that\'s like... totally bumming me.\"'],
+      '\"Cara... isso está me deixando muito para baixo.\"',
+    );
+    expect(
+      catalog['\"Hey, you wanna go rub one off?\"'],
+      '\"Ei, quer bater uma?\"',
+    );
+    expect(
+      catalog['\"Absolutely not. Clean up a bit.\"'],
+      '\"De jeito nenhum. Dê uma limpada.\"',
+    );
+    expect(
+      catalog['\"Fine.  Clear out your room.\"'],
+      '\"Tudo bem. Desocupe seu quarto.\"',
+    );
+    expect(
+      catalog['\"Can\'t come through here, youngster.\"'],
+      '\"Você não pode passar por aqui, jovem.\"',
+    );
+    expect(
+      catalog['\"Not after I do this.\" <shits pants>'],
+      '\"Não depois que eu fizer isto.\"',
+    );
+    expect(
+      catalog['\"Non-targets please leave the site.\"'],
+      '\"Pessoas que não são alvos, por favor, saiam do local.\"',
+    );
+    expect(
+      catalog['\"Stand still so I can pick you up!\"'],
+      '\"Fique parado para eu poder pegá-lo!\"',
+    );
+    expect(catalog['at the Shopping Mall'], 'no shopping center');
+    expect(catalog['blood draining'], 'drenagem de sangue');
+    expect(
+      catalog['being fed into a meat processing plant'],
+      'ser enviados para uma fábrica de processamento de carne',
+    );
+    expect(
+      catalog['hundreds of Liberal elites were supposedly generating forgeries, '],
+      'centenas de elites Liberais supostamente estavam gerando falsificações, ',
+    );
+    expect(
+      catalog['Your traps will harass the enemy, but not the Squad.'],
+      'Suas armadilhas vão atormentar o inimigo, mas não o Esquadrão.',
+    );
+    expect(
+      catalog['to be served consecutively with your existing sentence.'],
+      'para ser cumprida consecutivamente à sua pena atual.',
+    );
+    expect(
+      catalog['Squad has no base to return to and no homeless camp found. Canceling departure.'],
+      'O esquadrão não tem base para retornar e nenhum acampamento de desabrigados foi encontrado. Cancelando a saída.',
+    );
+    expect(
+      catalog["instructing a female anchor to 'slim down or get a new job'."],
+      "instruir uma apresentadora a 'emagrecer ou conseguir um novo emprego'.",
+    );
+    expect(
       catalog['UNDER ATTACK: ESCAPE OR ENGAGE'],
       'SOB ATAQUE: FUGIR OU ENFRENTAR',
     );

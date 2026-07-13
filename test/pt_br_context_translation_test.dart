@@ -276,7 +276,7 @@ void main() {
     );
     expect(
       catalog['gets away by the skin of {possessive} teeth'],
-      'escapa por um triz, quase perdendo os dentes {possessive}',
+      'escapa por um triz, por pouco não perde os dentes {possessive}',
     );
     expect(
       catalog['{name} is beginning to see the error of {possessive} ways.'],

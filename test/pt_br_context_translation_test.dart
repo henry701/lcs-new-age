@@ -360,6 +360,35 @@ void main() {
       "instruir uma apresentadora a 'emagrecer ou conseguir um novo emprego'.",
     );
     expect(
+      catalog["\"All we are saying is give fleas a chance.\""],
+      "\"Tudo o que dizemos é: deem uma chance às pulgas.\"",
+    );
+    expect(
+      catalog["\"All we are saying is give peace a chance.\""],
+      "\"Tudo o que dizemos é: deem uma chance à paz.\"",
+    );
+    expect(
+      catalog["\"Keep Calm and Carry On\""],
+      "\"Mantenha a calma e siga em frente\"",
+    );
+    expect(
+      catalog["\"Put some clothes on before I call the cops.\""],
+      "\"Vista-se antes que eu chame a polícia.\"",
+    );
+    expect(
+      catalog["\"You got it. Let them go, and we're done.\""],
+      "\"Isso mesmo. Solte-os e acabamos.\"",
+    );
+    expect(
+      catalog['the heat your hackers bring onto their safehouse can be very '],
+      'a atenção policial que seus hackers atraem para o esconderijo deles pode ser muito ',
+    );
+    expect(catalog['strike down anti-drug laws'], 'revogar leis antidrogas');
+    expect(
+      catalog['strike down redistributive taxes'],
+      'revogar impostos redistributivos',
+    );
+    expect(
       catalog['UNDER ATTACK: ESCAPE OR ENGAGE'],
       'SOB ATAQUE: FUGIR OU ENFRENTAR',
     );

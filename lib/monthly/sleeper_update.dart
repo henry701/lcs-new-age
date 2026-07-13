@@ -369,7 +369,7 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
         1,
         LcsI18n.processString("President {name} has leaked {description}.", {
           "name": cr.name,
-          "description": description,
+          "description": LcsI18n.tr(description),
         }),
       );
     } else {
@@ -378,7 +378,7 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
         1,
         LcsI18n.processString("Sleeper {name} has leaked {description}.", {
           "name": cr.name,
-          "description": description,
+          "description": LcsI18n.tr(description),
         }),
       );
     }
@@ -892,7 +892,7 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
           lightGray,
           LcsI18n.processString("Sleeper {name} has recruited a new {type}.", {
             "name": cr.name,
-            "type": e.type.name,
+            "type": LcsI18n.tr(e.type.name),
           }),
         );
         mvaddstrc(

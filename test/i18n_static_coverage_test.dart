@@ -225,6 +225,14 @@ void main() {
       expect(source, isNot(contains(r'${target.name}')));
       expect(source, contains('"{guard} stays close to {target}'));
       expect(source, contains('"Try to take {target} anyway?'));
+      expect(source, contains('"phrase": LcsI18n.tr(phrase)'));
+      expect(source, contains('LcsI18n.tr(cr.type.name)'));
+    });
+
+    test('sleeper leak descriptions translate before insertion', () {
+      final source = File('lib/monthly/sleeper_update.dart').readAsStringSync();
+      expect(source, contains('"description": LcsI18n.tr(description)'));
+      expect(source, contains('LcsI18n.tr(e.type.name)'));
     });
 
     test('car theft messages do not append weapon fragments', () {
@@ -1144,7 +1152,10 @@ void main() {
     test('monthly loot expose stories translate fragments before display', () {
       final monthly = File('lib/monthly/lcs_monthly.dart').readAsStringSync();
       expect(monthly, contains('story += LcsI18n.tr('));
-      expect(monthly, contains('addparagraph(startY, 1, story, noTranslate: true)'));
+      expect(
+        monthly,
+        contains('addparagraph(startY, 1, story, noTranslate: true)'),
+      );
       expect(monthly, isNot(contains('story += "sexually assaulting')));
     });
 
@@ -1154,7 +1165,10 @@ void main() {
       ).readAsStringSync();
       expect(displayNews, contains('void appendNews(String text)'));
       expect(displayNews, contains('story += LcsI18n.tr(text);'));
-      expect(displayNews, contains('appendNews("Members of the Liberal Crime Squad ");'));
+      expect(
+        displayNews,
+        contains('appendNews("Members of the Liberal Crime Squad ");'),
+      );
       expect(displayNews, contains('story += LcsI18n.tr(drama);'));
       expect(displayNews, contains('appendNews("One vehicle crashed.  ");'));
       expect(displayNews, isNot(contains('story += "arson"')));
@@ -1167,19 +1181,30 @@ void main() {
       expect(displayNews, contains('appendNews("Two bodies were ");'));
       expect(displayNews, contains('appendNews("A body was ");'));
       expect(displayNews, contains('appendNews("victims were members ");'));
-      expect(displayNews, contains('appendNews("It was execution style.  Professional.  We\'ve got nothing");'));
+      expect(
+        displayNews,
+        contains(
+          'appendNews("It was execution style.  Professional.  We\'ve got nothing");',
+        ),
+      );
       expect(displayNews, isNot(contains('story += " Two bodies were "')));
-      expect(displayNews, isNot(contains('story += "The bodies had no faces or "')));
+      expect(
+        displayNews,
+        isNot(contains('story += "The bodies had no faces or "')),
+      );
     });
 
-    test('centered newspaper headlines translate in displayCenteredNewsFont', () {
-      final displayNews = File(
-        'lib/newspaper/display_news.dart',
-      ).readAsStringSync();
-      expect(displayNews, contains('str = LcsI18n.tr(str);'));
-      expect(displayNews, contains('displayCenteredNewsFont("CCS MASSACRE"'));
-      expect(displayNews, contains('displayCenteredNewsFont("KIDNAPPED"'));
-    });
+    test(
+      'centered newspaper headlines translate in displayCenteredNewsFont',
+      () {
+        final displayNews = File(
+          'lib/newspaper/display_news.dart',
+        ).readAsStringSync();
+        expect(displayNews, contains('str = LcsI18n.tr(str);'));
+        expect(displayNews, contains('displayCenteredNewsFont("CCS MASSACRE"'));
+        expect(displayNews, contains('displayCenteredNewsFont("KIDNAPPED"'));
+      },
+    );
 
     test(
       'hostage plan labels render their params and costs before display',

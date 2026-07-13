@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/hostages/tend_hostage.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -245,7 +246,7 @@ Future<void> kidnapattempt() async {
           "kidnapper": kidnapper.name,
           "target": target.name,
           "weapon": kidnapper.weapon.getName(sidearm: true),
-          "phrase": phrase,
+          "phrase": LcsI18n.tr(phrase),
         },
       );
 
@@ -520,7 +521,7 @@ Future<void> kidnaptransfer(Creature cr, {Creature? kidnapper}) async {
   setColor(lightGray);
   addstr(
     "What name will you use for this {type} in {pronoun} presence?",
-    params: {"type": cr.type.name, "pronoun": cr.gender.heShe},
+    params: {"type": LcsI18n.tr(cr.type.name), "pronoun": cr.gender.heShe},
   );
 
   cr.name = await enterName(4, 0, cr.properName, prefill: true);

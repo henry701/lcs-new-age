@@ -439,6 +439,19 @@ void main() {
       'O presidente {name} sofreu impeachment por corrupção.',
     );
     expect(
+      catalog['secret intelligence files'],
+      'arquivos de inteligência secreta',
+    );
+    expect(
+      catalog['compromising files about another Judge'],
+      'arquivos comprometedores sobre outro juiz',
+    );
+    expect(catalog['No one can do the job.'], 'Ninguém pode fazer o trabalho.');
+    expect(
+      catalog['All of the targets are too dangerous.'],
+      'Todos os alvos são perigosos demais.',
+    );
+    expect(
       catalog['{name} gets high off drugs smuggled into the prison.'],
       '{name} fica chapado com drogas contrabandeadas para a prisão.',
     );
@@ -551,21 +564,15 @@ void main() {
       '"Você é da Jamaica? Porque já me deixou com tesão."',
     );
     expect(
-      catalog[
-        "\"Let's play trains...  you can sit on my face and I will chew chew chew.\""
-      ],
+      catalog["\"Let's play trains...  you can sit on my face and I will chew chew chew.\""],
       '"Vamos brincar de trem... você pode sentar na minha cara e eu vou fazer tchu-tchu-tchu."',
     );
     expect(
-      catalog[
-        "\"Are you tired?  You've been running around in my thoughts all day.\""
-      ],
+      catalog["\"Are you tired?  You've been running around in my thoughts all day.\""],
       '"Você está cansado? Você passou o dia todo correndo pela minha cabeça."',
     );
     expect(
-      catalog[
-        "\"If I said you had a nice body, would you hold it against me?\""
-      ],
+      catalog["\"If I said you had a nice body, would you hold it against me?\""],
       '"Se eu dissesse que você tem um corpo bonito, deixaria eu encostar ele em mim?"',
     );
     expect(
@@ -581,26 +588,20 @@ void main() {
       '"Quer ver algo inchar?"',
     );
     expect(
-      catalog[
-        '"What do you say we go behind a rock and get a little boulder?"'
-      ],
+      catalog['"What do you say we go behind a rock and get a little boulder?"'],
       '"O que você acha de irmos atrás de um rochedo e ficarmos um pouquinho mais ousados?"',
     );
+    expect(catalog['"Fucking LCS bullshit..."'], '"Que merda de LCS..."');
     expect(
-      catalog['"Fucking LCS bullshit..."'],
-      '"Que merda de LCS..."',
+      catalog['rumbles disinterestedly.'],
+      'ronca o motor com desinteresse.',
     );
-    expect(catalog['rumbles disinterestedly.'], 'ronca o motor com desinteresse.');
     expect(
-      catalog[
-        '"Daaaaaamn {girl}, I want to wrap your legs around my face and '
-      ],
+      catalog['"Daaaaaamn {girl}, I want to wrap your legs around my face and '],
       '"Caramba, {girl}, eu quero envolver suas pernas em volta do meu rosto e ',
     );
     expect(
-      catalog[
-        '"If I could change the alphabet baby, I would put the U and I together!"'
-      ],
+      catalog['"If I could change the alphabet baby, I would put the U and I together!"'],
       '"Se eu pudesse mudar o alfabeto, baby, eu uniria o U e o I!"',
     );
     expect(
@@ -731,9 +732,7 @@ void main() {
       '"Vamos brincar de esquilo. Vou gozar no seu buraco."',
     );
     expect(
-      catalog[
-        'Because I could have sworn you were checking out my package."'
-      ],
+      catalog['Because I could have sworn you were checking out my package."'],
       '"Porque eu poderia jurar que você estava secando meu pacote."',
     );
     expect(
@@ -741,9 +740,7 @@ void main() {
       '"É, e você vai ter que me retribuir isso hoje à noite."',
     );
     expect(
-      catalog[
-        '"I hope we\'re shooting blanks, soldier.  I\'m out of condoms."'
-      ],
+      catalog['"I hope we\'re shooting blanks, soldier.  I\'m out of condoms."'],
       '"Espero que estejamos atirando em branco, soldado. Estou sem camisinhas."',
     );
     expect(
@@ -751,15 +748,11 @@ void main() {
       '"Eles dariam um quitute delicioso na hora de dormir."',
     );
     expect(
-      catalog[
-        '"Can\'t help you there, but I can show you something slick."'
-      ],
+      catalog['"Can\'t help you there, but I can show you something slick."'],
       '"Não posso te ajudar nisso, mas posso te mostrar algo bem escorregadio."',
     );
     expect(
-      catalog[
-        '"As long as you handle your letters with care, I\'m all for it."'
-      ],
+      catalog['"As long as you handle your letters with care, I\'m all for it."'],
       '"Desde que una o U e o I com cuidado, por mim tudo bem."',
     );
     expect(
@@ -780,64 +773,63 @@ void main() {
     );
   });
 
-  test('pickup-line failure responses preserve insults, puns, and stage directions', () {
-    expect(
-      catalog["'Cause you're inspiring an uprising in my lower class.\""],
-      'Porque você está inspirando um levante na minha classe trabalhadora."',
-    );
-    expect(
-      catalog["'Cause I seem to be inspiring an uprising in your lower class.\""],
-      'Porque parece que estou inspirando um levante na sua classe trabalhadora."',
-    );
-    expect(
-      catalog["'Cause you're bringing some heat to my lower class.\""],
-      'Porque você está esquentando a minha classe trabalhadora."',
-    );
-    expect(
-      catalog['"You\'re such an asshole!" <pouts>'],
-      '"Você é um babaca!" <faz beicinho>',
-    );
-    expect(
-      catalog['"You\'re big everywhere, fatass." <laughs>'],
-      '"Você é grandão em tudo, seu gorducho." <risada>',
-    );
-    expect(
-      catalog[
-        '"I don\'t approve of your hi-carb diet." <starts ranting about nutrition>'
-      ],
-      '"Não curto sua dieta de bolinho industrializado." <começa a discursar sobre nutrição>',
-    );
-    expect(
-      catalog['"I\'m way outta your league, scumbag." <grabs pepper spray>'],
-      '"Estou muito acima do seu nível, canalha." <pega o spray de pimenta>',
-    );
-    expect(
-      catalog['"Not after I do this." <shits pants>'],
-      '"Não depois que eu fizer isto." <caga nas calças>',
-    );
-    expect(
-      catalog['"Sure, here ya go..." <writes wrong number>'],
-      '"Claro, aqui está..." <anota um número errado>',
-    );
-    expect(
-      catalog['"These boxes aren\'t addressed to you." <turns away>'],
-      '"Estas caixas não são endereçadas a você." <se afasta>',
-    );
-    expect(
-      catalog['"Eew, no, gross." <turns away>'],
-      '"Eca, não, nojento." <se afasta>',
-    );
-    expect(
-      catalog[
-        '"If I could change the alphabet baby, I would put the U and I together!"'
-      ],
-      '"Se eu pudesse mudar o alfabeto, baby, eu uniria o U e o I!"',
-    );
-    expect(
-      catalog['"Hot damn.  You\'re built like a brick shithouse, {honey}."'],
-      '"Caramba. Você é forte que nem uma latrina de tijolo, {honey}."',
-    );
-  });
+  test(
+    'pickup-line failure responses preserve insults, puns, and stage directions',
+    () {
+      expect(
+        catalog["'Cause you're inspiring an uprising in my lower class.\""],
+        'Porque você está inspirando um levante na minha classe trabalhadora."',
+      );
+      expect(
+        catalog["'Cause I seem to be inspiring an uprising in your lower class.\""],
+        'Porque parece que estou inspirando um levante na sua classe trabalhadora."',
+      );
+      expect(
+        catalog["'Cause you're bringing some heat to my lower class.\""],
+        'Porque você está esquentando a minha classe trabalhadora."',
+      );
+      expect(
+        catalog['"You\'re such an asshole!" <pouts>'],
+        '"Você é um babaca!" <faz beicinho>',
+      );
+      expect(
+        catalog['"You\'re big everywhere, fatass." <laughs>'],
+        '"Você é grandão em tudo, seu gorducho." <risada>',
+      );
+      expect(
+        catalog['"I don\'t approve of your hi-carb diet." <starts ranting about nutrition>'],
+        '"Não curto sua dieta de bolinho industrializado." <começa a discursar sobre nutrição>',
+      );
+      expect(
+        catalog['"I\'m way outta your league, scumbag." <grabs pepper spray>'],
+        '"Estou muito acima do seu nível, canalha." <pega o spray de pimenta>',
+      );
+      expect(
+        catalog['"Not after I do this." <shits pants>'],
+        '"Não depois que eu fizer isto." <caga nas calças>',
+      );
+      expect(
+        catalog['"Sure, here ya go..." <writes wrong number>'],
+        '"Claro, aqui está..." <anota um número errado>',
+      );
+      expect(
+        catalog['"These boxes aren\'t addressed to you." <turns away>'],
+        '"Estas caixas não são endereçadas a você." <se afasta>',
+      );
+      expect(
+        catalog['"Eew, no, gross." <turns away>'],
+        '"Eca, não, nojento." <se afasta>',
+      );
+      expect(
+        catalog['"If I could change the alphabet baby, I would put the U and I together!"'],
+        '"Se eu pudesse mudar o alfabeto, baby, eu uniria o U e o I!"',
+      );
+      expect(
+        catalog['"Hot damn.  You\'re built like a brick shithouse, {honey}."'],
+        '"Caramba. Você é forte que nem uma latrina de tijolo, {honey}."',
+      );
+    },
+  );
 
   test('LGBT rejection pool preserves idioms and insult tone', () {
     expect(catalog["No, I'm no chaser."], 'Não, não sou chaser.');
@@ -873,7 +865,8 @@ void main() {
     );
     expect(
       catalog.values.singleWhere(
-        (value) => value.startsWith('Washington, DC - O FBI pode estar de olho'),
+        (value) =>
+            value.startsWith('Washington, DC - O FBI pode estar de olho'),
       ),
       allOf(
         contains('indesejáveis'),
@@ -906,8 +899,7 @@ void main() {
       'as frutas, as nozes e os malucos da esquerda ambientalista',
     );
     expect(
-      catalog[
-          '"It\'s you!!  Somebody set up us the bomb.  Move \'Zig\'.  For great justice."'],
+      catalog['"It\'s you!!  Somebody set up us the bomb.  Move \'Zig\'.  For great justice."'],
       '"É você!! Alguém nos armou a bomba. Move \'Zig\'. Por grande justiça."',
     );
     expect(
@@ -988,7 +980,8 @@ void main() {
     );
     expect(
       catalog.values.singleWhere(
-        (value) => value.contains('indústria de alimentos geneticamente modificados'),
+        (value) =>
+            value.contains('indústria de alimentos geneticamente modificados'),
       ),
       allOf(
         contains('este incrível novo produto na verdade {benefit}'),
@@ -998,7 +991,8 @@ void main() {
     );
     expect(
       catalog.values.singleWhere(
-        (value) => value.startsWith('{city} - A poluição talvez não seja tão ruim'),
+        (value) =>
+            value.startsWith('{city} - A poluição talvez não seja tão ruim'),
       ),
       contains('só precisa tirar um fôlego neste caso'),
     );
@@ -1086,9 +1080,7 @@ void main() {
       'Porque não consigo deixar de secar seu pacote."',
     );
     expect(
-      catalog[
-        '"Because I could have sworn you were checking out my packages."'
-      ],
+      catalog['"Because I could have sworn you were checking out my packages."'],
       '"Porque eu poderia jurar que você estava secando meus pacotes."',
     );
     expect(
@@ -1104,9 +1096,7 @@ void main() {
       'mamou numa mulher lactante',
     );
     expect(
-      catalog[
-        'I just tried it myself and I feel like a million bucks!  *Coughs up blood*  I\'m OK, that\'s just ketchup'
-      ],
+      catalog['I just tried it myself and I feel like a million bucks!  *Coughs up blood*  I\'m OK, that\'s just ketchup'],
       contains('ketchup'),
     );
     expect(
@@ -1146,30 +1136,21 @@ void main() {
       catalog['to let the officers join in'],
       'deixar os oficiais participarem',
     );
-    expect(
-      catalog['lost his {swear} mind'],
-      'perdeu o juízo, {swear}',
-    );
+    expect(catalog['lost his {swear} mind'], 'perdeu o juízo, {swear}');
     expect(
       catalog["'Cause you're inspiring an uprising in my lower class.\""],
       'Porque você está inspirando um levante na minha classe trabalhadora."',
     );
     expect(
-      catalog[
-        '"Hot damn.  You\'re built like a brick shithouse, {honey}."'
-      ],
+      catalog['"Hot damn.  You\'re built like a brick shithouse, {honey}."'],
       '"Caramba. Você é forte que nem uma latrina de tijolo, {honey}."',
     );
     expect(
-      catalog[
-        'screamed "Fuck the police those goddamn motherfuckers.  I got a fucking ticket this morning and I\'m fucking pissed as shit."'
-      ],
+      catalog['screamed "Fuck the police those goddamn motherfuckers.  I got a fucking ticket this morning and I\'m fucking pissed as shit."'],
       contains('multa'),
     );
     expect(
-      catalog[
-        'pass new laws to protect the most vulnerable children '
-      ],
+      catalog['pass new laws to protect the most vulnerable children '],
       'aprovar novas leis para proteger as crianças mais vulneráveis ',
     );
     expect(
@@ -1180,9 +1161,7 @@ void main() {
 
   test('newspaper fragments and pickup idioms avoid literal mistranslations', () {
     expect(
-      catalog[
-        '"Fuck me if I\'m wrong but you want to kiss me, right?"'
-      ],
+      catalog['"Fuck me if I\'m wrong but you want to kiss me, right?"'],
       '"Me fode se eu estiver errado, mas você quer me beijar, certo?"',
     );
     expect(
@@ -1194,15 +1173,11 @@ void main() {
       '"Isto não é um clube gótico; roupas ensanguentadas não servem aqui."',
     );
     expect(
-      catalog[
-        'documenting a conspiracy to coordinate rents across multiple major land ownership companies.'
-      ],
+      catalog['documenting a conspiracy to coordinate rents across multiple major land ownership companies.'],
       startsWith('documentando'),
     );
     expect(
-      catalog[
-        'documenting the use of an AI system specifically designed to coordinate rent price fixing.'
-      ],
+      catalog['documenting the use of an AI system specifically designed to coordinate rent price fixing.'],
       startsWith('documentando'),
     );
     expect(
@@ -1210,9 +1185,7 @@ void main() {
       startsWith('documentando'),
     );
     expect(
-      catalog[
-        'Ho, shit! I dig it, but you know... I could never be seen sayin\' yes.'
-      ],
+      catalog['Ho, shit! I dig it, but you know... I could never be seen sayin\' yes.'],
       'Puta merda, curti! Mas sabe... nunca poderia ser visto dizendo sim.',
     );
     expect(
@@ -1225,23 +1198,14 @@ void main() {
       catalog.values.singleWhere(
         (value) => value.contains('ex-médico abortista'),
       ),
-      allOf(
-        contains('O autor'),
-        isNot(contains('A autora')),
-      ),
+      allOf(contains('O autor'), isNot(contains('A autora'))),
     );
     expect(
       catalog['tampering with lab animals'],
       'maus-tratos a animais de laboratório',
     );
-    expect(
-      catalog['an end.&r'],
-      'um fim.&r',
-    );
-    expect(
-      catalog['One vehicle crashed.  '],
-      'Um veículo bateu.  ',
-    );
+    expect(catalog['an end.&r'], 'um fim.&r');
+    expect(catalog['One vehicle crashed.  '], 'Um veículo bateu.  ');
   });
 
   test('monthly loot expose fragments translate before story assembly', () {

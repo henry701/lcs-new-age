@@ -235,6 +235,23 @@ void main() {
       expect(source, contains('LcsI18n.tr(e.type.name)'));
     });
 
+    test('creature type names translate before template insertion', () {
+      final sitemode = File('lib/sitemode/sitemode.dart').readAsStringSync();
+      final recruitment = File('lib/daily/recruitment.dart').readAsStringSync();
+      final creatureInfo = File(
+        'lib/common_display/print_creature_info.dart',
+      ).readAsStringSync();
+      final sleeperJoin = File(
+        'lib/daily/activities/sleeper_join_lcs.dart',
+      ).readAsStringSync();
+      expect(sitemode, contains('LcsI18n.tr(conservative.type.name)'));
+      expect(sitemode, isNot(contains('"type": conservative.type.name')));
+      expect(recruitment, contains('LcsI18n.tr(r.recruit.type.name)'));
+      expect(recruitment, contains('LcsI18n.tr("via video chat.")'));
+      expect(creatureInfo, contains('LcsI18n.tr(cr.type.name)'));
+      expect(sleeperJoin, contains('LcsI18n.tr(location.name)'));
+    });
+
     test('car theft messages do not append weapon fragments', () {
       final source = File(
         'lib/daily/activities/car_theft.dart',

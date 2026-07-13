@@ -24,7 +24,7 @@ Future<void> doActivitySleeperJoinLCS(List<Creature> people) async {
     await showMessage(
       LcsI18n.processString("{name} is reporting in at the {location}.", {
         "name": p.name,
-        "location": location.name,
+        "location": LcsI18n.tr(location.name),
       }),
     );
   }

@@ -23,6 +23,7 @@
   ", Level {level}": ", Nível {level}",
   "- Existing Black Bloc Armor items will become Black Bloc Outfits": "- Os itens existentes de Armadura do Black Bloc se tornarão Trajes do Black Bloc",
   ": CCS RESPONDING": ": CCS RESPONDENDO",
+  "@@locale": "pt_BR",
   "@LIBERAL CRIME SQUAD: NEW AGE": {},
   "@Total Conservatives Killed: {count}": {
     "placeholders": {

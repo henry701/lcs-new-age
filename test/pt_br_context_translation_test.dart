@@ -451,6 +451,12 @@ void main() {
       catalog['All of the targets are too dangerous.'],
       'Todos os alvos são perigosos demais.',
     );
+    expect(catalog['Police Officer'], 'Oficial de Polícia');
+    expect(catalog['via video chat.'], 'por videochamada.');
+    expect(
+      catalog['{name} is reporting in at the {location}.'],
+      '{name} está se apresentando em {location}.',
+    );
     expect(
       catalog['{name} gets high off drugs smuggled into the prison.'],
       '{name} fica chapado com drogas contrabandeadas para a prisão.',

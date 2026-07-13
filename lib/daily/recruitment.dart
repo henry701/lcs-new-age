@@ -161,7 +161,9 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
   } else {
     inPerson = false;
   }
-  final locationInfo = inPerson ? r.recruit.location!.name : "via video chat.";
+  final locationInfo = inPerson
+      ? LcsI18n.tr(r.recruit.location!.name)
+      : LcsI18n.tr("via video chat.");
   mvaddstrc(
     0,
     0,
@@ -169,7 +171,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     "Meeting with {name}, {type}, {location}",
     params: {
       "name": r.recruit.name,
-      "type": r.recruit.type.name,
+      "type": LcsI18n.tr(r.recruit.type.name),
       "location": locationInfo,
     },
   );

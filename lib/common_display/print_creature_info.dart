@@ -770,7 +770,11 @@ void printFullCreatureNameBlock(Creature cr) {
     0,
     lightGray,
     "Name: {name:white}, {title} ({type})",
-    params: {"name": cr.name, "title": cr.title, "type": cr.type.name},
+    params: {
+      "name": cr.name,
+      "title": cr.title,
+      "type": LcsI18n.tr(cr.type.name),
+    },
   );
 }
 

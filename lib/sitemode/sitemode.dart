@@ -1732,7 +1732,7 @@ Future<void> _siteModeAux() async {
                     await encounterMessage(
                       "{type} {reaction}",
                       params: {
-                        "type": conservative.type.name,
+                        "type": LcsI18n.tr(conservative.type.name),
                         "reaction": LcsI18n.tr(
                           [
                             "looks around wildly, shocked by the gore.",
@@ -1751,7 +1751,7 @@ Future<void> _siteModeAux() async {
                     await encounterMessage(
                       "{type} {reaction}",
                       params: {
-                        "type": conservative.type.name,
+                        "type": LcsI18n.tr(conservative.type.name),
                         "reaction": LcsI18n.tr(
                           [
                             "looks at the blood nervously.",

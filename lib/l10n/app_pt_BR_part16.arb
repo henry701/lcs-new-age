@@ -21,6 +21,7 @@
   "+2 Firearms, +1 First Aid": "+2 Armas de Fogo, +1 Primeiros Socorros",
   "+2 Heart, May 17th": "+2 Coração, 17 de Maio",
   "+2 Persuasion, +1 Writing": "+2 Persuasão, +1 Escrita",
+  ".45 SMG": "SMG .45",
   ": LISTENERS RESPONDING": ": OUVINTES RESPONDENDO",
   "@{key} - {car}": {
     "placeholders": {
@@ -72,6 +73,8 @@
   "Game Over": "Fim de Jogo",
   "Gangs of young children carrying AK-47s roam the streets.": "Gangues de crianças pequenas portando AK-47s percorrem as ruas.",
   "Garden Grove, CA": "Garden Grove, California",
+  "Guitar": "Guitarra",
+  "Hard Armor Vest": "Colete de armadura pesada",
   "Haven": "Refúgio",
   "Health": "Saúde",
   "Hello, friend...": "Olá, amigo...",
@@ -88,6 +91,7 @@
   "Jaded Liberal Judge": "Juiz Liberal Cínico",
   "KIDNAPPED": "SEQUESTRADO",
   "Liberal activity": "Atividade Liberal",
+  "M7 Rifle": "Rifle M7",
   "Morning": "Manhã",
   "Music still ringing in their ears, the squad revels in their final victory.\n\nAs your Liberals speak to the former CCS members, it is increasingly clear that this was the CCS's last safehouse.\n\nThe CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?\n\n+200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD": "Com a música ainda ecoando em seus ouvidos, o esquadrão se deleita com sua vitória final.\n\nEnquanto seus Liberais conversam com os ex-membros da CCS, fica cada vez mais claro que este era o último esconderijo da CCS.\n\nA CCS foi completamente {pacifistAction}. Afinal, não havia uma revolução para cuidar?\n\n+200 ENERGIA PARA TODOS POR {ccsAction} O ESQUADRÃO DO CRIME CONSERVADOR",
   "Myrtle Beach, SC": "Myrtle Beach, South Carolina",
@@ -113,6 +117,7 @@
   "Recreational drugs are regulated and taxed.": "Drogas recreativas são reguladas e taxadas.",
   "Rectangle (R)": "Retângulo (R)",
   "Restrict Corrupt Union Organizing": "Restringir Organização Sindical Corrupta",
+  "Right Arm": "Braço direito",
   "SAY NOTHING. YOU ARE BEING ROBBED.": "NÃO DIGA NADA. VOCÊ ESTÁ SENDO ASSALTADO.",
   "SUSPECTED": "SUSPEITO",
   "Supreme Court Watch {year}": "Vigilância da Suprema Corte {year}",

@@ -20,6 +20,7 @@
   "+1 Writing, +1 Heart": "+1 Escrita, +1 Coração",
   "+2 Tailoring, +1 Disguise, Black Formalwear": "+2 Alfaiataria, +1 Disfarce, Traje Formal Preto",
   "-Move, ": "-Mover, ",
+  ".45 Pistol": "Pistola .45",
   "? - About the Selected Activity": "? - Sobre a Atividade Selecionada",
   "@Version {version}": {
     "placeholders": {
@@ -42,6 +43,8 @@
   "Are you sure you want to disband?": "Tem certeza de que deseja se desfazer?",
   "As you exit the site, you notice that you are being followed by Conservative swine!": "Ao sair do local, você percebe que está sendo seguido por porcos conservadores!",
   "B - Desperately search for keys.": "B - Procurar desesperadamente por chaves.",
+  "Banjo": "Banjo",
+  "Baton": "Cassetete",
   "But the Arch Conservative far right still gained seats.": "Mas a extrema direita Arqui-Conservadora ainda conquistou assentos.",
   "But {name} stutters nervously the whole time.": "Mas {name} gagueja nervosamente o tempo todo.",
   "C - Spend {price} to visit {firstName} for a week (stands up other dates).": "C - Gastar {price} para visitar {firstName} por uma semana (cancela outros encontros).",
@@ -113,6 +116,7 @@
   "Some people deserve to die.": "Algumas pessoas merecem morrer.",
   "Sometimes your clients will be cops. Some of those cops are ": "Às vezes seus clientes serão policiais. Alguns desses policiais são ",
   "St. {name}": "São {name}",
+  "Staff": "Cajado",
   "Star": "Star (marca)",
   "Steel Plant": "Siderúrgica",
   "That's hot.": "Isso é quente.",
@@ -144,6 +148,7 @@
   "Your {vehicle} fishtails wildly!!!": "Seu {vehicle} derrapa violentamente!!!",
   "Your {vehicle} skids out and crashes!": "O seu {vehicle} derrapa e capota!",
   "Z - Corpse Disposal": "Z - Descarte de Cadáver",
+  "Zweihänder": "Espadão",
   "[makes a stinky].": "[faz caquinha].",
   "a Liberalizing effect on public opinion and can be used to ": "um efeito Liberalizador na opinião pública e pode ser usado para ",
   "a battery of negative DNA tests": "uma bateria de testes de DNA negativos",

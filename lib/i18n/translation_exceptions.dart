@@ -24,4 +24,15 @@ const Set<String> structuralTranslationKeys = {
   'DNA',
   'DEO VINDICE',
   'KINKY WINKY',
+  // Weapon model numbers and international designations kept identical in pt_BR.
+  '.44 Magnum',
+  'AA-12',
+  'AK-102',
+  'AR-15',
+  'Banjo',
+  'Deagle',
+  'M2A1-7',
+  'M250',
+  'M4',
+  'M7',
 };

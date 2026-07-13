@@ -1000,6 +1000,8 @@ void main() {
       expect(district, isNot(contains(r'"$name, ${city.name}"')));
       expect(weapon, contains('"{weapon} ({ammo})"'));
       expect(weapon, isNot(contains(r'et += " ($ammo)"')));
+      expect(weapon, contains('return LcsI18n.tr(type.name)'));
+      expect(weapon, contains('return LcsI18n.tr(type.largeSubtypeName ?? type.name)'));
       expect(clothing, contains('"{clothing} (d)"'));
       expect(clothing, isNot(contains(r'"${type.name} (d)"')));
     });
@@ -1354,6 +1356,11 @@ void main() {
           fight,
           contains('"attack": LcsI18n.tr(attackUsed.attackDescription.random)'),
         );
+        expect(
+          fight,
+          contains('"part": LcsI18n.tr(hitPart.name).toLowerCase()'),
+        );
+        expect(fight, isNot(contains('hitPart.name.toLowerCase()')));
 
         final miscactions = File(
           'lib/sitemode/miscactions.dart',

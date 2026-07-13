@@ -17,6 +17,7 @@
   "-Flee, ": "-Fugir, ",
   "...  stabbed with, maybe, pitchforks.  There may have ": "...  esfaqueado com, talvez, forcados.  Pode ter ",
   "...and accidentally {action} despite being blind!": "...e acidentalmente {action} apesar de ser cego!",
+  ".22 Rev": "Rev. .22",
   "@U - Log Untranslated Strings: {status}": {
     "placeholders": {
       "status": {
@@ -71,6 +72,7 @@
   "JURY!": "JÚRI!",
   "L - Load, ": "L - Carregar, ",
   "LCS's mission to uproot harmful ideologies.": "A missão da LCS é desarraigar ideologias prejudiciais.",
+  "Left Leg": "Perna esquerda",
   "Legalized Marijuana": "Maconha Legalizada",
   "Liberals need to equip spraypaint to do graffiti. Those without ": "Liberais precisam equipar spray para fazer grafites. Aqueles sem ",
   "Liberty": "Liberdade",

@@ -868,26 +868,33 @@ Future<bool> attack(
           targetDescTemplate = "{name}'s {part}";
           targetDescParams = {
             "name": t.name,
-            "part": hitPart.name.toLowerCase(),
+            "part": LcsI18n.tr(hitPart.name).toLowerCase(),
           };
         }
       } else if (hitPart.critical && t.clothing.bodyArmor > 4 && t.human) {
         targetDescTemplate = "{name}'s {armor}";
         targetDescParams = {
           "name": t.name,
-          "armor":
-              t.clothing.armor?.name.split(",").first.toLowerCase() ?? "armor",
+          "armor": LcsI18n.tr(
+            t.clothing.armor?.name.split(",").first.trim() ?? "armor",
+          ).toLowerCase(),
         };
       } else if (t.clothing.getLimbArmor(hitPart) > 4) {
         targetDescTemplate = "{name}'s {part} armor";
-        targetDescParams = {"name": t.name, "part": hitPart.name.toLowerCase()};
+        targetDescParams = {
+          "name": t.name,
+          "part": LcsI18n.tr(hitPart.name).toLowerCase(),
+        };
       } else {
         targetDescTemplate = "{name}'s {part}";
-        targetDescParams = {"name": t.name, "part": hitPart.name.toLowerCase()};
+        targetDescParams = {
+          "name": t.name,
+          "part": LcsI18n.tr(hitPart.name).toLowerCase(),
+        };
       }
     } else {
       targetDescTemplate = "{part}";
-      targetDescParams = {"part": hitPart.name.toLowerCase()};
+      targetDescParams = {"part": LcsI18n.tr(hitPart.name).toLowerCase()};
     }
     final targetDesc = LcsI18n.processString(
       targetDescTemplate,

@@ -62,24 +62,28 @@ class Weapon extends Item {
   String getName({bool sidearm = false, bool primary = false}) {
     if (year >= 2100) {
       if (primary) {
-        return type.futureLargeSubtypeName ??
-            type.largeSubtypeName ??
-            type.name;
+        return LcsI18n.tr(
+          type.futureLargeSubtypeName ??
+              type.largeSubtypeName ??
+              type.name,
+        );
       }
       if (sidearm) {
-        return type.futureSmallSubtypeShortName ??
-            type.smallSubtypeShortName ??
-            type.shortName;
+        return LcsI18n.tr(
+          type.futureSmallSubtypeShortName ??
+              type.smallSubtypeShortName ??
+              type.shortName,
+        );
       }
     }
-    if (primary) return type.largeSubtypeName ?? type.name;
-    if (sidearm) return type.smallSubtypeShortName ?? type.shortName;
-    return type.name;
+    if (primary) return LcsI18n.tr(type.largeSubtypeName ?? type.name);
+    if (sidearm) return LcsI18n.tr(type.smallSubtypeShortName ?? type.shortName);
+    return LcsI18n.tr(type.name);
   }
 
   @override
   String equipTitle({bool full = false}) {
-    String et = type.name;
+    String et = LcsI18n.tr(type.name);
     if (ammo > 0) {
       et = LcsI18n.processString("{weapon} ({ammo})", {
         "weapon": et,

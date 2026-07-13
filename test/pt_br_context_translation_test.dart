@@ -724,4 +724,59 @@ void main() {
     );
     expect(catalog['The broadcast is mediocre.'], 'A transmissão é medíocre.');
   });
+
+  test('pickup-line success responses preserve puns and innuendo', () {
+    expect(
+      catalog['"Let\'s play squirrel.  I\'ll bust a nut in your hole."'],
+      '"Vamos brincar de esquilo. Vou gozar no seu buraco."',
+    );
+    expect(
+      catalog[
+        'Because I could have sworn you were checking out my package."'
+      ],
+      'Porque eu poderia jurar que você estava secando meu pacote."',
+    );
+    expect(
+      catalog['"Yeah, and you\'re going to repay me tonight."'],
+      '"É, e você vai ter que me retribuir isso hoje à noite."',
+    );
+    expect(
+      catalog[
+        '"I hope we\'re shooting blanks, soldier.  I\'m out of condoms."'
+      ],
+      '"Espero que estejamos atirando em branco, soldado. Estou sem camisinhas."',
+    );
+    expect(
+      catalog['"They make a yummy bedtime snack."'],
+      '"Eles dariam um quitute delicioso na hora de dormir."',
+    );
+    expect(
+      catalog[
+        '"Can\'t help you there, but I can show you something slick."'
+      ],
+      '"Não posso te ajudar nisso, mas posso te mostrar algo bem escorregadio."',
+    );
+    expect(
+      catalog[
+        '"As long as you handle your letters with care, I\'m all for it."'
+      ],
+      '"Desde que una o U e o I com cuidado, por mim tudo bem."',
+    );
+    expect(
+      catalog['"My sex could do even more."'],
+      '"Minha sexualidade poderia te deixar ainda mais nervoso."',
+    );
+    expect(
+      catalog['"Want me to keep \'em on in bed?"'],
+      '"Quer que eu deixe os sapatos na cama?"',
+    );
+    expect(
+      catalog['"Sounds like conditions are right for me'],
+      '"Parece que as condições estão maduras para mim',
+    );
+    expect(
+      catalog['to seize your means of reproduction."'],
+      'expropriar os seus meios de reprodução."',
+    );
+  });
 }

@@ -64,12 +64,12 @@ Future<void> handleLoveBombing(
           "holds a mock protest to bring {hostage} into the movement in spirit, "
               "starting with an extended planning session where they pick out "
               "phrases and put together protest signs about issues that really "
-              "matter to {hostagePossessive}.",
+              "matter to {hostagePronoun}.",
           "holds a movie night with {hostage}, with a marathon of documentaries "
               "on topics like renewable energy and intersectionality, pausing "
               "frequently for collaborative discussions on \"what it all means\".",
           "has {hostage} brainstorm protest sign ideas on issues that matter to "
-              "{hostagePossessive}, then helps {obj} to "
+              "{hostagePronoun}, then helps {obj} to "
               "put together a sign {hostagePronoun} can take out into the street "
               "once {hostage} is released.",
           "puts on a drag brunch for {hostage}, encouraging {obj} to "
@@ -130,7 +130,7 @@ Future<void> handleLoveBombing(
           "throws a holiday party for {hostage} celebrating {holiday}, complete with a {item1}, a {item2}, and a {item3}.",
           "gives {hostage} a live chicken to hold while {lead} plays "
               "a series of undercover videos of factory farms and slaughterhouses "
-              "for {hostagePossessive}, then encourages {obj} to "
+              "for {hostagePronoun}, then encourages {obj} to "
               "get in touch with {hostagePossessive} true feelings.",
         ].random,
       ),

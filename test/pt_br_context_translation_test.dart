@@ -136,6 +136,18 @@ void main() {
       catalog['looks like {pronoun} might have changed {possessive} mind about some things.'],
       'parece que {pronoun} pode ter mudado o ponto de vista {possessive} sobre algumas coisas.',
     );
+    expect(
+      catalog['decolonizing {hostagePossessive} mind.'],
+      'descolonizando a mente {hostagePossessive}.',
+    );
+    expect(
+      catalog['plays a selection of protest songs on {leadPossessive} cell '],
+      'toca uma seleção de músicas de protesto no celular {leadPossessive} ',
+    );
+    expect(
+      catalog['get in touch with {hostagePossessive} true feelings.'],
+      'entrar em contato com os verdadeiros sentimentos {hostagePossessive}.',
+    );
   });
 
   test('reviewed action translations preserve their gameplay context', () {
@@ -171,6 +183,18 @@ void main() {
     expect(
       catalog['{leadHisHer} mind if {leadHeShe} thinks '],
       'mente {leadHisHer} se {leadHeShe} pensa ',
+    );
+    expect(
+      catalog['matter to {hostagePronoun}.'],
+      'são importantes para {hostagePronoun}.',
+    );
+    expect(
+      catalog['for {hostagePronoun}, then encourages {obj} to '],
+      'para {hostagePronoun}, então incentiva {obj} a ',
+    );
+    expect(
+      catalog['What name will you use for this {type} in {pronoun} presence?'],
+      'Que nome você usará para este {type} enquanto {pronoun} estiver presente?',
     );
   });
 }

@@ -519,8 +519,8 @@ Future<void> kidnaptransfer(Creature cr, {Creature? kidnapper}) async {
   move(2, 0);
   setColor(lightGray);
   addstr(
-    "What name will you use for this {type} in {possessive} presence?",
-    params: {"type": cr.type.name, "possessive": cr.gender.hisHer},
+    "What name will you use for this {type} in {pronoun} presence?",
+    params: {"type": cr.type.name, "pronoun": cr.gender.heShe},
   );
 
   cr.name = await enterName(4, 0, cr.properName, prefill: true);

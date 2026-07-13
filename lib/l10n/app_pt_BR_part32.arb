@@ -213,7 +213,7 @@
   "{vegetable} {noun} Vegan Co-op": "Cooperativa Vegana {noun} {vegetable}",
   "{vehicle} couldn't keep up.": "{vehicle} não conseguiu acompanhar.",
   "{vehicle} spins out of control!": "{vehicle} sai girando fora de controle!",
-  "{vehicle} struggles to maintain speed and falls away.": "{vehicle} não mantém a velocidade e fica para trás.",
+  "{vehicle} struggles to maintain speed and falls away.": "{vehicle} tem dificuldade para manter a velocidade e fica para trás.",
   "{votes} Yea": "{votes} Sim",
   "{votes} for Change": "{votes} pela Mudança"
 }

@@ -16,8 +16,44 @@ Map<String, String> _loadPortugueseCatalog() {
   return entries;
 }
 
+Map<String, String> _loadEnglishCatalog() {
+  final entries = <String, String>{};
+  for (final file in Directory('lib/l10n').listSync().whereType<File>()) {
+    if (!RegExp(r'app_en_US_part\d+\.arb$').hasMatch(file.path)) continue;
+    final decoded = jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
+    for (final entry in decoded.entries) {
+      if (entry.key.startsWith('@') || entry.value is! String) continue;
+      entries[entry.key] = entry.value as String;
+    }
+  }
+  return entries;
+}
+
+Map<String, int> _placeholderCounts(String text) {
+  final counts = <String, int>{};
+  for (final match in RegExp(r'\{(\w+)\}').allMatches(text)) {
+    final name = match.group(1)!;
+    counts[name] = (counts[name] ?? 0) + 1;
+  }
+  return counts;
+}
+
 void main() {
+  final englishCatalog = _loadEnglishCatalog();
   final catalog = _loadPortugueseCatalog();
+
+  test(
+    'Portuguese translations preserve every source placeholder occurrence',
+    () {
+      for (final entry in englishCatalog.entries) {
+        expect(
+          _placeholderCounts(catalog[entry.key] ?? ''),
+          _placeholderCounts(entry.value),
+          reason: 'Placeholder mismatch for ${entry.key}',
+        );
+      }
+    },
+  );
 
   test('ballot measure labels use Portuguese noun order', () {
     for (final key in [
@@ -133,6 +169,22 @@ void main() {
       '{subject} vomitasse sangue',
     );
     expect(
+      catalog['{subject} lost all of {possessive} teeth'],
+      '{subject} perdeu todos os dentes {possessive}',
+    );
+    expect(
+      catalog['everything {pronoun} feels guilty or ashamed of, '],
+      'tudo pelo que {pronoun} sente culpa ou vergonha, ',
+    );
+    expect(
+      catalog['if {pronoun} is interested in that sort of thing.'],
+      'se {pronoun} tem interesse nesse tipo de coisa.',
+    );
+    expect(
+      catalog['mutters "fuck yes" under {hisHer} breath.'],
+      'murmura "foda-se, sim" por entre os dentes {hisHer}.',
+    );
+    expect(
       catalog['looks like {pronoun} might have changed {possessive} mind about some things.'],
       'parece que {pronoun} pode ter mudado o ponto de vista {possessive} sobre algumas coisas.',
     );
@@ -195,6 +247,29 @@ void main() {
     expect(
       catalog['What name will you use for this {type} in {pronoun} presence?'],
       'Que nome você usará para este {type} enquanto {pronoun} estiver presente?',
+    );
+    expect(
+      catalog['B - {name} expects to be paid for {hisHer} time.'],
+      'B - {name} espera receber pelo tempo {hisHer}.',
+    );
+    expect(
+      catalog['looks like {heShe} might be convinced.'],
+      'parece que {heShe} está se convencendo.',
+    );
+    expect(catalog['bastard'], 'canalha');
+    expect(catalog['[jerk]'], '[babaca]');
+    expect(catalog['immigrant'], 'imigrante');
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.startsWith('{city} - A caçada nacional terminou'),
+      ),
+      contains('A pessoa tinha o status de {immigrationStatus}'),
+    );
+    expect(
+      catalog.values.singleWhere(
+        (value) => value.startsWith('{city} - Uma empresa local foi acusada'),
+      ),
+      contains('que é uma pessoa negra ({person})'),
     );
   });
 }

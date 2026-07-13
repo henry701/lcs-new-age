@@ -1057,8 +1057,8 @@ MajorEventContent generateMajorEventContent(
                 {"subject": suspectSubject},
               ),
               LcsI18n.processString(
-                "{possessive} lost all of {possessive} teeth",
-                {"possessive": suspectPossessive},
+                "{subject} lost all of {possessive} teeth",
+                {"subject": suspectSubject, "possessive": suspectPossessive},
               ),
               LcsI18n.processString("{subject} was vomiting blood", {
                 "subject": suspectSubject,
@@ -1415,34 +1415,40 @@ MajorEventContent generateMajorEventContent(
         }
       case View.immigration:
         FullName criminal = generateFullName();
-        String crime = [
-          "stealing a bike from a kid",
-          "punching a dog in the face",
-          "dunking on a white guy in a pickup game",
-          "swinging a baseball bat at a stray cat",
-          if (noProfanity)
-            "[doing stinky things] on the U.S. flag"
-          else
-            "defecating on the U.S. flag",
-        ].random;
-        String bastard = noProfanity ? "[jerk]" : "bastard";
-        String solution = [
-          "to build a border wall",
-          "to increase border patrols",
-          "to deport everyone who isn't white",
-          "to end birthright citizenship",
-          "to crack down on sanctuary cities",
-          "stricter immigration laws",
-        ].random;
-        String impact = [
-          "draining local resources",
-          "taking jobs from American citizens",
-          "increasing crime rates",
-          "overwhelming social services",
-          "lowering wages",
-          "increasing housing costs",
-          "straining public schools",
-        ].random;
+        String crime = LcsI18n.tr(
+          [
+            "stealing a bike from a kid",
+            "punching a dog in the face",
+            "dunking on a white guy in a pickup game",
+            "swinging a baseball bat at a stray cat",
+            if (noProfanity)
+              "[doing stinky things] on the U.S. flag"
+            else
+              "defecating on the U.S. flag",
+          ].random,
+        );
+        String bastard = LcsI18n.tr(noProfanity ? "[jerk]" : "bastard");
+        String solution = LcsI18n.tr(
+          [
+            "to build a border wall",
+            "to increase border patrols",
+            "to deport everyone who isn't white",
+            "to end birthright citizenship",
+            "to crack down on sanctuary cities",
+            "stricter immigration laws",
+          ].random,
+        );
+        String impact = LcsI18n.tr(
+          [
+            "draining local resources",
+            "taking jobs from American citizens",
+            "increasing crime rates",
+            "overwhelming social services",
+            "lowering wages",
+            "increasing housing costs",
+            "straining public schools",
+          ].random,
+        );
         String congressman =
             politics.house.any(
               (member) => member == DeepAlignment.archConservative,
@@ -1450,15 +1456,17 @@ MajorEventContent generateMajorEventContent(
             ? LcsI18n.processString("Congressman {name}", {
                 "name": lastName(Gender.whiteMalePatriarch),
               })
-            : "some random local who walked up to our reporter and started "
-                  "talking about how they're not a fan of immigration";
-        String illegalImmigrant = switch (laws[Law.immigration]) {
-          DeepAlignment.archConservative => "illegal",
+            : LcsI18n.tr(
+                "some random local who walked up to our reporter and started "
+                "talking about how they're not a fan of immigration",
+              );
+        String illegalImmigrant = LcsI18n.tr(switch (laws[Law.immigration]) {
+          DeepAlignment.archConservative => "illegal immigrant",
           DeepAlignment.conservative => "illegal alien",
           DeepAlignment.moderate => "illegal immigrant",
           DeepAlignment.liberal => "undocumented immigrant",
           _ => "immigrant",
-        };
+        });
 
         return MajorEventContent(
           headline: "FINALLY GONE",

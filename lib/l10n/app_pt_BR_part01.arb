@@ -177,7 +177,7 @@
   "{month} {day}, {year}": "{day} de {month} de {year}",
   "{name} feels bad about LCS actions, and loses juice!": "{name} se sente mal com as ações do LCS e perde energia!",
   "{name} gets sick for a few days from nasty prison food.": "{name} fica doente por alguns dias com a comida ruim da prisão.",
-  "{name} has been arrested in a prostitution sting!": "{name} foi preso em uma operação de prostituição!",
+  "{name} has been arrested in a prostitution sting!": "A polícia deteve {name} em uma operação de prostituição!",
   "{name} holds firm.": "{name} mantém a posição.",
   "{name} insults {lead}.": "{name} insulta {lead}.",
   "{name} is badly hurt in the process.": "{name} fica gravemente ferido no processo.",

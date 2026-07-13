@@ -5,6 +5,7 @@ import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/talk/talk.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
@@ -28,7 +29,7 @@ Future<void> doActivityRecruit(Creature cr) async {
     0,
     lightGray,
     "{name} asks around for a {type}...",
-    params: {"name": cr.name, "type": name},
+    params: {"name": cr.name, "type": LcsI18n.tr(name)},
   );
 
   await getKey();
@@ -51,7 +52,7 @@ Future<void> doActivityRecruit(Creature cr) async {
       11,
       0,
       "{name} was unable to track down a {type}.",
-      params: {"name": cr.name, "type": name},
+      params: {"name": cr.name, "type": LcsI18n.tr(name)},
     );
     await getKey();
     return;

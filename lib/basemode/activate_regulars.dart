@@ -872,7 +872,7 @@ Future<void> _selectSkillForEducation(
         0,
         key,
         "{key} - {skill}",
-        params: {"key": key, "skill": skill.displayName},
+        params: {"key": key, "skill": LcsI18n.tr(skill.displayName)},
       );
       highlightColorForSkill(cr, skill);
       printSkillValue(cr, skill, y, 20, emphasizePotential: true);
@@ -927,8 +927,8 @@ void _activityFooter(Creature cr) {
   };
   final activityMessage = LcsI18n.processString(activityMessageTemplate, {
     "name": cr.name,
-    "skill": cr.activity.skill?.displayName ?? "unknown skill",
-    "activity": cr.activity.type.name,
+    "skill": LcsI18n.tr(cr.activity.skill?.displayName ?? "unknown skill"),
+    "activity": LcsI18n.tr(cr.activity.type.label),
   });
 
   // Determine if this activity needs additional info on line 23

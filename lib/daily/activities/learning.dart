@@ -15,7 +15,11 @@ Future<void> doActivityTakeClasses(List<Creature> students) async {
       await showMessage(
         LcsI18n.processString(
           "{name} can't find any classes at {hisHer} level in {skill}.",
-          {"name": student.name, "hisHer": hisHer, "skill": skill.displayName},
+          {
+            "name": student.name,
+            "hisHer": hisHer,
+            "skill": LcsI18n.tr(skill.displayName),
+          },
         ),
       );
       student.activity = Activity.none();
@@ -37,8 +41,8 @@ Future<void> doActivityTakeClasses(List<Creature> students) async {
         await showMessage(
           LcsI18n.processString("{name} has passed {level} class in {skill}.", {
             "name": student.name,
-            "level": level,
-            "skill": skill.displayName,
+            "level": LcsI18n.tr(level),
+            "skill": LcsI18n.tr(skill.displayName),
           }),
         );
         student.skillUp();
@@ -50,7 +54,11 @@ Future<void> doActivityTakeClasses(List<Creature> students) async {
       await showMessage(
         LcsI18n.processString(
           "{name} has reached {hisHer} potential in {skill}.",
-          {"name": student.name, "hisHer": hisHer, "skill": skill.displayName},
+          {
+            "name": student.name,
+            "hisHer": hisHer,
+            "skill": LcsI18n.tr(skill.displayName),
+          },
         ),
       );
     }
@@ -74,7 +82,7 @@ Future<void> doActivityStudy(List<Creature> students) async {
               {
                 "name": student.name,
                 "level": student.skill(skill).toString(),
-                "skill": skill.displayName,
+                "skill": LcsI18n.tr(skill.displayName),
               },
             ),
           );
@@ -87,7 +95,11 @@ Future<void> doActivityStudy(List<Creature> students) async {
       await showMessage(
         LcsI18n.processString(
           "{name} has reached {hisHer} potential in {skill}.",
-          {"name": student.name, "hisHer": hisHer, "skill": skill.displayName},
+          {
+            "name": student.name,
+            "hisHer": hisHer,
+            "skill": LcsI18n.tr(skill.displayName),
+          },
         ),
       );
     }

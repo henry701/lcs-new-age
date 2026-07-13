@@ -157,9 +157,11 @@ class Clothing extends Item {
     if (quality > type.durability) {
       return "Tattered Rags";
     } else if (damaged) {
-      return LcsI18n.processString("{clothing} (d)", {"clothing": type.name});
+      return LcsI18n.processString("{clothing} (d)", {
+        "clothing": LcsI18n.tr(type.name),
+      });
     } else {
-      return type.name;
+      return LcsI18n.tr(type.name);
     }
   }
 
@@ -229,9 +231,9 @@ class Clothing extends Item {
 
   @override
   String equipTitle({bool full = false}) {
-    String et = full ? type.name : type.shortName;
+    String et = full ? LcsI18n.tr(type.name) : LcsI18n.tr(type.shortName);
     if (quality > type.qualityLevels) {
-      et = "Tattered Rags";
+      et = LcsI18n.tr("Tattered Rags");
     }
     et += "&C${shortArmorDetail()}&x";
     if ((quality > 1 && quality <= type.qualityLevels) || bloody || damaged) {

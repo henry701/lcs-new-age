@@ -289,14 +289,14 @@ Future<UnlockResult> hack(HackTypes type) async {
             10,
             1,
             "...and accidentally {action} despite being blind!",
-            params: {"action": action},
+            params: {"action": LcsI18n.tr(action)},
           );
         } else {
           mvaddstr(
             10,
             1,
             "...and accidentally {action}!",
-            params: {"action": action},
+            params: {"action": LcsI18n.tr(action)},
           );
         }
       } else {
@@ -310,7 +310,7 @@ Future<UnlockResult> hack(HackTypes type) async {
             1,
             white,
             "{name} couldn't see how to {action}!",
-            params: {"name": hacker.name, "action": action},
+            params: {"name": hacker.name, "action": LcsI18n.tr(action)},
           );
         } else {
           mvaddstrc(
@@ -318,7 +318,7 @@ Future<UnlockResult> hack(HackTypes type) async {
             1,
             white,
             "{name} couldn't {action}!",
-            params: {"name": hacker.name, "action": action},
+            params: {"name": hacker.name, "action": LcsI18n.tr(action)},
           );
         }
       }

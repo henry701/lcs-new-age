@@ -750,12 +750,12 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
               "has agreed to adopt {alignment:color} "
               "policies.",
               {
-                "gender": cr.gender.manWoman,
-                "position": positionToFill.displayName,
+                "gender": LcsI18n.tr(cr.gender.manWoman),
+                "position": LcsI18n.tr(positionToFill.displayName),
                 "positionColor": oldAlignColor,
                 "lastName": politics.execName[positionToFill]!.last,
                 "lastNameColor": oldAlignColor,
-                "alignment": bestPossibleAlign.label,
+                "alignment": LcsI18n.tr(bestPossibleAlign.label),
                 "alignmentColor": newAlignColor,
               },
             );
@@ -788,7 +788,7 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
                 "is expected to pass confirmation in both the House and the "
                 "Senate.",
                 {
-                  "gender": cr.gender.manWoman,
+                  "gender": LcsI18n.tr(cr.gender.manWoman),
                   "vicePresident": LcsI18n.processString(
                     "Vice President {last}",
                     {"last": oldName.last},
@@ -808,8 +808,8 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
                 "in mind: {newFirstLast:color} "
                 "is expected to pass confirmation in the Senate.",
                 {
-                  "gender": cr.gender.manWoman,
-                  "position": positionToFill.displayName,
+                  "gender": LcsI18n.tr(cr.gender.manWoman),
+                  "position": LcsI18n.tr(positionToFill.displayName),
                   "positionColor": oldAlignColor,
                   "oldLast": oldName.last,
                   "oldLastColor": oldAlignColor,
@@ -843,8 +843,8 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
             "The President is considering other options, but lacks the "
             "votes in Congress to confirm a more Liberal appointment.",
             {
-              "gender": cr.gender.manWoman,
-              "position": positionToFill.displayName,
+              "gender": LcsI18n.tr(cr.gender.manWoman),
+              "position": LcsI18n.tr(positionToFill.displayName),
               "positionColor": oldAlignColor,
               "last": politics.execName[positionToFill]!.last,
               "lastColor": oldAlignColor,

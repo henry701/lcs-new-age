@@ -1257,4 +1257,20 @@ void main() {
       isNot(contains('ajusta')),
     );
   });
+
+  test('dynamic template params translate hack, learning, and traumatize actions', () {
+    expect(
+      catalog['burns a disk of top secret files'],
+      'queima um disco de arquivos ultrassecretos',
+    );
+    expect(
+      catalog['bypass the supercomputer security'],
+      'ignorar a segurança do supercomputador',
+    );
+    expect(catalog['an introductory'], 'uma introdução');
+    expect(catalog['a high-level'], 'um alto nível');
+    expect(catalog['execution'], 'execução');
+    expect(catalog['death'], 'morte');
+    expect(catalog['unknown skill'], 'habilidade desconhecida');
+  });
 }

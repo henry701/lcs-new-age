@@ -371,7 +371,7 @@ Future<LootType?> chooseSpecialEdition() async {
         0,
         LcsI18n.processString("{key} - {name}", {
           "key": key,
-          "name": lootTypesAvailable[index].name,
+          "name": LcsI18n.tr(lootTypesAvailable[index].name),
         }),
       );
     },

@@ -1354,6 +1354,56 @@ void main() {
           fight,
           contains('"attack": LcsI18n.tr(attackUsed.attackDescription.random)'),
         );
+
+        final miscactions = File(
+          'lib/sitemode/miscactions.dart',
+        ).readAsStringSync();
+        final learning = File(
+          'lib/daily/activities/learning.dart',
+        ).readAsStringSync();
+        final traumatize = File(
+          'lib/daily/hostages/traumatize.dart',
+        ).readAsStringSync();
+        final monthly = File('lib/monthly/lcs_monthly.dart').readAsStringSync();
+        final recruitingActivity = File(
+          'lib/daily/activities/recruiting.dart',
+        ).readAsStringSync();
+        final regulars = File(
+          'lib/basemode/activate_regulars.dart',
+        ).readAsStringSync();
+        final activities = File('lib/basemode/activities.dart').readAsStringSync();
+        final sleepers = File(
+          'lib/monthly/sleeper_update.dart',
+        ).readAsStringSync();
+
+        expect(miscactions, contains('"action": LcsI18n.tr(action)'));
+        expect(learning, contains('"level": LcsI18n.tr(level)'));
+        expect(learning, contains('"skill": LcsI18n.tr(skill.displayName)'));
+        expect(traumatize, contains('"action": LcsI18n.tr(action)'));
+        expect(
+          monthly,
+          contains('"name": LcsI18n.tr(lootTypesAvailable[index].name)'),
+        );
+        expect(recruitingActivity, contains('"type": LcsI18n.tr(name)'));
+        expect(regulars, contains('"skill": LcsI18n.tr(skill.displayName)'));
+        expect(
+          regulars,
+          contains(
+            '"skill": LcsI18n.tr(cr.activity.skill?.displayName ?? "unknown skill")',
+          ),
+        );
+        expect(
+          regulars,
+          contains('"activity": LcsI18n.tr(cr.activity.type.label)'),
+        );
+        expect(
+          activities,
+          contains('"skill": LcsI18n.tr(skill?.displayName ?? "a bug")'),
+        );
+        expect(
+          sleepers,
+          contains('"position": LcsI18n.tr(positionToFill.displayName)'),
+        );
       },
     );
 

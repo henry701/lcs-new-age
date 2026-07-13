@@ -442,13 +442,13 @@
     },
     {
       "file": "items/clothing.dart",
-      "line": 236,
+      "line": 238,
       "text": "&C${shortArmorDetail()}&x",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "items/clothing.dart",
-      "line": 241,
+      "line": 243,
       "text": "&Y$quality&x",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },

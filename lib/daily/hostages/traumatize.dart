@@ -34,7 +34,10 @@ Future<int> traumatize(Creature lead, String action, int y) async {
       addparagraph(
         y++,
         0,
-        LcsI18n.processString(reaction, {"name": lead.name, "action": action}),
+        LcsI18n.processString(reaction, {
+          "name": lead.name,
+          "action": LcsI18n.tr(action),
+        }),
       );
     }
     lead.heartDamage += 1;

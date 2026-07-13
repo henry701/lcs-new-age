@@ -30,7 +30,7 @@
   "Anyone who kills innocent people deserves death.": "Quem mata pessoas inocentes merece a morte.",
   "Bay 12 Games, IsaacG, SlatersQuest, TheCheshireCat, Kamal-Sadek,": "Jogos da Bay 12, IsaacG, SlatersQuest, TheCheshireCat, Kamal-Sadek,",
   "Broccoli": "Brócolis",
-  "CO Proposition {number}": "CO Proposição {number}",
+  "CO Proposition {number}": "Proposição CO {number}",
   "Changes take effect immediately.": "As mudanças entram em vigor imediatamente.",
   "Choose squad member to move": "Escolha o membro do esquadrão para mover",
   "Church": "Igreja",
@@ -55,7 +55,7 @@
   "Hormone Replacement Therapy": "Terapia de reposição hormonal",
   "I just tried it myself and I feel like a million bucks!  *Coughs up blood*  I'm OK, that's just ketchup": "Acabei de testar e estou me sentindo ótimo!  *Cospe sangue*  Estou bem, isso é só ketchup",
   "I'm not interested.": "Não tenho interesse.",
-  "ID Amendment {number}": "ID Emenda {number}",
+  "ID Amendment {number}": "Emenda ID {number}",
   "In particular, the aforementioned former citizens may not serve on the Supreme Court. Said former citizens will be deported to Conservative countries of the President's choosing to be replaced by Proper Justices, also of the President's choosing with the advice and consent of the Senate.": "Em particular, os ex-cidadãos mencionados acima não poderão servir na Suprema Corte. Esses ex-cidadãos serão deportados para países Conservadores escolhidos pelo Presidente e substituídos por Juízes Adequados, também escolhidos pelo Presidente com o aconselhamento e consentimento do Senado.",
   "In this dark time, the Liberal Crime Squad is born...": "Neste tempo sombrio, nasce o Esquadrão do Crime Liberal...",
   "Interrupt this evening's programming? (Yes or No)": "Interromper a programação desta noite? (Sim ou Não)",
@@ -69,7 +69,7 @@
   "LOOT!": "SAQUE!",
   "Law enforcement is regulated to prevent extreme misconduct.": "As forças policiais são reguladas para evitar abusos extremos.",
   "Loving": "Amoroso",
-  "MI Proposal {number}": "MI Proposta {number}",
+  "MI Proposal {number}": "Proposta MI {number}",
   "Materials related to the business front are taken.": "Materiais ligados à fachada comercial são levados.",
   "NEW AGE": "NOVA ERA",
   "New Haven, CT": "New Haven, Connecticut",
@@ -168,7 +168,7 @@
   "using a ruler to ensure every piece of popcorn was evenly spaced in a bowl": "usando uma régua para garantir que cada pipoca estivesse uniformemente espaçada numa tigela",
   "vomits up a clot of blood.": "vomita um coágulo de sangue.",
   "want prisons to focus on rehabilitation": "querem que prisões foquem na reabilitação",
-  "will provide cover fire and hang back until needed.": "vai fornecer fogo de cobertura e ficar na retaguarda até ser necessário.",
+  "will provide cover fire and hang back until needed.": "fornecerão fogo de cobertura e ficarão na retaguarda até serem necessários.",
   "{adjective} {noun} Internet Cafe": "Internet Café {noun} {adjective}",
   "{agent} has sent word that the CIA is planning to launch an attack on {location}!": "{agent} mandou avisar que a CIA está planejando lançar um ataque contra {location}!",
   "{attacker} stabs {target}.": "{attacker} esfaqueia {target}.",
@@ -207,5 +207,5 @@
   "{pronoun} anime waifu": "a waifu de anime de {pronoun}",
   "{recruiter} offers to let {recruit} join the LCS.": "{recruiter} oferece deixar {recruit} entrar no ECL.",
   "{squad} decided {site} was too hot to risk.": "{squad} decidiu que {site} estava muito perigoso para arriscar.",
-  "│     A Cable News anchor just accidentally let a   │": "│     Um âncora das Notícias a Cabo deixou escapar por acidente   │"
+  "│     A Cable News anchor just accidentally let a   │": "│     Um âncora de TV a cabo deixou escapar por acidente │"
 }

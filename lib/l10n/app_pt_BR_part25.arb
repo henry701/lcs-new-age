@@ -176,7 +176,7 @@
   "{name} will write articles for the Liberal Guardian.": "{name} vai escrever artigos para o Guardião Liberal.",
   "{name}'s heart is blasted!": "O coração de {name} foi destruído!",
   "{name}'s right eye is cut open!": "O olho direito de {name} foi cortado!",
-  "{name}'s {article} about this doesn't have much impact. ": "O {article} de {name} sobre isso não tem muito impacto. ",
+  "{name}'s {article} about this doesn't have much impact. ": "{article} de {name} sobre isso não tem muito impacto. ",
   "{name}'s {showName}": "{showName} de {name}",
   "{name}, ": "{name},  ",
   "{name}, {title}": "{name},  {title}",

@@ -1253,5 +1253,16 @@ void main() {
       catalog['to systematically promote hostility toward Black people.'],
       'para promover sistematicamente hostilidade contra pessoas negras.',
     );
+    expect(
+      catalog['cheerfully describing foreign corporate sweatshops.'],
+      'descrevendo alegremente oficinas exploradoras corporativas no exterior.',
+    );
+    expect(catalog['guardian article'], 'o artigo');
+    expect(catalog['guardian stream'], 'a transmissão');
+    expect(catalog['guardian piece'], 'a peça');
+    expect(
+      catalog["{name}'s {article} about this is electrifying. "],
+      '{article} de {name} sobre isso é eletrizante. ',
+    );
   });
 }

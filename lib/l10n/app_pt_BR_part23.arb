@@ -220,7 +220,7 @@
   "{name} was able to get information on multiple people.": "{name} conseguiu obter informações sobre várias pessoas.",
   "{name} will tend to hostages.": "{name} vai cuidar de reféns.",
   "{name}'s teeth have been smashed out on the curb!": "Os dentes de {name} foram quebrados no meio-fio!",
-  "{name}'s {article} about this lays out the evidence. ": "O {article} de {name} sobre isso apresenta as evidências. ",
+  "{name}'s {article} about this lays out the evidence. ": "{article} de {name} sobre isso apresenta as evidências. ",
   "{pName} has a \"hot\" date with {dateList} at {location}.": "{pName} tem um encontro \"quente\" com {dateList} em {location}.",
   "{pName} still has more to learn from {eName}.": "{pName} ainda tem mais a aprender com {eName}.",
   "{president} {name}": "{president} {name}.",

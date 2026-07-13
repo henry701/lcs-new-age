@@ -420,9 +420,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
         });
     String leadersName = leader?.name ?? "The squad";
     String article = switch (skillUsed) {
-      Skill.writing => "article",
-      Skill.persuasion => "stream",
-      _ => "piece",
+      Skill.writing => LcsI18n.tr("guardian article"),
+      Skill.persuasion => LcsI18n.tr("guardian stream"),
+      _ => LcsI18n.tr("guardian piece"),
     };
     story += LcsI18n.tr("\n\n");
     if (power < 4) {

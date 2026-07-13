@@ -323,7 +323,7 @@ void main() {
     );
     expect(
       catalog["\"Not after I do this.\" <shits pants>"],
-      "\"Não depois que eu fizer isto.\"",
+      "\"Não depois que eu fizer isto.\" <caga nas calças>",
     );
     expect(
       catalog["\"Non-targets please leave the site.\""],
@@ -601,7 +601,7 @@ void main() {
       catalog[
         '"If I could change the alphabet baby, I would put the U and I together!"'
       ],
-      '"Se eu pudesse mudar o alfabeto, baby, eu colocaria o você e o eu juntos!"',
+      '"Se eu pudesse mudar o alfabeto, baby, eu uniria o U e o I!"',
     );
     expect(
       catalog['"Wanna play army?  You lie down and I\'ll blow you away."'],
@@ -777,6 +777,65 @@ void main() {
     expect(
       catalog['to seize your means of reproduction."'],
       'expropriar os seus meios de reprodução."',
+    );
+  });
+
+  test('pickup-line failure responses preserve insults, puns, and stage directions', () {
+    expect(
+      catalog["'Cause you're inspiring an uprising in my lower class.\""],
+      "'Cause você está inspirando um levante na minha classe trabalhadora.\"",
+    );
+    expect(
+      catalog["'Cause I seem to be inspiring an uprising in your lower class.\""],
+      "'Cause parece que estou inspirando um levante na sua classe trabalhadora.\"",
+    );
+    expect(
+      catalog["'Cause you're bringing some heat to my lower class.\""],
+      "'Cause você está esquentando a minha classe trabalhadora.\"",
+    );
+    expect(
+      catalog['"You\'re such an asshole!" <pouts>'],
+      '"Você é um babaca!" <faz beicinho>',
+    );
+    expect(
+      catalog['"You\'re big everywhere, fatass." <laughs>'],
+      '"Você é grandão em tudo, seu gorducho." <risada>',
+    );
+    expect(
+      catalog[
+        '"I don\'t approve of your hi-carb diet." <starts ranting about nutrition>'
+      ],
+      '"Não curto sua dieta de bolinho industrializado." <começa a discursar sobre nutrição>',
+    );
+    expect(
+      catalog['"I\'m way outta your league, scumbag." <grabs pepper spray>'],
+      '"Estou muito acima do seu nível, canalha." <pega o spray de pimenta>',
+    );
+    expect(
+      catalog['"Not after I do this." <shits pants>'],
+      '"Não depois que eu fizer isto." <caga nas calças>',
+    );
+    expect(
+      catalog['"Sure, here ya go..." <writes wrong number>'],
+      '"Claro, aqui está..." <anota um número errado>',
+    );
+    expect(
+      catalog['"These boxes aren\'t addressed to you." <turns away>'],
+      '"Estas caixas não são endereçadas a você." <se afasta>',
+    );
+    expect(
+      catalog['"Eew, no, gross." <turns away>'],
+      '"Eca, não, nojento." <se afasta>',
+    );
+    expect(
+      catalog[
+        '"If I could change the alphabet baby, I would put the U and I together!"'
+      ],
+      '"Se eu pudesse mudar o alfabeto, baby, eu uniria o U e o I!"',
+    );
+    expect(
+      catalog['"Hot damn.  You\'re built like a brick shithouse, {honey}."'],
+      '"Caramba. Você é sólida que nem casa de tijolo, {honey}."',
     );
   });
 }

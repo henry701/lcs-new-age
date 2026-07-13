@@ -212,15 +212,15 @@ void main() {
       'um banco de praça isolado à noite',
     );
     expect(
-      catalog['pedophile and a groomer, by the way.\"'],
-      'pedófilo e aliciador de menores, aliás.\"',
+      catalog['pedophile and a groomer, by the way."'],
+      'pedófilo e aliciador de menores, aliás."',
     );
     expect(
       catalog['The defense is really slick.'],
       'A defesa é muito bem articulada.',
     );
     expect(
-      catalog['{city} - A new book has quickly risen to the top of the bestseller lists, {bookTitle}.  The author, a former abortion doctor, has dedicated {authorPossessive} retirement to discouraging women from having abortions.  The book includes many stories about women who regret having abortions and interviews with adult survivors of failed abortions.  Reviews say that the book is powerful and moving, and many readers have changed the way they think about the morality of abortion.&r  According to U.S. Representative {politicianName}, one of the most vocal pro-life representatives in Congress, the book is \"a clear message to Americans, calling on us to {callToAction}.\"&r'],
+      catalog['{city} - A new book has quickly risen to the top of the bestseller lists, {bookTitle}.  The author, a former abortion doctor, has dedicated {authorPossessive} retirement to discouraging women from having abortions.  The book includes many stories about women who regret having abortions and interviews with adult survivors of failed abortions.  Reviews say that the book is powerful and moving, and many readers have changed the way they think about the morality of abortion.&r  According to U.S. Representative {politicianName}, one of the most vocal pro-life representatives in Congress, the book is "a clear message to Americans, calling on us to {callToAction}."&r'],
       contains('ex-médica que realizava abortos'),
     );
     expect(catalog['{name} unlocks the cell!'], '{name} destranca a cela!');

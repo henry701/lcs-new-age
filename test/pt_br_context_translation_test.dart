@@ -338,4 +338,31 @@ void main() {
       'O Guardião Liberal publica uma matéria com cartas de amor picantes de um CEO importante ',
     );
   });
+
+  test('reviewed UI and dialogue translations preserve gameplay context', () {
+    expect(
+      catalog["\"Are you Jamaican?  Cuz Jamaican me horny.\""],
+      '"Você é jamaicano? Porque você me deixa excitado."',
+    );
+    expect(
+      catalog["\"I can't let you take that in.\""],
+      '"Não posso deixar você levar isso para dentro."',
+    );
+    expect(catalog['Eyedropper (I)'], 'Conta-gotas (I)');
+    expect(catalog[' (Under Siege)'], ' (Sob Cerco)');
+    expect(catalog['"[Yes.  Yes, I do.]"'], '"[Sim. Sim, tenho.]"');
+    expect(catalog['"[No!] '], '"[Não!] ');
+    expect(
+      catalog['"Do you work for the post office? '],
+      '"Trabalha para os correios? ',
+    );
+    expect(
+      catalog['THIS IS THE VIPER!   STAND AWAY!'],
+      'ESTE É O VIPER!   AFASTE-SE!',
+    );
+    expect(
+      catalog.values.where((value) => RegExp(r'\bECL\b').hasMatch(value)),
+      isEmpty,
+    );
+  });
 }

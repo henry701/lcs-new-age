@@ -35,4 +35,16 @@ const Set<String> structuralTranslationKeys = {
   'M250',
   'M4',
   'M7',
+  // Proper names and generated name components intentionally remain unchanged.
+  'Donald J. Trump',
+  'El Salvador',
+  'Fort',
+  'Fore',
+  'Franken',
+  'Guatemala',
+  'Honduras',
+  'Inquirer',
+  'Mega',
+  'National Mall',
+  'Natural',
 };

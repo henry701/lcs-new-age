@@ -246,6 +246,52 @@ void main() {
     );
   });
 
+  test('new-game opening fragments compose into grammatical Portuguese', () {
+    final opening = [
+      'Following a series of violent protests from the far right, Conservative',
+      'President {name} has resigned in disgrace.  His hardcore',
+      'Arch-Conservative Vice President, {name}, a close ally of the',
+      'rioters, has been sworn in as the new President of the United States.',
+    ].map((key) => catalog[key]).join(' ');
+
+    expect(
+      opening,
+      'Após uma série de protestos violentos da extrema direita, o '
+      'presidente Conservador {name} renunciou em desgraça. Seu '
+      'vice-presidente arqui-conservador, {name}, aliado próximo dos '
+      'manifestantes, foi empossado como novo Presidente dos Estados Unidos.',
+    );
+  });
+
+  test('generated names and contextual labels avoid translator annotations', () {
+    expect(catalog['Guatemala'], 'Guatemala');
+    expect(catalog['Honduras'], 'Honduras');
+    expect(catalog['El Salvador'], 'El Salvador');
+    expect(catalog['Natural'], 'Natural');
+    expect(catalog['Primal'], 'Primitivo');
+    expect(catalog['Inquirer'], 'Inquirer');
+    expect(catalog['Fort'], 'Fort');
+    expect(catalog['Fore'], 'Fore');
+    expect(catalog['Mega'], 'Mega');
+    expect(catalog['Franken'], 'Franken');
+    expect(catalog['Donald J. Trump'], 'Donald J. Trump');
+    expect(catalog['National Mall'], 'National Mall');
+  });
+
+  test('event and selection labels preserve their intended context', () {
+    expect(catalog['Black And Proud Day'], 'Dia do Orgulho Negro');
+    expect(catalog["I'm A Liberal Day"], 'Dia de Ser Liberal');
+    expect(catalog['Adopt-A-Conservative Day'], 'Dia de Adotar um Conservador');
+    expect(
+      catalog['Choose a Liberal squad member to SPEND.'],
+      'Escolha um membro Liberal do esquadrão para PAGAR.',
+    );
+    expect(
+      catalog['"Trans men are men, {comment}. Get out."'],
+      '"Homens trans são homens, {comment}. Cai fora."',
+    );
+  });
+
   test('audited phrases do not retain literal or non-Portuguese wording', () {
     expect(
       catalog['{letter} - Travel to a Different City'],

@@ -203,6 +203,20 @@ void main() {
       'CRIME OF HATE': 'CRIME DE ÓDIO',
       'SPARK OF HOPE': 'FAÍSCA DE ESPERANÇA',
       'WOKE HIRE': 'CONTRATAÇÃO WOKE',
+      'LIBERAL WIN': 'VITÓRIA LIBERAL',
+      'HEROES RISE': 'HERÓIS SURGEM',
+      'TRAGIC END': 'FIM TRÁGICO',
+      'DRUG PANIC': 'PÂNICO DAS DROGAS',
+      'WHAT THE LOVE': 'QUE AMOR É ESSE',
+      'DODGED BULLET': 'ESCAPOU POR POUCO',
+      'NHS CRISIS': 'CRISE DO NHS',
+      'APE EXPLORERS': 'EXPERIMENTOS COM MACACOS',
+      'DRUG STUDY': 'ESTUDO SOBRE DROGAS',
+      'GM FOOD FAIRE': 'FEIRA DE ALIMENTOS GM',
+      'FINALLY GONE': 'FINALMENTE CAPTURADO',
+      'RAIDS END CCS': 'RAIDES ACABAM COM A CCS',
+      'RELEASING PRISONERS': 'LIBERTAÇÃO DE PRESOS',
+      'INTERVIEW: LCS UNDER SIEGE': 'ENTREVISTA: LCS SOB CERCO',
     };
     for (final entry in expected.entries) {
       expect(catalog[entry.key], entry.value, reason: entry.key);

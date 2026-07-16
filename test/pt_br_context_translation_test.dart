@@ -276,6 +276,19 @@ void main() {
     expect(catalog['Franken'], 'Franken');
     expect(catalog['Donald J. Trump'], 'Donald J. Trump');
     expect(catalog['National Mall'], 'National Mall');
+    expect(catalog['Ply'], 'Ply');
+    expect(catalog['Rio'], 'Rio');
+    expect(catalog['United'], 'Unido');
+    expect(catalog['Wizard'], 'Mago');
+    expect(catalog['Fandango'], 'Fandango');
+    expect(catalog['Thing'], 'Coisa');
+    expect(catalog['Secret'], 'Secreto');
+    expect(catalog['Star'], 'Estrela');
+    expect(catalog['Friend'], 'Amigo');
+    expect(catalog['Inter'], 'Inter');
+    expect(catalog['Uni'], 'Uni');
+    expect(catalog['Inc.'], 'Inc.');
+    expect(catalog['L.L.C.'], 'L.L.C.');
   });
 
   test('event and selection labels preserve their intended context', () {

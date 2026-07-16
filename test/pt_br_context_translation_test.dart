@@ -305,6 +305,15 @@ void main() {
       catalog['"Trans men are men, {comment}. Get out."'],
       '"Homens trans são homens, {comment}. Cai fora."',
     );
+    expect(catalog['You some kinda queer?'], 'Você é algum tipo de viado?');
+    expect(
+      catalog['a deserted transit station'],
+      'uma estação de transporte público abandonada',
+    );
+    expect(
+      catalog['The Liberal Crime Squad was in permanent hiding in {month} {year}.'],
+      'O Esquadrão do Crime Liberal ficou permanentemente escondido em {month} de {year}.',
+    );
   });
 
   test('audited phrases do not retain literal or non-Portuguese wording', () {

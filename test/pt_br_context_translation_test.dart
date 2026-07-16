@@ -291,6 +291,10 @@ void main() {
     expect(catalog['Uni'], 'Uni');
     expect(catalog['Inc.'], 'Inc.');
     expect(catalog['L.L.C.'], 'L.L.C.');
+    expect(catalog['Dis'], 'Dis');
+    expect(catalog['Hill'], 'Hill');
+    expect(catalog['MBC'], 'MBC');
+    expect(catalog['MedStar Washington'], 'MedStar Washington');
   });
 
   test('event and selection labels preserve their intended context', () {
@@ -313,6 +317,10 @@ void main() {
     expect(
       catalog['The Liberal Crime Squad was in permanent hiding in {month} {year}.'],
       'O Esquadrão do Crime Liberal ficou permanentemente escondido em {month} de {year}.',
+    );
+    expect(
+      catalog['The LCS has &G{funds}&w available.'],
+      'O LCS tem &G{funds}&w disponíveis.',
     );
   });
 
@@ -704,6 +712,19 @@ void main() {
       catalog['The Liberal Guardian runs a story featuring salacious love letters from a major CEO '],
       'O Guardião Liberal publica uma matéria com cartas de amor picantes de um CEO importante ',
     );
+    expect(
+      catalog['some neo-Nazi memorabilia'],
+      'alguns itens de memorabilia neonazista',
+    );
+    expect(
+      catalog['some Conservative memoribilia'],
+      'alguns itens de memorabilia conservadora',
+    );
+    expect(
+      catalog['Welcome to the NPP Nuclear Plant. Please enjoy'],
+      'Bem-vindo à Usina Nuclear NPP. Por favor, aproveite',
+    );
+    expect(catalog['V - View Changelog'], 'V - Ver registro de alterações');
   });
 
   test('reviewed UI and dialogue translations preserve gameplay context', () {

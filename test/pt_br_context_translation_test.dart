@@ -217,6 +217,9 @@ void main() {
       'RAIDS END CCS': 'RAIDES ACABAM COM A CCS',
       'RELEASING PRISONERS': 'LIBERTAÇÃO DE PRESOS',
       'INTERVIEW: LCS UNDER SIEGE': 'ENTREVISTA: LCS SOB CERCO',
+      'LAB CRUELTY': 'CRUELDADE NO LABORATÓRIO',
+      'DYING DENIAL': 'NEGATIVA FATAL',
+      'LAVISH LIES': 'MENTIRAS EXTRAVAGANTES',
     };
     for (final entry in expected.entries) {
       expect(catalog[entry.key], entry.value, reason: entry.key);

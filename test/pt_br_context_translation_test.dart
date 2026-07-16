@@ -174,6 +174,18 @@ void main() {
       catalog['The sooner we can move to a single payer system, the better.'],
       contains('sistema de saúde'),
     );
+    expect(
+      catalog['The power of the Arch Conservative far right is growing...'],
+      'O poder da extrema-direita Arqui Conservadora está crescendo...',
+    );
+    expect(
+      catalog['But the Arch Conservative far right also gained seats.'],
+      'Mas a extrema-direita Arqui Conservadora também ganhou assentos.',
+    );
+    expect(
+      catalog['But the Arch Conservative far right still gained seats.'],
+      'Mas a extrema-direita Arqui Conservadora ainda conquistou assentos.',
+    );
   });
 
   test('audited phrases do not retain literal or non-Portuguese wording', () {

@@ -266,6 +266,7 @@ void main() {
   test('generated names and contextual labels avoid translator annotations', () {
     expect(catalog['Guatemala'], 'Guatemala');
     expect(catalog['Honduras'], 'Honduras');
+    expect(catalog['Haiti'], 'Haiti');
     expect(catalog['El Salvador'], 'El Salvador');
     expect(catalog['Natural'], 'Natural');
     expect(catalog['Primal'], 'Primitivo');
@@ -276,6 +277,7 @@ void main() {
     expect(catalog['Franken'], 'Franken');
     expect(catalog['Donald J. Trump'], 'Donald J. Trump');
     expect(catalog['National Mall'], 'National Mall');
+    expect(catalog['Venezuela'], 'Venezuela');
     expect(catalog['Ply'], 'Ply');
     expect(catalog['Rio'], 'Rio');
     expect(catalog['United'], 'Unido');

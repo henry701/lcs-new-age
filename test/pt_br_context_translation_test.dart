@@ -188,6 +188,47 @@ void main() {
     );
   });
 
+  test('headline translations preserve Portuguese accents and context', () {
+    const expected = {
+      'ARMY ROLLS OUT': 'EXÉRCITO TOMA AS RUAS',
+      'DIRTY COP': 'POLICIAL SUJO',
+      'CLINIC MURDER': 'ASSASSINATO NA CLÍNICA',
+      'FBI HUNTS CCS': 'FBI CAÇA A CCS',
+      'INTELLIGENCE FILES LEAKED': 'ARQUIVOS DE INTELIGÊNCIA VAZADOS',
+      'UNDER SIEGE: ESCAPE OR ENGAGE': 'CERCO: FUGIR OU ENFRENTAR',
+      'HATE RALLY': 'COMÍCIO DE ÓDIO',
+      'NEWS ANCHOR': 'ÂNCORA DE TV',
+      'AM IMPLOSION': 'IMPLOSÃO AM',
+      'TAX EVASION': 'EVASÃO FISCAL',
+      'CRIME OF HATE': 'CRIME DE ÓDIO',
+      'SPARK OF HOPE': 'FAÍSCA DE ESPERANÇA',
+      'WOKE HIRE': 'CONTRATAÇÃO WOKE',
+    };
+    for (final entry in expected.entries) {
+      expect(catalog[entry.key], entry.value, reason: entry.key);
+    }
+    expect(catalog['LCS FIGHTS'], 'LCS LUTA');
+  });
+
+  test('recent context audit fixes agreement and idiomatic phrasing', () {
+    expect(
+      catalog['All manner of military weapons can be bought and sold freely.'],
+      'Todas as armas militares podem ser compradas e vendidas livremente.',
+    );
+    expect(
+      catalog['Immigration is illegal, and noncitizens are shipped to Mexico at gunpoint.'],
+      'A imigração é ilegal, e não cidadãos são enviados para o México sob a mira de uma arma.',
+    );
+    expect(
+      catalog['The other power community service has is that it can forge civilians '],
+      'Outra vantagem do serviço comunitário é transformar civis ',
+    );
+    expect(
+      catalog['│   in Los Angeles.  The entire thing is caught on  │'],
+      '│   em Los Angeles.  Tudo é filmado  │',
+    );
+  });
+
   test('audited phrases do not retain literal or non-Portuguese wording', () {
     expect(
       catalog['{letter} - Travel to a Different City'],

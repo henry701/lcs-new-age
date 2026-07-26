@@ -28,6 +28,11 @@
 | PT-022 | High | Crash/newspaper | Major-event newspaper crashes with a negative text index |
 | PT-023 | Medium | Context | Major-event gun-control story leaks English context tokens |
 | PT-024 | Medium | Core layout | Long party names collide with the skill column |
+| PT-025 | Medium | Translation | Dynamic month names remain English in Portuguese dates |
+| PT-026 | Medium | Translation/layout | Default squad name remains English and clips in roster views |
+| PT-027 | Medium | Coverage | Character profile retains English labels and body-part names |
+| PT-028 | Medium | Layout | Roster footer truncates the final character of a Portuguese action |
+| PT-029 | Low | Layout | Founder-option continuation text is not aligned with the option |
 
 ## PT-001: Save-management option is clipped
 
@@ -771,3 +776,95 @@ and truncating only the display name when necessary.
 management table's 23-column name width. A regression test confirms the name
 ends with an ellipsis, the skill column remains intact, and the underlying
 creature name is not mutated.
+
+## PT-025: Dynamic month names remain English in Portuguese dates
+
+- Severity: Medium
+- Type: Missing translation / date formatting
+- Screens: Base header and month rollover
+- Replay status: **Open from the 2026-07-26 verification pass**
+
+### Actual
+
+Portuguese date strings still use English month abbreviations, including
+`1 de Jan de 2023`, `31 de Jan`, and the post-rollover `1 de Feb`.
+
+### Expected / suggestion
+
+Use Portuguese month names or abbreviations consistently (`jan`, `fev`, and so
+on) in every date formatter used by the base, event, and rollover screens.
+Keep the existing Portuguese day/year structure.
+
+## PT-026: Default squad name remains English and clips in roster views
+
+- Severity: Medium
+- Type: Missing translation / fixed-width layout
+- Screens: Base roster and character profile
+- Replay status: **Open from the 2026-07-26 verification pass**
+
+### Actual
+
+The generated default squad name remains `The Liberal Crime Squad`. In the
+80-column roster and profile views it is rendered as `The Liberal Crime S...`,
+and the English name is visible in lines such as `Esquadrão: The Liberal Crime
+S` and `A - The Liberal Crime Squad`.
+
+### Expected / suggestion
+
+Provide a Portuguese default squad name or an intentional proper-name policy,
+then fit the displayed value to each fixed-width name column without exposing
+an unexplained English truncation.
+
+## PT-027: Character profile retains English labels and body-part names
+
+- Severity: Medium
+- Type: Missing translation / profile vocabulary
+- Screen: Character profile
+- Replay status: **Open from the 2026-07-26 verification pass**
+
+### Actual
+
+The profile still displays the English label `PROFESSION`, the value
+`Civil (Highschool Dropout)`, and body-part labels `Left Leg`, `Right Leg`,
+`Left Arm`, `Right Arm`, `Head`, and `Torso`.
+
+### Expected / suggestion
+
+Localize the profile label, education status, and body-part vocabulary as one
+character-status unit. Preserve the underlying gameplay identifiers while
+translating only the visible labels and values.
+
+## PT-028: Roster footer truncates the final character of a Portuguese action
+
+- Severity: Medium
+- Type: Fixed-width layout / clipping
+- Screen: Review-assets or roster footer
+- Replay status: **Open from the 2026-07-26 verification pass**
+
+### Actual
+
+The footer renders `T - Atribuir novas bases aos membros sem esquadrã`, dropping
+the final `o` from `esquadrão` at the right edge of the 80-column console.
+
+### Expected / suggestion
+
+Fit or wrap the complete action inside the console bounds. The key prefix and
+the full Portuguese noun must remain visible together.
+
+## PT-029: Founder-option continuation text is not aligned with the option
+
+- Severity: Low
+- Type: Layout / alignment
+- Screen: Founder biography option list
+- Replay status: **Open from the 2026-07-26 verification pass**
+
+### Actual
+
+On one long founder-option screen, the continuation line begins at column zero
+instead of aligning beneath the option text. The line remains readable and is
+not clipped, but the indentation changes between otherwise equivalent choices.
+
+### Expected / suggestion
+
+Use the same continuation indentation for every wrapped founder option so the
+key, option text, and continuation lines form a consistent block.

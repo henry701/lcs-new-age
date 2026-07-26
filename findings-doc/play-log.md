@@ -284,6 +284,29 @@ Evidence:
 - [`screenshots/66-newspaper-range-error.png`](screenshots/66-newspaper-range-error.png)
 - [`screenshots/67-founder-biography-clipping-replay.png`](screenshots/67-founder-biography-clipping-replay.png)
 
+## Residual verification pass: 2026-07-26
+
+This follow-up replay used the Portuguese locale after the PT-001–PT-024 fixes
+were applied. It verified the title, new-game flow, founder biography, base,
+roster, character profile, legislative agenda, vote tally, president, finance,
+and month-rollover screens. No code was changed during this pass.
+
+The following residual issues remain open for future work:
+
+- PT-025: date headers use English month abbreviations (`Jan`, `Feb`).
+- PT-026: the default squad name remains English and clips in roster/profile
+  views.
+- PT-027: the character profile retains English profession, education, and
+  body-part labels.
+- PT-028: the roster footer clips the final `o` from `esquadrão`.
+- PT-029: one long founder-option continuation line starts at column zero
+  instead of following the option indentation.
+
+The major-event newspaper was not reached in this replay, so its previously
+verified renderer and translation fixes were not re-tested here. These items
+are intentionally logged as new residual findings rather than reopening the
+resolved PT-001–PT-024 records.
+
 ## Not covered
 
 - Combat with an encountered enemy

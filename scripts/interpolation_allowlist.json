@@ -196,13 +196,13 @@
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 564,
+      "line": 569,
       "text": "${LcsI18n.tr(",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 564,
+      "line": 569,
       "text": ")}$next",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
@@ -463,6 +463,12 @@
       "line": 109,
       "text": "Key event: $value",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "engine/engine.dart",
+      "line": 135,
+      "text": "${renderedText.substring(0, renderedText.length - 2)} ",
+      "reason": "Layout-only punctuation cleanup after a complete translated option label."
     },
     {
       "file": "engine/engine.dart",
@@ -964,7 +970,7 @@
     },
     {
       "file": "saveload/load_cpc_images.dart",
-      "line": 153,
+      "line": 173,
       "text": "${s[i]} glyph[$y][$x]: ${glyph[y][x]} ${String.fromCharCode(glyph[y][x])}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -985,6 +991,12 @@
       "line": 109,
       "text": "Unknown element $typeName in ${root.name.local}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "saveload/save_load.dart",
+      "line": 288,
+      "text": "${text.substring(0, width - 1)}…",
+      "reason": "Layout-only truncation of a pre-localized save-management cell."
     },
     {
       "file": "saveload/save_load.dart",

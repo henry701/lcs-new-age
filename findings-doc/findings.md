@@ -223,6 +223,13 @@ Portuguese needs explicit width budgeting rather than English-width offsets.
 Add screenshot/golden coverage at the fixed console width for the base menu,
 list tables, and character details.
 
+### Fix status
+
+Resolved on 2026-07-26. Base actions and shared management tables now use
+locale-safe fitted cells and explicit column boundaries. Regression coverage
+verifies the base controls, task-assignment table, active-Liberal table, and
+character details at the 80-column console width.
+
 ## PT-007: Save management mixes languages, clips text, and merges columns
 
 - Severity: High
@@ -310,6 +317,13 @@ Translate generated names with phrase-level templates designed for Portuguese
 word order and agreement. For the pawn shop, use the established financial
 sense (`penhor`/`casa de penhores`) while preserving `Towne` as the name.
 
+### Fix status
+
+Resolved on 2026-07-26. Generated commerce templates now provide Portuguese
+phrase-level word order, including `Towne — Casa de penhores e armas`,
+`Seguros Cuidado Humano`, and `Quiosque de Latte Caneca de Cafeína`. Composition
+tests exercise the translated templates with concrete generated components.
+
 ## PT-010: Shopping and inventory flows remain mostly English
 
 - Severity: High
@@ -366,6 +380,13 @@ on the store menu is tracked as PT-020.
 Keep the key token separate from localized prose and validate its rendered
 composition. Action legends should wrap or paginate without losing commands.
 
+### Fix status
+
+Resolved on 2026-07-26. Character-status continuation now uses the option
+renderer, so the localized prose is highlighted without duplicating its key
+prefix. Wrapped site-action regression tests verify that every command stays
+inside the console.
+
 ## PT-012: Several prompts are overly literal or over-capitalized
 
 - Severity: Low
@@ -391,6 +412,14 @@ Portuguese UI prose normally uses sentence case. For example:
 context. Review `nome para o povo` against the gameplay meaning (public name,
 alias, or code name) rather than translating the source in isolation.
 
+### Fix status
+
+Resolved on 2026-07-26. The title and identity prompts now use Brazilian
+Portuguese sentence case and an idiomatic public-name question:
+`Selecione uma opção para seguir sua agenda liberal`, `Deixe-me escolher`, and
+`Como você será conhecido pelo povo?`. Catalog regression tests cover all three
+phrases.
+
 ## PT-013: Changelog has no Portuguese presentation
 
 - Severity: Low
@@ -407,6 +436,13 @@ The heading, close action, version metadata, and body are wholly English.
 If historical entries are intentionally source-language-only, localize at
 least the surrounding UI and label the content as English. Otherwise, include
 release notes in the locale workflow.
+
+### Fix status
+
+Resolved on 2026-07-26. The changelog overlay now localizes its title, close
+tooltip, version/date metadata, and an explicit notice that historical release
+notes remain English-only. The overlay also sizes itself to the available
+viewport; focused widget tests cover the Portuguese presentation.
 
 ## PT-014: Conservative-era prose is clipped and capitalization diverges
 
@@ -450,7 +486,7 @@ phrase `extrema-direita Arqui Conservadora`.
 - Severity: High
 - Type: Missing translation / layout
 - Screen: Daily newspaper
-- Replay status: **Blocked by PT-022 on 2026-07-19**
+- Replay status: **Resolved in renderer/catalog tests on 2026-07-26**
 - Evidence:
   [`screenshots/41-newspaper-mixed-language.png`](screenshots/41-newspaper-mixed-language.png),
   [`screenshots/66-newspaper-range-error.png`](screenshots/66-newspaper-range-error.png)
@@ -477,15 +513,18 @@ Portuguese navigation/subscription labels.
 
 ### Replay result
 
-The settled shared build crashes while rendering the next major-event
-newspaper, before its localized chrome or story can be inspected. PT-015
-therefore remains open.
+The major-event crash that blocked the replay is tracked as PT-022. Focused
+Herald tests now verify the Portuguese masthead, navigation, subscription
+copy, and pollution subheadline at the fixed 80-column width. The renderer
+also clips over-wide localized headlines before centering, so this newspaper
+path no longer depends on English headline widths.
 
 ## PT-016: Month-end legislative screens retain English status labels
 
 - Severity: Medium
 - Type: Missing translation
 - Screens: Month-end Congress notice and legislative results
+- Replay status: **Resolved on 2026-07-26**
 - Evidence:
   [`screenshots/42-month-end-congress.png`](screenshots/42-month-end-congress.png),
   [`screenshots/43-legislative-results-mixed.png`](screenshots/43-legislative-results-mixed.png)
@@ -502,11 +541,21 @@ Localize the month-end notice and all institutional column labels consistently
 with the Portuguese resolution names and prompts already shown on these
 screens.
 
+### Fix status
+
+The month-end notice, legislative agenda, joint-resolution headings, vote
+labels, and House/Senate/President columns now resolve through the Portuguese
+catalog. The rendering path keeps translated labels from being translated a
+second time after their fixed-column placement. The monthly translation suite
+covers the notice, institutional columns, and fixed-width rows in both
+locales.
+
 ## PT-017: Monthly finance line items remain English
 
 - Severity: Medium
 - Type: Missing translation
 - Screen: Monthly financing report
+- Replay status: **Resolved on 2026-07-26**
 - Evidence:
   [`screenshots/44-monthly-finance-mixed-language.png`](screenshots/44-monthly-finance-mixed-language.png)
 
@@ -520,6 +569,13 @@ English: `Cash`, `Tools and Weapons`, `Clothing and Armor`, `Ammunition`, and
 
 Localize the finance categories as one report vocabulary set so the screen
 does not switch languages between its heading, rows, and total.
+
+### Fix status
+
+The liquid-asset rows now translate `Cash`, `Tools and Weapons`, `Clothing and
+Armor`, `Ammunition`, and `Miscellaneous Loot` through `LcsI18n` before writing
+the fixed-width report. Portuguese and English regression coverage verifies
+the complete row set, totals, and row widths.
 
 ## PT-018: Difficulty legend clips its right endpoint
 
@@ -545,10 +601,14 @@ border and is visibly clipped.
 Keep both difficulty endpoints within columns 0–79, shortening or shifting the
 legend as needed.
 
+### Replay status
+
+Resolved in the character-creation regression suite on 2026-07-26.
+
 ### Fix status
 
 The legend now fits the fixed console width; the regression is covered by the
-character-creation translation suite. Fresh browser replay is still pending.
+character-creation translation suite in both Portuguese and English.
 
 ## PT-019: Sports-car transport renders as malformed `Sportção`
 
@@ -568,6 +628,12 @@ appears to combine fragments of the source and target terms.
 
 Render the complete vehicle name with established Portuguese terminology, or
 preserve the source proper/model name consistently.
+
+### Fix status
+
+Resolved on 2026-07-26. XML vehicle short names are translated as complete
+metadata values; `Sport` now renders as `Esportivo`, with a regression test
+guarding against the former `Sportção` splice.
 
 ## PT-020: Pawn-shop status action is clipped
 
@@ -590,7 +656,8 @@ inside the 80-column console.
 ### Fix status
 
 The two status actions now use full-width rows and the Enter action has its own
-row. The layout regression test verifies all three complete strings.
+row. The layout regression test verifies all three complete strings on the
+80-column console.
 
 ## PT-021: Media overview retains English chrome
 
@@ -620,13 +687,14 @@ unit.
 
 The shared paged-interface chrome is now backed by Portuguese catalog entries
 for the title, headers, footer, and guidance lines. A dedicated catalog test
-covers the complete chrome unit.
+covers the complete chrome unit. Resolved on 2026-07-26.
 
 ## PT-022: Major-event newspaper crashes with a negative text index
 
 - Severity: High
 - Type: Runtime crash / localized layout
 - Screen: Major-event newspaper
+- Replay status: **Resolved in renderer and regression tests on 2026-07-26**
 - Evidence:
   [`screenshots/66-newspaper-range-error.png`](screenshots/66-newspaper-range-error.png)
 
@@ -654,16 +722,16 @@ newspaper layout, not only isolated string widths.
 ### Fix status
 
 The renderer now bounds-checks glyph writes, normalizes Portuguese diacritics,
-and falls back to compact 4×5/3×5 fonts when a translated headline is too
-wide. Direct and full gun-control major-event regressions pass; fresh browser
-replay is pending.
+falls back to compact 4×5/3×5 fonts, and clips any remaining over-wide
+headline before centering. Direct, full gun-control, and very-long-headline
+regressions pass.
 
 ## PT-023: Major-event gun-control story leaks English context tokens
 
 - Severity: Medium
 - Type: Contextual translation
 - Screen: Portuguese major-event newspaper body
-- Replay status: **Fixed in tests; fresh replay pending**
+- Replay status: **Resolved in production code and tests on 2026-07-26**
 
 ### Actual
 
@@ -675,7 +743,8 @@ text (`he pudesse ferir mais alguém`).
 
 `mass shooting` and `university` now have Portuguese catalog coverage, and the
 shooter pronoun goes through the locale-aware pronoun translator. The
-major-event tests assert `tiroteio em massa`, `universidade`, and `ele pudesse`.
+major-event tests assert `tiroteio em massa`, `universidade`, and `ele pudesse`
+in the rendered gun-control story.
 
 ## PT-024: Long party names collide with the skill column
 

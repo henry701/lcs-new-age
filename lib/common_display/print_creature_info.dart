@@ -383,7 +383,12 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
       addstr(" / ");
       addOptionText(23, 57, "RIGHT", "RIGHT - Other Liberals");
     }
-    mvaddstr(24, 0, "Any Other Key - Continue the Struggle");
+    addOptionText(
+      24,
+      0,
+      "Any Other Key",
+      "Any Other Key - Continue the Struggle",
+    );
     addOptionText(24, 52, "UP", "UP");
     addstr(" / ");
     addOptionText(24, 57, "DOWN", "DOWN - More Info");

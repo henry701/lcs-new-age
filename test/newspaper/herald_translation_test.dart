@@ -79,6 +79,20 @@ void main() {
     expect(console.buffer.every((line) => line.length == 80), isTrue);
   });
 
+  test('very long translated headlines are clipped before centering', () {
+    final story = NewsStory()..publication = Publication.herald;
+
+    expect(() => displayCenteredNewsFont('A' * 200, 5, story), returnsNormally);
+    expect(
+      newsFontTextWidth(
+        fitNewsTextToWidth('A' * 200, letters3x5, 78),
+        letters3x5,
+      ),
+      lessThanOrEqualTo(78),
+    );
+    expect(console.buffer.every((line) => line.length == 80), isTrue);
+  });
+
   test('Portuguese major-event story with a long headline renders safely', () {
     final story = NewsStory.unpublished(NewsStories.majorEvent)
       ..publication = Publication.herald

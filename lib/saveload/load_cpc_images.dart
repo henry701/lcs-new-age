@@ -113,6 +113,26 @@ int newsFontTextWidth(String s, Map<String, List<List<int>>> letters) {
   return width;
 }
 
+/// Returns the longest prefix that can be drawn by [letters] within
+/// [maxWidth] console columns.  Newspaper headlines are generated content,
+/// so a translation can be wider than the fixed 80-column page even when the
+/// English source fit.  Clipping before drawing keeps the centered origin
+/// non-negative and avoids silently dropping glyphs at the left edge.
+String fitNewsTextToWidth(
+  String s,
+  Map<String, List<List<int>>> letters,
+  int maxWidth,
+) {
+  if (newsFontTextWidth(s, letters) <= maxWidth) return s;
+
+  var end = 0;
+  for (var i = 1; i <= s.length; i++) {
+    if (newsFontTextWidth(s.substring(0, i), letters) > maxWidth) break;
+    end = i;
+  }
+  return s.substring(0, end).trimRight();
+}
+
 void printNewsText(String s, Map<String, List<List<int>>> letters) {
   s = s.toUpperCase();
   int startX = console.x;

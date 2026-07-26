@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 
 Map<String, String> _loadPortugueseCatalog() {
   final entries = <String, String>{};
@@ -39,8 +40,14 @@ Map<String, int> _placeholderCounts(String text) {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   final englishCatalog = _loadEnglishCatalog();
   final catalog = _loadPortugueseCatalog();
+
+  setUpAll(() async {
+    await LcsI18n.initialize('pt_BR');
+  });
+  tearDownAll(LcsI18n.reset);
 
   test(
     'Portuguese translations preserve every source placeholder occurrence',
@@ -344,7 +351,7 @@ void main() {
   });
 
   test('generated commerce names use phrase-level Portuguese templates', () {
-    expect(catalog['{name} Pawn & Gun'], '{name} Penhores e Armas');
+    expect(catalog['{name} Pawn & Gun'], '{name} — Casa de penhores e armas');
     expect(
       catalog['{adjective} {noun} Insurance'],
       'Seguros {noun} {adjective}',
@@ -352,6 +359,27 @@ void main() {
     expect(
       catalog['{adjective} {noun} Latte Stand'],
       'Quiosque de Latte {noun} de {adjective}',
+    );
+  });
+
+  test('generated commerce names compose with Portuguese word order', () {
+    expect(
+      LcsI18n.processString('{name} Pawn & Gun', {'name': 'Towne'}),
+      'Towne — Casa de penhores e armas',
+    );
+    expect(
+      LcsI18n.processString('{adjective} {noun} Insurance', {
+        'adjective': LcsI18n.tr('Human'),
+        'noun': LcsI18n.tr('Care'),
+      }),
+      'Seguros Cuidado Humano',
+    );
+    expect(
+      LcsI18n.processString('{adjective} {noun} Latte Stand', {
+        'adjective': LcsI18n.tr('Caffeine'),
+        'noun': LcsI18n.tr('Mug'),
+      }),
+      'Quiosque de Latte Caneca de Cafeína',
     );
   });
 

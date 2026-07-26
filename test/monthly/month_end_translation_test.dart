@@ -80,9 +80,9 @@ void main() {
       _queueEnter();
 
       await showMessage('Congress is acting on legislation!');
-      mvaddstr(0, 62, 'House');
-      mvaddstr(0, 70, 'Senate');
-      mvaddstr(1, 35, 'President');
+      mvaddstr(0, 62, LcsI18n.tr('House'), noTranslate: true);
+      mvaddstr(0, 70, LcsI18n.tr('Senate'), noTranslate: true);
+      mvaddstr(1, 35, LcsI18n.tr('President'), noTranslate: true);
 
       expect(
         _consoleLine(8),

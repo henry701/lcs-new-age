@@ -1016,9 +1016,13 @@ void displayCenteredNewsFont(
         newsFont = letters3x5;
       }
     }
+    if (width > 78) {
+      str = fitNewsTextToWidth(str, newsFont, 78);
+      width = newsFontTextWidth(str, newsFont);
+    }
   }
 
-  int x = 39 - width ~/ 2;
+  int x = max(0, 39 - width ~/ 2);
 
   if (useBigFont == true) {
     for (s = 0; s < str.length; s++) {

@@ -209,15 +209,18 @@ Resolved by replay:
 - PT-014 with the exact phrase
   `extrema-direita Arqui Conservadora`.
 
-Still open or newly found:
+Open at the initial capture (before the fixes below):
 
-- PT-004 remains open: `Clothes` and clipped founder answers persist.
+- PT-004 was open at capture: `Clothes` and clipped founder answers persisted.
 - PT-015 could not be cleared because the newspaper path crashes.
 - PT-018: `Mais difícil` clips beyond the new-game console border.
 - PT-019: transport metadata renders the malformed `(Sportção)`.
 - PT-020: a pawn-shop status action clips at the right edge.
 - PT-021: the media overview retains English chrome.
 - PT-022: the major-event newspaper crashes with a negative index.
+
+All PT-001 through PT-024 findings are resolved in the current tree; the list
+above is retained as the historical pre-fix replay record.
 
 ## Post-fix verification pass
 
@@ -227,20 +230,34 @@ minimal fixes on the shared tree:
 - PT-004: biography options now wrap within the 80-column console; clothing
   metadata and transport names use locale-aware rendering. Fresh replay
   confirms the long answers remain visible.
+- PT-006: base controls and management tables now use explicit fitted cells,
+  keeping Portuguese actions, health, location, and activity columns apart.
+- PT-011: continuation prompts use the localized option renderer and wrapped
+  action legends, so key prefixes are not duplicated or clipped.
 - PT-018: difficulty legend placement is bounded by the fixed console width.
 - PT-019: XML vehicle short name `Sport` now renders as `Esportivo` instead of
   the malformed `Sportção`.
 - PT-020: pawn-shop status actions occupy separate full-width rows.
 - PT-021: media-overview title, headers, footer, and guidance are covered by
   Portuguese catalog entries.
-- PT-022: newspaper glyph drawing is bounds-safe and chooses a compact font for
-  long translated headlines; the former negative-index failure is covered by
-  direct and full major-event tests.
+- PT-015: Herald masthead, navigation, subscription copy, and the pollution
+  subheadline are covered by the Portuguese newspaper regression suite.
+- PT-022: newspaper glyph drawing is bounds-safe, chooses a compact font, and
+  clips any remaining over-wide translated headline before centering; the
+  former negative-index failure is covered by direct, full major-event, and
+  very-long-headline tests.
 - PT-023: the gun-control story now translates `mass shooting`, `university`,
   and the shooter pronoun (`ele` rather than raw `he`).
 - PT-024: the squad table now fits long founder names to the fixed name column;
   screenshot 82 captures the pre-fix collision and the regression test protects
   the skill column.
+- PT-009: generated commerce names now use Portuguese phrase-level templates;
+  the pawn-shop descriptor is `Casa de penhores e armas`, while the insurance
+  and latte-stand templates preserve Portuguese word order.
+- PT-012: title and identity prompts use Brazilian Portuguese sentence case and
+  idiomatic wording.
+- PT-013: the changelog overlay localizes its chrome and labels historical
+  English-only notes explicitly; it also fits the available viewport.
 
 Fresh replay evidence also confirms the character-creation spacing and wrapping
 fixes in screenshots 78–80.

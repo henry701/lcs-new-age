@@ -1,11 +1,33 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lcs_new_age/engine/console_widget.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:markdown_widget/markdown_widget.dart';
+
+final RegExp _changelogVersionHeading = RegExp(
+  r'^## (\S+) - (\d{1,2})/(\d{1,2})/(\d{4})$',
+  multiLine: true,
+);
+
+String localizedChangelogMarkdown(String source) {
+  if (LcsI18n.currentLocale != 'pt_BR') return source;
+
+  final localizedMetadata = source.replaceAllMapped(_changelogVersionHeading, (
+    match,
+  ) {
+    final month = match.group(2)!.padLeft(2, '0');
+    final day = match.group(3)!.padLeft(2, '0');
+    return '## ${LcsI18n.tr('Version')} ${match.group(1)} — '
+        '$day/$month/${match.group(4)}';
+  });
+  return '> ${LcsI18n.tr('The release notes below are available in English only.')}\n\n'
+      '$localizedMetadata';
+}
 
 class ChangelogWidget extends StatefulWidget {
   const ChangelogWidget({super.key});
@@ -25,7 +47,7 @@ class ChangelogWidgetState extends State<ChangelogWidget> {
 
   void show(String content) {
     setState(() {
-      _content = content;
+      _content = localizedChangelogMarkdown(content);
       showing = true;
     });
     _focusNode.requestFocus();
@@ -52,109 +74,125 @@ class ChangelogWidgetState extends State<ChangelogWidget> {
   Widget build(BuildContext context) {
     if (!showing || _content == null) return const SizedBox();
 
-    return Center(
-      child: KeyboardListener(
-        focusNode: _focusNode,
-        onKeyEvent: (event) {
-          if (event is KeyDownEvent || event is KeyRepeatEvent) {
-            if (event.logicalKey == LogicalKeyboardKey.enter ||
-                event.logicalKey == LogicalKeyboardKey.escape) {
-              hide();
-            } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-              unawaited(
-                _scrollController.animateTo(
-                  _scrollController.offset - 50,
-                  duration: const Duration(milliseconds: 100),
-                  curve: Curves.easeOut,
-                ),
-              );
-            } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-              unawaited(
-                _scrollController.animateTo(
-                  _scrollController.offset + 50,
-                  duration: const Duration(milliseconds: 100),
-                  curve: Curves.easeOut,
-                ),
-              );
-            }
-          }
-        },
-        child: Container(
-          width: 800,
-          height: 600,
-          decoration: BoxDecoration(
-            color: black,
-            border: Border.all(color: green, width: 2),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: green.withAlpha(128),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(6),
-                    topRight: Radius.circular(6),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Liberal Crime Squad: New Age Changelog',
-                      style: TextStyle(
-                        color: lightGreen,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'SourceCodePro',
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = math
+            .min(800, math.max(0, constraints.maxWidth - 32))
+            .toDouble();
+        final height = math
+            .min(600, math.max(0, constraints.maxHeight - 32))
+            .toDouble();
+
+        return Center(
+          child: KeyboardListener(
+            focusNode: _focusNode,
+            onKeyEvent: (event) {
+              if (event is KeyDownEvent || event is KeyRepeatEvent) {
+                if (event.logicalKey == LogicalKeyboardKey.enter ||
+                    event.logicalKey == LogicalKeyboardKey.escape) {
+                  hide();
+                } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+                  unawaited(
+                    _scrollController.animateTo(
+                      _scrollController.offset - 50,
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeOut,
+                    ),
+                  );
+                } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+                  unawaited(
+                    _scrollController.animateTo(
+                      _scrollController.offset + 50,
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeOut,
+                    ),
+                  );
+                }
+              }
+            },
+            child: Container(
+              width: width,
+              height: height,
+              decoration: BoxDecoration(
+                color: black,
+                border: Border.all(color: green, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: green.withAlpha(128),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(6),
+                        topRight: Radius.circular(6),
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.close, color: lightGreen),
-                      onPressed: hide,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            LcsI18n.tr(
+                              'Liberal Crime Squad: New Age Changelog',
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: lightGreen,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'SourceCodePro',
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          tooltip: LcsI18n.tr('Close changelog'),
+                          icon: const Icon(Icons.close, color: lightGreen),
+                          onPressed: hide,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: RawScrollbar(
-                  controller: _scrollController,
-                  thumbVisibility: true,
-                  trackVisibility: true,
-                  thickness: 16,
-                  radius: const Radius.circular(8),
-                  thumbColor: lightGray,
-                  child: GestureDetector(
-                    onVerticalDragUpdate: (details) {
-                      _scrollController.jumpTo(
-                        _scrollController.offset - details.delta.dy,
-                      );
-                    },
-                    child: SingleChildScrollView(
+                  ),
+                  Expanded(
+                    child: RawScrollbar(
                       controller: _scrollController,
-                      padding: const EdgeInsets.all(16),
-                      child: MarkdownBlock(
-                        selectable: false,
-                        data: _content!,
-                        config: MarkdownConfig.darkConfig.copy(
-                          configs: [
-                            const H1Config(),
-                            const H2Config(),
-                            const H3Config(),
-                            MyPConfig(),
-                            const MyListConfig(),
-                          ],
+                      thumbVisibility: true,
+                      trackVisibility: true,
+                      thickness: 16,
+                      radius: const Radius.circular(8),
+                      thumbColor: lightGray,
+                      child: GestureDetector(
+                        onVerticalDragUpdate: (details) {
+                          _scrollController.jumpTo(
+                            _scrollController.offset - details.delta.dy,
+                          );
+                        },
+                        child: SingleChildScrollView(
+                          controller: _scrollController,
+                          padding: const EdgeInsets.all(16),
+                          child: MarkdownBlock(
+                            selectable: false,
+                            data: _content!,
+                            config: MarkdownConfig.darkConfig.copy(
+                              configs: [
+                                const H1Config(),
+                                const H2Config(),
+                                const H3Config(),
+                                MyPConfig(),
+                                const MyListConfig(),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

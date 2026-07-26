@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -17,6 +18,207 @@ import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 const emDash = "—";
+
+abstract final class ManagementTableLayout {
+  static const int consoleWidth = 80;
+  static const int nameX = 0;
+  static const int nameWidth = 23;
+  static const int skillX = 24;
+  static const int skillWidth = 7;
+  static const int healthX = 32;
+  static const int healthWidth = 9;
+  static const int locationX = 42;
+  static const int locationWidth = 14;
+  static const int trailingX = 57;
+  static const int trailingWidth = consoleWidth - trailingX;
+}
+
+String fitConsoleText(String text, int maxWidth, {bool showEllipsis = true}) {
+  if (maxWidth <= 0) return "";
+  if (strLenX(text) <= maxWidth) return text;
+
+  final visibleLimit = showEllipsis && maxWidth > 1 ? maxWidth - 1 : maxWidth;
+  final fitted = StringBuffer();
+  int visibleWidth = 0;
+  for (int i = 0; i < text.length && visibleWidth < visibleLimit; i++) {
+    if ((text[i] == "&" || text[i] == "^") &&
+        i + 1 < text.length &&
+        colorMap.containsKey(text[i + 1])) {
+      fitted
+        ..write(text[i])
+        ..write(text[++i]);
+      continue;
+    }
+    fitted.write(text[i]);
+    visibleWidth++;
+  }
+  if (showEllipsis && maxWidth > 1) fitted.write("…");
+  return fitted.toString();
+}
+
+void mvaddstrFitted(
+  int y,
+  int x,
+  String text,
+  int maxWidth, {
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool showEllipsis = true,
+}) {
+  final rendered = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+  );
+  mvaddstr(
+    y,
+    x,
+    fitConsoleText(rendered, maxWidth, showEllipsis: showEllipsis),
+    noTranslate: true,
+  );
+}
+
+void mvaddstrcFitted(
+  int y,
+  int x,
+  Color color,
+  String text,
+  int maxWidth, {
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool showEllipsis = true,
+}) {
+  setColor(color);
+  mvaddstrFitted(
+    y,
+    x,
+    text,
+    maxWidth,
+    params: params,
+    noTranslate: noTranslate,
+    showEllipsis: showEllipsis,
+  );
+}
+
+void addOptionTextFitted(
+  int y,
+  int x,
+  String key,
+  String text,
+  int maxWidth, {
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final rendered = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  addOptionText(
+    y,
+    x,
+    key,
+    fitConsoleText(rendered, maxWidth),
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+    noTranslate: true,
+  );
+}
+
+void printManagementTableHeader(String trailingHeader) {
+  makeDelimiter(y: 1);
+  mvaddstrFitted(1, 4, "CODE NAME", ManagementTableLayout.nameWidth - 4);
+  mvaddstrFitted(
+    1,
+    ManagementTableLayout.skillX,
+    "SKILL",
+    ManagementTableLayout.skillWidth,
+  );
+  mvaddstrFitted(
+    1,
+    ManagementTableLayout.healthX,
+    "HEALTH",
+    ManagementTableLayout.healthWidth,
+  );
+  mvaddstrFitted(
+    1,
+    ManagementTableLayout.locationX,
+    "LOCATION",
+    ManagementTableLayout.locationWidth,
+  );
+  mvaddstrFitted(
+    1,
+    ManagementTableLayout.trailingX,
+    trailingHeader,
+    ManagementTableLayout.trailingWidth,
+  );
+}
+
+void printManagementTableRow({
+  required int y,
+  required String key,
+  required Creature creature,
+  required String location,
+  required Color locationColor,
+  required String trailing,
+  required Color trailingColor,
+}) {
+  int skill = 0;
+  bool bright = false;
+  for (final skillType in Skill.values) {
+    skill += creature.rawSkill[skillType] ?? 0;
+    if ((creature.rawSkillXP[skillType] ?? 0) >=
+            100 + (10 * (creature.rawSkill[skillType] ?? 0)) &&
+        (creature.rawSkill[skillType] ?? 0) < creature.skillCap(skillType)) {
+      bright = true;
+    }
+  }
+  addOptionTextFitted(
+    y,
+    ManagementTableLayout.nameX,
+    key,
+    "{key} - {name}",
+    ManagementTableLayout.nameWidth,
+    params: {"key": key, "name": creature.name},
+  );
+  mvaddstrcFitted(
+    y,
+    ManagementTableLayout.skillX,
+    bright ? white : lightGray,
+    skill.toString(),
+    ManagementTableLayout.skillWidth,
+    noTranslate: true,
+  );
+  printHealthStat(
+    y,
+    ManagementTableLayout.healthX,
+    creature,
+    small: true,
+    maxWidth: ManagementTableLayout.healthWidth,
+  );
+  mvaddstrcFitted(
+    y,
+    ManagementTableLayout.locationX,
+    locationColor,
+    location,
+    ManagementTableLayout.locationWidth,
+  );
+  mvaddstrcFitted(
+    y,
+    ManagementTableLayout.trailingX,
+    trailingColor,
+    trailing,
+    ManagementTableLayout.trailingWidth,
+    noTranslate: true,
+  );
+}
 
 bool clearScreenOnNextMessage = false;
 Future<void> showMessage(
@@ -114,7 +316,13 @@ void setColorForArmor(Creature creature) {
   setColor(fg, background: bg);
 }
 
-void printHealthStat(int y, int x, Creature creature, {bool small = false}) {
+void printHealthStat(
+  int y,
+  int x,
+  Creature creature, {
+  bool small = false,
+  int? maxWidth,
+}) {
   move(y, x);
   bool bleeding = creature.body.parts.any((e) => e.bleeding > 0);
   setColor(lightGreen);
@@ -137,8 +345,34 @@ void printHealthStat(int y, int x, Creature creature, {bool small = false}) {
       small,
     );
   }
-  addstr(healthDisplay);
-  addstrc(lightBlue, creature.clothing.shortArmorDetail());
+  if (maxWidth == null) {
+    addstr(healthDisplay);
+    addstrc(lightBlue, creature.clothing.shortArmorDetail());
+    return;
+  }
+
+  final localizedHealth = LcsI18n.tr(healthDisplay);
+  final localizedArmor = LcsI18n.tr(creature.clothing.shortArmorDetail());
+  final combined = "$localizedHealth$localizedArmor";
+  if (strLenX(combined) <= maxWidth) {
+    addstr(localizedHealth, noTranslate: true);
+    addstrc(lightBlue, localizedArmor, noTranslate: true);
+    return;
+  }
+
+  final healthWidth = strLenX(localizedHealth).clamp(0, maxWidth);
+  addstr(
+    fitConsoleText(localizedHealth, healthWidth, showEllipsis: false),
+    noTranslate: true,
+  );
+  final remainingWidth = maxWidth - healthWidth;
+  if (remainingWidth > 0) {
+    addstrc(
+      lightBlue,
+      fitConsoleText(localizedArmor, remainingWidth),
+      noTranslate: true,
+    );
+  }
 }
 
 String _getVagueHealthDescription(Creature creature) {

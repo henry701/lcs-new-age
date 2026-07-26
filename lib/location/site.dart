@@ -175,9 +175,9 @@ class Site extends Location {
 
   @override
   String getName({bool short = false, bool includeCity = false}) {
-    String fullName = short
-        ? (frontShortName ?? shortName)
-        : (frontName ?? name);
+    String fullName = LcsI18n.tr(
+      short ? (frontShortName ?? shortName) : (frontName ?? name),
+    );
     if (includeCity && multipleCityMode) {
       return LcsI18n.processString("{site}, {city}", {
         "site": fullName,

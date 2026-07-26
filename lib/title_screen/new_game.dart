@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart' show Color;
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/body.dart';
@@ -26,51 +28,59 @@ import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/debug_flags.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
-Future<void> setupNewGame() async {
-  gameState = GameState();
-
-  int gameWorld = 0;
-  int ccsOption = 1;
-  int initiative = 0;
-
-  final List<(String, String, Color)> gameWorldChoices = [
-    (
-      "The Times They Are a-Changin'",
+List<(String, String, Color)> get _gameWorldChoices => [
+  (
+    LcsI18n.tr("The Times They Are a-Changin'"),
+    LcsI18n.tr(
       "The country is beginning to slide into far-right authoritarianism.",
-      yellow,
     ),
-    (
-      "The End of the World as We Know It",
+    yellow,
+  ),
+  (
+    LcsI18n.tr("The End of the World as We Know It"),
+    LcsI18n.tr(
       "Liberalism is already forgotten.  Is it too late to fight back?",
-      red,
     ),
-  ];
-  final List<(String, String, Color)> ccsChoices = [
-    ("Clear Blue Skies", "The CCS will never appear.", lightGreen),
-    (
-      "Bad Blood",
-      "A rival CCS will form eventually and grow stronger over time.",
-      yellow,
-    ),
-    (
-      "We Didn't Start The Fire",
-      "The CCS starts active and extremely strong.",
-      red,
-    ),
-  ];
-  final List<(String, String, Color)> initiativeChoices = [
-    (
-      "Power to the People",
-      "Team initiative: Your squad attacks first in each round.",
-      yellow,
-    ),
-    (
-      "Welcome to the Jungle",
-      "Zipper initiative: Teams take turns attacking one at a time.",
-      red,
-    ),
-  ];
+    red,
+  ),
+];
 
+List<(String, String, Color)> get _ccsChoices => [
+  (
+    LcsI18n.tr("Clear Blue Skies"),
+    LcsI18n.tr("The CCS will never appear."),
+    lightGreen,
+  ),
+  (
+    LcsI18n.tr("Bad Blood"),
+    LcsI18n.tr("A rival CCS will form eventually and grow stronger over time."),
+    yellow,
+  ),
+  (
+    LcsI18n.tr("We Didn't Start The Fire"),
+    LcsI18n.tr("The CCS starts active and extremely strong."),
+    red,
+  ),
+];
+
+List<(String, String, Color)> get _initiativeChoices => [
+  (
+    LcsI18n.tr("Power to the People"),
+    LcsI18n.tr("Team initiative: Your squad attacks first in each round."),
+    yellow,
+  ),
+  (
+    LcsI18n.tr("Welcome to the Jungle"),
+    LcsI18n.tr("Zipper initiative: Teams take turns attacking one at a time."),
+    red,
+  ),
+];
+
+void renderNewGameOptions({
+  required int gameWorld,
+  required int ccsOption,
+  required int initiative,
+}) {
   void cyclingOption(
     int y,
     String key,
@@ -80,56 +90,83 @@ Future<void> setupNewGame() async {
   ) {
     var (name, description, color) = choices[index];
     var colorKey = ColorKey.fromColor(color);
-    addOptionText(
-      y,
-      2,
-      key,
-      "{key} - {category}:",
-      params: {"key": key, "category": category},
-    );
+    final renderedCategory = LcsI18n.processString("{key} - {category}:", {
+      "key": key,
+      "category": category,
+    }, noTranslate: true);
+    addOptionText(y, 2, key, renderedCategory, noTranslate: true);
     mvaddstrx(
       y,
-      35,
+      max(35, 2 + strLenX(renderedCategory) + 2),
       "&{colorKey}{name}",
       params: {"colorKey": colorKey, "name": name},
+      noTranslate: true,
     );
     setColor(midGray);
-    mvaddstr(y + 1, 6, description);
+    mvaddstr(y + 1, 6, description, noTranslate: true);
   }
 
+  erase();
+  mvaddstrc(4, 6, white, "New Game of Liberal Crime Squad: Gameplay Options");
+  cyclingOption(
+    7,
+    "A",
+    LcsI18n.tr("Starting Political Climate"),
+    _gameWorldChoices,
+    gameWorld,
+  );
+  cyclingOption(
+    10,
+    "B",
+    LcsI18n.tr("Conservative Crime Squad"),
+    _ccsChoices,
+    ccsOption,
+  );
+  cyclingOption(
+    13,
+    "C",
+    LcsI18n.tr("Combat Difficulty"),
+    _initiativeChoices,
+    initiative,
+  );
+
+  addparagraph(
+    16,
+    2,
+    "Option difficulty ratings: &GEasier &w- &YStandard &w- &RHarder",
+    y2: 18,
+    x2: console.width - 2,
+  );
+
+  addOptionText(20, 2, "Enter", "Enter - Continue...");
+}
+
+Future<void> setupNewGame() async {
+  gameState = GameState();
+
+  int gameWorld = 0;
+  int ccsOption = 1;
+  int initiative = 0;
+
   while (true) {
-    erase();
-    mvaddstrc(4, 6, white, "New Game of Liberal Crime Squad: Gameplay Options");
-    cyclingOption(
-      7,
-      "A",
-      "Starting Political Climate",
-      gameWorldChoices,
-      gameWorld,
+    renderNewGameOptions(
+      gameWorld: gameWorld,
+      ccsOption: ccsOption,
+      initiative: initiative,
     );
-    cyclingOption(10, "B", "Conservative Crime Squad", ccsChoices, ccsOption);
-    cyclingOption(13, "C", "Combat Difficulty", initiativeChoices, initiative);
-
-    mvaddstrx(
-      16,
-      2,
-      "Option difficulty ratings: &GEasier &w- &YStandard &w- &RHarder",
-    );
-
-    addOptionText(18, 2, "Enter", "Enter - Continue...");
 
     int c = await getKey();
 
     if (c == Key.a) {
-      gameWorld = (gameWorld + 1) % gameWorldChoices.length;
+      gameWorld = (gameWorld + 1) % _gameWorldChoices.length;
       continue;
     }
     if (c == Key.b) {
-      ccsOption = (ccsOption + 1) % ccsChoices.length;
+      ccsOption = (ccsOption + 1) % _ccsChoices.length;
       continue;
     }
     if (c == Key.c) {
-      initiative = (initiative + 1) % initiativeChoices.length;
+      initiative = (initiative + 1) % _initiativeChoices.length;
       continue;
     }
     if (c == Key.enter) {
@@ -248,7 +285,7 @@ Future<void> makeCharacter() async {
     addstrc(white, first[sex]!);
     addOptionText(
       7,
-      34,
+      40,
       "A",
       "(A to have your parents reconsider)",
       baseColorKey: ColorKey.midGray,
@@ -258,7 +295,7 @@ Future<void> makeCharacter() async {
     addstrc(white, last);
     addOptionText(
       9,
-      34,
+      40,
       "B",
       "(B to be born to a different family)",
       baseColorKey: ColorKey.midGray,
@@ -268,7 +305,7 @@ Future<void> makeCharacter() async {
     addstrc(white, sexDesc());
     addOptionText(
       11,
-      34,
+      40,
       "C",
       "(C to have the doctor check again)",
       baseColorKey: ColorKey.midGray,
@@ -282,7 +319,7 @@ Future<void> makeCharacter() async {
     }
     addOptionText(
       13,
-      34,
+      40,
       "D",
       "(D to toggle choice or fate)",
       baseColorKey: ColorKey.midGray,
@@ -292,7 +329,7 @@ Future<void> makeCharacter() async {
     addstrc(white, startingCity.getName(includeCity: true));
     addOptionText(
       15,
-      34,
+      40,
       "E",
       "(E to move at a young age)",
       baseColorKey: ColorKey.midGray,
@@ -473,61 +510,49 @@ Future<void> aNewConservativeEra() async {
     params: {"year": year.toString()},
   );
 
-  mvaddstr(
+  addparagraph(
     6,
     2,
-    "Following a series of violent protests from the far right, Conservative",
-  );
-  mvaddstr(
-    7,
-    2,
-    "President {name} has resigned in disgrace.  His hardcore",
-    params: {"name": oldPresident.firstLast},
-  );
-  mvaddstr(
-    8,
-    2,
-    "Arch-Conservative Vice President, {name}, a close ally of the",
-    params: {"name": execName[Exec.president]!.firstLast},
-  );
-  mvaddstr(
-    9,
-    2,
-    "rioters, has been sworn in as the new President of the United States.",
+    "Following a series of violent protests from the far right, Conservative President {oldPresident} has resigned in disgrace. His hardcore Arch-Conservative Vice President, {president}, a close ally of the rioters, has been sworn in as the new President of the United States.",
+    y2: 10,
+    x2: 77,
+    params: {
+      "oldPresident": oldPresident.firstLast,
+      "president": execName[Exec.president]!.firstLast,
+    },
   );
 
-  mvaddstr(
-    11,
+  addparagraph(
+    console.y + 1,
     2,
-    "With Conservatives having swept into power in the recent midterm elections,",
-  );
-  mvaddstr(
-    12,
-    2,
-    "and a Conservative majority in the Supreme Court of the United States,",
-  );
-  mvaddstr(
-    13,
-    2,
-    "commentators are hailing it as the beginning of a new Conservative era.",
+    "With Conservatives having swept into power in the recent midterm elections, and a Conservative majority in the Supreme Court of the United States, commentators are hailing it as the beginning of a new Conservative era.",
+    y2: 14,
+    x2: 77,
   );
 
-  move(15, 2);
   setColor(red);
-  addstr(
-    "President {name} has asked the new Congress to move quickly",
+  addparagraph(
+    console.y + 1,
+    2,
+    "President {name} has asked the new Congress to move quickly to rubber stamp his radical Arch-Conservative agenda.",
+    y2: 17,
+    x2: 77,
     params: {"name": execName[Exec.president]!.firstLast},
   );
-  mvaddstr(16, 2, "to rubber stamp his radical Arch-Conservative agenda. ");
   setColor(lightGray);
-  addstr("The left seems");
-  mvaddstr(
-    17,
+  addparagraph(
+    console.y,
     2,
-    "powerless to stop this imminent trampling of Liberal Sanity and Justice.",
+    "The left seems powerless to stop this imminent trampling of Liberal Sanity and Justice.",
+    y2: 20,
+    x2: 77,
   );
 
-  mvaddstr(19, 2, "In this dark time, the Liberal Crime Squad is born...");
+  mvaddstr(
+    console.y + 1,
+    2,
+    "In this dark time, the Liberal Crime Squad is born...",
+  );
 
   await getKey();
 

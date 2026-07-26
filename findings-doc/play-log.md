@@ -136,11 +136,141 @@ Observed:
 - The site-action controls were translated, but their legend overflowed the
   console and the surrounding status headers remained English.
 
+### Follow-up pass: introduction, newspaper, and month end
+
+1. Launched a detached clean worktree at commit
+   `672e5c760a75416a5c4ba00b2fc4450473fa2f35`.
+2. Generated required JSON serialization files and verified the baseline with
+   the full Flutter test suite (317 tests passed).
+3. Started a fresh Portuguese campaign and completed all ten founder questions
+   with individually paced key input.
+4. Reviewed the conservative-era introduction.
+5. Waited through January, reviewed a daily newspaper, and advanced into the
+   month-end Congress and finance sequence.
+
+Evidence:
+
+- [`screenshots/40-conservative-era-overflow.png`](screenshots/40-conservative-era-overflow.png)
+- [`screenshots/41-newspaper-mixed-language.png`](screenshots/41-newspaper-mixed-language.png)
+- [`screenshots/42-month-end-congress.png`](screenshots/42-month-end-congress.png)
+- [`screenshots/43-legislative-results-mixed.png`](screenshots/43-legislative-results-mixed.png)
+- [`screenshots/44-monthly-finance-mixed-language.png`](screenshots/44-monthly-finance-mixed-language.png)
+
+Observed:
+
+- Long Portuguese introduction lines were clipped, and
+  `extrema-direita Arqui Conservadora` did not preserve the requested
+  capitalization/form.
+- The newspaper combined a Portuguese headline with an English subheadline,
+  masthead, and subscription copy; its top navigation also clipped.
+- Month-end legislative notices and institutional headers remained English.
+- The monthly finance report localized its frame but not its asset categories.
+
+### Replay pass: settled shared localization tree
+
+This pass intentionally tested the live shared working tree rather than a
+clean commit.
+
+- Initial server checkpoint: 2026-07-19 15:29:38 -03:00
+- Rebuilt after the other localization agents settled: approximately
+  2026-07-19 15:54 -03:00
+- Exact source checkpoint recorded: 2026-07-19 16:01:23 -03:00
+- Branch: `feature/localization`
+- HEAD: `672e5c760a75416a5c4ba00b2fc4450473fa2f35`
+- Dirty source state excluding `findings-doc/**`: 94 tracked paths and 12
+  untracked paths
+- Tracked source diff SHA-256:
+  `47a5dc9e0cff433b2d3d26aba61208bdb74fcbc0fe6e912041f046b1ce383043`
+- Untracked source-path SHA-256:
+  `276b3e3b900bba5eac26a7948f2c2645605289bdcbac52b78a3200f070e02a4d`
+- Non-findings `git status --short` SHA-256:
+  `3f0e1d2e4a87c393fa1814bdfff91641b8d90f3209414058e2238fb6a02bc8e7`
+- Browser: isolated agent-browser Chrome-for-Testing session
+- Viewport: 1527 × 1293
+
+Explored:
+
+1. Replayed the Portuguese title, gameplay/interface/content settings, new-game
+   configuration, founder biography, and conservative-era introduction.
+2. Created an autosave and opened the real save-management table.
+3. Continued the campaign through base and squad equipment.
+4. Travelled to shopping, entered the pawn shop, and reviewed firearms, tools,
+   and equipment after rebuilding the server from the settled tree.
+5. Waited through 5 January and opened the media overview.
+6. Attempted to render the next major-event newspaper.
+
+Resolved by replay:
+
+- PT-001, PT-002, and PT-003 on the Portuguese title.
+- PT-005 on the replayed base/equipment vocabulary surfaces.
+- PT-007 with an actual save row.
+- PT-008 across all three settings groups.
+- PT-010 across the pawn-shop transaction paths.
+- PT-014 with the exact phrase
+  `extrema-direita Arqui Conservadora`.
+
+Still open or newly found:
+
+- PT-004 remains open: `Clothes` and clipped founder answers persist.
+- PT-015 could not be cleared because the newspaper path crashes.
+- PT-018: `Mais difícil` clips beyond the new-game console border.
+- PT-019: transport metadata renders the malformed `(Sportção)`.
+- PT-020: a pawn-shop status action clips at the right edge.
+- PT-021: the media overview retains English chrome.
+- PT-022: the major-event newspaper crashes with a negative index.
+
+## Post-fix verification pass
+
+The crash and layout findings were then converted into regression tests and
+minimal fixes on the shared tree:
+
+- PT-004: biography options now wrap within the 80-column console; clothing
+  metadata and transport names use locale-aware rendering. Fresh replay
+  confirms the long answers remain visible.
+- PT-018: difficulty legend placement is bounded by the fixed console width.
+- PT-019: XML vehicle short name `Sport` now renders as `Esportivo` instead of
+  the malformed `Sportção`.
+- PT-020: pawn-shop status actions occupy separate full-width rows.
+- PT-021: media-overview title, headers, footer, and guidance are covered by
+  Portuguese catalog entries.
+- PT-022: newspaper glyph drawing is bounds-safe and chooses a compact font for
+  long translated headlines; the former negative-index failure is covered by
+  direct and full major-event tests.
+- PT-023: the gun-control story now translates `mass shooting`, `university`,
+  and the shooter pronoun (`ele` rather than raw `he`).
+- PT-024: the squad table now fits long founder names to the fixed name column;
+  screenshot 82 captures the pre-fix collision and the regression test protects
+  the skill column.
+
+Fresh replay evidence also confirms the character-creation spacing and wrapping
+fixes in screenshots 78–80.
+
+Focused localization/layout/newspaper tests and the full Flutter suite pass.
+Catalog canonicalization, prefix validation, strict interpolation auditing,
+the extractor, analyzer, and whitespace checks also pass.
+
+Evidence:
+
+- [`screenshots/46-title-portuguese-replay.png`](screenshots/46-title-portuguese-replay.png)
+- [`screenshots/47-save-management-replay.png`](screenshots/47-save-management-replay.png)
+- [`screenshots/48-gameplay-options-replay.png`](screenshots/48-gameplay-options-replay.png)
+- [`screenshots/49-interface-options-replay.png`](screenshots/49-interface-options-replay.png)
+- [`screenshots/50-content-options-replay.png`](screenshots/50-content-options-replay.png)
+- [`screenshots/51-new-game-config-replay.png`](screenshots/51-new-game-config-replay.png)
+- [`screenshots/52-conservative-era-fixed.png`](screenshots/52-conservative-era-fixed.png)
+- [`screenshots/58-base-post-rebuild.png`](screenshots/58-base-post-rebuild.png)
+- [`screenshots/59-equipment-post-rebuild.png`](screenshots/59-equipment-post-rebuild.png)
+- [`screenshots/60-shop-post-rebuild.png`](screenshots/60-shop-post-rebuild.png)
+- [`screenshots/61-shop-firearms-post-rebuild.png`](screenshots/61-shop-firearms-post-rebuild.png)
+- [`screenshots/62-shop-tools-post-rebuild.png`](screenshots/62-shop-tools-post-rebuild.png)
+- [`screenshots/65-media-overview-mixed.png`](screenshots/65-media-overview-mixed.png)
+- [`screenshots/66-newspaper-range-error.png`](screenshots/66-newspaper-range-error.png)
+- [`screenshots/67-founder-biography-clipping-replay.png`](screenshots/67-founder-biography-clipping-replay.png)
+
 ## Not covered
 
 - Combat with an encountered enemy
 - Recruitment dialogue through successful completion
-- Newspaper and end-of-month reports
 - Save import/export
 - Other cities and viewport sizes
 

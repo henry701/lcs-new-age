@@ -109,6 +109,47 @@ void addInlineOptionText(
   );
 }
 
+void addInlineOptionTextWrapped(
+  String key,
+  String text, {
+  int leftMargin = 0,
+  int rightMargin = 0,
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool compactLayout = false,
+}) {
+  var renderedText = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  if (compactLayout) {
+    renderedText = renderedText.replaceFirst(" - ", ":");
+  }
+  if (compactLayout && renderedText.endsWith(", ")) {
+    renderedText = '${renderedText.substring(0, renderedText.length - 2)} ';
+  }
+  final rightEdgeExclusive = CONSOLE_WIDTH - rightMargin;
+  if (console.x > leftMargin &&
+      console.x + strLenX(renderedText) > rightEdgeExclusive) {
+    move(console.y + 1, leftMargin);
+  }
+
+  _addRenderedOptionText(
+    key,
+    renderedText,
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+  );
+}
+
 void _addRenderedOptionText(
   String key,
   String renderedText, {

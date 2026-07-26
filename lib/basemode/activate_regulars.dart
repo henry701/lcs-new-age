@@ -5,7 +5,6 @@ import 'package:lcs_new_age/basemode/help_system.dart';
 import 'package:lcs_new_age/common_actions/equipment.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_creature_info.dart';
-import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/creature/sort_creatures.dart';
@@ -38,44 +37,29 @@ Future<void> activateRegulars() async {
     erase();
     printFunds();
     mvaddstr(0, 0, "Assign Tasks to Liberals");
-    makeDelimiter(y: 1);
-    mvaddstr(1, 4, "CODE NAME");
-    mvaddstr(1, 24, "SKILL");
-    mvaddstr(1, 32, "HEALTH");
-    mvaddstr(1, 41, "LOCATION");
-    mvaddstr(1, 57, "ACTIVITY");
+    printManagementTableHeader("ACTIVITY");
     int y = 2;
     for (int p = page * 19; p < tempPool.length && p < (page + 1) * 19; p++) {
       Creature c = tempPool[p];
       String key = letterAPlus(y - 2);
-      addOptionText(
-        y,
-        0,
-        key,
-        "{key} - {name}",
-        params: {"key": key, "name": c.name},
-      );
-      printSkillSummary(y, 24, c, showWeaponSkill: false);
-      printHealthStat(y, 32, c, small: true);
-      mvaddstrc(
-        y,
-        41,
-        c.site?.isPartOfTheJusticeSystem == true ? yellow : lightGray,
-        c.location?.getName(short: true, includeCity: true) ?? "In Hiding",
-      );
-      mvaddstrc(
-        y,
-        57,
-        c.activity.color,
-        c.activity.description,
-        noTranslate: true,
+      printManagementTableRow(
+        y: y,
+        key: key,
+        creature: c,
+        location:
+            c.location?.getName(short: true, includeCity: true) ?? "In Hiding",
+        locationColor: c.site?.isPartOfTheJusticeSystem == true
+            ? yellow
+            : lightGray,
+        trailing: c.activity.description,
+        trailingColor: c.activity.color,
       );
       y++;
     }
     mvaddstrc(22, 0, lightGray, "Press a Letter to Assign an Activity.");
     addPageButtons(y: 23, x: 0);
-    addOptionText(24, 0, "T", "T - Sorting options");
-    addOptionText(24, 21, "Z", "Z - Assign simple tasks in bulk");
+    addOptionTextFitted(24, 0, "T", "T - Sorting options", 39);
+    addOptionTextFitted(24, 40, "Z", "Z - Assign simple tasks in bulk", 40);
     int c = await getKey();
     if (isPageUp(c) && page > 0) page--;
     if (isPageDown(c) && (page + 1) * 19 < tempPool.length) page++;

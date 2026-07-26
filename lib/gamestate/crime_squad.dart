@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 import 'package:lcs_new_age/vehicles/vehicle.dart';
 
@@ -15,7 +16,7 @@ class CrimeSquad {
   List<Creature> pool = [];
   List<Squad> squads = [];
   List<Vehicle> vehiclePool = [];
-  String slogan = lcsRandomWeighted({
+  static const Map<String, int> defaultSlogans = {
     "We need a slogan!": 10,
     "We really need a slogan!": 1,
     "This is a slogan!": 1,
@@ -61,5 +62,7 @@ class CrimeSquad {
     "I dissent.": 1,
     "Keep the immigrants, deport the racists": 1,
     "We're actually leftists, not liberals": 1,
-  });
+  };
+  String slogan = lcsRandomWeighted(defaultSlogans);
+  String get displaySlogan => LcsI18n.tr(slogan);
 }

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/ammo_type.dart';
 import 'package:lcs_new_age/items/item.dart';
 
@@ -17,6 +18,10 @@ class Ammo extends Item {
   bool get isAmmo => true;
   @override
   bool get isForSale => type.fenceValue > 0;
+
+  @override
+  String equipTitle({bool full = false}) =>
+      LcsI18n.tr(super.equipTitle(full: full));
 
   @override
   int compareTo(Item other) {

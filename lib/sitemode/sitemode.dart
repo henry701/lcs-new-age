@@ -311,7 +311,14 @@ Future<void> _siteModeAux() async {
     //PRINT SITE INSTRUCTIONS
     if (partyalive) {
       void addSiteOption(String key, String label, {bool enabledWhen = true}) {
-        addInlineOptionText(key, label, enabledWhen: enabledWhen);
+        addInlineOptionTextWrapped(
+          key,
+          label,
+          leftMargin: 1,
+          rightMargin: 1,
+          enabledWhen: enabledWhen,
+          compactLayout: true,
+        );
       }
 
       if (!enemy || !siteAlarm) {
@@ -353,7 +360,6 @@ Future<void> _siteModeAux() async {
       } else {
         useColor = false;
       }
-      mvaddstr(24, 1, "");
       addSiteOption(
         "U",
         graffiti ? "U - Graffiti, " : "U - Use, ",

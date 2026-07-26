@@ -134,9 +134,10 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           );
           appendNews("  A suspect, whose identity is unclear, killed ");
           if (drama[Drama.killedSomebody]! > 1) {
-            story += LcsI18n.processString("{count} police officers that were", {
-              "count": drama[Drama.killedSomebody].toString(),
-            });
+            story += LcsI18n.processString(
+              "{count} police officers that were",
+              {"count": drama[Drama.killedSomebody].toString()},
+            );
           } else {
             appendNews("a police officer that was");
           }
@@ -163,7 +164,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           story += "&r";
         case NewsStories.squadFledAttack:
           appendNews("Members of the Liberal Crime Squad ");
-          appendNews("escaped from police officers during a raid yesterday, according ");
+          appendNews(
+            "escaped from police officers during a raid yesterday, according ",
+          );
           if (!liberalguardian) {
             appendNews("to a spokesperson from the police department.");
           } else {
@@ -255,7 +258,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
                   "the Liberal Crime Squad contaminated the state's water supply",
                 );
                 story += " ";
-                appendNews("yesterday by tampering with equipment on the site.");
+                appendNews(
+                  "yesterday by tampering with equipment on the site.",
+                );
                 story += "&r";
               } else {
                 appendNews(
@@ -327,9 +332,7 @@ Future<void> displayStory(NewsStory ns, View? header) async {
               appendNews(
                 "  The Liberal Crime Squad demanded access to the bank vault, ",
               );
-              appendNews(
-                "hoping to acquire the resources to overcome evil.",
-              );
+              appendNews("hoping to acquire the resources to overcome evil.");
               story += "&r";
             }
           }
@@ -367,8 +370,12 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           }
           if (did(Drama.juryTampering)) {
             if (!liberalguardian) {
-              appendNews("  According to police sources that were at the scene, ");
-              appendNews("the Liberal Crime Squad allegedly violated the sacred ");
+              appendNews(
+                "  According to police sources that were at the scene, ",
+              );
+              appendNews(
+                "the Liberal Crime Squad allegedly violated the sacred ",
+              );
               appendNews("trust and attempted to influence a jury.");
               story += "&r";
             } else {
@@ -381,7 +388,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           }
           if (did(Drama.hackedIntelSupercomputer)) {
             if (!liberalguardian) {
-              appendNews("  According to police sources that were at the scene, ");
+              appendNews(
+                "  According to police sources that were at the scene, ",
+              );
               appendNews(
                 "intelligence officials seemed very nervous about something.",
               );
@@ -409,7 +418,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           }
           if (did(Drama.openedCEOSafe)) {
             if (!liberalguardian) {
-              appendNews("  According to police sources that were at the scene, ");
+              appendNews(
+                "  According to police sources that were at the scene, ",
+              );
               appendNews(
                 "the owner of the house seemed very frantic about some missing property.",
               );
@@ -423,7 +434,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           }
           if (did(Drama.stoleCorpFiles)) {
             if (!liberalguardian) {
-              appendNews("  According to police sources that were at the scene, ");
+              appendNews(
+                "  According to police sources that were at the scene, ",
+              );
               appendNews(
                 "executives on the scene seemed very nervous about something.",
               );
@@ -437,7 +450,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           }
           if (did(Drama.hijackedBroadcast)) {
             if (!liberalguardian) {
-              appendNews("  The Liberal Crime Squad hijacked a news broadcast, ");
+              appendNews(
+                "  The Liberal Crime Squad hijacked a news broadcast, ",
+              );
               appendNews("interrupting regular programming.");
               story += "&r";
             } else {
@@ -559,10 +574,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
 
             if (did(Drama.carCrash)) {
               if (drama[Drama.carCrash]! > 1) {
-                story += LcsI18n.processString(
-                  "{count} vehicles crashed.  ",
-                  {"count": drama[Drama.carCrash].toString()},
-                );
+                story += LcsI18n.processString("{count} vehicles crashed.  ", {
+                  "count": drama[Drama.carCrash].toString(),
+                });
               } else {
                 appendNews("One vehicle crashed.  ");
               }
@@ -588,18 +602,34 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           String culprit = ccs ? "CCS" : "LCS";
           if (ns.publicationAlignment == DeepAlignment.archConservative) {
             if (ns.type == NewsStories.squadKilledInSiteAction) {
-              appendNews("  A prominent gun advocacy group remarked that it was only ");
-              appendNews("thanks to the bravery of people carrying guns that this ");
-              appendNews("didn't turn out worse, and those who stood by and did nothing ");
-              appendNews("were just as guilty as the ones who committed the crime.&r");
+              appendNews(
+                "  A prominent gun advocacy group remarked that it was only ",
+              );
+              appendNews(
+                "thanks to the bravery of people carrying guns that this ",
+              );
+              appendNews(
+                "didn't turn out worse, and those who stood by and did nothing ",
+              );
+              appendNews(
+                "were just as guilty as the ones who committed the crime.&r",
+              );
             } else {
               if (ccs) {
-                appendNews("  A prominent gun advocacy group noted that increased ");
-                appendNews("gun ownership would help to bring violence like this to ");
+                appendNews(
+                  "  A prominent gun advocacy group noted that increased ",
+                );
+                appendNews(
+                  "gun ownership would help to bring violence like this to ",
+                );
                 appendNews("an end.&r");
               } else {
-                appendNews("  A prominent gun advocacy group noted that it was ");
-                appendNews("unfortunate that there weren't more armed citizens in ");
+                appendNews(
+                  "  A prominent gun advocacy group noted that it was ",
+                );
+                appendNews(
+                  "unfortunate that there weren't more armed citizens in ",
+                );
                 appendNews("the area to stop this from happening.&r");
               }
             }
@@ -714,12 +744,16 @@ Future<void> displayStory(NewsStory ns, View? header) async {
         } else {
           appendNews("victim was a member ");
         }
-        appendNews("of the LCS targeted simply due to their political beliefs.  ");
+        appendNews(
+          "of the LCS targeted simply due to their political beliefs.  ",
+        );
         appendNews('According to an LCS spokesperson, "');
       }
       switch (ns.siegetype) {
         case SiegeType.none:
-          appendNews("We have no idea who did this, or why, or how it happened.  ");
+          appendNews(
+            "We have no idea who did this, or why, or how it happened.  ",
+          );
           appendNews("It's a complete mystery.  A bug in the game even.  ");
           appendNews(
             "We're working closely with the programmers to find out what happened.\"",
@@ -759,28 +793,42 @@ Future<void> displayStory(NewsStory ns, View? header) async {
               "Some people just don't know how to live in a civilized society",
             );
           } else {
-            appendNews("It was the cops.  They'll say otherwise, but we know the truth.  ");
+            appendNews(
+              "It was the cops.  They'll say otherwise, but we know the truth.  ",
+            );
             appendNews(
               "There is no excusing this kind of brutality.  We will not rest until ",
             );
-            appendNews("this kind of government-condoned violence is stopped.  We will not be ");
+            appendNews(
+              "this kind of government-condoned violence is stopped.  We will not be ",
+            );
             appendNews("intimidated, and we will not be silenced");
           }
         case SiegeType.angryRuralMob:
           if (!liberalguardian) {
-            appendNews("...  stabbed with, maybe, pitchforks.  There may have ");
-            appendNews("been bite marks.  Nothing recognizable left.  Complete carnage.");
+            appendNews(
+              "...  stabbed with, maybe, pitchforks.  There may have ",
+            );
+            appendNews(
+              "been bite marks.  Nothing recognizable left.  Complete carnage.",
+            );
           } else {
-            appendNews("We have reason to believe that this brutal massacre was ");
+            appendNews(
+              "We have reason to believe that this brutal massacre was ",
+            );
             appendNews(
               "inspired by the Conservative media's brainwashing propaganda",
             );
           }
         case SiegeType.corporateMercs:
           if (!liberalguardian) {
-            appendNews("It was execution style.  Professional.  We've got nothing");
+            appendNews(
+              "It was execution style.  Professional.  We've got nothing",
+            );
           } else {
-            appendNews("This massacre has the signature mark of a group of mercenaries ");
+            appendNews(
+              "This massacre has the signature mark of a group of mercenaries ",
+            );
             appendNews(
               "known to work with several corporations we've had confrontations ",
             );
@@ -791,21 +839,37 @@ Future<void> displayStory(NewsStory ns, View? header) async {
           }
         case SiegeType.medicalDebtCollectors:
           if (!liberalguardian) {
-            appendNews("The victims were all found to have overdosed on drugs. ");
-            appendNews("And there were bullet holes everywhere. The building was ");
-            appendNews("more chewed up than the victims. Our lead theory is that ");
+            appendNews(
+              "The victims were all found to have overdosed on drugs. ",
+            );
+            appendNews(
+              "And there were bullet holes everywhere. The building was ",
+            );
+            appendNews(
+              "more chewed up than the victims. Our lead theory is that ",
+            );
             appendNews("they did it to themselves, but who knows?");
           } else {
-            appendNews("This was carried out by debt collectors for the medical ");
-            appendNews("industry. They'll say otherwise, but we know the truth. ");
-            appendNews("The sooner we can move to a single payer system, the better.");
+            appendNews(
+              "This was carried out by debt collectors for the medical ",
+            );
+            appendNews(
+              "industry. They'll say otherwise, but we know the truth. ",
+            );
+            appendNews(
+              "The sooner we can move to a single payer system, the better.",
+            );
           }
         case SiegeType.ccs:
           if (!liberalguardian) {
-            appendNews("Look, it was a Conservative Crime Squad hit, that's all we know, ");
+            appendNews(
+              "Look, it was a Conservative Crime Squad hit, that's all we know, ",
+            );
             appendNews("no names, no faces, not even where it happened really");
           } else {
-            appendNews("This is the doing of the Conservative Crime Squad butchers.  ");
+            appendNews(
+              "This is the doing of the Conservative Crime Squad butchers.  ",
+            );
             appendNews("They have to be stopped before they kill again");
           }
       }
@@ -938,6 +1002,22 @@ void displayCenteredNewsFont(
     }
   }
 
+  Map<String, List<List<int>>>? newsFont;
+  if (useBigFont != true) {
+    width = newsFontTextWidth(str, letters5x5);
+    newsFont = letters5x5;
+    if (width > 78) {
+      final compactWidth = newsFontTextWidth(str, letters4x5);
+      if (compactWidth <= 78) {
+        width = compactWidth;
+        newsFont = letters4x5;
+      } else {
+        width = newsFontTextWidth(str, letters3x5);
+        newsFont = letters3x5;
+      }
+    }
+  }
+
   int x = 39 - width ~/ 2;
 
   if (useBigFont == true) {
@@ -986,9 +1066,10 @@ void displayCenteredNewsFont(
       }
     }
   } else {
-    // Print using 4x5 font
+    // Keep long localized headlines readable within the 80-column console.
     setColor(black, background: ns.publication.backgroundColor);
-    print5x5NewsText(y, x, str);
+    move(y, x);
+    printNewsText(str, newsFont!);
   }
 }
 

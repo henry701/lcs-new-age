@@ -1,4 +1,5 @@
 import 'package:lcs_new_age/creature/attributes.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 
 int skillXpNeeded(int skillLevel) => 100 + 10 * skillLevel;
 
@@ -157,6 +158,7 @@ enum Skill {
   }) : _classText = classText;
   final Attribute attribute;
   final String displayName;
+  String get localizedName => LcsI18n.tr(displayName);
   final String description;
   final bool canTakeClasses;
   final String? _classText;

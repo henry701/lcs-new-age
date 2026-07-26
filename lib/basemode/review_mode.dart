@@ -318,20 +318,14 @@ Future<void> reviewMode(ReviewMode mode) async {
       case ReviewMode.away:
         addstr("Liberals that are Away");
     }
-    addHeader({
-      4: "CODE NAME",
-      25: "SKILL",
-      33: "HEALTH",
-      42: "LOCATION",
-      57: switch (mode) {
-        ReviewMode.liberals => "SQUAD / ACTIVITY",
-        ReviewMode.hostages => "DAYS IN CAPTIVITY",
-        ReviewMode.justice => "MONTHS LEFT",
-        ReviewMode.clinic => "MEDICAL BILLS",
-        ReviewMode.sleepers => "PROFESSION",
-        ReviewMode.dead => "DAYS SINCE PASSING",
-        ReviewMode.away => "DAYS UNTIL RETURN",
-      },
+    printManagementTableHeader(switch (mode) {
+      ReviewMode.liberals => "SQUAD / ACTIVITY",
+      ReviewMode.hostages => "DAYS IN CAPTIVITY",
+      ReviewMode.justice => "MONTHS LEFT",
+      ReviewMode.clinic => "MEDICAL BILLS",
+      ReviewMode.sleepers => "PROFESSION",
+      ReviewMode.dead => "DAYS SINCE PASSING",
+      ReviewMode.away => "DAYS UNTIL RETURN",
     });
 
     int y = 2;
@@ -339,11 +333,12 @@ Future<void> reviewMode(ReviewMode mode) async {
       Creature tempp = temppool[p];
       setColor(lightGray);
       String letter = letterAPlus(y - 2);
-      addOptionText(
+      addOptionTextFitted(
         y,
-        0,
+        ManagementTableLayout.nameX,
         letter,
         "{letter} - {name}",
+        ManagementTableLayout.nameWidth,
         params: {"letter": letter, "name": tempp.name},
       );
 
@@ -359,20 +354,35 @@ Future<void> reviewMode(ReviewMode mode) async {
 
       setColor(bright ? white : lightGray);
 
-      move(y, 25);
-      addstr(skill.toString());
+      mvaddstrFitted(
+        y,
+        ManagementTableLayout.skillX,
+        skill.toString(),
+        ManagementTableLayout.skillWidth,
+        noTranslate: true,
+      );
 
-      printHealthStat(y, 33, tempp, small: true);
+      printHealthStat(
+        y,
+        ManagementTableLayout.healthX,
+        tempp,
+        small: true,
+        maxWidth: ManagementTableLayout.healthWidth,
+      );
 
       if (mode == ReviewMode.justice) {
         setColor(yellow);
       } else {
         setColor(lightGray);
       }
-      move(y, 42);
-      addstr(tempp.location?.getName(short: true, includeCity: true) ?? "Away");
+      mvaddstrFitted(
+        y,
+        ManagementTableLayout.locationX,
+        tempp.location?.getName(short: true, includeCity: true) ?? "Away",
+        ManagementTableLayout.locationWidth,
+      );
 
-      move(y, 57);
+      move(y, ManagementTableLayout.trailingX);
       switch (mode) {
         case ReviewMode.liberals:
           bool usepers = true;
@@ -389,7 +399,13 @@ Future<void> reviewMode(ReviewMode mode) async {
           if (usepers) {
             // Let's add some color here...
             setColor(tempp.activity.color);
-            addstr(tempp.activity.description, noTranslate: true);
+            mvaddstrFitted(
+              y,
+              ManagementTableLayout.trailingX,
+              tempp.activity.description,
+              ManagementTableLayout.trailingWidth,
+              noTranslate: true,
+            );
           }
         case ReviewMode.hostages:
           setColor(purple);

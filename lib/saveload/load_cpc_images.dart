@@ -85,14 +85,49 @@ void print5x5NewsText(int y, int x, String s) {
   printNewsText(s, letters5x5);
 }
 
+String newsFontGlyphKey(String character) => switch (character) {
+  'À' || 'Á' || 'Â' || 'Ã' || 'Ä' || 'Å' => 'A',
+  'Ç' => 'C',
+  'È' || 'É' || 'Ê' || 'Ë' => 'E',
+  'Ì' || 'Í' || 'Î' || 'Ï' => 'I',
+  'Ñ' => 'N',
+  'Ò' || 'Ó' || 'Ô' || 'Õ' || 'Ö' => 'O',
+  'Ù' || 'Ú' || 'Û' || 'Ü' => 'U',
+  'Ý' => 'Y',
+  _ => character,
+};
+
+int newsFontTextWidth(String s, Map<String, List<List<int>>> letters) {
+  s = s.toUpperCase();
+  int width = -1;
+  for (int i = 0; i < s.length; i++) {
+    final character = newsFontGlyphKey(s[i]);
+    if (character == ' ') {
+      width += letters['A']![0].length > 3 ? 3 : 2;
+    } else if (character == "'") {
+      width += 2;
+    } else {
+      width += (letters[character] ?? letters['A']!)[0].length + 1;
+    }
+  }
+  return width;
+}
+
 void printNewsText(String s, Map<String, List<List<int>>> letters) {
   s = s.toUpperCase();
   int startX = console.x;
   int startY = console.y;
   int posX = startX;
   int posY = startY;
+
+  void drawNewsChar(int y, int x, String character) {
+    if (y < 0 || y >= console.buffer.length) return;
+    if (x < 0 || x >= console.buffer[y].length) return;
+    mvaddchar(y, x, character);
+  }
+
   for (int i = 0; i < s.length; i++) {
-    String letter = s[i];
+    String letter = newsFontGlyphKey(s[i]);
     if (letter == ' ') {
       if (letters['A']![0].length > 3) {
         posX = posX + 3;
@@ -102,17 +137,21 @@ void printNewsText(String s, Map<String, List<List<int>>> letters) {
       continue;
     }
     if (letter == '\'') {
-      mvaddchar(posY, posX, '█');
-      mvaddchar(posY + 1, posX, '▀');
+      drawNewsChar(posY, posX, '█');
+      drawNewsChar(posY + 1, posX, '▀');
       posX = posX + 2;
       continue;
     }
-    List<List<int>> glyph = letters[letter]!;
+    List<List<int>>? glyph = letters[letter];
+    if (glyph == null) {
+      posX = posX + letters['A']![0].length + 1;
+      continue;
+    }
     for (int y = 0; y < glyph.length; y++) {
       for (int x = 0; x < glyph[y].length; x++) {
         //debugPrint(
         //    "${s[i]} glyph[$y][$x]: ${glyph[y][x]} ${String.fromCharCode(glyph[y][x])}");
-        mvaddchar(posY + y, posX + x, String.fromCharCode(glyph[y][x]));
+        drawNewsChar(posY + y, posX + x, String.fromCharCode(glyph[y][x]));
       }
     }
     posX = posX + glyph[0].length + 1;
@@ -186,6 +225,12 @@ void drawCPCGlyph(
     remapSkinTones: remapSkinTones,
     remapLightGray: remapLightGray,
   );
+  if (console.y < 0 ||
+      console.y >= console.buffer.length ||
+      console.x < 0 ||
+      console.x >= console.buffer[console.y].length) {
+    return;
+  }
   String char = String.fromCharCode(convert437ToUTF(glyph[0]));
   if (char == '█') {
     Color swap = fgColor;

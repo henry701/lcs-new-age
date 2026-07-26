@@ -115,7 +115,7 @@ void printTransportation(Creature cr, ShowCarPrefs showCarPrefs) {
   if (showCarPrefs == ShowCarPrefs.showActualCar) v = cr.car;
   if (showCarPrefs == ShowCarPrefs.showPreferences) v = cr.preferredCar;
   if (v != null) {
-    addstr(v.shortName);
+    addstr(LcsI18n.tr(v.shortName), noTranslate: true);
     if (showCarPrefs == ShowCarPrefs.showPreferences
         ? cr.preferredDriver
         : cr.isDriver) {
@@ -223,7 +223,7 @@ void printTopSkills(
     }
     move(y + i + 1, x);
     if (knowledge > i) {
-      addstr(s.displayName);
+      addstr(s.localizedName, noTranslate: true);
     } else {
       addstr("???????");
     }
@@ -252,22 +252,38 @@ void printTopSkills(
   }
 }
 
-void printWounds(Creature cr, {int y = 2, int x = 49}) {
+void printWounds(Creature cr, {int y = 2, int x = 49, int? maxWidth}) {
+  final nameWidth = maxWidth == null ? 12 : (maxWidth - 10).clamp(1, 12);
+  final statusX = x + nameWidth;
+  final statusWidth = maxWidth == null ? null : maxWidth - nameWidth;
   for (int i = 0; i < cr.body.parts.length; i++) {
     BodyPart p = cr.body.parts[i];
     setColor(p.bleeding > 0 ? red : lightGray);
-    mvaddstr(y + i, x, "{name}:", params: {"name": p.name});
-    move(y + i, x + 12);
+    if (maxWidth == null) {
+      mvaddstr(y + i, x, "{name}:", params: {"name": p.name});
+    } else {
+      mvaddstrFitted(
+        y + i,
+        x,
+        "{name}:",
+        nameWidth - 1,
+        params: {"name": p.name},
+      );
+    }
+    move(y + i, statusX);
     if (p.nastyOff) {
-      addstr("Ripped off");
+      _addWoundStatus("Ripped off", statusWidth);
     } else if (p.cleanOff) {
-      addstr("Clean sever");
+      _addWoundStatus("Clean sever", statusWidth);
     } else if (!p.wounded) {
       setColor(lightGreen);
       if (cr.type.animal) {
-        addstr("Animal");
+        _addWoundStatus("Animal", statusWidth);
       } else {
-        addstr(cr.align == Alignment.liberal ? "Liberal" : "Healthy");
+        _addWoundStatus(
+          cr.align == Alignment.liberal ? "Liberal" : "Healthy",
+          statusWidth,
+        );
       }
     } else {
       List<String> injuries = [];
@@ -276,15 +292,38 @@ void printWounds(Creature cr, {int y = 2, int x = 49}) {
       if (p.cut) injuries.add("Cut");
       if (p.torn) injuries.add("Trn");
       if (p.burned) injuries.add("Brn");
-      addstr(injuries.join(","));
+      _addWoundStatus(injuries.join(","), statusWidth);
     }
     if (!p.cleanOff && !p.nastyOff) {
       int armor = cr.clothing.getArmorForLocation(p);
       if (armor > 0) {
-        addstrc(lightBlue, "+{armor}", params: {"armor": armor.toString()});
+        final armorText = LcsI18n.processString("+{armor}", {
+          "armor": armor.toString(),
+        });
+        final remainingWidth = statusWidth == null
+            ? null
+            : statusWidth - (console.x - statusX);
+        if (remainingWidth == null) {
+          addstrc(lightBlue, armorText, noTranslate: true);
+        } else if (remainingWidth > 0) {
+          addstrc(
+            lightBlue,
+            fitConsoleText(armorText, remainingWidth),
+            noTranslate: true,
+          );
+        }
       }
     }
   }
+}
+
+void _addWoundStatus(String status, int? maxWidth) {
+  if (maxWidth == null) {
+    addstr(status);
+    return;
+  }
+  final rendered = LcsI18n.tr(status);
+  addstr(fitConsoleText(rendered, maxWidth), noTranslate: true);
 }
 
 String creatureAgeAndGender(Creature person) {
@@ -415,7 +454,7 @@ void printFullCreatureSkills(Creature cr) {
     highlightColorForSkill(cr, skill);
 
     move(5 + s ~/ 3, 27 * (s % 3));
-    addstr(skill.displayName);
+    addstr(skill.localizedName, noTranslate: true);
     addstr(": ");
     printSkillValue(cr, skill, 5 + s ~/ 3, 14 + 27 * (s % 3));
   }
@@ -460,6 +499,15 @@ void printFullCreatureStats(
   Creature cr, {
   ShowCarPrefs showCarPrefs = ShowCarPrefs.showPreferences,
 }) {
+  const attributeWidth = 15;
+  const vitalityX = 16;
+  const vitalityWidth = 13;
+  const skillX = 30;
+  const skillWidth = 15;
+  const currentSkillX = 46;
+  const maxSkillX = 53;
+  const woundsX = 59;
+
   setColor(lightGray);
 
   // Add name
@@ -493,56 +541,72 @@ void printFullCreatureStats(
   setColor(lightGray);
 
   // Add juice
-  move(9, 16);
-  addstr("Juice: {juice}", params: {"juice": cr.juice});
+  mvaddstrFitted(
+    9,
+    vitalityX,
+    "Juice: {juice}",
+    vitalityWidth,
+    params: {"juice": cr.juice},
+  );
   if (cr.juice < 1000) {
-    move(10, 16);
-    addstr("Next:  ");
-    if (cr.juice < 0) {
-      addstr("0");
-    } else if (cr.juice < 10) {
-      addstr("10");
-    } else if (cr.juice < 50) {
-      addstr("50");
-    } else if (cr.juice < 100) {
-      addstr("100");
-    } else if (cr.juice < 200) {
-      addstr("200");
-    } else if (cr.juice < 500) {
-      addstr("500");
-    } else {
-      addstr("1000");
-    }
+    final next = switch (cr.juice) {
+      < 0 => "0",
+      < 10 => "10",
+      < 50 => "50",
+      < 100 => "100",
+      < 200 => "200",
+      < 500 => "500",
+      _ => "1000",
+    };
+    mvaddstrFitted(
+      10,
+      vitalityX,
+      "${LcsI18n.tr("Next:  ")}$next",
+      vitalityWidth,
+      noTranslate: true,
+    );
   }
   // Add attributes
-  move(5, 0);
-  addstr(
+  mvaddstrFitted(
+    5,
+    0,
     "Heart: {heart}",
+    attributeWidth,
     params: {"heart": cr.attribute(Attribute.heart).toString()},
   );
-  move(6, 0);
-  addstr(
+  mvaddstrFitted(
+    6,
+    0,
     "Intelligence: {int}",
+    attributeWidth,
     params: {"int": cr.attribute(Attribute.intelligence).toString()},
   );
-  move(7, 0);
-  addstr(
+  mvaddstrFitted(
+    7,
+    0,
     "Wisdom: {wis}",
+    attributeWidth,
     params: {"wis": cr.attribute(Attribute.wisdom).toString()},
   );
-  move(8, 0);
-  addstr(
+  mvaddstrFitted(
+    8,
+    0,
     "Agility: {agi}",
+    attributeWidth,
     params: {"agi": cr.attribute(Attribute.agility).toString()},
   );
-  move(9, 0);
-  addstr(
+  mvaddstrFitted(
+    9,
+    0,
     "Strength: {str}",
+    attributeWidth,
     params: {"str": cr.attribute(Attribute.strength).toString()},
   );
-  move(10, 0);
-  addstr(
+  mvaddstrFitted(
+    10,
+    0,
     "Charisma: {cha}",
+    attributeWidth,
     params: {"cha": cr.attribute(Attribute.charisma).toString()},
   );
 
@@ -552,10 +616,9 @@ void printFullCreatureStats(
   int skillsMax = 16;
   bool printed = true;
 
-  move(5, 28);
-  addstr("SKILL");
-  move(5, 43);
-  addstr("NOW   MAX");
+  mvaddstrFitted(5, skillX, "SKILL", skillWidth);
+  mvaddstrFitted(5, currentSkillX, "NOW", maxSkillX - currentSkillX - 1);
+  mvaddstrFitted(5, maxSkillX, "MAX", woundsX - maxSkillX - 1);
   for (int skillsShown = 0; skillsShown < skillsMax && printed; skillsShown++) {
     printed = false;
 
@@ -577,10 +640,14 @@ void printFullCreatureStats(
 
       highlightColorForSkill(cr, skill);
 
-      move(6 + skillsShown, 28);
-      addstr(skill.displayName);
-      addstr(": ");
-      move(6 + skillsShown, 42);
+      mvaddstrFitted(
+        6 + skillsShown,
+        skillX,
+        "{skill}:",
+        skillWidth,
+        params: {"skill": skill.localizedName},
+      );
+      move(6 + skillsShown, currentSkillX);
       addstr("{:2d}.".format(cr.skill(skill)));
       if (cr.skillXP(skill) < 100 + (10 * cr.skill(skill))) {
         addstr(
@@ -595,7 +662,7 @@ void printFullCreatureStats(
       if (cr.skillCap(skill) == 0 || cr.skill(skill) < cr.skillCap(skill)) {
         setColor(darkGray);
       }
-      move(6 + skillsShown, 48);
+      move(6 + skillsShown, maxSkillX);
       addstr("{:2d}.00".format(cr.skillCap(skill)));
     }
   }
@@ -605,10 +672,10 @@ void printFullCreatureStats(
   setColor(cr.activity.color);
   addparagraph(
     12,
-    6,
+    8,
     cr.activity.description,
     y2: 14,
-    x2: 26,
+    x2: skillX - 1,
     noTranslate: true,
   );
   setColor(lightGray);
@@ -685,17 +752,22 @@ void printFullCreatureStats(
   }
 
   // Add wound status
-  printWounds(cr, y: 5, x: 55);
+  printWounds(
+    cr,
+    y: 5,
+    x: woundsX,
+    maxWidth: ManagementTableLayout.consoleWidth - woundsX,
+  );
   setColor(lightGray);
 
   //SPECIAL WOUNDS
   setColor(red);
 
   int y = 12;
-  int x = 55;
+  int x = woundsX;
   List<String> injuries = cr.body.allSpecialInjuries();
   for (String injury in injuries) {
-    mvaddstr(y++, x, injury);
+    mvaddstrFitted(y++, x, injury, ManagementTableLayout.consoleWidth - x);
   }
 
   setColor(lightGray);

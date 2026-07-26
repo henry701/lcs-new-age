@@ -31,6 +31,19 @@ part 'save_load.g.dart';
 
 late GameStorage _storage;
 
+const int saveMenuInGameDateX = 4;
+const int saveMenuFounderX = 22;
+const int saveMenuLastPlayedX = 48;
+const int saveMenuVersionX = 70;
+const Map<int, String> saveMenuHeaders = {
+  saveMenuInGameDateX: "IN GAME DATE",
+  saveMenuFounderX: "LCS LEADER",
+  saveMenuLastPlayedX: "LAST PLAYED",
+  saveMenuVersionX: "VERSION",
+};
+const String saveMenuFooterPrompt = "Press &B+&w to import a save.";
+const String saveMenuBackButtonText = "Enter - Return to main menu";
+
 Future<void> initStorage() async {
   _storage = createGameStorage();
   await _storage.init();
@@ -153,21 +166,11 @@ Future<bool> loadGameMenu() async {
     await pagedInterface(
       count: saveFiles.length,
       headerPrompt: "Liberal Save Game Management System",
-      headerKey: {
-        4: "IN GAME DATE",
-        20: "LCS LEADER",
-        50: "LAST PLAYED",
-        70: "VERSION",
-      },
-      footerPrompt:
-          "Plus &B+&w to Import a save.  &BEnter&w to return to main menu.",
+      headerKey: saveMenuHeaders,
+      footerPrompt: saveMenuFooterPrompt,
+      backButtonText: saveMenuBackButtonText,
       lineBuilder: (y, key, index) {
         final SaveFile saveFile = saveFiles[index];
-        if (saveFile.gameState == null) {
-          setColor(red);
-        } else {
-          setColor(lightGray);
-        }
         DateTime? lastPlayed = saveFile.lastPlayed?.toLocal();
         String version = saveFile.version;
         String inGameDate;
@@ -194,16 +197,16 @@ Future<bool> loadGameMenu() async {
           inGameDate = "Error";
           founder = "Error - Crash Expected";
         }
-        addOptionText(y, 0, key, "{key} - ", params: {"key": key});
-        mvaddstr(y, 4, inGameDate, noTranslate: true);
-        mvaddstr(y, 20, founder);
-        mvaddstr(y, 50, lastPlayedStr, noTranslate: true);
-        if (compareVersionStrings(version, "1.2.0") < 0) {
-          setColor(orange);
-        } else {
-          setColor(lightGray);
-        }
-        mvaddstr(y, 70, version);
+        renderSaveMenuListRow(
+          y: y,
+          key: key,
+          inGameDate: inGameDate,
+          founder: founder,
+          lastPlayed: lastPlayedStr,
+          version: version,
+          isOutdated: compareVersionStrings(version, "1.2.0") < 0,
+          isBroken: saveFile.gameState == null,
+        );
       },
       onChoice: (index) async {
         selectedGame = index;
@@ -232,6 +235,58 @@ Future<bool> loadGameMenu() async {
       return false;
     }
   }
+}
+
+void renderSaveMenuListRow({
+  required int y,
+  required String key,
+  required String inGameDate,
+  required String founder,
+  required String lastPlayed,
+  required String version,
+  required bool isOutdated,
+  bool isBroken = false,
+}) {
+  setColor(isBroken ? red : lightGray);
+  addOptionText(y, 0, key, "{key} - ", params: {"key": key});
+  _writeSaveMenuCell(
+    y: y,
+    x: saveMenuInGameDateX,
+    endX: saveMenuFounderX - 2,
+    text: inGameDate,
+  );
+  _writeSaveMenuCell(
+    y: y,
+    x: saveMenuFounderX,
+    endX: saveMenuLastPlayedX - 2,
+    text: founder,
+  );
+  _writeSaveMenuCell(
+    y: y,
+    x: saveMenuLastPlayedX,
+    endX: saveMenuVersionX - 2,
+    text: lastPlayed,
+  );
+  setColor(isOutdated ? orange : lightGray);
+  _writeSaveMenuCell(
+    y: y,
+    x: saveMenuVersionX,
+    endX: console.width,
+    text: version,
+  );
+}
+
+void _writeSaveMenuCell({
+  required int y,
+  required int x,
+  required int endX,
+  required String text,
+}) {
+  final width = endX - x;
+  final fittedText = text.length <= width
+      ? text
+      : '${text.substring(0, width - 1)}…';
+  mvaddstr(y, x, fittedText, noTranslate: true);
 }
 
 Future<bool> loadGame(SaveFile selectedSave) async {

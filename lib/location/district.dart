@@ -40,15 +40,15 @@ class District implements Location {
   @override
   String getName({bool short = false, bool includeCity = false}) {
     if (short) {
-      return shortName;
+      return LcsI18n.tr(shortName);
     } else {
       if (includeCity) {
         return LcsI18n.processString("{district}, {city}", {
-          "district": name,
+          "district": LcsI18n.tr(name),
           "city": city.name,
         });
       } else {
-        return name;
+        return LcsI18n.tr(name);
       }
     }
   }

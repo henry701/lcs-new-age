@@ -253,31 +253,31 @@ Future<void> fundReport(bool disbanding) async {
       }
     }
 
-    void liquidAssetLine(String label, int value) {
+    void liquidAssetLine(String localizedLabel, int value) {
       if (page == numpages - 1) {
         mvaddstrc(y, 0, lightGray, dotdotdot);
-        mvaddstr(y, 0, label);
+        mvaddstr(y, 0, localizedLabel, noTranslate: true);
         setColor(value > 0 ? green : lightGray);
         num = LcsI18n.processString("{amount}", {
           "amount": _currencyAmount(value),
         });
-        mvaddstr(y, 60 - num.length, num);
+        mvaddstr(y, 60 - num.length, num, noTranslate: true);
       }
 
       nextY();
     }
 
-    liquidAssetLine("Cash", ledger.funds);
-    liquidAssetLine("Tools and Weapons", weaponValue.round());
-    liquidAssetLine("Clothing and Armor", armorValue.round());
-    liquidAssetLine("Ammunition", clipValue.round());
-    liquidAssetLine("Miscellaneous Loot", lootValue.round());
+    liquidAssetLine(LcsI18n.tr("Cash"), ledger.funds);
+    liquidAssetLine(LcsI18n.tr("Tools and Weapons"), weaponValue.round());
+    liquidAssetLine(LcsI18n.tr("Clothing and Armor"), armorValue.round());
+    liquidAssetLine(LcsI18n.tr("Ammunition"), clipValue.round());
+    liquidAssetLine(LcsI18n.tr("Miscellaneous Loot"), lootValue.round());
 
     if (page == numpages - 1) makeDelimiter(y: y);
     nextY();
 
     liquidAssetLine(
-      "Total Liquid Assets",
+      LcsI18n.tr("Total Liquid Assets"),
       (ledger.funds + weaponValue + armorValue + clipValue + lootValue).round(),
     );
 

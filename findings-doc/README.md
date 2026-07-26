@@ -3,14 +3,19 @@
 Exploratory translation and layout review of the local `feature/localization`
 build, played in Brazilian Portuguese.
 
-## Session
+## Sessions
 
-- Date: 2026-07-18
+- Dates: 2026-07-18 through 2026-07-19
 - Build source: local repository
 - Locale: `pt_BR`
 - Focus: untranslated text, mistranslations, context errors, clipping,
   wrapping, alignment, and unclear controls
-- Constraint: findings and evidence only; no production-code or catalog edits
+- Initial constraint: findings and evidence only. The user later authorized
+  fixes, so resolved findings now include regression tests and implementation
+  notes.
+- Latest replay: dirty shared `feature/localization` tree at
+  `672e5c760a75416a5c4ba00b2fc4450473fa2f35`; exact dirty-state fingerprints
+  are recorded in `play-log.md`
 
 ## Lightweight agent method
 

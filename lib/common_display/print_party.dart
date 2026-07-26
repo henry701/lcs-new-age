@@ -5,6 +5,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
 void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
@@ -28,11 +29,12 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
       70: "TRANSPORT",
     });
     for (int p = 0; p < party.length; p++) {
-      addOptionText(
+      addOptionTextFitted(
         p + 2,
         0,
         String.fromCharCode('1'.codePoint + p),
         "{key} {name}",
+        ManagementTableLayout.nameWidth,
         params: {
           "key": String.fromCharCode('1'.codePoint + p),
           "name": party[p].name,
@@ -45,7 +47,12 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
       setWeaponColor(party[p]);
       printWeapon(party[p]);
       setColorForArmor(party[p]);
-      mvaddstr(p + 2, 44, party[p].clothing.shortName);
+      mvaddstr(
+        p + 2,
+        44,
+        LcsI18n.tr(party[p].clothing.shortName),
+        noTranslate: true,
+      );
       printHealthStat(p + 2, 59, party[p], small: true);
       setColor(lightGray);
       move(p + 2, 70);

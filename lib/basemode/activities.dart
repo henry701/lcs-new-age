@@ -66,11 +66,11 @@ class Activity {
         });
       case ActivityType.study:
         return LcsI18n.processString("Practice {skill}", {
-          "skill": LcsI18n.tr(skill?.displayName ?? "a bug"),
+          "skill": skill?.localizedName ?? LcsI18n.tr("a bug"),
         });
       case ActivityType.takeClass:
         return LcsI18n.processString("Learning {skill}", {
-          "skill": LcsI18n.tr(skill?.displayName ?? "a bug"),
+          "skill": skill?.localizedName ?? LcsI18n.tr("a bug"),
         });
       default:
         return LcsI18n.tr(type.label);

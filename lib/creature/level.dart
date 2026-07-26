@@ -81,7 +81,7 @@ String levelTitle(int level, Alignment align) {
     titleList = conservativeTitles;
   }
   if (level <= 7) {
-    return titleList[level + 2];
+    return LcsI18n.tr(titleList[level + 2]);
   } else {
     return LcsI18n.processString("{title} {numeral}", {
       "title": LcsI18n.tr(titleList[9]),

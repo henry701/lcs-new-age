@@ -2,6 +2,7 @@ import 'package:lcs_new_age/basemode/disbanding.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/constitution.dart';
 import 'package:lcs_new_age/politics/laws.dart';
@@ -186,8 +187,8 @@ Future<void> congress() async {
   if (canSeeThings) {
     mvaddstrc(23, 0, lightGray, "Press any key to watch the votes unfold.");
     await getKey();
-    mvaddstr(0, 62, "House");
-    mvaddstr(0, 70, "Senate");
+    mvaddstr(0, 62, LcsI18n.tr("House"), noTranslate: true);
+    mvaddstr(0, 70, LcsI18n.tr("Senate"), noTranslate: true);
   }
 
   for (int c = 0; c < cnum; c++) {
@@ -330,7 +331,7 @@ Future<void> congress() async {
 
       await getKey();
 
-      mvaddstr(0, 35, "President");
+      mvaddstr(0, 35, LcsI18n.tr("President"), noTranslate: true);
 
       await pause(500);
     }

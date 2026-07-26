@@ -344,6 +344,12 @@ void locHeader([Site? loc]) {
 }
 
 void baseModeOptionsDisplay(Site? loc) {
+  const leftColumnX = 1;
+  const leftColumnWidth = 38;
+  const rightColumnX = 40;
+  const rightColumnWidth = ManagementTableLayout.consoleWidth - rightColumnX;
+  const farRightColumnX = 64;
+
   int squadSize = activeSquad?.members.length ?? 0;
   Site? site = loc;
   bool sieged = site?.siege.underSiege ?? false;
@@ -352,19 +358,28 @@ void baseModeOptionsDisplay(Site? loc) {
 
   mvaddstrc(18, 10, lightGray, "=== ACTIVISM ===");
   mvaddstr(18, 51, "=== PLANNING ===");
-  addOptionText(19, 40, "e", "E - Equip Squad", enabledWhen: squadSize > 0);
-  addOptionText(
+  addOptionTextFitted(
     19,
-    60,
+    rightColumnX,
+    "e",
+    "E - Equip Squad",
+    farRightColumnX - rightColumnX - 1,
+    enabledWhen: squadSize > 0,
+  );
+  addOptionTextFitted(
+    19,
+    farRightColumnX,
     "v",
     "V - Vehicles",
+    ManagementTableLayout.consoleWidth - farRightColumnX,
     enabledWhen: vehiclePool.isNotEmpty && squadSize > 0,
   );
-  addOptionText(
+  addOptionTextFitted(
     20,
-    40,
+    rightColumnX,
     "r",
     "R - Review Assets and Form Squads",
+    rightColumnWidth,
     enabledWhen: pool.isNotEmpty,
   );
   //eraseLine(8);
@@ -384,76 +399,104 @@ void baseModeOptionsDisplay(Site? loc) {
     }
   } else if (aSafehouse != null) {
     if ((aSafehouse.upgradable) && !aSafehouse.siege.underSiege) {
-      addOptionText(8, 1, "i", "I - Invest in this location");
+      addOptionTextFitted(
+        8,
+        leftColumnX,
+        "i",
+        "I - Invest in this location",
+        29,
+      );
     } else if (!aSafehouse.upgradable) {
       mvaddstrc(8, 1, midGray, "This location cannot be upgraded");
     }
   }
-  if (squadSize > 1 && !sieged) addOptionText(8, 31, "o", "O - Reorder");
+  if (squadSize > 1 && !sieged) {
+    addOptionTextFitted(9, 31, "o", "O - Reorder", 25);
+  }
   if (squadSize > 0 && !sieged) {
     // don't cover up info about siege with irrelevant squad name of a squad
     // that will be disbanded during the siege anyway
-    mvaddstrc(8, 1, lightGray, activeSquad?.name ?? "", noTranslate: true);
+    mvaddstrcFitted(
+      8,
+      leftColumnX,
+      lightGray,
+      activeSquad?.name ?? "",
+      29,
+      noTranslate: true,
+    );
   }
-  addOptionText(
+  addOptionTextFitted(
     8,
-    45,
+    rightColumnX,
     "n",
     "N - Next Squad",
+    rightColumnWidth,
     enabledWhen:
         squads.length > 1 || (activeSquad == null && squads.isNotEmpty),
   );
-  addOptionText(
-    8,
-    62,
+  addOptionTextFitted(
+    9,
+    57,
     "z",
     "Z - Next Location",
+    ManagementTableLayout.consoleWidth - 57,
     enabledWhen: safehouseCount > 0,
   );
-  addOptionText(21, 40, "l", "L - The Status of the Liberal Agenda");
-  addOptionText(
+  addOptionTextFitted(
     21,
-    1,
+    rightColumnX,
+    "l",
+    "L - The Status of the Liberal Agenda",
+    rightColumnWidth,
+  );
+  addOptionTextFitted(
+    21,
+    leftColumnX,
     "a",
     "A - Assign Tasks",
+    leftColumnWidth,
     enabledWhen: pool.any(
       (p) =>
           p.isActiveLiberal &&
           (p.squad == null || p.squad?.activity.type == ActivityType.none),
     ),
   );
-  addOptionText(
-    21,
-    20,
+  addOptionTextFitted(
+    24,
+    leftColumnX,
     "b",
     "B - Sleeper Agents",
+    leftColumnWidth,
     enabledWhen: pool.any((p) => p.sleeperAgent),
   );
-  addOptionText(
+  addOptionTextFitted(
     20,
-    1,
+    leftColumnX,
     "c",
     "C - Cancel Departure",
+    leftColumnWidth,
     enabledWhen:
         squadSize > 0 && activeSquad?.activity.type != ActivityType.none,
   );
 
   if (sieged) {
-    addOptionText(
+    addOptionTextFitted(
       19,
-      1,
+      leftColumnX,
       "f",
       "F - Fight/Escape",
+      leftColumnWidth,
       enabledWhen:
           squadSize > 0 || pool.any((p) => p.site?.siege.underAttack ?? false),
     );
-    addOptionText(19, 23, "g", "G - Give Up");
+    addOptionTextFitted(24, rightColumnX, "g", "G - Give Up", rightColumnWidth);
   } else {
-    addOptionText(
+    addOptionTextFitted(
       19,
-      1,
+      leftColumnX,
       "f",
       "F - Go Forth to Stop Evil",
+      leftColumnWidth,
       enabledWhen: squadSize > 0,
     );
   }
@@ -462,21 +505,41 @@ void baseModeOptionsDisplay(Site? loc) {
     if (sieged) {
       mvaddstrc(23, 1, red, "Cannot Wait until Siege Resolved");
     } else {
-      addOptionText(
+      addOptionTextFitted(
         23,
-        1,
+        leftColumnX,
         "w",
         "W - Select Siege Location",
+        leftColumnWidth,
         baseColorKey: ColorKey.red,
       );
     }
   } else {
     if (sieged) {
-      addOptionText(23, 1, "w", "W - Wait out the siege");
+      addOptionTextFitted(
+        23,
+        leftColumnX,
+        "w",
+        "W - Wait out the siege",
+        leftColumnWidth,
+      );
     } else if (squads.any((s) => s.activity.type == ActivityType.visit)) {
-      addOptionText(23, 1, "w", "W - Carry out your plans", baseColorKey: "G");
+      addOptionTextFitted(
+        23,
+        leftColumnX,
+        "w",
+        "W - Carry out your plans",
+        leftColumnWidth,
+        baseColorKey: "G",
+      );
     } else {
-      addOptionText(23, 1, "w", "W - Wait a day");
+      addOptionTextFitted(
+        23,
+        leftColumnX,
+        "w",
+        "W - Wait a day",
+        leftColumnWidth,
+      );
     }
     if (date.add(const Duration(days: 1)).month != month) {
       addstrc(lightGray, " (next month)");
@@ -484,32 +547,47 @@ void baseModeOptionsDisplay(Site? loc) {
   }
   int unreadNewsCount = gameState.newsArchive.where((ns) => ns.unread).length;
   if (unreadNewsCount > 0) {
-    addOptionText(
+    addOptionTextFitted(
       22,
-      40,
+      rightColumnX,
       "m",
       "M - Media Overview & Impact &C({unreadNewsCount})",
+      rightColumnWidth,
       params: {"unreadNewsCount": unreadNewsCount},
     );
   } else {
-    addOptionText(22, 40, "m", "M - Media Overview & Impact");
+    addOptionTextFitted(
+      22,
+      rightColumnX,
+      "m",
+      "M - Media Overview & Impact",
+      rightColumnWidth,
+    );
   }
-  addOptionText(23, 40, "x", "X - Exit to the Title Screen");
+  addOptionTextFitted(
+    23,
+    rightColumnX,
+    "x",
+    "X - Exit to the Title Screen",
+    rightColumnWidth,
+  );
 
   if (loc?.hasFlag ?? false) {
-    addOptionText(
+    addOptionTextFitted(
       22,
-      1,
+      leftColumnX,
       "p",
       "P - Protest: Burn the flag",
+      leftColumnWidth,
       baseColorKey: sieged ? "G" : "w",
     );
   } else {
-    addOptionText(
+    addOptionTextFitted(
       22,
-      1,
+      leftColumnX,
       "p",
       "P - Pride: Fly a flag here (\$20)",
+      leftColumnWidth,
       enabledWhen:
           (activeSafehouse != null || activeSquad != null) &&
           ledger.funds >= 20 &&
@@ -519,7 +597,7 @@ void baseModeOptionsDisplay(Site? loc) {
 
   setColor(lightGray);
   int y = (loc?.hasFlag ?? false) ? 16 : 15;
-  mvaddstrCenter(y++, slogan, noTranslate: true);
+  mvaddstrCenter(y++, gameState.lcs.displaySlogan, noTranslate: true);
   addCenteredOptionText(y++, "s", "(S - Change the Slogan)", baseColorKey: "m");
   if (loc != null) {
     printSafehouseSecurityBox(loc);

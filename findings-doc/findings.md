@@ -17,13 +17,27 @@
 | PT-011 | Medium | Controls/layout | Key prefixes duplicate and action legends overflow |
 | PT-012 | Low | Style | Several Portuguese prompts are overly literal or over-capitalized |
 | PT-013 | Low | Coverage | Changelog has no Portuguese presentation |
+| PT-014 | High | Intro/layout | Conservative-era prose is clipped and capitalization diverges from the original |
+| PT-015 | High | Newspaper | Newspaper chrome and subheadline mix English with Portuguese |
+| PT-016 | Medium | Politics | Month-end legislative screens retain English status labels |
+| PT-017 | Medium | Finance | Monthly finance line items remain English |
+| PT-018 | Medium | New-game layout | Difficulty legend clips its right endpoint |
+| PT-019 | Medium | Translation | Sports-car transport renders as malformed `Sportção` |
+| PT-020 | Medium | Shop layout | Pawn-shop status action is clipped |
+| PT-021 | Medium | Media | Media overview retains English chrome |
+| PT-022 | High | Crash/newspaper | Major-event newspaper crashes with a negative text index |
+| PT-023 | Medium | Context | Major-event gun-control story leaks English context tokens |
+| PT-024 | Medium | Core layout | Long party names collide with the skill column |
 
 ## PT-001: Save-management option is clipped
 
 - Severity: High
 - Type: Layout / discoverability
 - Screen: Portuguese title screen
-- Evidence: [`screenshots/02-portuguese-selected.png`](screenshots/02-portuguese-selected.png)
+- Replay status: **Resolved on 2026-07-19**
+- Evidence:
+  [`screenshots/02-portuguese-selected.png`](screenshots/02-portuguese-selected.png),
+  [`screenshots/46-title-portuguese-replay.png`](screenshots/46-title-portuguese-replay.png)
 
 ### Reproduction
 
@@ -43,12 +57,20 @@ All action text should remain inside the console. Options include moving the
 right column left, allocating it more width, shortening the label, or wrapping
 it without colliding with the following row.
 
+### Replay result
+
+The full `Carregar e gerenciar salvamentos` label is visible inside the
+console in screenshot 46.
+
 ## PT-002: Portuguese title displays `NNOVA ERA`
 
 - Severity: Medium
 - Type: Translation / color-marker rendering
 - Screen: Portuguese title screen
-- Evidence: [`screenshots/02-portuguese-selected.png`](screenshots/02-portuguese-selected.png)
+- Replay status: **Resolved on 2026-07-19**
+- Evidence:
+  [`screenshots/02-portuguese-selected.png`](screenshots/02-portuguese-selected.png),
+  [`screenshots/46-title-portuguese-replay.png`](screenshots/46-title-portuguese-replay.png)
 
 ### Actual
 
@@ -61,12 +83,19 @@ Render `ESQUADRÃO DO CRIME LIBERAL: NOVA ERA` once while retaining the intended
 color treatment. Review whether the localized value preserved an English
 color-marker prefix as an extra visible character.
 
+### Replay result
+
+The title now renders `NOVA ERA` once.
+
 ## PT-003: `Bay 12 Games` is translated as `Jogos da Bay 12`
 
 - Severity: Medium
 - Type: Contextual translation / proper name
 - Screen: Portuguese title-screen credits
-- Evidence: [`screenshots/02-portuguese-selected.png`](screenshots/02-portuguese-selected.png)
+- Replay status: **Resolved on 2026-07-19**
+- Evidence:
+  [`screenshots/02-portuguese-selected.png`](screenshots/02-portuguese-selected.png),
+  [`screenshots/46-title-portuguese-replay.png`](screenshots/46-title-portuguese-replay.png)
 
 ### Actual
 
@@ -76,16 +105,23 @@ The credit reads `Jogos da Bay 12`.
 
 Keep the studio name as `Bay 12 Games`.
 
+### Replay result
+
+The credit now preserves `Bay 12 Games`.
+
 ## PT-004: Character creation mixes English and Portuguese and clips answers
 
 - Severity: High
 - Type: Missing translation / layout
 - Screens: New-game configuration and biography
+- Replay status: **Resolved on 2026-07-26**
 - Evidence:
   [`screenshots/03-new-game-intro.png`](screenshots/03-new-game-intro.png),
   [`screenshots/05-origin-story.png`](screenshots/05-origin-story.png),
   [`screenshots/06-childhood-choice.png`](screenshots/06-childhood-choice.png),
-  [`screenshots/08-later-life-choice.png`](screenshots/08-later-life-choice.png)
+  [`screenshots/08-later-life-choice.png`](screenshots/08-later-life-choice.png),
+  [`screenshots/51-new-game-config-replay.png`](screenshots/51-new-game-config-replay.png),
+  [`screenshots/67-founder-biography-clipping-replay.png`](screenshots/67-founder-biography-clipping-replay.png)
 
 ### Reproduction
 
@@ -111,17 +147,27 @@ fixed console width. Treat a prompt, its answer options, and its resulting
 skill/item labels as one review unit so a single screen does not alternate
 languages.
 
+### Replay result
+
+The setup labels are translated. Biography options now wrap inside the fixed
+console width, and the clothing/skill metadata is localized. Fresh replay
+screenshots 78–80 confirm the long origin and biography options remain visible.
+The separate difficulty-legend regression is tracked as PT-018.
+
 ## PT-005: Core management screens retain English UI vocabulary
 
 - Severity: High
 - Type: Missing translation / inconsistent presentation
 - Screens: Base, assets, Liberal lists, status, activities, travel
+- Replay status: **Resolved for replayed base/equipment surfaces on 2026-07-19**
 - Evidence:
   [`screenshots/10-story-intro.png`](screenshots/10-story-intro.png),
   [`screenshots/13-active-liberal.png`](screenshots/13-active-liberal.png),
   [`screenshots/14-character-status.png`](screenshots/14-character-status.png),
   [`screenshots/17-activity-menu.png`](screenshots/17-activity-menu.png),
-  [`screenshots/27-go-forth.png`](screenshots/27-go-forth.png)
+  [`screenshots/27-go-forth.png`](screenshots/27-go-forth.png),
+  [`screenshots/58-base-post-rebuild.png`](screenshots/58-base-post-rebuild.png),
+  [`screenshots/59-equipment-post-rebuild.png`](screenshots/59-equipment-post-rebuild.png)
 
 ### Actual
 
@@ -142,6 +188,12 @@ These are high-frequency core-game strings and should present consistently in
 Portuguese. Prioritize shared headers, states, professions, skills, equipment,
 and activity taxonomies because translating each shared value fixes many
 screens at once.
+
+### Replay result
+
+The replayed base and equipment screens now show Portuguese location, state,
+headers, clothing, and slogan text. The malformed transport value visible in
+those screens is tracked separately as PT-019.
 
 ## PT-006: Portuguese management actions and table columns collide
 
@@ -176,8 +228,10 @@ list tables, and character details.
 - Severity: High
 - Type: Missing translation / layout / navigation clarity
 - Screen: Save management
+- Replay status: **Resolved on 2026-07-19**
 - Evidence:
-  [`screenshots/26-save-management.png`](screenshots/26-save-management.png)
+  [`screenshots/26-save-management.png`](screenshots/26-save-management.png),
+  [`screenshots/47-save-management-replay.png`](screenshots/47-save-management-replay.png)
 
 ### Reproduction
 
@@ -198,14 +252,23 @@ list tables, and character details.
 Use one localized navigation instruction and allocate fixed, non-overlapping
 columns for date, name, creation time, and size.
 
+### Replay result
+
+An actual autosave row now renders with a Portuguese heading, separated
+columns, and one unclipped `Enter - Retornar ao menu principal` control.
+
 ## PT-008: Interface and content explanations remain English
 
 - Severity: Medium
 - Type: Missing translation
 - Screens: Interface options and content options
+- Replay status: **Resolved on 2026-07-19**
 - Evidence:
   [`screenshots/22-interface-options.png`](screenshots/22-interface-options.png),
-  [`screenshots/24-content-options.png`](screenshots/24-content-options.png)
+  [`screenshots/24-content-options.png`](screenshots/24-content-options.png),
+  [`screenshots/48-gameplay-options-replay.png`](screenshots/48-gameplay-options-replay.png),
+  [`screenshots/49-interface-options-replay.png`](screenshots/49-interface-options-replay.png),
+  [`screenshots/50-content-options-replay.png`](screenshots/50-content-options-replay.png)
 
 ### Actual
 
@@ -217,6 +280,12 @@ English. `Default Page Up/Down Keys` also remains English.
 Localize labels, values, and descriptions as one option record. Mixed-language
 settings are particularly difficult because the untranslated text is the part
 that explains consequences and warnings.
+
+### Replay result
+
+Gameplay, interface, and content option labels and explanations replayed in
+Portuguese. Conventional input/file-format names such as `Page Up/Down`,
+`Mouse`, and `JSON` remain appropriately technical.
 
 ## PT-009: Generated place names are translated word by word
 
@@ -246,11 +315,16 @@ sense (`penhor`/`casa de penhores`) while preserving `Towne` as the name.
 - Severity: High
 - Type: Missing translation
 - Screens: Pawn-shop menu, firearms, tools, equipment
+- Replay status: **Resolved for transaction coverage on 2026-07-19**
 - Evidence:
   [`screenshots/31-pawn-shop-buy.png`](screenshots/31-pawn-shop-buy.png),
   [`screenshots/32-pawn-shop-guns.png`](screenshots/32-pawn-shop-guns.png),
   [`screenshots/33-pawn-shop-tools.png`](screenshots/33-pawn-shop-tools.png),
-  [`screenshots/34-pawn-shop-equipment.png`](screenshots/34-pawn-shop-equipment.png)
+  [`screenshots/34-pawn-shop-equipment.png`](screenshots/34-pawn-shop-equipment.png),
+  [`screenshots/60-shop-post-rebuild.png`](screenshots/60-shop-post-rebuild.png),
+  [`screenshots/61-shop-firearms-post-rebuild.png`](screenshots/61-shop-firearms-post-rebuild.png),
+  [`screenshots/62-shop-tools-post-rebuild.png`](screenshots/62-shop-tools-post-rebuild.png),
+  [`screenshots/63-shop-equipment-post-rebuild.png`](screenshots/63-shop-equipment-post-rebuild.png)
 
 ### Actual
 
@@ -264,6 +338,12 @@ headers, item names, ammunition types, descriptions, and navigation:
 Localize the complete transaction flow, including catalog metadata and item
 descriptions. Shared item names should match the terminology used by character
 and equipment screens.
+
+### Replay result
+
+Categories, purchase prompts, table headers, item names, descriptions, paging,
+and back controls now replay in Portuguese. A separate clipped status action
+on the store menu is tracked as PT-020.
 
 ## PT-011: Key prefixes duplicate and action legends overflow
 
@@ -327,3 +407,298 @@ The heading, close action, version metadata, and body are wholly English.
 If historical entries are intentionally source-language-only, localize at
 least the surrounding UI and label the content as English. Otherwise, include
 release notes in the locale workflow.
+
+## PT-014: Conservative-era prose is clipped and capitalization diverges
+
+- Severity: High
+- Type: Layout / contextual translation / capitalization
+- Screen: New-game conservative-era introduction
+- Replay status: **Resolved on the 2026-07-19 15:29 build checkpoint**
+- Evidence:
+  [`screenshots/40-conservative-era-overflow.png`](screenshots/40-conservative-era-overflow.png),
+  [`screenshots/52-conservative-era-fixed.png`](screenshots/52-conservative-era-fixed.png)
+
+### Reproduction
+
+1. Start a new game in Portuguese.
+2. Complete the founder biography.
+3. Inspect the `UMA NOVA ERA CONSERVADORA` introduction.
+
+### Actual
+
+- Two long prose lines continue beyond the right edge of the console. The
+  clauses after `eleições intermedi...` and `nova era Conservador...` cannot be
+  read.
+- The vice-president description renders `arqui-conservador` in lowercase and
+  with a hyphen.
+
+### Expected / suggestion
+
+Wrap the introduction by translated display width so every clause remains
+visible. Match the original emphasis requested for this phrase:
+`extrema-direita Arqui Conservadora` (spaces, with both words title-cased).
+Apply the feminine form because the phrase modifies `vice-presidente` in this
+rendered sentence.
+
+### Replay result
+
+The introduction wraps inside the console and displays the exact requested
+phrase `extrema-direita Arqui Conservadora`.
+
+## PT-015: Newspaper chrome and subheadline mix English with Portuguese
+
+- Severity: High
+- Type: Missing translation / layout
+- Screen: Daily newspaper
+- Replay status: **Blocked by PT-022 on 2026-07-19**
+- Evidence:
+  [`screenshots/41-newspaper-mixed-language.png`](screenshots/41-newspaper-mixed-language.png),
+  [`screenshots/66-newspaper-range-error.png`](screenshots/66-newspaper-range-error.png)
+
+### Reproduction
+
+1. Start a Portuguese campaign.
+2. Wait until a newspaper is displayed (3 January in this run).
+
+### Actual
+
+- The main headline is Portuguese (`RIO EM CHAMAS`), but the subheadline is
+  English: `The Cuyahoga River is ablaze as pollution increases.`
+- Masthead and subscription chrome remain English, including `THE HERALD` and
+  `SUBSCRIBE $3/WK`.
+- The navigation bar clips `ESTILO DE VIDA`, and the subscription copy is
+  truncated at the right edge.
+
+### Expected / suggestion
+
+Treat each story headline and subheadline as one localization unit. Localize
+the surrounding newspaper chrome and budget fixed-width columns for the longer
+Portuguese navigation/subscription labels.
+
+### Replay result
+
+The settled shared build crashes while rendering the next major-event
+newspaper, before its localized chrome or story can be inspected. PT-015
+therefore remains open.
+
+## PT-016: Month-end legislative screens retain English status labels
+
+- Severity: Medium
+- Type: Missing translation
+- Screens: Month-end Congress notice and legislative results
+- Evidence:
+  [`screenshots/42-month-end-congress.png`](screenshots/42-month-end-congress.png),
+  [`screenshots/43-legislative-results-mixed.png`](screenshots/43-legislative-results-mixed.png)
+
+### Actual
+
+- The base-screen notice remains `Congress is acting on legislation!`.
+- The otherwise Portuguese results table retains `House`, `Senate`, and
+  `President`.
+
+### Expected / suggestion
+
+Localize the month-end notice and all institutional column labels consistently
+with the Portuguese resolution names and prompts already shown on these
+screens.
+
+## PT-017: Monthly finance line items remain English
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Monthly financing report
+- Evidence:
+  [`screenshots/44-monthly-finance-mixed-language.png`](screenshots/44-monthly-finance-mixed-language.png)
+
+### Actual
+
+The report title, total, and footer are Portuguese, but every asset category is
+English: `Cash`, `Tools and Weapons`, `Clothing and Armor`, `Ammunition`, and
+`Miscellaneous Loot`.
+
+### Expected / suggestion
+
+Localize the finance categories as one report vocabulary set so the screen
+does not switch languages between its heading, rows, and total.
+
+## PT-018: Difficulty legend clips its right endpoint
+
+- Severity: Medium
+- Type: Layout / fixed-width budgeting
+- Screen: New-game configuration
+- Evidence:
+  [`screenshots/51-new-game-config-replay.png`](screenshots/51-new-game-config-replay.png)
+
+### Reproduction
+
+1. Select Portuguese at the title screen.
+2. Start a new game.
+3. Inspect the bottom difficulty scale.
+
+### Actual
+
+The red right endpoint `Mais difícil` continues past the console's right
+border and is visibly clipped.
+
+### Expected / suggestion
+
+Keep both difficulty endpoints within columns 0–79, shortening or shifting the
+legend as needed.
+
+### Fix status
+
+The legend now fits the fixed console width; the regression is covered by the
+character-creation translation suite. Fresh browser replay is still pending.
+
+## PT-019: Sports-car transport renders as malformed `Sportção`
+
+- Severity: Medium
+- Type: Contextual translation / item metadata
+- Screens: Base and equipment
+- Evidence:
+  [`screenshots/58-base-post-rebuild.png`](screenshots/58-base-post-rebuild.png),
+  [`screenshots/59-equipment-post-rebuild.png`](screenshots/59-equipment-post-rebuild.png)
+
+### Actual
+
+The transport column displays `(Sportção)`, which is not a Portuguese word and
+appears to combine fragments of the source and target terms.
+
+### Expected / suggestion
+
+Render the complete vehicle name with established Portuguese terminology, or
+preserve the source proper/model name consistently.
+
+## PT-020: Pawn-shop status action is clipped
+
+- Severity: Medium
+- Type: Layout / control discoverability
+- Screen: Pawn-shop main menu
+- Evidence:
+  [`screenshots/60-shop-post-rebuild.png`](screenshots/60-shop-post-rebuild.png)
+
+### Actual
+
+The right-side action ends at `Verificar o status de um Liberal do`, with the
+remaining squad reference outside the console.
+
+### Expected / suggestion
+
+Shorten, wrap, or move the status action so the complete control is visible
+inside the 80-column console.
+
+### Fix status
+
+The two status actions now use full-width rows and the Enter action has its own
+row. The layout regression test verifies all three complete strings.
+
+## PT-021: Media overview retains English chrome
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Media overview
+- Evidence:
+  [`screenshots/65-media-overview-mixed.png`](screenshots/65-media-overview-mixed.png)
+
+### Reproduction
+
+1. Continue a Portuguese campaign.
+2. Select `M - Visão Geral da Mídia & Impacto`.
+
+### Actual
+
+`Media Overview`, `HEADLINE`, `DATE`, `SOURCE`, `IMPACT`, and
+`Press a Letter to read a news article` remain English while the metrics and
+guidance below are Portuguese.
+
+### Expected / suggestion
+
+Localize the overview title, table schema, and read instruction as one screen
+unit.
+
+### Fix status
+
+The shared paged-interface chrome is now backed by Portuguese catalog entries
+for the title, headers, footer, and guidance lines. A dedicated catalog test
+covers the complete chrome unit.
+
+## PT-022: Major-event newspaper crashes with a negative text index
+
+- Severity: High
+- Type: Runtime crash / localized layout
+- Screen: Major-event newspaper
+- Evidence:
+  [`screenshots/66-newspaper-range-error.png`](screenshots/66-newspaper-range-error.png)
+
+### Reproduction
+
+1. Continue the captured Portuguese campaign.
+2. Select `W - Esperar um dia` through 5 January 2023.
+3. Let the major-event newspaper render.
+
+### Actual
+
+The game stops at the failure-report screen with:
+
+`RangeError (index): Index out of range: index must not be negative: -8`
+
+The visible stack includes `printNewsText`, `print5x5NewsText`,
+`displayCenteredNewsFont`, and `displayMajorEventStory`.
+
+### Expected / suggestion
+
+The story should render without calculating a negative text or glyph index.
+Add a Portuguese major-event integration test that exercises the full
+newspaper layout, not only isolated string widths.
+
+### Fix status
+
+The renderer now bounds-checks glyph writes, normalizes Portuguese diacritics,
+and falls back to compact 4×5/3×5 fonts when a translated headline is too
+wide. Direct and full gun-control major-event regressions pass; fresh browser
+replay is pending.
+
+## PT-023: Major-event gun-control story leaks English context tokens
+
+- Severity: Medium
+- Type: Contextual translation
+- Screen: Portuguese major-event newspaper body
+- Replay status: **Fixed in tests; fresh replay pending**
+
+### Actual
+
+The gun-control event used the raw English `mass shooting`, left `university`
+untranslated in one branch, and inserted the raw pronoun `he` into Portuguese
+text (`he pudesse ferir mais alguém`).
+
+### Fix status
+
+`mass shooting` and `university` now have Portuguese catalog coverage, and the
+shooter pronoun goes through the locale-aware pronoun translator. The
+major-event tests assert `tiroteio em massa`, `universidade`, and `ele pudesse`.
+
+## PT-024: Long party names collide with the skill column
+
+- Severity: Medium
+- Type: Core layout
+- Screen: Squad management table
+- Replay status: **Fixed in renderer and regression test on 2026-07-26**
+- Evidence: [`screenshots/82-name-next.png`](screenshots/82-name-next.png)
+
+### Actual
+
+An overlong founder name entered during the Portuguese replay continued into
+the adjacent skill column, producing a merged value such as
+`Ayla Probstaaaaaaa24/0`.
+
+### Expected / suggestion
+
+Keep each party-table cell inside its fixed column, preserving the skill value
+and truncating only the display name when necessary.
+
+### Fix status
+
+`printParty` now renders names with the shared fitted-text helper and the
+management table's 23-column name width. A regression test confirms the name
+ends with an ellipsis, the skill column remains intact, and the underlying
+creature name is not mutated.

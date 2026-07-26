@@ -643,10 +643,12 @@ MajorEventContent generateMajorEventContent(
               "A T-shirt in a store is found scrawled with a message from a sweatshop worker.",
         );
       case View.pollution:
-        return const MajorEventContent(
+        return MajorEventContent(
           headline: "RIVER ON FIRE",
           pictureId: pictureRiverFire,
-          subheadline: "The Cuyahoga River is ablaze as pollution increases.",
+          subheadline: LcsI18n.tr(
+            "The Cuyahoga River is ablaze as pollution increases.",
+          ),
         );
       case View.corporateCulture:
         String companyName = generateCompanyName();
@@ -1773,7 +1775,10 @@ MajorEventContent generateMajorEventContent(
               "shooterLast": shooter.last,
               "heroFormal": heroFormal,
               "heroAction": heroAction,
-              "shooterPronoun": shooterGender.heShe,
+              "shooterPronoun": LcsI18n.translatePronoun(
+                shooterGender.heShe,
+                role: PronounRole.subject,
+              ),
               "heroicActionsText": heroicActionsText,
             },
           ),

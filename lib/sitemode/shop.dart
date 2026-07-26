@@ -30,10 +30,12 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Map<String, Shop> shopTypes = {};
 
+String _localizedShopText(String? text) => text == null ? "" : LcsI18n.tr(text);
+
 abstract class ShopOption {
   bool display() => true;
-  String halfscreenDescription() => description ?? "";
-  String fullscreenDescription() => description ?? "";
+  String halfscreenDescription() => _localizedShopText(description);
+  String fullscreenDescription() => _localizedShopText(description);
   bool isAvailable() => true;
   String? description;
   String? _letter;
@@ -310,7 +312,7 @@ class Shop extends ShopOption {
         40,
         "Enter",
         "Enter - {exitText}",
-        params: {"exitText": exitText},
+        params: {"exitText": _localizedShopText(exitText)},
       );
 
       int c = await getKey();
@@ -427,16 +429,15 @@ class Shop extends ShopOption {
         if (descriptionLine) {
           setColor(midGray);
           move(y, 4);
-          addstr(weapon.description ?? "");
+          addstr(_localizedShopText(weapon.description), noTranslate: true);
         } else {
           setColor(lightGray);
-          String key = letterAPlus(y - 2);
           addOptionText(
             y,
             0,
             key,
             "{key} - {name}",
-            params: {"key": key, "name": weapon.name},
+            params: {"key": key, "name": _localizedShopText(weapon.name)},
             enabledWhen: availableOptions[i].isAvailable(),
           );
           move(y, 20);
@@ -448,7 +449,7 @@ class Shop extends ShopOption {
               noTranslate: true,
             );
           }
-          addstr(ammo?.name ?? "N/A");
+          addstr(_localizedShopText(ammo?.name ?? "N/A"), noTranslate: true);
           move(y, 47);
           Attack attack = weapon.attacks.first;
           if (attack.usesAmmo) {
@@ -517,7 +518,7 @@ class Shop extends ShopOption {
           0,
           key,
           "{key} - {name}",
-          params: {"key": key, "name": ammo.name},
+          params: {"key": key, "name": _localizedShopText(ammo.name)},
           enabledWhen: availableOptions[index].isAvailable(),
         );
         move(y, 24);
@@ -573,11 +574,14 @@ class Shop extends ShopOption {
           0,
           key,
           "{key} - {name}",
-          params: {"key": key, "name": clothing.name},
+          params: {"key": key, "name": _localizedShopText(clothing.name)},
           enabledWhen: availableOptions[index].isAvailable(),
         );
         move(y, 24);
-        addstr(clothing.traitsList(true).join(", "));
+        addstr(
+          clothing.traitsList(true).map(LcsI18n.tr).join(", "),
+          noTranslate: true,
+        );
         move(y, 59);
         addstr(
           "{price}",
@@ -619,13 +623,25 @@ class Shop extends ShopOption {
       addOptionText(12, 1, "C", "C - Pawn all Clothes");
       addOptionText(12, 40, "L", "L - Pawn all Loot");
       setColorConditional(activeSquadMember != null);
-      addOptionText(15, 1, "0", "0 - Show the squad's Liberal status");
+      addOptionTextFitted(
+        15,
+        1,
+        "0",
+        "0 - Show the squad's Liberal status",
+        78,
+      );
       setColorConditional(
         partysize > 0 && (activeSquadMemberIndex == -1 || partysize > 1),
       );
-      mvaddstr(15, 40, "# - Check the status of a squad Liberal");
+      addOptionTextFitted(
+        16,
+        1,
+        "#",
+        "# - Check the status of a squad Liberal",
+        78,
+      );
 
-      addOptionText(16, 40, "Enter", "Enter - Done pawning");
+      addOptionText(17, 40, "Enter", "Enter - Done pawning");
 
       int c = await getKey();
 
@@ -645,7 +661,7 @@ class Shop extends ShopOption {
         };
         addstr(
           "Really sell all {items}? (Y)es to confirm.           ",
-          params: {"items": items},
+          params: {"items": _localizedShopText(items)},
         );
 
         if (await getKey() != Key.y) c = 0; //no sale
@@ -856,9 +872,18 @@ class Shop extends ShopOption {
           y,
           0,
           "{letter} - {name}",
-          params: {"letter": letterAPlus(y - 2), "name": masktype[p].name},
+          params: {
+            "letter": letterAPlus(y - 2),
+            "name": _localizedShopText(masktype[p].name),
+          },
         );
-        mvaddstrc(y, 39, lightGray, masktype[p].description.trim());
+        mvaddstrc(
+          y,
+          39,
+          lightGray,
+          _localizedShopText(masktype[p].description.trim()),
+          noTranslate: true,
+        );
       }
 
       mvaddstrc(22, 0, lightGray, "Press a Letter to select a Mask");

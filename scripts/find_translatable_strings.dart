@@ -7,6 +7,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:lcs_new_age/i18n/catalog_layout.dart';
+import 'package:xml/xml.dart';
 
 final _placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
 const _escapedDollarSentinel = '\u0000';
@@ -239,6 +240,12 @@ void main(List<String> args) async {
         stringInfo: stringInfo,
         relativePath: relativePath,
       );
+      _extractPagedInterfaceSourceStrings(
+        content: content,
+        lineOffsets: lineOffsets,
+        stringInfo: stringInfo,
+        relativePath: relativePath,
+      );
 
       for (final pattern in tripleQuotedProcessStringPatterns) {
         for (final match in pattern.allMatches(content)) {
@@ -271,10 +278,12 @@ void main(List<String> args) async {
             final raw = match.group(1);
             if (raw == null) continue;
             final stringLiteral = _unescapeStringLiteral(raw);
-            final allowHeadlineTokens =
+            final allowSingleWord =
                 function == 'LcsI18n.tr' ||
                 function == 'displayCenteredNewsFont' ||
-                function == 'headline';
+                function == 'headline' ||
+                function == '_Question' ||
+                function.startsWith('_Option.');
             if (function == 'headline' &&
                 (stringLiteral.length > 48 ||
                     stringLiteral.startsWith('The ') ||
@@ -283,9 +292,9 @@ void main(List<String> args) async {
             }
             if (_isUserFacing(
               stringLiteral,
-              minLength: allowHeadlineTokens ? 3 : 4,
+              minLength: allowSingleWord ? 3 : 4,
               // Tabloid headlines are often ALL CAPS tokens like "CCS MASSACRE".
-              allowSingleWord: allowHeadlineTokens,
+              allowSingleWord: allowSingleWord,
             )) {
               _recordString(
                 stringInfo,
@@ -365,6 +374,14 @@ void main(List<String> args) async {
     }
   }
 
+  if (fileGlobs == null ||
+      fileGlobs.any((glob) => _matchesGlob('sitemode/shop.dart', glob))) {
+    await _extractPurchasableXmlStrings(
+      projectRoot: libDir.parent,
+      stringInfo: stringInfo,
+    );
+  }
+
   // Output results
   final sortedStrings = stringInfo.values.toList();
   sortedStrings.sort((a, b) => b.count.compareTo(a.count));
@@ -399,6 +416,160 @@ void main(List<String> args) async {
       l10nPath,
       hashShards,
       pruneDead,
+    );
+  }
+}
+
+const _purchasableMetadataTags = <String>{
+  'name',
+  'name_future',
+  'name_large_subtype',
+  'name_small_subtype',
+  'name_large_subtype_future',
+  'name_small_subtype_future',
+  'shortname',
+  'shortname_future',
+  'description',
+  'description_future',
+};
+
+Future<void> _extractPurchasableXmlStrings({
+  required Directory projectRoot,
+  required Map<String, StringInfo> stringInfo,
+}) async {
+  final xmlDirectory = Directory(
+    '${projectRoot.path}${Platform.pathSeparator}assets'
+    '${Platform.pathSeparator}xml',
+  );
+  if (!xmlDirectory.existsSync()) return;
+
+  final xmlFiles =
+      xmlDirectory
+          .listSync()
+          .whereType<File>()
+          .where((file) => file.path.endsWith('.xml'))
+          .toList()
+        ..sort((a, b) => a.path.compareTo(b.path));
+  final shopDocuments = <(File, String, XmlDocument)>[];
+  final purchasableItemIds = <String>{};
+
+  for (final file in xmlFiles) {
+    final source = await file.readAsString();
+    final document = XmlDocument.parse(source);
+    if (document.rootElement.localName != 'shop') continue;
+    shopDocuments.add((file, source, document));
+
+    for (final item in document.descendants.whereType<XmlElement>().where(
+      (element) => element.localName == 'item',
+    )) {
+      for (final child in item.childElements) {
+        if (child.localName == 'type' && child.innerText.trim().isNotEmpty) {
+          purchasableItemIds.add(child.innerText.trim());
+        }
+      }
+    }
+  }
+
+  for (final (file, source, document) in shopDocuments) {
+    for (final element in document.descendants.whereType<XmlElement>()) {
+      final isShopCopy =
+          element.localName == 'entry' ||
+          element.localName == 'exit' ||
+          (element.localName == 'description' &&
+              element.parentElement?.localName == 'item');
+      if (!isShopCopy) continue;
+      _recordXmlString(
+        stringInfo: stringInfo,
+        file: file,
+        source: source,
+        element: element,
+        context: 'shop-xml.${element.localName}',
+      );
+    }
+  }
+
+  for (final file in xmlFiles) {
+    final source = await file.readAsString();
+    final document = XmlDocument.parse(source);
+    for (final typeElement in document.rootElement.childElements) {
+      final id = typeElement.getAttribute('idname');
+      if (id == null || !purchasableItemIds.contains(id)) continue;
+      for (final metadata in typeElement.childElements) {
+        if (!_purchasableMetadataTags.contains(metadata.localName)) continue;
+        _recordXmlString(
+          stringInfo: stringInfo,
+          file: file,
+          source: source,
+          element: metadata,
+          context: 'shop-item-xml.${metadata.localName}',
+        );
+      }
+    }
+  }
+}
+
+void _recordXmlString({
+  required Map<String, StringInfo> stringInfo,
+  required File file,
+  required String source,
+  required XmlElement element,
+  required String context,
+}) {
+  final value = element.innerText.trim();
+  if (!_isUserFacing(value, minLength: 3, allowSingleWord: true)) return;
+  final elementOffset = source.indexOf(element.toXmlString());
+  final lineNumber = elementOffset < 0
+      ? 1
+      : '\n'.allMatches(source.substring(0, elementOffset)).length + 1;
+  final relativePath = file.path.replaceFirst(
+    '${Directory.current.path}${Platform.pathSeparator}',
+    '',
+  );
+  _recordString(stringInfo, value, relativePath, lineNumber, context);
+}
+
+void _extractPagedInterfaceSourceStrings({
+  required String content,
+  required List<int> lineOffsets,
+  required Map<String, StringInfo> stringInfo,
+  required String relativePath,
+}) {
+  for (final argument in ['headerPrompt', 'footerPrompt']) {
+    final patterns = [
+      RegExp('\\b$argument\\s*:\\s*"((?:[^"\\\\]|\\\\.)*)"'),
+      RegExp("\\b$argument\\s*:\\s*'((?:[^'\\\\]|\\\\.)*)'"),
+    ];
+    for (final pattern in patterns) {
+      for (final match in pattern.allMatches(content)) {
+        final raw = match.group(1);
+        if (raw == null) continue;
+        final value = _unescapeStringLiteral(raw);
+        if (!_isUserFacing(value, minLength: 3, allowSingleWord: true)) {
+          continue;
+        }
+        _recordString(
+          stringInfo,
+          value,
+          relativePath,
+          _lineNumberFromOffset(lineOffsets, match.start),
+          'pagedInterface.$argument',
+        );
+      }
+    }
+  }
+
+  final headerMapPattern = RegExp(
+    r'\bheaderKey\s*:\s*(?:const\s*)?\{([\s\S]*?)\}',
+  );
+  for (final match in headerMapPattern.allMatches(content)) {
+    final mapBody = match.group(1);
+    if (mapBody == null) continue;
+    _recordStringsFromChunk(
+      chunk: mapBody,
+      baseLine: _lineNumberFromOffset(lineOffsets, match.start),
+      context: 'pagedInterface.headerKey',
+      stringInfo: stringInfo,
+      relativePath: relativePath,
     );
   }
 }
@@ -657,6 +828,8 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
       RegExp(r"\baddparagraph\s*\([^,]+,\s*[^,]+,\s*'((?:[^'\\]|\\.)*)'"),
       'addparagraph',
     ),
+    (RegExp(r'\bshowMessage\s*\(\s*"((?:[^"\\]|\\.)*)"'), 'showMessage'),
+    (RegExp(r"\bshowMessage\s*\(\s*'((?:[^'\\]|\\.)*)'"), 'showMessage'),
 
     // Option wrapper family
     (
@@ -694,25 +867,15 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
 
     // Newspaper tabloid headlines (5x5 caps font; translated inside displayCenteredNewsFont)
     (
-      RegExp(
-        r'\bdisplayCenteredNewsFont\s*\(\s*"((?:[^"\\]|\\.)*)"',
-      ),
+      RegExp(r'\bdisplayCenteredNewsFont\s*\(\s*"((?:[^"\\]|\\.)*)"'),
       'displayCenteredNewsFont',
     ),
     (
-      RegExp(
-        r"\bdisplayCenteredNewsFont\s*\(\s*'((?:[^'\\]|\\.)*)'",
-      ),
+      RegExp(r"\bdisplayCenteredNewsFont\s*\(\s*'((?:[^'\\]|\\.)*)'"),
       'displayCenteredNewsFont',
     ),
-    (
-      RegExp(r'\bheadline:\s*"((?:[^"\\]|\\.)*)"'),
-      'headline',
-    ),
-    (
-      RegExp(r"\bheadline:\s*'((?:[^'\\]|\\.)*)'"),
-      'headline',
-    ),
+    (RegExp(r'\bheadline:\s*"((?:[^"\\]|\\.)*)"'), 'headline'),
+    (RegExp(r"\bheadline:\s*'((?:[^'\\]|\\.)*)'"), 'headline'),
 
     // LcsI18n.tr() calls for dynamic translations
     (RegExp(r'\bLcsI18n\.tr\s*\(\s*"((?:[^"\\]|\\.)*)"\s*\)'), 'LcsI18n.tr'),
@@ -725,6 +888,20 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
     (
       RegExp(r"LcsI18n\.processString\s*\(\s*'((?:[^'\\]|\\.)*)'"),
       'LcsI18n.processString',
+    ),
+
+    // Declarative character-creation copy.
+    (RegExp(r'\b_Question\s*\(\s*"((?:[^"\\]|\\.)*)"'), '_Question'),
+    (RegExp(r"\b_Question\s*\(\s*'((?:[^'\\]|\\.)*)'"), '_Question'),
+    (RegExp(r'\b_Option\s*\(\s*"((?:[^"\\]|\\.)*)"'), '_Option.option'),
+    (RegExp(r"\b_Option\s*\(\s*'((?:[^'\\]|\\.)*)'"), '_Option.option'),
+    (
+      RegExp(r'\b_Option\s*\(\s*"(?:[^"\\]|\\.)*"\s*,\s*"((?:[^"\\]|\\.)*)"'),
+      '_Option.description',
+    ),
+    (
+      RegExp(r"\b_Option\s*\(\s*'(?:[^'\\]|\\.)*'\s*,\s*'((?:[^'\\]|\\.)*)'"),
+      '_Option.description',
     ),
   ];
 }
@@ -750,6 +927,7 @@ List<(String, RegExp)> _buildMultilineContextPatterns() {
     'mvaddstrRight',
     'mvaddstrCenter',
     'addparagraph',
+    'showMessage',
     'addOptionText',
     'addInlineOptionText',
     'addCenteredOptionText',

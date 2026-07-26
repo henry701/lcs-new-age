@@ -879,7 +879,10 @@ void main() {
       );
       expect(source, contains('"I got caught making out with {person}.'));
       expect(source, contains('option.option,'));
-      expect(source, contains('renderedOption, noTranslate: true'));
+      expect(
+        source,
+        contains('final optionLines = _wrapCharacterCreationText'),
+      );
     });
 
     test('priority source areas contain no unreviewed interpolation', () {
@@ -1001,7 +1004,10 @@ void main() {
       expect(weapon, contains('"{weapon} ({ammo})"'));
       expect(weapon, isNot(contains(r'et += " ($ammo)"')));
       expect(weapon, contains('return LcsI18n.tr(type.name)'));
-      expect(weapon, contains('return LcsI18n.tr(type.largeSubtypeName ?? type.name)'));
+      expect(
+        weapon,
+        contains('return LcsI18n.tr(type.largeSubtypeName ?? type.name)'),
+      );
       expect(clothing, contains('"{clothing} (d)"'));
       expect(clothing, isNot(contains(r'"${type.name} (d)"')));
     });
@@ -1216,9 +1222,7 @@ void main() {
       expect(displayNews, contains('appendNews("victims were members ");'));
       expect(
         displayNews,
-        contains(
-          'appendNews("It was execution style.  Professional.  We\'ve got nothing");',
-        ),
+        contains('It was execution style.  Professional.  We\'ve got nothing'),
       );
       expect(displayNews, isNot(contains('story += " Two bodies were "')));
       expect(
@@ -1378,7 +1382,9 @@ void main() {
         final regulars = File(
           'lib/basemode/activate_regulars.dart',
         ).readAsStringSync();
-        final activities = File('lib/basemode/activities.dart').readAsStringSync();
+        final activities = File(
+          'lib/basemode/activities.dart',
+        ).readAsStringSync();
         final sleepers = File(
           'lib/monthly/sleeper_update.dart',
         ).readAsStringSync();
@@ -1395,18 +1401,13 @@ void main() {
         expect(regulars, contains('"skill": LcsI18n.tr(skill.displayName)'));
         expect(
           regulars,
-          contains(
-            '"skill": LcsI18n.tr(cr.activity.skill?.displayName ?? "unknown skill")',
-          ),
+          contains('cr.activity.skill?.displayName ?? "unknown skill"'),
         );
         expect(
           regulars,
           contains('"activity": LcsI18n.tr(cr.activity.type.label)'),
         );
-        expect(
-          activities,
-          contains('"skill": LcsI18n.tr(skill?.displayName ?? "a bug")'),
-        );
+        expect(activities, contains('"skill": skill?.localizedName'));
         expect(
           sleepers,
           contains('"position": LcsI18n.tr(positionToFill.displayName)'),

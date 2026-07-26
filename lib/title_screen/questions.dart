@@ -5,6 +5,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
+import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
@@ -34,6 +35,87 @@ class _Option {
 }
 
 enum Recruits { gang, none }
+
+typedef CharacterCreationAnswerText = ({
+  String option,
+  String description,
+  Map<String, dynamic>? params,
+});
+
+List<String> _wrapCharacterCreationText(String text, int width) {
+  final words = text.split(RegExp(r'\s+'));
+  final lines = <String>[];
+  var current = '';
+  for (final word in words) {
+    if (word.isEmpty) continue;
+    final candidate = current.isEmpty ? word : '$current $word';
+    if (current.isNotEmpty && strLenX(candidate) > width) {
+      lines.add(current);
+      current = word;
+    } else {
+      current = candidate;
+    }
+  }
+  if (current.isNotEmpty) lines.add(current);
+  return lines;
+}
+
+void renderCharacterCreationPrompt({
+  required String question,
+  required List<CharacterCreationAnswerText> answers,
+  required bool choose,
+  int? highlight,
+}) {
+  final renderedQuestion = LcsI18n.processString(question, null);
+  mvaddstrc(9, 0, white, renderedQuestion, noTranslate: true);
+  int y = 11;
+  for (int i = 0; i < answers.length; i++) {
+    if (!choose && i != highlight) continue;
+    final option = answers[i];
+    String letter = letterAPlus(i);
+    final renderedOption = LcsI18n.processString(option.option, option.params);
+    final renderedDescription = LcsI18n.processString(option.description, null);
+    final optionLines = _wrapCharacterCreationText(renderedOption, 76);
+    final descriptionLines = _wrapCharacterCreationText(
+      renderedDescription,
+      76,
+    );
+    if (choose) {
+      if (y >= CONSOLE_HEIGHT) return;
+      addOptionText(
+        y++,
+        0,
+        letter,
+        "{letter} - {option}",
+        params: {"letter": letter, "option": optionLines.first},
+        noTranslate: true,
+      );
+      for (final continuation in optionLines.skip(1)) {
+        if (y >= CONSOLE_HEIGHT) return;
+        mvaddstrc(y++, 4, white, continuation, noTranslate: true);
+      }
+    } else {
+      for (final line in optionLines) {
+        if (y >= CONSOLE_HEIGHT) return;
+        mvaddstrc(y++, 4, lightGray, line, noTranslate: true);
+      }
+    }
+    for (final line in descriptionLines) {
+      if (y >= CONSOLE_HEIGHT) return;
+      mvaddstrc(y++, 4, darkGray, line, noTranslate: true);
+    }
+  }
+}
+
+String localizedVolunteerCandidateOption({
+  Gender candidateGender = Gender.female,
+}) {
+  final pronoun = capitalize(LcsI18n.tr(candidateGender.heShe));
+  return LcsI18n.processString(
+    "I volunteered for a left-wing candidate.  {pronoun} didn't even come close.",
+    {"pronoun": pronoun},
+  );
+}
 
 Future<void> characterCreationQuestions(Creature founder, bool choose) async {
   bool gay = false;
@@ -386,9 +468,8 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
         },
       ),
       _Option(
-        LcsI18n.processString(
-          "I volunteered for a left-wing candidate.  {pronoun} didn't even come close.",
-          {"pronoun": LcsI18n.tr(forceGenderBinary(Gender.nonbinary).heSheCap)},
+        localizedVolunteerCandidateOption(
+          candidateGender: forceGenderBinary(Gender.nonbinary),
         ),
         "+2 Persuasion, +1 Law, +1 Charisma",
         () {
@@ -610,34 +691,19 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
     erase();
     mvaddstrc(0, 0, white, "Insight into a Revolution: My Traumatic Childhood");
     makeDelimiter();
-    mvaddstrc(9, 0, white, question.question);
-    int y = 11;
-    for (int i = 0; i < question.answers.length; i++) {
-      if (!choose && i != highlight) continue;
-      _Option option = question.answers[i];
-      String letter = letterAPlus(i);
-      final renderedOption = LcsI18n.processString(
-        option.option,
-        option.params,
-      );
-      final renderedDescription = LcsI18n.processString(
-        option.description,
-        null,
-      );
-      if (choose) {
-        addOptionText(
-          y++,
-          0,
-          letter,
-          "{letter} - {option}",
-          params: {"letter": letter, "option": renderedOption},
-          noTranslate: true,
-        );
-      } else {
-        mvaddstrc(y++, 4, lightGray, renderedOption, noTranslate: true);
-      }
-      mvaddstrc(y++, 4, darkGray, renderedDescription, noTranslate: true);
-    }
+    renderCharacterCreationPrompt(
+      question: question.question,
+      answers: [
+        for (final answer in question.answers)
+          (
+            option: answer.option,
+            description: answer.description,
+            params: answer.params,
+          ),
+      ],
+      choose: choose,
+      highlight: highlight,
+    );
 
     printCreatureInfo(founder);
 

@@ -263,39 +263,42 @@ void main() {
     );
   });
 
-  test('generated names and contextual labels avoid translator annotations', () {
-    expect(catalog['Guatemala'], 'Guatemala');
-    expect(catalog['Honduras'], 'Honduras');
-    expect(catalog['Haiti'], 'Haiti');
-    expect(catalog['El Salvador'], 'El Salvador');
-    expect(catalog['Natural'], 'Natural');
-    expect(catalog['Primal'], 'Primitivo');
-    expect(catalog['Inquirer'], 'Inquirer');
-    expect(catalog['Fort'], 'Fort');
-    expect(catalog['Fore'], 'Fore');
-    expect(catalog['Mega'], 'Mega');
-    expect(catalog['Franken'], 'Franken');
-    expect(catalog['Donald J. Trump'], 'Donald J. Trump');
-    expect(catalog['National Mall'], 'National Mall');
-    expect(catalog['Venezuela'], 'Venezuela');
-    expect(catalog['Ply'], 'Ply');
-    expect(catalog['Rio'], 'Rio');
-    expect(catalog['United'], 'Unido');
-    expect(catalog['Wizard'], 'Mago');
-    expect(catalog['Fandango'], 'Fandango');
-    expect(catalog['Thing'], 'Coisa');
-    expect(catalog['Secret'], 'Secreto');
-    expect(catalog['Star'], 'Estrela');
-    expect(catalog['Friend'], 'Amigo');
-    expect(catalog['Inter'], 'Inter');
-    expect(catalog['Uni'], 'Uni');
-    expect(catalog['Inc.'], 'Inc.');
-    expect(catalog['L.L.C.'], 'L.L.C.');
-    expect(catalog['Dis'], 'Dis');
-    expect(catalog['Hill'], 'Hill');
-    expect(catalog['MBC'], 'MBC');
-    expect(catalog['MedStar Washington'], 'MedStar Washington');
-  });
+  test(
+    'generated names and contextual labels avoid translator annotations',
+    () {
+      expect(catalog['Guatemala'], 'Guatemala');
+      expect(catalog['Honduras'], 'Honduras');
+      expect(catalog['Haiti'], 'Haiti');
+      expect(catalog['El Salvador'], 'El Salvador');
+      expect(catalog['Natural'], 'Natural');
+      expect(catalog['Primal'], 'Primitivo');
+      expect(catalog['Inquirer'], 'Inquirer');
+      expect(catalog['Fort'], 'Fort');
+      expect(catalog['Fore'], 'Fore');
+      expect(catalog['Mega'], 'Mega');
+      expect(catalog['Franken'], 'Franken');
+      expect(catalog['Donald J. Trump'], 'Donald J. Trump');
+      expect(catalog['National Mall'], 'National Mall');
+      expect(catalog['Venezuela'], 'Venezuela');
+      expect(catalog['Ply'], 'Ply');
+      expect(catalog['Rio'], 'Rio');
+      expect(catalog['United'], 'Unido');
+      expect(catalog['Wizard'], 'Mago');
+      expect(catalog['Fandango'], 'Fandango');
+      expect(catalog['Thing'], 'Coisa');
+      expect(catalog['Secret'], 'Secreto');
+      expect(catalog['Star'], 'Estrela');
+      expect(catalog['Friend'], 'Amigo');
+      expect(catalog['Inter'], 'Inter');
+      expect(catalog['Uni'], 'Uni');
+      expect(catalog['Inc.'], 'Inc.');
+      expect(catalog['L.L.C.'], 'L.L.C.');
+      expect(catalog['Dis'], 'Dis');
+      expect(catalog['Hill'], 'Hill');
+      expect(catalog['MBC'], 'MBC');
+      expect(catalog['MedStar Washington'], 'MedStar Washington');
+    },
+  );
 
   test('event and selection labels preserve their intended context', () {
     expect(catalog['Black And Proud Day'], 'Dia do Orgulho Negro');
@@ -321,6 +324,34 @@ void main() {
     expect(
       catalog['The LCS has &G{funds}&w available.'],
       'O LCS tem &G{funds}&w disponíveis.',
+    );
+  });
+
+  test('title-screen copy preserves names and uses idiomatic sentence case', () {
+    expect(
+      catalog['Bay 12 Games, IsaacG, SlatersQuest, TheCheshireCat, Kamal-Sadek,'],
+      'Bay 12 Games, IsaacG, SlatersQuest, TheCheshireCat, Kamal-Sadek,',
+    );
+    expect(
+      catalog['Select an Option to Pursue your Liberal Agenda'],
+      'Selecione uma opção para seguir sua agenda liberal',
+    );
+    expect(catalog['Let Me Choose'], 'Deixe-me escolher');
+    expect(
+      catalog['What is your name to the people?'],
+      'Como você será conhecido pelo povo?',
+    );
+  });
+
+  test('generated commerce names use phrase-level Portuguese templates', () {
+    expect(catalog['{name} Pawn & Gun'], '{name} Penhores e Armas');
+    expect(
+      catalog['{adjective} {noun} Insurance'],
+      'Seguros {noun} {adjective}',
+    );
+    expect(
+      catalog['{adjective} {noun} Latte Stand'],
+      'Quiosque de Latte {noun} de {adjective}',
     );
   });
 
@@ -1419,19 +1450,22 @@ void main() {
     );
   });
 
-  test('dynamic template params translate hack, learning, and traumatize actions', () {
-    expect(
-      catalog['burns a disk of top secret files'],
-      'queima um disco de arquivos ultrassecretos',
-    );
-    expect(
-      catalog['bypass the supercomputer security'],
-      'ignorar a segurança do supercomputador',
-    );
-    expect(catalog['an introductory'], 'uma introdução');
-    expect(catalog['a high-level'], 'um alto nível');
-    expect(catalog['execution'], 'execução');
-    expect(catalog['death'], 'morte');
-    expect(catalog['unknown skill'], 'habilidade desconhecida');
-  });
+  test(
+    'dynamic template params translate hack, learning, and traumatize actions',
+    () {
+      expect(
+        catalog['burns a disk of top secret files'],
+        'queima um disco de arquivos ultrassecretos',
+      );
+      expect(
+        catalog['bypass the supercomputer security'],
+        'ignorar a segurança do supercomputador',
+      );
+      expect(catalog['an introductory'], 'uma introdução');
+      expect(catalog['a high-level'], 'um alto nível');
+      expect(catalog['execution'], 'execução');
+      expect(catalog['death'], 'morte');
+      expect(catalog['unknown skill'], 'habilidade desconhecida');
+    },
+  );
 }

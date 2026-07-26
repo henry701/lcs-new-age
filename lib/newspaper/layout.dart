@@ -137,10 +137,15 @@ void theHeraldTop() {
   Color bgColor = Publication.herald.backgroundColor;
   setColor(black, background: bgColor);
   mvaddstr(0, 2, "U.S.   POLITICS   BUSINESS   WORLD   FOOD   LIFESTYLE");
-  print3x5NewsText(1, 1, "The Herald");
-  mvaddstr(1, 64, "SUBSCRIBE \$3/WK");
-  mvaddstr(2, 64, "FOR FULL ACCESS");
-  mvaddstr(3, 64, "DIGITAL EDITION");
+  print3x5NewsText(1, 1, LcsI18n.tr("The Herald"));
+  mvaddstrRight(
+    1,
+    "SUBSCRIBE {price} WEEKLY",
+    marginX: 1,
+    params: {"price": "\$3"},
+  );
+  mvaddstrRight(2, "FOR FULL ACCESS", marginX: 1);
+  mvaddstrRight(3, "DIGITAL EDITION", marginX: 1);
   _addDivider(Publication.herald);
 }
 

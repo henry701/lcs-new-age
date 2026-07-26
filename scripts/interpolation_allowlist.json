@@ -57,50 +57,38 @@
   ],
   "allEntries": [
     {
-      "file": "basemode/media_overview.dart",
-      "line": 102,
-      "text": "${headline.substring(0, 32).trim()}...",
-      "reason": "Layout-only headline truncation; the headline itself is translated before display."
-    },
-    {
-      "file": "basemode/plan_site_visit.dart",
-      "line": 128,
-      "text": "\\$$ticketPrice",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
       "file": "basemode/activate_regulars.dart",
-      "line": 153,
+      "line": 137,
       "text": "\\$${c.income}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 596,
+      "line": 580,
       "text": "\\$${craftable[index].makePrice + craftable[index].allowedArmor.first.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 638,
+      "line": 622,
       "text": "${craftable[selectedClothingIndex].idName}:ARMOR$selectedArmorIndex",
       "reason": "Stable activity identifier; never rendered as player-facing prose."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 661,
+      "line": 645,
       "text": "\\$${craftable[selected].makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 698,
+      "line": 682,
       "text": "\\$${flag.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 751,
+      "line": 735,
       "text": "\\$${clothing.makePrice + armor.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -129,38 +117,50 @@
       "reason": "Locale-neutral numeric percentage value passed to a complete translated template or diagnostic."
     },
     {
+      "file": "basemode/media_overview.dart",
+      "line": 102,
+      "text": "${headline.substring(0, 32).trim()}...",
+      "reason": "Layout-only headline truncation; the headline itself is translated before display."
+    },
+    {
+      "file": "basemode/plan_site_visit.dart",
+      "line": 128,
+      "text": "\\$$ticketPrice",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
       "file": "basemode/review_mode.dart",
-      "line": 439,
+      "line": 455,
       "text": "\\$${tempp.medicalBills}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1244,
+      "line": 1260,
       "text": "&${ColorKey.fromColor(bracketcolor)}[",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1246,
+      "line": 1262,
       "text": "&${ColorKey.fromColor(blue)}[",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1247,
+      "line": 1263,
       "text": "&${ColorKey.fromColor(blue)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1249,
+      "line": 1265,
       "text": "&${ColorKey.fromColor(bracketcolor)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1252,
+      "line": 1268,
       "text": "&${ColorKey.fromColor(namecolor)}$name",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
@@ -184,9 +184,27 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 40,
+      "line": 242,
       "text": "\\$${ledger.funds}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "common_display/common_display.dart",
+      "line": 356,
+      "text": "$localizedHealth$localizedArmor",
+      "reason": "Layout-only join of health and armor strings already localized before rendering."
+    },
+    {
+      "file": "common_display/print_creature_info.dart",
+      "line": 564,
+      "text": "${LcsI18n.tr(",
+      "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
+    },
+    {
+      "file": "common_display/print_creature_info.dart",
+      "line": 564,
+      "text": ")}$next",
+      "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "creature/creature.dart",
@@ -273,48 +291,6 @@
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
-      "file": "daily/hostages/ransom.dart",
-      "line": 90,
-      "text": "\\$${intr.ransomAmount}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "daily/hostages/ransom.dart",
-      "line": 166,
-      "text": "\\$${intr.ransomAmount}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "daily/hostages/tend_hostage.dart",
-      "line": 227,
-      "text": "\\$$cost",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "daily/hostages/tend_hostage.dart",
-      "line": 722,
-      "text": "Rapport: ${rapport[a.id]?.toStringAsFixed(1) ?? 0}",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "daily/dating.dart",
-      "line": 57,
-      "text": "&W${date.name}&w",
-      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
-    },
-    {
-      "file": "daily/shopsnstuff.dart",
-      "line": 194,
-      "text": "\\$$price",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "daily/shopsnstuff.dart",
-      "line": 255,
-      "text": "\\$$price",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
       "file": "daily/advance_day.dart",
       "line": 159,
       "text": "site.cityId: ${site.cityId}",
@@ -375,6 +351,48 @@
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
+      "file": "daily/dating.dart",
+      "line": 57,
+      "text": "&W${date.name}&w",
+      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
+    },
+    {
+      "file": "daily/hostages/ransom.dart",
+      "line": 90,
+      "text": "\\$${intr.ransomAmount}",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "daily/hostages/ransom.dart",
+      "line": 166,
+      "text": "\\$${intr.ransomAmount}",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "daily/hostages/tend_hostage.dart",
+      "line": 227,
+      "text": "\\$$cost",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "daily/hostages/tend_hostage.dart",
+      "line": 722,
+      "text": "Rapport: ${rapport[a.id]?.toStringAsFixed(1) ?? 0}",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "daily/shopsnstuff.dart",
+      "line": 194,
+      "text": "\\$$price",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "daily/shopsnstuff.dart",
+      "line": 255,
+      "text": "\\$$price",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
       "file": "daily/siege.dart",
       "line": 117,
       "text": "Heat from ${p.name}: ${p.heat} -> ${sqrt(p.heat).ceil()}",
@@ -411,22 +429,340 @@
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
-      "file": "engine/engine.dart",
-      "line": 162,
-      "text": "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
-      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
+      "file": "engine/changelog.dart",
+      "line": 25,
+      "text": "## ${LcsI18n.tr(",
+      "reason": "Markdown heading assembled from a translated label and release metadata."
     },
     {
-      "file": "engine/engine.dart",
-      "line": 167,
-      "text": "&$disabledColorKey$renderedText",
-      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
+      "file": "engine/changelog.dart",
+      "line": 25,
+      "text": ")} ${match.group(1)} — ",
+      "reason": "Markdown heading assembled from a translated label and release metadata."
+    },
+    {
+      "file": "engine/changelog.dart",
+      "line": 26,
+      "text": "$day/$month/${match.group(4)}",
+      "reason": "Markdown release date assembled from numeric metadata."
+    },
+    {
+      "file": "engine/changelog.dart",
+      "line": 28,
+      "text": "> ${LcsI18n.tr(",
+      "reason": "Markdown notice assembled from a translated static label."
+    },
+    {
+      "file": "engine/changelog.dart",
+      "line": 29,
+      "text": "$localizedMetadata",
+      "reason": "Markdown blockquote joins already localized release content."
     },
     {
       "file": "engine/console_widget.dart",
       "line": 109,
       "text": "Key event: $value",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "engine/engine.dart",
+      "line": 203,
+      "text": "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
+      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
+    },
+    {
+      "file": "engine/engine.dart",
+      "line": 208,
+      "text": "&$disabledColorKey$renderedText",
+      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
+    },
+    {
+      "file": "i18n/catalog_audit.dart",
+      "line": 158,
+      "text": "{${match.group(1)!}}",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/catalog_audit.dart",
+      "line": 179,
+      "text": "ARB directory not found: $arbDirPath",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/catalog_audit.dart",
+      "line": 297,
+      "text": "^app_${RegExp.escape(locale)}_part(\\\\d+)\\\\.arb\\$",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/catalog_audit.dart",
+      "line": 363,
+      "text": "${name}Color",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/catalog_layout.dart",
+      "line": 121,
+      "text": "app_${locale}_part$padded.arb",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 18,
+      "text": "LcsI18nException: $message",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 51,
+      "text": "$locale::$englishText",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 65,
+      "text": "{${match.group(1)!}}",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 75,
+      "text": "$locale",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 75,
+      "text": "LcsI18n: Already initialized with locale \"$locale\"",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 79,
+      "text": "$locale",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 79,
+      "text": "LcsI18n: Initializing with locale \"$locale\"",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 90,
+      "text": "$locale",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 90,
+      "text": "LcsI18n: Successfully initialized with locale \"$locale\"",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 110,
+      "text": "$locale",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 110,
+      "text": "LcsI18n: No ARB files found for locale \"$locale\"",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 135,
+      "text": "$normalizedKey",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 135,
+      "text": "LcsI18n: WARNING - Duplicate key \"$normalizedKey\" found in $file (previously loaded)",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 142,
+      "text": "LcsI18n: Failed to load $file: $e",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 148,
+      "text": "$locale",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 148,
+      "text": "LcsI18n: ERROR - Found ${duplicateKeys.length} duplicate keys across ${localeFiles.length} files for locale \"$locale\"",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 151,
+      "text": "LcsI18n: Duplicate keys: ${duplicateKeys.take(5).join(\", \")}${duplicateKeys.length > 5 ? \"...\" : \"\"}",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 158,
+      "text": "$locale",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 158,
+      "text": "LcsI18n: Loaded ${mergedTranslations.length} translations from ${localeFiles.length} file(s) for locale \"$locale\"",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 164,
+      "text": "$locale",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 164,
+      "text": "LcsI18n: Failed to load locale \"$locale\": $e",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 194,
+      "text": "$englishText",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 194,
+      "text": "LcsI18n: Not initialized, returning original text: \"$englishText\"",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 219,
+      "text": "$englishText",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 219,
+      "text": "LcsI18n: WARNING - Untranslated string in $_currentLocale: \"$englishText\"",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 252,
+      "text": "$englishText",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 252,
+      "text": "LcsI18n: Translation error for \"$englishText\": $e",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 276,
+      "text": "$englishText",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 276,
+      "text": "LcsI18n: Using English fallback for \"$englishText\" in $_currentLocale",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 280,
+      "text": "$englishText",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 280,
+      "text": "LcsI18n: Missing translation for \"$englishText\" in $_currentLocale",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 315,
+      "text": "$pronoun (possessive)",
+      "reason": "Localization infrastructure for translating pronoun role keys; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 331,
+      "text": "{$key}",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 418,
+      "text": "{$paramName}",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 442,
+      "text": "{$paramName}",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 470,
+      "text": "${paramName}Color",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 472,
+      "text": "&$colorKey$value&$baseColorKey",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/i18n.dart",
+      "line": 482,
+      "text": "&$colorKey$value&$baseColorKey",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/untranslated_logger_io.dart",
+      "line": 45,
+      "text": "$_filePrefix$fileIndex$_fileExtension",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/untranslated_logger_io.dart",
+      "line": 46,
+      "text": "${_getLogDirectory().path}/$fileName",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/untranslated_logger_io.dart",
+      "line": 120,
+      "text": "${encoder.convert(existingData)}\\n",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/untranslated_logger_io.dart",
+      "line": 136,
+      "text": "$_filePrefix$i$_fileExtension",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
+    },
+    {
+      "file": "i18n/untranslated_logger_io.dart",
+      "line": 137,
+      "text": "${_getLogDirectory().path}/$fileName",
+      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "items/ammo_type_xml.dart",
@@ -451,30 +787,6 @@
       "line": 243,
       "text": "&Y$quality&x",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
-    },
-    {
-      "file": "items/loot_type_xml.dart",
-      "line": 21,
-      "text": "Unknown loot type key: $key",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "items/money.dart",
-      "line": 22,
-      "text": "\\$$stackSize",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "items/weapon_type_xml.dart",
-      "line": 82,
-      "text": "Unknown key $key in weapon type ${weapon.name}",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "items/weapon_type_xml.dart",
-      "line": 200,
-      "text": "Unknown key ${e.name.local} in attack",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "items/clothing_type_xml.dart",
@@ -525,6 +837,30 @@
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
+      "file": "items/loot_type_xml.dart",
+      "line": 21,
+      "text": "Unknown loot type key: $key",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "items/money.dart",
+      "line": 22,
+      "text": "\\$$stackSize",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "items/weapon_type_xml.dart",
+      "line": 82,
+      "text": "Unknown key $key in weapon type ${weapon.name}",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "items/weapon_type_xml.dart",
+      "line": 200,
+      "text": "Unknown key ${e.name.local} in attack",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
       "file": "location/city.dart",
       "line": 21,
       "text": "City$id",
@@ -537,16 +873,46 @@
       "reason": "Stable runtime identifier or asset path; never player-facing prose."
     },
     {
+      "file": "location/siege.dart",
+      "line": 288,
+      "text": "\\$$confiscated",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
       "file": "location/site.dart",
       "line": 214,
       "text": "Site$id",
       "reason": "Stable runtime identifier or asset path; never player-facing prose."
     },
     {
-      "file": "location/siege.dart",
-      "line": 288,
-      "text": "\\$$confiscated",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+      "file": "map_editor/map_editor_screen.dart",
+      "line": 71,
+      "text": "assets/maps/mapCSV_${name}_Tiles.csv",
+      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
+    },
+    {
+      "file": "map_editor/map_editor_screen.dart",
+      "line": 747,
+      "text": "mapCSV_$base${suffix}_Tiles.csv",
+      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
+    },
+    {
+      "file": "map_editor/map_editor_screen.dart",
+      "line": 751,
+      "text": "mapCSV_$base${suffix}_Specials.csv",
+      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
+    },
+    {
+      "file": "map_editor/map_editor_screen.dart",
+      "line": 760,
+      "text": "mapCSV_$base.zip",
+      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
+    },
+    {
+      "file": "map_editor/map_editor_screen.dart",
+      "line": 770,
+      "text": "mapCSV_$base.zip",
+      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
     },
     {
       "file": "monthly/lcs_monthly.dart",
@@ -562,7 +928,7 @@
     },
     {
       "file": "newspaper/display_news.dart",
-      "line": 471,
+      "line": 486,
       "text": "typesum: $typesum",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -591,16 +957,16 @@
       "reason": "Locale-neutral numeric percentage value passed to a complete translated template or diagnostic."
     },
     {
-      "file": "saveload/load_cpc_images.dart",
-      "line": 114,
-      "text": "${s[i]} glyph[$y][$x]: ${glyph[y][x]} ${String.fromCharCode(glyph[y][x])}",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
       "file": "saveload/load_cmv_movies.dart",
       "line": 34,
       "text": "assets/art/$filename",
       "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
+    },
+    {
+      "file": "saveload/load_cpc_images.dart",
+      "line": 153,
+      "text": "${s[i]} glyph[$y][$x]: ${glyph[y][x]} ${String.fromCharCode(glyph[y][x])}",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "saveload/load_xml_data.dart",
@@ -622,67 +988,67 @@
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 57,
+      "line": 70,
       "text": "gameVersion$gameId",
       "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 58,
+      "line": 71,
       "text": "savedGame$gameId",
       "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 59,
+      "line": 72,
       "text": "lastPlayed$gameId",
       "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 84,
-      "text": "gameVersion$gameId",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "saveload/save_load.dart",
-      "line": 85,
-      "text": "savedGame$gameId",
-      "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
-    },
-    {
-      "file": "saveload/save_load.dart",
-      "line": 86,
-      "text": "lastPlayed$gameId",
-      "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
-    },
-    {
-      "file": "saveload/save_load.dart",
-      "line": 301,
-      "text": "Generating crash report from ${selectedSave.version}",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "saveload/save_load.dart",
-      "line": 304,
-      "text": "Loading game from ${selectedSave.version}",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "saveload/save_load.dart",
-      "line": 351,
-      "text": "lcsna_${founderFirstName}_$now.json",
-      "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
-    },
-    {
-      "file": "saveload/save_load.dart",
-      "line": 74,
+      "line": 87,
       "text": "Error migrating save game $gameId: $e",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 427,
+      "line": 97,
+      "text": "gameVersion$gameId",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "saveload/save_load.dart",
+      "line": 98,
+      "text": "savedGame$gameId",
+      "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
+    },
+    {
+      "file": "saveload/save_load.dart",
+      "line": 99,
+      "text": "lastPlayed$gameId",
+      "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
+    },
+    {
+      "file": "saveload/save_load.dart",
+      "line": 356,
+      "text": "Generating crash report from ${selectedSave.version}",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "saveload/save_load.dart",
+      "line": 359,
+      "text": "Loading game from ${selectedSave.version}",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "saveload/save_load.dart",
+      "line": 406,
+      "text": "lcsna_${founderFirstName}_$now.json",
+      "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
+    },
+    {
+      "file": "saveload/save_load.dart",
+      "line": 482,
       "text": "Error loading save game $gameId: $e",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -696,48 +1062,6 @@
       "file": "saveload/storage/web_storage.dart",
       "line": 51,
       "text": "Error loading save game $gameId: $e",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 249,
-      "text": "\\$${(availableOptions[p] as ShopItem).price(false)}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 471,
-      "text": "\\$${(availableOptions[i] as ShopItem).price(false)}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 538,
-      "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 585,
-      "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 690,
-      "text": "\\$$fenceamount",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 720,
-      "text": "\\$$ret",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop_xml.dart",
-      "line": 83,
-      "text": "Invalid shop item in XML: ${xml.toXmlString()}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
@@ -822,6 +1146,48 @@
       "file": "sitemode/newencounter.dart",
       "line": 1126,
       "text": "Siege type ${activeSite!.siege.activeSiegeType} missing!",
+      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+    },
+    {
+      "file": "sitemode/shop.dart",
+      "line": 251,
+      "text": "\\$${(availableOptions[p] as ShopItem).price(false)}",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "sitemode/shop.dart",
+      "line": 472,
+      "text": "\\$${(availableOptions[i] as ShopItem).price(false)}",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "sitemode/shop.dart",
+      "line": 539,
+      "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "sitemode/shop.dart",
+      "line": 589,
+      "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "sitemode/shop.dart",
+      "line": 706,
+      "text": "\\$$fenceamount",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "sitemode/shop.dart",
+      "line": 736,
+      "text": "\\$$ret",
+      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+    },
+    {
+      "file": "sitemode/shop_xml.dart",
+      "line": 83,
+      "text": "Invalid shop item in XML: ${xml.toXmlString()}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
@@ -951,358 +1317,16 @@
       "reason": "Layout-only join of already rendered display tokens."
     },
     {
-      "file": "title_screen/title_screen.dart",
-      "line": 146,
-      "text": "&G${LcsI18n.tr(",
-      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
-    },
-    {
-      "file": "title_screen/title_screen.dart",
-      "line": 146,
-      "text": "&R${LcsI18n.tr(",
-      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
-    },
-    {
-      "file": "title_screen/title_screen.dart",
-      "line": 233,
-      "text": "&G$interfacePgUp&x",
-      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
-    },
-    {
-      "file": "title_screen/title_screen.dart",
-      "line": 233,
-      "text": "&G$interfacePgDown&x",
-      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
-    },
-    {
-      "file": "title_screen/title_screen.dart",
-      "line": 536,
-      "text": "&G${LcsI18n.tr(",
-      "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
+      "file": "title_screen/questions.dart",
+      "line": 51,
+      "text": "$current $word",
+      "reason": "Layout-only word wrapping join; input text is already translated before wrapping."
     },
     {
       "file": "utils/interface_options.dart",
       "line": 165,
       "text": "&B$s&x",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 75,
-      "text": "$locale",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 79,
-      "text": "$locale",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 90,
-      "text": "$locale",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 110,
-      "text": "$locale",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 135,
-      "text": "$normalizedKey",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 148,
-      "text": "$locale",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 158,
-      "text": "$locale",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 164,
-      "text": "$locale",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 194,
-      "text": "$englishText",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 219,
-      "text": "$englishText",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 252,
-      "text": "$englishText",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 276,
-      "text": "$englishText",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 280,
-      "text": "$englishText",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 18,
-      "text": "LcsI18nException: $message",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 51,
-      "text": "$locale::$englishText",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 65,
-      "text": "{${match.group(1)!}}",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 75,
-      "text": "LcsI18n: Already initialized with locale \"$locale\"",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 79,
-      "text": "LcsI18n: Initializing with locale \"$locale\"",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 90,
-      "text": "LcsI18n: Successfully initialized with locale \"$locale\"",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 110,
-      "text": "LcsI18n: No ARB files found for locale \"$locale\"",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 135,
-      "text": "LcsI18n: WARNING - Duplicate key \"$normalizedKey\" found in $file (previously loaded)",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 142,
-      "text": "LcsI18n: Failed to load $file: $e",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 148,
-      "text": "LcsI18n: ERROR - Found ${duplicateKeys.length} duplicate keys across ${localeFiles.length} files for locale \"$locale\"",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 151,
-      "text": "LcsI18n: Duplicate keys: ${duplicateKeys.take(5).join(\", \")}${duplicateKeys.length > 5 ? \"...\" : \"\"}",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 158,
-      "text": "LcsI18n: Loaded ${mergedTranslations.length} translations from ${localeFiles.length} file(s) for locale \"$locale\"",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 164,
-      "text": "LcsI18n: Failed to load locale \"$locale\": $e",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 194,
-      "text": "LcsI18n: Not initialized, returning original text: \"$englishText\"",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 219,
-      "text": "LcsI18n: WARNING - Untranslated string in $_currentLocale: \"$englishText\"",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 252,
-      "text": "LcsI18n: Translation error for \"$englishText\": $e",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 276,
-      "text": "LcsI18n: Using English fallback for \"$englishText\" in $_currentLocale",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 280,
-      "text": "LcsI18n: Missing translation for \"$englishText\" in $_currentLocale",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 315,
-      "text": "$pronoun (possessive)",
-      "reason": "Localization infrastructure for translating pronoun role keys; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 331,
-      "text": "{$key}",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 418,
-      "text": "{$paramName}",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 442,
-      "text": "{$paramName}",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 470,
-      "text": "${paramName}Color",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 472,
-      "text": "&$colorKey$value&$baseColorKey",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/i18n.dart",
-      "line": 482,
-      "text": "&$colorKey$value&$baseColorKey",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/catalog_layout.dart",
-      "line": 121,
-      "text": "app_${locale}_part$padded.arb",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/untranslated_logger_io.dart",
-      "line": 45,
-      "text": "$_filePrefix$fileIndex$_fileExtension",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/untranslated_logger_io.dart",
-      "line": 46,
-      "text": "${_getLogDirectory().path}/$fileName",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/untranslated_logger_io.dart",
-      "line": 120,
-      "text": "${encoder.convert(existingData)}\\n",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/untranslated_logger_io.dart",
-      "line": 136,
-      "text": "$_filePrefix$i$_fileExtension",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/untranslated_logger_io.dart",
-      "line": 137,
-      "text": "${_getLogDirectory().path}/$fileName",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/catalog_audit.dart",
-      "line": 158,
-      "text": "{${match.group(1)!}}",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/catalog_audit.dart",
-      "line": 179,
-      "text": "ARB directory not found: $arbDirPath",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/catalog_audit.dart",
-      "line": 297,
-      "text": "^app_${RegExp.escape(locale)}_part(\\\\d+)\\\\.arb\\$",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "i18n/catalog_audit.dart",
-      "line": 363,
-      "text": "${name}Color",
-      "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
-    },
-    {
-      "file": "map_editor/map_editor_screen.dart",
-      "line": 71,
-      "text": "assets/maps/mapCSV_${name}_Tiles.csv",
-      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
-    },
-    {
-      "file": "map_editor/map_editor_screen.dart",
-      "line": 747,
-      "text": "mapCSV_$base${suffix}_Tiles.csv",
-      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
-    },
-    {
-      "file": "map_editor/map_editor_screen.dart",
-      "line": 751,
-      "text": "mapCSV_$base${suffix}_Specials.csv",
-      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
-    },
-    {
-      "file": "map_editor/map_editor_screen.dart",
-      "line": 760,
-      "text": "mapCSV_$base.zip",
-      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
-    },
-    {
-      "file": "map_editor/map_editor_screen.dart",
-      "line": 770,
-      "text": "mapCSV_$base.zip",
-      "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
     }
   ]
 }

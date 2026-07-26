@@ -33,6 +33,12 @@
 | PT-027 | Medium | Coverage | Character profile retains English labels and body-part names |
 | PT-028 | Medium | Layout | Roster footer truncates the final character of a Portuguese action |
 | PT-029 | Low | Layout | Founder-option continuation text is not aligned with the option |
+| PT-030 | Medium | Title layout | Long founder names collide with the title-screen continue option |
+| PT-031 | High | Coverage | Activate-regulars submenus retain English activity labels |
+| PT-032 | Medium | Activity layout | Long activity descriptions clip at the console edge |
+| PT-033 | Medium | Coverage | Siege and election event strings remain untranslated |
+| PT-034 | Medium | Layout | Portuguese date header collides with activity text |
+| PT-035 | Low | Layout | Base-mode activism option is ellipsized in Portuguese |
 
 ## PT-001: Save-management option is clipped
 
@@ -868,3 +874,125 @@ not clipped, but the indentation changes between otherwise equivalent choices.
 
 Use the same continuation indentation for every wrapped founder option so the
 key, option text, and continuation lines form a consistent block.
+
+## PT-030: Long founder names collide with the title-screen continue option
+
+- Severity: Medium
+- Type: Fixed-width layout / option collision
+- Screen: Portuguese title screen after creating a founder
+- Replay status: **Open from the 2026-07-26 verification pass**
+
+### Actual
+
+After creating a long founder name, the title option `C - Continuar como Bree
+Underdown` runs directly into the right-column `L - Carregar e gerenciar
+salvamentos`, rendering the boundary as `UnderdownL`.
+
+### Expected / suggestion
+
+Fit the continue label to its left-column budget, or wrap it within that column,
+so the right-column save option always starts in its own cell.
+
+## PT-031: Activate-regulars submenus retain English activity labels
+
+- Severity: High
+- Type: Missing translation / activity taxonomy
+- Screen: Assign Tasks → selected Liberal activity menu
+- Replay status: **Fixed and covered by the 2026-07-26 headless verification pass**
+
+### Actual (before fix)
+
+Portuguese activity categories are followed by English sub-actions, including
+`Community Service`, `Liberal Disobedience`, `Graffiti`, `Hacking (Need Den)`,
+`Stream Guardian TV (Need Studio)`, `Solicit Donations`, `Make and Sell
+Clothing`, `Make and Sell Art`, `Perform Live Music`, `Practice a Skill (Free)`,
+`Take Paid Classes ($30/day)`, `Recruiting`, `Steal a Car`, `Make Clothing`,
+`Teach Liberal Arts`, `Teach Covert Ops`, `Teach Fighting`, and `Go to Hospital`.
+
+### Expected / suggestion
+
+Translate the complete activity taxonomy at the call site, including
+availability qualifiers such as `Need Den`, `Need Studio`, `Free`, and the
+daily price. Keep the labels short enough for the two-column menu.
+
+## PT-032: Long activity descriptions clip at the console edge
+
+- Severity: Medium
+- Type: Fixed-width layout / generated description
+- Screen: Assign Tasks → selected Liberal activity menu
+- Replay status: **Fixed and covered by the 2026-07-26 headless verification pass**
+
+### Actual (before fix)
+
+The selected recruitment activity description ends at the right edge before its
+final words, for example `Lavar e remendar roupas são tratados por Liberais
+configurados para m...`. The health-support description also approaches the
+same boundary without a stable wrap budget.
+
+### Expected / suggestion
+
+Wrap or fit activity descriptions before rendering them, reserving the full
+80-column width and keeping each continuation line inside the console.
+
+## PT-033: Siege and election event strings remain untranslated
+
+- Severity: Medium
+- Type: Missing translation / event coverage
+- Screens: Siege alerts, election month-end messages, and emergency events
+- Replay status: **Open; extracted during the 2026-07-26 Portuguese audit**
+
+### Actual
+
+The locale extractor still reports English fallbacks for fifteen live strings:
+`A skilled pilot gets through!`, `Explosions rock the compound!`,
+`Fortunately, no one was hurt.`, `Planes streak overhead!`, `The anti-aircraft
+gun takes a direct hit!`, `The generator takes a direct hit!`, `The lights fade
+and all goes dark...`, `The solar panels take a direct hit!`, `There's nothing
+left but smoking wreckage...`, `Your Liberals are starving!`, `Congressional
+Elections are being held today!`, `Local elections are being held today!`, `The
+Presidential Election is being held today!`, `The Supreme court is handing down
+decisions!`, and the car-theft header `TYPE`.
+
+### Expected / suggestion
+
+Add concise Brazilian Portuguese catalog entries for each string, preserving
+the existing uppercase/event-banner style and keeping `TYPE` short enough for
+the car-selection table. Re-run the extractor after adding the entries so this
+residual list stays empty.
+
+## PT-034: Portuguese date header collides with activity text
+
+- Severity: Medium
+- Type: Fixed-width layout / date formatting
+- Screen: Base-mode location header with an active squad
+- Replay status: **Open from the 2026-07-26 headless verification pass**
+
+### Actual
+
+The Portuguese date expands to `1 de Jan de ...` and runs into the activity
+description rendered at column 41. In the captured screen, the year is replaced
+by the squad text, producing `1 de Jan de Mantendo Discrição`.
+
+### Expected / suggestion
+
+Reserve non-overlapping header columns for the localized date, funds, and active
+activity description. Fit or wrap the date before the activity column rather
+than allowing later text to overwrite it.
+
+## PT-035: Base-mode activism option is ellipsized in Portuguese
+
+- Severity: Low
+- Type: Fixed-width layout / option fit
+- Screen: Base-mode action menu
+- Replay status: **Open from the 2026-07-26 headless verification pass**
+
+### Actual
+
+The Portuguese `P - Orgulho: Hastear uma bandeira...` option is shortened with
+an ellipsis in the 40-column action area. The key remains usable, but the action
+name is less informative than the English counterpart.
+
+### Expected / suggestion
+
+Use a concise Portuguese label or a deliberate two-line layout so the complete
+action remains discoverable within the fixed-width menu.

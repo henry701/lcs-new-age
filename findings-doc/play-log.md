@@ -301,6 +301,11 @@ The following residual issues remain open for future work:
 - PT-028: the roster footer clips the final `o` from `esquadrão`.
 - PT-029: one long founder-option continuation line starts at column zero
   instead of following the option indentation.
+- PT-030: a long founder name makes the title-screen continue option collide
+  with the save-management column.
+- PT-031: activate-regulars submenus expose English sub-action labels across
+  activism, fundraising, education, recruitment, teaching, and health.
+- PT-032: long activity descriptions clip at the fixed console edge.
 
 The major-event newspaper was not reached in this replay, so its previously
 verified renderer and translation fixes were not re-tested here. These items
@@ -315,3 +320,13 @@ resolved PT-001–PT-024 records.
 - Other cities and viewport sizes
 
 These remain useful targets for a follow-up runtime pass.
+
+## Headless buffer verification — 2026-07-26
+
+- Launched the web build at `/?playtest=1` and read the live 80×25 console from
+  `#lcs-playtest-buffer`; no OCR or screenshot was needed for text checks.
+- Replayed language selection, new-game biography, founder entry, and the first
+  Portuguese base-mode screen.
+- Confirmed the activity-menu fixes are rendered in the live build.
+- Added PT-034 (date/activity header collision) and PT-035 (ellipsized activism
+  option) to the tracker. PT-033 event strings remain open.

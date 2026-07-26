@@ -76,7 +76,10 @@ Future<void> reviewAssetsAndFormSquads() async {
           letter,
           "{letter} - {name}",
           baseColorKey: active ? "W" : "w",
-          params: {"letter": letter, "name": squads[p].name},
+          params: {
+            "letter": letter,
+            "name": localizedSquadName(squads[p].name),
+          },
         );
 
         if (squads[p].members.isNotEmpty &&
@@ -880,8 +883,9 @@ Future<void> assembleSquad(Squad? cursquad) async {
       move(0, 71);
       addstr("New Squad");
     } else {
-      move(0, 73 - cursquad.name.length);
-      addstr("Squad: {name}", params: {"name": cursquad.name});
+      final displayedName = localizedSquadName(cursquad.name);
+      move(0, 73 - displayedName.length);
+      addstr("Squad: {name}", params: {"name": displayedName});
     }
 
     addHeader({
@@ -950,7 +954,13 @@ Future<void> assembleSquad(Squad? cursquad) async {
 
       printHealthStat(y, 34, tempp);
 
-      mvaddstrc(y, 46, tempp.align.color, tempp.type.name);
+      mvaddstrc(
+        y,
+        46,
+        tempp.align.color,
+        LcsI18n.tr(tempp.type.name),
+        noTranslate: true,
+      );
       mvaddstrc(
         y,
         63,

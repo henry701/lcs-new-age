@@ -1496,4 +1496,62 @@ void main() {
       expect(catalog['unknown skill'], 'habilidade desconhecida');
     },
   );
+
+  test('activity menus translate Portuguese labels and prompts', () {
+    const expected = {
+      '1 - Community Service': '1 - Serviço Comunitário',
+      '2 - Liberal Disobedience': '2 - Desobediência Liberal',
+      '3 - Graffiti': '3 - Grafite',
+      '4 - Hacking (Need Den)': '4 - Hackeamento (Precisa de Covil)',
+      '6 - Stream Guardian TV (Need Studio)':
+          '6 - TV Guardião (Precisa de Estúdio)',
+      '1 - Solicit Donations': '1 - Solicitar Doações',
+      '2 - Make and Sell Clothing': '2 - Fazer e Vender Roupas',
+      '3 - Make and Sell Art': '3 - Fazer e Vender Arte',
+      '4 - Perform Live Music': '4 - Fazer Música ao Vivo',
+      '1 - Recruiting': '1 - Recrutar',
+      '2 - Steal a Car': '2 - Roubar um Carro',
+      '3 - Make Clothing': '3 - Fazer Roupas',
+      '1 - Practice a Skill (Free)': '1 - Praticar uma Habilidade (Grátis)',
+      '2 - Take Paid Classes (\$30/day)':
+          '2 - Fazer Aulas Pagas (\$30/dia)',
+      '1 - Teach Liberal Arts': '1 - Ensinar Artes Liberais',
+      '2 - Teach Covert Ops': '2 - Ensinar Operações Secretas',
+      '3 - Teach Fighting': '3 - Ensinar Luta',
+      '1 - Go to the Hospital': '1 - Ir ao Hospital',
+      'COST': 'CUSTO',
+      'DIFFICULTY': 'DIFICULDADE',
+      'FLAG': 'BANDEIRA',
+      'ISSUE': 'QUESTÃO',
+      'HEAT': 'CALOR',
+      'DESCRIPTION': 'DESCRIÇÃO',
+      'HOSTAGE NAME': 'NOME DO REFÉM',
+      'What skill will {name} {flavor}?':
+          'Que habilidade {name} vai {flavor}?',
+      'Press a Letter to select a Type of Clothing':
+          'Pressione uma letra para selecionar um tipo de roupa',
+      'Crafted flags are stored in your safehouse inventory.':
+          'Bandeiras criadas ficam no inventário do esconderijo.',
+      'Press a Letter to select a Skill':
+          'Pressione uma letra para selecionar uma habilidade',
+      'Which hostage will {name} be watching over?':
+          'Qual refém {name} vai vigiar?',
+      'Press a Letter to select a Hostage':
+          'Pressione uma letra para selecionar um refém',
+      'What type of car will {name} try to find and steal today?':
+          'Que tipo de carro {name} tentará encontrar e roubar hoje?',
+      'DIFFICULTY TO FIND UNATTENDED': 'DIFICULDADE DE ENCONTRAR',
+      'Press a Letter to select a Type of Car':
+          'Pressione uma letra para selecionar um tipo de carro',
+      'DIFFICULTY TO ARRANGE MEETING': 'DIFICULDADE PARA MARCAR',
+      'Press a Letter to select a Profession':
+          'Pressione uma letra para selecionar uma profissão',
+      'Do you want to publish secrets in the Liberal Guardian?':
+          'Deseja publicar segredos no Guardião Liberal?',
+      'SECRETS POSSESSED': 'SEGREDOS EM POSSE',
+    };
+    for (final entry in expected.entries) {
+      expect(catalog[entry.key], entry.value, reason: entry.key);
+    }
+  });
 }

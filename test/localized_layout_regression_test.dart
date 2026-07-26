@@ -1,8 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/saveload/save_load.dart';
 import 'package:lcs_new_age/title_screen/title_screen.dart';
+import 'package:lcs_new_age/utils/colors.dart';
 
 String _consoleLine(int y) =>
     console.buffer[y].map((character) => character.glyph).join().trimRight();
@@ -29,11 +31,80 @@ void main() {
     expect(console.x, lessThanOrEqualTo(titleMenuRightEdgeExclusive));
   });
 
+  test(
+    'long Portuguese continue-founder option cannot collide with right column',
+    () {
+      addOptionTextFitted(
+        11,
+        titleMenuLeftColumnX,
+        'C',
+        'C - Continue as {founder:color}',
+        titleMenuLeftColumnWidth,
+        params: {'founder': 'Bree Underdown', 'founderColor': 'G'},
+      );
+      addOptionText(11, titleMenuRightColumnX, 'L', 'L - Load & Manage Saves');
+
+      expect(
+        _consoleLine(11).substring(titleMenuLeftColumnX, titleMenuRightColumnX),
+        isNot(contains('UnderdownL')),
+      );
+      expect(console.x, lessThanOrEqualTo(titleMenuRightEdgeExclusive));
+    },
+  );
+
+  test('Portuguese regular-activity submenu labels translate and fit', () {
+    const labels = {
+      '1 - Community Service': '1 - Serviço Comunitário',
+      '2 - Liberal Disobedience': '2 - Desobediência Liberal',
+      '3 - Graffiti': '3 - Grafite',
+      '4 - Hacking (Need Den)': '4 - Hackeamento (Precisa de Covil)',
+      '6 - Stream Guardian TV (Need Studio)':
+          '6 - TV Guardião (Precisa de Estúdio)',
+      '1 - Solicit Donations': '1 - Solicitar Doações',
+      '2 - Make and Sell Clothing': '2 - Fazer e Vender Roupas',
+      '3 - Make and Sell Art': '3 - Fazer e Vender Arte',
+      '4 - Perform Live Music': '4 - Fazer Música ao Vivo',
+      '1 - Practice a Skill (Free)': '1 - Praticar uma Habilidade (Grátis)',
+      '2 - Take Paid Classes (\$30/day)': '2 - Fazer Aulas Pagas (\$30/dia)',
+      '1 - Recruiting': '1 - Recrutar',
+      '2 - Steal a Car': '2 - Roubar um Carro',
+      '3 - Make Clothing': '3 - Fazer Roupas',
+      '1 - Teach Liberal Arts': '1 - Ensinar Artes Liberais',
+      '2 - Teach Covert Ops': '2 - Ensinar Operações Secretas',
+      '3 - Teach Fighting': '3 - Ensinar Luta',
+      '1 - Go to the Hospital': '1 - Ir ao Hospital',
+    };
+
+    var y = 0;
+    for (final entry in labels.entries) {
+      addOptionTextFitted(y++, 40, entry.key[0], entry.key, 40);
+      final line = _consoleLine(y - 1);
+      expect(line, contains(entry.value));
+      expect(line.length, lessThanOrEqualTo(80));
+      expect(line, isNot(contains(entry.key.substring(4))));
+    }
+  });
+
+  test('Portuguese acquisition footer stays inside the right column', () {
+    mvaddstrcFitted(0, 40, lightGray, 'Laundry and mending clothing are', 40);
+    mvaddstrcFitted(
+      1,
+      40,
+      lightGray,
+      'handled by Liberals set to Lay Low.',
+      40,
+    );
+
+    expect(_consoleLine(0), contains('Lavar e remendar roupas são'));
+    expect(_consoleLine(0).length, lessThanOrEqualTo(80));
+    expect(_consoleLine(1).length, lessThanOrEqualTo(80));
+  });
+
   test('Portuguese save-list cells do not merge at column boundaries', () {
     renderSaveMenuListRow(
       y: 2,
       key: 'A',
-      inGameDate: '6 de Jan de 2023',
+      inGameDate: '6 de jan de 2023',
       founder: 'Justin Arafata',
       lastPlayed: '18 de Jul de 2026',
       version: '1.5.5',
@@ -85,6 +156,17 @@ void main() {
     );
 
     expect(_consoleLine(24), equals('Qualquer outra tecla - continue a Luta'));
+  });
+
+  test('Portuguese squadless-base footer fits without truncation', () {
+    addOptionText(24, 0, 'Z', 'Z - Assemble a New Squad.  ');
+    addInlineOptionText('T', 'T - Assign New Bases to the Squadless.');
+
+    expect(
+      _consoleLine(24),
+      endsWith('T - Atribuir bases aos Liberais sem esquadrão.'),
+    );
+    expect(_consoleLine(24).length, lessThanOrEqualTo(80));
   });
 
   test('wrapped inline options move intact to the next console row', () {

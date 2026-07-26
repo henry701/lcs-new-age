@@ -4,6 +4,8 @@ import 'package:lcs_new_age/engine/changelog.dart';
 import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/console_char.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/engine/playtest_bridge_stub.dart'
+    if (dart.library.js_interop) 'package:lcs_new_age/engine/playtest_bridge_web.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:pixel_snap/material.dart';
@@ -80,16 +82,19 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
     focusNode = FocusNode(onKeyEvent: _onKeyEvent);
     focusNode.addListener(_handleFocusChange);
     focusAttachment = focusNode.attach(context);
-    widget.console.flush = () {
-      console.stale = true;
-      setState(() {});
-    };
+    widget.console.flush = _flushConsole;
     textEditingController.addListener(() {
       if (textEditingController.text == " ") return;
       onTextChanged(textEditingController.text);
       textEditingController.text = " ";
     });
     super.initState();
+  }
+
+  void _flushConsole() {
+    console.stale = true;
+    PlaytestBridge.publish(console);
+    setState(() {});
   }
 
   KeyEventResult _onKeyEvent(FocusNode node, KeyEvent value) {
@@ -106,7 +111,6 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
           LogicalKeyboardKey.metaRight,
           LogicalKeyboardKey.altGraph,
         ].contains(value.logicalKey)) {
-      //debugPrint("Key event: $value");
       console.keyEvent(value);
       return KeyEventResult.handled;
     }
@@ -136,7 +140,7 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
   @override
   void didChangeDependencies() {
     fontSize = gameOptions.fontSize;
-    widget.console.flush = () => setState(() {});
+    widget.console.flush = _flushConsole;
     super.didChangeDependencies();
     TextSpan fg = consoleDataToTextSpan(false);
     TextPainter textPainter = TextPainter(

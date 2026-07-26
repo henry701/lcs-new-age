@@ -42,7 +42,7 @@ void main() {
       _consoleLine(0),
       equals(
         '  EUA  POLÍTICA  NEGÓCIOS  MUNDO  COMIDA  ESTILO DE VIDA'
-        '       3 de Jan de 2023',
+        '       3 de jan de 2023',
       ),
     );
     expect(_consoleLine(1), endsWith('ASSINE \$3/SEM'));

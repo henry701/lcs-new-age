@@ -13,9 +13,9 @@ build, played in Brazilian Portuguese.
 - Initial constraint: findings and evidence only. The user later authorized
   fixes, so resolved findings now include regression tests and implementation
   notes.
-- Latest replay: Portuguese verification pass on `feature/localization` at
-  `0e59a38`; residual findings are recorded in `findings.md` as PT-025–PT-029
-  and the replay details are recorded in `play-log.md`.
+- Latest replay: 2026-07-26 headless Portuguese verification on
+  `feature/localization`; residual findings are recorded in `findings.md` as
+  PT-025–PT-035 and the replay details are recorded in `play-log.md`.
 
 ## Lightweight agent method
 
@@ -43,4 +43,5 @@ state and hybrid GUI agents:
 
 - `findings.md`: prioritized findings with evidence and reproduction steps
 - `play-log.md`: explored paths and observed screens
+- `headless-playtest.md`: DOM buffer and option-capture workflow for automation
 - `screenshots/`: visual evidence referenced by the findings

@@ -420,7 +420,7 @@ void baseModeOptionsDisplay(Site? loc) {
       8,
       leftColumnX,
       lightGray,
-      activeSquad?.name ?? "",
+      localizedSquadName(activeSquad?.name ?? ""),
       29,
       noTranslate: true,
     );

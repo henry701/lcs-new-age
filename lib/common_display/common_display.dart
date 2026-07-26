@@ -19,6 +19,14 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 const emDash = "—";
 
+/// Localizes the built-in squad name while preserving player-created names.
+///
+/// Older saves store the default name in English, so rendering alone must
+/// handle both newly-created and legacy squads without translating arbitrary
+/// player input.
+String localizedSquadName(String name) =>
+    name == "The Liberal Crime Squad" ? LcsI18n.tr(name) : name;
+
 abstract final class ManagementTableLayout {
   static const int consoleWidth = 80;
   static const int nameX = 0;

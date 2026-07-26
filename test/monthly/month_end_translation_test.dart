@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/gamestate/time.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/monthly/lcs_monthly.dart';
 
@@ -71,6 +72,15 @@ void main() {
       expect(english[entry.key], entry.key, reason: entry.key);
       expect(portuguese[entry.key], entry.value, reason: entry.key);
     }
+  });
+
+  test('Portuguese month names and abbreviations are localized', () async {
+    await LcsI18n.initialize('pt_BR');
+
+    expect(getMonth(1), equals('Janeiro'));
+    expect(getMonth(2), equals('Fevereiro'));
+    expect(getMonthShort(1), equals('jan'));
+    expect(getMonthShort(2), equals('fev'));
   });
 
   test(

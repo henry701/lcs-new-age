@@ -128,6 +128,19 @@ void main() {
     expect(rendered, contains('+2 Agilidade, 30 de Junho'));
   });
 
+  test('wrapped biography option continuations stay indented', () {
+    const option =
+        'This biography answer is deliberately long enough to require a second line in the fixed-width console.';
+
+    renderCharacterCreationPrompt(
+      question: 'In the moments after I was born in 2004...',
+      answers: const [(option: option, description: '', params: null)],
+      choose: true,
+    );
+
+    expect(_consoleLine(12).substring(0, 4), equals('    '));
+  });
+
   test('volunteer answer uses a translated capitalized pronoun', () {
     expect(
       localizedVolunteerCandidateOption(),

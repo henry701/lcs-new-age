@@ -250,12 +250,28 @@ void main() {
 
     final rendered = _consoleText();
     expect(rendered, contains('Acampamento sem-teto'));
+    expect(rendered, contains('O Esquadrão do Crime Liberal'));
     expect(rendered, contains('Mantendo Discrição'));
     expect(rendered, contains('Precisamos mesmo de um slogan!'));
     expect(rendered, isNot(contains('Homeless Camp')));
     expect(rendered, isNot(contains('Laying Low')));
     expect(rendered, isNot(contains('We really need a slogan!')));
     expect(founder.activity.type, ActivityType.none);
+  });
+
+  test('Portuguese character profiles localize profession and body labels', () {
+    final founder = _founder()
+      ..type = creatureTypes[CreatureTypeIds.highschoolDropout]!;
+
+    printFullCreatureStats(founder);
+
+    final rendered = _consoleText();
+    expect(rendered, contains('Evadido do Ensino Médio'));
+    expect(rendered, contains('Perna esq'));
+    expect(rendered, contains('Braço dir'));
+    expect(rendered, isNot(contains('Highschool Dropout')));
+    expect(rendered, isNot(contains('Left Leg')));
+    expect(rendered, isNot(contains('Right Arm')));
   });
 
   test('Portuguese catalog covers every shared skill label', () {

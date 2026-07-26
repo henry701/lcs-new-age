@@ -267,7 +267,7 @@ void printWounds(Creature cr, {int y = 2, int x = 49, int? maxWidth}) {
         x,
         "{name}:",
         nameWidth - 1,
-        params: {"name": p.name},
+        params: {"name": LcsI18n.tr(p.name)},
       );
     }
     move(y + i, statusX);

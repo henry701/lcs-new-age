@@ -25,6 +25,7 @@
   "-BEEEP- -BEEEP- -BEEEP-": "-BIIIP- -BIIIP- -BIIIP-",
   "...and now the computer is playing tic-tac-toe against itself.": "...e agora o computador está jogando jogo da velha contra si mesmo.",
   ".50 AE Ammo": "Munição .50 AE",
+  "2 - Take Paid Classes ($30/day)": "2 - Fazer Aulas Pagas ($30/dia)",
   "@Portuguese: {status}": {
     "placeholders": {
       "status": {
@@ -60,6 +61,7 @@
   "All work is voluntary and unpaid, and people are free to pursue their passions.": "Todo trabalho é voluntário e não remunerado, e as pessoas são livres para seguir suas paixões.",
   "Amazing": "Incrível",
   "An engraved hammer with a short shaft, inspired by Mjölnir.": "Martelo gravado de cabo curto, inspirado no Mjölnir.",
+  "Aug": "ago",
   "B - Back to Options": "B - Voltar às opções",
   "Ban Torture Techniques": "Banir Técnicas de Tortura",
   "Because the oligarchy grows tiresome": "Porque a oligarquia já cansou",
@@ -108,6 +110,7 @@
   "Only changes the prompts. All options are accepted regardless. ": "Altera apenas os prompts. Todas as opções são aceitas independentemente.",
   "Pasadena, TX": "Pasadena, Texas",
   "President {name} has leaked {description}.": "O presidente {name} vazou {description}.",
+  "Press a Letter to select a Hostage": "Pressione uma letra para selecionar um refém",
   "Press any key to watch the State votes unfold.              ": "Pressione qualquer tecla para acompanhar o desenrolar da votação nos estados.              ",
   "Promote Green Energy": "Promover Energia Verde",
   "Protect Animal Welfare": "Proteger o Bem-Estar Animal",

@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/sort_creatures.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
@@ -55,7 +56,7 @@ Future<void> activateSleepers() async {
         params: {"letter": letter, "name": tempp.name},
       );
 
-      mvaddstr(y, 24, tempp.type.name);
+      mvaddstr(y, 24, LcsI18n.tr(tempp.type.name), noTranslate: true);
 
       mvaddstr(y + 1, 6, "Effectiveness: ");
 
@@ -434,7 +435,7 @@ Future<void> activateSleepersBulk() async {
         params: {"letter": letter, "name": tempp.name},
       );
       setColor(lightGray);
-      mvaddstr(y, 20, tempp.type.name);
+      mvaddstr(y, 20, LcsI18n.tr(tempp.type.name), noTranslate: true);
 
       // Show infiltration level with color coding
       if (tempp.infiltration > 0.8) {

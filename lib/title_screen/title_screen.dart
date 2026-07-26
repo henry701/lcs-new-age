@@ -21,7 +21,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String gameVersion = "1.5.5.HF.1-SNAPSHOT";
 const String gameSaveCompatVersion = "1.5.5";
+const int titleMenuLeftColumnX = 10;
 const int titleMenuRightColumnX = 42;
+const int titleMenuLeftColumnWidth =
+    titleMenuRightColumnX - titleMenuLeftColumnX - 1;
 const int titleMenuRightEdgeExclusive = 78;
 bool megaFounderCheat = false;
 
@@ -65,11 +68,12 @@ Future<void> titleScreen() async {
   setColor(white);
   mvaddstrCenter(10, "Select an Option to Pursue your Liberal Agenda");
   setColor(lightGray);
-  addOptionText(
+  addOptionTextFitted(
     11,
-    10,
+    titleMenuLeftColumnX,
     "C",
     continueText,
+    titleMenuLeftColumnWidth,
     enabledWhen: lastGameId != null,
     params: continueParams,
   );
@@ -80,7 +84,7 @@ Future<void> titleScreen() async {
     "L - Load & Manage Saves",
     enabledWhen: hasSaves,
   );
-  addOptionText(12, 10, "N", "N - Start a New Game");
+  addOptionText(12, titleMenuLeftColumnX, "N", "N - Start a New Game");
   addOptionText(12, titleMenuRightColumnX, "I", "I - Import a Save");
   addOptionText(
     13,

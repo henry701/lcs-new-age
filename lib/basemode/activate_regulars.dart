@@ -258,6 +258,8 @@ Future<void> assignTask(Creature c) async {
 
 int _y = 10;
 ActivityType _highlightedActivity = ActivityType.none;
+const int _subActivityX = 40;
+const int _subActivityWidth = 40;
 void _category(
   List<ActivityType> category,
   String desc,
@@ -277,23 +279,44 @@ void _activity(
   bool ignore, {
   int x = 1,
   bool grayOut = false,
+  int? maxWidth,
 }) {
   String colorKey = "w";
   if (!ignore && activity == _highlightedActivity) {
     colorKey = "C";
   }
-  addOptionText(
-    _y++,
-    x,
-    desc[0],
-    desc,
-    baseColorKey: colorKey,
-    enabledWhen: !grayOut,
-  );
+  final y = _y++;
+  if (maxWidth == null) {
+    addOptionText(
+      y,
+      x,
+      desc[0],
+      desc,
+      baseColorKey: colorKey,
+      enabledWhen: !grayOut,
+    );
+  } else {
+    addOptionTextFitted(
+      y,
+      x,
+      desc[0],
+      desc,
+      maxWidth,
+      baseColorKey: colorKey,
+      enabledWhen: !grayOut,
+    );
+  }
 }
 
 void _subActivity(ActivityType activity, String desc, {bool greyOut = false}) {
-  _activity(activity, desc, false, x: 40, grayOut: greyOut);
+  _activity(
+    activity,
+    desc,
+    false,
+    x: _subActivityX,
+    grayOut: greyOut,
+    maxWidth: _subActivityWidth,
+  );
 }
 
 void _activismSubmenu(Creature c) {
@@ -438,8 +461,20 @@ void _acquisitionSubmenu(Creature c) {
   );
 
   _y++;
-  mvaddstrc(_y++, 40, midGray, "Laundry and mending clothing are");
-  mvaddstrc(_y++, 40, midGray, "handled by Liberals set to Lay Low.");
+  mvaddstrcFitted(
+    _y++,
+    _subActivityX,
+    midGray,
+    "Laundry and mending clothing are",
+    _subActivityWidth,
+  );
+  mvaddstrcFitted(
+    _y++,
+    _subActivityX,
+    midGray,
+    "handled by Liberals set to Lay Low.",
+    _subActivityWidth,
+  );
 }
 
 Future<void> _acquisitionChoice(Creature c, int choice) async {

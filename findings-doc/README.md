@@ -14,8 +14,8 @@ build, played in Brazilian Portuguese.
   fixes, so resolved findings now include regression tests and implementation
   notes.
 - Latest replay: 2026-07-26 headless Portuguese verification on
-  `feature/localization`; residual findings are recorded in `findings.md` as
-  PT-025–PT-035 and the replay details are recorded in `play-log.md`.
+  `feature/localization`; it resolved PT-025–PT-035 and the replay details are
+  recorded in `play-log.md`.
 
 ## Lightweight agent method
 

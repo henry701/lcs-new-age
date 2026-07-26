@@ -1554,4 +1554,36 @@ void main() {
       expect(catalog[entry.key], entry.value, reason: entry.key);
     }
   });
+
+  test('siege and election alerts are translated in context', () {
+    const expected = {
+      'A skilled pilot gets through!': 'Um piloto habilidoso consegue passar!',
+      'Congressional Elections are being held today!':
+          'As eleições para o Congresso acontecem hoje!',
+      'Explosions rock the compound!': 'Explosões sacodem o complexo!',
+      'Fortunately, no one was hurt.': 'Felizmente, ninguém ficou ferido.',
+      'Local elections are being held today!':
+          'As eleições locais acontecem hoje!',
+      'Planes streak overhead!': 'Aviões riscam o céu!',
+      'TYPE': 'TIPO',
+      'The Presidential Election is being held today!':
+          'A eleição presidencial acontece hoje!',
+      'The Supreme court is handing down decisions!':
+          'A Suprema Corte está proferindo decisões!',
+      'The anti-aircraft gun takes a direct hit!':
+          'O canhão antiaéreo é atingido em cheio!',
+      'The generator takes a direct hit!':
+          'O gerador é atingido em cheio!',
+      'The lights fade and all goes dark...':
+          'As luzes se apagam e tudo fica escuro...',
+      'The solar panels take a direct hit!':
+          'Os painéis solares são atingidos em cheio!',
+      "There's nothing left but smoking wreckage...":
+          'Não resta nada além de destroços fumegantes...',
+      'Your Liberals are starving!': 'Seus Liberais estão passando fome!',
+    };
+    for (final entry in expected.entries) {
+      expect(catalog[entry.key], entry.value, reason: entry.key);
+    }
+  });
 }

@@ -788,25 +788,24 @@ creature name is not mutated.
 - Severity: Medium
 - Type: Missing translation / date formatting
 - Screens: Base header and month rollover
-- Replay status: **Open from the 2026-07-26 verification pass**
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
 
-### Actual
+### Actual (before fix)
 
 Portuguese date strings still use English month abbreviations, including
 `1 de Jan de 2023`, `31 de Jan`, and the post-rollover `1 de Feb`.
 
-### Expected / suggestion
+### Resolution
 
-Use Portuguese month names or abbreviations consistently (`jan`, `fev`, and so
-on) in every date formatter used by the base, event, and rollover screens.
-Keep the existing Portuguese day/year structure.
+The month abbreviation catalog is now used by the fitted base header; the live
+headless replay rendered `1 de jan de 2023` without overwriting the date.
 
 ## PT-026: Default squad name remains English and clips in roster views
 
 - Severity: Medium
 - Type: Missing translation / fixed-width layout
 - Screens: Base roster and character profile
-- Replay status: **Open from the 2026-07-26 verification pass**
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
 
 ### Actual
 
@@ -815,18 +814,19 @@ The generated default squad name remains `The Liberal Crime Squad`. In the
 and the English name is visible in lines such as `Esquadrão: The Liberal Crime
 S` and `A - The Liberal Crime Squad`.
 
-### Expected / suggestion
+### Resolution
 
-Provide a Portuguese default squad name or an intentional proper-name policy,
-then fit the displayed value to each fixed-width name column without exposing
-an unexplained English truncation.
+The legacy default name is localized through `localizedSquadName`, and review
+rows now reserve a 30-column fitted name cell before the location column. The
+live row ends with an ellipsis and a blank separator instead of colliding with
+`SEA — Sem-teto`.
 
 ## PT-027: Character profile retains English labels and body-part names
 
 - Severity: Medium
 - Type: Missing translation / profile vocabulary
 - Screen: Character profile
-- Replay status: **Open from the 2026-07-26 verification pass**
+- Replay status: **Fixed in catalog and profile regression coverage**
 
 ### Actual
 
@@ -834,35 +834,35 @@ The profile still displays the English label `PROFESSION`, the value
 `Civil (Highschool Dropout)`, and body-part labels `Left Leg`, `Right Leg`,
 `Left Arm`, `Right Arm`, `Head`, and `Torso`.
 
-### Expected / suggestion
+### Resolution
 
-Localize the profile label, education status, and body-part vocabulary as one
-character-status unit. Preserve the underlying gameplay identifiers while
-translating only the visible labels and values.
+The profile renderer and Portuguese catalog now cover the profession label,
+education status, and body-part names; the focused profile test confirms the
+visible strings without mutating gameplay identifiers.
 
 ## PT-028: Roster footer truncates the final character of a Portuguese action
 
 - Severity: Medium
 - Type: Fixed-width layout / clipping
 - Screen: Review-assets or roster footer
-- Replay status: **Open from the 2026-07-26 verification pass**
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
 
 ### Actual
 
 The footer renders `T - Atribuir novas bases aos membros sem esquadrã`, dropping
 the final `o` from `esquadrão` at the right edge of the 80-column console.
 
-### Expected / suggestion
+### Resolution
 
-Fit or wrap the complete action inside the console bounds. The key prefix and
-the full Portuguese noun must remain visible together.
+The footer now renders the Z and T actions in explicit 31/49-column cells, so
+the live replay keeps the complete `esquadrão.` suffix visible.
 
 ## PT-029: Founder-option continuation text is not aligned with the option
 
 - Severity: Low
 - Type: Layout / alignment
 - Screen: Founder biography option list
-- Replay status: **Open from the 2026-07-26 verification pass**
+- Replay status: **Fixed in renderer and biography regression coverage**
 
 ### Actual
 
@@ -875,12 +875,15 @@ not clipped, but the indentation changes between otherwise equivalent choices.
 Use the same continuation indentation for every wrapped founder option so the
 key, option text, and continuation lines form a consistent block.
 
+The biography option renderer now keeps continuation lines indented, with a
+regression test covering the Portuguese wrapped form.
+
 ## PT-030: Long founder names collide with the title-screen continue option
 
 - Severity: Medium
 - Type: Fixed-width layout / option collision
 - Screen: Portuguese title screen after creating a founder
-- Replay status: **Open from the 2026-07-26 verification pass**
+- Replay status: **Fixed in renderer and title-layout regression coverage**
 
 ### Actual
 
@@ -892,6 +895,9 @@ salvamentos`, rendering the boundary as `UnderdownL`.
 
 Fit the continue label to its left-column budget, or wrap it within that column,
 so the right-column save option always starts in its own cell.
+
+The title screen now fits the continue option to its left-column budget, and
+the layout regression test confirms it cannot merge with the save option.
 
 ## PT-031: Activate-regulars submenus retain English activity labels
 
@@ -939,9 +945,9 @@ Wrap or fit activity descriptions before rendering them, reserving the full
 - Severity: Medium
 - Type: Missing translation / event coverage
 - Screens: Siege alerts, election month-end messages, and emergency events
-- Replay status: **Open; extracted during the 2026-07-26 Portuguese audit**
+- Replay status: **Fixed in catalog and regression coverage on 2026-07-26**
 
-### Actual
+### Actual (before fix)
 
 The locale extractor still reports English fallbacks for fifteen live strings:
 `A skilled pilot gets through!`, `Explosions rock the compound!`,
@@ -953,46 +959,46 @@ Elections are being held today!`, `Local elections are being held today!`, `The
 Presidential Election is being held today!`, `The Supreme court is handing down
 decisions!`, and the car-theft header `TYPE`.
 
-### Expected / suggestion
+### Resolution
 
-Add concise Brazilian Portuguese catalog entries for each string, preserving
-the existing uppercase/event-banner style and keeping `TYPE` short enough for
-the car-selection table. Re-run the extractor after adding the entries so this
-residual list stays empty.
+Added concise Brazilian Portuguese catalog entries for all fifteen strings,
+preserving the event-banner style and the short `TIPO` car-table header. The
+read-only extractor now reports no new pt_BR strings, and the context
+translation regression test covers every entry.
 
 ## PT-034: Portuguese date header collides with activity text
 
 - Severity: Medium
 - Type: Fixed-width layout / date formatting
 - Screen: Base-mode location header with an active squad
-- Replay status: **Open from the 2026-07-26 headless verification pass**
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
 
-### Actual
+### Actual (before fix)
 
 The Portuguese date expands to `1 de Jan de ...` and runs into the activity
 description rendered at column 41. In the captured screen, the year is replaced
 by the squad text, producing `1 de Jan de Mantendo Discrição`.
 
-### Expected / suggestion
+### Resolution
 
-Reserve non-overlapping header columns for the localized date, funds, and active
-activity description. Fit or wrap the date before the activity column rather
-than allowing later text to overwrite it.
+The base header now uses a short localized site name and a fitted 40-column
+location/date cell; activity starts at column 41. The live replay rendered
+`SEA — Sem-teto, 1 de jan de 2023` and kept `Mantendo Discrição` separate.
 
 ## PT-035: Base-mode activism option is ellipsized in Portuguese
 
 - Severity: Low
 - Type: Fixed-width layout / option fit
 - Screen: Base-mode action menu
-- Replay status: **Open from the 2026-07-26 headless verification pass**
+- Replay status: **Fixed in catalog and reverified in the 2026-07-26 headless pass**
 
-### Actual
+### Actual (before fix)
 
 The Portuguese `P - Orgulho: Hastear uma bandeira...` option is shortened with
 an ellipsis in the 40-column action area. The key remains usable, but the action
 name is less informative than the English counterpart.
 
-### Expected / suggestion
+### Resolution
 
-Use a concise Portuguese label or a deliberate two-line layout so the complete
-action remains discoverable within the fixed-width menu.
+The `$20` flag action now uses the concise `P - Orgulho: Hastear bandeira
+($20)` translation, which fits the activism column without an ellipsis.

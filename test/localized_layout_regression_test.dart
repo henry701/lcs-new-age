@@ -159,14 +159,35 @@ void main() {
   });
 
   test('Portuguese squadless-base footer fits without truncation', () {
-    addOptionText(24, 0, 'Z', 'Z - Assemble a New Squad.  ');
-    addInlineOptionText('T', 'T - Assign New Bases to the Squadless.');
+    addOptionTextFitted(24, 0, 'Z', 'Z - Assemble a New Squad.  ', 31);
+    addOptionTextFitted(
+      24,
+      31,
+      'T',
+      'T - Assign New Bases to the Squadless.',
+      49,
+    );
 
     expect(
       _consoleLine(24),
       endsWith('T - Atribuir bases aos Liberais sem esquadrão.'),
     );
     expect(_consoleLine(24).length, lessThanOrEqualTo(80));
+  });
+
+  test('Portuguese squad review names stay inside the location column', () {
+    final squadName = LcsI18n.tr('The Liberal Crime Squad');
+    addOptionTextFitted(
+      2,
+      0,
+      'A',
+      'A - $squadName',
+      31,
+      noTranslate: true,
+    );
+
+    expect(_consoleLine(2), endsWith('…'));
+    expect(_consoleLine(2), isNot(contains('Crime LiberaSEA')));
   });
 
   test('wrapped inline options move intact to the next console row', () {

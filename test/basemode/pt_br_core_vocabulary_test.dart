@@ -249,7 +249,7 @@ void main() {
     baseModeOptionsDisplay(_homelessCamp);
 
     final rendered = _consoleText();
-    expect(rendered, contains('Acampamento sem-teto'));
+    expect(rendered, contains('SEA — Sem-teto'));
     expect(rendered, contains('O Esquadrão do Crime Liberal'));
     expect(rendered, contains('Mantendo Discrição'));
     expect(rendered, contains('Precisamos mesmo de um slogan!'));
@@ -257,6 +257,28 @@ void main() {
     expect(rendered, isNot(contains('Laying Low')));
     expect(rendered, isNot(contains('We really need a slogan!')));
     expect(founder.activity.type, ActivityType.none);
+  });
+
+  test('Portuguese base header keeps the date clear of activity text', () {
+    _founder();
+    locHeader(_homelessCamp);
+
+    final header = console.buffer[0]
+        .sublist(0, 41)
+        .map((character) => character.glyph)
+        .join()
+        .trimRight();
+    expect(header.length, lessThanOrEqualTo(40));
+    expect(header, isNot(contains('Mantendo Discrição')));
+  });
+
+  test('Portuguese flag action stays readable inside the activism column', () {
+    _founder();
+    baseModeOptionsDisplay(_homelessCamp);
+
+    expect(_consoleText(), contains(r'P - Orgulho: Hastear bandeira ($20)'));
+    expect(console.buffer[22].map((character) => character.glyph).join(),
+        isNot(contains('…')));
   });
 
   test('Portuguese character profiles localize profession and body labels', () {

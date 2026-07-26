@@ -24,6 +24,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/flag.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -322,16 +323,36 @@ void locHeader([Site? loc]) {
     } else if (loc.siege.underSiege) {
       setColor(yellow);
     }
-    if (activeSquad == null) addstr("No Squad Selected, ");
-    addstr(
-      "{location}, ",
-      params: {"location": loc.getName(includeCity: true)},
+    final locationPrefix = activeSquad == null
+        ? LcsI18n.tr("No Squad Selected, ")
+        : "";
+    final locationText = StringBuffer()
+      ..write(loc.getName(short: true, includeCity: true))
+      ..write(', ');
+    final dateText = LcsI18n.processString("{month} {day}, {year}", {
+      "month": getMonthShort(month),
+      "day": day,
+      "year": year,
+    });
+    final header = StringBuffer()
+      ..write(locationPrefix)
+      ..write(locationText)
+      ..write(dateText);
+    mvaddstrFitted(0, 0, header.toString(), 40, noTranslate: true);
+  } else {
+    final dateText = LcsI18n.processString("{month} {day}, {year}", {
+      "month": getMonthShort(month),
+      "day": day,
+      "year": year,
+    });
+    mvaddstrFitted(
+      0,
+      0,
+      dateText,
+      40,
+      noTranslate: true,
     );
   }
-  addstr(
-    "{month} {day}, {year}",
-    params: {"month": getMonthShort(month), "day": day, "year": year},
-  );
   if (loc == null) {
     mvaddstrc(3, 6, darkGray, "To form a new squad:");
     mvaddstr(4, 6, "1) R - Review Assets and Form Squads");
@@ -673,7 +694,12 @@ void printSafehouseSecurityBox(Site site) {
   mvaddstr(11, 1, "│                │");
   mvaddstr(12, 1, "└────────────────┘");
 
-  mvaddstr(9, 2, site.getName(short: true, includeCity: true));
+  mvaddstr(
+    9,
+    2,
+    site.getName(short: true, includeCity: true),
+    noTranslate: true,
+  );
   if (site.siege.underAttack) {
     mvaddstrc(10, 3, red, "Under Attack");
   } else if (site.siege.underSiege) {

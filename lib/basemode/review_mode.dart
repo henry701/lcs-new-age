@@ -70,11 +70,12 @@ Future<void> reviewAssetsAndFormSquads() async {
         bool active = activeSquad == squads[p];
         setColor(active ? white : lightGray);
         String letter = letterAPlus(y - 2);
-        addOptionText(
+        addOptionTextFitted(
           y,
           0,
           letter,
           "{letter} - {name}",
+          30,
           baseColorKey: active ? "W" : "w",
           params: {
             "letter": letter,
@@ -199,8 +200,20 @@ Future<void> reviewAssetsAndFormSquads() async {
     addPageButtons(y: 23, x: 0);
     move(console.y, console.x + 3);
     addInlineOptionText("U", "U - Promote Liberals.");
-    addOptionText(24, 0, "Z", "Z - Assemble a New Squad.  ");
-    addInlineOptionText("T", "T - Assign New Bases to the Squadless.");
+    addOptionTextFitted(
+      24,
+      0,
+      "Z",
+      "Z - Assemble a New Squad.  ",
+      31,
+    );
+    addOptionTextFitted(
+      24,
+      31,
+      "T",
+      "T - Assign New Bases to the Squadless.",
+      ManagementTableLayout.consoleWidth - 31,
+    );
 
     int c = await getKey();
 

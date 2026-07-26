@@ -284,14 +284,14 @@ Evidence:
 - [`screenshots/66-newspaper-range-error.png`](screenshots/66-newspaper-range-error.png)
 - [`screenshots/67-founder-biography-clipping-replay.png`](screenshots/67-founder-biography-clipping-replay.png)
 
-## Residual verification pass: 2026-07-26
+## Residual verification pass: 2026-07-26 (superseded snapshot)
 
 This follow-up replay used the Portuguese locale after the PT-001–PT-024 fixes
 were applied. It verified the title, new-game flow, founder biography, base,
 roster, character profile, legislative agenda, vote tally, president, finance,
 and month-rollover screens. No code was changed during this pass.
 
-The following residual issues remain open for future work:
+At capture time, the following residual issues were recorded:
 
 - PT-025: date headers use English month abbreviations (`Jan`, `Feb`).
 - PT-026: the default squad name remains English and clips in roster/profile
@@ -307,10 +307,9 @@ The following residual issues remain open for future work:
   activism, fundraising, education, recruitment, teaching, and health.
 - PT-032: long activity descriptions clip at the fixed console edge.
 
-The major-event newspaper was not reached in this replay, so its previously
-verified renderer and translation fixes were not re-tested here. These items
-are intentionally logged as new residual findings rather than reopening the
-resolved PT-001–PT-024 records.
+The later headless follow-up in this log resolved PT-025–PT-035. The major-event
+newspaper was not reached in either replay, so its previously verified renderer
+and translation fixes still need a future runtime pass.
 
 ## Not covered
 
@@ -328,5 +327,9 @@ These remain useful targets for a follow-up runtime pass.
 - Replayed language selection, new-game biography, founder entry, and the first
   Portuguese base-mode screen.
 - Confirmed the activity-menu fixes are rendered in the live build.
-- Added PT-034 (date/activity header collision) and PT-035 (ellipsized activism
-  option) to the tracker. PT-033 event strings remain open.
+- Replayed the base and review screens after the follow-up fixes. The live
+  buffer now shows `SEA — Sem-teto, 1 de jan de 2023`, a readable flag action,
+  a separated/fitted squad-name cell, and the complete squadless-base footer.
+- PT-033's fifteen siege/election/car-theft strings are covered by Portuguese
+  catalog entries and context regression tests. PT-025–PT-035 are now resolved;
+  the remaining not-covered routes are listed below for future playtesting.

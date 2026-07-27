@@ -183,18 +183,14 @@ Future<bool> loadGameMenu() async {
             "year": lastPlayed.year,
           });
         } else {
-          lastPlayedStr = "Unknown";
+          lastPlayedStr = LcsI18n.tr("Unknown");
         }
         if (saveFile.gameState != null) {
-          inGameDate = LcsI18n.processString("{month} {day}, {year}", {
-            "month": getMonthShort(saveFile.gameState!.date.month),
-            "day": saveFile.gameState!.date.day,
-            "year": saveFile.gameState!.date.year,
-          });
+          inGameDate = _formatSaveMenuDate(saveFile.gameState!.date);
 
           founder = _nameOfFounder(saveFile.gameState!);
         } else {
-          inGameDate = "Error";
+          inGameDate = LcsI18n.tr("Error");
           founder = "Error - Crash Expected";
         }
         renderSaveMenuListRow(
@@ -235,6 +231,17 @@ Future<bool> loadGameMenu() async {
       return false;
     }
   }
+}
+
+String _formatSaveMenuDate(DateTime date) {
+  if (LcsI18n.currentLocale == 'pt_BR') {
+    return "${date.day}/${getMonthShort(date.month)}/${date.year}";
+  }
+  return LcsI18n.processString("{month} {day}, {year}", {
+    "month": getMonthShort(date.month),
+    "day": date.day,
+    "year": date.year,
+  });
 }
 
 void renderSaveMenuListRow({

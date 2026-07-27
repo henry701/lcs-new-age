@@ -1158,3 +1158,72 @@ Added canonical English/Portuguese catalog entries with concise Portuguese
 wording sized for the 46-column description area. A fresh replay now renders the
 full selector in Portuguese, including `Pintura, teoria das cores e mais.` and
 `Métodos e prática da pedagogia.`.
+
+## PT-044: Vehicle-selection guidance was clipped in Portuguese
+
+- Severity: Medium
+- Type: Fixed-width layout / translation length
+- Screen: Base → Veículos
+- Replay status: **Fixed and reverified in the fresh 2026-07-26 headless pass**
+
+The red and shared-vehicle notes exceeded the 80-column console. The live
+buffer ended at `quanto` and `mesmo`, hiding the rest of each sentence. The
+translations now use shorter wording while preserving indentation and meaning.
+
+## PT-045: Travel-city descriptors remained in English
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Base → Vá adiante → Viajar para outra cidade
+- Replay status: **Fixed and reverified in the fresh 2026-07-26 headless pass**
+
+The destination list showed four English descriptors beneath otherwise
+Portuguese city choices. Added compact Portuguese catalog entries sized for the
+right-hand descriptor column.
+
+## PT-046: Save actions and dates leaked or truncated Portuguese text
+
+- Severity: High
+- Type: Missing translation / fixed-width layout
+- Screen: Title → Carregar salvamentos
+- Replay status: **Fixed; awaiting fresh runtime replay after source restart**
+
+The save-detail menu exposed `L - Load Game`; broken-save rows also used
+English `Unknown`/`Error` fallbacks. In-game dates such as `18 de Jul de 2026`
+lost the year in the 16-character date cell. The actions and fallbacks now use
+Portuguese, and in-game save dates use a compact `18/jul/2026` form.
+
+## PT-047: High-score labels overflowed fixed columns
+
+- Severity: Medium
+- Type: Fixed-width layout / translation length
+- Screen: Title → Pontuações / universal statistics
+- Replay status: **Fixed; awaiting fresh runtime replay after catalog restart**
+
+The 20-column statistics cells clipped `Bandeiras Compradas` and
+`Bandeiras Queimadas`; the title overlay also clipped the final year in
+`Vitória Mais Rápida: Fevereiro de 2026`. Portuguese labels are now compact and
+regression tests assert the fixed-column limits.
+
+## PT-048: Combat fragment translations disagreed with their prefixes
+
+- Severity: Medium
+- Type: Contextual translation quality
+- Screen: Site mode → combat / car chase
+- Replay status: **Fixed in catalogs; combat replay still pending**
+
+The tooth-damage composition produced forms such as `está queimou!` and
+`está corte!`. Car-chase fragments also read awkwardly, and the sneak-miss
+warning used an infinitive construction. Updated participles, result fragments,
+and the warning to `antes de o ataque acertar`.
+
+## PT-049: Changelog release notes are intentionally English-only
+
+- Severity: Low
+- Type: Coverage limitation
+- Screen: Title → Histórico de alterações
+- Replay status: **Known limitation; no fix planned in this pass**
+
+The Portuguese modal heading and notice are localized, but the release-note
+bullets remain English and explicitly state that they are available only in
+English. This is an intentional product choice, not a stale-locale regression.

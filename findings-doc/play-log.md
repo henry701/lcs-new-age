@@ -377,3 +377,24 @@ Coverage and outcomes:
 
 The route was intentionally replayed after each catalog/source change so the
 fixes were checked in a fresh runtime rather than inferred from static catalogs.
+
+## Headless high-risk route sweep — 2026-07-26
+
+This pass used only CLI `agent-browser` session `lcs-pt-broad` against the local
+web server. The founder shortcut was enabled temporarily to reach management
+routes quickly, then reverted before source validation.
+
+Before the fixes, the replay found clipped vehicle notes, four English travel
+descriptors, clipped seeded high-score labels/year, and English `L - Load Game`.
+The changelog overlay was visible and explicitly documented its English-only
+release notes. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/high-scores-pt.png`
+and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/changelog-pt-final.png`.
+
+The fixes are now covered by catalog, source, and fixed-column regression tests.
+A fresh server restart and replay of these exact routes remains the final
+verification step; combat injury/car-chase branches also need a future replay.
+
+Fresh-server verification completed for the vehicle selector and travel-city
+list: all three guidance lines are complete, and Seattle, New York, Los Angeles,
+and Washington descriptors are now Portuguese and visible within their columns.
+The temporary founder shortcut was reverted and the server hot-restarted again.

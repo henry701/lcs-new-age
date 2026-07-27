@@ -1611,4 +1611,16 @@ void main() {
       expect(catalog[entry.key], entry.value, reason: entry.key);
     }
   });
+
+  test('combat fragments agree with their Portuguese sentence prefixes', () {
+    expect(catalog['burned away!'], 'queimado!');
+    expect(catalog['cut out!'], 'cortado!');
+    expect(catalog['goes wide!'], 'passa longe!');
+    expect(catalog['hits the road!'], 'atinge a estrada!');
+    expect(catalog['is too high!'], 'foi alto demais!');
+    expect(
+      catalog["{name} notices before the attack connects!"],
+      '{name} percebe antes de o ataque acertar!',
+    );
+  });
 }

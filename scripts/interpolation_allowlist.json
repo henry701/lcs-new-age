@@ -988,9 +988,15 @@
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 288,
+      "line": 295,
       "text": "${text.substring(0, width - 1)}…",
       "reason": "Layout-only truncation of a pre-localized save-management cell."
+    },
+    {
+      "file": "saveload/save_load.dart",
+      "line": 238,
+      "text": "${date.day}/${getMonthShort(date.month)}/${date.year}",
+      "reason": "Compact Portuguese date format keeps the save-management date cell within its fixed width."
     },
     {
       "file": "saveload/save_load.dart",
@@ -1036,25 +1042,25 @@
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 356,
+      "line": 363,
       "text": "Generating crash report from ${selectedSave.version}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 359,
+      "line": 366,
       "text": "Loading game from ${selectedSave.version}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 406,
+      "line": 413,
       "text": "lcsna_${founderFirstName}_$now.json",
       "reason": "Save persistence key, filename, or diagnostic; never rendered to players."
     },
     {
       "file": "saveload/save_load.dart",
-      "line": 482,
+      "line": 489,
       "text": "Error loading save game $gameId: $e",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

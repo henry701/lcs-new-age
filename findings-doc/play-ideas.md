@@ -48,6 +48,17 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - Save from Portuguese, reload it, and import the same file in a fresh session;
   compare the first base screen for labels, dates, and squad names.
 
+## Follow-up routes from the 2026-07-26 broad sweep
+
+- Restart the headless web server after the fixes, then replay Veículos, city
+  travel, high scores, and save-detail management for clipping and English leaks.
+- Seed a save with a two-digit in-game day and confirm the compact date is fully
+  visible in both date columns.
+- Trigger a car chase and tooth injury once the combat harness can inject a
+  deterministic encounter; capture the composed sentence, not only fragments.
+- Keep changelog English-only unless product scope changes; its localized notice
+  currently documents the limitation for players.
+
 ## Runtime acceleration
 
 `lib/title_screen/title_screen.dart` exposes `megaFounderCheat`, and

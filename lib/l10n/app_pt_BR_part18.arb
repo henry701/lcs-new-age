@@ -1,5 +1,5 @@
 {
-  "       Vehicles in red have been selected by both this squad and another.": "       Veículos em vermelho foram selecionados tanto por este esquadrão quanto por outro.",
+  "       Vehicles in red have been selected by both this squad and another.": "       Veículos vermelhos foram escolhidos por este e outro esquadrão.",
   "  The Liberal Crime Squad attempted to rescue innocent people from the police lockup, ": "  O Esquadrão do Crime Liberal tentou resgatar pessoas inocentes da cadeia policial, ",
   "  The police have opened an investigation into the massacre, but seem ": "  A polícia abriu uma investigação sobre o massacre, mas parece ",
   " ({price})": " ({price})",
@@ -64,6 +64,7 @@
   "Done": "Concluído",
   "Elite Journalist {journalist} from the {newsType} {publication} got into the compound somehow!": "Jornalista de Elite {journalist} do {newsType} {publication} entrou no complexo de alguma forma!",
   "Equality": "Igualdade",
+  "Error": "Erro",
   "Export all floors (.zip)": "Exportar todos os andares (.zip)",
   "Freedom": "Liberdade",
   "Fuck!": "Porra!",
@@ -131,6 +132,7 @@
   "Steel Plant": "Siderúrgica",
   "That's hot.": "Isso é quente.",
   "The CCS Founder lost in self-realization, the squad slips away.\n\nWith even its Founder swearing off Conservatism forever, the last of the CCS's morale and confidence is shattered.\n\nThe CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?\n\n+200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD": "O Fundador da CCS descobriu sua verdadeira natureza, e o esquadrão escapa.\n\nCom até seu Fundador renunciando ao conservadorismo para sempre, o que restava do moral e da confiança da CCS foi destruído.\n\nA CCS foi completamente {pacifistAction}. Afinal, não havia uma revolução para cuidar?\n\n+200 ENERGIA PARA TODOS POR {ccsAction} O ESQUADRÃO DO CRIME CONSERVADOR",
+  "The Nation's Capital": "A Capital da Nação",
   "The Squad takes control of the {takeover} and ": "O Esquadrão assume o controle do {takeover} e ",
   "The country has been Reaganified.": "O país foi reaganizado.",
   "The defendant, {name}, is charged with {charges}.": "O réu, {name}, é acusado de {charges}.",

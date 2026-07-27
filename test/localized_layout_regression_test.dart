@@ -147,6 +147,54 @@ void main() {
     );
   });
 
+  test('Portuguese save actions and compact dates stay readable', () {
+    addOptionText(0, 0, 'L', 'L - Load Game');
+    expect(_consoleLine(0), contains('L - Carregar jogo'));
+
+    erase();
+    renderSaveMenuListRow(
+      y: 0,
+      key: 'A',
+      inGameDate: '18/jul/2026',
+      founder: 'Justin Arafata',
+      lastPlayed: '18 de Jul de 2026',
+      version: '1.5.5',
+      isOutdated: false,
+    );
+    expect(_consoleLine(0), contains('18/jul/2026'));
+    expect(_consoleLine(0), isNot(contains('20…')));
+  });
+
+  test('Portuguese high-score labels fit their fixed columns', () {
+    for (final text in [
+      LcsI18n.processString('Flags Bought: {buys}', {'buys': '12'}),
+      LcsI18n.processString('Flags Burned: {burns}', {'burns': '12'}),
+    ]) {
+      expect(text.length, lessThanOrEqualTo(20), reason: text);
+    }
+    expect(
+      LcsI18n.processString('Fastest Victory: {month} {year}', {
+        'month': 'Fevereiro',
+        'year': '2026',
+      }).length,
+      lessThanOrEqualTo(36),
+    );
+  });
+
+  test('Portuguese vehicle guidance keeps every line visible', () {
+    for (final text in [
+      'Note:  Vehicles in yellow have already been selected by another squad.',
+      '       Vehicles in red have been selected by both this squad and another.',
+      '       These cars may be used by both squads but not on the same day.',
+    ]) {
+      expect(
+        LcsI18n.processString(text, null).length,
+        lessThanOrEqualTo(79),
+        reason: text,
+      );
+    }
+  });
+
   test('localized fallback hotkey highlights without duplicating a letter', () {
     addOptionText(
       24,

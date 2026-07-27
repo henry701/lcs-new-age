@@ -354,3 +354,26 @@ The replay reached the candidate list, profile, political conversation, and
 translated `"O quê?"` response. The recruitment activity description also now
 renders as two complete Portuguese lines without the former grammatical error
 or edge ellipsis.
+
+## Headless interface and education sweep — 2026-07-26
+
+This replay used only the CLI `agent-browser` session `lcs-pt-sweep` against the
+local `web-server` at `http://127.0.0.1:7361/?playtest=1`. The browser remained
+headless; the DOM-backed `#lcs-playtest-buffer` text was captured directly.
+
+Coverage and outcomes:
+
+- Title → language → Portuguese → new game: interface-option help now reads as
+  grammatical Portuguese; no clipped fragments remained in the 80-column view.
+- Founder screen: all A/B/C/D/E hints were visible, including the shortened
+  tragic-origin hint. The biography route showed corrected `Disfarce` and
+  `Armas de Fogo, AK-102` rewards.
+- Base → Atribuir Tarefas → Educação → Praticar: the header, long skill label,
+  values, and `Primeiros Socorros` description all fit and stayed Portuguese.
+- Base → Atribuir Tarefas → Educação → Fazer Aulas Pagas: the replay initially
+  exposed English class descriptions; after catalog completion and a server
+  restart, all eighteen descriptions rendered in Portuguese and within the
+  description column.
+
+The route was intentionally replayed after each catalog/source change so the
+fixes were checked in a fresh runtime rather than inferred from static catalogs.

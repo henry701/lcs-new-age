@@ -1513,8 +1513,7 @@ void main() {
       '2 - Steal a Car': '2 - Roubar um Carro',
       '3 - Make Clothing': '3 - Fazer Roupas',
       '1 - Practice a Skill (Free)': '1 - Praticar uma Habilidade (Grátis)',
-      '2 - Take Paid Classes (\$30/day)':
-          '2 - Fazer Aulas Pagas (\$30/dia)',
+      '2 - Take Paid Classes (\$30/day)': '2 - Fazer Aulas Pagas (\$30/dia)',
       '1 - Teach Liberal Arts': '1 - Ensinar Artes Liberais',
       '2 - Teach Covert Ops': '2 - Ensinar Operações Secretas',
       '3 - Teach Fighting': '3 - Ensinar Luta',
@@ -1526,8 +1525,35 @@ void main() {
       'HEAT': 'CALOR',
       'DESCRIPTION': 'DESCRIÇÃO',
       'HOSTAGE NAME': 'NOME DO REFÉM',
-      'What skill will {name} {flavor}?':
-          'Que habilidade {name} vai {flavor}?',
+      'What skill will {name} practice?': 'Que habilidade {name} vai praticar?',
+      'What skill will {name} take classes in?':
+          'Em qual habilidade {name} vai fazer aulas?',
+      'Painting, color theory, and more.': 'Pintura, teoria das cores e mais.',
+      'Economics and business management.': 'Economia e gestão de negócios.',
+      'Computer science and programming.': 'Informática e programação.',
+      'Acting. Theater. Become a character.':
+          'Atuação, teatro e criação de personagens.',
+      'Master dancing. Move like water.': 'Domine a dança. Mova-se como água.',
+      'Advanced vehicle handling and racing.': 'Direção avançada e corridas.',
+      'Identify and treat injuries.': 'Identifique e trate ferimentos.',
+      'Criminal justice law and procedure.':
+          'Direito e procedimentos criminais.',
+      'Train with your body and melee weapons.':
+          'Treine o corpo e armas brancas.',
+      'Play instruments and learn music theory.':
+          'Toque instrumentos e aprenda teoria musical.',
+      'Make speeches, learn rhetoric and debate.':
+          'Discursos, retórica e debates.',
+      'Safely maintain and shoot firearms.':
+          'Manutenção e uso seguro de armas de fogo.',
+      'Study of the human mind and its functions.':
+          'Estudo da mente humana e suas funções.',
+      'Theology and religious studies.': 'Teologia e estudos religiosos.',
+      'Chemistry, biology, physics, and more.':
+          'Química, biologia, física e mais.',
+      'Sewing, pattern making, and more.': 'Costura, modelagem e mais.',
+      'The method and practice of pedagogy.': 'Métodos e prática da pedagogia.',
+      'Creative writing and essays.': 'Escrita criativa e redação.',
       'Press a Letter to select a Type of Clothing':
           'Pressione uma letra para selecionar um tipo de roupa',
       'Crafted flags are stored in your safehouse inventory.':
@@ -1572,8 +1598,7 @@ void main() {
           'A Suprema Corte está proferindo decisões!',
       'The anti-aircraft gun takes a direct hit!':
           'O canhão antiaéreo é atingido em cheio!',
-      'The generator takes a direct hit!':
-          'O gerador é atingido em cheio!',
+      'The generator takes a direct hit!': 'O gerador é atingido em cheio!',
       'The lights fade and all goes dark...':
           'As luzes se apagam e tudo fica escuro...',
       'The solar panels take a direct hit!':

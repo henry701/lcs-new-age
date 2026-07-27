@@ -27,11 +27,11 @@ void main() {
     final screen = _normalizedConsoleText();
     expect(screen, contains('E - Avisos de Encontros'));
     expect(screen, contains('Adiciona uma confirmação ao encontrar pessoas'));
-    expect(screen, contains('acidentalmente passar por eles'));
+    expect(screen, contains('passe acidentalmente por eles'));
     expect(screen, contains('P - Teclas padrão de Page Up/Down'));
     expect(screen, contains('Altera apenas os prompts'));
     expect(screen, contains('Esta opção altera o tamanho da fonte no jogo'));
-    expect(screen, contains('linhas pretas para aparecer'));
+    expect(screen, contains('linhas pretas apareçam'));
     expect(screen, contains('B - Voltar à Tela Inicial'));
     expect(screen, isNot(contains('Default is')));
     expect(screen, isNot(contains('Only changes the prompts')));
@@ -44,6 +44,7 @@ void main() {
     expect(screen, contains('L - Tom mais claro'));
     expect(screen, contains('Ajusta parte dos textos de ambientação'));
     expect(screen, contains('experiências traumáticas'));
+    expect(screen, contains('frequência com que notícias sobre'));
     expect(screen, contains('Esta opção não altera as mecânicas do jogo'));
     expect(screen, isNot(contains('Adjusts some of the heavier')));
   });

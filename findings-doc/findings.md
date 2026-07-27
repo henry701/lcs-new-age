@@ -1060,3 +1060,101 @@ such as the NSA/privacy prompt ended mid-word at column 80.
 Issue prompts now use the console paragraph wrapper after translation, preserving
 the quote and its intentional line breaks while wrapping expanded Portuguese
 text inside the 80-column viewport.
+
+## PT-039: Interface-options help text used ungrammatical fragments
+
+- Severity: Low
+- Type: Translation quality
+- Screen: Title screen → Opções de Jogo → Interface
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
+
+### Actual (before fix)
+
+The Portuguese help paragraphs used English-shaped infinitive fragments such as
+`acidentalmente passar por eles`, singular `escrito` for plural JSON files, and
+`linhas pretas para aparecer`. The mouse-input paragraph omitted the preposition
+in `compatíveis entrada de mouse`, and the content/tone paragraph had an
+agreement error around the frequency at which hate-crime stories are shown.
+
+### Resolution
+
+Reworded the affected catalog fragments with natural Brazilian Portuguese,
+correct prepositions, and subjunctive agreement. The fragments still preserve
+their original paragraph composition and fit the 80-column console.
+
+## PT-040: Founder tragic-origin hint clipped at the right edge
+
+- Severity: Medium
+- Type: Fixed-width layout / translation length
+- Screen: New Game → Founder
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
+
+### Actual (before fix)
+
+`(D para alternar entre escolha e destino)` exceeded the 40-column hint cell and
+was visibly cut off. The fate value `Let Fate Decide` also collided with that
+hint in the same row.
+
+### Resolution
+
+Shortened the Portuguese hint to `(D para alternar escolha/destino)` and the
+fate value to `Destino Decide`. The A/B/E hints were also tightened for idiomatic
+wording while retaining their hotkeys. A fresh founder screen shows all hints
+complete.
+
+## PT-041: Education skill selector mixed raw English and clipped Portuguese
+
+- Severity: High
+- Type: Missing translation / fixed-width layout
+- Screen: Base → Atribuir Tarefas → Educação → Praticar uma Habilidade
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
+
+### Actual (before fix)
+
+The dynamic header rendered `practice` in English, and the long `Primeiros
+Socorros` row collided with the current/max columns. Its description was also
+cut at `bas`.
+
+### Resolution
+
+Added distinct translatable templates for practice and paid classes, widened the
+skill column, and fitted the row labels to the column boundary. The live screen
+now shows `Que habilidade ... vai praticar?`, a complete `G – Primeiros
+Socorros` label, and a complete description.
+
+## PT-042: Founder biography rewards had two terminology errors
+
+- Severity: Low
+- Type: Translation accuracy
+- Screen: New Game → Founder biography → final-year choices
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
+
+### Actual (before fix)
+
+One reward said `+1 Disfarque` instead of the skill name `Disfarce`; another said
+`+1 Armas, AK-102`, omitting the established `Armas de Fogo` label.
+
+### Resolution
+
+Corrected both catalog entries. The replay displayed `+1 Disfarce` and
+`+1 Armas de Fogo, AK-102`.
+
+## PT-043: Paid-class skill descriptions fell back to English
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Base → Atribuir Tarefas → Educação → Fazer Aulas Pagas
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
+
+### Actual (before fix)
+
+The paid-class selector header was localized, but all eighteen class
+descriptions (`Painting, color theory, and more.`, `Economics and business
+management.`, and so on) remained in English.
+
+### Resolution
+
+Added canonical English/Portuguese catalog entries with concise Portuguese
+wording sized for the 46-column description area. A fresh replay now renders the
+full selector in Portuguese, including `Pintura, teoria das cores e mais.` and
+`Métodos e prática da pedagogia.`.

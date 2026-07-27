@@ -64,31 +64,31 @@
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 615,
+      "line": 611,
       "text": "\\$${craftable[index].makePrice + craftable[index].allowedArmor.first.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 657,
+      "line": 653,
       "text": "${craftable[selectedClothingIndex].idName}:ARMOR$selectedArmorIndex",
       "reason": "Stable activity identifier; never rendered as player-facing prose."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 680,
+      "line": 676,
       "text": "\\$${craftable[selected].makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 717,
+      "line": 713,
       "text": "\\$${flag.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 770,
+      "line": 766,
       "text": "\\$${clothing.makePrice + armor.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },

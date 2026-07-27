@@ -34,6 +34,20 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - Exercise save export/import and corrupted-save handling in Portuguese.
 - Repeat key screens at a narrow viewport to expose width assumptions.
 
+## Newly prioritized after the 2026-07-26 sweep
+
+- Use the paid-class selector as a localization sentinel: sample every skill
+  description after catalog changes and fail the sweep if any raw English
+  sentence appears.
+- Exercise title-screen overlays for high scores and changelog, then return to
+  the game to catch stale-locale or focus-state regressions.
+- Complete one recruitment meeting and one conservative conversion, recording
+  every response branch and pronoun combination.
+- Advance one full month with a recruited squad, then inspect media overview,
+  newspaper detail, finance, and legislative results together.
+- Save from Portuguese, reload it, and import the same file in a fresh session;
+  compare the first base screen for labels, dates, and squad names.
+
 ## Runtime acceleration
 
 `lib/title_screen/title_screen.dart` exposes `megaFounderCheat`, and

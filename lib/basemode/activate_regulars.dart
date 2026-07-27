@@ -501,14 +501,10 @@ void _educationSubmenu(Creature c) {
 
 Future<void> _educationChoice(Creature c, int choice) async {
   if (choice == 1) {
-    await _selectSkillForEducation(c, "practice", ActivityType.study);
+    await _selectSkillForEducation(c, ActivityType.study);
   }
   if (choice == 2) {
-    await _selectSkillForEducation(
-      c,
-      "take classes in",
-      ActivityType.takeClass,
-    );
+    await _selectSkillForEducation(c, ActivityType.takeClass);
   }
 }
 
@@ -870,7 +866,6 @@ void _clothingDetailFooter(
 
 Future<void> _selectSkillForEducation(
   Creature cr,
-  String flavor,
   ActivityType activityType,
 ) async {
   List<Skill> skills = Skill.values;
@@ -878,23 +873,27 @@ Future<void> _selectSkillForEducation(
     skills = skills.where((s) => s.canTakeClasses).toList();
   }
   erase();
+  final headerPrompt = activityType == ActivityType.takeClass
+      ? "What skill will {name} take classes in?"
+      : "What skill will {name} practice?";
   await pagedInterface(
-    headerPrompt: "What skill will {name} {flavor}?",
-    headerPromptParams: {"name": cr.name, "flavor": flavor},
-    headerKey: {4: "SKILL", 21: "NOW", 27: "MAX", 34: "DESCRIPTION"},
+    headerPrompt: headerPrompt,
+    headerPromptParams: {"name": cr.name},
+    headerKey: {4: "SKILL", 22: "NOW", 28: "MAX", 34: "DESCRIPTION"},
     footerPrompt: "Press a Letter to select a Skill",
     count: skills.length,
     lineBuilder: (y, key, index) {
       Skill skill = skills[index];
-      addOptionText(
+      addOptionTextFitted(
         y,
         0,
         key,
         "{key} - {skill}",
+        22,
         params: {"key": key, "skill": LcsI18n.tr(skill.displayName)},
       );
       highlightColorForSkill(cr, skill);
-      printSkillValue(cr, skill, y, 20, emphasizePotential: true);
+      printSkillValue(cr, skill, y, 22, emphasizePotential: true);
       mvaddstrc(
         y,
         34,

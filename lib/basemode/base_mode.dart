@@ -345,13 +345,7 @@ void locHeader([Site? loc]) {
       "day": day,
       "year": year,
     });
-    mvaddstrFitted(
-      0,
-      0,
-      dateText,
-      40,
-      noTranslate: true,
-    );
+    mvaddstrFitted(0, 0, dateText, 40, noTranslate: true);
   }
   if (loc == null) {
     mvaddstrc(3, 6, darkGray, "To form a new squad:");
@@ -370,6 +364,11 @@ void baseModeOptionsDisplay(Site? loc) {
   const rightColumnX = 40;
   const rightColumnWidth = ManagementTableLayout.consoleWidth - rightColumnX;
   const farRightColumnX = 64;
+
+  // Base options reuse rows that may contain a longer daily-arrival message.
+  // Clear them first so shorter Portuguese labels cannot inherit stale tails.
+  eraseLine(8);
+  eraseLine(9);
 
   int squadSize = activeSquad?.members.length ?? 0;
   Site? site = loc;
@@ -403,7 +402,6 @@ void baseModeOptionsDisplay(Site? loc) {
     rightColumnWidth,
     enabledWhen: pool.isNotEmpty,
   );
-  //eraseLine(8);
   Site? aSafehouse = activeSafehouse;
   if (sieged && site != null) {
     if (site.siege.underAttack) {

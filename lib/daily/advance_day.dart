@@ -355,6 +355,7 @@ Future<void> _squadDepart(Squad s) async {
     return;
   }
   if (s.members.first.base == site) {
+    eraseLine(8);
     mvaddstrc(
       8,
       1,
@@ -364,6 +365,7 @@ Future<void> _squadDepart(Squad s) async {
     );
     await getKey();
   } else {
+    eraseLine(8);
     mvaddstrc(
       8,
       1,
@@ -384,6 +386,7 @@ Future<void> _squadDepart(Squad s) async {
     if (!raidableSafehouses.contains(site.type)) {
       c = Key.s;
     } else {
+      eraseLine(8);
       mvaddstrc(
         8,
         1,

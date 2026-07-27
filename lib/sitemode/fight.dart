@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/common_actions/common_actions.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/body.dart';
@@ -618,9 +619,9 @@ Future<bool> attack(
   }
 
   final attackParams = {
-    "attacker": a.name,
+    "attacker": localizedCreatureName(a),
     "action": action,
-    "target": t.name,
+    "target": localizedCreatureName(t),
     if (a.equippedWeapon != null && !attackUsed.thrown)
       "weapon": a.weapon.getName(primary: true),
   };
@@ -865,18 +866,18 @@ Future<bool> attack(
       if (hitPart.weakSpot && t.human) {
         if (t.clothing.headArmor > 4) {
           targetDescTemplate = "{name}'s helmet";
-          targetDescParams = {"name": t.name};
+          targetDescParams = {"name": localizedCreatureName(t)};
         } else {
           targetDescTemplate = "{name}'s {part}";
           targetDescParams = {
-            "name": t.name,
+            "name": localizedCreatureName(t),
             "part": LcsI18n.tr(hitPart.name).toLowerCase(),
           };
         }
       } else if (hitPart.critical && t.clothing.bodyArmor > 4 && t.human) {
         targetDescTemplate = "{name}'s {armor}";
         targetDescParams = {
-          "name": t.name,
+          "name": localizedCreatureName(t),
           "armor": LcsI18n.tr(
             t.clothing.armor?.name.split(",").first.trim() ?? "armor",
           ).toLowerCase(),
@@ -884,13 +885,13 @@ Future<bool> attack(
       } else if (t.clothing.getLimbArmor(hitPart) > 4) {
         targetDescTemplate = "{name}'s {part} armor";
         targetDescParams = {
-          "name": t.name,
+          "name": localizedCreatureName(t),
           "part": LcsI18n.tr(hitPart.name).toLowerCase(),
         };
       } else {
         targetDescTemplate = "{name}'s {part}";
         targetDescParams = {
-          "name": t.name,
+          "name": localizedCreatureName(t),
           "part": LcsI18n.tr(hitPart.name).toLowerCase(),
         };
       }
@@ -905,7 +906,7 @@ Future<bool> attack(
 
     final describeHit = attackUsed.alwaysDescribeHit || bursthits > 1;
     final attackMessageParams = <String, dynamic>{
-      "attacker": a.name,
+      "attacker": localizedCreatureName(a),
       "target": targetDesc,
       if (describeHit) "description": LcsI18n.tr(attackUsed.hitDescription),
       if (bursthits > 1) "times": bursthits,
@@ -1021,7 +1022,7 @@ Future<bool> attack(
         10,
         1,
         "{name} knocks the blow aside and counters!",
-        params: {"name": t.name},
+        params: {"name": localizedCreatureName(t)},
       );
       await getKey();
       await attack(t, a, false, forceMelee: true);
@@ -1035,7 +1036,7 @@ Future<bool> attack(
             "{name} spins and blocks the attack!",
             "{name} jumps back and cries out in alarm!",
           ].random,
-          params: {"name": t.name},
+          params: {"name": localizedCreatureName(t)},
         );
         siteAlarm = true;
       } else if (mode == GameMode.carChase) {
@@ -1070,7 +1071,10 @@ Future<bool> attack(
         ].random;
         addstr(
           "{name} {action}",
-          params: {"name": t.name, "action": LcsI18n.tr(dodgeMessage)},
+          params: {
+            "name": localizedCreatureName(t),
+            "action": LcsI18n.tr(dodgeMessage),
+          },
         );
       } else {
         addstr("{name} misses.", params: {"name": a.name});
@@ -1185,6 +1189,7 @@ Future<void> hit(
 
   if (damamount > 0) {
     Creature target = t;
+    final targetDisplayName = localizedCreatureName(target);
 
     if (bruiseOnly) {
       hitPart.bruised = true;
@@ -1210,7 +1215,7 @@ Future<void> hit(
         damamount >= severamount &&
         !bruiseOnly) {
       severMessageParams = {
-        "name": t.name.toUpperCase(),
+        "name": targetDisplayName.toUpperCase(),
         "part": hitPart.name.toUpperCase(),
       };
       if (severtype == SeverType.clean) {
@@ -1372,7 +1377,7 @@ Future<void> hit(
               } else {
                 faceMessage = "{name}'s face is removed!";
               }
-              mvaddstr(9, 1, faceMessage, params: {"name": target.name});
+              mvaddstr(9, 1, faceMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1387,34 +1392,56 @@ Future<void> hit(
 
               move(9, 1);
               if (teethminus > 1) {
+                final pluralTeethTemplate = switch (true) {
+                  _ when attackUsed.shoots =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are shot out!"
+                        : "{teethminus} of {name}'s teeth are shot out!",
+                  _ when attackUsed.burns =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are burned away!"
+                        : "{teethminus} of {name}'s teeth are burned away!",
+                  _ when attackUsed.tears =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are gouged out!"
+                        : "{teethminus} of {name}'s teeth are gouged out!",
+                  _ when attackUsed.cuts =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are cut out!"
+                        : "{teethminus} of {name}'s teeth are cut out!",
+                  _ =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are knocked out!"
+                        : "{teethminus} of {name}'s teeth are knocked out!",
+                };
                 addstr(
-                  teethminus == body.teeth
-                      ? "All {teethminus} of {name}'s teeth are "
-                      : "{teethminus} of {name}'s teeth are ",
-                  params: {"teethminus": teethminus, "name": target.name},
+                  pluralTeethTemplate,
+                  params: {"teethminus": teethminus, "name": targetDisplayName},
                 );
               } else if (body.teeth > 1) {
                 addstr(
                   "One of {name}'s teeth is ",
-                  params: {"name": target.name},
+                  params: {"name": targetDisplayName},
                 );
               } else {
                 addstr(
                   "{name}'s last tooth is ",
-                  params: {"name": target.name},
+                  params: {"name": targetDisplayName},
                 );
               }
 
-              if (attackUsed.shoots) {
-                addstr("shot out!");
-              } else if (attackUsed.burns) {
-                addstr("burned away!");
-              } else if (attackUsed.tears) {
-                addstr("gouged out!");
-              } else if (attackUsed.cuts) {
-                addstr("cut out!");
-              } else {
-                addstr("knocked out!");
+              if (teethminus == 1) {
+                if (attackUsed.shoots) {
+                  addstr("shot out!");
+                } else if (attackUsed.burns) {
+                  addstr("burned away!");
+                } else if (attackUsed.tears) {
+                  addstr("gouged out!");
+                } else if (attackUsed.cuts) {
+                  addstr("cut out!");
+                } else {
+                  addstr("knocked out!");
+                }
               }
 
               await getKey();
@@ -1435,7 +1462,7 @@ Future<void> hit(
               } else {
                 eyeMessage = "{name}'s right eye is removed!";
               }
-              mvaddstr(9, 1, eyeMessage, params: {"name": target.name});
+              mvaddstr(9, 1, eyeMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1456,7 +1483,7 @@ Future<void> hit(
               } else {
                 eyeMessage = "{name}'s left eye is removed!";
               }
-              mvaddstr(9, 1, eyeMessage, params: {"name": target.name});
+              mvaddstr(9, 1, eyeMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1477,7 +1504,12 @@ Future<void> hit(
               } else {
                 tongueMessage = "{name}'s tongue is removed!";
               }
-              mvaddstr(9, 1, tongueMessage, params: {"name": target.name});
+              mvaddstr(
+                9,
+                1,
+                tongueMessage,
+                params: {"name": targetDisplayName},
+              );
 
               await getKey();
 
@@ -1498,7 +1530,7 @@ Future<void> hit(
               } else {
                 noseMessage = "{name}'s nose is removed!";
               }
-              mvaddstr(9, 1, noseMessage, params: {"name": target.name});
+              mvaddstr(9, 1, noseMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1513,7 +1545,7 @@ Future<void> hit(
               } else {
                 neckMessage = "{name}'s neck is broken!";
               }
-              mvaddstr(9, 1, neckMessage, params: {"name": target.name});
+              mvaddstr(9, 1, neckMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1538,7 +1570,7 @@ Future<void> hit(
               } else {
                 spineMessage = "{name}'s upper spine is broken!";
               }
-              mvaddstr(9, 1, spineMessage, params: {"name": target.name});
+              mvaddstr(9, 1, spineMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1553,7 +1585,7 @@ Future<void> hit(
               } else {
                 spineMessage = "{name}'s lower spine is broken!";
               }
-              mvaddstr(9, 1, spineMessage, params: {"name": target.name});
+              mvaddstr(9, 1, spineMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1570,7 +1602,7 @@ Future<void> hit(
               } else {
                 lungMessage = "{name}'s right lung is punctured!";
               }
-              mvaddstr(9, 1, lungMessage, params: {"name": target.name});
+              mvaddstr(9, 1, lungMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1587,7 +1619,7 @@ Future<void> hit(
               } else {
                 lungMessage = "{name}'s left lung is punctured!";
               }
-              mvaddstr(9, 1, lungMessage, params: {"name": target.name});
+              mvaddstr(9, 1, lungMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1604,7 +1636,7 @@ Future<void> hit(
               } else {
                 heartMessage = "{name}'s heart is punctured!";
               }
-              mvaddstr(9, 1, heartMessage, params: {"name": target.name});
+              mvaddstr(9, 1, heartMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1623,7 +1655,7 @@ Future<void> hit(
               } else {
                 liverMessage = "{name}'s liver is punctured!";
               }
-              mvaddstr(9, 1, liverMessage, params: {"name": target.name});
+              mvaddstr(9, 1, liverMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1640,7 +1672,12 @@ Future<void> hit(
               } else {
                 stomachMessage = "{name}'s stomach is punctured!";
               }
-              mvaddstr(9, 1, stomachMessage, params: {"name": target.name});
+              mvaddstr(
+                9,
+                1,
+                stomachMessage,
+                params: {"name": targetDisplayName},
+              );
 
               await getKey();
 
@@ -1657,7 +1694,12 @@ Future<void> hit(
               } else {
                 kidneyMessage = "{name}'s right kidney is punctured!";
               }
-              mvaddstr(9, 1, kidneyMessage, params: {"name": target.name});
+              mvaddstr(
+                9,
+                1,
+                kidneyMessage,
+                params: {"name": targetDisplayName},
+              );
 
               await getKey();
 
@@ -1674,7 +1716,12 @@ Future<void> hit(
               } else {
                 spleenMessage = "{name}'s spleen is punctured!";
               }
-              mvaddstr(9, 1, spleenMessage, params: {"name": target.name});
+              mvaddstr(
+                9,
+                1,
+                spleenMessage,
+                params: {"name": targetDisplayName},
+              );
 
               await getKey();
 
@@ -1715,7 +1762,7 @@ Future<void> hit(
                 9,
                 1,
                 ribMessage,
-                params: {"ribminus": ribminus, "name": target.name},
+                params: {"ribminus": ribminus, "name": targetDisplayName},
               );
 
               await getKey();
@@ -1742,9 +1789,9 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
     white,
     "{attacker} {attack} {target}!",
     params: {
-      "attacker": a.name,
+      "attacker": localizedCreatureName(a),
       "attack": LcsI18n.tr(attackUsed.attackDescription.random),
-      "target": t.name,
+      "target": localizedCreatureName(t),
     },
   );
 
@@ -1766,14 +1813,17 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
       10,
       1,
       "{name} is immune to the attack!",
-      params: {"name": t.name},
+      params: {"name": localizedCreatureName(t)},
     );
   } else if (a.align == t.align) {
     mvaddstr(
       10,
       1,
       "{name1} already agrees with {name2}.",
-      params: {"name1": t.name, "name2": a.name},
+      params: {
+        "name1": localizedCreatureName(t),
+        "name2": localizedCreatureName(a),
+      },
     );
   } else if (attack > resist) {
     if (attackUsed.stuns) {
@@ -1781,7 +1831,12 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
     }
     if (a.isEnemy) {
       if (t.juice > 100) {
-        mvaddstr(10, 1, "{name} loses juice!", params: {"name": t.name});
+        mvaddstr(
+          10,
+          1,
+          "{name} loses juice!",
+          params: {"name": localizedCreatureName(t)},
+        );
         addjuice(t, -50, 100);
       } else if (lcsRandom(15) > t.attribute(Attribute.wisdom) ||
           t.attribute(Attribute.wisdom) < t.attribute(Attribute.heart)) {
@@ -1789,7 +1844,7 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
           10,
           1,
           "{name} is tainted with Wisdom!",
-          params: {"name": t.name},
+          params: {"name": localizedCreatureName(t)},
         );
         t.adjustAttribute(Attribute.wisdom, 1);
       } else if (t.align == Alignment.liberal && t.seduced) {
@@ -1797,7 +1852,7 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
           10,
           1,
           "{name} can't bear to leave!",
-          params: {"name": t.name},
+          params: {"name": localizedCreatureName(t)},
         );
       } else {
         if (a.align == Alignment.conservative) {
@@ -1805,7 +1860,7 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
             10,
             1,
             "{name} is turned Conservative",
-            params: {"name": t.name},
+            params: {"name": localizedCreatureName(t)},
           );
           if (t.prisoner != null) {
             await freehostage(t, FreeHostageMessage.continueLine);
@@ -1816,7 +1871,7 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
             10,
             1,
             "{name} doesn't want to fight anymore",
-            params: {"name": t.name},
+            params: {"name": localizedCreatureName(t)},
           );
           if (t.prisoner != null) {
             await freehostage(t, FreeHostageMessage.continueLine);
@@ -1849,12 +1904,22 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
       }
     } else {
       if (t.juice >= 1) {
-        mvaddstr(10, 1, "{name} seems less badass!", params: {"name": t.name});
+        mvaddstr(
+          10,
+          1,
+          "{name} seems less badass!",
+          params: {"name": localizedCreatureName(t)},
+        );
         addjuice(t, -100, 0);
         t.stunned += lcsRandom(2);
       } else if (!t.attributeCheck(Attribute.heart, Difficulty.average) ||
           t.attribute(Attribute.heart) < t.attribute(Attribute.wisdom)) {
-        mvaddstr(10, 1, "{name}'s Heart swells!", params: {"name": t.name});
+        mvaddstr(
+          10,
+          1,
+          "{name}'s Heart swells!",
+          params: {"name": localizedCreatureName(t)},
+        );
         t.adjustAttribute(Attribute.heart, 1);
         t.stunned += lcsRandom(2);
       } else {
@@ -1867,7 +1932,12 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
           }
         }
 
-        mvaddstr(10, 1, "{name} has turned Liberal!", params: {"name": t.name});
+        mvaddstr(
+          10,
+          1,
+          "{name} has turned Liberal!",
+          params: {"name": localizedCreatureName(t)},
+        );
         t.stunned = 0;
 
         liberalize(t);

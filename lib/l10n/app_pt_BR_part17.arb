@@ -229,5 +229,6 @@
   "{name}: <rummaging> {message}": "{name}: <procurando> {message}",
   "{pName} overpowers {eName} after a struggle.": "{pName} domina {eName} após uma luta.",
   "{prop}: ": "{prop}:  ",
+  "{teethminus} of {name}'s teeth are shot out!": "{teethminus} dentes de {name} foram arrancados!",
   "{vehicle} is right on your tail!": "{vehicle} está bem na sua cola!"
 }

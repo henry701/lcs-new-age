@@ -27,11 +27,18 @@ const emDash = "—";
 String localizedSquadName(String name) =>
     name == "The Liberal Crime Squad" ? LcsI18n.tr(name) : name;
 
-String localizedCreatureName(Creature creature) {
-  return creature.name == creature.type.name
-      ? LcsI18n.tr(creature.name)
-      : creature.name;
+String localizedCreatureNameValue(String creatureName, String typeName) {
+  final normalizedName = creatureName.trim();
+  if (LcsI18n.hasTranslation(normalizedName)) {
+    return LcsI18n.tr(normalizedName);
+  }
+  return normalizedName == typeName.trim()
+      ? LcsI18n.tr(normalizedName)
+      : creatureName;
 }
+
+String localizedCreatureName(Creature creature) =>
+    localizedCreatureNameValue(creature.name, creature.type.name);
 
 abstract final class ManagementTableLayout {
   static const int consoleWidth = 80;

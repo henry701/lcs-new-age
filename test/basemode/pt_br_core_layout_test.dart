@@ -79,6 +79,22 @@ void main() {
     expect(_consoleLine(24), contains('B - Agentes Infiltrados'));
   });
 
+  test('base options clear stale daily-message tails before redrawing', () {
+    mvaddstr(
+      8,
+      0,
+      'Uma mensagem diária muito mais longa que os controles atuais',
+    );
+    mvaddstr(9, 0, 'Texto antigo que não deve permanecer na tela');
+
+    baseModeOptionsDisplay(null);
+
+    expect(_consoleLine(8), isNot(contains('mensagem diária')));
+    expect(_consoleLine(9), isNot(contains('Texto antigo')));
+    expect(_consoleLine(8), contains('N - Próximo Esquadrão'));
+    expect(_consoleLine(9), contains('Z - Próxima Localização'));
+  });
+
   test(
     'Portuguese task table preserves every column and footer action',
     () async {

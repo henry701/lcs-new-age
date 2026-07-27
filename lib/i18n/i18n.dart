@@ -294,6 +294,12 @@ class LcsI18n {
     }
   }
 
+  /// Returns whether the active locale has an explicit catalog entry.
+  static bool hasTranslation(String englishText) {
+    if (!_initialized) return false;
+    return _translations[_currentLocale]?.containsKey(englishText) ?? false;
+  }
+
   /// Shorthand alias for [translate]
   ///
   /// [noTranslate] - When true, skips translation entirely.
@@ -303,10 +309,7 @@ class LcsI18n {
     bool noTranslate = false,
   }) => translate(englishText, context: context, noTranslate: noTranslate);
 
-  static String translatePronoun(
-    String pronoun, {
-    required PronounRole role,
-  }) {
+  static String translatePronoun(String pronoun, {required PronounRole role}) {
     if (_currentLocale == 'en_US') {
       return pronoun;
     }

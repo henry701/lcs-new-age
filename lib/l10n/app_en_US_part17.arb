@@ -226,5 +226,6 @@
   "{name}: <rummaging> {message}": "{name}: <rummaging> {message}",
   "{pName} overpowers {eName} after a struggle.": "{pName} overpowers {eName} after a struggle.",
   "{prop}: ": "{prop}: ",
+  "{teethminus} of {name}'s teeth are shot out!": "{teethminus} of {name}'s teeth are shot out!",
   "{vehicle} is right on your tail!": "{vehicle} is right on your tail!"
 }

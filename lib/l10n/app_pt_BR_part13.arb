@@ -262,6 +262,7 @@
   "{pronounCap} cannot maintain any more relationships.": "{pronounCap} não pode manter relacionamentos.",
   "{ribminus} of {name}'s ribs are broken!": "{ribminus} costelas de {name} foram quebradas!",
   "{site} in {city}": "{site} em {city}",
+  "{teethminus} of {name}'s teeth are burned away!": "{teethminus} dentes de {name} foram queimados!",
   "{title} of {country}": "{title} de {country}",
   "│   advertising blitz, it's bound to be popular.    │": "│   ofensiva publicitária, com certeza será popular.    │"
 }

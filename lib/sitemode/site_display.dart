@@ -5,6 +5,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/politics.dart';
 import 'package:lcs_new_age/sitemode/sitemap.dart';
@@ -1149,7 +1150,7 @@ void printBasicEncounter() {
     //if (!e.alive) continue;
     int y = 12 + i;
     mvaddstrc(y, 0, darkGray, ((i + 1) % 10).toString());
-    String name = e.name;
+    String name = localizedCreatureName(e);
     if (!e.alive) {
       setColor(darkGray);
     } else {
@@ -1159,9 +1160,22 @@ void printBasicEncounter() {
         setColor(darkRed);
       }
     }
-    mvaddstr(y, 2, name);
-    mvaddstrc(y, 20, lightGray, e.clothing.shortName);
-    mvaddstrc(y, 36, lightGray, e.weapon.type.shortName);
+    mvaddstrFitted(y, 2, name, 17, noTranslate: true);
+    setColor(lightGray);
+    mvaddstrFitted(
+      y,
+      20,
+      LcsI18n.tr(e.clothing.shortName),
+      16,
+      noTranslate: true,
+    );
+    mvaddstrFitted(
+      y,
+      36,
+      LcsI18n.tr(e.weapon.type.shortName),
+      11,
+      noTranslate: true,
+    );
     printHealthStat(y, 47, e, small: true);
   }
 }

@@ -226,6 +226,7 @@
   "{name}'s liver is torn!": "{name}'s liver is torn!",
   "{name}'s right kidney is blasted!": "{name}'s right kidney is blasted!",
   "{pronoun} fursona": "{pronoun} fursona",
+  "{teethminus} of {name}'s teeth are cut out!": "{teethminus} of {name}'s teeth are cut out!",
   "{vehicle} comes to a rest facing backwards.": "{vehicle} comes to a rest facing backwards.",
   "{vehicle} rams into you from behind!": "{vehicle} rams into you from behind!"
 }

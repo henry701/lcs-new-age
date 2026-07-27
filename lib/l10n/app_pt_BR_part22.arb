@@ -235,5 +235,6 @@
   "{name} {reaction}": "{name} — {reaction}",
   "{name}'s upper spine has been broken!": "A parte superior da coluna de {name} foi quebrada!",
   "{subject} lost all of {possessive} teeth": "{subject} perdeu todos os dentes {possessive}",
+  "{teethminus} of {name}'s teeth are gouged out!": "{teethminus} dentes de {name} foram arrancados!",
   "│   popular talk show and demonstrates his superhuman   │": "│   programa de entrevistas popular e demonstra sua     │"
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 
 Map<String, String> _loadPortugueseCatalog() {
@@ -205,6 +206,10 @@ void main() {
 
   test('playtest save, score, and crash copy stays compact and consistent', () {
     expect(catalog['Error - Crash Expected'], 'Erro - Falha esperada');
+    expect(
+      catalog['Manage Conservatively Broken Saved Game'],
+      'Gerenciar Salvamento Corrompido com Cautela',
+    );
     expect(catalog['Flags Bought: {count}'], 'Compradas: {count}');
     expect(catalog['Flags Burned: {count}'], 'Queimadas: {count}');
     expect(catalog[r'$ Spent: {count}'], r'$ Gasto: {count}');
@@ -219,9 +224,18 @@ void main() {
   });
 
   test('playtest combat and kidnapping fragments stay localized', () {
+    expect(catalog['Club Security'], 'Segurança de Boate');
+    expect(catalog['Naked'], 'Nu');
+    expect(catalog['flails at'], 'golpeia');
+    expect(catalog["{name}'s {armor}"], 'o {armor} de {name}');
     expect(catalog['Overalls'], 'Macacão');
     expect(catalog['Police Uniform'], 'Uniforme Policial');
     expect(catalog['Police Gang Unit'], 'Unidade Policial');
+    expect(LcsI18n.hasTranslation('Police Gang Unit'), isTrue);
+    expect(
+      localizedCreatureNameValue('Police Gang Unit', 'Different type name'),
+      'Unidade Policial',
+    );
     expect(
       catalog['eyeing the Liberals with suspicion.'],
       'encarando os Liberais com desconfiança.',
@@ -232,6 +246,21 @@ void main() {
     );
     expect(catalog['he'], 'ele');
     expect(catalog['she'], 'ela');
+  });
+
+  test('plural tooth injuries use complete Portuguese templates', () {
+    expect(
+      catalog["All {teethminus} of {name}'s teeth are shot out!"],
+      'Todos os {teethminus} dentes de {name} foram arrancados!',
+    );
+    expect(
+      catalog["{teethminus} of {name}'s teeth are burned away!"],
+      '{teethminus} dentes de {name} foram queimados!',
+    );
+    expect(
+      catalog["All {teethminus} of {name}'s teeth are knocked out!"],
+      'Todos os {teethminus} dentes de {name} foram derrubados!',
+    );
   });
 
   test('headline translations preserve Portuguese accents and context', () {

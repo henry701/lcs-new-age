@@ -221,6 +221,7 @@
   "{name}'s {armor}": "{name}'s {armor}",
   "{squad} couldn't use the {vehicle}.": "{squad} couldn't use the {vehicle}.",
   "{subject} was vomiting blood": "{subject} was vomiting blood",
+  "{teethminus} of {name}'s teeth are knocked out!": "{teethminus} of {name}'s teeth are knocked out!",
   "{vehicle} ({price})": "{vehicle} ({price})",
   "{vehicle} tries to box you in!": "{vehicle} tries to box you in!",
   "│   intelligence and charisma, showcasing the upsides   │": "│   intelligence and charisma, showcasing the upsides   │",

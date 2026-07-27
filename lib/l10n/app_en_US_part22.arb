@@ -218,5 +218,6 @@
   "{name} {reaction}": "{name} {reaction}",
   "{name}'s upper spine has been broken!": "{name}'s upper spine has been broken!",
   "{subject} lost all of {possessive} teeth": "{subject} lost all of {possessive} teeth",
+  "{teethminus} of {name}'s teeth are gouged out!": "{teethminus} of {name}'s teeth are gouged out!",
   "│   popular talk show and demonstrates his superhuman   │": "│   popular talk show and demonstrates his superhuman   │"
 }

@@ -1247,49 +1247,92 @@ Polícia`, `Fórum`, `Primeiro Banco Americano`, and `Estação de Rádio AM`.
 - Severity: Medium
 - Type: Fixed-width layout / consistency
 - Screen: Title → Pontuações; save management; outdated/broken-save flows
-- Replay status: **Fixed in catalogs/source; focused regression tests pass; seeded runtime replay pending**
+- Replay status: **Fixed in catalogs/source; focused regression tests and seeded runtime replay pass**
 
 Seeded headless saves exposed clipped universal flag counts, an inconsistent
 `$ gasto` label, long outdated-save bullets, and a broken-save `Error - Crash
 Expected` fallback that bypassed translation. Delete confirmation also mixed
 `excluir` with `apagar` and `jogo salvo` with `salvamento`. Compact Portuguese
 wording, the translated fallback, and consistent delete verbs are covered by
-catalog and layout/context tests.
+catalog and layout/context tests. Fresh seeded headless replay confirms the
+high-score, outdated-save, crash-report, broken-save, and delete flows fit and
+remain localized.
 
 ## PT-052: Combat/hostage assets and pronouns leaked English
 
 - Severity: Medium
 - Type: Missing translation / parameter context
 - Screen: Site combat roster; kidnapping education prompt
-- Replay status: **Fixed in catalogs/source; fresh combat replay pending**
+- Replay status: **Fixed in catalogs/source; follow-up replay caught helper gap; focused regression passes**
 
 Combat setup showed `Police Gang Unit`, `Police Uniform`, and `Overalls` in
 English. The captive-education prompt also inserted raw `he`/`she`, and two
 kidnapping encounter fragments lacked Portuguese entries. Added compact
 Portuguese catalog values and translate the pronoun parameter before formatting.
 
+The forced combat replay also found a second context leak: generated target
+names bypassed the catalog in attack and hit descriptions, and `flails at` was
+translated as the non-combat phrase `agita contra`. Combat now uses an
+explicit-catalog lookup in the shared localized creature-name helper,
+`golpeia`, and an article-aware armor fragment. The follow-up replay caught
+the helper gap; the focused helper regression now covers that generated-name
+case.
+
+The same roster exposed column collisions after translation (`Uniforme
+PolicialPist. 9 mm`) and an unaccented/raw clothing label. Encounter rows now
+translate and fit creature, clothing, and weapon cells to their fixed widths;
+the fresh replay shows Portuguese rows with no overlap.
+
 ## PT-053: Unarmed founder could crash on first combat attack
 
 - Severity: High
 - Type: Gameplay blocker
 - Screen: Site mode → combat with the default unarmed founder
-- Replay status: **Source guard added; focused test/build validation pending fresh combat replay**
+- Replay status: **Source guard added; focused tests and fresh unarmed-site replay pass**
 
 The combat loop sampled `attackDescription` before checking `WEAPON_NONE`.
 The default unarmed founder has an empty description list, producing a
 `RangeError` instead of selecting a martial-arts action. The action now uses an
-empty fallback until the weaponless branch selects an unarmed move.
+empty fallback until the weaponless branch selects an unarmed move. A fresh
+headless route entered the police site with `Arma Nenhuma` and no `RangeError`.
 
 ## PT-054: Multi-tooth injury prefixes remain untranslated
 
 - Severity: Medium
 - Type: Missing translation / grammatical composition
 - Screen: Site mode → combat → tooth injury
-- Replay status: **Open; deterministic injury replay and plural-aware composition needed**
+- Replay status: **Plural composition fixed; deterministic replay caught and fixed a suffix duplication; focused regression passes**
 
 The branches for `All {teethminus} of {name}'s teeth are ` and
-`{teethminus} of {name}'s teeth are ` have no Portuguese entries. Adding a
-literal prefix alone would still require plural-aware suffixes (`queimado`,
-`cortado`, and similar fragments), because the same suffix is currently shared
-by singular and plural tooth counts. Keep this for the combat follow-up rather
-than introducing a context-blind translation.
+`{teethminus} of {name}'s teeth are ` had no Portuguese entries. They now select
+complete plural-aware templates for each injury type, avoiding the old
+context-blind singular suffixes (`queimado`, `cortado`, and similar fragments).
+The first deterministic replay then exposed the legacy singular suffix being
+appended after the new plural sentence (`...foram arrancados!arrancado!`); the
+suffix is now skipped for plural counts, with the focused context suite
+covering the complete plural templates.
+
+## PT-055: Creature and clothing data names fell back to English
+
+- Severity: Low
+- Type: Missing translation
+- Screen: Character details / combat roster
+- Replay status: **Fixed in catalogs; focused translation and helper tests pass**
+
+The initialized Portuguese catalog reported raw `Club Security` and `Naked`
+data names while rendering player-facing creature and clothing details. Added
+`Segurança de Boate` and `Nu` entries and regression assertions; the helper
+now translates generated encounter names whenever an explicit catalog entry
+exists while preserving arbitrary player-created names.
+
+## PT-056: Daily arrival status retained a stale trailing character
+
+- Severity: Medium
+- Type: Fixed-width redraw
+- Screen: Base → daily visit arrival status
+- Replay status: **Source clear added; fresh headless replay passes**
+
+When a shorter Portuguese arrival message overwrote a previous status line, the
+old final character remained visible (`...Delegacia de Polícia.o`). The daily
+arrival and safehouse prompt now clear row 8 before rendering; the runtime route
+Fresh hot-restarted replay now renders the full row followed by blank padding.

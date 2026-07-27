@@ -420,9 +420,30 @@ outdated-save, and crash-report captures.
 The combat route found English police/wardrobe assets, raw kidnapping pronouns,
 two untranslated hostage fragments, and an unarmed-founder `RangeError` before
 the martial-arts branch. Catalog entries, pronoun translation, and the empty
-attack-description guard are now in place. A fresh deterministic combat replay
-remains before marking PT-052/PT-053 fully verified.
+attack-description guard are now in place. The follow-up forced replay caught
+the generated-name helper gap; the explicit-catalog lookup and focused helper
+regression now close that path, while the unarmed route remains verified.
 
 The same static combat pass identified an open plural-composition gap in the
 multi-tooth injury prefix. It needs plural-aware suffix selection, not just a
 literal catalog entry, and is tracked as PT-054.
+
+The focused Portuguese suite then exposed two additional player-facing data
+fallbacks (`Club Security` and `Naked`). Both now have catalog entries and
+regression assertions; the helper regression now covers generated encounter
+names alongside the fresh runtime evidence for PT-052–PT-054.
+
+Fresh hot-restarted combat replay verified the complete follow-up: arrival text
+no longer retains a stale trailing character; the unarmed founder reaches the
+site without a `RangeError`; target names and `flails at` are Portuguese; armor
+hit descriptions include the article; and encounter rows translate and fit
+within their fixed name/clothing/weapon columns using ellipses where needed.
+Seeded save replay likewise verified the revised corrupted-save title and all
+save/high-score edge flows.
+
+The same forced combat replay reached the plural tooth branch and caught a
+newly introduced composition bug (`foram arrancados!arrancado!`). The shared
+singular suffix is now gated to one-tooth cases only, and the focused context
+suite covers every complete plural template. The follow-up source fix also
+made generated encounter-name translation explicit and reduced the name cell
+by one column so every roster row retains a separator before clothing.

@@ -195,6 +195,45 @@ void main() {
     );
   });
 
+  test('site destination names are translated in Portuguese', () {
+    expect(catalog['Police Station'], 'Delegacia de Polícia');
+    expect(catalog['Courthouse'], 'Fórum');
+    expect(catalog['First American Bank'], 'Primeiro Banco Americano');
+    expect(catalog['AM Radio Station'], 'Estação de Rádio AM');
+    expect(catalog['Health Insurance HQ'], 'Sede do Seguro Saúde');
+  });
+
+  test('playtest save, score, and crash copy stays compact and consistent', () {
+    expect(catalog['Error - Crash Expected'], 'Erro - Falha esperada');
+    expect(catalog['Flags Bought: {count}'], 'Compradas: {count}');
+    expect(catalog['Flags Burned: {count}'], 'Queimadas: {count}');
+    expect(catalog[r'$ Spent: {count}'], r'$ Gasto: {count}');
+    expect(
+      catalog['Fastest Victory: {month} {year}'],
+      'Vitória mais rápida: {month}/{year}',
+    );
+    expect(
+      catalog['Are you SURE you want to delete this saved game?'],
+      'Tem CERTEZA de que quer excluir este salvamento?',
+    );
+  });
+
+  test('playtest combat and kidnapping fragments stay localized', () {
+    expect(catalog['Overalls'], 'Macacão');
+    expect(catalog['Police Uniform'], 'Uniforme Policial');
+    expect(catalog['Police Gang Unit'], 'Unidade Policial');
+    expect(
+      catalog['eyeing the Liberals with suspicion.'],
+      'encarando os Liberais com desconfiança.',
+    );
+    expect(
+      catalog['but {target2} writhes away!'],
+      'mas {target2} se contorce e escapa!',
+    );
+    expect(catalog['he'], 'ele');
+    expect(catalog['she'], 'ela');
+  });
+
   test('headline translations preserve Portuguese accents and context', () {
     const expected = {
       'ARMY ROLLS OUT': 'EXÉRCITO TOMA AS RUAS',

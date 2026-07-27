@@ -191,7 +191,7 @@ Future<bool> loadGameMenu() async {
           founder = _nameOfFounder(saveFile.gameState!);
         } else {
           inGameDate = LcsI18n.tr("Error");
-          founder = "Error - Crash Expected";
+          founder = LcsI18n.tr("Error - Crash Expected");
         }
         renderSaveMenuListRow(
           y: y,

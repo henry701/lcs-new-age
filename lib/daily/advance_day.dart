@@ -126,7 +126,7 @@ Future<void> _advanceSquads() async {
           1,
           lightGray,
           "{squad} decided {site} was too hot to risk.",
-          params: {"squad": s.name, "site": site.name},
+          params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
         );
         await getKey();
         s.activity = Activity(ActivityType.none);
@@ -139,7 +139,7 @@ Future<void> _advanceSquads() async {
           1,
           lightGray,
           "{squad} didn't have a car to get to {site}.",
-          params: {"squad": s.name, "site": site.name},
+          params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
         );
         await getKey();
         s.activity = Activity(ActivityType.none);
@@ -167,7 +167,7 @@ Future<void> _advanceSquads() async {
             1,
             lightGray,
             "{squad} couldn't afford to travel to {site}.",
-            params: {"squad": s.name, "site": site.name},
+            params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
           );
           await getKey();
           canDepart = false;
@@ -178,7 +178,11 @@ Future<void> _advanceSquads() async {
             1,
             lightGray,
             "{squad} paid {price} to travel to {site}.",
-            params: {"squad": s.name, "price": price, "site": site.name},
+            params: {
+              "squad": LcsI18n.tr(s.name),
+              "price": price,
+              "site": site.getName(),
+            },
           );
           await getKey();
         }
@@ -356,7 +360,7 @@ Future<void> _squadDepart(Squad s) async {
       1,
       lightGray,
       "{squad} looks around {site}.",
-      params: {"squad": s.name, "site": site.name},
+      params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
     );
     await getKey();
   } else {
@@ -365,7 +369,7 @@ Future<void> _squadDepart(Squad s) async {
       1,
       lightGray,
       "{squad} has arrived at {site}.",
-      params: {"squad": s.name, "site": site.name},
+      params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
     );
     await getKey();
   }

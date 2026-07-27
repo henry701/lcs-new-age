@@ -71,7 +71,7 @@
   "Export failed: {error}": "Falha na exportação: {error}",
   "Extremely Difficult": "Extremamente Difícil",
   "Family Name: ": "Sobrenome: ",
-  "Fastest Victory: {month} {year}": "Vitória mais rápida: {month} {year}",
+  "Fastest Victory: {month} {year}": "Vitória mais rápida: {month}/{year}",
   "Flags Bought: {buys}": "Compradas: {buys}",
   "Flags Burned: {burns}": "Queimadas: {burns}",
   "Free abortions are easily available at any time during pregnancy.": "Abortos gratuitos são facilmente disponíveis a qualquer momento durante a gravidez.",

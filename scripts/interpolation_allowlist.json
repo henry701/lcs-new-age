@@ -304,49 +304,49 @@
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 838,
+      "line": 842,
       "text": "ribs(${b.ribs}/${b.maxRibs})",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 848,
+      "line": 852,
       "text": "[HOSP] ${p.name} day=${p.daysHospitalized} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 849,
+      "line": 853,
       "text": "ct=${clinictime(p)} blood=${p.blood}/${p.maxBlood} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 850,
+      "line": 854,
       "text": "med=${medical[p.site]} canon=${identical(canonical, p.site)} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 851,
+      "line": 855,
       "text": "site=${p.site?.idString}(${p.site?.type.name}) ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 852,
+      "line": 856,
       "text": "inj=$inj nasty=$nasty",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 1055,
+      "line": 1059,
       "text": "\\$${p.medicalBills}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 1061,
+      "line": 1065,
       "text": "\\$${ledger.funds}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -1084,61 +1084,61 @@
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 812,
+      "line": 814,
       "text": "${a.name} rolls $aroll + $bonus, ${t.name} rolls $droll",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1105,
+      "line": 1107,
       "text": "Damage mod: $mod, damage before application: $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1109,
+      "line": 1111,
       "text": "Damage reduced to $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1112,
+      "line": 1114,
       "text": "Damage increased to $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1139,
+      "line": 1141,
       "text": "Random: $random, fixed: $fixed, hits: $bursthits",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1140,
+      "line": 1142,
       "text": "Initial damage roll: $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1231,
+      "line": 1233,
       "text": "Final damage after hit location effects: $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1239,
+      "line": 1241,
       "text": "Target blood before hit: ${target.blood}/${target.maxBlood}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1241,
+      "line": 1243,
       "text": "Target blood after hit: ${target.blood}/${target.maxBlood}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1967,
+      "line": 1969,
       "text": "Making loot for ${cr.name} into $lootPile",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

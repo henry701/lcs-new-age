@@ -1227,3 +1227,69 @@ and the warning to `antes de o ataque acertar`.
 The Portuguese modal heading and notice are localized, but the release-note
 bullets remain English and explicitly state that they are available only in
 English. This is an intentional product choice, not a stale-locale regression.
+
+## PT-050: Generic city sites leaked English names in Portuguese
+
+- Severity: Medium
+- Type: Missing translation / composed parameter
+- Screen: Base → Vá adiante → Centro de Seattle; daily arrival message
+- Replay status: **Fixed in source/catalogs; fresh route replay confirmed site names**
+
+The destination list and arrival status exposed `Police Station`, `Courthouse`,
+`First American Bank`, and `AM Radio Station`. Site names were passed as raw
+parameters in daily activity messages, bypassing translation. Added Portuguese
+site-name entries and pass `site.getName()` (plus a translated default squad
+name) to visit/arrival messages. A fresh headless route now shows `Delegacia de
+Polícia`, `Fórum`, `Primeiro Banco Americano`, and `Estação de Rádio AM`.
+
+## PT-051: Save/high-score edge copy clipped or mixed terminology
+
+- Severity: Medium
+- Type: Fixed-width layout / consistency
+- Screen: Title → Pontuações; save management; outdated/broken-save flows
+- Replay status: **Fixed in catalogs/source; focused regression tests pass; seeded runtime replay pending**
+
+Seeded headless saves exposed clipped universal flag counts, an inconsistent
+`$ gasto` label, long outdated-save bullets, and a broken-save `Error - Crash
+Expected` fallback that bypassed translation. Delete confirmation also mixed
+`excluir` with `apagar` and `jogo salvo` with `salvamento`. Compact Portuguese
+wording, the translated fallback, and consistent delete verbs are covered by
+catalog and layout/context tests.
+
+## PT-052: Combat/hostage assets and pronouns leaked English
+
+- Severity: Medium
+- Type: Missing translation / parameter context
+- Screen: Site combat roster; kidnapping education prompt
+- Replay status: **Fixed in catalogs/source; fresh combat replay pending**
+
+Combat setup showed `Police Gang Unit`, `Police Uniform`, and `Overalls` in
+English. The captive-education prompt also inserted raw `he`/`she`, and two
+kidnapping encounter fragments lacked Portuguese entries. Added compact
+Portuguese catalog values and translate the pronoun parameter before formatting.
+
+## PT-053: Unarmed founder could crash on first combat attack
+
+- Severity: High
+- Type: Gameplay blocker
+- Screen: Site mode → combat with the default unarmed founder
+- Replay status: **Source guard added; focused test/build validation pending fresh combat replay**
+
+The combat loop sampled `attackDescription` before checking `WEAPON_NONE`.
+The default unarmed founder has an empty description list, producing a
+`RangeError` instead of selecting a martial-arts action. The action now uses an
+empty fallback until the weaponless branch selects an unarmed move.
+
+## PT-054: Multi-tooth injury prefixes remain untranslated
+
+- Severity: Medium
+- Type: Missing translation / grammatical composition
+- Screen: Site mode → combat → tooth injury
+- Replay status: **Open; deterministic injury replay and plural-aware composition needed**
+
+The branches for `All {teethminus} of {name}'s teeth are ` and
+`{teethminus} of {name}'s teeth are ` have no Portuguese entries. Adding a
+literal prefix alone would still require plural-aware suffixes (`queimado`,
+`cortado`, and similar fragments), because the same suffix is currently shared
+by singular and plural tooth counts. Keep this for the combat follow-up rather
+than introducing a context-blind translation.

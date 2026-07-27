@@ -398,3 +398,31 @@ Fresh-server verification completed for the vehicle selector and travel-city
 list: all three guidance lines are complete, and Seattle, New York, Los Angeles,
 and Washington descriptors are now Portuguese and visible within their columns.
 The temporary founder shortcut was reverted and the server hot-restarted again.
+
+## Headless site/save/combat residual sweep — 2026-07-26
+
+This pass used only CLI `agent-browser` sessions against local Flutter
+`web-server` instances. No headed browser or desktop automation was used.
+
+The fresh Portuguese site route confirmed that generic destination names and
+arrival parameters now render as `Delegacia de Polícia`, `Fórum`, `Primeiro
+Banco Americano`, and `Estação de Rádio AM`. The same route exposed a stale
+trailing fragment when a shorter arrival line overwrote a longer previous line;
+this is a redraw/layout follow-up rather than a locale fallback.
+
+The save/high-score route was exercised with isolated seeded browser data. It
+found clipped universal flag counts, long outdated-save warnings, a broken-save
+fallback that skipped translation, and mixed delete terminology. These were
+shortened or unified in the catalogs and source; focused context/layout tests
+pass. Evidence retained in `agent-tmp/lcs-new-age/` includes the high-score,
+outdated-save, and crash-report captures.
+
+The combat route found English police/wardrobe assets, raw kidnapping pronouns,
+two untranslated hostage fragments, and an unarmed-founder `RangeError` before
+the martial-arts branch. Catalog entries, pronoun translation, and the empty
+attack-description guard are now in place. A fresh deterministic combat replay
+remains before marking PT-052/PT-053 fully verified.
+
+The same static combat pass identified an open plural-composition gap in the
+multi-tooth injury prefix. It needs plural-aware suffix selection, not just a
+literal catalog entry, and is tracked as PT-054.

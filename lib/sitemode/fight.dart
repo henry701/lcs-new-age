@@ -511,7 +511,9 @@ Future<bool> attack(
   int maxNumberOfAttacks = attackUsed.numberOfAttacks;
   double damageMultiplier = 1;
 
-  String action = LcsI18n.tr(attackUsed.attackDescription.random);
+  String action = attackUsed.attackDescription.isEmpty
+      ? ''
+      : LcsI18n.tr(attackUsed.attackDescription.random);
   if (a.weapon.type.idName == "WEAPON_NONE") {
     int result = a.skillRoll(Skill.martialArts);
     if (a.body is HumanoidBody) {

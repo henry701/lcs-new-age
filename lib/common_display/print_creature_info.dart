@@ -32,7 +32,7 @@ void printCreatureInfo(
     2,
     lightGray,
     "{name}, {title}",
-    params: {"name": cr.name, "title": cr.title},
+    params: {"name": localizedCreatureName(cr), "title": cr.title},
   );
   if (cr.isHoldingBody) {
     addstr(
@@ -281,7 +281,7 @@ void printWounds(Creature cr, {int y = 2, int x = 49, int? maxWidth}) {
         _addWoundStatus("Animal", statusWidth);
       } else {
         _addWoundStatus(
-          cr.align == Alignment.liberal ? "Liberal" : "Healthy",
+          cr.align == Alignment.liberal ? "Liberal (body status)" : "Healthy",
           statusWidth,
         );
       }
@@ -725,10 +725,13 @@ void printFullCreatureStats(
   // Add recruit stats
   if (!cr.brainwashed) {
     move(19, 0);
-    addstr((cr.maxSubordinates - cr.subordinatesLeft).toString());
-    addstr(" Recruits / ");
-    addstr(cr.maxSubordinates.toString());
-    addstr(" Max");
+    addstr(
+      "{recruits} Recruits / {max} Max",
+      params: {
+        "recruits": cr.maxSubordinates - cr.subordinatesLeft,
+        "max": cr.maxSubordinates,
+      },
+    );
   } else {
     move(19, 0);
     addstr("Enlightened Can't Recruit");
@@ -743,11 +746,9 @@ void printFullCreatureStats(
   move(20, 0);
   int lovers = cr.relationships.length;
   int maxLovers = cr.maxRelationships;
-  addstr("{lovers} Lover", params: {"lovers": lovers.toString()});
-  if (lovers != 1) addstr("s");
   addstr(
-    " / {max} {maxLabel}",
-    params: {"max": maxLovers.toString(), "maxLabel": "Max"},
+    lovers == 1 ? "{lovers} Lover / {max} Max" : "{lovers} Lovers / {max} Max",
+    params: {"lovers": lovers, "max": maxLovers},
   );
   // Any dates with potential love interests scheduled?
   if (cr.scheduldeDates > 0) {

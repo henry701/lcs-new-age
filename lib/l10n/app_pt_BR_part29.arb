@@ -89,6 +89,7 @@
   "Locked alarmed metal door": "Porta de metal trancada com alarme",
   "Look, it was a Conservative Crime Squad hit, that's all we know, ": "Olha, foi um ataque do Esquadrão do Crime Conservador, é tudo que sabemos, ",
   "Making {clothing}": "Fazendo {clothing}",
+  "Martial Artist": "Artista Marcial",
   "Metal door": "Porta de metal",
   "Midland, TX": "Midland, Texas",
   "News from our {gender} in the White House: Under ": "Notícias de nosso {gender} na Casa Branca: Sob ",
@@ -237,5 +238,7 @@
   "{name}'s Pawnshop": "Casa de Penhores de {name}",
   "{name}'s nose is burned away!": "O nariz de {name} foi queimado!",
   "{name}'s {article} about this gets more views than usual. ": "{article} de {name} sobre isso recebe mais visualizações que o normal. ",
+  "{pronounCap} can maintain {relationshipCount} more {relationshipLabel}, and has {dateCount} {dateLabel} lined up.": "{pronounCap} pode manter mais {relationshipCount} {relationshipLabel} e tem {dateCount} {dateLabel} marcados.",
+  "{recruits} Recruits / {max} Max": "{recruits} Recrutas / {max} Máx",
   "{vehicle}'S DRIVER IS DEAD!": "MOTORISTA DO {vehicle} ESTÁ MORTO!"
 }

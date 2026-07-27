@@ -5,6 +5,7 @@ import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/conversion.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
+import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
@@ -208,12 +209,20 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
   final bookOption = inPerson
       ? "A - Spend \$50 on props and a book for them to keep."
       : "A - Spend \$50 on props and an e-book for them to keep.";
-  addOptionText(13, 0, "A", bookOption, enabledWhen: ledger.funds >= 50);
-  addOptionText(
+  addOptionTextFitted(
+    13,
+    0,
+    "A",
+    bookOption,
+    CONSOLE_WIDTH,
+    enabledWhen: ledger.funds >= 50,
+  );
+  addOptionTextFitted(
     14,
     0,
     "B",
     "B - Just casually chat with them and discuss politics.",
+    CONSOLE_WIDTH,
   );
 
   final canRecruit = p.subordinatesLeft > 0 && r.eagerness >= 4;
@@ -222,16 +231,17 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       : p.subordinatesLeft <= 0
       ? "C - {recruiter} needs more Juice to recruit."
       : "C - {recruit} isn't ready to join the LCS.";
-  addOptionText(
+  addOptionTextFitted(
     15,
     0,
     "C",
     recruitmentOption,
+    CONSOLE_WIDTH,
     params: {"recruiter": p.name, "recruit": r.recruit.name},
     enabledWhen: canRecruit,
   );
 
-  addOptionText(16, 0, "D", "D - Break off the meetings.");
+  addOptionTextFitted(16, 0, "D", "D - Break off the meetings.", CONSOLE_WIDTH);
 
   int y = 18;
 

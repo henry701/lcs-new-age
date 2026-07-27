@@ -1002,3 +1002,61 @@ name is less informative than the English counterpart.
 
 The `$20` flag action now uses the concise `P - Orgulho: Hastear bandeira
 ($20)` translation, which fits the activism column without an ellipsis.
+
+## PT-036: Recruitment profession selector exposes English type names
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Base mode → Assign Tasks → Recruiting → profession selector
+- Replay status: **Fixed and reverified in the 2026-07-26 headless pass**
+
+### Actual (before fix)
+
+The Portuguese selector translated the prompt and difficulty legend but left
+the profession rows in English, including `College Student`, `Drug Addict`,
+`Highschool Dropout`, and `Gang Member`.
+
+### Resolution
+
+Added catalog coverage for the complete recruitable profession list and
+localized the selector's dynamic type field. The live selector now renders
+`Estudante Universitário`, `Dependente Químico`, `Evadido do Ensino Médio`, and
+`Membro de Gangue`, while retaining the original hotkeys and difficulty column.
+
+## PT-037: Recruitment candidate rows and dialogue use raw type names
+
+- Severity: Medium
+- Type: Missing translation / dynamic display
+- Screen: Recruiting activity → candidate list and conversation
+- Replay status: **Fixed and reverified on 2026-07-26**
+
+### Actual (before fix)
+
+Candidate rows, the candidate profile heading, and the conversation header
+showed `College Student` even after the profession selector had been localized.
+The footer also rendered `Enter/Escape - Call it a day` in English.
+
+### Resolution
+
+Display-only creature-name localization now translates fallback type names while
+leaving generated proper names unchanged. The candidate footer has an explicit
+Portuguese catalog entry and the live route now shows `Estudante Universitário`
+and `Enter/Escape - Dar o dia por encerrado`.
+
+## PT-038: Long Portuguese issue prompts clip at the console edge
+
+- Severity: Medium
+- Type: Fixed-width layout / wrapped dialogue
+- Screen: Recruiting conversation → discuss politics
+- Replay status: **Fixed and reverified on 2026-07-26**
+
+### Actual (before fix)
+
+Translated issue quotes were written as one unbounded line. A Portuguese line
+such as the NSA/privacy prompt ended mid-word at column 80.
+
+### Resolution
+
+Issue prompts now use the console paragraph wrapper after translation, preserving
+the quote and its intentional line breaks while wrapping expanded Portuguese
+text inside the 80-column viewport.

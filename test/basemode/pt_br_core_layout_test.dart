@@ -6,10 +6,12 @@ import 'package:lcs_new_age/basemode/base_mode.dart';
 import 'package:lcs_new_age/basemode/review_mode.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_creature_info.dart';
+import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 
@@ -17,6 +19,10 @@ import '../test_support.dart';
 
 String _consoleLine(int y) =>
     console.buffer[y].map((character) => character.glyph).join().trimRight();
+
+String _consoleText() => console.buffer
+    .map((row) => row.map((character) => character.glyph).join())
+    .join('\n');
 
 String _consoleCells(int y, int start, int end) => console.buffer[y]
     .sublist(start, end)
@@ -140,6 +146,32 @@ void main() {
     },
   );
 
+  test(
+    'Portuguese active-Liberal review footer keeps controls separated',
+    () async {
+      pool.add(_activeLiberal());
+      console.keyEvent(_enterKey);
+
+      await reviewMode(ReviewMode.liberals);
+
+      expect(_consoleCells(22, 0, 40), isNot(contains('Z -')));
+      expect(_consoleCells(22, 40, 80).trimLeft(), startsWith('Z -'));
+      expect(_consoleCells(23, 0, 40), isNot(contains('T -')));
+      expect(_consoleCells(23, 40, 80).trimLeft(), startsWith('T -'));
+    },
+  );
+
+  test('Portuguese party rows cap health before transport', () {
+    final liberal = _activeLiberal();
+    pool.add(liberal);
+    activeSquad = Squad()..members.add(liberal);
+
+    printParty();
+
+    expect(_consoleCells(2, 59, 70), isNot(contains('Esportivo')));
+    expect(_consoleCells(2, 70, 80), isNot(contains('Esportivo')));
+  });
+
   test('Portuguese character details respect field and skill budgets', () {
     final liberal = _activeLiberal();
 
@@ -159,5 +191,12 @@ void main() {
     expect(_consoleCells(12, 0, 8), equals('Tarefa: '));
     expect(_consoleCells(12, 8, 29).trim(), isNotEmpty);
     expect(_consoleCells(12, 29, 30), equals(' '));
+    expect(_consoleLine(19), contains('Recrutas'));
+    expect(_consoleLine(19), contains('Máx'));
+    expect(_consoleLine(20), contains('Amantes'));
+    expect(_consoleLine(20), contains('Máx'));
+    expect(_consoleLine(19), isNot(contains('Recruits')));
+    expect(_consoleLine(20), isNot(contains(' Max')));
+    expect(_consoleText(), isNot(contains('Liberal (')));
   });
 }

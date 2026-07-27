@@ -44,7 +44,10 @@ Future<void> _selectRecruitTarget(Creature cr) async {
         0,
         key,
         "{key} - {name}",
-        params: {"key": key, "name": recruitableCreatures[index].name},
+        params: {
+          "key": key,
+          "name": LcsI18n.tr(recruitableCreatures[index].name),
+        },
       );
       addDifficultyText(y, 49, recruitableCreatures[index].difficulty);
     },

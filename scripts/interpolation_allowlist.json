@@ -130,37 +130,37 @@
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 471,
+      "line": 465,
       "text": "\\$${tempp.medicalBills}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1283,
+      "line": 1279,
       "text": "&${ColorKey.fromColor(bracketcolor)}[",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1285,
+      "line": 1281,
       "text": "&${ColorKey.fromColor(blue)}[",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1286,
+      "line": 1282,
       "text": "&${ColorKey.fromColor(blue)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1288,
+      "line": 1284,
       "text": "&${ColorKey.fromColor(bracketcolor)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1291,
+      "line": 1287,
       "text": "&${ColorKey.fromColor(namecolor)}$name",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
@@ -184,13 +184,13 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 250,
+      "line": 256,
       "text": "\\$${ledger.funds}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 364,
+      "line": 370,
       "text": "$localizedHealth$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },
@@ -1294,19 +1294,19 @@
     },
     {
       "file": "talk/talk_about_issues.dart",
-      "line": 70,
+      "line": 89,
       "text": "Talk about issues: $succeeded, $difficulty",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "talk/talk_outside_combat.dart",
-      "line": 338,
+      "line": 363,
       "text": "\\$$rent",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "talk/talk_outside_combat.dart",
-      "line": 345,
+      "line": 370,
       "text": "\\$$rent",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },

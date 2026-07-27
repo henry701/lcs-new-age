@@ -200,6 +200,7 @@
   "{label}: {fileName}": "{label}:  {fileName}",
   "{modifier} {noun}: A new book further documenting the other side of Reagan.": "{modifier} {noun}: um novo livro que documenta ainda mais o outro lado de Reagan.",
   "{months} month{plural} in prison": "{months} mes{plural} na prisão",
+  "{name} can manage {subordinateCount} more {subordinateLabel}, and has {meetingCount} {meetingLabel} scheduled.": "{name} pode gerenciar mais {subordinateCount} {subordinateLabel} e tem {meetingCount} {meetingLabel} na agenda.",
   "{name} explains why {pronoun} disagrees.": "{name} explica por que {pronoun} discorda.",
   "{name} is haunted by the memory of the {action}.": "{name} fica assombrado pela lembrança do {action}.",
   "{name} is immune to the attack!": "{name} é imune ao ataque!",

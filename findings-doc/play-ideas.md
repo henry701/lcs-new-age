@@ -6,6 +6,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 
 ## Current residuals to verify after fixes
 
+- Recruitment route: the first profession selector, candidate list, profile,
+  political conversation, and response are covered by the latest headless pass;
+  continue with a successful recruitment meeting and a conservative target.
 - Date formatting: reach January-to-February rollover and inspect every date
   header, event line, and newspaper date.
 - Squad naming: inspect the default squad name in base, roster, assets, and

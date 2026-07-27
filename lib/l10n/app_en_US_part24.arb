@@ -53,6 +53,7 @@
   "Elkhart, IN": "Elkhart, IN",
   "Ever considered a career in politics?": "Ever considered a career in politics?",
   "FINANCE FRAUD": "FINANCE FRAUD",
+  "FLAG": "FLAG",
   "Faith": "Faith",
   "Feminist Resistance Day": "Feminist Resistance Day",
   "Fort Lauderdale, FL": "Fort Lauderdale, FL",
@@ -109,6 +110,7 @@
   "SBM": "SBM",
   "SBiF": "SBiF",
   "Sarasota, FL": "Sarasota, FL",
+  "Sex Worker": "Sex Worker",
   "Somebody is hiding in the tent.": "Somebody is hiding in the tent.",
   "Stealing a car will have the Liberal attempt to steal a car from ": "Stealing a car will have the Liberal attempt to steal a car from ",
   "Stolen {year} {vehicle}": "Stolen {year} {vehicle}",
@@ -239,6 +241,7 @@
   "{name}'s liver is punctured!": "{name}'s liver is punctured!",
   "{name}'s spleen is blasted!": "{name}'s spleen is blasted!",
   "{name}, the court sees no need to add to your existing sentence.": "{name}, the court sees no need to add to your existing sentence.",
+  "{pronounCap} cannot maintain any more relationships, but still has {dateCount} {dateLabel} lined up.": "{pronounCap} cannot maintain any more relationships, but still has {dateCount} {dateLabel} lined up.",
   "{squad} checks up on {name}.": "{squad} checks up on {name}.",
   "{vehicle} is {distance} feet back.": "{vehicle} is {distance} feet back.",
   "{vehicle} rolls up and rides your tailgate!": "{vehicle} rolls up and rides your tailgate!"

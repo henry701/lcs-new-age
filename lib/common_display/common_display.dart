@@ -27,6 +27,12 @@ const emDash = "—";
 String localizedSquadName(String name) =>
     name == "The Liberal Crime Squad" ? LcsI18n.tr(name) : name;
 
+String localizedCreatureName(Creature creature) {
+  return creature.name == creature.type.name
+      ? LcsI18n.tr(creature.name)
+      : creature.name;
+}
+
 abstract final class ManagementTableLayout {
   static const int consoleWidth = 80;
   static const int nameX = 0;

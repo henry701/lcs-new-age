@@ -333,3 +333,24 @@ These remain useful targets for a follow-up runtime pass.
 - PT-033's fifteen siege/election/car-theft strings are covered by Portuguese
   catalog entries and context regression tests. PT-025–PT-035 are now resolved;
   the remaining not-covered routes are listed below for future playtesting.
+
+## Headless recruitment replay — 2026-07-26
+
+The follow-up run used the CLI `agent-browser` session `lcs-pt-headless` against
+the opt-in `/?playtest=1` bridge. No headed browser was used. The DOM buffer
+provided deterministic 80×25 text capture while injected key events drove the
+turn-based route.
+
+Observed and fixed during this run:
+
+- PT-036: the profession selector's English type names are now Portuguese and
+  retain the original key and difficulty columns.
+- PT-037: candidate rows, profile headings, conversation headers, and the
+  `Enter/Escape` footer are localized without translating generated proper names.
+- PT-038: a long Portuguese issue quote previously ended mid-word; the prompt
+  now wraps inside the console.
+
+The replay reached the candidate list, profile, political conversation, and
+translated `"O quê?"` response. The recruitment activity description also now
+renders as two complete Portuguese lines without the former grammatical error
+or edge ellipsis.

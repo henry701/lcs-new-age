@@ -48,6 +48,7 @@
   "Courthouse Jail": "Courthouse Jail",
   "Create visual works of beauty.": "Create visual works of beauty.",
   "D - Recruitment and Acquisition": "D - Recruitment and Acquisition",
+  "DIFFICULTY TO ARRANGE MEETING": "DIFFICULTY TO ARRANGE MEETING",
   "DRUG PANIC": "DRUG PANIC",
   "Damn! ": "Damn! ",
   "ESCAPING PRISON": "ESCAPING PRISON",
@@ -77,6 +78,7 @@
   "Locked alarmed metal door": "Locked alarmed metal door",
   "Look, it was a Conservative Crime Squad hit, that's all we know, ": "Look, it was a Conservative Crime Squad hit, that's all we know, ",
   "Making {clothing}": "Making {clothing}",
+  "Martial Artist": "Martial Artist",
   "Metal door": "Metal door",
   "Midland, TX": "Midland, TX",
   "News from our {gender} in the White House: Under ": "News from our {gender} in the White House: Under ",
@@ -225,5 +227,7 @@
   "{name}'s Pawnshop": "{name}'s Pawnshop",
   "{name}'s nose is burned away!": "{name}'s nose is burned away!",
   "{name}'s {article} about this gets more views than usual. ": "{name}'s {article} about this gets more views than usual. ",
+  "{pronounCap} can maintain {relationshipCount} more {relationshipLabel}, and has {dateCount} {dateLabel} lined up.": "{pronounCap} can maintain {relationshipCount} more {relationshipLabel}, and has {dateCount} {dateLabel} lined up.",
+  "{recruits} Recruits / {max} Max": "{recruits} Recruits / {max} Max",
   "{vehicle}'S DRIVER IS DEAD!": "{vehicle}'S DRIVER IS DEAD!"
 }

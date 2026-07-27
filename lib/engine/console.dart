@@ -26,8 +26,10 @@ class Console {
     (y) => List.generate(CONSOLE_WIDTH, (x) => ConsoleChar.blank()),
   );
   final List<KeyEvent> keyEvents = [];
+  final List<String> injectedKeys = [];
   final List<ConsoleGraphic> graphics = [];
   Completer<KeyEvent>? nextKeyEvent;
+  Completer<void>? nextInjectedKey;
   KeyEvent? lastKey;
   bool stale = true;
   void Function() flush = () {};
@@ -216,17 +218,30 @@ class Console {
     nextKeyEvent?.complete(event);
   }
 
+  /// Injects a key for headless playtests without requiring Flutter focus.
+  void injectKey(String key) {
+    if (key.isEmpty) return;
+    injectedKeys.add(key);
+    nextInjectedKey?.complete();
+  }
+
   Future<String> getkey() async {
     flush();
     String character = '';
     while (character == '') {
-      while (lastKey == null) {
+      while (lastKey == null && injectedKeys.isEmpty) {
         nextKeyEvent = Completer<KeyEvent>();
-        await nextKeyEvent!.future;
+        nextInjectedKey = Completer<void>();
+        await Future.any([nextKeyEvent!.future, nextInjectedKey!.future]);
         nextKeyEvent = null;
+        nextInjectedKey = null;
       }
-      character = keyEventToString(lastKey!);
-      lastKey = null;
+      if (injectedKeys.isNotEmpty) {
+        character = injectedKeys.removeAt(0);
+      } else {
+        character = keyEventToString(lastKey!);
+        lastKey = null;
+      }
     }
     return character;
   }
@@ -248,6 +263,7 @@ class Console {
 
   String checkkey() {
     flush();
+    if (injectedKeys.isNotEmpty) return injectedKeys.removeAt(0);
     String character = lastKey?.character ?? '';
     lastKey = null;
     return character;

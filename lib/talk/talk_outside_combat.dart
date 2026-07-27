@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_creature_info.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -47,7 +48,7 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
     "{name:white} talks to {target:color} {ageGender}:",
     params: {
       "name": a.name,
-      "target": tk.name,
+      "target": localizedCreatureName(tk),
       "targetColor": tk.align.colorKey,
       "ageGender": creatureAgeAndGender(tk),
     },
@@ -264,20 +265,32 @@ Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
       1,
       white,
       "{name} {reaction}",
-      params: {"name": tk.name, "reaction": reaction},
+      params: {"name": localizedCreatureName(tk), "reaction": reaction},
     );
 
     await getKey();
     return true;
   } else if (tk.name != "Prisoner" && interested) {
-    mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
-    mvaddstrc(13, 1, lightBlue, "\"What?\"");
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
+    mvaddstrc(13, 1, lightBlue, LcsI18n.tr("\"What?\""));
 
     await getKey();
 
     return talkAboutIssues(a, tk);
   } else {
-    mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     setColor(lightBlue);
     move(13, 1);
     if (tk.name == "Prisoner") {
@@ -306,7 +319,13 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
   await getKey();
 
   if (a.indecent) {
-    mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     mvaddstrc(
       13,
       1,
@@ -329,7 +348,13 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
       rent = 200;
   }
 
-  mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+  mvaddstrc(
+    12,
+    1,
+    white,
+    "{name} responds, ",
+    params: {"name": localizedCreatureName(tk)},
+  );
   mvaddstrc(
     13,
     1,
@@ -369,7 +394,13 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
 
         await getKey();
 
-        mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+        mvaddstrc(
+          12,
+          1,
+          white,
+          "{name} responds, ",
+          params: {"name": localizedCreatureName(tk)},
+        );
         mvaddstrc(
           13,
           1,
@@ -381,7 +412,7 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
           14,
           1,
           "We'll start next month.\" {name} <turns away>",
-          params: {"name": tk.name},
+          params: {"name": localizedCreatureName(tk)},
         );
 
         await getKey();
@@ -406,13 +437,19 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
 
         await getKey();
 
-        mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+        mvaddstrc(
+          12,
+          1,
+          white,
+          "{name} responds, ",
+          params: {"name": localizedCreatureName(tk)},
+        );
         mvaddstrc(
           13,
           1,
           lightBlue,
           "\"Not my problem...\" {name} <turns away>",
-          params: {"name": tk.name},
+          params: {"name": localizedCreatureName(tk)},
         );
 
         await getKey();
@@ -465,14 +502,14 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
             1,
             white,
             "{name} responds, ",
-            params: {"name": tk.name},
+            params: {"name": localizedCreatureName(tk)},
           );
           mvaddstrc(
             13,
             1,
             lightBlue,
             "\"I think you'd better leave.\" {name} <crosses arms>",
-            params: {"name": tk.name},
+            params: {"name": localizedCreatureName(tk)},
           );
 
           await getKey();
@@ -485,7 +522,7 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
             1,
             white,
             "{name} responds, ",
-            params: {"name": tk.name},
+            params: {"name": localizedCreatureName(tk)},
           );
           mvaddstrc(13, 1, lightBlue, "\"Jesus... it's yours...\"");
 
@@ -522,7 +559,13 @@ Future<bool> heyIWantToCancelMyRoom(Creature a, Creature tk) async {
   await getKey();
 
   if (a.indecent) {
-    mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     mvaddstrc(
       13,
       1,
@@ -533,7 +576,13 @@ Future<bool> heyIWantToCancelMyRoom(Creature a, Creature tk) async {
     return true;
   }
 
-  mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+  mvaddstrc(
+    12,
+    1,
+    white,
+    "{name} responds, ",
+    params: {"name": localizedCreatureName(tk)},
+  );
   mvaddstrc(13, 1, lightBlue, "\"Fine.  Clear out your room.\"");
 
   await getKey();
@@ -571,19 +620,37 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
   await getKey();
 
   if (a.indecent) {
-    mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     mvaddstrc(13, 1, lightBlue, "\"Jesus...\"");
     await getKey();
     return true;
   }
   if (a.clothing.type.police) {
-    mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     mvaddstrc(13, 1, lightBlue, "\"I don't sell guns, officer.\"");
     await getKey();
     return true;
   }
   if (siteAlarm) {
-    mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     mvaddstrc(13, 1, lightBlue, "\"We can talk when things are calm.\"");
     await getKey();
     return true;
@@ -600,7 +667,13 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
     case SiteType.homelessEncampment:
     case SiteType.warehouse:
     case null:
-      mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+      mvaddstrc(
+        12,
+        1,
+        white,
+        "{name} responds, ",
+        params: {"name": localizedCreatureName(tk)},
+      );
       mvaddstrc(13, 1, lightBlue, "\"What exactly do you need?\"");
       await getKey();
       Squad? oldSquad;
@@ -627,7 +700,13 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
       }
       return true;
     default:
-      mvaddstrc(12, 1, white, "{name} responds, ", params: {"name": tk.name});
+      mvaddstrc(
+        12,
+        1,
+        white,
+        "{name} responds, ",
+        params: {"name": localizedCreatureName(tk)},
+      );
       mvaddstrc(13, 1, lightBlue, "\"Uhhh... not a good place for this.\"");
       await getKey();
       return true;

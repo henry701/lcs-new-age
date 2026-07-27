@@ -4,8 +4,10 @@ import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/recruitment.dart';
+import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/sitemode/site_display.dart';
@@ -34,26 +36,43 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
   mvaddstrc(9, 1, white, "{name} says, ", params: {"name": a.name});
   setColor(lightGreen);
   int y = 10;
-  move(y++, 1);
 
   if (youAreStupid) {
-    if (noProfanity && issue.noProfanityStupidPrompt != null) {
-      addstr(
-        "\"{prompt}\"",
-        params: {"prompt": issue.noProfanityStupidPrompt ?? issue.stupidPrompt},
-      );
-    } else {
-      addstr("\"{prompt}\"", params: {"prompt": issue.stupidPrompt});
-    }
+    final prompt = noProfanity && issue.noProfanityStupidPrompt != null
+        ? issue.noProfanityStupidPrompt!
+        : issue.stupidPrompt;
+    addparagraph(
+      y,
+      1,
+      '"{prompt}"',
+      params: {"prompt": LcsI18n.tr(prompt)},
+      x2: CONSOLE_WIDTH - 1,
+    );
   } else if (issueTooLiberal) {
-    addstr("\"{prompt}\"", params: {"prompt": issue.issueTooLiberal});
+    addparagraph(
+      y,
+      1,
+      '"{prompt}"',
+      params: {"prompt": LcsI18n.tr(issue.issueTooLiberal)},
+      x2: CONSOLE_WIDTH - 1,
+    );
   } else {
-    addstr("\"{line1}", params: {"line1": issue.normalPromptLine1});
-    if (issue.normalPromptLine2 != null) {
-      mvaddstr(y++, 1, "{line2}", params: {"line2": issue.normalPromptLine2});
-    }
-    addstr("\"");
+    final lines = [
+      LcsI18n.tr(issue.normalPromptLine1),
+      if (issue.normalPromptLine2 != null) LcsI18n.tr(issue.normalPromptLine2!),
+    ];
+    final quotedLines = StringBuffer('"')
+      ..writeAll(lines, '\n')
+      ..write('"');
+    addparagraph(
+      y,
+      1,
+      quotedLines.toString(),
+      noTranslate: true,
+      x2: CONSOLE_WIDTH - 1,
+    );
   }
+  y = console.y;
 
   await getKey();
 
@@ -169,7 +188,7 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
           y++,
           1,
           "\"{response}\"",
-          params: {"response": issue.conservativeResponse},
+          params: {"response": LcsI18n.tr(issue.conservativeResponse)},
         );
       } else {
         mvaddstr(y++, 1, "\"Whatever.\"");

@@ -10,9 +10,30 @@ import 'package:web/web.dart' as web;
 /// Flutter UI inspectable without OCR or screenshots.
 class PlaytestBridge {
   static bool get _enabled => web.window.location.search.contains('playtest=1');
+  static bool _keyboardBridgeInstalled = false;
+
+  static void _installKeyboardBridge(Console console) {
+    if (_keyboardBridgeInstalled) return;
+    _keyboardBridgeInstalled = true;
+    web.window.onKeyDown.listen((event) {
+      final key = switch (event.key) {
+        'Enter' => 'Enter',
+        'Escape' => 'Escape',
+        'ArrowUp' => 'Up',
+        'ArrowDown' => 'Down',
+        'ArrowLeft' => 'Left',
+        'ArrowRight' => 'Right',
+        'Tab' => 'Tab',
+        'Backspace' => 'Backspace',
+        _ => event.key.length == 1 ? event.key : '',
+      };
+      console.injectKey(key);
+    });
+  }
 
   static void publish(Console console) {
     if (!_enabled) return;
+    _installKeyboardBridge(console);
 
     final lines = console.buffer
         .map((row) => row.map((character) => character.glyph).join())

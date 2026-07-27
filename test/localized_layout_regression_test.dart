@@ -95,7 +95,7 @@ void main() {
       40,
     );
 
-    expect(_consoleLine(0), contains('Lavar e remendar roupas são'));
+    expect(_consoleLine(0), contains('Lavar e remendar roupas é tarefa dos'));
     expect(_consoleLine(0).length, lessThanOrEqualTo(80));
     expect(_consoleLine(1).length, lessThanOrEqualTo(80));
   });
@@ -177,14 +177,7 @@ void main() {
 
   test('Portuguese squad review names stay inside the location column', () {
     final squadName = LcsI18n.tr('The Liberal Crime Squad');
-    addOptionTextFitted(
-      2,
-      0,
-      'A',
-      'A - $squadName',
-      31,
-      noTranslate: true,
-    );
+    addOptionTextFitted(2, 0, 'A', 'A - $squadName', 31, noTranslate: true);
 
     expect(_consoleLine(2), endsWith('…'));
     expect(_consoleLine(2), isNot(contains('Crime LiberaSEA')));

@@ -200,13 +200,7 @@ Future<void> reviewAssetsAndFormSquads() async {
     addPageButtons(y: 23, x: 0);
     move(console.y, console.x + 3);
     addInlineOptionText("U", "U - Promote Liberals.");
-    addOptionTextFitted(
-      24,
-      0,
-      "Z",
-      "Z - Assemble a New Squad.  ",
-      31,
-    );
+    addOptionTextFitted(24, 0, "Z", "Z - Assemble a New Squad.  ", 31);
     addOptionTextFitted(
       24,
       31,
@@ -503,26 +497,28 @@ Future<void> reviewMode(ReviewMode mode) async {
 
     setColor(lightGray);
     move(22, 0);
-    addstr("Press a Letter to View Status.");
+    mvaddstrFitted(22, 0, "Press a Letter to View Status.", 38);
     if (swap != null) {
-      addOptionText(
+      addOptionTextFitted(
         22,
-        38,
+        40,
         "Z",
         "Z - Place {name}",
+        40,
         params: {"name": swap.name},
       );
     } else {
-      addOptionText(
+      addOptionTextFitted(
         22,
-        38,
+        40,
         "Z",
         "Z - Reorder Liberals",
+        40,
         enabledWhen: temppool.length > 1,
       );
     }
-    addPageButtons(y: 23, x: 0);
-    addOptionText(23, 38, "T", "T - Sort Liberals");
+    addPageButtons(y: 23, x: 0, short: true);
+    addOptionTextFitted(23, 40, "T", "T - Sort Liberals", 40);
 
     int c = await getKey();
 

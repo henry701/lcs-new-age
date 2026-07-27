@@ -103,7 +103,7 @@ Future<void> doActivityRecruit(Creature cr) async {
           params: {
             "letter": letter,
             "color": ColorKey.fromColor(encounter[i].align.color),
-            "name": encounter[i].name,
+            "name": localizedCreatureName(encounter[i]),
             "ageGender": creatureAgeAndGender(encounter[i]),
           },
           noTranslate: true,

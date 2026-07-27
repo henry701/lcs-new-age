@@ -113,6 +113,7 @@
   "SBM": "SBM",
   "SBiF": "SBiF",
   "Sarasota, FL": "Sarasota, Flórida",
+  "Sex Worker": "Profissional do Sexo",
   "Somebody is hiding in the tent.": "Alguém está se escondendo na tenda.",
   "Stealing a car will have the Liberal attempt to steal a car from ": "Roubar um carro fará o Liberal tentar roubar um carro de ",
   "Stolen {year} {vehicle}": "Veículo roubado: {vehicle} ({year})",
@@ -243,6 +244,7 @@
   "{name}'s liver is punctured!": "O fígado de {name} foi perfurado!",
   "{name}'s spleen is blasted!": "O baço de {name} foi destruído!",
   "{name}, the court sees no need to add to your existing sentence.": "{name}, o tribunal não vê necessidade de acrescentar à sua pena atual.",
+  "{pronounCap} cannot maintain any more relationships, but still has {dateCount} {dateLabel} lined up.": "{pronounCap} não pode manter mais relacionamentos, mas ainda tem {dateCount} {dateLabel} marcados.",
   "{squad} checks up on {name}.": "{squad} visita {name}.",
   "{vehicle} is {distance} feet back.": "{vehicle} está a {distance} pés atrás.",
   "{vehicle} rolls up and rides your tailgate!": "{vehicle} encosta e fica na sua cola!"

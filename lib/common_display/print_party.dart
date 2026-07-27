@@ -53,7 +53,7 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
         LcsI18n.tr(party[p].clothing.shortName),
         noTranslate: true,
       );
-      printHealthStat(p + 2, 59, party[p], small: true);
+      printHealthStat(p + 2, 59, party[p], small: true, maxWidth: 11);
       setColor(lightGray);
       move(p + 2, 70);
       printTransportation(party[p], showCarPrefs);

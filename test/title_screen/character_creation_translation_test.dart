@@ -111,6 +111,15 @@ void main() {
     expect(_consoleLine(12), contains('+2 Agilidade, 30 de junho'));
   });
 
+  test('gender-neutral goth biography stays neutral in Portuguese', () {
+    expect(
+      LcsI18n.tr(
+        'and I went completely goth.  I had no friends and made my own clothes.',
+      ),
+      'e eu adotei o estilo gótico.  Não tinha amigos e fazia minhas próprias roupas.',
+    );
+  });
+
   test('long biography options wrap instead of disappearing at the edge', () {
     const option =
         'This biography answer is deliberately long enough to require a second line in the fixed-width console.';

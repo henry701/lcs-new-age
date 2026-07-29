@@ -208,4 +208,14 @@ void main() {
       ),
     );
   });
+
+  test('Portuguese generic activity mismatch uses a grammatical fallback', () {
+    expect(
+      LcsI18n.processString(
+        '{member} acted with {squad} instead of carrying out the planned activity.',
+        {'member': 'Hiro Németh', 'squad': 'O Esquadrão do Crime Liberal'},
+      ),
+      'Hiro Németh agiu com O Esquadrão do Crime Liberal em vez de cumprir a atividade planejada.',
+    );
+  });
 }

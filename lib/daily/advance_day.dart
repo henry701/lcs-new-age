@@ -104,7 +104,7 @@ Future<void> _advanceSquads() async {
             c.activity.type != s.activity.type) {
           final message = c.activity.type == ActivityType.recruiting
               ? "{member} acted with {squad} instead of recruiting."
-              : "{member} acted with {squad} instead of {activity}.";
+              : "{member} acted with {squad} instead of carrying out the planned activity.";
           showAdvanceDayMessage(
             8,
             1,
@@ -113,8 +113,6 @@ Future<void> _advanceSquads() async {
             params: {
               "member": c.name,
               "squad": localizedSquadName(s.name),
-              if (c.activity.type != ActivityType.recruiting)
-                "activity": c.activity.description,
             },
           );
           await getKey();

@@ -98,9 +98,9 @@ void main() {
   });
 
   test('context-sensitive UI phrases are idiomatic Brazilian Portuguese', () {
-    expect(catalog['decriminalizing'], 'descriminalizando');
-    expect(catalog['legalizing'], 'legalizando');
-    expect(catalog['subsidizing'], 'subsidiando');
+    expect(catalog['decriminalizing'], 'a descriminalização de ');
+    expect(catalog['legalizing'], 'a legalização de ');
+    expect(catalog['subsidizing'], 'o subsídio de ');
     expect(
       catalog['Fortify the compound for a siege'],
       'Fortificar o complexo para um cerco',
@@ -121,6 +121,12 @@ void main() {
     expect(
       catalog['{member} acted with {squad} instead of recruiting.'],
       '{member} agiu com {squad} em vez de recrutar.',
+    );
+    expect(
+      catalog[
+        '{member} acted with {squad} instead of carrying out the planned activity.'
+      ],
+      '{member} agiu com {squad} em vez de cumprir a atividade planejada.',
     );
     expect(catalog['LIGHTS OUT'], 'LUZES APAGADAS');
     expect(catalog['No ammo required!'], 'Não requer munição!');

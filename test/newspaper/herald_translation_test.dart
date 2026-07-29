@@ -9,6 +9,8 @@ import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/layout.dart';
 import 'package:lcs_new_age/newspaper/major_event.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
+import 'package:lcs_new_age/politics/alignment.dart';
+import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/saveload/load_cpc_images.dart';
 
@@ -82,6 +84,62 @@ void main() {
         '           O Rio Cuyahoga está em chamas com o aumento da poluição.',
       ),
     );
+  });
+
+  test('article impact labels use localized political issue names', () {
+    expect(LcsI18n.tr(View.gunControl.label), equals('Controle de Armas'));
+    expect(LcsI18n.tr(View.deathPenalty.label), equals('Pena de Morte'));
+    expect(LcsI18n.tr(View.housing.label), equals('Moradia'));
+    expect(LcsI18n.tr(View.womensRights.label), equals('Direitos das Mulheres'));
+    expect(LcsI18n.tr(View.taxes.label), equals('Impostos'));
+    expect(LcsI18n.tr(View.drugs.label), equals('Drogas'));
+    expect(LcsI18n.tr(View.ceoSalary.label), equals('Desigualdade de Renda'));
+  });
+
+  test('abortion article call to action uses the complete Portuguese phrase', () {
+    laws[Law.abortion] = DeepAlignment.moderate;
+    final story = NewsStory.unpublished(NewsStories.majorEvent)
+      ..publication = Publication.herald
+      ..view = View.womensRights;
+
+    final content = generateMajorEventContent(View.womensRights, false, story);
+
+    expect(content.storyText, contains('aprovar novas leis'));
+    expect(content.storyText, isNot(contains('pass new laws')));
+  });
+
+  test('drug-study article uses grammatical Portuguese composition', () {
+    expect(LcsI18n.tr('legalizing'), equals('a legalização de '));
+    expect(LcsI18n.tr('decriminalizing'), equals('a descriminalização de '));
+    expect(LcsI18n.tr('subsidizing'), equals('o subsídio de '));
+    expect(LcsI18n.tr('building parks'), equals('construir parques'));
+    expect(LcsI18n.tr('supporting the arts'), equals('apoiar as artes'));
+    expect(LcsI18n.tr(View.drugs.label), equals('Drogas'));
+  });
+
+  test('pollution think-tank prose uses a neutral Portuguese organization name', () {
+    for (var i = 0; i < 30; i++) {
+      final story = NewsStory.unpublished(NewsStories.majorEvent)
+        ..publication = Publication.herald;
+      final content = generateMajorEventContent(View.pollution, false, story);
+      expect(content.storyText, contains('A organização '));
+      expect(content.storyText, isNot(contains('O Família')));
+    }
+  });
+
+  test('major-event filler starts after a paragraph separator', () {
+    final story = NewsStory.unpublished(NewsStories.majorEvent)
+      ..publication = Publication.herald
+      ..view = View.housing
+      ..liberalSpin = false;
+    displayMajorEventStory(
+      story,
+      List<int>.filled(25, 1),
+      List<int>.filled(25, 78),
+    );
+
+    expect(story.body, contains('\n\n'));
+    expect(story.body, isNot(matches(RegExp(r'casas\.[A-Z]'))));
   });
 
   test('long Portuguese major-event headlines stay inside the console', () {
@@ -177,6 +235,10 @@ void main() {
           'O Rio Cuyahoga está em chamas com o aumento da poluição.',
       'hell': 'caramba',
       '[heaven]': 'caramba',
+      'it will be seeking the death penalty': 'buscará a pena de morte',
+      'pass new laws to protect the most vulnerable children in our society from being slaughtered by Liberals':
+          'aprovar novas leis para proteger as crianças mais vulneráveis da nossa sociedade de serem massacradas pelos Liberais',
+      "Women's Rights": 'Direitos das Mulheres',
     };
 
     for (final entry in expected.entries) {

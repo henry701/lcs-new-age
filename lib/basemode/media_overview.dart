@@ -204,7 +204,7 @@ Future<void> readNewsStory(NewsStory ns) async {
     renderNewsPic(ns.newspaperPhotoId!, console.y + 1, ns.remapSkinTones);
   }
   List<String> effectText = ns.effects.entries.map<String>((entry) {
-    String viewName = entry.key.label;
+    String viewName = LcsI18n.tr(entry.key.label);
     double effectValue = entry.value;
     String effectValueText = effectValue > 0
         ? LcsI18n.processString(

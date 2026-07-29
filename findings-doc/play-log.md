@@ -1538,6 +1538,33 @@ Chromium remained CLI-only with `--headless=new --ozone-platform=headless`.
 The recruitment profession list, pronoun/gender rows, candidate dialogue,
 acceptance options, and month-end reports otherwise rendered Portuguese.
 
+## Strict-headless second month/media replay — 2026-07-29
+
+This pass used only CLI `agent-browser` session `month-media-next` against a
+fresh Flutter web-server on port 7615, with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless`. No production source or
+debug flags were changed. A fresh Portuguese game was advanced through the
+January and February month-end legislative agenda/votes/finance reports, then
+the populated media overview and article details were opened in March. All
+evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/month-media-next/`.
+
+- Month rollover was clean: `31 de jan de 2023` → `1 de fev de 2023`; agenda
+  headings, resolution text, chamber/presidential vote labels, and finance
+  categories were Portuguese and fit the 80-column page.
+- The populated overview displayed five Portuguese headlines and Portuguese
+  dates/impact values without row collisions. Article detail exposed four
+  residuals promoted to PT-118–PT-121 in `findings.md`:
+  `Gun Control`, `Death Penalty`, and `Housing` impact labels remained raw
+  English; the death-penalty article contained `it will be seeking the death
+  penalty`; the housing article rendered `casas.Scottsdale, AZ` with the
+  filler city attached to the prior sentence; and the pollution article used
+  `O Família Caridade Parceria publicou`, an English-order/gender-invalid
+  generated organization name.
+- Other observed article prose, publication chrome, month-end reports, and
+  media rows were Portuguese. OCR accent substitutions are not findings; each
+  listed defect is visible in the corresponding screenshots.
+
 ## Strict-headless month-end/agenda replay — 2026-07-29
 
 This replay used a fresh Flutter web-server on port 8792 and only CLI
@@ -1805,3 +1832,108 @@ were restored to `false` before shutdown. Evidence is retained under
 No new translation or layout defect was found in these two routes. The
 browser session and only the disposable Flutter server were closed after the
 capture; no source/debug fixture changes remain.
+
+## Strict-headless profile/classes replay — 2026-07-29
+
+This focused Portuguese replay used a fresh Flutter web-server on port 7603
+and only CLI `agent-browser` session `profile-next`, with
+`AGENT_BROWSER_HEADED=0` and `--headless=new --ozone-platform=headless`. The
+shared debug flags remained `false`; no production source was changed.
+
+- The active Liberal profile showed Portuguese body-part, wound/health,
+  clothing, vehicle, task, crime, and skill vocabulary. Long body-part and
+  crime labels were bounded with ellipses and did not collide with the value
+  columns. Evidence: `profile-main.{txt,png}` and `profile-more.png` under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-classes-next/`.
+- The paid-class selector listed all 18 skills with Portuguese descriptions
+  (`Pintura, teoria das cores e mais.`, `Informática e programação.`,
+  `Manutenção e uso seguro de armas de fogo.`, etc.). No raw English sentence
+  or clipped description appeared. Evidence: `classes.{txt,png}` in the same
+  directory.
+- A deterministic Chief-of-Police encounter was not attempted with altered
+  flags in this pass; the existing police fixture remains the regression path.
+  Empty high scores correctly remained on the localized title screen.
+
+No new translation or layout issue was found. The headless browser session and
+the disposable Flutter server were closed after capture.
+
+## Strict-headless high-score/context replay — 2026-07-29
+
+This replay used a fresh Flutter web-server on port 7610 and only CLI
+`agent-browser` session `save-highscore`, with `AGENT_BROWSER_HEADED=0` and
+Chromium arguments `--headless=new --ozone-platform=headless`. The high-score
+catalog was seeded through browser-local storage so the otherwise empty screen
+could be exercised without changing production code. Evidence is retained
+under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-highscore/`.
+
+- The Portuguese title and high-score screens fit the 80-column console. Score
+  labels, outcome sentences, and seeded January–April month names were
+  Portuguese, with no raw English or column collision.
+- A May score exposed PT-117: the long-form sentence rendered `em mai de 2024`,
+  reusing the short-date abbreviation. The catalog now uses `Maio` for the
+  `getMonth` context, while `getMonthShort` retains `mai`; the focused month
+  regression test covers the distinction.
+- No additional high-score translation or layout issue was reproduced. The
+  browser session and disposable server were closed after capture.
+
+## Strict-headless shops/travel/context replay — 2026-07-29
+
+This pass used a fresh Flutter web-server on port 7620 and only CLI
+`agent-browser` session `shops-travel-next2`, with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless`. No production source or
+debug flags were changed. Evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/shops-travel-next2/`.
+
+- The fresh Portuguese title, new-game choices, city/district travel lists,
+  vehicle selector, Walden department-store clothing/equipment menus, and
+  Yamada pawn-shop menu were localized and stayed within the 80-column
+  console. The pawn-shop header showed `Casa de Penhores`; the longer visit
+  header used an intentional ellipsis (`Visitando Yamada — Casa de penhores e …`)
+  rather than a raw English site name, so PT-062 was not newly reproduced.
+- Seeded high scores rendered one contextual residual, `A ELITE Liberal`, in
+  the otherwise Portuguese high-score overlay (`high-scores-seeded.txt/png`).
+  This is not an OCR artifact: the hidden console buffer contains the exact
+  English `ELITE` token. The changelog correctly displayed a Portuguese
+  notice while retaining English-only release notes per product scope.
+- The male founder route exposed a gender-agreement defect in the high-school
+  choice: `e eu me tornei completamente gótica` (`high-school.txt`). The
+  source phrase is gender-neutral, so this should avoid feminine agreement or
+  select the founder's grammatical gender (`gótico` for the male replay).
+- A generic daily activity fallback rendered `Hiro Németh agiu com O Esquadrão
+  do Crime Liberal em vez de Causando Problemas.` (`walden-result1.txt`). The
+  Portuguese gerund cannot follow `em vez de`; a contextual infinitive such as
+  `em vez de causar problemas` is required. This is distinct from the already
+  fixed recruiting-specific fallback (PT-116).
+
+No pawn-shop raw English or column-overlap defect was confirmed in this route;
+all temporary browser/server processes were closed after capture.
+
+## Strict-headless fresh media replay — 2026-07-29
+
+This verification used only CLI `agent-browser` sessions `fix-replay` and
+`fix-replay2` against disposable Flutter web-servers on ports 7625 and 7626.
+Both browser launches were forced with `AGENT_BROWSER_HEADED=0` and
+`--headless=new --ozone-platform=headless`; no headed window was used. A
+Portuguese campaign was created from scratch, advanced to 25 January, and its
+populated media archive and article details were inspected through the DOM
+buffer bridge. Evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/` as
+`fixes-replay-*.json` and `fixes-replay2-media.json`.
+
+- The fixed media overview rendered Portuguese headlines, dates, sources, and
+  impact values. Article A had fully localized body prose.
+- Before the final catalog additions in this pass, article B/C exposed raw
+  `Taxes` and `Drugs` impact labels. Those entries are now present and covered
+  by `test/newspaper/herald_translation_test.dart` as PT-124.
+- The replay also re-exercised the previously tracked PT-100 drug-study
+  composition path. Its generated fragments remain a useful sentinel for
+  legalizing-verb, infinitive, crasis, and plural-agreement regressions; the
+  current catalog now uses `a legalização de`, infinitive tax-use fragments,
+  and a complete Portuguese article template.
+- Article A exposed a separate open PT-125 issue: generated military country
+  names can still contain the English fragment `Islands` (`Islands de
+  Korsazistan`).
+- A fresh article detail also exposed `Income Inequality: +10.1%`; this was
+  fixed as PT-126 by adding the missing `Desigualdade de Renda` catalog entry.
+
+The strict-headless sessions and disposable servers were closed after capture.

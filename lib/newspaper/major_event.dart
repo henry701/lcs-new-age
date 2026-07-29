@@ -130,13 +130,12 @@ void displayMajorEventStory(
       displayCenteredNewsFont(content.subheadline!, 11, ns);
       startLine = 17;
     }
-    displayNewsStory(
-      content.storyText! + generateFiller(200),
-      storyXStart,
-      storyXEnd,
-      startLine,
-      ns,
-    );
+    // Keep generated filler on a separate paragraph even when a localized
+    // story template omitted its terminal marker.
+    final body = StringBuffer(content.storyText!)
+      ..write('&r')
+      ..write(generateFiller(200));
+    displayNewsStory(body.toString(), storyXStart, storyXEnd, startLine, ns);
   }
 }
 
@@ -2172,41 +2171,54 @@ MajorEventContent generateMajorEventContent(
           subheadline: storyText,
         );
       case View.pollution:
-        String thinkTankName = LcsI18n.processString(
-          "{first} {second} {third}",
-          {
-            "first": LcsI18n.tr(
-              [
-                "American",
-                "United",
-                "Patriot",
-                "Family",
-                "Children's",
-                "National",
-              ].random,
-            ),
-            "second": LcsI18n.tr(
-              [
-                "Heritage",
-                "Enterprise",
-                "Freedom",
-                "Liberty",
-                "Charity",
-                "Equality",
-              ].random,
-            ),
-            "third": LcsI18n.tr(
-              [
-                "Partnership",
-                "Institute",
-                "Consortium",
-                "Forum",
-                "Center",
-                "Association",
-              ].random,
-            ),
-          },
-        );
+        final firstKey = [
+          "American",
+          "United",
+          "Patriot",
+          "Family",
+          "Children's",
+          "National",
+        ].random;
+        final secondKey = [
+          "Heritage",
+          "Enterprise",
+          "Freedom",
+          "Liberty",
+          "Charity",
+          "Equality",
+        ].random;
+        final thirdKey = [
+          "Partnership",
+          "Institute",
+          "Consortium",
+          "Forum",
+          "Center",
+          "Association",
+        ].random;
+        String thinkTankName;
+        if (LcsI18n.currentLocale == "pt_BR") {
+          // Put the organization noun first and use invariant modifiers so
+          // the article and agreement remain valid for every random draw.
+          final first = switch (firstKey) {
+            "American" => "dos Estados Unidos",
+            "United" => "da União",
+            "Patriot" => "do Patriotismo",
+            "Family" => "Familiar",
+            "Children's" => "Infantil",
+            _ => "Nacional",
+          };
+          thinkTankName = LcsI18n.processString("{third} de {second} {first}", {
+            "first": first,
+            "second": LcsI18n.tr(secondKey),
+            "third": LcsI18n.tr(thirdKey),
+          }, noTranslate: true);
+        } else {
+          thinkTankName = LcsI18n.processString("{first} {second} {third}", {
+            "first": LcsI18n.tr(firstKey),
+            "second": LcsI18n.tr(secondKey),
+            "third": LcsI18n.tr(thirdKey),
+          });
+        }
         String absurdBehavior = LcsI18n.tr(
           [
             "a modest intake of radioactive waste",

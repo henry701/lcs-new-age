@@ -45,6 +45,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   the reserved columns.
 - PT-085 fixed (2026-07-29): the hostage-slaying article keeps `rapist` and
   `perpPronounSelf` placeholders while using idiomatic Portuguese grammar.
+- PT-124 fixed (2026-07-29): article impact labels now cover the previously
+  missing `Taxes` and `Drugs` enum names (`Impostos`, `Drogas`).
+- PT-125 open: replay the military newspaper branch and replace generated
+  country fragments such as `Islands de Korsazistan` with locale-aware names.
 
 ## Recruitment/police replay follow-ups (2026-07-29)
 
@@ -127,6 +131,20 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-116 fixed (2026-07-29): recruiting's daily fallback uses a dedicated
   infinitive template (`em vez de recrutar`) rather than inserting the
   activity label `Recrutando` into that grammatical slot.
+- PT-118–PT-121 fixed (2026-07-29): media article impact labels, the
+  death-penalty dynamic sentence, the shared-filler paragraph boundary, and the
+  composed Portuguese pollution think-tank name now have code/catalog coverage.
+  Replay the same five-article archive to verify the fixes visually.
+- PT-117 fixed (2026-07-29): the long-form Portuguese `May` translation is now
+  `Maio`; `mai` remains reserved for short date contexts.
+- PT-122 fixed (2026-07-29): the masculine founder's high-school option now
+  uses gender-neutral wording (`adotei o estilo gótico`).
+- PT-123 fixed (2026-07-29): the generic daily mismatch fallback now uses
+  `em vez de cumprir a atividade planejada` instead of a gerund label.
+- PT-124 fixed (2026-07-29): article impact labels for `Taxes` and `Drugs` now
+  use `Impostos` and `Drogas`.
+- PT-126 fixed (2026-07-29): the `Income Inequality` article impact label now
+  uses `Desigualdade de Renda`.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

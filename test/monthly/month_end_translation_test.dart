@@ -79,6 +79,7 @@ void main() {
 
     expect(getMonth(1), equals('Janeiro'));
     expect(getMonth(2), equals('Fevereiro'));
+    expect(getMonth(5), equals('Maio'));
     expect(getMonthShort(1), equals('jan'));
     expect(getMonthShort(2), equals('fev'));
   });

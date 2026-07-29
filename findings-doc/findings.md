@@ -49,6 +49,16 @@
 | PT-064 | Medium | Combat translation/redraw | Police alarm route exposes `Chief of Police` and a stale action legend tail |
 | PT-065 | Medium | Help coverage | Direct Action help overlay remains entirely in English |
 | PT-066 | Medium | Recruitment context | Generated profession name can bypass the localized display helper in meeting text |
+| PT-118 | Medium | Newspaper detail | Article impact labels render raw English View names |
+| PT-119 | Medium | Newspaper translation | Death-penalty article retains an English sentence fragment |
+| PT-120 | Medium | Newspaper layout | Housing article appends filler city directly to the final sentence |
+| PT-121 | Low | Newspaper context | Generated pollution think-tank names use English word order/agreement |
+| PT-117 | Low | Translation/context | High-score month `May` renders as the Portuguese abbreviation `mai` |
+| PT-122 | Low | Translation/context | Male founder high-school option uses feminine agreement |
+| PT-123 | Medium | Translation/context | Generic daily mismatch inserts a gerund after `em vez de` |
+| PT-124 | Medium | Newspaper detail | Article impact labels omit `Taxes` and `Drugs` catalog entries |
+| PT-125 | Medium | Translation/context | Military article can expose generated country fragment `Islands` in Portuguese |
+| PT-126 | Medium | Newspaper detail | Article impact label `Income Inequality` remains English |
 
 ## PT-001: Save-management option is clipped
 
@@ -1464,3 +1474,135 @@ helper. All response and follow-up interpolations now use the same helper as
 the candidate list and profile. A fresh `Estudante Universitário` meeting
 replay rendered `Estudante Universitário responde` and no `College Student` or
 `responds`; evidence and route details are recorded in `findings-doc/play-log.md`.
+
+## PT-117: High-score month `May` renders as `mai`
+
+- Severity: Low
+- Type: Translation / context
+- Screen: Portuguese high scores
+- Replay status: **Fixed on 2026-07-29; catalog and month regression updated**
+
+Seeding a high-score entry dated May exposed `mai` in the long-form sentence
+(`... em mai de 2024`), while the other long-form month names use full names.
+The source requests `May` through `getMonth`, so the Brazilian Portuguese
+translation must be `Maio`; the short abbreviation `mai` belongs only to
+short-date contexts. The catalog now uses `Maio`, and the month-end test locks
+the distinction in place.
+
+## PT-118: Article impact labels render raw English View names
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Media overview → article detail
+- Replay status: **Fixed on 2026-07-29; replay and regression coverage updated**
+
+Opening the populated `Cidadão Armado: Salva Vidas`, `Vamos Fritar`, and
+`Preço Inaceitável` articles showed `Gun Control`, `Death Penalty`, and
+`Housing` beside the Portuguese impact values. The catalog already contains
+`Controle de Armas`, `Pena de Morte`, and `Moradia`; the detail renderer now
+passes `entry.key.label` through the locale helper. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/month-media-next/mar-article-a.png`,
+`mar-article-b.png`, and `article-c.png`.
+
+## PT-119: Death-penalty article retains an English sentence fragment
+
+- Severity: Medium
+- Type: Missing translation / interpolation context
+- Screen: Media overview → `Vamos Fritar` article
+- Replay status: **Fixed on 2026-07-29; catalog coverage updated**
+
+The final paragraph previously read `A promotoria já repetiu que it will be
+seeking the death penalty neste caso.`. The dynamic phrase now has the
+Portuguese catalog entry `buscará a pena de morte`. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/month-media-next/mar-article-b.png`.
+
+## PT-120: Housing article appends filler city directly to the final sentence
+
+- Severity: Medium
+- Type: Fixed-width article layout
+- Screen: Media overview → `Preço Inaceitável` article
+- Replay status: **Fixed on 2026-07-29; filler-boundary regression updated**
+
+The final body line previously ended `...de suas casas.Scottsdale, AZ`; the
+generated filler city was attached to the preceding sentence with no paragraph
+break or space. Major-event rendering now enforces a terminal `&r` before the
+shared filler generator. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/month-media-next/article-c.png`.
+
+## PT-121: Generated pollution think-tank names use English word order/agreement
+
+- Severity: Low
+- Type: Contextual translation
+- Screen: Media overview → `Melhorando` article
+- Replay status: **Fixed on 2026-07-29; composition and regression coverage updated**
+
+The generated name `Family Charity Partnership` previously became `Família
+Caridade Parceria`, yielding `O Família Caridade Parceria publicou`. Brazilian
+Portuguese now uses a neutral article and composed organization name (for
+example, `A organização Parceria de Caridade Familiar`) rather than independent
+token translations in English order. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/month-media-next/article-b.png`.
+
+## PT-122: High-school origin choice uses feminine agreement for a male founder
+
+- Severity: Low
+- Type: Contextual translation / gender agreement
+- Screen: Founder creation → high-school origin choices
+- Replay status: **Fixed on 2026-07-29; gender-neutral catalog wording updated**
+
+With the founder's sex set to masculine, option E rendered `e eu me tornei
+completamente gótica`. The translation now uses `e eu adotei o estilo gótico`,
+which preserves the meaning without arbitrary feminine agreement. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/shops-travel-next2/high-school.txt`;
+source `lib/title_screen/questions.dart`, catalog
+`lib/l10n/app_pt_BR_part20.arb`.
+
+## PT-123: Generic daily fallback inserts a gerund after `em vez de`
+
+- Severity: Medium
+- Type: Contextual translation / grammar
+- Screen: Base mode → daily visit plan result
+- Replay status: **Fixed on 2026-07-29; generic mismatch template updated**
+
+When a founder's existing activity was `Causando Problemas` and the squad was
+assigned to visit a shop, the mismatch line rendered `Hiro Németh agiu com O
+Esquadrão do Crime Liberal em vez de Causando Problemas.`. The generic branch
+now uses the context-neutral phrase `em vez de cumprir a atividade planejada`.
+Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/shops-travel-next2/walden-result1.txt`;
+source `lib/daily/advance_day.dart`.
+
+## PT-124: Article impact labels omit `Taxes` and `Drugs` catalog entries
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Media overview → article detail
+- Replay status: **Fixed on 2026-07-29; catalog and renderer regression coverage updated**
+
+The strict-headless archive replay showed `Taxes: -10.9%` and `Drugs: +11.8%`
+under otherwise Portuguese article bodies. The article renderer already passed
+impact names through the locale helper, but these two enum labels had no
+Portuguese catalog entries. They now render as `Impostos` and `Drogas`, with
+focused Herald coverage.
+
+## PT-125: Military article exposes an English country-name fragment
+
+- Severity: Medium
+- Type: Contextual translation
+- Screen: Media overview → `Exército Toma as Ruas` article
+- Replay status: **Open; retain for the next playtest/fix pass**
+
+The strict-headless replay rendered `Enquanto os militares dos EUA se preparam
+para se deslocar para Islands de Korsazistan ...`. The generated country name
+is assembled from an English `Islands` fragment before insertion into the
+Portuguese article template. Country-name composition needs a locale-aware
+full-name path, not independent word translation.
+
+## PT-126: Income Inequality impact label remains English
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Media overview → `CEO Americano` article detail
+- Replay status: **Fixed on 2026-07-29; catalog and regression coverage updated**
+
+The fresh strict-headless replay showed `Income Inequality: +10.1%` below an
+otherwise Portuguese article. The `View.ceoSalary` enum label had no catalog
+entry; it now renders as `Desigualdade de Renda`.

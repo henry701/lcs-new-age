@@ -51,6 +51,21 @@ void main() {
     expect(console.buffer.every((line) => line.length == 80), isTrue);
   });
 
+  test('Cable News header reserves space for the Portuguese date', () {
+    final story = NewsStory()
+      ..publication = Publication.cableNews
+      ..page = 1;
+    gameState.date = DateTime(2023, DateTime.january, 7);
+
+    preparePage(story, false);
+
+    final line = _consoleLine(0);
+    expect(line, contains('DINHEIRO'));
+    expect(line, contains('7 de jan de 2023'));
+    expect(line, isNot(contains('DINHEIRO7')));
+    expect(console.buffer.every((row) => row.length == 80), isTrue);
+  });
+
   test('pollution subheadline is localized before newspaper rendering', () {
     final story = NewsStory()..publication = Publication.herald;
     final content = generateMajorEventContent(View.pollution, true, story);
@@ -117,6 +132,20 @@ void main() {
 
     expect(content.storyText, isNot(contains('he pudesse')));
     expect(content.storyText, contains('ele pudesse'));
+  });
+
+  test('Portuguese hostage templates translate role words and participles', () {
+    expect(LcsI18n.tr('rapist'), equals('estuprador'));
+    expect(LcsI18n.tr('himself'), equals('ele mesmo'));
+    expect(LcsI18n.tr('herself'), equals('ela mesma'));
+    expect(
+      LcsI18n.translatePronoun('her', role: PronounRole.possessive),
+      equals('dela'),
+    );
+    expect(
+      LcsI18n.tr('slit the guard\'s throat with a shank'),
+      equals('cortado a garganta do guarda com uma faca improvisada'),
+    );
   });
 
   test('Herald and pollution localization units have catalog coverage', () {

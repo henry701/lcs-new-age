@@ -2006,7 +2006,10 @@ MajorEventContent generateMajorEventContent(
             {
               "city": randomCityName(),
               "prisonName": prisonName,
-              "guardPossessive": LcsI18n.tr(guardGender.hisHer),
+              "guardPossessive": LcsI18n.translatePronoun(
+                guardGender.hisHer,
+                role: PronounRole.possessive,
+              ),
               "rapist": rapist,
               "perpFullName": perp.firstLast,
               "guardFullName": guard.firstLast,

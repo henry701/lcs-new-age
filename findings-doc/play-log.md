@@ -1053,3 +1053,88 @@ was used; no source edits or debug flags were left enabled.
   conservative *success* conversion was not reached because the conservative
   target rejected the low-persuasion founder; that success branch remains a
   coverage gap rather than a claimed defect.
+
+## Headless narrow profile/management replay — 2026-07-28
+
+This pass used only CLI `agent-browser` session `narrow-profile` against the
+Portuguese Flutter web-server on port 7421. Chromium was launched with
+`--headless=new --ozone-platform=headless`; viewport was set to 480×320. No
+source files, cheats, or git state were changed.
+
+- **PT-083 — fixed-width console clips management/profile content at narrow
+  viewport.** The base screen screenshot (`/home/henry/tmp/agent-tmp/lcs-new-age/narrow-base.png`)
+  cuts off `Dinheiro: $7`, the `TRANSPORTE` column, and the right side of the
+  planning controls; the red `DEBUG` ribbon also covers the top-right frame.
+  Review-assets (`narrow-review-assets.png`) clips the squad-name/activity
+  columns. The profile (`narrow-profile.png`) truncates body-part labels and
+  right-side `Liberal+30` statuses; its footer/help line is only partially
+  visible. These are layout/responsiveness gaps, not Portuguese translation
+  errors.
+- **PT-084 — newspaper header collides with date at narrow width.** After
+  advancing with `W` to 7 Jan 2023, the top row rendered `DINHEIRO   MAI7 de
+  jan de 2023`; the date starts immediately after the final tab and is visibly
+  overlaid/cut in `narrow-newspaper.png`. The fixed 80-column layout and DEBUG
+  ribbon remain visible.
+- **PT-085 — random newspaper article retains English fragments.** The same
+  article buffer contained `o condenado rapist Angel Schumer`, `se barricou
+  himself com o guarda`, and awkward mixed-language grammar (`captor ela`,
+  `havia arrancou`). The screenshot shows the exact Portuguese article with
+  raw English `rapist` and `himself`; this is a translation/catalog quality
+  issue in a month-end newspaper route and should be localized or retranslated.
+- **Verified management labels:** profile headings (`Perfil de um Liberal`,
+  `Nascimento`, `Masculino`, `Cisgênero`), finance report, promotion screen,
+  and task assignment screen all rendered in Portuguese at normal buffer
+  text. No additional raw English labels appeared on those routes.
+
+## Headless recruitment and police-site replay — 2026-07-29
+
+This pass used only CLI `agent-browser` session `lcs-combat` against a fresh
+Portuguese Flutter web-server on port 7420. Chromium was launched with
+`--headless=new --ozone-platform=headless`; no headed browser, source edits,
+cheats, or git mutations were used. A three-member squad reached the Seattle
+police station (`Delegacia de Polícia, Nível 1`) and returned normally; the
+station did not spawn an alarm encounter, so surrender/arrest/injury combat
+branches remain unverified.
+
+PT-086 (initially suspected recruiter-name mismatch) is withdrawn: source
+inspection and the replay order show the Felix meeting was the founder's own
+session, not Ariana's, so no defect is confirmed.
+
+- **PT-087 — stale activity text leaks into the base banner after travel.** On
+  the visit route, executing plans rendered `László Hayashi agiu com O
+  Esquadrão do Crime Liberal em vez de Recrutando.` and then
+  `Ariana Dench agiu com O Esquadrão do Crime Liberal em vez de Recrutando.o.`
+  before arrival. The second line retains the previous activity's tail (`.o.`),
+  indicating an uncleared row or width-overwrite bug. The eventual arrival text
+  (`O Esquadrão do Crime Liberal chegou a Delegacia de Polícia.`) was localized.
+- **PT-088 — female recruit receives masculine acceptance agreement.** When
+  Ariana Dench joined after the final meeting, the Portuguese line was
+  `Ariana Dench aceita, e está ansioso para começar.` It should use feminine
+  `ansiosa` for this female character (or a gender-neutral construction).
+- **PT-089 — pickup-line response still inserts the English profession label.**
+  In a conservative College Student pickup-line conversation, the response
+  line rendered `College Student responde` while the profile and candidate
+  list used Portuguese `Estudante Universitário`. This is a separate generic
+  creature-name call site from the already-fixed Biker recruitment setup.
+
+## Headless post-fix verification — 2026-07-29
+
+This verification used only CLI `agent-browser` session `root-verify` against
+port 7422, launched with `--headless=new --ozone-platform=headless`. The
+Portuguese title, founder setup, base, task assignment, and activity-help
+routes were replayed through the DOM playtest buffer; no headed browser was
+opened.
+
+- The base and task-assignment screens now show localized activity text without
+  the stale `Recrutando.o.` suffix. The code-level stale-row regression test
+  also passes.
+- The activity-help route still exposes a confirmed residual: selecting
+  `A - Ativismo Liberal`, then `5 - Escrever Artigos do Guardião Liberal`,
+  followed by `?`, renders the full English body beginning `The Liberal Guardian
+  is the LCS's media presence...`. The heading and footer are Portuguese, but
+  the concatenated body fragments are not translated. This is logged for the
+  next localization pass.
+- The earlier newspaper, hostage-template, pickup-name, and recruitment
+  agreement fixes are covered by focused tests; the newspaper date/header and
+  hostage output require a month-end/event fixture for another end-to-end
+  replay.

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
@@ -83,7 +84,14 @@ void cableNewsTop() {
   Color bgColor = Publication.cableNews.backgroundColor;
   setColor(black, background: bgColor);
   mvaddstr(0, 1, " USA NEWS ");
-  addstrc(black, bg: bgColor, "  POLITICS   OPINION   SPORTS   MONEY   MORE");
+  setColor(black, background: bgColor);
+  mvaddstrcFitted(
+    0,
+    11,
+    black,
+    "  POLITICS   OPINION   SPORTS   MONEY   MORE",
+    52,
+  );
   print3x3NewsText(1, 1, "Balanced");
   setColor(darkRed, background: bgColor);
   print3x3NewsText(1, 35, "Cable News");

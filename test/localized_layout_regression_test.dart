@@ -42,6 +42,17 @@ void main() {
     expect(localizedSquadName('Minha Equipe'), equals('Minha Equipe'));
   });
 
+  test('activity banner clears stale text before a shorter result', () {
+    final squad = Squad.temporary();
+    squad.activity = Activity(ActivityType.recruiting);
+    console.mvaddstr(0, 40, 'STALE ACTIVITY', noTranslate: true);
+
+    printSquadActivityDescription(0, 40, squad);
+
+    expect(_consoleLine(0), isNot(contains('STALE ACTIVITY')));
+    expect(_consoleLine(0), contains('Recrutando'));
+  });
+
   test('Portuguese agenda alignment legend is translated and fits one row', () {
     const labels = [
       'Elite Liberal',

@@ -165,6 +165,15 @@ void main() {
     );
   });
 
+  test('Portuguese recruit acceptance wording is gender-neutral', () {
+    expect(
+      LcsI18n.processString('{recruit} accepts, and is eager to get started.', {
+        'recruit': 'Ariana Dench',
+      }),
+      equals('Ariana Dench aceita, e quer começar logo.'),
+    );
+  });
+
   test('Portuguese recruitment follow-up text wraps instead of clipping', () {
     erase();
     addparagraph(

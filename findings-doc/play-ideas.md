@@ -34,6 +34,36 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - Exercise save export/import and corrupted-save handling in Portuguese.
 - Repeat key screens at a narrow viewport to expose width assumptions.
 
+## Narrow replay follow-ups (2026-07-28)
+
+- PT-083: make the console responsive or provide a narrow viewport mode so
+  base/review/profile management columns and footer controls do not disappear
+  at 480×320; hide the development `DEBUG` ribbon in playtest/release builds.
+- PT-084: reserve a date column in the newspaper header so the final section
+  tab cannot collide with `7 de jan de 2023` (and other two-digit dates).
+- PT-085: audit the random newspaper catalog/article templates for untranslated
+  words (`rapist`, `himself`) and malformed Portuguese grammar.
+
+## Recruitment/police replay follow-ups (2026-07-29)
+
+- PT-086 withdrawn after source/replay review: the Felix meeting was the
+  founder's own session, so the recruiter-name mismatch was not reproduced.
+- PT-087: clear the prior activity banner before drawing the next result; the
+  police-station travel replay left `Recrutando.o.` after a shorter message.
+- PT-088: audit gender agreement in recruitment acceptance prose (`ansioso` for
+  female Ariana; prefer `ansiosa` or a neutral phrasing).
+- PT-089: route all generic profession labels in pickup-line responses through
+  `localizedCreatureName` (`College Student` leaked while the profile was
+  `Estudante Universitário`).
+- Re-run a deterministic police alarm fixture for Chief of Police, surrender,
+  arrest, injury/body-part, and post-combat screens; normal police-station
+  arrival was localized but did not spawn an encounter.
+- PT-090: translate the concatenated help bodies in `help_system.dart`; the
+  Guardian-writing help route still renders its English prose under a
+  Portuguese heading. Prefer complete paragraph keys or a safe fragment
+  strategy that preserves wrapping and does not translate already-rendered
+  substitutions twice.
+
 ## Newly prioritized after the 2026-07-26 sweep
 
 - Use the paid-class selector as a localization sentinel: sample every skill

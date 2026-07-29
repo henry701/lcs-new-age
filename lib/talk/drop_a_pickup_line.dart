@@ -327,13 +327,19 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
   }
   if ((tk.type.animal && !animalsArePeopleToo && !a.type.animal) ||
       tk.type.tank) {
-    mvaddstrc(y++, 1, white, "{name} says,", params: {"name": tk.name});
+    mvaddstrc(
+      y++,
+      1,
+      white,
+      "{name} says,",
+      params: {"name": localizedCreatureName(tk)},
+    );
     move(y, 1);
     setColor(red);
     if (tk.type.tank) {
       addstr(
         "{name} shakes its turret a firm 'no'.",
-        params: {"name": tk.name},
+        params: {"name": localizedCreatureName(tk)},
       );
     } else if (tk.type.dog) {
       switch (lcsRandom(3)) {
@@ -370,7 +376,7 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
     } else {
       addstr(
         "{name} doesn't quite pick up on the subtext.",
-        params: {"name": tk.name},
+        params: {"name": localizedCreatureName(tk)},
       );
     }
 
@@ -382,7 +388,13 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
   a.train(Skill.seduction, 10);
 
   if (a.clothing.type.police && tk.type.id == CreatureTypeIds.sexWorker) {
-    mvaddstrc(y++, 1, white, "{name} responds, ", params: {"name": tk.name});
+    mvaddstrc(
+      y++,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     setColor(red);
     move(y++, 1);
 
@@ -409,7 +421,13 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
 
     tk.isWillingToTalk = false;
   } else if (tk.name == "Prisoner") {
-    mvaddstrc(y++, 1, white, "{name} responds, ", params: {"name": tk.name});
+    mvaddstrc(
+      y++,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     move(y++, 1);
     setColor(red);
     addstr(
@@ -690,9 +708,21 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
     encounter.remove(tk);
   } else {
     if (a.indecent) {
-      mvaddstrc(y++, 1, white, "{name} looks away", params: {"name": tk.name});
+      mvaddstrc(
+        y++,
+        1,
+        white,
+        "{name} looks away",
+        params: {"name": localizedCreatureName(tk)},
+      );
     } else {
-      mvaddstrc(y++, 1, white, "{name} responds", params: {"name": tk.name});
+      mvaddstrc(
+        y++,
+        1,
+        white,
+        "{name} responds",
+        params: {"name": localizedCreatureName(tk)},
+      );
     }
     setColor(red);
     move(y++, 1);

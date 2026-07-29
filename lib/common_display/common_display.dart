@@ -292,6 +292,7 @@ void printSquadActivityDescription(int y, int x, Squad squad) {
   // Activity text shares the header's right-hand cell.  Phrase-level
   // translations can be substantially longer than their English source, so
   // keep the fixed-width console boundary intact.
+  console.eraseArea(startY: y, startX: x, endY: y + 1, endX: console.width);
   mvaddstrFitted(y, x, str, console.width - x, noTranslate: true);
 }
 

@@ -1429,35 +1429,38 @@ traits, or price metadata, preventing strings such as `Taco de beisebolN/D`.
 - Severity: Medium
 - Type: Combat translation/redraw
 - Screen: Site mode → police alarm combat
-- Replay status: **Open; fresh headless replay logged the leak and stale legend**
+- Replay status: **Partially resolved on 2026-07-29; deterministic alarm replay clean, random officer variant still unverified**
 
-The alarm route still renders the generated officer type `Chief of Police` in
-English. Its action legend can also retain a prior `Saque no chão!` fragment
-after the available actions change. Add the generated officer catalog entry and
-clear or fit the legend row on each redraw.
+The earlier route exposed a generated `Chief of Police` officer and appeared
+to retain a stale `Saque no chão!` legend fragment. The catalog now maps
+`Chief of Police` to `Chefe de Polícia`, and the deterministic siege replay
+rendered Portuguese police/armor labels with no stale legend tail. The random
+officer variant did not spawn in the latest fixture, so keep this as a narrow
+coverage residual until that generated branch is replayed explicitly.
 
 ## PT-065: Direct Action help overlay remains in English
 
 - Severity: Medium
 - Type: Missing translation
 - Screen: Site mode → police/combat map → `?` help
-- Replay status: **Open; confirmed in fresh headless Portuguese replay**
+- Replay status: **Resolved on 2026-07-29; verified in fresh strict-headless Portuguese replay**
 
-The contextual help overlay displays the English title `=== Direct Action ===`
-and English multi-paragraph guidance while only the closing prompt is
-Portuguese. The help system writes static activity text directly, so ordinary
-catalog translation does not cover this route. Localize the help payloads (or
-explicitly mark unsupported help pages) and add a Portuguese snapshot test.
+The contextual help overlay previously displayed the English title and
+multi-paragraph guidance. The help payload now passes through the composed
+catalog translator, with a focused snapshot test covering the title and body.
+The 2026-07-29 replay rendered `=== Ação Direta ===` and Portuguese guidance
+through the footer without English leakage; evidence is recorded in
+`findings-doc/play-log.md` and the durable headless artifact directory.
 
 ## PT-066: Generated profession name bypasses localization in recruitment text
 
 - Severity: Medium
 - Type: Contextual translation
 - Screen: Daily recruitment meeting
-- Replay status: **Open; observed in fresh headless replay, needs a clean route recheck after the current helper fix**
+- Replay status: **Resolved on 2026-07-29; verified in fresh strict-headless Portuguese replay**
 
-The candidate list and profile show `Estudante Universitário`, but meeting
-responses can still print `College Student`. This indicates at least one
-meeting-path interpolation is using a generated type/name value without the
-same localized-name helper used by the header. Reproduce with a deterministic
-candidate and cover every meeting response template.
+The meeting response path previously bypassed the localized creature-name
+helper. All response and follow-up interpolations now use the same helper as
+the candidate list and profile. A fresh `Estudante Universitário` meeting
+replay rendered `Estudante Universitário responde` and no `College Student` or
+`responds`; evidence and route details are recorded in `findings-doc/play-log.md`.

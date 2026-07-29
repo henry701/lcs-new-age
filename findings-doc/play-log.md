@@ -1758,3 +1758,50 @@ regression tests: the former now uses `uma coisa crescer`, and the latter now
 renders `em vez de recrutar`. No new translation or layout issue was found in
 this verification pass; PT-083 narrow-console clipping and the native file
 picker limitation remain the documented residuals.
+
+## Strict-headless recruitment-context replay — 2026-07-29
+
+This pass used a fresh Flutter web-server on port 7604 and only CLI
+`agent-browser` session `recruit-context-20260729`, with
+`AGENT_BROWSER_HEADED=0` and `--headless=new --ozone-platform=headless`. No
+production source or debug flags were changed. The Portuguese route selected
+the `Estudante Universitário` profession, generated a candidate list, opened
+a female candidate profile, and completed the political conversation branch.
+Evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/recruitment-context/`.
+
+- The profession selector, generated candidate rows, profile header, skill
+  labels, political opener, and candidate response were all Portuguese. The
+  meeting rendered `Hiro McCorkell diz, "Quer ouvir algo perturbador?"` and
+  `Estudante Universitário responde, "O quê?"`; no raw `College Student`,
+  `responds`, or other English interpolation leaked.
+- The route did not reproduce PT-066. No new translation or layout issue was
+  found in this recruitment-context branch.
+
+## Strict-headless police-alarm/help replay — 2026-07-29
+
+This replay used a disposable local Flutter web-server on port 7465 and only
+CLI `agent-browser` session `police-help-20260729`, with
+`AGENT_BROWSER_HEADED=0` and Chromium arguments
+`--headless=new --ozone-platform=headless`. Temporary `debugSiege` and
+`megaFounderCheat` flags created the deterministic police-siege fixture and
+were restored to `false` before shutdown. Evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-help/`.
+
+- **PT-065 verified fixed:** pressing `?` from the site map rendered
+  `=== Ação Direta ===`, fully Portuguese guidance paragraphs, and
+  `Pressione qualquer tecla para continuar.`. The buffer contained no
+  `=== Direct Action ===` or English body text. Screenshot/evidence:
+  `direct-action-help.png` and `help-buffer.txt`.
+- **PT-064 alarm replay:** the deterministic route reached
+  `A polícia cercou este local: Frigorífico Velho!`, the surrender warning,
+  and the police-siege roster. The roster rendered `Policial da SWAT`,
+  `Armadura da SWAT`, and Portuguese action controls; no raw English officer
+  type or stale `Saque no chão!` legend tail appeared. The random
+  `Chief of Police` unit did not spawn in this fixture, so its catalog-backed
+  path remains worth keeping in future regression coverage. Evidence:
+  `police-surrounded.png`, `siege-roster-buffer.txt`, and `siege-map.png`.
+
+No new translation or layout defect was found in these two routes. The
+browser session and only the disposable Flutter server were closed after the
+capture; no source/debug fixture changes remain.

@@ -62,7 +62,7 @@ void main() {
       prose,
       contains(
         'O presidente Ana Silva pediu ao novo Congresso que se mova rápido '
-        'para carimbar sua agenda radical Arqui-Conservadora. A esquerda '
+        'para carimbar sua agenda radical Arqui Conservadora. A esquerda '
         'parece impotente para impedir esta iminente violação da Sanidade e '
         'Justiça Liberais.',
       ),

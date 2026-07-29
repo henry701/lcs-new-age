@@ -1418,3 +1418,122 @@ headers translate profession types; CCS article fragments compose as
 suicidal-rampage sentence; and The Daily's navigation, masthead, and
 subscription copy use Portuguese catalog entries with right-aligned bounded
 rendering. Catalog sharding and interpolation validation pass after the edits.
+
+## Strict-headless month/combat replay — 2026-07-29
+
+This replay used a separate Flutter web-server on port 7462 and only CLI
+`agent-browser` session `month-combat`. The browser process was verified with
+`--headless=new --ozone-platform=headless`; no production code or debug flags
+were changed by the playtester. A fresh Portuguese game was advanced through
+January and February month-end reports, populated media/article detail, and a
+third-month article route.
+
+- **PT-099 — filler city retains a raw red color marker in article body.** The
+  drug-study article ended with the visible text `&RRichmond, California` in
+  the body (`month-combat-article3.png`). `generateFiller()` emits the
+  `{city:red}` marker, but `displayNewsStory()` writes wrapped lines through
+  `addstr()` instead of the inline-color renderer, so the marker is not
+  consumed. This is a display artifact independent of the article's
+  translation and can occur on any article that reaches filler text.
+- **PT-100 — drug-study article leaks English and has agreement errors.** The
+  same article rendered `legalizing psilocybin` instead of a Portuguese verb,
+  `o uso regular de psilocibina leva a redução de estresse e ansiedade`
+  (missing the crasis in `leva à redução`), and
+  `com alguns participantes chegando a relatar que aprendeu a se comunicar`
+  (plural `participantes` with singular `aprendeu`). Evidence:
+  `month-combat-article3.png`; source route is `View.drugs` in
+  `lib/newspaper/major_event.dart`.
+- **PT-101 — generated retirement think-tank name had English word order.**
+  The retirement article rendered `Nacional Liberdade Associação`, produced
+  from independently translated `National`, `Liberty`, and `Association`
+  tokens. Idiomatic Brazilian Portuguese needs a composed template such as
+  `Associação Nacional da Liberdade`. Evidence: `month-combat-after20.png`.
+  The fixer began a dedicated generated-name template after this replay.
+- **PT-102 — agenda intro still used the hyphenated form.** The origin-story
+  red line rendered `agenda radical Arqui-Conservadora`, while the same screen
+  and project terminology use `extrema-direita Arqui Conservadora`. Evidence:
+  `month-combat-child-10.png`. The fixer corrected the catalog variants after
+  this replay; retain a regression assertion for the exact spacing/case.
+
+Month-end agenda, vote totals, finance report, media columns, and article
+navigation otherwise rendered in Portuguese in this pass.
+
+## Strict-headless recruitment/investment follow-up — 2026-07-29
+
+- **PT-103:** the funded invest-in-location menu showed the W fortification
+  action in English because the dynamic action parameter bypassed the catalog.
+  The action variants now translate before insertion into the localized option
+  template.
+- **PT-104:** a failed female recruitment branch concatenated the translated
+  rejection sentence directly after the preceding line (`...Direitos
+  Trabalhistas.Raven Woods acha...`). Both rejection lines now render through
+  explicit row/column coordinates, preserving the required line break.
+
+## PT-099–PT-102 fixes — 2026-07-29
+
+- PT-099 fixed: newspaper story rendering now consumes inline color markers
+  such as `&R` while drawing wrapped article lines, so generated filler no
+  longer exposes markup in the visible body. A console regression test covers
+  the marker parser path.
+- PT-100 fixed: the drug-study catalog now translates the dynamic
+  `legalizing`/`decriminalizing`/`subsidizing` values, uses idiomatic
+  `uma redução do estresse e da ansiedade`, and keeps participant outcomes
+  plural (`aprenderam`, `descobriram`, and related branches).
+- PT-101 fixed: retirement articles use a locale-aware generated think-tank
+  template (`Associação Nacional da Liberdade`-style order) instead of joining
+  independently translated tokens in English order.
+- PT-102 fixed: both agenda-origin catalog variants now use the requested
+  `Arqui Conservadora` capitalization and spacing.
+
+## Strict-headless title/save/high-score replay — 2026-07-29
+
+This pass used a fresh Flutter web-server on port 7461 and only the CLI
+`agent-browser` session `save-routes`, launched with
+`--headless=new --ozone-platform=headless`. No production code or debug flags
+were changed. The game was selected in Portuguese, advanced to the base mode,
+autosaved, and reloaded through the title-screen `C` route.
+
+- Save management at the wide viewport and 480×320 rendered localized headers
+  (`DATA NO JOGO`, `LÍDER DO LCS`, `ÚLTIMO ACESSO`, `VERSÃO`), row dates, export
+  text, load/delete/export actions, delete confirmation, and return prompts.
+  Export produced `lcsna_amy_2026_07_29-01_41_46-041.json` in the headless
+  browser download directory. Reloading the save returned to a Portuguese base
+  screen with Portuguese date and activity labels.
+- A temporary score fixture was written only to this browser session's
+  `localStorage`, then removed before shutdown. The high-score page rendered
+  the localized ending, slogan, stat labels, and universal statistics at both
+  480×320 and 400×300. At 400×300 the bottom return prompt is below the viewport;
+  this is the existing narrow fixed-console residual (PT-083), not a new
+  translation defect.
+- The browser file-picker import route cannot be exercised end-to-end in strict
+  headless Chromium because the Flutter file-picker opens a native picker and
+  does not expose a DOM `<input type=file>`. Keep a real browser/file-fixture
+  import replay on the follow-up list.
+
+Evidence screenshots are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-routes/`.
+
+## Strict-headless recruitment/investment continuation — 2026-07-29
+
+The same isolated Portuguese replay continued through a factory compound,
+task assignment, recruitment, and a female Estudante Universitário meeting.
+Chromium remained CLI-only with `--headless=new --ozone-platform=headless`.
+
+- **PT-103 — one compound-upgrade action still leaks English.** The disabled
+  `Investir neste local` menu rendered
+  `W - Fortify the compound for a siege (US$ 2.000)`, while all neighboring
+  camera, trap, generator, solar, anti-aircraft, studio, hacker-den,
+  business-front, and ration options were Portuguese. The static `W -
+  {action}` wrapper is translated, but the `fortifyText` parameter is inserted
+  without translation. Evidence: `month-combat-invest.png`; source
+  `lib/basemode/invest_in_location.dart`.
+- **PT-104 — failed recruitment branch concatenates sentences.** After the
+  female candidate discussion failed, the screen displayed
+  `Trish Yoo explica as visões dela sobre Direitos Trabalhistas.Raven Woods
+  acha que Essa coisa toda foi um erro.`, with no whitespace or line break after
+  the first period. Evidence: `month-combat-recruit-accept2.png`; source
+  `lib/daily/recruitment.dart` writes the second sentence with `addstr()` at
+  the current cursor instead of moving to the next row.
+
+The recruitment profession list, pronoun/gender rows, candidate dialogue,
+acceptance options, and month-end reports otherwise rendered Portuguese.

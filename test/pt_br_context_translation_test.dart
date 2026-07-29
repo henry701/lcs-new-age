@@ -98,6 +98,25 @@ void main() {
   });
 
   test('context-sensitive UI phrases are idiomatic Brazilian Portuguese', () {
+    expect(catalog['decriminalizing'], 'descriminalizando');
+    expect(catalog['legalizing'], 'legalizando');
+    expect(catalog['subsidizing'], 'subsidiando');
+    expect(
+      catalog['Fortify the compound for a siege'],
+      'Fortificar o complexo para um cerco',
+    );
+    expect(
+      catalog['reduced stress and anxiety'],
+      'uma redução do estresse e da ansiedade',
+    );
+    expect(
+      catalog['learned to communicate with plants'],
+      contains('aprenderam'),
+    );
+    expect(
+      catalog['Generated think-tank name: {first} {second} {third}{preposition}'],
+      '{third} {first}{preposition}{second}',
+    );
     expect(catalog['NO LOVE LOST'], 'INIMIZADE DECLARADA');
     expect(catalog['LIGHTS OUT'], 'LUZES APAGADAS');
     expect(catalog['No ammo required!'], 'Não requer munição!');

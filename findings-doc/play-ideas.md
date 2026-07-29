@@ -86,6 +86,19 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   idiomatic Portuguese grammar.
 - PT-098 fixed (2026-07-29): The Daily navigation/masthead/subscription copy
   is localized and right-aligned within the 80-column page.
+- PT-099 fixed (2026-07-29): newspaper story rendering now consumes inline
+  color markers before drawing wrapped article lines, preventing `&R` filler
+  markup from leaking into the visible body.
+- PT-100 fixed (2026-07-29): the drug-study route translates all dynamic law
+  verbs and uses Portuguese article/crasis and plural outcome forms.
+- PT-101 fixed (2026-07-29): generated think-tank names use a locale-aware
+  Portuguese word-order template rather than independently joined tokens.
+- PT-102 fixed (2026-07-29): agenda/origin variants use the requested
+  `Arqui Conservadora` capitalization and spacing.
+- PT-103 fixed (2026-07-29): invest-in-location fortification variants are
+  translated before being inserted into the W option template.
+- PT-104 fixed (2026-07-29): failed recruitment rejection lines use explicit
+  coordinates so the second sentence cannot concatenate to the first.
 
 ## Newly prioritized after the 2026-07-26 sweep
 
@@ -100,6 +113,17 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   newspaper detail, finance, and legislative results together.
 - Save from Portuguese, reload it, and import the same file in a fresh session;
   compare the first base screen for labels, dates, and squad names.
+- Title/save/high-score replay verified Portuguese export, reload, and score
+  rendering in strict headless mode. Add a browser-supported file-input fixture
+  (or a real user-assisted picker run) to close the remaining import-validation
+  gap; retain a 400×300 high-score screenshot in the narrow-layout regression
+  set because its return prompt falls below the viewport.
+- PT-103: translate the dynamic `fortifyText` parameter in
+  `invest_in_location.dart`; the W fortification option still exposes
+  `Fortify the compound for a siege` in Portuguese mode.
+- PT-104: move the failed recruitment follow-up to a fresh row (or include a
+  separator) so `...Direitos Trabalhistas.` and `Raven Woods acha...` do not
+  concatenate.
 
 ## Follow-up routes from the 2026-07-26 broad sweep
 

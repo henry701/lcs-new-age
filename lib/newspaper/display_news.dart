@@ -1178,7 +1178,10 @@ void displayNewsStory(
     } else {
       move(cury, storyXStart[cury]);
     }
-    addstr(lines.first, noTranslate: noTranslate);
+    // Story text is already translated and may contain inline color markers
+    // from generated filler (for example, `&R{city}`). Parse those markers
+    // instead of writing them as visible article text.
+    addstrx(lines.first, noTranslate: true);
     lines.removeAt(0);
     centered.removeAt(0);
   }

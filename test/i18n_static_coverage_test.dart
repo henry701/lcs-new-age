@@ -164,6 +164,7 @@ void main() {
       final source = File('lib/daily/recruitment.dart').readAsStringSync();
       expect(source, isNot(contains('articlePart')));
       expect(source, isNot(contains('recruitmentText +=')));
+      expect(source, contains('mvaddstr(\n            y++,\n            0,'));
       expect(
         source,
         contains(r'"A - Spend \$50 on props and a book for them to keep."'),
@@ -198,6 +199,10 @@ void main() {
       expect(source, isNot(contains(r'"$first & $second')));
       expect(source, contains('"{first} & {second} Accounts"'));
       expect(source, contains('LcsI18n.processString(longTemplate'));
+      expect(
+        source,
+        contains('LcsI18n.tr("Fortify the compound for a siege")'),
+      );
     });
 
     test('vehicle choice labels are complete templates', () {
@@ -757,7 +762,7 @@ void main() {
         expect(ads, isNot(contains(r'&c${sexdesc()}')));
         expect(
           displayNews,
-          contains('addstr(lines.first, noTranslate: noTranslate)'),
+          contains('addstrx(lines.first, noTranslate: true)'),
         );
       },
     );

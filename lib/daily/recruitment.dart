@@ -392,13 +392,16 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
             params: {"recruiter": p.name},
           );
         } else {
-          addstr(
+          mvaddstr(
+            y++,
+            0,
             "{recruitName} thinks {pName} is dangerous extremist.",
             params: {"recruitName": recruitName, "pName": p.name},
           );
 
-          move(y++, 0);
-          addstr(
+          mvaddstr(
+            y++,
+            0,
             "This whole thing was a mistake. There won't be another meeting.",
           );
         }

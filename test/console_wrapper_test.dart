@@ -62,6 +62,12 @@ void main() {
       }, returnsNormally);
     });
 
+    test('addstrx consumes inline color markers', () {
+      resetConsole();
+      addstrx('&RRichmond, California', noTranslate: true);
+      expect(getConsoleLine(0), equals('Richmond, California'));
+    });
+
     test('mvaddstr with params formats string', () {
       expect(() {
         mvaddstr(5, 10, '{name} has been rescued.', params: {'name': 'Jane'});

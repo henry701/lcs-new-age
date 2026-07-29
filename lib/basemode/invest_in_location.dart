@@ -34,11 +34,11 @@ Future<void> investInLocation(Site loc) async {
     printLocation(loc);
     if (loc.upgradable) {
       if (!loc.compound.fortified) {
-        String fortifyText = "Fortify the compound for a siege";
+        String fortifyText = LcsI18n.tr("Fortify the compound for a siege");
         if (loc.type == SiteType.bunker) {
-          fortifyText = "Repair the bunker fortifications";
+          fortifyText = LcsI18n.tr("Repair the bunker fortifications");
         } else if (loc.type == SiteType.bombShelter) {
-          fortifyText = "Fortify the bomb shelter entrances";
+          fortifyText = LcsI18n.tr("Fortify the bomb shelter entrances");
         }
         addOptionText(
           8,

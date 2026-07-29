@@ -2378,16 +2378,15 @@ MajorEventContent generateMajorEventContent(
             "National",
           ].random,
         );
-        String thinkTankNoun = LcsI18n.tr(
-          [
-            "Heritage",
-            "Enterprise",
-            "Freedom",
-            "Liberty",
-            "Charity",
-            "Equality",
-          ].random,
-        );
+        String thinkTankNounKey = [
+          "Heritage",
+          "Enterprise",
+          "Freedom",
+          "Liberty",
+          "Charity",
+          "Equality",
+        ].random;
+        String thinkTankNoun = LcsI18n.tr(thinkTankNounKey);
         String thinkTankNoun2 = LcsI18n.tr(
           [
             "Partnership",
@@ -2398,12 +2397,17 @@ MajorEventContent generateMajorEventContent(
             "Association",
           ].random,
         );
-        String thinkTankName =
-            LcsI18n.processString("{first} {second} {third}", {
-              "first": thinkTankAdjective,
-              "second": thinkTankNoun,
-              "third": thinkTankNoun2,
-            });
+        String thinkTankName = LcsI18n.processString(
+          "Generated think-tank name: {first} {second} {third}{preposition}",
+          {
+            "first": thinkTankAdjective,
+            "second": thinkTankNoun,
+            "third": thinkTankNoun2,
+            "preposition": LcsI18n.currentLocale == "pt_BR"
+                ? (thinkTankNounKey == "Enterprise" ? " do " : " da ")
+                : "",
+          },
+        );
         FullName thinkTankSpokesperson = generateFullName(
           Gender.whiteMalePatriarch,
         );

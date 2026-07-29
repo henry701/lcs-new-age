@@ -155,6 +155,7 @@ void main() {
       expect(advanceDay, isNot(contains(r'logBlindEvent("${p.name}')));
       expect(advanceDay, isNot(contains(r'"${p.name} has been discharged')));
       expect(advanceDay, contains('"{name} has been discharged from {site}."'));
+      expect(advanceDay, contains('showAdvanceDayMessage('));
       expect(flag, isNot(contains(r'${loc.getName(short: true)}')));
       expect(flag, contains('"Change the flag flying over the {site}:"'));
       expect(flag, contains('"Fly a flag over the {site}:"'));
@@ -179,6 +180,16 @@ void main() {
         contains('"C - {recruiter} needs more Juice to recruit."'),
       );
       expect(source, contains('"C - {recruit} isn\'t ready to join the LCS."'));
+    });
+
+    test('corrupt-save restart prompt names the game explicitly', () {
+      final source = File('lib/l10n/app_pt_BR_part13.arb').readAsStringSync();
+      expect(
+        source,
+        contains(
+          'Pressione qualquer tecla para reiniciar o jogo após esta interrupção Conservadora.',
+        ),
+      );
     });
 
     test('regular activity footer uses complete actor templates', () {
@@ -278,6 +289,9 @@ void main() {
       expect(source, isNot(contains(r'" with a ${cr.weapon')));
       expect(source, isNot(contains('smashes the window{weapon}')));
       expect(source, contains('smashes the window with a {weapon}.'));
+      expect(source, contains('final breakInMessage = LcsI18n.tr('));
+      expect(source, contains('final securityFailure = LcsI18n.tr('));
+      expect(source, contains('LcsI18n.tr(location)'));
       expect(source, contains('What type of car will {name} try to find'));
     });
 
@@ -297,6 +311,14 @@ void main() {
         source,
         contains('"Choose squad member to replace {name} in Spot {spot}"'),
       );
+      expect(source, contains('addOptionTextFitted('));
+      expect(source, contains('x += 40;'));
+    });
+
+    test('visit activity descriptions localize known site names', () {
+      final source = File('lib/basemode/activities.dart').readAsStringSync();
+      expect(source, contains('LcsI18n.hasTranslation(site.name)'));
+      expect(source, contains('LcsI18n.tr(site.name)'));
     });
 
     test('regular activity menus use whole labels and templates', () {

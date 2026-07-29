@@ -163,6 +163,13 @@ void main() {
         'B - Apenas converse casualmente e discuta política com essa pessoa.',
       ),
     );
+    expect(
+      LcsI18n.processString(
+        "{recruit} isn't convinced {recruiter} really understands the problem.",
+        {'recruit': 'Milena', 'recruiter': 'Sally'},
+      ),
+      equals('Milena não acredita que Sally realmente entenda o problema.'),
+    );
   });
 
   test('Portuguese recruit acceptance wording is gender-neutral', () {

@@ -99,6 +99,23 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   translated before being inserted into the W option template.
 - PT-104 fixed (2026-07-29): failed recruitment rejection lines use explicit
   coordinates so the second sentence cannot concatenate to the first.
+- PT-105 fixed (2026-07-29): corrupt-save crash-restart and continue prompts now
+  explicitly say `reiniciar/continuar o jogo`.
+- PT-106 fixed (2026-07-29): failed recruitment dialogue uses a neutral
+  agreement-safe phrase (`não acredita ... entenda`) for every candidate gender.
+- PT-107 fixed (2026-07-29): car-theft break-in success messages now translate
+  both the bare-window and weapon variants before parameter insertion.
+- PT-108 fixed (2026-07-29): all dynamically selected hotwire-failure fragments
+  now pass through the locale catalog.
+- PT-109 fixed (2026-07-29): key-search expletives and locations now use
+  localized/profanity-safe catalog entries.
+- PT-110 fixed (2026-07-29): vehicle assignment options are fitted to 38-column
+  cells with a two-column gap, and the footer moved below the 18-row page.
+- PT-111 fixed (2026-07-29): generated visit activity headers translate known
+  site names such as `Plastic Factory` while preserving custom/player names.
+- PT-112 fixed (2026-07-29): the conservative-era intro no longer caps the
+  translated midterm-election paragraph at the English line budget, preventing
+  the following agenda paragraph from overwriting its final Portuguese words.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

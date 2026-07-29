@@ -129,13 +129,16 @@ class CarTheftScene {
 
         if (cr.attributeCheck(Attribute.strength, difficulty)) {
           final hasWeapon = (cr.weapon.type.meleeAttack?.damage ?? 0) > 10;
+          final breakInMessage = LcsI18n.tr(
+            hasWeapon
+                ? "{name} smashes the window with a {weapon}."
+                : "{name} smashes the window.",
+          );
           mvaddstrc(
             16,
             0,
             white,
-            hasWeapon
-                ? "{name} smashes the window with a {weapon}."
-                : "{name} smashes the window.",
+            breakInMessage,
             params: {
               "name": cr.name,
               "weapon": cr.weapon.getName(sidearm: true),
@@ -264,7 +267,7 @@ class CarTheftScene {
           await getKey();
           started = true;
         } else {
-          final securityFailure = switch (lcsRandom(
+          final securityFailure = LcsI18n.tr(switch (lcsRandom(
             cr.skill(Skill.security) < 4 ? 3 : 5,
           )) {
             0 => "fiddles with the ignition, but the car doesn't start.",
@@ -275,7 +278,7 @@ class CarTheftScene {
               "makes something in the engine click, but the car doesn't start.",
             _ =>
               "manages to turn on some dash lights, but the car doesn't start.",
-          };
+          });
           mvaddstrc(
             y++,
             0,
@@ -316,6 +319,7 @@ class CarTheftScene {
               location = "taped to the muffler!";
           }
         }
+        location = LcsI18n.tr(location);
         if (cr.attributeCheck(Attribute.intelligence, difficulty)) {
           setColor(lightGreen);
           mvaddstrc(
@@ -324,7 +328,7 @@ class CarTheftScene {
             lightGreen,
             "{expletive}!  {name} found the keys {location}",
             params: {
-              "expletive": noProfanity ? "[Car Keys]" : "Holy Shit",
+              "expletive": LcsI18n.tr(noProfanity ? "[Car Keys]" : "Holy Shit"),
               "name": cr.name,
               "location": location,
             },
@@ -358,8 +362,8 @@ class CarTheftScene {
             ].random;
           }
           final renderedRummageMessage = LcsI18n.processString(rummageMessage, {
-            "expletive": noProfanity ? "[Shoot]" : "Fuck",
-            "expletive2": noProfanity ? "[Darn] it" : "Dammit",
+            "expletive": LcsI18n.tr(noProfanity ? "[Shoot]" : "Fuck"),
+            "expletive2": LcsI18n.tr(noProfanity ? "[Darn] it" : "Dammit"),
           });
           mvaddstrcx(
             y++,

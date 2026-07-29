@@ -1029,3 +1029,16 @@ Future<void> defeatMessages(
   mvaddstrc(12, 10, darkGray, dark);
   await getKey();
 }
+
+/// Renders a daily-result message without exposing text from the previous
+/// result when the new localized sentence is shorter.
+void showAdvanceDayMessage(
+  int y,
+  int x,
+  Color color,
+  String message, {
+  Map<String, dynamic>? params,
+}) {
+  eraseLine(y);
+  mvaddstrc(y, x, color, message, params: params);
+}

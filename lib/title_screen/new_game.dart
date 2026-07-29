@@ -526,7 +526,6 @@ Future<void> aNewConservativeEra() async {
     console.y + 1,
     2,
     "With Conservatives having swept into power in the recent midterm elections, and a Conservative majority in the Supreme Court of the United States, commentators are hailing it as the beginning of a new Conservative era.",
-    y2: 14,
     x2: 77,
   );
 

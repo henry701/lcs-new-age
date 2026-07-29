@@ -61,8 +61,13 @@ class Activity {
           "flag": flagType?.shortName ?? LcsI18n.tr("a bug"),
         });
       case ActivityType.visit:
+        final site = location;
         return LcsI18n.processString("Visiting {location}", {
-          "location": location?.name ?? LcsI18n.tr("a bug"),
+          "location": site == null
+              ? LcsI18n.tr("a bug")
+              : LcsI18n.hasTranslation(site.name)
+              ? LcsI18n.tr(site.name)
+              : site.name,
         });
       case ActivityType.study:
         return LcsI18n.processString("Practice {skill}", {

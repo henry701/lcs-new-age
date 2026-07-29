@@ -146,6 +146,15 @@ void main() {
       LcsI18n.tr('slit the guard\'s throat with a shank'),
       equals('cortado a garganta do guarda com uma faca improvisada'),
     );
+    final portuguese = loadLocaleStringEntries('pt_BR');
+    final hostageTemplate = portuguese.entries
+        .firstWhere(
+          (entry) => entry.key.startsWith('{city} - The hostage crisis'),
+        )
+        .value;
+    expect(hostageTemplate, contains('o {rapist} condenado {perpFullName}'));
+    expect(hostageTemplate, contains('se barricou com o guarda'));
+    expect(hostageTemplate, contains('{perpPronounSelf}'));
   });
 
   test('Portuguese drug-panic interpolation translates the intensity word', () {

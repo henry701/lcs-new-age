@@ -1537,3 +1537,120 @@ Chromium remained CLI-only with `--headless=new --ozone-platform=headless`.
 
 The recruitment profession list, pronoun/gender rows, candidate dialogue,
 acceptance options, and month-end reports otherwise rendered Portuguese.
+
+## Fresh strict-headless title/save/corrupt-save replay — 2026-07-29
+
+This replay used a new Flutter web-server on port 7463 and only CLI
+`agent-browser` session `save-routes-fresh`, with
+`AGENT_BROWSER_HEADED=0` and `--headless=new --ozone-platform=headless`.
+No production code or debug flags were changed. Title, changelog, a seeded
+high-score overlay, save-detail management, and 480×320/400×300 layouts were
+rechecked after the latest fixes.
+
+- Wide and narrow title/changelog/high-score/save screens showed Portuguese
+  labels with no new English leaks or horizontal clipping. The high-score
+  page's return prompt remains below a 400×300 viewport, matching the existing
+  PT-083 fixed-console limitation.
+- A valid-but-corrupt IndexedDB save (`saveData: {}`) exercised the broken-save
+  row, detail menu, and crash-report route. The row showed `Erro` and
+  `Erro - Falha esperada`, the detail title was
+  `Gerenciar Salvamento Corrompido com Cautela`, and the crash report/prompt
+  were localized; the technical Dart stack trace is intentionally retained for
+  debugging. The temporary save, score fixture, browser session, and server
+  were removed after capture.
+- **PT-105 — crash-restart prompt is understandable but omits the object and
+  sounds slightly unnatural.** The visible Portuguese line was
+  `Pressione qualquer tecla para reiniciar após esta interrupção Conservadora.`
+  The source says “restart the game,” so a context-complete wording such as
+  `Pressione qualquer tecla para reiniciar o jogo após esta interrupção
+  Conservadora.` should be considered for the next translation cleanup.
+
+Evidence screenshots are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-routes-fresh/`.
+
+## Fresh strict-headless recruitment conversion replay — 2026-07-29
+
+This follow-up used the same CLI-only Chromium configuration (`AGENT_BROWSER_HEADED=0`,
+`--headless=new --ozone-platform=headless`) against a fresh Portuguese web-server
+session. Paid-course skill descriptions, the Sally profile, candidate discovery,
+and multiple recruitment meetings were replayed after the latest fixes; no raw
+English strings or new clipping appeared in those routes.
+
+- **PT-106 — failed recruitment dialogue has feminine-agreement error.** A female
+  `Estudante Universitário` candidate (Milena Straub) displayed
+  `Milena Straub não está convencido que Sally ... realmente` after the casual
+  politics option. The candidate is explicitly marked `Feminino` in the same
+  session, so `convencido` should be `convencida` or replaced with a neutral
+  phrasing. Evidence: `lcs-recruit-skill/meet-b1.png`; source string is the
+  `"{recruit} isn't convinced {recruiter} really understands the problem."`
+  branch in `lib/daily/recruitment.dart`.
+
+The conversion option remained correctly disabled until eagerness reached the
+required threshold; no additional conservative-branch leak was observed in
+this replay.
+
+## Strict-headless vehicle/travel replay — 2026-07-29
+
+This pass used a fresh Flutter web-server on port 7471 and only the CLI
+`agent-browser` session `vehicle-travel`, with `AGENT_BROWSER_HEADED=0` and
+`--headless=new --ozone-platform=headless`. No production code or debug flags
+were changed. A Portuguese game was started from scratch, the founder was
+assigned to `Roubar um Carro`, a Pickup Truck was stolen, and the squad was
+sent to a Plastic Factory.
+
+- **PT-106 — car-theft break-in result is raw English.** After selecting
+  `B - Quebrar a janela`, the result line was `Nate Yuaaaa smashes the window.`
+  The surrounding menu, vehicle name, and prompts were Portuguese. Evidence:
+  `vehicle-window.png`; source `lib/daily/activities/car_theft.dart`.
+- **PT-107 — car-theft hotwire failure is raw English.** Selecting
+  `A - Fazer ligação direta no carro` produced `Nate Yuaaaa digs around in the
+  steering column, but the car doesn't start.` in English. Evidence:
+  `vehicle-hotwire.png`; source `lib/daily/activities/car_theft.dart`.
+- **PT-108 — key discovery keeps an English profanity in Portuguese mode.** A
+  successful key search displayed `Holy Shit! Nate Yuaaaa encontrou as chaves
+  in the glove compartment!`; only the location fragment was localized.
+  Evidence: `vehicle-keys.png`; source `lib/daily/activities/car_theft.dart`.
+- **PT-109 — vehicle assignment rows overlap.** `V - Veículos` rendered two
+  stolen vehicles on one row as `A - Veículo roubado: EsporB - Veículo roubado:
+  Pickup Azul`, with the first vehicle name cut/overwritten by the second
+  option. Evidence: `vehicle-menu.png`; source `lib/basemode/base_actions.dart`
+  (`printCars` uses two fixed 26-column cells without fitting the localized
+  vehicle label).
+- **PT-110 — site header leaks the English generated site name.** After
+  travelling to `Fábrica de plástico`, the top status header read
+  `Visitando Plastic Factory`, while the destination/menu and arrival message
+  were Portuguese. Evidence: `vehicle-site-actions.png` and
+  `vehicle-after-message.png`; source is the visit header path in the base/site
+  visit display.
+
+The vehicle-type picker, approach/break-in prompts, key location, city/district
+selector, and arrival message otherwise rendered Portuguese. Intercity travel
+was not reached because the fresh run had only US$7 versus the US$100 ticket.
+
+## Vehicle/recruitment follow-up fixes — 2026-07-29
+
+- PT-105 fixed: corrupt-save restart/continue prompts now name the game in
+  Portuguese (`reiniciar/continuar o jogo`).
+- PT-106 fixed: the female-candidate rejection branch now uses the neutral
+  `não acredita que ... entenda` wording, removing the masculine `convencido`
+  agreement error.
+- PT-107/PT-108 fixed: car-theft break-in success variants and all selected
+  hotwire-failure fragments are translated before insertion into the actor
+  template.
+- PT-109 fixed: key-search locations and expletives, including the profanity
+  policy variants, now use catalog entries instead of raw English fragments.
+- PT-110 fixed: `V - Veículos` now fits each localized vehicle option into a
+  38-column cell and moves its footer below the 18-row vehicle page, avoiding
+  adjacent-option overwrite and footer collision.
+- PT-111 fixed: `Visiting {site}` translates known catalog site names while
+  leaving custom/player-renamed sites untouched.
+- The hostage-slaying article template also now keeps every placeholder while
+  using more idiomatic Portuguese (`o {rapist} condenado ... trancando
+  {perpPronounSelf} lá dentro`).
+- PT-112 fixed: removing the English-sized `y2: 14` cap from the conservative-era
+  intro lets the longer Portuguese paragraph finish before the next paragraph
+  begins. The dedicated conservative-era regression test now passes.
+
+Focused regression suites for these fixes pass in strict Portuguese mode;
+the remaining open tracker items are the known narrow-console clipping and
+headless file-picker import coverage gaps documented above.

@@ -102,7 +102,7 @@ Future<void> _advanceSquads() async {
       for (Creature c in s.members) {
         if (c.activity.type != ActivityType.none &&
             c.activity.type != s.activity.type) {
-          mvaddstrc(
+          showAdvanceDayMessage(
             8,
             1,
             lightGray,
@@ -121,7 +121,7 @@ Future<void> _advanceSquads() async {
     if (s.activity.type == ActivityType.visit) {
       Site site = s.activity.location!;
       if (site.isClosed || site.siege.underSiege) {
-        mvaddstrc(
+        showAdvanceDayMessage(
           8,
           1,
           lightGray,
@@ -134,7 +134,7 @@ Future<void> _advanceSquads() async {
       }
       await _carUpSquad(s, vehiclesInUse);
       if (site.area != s.site?.area && s.members.first.car == null) {
-        mvaddstrc(
+        showAdvanceDayMessage(
           8,
           1,
           lightGray,
@@ -162,18 +162,21 @@ Future<void> _advanceSquads() async {
         );
         int price = s.members.length * 100;
         if (ledger.funds < price) {
-          mvaddstrc(
+          showAdvanceDayMessage(
             8,
             1,
             lightGray,
             "{squad} couldn't afford to travel to {site}.",
-            params: {"squad": localizedSquadName(s.name), "site": site.getName()},
+            params: {
+              "squad": localizedSquadName(s.name),
+              "site": site.getName(),
+            },
           );
           await getKey();
           canDepart = false;
         } else {
           ledger.subtractFunds(price, Expense.travel);
-          mvaddstrc(
+          showAdvanceDayMessage(
             8,
             1,
             lightGray,
@@ -206,7 +209,7 @@ Future<void> _carUpSquad(Squad squad, List<Vehicle> vehiclesInUse) async {
       .toList();
   for (Vehicle v in desiredVehicles) {
     if (vehiclesInUse.contains(v)) {
-      mvaddstrc(
+      showAdvanceDayMessage(
         8,
         1,
         lightGray,

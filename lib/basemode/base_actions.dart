@@ -21,40 +21,40 @@ Future<void> setVehicles() async {
     setColor(lightGray);
     //PAGE UP
     if (page > 0) {
-      addOptionText(17, 1, previousPageStr.split(" ").first, previousPageStr);
+      addOptionText(19, 1, previousPageStr.split(" ").first, previousPageStr);
     }
     //PAGE DOWN
     if ((page + 1) * carsPerPage < vehiclePool.length) {
-      addOptionText(17, 53, nextPageStr.split(" ").first, nextPageStr);
+      addOptionText(19, 53, nextPageStr.split(" ").first, nextPageStr);
     }
 
     mvaddstr(
-      18,
+      20,
       1,
       "Press a letter to specify passengers for that Liberal vehicle.",
     );
-    mvaddstr(19, 1, "Capitalize the letter to select a driver.");
+    mvaddstr(21, 1, "Capitalize the letter to select a driver.");
     mvaddstr(
-      20,
+      22,
       1,
       "Press a number to remove that squad member from a vehicle.",
     );
     mvaddstr(
-      21,
+      23,
       1,
       "Note:  Vehicles in yellow have already been selected by another squad.",
     );
     mvaddstr(
-      22,
+      24,
       1,
       "       Vehicles in red have been selected by both this squad and another.",
     );
     mvaddstr(
-      23,
+      25,
       1,
       "       These cars may be used by both squads but not on the same day.",
     );
-    addOptionText(24, 1, "Enter", "Enter - Done");
+    addOptionText(26, 1, "Enter", "Enter - Done");
 
     String rawKey = await getKeyCaseSensitive();
     int input = rawKey.codePoint;
@@ -126,16 +126,17 @@ void printCars(int page) {
     }
 
     String key = letterAPlus(l - (page * carsPerPage));
-    addOptionText(
+    addOptionTextFitted(
       y,
       x,
       key,
       "{key} - {vehicle}",
+      38,
       params: {"key": key, "vehicle": vehiclePool[l].fullName()},
       baseColorKey: colorKey,
     );
-    x += 26;
-    if (x > 53) {
+    x += 40;
+    if (x > 41) {
       x = 1;
       y++;
     }

@@ -53,6 +53,18 @@ void main() {
     expect(_consoleLine(0), contains('Recrutando'));
   });
 
+  test('daily event messages clear stale row text before a shorter result', () {
+    console.mvaddstr(
+      8,
+      1,
+      'Uma mensagem diária muito mais longa que a próxima',
+      noTranslate: true,
+    );
+    showAdvanceDayMessage(8, 1, lightGray, 'Recruiting');
+
+    expect(_consoleLine(8), equals(' Recrutando'));
+  });
+
   test('Portuguese agenda alignment legend is translated and fits one row', () {
     const labels = [
       'Elite Liberal',

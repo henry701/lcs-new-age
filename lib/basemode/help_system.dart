@@ -1,10 +1,11 @@
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
 void _body(String s) {
   setColor(lightGray);
-  addparagraph(3, 1, s);
+  addparagraph(3, 1, LcsI18n.translateComposed(s), noTranslate: true);
 }
 
 void _head(String s) => mvaddstrc(1, 1, lightGreen, s);

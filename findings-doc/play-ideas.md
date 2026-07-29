@@ -58,11 +58,31 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - Re-run a deterministic police alarm fixture for Chief of Police, surrender,
   arrest, injury/body-part, and post-combat screens; normal police-station
   arrival was localized but did not spawn an encounter.
-- PT-090: translate the concatenated help bodies in `help_system.dart`; the
-  Guardian-writing help route still renders its English prose under a
-  Portuguese heading. Prefer complete paragraph keys or a safe fragment
-  strategy that preserves wrapping and does not translate already-rendered
-  substitutions twice.
+- PT-090 fixed (2026-07-29): composed activity-help paragraphs now use the
+  locale catalog, including complete Guardian writing/streaming bodies; keep
+  the focused help regression tests when adding future long help text.
+- PT-091 fixed (2026-07-29): the drug-expert newspaper interpolation now maps
+  `hell`/`[heaven]` to Portuguese `caramba`; keep the newspaper regression
+  test so the raw English fallback cannot return.
+- PT-092 fixed (2026-07-29): attack hit-description catalog entries now cover
+  `hitting` and the other XML weapon fragments, including the Portuguese
+  `atingindo` output used in burst-hit sentences.
+- PT-093 fixed (2026-07-29): the encounter roster reserves a separator cell
+  between the 16-column armor cell and the weapon cell, then shifts health
+  right to preserve the full localized weapon label.
+- PT-094 fixed (2026-07-29): complete Portuguese paragraph entries now cover
+  the remaining Art, donation, brownie-selling, and prostitution help text
+  that previously mixed English fragments into otherwise localized prose.
+- PT-094: complete the remaining composed help fragments. Runtime evidence
+  still includes `out of style`, `cause`, `They donating to politicians`,
+  `risks`, `on Street Smarts and Business`, and `out to get you` in Portuguese
+  help bodies even after the complete Guardian/Disobedience paragraph fix.
+- Re-run the police fixture with a deterministic arrest outcome and inspect
+  arrest-specific summary text; surrender and victory were localized, but
+  arrest was not reached in this pass.
+- The intercity travel branch still needs a funded fixture (or deterministic
+  travel harness) to visit every city; this replay could verify only Seattle
+  districts/sites because the founder had $7 versus the $100 ticket.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

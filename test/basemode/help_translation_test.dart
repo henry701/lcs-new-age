@@ -49,6 +49,16 @@ void main() {
     expect(LcsI18n.tr('swings at'), equals('golpeia'));
   });
 
+  test('combat hit descriptions are localized in Portuguese', () {
+    expect(LcsI18n.tr('hitting'), equals('atingindo'));
+    expect(LcsI18n.tr('exploding'), equals('explodindo'));
+    expect(LcsI18n.tr('slashing'), equals('cortando'));
+    expect(LcsI18n.tr('stabbing'), equals('apunhalando'));
+    expect(LcsI18n.tr('savagely biting'), equals('mordendo com ferocidade'));
+    expect(LcsI18n.tr('draining'), equals('drenando'));
+    expect(LcsI18n.tr('burning'), equals('queimando'));
+  });
+
   test('activity help bodies have Portuguese catalog entries', () {
     const layingLow =
         'Doing nothing is a safe way to avoid trouble. It is not a '

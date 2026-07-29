@@ -1169,14 +1169,18 @@ void printBasicEncounter() {
       16,
       noTranslate: true,
     );
+    // Keep localized armor and weapon labels visually separated. The armor
+    // column is exactly 16 cells wide, so a full Portuguese label would
+    // otherwise run directly into the weapon column.
+    mvaddstr(y, 36, " ", noTranslate: true);
     mvaddstrFitted(
       y,
-      36,
+      37,
       LcsI18n.tr(e.weapon.type.shortName),
       11,
       noTranslate: true,
     );
-    printHealthStat(y, 47, e, small: true);
+    printHealthStat(y, 49, e, small: true);
   }
 }
 

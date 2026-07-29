@@ -1138,3 +1138,111 @@ opened.
   agreement fixes are covered by focused tests; the newspaper date/header and
   hostage output require a month-end/event fixture for another end-to-end
   replay.
+
+## Headless broad route replay — 2026-07-29
+
+This pass used only CLI `agent-browser` session `broad-routes` against a fresh
+Portuguese Flutter web-server on port 7423. Chromium was launched with
+`--headless=new --ozone-platform=headless`; no headed browser or source edits
+were made. The fixture had `$7`, so intercity travel's `$100` option was
+correctly disabled; the Seattle city/district/site menus were still exercised.
+
+- **PT-091 — newspaper major-event template leaves the `{hell}` substitution
+  in English.** After eight `W` advances, the 2 Jan 2023 newspaper rendered
+  the localized article line `"Mas é engraçado pra hell. Além disso, você
+  deveria experimentar esses salgadinhos..."`. The Portuguese catalog keeps
+  `{hell}` but `major_event.dart` calls `LcsI18n.tr("hell")`; no Portuguese
+  `hell` key exists, so the fallback is visibly raw English. This is separate
+  from the previously fixed `rapist`/`himself` article and should use a
+  translated profanity/neutral phrase while preserving the interpolation.
+- **Verified route coverage:** the city travel planner (`Para onde o
+  Esquadrão vai?`, city/district names, `Viajar para outra cidade`), Lushington
+  department store (clothing/equipment menus), Dawkins pawn shop (weapons,
+  ammo, tools, sell/status controls), Seattle courthouse and AM radio direct
+  action screens all showed Portuguese controls and site labels. Long shop
+  names remain internally ellipsized to the 80-column console, with no new
+  untranslated control text observed.
+
+## Headless help/newspaper fix verification — 2026-07-29
+
+- PT-090 fixed: activity-help rendering now translates composed paragraphs
+  through the locale catalog, with complete Portuguese entries for the long
+  Guardian writing/streaming bodies and the remaining uncovered activity text.
+  Focused console tests confirm both Guardian help routes contain Portuguese
+  prose and no English body prefix; a diagnostic sweep covered every activity
+  enum without finding the previously leaked English markers.
+- PT-091 fixed: added `hell` and `[heaven]` Portuguese interpolation values as
+  `caramba`. The drug-panic newspaper template now resolves the runtime
+  `LcsI18n.tr("hell")` lookup instead of displaying raw `hell`; a regression
+  test asserts the composed sentence contains no English fallback.
+- Temporary playtest cheats and fixture-placement changes were removed before
+  validation; checked-in debug flags remain disabled.
+
+## Strict-headless help/title/save verification — 2026-07-29
+
+This follow-up used only CLI `agent-browser` session `lcs-help-verify2` against
+a fresh Flutter web-server on port 7421. Chromium was verified running with
+`--headless=new --ozone-platform=headless`; no headed browser or desktop input
+was used. The earlier help-body fix was rebuilt before this pass.
+
+- **PT-094 — composed help translation still has uncovered fragments.** The
+  fixed Guardian-writing and Liberal-Disobedience routes were fully Portuguese,
+  but other composed paragraphs still splice in English. `3 - Fazer e Vender
+  Arte` rendered `Se a arte rebelde vai out of style, you can always just draw
+  people's fursonas.`; `1 - Solicitar Doações` rendered `...doar para um
+  extremista cause.` and `Eles donating to politicians or whatever instead.`;
+  `1 - Vender Brownies de Maconha` rendered `...mas também são risks.` and
+  `Se você preso`; and `2 - Prostituição` rendered `...mas também on Street
+  Smarts and Business`, `...out to get you`, and `Street Smarts is essential
+  to avoid this`. These are residual fragment/catalog gaps in `help_system.dart`,
+  not the already-fixed complete paragraph keys.
+- **PT-083 re-confirmed:** the changelog overlay is localized at normal size
+  (`Histórico de versões — LCS: Nova Era`, Portuguese English-only notice,
+  localized version/date metadata), but at 480×320 the red `DEBUG` ribbon
+  overlaps its top-right corner and the header ellipsizes to
+  `Histórico de versões — LCS: N...`.
+- **Verified title/save routes:** a disposable high-score fixture rendered
+  Portuguese title totals and `Vitória mais rápida: Fevereiro/2023`; the high
+  score table contained Portuguese ending/date/stat rows with no clipping at
+  80×25. Save management, JSON export, and re-import of that exact download
+  rendered localized headers and `Salvamento importado com sucesso.`; the
+  imported save loaded back to the Portuguese base screen.
+
+## Headless police siege/combat replay — 2026-07-29
+
+This pass used only CLI `agent-browser` session `lcs-police-fight` against a
+fresh Portuguese Flutter web-server on port 7432, with Chromium launched as
+`--headless=new --ozone-platform=headless`. A local-only siege fixture was
+enabled for the replay and restored to its original `false` settings before
+shutdown; no production code or cheats were left changed. The police siege,
+surrender, fight, body-part hit, and victory-summary branches were exercised.
+
+- **PT-092 — combat injury prose contains an English fragment.** During the
+  fight branch the buffer rendered `Laura Clavin acerta capacete de Policial da
+  SWAT, hitting 3 vezes.` (a second hit showed `... armadura de perna direita
+  ..., hitting 3 v` before the fixed-width line clipped). The surrounding
+  sentence is Portuguese, so `hitting` is an untranslated template fragment.
+  Body-part labels such as `capacete`, `perna direita`, and `estômago` were
+  otherwise localized.
+- **PT-093 — police combat roster concatenates armor and weapon columns.** The
+  enemy rows rendered values such as `Armadura da SWATSubmet. MP5210 +160`,
+  `Armadura da SWATM4         180 +160`, and
+  `Armadura da SWATEspingarda 270 +160`. The armor label runs directly into
+  the weapon name, making the fixed-width roster hard to parse even though
+  both words are Portuguese. This is a layout/column-width defect exposed by
+  the longer localized labels.
+- **Verified routes:** pressing `G` completed the surrender route with
+  Portuguese prompts; pressing `F` produced localized attack/body-part text
+  and ended with `* * * * * VITÓRIA * * * * *`, followed by
+  `As autoridades foram repelidas — por enquanto.` and
+  `Pressione C para Continuar Liberalmente.` No arrest summary appeared in
+  this deterministic run, so arrest-specific copy remains unverified.
+
+## Headless composed-help follow-up — 2026-07-29
+
+- PT-094 fixed: a second headless help sweep found residual English fragments
+  inside the Art sales, donation, brownie-selling, and prostitution paragraphs
+  even after the first composed-help pass. Complete paragraph catalog entries
+  now cover those bodies, preserving Portuguese grammar and avoiding fragment
+  concatenation. The all-activity regression sweep asserts the original English
+  prefixes and the reported residual sentences are absent.

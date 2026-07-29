@@ -507,6 +507,52 @@ class LcsI18n {
     return Set<String>.from(_missingTranslations);
   }
 
+  /// Translates a composed paragraph when extraction captured its source as
+  /// adjacent phrase fragments rather than as one complete catalog key.
+  ///
+  /// This is intentionally opt-in for prose composed in code. Normal calls
+  /// should continue to use [processString], while callers that pass a long
+  /// paragraph assembled from literals can preserve the existing fragment
+  /// translations without rendering the entire paragraph in English.
+  static String translateComposed(String englishText) {
+    if (!_initialized || _currentLocale == 'en_US') return englishText;
+
+    final localeData = _translations[_currentLocale];
+    if (localeData == null) return englishText;
+    final exact = localeData[englishText];
+    if (exact is String) return exact;
+
+    final fallback = _translations['en_US'] ?? const <String, dynamic>{};
+    final keys =
+        <String>{
+            ...localeData.keys,
+            ...fallback.keys,
+          }.where((key) => key.length >= 20).toList()
+          ..sort((a, b) => b.length.compareTo(a.length));
+
+    final output = StringBuffer();
+    var offset = 0;
+    while (offset < englishText.length) {
+      String? matchedKey;
+      for (final key in keys) {
+        if (englishText.startsWith(key, offset)) {
+          matchedKey = key;
+          break;
+        }
+      }
+      if (matchedKey == null) {
+        output.write(englishText[offset]);
+        offset++;
+        continue;
+      }
+
+      final translated = localeData[matchedKey] ?? fallback[matchedKey];
+      output.write(translated is String ? translated : matchedKey);
+      offset += matchedKey.length;
+    }
+    return output.toString();
+  }
+
   /// Reset state (for testing)
   static void reset() {
     _initialized = false;

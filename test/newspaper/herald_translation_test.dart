@@ -148,6 +148,14 @@ void main() {
     );
   });
 
+  test('Portuguese drug-panic interpolation translates the intensity word', () {
+    expect(LcsI18n.tr('hell'), equals('caramba'));
+    expect(LcsI18n.tr('[heaven]'), equals('caramba'));
+    final story = 'É engraçado pra ${LcsI18n.tr('hell')}.';
+    expect(story, equals('É engraçado pra caramba.'));
+    expect(story, isNot(contains('hell')));
+  });
+
   test('Herald and pollution localization units have catalog coverage', () {
     final english = loadLocaleStringEntries('en_US');
     final portuguese = loadLocaleStringEntries('pt_BR');
@@ -158,6 +166,8 @@ void main() {
       'university': 'universidade',
       'The Cuyahoga River is ablaze as pollution increases.':
           'O Rio Cuyahoga está em chamas com o aumento da poluição.',
+      'hell': 'caramba',
+      '[heaven]': 'caramba',
     };
 
     for (final entry in expected.entries) {

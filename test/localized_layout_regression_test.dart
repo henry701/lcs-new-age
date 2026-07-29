@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
+import 'package:lcs_new_age/basemode/disbanding.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -8,6 +9,7 @@ import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
+import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/saveload/save_load.dart';
 import 'package:lcs_new_age/title_screen/game_over.dart';
 import 'package:lcs_new_age/title_screen/high_scores.dart';
@@ -38,6 +40,63 @@ void main() {
       equals('O Esquadrão do Crime Liberal'),
     );
     expect(localizedSquadName('Minha Equipe'), equals('Minha Equipe'));
+  });
+
+  test('Portuguese agenda alignment legend is translated and fits one row', () {
+    const labels = [
+      'Elite Liberal',
+      'Liberal',
+      'moderate',
+      'Conservative',
+      'Arch Conservative',
+    ];
+    final legend = labels
+        .map((label) => LcsI18n.processString(label, null))
+        .join(' - ');
+
+    expect(legend, contains('Liberal de Elite'));
+    expect(legend, contains('moderado'));
+    expect(legend, contains('Conservador'));
+    expect(legend, contains('Arqui-Conservador'));
+    expect(legend.length, lessThanOrEqualTo(80));
+  });
+
+  test('Portuguese agenda polling headline translates dynamic labels', () {
+    expect(
+      LcsI18n.processString('President {name}', {'name': 'Alex'}),
+      equals('Presidente Alex'),
+    );
+    expect(
+      LcsI18n.tr('a recent sports scandal'),
+      equals('um escândalo esportivo recente'),
+    );
+    expect(
+      LcsI18n.processString('{percent}% ', {'percent': '42.0'}),
+      equals('42.0% '),
+    );
+  });
+
+  test('Portuguese agenda law labels are fitted to their cells', () {
+    mvaddstrcFitted(0, 8, lightGreen, Law.animalRights.label, 18);
+
+    final line = _consoleLine(0);
+    expect(line, contains('Direitos dos Anim…'));
+    expect(line.length, lessThanOrEqualTo(26));
+  });
+
+  test('Portuguese political summaries are bounded to the console width', () {
+    final summary = summaryText([125, 50, 30, 15, 170]);
+
+    mvaddstrFitted(
+      0,
+      0,
+      'House: {summary}',
+      console.width,
+      params: {'summary': summary},
+    );
+
+    expect(_consoleLine(0).length, lessThanOrEqualTo(80));
+    expect(_consoleLine(0), contains('Casa:'));
   });
 
   test('Portuguese save-management title option fits inside its frame', () {

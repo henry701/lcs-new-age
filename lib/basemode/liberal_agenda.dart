@@ -1,8 +1,10 @@
 import 'package:lcs_new_age/basemode/disbanding.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -190,8 +192,10 @@ void _mainPage(AgendaVibe vibe) {
     mvaddstr(6, 61, "By Corporate");
     mvaddstr(7, 60, "Ethics Officers");
   } else {
-    printHouse(10);
-    printSenate(11);
+    // Court names begin at column 56. Bound summaries to the left panel so
+    // the full court roster remains visible even when it has ten members.
+    printHouse(10, maxWidth: 55);
+    printSenate(11, maxWidth: 55);
     for (int c = 0; c < politics.court.length; c++) {
       mvaddstrc(
         3 + c,
@@ -270,20 +274,20 @@ void _printSingleLaw(AgendaVibe vibe, int i) {
   }
   int y = 14 + i ~/ 3, x = i % 3 * 26;
   mvaddstr(y, x, "<—————>");
-  mvaddstrc(y, x + 8, laws[law]!.color, law.label);
+  mvaddstrcFitted(y, x + 8, laws[law]!.color, law.label, 18);
   mvaddstr(y, x + 5 - laws[law]!.index, "O");
 }
 
 void _alignmentKey(int y) {
   mvaddstrc(y, 0, DeepAlignment.eliteLiberal.color, "Elite Liberal");
-  addstrc(lightGray, "  -  ");
+  addstrc(lightGray, " - ");
   addstrc(DeepAlignment.liberal.color, "Liberal");
-  addstrc(lightGray, "  -  ");
+  addstrc(lightGray, " - ");
   addstrc(DeepAlignment.moderate.color, "moderate");
-  addstrc(lightGray, "  -  ");
+  addstrc(lightGray, " - ");
   addstrc(DeepAlignment.conservative.color, "Conservative");
-  addstrc(lightGray, "  -  ");
-  addstrc(DeepAlignment.archConservative.color, "Arch-Conservative");
+  addstrc(lightGray, " - ");
+  addstrc(DeepAlignment.archConservative.color, "Arch Conservative");
 }
 
 void _lawsPage(int start, AgendaVibe vibe) {
@@ -322,8 +326,9 @@ void _pollsPage(int start) {
         .reduce((a, b) => a.value >= b.value ? a : b)
         .key;
     int approval = politics.presidentialApproval();
-    String president = "President";
-    if (politics.constitutionalAmendments == 0) president = "King";
+    final president = politics.constitutionalAmendments == 0
+        ? "King {name}"
+        : "President {name}";
     mvaddstrc(
       4,
       0,
@@ -333,11 +338,8 @@ void _pollsPage(int start) {
     );
     addstrc(
       exec[Exec.president]!.color,
-      "{president} {name}",
-      params: {
-        "president": president,
-        "name": execName[Exec.president]!.firstLast,
-      },
+      president,
+      params: {"name": execName[Exec.president]!.firstLast},
     );
     addstrc(lightGray, ".");
     String concern = "";
@@ -350,7 +352,7 @@ void _pollsPage(int start) {
       5,
       0,
       "The people are most concerned about {concern}.",
-      params: {"concern": concern},
+      params: {"concern": LcsI18n.tr(concern)},
     );
     mvaddstr(7, 0, header);
     y = 8;

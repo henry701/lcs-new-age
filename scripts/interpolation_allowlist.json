@@ -112,7 +112,7 @@
     },
     {
       "file": "basemode/liberal_agenda.dart",
-      "line": 403,
+      "line": 405,
       "text": "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}",
       "reason": "Locale-neutral numeric percentage value passed to a complete translated template or diagnostic."
     },

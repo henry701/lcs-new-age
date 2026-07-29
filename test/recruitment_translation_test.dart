@@ -105,6 +105,14 @@ void main() {
     }
   });
 
+  test(
+    'Portuguese recruitment and rejection fallback labels are localized',
+    () {
+      expect(LcsI18n.tr('Biker'), equals('Motociclista'));
+      expect(LcsI18n.tr('"Whatever."'), equals('"Tanto faz."'));
+    },
+  );
+
   test('Portuguese recruitment discussions localize law labels', () {
     const labels = {
       'Abortion Rights': 'Direitos ao Aborto',

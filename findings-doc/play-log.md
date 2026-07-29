@@ -958,6 +958,26 @@ site map) help page was not reached in this run because the generated route
 entered a shop and then a police siege; it remains a coverage gap for a future
 deterministic site fixture.
 
+## Headless direct-action help replay — 2026-07-28
+
+This follow-up used a fresh Flutter `web-server` build on port 7411 and only
+the CLI `agent-browser` session `pt-direct`; Chromium was confirmed to run
+with `--headless=new --ozone-platform=headless`. A normal Portuguese game was
+created with cheat flags disabled, then routed to `Desert Eagle Bar e Grill`.
+No source edits, flag changes, staging, commits, or pushes were made.
+
+- **Verified:** The site-map `?` help page is fully localized and bounded at
+  the normal viewport. It rendered `=== Ação Direta ===`, all three Portuguese
+  explanatory paragraphs, and `Pressione qualquer tecla para continuar.`;
+  no English fallback or line overflow was visible.
+- **PT-080 — narrow site-map footer clipping confirmed.** At 480×320 the
+  fixed 80-column site map scaled down to tiny text; the right side of the
+  roster/header was clipped (`TRANSP...`), the second footer row was cut by the
+  viewport bottom, and the top-right `DEBUG` ribbon overlapped the frame. The
+  narrow direct-action help body itself still fit inside the viewport, but was
+  difficult to read at that scale. This confirms the existing responsive-layout
+  enhancement gap (PT-078) on the direct-action route.
+
 ## Headless residual fixes — 2026-07-28
 
 - PT-076 fixed: added the complete Portuguese community-service help body to
@@ -989,3 +1009,47 @@ raider label.
 Still open: deterministic Chief of Police, police-subdue/arrest, and injury
 branches; the narrow 480×320 responsive layout; and the direct-action help route
 fixture. These remain future playtest targets rather than confirmed fixed.
+
+## Headless Liberal Agenda replay — 2026-07-28
+
+- Route: launched the Portuguese build with the headless-only browser flags (`--headless=new --ozone-platform=headless`), started a fresh game, and opened the Liberal Agenda screen with `L`.
+- Confirmed layout defects on the 80-column console: House/Senate summaries at rows 10/11 collided with court names rendered through row 10/11 (`Mick Sealockon`, `Jorge Fushimion`); the summary text also ran off the right edge.
+- Confirmed localization defect: the alignment legend still displayed English `moderate`, `Conservative`, and `Arch-Conservative`.
+- Confirmed law-cell truncation: long Portuguese labels were cut at the fixed 26-column cells (`Direitos dos Anima`, `Direito à Privacid`, `Liberdade de Expre`).
+- Fix scope: move chamber summaries below the court roster, fit summary and law-cell text to their console columns, and translate the alignment legend. Recheck all five agenda pages after the fix.
+
+## Headless replay verification and recruitment follow-up — 2026-07-28
+
+- Restarted a clean Flutter web-server on port 7413 and replayed the agenda in a fresh Portuguese game with the headless-only browser flags. The first agenda page now keeps House/Senate text to the left of the court roster, shows all court names, adds ellipses inside long law cells instead of overwriting adjacent cells, and renders the complete Portuguese legend: `Liberal de Elite - Liberal (pol.) - moderado - Conservador - Arqui-Conservador`.
+- The same route was stepped through the five-page agenda controls; no additional English alignment labels or row collisions were visible in the captured buffers.
+- **PT-081 fixed:** a single-candidate recruitment meeting now passes `localizedCreatureName`, so a `Biker` candidate is shown as `Motociclista` consistently with the profile and follow-up dialogue.
+- **PT-082 fixed:** the conservative discussion fallback `"Whatever."` now resolves through the Portuguese catalog as `"Tanto faz."`; added a runtime regression test.
+- The earlier direct-action help coverage gap is closed by the separate headless replay logged as PT-080; its remaining issue is only the narrow 480×320 responsive layout.
+
+## Headless recruitment/conservative conversation replay — 2026-07-28
+
+This pass used only the CLI `agent-browser` session `lcs-recruit` against a
+fresh Flutter `web-server` on port 7412, with Chromium launched headless
+(`--headless=new --ozone-platform=headless`). A normal Portuguese founder game
+was used; no source edits or debug flags were left enabled.
+
+- **PT-081 — recruitment setup leaks the English creature name.** Recruiting
+  a `Motociclista` (the type selector and target profile both use the
+  Portuguese label) showed the single-candidate setup sentence as
+  `Hazel Marsden conseguiu marcar um encontro com Biker, (50s, Masculino).`.
+  The setup path inserts `encounter[0].name` directly, while the later profile
+  and dialogue correctly use `Motociclista`.
+- **PT-082 — conservative failure dialogue is still raw English.** The same
+  target was explicitly shown as `Conservador Sem Noção`. After choosing
+  `A - Puxe conversa sobre política`, the issue prompt was Portuguese, but the
+  rejection response rendered exactly `"Whatever." <se vira>,` instead of a
+  Portuguese response. This is the generic conservative fallback in the
+  issue-conversation branch, not an intentional English changelog or title.
+- **Verified Portuguese branches:** the recruitment type list, pronoun/gender
+  labels (`Masculino`, `Feminino`, `Não binário`, `Trans`), target profile,
+  “Quer ouvir algo perturbador?” prompt, and meeting controls all rendered in
+  Portuguese. Earlier in the same run a successful non-conservative dialogue
+  reached the follow-up meeting and displayed localized text. A deterministic
+  conservative *success* conversion was not reached because the conservative
+  target rejected the low-persuasion founder; that success branch remains a
+  coverage gap rather than a claimed defect.

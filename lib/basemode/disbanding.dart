@@ -1,3 +1,4 @@
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
@@ -69,35 +70,38 @@ void printExec() {
   }
 }
 
-void printHouse(int y) {
+void printHouse(int y, {int maxWidth = 80}) {
   List<int> housemake = summarizePoliticalBody(house);
   setPoliticalBodyColor(housemake);
-  mvaddstr(
+  mvaddstrFitted(
     y,
     0,
     "House: {summary}",
+    maxWidth,
     params: {"summary": summaryText(housemake)},
   );
 }
 
-void printSenate(int y) {
+void printSenate(int y, {int maxWidth = 80}) {
   List<int> senatemake = summarizePoliticalBody(senate);
   setPoliticalBodyColor(senatemake);
-  mvaddstr(
+  mvaddstrFitted(
     y,
     0,
     "Senate: {summary}",
+    maxWidth,
     params: {"summary": summaryText(senatemake)},
   );
 }
 
-void printCourtBrief(int y) {
+void printCourtBrief(int y, {int maxWidth = 80}) {
   List<int> courtmake = summarizePoliticalBody(court);
   setPoliticalBodyColor(courtmake);
-  mvaddstr(
+  mvaddstrFitted(
     y,
     0,
     "Court: {summary}",
+    maxWidth,
     params: {"summary": summaryText(courtmake)},
   );
 }

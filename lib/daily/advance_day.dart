@@ -109,7 +109,7 @@ Future<void> _advanceSquads() async {
             "{member} acted with {squad} instead of {activity}.",
             params: {
               "member": c.name,
-              "squad": s.name,
+              "squad": localizedSquadName(s.name),
               "activity": c.activity.description,
             },
           );
@@ -126,7 +126,7 @@ Future<void> _advanceSquads() async {
           1,
           lightGray,
           "{squad} decided {site} was too hot to risk.",
-          params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
+          params: {"squad": localizedSquadName(s.name), "site": site.getName()},
         );
         await getKey();
         s.activity = Activity(ActivityType.none);
@@ -139,7 +139,7 @@ Future<void> _advanceSquads() async {
           1,
           lightGray,
           "{squad} didn't have a car to get to {site}.",
-          params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
+          params: {"squad": localizedSquadName(s.name), "site": site.getName()},
         );
         await getKey();
         s.activity = Activity(ActivityType.none);
@@ -167,7 +167,7 @@ Future<void> _advanceSquads() async {
             1,
             lightGray,
             "{squad} couldn't afford to travel to {site}.",
-            params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
+            params: {"squad": localizedSquadName(s.name), "site": site.getName()},
           );
           await getKey();
           canDepart = false;
@@ -179,7 +179,7 @@ Future<void> _advanceSquads() async {
             lightGray,
             "{squad} paid {price} to travel to {site}.",
             params: {
-              "squad": LcsI18n.tr(s.name),
+              "squad": localizedSquadName(s.name),
               "price": price,
               "site": site.getName(),
             },
@@ -211,7 +211,10 @@ Future<void> _carUpSquad(Squad squad, List<Vehicle> vehiclesInUse) async {
         1,
         lightGray,
         "{squad} couldn't use the {vehicle}.",
-        params: {"squad": squad.name, "vehicle": v.fullName()},
+        params: {
+          "squad": localizedSquadName(squad.name),
+          "vehicle": v.fullName(),
+        },
       );
       await getKey();
     }

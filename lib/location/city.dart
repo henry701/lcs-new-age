@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/district.dart';
 import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -42,7 +43,7 @@ class City extends Location {
 
   @override
   String getName({bool short = false, bool includeCity = false}) {
-    return short ? shortName : name;
+    return LcsI18n.tr(short ? shortName : name);
   }
 
   void addCommercialDistrict() {

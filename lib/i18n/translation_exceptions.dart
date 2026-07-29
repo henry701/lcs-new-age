@@ -110,4 +110,12 @@ const Set<String> structuralTranslationKeys = {
   'Dis',
   'Hill',
   'MedStar Washington',
+  // City and district proper names intentionally remain unchanged.
+  'Arlington',
+  'Arlington, VA',
+  'Hollywood',
+  'Long Island',
+  'Los Angeles, CA',
+  'Manhattan',
+  'Seattle, WA',
 };

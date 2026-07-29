@@ -124,7 +124,7 @@
     },
     {
       "file": "basemode/plan_site_visit.dart",
-      "line": 128,
+      "line": 137,
       "text": "\\$$ticketPrice",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -196,13 +196,13 @@
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 574,
+      "line": 608,
       "text": "${LcsI18n.tr(",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 574,
+      "line": 608,
       "text": ")}$next",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
@@ -304,49 +304,49 @@
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 845,
+      "line": 848,
       "text": "ribs(${b.ribs}/${b.maxRibs})",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 855,
+      "line": 858,
       "text": "[HOSP] ${p.name} day=${p.daysHospitalized} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 856,
+      "line": 859,
       "text": "ct=${clinictime(p)} blood=${p.blood}/${p.maxBlood} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 857,
+      "line": 860,
       "text": "med=${medical[p.site]} canon=${identical(canonical, p.site)} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 858,
+      "line": 861,
       "text": "site=${p.site?.idString}(${p.site?.type.name}) ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 859,
+      "line": 862,
       "text": "inj=$inj nasty=$nasty",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 1062,
+      "line": 1065,
       "text": "\\$${p.medicalBills}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 1068,
+      "line": 1071,
       "text": "\\$${ledger.funds}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -862,7 +862,7 @@
     },
     {
       "file": "location/city.dart",
-      "line": 21,
+      "line": 22,
       "text": "City$id",
       "reason": "Stable runtime identifier or asset path; never player-facing prose."
     },

@@ -358,6 +358,30 @@ String creatureAgeAndGender(Creature person) {
   );
 }
 
+void _addProfileNavigationOptions(
+  int y,
+  int x,
+  String firstKey,
+  String firstText,
+  String secondKey,
+  String secondText,
+) {
+  const separator = " / ";
+  final firstWidth = strLenX(LcsI18n.processString(firstText, null));
+  final separatorWidth = strLenX(separator);
+  final availableWidth = console.width - x;
+  final fittedFirstWidth = firstWidth.clamp(
+    1,
+    availableWidth - separatorWidth - 1,
+  );
+  final secondX = x + fittedFirstWidth + separatorWidth;
+  final secondWidth = console.width - secondX;
+
+  addOptionTextFitted(y, x, firstKey, firstText, fittedFirstWidth);
+  mvaddstr(y, x + fittedFirstWidth, separator, noTranslate: true);
+  addOptionTextFitted(y, secondX, secondKey, secondText, secondWidth);
+}
+
 /* full character sheet with surrounding interface */
 Future<void> fullCreatureInfoScreen(Creature cr) async {
   if (activeSquad == null) return;
@@ -379,9 +403,14 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
     addOptionText(23, 0, "N", "N - Change Name");
     addOptionText(23, 26, "G", "G - Change Gender");
     if ((activeSquad?.members.length ?? 0) > 1) {
-      addOptionText(23, 50, "LEFT", "LEFT");
-      addstr(" / ");
-      addOptionText(23, 57, "RIGHT", "RIGHT - Other Liberals");
+      _addProfileNavigationOptions(
+        23,
+        50,
+        "LEFT",
+        "LEFT",
+        "RIGHT",
+        "RIGHT - Other Liberals",
+      );
     }
     addOptionText(
       24,
@@ -389,9 +418,14 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
       "Any Other Key",
       "Any Other Key - Continue the Struggle",
     );
-    addOptionText(24, 52, "UP", "UP");
-    addstr(" / ");
-    addOptionText(24, 57, "DOWN", "DOWN - More Info");
+    _addProfileNavigationOptions(
+      24,
+      52,
+      "UP",
+      "UP",
+      "DOWN",
+      "DOWN - More Info",
+    );
 
     int c = await getKey();
 

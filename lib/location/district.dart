@@ -45,7 +45,7 @@ class District implements Location {
       if (includeCity) {
         return LcsI18n.processString("{district}, {city}", {
           "district": LcsI18n.tr(name),
-          "city": city.name,
+          "city": city.getName(),
         });
       } else {
         return LcsI18n.tr(name);

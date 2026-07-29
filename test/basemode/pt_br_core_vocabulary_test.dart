@@ -186,6 +186,34 @@ void main() {
     }
   });
 
+  test('Portuguese profile navigation controls preserve separators', () async {
+    final founder = _founder();
+    final second = Creature.fromId(CreatureTypeIds.thief)
+      ..align = Alignment.liberal
+      ..name = 'Alex Silva'
+      ..location = _homelessCamp;
+    pool.add(second);
+    second.squad = activeSquad;
+
+    console.injectKey('b');
+
+    await fullCreatureInfoScreen(founder);
+
+    final footer = console.buffer[24]
+        .map((character) => character.glyph)
+        .join()
+        .trimRight();
+    final navigation = console.buffer[23]
+        .map((character) => character.glyph)
+        .join()
+        .trimRight();
+    expect(navigation, contains('ESQUERDA / '));
+    expect(footer, contains('CIMA / BAIXO - Mais Info'));
+    expect(navigation, isNot(contains('ESQUERDA DIREITA')));
+    expect(navigation, isNot(contains('ESQUERDA RIGHT')));
+    expect(footer, isNot(contains('CIMA BAIXO')));
+  });
+
   test('Portuguese compact character info localizes clothing metadata', () {
     final founder = _founder();
 
@@ -236,7 +264,7 @@ void main() {
 
     final rendered = _consoleText();
     for (final expected in [
-      'Compras',
+      'Comércio',
       'Centro de Seattle',
       'Distrito Universitário',
       'Distrito Industrial',
@@ -253,6 +281,19 @@ void main() {
     ]) {
       expect(rendered, isNot(contains(leakedEnglish)));
     }
+  });
+
+  test('Portuguese locations localize city names in composite labels', () {
+    final newYork = cities.firstWhere((city) => city.name == 'New York, NY');
+    final manhattan = newYork.districts.firstWhere(
+      (district) => district.name == 'Manhattan Island',
+    );
+
+    expect(newYork.getName(), equals('New York, New York'));
+    final compositeName = manhattan.getName(includeCity: true);
+    expect(compositeName, contains('Ilha de Manhattan'));
+    expect(compositeName, contains('New York, New York'));
+    expect(compositeName, isNot(contains('New York, NY')));
   });
 
   test('Portuguese base localizes shared location activity and slogan', () {

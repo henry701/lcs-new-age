@@ -24,6 +24,14 @@ void main() {
     erase();
   });
 
+  test('built-in squad name is localized in daily activity messages', () {
+    expect(
+      localizedSquadName('The Liberal Crime Squad'),
+      equals('O Esquadrão do Crime Liberal'),
+    );
+    expect(localizedSquadName('Minha Equipe'), equals('Minha Equipe'));
+  });
+
   test('Portuguese save-management title option fits inside its frame', () {
     addOptionText(11, titleMenuRightColumnX, 'L', 'L - Load & Manage Saves');
 

@@ -559,8 +559,159 @@ stale previous message: `V:Esgueirar-se F:Lutar ... R:Libertar ?Saque no chão!`
 This confirms a redraw/translation follow-up for the alarm branch; surrender
 and arrest were not reached in this pass.
 
+## Headless Portuguese management follow-up — 2026-07-28
+
+This continuation used only the CLI `agent-browser` session `rootbroad` against
+the local Flutter `web-server` at `http://127.0.0.1:7380/?playtest=1`. The
+browser process was Chrome `--headless=new`; no headed browser or desktop
+automation was used. The existing disposable mega-founder state was used to
+reach management screens quickly. No production code or developer flags were
+changed during this pass.
+
+### PT-067 — Elite promotion screen still has English labels/legend
+
+Base → Review Liberals → `U - Promover Liberais` rendered:
+
+```
+————NOME DE CÓDIGO—————————CURRENT CONTACT————————————CONTACT AFTER PROMOTION———
+Recruited/Seduced/Enlightened   [Arrested] [Na Cadeia] [Escondido] [Sleeper]
+```
+
+The title and explanatory sentences are Portuguese, but the two column headers
+and four legend entries remain English. Source: `lib/basemode/review_mode.dart`
+`promoteliberals()` around lines 1325–1390 (`addHeader`, `addstrc` calls). The
+existing catalog has `Press a letter to promote...` and `In Hiding`, but no
+entries for these direct labels. This is a player-facing translation gap and
+should be localized with context-appropriate Portuguese labels while preserving
+the fixed columns.
+
+### PT-068 — Squad assembly profession text overwrites location
+
+Base → Review Liberals → `Z - Montar um Novo Esquadrão` rendered the only row as:
+
+```
+● A – Jordan Villanuevaa   744    730/730+30  Profissional do RSEA — Sem-teto
+```
+
+`Profissional do Roubo` is written at x=46 and the location begins at x=63,
+so the Portuguese profession is clipped to `Profissional do R` without an
+ellipsis and the location starts immediately after the `R`. Source:
+`lib/basemode/review_mode.dart` `assembleSquad()` around lines 899–980: the
+profession uses `mvaddstrc(y, 46, ...)` and location uses x=63 without fitting.
+This needs a width-aware profession cell/separator (and likely a fitted
+location) for translated labels.
+
+### PT-069 — Activity help overlays are English in Portuguese mode
+
+Base → `A - Atribuir Tarefas` → select a liberal → press `?` showed:
+
+```
+=== Recruit ===
+Recruiting is a safe way to meet people of a specific job. Not all jobs are
+available in the recruiting interface, but many valuable, important, or just
+iconic jobs are.
+```
+
+The default `Laying Low` help likewise showed `=== Laying Low ===` and an
+English paragraph. Only `Pressione qualquer tecla para continuar.` was
+Portuguese. Source: `lib/basemode/help_system.dart` around lines 266 and 300;
+these help payloads are direct English strings rather than catalog lookups.
+The help route needs localized payloads (or an explicit, tested fallback policy)
+for every activity help page.
+
+### PT-070 — Activity preview remains stale after category change
+
+In the same assignment screen, the initial preview said
+`Jordan Villanuevaa vai fazer grafite.`. Pressing `D` to switch from Liberal
+Activism to `Recrutamento e Aquisição` changed the option list but left the old
+preview until a sub-option was selected. The next `1` correctly changed it to
+`... vai recrutar novos membros.`. This is a redraw/state issue, not a missing
+translation: `lib/basemode/activate_regulars.dart` renders the preview from the
+currently selected activity while category switches can leave the prior
+activity selected. Clear or reset the selection when changing categories.
+
+### PT-071 — Profile footer loses the slash separator in Portuguese
+
+Profile → full skill page rendered the footer as:
+
+```
+... CIMA BAIXO - Mais Info
+```
+
+The source intends `UP / DOWN - More Info` (`lib/common_display/print_creature_info.dart`
+around lines 394–396): `UP` is written at x=52, then `" / "`, and `DOWN - More
+Info` starts at x=57. Portuguese `CIMA` is wider than English `UP`, so the second
+option overwrites the slash and resulting text has no visible separator. Fit or
+place the two controls based on rendered width.
+
 The site-map help key (`?`) opens another residual: the `Direct Action` help
 overlay is entirely English (`You are taking direct action against the
 Conservative Menace...`, including its multi-paragraph guidance) while only
 the closing prompt is Portuguese. This is a player-facing help route and is
 separate from the combat action strings.
+
+## Headless Portuguese combat/help follow-up — 2026-07-28
+
+This pass used only CLI `agent-browser` sessions against local Flutter
+`web-server` builds (`lcs-pt-combat2` at `7382`; a disposable `7383` build
+was used for the injury-branch attempt). Chrome ran with `--headless=new`; no
+headed browser or desktop automation was used. Temporary injury-cheat changes
+were reverted before handoff and no production code was intentionally edited.
+
+Confirmed combat translation gap:
+
+- **PT-072 — Police firearm attack verb is raw English.** In a Portuguese
+  police-site alarm encounter, the combat message rendered
+  `Unidade Policial shoots at Bree Rawls with a Pistola 9 mm!`. The following
+  hit/dodge line was Portuguese (`Bree Rawls faz a esquiva Matrix!`), so this
+  is specifically the attack-description fragment rather than a locale
+  fallback. `FIRE_GUN` seeds `shoots at` in
+  `lib/items/weapon_type_xml.dart` (around line 96), and
+  `lib/sitemode/fight.dart` translates the fragment at attack construction
+  (around lines 503–506). There is no `shoots at` entry in the Portuguese
+  catalog; `swings at` is missing too and should be audited with the other XML
+  attack descriptions. A suitable PT-BR rendering is context-dependent
+  (`atira em`/`dispara contra`), because the surrounding template already
+  supplies the target and weapon.
+
+Rechecks/clarifications:
+
+- The alarm footer's `Saque no chão!` is not stale English or an accidental
+  legend tail: it is the intended translated ground-loot indicator drawn by
+  `lib/sitemode/site_display.dart` at row 24, column 57. In the fresh alarm
+  replay the action controls and this indicator were separated cleanly; do not
+  remove the indicator when fixing action-row redraws.
+- A raw `Chief of Police` was seen in an earlier alarm snapshot, but this
+  route's generated encounter is random. The catalog now contains
+  `Chief of Police` → `Chefe de Polícia`; a fresh replay after the current
+  source/catalog restart is still needed to verify the generated encounter
+  actually passes through the translation helper.
+- The police subdue/arrest branch was not reached. A disposable build with
+  `debugBadlyInjured` enabled killed the founder during site entry (roster
+  showed `24/0`), so that cheat is unsuitable for validating arrest text. The
+  developer flag was restored to `false` and the disposable server stopped.
+- `?` showed the all-English `=== Direct Action ===` help overlay in the
+  running `7382` build, which had been compiled before the latest catalog
+  additions. The static English payloads in
+  `lib/basemode/help_system.dart` are passed through the engine's translating
+  `mvaddstrc`/`addparagraph` calls, so catalog coverage is sufficient here.
+  The current focused `test/basemode/help_translation_test.dart` now passes
+  for the Direct Action title/guidance and the `shoots at`/`swings at` combat
+  phrases; a fresh web-server replay is still needed before closing the
+  runtime finding.
+
+## Headless verification follow-up — 2026-07-29
+
+A fresh `flutter run -d web-server` build was exercised through the CLI-only
+headless `agent-browser` session `rootverify`:
+
+- Activity help now renders Portuguese title and body text for Laying Low:
+  `=== Mantendo Discrição ===` and `Não fazer nada é uma forma segura...`.
+- Travel headers and district composites use localized city/district names.
+- Profile navigation retains the slash separator at the 80-column boundary.
+- Combat preset verbs `shoots at` and `swings at` have Portuguese catalog
+  entries with focused regression tests.
+
+Remaining follow-up routes are the long activity-help bodies, Promote Elite
+Liberals/Assemble Squad layouts, the profile crime-table width audit, and a
+fresh alarm surrender/arrest replay.

@@ -21,6 +21,7 @@
   ": AGENTS RESPONDING": ": AGENTES RESPONDENDO",
   ": MERCENARIES RESPONDING": ": MERCENÁRIOS RESPONDENDO",
   ": POLICE RESPONDING": ": POLÍCIA RESPONDENDO",
+  "=== Unknown Activity ===": "=== Atividade Desconhecida ===",
   "@C - Continue Last Game": {},
   "@P - Default Page Up/Down Keys: {keys}": {
     "placeholders": {

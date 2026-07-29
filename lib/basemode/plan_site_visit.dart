@@ -5,6 +5,7 @@ import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/district.dart';
 import 'package:lcs_new_age/location/location.dart';
@@ -27,7 +28,9 @@ Future<void> planSiteVisit() async {
     erase();
     mvaddstrc(0, 0, lightGray, "Where will the Squad go?");
     printParty(fullParty: true);
-    if (area != null) mvaddstrc(8, 0, lightGray, area.name);
+    if (area != null) {
+      mvaddstrc(8, 0, lightGray, area.getName(), noTranslate: true);
+    }
     List<Location> destinationList;
     if (area is City) {
       destinationList = [...area.districts];
@@ -107,7 +110,13 @@ Future<void> planSiteVisit() async {
         );
       }
       if (thisCity != null) {
-        mvaddstrc(y, 50, darkGray, thisCity.description);
+        mvaddstrc(
+          y,
+          50,
+          darkGray,
+          LcsI18n.tr(thisCity.description),
+          noTranslate: true,
+        );
       }
       y++;
     }

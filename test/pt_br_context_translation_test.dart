@@ -118,6 +118,10 @@ void main() {
       '{third} {first}{preposition}{second}',
     );
     expect(catalog['NO LOVE LOST'], 'INIMIZADE DECLARADA');
+    expect(
+      catalog['{member} acted with {squad} instead of recruiting.'],
+      '{member} agiu com {squad} em vez de recrutar.',
+    );
     expect(catalog['LIGHTS OUT'], 'LUZES APAGADAS');
     expect(catalog['No ammo required!'], 'Não requer munição!');
     expect(
@@ -952,11 +956,11 @@ void main() {
     );
     expect(
       catalog['"I\'d love to see something swell."'],
-      '"Adoraria ver algo inchar."',
+      '"Adoraria ver uma coisa crescer."',
     );
     expect(
       catalog['"Do you want to see something swell?"'],
-      '"Quer ver algo inchar?"',
+      '"Quer ver uma coisa crescer?"',
     );
     expect(
       catalog['"What do you say we go behind a rock and get a little boulder?"'],
@@ -1428,19 +1432,19 @@ void main() {
     );
     expect(
       catalog['"Do you want to see something swell?"'],
-      '"Quer ver algo inchar?"',
+      '"Quer ver uma coisa crescer?"',
     );
     expect(
       catalog['"I\'d love to see something swell."'],
-      '"Adoraria ver algo inchar."',
+      '"Adoraria ver uma coisa crescer."',
     );
     expect(
       catalog['"I\'d rather feel something swell."'],
-      '"Prefiro sentir algo inchar."',
+      '"Prefiro sentir uma coisa crescer."',
     );
     expect(
       catalog['"I\'d rather let you feel something swell."'],
-      '"Prefiro deixar você sentir algo inchar."',
+      '"Prefiro deixar você sentir uma coisa crescer."',
     );
     expect(
       catalog['"Stand still so I can pick you up!"'],

@@ -372,7 +372,8 @@ void main() {
 
       expect(regulars, contains('" ({current}/{total})"'));
       expect(siteMode, contains('" ({current}/{total})"'));
-      expect(agenda, contains('"{percent}% "'));
+      expect(agenda, contains('fitConsoleText(renderedIssue, 61)'));
+      expect(agenda, contains('LcsI18n.tr(issue)'));
       expect(review, contains('LcsI18n.processString("{name}"'));
       expect(review, contains('noTranslate: true'));
     });

@@ -13,12 +13,6 @@
       "reason": "Developer diagnostic falsely associated with the nearby wrapper by the line-based audit."
     },
     {
-      "file": "basemode/liberal_agenda.dart",
-      "context": "addstr",
-      "text": "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}",
-      "reason": "Locale-neutral numeric percentage value passed to a complete translated template."
-    },
-    {
       "file": "basemode/review_mode.dart",
       "context": "addstr",
       "text": "\\$${tempp.medicalBills}",
@@ -112,9 +106,9 @@
     },
     {
       "file": "basemode/liberal_agenda.dart",
-      "line": 405,
-      "text": "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}",
-      "reason": "Locale-neutral numeric percentage value passed to a complete translated template or diagnostic."
+      "line": 411,
+      "text": "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ${LcsI18n.tr(issue)}",
+      "reason": "Locale-neutral numeric percentage is combined with an already translated polling issue before layout fitting."
     },
     {
       "file": "basemode/media_overview.dart",
@@ -292,61 +286,61 @@
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 159,
+      "line": 163,
       "text": "site.cityId: ${site.cityId}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 161,
+      "line": 165,
       "text": "s.members.first.base?.cityId: ${s.members.first.base?.cityId}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 851,
+      "line": 855,
       "text": "ribs(${b.ribs}/${b.maxRibs})",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 861,
+      "line": 865,
       "text": "[HOSP] ${p.name} day=${p.daysHospitalized} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 862,
+      "line": 866,
       "text": "ct=${clinictime(p)} blood=${p.blood}/${p.maxBlood} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 863,
+      "line": 867,
       "text": "med=${medical[p.site]} canon=${identical(canonical, p.site)} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 864,
+      "line": 868,
       "text": "site=${p.site?.idString}(${p.site?.type.name}) ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 865,
+      "line": 869,
       "text": "inj=$inj nasty=$nasty",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 1068,
+      "line": 1072,
       "text": "\\$${p.medicalBills}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 1074,
+      "line": 1078,
       "text": "\\$${ledger.funds}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

@@ -99,6 +99,28 @@ void main() {
     );
   });
 
+  test('Portuguese agenda public-interest levels are translated', () {
+    expect(LcsI18n.tr('Huge'), equals('Enorme'));
+    expect(LcsI18n.tr('High'), equals('Alto'));
+    expect(LcsI18n.tr('Moderate'), equals('Moderado'));
+    expect(LcsI18n.tr('Low'), equals('Baixo'));
+    expect(LcsI18n.tr('Minimal'), equals('Mínimo'));
+    expect(LcsI18n.tr('None'), equals('Nenhuma'));
+  });
+
+  test(
+    'Portuguese agenda polling rows expose clipped text with an ellipsis',
+    () {
+      final fitted = fitConsoleText(
+        LcsI18n.tr('want more freedom to criticize the government'),
+        30,
+      );
+
+      expect(fitted.length, lessThanOrEqualTo(30));
+      expect(fitted, endsWith('…'));
+    },
+  );
+
   test('Portuguese agenda law labels are fitted to their cells', () {
     mvaddstrcFitted(0, 8, lightGreen, Law.animalRights.label, 18);
 

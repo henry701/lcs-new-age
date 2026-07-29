@@ -115,6 +115,18 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-112 fixed (2026-07-29): the conservative-era intro no longer caps the
   translated midterm-election paragraph at the English line budget, preventing
   the following agenda paragraph from overwriting its final Portuguese words.
+- PT-113 fixed (2026-07-29): agenda public-interest levels now pass through
+  the locale catalog (`Enorme`, `Alto`, `Moderado`, `Baixo`, `Mínimo`,
+  `Nenhuma`) before rendering.
+- PT-114 fixed (2026-07-29): agenda polling rows and active-law descriptions
+  are fitted to the 80-column console with an ellipsis, preserving the
+  right-hand interest column instead of clipping at the edge.
+- PT-115 fixed (2026-07-29): the four `something swell` pickup variants now
+  use the contextual Brazilian Portuguese phrase `uma coisa crescer`,
+  avoiding the literal `algo inchar` rendering.
+- PT-116 fixed (2026-07-29): recruiting's daily fallback uses a dedicated
+  infinitive template (`em vez de recrutar`) rather than inserting the
+  activity label `Recrutando` into that grammatical slot.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

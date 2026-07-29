@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:lcs_new_age/basemode/disbanding.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
@@ -301,7 +303,7 @@ void _lawsPage(int start, AgendaVibe vibe) {
     } else {
       setColor(laws[law]!.color);
     }
-    mvaddstr(y, 0, _lawDescription(law, laws[law]!, vibe));
+    mvaddstrFitted(y, 0, _lawDescription(law, laws[law]!, vibe), console.width);
   }
 }
 
@@ -366,111 +368,125 @@ void _pollsPage(int start) {
             ccsState == CCSStrength.defeated)) {
       continue;
     }
-    mvaddstrc(y, 4, lightGray, "".padRight(57, "."));
     int interest = politics.publicInterest[v]!;
+    String interestLabel;
+    Color interestColor;
     if (interest > 16) {
-      addstrc(red, "Huge");
+      interestLabel = LcsI18n.tr("Huge");
+      interestColor = red;
     } else if (interest > 8) {
-      addstrc(orange, "High");
+      interestLabel = LcsI18n.tr("High");
+      interestColor = orange;
     } else if (interest > 4) {
-      addstrc(yellow, "Moderate");
+      interestLabel = LcsI18n.tr("Moderate");
+      interestColor = yellow;
     } else if (interest > 2) {
-      addstrc(lightGray, "Low");
+      interestLabel = LcsI18n.tr("Low");
+      interestColor = lightGray;
     } else if (interest > 0) {
-      addstrc(midGray, "Minimal");
+      interestLabel = LcsI18n.tr("Minimal");
+      interestColor = midGray;
     } else {
-      addstrc(darkGray, "None");
+      interestLabel = LcsI18n.tr("None");
+      interestColor = darkGray;
     }
 
     double survey = politics.publicOpinion[v]!;
     if (v == View.lcsLiked) survey = politics.lcsApproval();
     if (v == View.ccsHated) survey = politics.ccsApproval();
+    final Color surveyColor;
     if (survey < 20) {
-      setColor(DeepAlignment.archConservative.color);
+      surveyColor = DeepAlignment.archConservative.color;
     } else if (survey < 40) {
-      setColor(DeepAlignment.conservative.color);
+      surveyColor = DeepAlignment.conservative.color;
     } else if (survey < 60) {
-      setColor(DeepAlignment.moderate.color);
+      surveyColor = DeepAlignment.moderate.color;
     } else if (survey < 80) {
-      setColor(DeepAlignment.liberal.color);
+      surveyColor = DeepAlignment.liberal.color;
     } else {
-      setColor(DeepAlignment.eliteLiberal.color);
+      surveyColor = DeepAlignment.eliteLiberal.color;
     }
-    move(y, 0);
-    if (survey < 10) addchar('0');
-    addstr(
-      "{percent}% ",
-      params: {
-        "percent":
-            "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}",
-      },
-    );
-    switch (v) {
-      case View.lgbtRights:
-        addstr("support LGBTQ+ rights");
-      case View.deathPenalty:
-        addstr("oppose the death penalty");
-      case View.taxes:
-        addstr("are in favor of higher taxes");
-      case View.nuclearPower:
-        addstr("are terrified of nuclear power");
-      case View.animalResearch:
-        addstr("deplore animal research");
-      case View.policeBehavior:
-        addstr("are critical of the police");
-      case View.torture:
-        addstr("want stronger measures to prevent torture");
-      case View.intelligence:
-        addstr("want to stop government mass surveillance");
-      case View.freeSpeech:
-        addstr("want more freedom to criticize the government");
-      case View.genetics:
-        addstr("support regulation of genetic research");
-      case View.justices:
-        addstr("are for the appointment of Liberal Justices");
-      case View.gunControl:
-        addstr("are concerned about gun violence");
-      case View.sweatshops:
-        addstr("avoid companies that use sweatshops");
-      case View.pollution:
-        addstr("call for stricter environmental regulations");
-      case View.corporateCulture:
-        addstr("are disgusted by corporate malfeasance");
-      case View.ceoSalary:
-        addstr("believe that CEO salaries are too high");
-      case View.womensRights:
-        addstr("favor doing more for gender equality");
-      case View.civilRights:
-        addstr("agree that more work is needed for racial equality");
-      case View.drugs:
-        if (laws[Law.drugs]! >= DeepAlignment.liberal) {
-          addstr("support keeping marijuana legal");
-        } else {
-          addstr("want to legalize marijuana");
-        }
-      case View.immigration:
-        addstr("support Liberal immigration policy");
-      case View.military:
-        addstr("believe that military spending is too high");
-      case View.prisons:
-        addstr("want prisons to focus on rehabilitation");
-      case View.amRadio:
-        addstr("find Conservative AM Radio distasteful");
-      case View.cableNews:
-        addstr("do not trust Conservative Cable News");
-      case View.lcsKnown:
-        addstr("have heard of the Liberal Crime Squad");
-      case View.lcsLiked:
-        addstr("consider the Liberal Crime Squad a force for good");
-      case View.ccsHated:
-        addstr("want the Conservative Crime Squad brought to justice");
-      case View.housing:
-        addstr("want the government to provide affordable housing");
-      case View.healthcare:
-        addstr("support universal healthcare");
-      case View.retirement:
-        addstr("want a government-run retirement system");
+    final String issue = _pollingIssue(v);
+    final String renderedIssue =
+        "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ${LcsI18n.tr(issue)}";
+    setColor(surveyColor);
+    mvaddstr(y, 0, fitConsoleText(renderedIssue, 61), noTranslate: true);
+    if (console.x < 61) {
+      mvaddstr(
+        y,
+        console.x,
+        "".padRight(61 - console.x, "."),
+        noTranslate: true,
+      );
     }
+    mvaddstrc(y, 61, interestColor, interestLabel, noTranslate: true);
+  }
+}
+
+String _pollingIssue(View view) {
+  switch (view) {
+    case View.lgbtRights:
+      return "support LGBTQ+ rights";
+    case View.deathPenalty:
+      return "oppose the death penalty";
+    case View.taxes:
+      return "are in favor of higher taxes";
+    case View.nuclearPower:
+      return "are terrified of nuclear power";
+    case View.animalResearch:
+      return "deplore animal research";
+    case View.policeBehavior:
+      return "are critical of the police";
+    case View.torture:
+      return "want stronger measures to prevent torture";
+    case View.intelligence:
+      return "want to stop government mass surveillance";
+    case View.freeSpeech:
+      return "want more freedom to criticize the government";
+    case View.genetics:
+      return "support regulation of genetic research";
+    case View.justices:
+      return "are for the appointment of Liberal Justices";
+    case View.gunControl:
+      return "are concerned about gun violence";
+    case View.sweatshops:
+      return "avoid companies that use sweatshops";
+    case View.pollution:
+      return "call for stricter environmental regulations";
+    case View.corporateCulture:
+      return "are disgusted by corporate malfeasance";
+    case View.ceoSalary:
+      return "believe that CEO salaries are too high";
+    case View.womensRights:
+      return "favor doing more for gender equality";
+    case View.civilRights:
+      return "agree that more work is needed for racial equality";
+    case View.drugs:
+      return laws[Law.drugs]! >= DeepAlignment.liberal
+          ? "support keeping marijuana legal"
+          : "want to legalize marijuana";
+    case View.immigration:
+      return "support Liberal immigration policy";
+    case View.military:
+      return "believe that military spending is too high";
+    case View.prisons:
+      return "want prisons to focus on rehabilitation";
+    case View.amRadio:
+      return "find Conservative AM Radio distasteful";
+    case View.cableNews:
+      return "do not trust Conservative Cable News";
+    case View.lcsKnown:
+      return "have heard of the Liberal Crime Squad";
+    case View.lcsLiked:
+      return "consider the Liberal Crime Squad a force for good";
+    case View.ccsHated:
+      return "want the Conservative Crime Squad brought to justice";
+    case View.housing:
+      return "want the government to provide affordable housing";
+    case View.healthcare:
+      return "support universal healthcare";
+    case View.retirement:
+      return "want a government-run retirement system";
   }
 }
 

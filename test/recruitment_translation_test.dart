@@ -196,4 +196,16 @@ void main() {
     expect(_consoleLine(0).length, lessThanOrEqualTo(79));
     expect(_consoleLine(1).length, lessThanOrEqualTo(79));
   });
+
+  test('Portuguese fallback activity uses the recruiting infinitive', () {
+    expect(
+      LcsI18n.processString(
+        '{member} acted with {squad} instead of recruiting.',
+        {'member': 'Rich Nevinson', 'squad': 'O Esquadrão do Crime Liberal'},
+      ),
+      equals(
+        'Rich Nevinson agiu com O Esquadrão do Crime Liberal em vez de recrutar.',
+      ),
+    );
+  });
 }

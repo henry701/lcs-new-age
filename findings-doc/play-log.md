@@ -1538,6 +1538,36 @@ Chromium remained CLI-only with `--headless=new --ozone-platform=headless`.
 The recruitment profession list, pronoun/gender rows, candidate dialogue,
 acceptance options, and month-end reports otherwise rendered Portuguese.
 
+## Strict-headless month-end/agenda replay — 2026-07-29
+
+This replay used a fresh Flutter web-server on port 8792 and only CLI
+`agent-browser` session `lcs-month-media`, with `AGENT_BROWSER_HEADED=0` and
+`--headless=new --ozone-platform=headless`. No production code or debug flags
+were changed. A Portuguese game was started from scratch, advanced from 1 Jan
+2023 through the end-of-month agenda processing to 1 Feb 2023, and the media,
+agenda, polling, active-law, and financing screens were inspected. Evidence is
+retained under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/month-media/`.
+
+- **PT-113 — public-interest levels leak English.** Agenda `L` page 2 showed
+  Portuguese issue labels and percentages, but each interest column displayed
+  `Low` in English (with `None` already translated as `Nenhuma` in the same
+  page). The source branch in `lib/basemode/liberal_agenda.dart` directly draws
+  `Huge`, `High`, `Moderate`, `Low`, `Minimal`, and `None`; all six should be
+  localized before insertion. Screenshot: `agenda-page2.png`.
+- **PT-114 — long Portuguese agenda text clips at the console edge.** Polling
+  page 3 and active-law pages 4–5 draw long translated sentences beyond the
+  80-column console; their right-hand tails are visibly missing at 1024×768
+  (for example the page-5 Social Security sentence and page-3 polling rows).
+  This is a layout regression distinct from the known 480×320 PT-083 narrow
+  viewport clipping: the normal-width console itself needs fitting/wrapping for
+  long localized agenda descriptions. Screenshots: `agenda-page3.png`,
+  `agenda-page4.png`, and `agenda-page5.png`.
+
+The month-end resolution, finance report, February 1 date header, agenda
+legend, and empty media overview were otherwise Portuguese. No populated
+newspaper story was generated in this no-event run, so media-detail coverage
+remains a deterministic follow-up.
+
 ## Fresh strict-headless title/save/corrupt-save replay — 2026-07-29
 
 This replay used a new Flutter web-server on port 7463 and only CLI
@@ -1654,3 +1684,77 @@ was not reached because the fresh run had only US$7 versus the US$100 ticket.
 Focused regression suites for these fixes pass in strict Portuguese mode;
 the remaining open tracker items are the known narrow-console clipping and
 headless file-picker import coverage gaps documented above.
+
+## Fresh strict-headless combat/action replay — 2026-07-29
+
+This pass used a fresh Flutter web-server on port 7485 and only CLI
+`agent-browser` session `combat-actions`, launched with
+`AGENT_BROWSER_HEADED=0` and `--headless=new --ozone-platform=headless`. No
+production source or debug flags were changed. A Portuguese game was started,
+the founder was sent through recruitment, a dating meeting, and a Plastic
+Factory site visit. Evidence screenshots are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-actions/`.
+
+- **PT-115 — pickup-line innuendo is literal/unnatural.** Selecting
+  `B - Mande uma cantada` displayed `"Quer ver algo inchar?"` for the English
+  source `"Do you want to see something swell?"`. The conversation context is
+  a flirtatious sexual double meaning, but `inchar` reads as a literal bodily
+  swelling. The same issue is present in the related `I'd love to see...` and
+  `I'd rather feel/let you feel...` catalog entries. Evidence:
+  `combat-actions/recruit-swell.png`; catalog entries are in
+  `app_pt_BR_part09.arb`, `part25.arb`, and `part32.arb` (with the matching
+  `part03.arb` variant).
+- **PT-116 — activity fallback uses a gerund where Portuguese needs an
+  infinitive.** After executing plans while the founder's activity was
+  `Recrutando`, the daily result read `Rich Nevinson agiu com o Esquadrão do
+  Crime Liberal em vez de Recrutando.`. This is a contextual interpolation of
+  the `Recruiting` label into `{activity}`, so translating the standalone label
+  alone cannot make the sentence grammatical; use `em vez de recrutar` or a
+  dedicated contextual phrase. Evidence:
+  `combat-actions/acted-instead-recruiting.png`; source path is
+  `lib/daily/advance_day.dart` and the template catalog entry is
+  `app_pt_BR_part27.arb`.
+
+The route reached the site-mode map and exposed translated movement/action
+legend text. A longer combat encounter (car chase/tooth injury/hostage siege)
+was not deterministic in this normal-cost run; the browser session and the
+Flutter server were closed after capture, with no source fixtures left behind.
+
+## Fresh strict-headless title/import/narrow replay — 2026-07-29
+
+This pass used a fresh Flutter web-server on port 7481 and only CLI
+`agent-browser` session `import-narrow`, launched with `AGENT_BROWSER_HEADED=0`
+and `--headless=new --ozone-platform=headless`. No production source or debug
+flags were changed. Title, language selection, new-game setup, founder screen,
+and narrow 480×320/400×300 layouts were inspected in Portuguese. Evidence is
+retained under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/import-narrow/`.
+
+- Title and language-selection routes remained Portuguese after a fresh
+  browser session; the 400×300 title and new-game screens showed the same
+  fixed-console edge/footer clipping already tracked as PT-083, with no new
+  translation leak.
+- Pressing `I - Importar um salvamento` reached the Flutter file-picker call,
+  but strict-headless Chromium exposed no DOM `<input type=file>` and the
+  native picker cannot be driven by `agent-browser`; the screenshot therefore
+  remains on the title screen. This confirms the existing headless import
+  coverage gap rather than a new product defect. A browser-supported fixture or
+  real user-assisted picker run is still required to validate import success.
+- Portuguese founder setup text and the initial event log rendered without a
+  new English leak. No production fixtures or source flags were left changed.
+
+## Strict-headless post-fix verification — 2026-07-29
+
+The affected agenda route was replayed against a fresh Flutter web-server on
+port 7591 using CLI-only Chromium with `AGENT_BROWSER_HEADED=0`,
+`--headless=new`, and `--ozone-platform=headless`. Pages 2–5 now show
+`Baixo`, `Nenhuma`, and other Portuguese public-interest labels; no raw
+English intensity labels remain. Long polling and active-law rows are bounded
+with visible ellipses while the interest column remains intact. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-verify/agenda-page{2,3,4,5}.{txt,png}`.
+
+The pickup-line and recruiting fallback corrections are covered by the same
+strict-headless route evidence from `combat-actions/` plus focused runtime
+regression tests: the former now uses `uma coisa crescer`, and the latter now
+renders `em vez de recrutar`. No new translation or layout issue was found in
+this verification pass; PT-083 narrow-console clipping and the native file
+picker limitation remain the documented residuals.

@@ -1,8 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/location/city.dart';
+import 'package:lcs_new_age/location/location_type.dart';
+import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/saveload/save_load.dart';
+import 'package:lcs_new_age/title_screen/game_over.dart';
+import 'package:lcs_new_age/title_screen/high_scores.dart';
 import 'package:lcs_new_age/title_screen/title_screen.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
@@ -177,6 +185,8 @@ void main() {
     for (final text in [
       LcsI18n.processString('Flags Bought: {buys}', {'buys': '12'}),
       LcsI18n.processString('Flags Burned: {burns}', {'burns': '12'}),
+      LcsI18n.processString(r'$ Taxed: {count}', {'count': '1200'}),
+      LcsI18n.processString(r'$ Spent: {count}', {'count': '1200'}),
     ]) {
       expect(text.length, lessThanOrEqualTo(20), reason: text);
     }
@@ -188,6 +198,37 @@ void main() {
       lessThanOrEqualTo(36),
     );
   });
+
+  test(
+    'Portuguese fastest-victory title score stays inside the frame border',
+    () {
+      final highScores = HighScores();
+      highScores.universalVictories = 1;
+      highScores.scoreList.add(
+        HighScore(
+          slogan: 'Avante',
+          month: 2,
+          year: 2026,
+          statRecruits: 1,
+          statMartyrs: 0,
+          statKills: 0,
+          statKidnappings: 0,
+          statFunds: 0,
+          statSpent: 0,
+          statBuys: 0,
+          statBurns: 0,
+          endType: Ending.victory,
+        ),
+      );
+
+      titleScreenFrame(bottom: 23);
+      titleScreenScores(highScores, startY: 17);
+
+      expect(_consoleLine(20), contains('Vitória mais rápida: Fevereiro/2026'));
+      expect(console.buffer[20][78].glyph, ' ');
+      expect(console.buffer[20][79].glyph, ' ');
+    },
+  );
 
   test('Portuguese vehicle guidance keeps every line visible', () {
     for (final text in [
@@ -229,6 +270,33 @@ void main() {
       endsWith('T - Atribuir bases aos Liberais sem esquadrão.'),
     );
     expect(_consoleLine(24).length, lessThanOrEqualTo(80));
+  });
+
+  test('Portuguese activity header stays inside its right-hand cell', () {
+    final previousCities = gameState.cities;
+    try {
+      final city = City('Seattle, WA', 'Seattle', '');
+      gameState.cities = [city];
+      final district = city.addDistrict('Comércio', 'Comércio');
+      final site = Site(SiteType.pawnShop, city, district)
+        ..rename(
+          'Storms — Casa de penhores e armas',
+          'Storms — Casa de penhores e armas',
+        );
+      final squad = Squad()
+        ..activity = Activity(ActivityType.visit, idString: site.idString);
+
+      printSquadActivityDescription(0, 41, squad);
+
+      final line = _consoleLine(0);
+      expect(line.length, lessThanOrEqualTo(80));
+      expect(
+        line.substring(41),
+        equals(fitConsoleText(squad.activity.description, 39)),
+      );
+    } finally {
+      gameState.cities = previousCities;
+    }
   });
 
   test('Portuguese squad review names stay inside the location column', () {

@@ -190,7 +190,7 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 382,
+      "line": 385,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },

@@ -108,7 +108,7 @@ void main() {
         'A - A tortura americana de prisioneiros no Iraque foi revelada na TV nacional.',
       ),
     );
-    expect(_consoleLine(12), contains('+2 Agilidade, 30 de Junho'));
+    expect(_consoleLine(12), contains('+2 Agilidade, 30 de junho'));
   });
 
   test('long biography options wrap instead of disappearing at the edge', () {
@@ -125,7 +125,7 @@ void main() {
 
     final rendered = _normalizedConsoleLines(11, 13);
     expect(rendered, contains(option));
-    expect(rendered, contains('+2 Agilidade, 30 de Junho'));
+    expect(rendered, contains('+2 Agilidade, 30 de junho'));
   });
 
   test('wrapped biography option continuations stay indented', () {

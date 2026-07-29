@@ -196,6 +196,26 @@ void main() {
     );
   });
 
+  test(
+    'founder biography bonuses keep Portuguese punctuation and date casing',
+    () {
+      const expected = {
+        '+2 Agility, June 30th': '+2 Agilidade, 30 de junho',
+        '+2 Strength, September 5th': '+2 Força, 5 de setembro',
+        '+2 Intelligence, November 9th': '+2 Inteligência, 9 de novembro',
+        '+2 Charisma, October 8th': '+2 Carisma, 8 de outubro',
+        '+2 Heart, May 17th': '+2 Coração, 17 de maio',
+        '+4 Int, +2 Science Computers Writing and Teaching, +1 Business and Law':
+            '+4 Int., +2 Ciência, Computação, Escrita e Ensino, +1 Negócios e Lei',
+        '+4 Heart, +1 Intelligence Strength Agility and Charisma':
+            '+4 Coração, +1 Inteligência, Força, Agilidade e Carisma',
+      };
+      for (final entry in expected.entries) {
+        expect(catalog[entry.key], entry.value, reason: entry.key);
+      }
+    },
+  );
+
   test('management data vocabulary is localized', () {
     for (final entry in {
       'Beige': 'Bege',
@@ -203,6 +223,10 @@ void main() {
       'Red': 'Vermelho',
       'White': 'Branco',
       'Pawnshop': 'Casa de Penhores',
+      '1 Daily Ration': '1 Ração diária',
+      '1 day of Food Left.': '1 dia de comida restante.',
+      '{days} days of Food Left.': '{days} dias de comida restante.',
+      '{rations} Daily Rations': '{rations} Rações diárias',
       'treason': 'traição',
       'illegal entry into the United States':
           'entrada ilegal nos Estados Unidos',
@@ -225,9 +249,10 @@ void main() {
       catalog['Manage Conservatively Broken Saved Game'],
       'Gerenciar Salvamento Corrompido com Cautela',
     );
-    expect(catalog['Flags Bought: {count}'], 'Compradas: {count}');
-    expect(catalog['Flags Burned: {count}'], 'Queimadas: {count}');
-    expect(catalog[r'$ Spent: {count}'], r'$ Gasto: {count}');
+    expect(catalog['Flags Bought: {count}'], 'Bandeiras compr.: {count}');
+    expect(catalog['Flags Burned: {count}'], 'Bandeiras queim.: {count}');
+    expect(catalog[r'$ Spent: {count}'], r'Gastos: R$ {count}');
+    expect(catalog[r'$ Taxed: {count}'], r'Impostos: R$ {count}');
     expect(
       catalog['Fastest Victory: {month} {year}'],
       'Vitória mais rápida: {month}/{year}',

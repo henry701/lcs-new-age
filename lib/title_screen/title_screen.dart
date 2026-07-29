@@ -26,6 +26,9 @@ const int titleMenuRightColumnX = 42;
 const int titleMenuLeftColumnWidth =
     titleMenuRightColumnX - titleMenuLeftColumnX - 1;
 const int titleMenuRightEdgeExclusive = 78;
+// Columns 78 and 79 are the title frame's right border; keep score text clear
+// of that border when a localized label expands.
+const int titleStatsRightColumnX = 43;
 bool megaFounderCheat = false;
 
 Future<void> titleScreen() async {
@@ -519,7 +522,7 @@ void titleScreenScores(HighScores? highScores, {int startY = 9}) {
   if (highScores.wins.isNotEmpty) {
     mvaddstr(
       startY + 3,
-      44,
+      titleStatsRightColumnX,
       "Fastest Victory: {month} {year}",
       params: {
         "month": getMonth(highScores.scoreList.first.month),

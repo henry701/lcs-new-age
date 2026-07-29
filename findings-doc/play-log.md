@@ -800,3 +800,85 @@ browser or desktop automation was used.
   ended before those branches could be selected. The existing catalog still
   maps `Chief of Police` to `Chefe de Polícia`; runtime verification remains
   open.
+
+## Headless shop and narrow-viewport verification — 2026-07-28
+
+This replay used only the CLI `agent-browser` session `shopfresh2` against a
+fresh Flutter `web-server` build on port 7393. Chromium ran with
+`--headless=new --ozone-platform=headless`; no headed browser or desktop
+automation was used. The shared `megaFounderCheat` source flag remained
+`false`.
+
+The route selected Português, created a founder, travelled to the Seattle
+commercial district, and opened the Krasow department store and Storms pawn
+shop. Clothing (masculine and feminine), equipment, firearms, and tools were
+reviewed. The previously reported English `Enter -` prefixes and item-column
+collisions are fixed: controls consistently show `Entre -`, all visible item
+names/descriptions are Portuguese, and long rows use ellipses/separators without
+overwriting price or damage columns.
+
+Confirmed and fixed during this pass:
+
+- The shared header activity cell wrote long Portuguese visit descriptions past
+  its 39-column right-hand cell (`Visitando Storms — Casa de penhores e a`).
+  `printSquadActivityDescription` now fits text to the remaining console width;
+  `test/localized_layout_regression_test.dart` covers a long pawn-shop visit
+  phrase.
+
+Narrow viewport check (480×320) still shows the fixed 80-column console clipped
+horizontally by the browser viewport. The shop text remains internally bounded,
+but the right side of the roster/header is off-screen. This is a responsive
+layout enhancement for a future pass, not a translation defect.
+
+## Headless police-station/profile replay — 2026-07-28
+
+I repeated the route from a fresh Portuguese game in CLI `agent-browser`
+headless Chrome: Seattle → Centro de Seattle → Delegacia de Polícia → site
+entry, then returned to base and opened squad management/profile views. A
+disposable local all-items flag was used only during setup and restored to
+`false` before handoff. The
+police-station arrival message, site header (`Delegacia de Polícia, Nível 1`),
+movement/combat footer, squad table, and profile screen were all Portuguese;
+the body-part labels (`Cabeça`, `Tronco`, `Perna esq…`, etc.) and crime table
+contained no raw English strings. Long profile labels were ellipsized inside
+their fixed columns and did not overwrite adjacent values.
+
+Residual coverage gap: this deterministic route still did not produce a Chief
+of Police encounter or the surrender, police-subdue/arrest, and injury combat
+branches. These branches need a repeatable fixture/playtest hook before their
+Portuguese strings and layout can be verified reliably; no new player-visible
+translation defect was confirmed in this replay.
+
+## Headless title/save/month replay — 2026-07-28
+
+This replay used only CLI `agent-browser` with Chrome `--headless=new
+--ozone-platform=headless` against the Portuguese Flutter web-server. No
+headed browser or desktop automation was used. A normal founder game was
+created with cheats disabled, autosaved, exported from the save manager, loaded
+again, and reloaded after leaving the game. The save list showed localized
+headers (`DATA NO JOGO`, `LÍDER DO LCS`, `ÚLTIMO ACESSO`, `VERSÃO`), compact
+Portuguese dates, and complete `Entre -` back prompts.
+
+The replay advanced into January/February and exercised newspapers, a major
+event, legislative voting, and the finance report. Date lines (`5 de jan de
+2023`, `1 de fev de 2023`), finance labels, voting headers, and event copy fit
+the console; no raw English or column overwrite was confirmed. The changelog
+overlay intentionally keeps release notes in English and clearly labels that
+state in Portuguese.
+
+To reach otherwise disabled title overlays, a disposable synthetic high-score
+fixture was injected into the headless browser's local storage (not source and
+not shared state). The high-score screen rendered Portuguese endings, dates,
+stats, and universal totals. **PT-074 fixed:** on the title frame, `Vitória
+mais rápida: Fevereiro/2023` reached the two-character right border because
+the translated label starts at column 44. The score column now starts at 43;
+the regression test asserts both the complete text and untouched border cells.
+The synthetic local-storage fixture was removed after verification; source
+cheat flags remain `false`.
+
+The high-score fixture also exposed context-poor compact labels: `Compradas`,
+`Queimadas`, `$ Tributado`, and `$ Gasto` did not identify what was counted and
+were not idiomatic Portuguese. **PT-075 fixed:** these now render as
+`Bandeiras compr.`, `Bandeiras queim.`, `Impostos: $`, and `Gastos: $` with
+their values, all bounded to the fixed 20-column stat cells. The focused
+Portuguese context/layout suites pass with the updated catalog values.

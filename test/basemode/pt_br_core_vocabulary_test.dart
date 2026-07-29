@@ -128,6 +128,21 @@ void main() {
     },
   );
 
+  test('Portuguese party table preserves weapon separator for mega stats', () {
+    final founder = _founder();
+    for (final skill in Skill.values) {
+      founder.rawSkill[skill] = 30;
+    }
+
+    printParty(fullParty: true);
+
+    expect(console.buffer[2][29].glyph, equals('N'));
+    expect(
+      console.buffer[2].sublist(23, 29).map((c) => c.glyph).join(),
+      isNot(contains('Nenhuma')),
+    );
+  });
+
   test('Portuguese transport localizes XML vehicle short names', () {
     final founder = _founder();
     final vehicle = Vehicle('SPORTSCAR');
@@ -277,8 +292,10 @@ void main() {
     baseModeOptionsDisplay(_homelessCamp);
 
     expect(_consoleText(), contains(r'P - Orgulho: Hastear bandeira ($20)'));
-    expect(console.buffer[22].map((character) => character.glyph).join(),
-        isNot(contains('…')));
+    expect(
+      console.buffer[22].map((character) => character.glyph).join(),
+      isNot(contains('…')),
+    );
   });
 
   test('Portuguese character profiles localize profession and body labels', () {

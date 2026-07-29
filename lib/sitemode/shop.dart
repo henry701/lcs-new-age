@@ -251,10 +251,12 @@ class Shop extends ShopOption {
             "price": "\$${(availableOptions[p] as ShopItem).price(false)}",
           }, noTranslate: true);
         }
-        addInlineOptionText(
+        addInlineOptionTextWrapped(
           letter,
           "{letter} - {desc}",
           params: {"letter": letter, "desc": desc},
+          leftMargin: x == 1 ? 1 : 40,
+          rightMargin: x == 1 ? 41 : 0,
         );
 
         if (x == 1) {
@@ -288,17 +290,18 @@ class Shop extends ShopOption {
         );
       }
 
-      addOptionText(
+      addOptionTextFitted(
         ++y,
         1,
         "0",
         "0 - Show the squad's Liberal status",
+        38,
         enabledWhen: activeSquadMemberIndex != -1,
       );
       setColorConditional(
         partysize > 0 && (activeSquadMemberIndex == -1 || partysize > 1),
       );
-      mvaddstr(y++, 40, "# - Check the status of a squad Liberal");
+      mvaddstrFitted(y++, 40, "# - Check the status of a squad Liberal", 40);
       addOptionText(
         y,
         1,
@@ -365,11 +368,12 @@ class Shop extends ShopOption {
       lineBuilder: (y, key, index) {
         setColorConditional(availableOptions[index].isAvailable());
         String letter = letterAPlus(y - 2);
-        addOptionText(
+        addOptionTextFitted(
           y,
           0,
           letter,
           "{letter} - {description}",
+          38,
           params: {
             "letter": letter,
             "description": availableOptions[index].fullscreenDescription(),
@@ -432,11 +436,12 @@ class Shop extends ShopOption {
           addstr(_localizedShopText(weapon.description), noTranslate: true);
         } else {
           setColor(lightGray);
-          addOptionText(
+          addOptionTextFitted(
             y,
             0,
             key,
             "{key} - {name}",
+            19,
             params: {"key": key, "name": _localizedShopText(weapon.name)},
             enabledWhen: availableOptions[i].isAvailable(),
           );
@@ -513,11 +518,12 @@ class Shop extends ShopOption {
       lineBuilder: (y, key, index) {
         AmmoType ammo =
             ammoTypes[(availableOptions[index] as ShopItem).itemId]!;
-        addOptionText(
+        addOptionTextFitted(
           y,
           0,
           key,
           "{key} - {name}",
+          23,
           params: {"key": key, "name": _localizedShopText(ammo.name)},
           enabledWhen: availableOptions[index].isAvailable(),
         );
@@ -569,11 +575,12 @@ class Shop extends ShopOption {
       lineBuilder: (y, key, index) {
         ClothingType clothing =
             clothingTypes[(availableOptions[index] as ShopItem).itemId]!;
-        addOptionText(
+        addOptionTextFitted(
           y,
           0,
           key,
           "{key} - {name}",
+          23,
           params: {"key": key, "name": _localizedShopText(clothing.name)},
           enabledWhen: availableOptions[index].isAvailable(),
         );

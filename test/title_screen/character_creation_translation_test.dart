@@ -66,7 +66,7 @@ void main() {
     for (int y = 16; y <= 18; y++) {
       expect(_consoleLine(y).length, lessThanOrEqualTo(76));
     }
-    expect(_consoleLine(20).trim(), equals('Enter - Continuar...'));
+    expect(_consoleLine(20).trim(), equals('Entre - Continuar...'));
   });
 
   test('English difficulty legend remains on one line', () async {

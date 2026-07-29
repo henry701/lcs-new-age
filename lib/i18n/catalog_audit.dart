@@ -50,7 +50,8 @@ class CatalogAuditResult {
       missingInTarget == 0 &&
       emptyInTarget == 0 &&
       placeholderMismatches.isEmpty &&
-      rawInterpolationInTarget.isEmpty && prefixMismatches.isEmpty &&
+      rawInterpolationInTarget.isEmpty &&
+      prefixMismatches.isEmpty &&
       duplicateKeys.isEmpty &&
       malformedFiles.isEmpty &&
       translatedAgainstSource == sourceKeys &&
@@ -122,7 +123,9 @@ final RegExp catalogRawInterpolationPattern = RegExp(r'(?<!\\)\$\{');
 /// Prefixes that are part of the game's input/display contract rather than
 /// translatable prose. Keep this deliberately narrow to avoid constraining
 /// ordinary translated sentences that happen to start with a letter.
-final RegExp catalogControlPrefixPattern = RegExp(r'^(?:Enter|[A-Z0-9]) - ');
+final RegExp catalogControlPrefixPattern = RegExp(
+  r'^(?:Enter|Entre|[A-Z0-9]) - ',
+);
 
 List<CatalogPrefixMismatch> findCatalogPrefixMismatches({
   required Map<String, String> sourceEntries,
@@ -136,7 +139,9 @@ List<CatalogPrefixMismatch> findCatalogPrefixMismatches({
     if (targetValue == null) continue;
     final targetPrefix =
         catalogControlPrefixPattern.stringMatch(targetValue) ?? '';
-    if (targetPrefix != sourcePrefix) {
+    final localizedEnterPrefix =
+        sourcePrefix == 'Enter - ' && targetPrefix == 'Entre - ';
+    if (targetPrefix != sourcePrefix && !localizedEnterPrefix) {
       mismatches.add(
         CatalogPrefixMismatch(
           key: entry.key,

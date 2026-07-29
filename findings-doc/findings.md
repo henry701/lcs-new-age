@@ -39,6 +39,16 @@
 | PT-033 | Medium | Coverage | Siege and election event strings remain untranslated |
 | PT-034 | Medium | Layout | Portuguese date header collides with activity text |
 | PT-035 | Low | Layout | Base-mode activism option is ellipsized in Portuguese |
+| PT-057 | High | Layout | Mega-founder stats collide with the base roster weapon column |
+| PT-058 | Medium | Translation/layout | Equipment transfer rows leak `(item)` and collide at fixed columns |
+| PT-059 | Low | Translation | Generated vehicle colors remain English in character profiles |
+| PT-060 | Medium | Translation | Portuguese controls still display the English `Enter -` prefix |
+| PT-061 | Medium | Shop layout | Pawn-shop status controls merge at the half-screen boundary |
+| PT-062 | Low | Translation/layout | Pawn-shop headers expose a raw site name and clip the visit label |
+| PT-063 | Medium | Shop layout | Long pawn-shop item names collide with metadata columns |
+| PT-064 | Medium | Combat translation/redraw | Police alarm route exposes `Chief of Police` and a stale action legend tail |
+| PT-065 | Medium | Help coverage | Direct Action help overlay remains entirely in English |
+| PT-066 | Medium | Recruitment context | Generated profession name can bypass the localized display helper in meeting text |
 
 ## PT-001: Save-management option is clipped
 
@@ -1336,3 +1346,118 @@ When a shorter Portuguese arrival message overwrote a previous status line, the
 old final character remained visible (`...Delegacia de Polícia.o`). The daily
 arrival and safehouse prompt now clear row 8 before rendering; the runtime route
 Fresh hot-restarted replay now renders the full row followed by blank padding.
+
+## PT-057: Mega-founder stats collide with the base roster weapon column
+
+- Severity: High
+- Type: Fixed-width layout
+- Screen: Base roster with developer mega-founder stats
+- Replay status: **Fixed in source and focused layout regression; fresh headless replay passes**
+
+With the existing mega-founder cheat enabled for route acceleration, the base
+roster rendered `744/30Nenhuma` in the skill/weapon cells. The skill summary is
+now fitted to its five-column cell, preserving the separator before `Nenhuma`.
+
+## PT-058: Equipment transfer rows leak `(item)` and merge columns
+
+- Severity: Medium
+- Type: Translation / fixed-width layout
+- Screen: Review → Revisar e Mover Equipamento
+- Replay status: **Fixed in source/catalog, focused regression, and fresh headless equipment replay**
+
+Rows such as `Canhão de 120 mm (iteSEA — Sem-teto` merged the item and current
+location columns. The catalog suffix was removed and item/current-location/base
+cells now have explicit fitted widths and separators. A full web-server restart
+was required before refreshed ARB assets appeared; the fresh headless replay
+now shows `Canhão de 120 mm` and `Pistola .22` without the leaked suffix.
+
+## PT-059: Generated vehicle colors remain English
+
+- Severity: Low
+- Type: Missing translation
+- Screen: Character profile / stolen vehicle label
+- Replay status: **Fixed in catalogs and focused vocabulary regression; fresh profile replay passes**
+
+The profile showed `Veículo roubado: Esportivo Beige`. The complete XML-defined
+vehicle-color vocabulary is now present in both canonical catalogs, including
+`Bege` for `Beige`.
+
+## PT-060: Portuguese controls still display the English `Enter -` prefix
+
+- Severity: Medium
+- Type: Translation / controls
+- Screen: Shops, travel, equipment, and confirmation prompts
+- Replay status: **Fixed in catalogs and validator; focused shop tests pass**
+
+Portuguese control labels now use `Entre -`. The catalog validator treats this
+as the intentional Portuguese equivalent of the source `Enter -` prefix while
+still rejecting stripped or unrelated prefixes such as `A -`.
+
+## PT-061: Pawn-shop status controls merge at the half-screen boundary
+
+- Severity: Medium
+- Type: Fixed-width layout
+- Screen: Pawn shop half-screen
+- Replay status: **Fixed in source and focused shop regression**
+
+The `0 -` and `# -` status actions now use independent 38/40-column cells, so
+the second action no longer overwrites the end of the first.
+
+## PT-062: Pawn-shop headers expose a raw site name and clip the visit label
+
+- Severity: Low
+- Type: Translation/layout
+- Screen: Pawn-shop header
+- Replay status: **Partially fixed; raw `Pawnshop` catalog entry added, visit-label width remains open**
+
+The short site name now translates to `Casa de Penhores`. The longer visiting
+header still needs a route-specific width decision because the shared 40-column
+location header intentionally truncates long site names.
+
+## PT-063: Long pawn-shop item names collide with metadata columns
+
+- Severity: Medium
+- Type: Fixed-width layout
+- Screen: Pawn-shop firearms/tools lists
+- Replay status: **Fixed in source; focused shop metadata tests pass**
+
+Weapon, ammo, and clothing/item names now fit their name columns before damage,
+traits, or price metadata, preventing strings such as `Taco de beisebolN/D`.
+
+## PT-064: Police alarm route exposes `Chief of Police` and a stale action legend tail
+
+- Severity: Medium
+- Type: Combat translation/redraw
+- Screen: Site mode → police alarm combat
+- Replay status: **Open; fresh headless replay logged the leak and stale legend**
+
+The alarm route still renders the generated officer type `Chief of Police` in
+English. Its action legend can also retain a prior `Saque no chão!` fragment
+after the available actions change. Add the generated officer catalog entry and
+clear or fit the legend row on each redraw.
+
+## PT-065: Direct Action help overlay remains in English
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Site mode → police/combat map → `?` help
+- Replay status: **Open; confirmed in fresh headless Portuguese replay**
+
+The contextual help overlay displays the English title `=== Direct Action ===`
+and English multi-paragraph guidance while only the closing prompt is
+Portuguese. The help system writes static activity text directly, so ordinary
+catalog translation does not cover this route. Localize the help payloads (or
+explicitly mark unsupported help pages) and add a Portuguese snapshot test.
+
+## PT-066: Generated profession name bypasses localization in recruitment text
+
+- Severity: Medium
+- Type: Contextual translation
+- Screen: Daily recruitment meeting
+- Replay status: **Open; observed in fresh headless replay, needs a clean route recheck after the current helper fix**
+
+The candidate list and profile show `Estudante Universitário`, but meeting
+responses can still print `College Student`. This indicates at least one
+meeting-path interpolation is using a generated type/name value without the
+same localized-name helper used by the header. Reproduce with a deterministic
+candidate and cover every meeting response template.

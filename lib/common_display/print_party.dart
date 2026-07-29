@@ -78,12 +78,8 @@ void printSkillSummary(
     }
   }
   setColor(bright ? white : lightGray);
-  mvaddstr(y, x, skill.toString(), noTranslate: true);
-  if (showWeaponSkill) {
-    addstr(
-      "/{skill}",
-      params: {"skill": c.weaponSkill.toString()},
-      noTranslate: true,
-    );
-  }
+  final summary = showWeaponSkill
+      ? "$skill/${c.weaponSkill}"
+      : skill.toString();
+  mvaddstrFitted(y, x, summary, 5, noTranslate: true);
 }

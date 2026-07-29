@@ -178,7 +178,7 @@
     },
     {
       "file": "common_actions/equipment.dart",
-      "line": 602,
+      "line": 605,
       "text": "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -196,13 +196,13 @@
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 569,
+      "line": 574,
       "text": "${LcsI18n.tr(",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 569,
+      "line": 574,
       "text": ")}$next",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
@@ -478,25 +478,25 @@
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 158,
+      "line": 163,
       "text": "{${match.group(1)!}}",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 179,
+      "line": 184,
       "text": "ARB directory not found: $arbDirPath",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 297,
+      "line": 302,
       "text": "^app_${RegExp.escape(locale)}_part(\\\\d+)\\\\.arb\\$",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 363,
+      "line": 368,
       "text": "${name}Color",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
@@ -1168,31 +1168,31 @@
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 472,
+      "line": 477,
       "text": "\\$${(availableOptions[i] as ShopItem).price(false)}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 539,
+      "line": 545,
       "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 589,
+      "line": 596,
       "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 706,
+      "line": 713,
       "text": "\\$$fenceamount",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 736,
+      "line": 743,
       "text": "\\$$ret",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -1339,6 +1339,18 @@
       "line": 165,
       "text": "&B$s&x",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
+    },
+    {
+      "file": "common_display/print_party.dart",
+      "line": 82,
+      "text": "$skill/${c.weaponSkill}",
+      "reason": "Locale-neutral numeric skill summary fitted into a fixed-width management cell."
+    },
+    {
+      "file": "daily/recruitment.dart",
+      "line": 341,
+      "text": "${p.gender.hisHer} (possessive)",
+      "reason": "Constructs a pronoun catalog key before passing the translated possessive into a complete sentence."
     }
   ]
 }

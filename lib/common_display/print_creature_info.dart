@@ -458,9 +458,14 @@ void printFullCreatureSkills(Creature cr) {
 
     highlightColorForSkill(cr, skill);
 
-    move(5 + s ~/ 3, 27 * (s % 3));
-    addstr(skill.localizedName, noTranslate: true);
-    addstr(": ");
+    mvaddstrFitted(
+      5 + s ~/ 3,
+      27 * (s % 3),
+      "{skill}:",
+      13,
+      params: {"skill": skill.localizedName},
+      noTranslate: true,
+    );
     printSkillValue(cr, skill, 5 + s ~/ 3, 14 + 27 * (s % 3));
   }
   setColor(lightGray);
@@ -826,16 +831,20 @@ void printFullCreatureCrimes(Creature cr) {
       setColor(darkGray);
     }
 
-    mvaddstr(
+    mvaddstrFitted(
       5 + i ~/ 2,
       40 * (i % 2),
       "{crime}: ",
+      29,
       params: {"crime": LcsI18n.tr(crime.chargedWith)},
+      noTranslate: true,
     );
-    mvaddstr(
+    mvaddstrFitted(
       5 + i ~/ 2,
       30 + 40 * (i % 2),
       "{:02d}".format(cr.wantedForCrimes[crime]!),
+      10,
+      noTranslate: true,
     );
   }
 

@@ -196,6 +196,21 @@ void main() {
     );
   });
 
+  test('management data vocabulary is localized', () {
+    for (final entry in {
+      'Beige': 'Bege',
+      'Black': 'Preto',
+      'Red': 'Vermelho',
+      'White': 'Branco',
+      'Pawnshop': 'Casa de Penhores',
+      'treason': 'traição',
+      'illegal entry into the United States':
+          'entrada ilegal nos Estados Unidos',
+    }.entries) {
+      expect(LcsI18n.tr(entry.key), entry.value);
+    }
+  });
+
   test('site destination names are translated in Portuguese', () {
     expect(catalog['Police Station'], 'Delegacia de Polícia');
     expect(catalog['Courthouse'], 'Fórum');

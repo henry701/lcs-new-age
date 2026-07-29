@@ -326,7 +326,9 @@ Future<void> _siteModeAux() async {
       } else {
         setColor(darkGray);
       }
-      mvaddstr(23, 1, "");
+      mvaddstr(23, 0, " ".padRight(console.width), noTranslate: true);
+      mvaddstr(24, 57, " ".padRight(console.width - 57), noTranslate: true);
+      move(23, 1);
       addSiteOption("W", "W,A,D,X - Move, ");
       addSiteOption(
         "G",

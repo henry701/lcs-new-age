@@ -124,7 +124,7 @@ void main() {
     erase();
     expect(
       LcsI18n.processString(saveMenuBackButtonText, null),
-      equals('Enter - Retornar ao menu principal'),
+      equals('Entre - Retornar ao menu principal'),
     );
     expect(saveMenuFooterPrompt, isNot(contains('Enter')));
   });

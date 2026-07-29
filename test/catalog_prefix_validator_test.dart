@@ -16,10 +16,9 @@ void main() {
       },
     );
 
-    expect(
-      mismatches.map((mismatch) => mismatch.key),
-      containsAll(<String>[r'A - Pay $100', 'Enter - Continue...']),
-    );
+    expect(mismatches.map((mismatch) => mismatch.key), <String>[
+      r'A - Pay $100',
+    ]);
   });
 
   test('current catalogs contain no altered control prefixes', () {

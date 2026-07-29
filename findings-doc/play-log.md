@@ -447,3 +447,120 @@ singular suffix is now gated to one-tooth cases only, and the focused context
 suite covers every complete plural template. The follow-up source fix also
 made generated encounter-name translation explicit and reduced the name cell
 by one column so every roster row retains a separator before clothing.
+
+## Headless mega-founder management sweep — 2026-07-28
+
+This pass used only CLI `agent-browser` against a local Flutter `web-server`
+with `/?playtest=1`. The existing mega-founder, elite-public-opinion, and
+all-items developer flags were enabled only in the disposable local build;
+they were not intended for commit.
+
+Confirmed findings:
+
+- The base roster row renders `744/30Nenhuma` when cheat-expanded health and
+  skill values are present. The health cell fills into the weapon column, so
+  `Nenhuma` loses its separator (PT-057).
+- Review → Liberais Ativos and the profile screen remain readable, but the
+  profile exposes `Veículo roubado: Esportivo Beige`; `Beige` is a generated
+  vehicle color passed through the catalog without a Portuguese entry
+  (PT-059).
+- Review → Revisar e Mover Equipamento renders rows such as
+  `Canhão de 120 mm (iteSEA — Sem-teto`, with the item cell running into the
+  current-location column. The Portuguese template also adds the literal
+  English suffix `(item)` to every row (PT-058). Destination names are
+  truncated at their fixed right column, but the item/current-location merge
+  is not intentional.
+
+## Headless shops/travel sweep — 2026-07-28
+
+This fresh route used only the CLI `agent-browser` session `shops-travel-pt`
+against `http://127.0.0.1:7381/?playtest=1`; no headed browser or desktop
+automation was used. It selected Português, created a founder, visited the
+department store and Townsend pawn shop, opened clothing, equipment,
+firearms, and tools, and opened the city-travel selector.
+
+Confirmed residuals:
+
+- The vehicle selector, travel destination, department-store, clothing,
+  equipment, and pawn-shop screens still show the English control prefix
+  `Enter -` (for example `Enter - Concluído`, `Enter - Voltar um passo`, and
+  `Enter - Voltar`) instead of the Portuguese `Entre -` (PT-060).
+- The pawn-shop half-screen still draws `0 - Mostrar o status Liberal do
+  esquadr# - Verificar o status de um Liberal do`, merging the two status
+  controls at the 80-column boundary (PT-061). This reproduces the area
+  described as fixed by PT-020, so that finding's status needs revalidation.
+- The pawn-shop base header renders the raw short site name `Pawnshop`, and
+  the visiting header truncates `Townsend — Casa de penhores e armas` to
+  `Visitando Townsend — Casa de penhores e` (PT-062).
+- Long pawn-shop catalog names collide with metadata columns: tools show
+  `Taco de beisebolN/D` and firearms show `Águia do Deserto(7)` without a
+  separator (PT-063).
+
+The city-travel list itself was readable and Portuguese (`Berço da LCS`,
+`Wall Street e a Grande Mídia`, `Hollywood e Comércio`, `A Capital da Nação`).
+
+## Headless recruitment/profile follow-up — 2026-07-28
+
+This fresh route used only the CLI `agent-browser` session
+`lcs-pt-recruit` against `http://127.0.0.1:7382/?playtest=1`. The browser was
+headless; the DOM-backed `#lcs-playtest-buffer` supplied the 80×25 console
+text. No production code or developer flags were changed.
+
+Recruitment reached the profession selector, candidate list, political
+conversation, and a follow-up recruitment meeting. The selector and candidate
+rows were Portuguese, but the meeting path exposed these residuals:
+
+- The generated candidate name falls back to the English type name in
+  conversation responses: `College Student responde, "Oh sério?"`, followed by
+  `Após mais conversa, College Student concorda...`. The candidate list and
+  profile heading use `Estudante Universitário`, so this is a generated-name
+  lookup inconsistency rather than an intentional proper name.
+- The meeting title is overwritten by the money header instead of being fitted
+  or cleared: `Reunião com Christina Stassen, Estudante Universitário, Motel
+  (hoteDinheiro: $7` and later `... Motel (hotel) EsqDinheiro: $7`.
+- A political discussion renders `Liliana ... explica as visões de ela sobre
+  Tax Structure`; `Tax Structure` is raw English and `de ela` should contract
+  to `dela` in this Portuguese sentence.
+- The meeting option repeatedly uses masculine `pronto` for female-looking
+  candidates (`Vanessa Guo ainda não está pronto...`); the gender agreement
+  needs a deliberate neutral/feminine treatment.
+
+The founder profile and its detail pages were then inspected. The main profile
+showed `Nascido em ... (Feminino, Cisgênero)` (gender agreement should be
+`Nascida`), a raw generated vehicle color (`Veículo roubado: Esportivo Beige`),
+and a column merge (`Esquiva: 30.00 39Reuniões Agendadas: 1`). The skills detail
+page has several Portuguese labels colliding with values (`Primeiros Soco31.0`,
+`Esperteza de R32.1`, `Artes Marciais34.0`) and leaves `LEFT / RIGHT` and
+`UP / DOWN` in English in its footer.
+
+The profile crime page is still substantially untranslated and overflows its
+two 40-column tables. It shows `treason`, `terrorism`, `bank robbery`,
+`unlawful speech`, and other English labels; long rows overwrite counts, for
+example `desecration of the national fl00`, `illegal entry into the United
+00ates`, and `breaching national security sy00ems`. This route calls the
+translation helper, so missing crime catalog entries and a width-aware row
+renderer both need follow-up.
+
+The travel/site route also exposed raw location names: the destination list
+contains `Manhattan Island`, `The Bronx`, `Corporate HQ`, `Cable News Station`,
+and `Intelligence HQ`; the base activity header says `Visitando Police Station`
+even after selecting `Delegacia de Polícia`. On the next day, the activity
+message used the English default squad name (`agiu com The Liberal Crime Squad
+em vez de...`). The police-site roster itself localized the officer and
+uniform, but the site action legend remains compressed and needs a separate
+combat/surrender replay.
+
+The same disposable mega-founder build then entered a police site and forced
+an alarmed-conservatives branch. The initial attack sentence was correctly
+localized (`Bree Rawls salta com um chute giratório contra Unidade Policial!`),
+but the alarm roster introduced raw `Chief of Police` beside the translated
+officer rows. The action footer also merged the stealth/fight controls with a
+stale previous message: `V:Esgueirar-se F:Lutar ... R:Libertar ?Saque no chão!`.
+This confirms a redraw/translation follow-up for the alarm branch; surrender
+and arrest were not reached in this pass.
+
+The site-map help key (`?`) opens another residual: the `Direct Action` help
+overlay is entirely English (`You are taking direct action against the
+Conservative Menace...`, including its multi-paragraph guidance) while only
+the closing prompt is Portuguese. This is a player-facing help route and is
+separate from the combat action strings.

@@ -463,19 +463,21 @@ Future<void> equipmentBaseAssign() async {
           params: params,
         );
       } else {
-        addOptionText(
+        addOptionTextFitted(
           y,
           0,
           letterAPlus(y - 2),
           "{letter} - {item}",
+          24,
           params: params,
         );
       }
-      mvaddstrc(
+      mvaddstrcFitted(
         y,
         25,
         lightGray,
         siteFromItem[items[p]]!.getName(short: true, includeCity: true),
+        25,
       );
     }
 
@@ -486,11 +488,12 @@ Future<void> equipmentBaseAssign() async {
       } else {
         setColor(lightGray);
       }
-      addOptionText(
+      addOptionTextFitted(
         y,
         51,
         (y - 1).toString(),
         "{index} - {base}",
+        29,
         params: {
           "index": (y - 1).toString(),
           "base": bases[p].getName(short: true, includeCity: true),

@@ -161,7 +161,7 @@ void main() {
           'Pressione uma letra para comprar uma Arma Suficientemente Liberal',
         ),
       );
-      expect(_consoleCells(24, 40, 80).trim(), equals('Enter - Voltar'));
+      expect(_consoleCells(24, 40, 80).trim(), equals('Entre - Voltar'));
     },
   );
 
@@ -186,7 +186,7 @@ void main() {
         _consoleLine(21),
         equals('Pressione uma letra para comprar munição'),
       );
-      expect(_consoleLine(22), equals('Enter - Voltar'));
+      expect(_consoleLine(22), equals('Entre - Voltar'));
     },
   );
 
@@ -206,7 +206,7 @@ void main() {
     expect(_consoleCells(12, 0, 24).trim(), equals('B – Gola alta preta'));
     expect(_consoleCells(12, 24, 59).trim(), equals('Furtiva'));
     expect(_consoleLine(21), equals('Pressione uma letra para comprar roupas'));
-    expect(_consoleLine(22), equals('Enter - Voltar'));
+    expect(_consoleLine(22), equals('Entre - Voltar'));
   });
 
   test('equipment title helpers preserve localized short and full forms', () {
@@ -256,7 +256,7 @@ void main() {
         'Pressione um número para largar a arma Conservadora daquele membro do esquadrão',
       ),
     );
-    expect(_consoleCells(24, 1, 80).trimRight(), equals('Enter - Concluído'));
+    expect(_consoleCells(24, 1, 80).trimRight(), equals('Entre - Concluído'));
   });
 
   test('pawn-shop status actions fit the full console width', () async {
@@ -276,7 +276,7 @@ void main() {
       _consoleLine(16),
       contains('Verificar o status de um Liberal do esquadrão'),
     );
-    expect(_consoleLine(17), contains('Enter - Terminar de penhorar'));
+    expect(_consoleLine(17), contains('Entre - Terminar de penhorar'));
   });
 
   test(

@@ -127,6 +127,7 @@ Future<void> meetWithPotentialRecruits() async {
 
 /* daily - recruit - recruit meeting */
 Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
+  final recruitName = localizedCreatureName(r.recruit);
   erase();
   setColor(white);
   move(0, 0);
@@ -136,7 +137,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       0,
       lightGray,
       "{recruiter} accidentally missed the meeting with {recruit}",
-      params: {"recruiter": p.name, "recruit": r.recruit.name},
+      params: {"recruiter": p.name, "recruit": recruitName},
     );
     mvaddstrc(
       1,
@@ -165,13 +166,14 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
   final locationInfo = inPerson
       ? LcsI18n.tr(r.recruit.location!.name)
       : LcsI18n.tr("via video chat.");
-  mvaddstrc(
+  mvaddstrcFitted(
     0,
     0,
     lightGray,
     "Meeting with {name}, {type}, {location}",
+    60,
     params: {
-      "name": r.recruit.name,
+      "name": recruitName,
       "type": LcsI18n.tr(r.recruit.type.name),
       "location": locationInfo,
     },
@@ -192,13 +194,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
       "{name} is ready to fight for the Liberal Cause.",
     _ => "{name} kind of regrets agreeing to this.",
   };
-  mvaddstrc(
-    10,
-    0,
-    lightGray,
-    recruitResponse,
-    params: {"name": r.recruit.name},
-  );
+  mvaddstrc(10, 0, lightGray, recruitResponse, params: {"name": recruitName});
   mvaddstr(
     11,
     0,
@@ -237,7 +233,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
     "C",
     recruitmentOption,
     CONSOLE_WIDTH,
-    params: {"recruiter": p.name, "recruit": r.recruit.name},
+    params: {"recruiter": p.name, "recruit": recruitName},
     enabledWhen: canRecruit,
   );
 
@@ -253,7 +249,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
         y,
         0,
         "{recruiter} offers to let {recruit} join the LCS.",
-        params: {"recruiter": p.name, "recruit": r.recruit.name},
+        params: {"recruiter": p.name, "recruit": recruitName},
       );
       await getKey();
 
@@ -262,7 +258,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
         0,
         lightGreen,
         "{recruit} accepts, and is eager to get started.",
-        params: {"recruit": r.recruit.name},
+        params: {"recruit": recruitName},
       );
       r.recruit.hireId = p.id;
       liberalize(r.recruit);
@@ -340,7 +336,9 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           "{recruiter} explains {gender} views on {law}.",
           params: {
             "recruiter": p.name,
-            "gender": p.gender.hisHer,
+            "gender": LcsI18n.currentLocale == "en_US"
+                ? p.gender.hisHer
+                : LcsI18n.tr("${p.gender.hisHer} (possessive)"),
             "law": LcsI18n.tr(Law.values.random.label),
           },
         );
@@ -358,7 +356,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           0,
           lightBlue,
           "{recruit} found {recruiter}'s views to be insightful.",
-          params: {"recruit": r.recruit.name, "recruiter": p.name},
+          params: {"recruit": recruitName, "recruiter": p.name},
         );
         mvaddstrc(y++, 0, lightGray, "They'll definitely meet again tomorrow.");
       } else if (p.skillCheck(
@@ -372,7 +370,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           0,
           lightGray,
           "{recruit} is skeptical about some of {recruiter}'s arguments.",
-          params: {"recruit": r.recruit.name, "recruiter": p.name},
+          params: {"recruit": recruitName, "recruiter": p.name},
         );
         mvaddstrc(y++, 0, lightGray, "They'll meet again tomorrow.");
       } else {
@@ -384,7 +382,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
             0,
             lightGray,
             "{recruit} isn't convinced {recruiter} really understands the problem.",
-            params: {"recruit": r.recruit.name, "recruiter": p.name},
+            params: {"recruit": recruitName, "recruiter": p.name},
           );
           mvaddstrc(
             y++,
@@ -396,7 +394,7 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
         } else {
           addstr(
             "{recruitName} thinks {pName} is dangerous extremist.",
-            params: {"recruitName": r.recruit.name, "pName": p.name},
+            params: {"recruitName": recruitName, "pName": p.name},
           );
 
           move(y++, 0);

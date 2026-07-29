@@ -252,6 +252,6 @@
   "{name}'s tooth has been pulled out with pliers!": "O dente de {name} foi arrancado com alicate!",
   "{possessive} ribs were sticking out of {possessive} chest": "as costelas {possessive} ficassem expostas no peito {possessive}",
   "{recruiter} accidentally missed the meeting with {recruit}": "{recruiter} perdeu acidentalmente a reunião com {recruit}",
-  "{recruiter} explains {gender} views on {law}.": "{recruiter} explica as visões de {gender} sobre {law}.",
+  "{recruiter} explains {gender} views on {law}.": "{recruiter} explica as visões {gender} sobre {law}.",
   "{recruit} is skeptical about some of {recruiter}'s arguments.": "{recruit} é cético em relação a alguns dos argumentos de {recruiter}."
 }

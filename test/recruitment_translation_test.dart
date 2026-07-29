@@ -1,5 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+
+String _consoleLine(int y) =>
+    console.buffer[y].map((character) => character.glyph).join().trimRight();
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -99,5 +103,73 @@ void main() {
     for (final entry in labels.entries) {
       expect(LcsI18n.tr(entry.key), equals(entry.value));
     }
+  });
+
+  test('Portuguese recruitment discussions localize law labels', () {
+    const labels = {
+      'Abortion Rights': 'Direitos ao Aborto',
+      'Animal Rights': 'Direitos dos Animais',
+      'Police Regulation': 'Regulação Policial',
+      'Privacy Rights': 'Direito à Privacidade',
+      'Death Penalty': 'Pena de Morte',
+      'Nuclear Power': 'Energia Nuclear',
+      'Pollution': 'Poluição',
+      'Labor Rights': 'Direitos Trabalhistas',
+      'LGBTQ+ Rights': 'Direitos LGBTQ+',
+      'Corporate Law': 'Lei Corporativa',
+      'Free Speech': 'Liberdade de Expressão',
+      'Flag Burning': 'Queima de Bandeira',
+      'Gun Control': 'Controle de Armas',
+      'Tax Structure': 'Estrutura Tributária',
+      'Gender Equality': 'Igualdade de Gênero',
+      'Civil Rights': 'Direitos Civis',
+      'Drug Laws': 'Leis sobre Drogas',
+      'Immigration': 'Imigração',
+      'Election Reform': 'Reforma Eleitoral',
+      'Military Spending': 'Gastos Militares',
+      'Prison Reform': 'Reforma Prisional',
+      'Torture': 'Tortura',
+      'Housing': 'Moradia',
+      'Healthcare': 'Saúde',
+      'Retirement': 'Aposentadoria',
+    };
+
+    for (final entry in labels.entries) {
+      expect(LcsI18n.tr(entry.key), equals(entry.value));
+    }
+  });
+
+  test('Portuguese recruitment status wording avoids gendered agreement', () {
+    expect(
+      LcsI18n.processString('{name} is ready to fight for the Liberal Cause.', {
+        'name': 'Ramona Friend',
+      }),
+      equals('Ramona Friend está a postos para lutar pela Causa Liberal.'),
+    );
+    expect(
+      LcsI18n.processString(
+        'B - Just casually chat with them and discuss politics.',
+        null,
+      ),
+      equals(
+        'B - Apenas converse casualmente e discuta política com essa pessoa.',
+      ),
+    );
+  });
+
+  test('Portuguese recruitment follow-up text wraps instead of clipping', () {
+    erase();
+    addparagraph(
+      0,
+      1,
+      'After more discussion, {name} agrees to come by later tonight.',
+      params: {'name': 'Estudante Universitário'},
+      x2: 79,
+    );
+
+    final rendered = '${_consoleLine(0)}${_consoleLine(1)}';
+    expect(rendered, contains('à noite.'));
+    expect(_consoleLine(0).length, lessThanOrEqualTo(79));
+    expect(_consoleLine(1).length, lessThanOrEqualTo(79));
   });
 }

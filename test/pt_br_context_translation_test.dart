@@ -252,6 +252,10 @@ void main() {
       'Unidade Policial',
     );
     expect(
+      localizedCreatureNameValue('College Student', 'College Student'),
+      'Estudante Universitário',
+    );
+    expect(
       catalog['eyeing the Liberals with suspicion.'],
       'encarando os Liberais com desconfiança.',
     );

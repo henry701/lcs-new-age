@@ -715,3 +715,88 @@ headless `agent-browser` session `rootverify`:
 Remaining follow-up routes are the long activity-help bodies, Promote Elite
 Liberals/Assemble Squad layouts, the profile crime-table width audit, and a
 fresh alarm surrender/arrest replay.
+
+## Headless recruitment context pass — 2026-07-29
+
+This pass used only CLI `agent-browser` sessions (`recruitnext`, `recruitfix`,
+and `recruitfresh`) against local Flutter `web-server` builds on ports 7383,
+7384, and 7391. Chrome ran with `--headless=new`; no headed browser or desktop
+automation was used.
+
+Confirmed and fixed in the working tree:
+
+- Generated recruit type names were localized in candidate lists and meeting
+  headers, but `talk_about_issues` passed the raw type name after a response
+  (`College Student responde` / `... College Student concorda`). All response
+  and follow-up branches now use the localized creature-name helper.
+- Recruitment issue discussions could expose raw Law labels such as `Election
+  Reform` and `Tax Structure`. Every `Law.label` now has canonical English and
+  context-appropriate Portuguese catalog coverage.
+- The meeting status `is ready to fight for the Liberal Cause` used masculine
+  `pronto`; Portuguese now uses the gender-neutral `está a postos...`.
+- The meeting option `Just casually chat with them...` used `com eles` for a
+  singular candidate. It now says `discuta política com essa pessoa`.
+- A long Portuguese follow-up sentence was clipped at the 80-column boundary;
+  the response/follow-up renderer now wraps with `addparagraph`. Focused tests
+  assert that `à noite.` remains visible.
+
+Focused translation/layout tests pass. A fresh runtime replay after the name
+fix showed `Estudante Universitário responde` and the localized follow-up;
+catalog, analyzer, and prefix checks also pass. The latest wrapping change is
+covered by a deterministic console regression test; a full fresh runtime
+replay of that final build remains useful in the next pass.
+
+## Headless Portuguese management verification — 2026-07-28
+
+This pass used only CLI `agent-browser` sessions (`mgmt7384` on a fresh
+Flutter `web-server` build at port 7384, plus the existing disposable save on
+7380). Chrome was launched with `--headless=new`; no headed browser or desktop
+automation was used.
+
+Confirmed and fixed:
+
+- **PT-067:** Promote Elite Liberals now translates `CURRENT CONTACT`,
+  `CONTACT AFTER PROMOTION`, and the recruited/seduced/enlightened status
+  legend. The compact `Infiltrado` label keeps the full legend within 80
+  columns.
+- **PT-068:** Assemble Squad now fits the translated profession cell and
+  leaves a one-column separator before the location cell. `Profissional do
+  Ro…` no longer overwrites `SEA — Sem-teto`.
+- **PT-073:** Profile crime tables now translate the `DELITO`/`Nº` headers and
+  fit long Portuguese charges with ellipses while preserving the count cells.
+  The full crime list was replayed headlessly and showed no raw English charge
+  labels.
+- The promotion instructions were also shortened in Portuguese so both
+  explanatory footer lines remain complete within the fixed 80-column console;
+  the earlier `... Liberais es`/`... seu ama` clipping is gone.
+
+Regression coverage was added to
+`test/basemode/pt_br_core_vocabulary_test.dart` for promotion labels, squad
+assembly column boundaries, and long crime rows. Existing profile skill,
+vehicle-color, and profile-navigation tests continue to pass. The profile
+footer separator remains covered by the existing regression test; a stale
+pre-fix server snapshot can still show `CIMA BAIXO`, so verification must use a
+fresh web-server build.
+
+## Headless combat/site-route follow-up — 2026-07-28
+
+This pass stayed CLI-only with `agent-browser` in headless Chrome. I started a
+fresh Portuguese game, travelled to the Seattle police station, entered the
+site route, and exercised the alarm/combat and equipment screens. No headed
+browser or desktop automation was used.
+
+- **Fixed:** A police-site alarm snapshot still rendered the XML clothing short
+  name `Cheer Jacket` in the Portuguese party roster. The new catalog entry
+  renders it as the compact `Jaqueta Torcida`, which fits the 15-column armor
+  cell without overwriting health/transport. The full `Cheer Squad Jacket` key
+  was added alongside it for detail views.
+- **Verified:** The alarm header and action footer were Portuguese, including
+  `CONSERVADORES ALARMADOS`, `F - Lutar`, `T - Falar`, `R - Libertar`, and the
+  `Saque no chão!` loot indicator. The indicator is intentional, not stale
+  footer text.
+- **Not reached:** A generated `Chief of Police` encounter and the surrender,
+  police-subdue/arrest, and injury/body-part combat branches. The fresh route
+  spawned ordinary police units and the founder had no firearm, so the combat
+  ended before those branches could be selected. The existing catalog still
+  maps `Chief of Police` to `Chefe de Polícia`; runtime verification remains
+  open.

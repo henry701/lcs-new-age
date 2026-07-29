@@ -136,31 +136,31 @@
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1279,
+      "line": 1284,
       "text": "&${ColorKey.fromColor(bracketcolor)}[",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1281,
+      "line": 1286,
       "text": "&${ColorKey.fromColor(blue)}[",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1282,
+      "line": 1287,
       "text": "&${ColorKey.fromColor(blue)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1284,
+      "line": 1289,
       "text": "&${ColorKey.fromColor(bracketcolor)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1287,
+      "line": 1292,
       "text": "&${ColorKey.fromColor(namecolor)}$name",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
@@ -190,8 +190,8 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 377,
-      "text": "$localizedHealth$localizedArmor",
+      "line": 382,
+      "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },
     {
@@ -1300,7 +1300,7 @@
     },
     {
       "file": "talk/talk_about_issues.dart",
-      "line": 89,
+      "line": 90,
       "text": "Talk about issues: $succeeded, $difficulty",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

@@ -897,12 +897,14 @@ Future<void> assembleSquad(Squad? cursquad) async {
       addstr("Squad: {name}", params: {"name": displayedName});
     }
 
+    const professionX = 43;
+    const locationX = 63;
     addHeader({
       6: "CODE NAME",
       27: "SKILL",
       34: "HEALTH",
-      46: "PROFESSION",
-      63: "LOCATION",
+      professionX: "PROFESSION",
+      locationX: "LOCATION",
     });
 
     int y = 2;
@@ -963,18 +965,21 @@ Future<void> assembleSquad(Squad? cursquad) async {
 
       printHealthStat(y, 34, tempp);
 
-      mvaddstrc(
+      mvaddstrcFitted(
         y,
-        46,
+        professionX,
         tempp.align.color,
         LcsI18n.tr(tempp.type.name),
+        locationX - professionX - 1,
         noTranslate: true,
       );
-      mvaddstrc(
+      mvaddstrcFitted(
         y,
-        63,
+        locationX,
         isAtCurrentSquadLocation ? lightGray : darkGray,
         tempp.location?.getName(short: true, includeCity: true) ?? "In Hiding",
+        console.width - locationX,
+        noTranslate: true,
       );
 
       y++;

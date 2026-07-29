@@ -368,16 +368,24 @@ void printHealthStat(
   }
   if (maxWidth == null) {
     addstr(healthDisplay);
-    addstrc(lightBlue, creature.clothing.shortArmorDetail());
+    final armor = creature.clothing.shortArmorDetail();
+    if (armor.isNotEmpty) {
+      addstr(" ");
+      addstrc(lightBlue, armor);
+    }
     return;
   }
 
   final localizedHealth = LcsI18n.tr(healthDisplay);
   final localizedArmor = LcsI18n.tr(creature.clothing.shortArmorDetail());
-  final combined = "$localizedHealth$localizedArmor";
+  final armorSeparator = localizedArmor.isEmpty ? "" : " ";
+  final combined = "$localizedHealth$armorSeparator$localizedArmor";
   if (strLenX(combined) <= maxWidth) {
     addstr(localizedHealth, noTranslate: true);
-    addstrc(lightBlue, localizedArmor, noTranslate: true);
+    if (localizedArmor.isNotEmpty) {
+      addstr(" ");
+      addstrc(lightBlue, localizedArmor, noTranslate: true);
+    }
     return;
   }
 
@@ -386,8 +394,10 @@ void printHealthStat(
     fitConsoleText(localizedHealth, healthWidth, showEllipsis: false),
     noTranslate: true,
   );
-  final remainingWidth = maxWidth - healthWidth;
+  final remainingWidth =
+      maxWidth - healthWidth - (localizedArmor.isEmpty ? 0 : 1);
   if (remainingWidth > 0) {
+    if (localizedArmor.isNotEmpty) addstr(" ");
     addstrc(
       lightBlue,
       fitConsoleText(localizedArmor, remainingWidth),

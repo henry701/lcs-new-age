@@ -1,3 +1,4 @@
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -91,7 +92,14 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
   // Prisoners never accept to join you, you must liberate them instead
   if (succeeded && tk.name != "Prisoner") {
     y++;
-    mvaddstrc(y++, 1, white, "{name} responds,", params: {"name": tk.name});
+    setColor(white);
+    addparagraph(
+      y,
+      1,
+      "{name} responds,",
+      params: {"name": localizedCreatureName(tk)},
+      x2: CONSOLE_WIDTH - 1,
+    );
     move(y++, 1);
     setColor(lightBlue);
     if (tk.type.id == CreatureTypeIds.mutant &&
@@ -129,12 +137,13 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
     await getKey();
 
     if (!poolAndProspects.contains(tk)) {
-      mvaddstrc(
+      setColor(white);
+      addparagraph(
         ++y,
         1,
-        white,
         "After more discussion, {name} agrees to come by later tonight.",
-        params: {"name": tk.name},
+        params: {"name": localizedCreatureName(tk)},
+        x2: CONSOLE_WIDTH - 1,
       );
       await getKey();
       tk.nameCreature();
@@ -142,19 +151,27 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
       recruitmentSessions.add(recruitSession);
       encounter.remove(tk);
     } else {
-      mvaddstrc(
+      setColor(white);
+      addparagraph(
         ++y,
         1,
-        white,
         "They chat briefly, but {name} has work to do.",
-        params: {"name": tk.name},
+        params: {"name": localizedCreatureName(tk)},
+        x2: CONSOLE_WIDTH - 1,
       );
       await getKey();
     }
     return true;
   } else {
     y++;
-    mvaddstrc(y++, 1, white, "{name} responds, ", params: {"name": tk.name});
+    setColor(white);
+    addparagraph(
+      y,
+      1,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+      x2: CONSOLE_WIDTH - 1,
+    );
     setColor(lightBlue);
     if (tk.type.id == CreatureTypeIds.mutant &&
         tk.attribute(Attribute.intelligence) < 3) {

@@ -4,9 +4,11 @@ import 'package:lcs_new_age/basemode/activate_regulars.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/basemode/base_mode.dart';
 import 'package:lcs_new_age/basemode/plan_site_visit.dart';
+import 'package:lcs_new_age/basemode/review_mode.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_creature_info.dart';
 import 'package:lcs_new_age/common_display/print_party.dart';
+import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/skills.dart';
@@ -16,6 +18,7 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
+import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -107,6 +110,18 @@ void main() {
     }
   });
 
+  test('Portuguese combat outfit labels localize XML short names', () {
+    final founder = _founder()
+      ..equippedClothing = Clothing('CLOTHING_CHEERLEADER');
+
+    printParty(fullParty: true);
+
+    final rendered = _consoleText();
+    expect(rendered, contains('Jaqueta Torcida'));
+    expect(rendered, isNot(contains('Cheer Jacket')));
+    expect(founder.equippedClothing?.shortName, equals('Cheer Jacket'));
+  });
+
   test(
     'Portuguese party table truncates long names before the skill column',
     () {
@@ -142,6 +157,33 @@ void main() {
       isNot(contains('Nenhuma')),
     );
   });
+
+  test(
+    'Portuguese compact profile labels and health details stay readable',
+    () {
+      final founder = _founder()
+        ..rawAttributes[Attribute.intelligence] = 10
+        ..equippedClothing = Clothing('CLOTHING_ARMYARMOR');
+
+      printCreatureInfo(founder);
+
+      final rendered = _consoleText();
+      expect(rendered, contains('Força:'));
+      expect(rendered, contains('Coração:'));
+      expect(rendered, contains('Carisma:'));
+      expect(rendered, contains('Sab.:'));
+      expect(rendered, isNot(contains('Cora:')));
+      expect(rendered, isNot(contains('Sab:')));
+      expect(rendered, isNot(contains('Car:')));
+      erase();
+      printHealthStat(0, 0, founder);
+      final healthLine = console.buffer.first
+          .map((character) => character.glyph)
+          .join()
+          .trimRight();
+      expect(healthLine, matches(RegExp(r'~?\d+/\d+ \+')));
+    },
+  );
 
   test('Portuguese transport localizes XML vehicle short names', () {
     final founder = _founder();
@@ -352,6 +394,84 @@ void main() {
     expect(rendered, isNot(contains('Highschool Dropout')));
     expect(rendered, isNot(contains('Left Leg')));
     expect(rendered, isNot(contains('Right Arm')));
+  });
+
+  test(
+    'Portuguese promotion table localizes contact headers and status legend',
+    () async {
+      _founder();
+      console.injectKey('x');
+
+      await promoteliberals();
+
+      final rendered = _consoleText();
+      expect(rendered, contains('CONTATO ATUAL'));
+      expect(rendered, contains('CONTATO APÓS PROMOÇÃO'));
+      expect(rendered, contains('Recrutados/Seduzidos/Iluminados'));
+      expect(rendered, contains('Detidos'));
+      expect(rendered, contains('Infiltrado'));
+      expect(
+        rendered,
+        contains(
+          'Escolha uma letra para promover. Liberais escondidos não podem.',
+        ),
+      );
+      expect(
+        rendered,
+        contains(
+          'Iluminados seguem qualquer um; Seduzidos seguem apenas seu amante.',
+        ),
+      );
+      expect(rendered, isNot(contains('CURRENT CONTACT')));
+      expect(rendered, isNot(contains('CONTACT AFTER PROMOTION')));
+      expect(rendered, isNot(contains('Recruited/Seduced/Enlightened')));
+    },
+  );
+
+  test(
+    'Portuguese squad assembly keeps profession and location columns apart',
+    () async {
+      _founder();
+      console.injectKey('x');
+
+      await assembleSquad(null);
+
+      final row = console.buffer[2].map((character) => character.glyph).join();
+      expect(row, contains('Profissional do Ro…'));
+      expect(row, contains('SEA — Sem-teto'));
+      expect(row, isNot(contains('Profissional do RSEA')));
+    },
+  );
+
+  test('Portuguese profile crime table translates and bounds long charges', () {
+    final founder = _founder();
+    founder.wantedForCrimes[Crime.flagBurning] = 2;
+    founder.wantedForCrimes[Crime.illegalEntry] = 3;
+
+    printFullCreatureCrimes(founder);
+
+    final leftCharge = console.buffer[8]
+        .sublist(0, 30)
+        .map((character) => character.glyph)
+        .join()
+        .trimRight();
+    final rightCharge = console.buffer[14]
+        .sublist(40, 70)
+        .map((character) => character.glyph)
+        .join()
+        .trimRight();
+    expect(leftCharge, contains('profanação da bandeira nacio…'));
+    expect(rightCharge, contains('entrada ilegal nos Estados U…'));
+    expect(_consoleText(), contains('DELITO'));
+    expect(_consoleText(), contains('Nº'));
+    expect(_consoleText(), isNot(contains('NUM')));
+    expect(_consoleText(), isNot(contains('desecration of the national flag')));
+    expect(
+      _consoleText(),
+      isNot(contains('illegal entry into the United States')),
+    );
+    expect(console.buffer[8][30].glyph, equals('0'));
+    expect(console.buffer[14][70].glyph, equals('0'));
   });
 
   test('Portuguese catalog covers every shared skill label', () {

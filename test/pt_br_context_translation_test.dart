@@ -1621,6 +1621,21 @@ void main() {
     );
   });
 
+  test('dynamic eagerness translations avoid gendered agreement', () {
+    expect(
+      catalog['In fact, {eName} is eager to fight alongside {pName}!'],
+      'Na verdade, {eName} quer lutar ao lado de {pName}!',
+    );
+    expect(
+      catalog['{name} looks forward serving the Liberal cause!'],
+      '{name} quer servir à causa Liberal!',
+    );
+    expect(
+      catalog['seems eager to get away as quickly as possible.'],
+      'parece querer ir embora o mais rápido possível.',
+    );
+  });
+
   test(
     'dynamic template params translate hack, learning, and traumatize actions',
     () {

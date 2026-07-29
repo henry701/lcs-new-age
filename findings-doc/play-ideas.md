@@ -43,20 +43,19 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-084 fixed (2026-07-29): populated media rows now separate Portuguese
   dates, publication names, and impacts; the deterministic layout test covers
   the reserved columns.
-- PT-085: audit the random newspaper catalog/article templates for untranslated
-  words (`rapist`, `himself`) and malformed Portuguese grammar.
+- PT-085 fixed (2026-07-29): the hostage-slaying article keeps `rapist` and
+  `perpPronounSelf` placeholders while using idiomatic Portuguese grammar.
 
 ## Recruitment/police replay follow-ups (2026-07-29)
 
 - PT-086 withdrawn after source/replay review: the Felix meeting was the
   founder's own session, so the recruiter-name mismatch was not reproduced.
-- PT-087: clear the prior activity banner before drawing the next result; the
-  police-station travel replay left `Recrutando.o.` after a shorter message.
-- PT-088: audit gender agreement in recruitment acceptance prose (`ansioso` for
-  female Ariana; prefer `ansiosa` or a neutral phrasing).
-- PT-089: route all generic profession labels in pickup-line responses through
-  `localizedCreatureName` (`College Student` leaked while the profile was
-  `Estudante Universitário`).
+- PT-087 fixed (2026-07-29): daily result rows clear stale text before drawing
+  shorter localized messages.
+- PT-088 fixed (2026-07-29): dynamic eagerness phrases now use neutral verbs
+  instead of gendered `ansioso` agreement.
+- PT-089 fixed (2026-07-29): recruitment and pickup-line profile labels route
+  through locale-aware creature-name rendering.
 - Police alarm fixture replay verified Chief of Police, surrender, arrest,
   injury/body-part, and post-combat screens; keep this route in regression
   coverage because normal police-station arrival is not deterministic.
@@ -135,11 +134,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   (or a real user-assisted picker run) to close the remaining import-validation
   gap; retain a 400×300 high-score screenshot in the narrow-layout regression
   set because its return prompt falls below the viewport.
-- PT-103: translate the dynamic `fortifyText` parameter in
+- PT-103 fixed (2026-07-29): translate the dynamic `fortifyText` parameter in
   `invest_in_location.dart`; the W fortification option still exposes
   `Fortify the compound for a siege` in Portuguese mode.
-- PT-104: move the failed recruitment follow-up to a fresh row (or include a
-  separator) so `...Direitos Trabalhistas.` and `Raven Woods acha...` do not
+- PT-104 fixed (2026-07-29): move the failed recruitment follow-up to a fresh
+  row so `...Direitos Trabalhistas.` and `Raven Woods acha...` do not
   concatenate.
 
 ## Follow-up routes from the 2026-07-26 broad sweep

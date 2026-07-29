@@ -10,6 +10,12 @@ import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 
+abstract final class MediaOverviewLayout {
+  static const int dateX = 36;
+  static const int sourceX = 55;
+  static const int impactX = 72;
+}
+
 Future<void> mediaOverview() async {
   List<NewsStory> newsArchive = gameState.newsArchive.reversed.toList();
   bool redraw = true;
@@ -53,7 +59,12 @@ Future<void> mediaOverview() async {
 
     await pagedInterface(
       headerPrompt: "Media Overview",
-      headerKey: {4: "HEADLINE", 40: "DATE", 53: "SOURCE", 72: "IMPACT"},
+      headerKey: {
+        4: "HEADLINE",
+        MediaOverviewLayout.dateX: "DATE",
+        MediaOverviewLayout.sourceX: "SOURCE",
+        MediaOverviewLayout.impactX: "IMPACT",
+      },
       footerPrompt: "Press a Letter to read a news article",
       count: gameState.newsArchive.length,
       pageSize: 17,
@@ -107,7 +118,13 @@ Future<void> mediaOverview() async {
           "day": date.day,
           "year": date.year,
         });
-        mvaddstrc(y, 40, lightGray, dateString, noTranslate: true);
+        mvaddstrc(
+          y,
+          MediaOverviewLayout.dateX,
+          lightGray,
+          dateString,
+          noTranslate: true,
+        );
         Map<View, double> impact = ns.effects;
         double totalImpact = impact.entries
             .where((e) => e.key != View.lcsKnown)
@@ -126,11 +143,16 @@ Future<void> mediaOverview() async {
             "headline": headline,
           },
         );
-        mvaddstrc(y, 53, ns.publicationAlignment.color, ns.publicationName);
+        mvaddstrc(
+          y,
+          MediaOverviewLayout.sourceX,
+          ns.publicationAlignment.color,
+          ns.publicationName,
+        );
         if (totalImpact > 0) {
           mvaddstrc(
             y,
-            72,
+            MediaOverviewLayout.impactX,
             lightGreen,
             "+{impact}%",
             params: {"impact": totalImpact.toStringAsFixed(1)},
@@ -138,13 +160,13 @@ Future<void> mediaOverview() async {
         } else if (totalImpact < 0) {
           mvaddstrc(
             y,
-            72,
+            MediaOverviewLayout.impactX,
             red,
             "{impact}%",
             params: {"impact": totalImpact.toStringAsFixed(1)},
           );
         } else {
-          mvaddstrc(y, 72, lightGray, "N/A");
+          mvaddstrc(y, MediaOverviewLayout.impactX, lightGray, "N/A");
         }
       },
       onChoice: (index) async {
@@ -197,10 +219,10 @@ Future<void> readNewsStory(NewsStory ns) async {
             noTranslate: true,
             baseColorKey: 'x',
           );
-    return LcsI18n.processString(
-      '{viewName}: {effectValueText}',
-      {'viewName': viewName, 'effectValueText': effectValueText},
-    );
+    return LcsI18n.processString('{viewName}: {effectValueText}', {
+      'viewName': viewName,
+      'effectValueText': effectValueText,
+    });
   }).toList();
   setColor(lightGray);
   int y = console.y + 1;

@@ -1296,6 +1296,43 @@ their original disabled state before shutdown.
   (`Igreja Velha`), and the article should be `a`, not `o`; the generic
   adjective translation (`Old` → `Velho`) cannot preserve site-name gender.
 
+## Strict-headless recruitment/profile conversation sweep — 2026-07-29
+
+This fresh replay used only CLI `agent-browser` session
+`recruit-sweep-20260729` against a local Flutter web-server on port 7451.
+Chromium was launched with `--headless=new --ozone-platform=headless`; no
+headed browser or desktop input was used.
+
+- **Recruitment routes verified:** the profession selector, candidate list,
+  female candidate profile, political response, and follow-up meeting all
+  rendered Portuguese. Candidate rows showed `(20s, Feminino)` and the profile
+  showed `Nascimento ... (Idade 18, Feminino, Cisgênero)`; the neutral meeting
+  prose did not reproduce the earlier masculine `pronto`/`ansioso` issue.
+- **Profile routes verified:** skill/body labels and the crime table were
+  translated and width-ellipsized without raw English rows; `CIMA BAIXO - Mais
+  Info` was localized.
+- **PT-096 new residual:** a failed pickup-line response rendered
+  `College Student: responds` followed by `"Você está errado."`. The same
+  candidate is shown elsewhere as `Estudante Universitário`, so both the
+  profession name and `responds` verb bypass localization.
+- **PT-097 new residual:** the dating follow-up header rendered
+  `Vendo Lorraine Symington, College Student, Seattle, WA`; the generated
+  profession label must use the localized `Estudante Universitário` value.
+
+## Strict-headless police post-arrest verification — 2026-07-29
+
+A disposable police fixture was replayed in CLI `agent-browser` session
+`police-postarrest-20260729` against port 7452 with Chromium
+`--headless=new --ozone-platform=headless`. The fixture supplied funds and a
+wanted founder, then was removed with all flags restored to `false`.
+
+- The siege announcement used the corrected gender-neutral form
+  `A polícia cercou este local: Frigorífico Abandonado!`.
+- The surrender summary showed `A polícia confisca tudo, incluindo armas do
+  Esquadrão.`, `Prendem Asher Tsui.`, localized funds confiscation, and
+  localized fortification, trap, and anti-aircraft-gun teardown lines. No raw
+  English text remained in the post-arrest screen.
+
 ## PT-095 fix — 2026-07-29
 
 The generated-site naming path now prefers an exact full-name catalog entry,
@@ -1304,3 +1341,80 @@ adjective with a feminine noun. The Portuguese police-surrounds template now
 uses `A polícia cercou este local: {location}!`, avoiding an incorrect hardcoded
 article for other generated site names. `test/location/site_translation_test.dart`
 covers both regressions.
+
+## Strict-headless media/month-end replay — 2026-07-29
+
+This pass used only CLI `agent-browser` session `lcs-media-month2` against a
+fresh Flutter web-server on port 7422. Chromium was verified with
+`--headless=new --ozone-platform=headless`; no headed browser or source/debug
+changes were used. A current Portuguese save was imported, then the media
+overview, populated article detail, month-end legislative agenda/votes, finance
+report, title screen, and changelog were exercised.
+
+- **PT-097 addendum — populated CCS article has malformed Portuguese fragments.**
+  The populated CCS newspaper article replay (3 Jan 2023) rendered the exact
+  fragments `o CCS envolvido em homicídio...` (missing `se`),
+  `o aumento posse de armas...` (missing `da`), and
+  `saiu em um ataque suicida` (awkward construction). These are in the article
+  body rather than the newspaper chrome and need a context-aware Portuguese
+  rewrite.
+- **PT-098 — The Daily article frame keeps English chrome and clips its right
+  edge.** The 14 Jan 2023 populated article detail rendered the localized row
+  `FRAUDE FINANCEIRA`, localized subheadline
+  `Investidores perdem bilhões à medida que Unicard Participações desmorona.`,
+  and localized footer, but the newspaper page still showed English
+  navigation/masthead text (`USA`, `WORLD`, `BUSINESS`, `ARTS`, `LIFESTYLE`,
+  `OPINION`, `THE DAILY`, `FOR JUST $1/WK`, `SUBSCRIBE TO`,
+  `AMERICA'S NEWSROOM`). At the fixed 80-column page width the right-side
+  masthead lines are clipped (`SALA DE NOTÍCIAS DA...`/equivalent text ends at
+  the console boundary), making the article header visibly incomplete.
+- **Month-end verification:** the legislative agenda, Câmara/Senado vote
+  totals, president line, and monthly finance report all rendered in Portuguese
+  without a new raw-English or clipping defect. The title/changelog routes also
+  retained their existing localized notice/metadata behavior.
+
+## Strict-headless narrow/normal layout sweep — 2026-07-29
+
+This fresh sweep used only CLI `agent-browser` sessions against port 7438,
+with Chromium launched as `--headless=new --ozone-platform=headless`. The
+Portuguese routes were exercised at the default wide viewport and at 480×320;
+no production code, debug flags, or fixtures were changed.
+
+- **Title/changelog:** wide title and changelog were fully readable. At 480×320
+  the title menu's right column extends past the viewport (`Carregar e
+  gerenciar salvamentos` is clipped) and the version line is cut at the bottom.
+  The changelog title itself remains fully visible after the LayoutBuilder fix.
+  High scores and save-management screens were unavailable in this disposable
+  run because there were no scores or saves; import was not invoked because it
+  requires a file-picker fixture.
+- **Base/review/profile:** the narrow base footer loses the final
+  `B - Agentes Infiltrados` row; review and squad-formation headers truncate
+  `O Esquadrão do Crime Liberal` to `O Esquadrão do Crime Lib...`. The profile
+  repeats the known footer separator defect, rendering `CIMA BAIXO - Mais Info`
+  without `/`; body-part/skill labels are ellipsized but no raw English text
+  appears. These are the existing PT-071/PT-083 fixed-width layout residuals.
+- **Department store:** wide controls were Portuguese. At 480×320 the visiting
+  header/date is clipped (`Visitando Loja de Departamentos de Kim...`), and the
+  status controls collide/truncate as `0 - Mostrar o status Liberal do esqua...`
+  and `# - Verificar o status de um Liberal do...` (the PT-061/062 residuals).
+- **Courthouse:** the wide direct-action map and help were localized. At
+  480×320 the map and bottom movement/action legend are clipped by the viewport,
+  but the visible controls remain Portuguese.
+- **Media overview:** wide and narrow empty overviews showed Portuguese headers,
+  controls, and impact copy without a new defect. No generated article was
+  available, so populated newspaper rows remain a separate fixture gap.
+
+Evidence screenshots are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/` with `sweep-*` names.
+
+## Strict-headless fixes — 2026-07-29
+
+The confirmed PT-084, PT-096, PT-097, PT-097 addendum, and PT-098 findings
+were fixed and covered by focused tests. The media overview now reserves
+separate columns for Portuguese two-digit dates and publication names; pickup
+responses localize both generated profession labels and response verbs; dating
+headers translate profession types; CCS article fragments compose as
+`se envolveu em ...`, `o aumento da posse de armas ... de vez.`, and a natural
+suicidal-rampage sentence; and The Daily's navigation, masthead, and
+subscription copy use Portuguese catalog entries with right-aligned bounded
+rendering. Catalog sharding and interpolation validation pass after the edits.

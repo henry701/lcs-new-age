@@ -300,7 +300,7 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
       "Seeing {eName}, {typeName}, {location}",
       params: {
         "eName": e.name,
-        "typeName": e.type.name,
+        "typeName": LcsI18n.tr(e.type.name),
         "location": e.workLocation.getName(short: false, includeCity: true),
       },
     );

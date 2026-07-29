@@ -169,6 +169,16 @@ void main() {
       'fala em um alto-falante: "Esquadrão do Crime Liberal! Estamos aqui.',
     );
     expect(catalog['"Huh?" <looks dumbfounded>'], '"Hã?" <parece estupefato>');
+    expect(catalog['engaged in '], 'se envolveu em ');
+    expect(
+      catalog['gun ownership would help to bring violence like this to '],
+      'o aumento da posse de armas ajudaria a pôr fim a uma violência como esta ',
+    );
+    expect(catalog['an end.&r'], 'de vez.&r');
+    expect(
+      catalog['A gang of heavily armed vigilantes calling themselves the Conservative Crime Squad went on a suicidal rampage yesterday, according to a spokesperson from the police department.&r'],
+      contains('iniciou ontem uma onda de violência suicida'),
+    );
     expect(
       catalog.values.where((value) => value.contains('se autodenominam')),
       isEmpty,
@@ -280,6 +290,8 @@ void main() {
       localizedCreatureNameValue('College Student', 'College Student'),
       'Estudante Universitário',
     );
+    expect(catalog['responds'], 'responde');
+    expect(catalog['openly stares'], 'encara abertamente');
     expect(
       catalog['eyeing the Liberals with suspicion.'],
       'encarando os Liberais com desconfiança.',
@@ -1544,7 +1556,7 @@ void main() {
       catalog['tampering with lab animals'],
       'maus-tratos a animais de laboratório',
     );
-    expect(catalog['an end.&r'], 'um fim.&r');
+    expect(catalog['an end.&r'], 'de vez.&r');
     expect(catalog['One vehicle crashed.  '], 'Um veículo bateu.  ');
   });
 

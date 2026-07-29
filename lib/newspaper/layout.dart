@@ -178,11 +178,26 @@ void theGlobeTop() {
 void theDailyTop() {
   Color bgColor = Publication.daily.backgroundColor;
   setColor(black, background: bgColor);
-  mvaddstr(0, 2, "U.S.   WORLD   BUSINESS   ARTS   LIFESTYLE   OPINION");
-  print3x5NewsText(1, 1, "The Daily");
-  mvaddstr(1, 65, "FOR JUST \$1/WK");
-  mvaddstr(2, 67, "SUBSCRIBE TO");
-  mvaddstr(3, 61, "AMERICA'S NEWSROOM");
+  mvaddstr(
+    0,
+    2,
+    LcsI18n.tr("U.S.   WORLD   BUSINESS   ARTS   LIFESTYLE   OPINION"),
+    noTranslate: true,
+  );
+  print3x5NewsText(1, 1, LcsI18n.tr("The Daily"));
+  mvaddstrRight(
+    1,
+    LcsI18n.tr("FOR JUST \$1/WK"),
+    marginX: 1,
+    noTranslate: true,
+  );
+  mvaddstrRight(2, LcsI18n.tr("SUBSCRIBE TO"), marginX: 1, noTranslate: true);
+  mvaddstrRight(
+    3,
+    LcsI18n.tr("AMERICA'S NEWSROOM"),
+    marginX: 1,
+    noTranslate: true,
+  );
   _addDivider(Publication.daily);
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/basemode/media_overview.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 
 void main() {
@@ -35,5 +36,21 @@ void main() {
       ),
       equals('Evitar a violência aumentará o apoio público às suas ações.'),
     );
+  });
+
+  test('media overview reserves space for localized dates and sources', () {
+    expect(MediaOverviewLayout.dateX, 36);
+    expect(MediaOverviewLayout.sourceX, 55);
+    expect(MediaOverviewLayout.impactX, 72);
+    expect(
+      MediaOverviewLayout.sourceX - MediaOverviewLayout.dateX,
+      greaterThanOrEqualTo(19),
+    );
+  });
+
+  test('The Daily chrome has Portuguese catalog coverage', () {
+    expect(LcsI18n.tr('The Daily'), 'O Diário');
+    expect(LcsI18n.tr('FOR JUST \$1/WK'), 'POR APENAS US\$ 1/SEM');
+    expect(LcsI18n.tr("AMERICA'S NEWSROOM"), 'SALA DE NOTÍCIAS DA AMÉRICA');
   });
 }

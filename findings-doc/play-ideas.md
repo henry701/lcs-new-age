@@ -40,9 +40,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   base/review/profile management columns and footer controls do not disappear
   at 480×320. The `DEBUG` ribbon is fixed (2026-07-29); the modal body/footer
   and title-screen version line still clip at this viewport.
-- PT-084: exercise a populated newspaper article/detail route end-to-end. The
-  latest month-rollover replay showed no date/header collision, and the
-  deterministic cable-news test covers the two-digit-date layout.
+- PT-084 fixed (2026-07-29): populated media rows now separate Portuguese
+  dates, publication names, and impacts; the deterministic layout test covers
+  the reserved columns.
 - PT-085: audit the random newspaper catalog/article templates for untranslated
   words (`rapist`, `himself`) and malformed Portuguese grammar.
 
@@ -78,6 +78,14 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-095 fixed (2026-07-29): generated warehouse names now use an exact
   full-name catalog entry when available (`Old Church` → `Igreja Antiga`), and
   the police siege sentence uses a gender-neutral site reference.
+- PT-096 fixed (2026-07-29): pickup-line failure responses now localize the
+  generated profession and response verb.
+- PT-097 fixed (2026-07-29): dating follow-up headers now translate profession
+  types.
+- PT-097 addendum fixed (2026-07-29): CCS article fragments now compose with
+  idiomatic Portuguese grammar.
+- PT-098 fixed (2026-07-29): The Daily navigation/masthead/subscription copy
+  is localized and right-aligned within the 80-column page.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

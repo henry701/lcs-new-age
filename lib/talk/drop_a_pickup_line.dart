@@ -455,7 +455,10 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
       1,
       white,
       "{name} {response}",
-      params: {"name": tk.name, "response": responds},
+      params: {
+        "name": localizedCreatureName(tk),
+        "response": LcsI18n.tr(responds),
+      },
     );
     setColor(lightBlue);
     move(y++, 1);

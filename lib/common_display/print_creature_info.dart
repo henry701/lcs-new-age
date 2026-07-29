@@ -66,40 +66,49 @@ void printCreatureInfo(
 }
 
 void printAttributesAsKnowledgePermits(Creature creature, int knowledge) {
-  mvaddstr(
+  const attributeCellWidth = 11;
+  const secondAttributeColumn = 12;
+
+  mvaddstrFitted(
     2,
     0,
     "Str: {str}",
+    attributeCellWidth,
     params: {"str": creature.attribute(Attribute.strength).toString()},
   );
-  mvaddstr(
+  mvaddstrFitted(
     3,
     0,
     "Agi: {agi}",
+    attributeCellWidth,
     params: {"agi": creature.attribute(Attribute.agility).toString()},
   );
-  mvaddstr(
+  mvaddstrFitted(
     4,
     0,
     "Hrt: {hrt}",
+    attributeCellWidth,
     params: {"hrt": creature.attribute(Attribute.heart).toString()},
   );
-  mvaddstr(
+  mvaddstrFitted(
     2,
-    11,
+    secondAttributeColumn,
     "Int: {int}",
+    attributeCellWidth,
     params: {"int": creature.attribute(Attribute.intelligence).toString()},
   );
-  mvaddstr(
+  mvaddstrFitted(
     3,
-    11,
+    secondAttributeColumn,
     "Cha: {cha}",
+    attributeCellWidth,
     params: {"cha": creature.attribute(Attribute.charisma).toString()},
   );
-  mvaddstr(
+  mvaddstrFitted(
     4,
-    11,
+    secondAttributeColumn,
     "Wis: {wis}",
+    attributeCellWidth,
     params: {"wis": creature.attribute(Attribute.wisdom).toString()},
   );
 }

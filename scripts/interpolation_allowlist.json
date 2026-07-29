@@ -196,13 +196,13 @@
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 608,
+      "line": 617,
       "text": "${LcsI18n.tr(",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 608,
+      "line": 617,
       "text": ")}$next",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
@@ -874,7 +874,7 @@
     },
     {
       "file": "location/siege.dart",
-      "line": 288,
+      "line": 296,
       "text": "\\$$confiscated",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -1342,7 +1342,7 @@
     },
     {
       "file": "common_display/print_party.dart",
-      "line": 82,
+      "line": 89,
       "text": "$skill/${c.weaponSkill}",
       "reason": "Locale-neutral numeric skill summary fitted into a fixed-width management cell."
     },

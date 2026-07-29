@@ -122,6 +122,17 @@ void main() {
     expect(founder.equippedClothing?.shortName, equals('Cheer Jacket'));
   });
 
+  test('Portuguese security uniform short name is localized', () {
+    final founder = _founder();
+    founder.equippedClothing = Clothing('CLOTHING_SECURITYUNIFORM');
+
+    printParty(fullParty: true);
+
+    final rendered = _consoleText();
+    expect(rendered, contains('Unif. de Segura'));
+    expect(rendered, isNot(contains('Security Unif.')));
+  });
+
   test(
     'Portuguese party table truncates long names before the skill column',
     () {
@@ -139,6 +150,11 @@ void main() {
         console.buffer[2][ManagementTableLayout.skillX].glyph,
         equals('1'),
       );
+      expect(
+        console.buffer[2][ManagementTableLayout.skillX - 1].glyph,
+        equals(' '),
+      );
+      expect(console.buffer[2][69].glyph, equals(' '));
       expect(founder.name, equals('Ayla Probstaaaaaaaaaa'));
     },
   );
@@ -172,9 +188,11 @@ void main() {
       expect(rendered, contains('Coração:'));
       expect(rendered, contains('Carisma:'));
       expect(rendered, contains('Sab.:'));
+      expect(rendered, contains('Uniforme do Exército'));
       expect(rendered, isNot(contains('Cora:')));
       expect(rendered, isNot(contains('Sab:')));
       expect(rendered, isNot(contains('Car:')));
+      expect(rendered, isNot(contains('Army Uniform')));
       erase();
       printHealthStat(0, 0, founder);
       final healthLine = console.buffer.first
@@ -184,6 +202,18 @@ void main() {
       expect(healthLine, matches(RegExp(r'~?\d+/\d+ \+')));
     },
   );
+
+  test('Portuguese compact attribute columns keep a separator', () {
+    final founder = _founder()
+      ..rawAttributes[Attribute.heart] = 13
+      ..rawAttributes[Attribute.wisdom] = 1;
+
+    printCreatureInfo(founder);
+
+    final line = console.buffer[4].map((character) => character.glyph).join();
+    expect(line.substring(0, 23), contains('Coração: 15 Sab.: 1'));
+    expect(line.substring(0, 23), isNot(contains('13Sab')));
+  });
 
   test('Portuguese transport localizes XML vehicle short names', () {
     final founder = _founder();

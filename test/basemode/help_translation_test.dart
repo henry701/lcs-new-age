@@ -58,4 +58,48 @@ void main() {
     expect(LcsI18n.tr(layingLow), contains('Não fazer nada'));
     expect(LcsI18n.tr(layingLow), isNot(contains('Doing nothing')));
   });
+
+  test('Portuguese community service help translates the full body', () async {
+    console.injectKey('a');
+
+    await helpOnActivity(ActivityType.communityService);
+
+    final text = _consoleText();
+    expect(text, contains('Serviço comunitário é uma forma segura'));
+    expect(text, contains('O outro poder do serviço comunitário'));
+    expect(text, isNot(contains('Community service is a safe way')));
+  });
+
+  test('Portuguese chase controls translate bare action labels', () {
+    addInlineOptionText('F', 'Fight');
+    addstr(', ');
+    addInlineOptionText('E', 'Equip');
+    addstr(', ');
+    addInlineOptionText('O', 'Order');
+
+    final text = _consoleText();
+    expect(text, contains('Lutar'));
+    expect(text, contains('Equipar'));
+    expect(text, contains('Ordenar'));
+    expect(text, isNot(contains('Fight')));
+    expect(text, isNot(contains(' Equip,')));
+    expect(text, isNot(contains(' Order')));
+  });
+
+  test('Portuguese siege prose localizes dynamic raiders and units', () {
+    final confiscation = LcsI18n.tr(
+      'The police confiscate everything, including Squad weapons.',
+    );
+
+    expect(confiscation, contains('A polícia confisca'));
+    expect(LcsI18n.tr('SWAT Officer'), equals('Policial da SWAT'));
+    expect(LcsI18n.tr('SWAT Armor'), equals('Armadura da SWAT'));
+    expect(LcsI18n.tr('Agent'), equals('Agente'));
+    expect(
+      LcsI18n.tr(
+        'The authorities have been driven back——for now.  While they are regrouping, you might consider abandoning this safe house for a safer location.',
+      ),
+      contains('As autoridades foram repelidas'),
+    );
+  });
 }

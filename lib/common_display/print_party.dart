@@ -42,7 +42,12 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
         baseColorKey: ColorKey.white,
       );
       if (party[p].isHoldingBody) addstrc(pink, "+H");
-      printSkillSummary(p + 2, 23, party[p], showWeaponSkill: true);
+      printSkillSummary(
+        p + 2,
+        ManagementTableLayout.skillX,
+        party[p],
+        showWeaponSkill: true,
+      );
       move(p + 2, 29);
       setWeaponColor(party[p]);
       printWeapon(party[p]);
@@ -53,7 +58,9 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
         LcsI18n.tr(party[p].clothing.shortName),
         noTranslate: true,
       );
-      printHealthStat(p + 2, 59, party[p], small: true, maxWidth: 11);
+      // Keep one separator column before the transport cell; Portuguese armor
+      // labels can be longer than their English counterparts.
+      printHealthStat(p + 2, 59, party[p], small: true, maxWidth: 10);
       setColor(lightGray);
       move(p + 2, 70);
       printTransportation(party[p], showCarPrefs);

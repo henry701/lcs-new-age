@@ -849,6 +849,41 @@ branches. These branches need a repeatable fixture/playtest hook before their
 Portuguese strings and layout can be verified reliably; no new player-visible
 translation defect was confirmed in this replay.
 
+## Headless police-siege/combat fixture replay — 2026-07-28
+
+For a deterministic follow-up I used the local `debugSiege=true` fixture in a
+fresh Flutter web-server build (`7396`) and drove it only through headless
+`agent-browser` DOM-buffer reads. The fixture was restored to `debugSiege=false`
+after the replay; no source fix was made in this pass.
+
+Confirmed Portuguese defects (exact buffer evidence):
+
+- The siege safehouse header and action are raw English: `Safehouse Under Siege`
+  and `F - Fight/Escape` (base-mode siege renderer, `lib/basemode/base_mode.dart`).
+- Giving up to the police renders the dynamic placeholder untranslated:
+  `Os police confiscam tudo, incluindo as armas do Esquadrão.` The catalog
+  translates the sentence shell but the `{raiders}` value is still the English
+  `police` (`lib/location/siege.dart`).
+- The sally-forth briefing ends with a raw split fragment: `encounter.` after
+  otherwise Portuguese lines. The source splits `...survive this` and
+  `encounter.` into separate calls, so the existing full-sentence catalog entry
+  cannot match (`lib/daily/siege.dart`).
+- The police assault roster is heavily mixed-language:
+  `D - Tentar despistá-los, Fight, Equip, Order, Desistir`, with every enemy
+  shown as `SWAT Officer` / `SWAT Armor`. Combat log text also reads
+  `Bilal Meléndez atira em SWAT Officer with a Rifle M7!`.
+- After winning the assault, the victory screen still shows the full English
+  paragraph `The authorities have been driven back—for now. While they are
+  regrouping, you might consider abandoning this safe house for a safer
+  location.`
+- The post-combat Liberal profile exposes the generated profession as raw
+  English: `Nome: Bilal Meléndez, Liberal de Elite (Agent)`.
+
+The same replay did show localized body-part labels (`Cabeça`, `Tronco`, and
+the leg/arm labels) and the surrender result itself was otherwise Portuguese.
+It still did not generate a `Chief of Police` unit or the police-subdue/arrest
+message; those remain open after this fixture run.
+
 ## Headless title/save/month replay — 2026-07-28
 
 This replay used only CLI `agent-browser` with Chrome `--headless=new
@@ -882,3 +917,75 @@ were not idiomatic Portuguese. **PT-075 fixed:** these now render as
 `Bandeiras compr.`, `Bandeiras queim.`, `Impostos: $`, and `Gastos: $` with
 their values, all bounded to the fixed 20-column stat cells. The focused
 Portuguese context/layout suites pass with the updated catalog values.
+
+## Headless residual help/combat/layout replay — 2026-07-28
+
+This pass used a fresh Flutter `web-server` build on port 7410 and only the
+CLI `agent-browser` session `pt-residual`; Chromium was confirmed to run with
+`--headless=new --ozone-platform=headless`. No headed browser or desktop
+automation was used. A normal Portuguese founder game was created with all
+cheat flags disabled.
+
+Confirmed residual issues for future resolution:
+
+- **PT-076 — activity help body is still English.** From `A - Atribuir
+  Tarefas`, selecting a Liberal, `A - Ativismo Liberal`, `1 - Serviço
+  Comunitário`, then `?` rendered the Portuguese heading `=== Serviço
+  Comunitário ===` and footer `Pressione qualquer tecla para continuar.`, but
+  the entire explanatory body began `Community service is a safe way to
+  improve public opinion of the LCS...` and continued in English. The same
+  `helpOnActivity` implementation supplies long English bodies for the other
+  activity help pages; catalog entries or a translation wrapper are needed.
+
+- **PT-077 — chase/combat action words are untranslated.** At a police siege
+  combat screen the Portuguese action line read `D - Tentar despistá-los,
+  Fight, Equip, Order, Desistir`. The source emits the bare `Fight`, `Equip`,
+  and `Order` labels in `printChaseOptions`; existing catalog entries only
+  cover the separate prefixed strings (`F - Fight, `, `E - Equip, `, and
+  `O - Order, `), so the visible combat controls remain English.
+
+- **PT-078 — 480×320 remains non-usable for the fixed 80-column console.** A
+  narrow headless viewport showed the combat roster and controls reduced to
+  tiny text with the right side clipped (`TRANSP...`), while the top-right
+  debug ribbon overlaps the frame. This is a responsive layout enhancement,
+  not a translation regression; the same clipping was observed in the shop
+  replay.
+
+Verified without new defects: Promote Elite Liberals, Assemble Squad, the
+profile skills page, and the profile crime table all rendered Portuguese
+labels with bounded columns and count cells. The direct-action (`?` in the
+site map) help page was not reached in this run because the generated route
+entered a shop and then a police siege; it remains a coverage gap for a future
+deterministic site fixture.
+
+## Headless residual fixes — 2026-07-28
+
+- PT-076 fixed: added the complete Portuguese community-service help body to
+  the canonical catalogs and a regression test. The body now renders as
+  `Serviço comunitário...` while retaining the translated heading and footer.
+- PT-077 fixed: added `Fight`, `Equip`, and `Order` catalog entries so chase
+  controls render `Lutar`, `Equipar`, and `Ordenar` in Portuguese; regression
+  coverage now exercises the inline controls.
+- A fresh founder replay exposed `Security Unif.` in the base roster; added
+  `Unif. de Segurança` and a short-name regression test.
+- Portuguese roster health/armor text could touch the transport column. The
+  health cell now reserves a separator column; the long-name layout test
+  asserts the gap.
+
+Remaining known gap: the fixed 80-column console is clipped at 480×320, and
+Chief of Police/arrest/injury combat branches plus deterministic direct-action
+help still need fixture-driven coverage.
+
+## Headless police-siege translation fixes — 2026-07-28
+
+The targeted siege fixture then exposed additional concrete leaks, all fixed
+and covered by catalog/static tests: `Safehouse Under Siege` and
+`F - Fight/Escape`, `SWAT Officer`/`SWAT Armor`, the generated `(Agent)`
+profession, the mixed combat attack template, the split `encounter.` briefing
+line, and the English victory paragraph. Police/soldier surrender output now
+uses complete locale-specific templates instead of inserting a raw English
+raider label.
+
+Still open: deterministic Chief of Police, police-subdue/arrest, and injury
+branches; the narrow 480×320 responsive layout; and the direct-action help route
+fixture. These remain future playtest targets rather than confirmed fixed.

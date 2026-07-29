@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -178,12 +179,19 @@ Future<void> surrenderToAuthorities(Site loc) async {
   } else {
     raiders = "software bugs";
   }
-  mvaddstr(
-    1,
-    1,
-    "The {raiders} confiscate everything, including Squad weapons.",
-    params: {"raiders": raiders},
-  );
+  final confiscation = switch (raiders) {
+    "police" => LcsI18n.tr(
+      "The police confiscate everything, including Squad weapons.",
+    ),
+    "soldiers" => LcsI18n.tr(
+      "The soldiers confiscate everything, including Squad weapons.",
+    ),
+    _ => LcsI18n.processString(
+      "The {raiders} confiscate everything, including Squad weapons.",
+      {"raiders": LcsI18n.tr(raiders)},
+    ),
+  };
+  mvaddstr(1, 1, confiscation, noTranslate: true);
 
   Iterable<Creature> present = pool
       .where((e) => e.location == loc && e.alive)

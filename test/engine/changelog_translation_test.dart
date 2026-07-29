@@ -49,6 +49,7 @@ void main() {
 
     expect(find.text('Histórico de versões — LCS: Nova Era'), findsOneWidget);
     expect(find.byTooltip('Fechar registro de alterações'), findsOneWidget);
+    expect(find.text('DEBUG'), findsNothing);
     expect(tester.takeException(), isNull);
 
     final container = tester.getSize(find.byType(Container).first);

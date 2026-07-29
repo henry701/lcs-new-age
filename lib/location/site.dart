@@ -248,6 +248,16 @@ class Site extends Location {
   }
 }
 
+String localizedGeneratedSiteName(String adjective, String siteType) {
+  final fullName = '$adjective $siteType';
+  if (LcsI18n.hasTranslation(fullName)) return LcsI18n.tr(fullName);
+
+  return LcsI18n.processString('{adjective} {siteType}', {
+    'adjective': LcsI18n.tr(adjective),
+    'siteType': LcsI18n.tr(siteType),
+  });
+}
+
 enum SiteController { lcs, ccs, unaligned }
 
 Site? findSiteInSameCity(City? city, SiteType type) =>
@@ -442,10 +452,7 @@ void initSiteName(Site loc) {
             siteType = "Warehouse";
             loc.shortName = "Warehouse";
         }
-        loc.name = LcsI18n.processString("{adjective} {siteType}", {
-          "adjective": LcsI18n.tr(adjective),
-          "siteType": LcsI18n.tr(siteType),
-        });
+        loc.name = localizedGeneratedSiteName(adjective, siteType);
       } while (loc.isDuplicateLocation());
     case SiteType.dirtyIndustry:
       switch (lcsRandom(5)) {

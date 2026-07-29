@@ -38,9 +38,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 
 - PT-083: make the console responsive or provide a narrow viewport mode so
   base/review/profile management columns and footer controls do not disappear
-  at 480×320; hide the development `DEBUG` ribbon in playtest/release builds.
-- PT-084: reserve a date column in the newspaper header so the final section
-  tab cannot collide with `7 de jan de 2023` (and other two-digit dates).
+  at 480×320. The `DEBUG` ribbon is fixed (2026-07-29); the modal body/footer
+  and title-screen version line still clip at this viewport.
+- PT-084: exercise a populated newspaper article/detail route end-to-end. The
+  latest month-rollover replay showed no date/header collision, and the
+  deterministic cable-news test covers the two-digit-date layout.
 - PT-085: audit the random newspaper catalog/article templates for untranslated
   words (`rapist`, `himself`) and malformed Portuguese grammar.
 
@@ -55,9 +57,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-089: route all generic profession labels in pickup-line responses through
   `localizedCreatureName` (`College Student` leaked while the profile was
   `Estudante Universitário`).
-- Re-run a deterministic police alarm fixture for Chief of Police, surrender,
-  arrest, injury/body-part, and post-combat screens; normal police-station
-  arrival was localized but did not spawn an encounter.
+- Police alarm fixture replay verified Chief of Police, surrender, arrest,
+  injury/body-part, and post-combat screens; keep this route in regression
+  coverage because normal police-station arrival is not deterministic.
 - PT-090 fixed (2026-07-29): composed activity-help paragraphs now use the
   locale catalog, including complete Guardian writing/streaming bodies; keep
   the focused help regression tests when adding future long help text.
@@ -73,16 +75,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-094 fixed (2026-07-29): complete Portuguese paragraph entries now cover
   the remaining Art, donation, brownie-selling, and prostitution help text
   that previously mixed English fragments into otherwise localized prose.
-- PT-094: complete the remaining composed help fragments. Runtime evidence
-  still includes `out of style`, `cause`, `They donating to politicians`,
-  `risks`, `on Street Smarts and Business`, and `out to get you` in Portuguese
-  help bodies even after the complete Guardian/Disobedience paragraph fix.
-- Re-run the police fixture with a deterministic arrest outcome and inspect
-  arrest-specific summary text; surrender and victory were localized, but
-  arrest was not reached in this pass.
-- The intercity travel branch still needs a funded fixture (or deterministic
-  travel harness) to visit every city; this replay could verify only Seattle
-  districts/sites because the founder had $7 versus the $100 ticket.
+- PT-095 fixed (2026-07-29): generated warehouse names now use an exact
+  full-name catalog entry when available (`Old Church` → `Igreja Antiga`), and
+  the police siege sentence uses a gender-neutral site reference.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

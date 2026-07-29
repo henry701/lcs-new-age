@@ -1246,3 +1246,61 @@ surrender, fight, body-part hit, and victory-summary branches were exercised.
   now cover those bodies, preserving Portuguese grammar and avoiding fragment
   concatenation. The all-activity regression sweep asserts the original English
   prefixes and the reported residual sentences are absent.
+
+## Targeted narrow/month-end replay — 2026-07-29
+
+This follow-up used only CLI `agent-browser` against a fresh local Flutter
+web-server on ports 7435 and 7436. Chromium was launched with
+`--headless=new --ozone-platform=headless`; the viewport was explicitly set to
+480×320. Temporary siege/funds fixture flags were used only while creating the
+disposable founder and were restored to `false` before shutdown.
+
+- **PT-083 partial fix verified:** fresh rebuild port 7436 confirmed that the
+  narrow changelog screenshot no longer contains the red Flutter `DEBUG`
+  ribbon, and the responsive title now fits fully as
+  `Histórico de versões — LCS: Nova Era`. The modal body still extends below
+  the 480×320 viewport (the lower content/footer is clipped), so the broader
+  narrow-layout item remains open for responsive/modal sizing. The title
+  screen also clips the version line at the bottom edge at this viewport.
+- **PT-084 date/header replay:** the Portuguese base header rendered
+  `SEA — Sem-teto, 7 de jan de 2023` and, after the month rollover,
+  `SEA — Sem-teto, 1 de fev de 2023` without overlapping adjacent text. The
+  media overview had no generated articles in this disposable run, so a
+  populated newspaper page remains unverified end-to-end; the deterministic
+  cable-news header regression test remains the stronger coverage for the
+  two-digit-date collision.
+
+## Strict-headless funded travel/arrest replay — 2026-07-29
+
+This targeted replay used only CLI `agent-browser` session
+`arrest-travel-20260729` against a local Flutter web-server on port 7440.
+Chromium was launched with `--headless=new --ozone-platform=headless`; no
+headed browser or desktop input was used. Temporary local fixtures supplied
+funds and a wanted founder, and all debug flags/fixture edits were restored to
+their original disabled state before shutdown.
+
+- **Intercity travel verified:** the funded planner displayed all destinations
+  (`Seattle, WA`, `New York, New York`, `Los Angeles, CA`, and `Washington, DC`)
+  with Portuguese descriptions. New York, Los Angeles, and Washington district
+  lists were opened successfully; district labels such as `Ilha de Manhattan`,
+  `Grande Hollywood`, and `National Mall` were localized and no raw English
+  control text appeared.
+- **Arrest summary verified:** after entering the deterministic police siege
+  and choosing surrender, the summary rendered `A polícia confisca tudo,
+  incluindo armas do Esquadrão.`, `Prendem Teddy Toole.`, the localized funds
+  confiscation line, and localized fortification/disarmament lines. No English
+  fragments were observed.
+- **PT-095 new residual:** the generated warehouse name `Old Church` was
+  rendered as `Igreja Velho` in `A polícia cercou o Igreja Velho!` and
+  `Igreja Velho` in the siege prompt. Portuguese requires feminine agreement
+  (`Igreja Velha`), and the article should be `a`, not `o`; the generic
+  adjective translation (`Old` → `Velho`) cannot preserve site-name gender.
+
+## PT-095 fix — 2026-07-29
+
+The generated-site naming path now prefers an exact full-name catalog entry,
+so `Old Church` resolves to `Igreja Antiga` instead of composing a masculine
+adjective with a feminine noun. The Portuguese police-surrounds template now
+uses `A polícia cercou este local: {location}!`, avoiding an incorrect hardcoded
+article for other generated site names. `test/location/site_translation_test.dart`
+covers both regressions.

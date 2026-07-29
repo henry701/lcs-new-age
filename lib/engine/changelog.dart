@@ -132,17 +132,24 @@ class ChangelogWidgetState extends State<ChangelogWidget> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(
-                            LcsI18n.tr(
-                              'Liberal Crime Squad: New Age Changelog',
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: lightGreen,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'SourceCodePro',
-                            ),
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              final narrow = constraints.maxWidth < 400;
+                              return Text(
+                                LcsI18n.tr(
+                                  'Liberal Crime Squad: New Age Changelog',
+                                ),
+                                maxLines: narrow ? 2 : 1,
+                                softWrap: narrow,
+                                overflow: TextOverflow.visible,
+                                style: TextStyle(
+                                  color: lightGreen,
+                                  fontSize: narrow ? 16 : 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'SourceCodePro',
+                                ),
+                              );
+                            },
                           ),
                         ),
                         IconButton(

@@ -885,6 +885,12 @@
       "reason": "Stable runtime identifier or asset path; never player-facing prose."
     },
     {
+      "file": "location/site.dart",
+      "line": 252,
+      "text": "$adjective $siteType",
+      "reason": "Generated site-name lookup key; translated as a complete name when the catalog provides one."
+    },
+    {
       "file": "map_editor/map_editor_screen.dart",
       "line": 71,
       "text": "assets/maps/mapCSV_${name}_Tiles.csv",

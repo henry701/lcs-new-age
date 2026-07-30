@@ -99,6 +99,30 @@ void main() {
     );
   });
 
+  test('Portuguese agenda polling phrases use plural finite verbs', () {
+    const expected = {
+      'support LGBTQ+ rights': 'apoiam os direitos LGBTQ+',
+      'oppose the death penalty': 'opõem-se à pena de morte',
+      'favor doing more for gender equality':
+          'defendem mais ações pela igualdade de gênero',
+      'agree that more work is needed for racial equality':
+          'concordam que é preciso fazer mais pela igualdade racial',
+      'want to legalize marijuana': 'querem legalizar a maconha',
+      'support keeping marijuana legal': 'apoiam manter a maconha legalizada',
+      'support Liberal immigration policy':
+          'apoiam a política liberal de imigração',
+      'find Conservative AM Radio distasteful':
+          'consideram o Rádio AM Conservador de mau gosto',
+      'support universal healthcare': 'apoiam a saúde universal',
+      'want a government-run retirement system':
+          'querem um sistema de aposentadoria estatal',
+    };
+
+    for (final entry in expected.entries) {
+      expect(LcsI18n.tr(entry.key), equals(entry.value), reason: entry.key);
+    }
+  });
+
   test('Portuguese agenda public-interest levels are translated', () {
     expect(LcsI18n.tr('Huge'), equals('Enorme'));
     expect(LcsI18n.tr('High'), equals('Alto'));
@@ -383,10 +407,8 @@ void main() {
       gameState.cities = [city];
       final district = city.addDistrict('Comércio', 'Comércio');
       final site = Site(SiteType.pawnShop, city, district)
-        ..rename(
-          'Storms — Casa de penhores e armas',
-          'Storms — Casa de penhores e armas',
-        );
+        ..rename('Storms — Casa de penhores e armas', 'Pawnshop');
+      district.sites.add(site);
       final squad = Squad()
         ..activity = Activity(ActivityType.visit, idString: site.idString);
 
@@ -394,10 +416,7 @@ void main() {
 
       final line = _consoleLine(0);
       expect(line.length, lessThanOrEqualTo(80));
-      expect(
-        line.substring(41),
-        equals(fitConsoleText(squad.activity.description, 39)),
-      );
+      expect(line.substring(41), equals('Visitando Casa de Penhores'));
     } finally {
       gameState.cities = previousCities;
     }

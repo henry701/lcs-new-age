@@ -1930,10 +1930,30 @@ buffer bridge. Evidence is retained under
   legalizing-verb, infinitive, crasis, and plural-agreement regressions; the
   current catalog now uses `a legalização de`, infinitive tax-use fragments,
   and a complete Portuguese article template.
-- Article A exposed a separate open PT-125 issue: generated military country
-  names can still contain the English fragment `Islands` (`Islands de
-  Korsazistan`).
+- Article A exposed PT-125: generated military country names contained the
+  English fragment `Islands` (`Islands de Korsazistan`). The follow-up replay
+  added the missing generated-title catalogs and a regression, so the route now
+  renders `Ilhas de Korsazistan`.
 - A fresh article detail also exposed `Income Inequality: +10.1%`; this was
   fixed as PT-126 by adding the missing `Desigualdade de Renda` catalog entry.
 
 The strict-headless sessions and disposable servers were closed after capture.
+
+## Strict-headless month-end agenda replay — 2026-07-29
+
+Using CLI `agent-browser` only with `AGENT_BROWSER_HEADED=0` and
+`--headless=new --ozone-platform=headless`, a fresh Portuguese campaign was
+advanced through the January month-end legislative screens into February.
+Agenda pages 1–5 stayed within the 80-column console and were localized, but
+Opinion Poll Parts 1–2 exposed PT-128 grammar defects: several rows retained
+English-shaped infinitives or singular verbs after percentage values. The
+phrase catalog was corrected and `test/localized_layout_regression_test.dart`
+now asserts the finite plural forms.
+
+## Generated-country follow-up — 2026-07-29
+
+The military article replay identified `Islands` in generated country names;
+the follow-up regression also exercised the dynamic capital word list and
+confirmed that `Fort` and `Hill` had no Portuguese values. The catalogs now
+use `Ilhas`, `Forte`, and `Colina` (plus the remaining generated country-title
+forms), and the repeated military-story test rejects the English title token.

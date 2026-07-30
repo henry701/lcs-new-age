@@ -123,9 +123,7 @@ void main() {
       '{member} agiu com {squad} em vez de recrutar.',
     );
     expect(
-      catalog[
-        '{member} acted with {squad} instead of carrying out the planned activity.'
-      ],
+      catalog['{member} acted with {squad} instead of carrying out the planned activity.'],
       '{member} agiu com {squad} em vez de cumprir a atividade planejada.',
     );
     expect(catalog['LIGHTS OUT'], 'LUZES APAGADAS');
@@ -433,7 +431,7 @@ void main() {
       expect(catalog['Natural'], 'Natural');
       expect(catalog['Primal'], 'Primitivo');
       expect(catalog['Inquirer'], 'Inquirer');
-      expect(catalog['Fort'], 'Fort');
+      expect(catalog['Fort'], 'Forte');
       expect(catalog['Fore'], 'Fore');
       expect(catalog['Mega'], 'Mega');
       expect(catalog['Franken'], 'Franken');
@@ -454,7 +452,7 @@ void main() {
       expect(catalog['Inc.'], 'Inc.');
       expect(catalog['L.L.C.'], 'L.L.C.');
       expect(catalog['Dis'], 'Dis');
-      expect(catalog['Hill'], 'Hill');
+      expect(catalog['Hill'], 'Colina');
       expect(catalog['MBC'], 'MBC');
       expect(catalog['MedStar Washington'], 'MedStar Washington');
     },

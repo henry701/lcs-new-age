@@ -10,6 +10,7 @@ import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
+import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -62,12 +63,15 @@ class Activity {
         });
       case ActivityType.visit:
         final site = location;
+        final locationName = site == null
+            ? LcsI18n.tr("a bug")
+            : site.type == SiteType.pawnShop
+            ? site.getName(short: true)
+            : LcsI18n.hasTranslation(site.name)
+            ? LcsI18n.tr(site.name)
+            : site.name;
         return LcsI18n.processString("Visiting {location}", {
-          "location": site == null
-              ? LcsI18n.tr("a bug")
-              : LcsI18n.hasTranslation(site.name)
-              ? LcsI18n.tr(site.name)
-              : site.name,
+          "location": locationName,
         });
       case ActivityType.study:
         return LcsI18n.processString("Practice {skill}", {

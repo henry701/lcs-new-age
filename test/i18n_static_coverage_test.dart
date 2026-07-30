@@ -319,6 +319,8 @@ void main() {
       final source = File('lib/basemode/activities.dart').readAsStringSync();
       expect(source, contains('LcsI18n.hasTranslation(site.name)'));
       expect(source, contains('LcsI18n.tr(site.name)'));
+      expect(source, contains('site.type == SiteType.pawnShop'));
+      expect(source, contains('site.getName(short: true)'));
     });
 
     test('regular activity menus use whole labels and templates', () {

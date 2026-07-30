@@ -59,6 +59,8 @@
 | PT-124 | Medium | Newspaper detail | Article impact labels omit `Taxes` and `Drugs` catalog entries |
 | PT-125 | Medium | Translation/context | Military article can expose generated country fragment `Islands` in Portuguese |
 | PT-126 | Medium | Newspaper detail | Article impact label `Income Inequality` remains English |
+| PT-127 | Low | Translation/context | Generated country capitals can expose English `Fort` or `Hill` |
+| PT-128 | Medium | Translation/context | Liberal Agenda polling rows use infinitive or singular Portuguese fragments |
 
 ## PT-001: Save-management option is clipped
 
@@ -1418,11 +1420,12 @@ the second action no longer overwrites the end of the first.
 - Severity: Low
 - Type: Translation/layout
 - Screen: Pawn-shop header
-- Replay status: **Partially fixed; raw `Pawnshop` catalog entry added, visit-label width remains open**
+- Replay status: **Fixed on 2026-07-29; pawn-shop short-name header regression updated**
 
-The short site name now translates to `Casa de Penhores`. The longer visiting
-header still needs a route-specific width decision because the shared 40-column
-location header intentionally truncates long site names.
+The activity header now uses the localized short pawn-shop name, rendering
+`Visitando Casa de Penhores` in the right-hand activity cell. Full site names
+remain available in the shop view, while the compact activity header no longer
+depends on the long generated site template.
 
 ## PT-063: Long pawn-shop item names collide with metadata columns
 
@@ -1588,13 +1591,12 @@ focused Herald coverage.
 - Severity: Medium
 - Type: Contextual translation
 - Screen: Media overview → `Exército Toma as Ruas` article
-- Replay status: **Open; retain for the next playtest/fix pass**
+- Replay status: **Fixed on 2026-07-29; generated-title catalog and regression updated**
 
 The strict-headless replay rendered `Enquanto os militares dos EUA se preparam
-para se deslocar para Islands de Korsazistan ...`. The generated country name
-is assembled from an English `Islands` fragment before insertion into the
-Portuguese article template. Country-name composition needs a locale-aware
-full-name path, not independent word translation.
+para se deslocar para Islands de Korsazistan ...`. The generated country-title
+list had no Portuguese catalog entries. It now renders `Ilhas de Korsazistan`
+and the military regression repeatedly rejects the raw `Islands` token.
 
 ## PT-126: Income Inequality impact label remains English
 
@@ -1606,3 +1608,30 @@ full-name path, not independent word translation.
 The fresh strict-headless replay showed `Income Inequality: +10.1%` below an
 otherwise Portuguese article. The `View.ceoSalary` enum label had no catalog
 entry; it now renders as `Desigualdade de Renda`.
+
+## PT-127: Generated country capitals expose English location words
+
+- Severity: Low
+- Type: Contextual translation
+- Screen: Military article / generated country capital
+- Replay status: **Fixed on 2026-07-29; catalog coverage and military regression updated**
+
+The generated-capital path selected `Fort` or `Hill` from a dynamic word list;
+Portuguese catalog lookup returned the English token for both. They now render
+as `Forte` and `Colina`, and the military article regression exercises repeated
+country generation to ensure `Islands` and the capital words do not leak.
+
+## PT-128: Liberal Agenda polling rows use non-finite or singular fragments
+
+- Severity: Medium
+- Type: Contextual translation / grammar
+- Screen: Liberal Agenda → Opinion Poll (Parts 1–2)
+- Replay status: **Fixed on 2026-07-29; phrase catalog and agenda regression updated**
+
+The strict-headless month-end replay showed rows such as `favor fazer mais pela
+igualdade de gênero`, `apoiar política liberal de imigração`, `apoiar a saúde
+universal`, `quer um sistema de aposentadoria governamental`, and `achar o
+Rádio AM Conservador de mau gosto`. These fragments follow a percentage and
+must use plural finite verbs. The catalog now renders idiomatic forms such as
+`defendem mais ações pela igualdade de gênero`, `apoiam a política liberal de
+imigração`, and `querem um sistema de aposentadoria estatal`.

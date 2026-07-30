@@ -145,6 +145,13 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   use `Impostos` and `Drogas`.
 - PT-126 fixed (2026-07-29): the `Income Inequality` article impact label now
   uses `Desigualdade de Renda`.
+- PT-127 fixed (2026-07-29): generated country titles and capital words now
+  use Portuguese catalog entries (`Ilhas`, `Forte`, `Colina`, and related
+  country-title forms).
+- PT-125 fixed (2026-07-29): generated military country names now translate
+  `Islands` as `Ilhas` rather than exposing an English fragment.
+- PT-128 fixed (2026-07-29): Liberal Agenda opinion-poll fragments now use
+  plural finite verbs and natural Portuguese after percentage values.
 
 ## Newly prioritized after the 2026-07-26 sweep
 
@@ -181,6 +188,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   deterministic encounter; capture the composed sentence, not only fragments.
 - Keep changelog English-only unless product scope changes; its localized notice
   currently documents the limitation for players.
+- PT-062 fixed (2026-07-29): the pawn-shop activity header now uses the
+  localized compact name (`Visitando Casa de Penhores`) and has a layout
+  regression.
 
 ## Runtime acceleration
 

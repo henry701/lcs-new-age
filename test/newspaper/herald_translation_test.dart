@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/creature/name_lists.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/catalog_audit.dart';
@@ -90,23 +91,50 @@ void main() {
     expect(LcsI18n.tr(View.gunControl.label), equals('Controle de Armas'));
     expect(LcsI18n.tr(View.deathPenalty.label), equals('Pena de Morte'));
     expect(LcsI18n.tr(View.housing.label), equals('Moradia'));
-    expect(LcsI18n.tr(View.womensRights.label), equals('Direitos das Mulheres'));
+    expect(
+      LcsI18n.tr(View.womensRights.label),
+      equals('Direitos das Mulheres'),
+    );
     expect(LcsI18n.tr(View.taxes.label), equals('Impostos'));
     expect(LcsI18n.tr(View.drugs.label), equals('Drogas'));
     expect(LcsI18n.tr(View.ceoSalary.label), equals('Desigualdade de Renda'));
   });
 
-  test('abortion article call to action uses the complete Portuguese phrase', () {
-    laws[Law.abortion] = DeepAlignment.moderate;
-    final story = NewsStory.unpublished(NewsStories.majorEvent)
-      ..publication = Publication.herald
-      ..view = View.womensRights;
+  test(
+    'generated country titles use Portuguese names in military articles',
+    () {
+      for (final title in countryTitles) {
+        expect(LcsI18n.tr(title), isNot(equals(title)));
+      }
 
-    final content = generateMajorEventContent(View.womensRights, false, story);
+      final story = NewsStory.unpublished(NewsStories.majorEvent)
+        ..publication = Publication.herald
+        ..view = View.military;
+      for (var i = 0; i < 30; i++) {
+        final content = generateMajorEventContent(View.military, false, story);
+        expect(content.storyText, isNot(contains('Islands')));
+      }
+    },
+  );
 
-    expect(content.storyText, contains('aprovar novas leis'));
-    expect(content.storyText, isNot(contains('pass new laws')));
-  });
+  test(
+    'abortion article call to action uses the complete Portuguese phrase',
+    () {
+      laws[Law.abortion] = DeepAlignment.moderate;
+      final story = NewsStory.unpublished(NewsStories.majorEvent)
+        ..publication = Publication.herald
+        ..view = View.womensRights;
+
+      final content = generateMajorEventContent(
+        View.womensRights,
+        false,
+        story,
+      );
+
+      expect(content.storyText, contains('aprovar novas leis'));
+      expect(content.storyText, isNot(contains('pass new laws')));
+    },
+  );
 
   test('drug-study article uses grammatical Portuguese composition', () {
     expect(LcsI18n.tr('legalizing'), equals('a legalização de '));
@@ -117,15 +145,18 @@ void main() {
     expect(LcsI18n.tr(View.drugs.label), equals('Drogas'));
   });
 
-  test('pollution think-tank prose uses a neutral Portuguese organization name', () {
-    for (var i = 0; i < 30; i++) {
-      final story = NewsStory.unpublished(NewsStories.majorEvent)
-        ..publication = Publication.herald;
-      final content = generateMajorEventContent(View.pollution, false, story);
-      expect(content.storyText, contains('A organização '));
-      expect(content.storyText, isNot(contains('O Família')));
-    }
-  });
+  test(
+    'pollution think-tank prose uses a neutral Portuguese organization name',
+    () {
+      for (var i = 0; i < 30; i++) {
+        final story = NewsStory.unpublished(NewsStories.majorEvent)
+          ..publication = Publication.herald;
+        final content = generateMajorEventContent(View.pollution, false, story);
+        expect(content.storyText, contains('A organização '));
+        expect(content.storyText, isNot(contains('O Família')));
+      }
+    },
+  );
 
   test('major-event filler starts after a paragraph separator', () {
     final story = NewsStory.unpublished(NewsStories.majorEvent)

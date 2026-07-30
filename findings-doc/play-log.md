@@ -2065,3 +2065,21 @@ armor target was rendered as `o armadura de couro de Dale HayashiAAAA.`. The
 catalog template now uses article-free `armadura de couro de {name}` wording;
 the focused context test covers the corrected template. Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-postfix-verify/postfix2-suspicion.txt`.
+## Strict-headless founder and shop replay — 2026-07-30
+
+The rebuilt Portuguese app was exercised through founder creation and the
+Commerce shop routes using CLI `agent-browser` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The founder route rendered the default female founder as `Manuela Frank` and
+confirmed PT-138: several biography choices still say `Eu era travesso`, `Eu
+era obcecado`, `Fui pego hackeando minhas notas`, or `Fui pego ficando com outra
+garota`. The route evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/root7645-q4.png` and
+`root7645-q8.png`.
+
+An independent strict-headless shop sweep covered clothing, armour, firearms,
+tools, pawn-shop, and used-car screens, including a 480×640 viewport. It
+confirmed PT-139 (`Pressione uma letra para comprar roupas` on the medieval
+armour list) and PT-140 (used-car status actions overwrite and clip each other).
+The route report and captures are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/justice-route-sweep/`.

@@ -15,6 +15,12 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   Police` variant remains unverified. PT-135 stealth-name and PT-136 hospital
   activity fixes are verified; recheck the PT-134 chase and PT-064 talk-target
   fixes after the next disposable build.
+- PT-138: founder biography choices still use masculine agreement (`travesso`,
+  `obcecado`, `Fui pego`) for the default female founder; decide on neutral or
+  sex-aware wording before treating founder creation as complete.
+- PT-139/PT-140: the Oubliette armour footer says to buy clothes, and the
+  used-car dealer's two status actions collide at a 480×640 viewport. Recheck
+  both after contextual-copy and responsive-row fixes.
 - Recruitment route: the first profession selector, candidate list, profile,
   political conversation, and response are covered by the latest headless pass;
   continue with a successful recruitment meeting and a conservative target.

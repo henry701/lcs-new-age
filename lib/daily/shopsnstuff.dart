@@ -202,28 +202,33 @@ Future<void> dealership(Site loc) async {
       } else {
          addOptionText(12, 1, "P", "P - Repaint car, replace plates and tags ($500)");
       }*/
-    addOptionText(
+    addOptionTextFitted(
       15,
       1,
       "0",
       "0 - Show the squad's Liberal status",
+      38,
       enabledWhen: activeSquadMember != null,
     );
-    addOptionText(
+    addOptionTextFitted(
       16,
       1,
       "B",
       "B - Choose a buyer",
+      38,
       enabledWhen: partysize >= 2,
     );
-    addOptionText(16, 40, "Enter", "Enter - Leave");
+    addOptionTextFitted(16, 40, "Enter", "Enter - Leave", 40);
 
-    if (partysize > 0 && (activeSquadMemberIndex == -1 || partysize > 1)) {
-      setColor(lightGray);
-    } else {
-      setColor(darkGray);
-    }
-    mvaddstr(15, 40, "# - Check the status of a squad Liberal");
+    addOptionTextFitted(
+      15,
+      40,
+      "#",
+      "# - Check the status of a squad Liberal",
+      40,
+      enabledWhen:
+          partysize > 0 && (activeSquadMemberIndex == -1 || partysize > 1),
+    );
 
     int c = await getKey();
 

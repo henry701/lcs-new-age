@@ -209,6 +209,25 @@ void main() {
     expect(_consoleLine(22), equals('Entre - Voltar'));
   });
 
+  test('medieval armor shop page uses an armor purchase footer', () async {
+    final armorDepartment = shopTypes['OUBLIETTE']!.departments[1];
+    final buyer = Creature()..name = 'Joana';
+    final customers = Squad.temporary()..members.add(buyer);
+
+    expect(armorDepartment.ui, equals(ShopUI.armor));
+
+    console.keyEvent(_enterKey);
+    await armorDepartment.browseArmor(customers, buyer);
+
+    expect(_consoleLine(9), equals('O que Joana vai comprar?'));
+    expect(_consoleCells(11, 0, 24).trim(), equals('A – Couro de moto'));
+    expect(
+      _consoleLine(21),
+      equals('Pressione uma letra para comprar armadura'),
+    );
+    expect(_consoleLine(22), equals('Entre - Voltar'));
+  });
+
   test('equipment title helpers preserve localized short and full forms', () {
     final ammo = Ammo('AMMO_22');
     final clothing = Clothing('CLOTHING_BLACKCLOTHES');

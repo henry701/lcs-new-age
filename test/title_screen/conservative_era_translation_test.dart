@@ -21,7 +21,12 @@ void main() {
 
   setUp(() async {
     gameState = GameState();
-    execName[Exec.president] = FullName('Ana', '', 'Silva', Gender.female);
+    execName[Exec.president] = FullName(
+      'Ricardo',
+      '',
+      'Seay',
+      Gender.whiteMalePatriarch,
+    );
     await LcsI18n.initialize('pt_BR');
     erase();
     console.keyEvent(
@@ -38,40 +43,43 @@ void main() {
     erase();
   });
 
-  test('Portuguese conservative-era prose is complete and feminine', () async {
-    await aNewConservativeEra();
+  test(
+    'Portuguese conservative-era prose agrees with the male vice-president',
+    () async {
+      await aNewConservativeEra();
 
-    final prose = _normalizedIntroText();
-    expect(
-      prose,
-      contains(
-        'Sua vice-presidente de extrema-direita Arqui Conservadora, Ana Silva, '
-        'aliada próxima dos manifestantes, foi empossada como nova Presidente '
-        'dos Estados Unidos.',
-      ),
-    );
-    expect(
-      prose,
-      contains(
-        'nas recentes eleições intermediárias, e uma maioria conservadora na '
-        'Suprema Corte dos Estados Unidos, os comentaristas estão saudando '
-        'isso como o início de uma nova era Conservadora.',
-      ),
-    );
-    expect(
-      prose,
-      contains(
-        'O presidente Ana Silva pediu ao novo Congresso que se mova rápido '
-        'para carimbar sua agenda radical Arqui Conservadora. A esquerda '
-        'parece impotente para impedir esta iminente violação da Sanidade e '
-        'Justiça Liberais.',
-      ),
-    );
-    expect(
-      prose,
-      contains('Neste tempo sombrio, nasce o Esquadrão do Crime Liberal...'),
-    );
-    expect(console.y, lessThan(25));
-    expect(console.x, lessThanOrEqualTo(80));
-  });
+      final prose = _normalizedIntroText();
+      expect(
+        prose,
+        contains(
+          'Seu vice-presidente de extrema-direita Arqui Conservadora, Ricardo Seay, '
+          'aliado próximo dos manifestantes, foi empossado como novo Presidente '
+          'dos Estados Unidos.',
+        ),
+      );
+      expect(
+        prose,
+        contains(
+          'nas recentes eleições intermediárias, e uma maioria conservadora na '
+          'Suprema Corte dos Estados Unidos, os comentaristas estão saudando '
+          'isso como o início de uma nova era Conservadora.',
+        ),
+      );
+      expect(
+        prose,
+        contains(
+          'O presidente Ricardo Seay pediu ao novo Congresso que se mova rápido '
+          'para carimbar sua agenda radical Arqui Conservadora. A esquerda '
+          'parece impotente para impedir esta iminente violação da Sanidade e '
+          'Justiça Liberais.',
+        ),
+      );
+      expect(
+        prose,
+        contains('Neste tempo sombrio, nasce o Esquadrão do Crime Liberal...'),
+      );
+      expect(console.y, lessThan(25));
+      expect(console.x, lessThanOrEqualTo(80));
+    },
+  );
 }

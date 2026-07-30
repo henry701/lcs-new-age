@@ -382,7 +382,7 @@
     },
     {
       "file": "daily/shopsnstuff.dart",
-      "line": 255,
+      "line": 260,
       "text": "\\$$price",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -1162,43 +1162,43 @@
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 251,
+      "line": 253,
       "text": "\\$${(availableOptions[p] as ShopItem).price(false)}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 477,
+      "line": 479,
       "text": "\\$${(availableOptions[i] as ShopItem).price(false)}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 545,
+      "line": 547,
       "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 596,
+      "line": 608,
       "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 713,
+      "line": 725,
       "text": "\\$$fenceamount",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop.dart",
-      "line": 743,
+      "line": 755,
       "text": "\\$$ret",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "sitemode/shop_xml.dart",
-      "line": 83,
+      "line": 86,
       "text": "Invalid shop item in XML: ${xml.toXmlString()}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

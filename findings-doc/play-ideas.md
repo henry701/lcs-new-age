@@ -15,12 +15,16 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   render `Chefe de Polícia`; PT-135 stealth-name and PT-136 hospital activity
   fixes are verified. The direct PT-134 chase warning screen remains
   unreachable in the latest short route and needs one focused replay.
-- PT-138: founder biography choices still use masculine agreement (`travesso`,
-  `obcecado`, `Fui pego`) for the default female founder; decide on neutral or
-  sex-aware wording before treating founder creation as complete.
-- PT-139/PT-140: the Oubliette armour footer says to buy clothes, and the
-  used-car dealer's two status actions collide at a 480×640 viewport. Recheck
-  both after contextual-copy and responsive-row fixes.
+- PT-138 fixed (2026-07-30): founder biography choices now use neutral
+  Portuguese phrasing across the full question set; the focused character
+  creation regression covers all rewritten choices. A rebuilt strict-headless
+  browser route traversed all nine questions and matched the catalog.
+- PT-139/PT-140 fixed (2026-07-30): the Oubliette armour footer now names
+  armadura, and the used-car dealer's status actions are fitted independently
+  at a 480×640 viewport. Recheck after future shop-layout changes.
+- PT-141 fixed (2026-07-30): the conservative-era intro now uses masculine
+  agreement for the generated male vice-president while preserving the
+  requested `extrema-direita Arqui Conservadora` capitalization.
 - Recruitment route: the first profession selector, candidate list, profile,
   political conversation, and response are covered by the latest headless pass;
   continue with a successful recruitment meeting and a conservative target.

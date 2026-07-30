@@ -133,7 +133,7 @@ class ShopItem extends ShopOption {
   }
 }
 
-enum ShopUI { standard, fullscreen, weapons, ammo, clothes }
+enum ShopUI { standard, fullscreen, weapons, ammo, clothes, armor }
 
 class Shop extends ShopOption {
   factory Shop(String id) {
@@ -181,6 +181,8 @@ class Shop extends ShopOption {
         await browseAmmo(customers, buyer);
       case ShopUI.clothes:
         await browseClothes(customers, buyer);
+      case ShopUI.armor:
+        await browseArmor(customers, buyer);
     }
   }
 
@@ -559,7 +561,17 @@ class Shop extends ShopOption {
     );
   }
 
-  Future<void> browseClothes(Squad customers, Creature? buyer) async {
+  Future<void> browseArmor(Squad customers, Creature? buyer) => browseClothes(
+    customers,
+    buyer,
+    footerPrompt: "Press a Letter to buy Armor",
+  );
+
+  Future<void> browseClothes(
+    Squad customers,
+    Creature? buyer, {
+    String footerPrompt = "Press a Letter to buy Clothes",
+  }) async {
     buyer ??= customers.members[0];
     List<ShopOption> availableOptions = options
         .where((o) => o.display())
@@ -568,7 +580,7 @@ class Shop extends ShopOption {
       headerPrompt: "What will {name} buy?",
       headerPromptParams: {"name": buyer.name},
       headerKey: {4: "NAME", 24: "SPECIAL TRAITS (IF ANY)", 59: "PRICE"},
-      footerPrompt: "Press a Letter to buy Clothes",
+      footerPrompt: footerPrompt,
       count: availableOptions.length,
       topY: 9,
       pageSize: 10,

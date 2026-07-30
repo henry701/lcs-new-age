@@ -120,6 +120,49 @@ void main() {
     );
   });
 
+  test('founder biography choices avoid gendered self-description', () {
+    const neutralTranslations = {
+      'I was obsessed with Japanese swords and started lifting weights.':
+          'Eu tinha obsessão por espadas japonesas e comecei a levantar pesos.',
+      'I volunteered for a left-wing candidate.  {pronoun} didn\'t even come close.':
+          'Fiz voluntariado para uma candidatura de esquerda. {pronoun} nem chegou perto de vencer.',
+      'I got caught making out with {person}.  So God hated me for that?':
+          'Me pegaram aos beijos com {person}. Então Deus me odiava por isso?',
+      'I was a daydreamer.  What is, what was, what could be.':
+          'Eu vivia no mundo da lua. O que é, o que foi, o que poderia ser.',
+      'I got caught hacking my grades.  But they made it so fucking easy!':
+          'Me pegaram hackeando minhas notas. Mas deixaram tudo fácil pra caralho!',
+      'a violent gang leader.  Nothing can change me, or stand in my way.':
+          'Eu liderava uma gangue violenta. Nada pode me mudar nem ficar no meu caminho.',
+      'I was mischevious, and always up to something.':
+          'Eu vivia aprontando e sempre inventava alguma coisa.',
+      'I was grounded from electronics.  I spent a lot of time drawing.':
+          'Me proibiram de usar aparelhos eletrônicos. Passei muito tempo desenhando.',
+      'I was the head of the class, and I worked very hard.':
+          'Eu liderava a turma e trabalhava muito.',
+      'I was never punished.  I was good at lying.  Their innocent little angel.':
+          'Nunca recebi castigo. Eu sabia mentir. Para eles, eu era a inocência em pessoa.',
+      'I was locked in my room, where I studied quietly by myself, alone.':
+          'Eu passava o tempo no quarto, estudando em silêncio por conta própria.',
+      'I was the class clown.  I even had some friends.':
+          'Eu era quem fazia a turma rir. Eu até tinha alguns amigos.',
+      'I started robbing houses:  rich people only.  I was fed up with their crap.':
+          'Comecei a roubar casas: só de gente rica. Eu já não aguentava mais aquela merda.',
+      'surviving alone, just like everyone else.  But we can\'t go on like this.':
+          'sobreviver por conta própria, assim como todo mundo. Mas não podemos continuar assim.',
+      'I was unruly and often fought with other children.':
+          'Eu vivia arrumando confusão e frequentemente brigava com outras crianças.',
+      'I tried starting a band.  I had to play all the instruments myself.':
+          'Tentei formar uma banda. Tive que tocar todos os instrumentos por conta própria.',
+      'writing my manifesto and refining my image.  I\'m ready to change the world.':
+          'escrevendo meu manifesto e refinando minha imagem. Estou a postos para mudar o mundo.',
+    };
+
+    for (final entry in neutralTranslations.entries) {
+      expect(LcsI18n.tr(entry.key), entry.value, reason: entry.key);
+    }
+  });
+
   test('long biography options wrap instead of disappearing at the edge', () {
     const option =
         'This biography answer is deliberately long enough to require a second line in the fixed-width console.';
@@ -154,7 +197,7 @@ void main() {
     expect(
       localizedVolunteerCandidateOption(),
       equals(
-        'Trabalhei como voluntário para uma candidatura de esquerda. '
+        'Fiz voluntariado para uma candidatura de esquerda. '
         'Ela nem chegou perto de vencer.',
       ),
     );

@@ -439,6 +439,20 @@ void main() {
       'vice-presidente arqui-conservador, {name}, aliado próximo dos '
       'manifestantes, foi empossado como novo Presidente dos Estados Unidos.',
     );
+
+    const openingKey =
+        'Following a series of violent protests from the far right, '
+        'Conservative President {oldPresident} has resigned in disgrace. '
+        'His hardcore Arch-Conservative Vice President, {president}, a close '
+        'ally of the rioters, has been sworn in as the new President of the '
+        'United States.';
+    expect(
+      catalog[openingKey],
+      'Após uma série de protestos violentos da extrema direita, o presidente '
+      'Conservador {oldPresident} renunciou em desgraça. Seu vice-presidente '
+      'de extrema-direita Arqui Conservadora, {president}, aliado próximo dos '
+      'manifestantes, foi empossado como novo Presidente dos Estados Unidos.',
+    );
   });
 
   test(

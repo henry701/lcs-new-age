@@ -2093,3 +2093,25 @@ headless mode. The roster and `T` talk-target selector both rendered
 The direct `evasiverun` chase screen was not reached before the disposable
 fixture escaped, so PT-134 remains a source-confirmed but route-unverified
 follow-up.
+
+## Founder biography and shop fix replay — 2026-07-30
+
+PT-138 was fixed after auditing every founder biography answer, rather than
+only the four strings visible in the first female-founder replay. Portuguese
+answers now avoid self-descriptive gender agreement (`travesso`, `obcecado`,
+`punido`, `sozinho`, and similar forms) with natural rewrites such as `Eu
+vivia aprontando`, `Me pegaram hackeando minhas notas`, and `por conta
+própria`. The focused character-creation test asserts all rewritten catalog
+entries; the suite passes and canonical ARB validation remains clean. A rebuilt
+strict-headless replay traversed all nine founder questions and matched the
+neutral catalog wording before reaching the Portuguese base screen. The same
+rebuilt pass exposed PT-141 in the opening conservative-era prose: `Ricardo
+Seay` was described with feminine agreement. The catalog now uses masculine
+agreement and has a direct full-string regression assertion; the replayed intro
+rendered `Seu ... aliado ... foi empossado`.
+
+The shop fixes are covered by the rebuilt source and focused route tests: the
+medieval armour footer says `comprar armadura`, and the used-car status cells
+remain separate at 480×640. Evidence from the original strict-headless
+reproductions remains under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/justice-route-sweep/`.

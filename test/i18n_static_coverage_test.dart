@@ -200,6 +200,10 @@ void main() {
       expect(source, contains('"{name} will act with their squad."'));
       expect(source, contains('"{name} will independently study {skill}."'));
       expect(source, contains('activityMessage, noTranslate: true'));
+      expect(source, contains('eraseLine(22);'));
+      expect(source, contains('eraseLine(23);'));
+      expect(source, contains('eraseLine(24);'));
+      expect(source, contains('if (!isTeaching)'));
     });
 
     test('business-front names are complete templates', () {

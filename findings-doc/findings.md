@@ -61,6 +61,9 @@
 | PT-126 | Medium | Newspaper detail | Article impact label `Income Inequality` remains English |
 | PT-127 | Low | Translation/context | Generated country capitals can expose English `Fort` or `Hill` |
 | PT-128 | Medium | Translation/context | Liberal Agenda polling rows use infinitive or singular Portuguese fragments |
+| PT-129 | Medium | Translation/layout | Teaching footer leaks English cost copy and stale activity text |
+| PT-130 | Low | Translation/context | Founder biography translates firearm safety literally |
+| PT-131 | Low | Translation/context | High-score rank keeps an English-style all-caps adjective |
 
 ## PT-001: Save-management option is clipped
 
@@ -1208,7 +1211,7 @@ right-hand descriptor column.
 - Severity: High
 - Type: Missing translation / fixed-width layout
 - Screen: Title → Carregar salvamentos
-- Replay status: **Fixed; awaiting fresh runtime replay after source restart**
+- Replay status: **Fixed and reverified in strict-headless save replay on 2026-07-29**
 
 The save-detail menu exposed `L - Load Game`; broken-save rows also used
 English `Unknown`/`Error` fallbacks. In-game dates such as `18 de Jul de 2026`
@@ -1220,7 +1223,7 @@ Portuguese, and in-game save dates use a compact `18/jul/2026` form.
 - Severity: Medium
 - Type: Fixed-width layout / translation length
 - Screen: Title → Pontuações / universal statistics
-- Replay status: **Fixed; awaiting fresh runtime replay after catalog restart**
+- Replay status: **Fixed and reverified in strict-headless high-score replay on 2026-07-29**
 
 The 20-column statistics cells clipped `Bandeiras Compradas` and
 `Bandeiras Queimadas`; the title overlay also clipped the final year in
@@ -1635,3 +1638,44 @@ Rádio AM Conservador de mau gosto`. These fragments follow a percentage and
 must use plural finite verbs. The catalog now renders idiomatic forms such as
 `defendem mais ações pela igualdade de gênero`, `apoiam a política liberal de
 imigração`, and `querem um sistema de aposentadoria estatal`.
+
+## PT-129: Teaching footer leaked English copy and stale activity text
+
+- Severity: Medium
+- Type: Missing translation / fixed-width rendering
+- Screen: Base mode → Assign Tasks → Teaching Classes → Teach Liberal Arts
+- Replay status: **Fixed on 2026-07-29; strict-headless replay and regression added**
+
+The Portuguese teaching screen previously displayed the raw English cost line
+`Classes cost up to $20/day to conduct. All Liberals able will attend.`. Its
+training detail also overwrote only the beginning of the previous activity
+description, leaving the visible tail `nsinando Artes Liberai` on the same row.
+The footer now clears its three detail rows before drawing and catalogs the
+cost/skill lines in Portuguese. A fresh headless replay rendered
+`Aulas custam até $20/dia. Todas as pessoas liberais aptas participarão.` with
+no English or overlap.
+
+## PT-130: Founder biography translated firearm safety literally
+
+- Severity: Low
+- Type: Contextual translation
+- Screen: Founder creation → biography
+- Replay status: **Fixed on 2026-07-29; catalog regression added**
+
+The sentence `I learned gun safety the hard way` was rendered as
+`Aprendi segurança com armas da maneira difícil`, which is understandable but
+unnatural Brazilian Portuguese. It now reads `Aprendi do jeito difícil a ter
+cuidado com armas`, preserving the idiom and meaning.
+
+## PT-131: High-score rank keeps an English-style all-caps adjective
+
+- Severity: Low
+- Type: Contextual translation / capitalization
+- Screen: Title screen → High Scores
+- Replay status: **Open; confirmed in strict-headless replay on 2026-07-29**
+
+The otherwise Portuguese seeded high-score list renders `A ELITE Liberal`.
+`ELITE` is understandable and preserves the source's emphasis, but the normal
+Brazilian Portuguese noun phrase is `A Elite Liberal`. Decide whether the
+product wants emphasis preserved in all caps or a fully localized title, then
+add a catalog/layout regression for the chosen form.

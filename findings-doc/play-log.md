@@ -1893,8 +1893,11 @@ debug flags were changed. Evidence is retained under
 - Seeded high scores rendered one contextual residual, `A ELITE Liberal`, in
   the otherwise Portuguese high-score overlay (`high-scores-seeded.txt/png`).
   This is not an OCR artifact: the hidden console buffer contains the exact
-  English `ELITE` token. The changelog correctly displayed a Portuguese
-  notice while retaining English-only release notes per product scope.
+  all-caps `ELITE` token. It is understandable and may intentionally preserve
+  the source emphasis, but PT-131 tracks the open decision between `A ELITE
+  Liberal` and the idiomatic `A Elite Liberal`. The changelog correctly
+  displayed a Portuguese notice while retaining English-only release notes per
+  product scope.
 - The male founder route exposed a gender-agreement defect in the high-school
   choice: `e eu me tornei completamente gótica` (`high-school.txt`). The
   source phrase is gender-neutral, so this should avoid feminine agreement or
@@ -1957,3 +1960,39 @@ the follow-up regression also exercised the dynamic capital word list and
 confirmed that `Fort` and `Hill` had no Portuguese values. The catalogs now
 use `Ilhas`, `Forte`, and `Colina` (plus the remaining generated country-title
 forms), and the repeated military-story test rejects the English title token.
+
+## Strict-headless teaching-footer replay — 2026-07-29
+
+This verification used a fresh Flutter web-server on port 7636 and only CLI
+`agent-browser` with `AGENT_BROWSER_HEADED=0` and
+`--headless=new --ozone-platform=headless`. A new Portuguese founder was taken
+through Assign Tasks → Ministrar Aulas → Ensinar Artes Liberais. The fixed
+screen rendered:
+
+```text
+Treina: Escrita, Persuasão, Direito, Religião, Ciência,
+       Negócios, Psicologia, Música e Arte
+Aulas custam até $20/dia. Todas as pessoas liberais aptas participarão.
+```
+
+The previous raw `Classes cost up to` line and stale `nsinando Artes Liberai`
+tail were absent. The browser session was closed after the replay; no headed
+window was used. The route is covered by
+`test/basemode/pt_br_core_vocabulary_test.dart`.
+
+The same fresh founder-creation route also rechecked the biography sentence
+and confirmed the idiomatic `Aprendi do jeito difícil a ter cuidado com armas`.
+
+## Strict-headless save/high-score replay — 2026-07-29
+
+The save/high-score route was replayed against a fresh Flutter web-server on
+port 7633 using CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+`--headless=new --ozone-platform=headless`. Save management rendered
+`Sistema de Gerenciamento de Salvamentos Liberal`, compact dates, Portuguese
+load/delete/export actions, and the correct return footer. Seeded one- and
+five-score stress cases rendered `Vitória mais rápida: Maio/2026`, Portuguese
+flag labels, and all statistics within the 80-column console. Evidence is
+retained under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-scores-replay/`.
+
+This replay reverified PT-046 and PT-047. It also reconfirmed the open PT-131
+capitalization decision `A ELITE Liberal` in the high-score list.

@@ -98,6 +98,10 @@ void main() {
   });
 
   test('context-sensitive UI phrases are idiomatic Brazilian Portuguese', () {
+    expect(
+      catalog['and I went to live with my dad.  I learned gun safety the hard way.'],
+      'e fui morar com meu pai. Aprendi do jeito difícil a ter cuidado com armas.',
+    );
     expect(catalog['decriminalizing'], 'a descriminalização de ');
     expect(catalog['legalizing'], 'a legalização de ');
     expect(catalog['subsidizing'], 'o subsídio de ');

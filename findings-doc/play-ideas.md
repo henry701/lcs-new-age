@@ -6,6 +6,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 
 ## Current residuals to verify after fixes
 
+- PT-131: decide whether the high-score rank should render `A Elite Liberal`
+  instead of the source-emphasis form `A ELITE Liberal`; keep the selected
+  capitalization consistent with the rest of the Portuguese UI.
 - Recruitment route: the first profession selector, candidate list, profile,
   political conversation, and response are covered by the latest headless pass;
   continue with a successful recruitment meeting and a conservative target.
@@ -152,6 +155,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   `Islands` as `Ilhas` rather than exposing an English fragment.
 - PT-128 fixed (2026-07-29): Liberal Agenda opinion-poll fragments now use
   plural finite verbs and natural Portuguese after percentage values.
+- PT-129 fixed (2026-07-29): teaching detail rows clear stale activity text and
+  translate all teaching cost/skill lines; replay the paid-class route after
+  future catalog changes.
+- PT-130 fixed (2026-07-29): founder biography firearm-safety wording now uses
+  idiomatic Brazilian Portuguese rather than a literal noun phrase.
 
 ## Newly prioritized after the 2026-07-26 sweep
 
@@ -171,6 +179,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   (or a real user-assisted picker run) to close the remaining import-validation
   gap; retain a 400×300 high-score screenshot in the narrow-layout regression
   set because its return prompt falls below the viewport.
+- PT-046/PT-047 reverified (2026-07-29): save actions, compact dates, high-score
+  month names, five-score stress rows, and 80-column statistics all stayed
+  Portuguese and within bounds.
 - PT-103 fixed (2026-07-29): translate the dynamic `fortifyText` parameter in
   `invest_in_location.dart`; the W fortification option still exposes
   `Fortify the compound for a siege` in Portuguese mode.

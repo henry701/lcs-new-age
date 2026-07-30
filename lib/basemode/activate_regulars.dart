@@ -911,6 +911,12 @@ Future<void> _selectSkillForEducation(
 }
 
 void _activityFooter(Creature cr) {
+  // The teaching view owns all three detail rows. Clear the previous
+  // activity first so a shorter translated line cannot leave stale text.
+  eraseLine(22);
+  eraseLine(23);
+  eraseLine(24);
+
   final activityMessageTemplate = switch (cr.activity.type) {
     ActivityType.none =>
       "{name} will lay low and tend to any laundry and mending.",
@@ -993,7 +999,9 @@ void _activityFooter(Creature cr) {
     _ => false,
   };
 
-  mvaddstrc(22, 3, lightGray, activityMessage, noTranslate: true);
+  if (!isTeaching) {
+    mvaddstrc(22, 3, lightGray, activityMessage, noTranslate: true);
+  }
 
   if (needsLine23) {
     switch (cr.activity.type) {

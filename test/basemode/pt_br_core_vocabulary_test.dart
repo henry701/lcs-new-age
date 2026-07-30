@@ -328,6 +328,33 @@ void main() {
     }
   });
 
+  test(
+    'Portuguese teaching footer clears stale activity text and localizes costs',
+    () async {
+      final founder = _founder();
+      console.injectKey('t');
+      console.injectKey('1');
+      console.injectKey('Enter');
+
+      await assignTask(founder);
+
+      final rendered = _consoleText();
+      expect(
+        rendered,
+        contains('Treina: Escrita, Persuasão, Direito, Religião, Ciência,'),
+      );
+      expect(rendered, contains('Negócios, Psicologia, Música e Arte'));
+      expect(
+        rendered,
+        contains(
+          r'Aulas custam até $20/dia. Todas as pessoas liberais aptas participarão.',
+        ),
+      );
+      expect(rendered, isNot(contains('Classes cost up to')));
+      expect(rendered, isNot(contains('nsinando Artes Liberai')));
+    },
+  );
+
   test('Portuguese travel localizes shared destination names', () async {
     _founder();
     console.keyEvent(_enterKey);

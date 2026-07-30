@@ -251,7 +251,7 @@
   "{pName} has a \"hot\" date with {dateList} at {location}.": "{pName} tem um encontro \"quente\" com {dateList} em {location}.",
   "{pName} still has more to learn from {eName}.": "{pName} ainda tem mais a aprender com {eName}.",
   "{president} {name}": "{president} {name}.",
-  "{squad} has arrived at {site}.": "{squad} chegou a {site}.",
+  "{squad} has arrived at {site}.": "{squad} chegou ao destino: {site}.",
   "{vehicle} is left behind.": "{vehicle} fica para trás.",
   "{vehicle} tries to force you off the road!": "{vehicle} tenta te jogar da estrada!"
 }

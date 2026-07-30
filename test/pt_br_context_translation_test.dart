@@ -99,6 +99,16 @@ void main() {
 
   test('context-sensitive UI phrases are idiomatic Brazilian Portuguese', () {
     expect(
+      catalog['{squad} has arrived at {site}.'],
+      '{squad} chegou ao destino: {site}.',
+    );
+    expect(catalog['UW Medical'], 'Hospital UW');
+    expect(catalog['SWAT Officer'], 'Policial da SWAT');
+    expect(
+      catalog['{name} is still on your tail!'],
+      '{name} ainda está no seu encalço!',
+    );
+    expect(
       catalog['and I went to live with my dad.  I learned gun safety the hard way.'],
       'e fui morar com meu pai. Aprendi do jeito difícil a ter cuidado com armas.',
     );

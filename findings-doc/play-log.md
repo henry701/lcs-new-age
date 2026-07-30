@@ -1996,3 +1996,40 @@ retained under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-scores-repla
 
 This replay reverified PT-046 and PT-047. It also reconfirmed the open PT-131
 capitalization decision `A ELITE Liberal` in the high-score list.
+
+## Strict-headless U-District hospital route — 2026-07-30
+
+This fresh Portuguese route used only CLI `agent-browser` with
+`AGENT_BROWSER_HEADED=0` and `--headless=new --ozone-platform=headless` against
+disposable Flutter web servers. The route travelled through District
+University to UW Medical and advanced the day; evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/additional-route/`.
+
+- The arrival message exposed the shared-template defect as
+  `O Esquadrão do Crime Liberal chegou a Centro Médico UW.`; the same route
+  also observed the uncontracted forms for `Delegacia de Polícia`, `Fórum`,
+  and `Primeiro Banco Americano`.
+- The hospital header exposed `SEA — UW Médica`, while the full site name was
+  already `Centro Médico UW`. The compact catalog value is now `Hospital UW`.
+- The fixed route renders `O Esquadrão do Crime Liberal chegou ao destino:
+  Centro Médico UW.` and `SEA — Hospital UW`; hospital actions remained
+  Portuguese and within the 80-column console. The post-fix hospital buffer
+  is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/arrival-hospital-fix/hospital-fixed-buffer.txt`.
+
+## Strict-headless police chase replay — 2026-07-30
+
+The deterministic police-alarm fixture was replayed in strict headless mode
+with CLI `agent-browser` (`AGENT_BROWSER_HEADED=0`,
+`--headless=new --ozone-platform=headless`). Evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-alarm-replay/debug-siege/`.
+
+- The police-siege roster and surrender path remained Portuguese, including
+  `Policial da SWAT` and `Armadura da SWAT`, with no stale action-legend tail.
+- The chase branch exposed `SWAT Officer ainda está no seu encalço!` because
+  the warning interpolated the raw creature name. The chase renderer now
+  translates enemy names before interpolation; the catalog regression expects
+  `Policial da SWAT ainda está no seu encalço!`. A post-fix deterministic chase
+  replay remains a follow-up because the disposable debug fixture was closed.
+- The random `Chief of Police` officer variant did not spawn, so PT-064 remains
+  open only for that unverified generated branch.

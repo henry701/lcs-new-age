@@ -951,7 +951,13 @@ Future<void> evasiverun() async {
         3 => "{name} destroys everything in its path to keep up!",
         _ => "{name} plows through a brick wall like it was nothing!",
       };
-      mvaddstrc(9, 1, yellow, tankTemplate, params: {"name": e.name});
+      mvaddstrc(
+        9,
+        1,
+        yellow,
+        tankTemplate,
+        params: {"name": LcsI18n.tr(e.name)},
+      );
 
       await getKey();
     } else if (chaser < yourworst) {
@@ -962,7 +968,7 @@ Future<void> evasiverun() async {
           1,
           lightBlue,
           "{name} tips into a pool. The tank is trapped!",
-          params: {"name": e.name},
+          params: {"name": LcsI18n.tr(e.name)},
         );
       } else {
         mvaddstrc(
@@ -970,7 +976,7 @@ Future<void> evasiverun() async {
           1,
           lightBlue,
           "{name} can't keep up!",
-          params: {"name": e.name},
+          params: {"name": LcsI18n.tr(e.name)},
         );
       }
       encounter.removeAt(i);
@@ -983,7 +989,7 @@ Future<void> evasiverun() async {
         1,
         yellow,
         "{name} is still on your tail!",
-        params: {"name": e.name},
+        params: {"name": LcsI18n.tr(e.name)},
       );
       await getKey();
     }

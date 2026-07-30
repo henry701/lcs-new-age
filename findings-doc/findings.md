@@ -64,6 +64,9 @@
 | PT-129 | Medium | Translation/layout | Teaching footer leaks English cost copy and stale activity text |
 | PT-130 | Low | Translation/context | Founder biography translates firearm safety literally |
 | PT-131 | Low | Translation/context | High-score rank keeps an English-style all-caps adjective |
+| PT-132 | Medium | Translation/context | Arrival template uses the wrong preposition for dynamic site names |
+| PT-133 | Low | Translation/context | Hospital short header renders `UW Médica` as a person-like adjective |
+| PT-134 | Medium | Combat translation | Chase warning interpolates the English `SWAT Officer` name |
 
 ## PT-001: Save-management option is clipped
 
@@ -1679,3 +1682,42 @@ The otherwise Portuguese seeded high-score list renders `A ELITE Liberal`.
 Brazilian Portuguese noun phrase is `A Elite Liberal`. Decide whether the
 product wants emphasis preserved in all caps or a fully localized title, then
 add a catalog/layout regression for the chosen form.
+
+## PT-132: Arrival template used the wrong preposition for dynamic site names
+
+- Severity: Medium
+- Type: Contextual translation
+- Screen: Travel/day advance arrival message
+- Replay status: **Fixed on 2026-07-30; strict-headless replay and catalog regression added**
+
+The generic Portuguese template used `chegou a {site}` for every destination.
+That produced incorrect contractions for the dynamic site names observed in a
+fresh route, including `chegou a Delegacia de Polícia`, `chegou a Fórum`, and
+`chegou a Centro Médico UW`. Because the template receives arbitrary site
+names, it now avoids article-dependent contractions with
+`{squad} chegou ao destino: {site}.`.
+
+## PT-133: Hospital short header rendered `UW Médica`
+
+- Severity: Low
+- Type: Contextual translation
+- Screen: Hospital action screen
+- Replay status: **Fixed on 2026-07-30; strict-headless replay and catalog regression added**
+
+The compact `UW Medical` label was translated as `UW Médica`, which reads as
+an adjective describing a woman rather than the medical institution. The
+compact label now uses `Hospital UW`, while the full site name remains
+`Centro Médico UW`.
+
+## PT-134: Chase warning interpolated the English `SWAT Officer` name
+
+- Severity: Medium
+- Type: Combat translation
+- Screen: Police alarm → car chase → evasive action
+- Replay status: **Fixed on 2026-07-30; strict-headless combat replay identified it and catalog regression added**
+
+The Portuguese police-alarm route localized the siege roster to `Policial da
+SWAT`, but the chase warning bypassed the name translator and displayed
+`SWAT Officer ainda está no seu encalço!`. Chase enemy names now pass through
+the locale helper before interpolation, so the warning will render
+`Policial da SWAT ainda está no seu encalço!` while preserving custom names.

@@ -9,6 +9,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-131: decide whether the high-score rank should render `A Elite Liberal`
   instead of the source-emphasis form `A ELITE Liberal`; keep the selected
   capitalization consistent with the rest of the Portuguese UI.
+- PT-048/PT-064: replay deterministic combat and random police-alarm officer
+  variants; confirm that no English fragments or stale action-legend tails
+  remain. The SWAT chase warning is fixed as PT-134; the random `Chief of
+  Police` variant remains unverified.
 - Recruitment route: the first profession selector, candidate list, profile,
   political conversation, and response are covered by the latest headless pass;
   continue with a successful recruitment meeting and a conservative target.
@@ -160,6 +164,12 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   future catalog changes.
 - PT-130 fixed (2026-07-29): founder biography firearm-safety wording now uses
   idiomatic Brazilian Portuguese rather than a literal noun phrase.
+- PT-132 fixed (2026-07-30): replace the article-dependent arrival preposition
+  with `chegou ao destino: {site}` so every dynamic site name remains grammatical.
+- PT-133 fixed (2026-07-30): rename the compact hospital label from `UW Médica`
+  to `Hospital UW`; the full name remains `Centro Médico UW`.
+- PT-134 fixed (2026-07-30): localize enemy creature names in chase warnings so
+  `SWAT Officer` cannot bypass the Portuguese catalog.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

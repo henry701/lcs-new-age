@@ -1694,13 +1694,13 @@ cuidado com armas`, preserving the idiom and meaning.
 - Severity: Low
 - Type: Contextual translation / capitalization
 - Screen: Title screen → High Scores
-- Replay status: **Open; confirmed in strict-headless replay on 2026-07-29**
+- Replay status: **Fixed on 2026-07-30; strict-headless replay and catalog regression added**
 
-The otherwise Portuguese seeded high-score list renders `A ELITE Liberal`.
-`ELITE` is understandable and preserves the source's emphasis, but the normal
-Brazilian Portuguese noun phrase is `A Elite Liberal`. Decide whether the
-product wants emphasis preserved in all caps or a fully localized title, then
-add a catalog/layout regression for the chosen form.
+The otherwise Portuguese seeded high-score list rendered `A ELITE Liberal`.
+The catalog now uses the natural Brazilian Portuguese noun phrase `A Elite
+Liberal`; the localized layout regression locks that capitalization in place.
+The strict-headless replay reached the seeded high-score screen and displayed
+the corrected heading.
 
 ## PT-132: Arrival template used the wrong preposition for dynamic site names
 

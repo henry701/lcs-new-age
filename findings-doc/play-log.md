@@ -2115,3 +2115,12 @@ medieval armour footer says `comprar armadura`, and the used-car status cells
 remain separate at 480×640. Evidence from the original strict-headless
 reproductions remains under
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/justice-route-sweep/`.
+
+## High-score capitalization replay — 2026-07-30
+
+The rebuilt Portuguese app was replayed strictly headless with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+After selecting `A` → `P`, a disposable seeded score enabled `H - Ver Recordes`.
+The high-score screen displayed `A Elite Liberal`, confirming PT-131's
+capitalization fix in the running UI. Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/high-scores-pt131/high-scores-fixed.txt`.

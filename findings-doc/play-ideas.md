@@ -6,9 +6,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 
 ## Current residuals to verify after fixes
 
-- PT-131: decide whether the high-score rank should render `A Elite Liberal`
-  instead of the source-emphasis form `A ELITE Liberal`; keep the selected
-  capitalization consistent with the rest of the Portuguese UI.
+- PT-131 fixed (2026-07-30): the high-score rank now renders `A Elite Liberal`
+  instead of the source-emphasis form `A ELITE Liberal`. A strict-headless
+  seeded-score replay and localized layout regression verify the final casing.
 - PT-048/PT-064: replay deterministic combat and random police-alarm officer
   variants; confirm that no English fragments or stale action-legend tails
   remain. The forced `Chief of Police` roster and talk-target selector now

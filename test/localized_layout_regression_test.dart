@@ -358,6 +358,10 @@ void main() {
     },
   );
 
+  test('Portuguese high-score heading uses normal noun capitalization', () {
+    expect(LcsI18n.tr('The Liberal ELITE'), equals('A Elite Liberal'));
+  });
+
   test('Portuguese vehicle guidance keeps every line visible', () {
     for (final text in [
       'Note:  Vehicles in yellow have already been selected by another squad.',

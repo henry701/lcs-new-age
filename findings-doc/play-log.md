@@ -2046,9 +2046,12 @@ additional interpolation leaks. Evidence is retained under
   Medical Center por 4 months.` (PT-136).
 
 The stealth and hospital activity call sites now translate these dynamic
-values. The exact post-fix browser replay is queued against the next disposable
-build; focused catalog tests, analyzer, canonical ARB validation, and
-interpolation checks pass locally.
+values. A fresh production strict-headless replay verified both fixes:
+stealth suspicion stayed localized, and the hospital activity line rendered
+`... estará em Centro Médico UW por 3 meses.`. Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-postfix-verify/hospital-after-w.txt`.
+Focused catalog tests, analyzer, canonical ARB validation, and interpolation
+checks also pass locally.
 
 The same disposable strict-headless fixture was forced to spawn the random
 `Chief of Police` branch. The roster rendered `Chefe de Polícia`, but opening

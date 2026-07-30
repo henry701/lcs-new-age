@@ -12,8 +12,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-048/PT-064: replay deterministic combat and random police-alarm officer
   variants; confirm that no English fragments or stale action-legend tails
   remain. The SWAT chase warning is fixed as PT-134; the random `Chief of
-  Police` variant remains unverified. Recheck the PT-134 chase, PT-135
-  stealth-name, and PT-064 talk-target fixes after the next disposable build.
+  Police` variant remains unverified. PT-135 stealth-name and PT-136 hospital
+  activity fixes are verified; recheck the PT-134 chase and PT-064 talk-target
+  fixes after the next disposable build.
 - Recruitment route: the first profession selector, candidate list, profile,
   political conversation, and response are covered by the latest headless pass;
   continue with a successful recruitment meeting and a conservative target.

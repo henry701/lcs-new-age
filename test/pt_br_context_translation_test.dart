@@ -105,6 +105,12 @@ void main() {
     expect(catalog['UW Medical'], 'Hospital UW');
     expect(catalog['SWAT Officer'], 'Policial da SWAT');
     expect(
+      catalog['{name} looks at the Squad suspiciously.'],
+      '{name} olha para o Esquadrão com suspeita.',
+    );
+    expect(catalog['month'], 'mês');
+    expect(catalog['months'], 'meses');
+    expect(
       catalog['{name} is still on your tail!'],
       '{name} ainda está no seu encalço!',
     );
@@ -318,7 +324,7 @@ void main() {
     expect(catalog['Club Security'], 'Segurança de Boate');
     expect(catalog['Naked'], 'Nu');
     expect(catalog['flails at'], 'golpeia');
-    expect(catalog["{name}'s {armor}"], 'o {armor} de {name}');
+    expect(catalog["{name}'s {armor}"], '{armor} de {name}');
     expect(catalog['Overalls'], 'Macacão');
     expect(catalog['Police Uniform'], 'Uniforme Policial');
     expect(catalog['Police Gang Unit'], 'Unidade Policial');
@@ -824,6 +830,7 @@ void main() {
       'Todos os alvos são perigosos demais.',
     );
     expect(catalog['Police Officer'], 'Oficial de Polícia');
+    expect(catalog['Chief of Police'], 'Chefe de Polícia');
     expect(catalog['via video chat.'], 'por videochamada.');
     expect(catalog['questioning'], 'interrogatório');
     expect(catalog['murder'], 'homicídio');

@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/siege.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -50,7 +51,7 @@ Future<void> noticeCheck({
       final template = e.align == Alignment.conservative
           ? "{name} observes your Liberal activity and lets forth a piercing Conservative alarm cry!"
           : "{name} observes your Liberal activity and shouts for help!";
-      mvaddstrc(9, 1, red, template, params: {"name": e.name});
+      mvaddstrc(9, 1, red, template, params: {"name": LcsI18n.tr(e.name)});
 
       siteAlarm = true;
 
@@ -359,7 +360,7 @@ Future<void> disguisecheck(int timer) async {
           1,
           red,
           "{name} shouts in alarm at the squad's Liberal Trespassing!",
-          params: {"name": n.name},
+          params: {"name": LcsI18n.tr(n.name)},
         );
       } else {
         mvaddstrc(
@@ -367,7 +368,7 @@ Future<void> disguisecheck(int timer) async {
           1,
           red,
           "{name} looks at the Squad suspiciously.",
-          params: {"name": n.name},
+          params: {"name": LcsI18n.tr(n.name)},
         );
 
         int time;
@@ -404,7 +405,7 @@ Future<void> disguisecheck(int timer) async {
           "{name} looks at the Squad with Intolerance and lets forth a piercing Conservative alarm cry!",
         _ => "{name} looks at the Squad with Intolerance and shouts for help!",
       };
-      mvaddstrc(9, 1, red, template, params: {"name": n.name});
+      mvaddstrc(9, 1, red, template, params: {"name": LcsI18n.tr(n.name)});
 
       siteAlarm = true;
     }

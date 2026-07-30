@@ -1451,11 +1451,24 @@ traits, or price metadata, preventing strings such as `Taco de beisebolN/D`.
 - Replay status: **Partially resolved on 2026-07-29; deterministic alarm replay clean, random officer variant still unverified**
 
 The earlier route exposed a generated `Chief of Police` officer and appeared
-to retain a stale `Saque no chão!` legend fragment. The catalog now maps
-`Chief of Police` to `Chefe de Polícia`, and the deterministic siege replay
-rendered Portuguese police/armor labels with no stale legend tail. The random
-officer variant did not spawn in the latest fixture, so keep this as a narrow
-coverage residual until that generated branch is replayed explicitly.
+to retain a stale `Saque no chão!` legend fragment. The catalog maps
+`Chief of Police` to `Chefe de Polícia`, and the forced-chief fixture confirmed
+the roster path. It then exposed a second bypass in the `T` talk-target list:
+`A – Chief of Police (40s, Masculino)`. Talk-target labels and refusal messages
+now translate encounter names before interpolation. A post-fix forced-chief
+replay remains queued; the stale legend itself is already clean.
+
+## PT-137: Combat armor target used a gendered article before dynamic armor names
+
+- Severity: Medium
+- Type: Combat translation / grammar
+- Screen: Police alarm → combat hit message
+- Replay status: **Fixed on 2026-07-30; strict-headless replay and catalog regression added**
+
+The hit message rendered `Unidade Policial acerta o armadura de couro de Dale
+HayashiAAAA.`. Because the armor name is dynamic and can be masculine or
+feminine, the Portuguese template now omits the incompatible article:
+`Unidade Policial acerta armadura de couro de Dale HayashiAAAA.`.
 
 ## PT-065: Direct Action help overlay remains in English
 
@@ -1721,3 +1734,29 @@ SWAT`, but the chase warning bypassed the name translator and displayed
 `SWAT Officer ainda está no seu encalço!`. Chase enemy names now pass through
 the locale helper before interpolation, so the warning will render
 `Policial da SWAT ainda está no seu encalço!` while preserving custom names.
+
+## PT-135: Stealth alarm interpolated the English `Police Officer` name
+
+- Severity: Medium
+- Type: Runtime interpolation / missing translation
+- Screen: Police route → stealth detection alarm
+- Replay status: **Fixed on 2026-07-30; strict-headless replay and catalog regression added**
+
+The police route localized the roster to `Oficial de Polícia`, but the stealth
+detection message bypassed the translator and rendered
+`Police Officer olha para o Esquadrão com suspeita.`. Stealth alarm paths now
+translate encounter creature names before interpolation, preserving generated
+proper names while localizing catalog-backed roles.
+
+## PT-136: Hospital activity line leaked the site name and English plural
+
+- Severity: Medium
+- Type: Runtime interpolation / missing translation
+- Screen: Base mode → hospitalized Liberal activity
+- Replay status: **Fixed on 2026-07-30; strict-headless replay and catalog regression added**
+
+After fleeing a police alarm, the base activity line rendered
+`... estará em UW Medical Center por 4 months.`. The activity renderer now
+translates the dynamic site name and the `month`/`months` period token before
+filling the Portuguese template, yielding `... estará em Centro Médico UW por
+4 meses.`.

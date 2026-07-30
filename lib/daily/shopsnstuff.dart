@@ -97,9 +97,9 @@ Future<void> hospitalize(Site loc, Creature patient) async {
       "{patient} will be at {location} for {time} {period}.",
       params: {
         "patient": patient.name,
-        "location": loc.name,
+        "location": LcsI18n.tr(loc.name),
         "time": time,
-        "period": time > 1 ? "months" : "month",
+        "period": LcsI18n.tr(time > 1 ? "months" : "month"),
       },
     );
 

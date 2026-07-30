@@ -226,7 +226,7 @@
   "{name}'s nose is cut off!": "o nariz de {name} é cortado!",
   "{name}'s relevant skills: ": "habilidades relevantes de {name}: ",
   "{name}'s smooth synthetic voice and seductive word choice": "a voz sintética suave e a escolha sedutora de palavras de {name}",
-  "{name}'s {armor}": "o {armor} de {name}",
+  "{name}'s {armor}": "{armor} de {name}",
   "{squad} couldn't use the {vehicle}.": "{squad} não pôde usar o {vehicle}.",
   "{subject} was vomiting blood": "{subject} vomitasse sangue",
   "{teethminus} of {name}'s teeth are knocked out!": "{teethminus} dentes de {name} foram derrubados!",

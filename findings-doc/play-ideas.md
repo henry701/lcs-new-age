@@ -12,7 +12,8 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-048/PT-064: replay deterministic combat and random police-alarm officer
   variants; confirm that no English fragments or stale action-legend tails
   remain. The SWAT chase warning is fixed as PT-134; the random `Chief of
-  Police` variant remains unverified.
+  Police` variant remains unverified. Recheck the PT-134 chase, PT-135
+  stealth-name, and PT-064 talk-target fixes after the next disposable build.
 - Recruitment route: the first profession selector, candidate list, profile,
   political conversation, and response are covered by the latest headless pass;
   continue with a successful recruitment meeting and a conservative target.
@@ -170,6 +171,12 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   to `Hospital UW`; the full name remains `Centro Médico UW`.
 - PT-134 fixed (2026-07-30): localize enemy creature names in chase warnings so
   `SWAT Officer` cannot bypass the Portuguese catalog.
+- PT-135 fixed (2026-07-30): localize encounter creature names in stealth alarm
+  messages so `Police Officer` cannot bypass the Portuguese catalog.
+- PT-136 fixed (2026-07-30): localize hospital activity site names and the
+  `month`/`months` period token before rendering the base activity line.
+- PT-137 fixed (2026-07-30): remove the gendered `o` article from the dynamic
+  armor target template so `armadura` and `colete` both agree naturally.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

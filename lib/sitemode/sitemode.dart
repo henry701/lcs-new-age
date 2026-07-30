@@ -704,7 +704,7 @@ Future<void> _siteModeAux() async {
                     "{letter} - {name} {ageGender}",
                     params: {
                       "letter": letter,
-                      "name": t.name,
+                      "name": LcsI18n.tr(t.name),
                       "ageGender": ageGender,
                     },
                     baseColorKey: ColorKey.fromColor(t.align.color),
@@ -732,7 +732,9 @@ Future<void> _siteModeAux() async {
                           1,
                           white,
                           "{name} won't talk to you.",
-                          params: {"name": encounter[tk].name},
+                          params: {
+                            "name": LcsI18n.tr(encounter[tk].name),
+                          },
                         );
 
                         await getKey();

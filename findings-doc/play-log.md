@@ -2033,3 +2033,32 @@ with CLI `agent-browser` (`AGENT_BROWSER_HEADED=0`,
   replay remains a follow-up because the disposable debug fixture was closed.
 - The random `Chief of Police` officer variant did not spawn, so PT-064 remains
   open only for that unverified generated branch.
+
+## Strict-headless police stealth and hospital-activity replay — 2026-07-30
+
+Fresh Portuguese police-route replay in strict headless mode exposed two
+additional interpolation leaks. Evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-postfix-verify/`.
+
+- Stealth detection rendered `Police Officer olha para o Esquadrão com
+  suspeita.` even though the roster displayed `Oficial de Polícia` (PT-135).
+- After fleeing the alarm, the base activity line rendered `... estará em UW
+  Medical Center por 4 months.` (PT-136).
+
+The stealth and hospital activity call sites now translate these dynamic
+values. The exact post-fix browser replay is queued against the next disposable
+build; focused catalog tests, analyzer, canonical ARB validation, and
+interpolation checks pass locally.
+
+The same disposable strict-headless fixture was forced to spawn the random
+`Chief of Police` branch. The roster rendered `Chefe de Polícia`, but opening
+the `T` talk-target selector exposed `A – Chief of Police (40s, Masculino)`.
+The target-list and refusal-message call sites now translate encounter names;
+post-fix forced-chief replay remains queued. Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-postfix-verify/chief-fixture-talkprompt.txt`.
+
+The post-fix suspicion replay also exposed a combat grammar defect: the dynamic
+armor target was rendered as `o armadura de couro de Dale HayashiAAAA.`. The
+catalog template now uses article-free `armadura de couro de {name}` wording;
+the focused context test covers the corrected template. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-postfix-verify/postfix2-suspicion.txt`.

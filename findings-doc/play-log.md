@@ -2124,3 +2124,14 @@ After selecting `A` → `P`, a disposable seeded score enabled `H - Ver Recordes
 The high-score screen displayed `A Elite Liberal`, confirming PT-131's
 capitalization fix in the running UI. Evidence is retained at
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/high-scores-pt131/high-scores-fixed.txt`.
+
+## Options and changelog replay — 2026-07-30
+
+The same strict-headless Portuguese route opened `O - Opções de Jogo`, then
+both interface and content/tone submenus. Their labels, toggles, explanatory
+paragraphs, and return actions remained localized and inside the console frame.
+`V - Ver registro de alterações` opened the modal changelog; its Portuguese
+title and English-only notice were readable, and repeated ArrowDown input
+advanced the scroll position without clipping the modal frame. Captures are
+retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/options-route/`.

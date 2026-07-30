@@ -11,10 +11,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   capitalization consistent with the rest of the Portuguese UI.
 - PT-048/PT-064: replay deterministic combat and random police-alarm officer
   variants; confirm that no English fragments or stale action-legend tails
-  remain. The SWAT chase warning is fixed as PT-134; the random `Chief of
-  Police` variant remains unverified. PT-135 stealth-name and PT-136 hospital
-  activity fixes are verified; recheck the PT-134 chase and PT-064 talk-target
-  fixes after the next disposable build.
+  remain. The forced `Chief of Police` roster and talk-target selector now
+  render `Chefe de Polícia`; PT-135 stealth-name and PT-136 hospital activity
+  fixes are verified. The direct PT-134 chase warning screen remains
+  unreachable in the latest short route and needs one focused replay.
 - PT-138: founder biography choices still use masculine agreement (`travesso`,
   `obcecado`, `Fui pego`) for the default female founder; decide on neutral or
   sex-aware wording before treating founder creation as complete.

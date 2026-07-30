@@ -1451,15 +1451,17 @@ traits, or price metadata, preventing strings such as `Taco de beisebolN/D`.
 - Severity: Medium
 - Type: Combat translation/redraw
 - Screen: Site mode → police alarm combat
-- Replay status: **Partially resolved on 2026-07-29; deterministic alarm replay clean, random officer variant still unverified**
+- Replay status: **Partially resolved on 2026-07-30; forced-chief talk-target replay clean, chase-specific screen still unverified**
 
 The earlier route exposed a generated `Chief of Police` officer and appeared
 to retain a stale `Saque no chão!` legend fragment. The catalog maps
 `Chief of Police` to `Chefe de Polícia`, and the forced-chief fixture confirmed
 the roster path. It then exposed a second bypass in the `T` talk-target list:
 `A – Chief of Police (40s, Masculino)`. Talk-target labels and refusal messages
-now translate encounter names before interpolation. A post-fix forced-chief
-replay remains queued; the stale legend itself is already clean.
+now translate encounter names before interpolation. A strict-headless forced-chief
+replay confirmed both the roster and talk-target selector as `Chefe de Polícia`;
+the stale legend itself is already clean. The chase-specific evasive-run screen
+was not reachable in that short route, so PT-134 still needs one direct replay.
 
 ## PT-137: Combat armor target used a gendered article before dynamic armor names
 

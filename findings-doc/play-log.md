@@ -2083,3 +2083,13 @@ confirmed PT-139 (`Pressione uma letra para comprar roupas` on the medieval
 armour list) and PT-140 (used-car status actions overwrite and clip each other).
 The route report and captures are retained under
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/justice-route-sweep/`.
+
+## Strict-headless combat post-fix verification — 2026-07-30
+
+The forced `Chief of Police` fixture was rebuilt and replayed in strict
+headless mode. The roster and `T` talk-target selector both rendered
+`Chefe de Polícia`; evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-postfix-verify/chief-postfix-talk.txt`.
+The direct `evasiverun` chase screen was not reached before the disposable
+fixture escaped, so PT-134 remains a source-confirmed but route-unverified
+follow-up.

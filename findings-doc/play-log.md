@@ -2195,3 +2195,24 @@ Evidence is retained under
 `car-screen-finalfix2.png`, `foot-screen-finalfix2.png`, and
 `evasive-warning-finalfix.png`. PT-064 and PT-134 are now marked fixed and
 verified; PT-048's broader deterministic combat/alarm sweep remains open.
+
+## Strict-headless siege, roster, and high-pressure replay — 2026-08-01
+
+The rebuilt local web app was replayed only through the CLI `agent-browser`
+with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless`. No headed browser was launched or
+left running.
+
+The Portuguese new-game route reached the base roster, a four-digit-pressure
+district list, the police alarm, the loudspeaker surrender announcement, and
+the siege combat screen. The fixed roster now reads `HABIL.—ARMA` and keeps a
+space between `796/…` and `M7`. The high-pressure list stayed separated as
+`Pressão: 1000 Sigilo: 15`; the previous `Pressão: 9000Sigilo: 15` collision is
+covered by the heat-9000 regression. The siege briefing rendered
+`... acabar com o cerco ao seu esconderijo`, and the combat roster and hit /
+injury messages used `Policial da SWAT` rather than `SWAT Officer`.
+
+The seeded squad won before a randomized terminal death/final-words template
+was selected. PT-048 therefore remains an explicit follow-up for deterministic
+injury, surrender, arrest, post-fight, and death-variant coverage; the source
+interpolation audit and catalog additions are tracked as PT-148.

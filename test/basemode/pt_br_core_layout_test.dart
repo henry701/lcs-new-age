@@ -13,6 +13,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/items/weapon.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 
 import '../test_support.dart';
@@ -186,6 +187,23 @@ void main() {
 
     expect(_consoleCells(2, 59, 70), isNot(contains('Esportivo')));
     expect(_consoleCells(2, 70, 80), isNot(contains('Esportivo')));
+  });
+
+  test('Portuguese party roster keeps skill and weapon cells separated', () {
+    final liberal = _activeLiberal()..equippedWeapon = Weapon('WEAPON_M7');
+    pool.add(liberal);
+    final squad = Squad()..members.add(liberal);
+    squads.add(squad);
+    activeSquad = squad;
+
+    printParty(fullParty: true);
+
+    expect(_consoleCells(1, 23, 30), startsWith('HABIL.'));
+    expect(_consoleCells(1, 29, 30), equals(emDash));
+    expect(_consoleCells(1, 30, 44), startsWith('ARMA'));
+    expect(_consoleCells(2, 23, 24), equals(' '));
+    expect(_consoleCells(2, 29, 30), equals(' '));
+    expect(_consoleCells(2, 30, 44).trim(), isNotEmpty);
   });
 
   test('Portuguese character details respect field and skill budgets', () {

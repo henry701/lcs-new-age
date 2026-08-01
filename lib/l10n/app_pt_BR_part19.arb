@@ -184,6 +184,7 @@
   "{month} {year}": "{month} de {year}",
   "{name} can't sleep for days.": "{name} não consegue dormir por dias.",
   "{name} cries out one last time then is quiet.": "{name} grita uma última vez e depois fica quieto.",
+  "{name} gasps a last breath and [makes a mess].": "{name} dá o último suspiro e suja o chão.",
   "{name} grips the {weapon} and struggles to {possessive} {limb}": "{name} segura a {weapon} e luta para mover {possessive} {limb}",
   "{name} is due to be executed next month.": "A execução de {name} está marcada para o próximo mês.",
   "{name} is forced to operate dangerous machinery in prison.": "{name} é forçado a operar maquinário perigoso na prisão.",

@@ -183,6 +183,7 @@
   "{month} {year}": "{month} {year}",
   "{name} can't sleep for days.": "{name} can't sleep for days.",
   "{name} cries out one last time then is quiet.": "{name} cries out one last time then is quiet.",
+  "{name} gasps a last breath and [makes a mess].": "{name} gasps a last breath and [makes a mess].",
   "{name} grips the {weapon} and struggles to {possessive} {limb}": "{name} grips the {weapon} and struggles to {possessive} {limb}",
   "{name} is due to be executed next month.": "{name} is due to be executed next month.",
   "{name} is forced to operate dangerous machinery in prison.": "{name} is forced to operate dangerous machinery in prison.",

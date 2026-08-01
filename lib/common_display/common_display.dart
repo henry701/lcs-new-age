@@ -44,6 +44,12 @@ abstract final class ManagementTableLayout {
   static const int consoleWidth = 80;
   static const int nameX = 0;
   static const int nameWidth = 23;
+  // Party roster headers start one cell before the five-cell skill summary so
+  // the translated label fits; the boundary cell before the weapon column is
+  // reserved as a visible separator.
+  static const int partySkillHeaderX = 23;
+  static const int partySkillX = 24;
+  static const int partyWeaponX = 30;
   static const int skillX = 24;
   static const int skillWidth = 7;
   static const int healthX = 32;

@@ -31,6 +31,11 @@ String _consoleText() => console.buffer
     .map((row) => row.map((character) => character.glyph).join().trimRight())
     .join('\n');
 
+String _consoleCells(int y, int start, int end) => console.buffer[y]
+    .sublist(start, end)
+    .map((character) => character.glyph)
+    .join();
+
 KeyDownEvent get _enterKey => const KeyDownEvent(
   physicalKey: PhysicalKeyboardKey.enter,
   logicalKey: LogicalKeyboardKey.enter,
@@ -147,11 +152,11 @@ void main() {
       expect(nameCell, isNot(contains('24/0')));
       expect(nameCell.trimRight(), endsWith('…'));
       expect(
-        console.buffer[2][ManagementTableLayout.skillX].glyph,
+        console.buffer[2][ManagementTableLayout.partySkillX].glyph,
         equals('1'),
       );
       expect(
-        console.buffer[2][ManagementTableLayout.skillX - 1].glyph,
+        console.buffer[2][ManagementTableLayout.partySkillX - 1].glyph,
         equals(' '),
       );
       expect(console.buffer[2][69].glyph, equals(' '));
@@ -167,9 +172,9 @@ void main() {
 
     printParty(fullParty: true);
 
-    expect(console.buffer[2][29].glyph, equals('N'));
+    expect(console.buffer[2][30].glyph, equals('N'));
     expect(
-      console.buffer[2].sublist(23, 29).map((c) => c.glyph).join(),
+      console.buffer[2].sublist(23, 30).map((c) => c.glyph).join(),
       isNot(contains('Nenhuma')),
     );
   });
@@ -380,6 +385,36 @@ void main() {
     ]) {
       expect(rendered, isNot(contains(leakedEnglish)));
     }
+  });
+
+  test('Portuguese site travel stats keep a separator at high heat', () async {
+    final founder = _founder();
+    final warehouse = sites.firstWhere(
+      (site) => site.type == SiteType.warehouse,
+    )..heat = 9000;
+    founder.location = warehouse;
+    founder.base = warehouse;
+    activeSafehouse = warehouse;
+
+    final city = warehouse.city;
+    final district = warehouse.district;
+    final districtKey = String.fromCharCode(
+      'a'.codeUnitAt(0) + city.districts.indexOf(district),
+    );
+    final visibleSites = district.sites.where((site) => !site.hidden).toList()
+      ..sort((a, b) => a.controller.index.compareTo(b.controller.index));
+    final siteKey = String.fromCharCode(
+      'a'.codeUnitAt(0) + visibleSites.indexOf(warehouse),
+    );
+    console.injectKey(districtKey);
+    console.injectKey(siteKey);
+
+    await planSiteVisit();
+
+    final row = 10 + visibleSites.indexOf(warehouse);
+    expect(_consoleCells(row, 60, 68), contains('9000'));
+    expect(_consoleCells(row, 67, 68), equals(' '));
+    expect(_consoleCells(row, 68, 80), startsWith('Sigilo:'));
   });
 
   test('Portuguese locations localize city names in composite labels', () {

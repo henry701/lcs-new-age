@@ -118,7 +118,7 @@
     },
     {
       "file": "basemode/plan_site_visit.dart",
-      "line": 137,
+      "line": 141,
       "text": "\\$$ticketPrice",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -178,13 +178,13 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 263,
+      "line": 269,
       "text": "\\$${ledger.funds}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 386,
+      "line": 392,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },
@@ -1084,61 +1084,61 @@
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 815,
+      "line": 830,
       "text": "${a.name} rolls $aroll + $bonus, ${t.name} rolls $droll",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1111,
+      "line": 1129,
       "text": "Damage mod: $mod, damage before application: $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1115,
+      "line": 1133,
       "text": "Damage reduced to $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1118,
+      "line": 1136,
       "text": "Damage increased to $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1145,
+      "line": 1163,
       "text": "Random: $random, fixed: $fixed, hits: $bursthits",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1146,
+      "line": 1164,
       "text": "Initial damage roll: $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1238,
+      "line": 1256,
       "text": "Final damage after hit location effects: $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1246,
+      "line": 1264,
       "text": "Target blood before hit: ${target.blood}/${target.maxBlood}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1248,
+      "line": 1266,
       "text": "Target blood after hit: ${target.blood}/${target.maxBlood}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 2039,
+      "line": 2063,
       "text": "Making loot for ${cr.name} into $lootPile",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

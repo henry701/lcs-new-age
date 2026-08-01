@@ -246,7 +246,10 @@ Future<bool> enemyMemberAttacks(
         1,
         white,
         "{name} {escape}",
-        params: {"name": e.name, "escape": LcsI18n.tr(escapeAction)},
+        params: {
+          "name": localizedCreatureName(e),
+          "escape": LcsI18n.tr(escapeAction),
+        },
       );
 
       encounter.remove(e);
@@ -269,7 +272,10 @@ Future<bool> enemyMemberAttacks(
           1,
           white,
           "{name} {cower}",
-          params: {"name": e.name, "cower": LcsI18n.tr(cowerInCombat.random)},
+          params: {
+            "name": localizedCreatureName(e),
+            "cower": LcsI18n.tr(cowerInCombat.random),
+          },
         );
         await getKey();
       }
@@ -337,14 +343,17 @@ Future<bool> enemyMemberAttacks(
             await encounterMessage(
               "{attacker} drops {body}",
               params: {
-                "attacker": target.name,
+                "attacker": localizedCreatureName(target),
                 "body": LcsI18n.tr("the bloody mess"),
               },
             );
           } else {
             await encounterMessage(
               "{name} drops {prisonerName}'s body.",
-              params: {"name": target.name, "prisonerName": prisoner.name},
+              params: {
+                "name": localizedCreatureName(target),
+                "prisonerName": localizedCreatureName(prisoner),
+              },
             );
           }
           target.prisoner = null;
@@ -469,11 +478,14 @@ Future<bool> attack(
       a.readyAnotherThrowingWeapon();
       addstr(
         "{name} readies another {weapon}.",
-        params: {"name": a.name, "weapon": a.weapon.getName()},
+        params: {
+          "name": localizedCreatureName(a),
+          "weapon": a.weapon.getName(),
+        },
       );
     } else {
       a.reload(true);
-      addstr("{name} reloads.", params: {"name": a.name});
+      addstr("{name} reloads.", params: {"name": localizedCreatureName(a)});
     }
 
     printParty();
@@ -797,7 +809,10 @@ Future<bool> attack(
           1,
           lightGreen,
           shieldMessage,
-          params: {"name1": alternate.name, "name2": t.name},
+          params: {
+            "name1": localizedCreatureName(alternate),
+            "name2": localizedCreatureName(t),
+          },
           noTranslate: true,
         );
 
@@ -1055,7 +1070,10 @@ Future<bool> attack(
         ].random;
         addstr(
           "{name}'s shot {result}",
-          params: {"name": a.name, "result": LcsI18n.tr(carChaseResult)},
+          params: {
+            "name": localizedCreatureName(a),
+            "result": LcsI18n.tr(carChaseResult),
+          },
         );
       } else if (t.skillCheck(
         Skill.dodge,
@@ -1077,7 +1095,7 @@ Future<bool> attack(
           },
         );
       } else {
-        addstr("{name} misses.", params: {"name": a.name});
+        addstr("{name} misses.", params: {"name": localizedCreatureName(a)});
       }
 
       printParty();
@@ -1948,7 +1966,7 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
       }
     }
   } else {
-    addstr("{name} misses.", params: {"name": a.name});
+    addstr("{name} misses.", params: {"name": localizedCreatureName(a)});
   }
 
   printParty();
@@ -1973,7 +1991,10 @@ Future<void> severloot(Creature cr, List<Item> loot) async {
       1,
       yellow,
       "The {weapon} slips from {name}'s grasp.",
-      params: {"weapon": cr.weapon.getName(), "name": cr.name},
+      params: {
+        "weapon": cr.weapon.getName(),
+        "name": localizedCreatureName(cr),
+      },
     );
 
     await getKey();
@@ -1999,7 +2020,10 @@ Future<void> severloot(Creature cr, List<Item> loot) async {
       1,
       yellow,
       "{name}'s {clothing} has been destroyed.",
-      params: {"name": cr.name, "clothing": cr.clothing.shortName},
+      params: {
+        "name": localizedCreatureName(cr),
+        "clothing": cr.clothing.shortName,
+      },
     );
 
     await getKey();
@@ -2063,7 +2087,7 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
           white,
           "The {name} {reaction}",
           params: {
-            "name": a.name,
+            "name": localizedCreatureName(a),
             "reaction": LcsI18n.tr(
               ["smokes...", "smolders.", "burns..."].random,
             ),
@@ -2089,7 +2113,7 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
           1,
           white,
           "The {name} {reaction}",
-          params: {"name": a.name, "reaction": reaction},
+          params: {"name": localizedCreatureName(a), "reaction": reaction},
         );
 
         printed = true;
@@ -2190,7 +2214,7 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
           1,
           white,
           "The {name} {reaction}",
-          params: {"name": a.name, "reaction": reaction},
+          params: {"name": localizedCreatureName(a), "reaction": reaction},
         );
 
         printed = true;
@@ -2218,7 +2242,7 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
         1,
         white,
         "{name} {reaction}",
-        params: {"name": a.name, "reaction": reaction},
+        params: {"name": localizedCreatureName(a), "reaction": reaction},
       );
 
       printed = true;
@@ -2239,7 +2263,7 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
         1,
         white,
         "{name} {reaction}",
-        params: {"name": a.name, "reaction": reaction},
+        params: {"name": localizedCreatureName(a), "reaction": reaction},
       );
 
       printed = true;
@@ -2302,7 +2326,7 @@ void addDeathMessage(Creature cr) {
     ].random;
     addstr(
       LcsI18n.processString("{name} {deathMessage}", {
-        "name": cr.name,
+        "name": localizedCreatureName(cr),
         "deathMessage": LcsI18n.tr(deathMessage),
       }),
     );
@@ -2332,13 +2356,13 @@ void addDeathMessage(Creature cr) {
             : "{name} squirts blood out of the neck and falls to the side.",
       _ => "{name} sucks a last breath through the neck hole, then is quiet.",
     };
-    addstr(message, params: {"name": cr.name});
+    addstr(message, params: {"name": localizedCreatureName(cr)});
   } else if (body?.missing == true) {
     final message = switch (lcsRandom(2)) {
       0 => "{name} breaks into pieces.",
       _ => "{name} falls apart and is dead.",
     };
-    addstr(message, params: {"name": cr.name});
+    addstr(message, params: {"name": localizedCreatureName(cr)});
   } else if (cr.blood < cr.maxBlood * -2) {
     final message = switch (lcsRandom(8)) {
       0 => "{name} is dead before {hisHer} body hits the ground.",
@@ -2353,7 +2377,7 @@ void addDeathMessage(Creature cr) {
     addstr(
       message,
       params: {
-        "name": cr.name,
+        "name": localizedCreatureName(cr),
         "hisHer": LcsI18n.tr(cr.gender.hisHer),
         "himHer": LcsI18n.tr(cr.gender.himHer),
       },
@@ -2387,7 +2411,10 @@ void addDeathMessage(Creature cr) {
             : "{name} speaks these final words: \"Better dead than liberal...\"",
       _ => "{name} is gone.", // Fallback (lcsRandom(11) returns 0-10)
     };
-    addstr(line1, params: {"name": cr.name, "slogan": slogan});
+    addstr(
+      line1,
+      params: {"name": localizedCreatureName(cr), "slogan": slogan},
+    );
   }
 }
 

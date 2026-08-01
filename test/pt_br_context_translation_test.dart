@@ -334,6 +334,10 @@ void main() {
       'Unidade Policial',
     );
     expect(
+      localizedCreatureNameValue('SWAT Officer', 'SWAT Officer'),
+      'Policial da SWAT',
+    );
+    expect(
       localizedCreatureNameValue('College Student', 'College Student'),
       'Estudante Universitário',
     );
@@ -349,6 +353,14 @@ void main() {
     );
     expect(catalog['he'], 'ele');
     expect(catalog['she'], 'ela');
+    expect(
+      catalog['You are about to exit the compound to lift the Conservative'],
+      'Você está prestes a sair do complexo para acabar com o',
+    );
+    expect(
+      catalog['+2 Martial Arts, +1 Strength, Katana and Wakizashi'],
+      '+2 Artes Marciais, +1 Força, Katana e Wakizashi',
+    );
   });
 
   test('plural tooth injuries use complete Portuguese templates', () {
@@ -1823,5 +1835,24 @@ void main() {
       catalog["{name} notices before the attack connects!"],
       '{name} percebe antes de o ataque acertar!',
     );
+    const expected = {
+      '{name} gasps a last breath and [makes a mess].':
+          '{name} dá o último suspiro e suja o chão.',
+      '{name} gasps a last breath and soils the floor.':
+          '{name} dá o último suspiro e suja o chão.',
+      '{name} speaks these final words: {slogan}':
+          '{name} profere suas últimas palavras: {slogan}',
+      '{name} speaks these final words: "A plague on both your houses..."':
+          '{name} profere suas últimas palavras: "Uma praga sobre as duas casas..."',
+      '{name} speaks these final words: "Better dead than liberal..."':
+          '{name} profere suas últimas palavras: "Melhor morrer do que ser liberal..."',
+      '{name} sweats profusely, murmurs something [good] about Jesus, and dies.':
+          '{name} sua muito, murmura algo positivo sobre Jesus e morre.',
+      '{name} sweats profusely, murmurs something about Jesus, and dies.':
+          '{name} sua muito, murmura algo sobre Jesus e morre.',
+    };
+    for (final entry in expected.entries) {
+      expect(catalog[entry.key], entry.value, reason: entry.key);
+    }
   });
 }

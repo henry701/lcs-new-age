@@ -258,7 +258,8 @@ void main() {
     expect(_consoleLine(0), equals('Equipar a Equipe'));
     expect(_consoleCells(1, 2, 23), startsWith('NOME DE CÓDIGO'));
     expect(_consoleCells(1, 23, 29), startsWith('HABIL.'));
-    expect(_consoleCells(1, 29, 44), startsWith('ARMA'));
+    expect(_consoleCells(1, 29, 30), equals('—'));
+    expect(_consoleCells(1, 30, 44), startsWith('ARMA'));
     expect(_consoleCells(1, 44, 59), startsWith('ROUPA'));
     expect(_consoleCells(2, 29, 44).trim(), startsWith('Rev. .22'));
     expect(_consoleCells(2, 44, 59).trim(), equals('Gola alta preta'));

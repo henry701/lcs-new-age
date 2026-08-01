@@ -22,8 +22,8 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
     addHeader({
       0: "#",
       2: "CODE NAME",
-      23: "SKILL",
-      29: "WEAPON",
+      ManagementTableLayout.partySkillHeaderX: "SKILL",
+      ManagementTableLayout.partyWeaponX: "WEAPON",
       44: "ARMOR",
       59: "HEALTH",
       70: "TRANSPORT",
@@ -44,11 +44,11 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
       if (party[p].isHoldingBody) addstrc(pink, "+H");
       printSkillSummary(
         p + 2,
-        ManagementTableLayout.skillX,
+        ManagementTableLayout.partySkillX,
         party[p],
         showWeaponSkill: true,
       );
-      move(p + 2, 29);
+      move(p + 2, ManagementTableLayout.partyWeaponX);
       setWeaponColor(party[p]);
       printWeapon(party[p]);
       setColorForArmor(party[p]);

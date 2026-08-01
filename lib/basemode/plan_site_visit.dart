@@ -102,7 +102,11 @@ Future<void> planSiteVisit() async {
           "{value}",
           params: {"value": heat.toString()},
         );
-        mvaddstrc(y, 66, lightGray, "Secrecy: ");
+        // Keep a separator after the heat value. At high pressure the fixed
+        // x=66 position can be occupied by a fourth heat digit.
+        final heatDigits = heat.toString().length;
+        final secrecyX = 64 + (heatDigits < 3 ? 3 : heatDigits);
+        mvaddstrc(y, secrecyX, lightGray, "Secrecy: ");
         addstrc(
           heat > heatProtection ? red : darkGray,
           "{value}",

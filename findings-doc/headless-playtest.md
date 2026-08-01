@@ -13,6 +13,15 @@ lines as JSON. This is intended for headless browser inspection; it is
 off-screen and inactive in normal builds. A playtest can capture a stable
 screen with:
 
+```sh
+export AGENT_BROWSER_HEADED=0
+export AGENT_BROWSER_ARGS='--headless=new,--ozone-platform=headless'
+```
+
+Keep those variables set for every `agent-browser` invocation. Do not use a
+headed Chrome/Edge device for playtesting; the CLI session should remain
+headless for the entire replay.
+
 ```js
 JSON.parse(document.querySelector('#lcs-playtest-buffer').dataset.options)
 document.querySelector('#lcs-playtest-buffer').textContent

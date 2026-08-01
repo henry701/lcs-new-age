@@ -74,6 +74,10 @@
 | PT-142 | Medium | Shop layout | Portuguese equipment options overlap adjacent key prefixes |
 | PT-143 | Medium | Layout | Long daily result messages clip at the console edge |
 | PT-144 | Medium | Translation/context | Generated Portuguese site names use the wrong adjective gender |
+| PT-145 | Medium | Combat/layout | Portuguese party roster merges skill summaries with weapon labels |
+| PT-146 | Medium | Travel/layout | Four-digit pressure values merge with the secrecy label |
+| PT-147 | Low | Translation/style | Founder bonus line loses the requested `Artes Marciais` capitalization |
+| PT-148 | Medium | Combat translation | Combat interpolation exposes English officer names and death templates |
 
 ## PT-001: Save-management option is clipped
 
@@ -1245,12 +1249,18 @@ regression tests assert the fixed-column limits.
 - Severity: Medium
 - Type: Contextual translation quality
 - Screen: Site mode → combat / car chase
-- Replay status: **Fixed in catalogs; combat replay still pending**
+- Replay status: **Fixed in catalogs/source; core siege replay verified on 2026-08-01; broader random branches remain open**
 
 The tooth-damage composition produced forms such as `está queimou!` and
 `está corte!`. Car-chase fragments also read awkwardly, and the sneak-miss
 warning used an infinitive construction. Updated participles, result fragments,
 and the warning to `antes de o ataque acertar`.
+
+The fresh strict-headless siege route reached the police alarm, surrender
+announcement, siege briefing, localized encounter roster, and localized hit
+messages. The run ended in a victory before a terminal surrender/death branch,
+so the random injury, surrender, arrest, and post-fight variants remain a
+follow-up rather than an unverified completion claim.
 
 ## PT-049: Changelog release notes are intentionally English-only
 
@@ -1884,3 +1894,60 @@ such as `Igreja Antiga` and `Antigo Motel`.
 The strict-headless replay capture showing the defect is retained at
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/equipment-layout-pt142/daily-message-fixed-replay2.png`; the focused regression now expects
 `Siderúrgica Velha` and `Armazém Abandonado`.
+
+## PT-145: Portuguese party roster merges skill summaries with weapon labels
+
+- Severity: Medium
+- Type: Fixed-width layout / translated header
+- Screen: Base mode and police siege → party roster
+- Replay status: **Fixed and verified on 2026-08-01; strict-headless replay and layout regression added**
+
+The translated six-cell `HABIL.` header occupied the boundary immediately
+before `ARMA`, producing `HABIL.ARMA`; five-cell body summaries likewise ran
+directly into weapon names (`796/…M7`). The party renderer now keeps the body
+skill summary at its existing column, reserves a separator cell, and starts
+the weapon header/body at x=30. The rebuilt Portuguese route rendered
+`HABIL.—ARMA` and `796/… M7` in both base and combat screens.
+
+## PT-146: Four-digit pressure values merge with the secrecy label
+
+- Severity: Medium
+- Type: Fixed-width layout / dynamic value
+- Screen: Base mode → Vá adiante → district site list
+- Replay status: **Fixed and verified on 2026-08-01; high-pressure regression added**
+
+At a high-pressure safehouse the site row rendered
+`Pressão: 9000Sigilo: 15`, because the fixed secrecy column was occupied by
+the fourth pressure digit. The renderer now computes the secrecy start from
+the rendered pressure width while preserving a separator cell. The focused
+regression covers heat `9000`, and the rebuilt route displayed a separated
+`Pressão: 1000 Sigilo: 15` row.
+
+## PT-147: Founder bonus line loses the requested `Artes Marciais` capitalization
+
+- Severity: Low
+- Type: Translation/style consistency
+- Screen: New game → founder biography bonuses
+- Replay status: **Fixed and verified on 2026-08-01; catalog regression added**
+
+The gang-background bonus line used `+3 Armas de Fogo e Artes marciais`,
+while the project’s requested proper-style capitalization is `Artes Marciais`.
+The Portuguese catalog now preserves that capitalization; the new-game
+replay and context catalog test cover the complete line.
+
+## PT-148: Combat interpolation exposes English officer names and death templates
+
+- Severity: Medium
+- Type: Runtime interpolation / translation coverage
+- Screen: Police alarm → siege combat
+- Replay status: **Fixed on 2026-08-01; direct strict-headless route verifies roster, hit, and injury branches; terminal random branches remain under PT-048**
+
+Combat messages passed raw generated creature names into attack, injury, loot,
+reaction, and death templates, so Portuguese combat could expose `SWAT
+Officer`. Several randomized death/final-words templates also had no catalog
+entry. Combat interpolation now uses the localized creature-name helper and
+the missing English/Portuguese template pairs are present in both catalogs.
+The rebuilt route rendered `Policial da SWAT` in the roster and messages such
+as `acerta capacete de Policial da SWAT`; it won before a random death template
+could be selected. Keep the broader deterministic injury, surrender, arrest,
+and post-fight sweep open in PT-048.

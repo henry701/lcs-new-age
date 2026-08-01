@@ -80,6 +80,17 @@ void main() {
     expect(_consoleLine(24), contains('B - Agentes Infiltrados'));
   });
 
+  test('Portuguese base agenda option matches its detail-screen terminology', () {
+    expect(
+      LcsI18n.tr('L - The Status of the Liberal Agenda'),
+      equals('L - O status da agenda Liberal'),
+    );
+    expect(
+      LcsI18n.tr('The Status of the Liberal Agenda'),
+      equals('O status da agenda Liberal'),
+    );
+  });
+
   test('base options clear stale daily-message tails before redrawing', () {
     mvaddstr(
       8,

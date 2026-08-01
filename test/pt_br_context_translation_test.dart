@@ -961,6 +961,9 @@ void main() {
       'R - Rescue, ': 'R - Resgatar, ',
       'R - Release, ': 'R - Libertar, ',
       'R - Reorganize, ': 'R - Reorganizar, ',
+      'D - Buy weapons.': 'D - Comprar armas.',
+      'D - Buy weapons while naked.':
+          'D - Comprar armas enquanto está nu.',
     };
 
     for (final entry in expected.entries) {

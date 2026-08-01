@@ -213,6 +213,15 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   flag preview footer.
 - PT-151 residual (2026-08-01): the compact flag table still ellipsizes long
   Portuguese issue labels; consider a responsive issue/detail layout.
+- PT-157 fixed and verified (2026-08-01): the base agenda action now uses
+  `O status da agenda Liberal`, matching the agenda detail screen instead of
+  the inconsistent `O Estado da Agenda Liberal`.
+- PT-158 fixed and verified (2026-08-01): the agenda footer now fits the full
+  `Outra tecla - Sair` instruction instead of clipping `Qualquer Outra Tecla - S`
+  at the 80-column edge.
+- PT-159 fixed and verified (2026-08-01): the gang-member recruitment dialogue
+  now translates `D - Buy weapons.` and its naked variant; the strict-headless
+  conversation replay no longer exposes the English option.
 - PT-152 fixed (2026-08-01): strict-headless crafting now sweeps both pages,
   including `Intersex Progress Pride Flag` and `Variant Labrys Lesbian Flag`,
   with localized names, descriptions, issues, difficulty, cost, and cancel
@@ -225,6 +234,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   `Dificuldade:` labels so both values remain visible with a separator.
 - PT-156 fixed (2026-08-01): the new-game opening consistently uses
   `extrema-direita Arqui Conservadora`.
+- PT-160 residual (2026-08-01): a failed issue-talk response overwrites the
+  target's `responde,` label and leaves a stale `nde,` suffix (`"Tanto faz."
+  <se vira>nde,`). Advance the response row from `console.y` and add a
+  cross-locale regression before closing this layout issue.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

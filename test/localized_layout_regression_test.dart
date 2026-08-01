@@ -101,6 +101,14 @@ void main() {
     expect(legend.length, lessThanOrEqualTo(80));
   });
 
+  test('Portuguese agenda exit footer stays readable at the console edge', () {
+    expect(
+      LcsI18n.tr('Any Other Key - Exit'),
+      equals('Outra tecla - Sair'),
+    );
+    expect(LcsI18n.tr('Any Other Key - Exit').length, lessThanOrEqualTo(20));
+  });
+
   test('Portuguese agenda polling headline translates dynamic labels', () {
     expect(
       LcsI18n.processString('President {name}', {'name': 'Alex'}),

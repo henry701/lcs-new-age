@@ -2284,3 +2284,22 @@ The remaining compact-table truncation in PT-151 is intentional and logged as
 a future responsive-layout enhancement. The new-game opening was also
 rechecked in the same Portuguese campaign; the full `far right` sentence now
 uses `extrema-direita Arqui Conservadora` consistently (PT-156).
+
+## Strict-headless agenda and recruitment replay after the latest fixes — 2026-08-01
+
+This pass used only the CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless`. No headed browser was
+launched or focused. The Portuguese base replay verified the agenda action as
+`L - O status da agenda Liberal`, and the agenda footer now remains fully
+visible as `Outra tecla - Sair` (PT-157/PT-158). The changelog `V` action also
+opened its modal; its English-only release-note body remains the accepted
+PT-049 limitation.
+
+The recruitment replay reached a conservative gang-member conversation. The
+previous English `D - Buy weapons.` response is now `D - Comprar armas.` in
+the live buffer (PT-159), and the ordinary/naked catalog variants are covered
+by the context test. A failed issue-talk branch then exposed residual PT-160:
+`"Tanto faz." <se vira>nde,` leaves the tail of the overwritten `responde,`
+label. This is a console-row bug to fix later, not a missing translation; the
+capture is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/recruitment-malformed-dialogue.png`.

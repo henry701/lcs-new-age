@@ -2087,3 +2087,57 @@ Portuguese hyphenation `extrema-direita` and the requested capitalization
 `Arqui Conservadora`. Both the full opening key and its composed fragment now
 use `extrema-direita`; the regression keeps `extrema-direita Arqui
 Conservadora` unchanged.
+
+## PT-157: Base agenda menu uses an inconsistent Portuguese term
+
+- Severity: Low
+- Type: Translation/context consistency
+- Screen: Base mode → agenda menu and agenda detail screen
+- Replay status: **Fixed and verified on 2026-08-01; catalog regression added**
+
+The base action `L - The Status of the Liberal Agenda` rendered as
+`L - O Estado da Agenda Liberal`, while the agenda screen itself used
+`O status da agenda Liberal`. `Estado` is a different sense in this UI and
+made the same action read inconsistently between the menu and its destination.
+The menu now uses `L - O status da agenda Liberal`, matching the detail screen
+and the surrounding Brazilian Portuguese vocabulary.
+
+## PT-158: Agenda footer clips the Portuguese exit control
+
+- Severity: Low
+- Type: Fixed-width layout / translation length
+- Screen: Base mode → `L - O status da agenda Liberal`
+- Replay status: **Fixed and verified on 2026-08-01; footer regression added**
+
+The agenda footer placed `Qualquer Outra Tecla - Sair` after the page controls,
+but the 80-column console clipped it to `Qualquer Outra Tecla - S`. The
+Portuguese control now uses the concise, unambiguous `Outra tecla - Sair`, so
+the complete exit instruction remains visible at the console edge.
+
+## PT-159: Recruitment weapon option remains in English
+
+- Severity: Medium
+- Type: Missing translation / contextual dialogue
+- Screen: Recruitment → conservative gang-member conversation
+- Replay status: **Fixed and verified on 2026-08-01; context catalog regression added**
+
+The gang-member conversation rendered `D - Buy weapons.` in English even
+though the recruitment header, profile, and other response options were in
+Portuguese. Both the ordinary and naked variants now use Portuguese catalog
+entries (`D - Comprar armas.` and `D - Comprar armas enquanto está nu.`).
+
+## PT-160: Failed issue-talk response overwrites its response label
+
+- Severity: Low
+- Type: Fixed-width layout / stale console text
+- Screen: Recruitment → gang-member conversation → talk about issues (failed persuasion)
+- Replay status: **Residual after the 2026-08-01 strict-headless replay; logged for future layout work**
+
+On a failed issue-talk attempt, the target response label is written with
+`addparagraph`, but the response line then uses the same local `y` value instead
+of the updated console row. The response therefore overwrites the beginning of
+the label while its old tail remains in the fixed-width buffer. The Portuguese
+replay rendered `"Tanto faz." <se vira>nde,`; the `nde,` suffix is stale text
+from the overwritten `responde,` label, not a translation. Future work should
+advance `y` from `console.y` (and add a regression for both locales) before
+printing the response line.

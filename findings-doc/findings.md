@@ -82,6 +82,10 @@
 | PT-150 | Medium | Flags/translation/layout | Flag metadata remains English and the flag detail repeats cost text |
 | PT-151 | Low | Flags/layout | Long Portuguese flag issue labels are ellipsized in the compact table |
 | PT-152 | Low | Flags/coverage | Craft-only flag metadata still needs a dedicated localized route sweep |
+| PT-153 | Medium | Controls/activity mapping | Acquisition submenu displays the wheelchair on the flag's key |
+| PT-154 | Medium | Flags/translation/layout | Crafting exposes raw XML metadata and lets long rows overwrite columns |
+| PT-155 | Medium | Flags/layout | Craft preview overwrites heat and joins the translated difficulty label |
+| PT-156 | Low | Translation/style | New-game opening mixes hyphenated and unhyphenated `extrema-direita` |
 
 ## PT-001: Save-management option is clipped
 
@@ -2014,11 +2018,72 @@ would improve readability without reducing the flag-name column.
 - Severity: Low
 - Type: Flag metadata coverage / residual verification
 - Screen: Flag crafting flow (not reached in the compact buyable-flag menu)
-- Replay status: **Open follow-up logged on 2026-08-01**
+- Replay status: **Fixed and verified on 2026-08-01; strict-headless craft route and focused regression added**
 
-The menu replay covered the five visible buyable flags. The XML also defines
-craft-only flags such as `Progress Pride Flag`, `Black Flag`, and
-`Anarcha-Feminist Flag`; those names, short names, and descriptions remain
-outside the current focused regression. A future crafting route should seed a
-tailoring-capable liberal, walk every craft page, add missing catalog entries,
-and verify that the same issue-column fitting works for the longer metadata.
+The menu replay covered the five visible buyable flags, but the XML also
+defines craft-only flags such as `Progress Pride Flag`, `Black Flag`, and
+`Anarcha-Feminist Flag`. The dedicated route now walks both craft pages and
+renders localized names, descriptions, issue labels, difficulty, cost, and
+cancel controls. The catalog and `renderFlagPreview` regression cover a
+non-buyable `Black Flag`; the strict-headless route also selected the long
+`Intersex Progress Pride Flag` and `Variant Labrys Lesbian Flag` entries.
+
+## PT-153: Acquisition submenu displays the wheelchair on the flag's key
+
+- Severity: Medium
+- Type: Controls / activity mapping
+- Screen: Base mode → Assign Tasks → Recruitment and Acquisition
+- Replay status: **Fixed and verified on 2026-08-01; layout regression added**
+
+The activity handler already mapped key `4` to flag crafting, but the submenu
+printed `4 - Procure a Wheelchair` and had no visible flag option. Pressing the
+visible key therefore opened a different activity than the label promised.
+The menu now renders `4 - Fazer uma Bandeira` and moves the wheelchair action
+to `5 - Arranjar uma cadeira de rodas`; the Portuguese layout regression and
+the strict-headless route verify both labels and the key-to-screen transition.
+
+## PT-154: Crafting exposes raw XML metadata and lets long rows overwrite columns
+
+- Severity: Medium
+- Type: Flag metadata / translation / fixed-width layout
+- Screen: Base mode → Assign Tasks → Recruitment and Acquisition → Make a Flag
+- Replay status: **Fixed and verified on 2026-08-01; focused regression added**
+
+Craft-only names and descriptions came directly from `assets/xml/flags.xml`,
+so the Portuguese selector exposed English values such as `Black Flag`, `No
+gods, no masters.`, and `Police Behavior`. Long Portuguese names then ran
+into the issue column (`...Progressista IntDireitos`), and long issue labels
+overwrote the heat value. The route now translates every craft-only flag name
+and description, adds the missing `Police Behavior` label, fits the flag name
+to 39 cells with a separator, and fits the issue cell to 15 cells before the
+heat column. The second craft page now shows `Bandeira do Orgulho
+Progressista I… Direitos LGBTQ+ 0` without column collision.
+
+## PT-155: Craft preview overwrites heat and joins the translated difficulty label
+
+- Severity: Medium
+- Type: Fixed-width layout / translated labels
+- Screen: Flag-crafting preview footer
+- Replay status: **Fixed and verified on 2026-08-01; focused regression added**
+
+The preview wrote `Difficulty: ` at a hard-coded English offset, so the longer
+Portuguese label rendered as `Dificuldade:Facílimo`; writing it on the same row
+also overwrote the preceding `Heat: 0` value. The preview now measures the
+localized labels and places both values safely: `Pressão: 0  Dificuldade:
+Facílimo`. The difficulty renderer also fits the translated value to the
+remaining width, and the craft footer uses the localized
+`Escape - Cancelar confecção de bandeira` key.
+
+## PT-156: New-game opening mixes hyphenated and unhyphenated `extrema-direita`
+
+- Severity: Low
+- Type: Translation/style consistency
+- Screen: New game → Conservative-era introduction
+- Replay status: **Fixed and verified on 2026-08-01; context regression updated**
+
+The full opening sentence used `extrema direita` for `far right`, while the
+same screen and adjacent political strings used the standard Brazilian
+Portuguese hyphenation `extrema-direita` and the requested capitalization
+`Arqui Conservadora`. Both the full opening key and its composed fragment now
+use `extrema-direita`; the regression keeps `extrema-direita Arqui
+Conservadora` unchanged.

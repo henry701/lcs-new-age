@@ -2236,5 +2236,51 @@ localized buyable flag names, the Portuguese national-flag description, and
 `Questão: Liberdade de Expressão` without the previous heat-column collision.
 The detail footer rendered one `Custo: $20` line. Long issue labels are safely
 ellipsized before the heat column (`Liberdade de Exp…0`), which is recorded as
-residual PT-151. Craft-only XML flags remain a separate coverage follow-up in
-PT-152.
+residual PT-151. Craft-only XML coverage was still open at this checkpoint and
+is closed by the dedicated replay below (PT-152).
+
+## Strict-headless flag-crafting replay and follow-up fixes — 2026-08-01
+
+This replay used only the CLI `agent-browser` session `pt-craft-20260801`,
+with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless`. The Flutter web-server was
+restarted after each renderer/catalog change; no headed browser was launched,
+focused, or left running.
+
+For route acceleration, the local build temporarily enabled the founder and
+all-items debug flags. Those two flags were reverted before validation and are
+not part of the committed change.
+
+Route:
+
+1. Portuguese title → new game → founder setup → base.
+2. Assign Tasks → the first liberal → `D - Recrutamento e Aquisição`.
+3. Confirm `4 - Fazer uma Bandeira` and inspect both craft pages.
+4. Select the long `H - Bandeira do Orgulho Progressista I…` and
+   `I - Bandeira Lésbica Labrys Alternativa` entries.
+5. Return to the acquisition submenu and verify `5 - Arranjar uma cadeira de
+   rodas`.
+
+The initial craft replay found three defects. The submenu displayed the
+wheelchair on key 4 even though the handler used key 4 for flag crafting;
+craft-only XML names/descriptions and `Police Behavior` remained in English;
+and long names/issues ran into the next fixed column. The preview also hid
+the heat value and rendered the longer translated difficulty label as
+`Dificuldade:Facílimo`.
+
+The final DOM buffer showed:
+
+- `4 - Fazer uma Bandeira` and `5 - Arranjar uma cadeira de rodas`;
+- page 1 rows such as `A - Bandeira Negra ... Comportamento … 0`;
+- page 2 `H - Bandeira do Orgulho Progressista I… Direitos LGBTQ+ 0` with a
+  separator before the issue cell;
+- preview metadata `Bandeira do Orgulho Progressista Inters…`, localized
+  description text, `Questão: Direitos LGBTQ+`, and
+  `Pressão: 0  Dificuldade: Facílimo`;
+- localized footer `Escape - Cancelar confecção de bandeira`.
+
+These observations close PT-152 and add the focused PT-153–PT-155 findings.
+The remaining compact-table truncation in PT-151 is intentional and logged as
+a future responsive-layout enhancement. The new-game opening was also
+rechecked in the same Portuguese campaign; the full `far right` sentence now
+uses `extrema-direita Arqui Conservadora` consistently (PT-156).

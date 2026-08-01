@@ -19,11 +19,13 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
+import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/title_screen/world.dart';
+import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/vehicles/vehicle.dart';
 
 import '../test_support.dart';
@@ -142,7 +144,7 @@ void main() {
   test(
     'Portuguese party table truncates long names before the skill column',
     () {
-      final founder = _founder()..name = 'Ayla Probstaaaaaaaaaa';
+      final founder = _founder()..name = 'Ayla Probstaaaaaaaaaaa';
 
       printParty(fullParty: true);
 
@@ -161,7 +163,7 @@ void main() {
         equals(' '),
       );
       expect(console.buffer[2][69].glyph, equals(' '));
-      expect(founder.name, equals('Ayla Probstaaaaaaaaaa'));
+      expect(founder.name, equals('Ayla Probstaaaaaaaaaaa'));
     },
   );
 
@@ -489,6 +491,7 @@ void main() {
       expect(rendered, contains('Demonstre seu patriotismo'));
       expect(rendered, contains('Questão: Liberdade de Expressão'));
       expect(rendered, contains('Custo: \$20'));
+      expect(rendered, contains('Escape - Cancelar'));
       expect(rendered, isNot(contains('United States Flag')));
       expect(rendered, isNot(contains('Demonstrate your patriotism')));
       expect(rendered, isNot(contains('Custo:Custo:')));
@@ -501,6 +504,30 @@ void main() {
       expect(console.buffer[2][57].glyph, equals('0'));
     },
   );
+
+  test('Portuguese craft flag previews localize non-buyable metadata', () {
+    final flag = flagTypes['FLAG_ANARCHIST']!;
+
+    renderFlagPreview(
+      flag,
+      difficulty: 0,
+      costLine: '\$10',
+      costColor: lightGreen,
+      cancelText: 'Escape - Cancel Making Flag',
+    );
+
+    final rendered = _consoleText();
+    expect(rendered, contains('Bandeira Negra'));
+    expect(rendered, contains('Sem deuses, sem mestres.'));
+    expect(rendered, contains('Questão: Comportamento Policial'));
+    expect(rendered, contains('Pressão: 0'));
+    expect(rendered, contains('Dificuldade: Facílimo'));
+    expect(rendered, contains('Escape - Cancelar confecção de bandeira'));
+    expect(rendered, isNot(contains('Black Flag')));
+    expect(rendered, isNot(contains('No gods, no masters.')));
+    expect(rendered, isNot(contains('Police Behavior')));
+    expect(rendered, isNot(contains('Heat:')));
+  });
 
   test('Portuguese character profiles localize profession and body labels', () {
     final founder = _founder()

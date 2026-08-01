@@ -213,9 +213,18 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   flag preview footer.
 - PT-151 residual (2026-08-01): the compact flag table still ellipsizes long
   Portuguese issue labels; consider a responsive issue/detail layout.
-- PT-152 open (2026-08-01): seed a tailoring-capable liberal and sweep every
-  craft-only flag name, short name, description, and issue column for catalog
-  coverage.
+- PT-152 fixed (2026-08-01): strict-headless crafting now sweeps both pages,
+  including `Intersex Progress Pride Flag` and `Variant Labrys Lesbian Flag`,
+  with localized names, descriptions, issues, difficulty, cost, and cancel
+  controls.
+- PT-153 fixed (2026-08-01): acquisition key 4 now visibly means `Fazer uma
+  Bandeira`; the wheelchair action is correctly displayed on key 5.
+- PT-154 fixed (2026-08-01): craft names/issues are fitted to their fixed
+  columns, preventing long Portuguese metadata from overwriting heat values.
+- PT-155 fixed (2026-08-01): craft preview measures localized `Pressão:` and
+  `Dificuldade:` labels so both values remain visible with a separator.
+- PT-156 fixed (2026-08-01): the new-game opening consistently uses
+  `extrema-direita Arqui Conservadora`.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

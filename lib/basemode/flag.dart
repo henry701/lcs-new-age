@@ -84,13 +84,7 @@ void flagMenuDetail(
   int row = 18;
   if (flag.description.isNotEmpty) {
     setColor(darkGray);
-    addparagraph(
-      row,
-      x,
-      flag.description,
-      y2: 21,
-      x2: CONSOLE_WIDTH - 1,
-    );
+    addparagraph(row, x, flag.description, y2: 21, x2: CONSOLE_WIDTH - 1);
     row = console.y + 1;
   }
   row = 20;
@@ -101,12 +95,20 @@ void flagMenuDetail(
     params: {"label": LcsI18n.tr(flag.view.label)},
   );
   row++;
-  mvaddstrc(row, x, lightGray, "Heat: ");
+  final heatLabel = LcsI18n.tr("Heat: ");
+  mvaddstrc(row, x, lightGray, heatLabel, noTranslate: true);
   var (secrecyText, secrecyColor) = flagSecrecyText(flag);
   addstrc(secrecyColor, secrecyText);
   if (difficulty != null) {
-    mvaddstrc(row, x, lightGray, "Difficulty: ");
-    addDifficultyText(row, x + 12, difficulty);
+    final difficultyLabel = LcsI18n.tr("Difficulty: ");
+    final difficultyX = x + strLenX(heatLabel) + strLenX(secrecyText) + 2;
+    mvaddstrc(row, difficultyX, lightGray, difficultyLabel, noTranslate: true);
+    addDifficultyText(
+      row,
+      difficultyX + strLenX(difficultyLabel),
+      difficulty,
+      maxWidth: CONSOLE_WIDTH - difficultyX - strLenX(difficultyLabel),
+    );
   }
   row++;
   mvaddstrc(row, x, costColor, costLine);

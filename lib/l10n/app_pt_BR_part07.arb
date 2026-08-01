@@ -66,6 +66,7 @@
   "Error: User not authorized. Please contact the administrator.": "Erro: usuário não autorizado. Entre em contato com o administrador.",
   "Floor {floor} has stairs up, but it is the top floor.": "O andar {floor} tem escadas para cima, mas é o último andar.",
   "For the stealthy assassin.  Backstab the unwary.": "Para o assassino furtivo. Apunhale os desavisados pelas costas.",
+  "Freedom, self-expression, and other beautiful, radiant things.": "Liberdade, autoexpressão e outras coisas belas e radiantes.",
   "GAY BOOKS": "LIVROS GAY",
   "GM FOOD FAIRE": "FEIRA DE ALIMENTOS GM",
   "Get it together, {name}!": "Se recomponha, {name}!",
@@ -250,5 +251,6 @@
   "{pronoun} fursona": "a fursona {pronoun}",
   "{teethminus} of {name}'s teeth are cut out!": "{teethminus} dentes de {name} foram cortados!",
   "{vehicle} comes to a rest facing backwards.": "{vehicle} para virado para trás.",
-  "{vehicle} rams into you from behind!": "{vehicle} te atropela por trás!"
+  "{vehicle} rams into you from behind!": "{vehicle} te atropela por trás!",
+  "¿Por qué no los dos?": "Por que não os dois?"
 }

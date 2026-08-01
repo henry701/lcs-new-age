@@ -10,6 +10,7 @@ const Set<String> structuralTranslationKeys = {
   '{first} {middle}{last}',
   '{firstWord} {secondWord}',
   '{key} - {category}:',
+  '{key} {name}',
   '{lead} {action}.',
   '{lead} {activity}',
   '{name} {escape}',

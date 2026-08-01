@@ -921,7 +921,7 @@ String letterAPlus(int index, {bool capitalize = true}) {
   }
 }
 
-void addDifficultyText(int y, int x, int difficulty) {
+void addDifficultyText(int y, int x, int difficulty, {int? maxWidth}) {
   if (difficulty < 0) difficulty = 0;
   var (Color color, String text) = switch (difficulty) {
     0 => (lightGreen, LcsI18n.tr("Trivial")),
@@ -936,7 +936,11 @@ void addDifficultyText(int y, int x, int difficulty) {
     9 => (red, LcsI18n.tr("Almost Impossible")),
     _ => (darkRed, LcsI18n.tr("Impossible")),
   };
-  mvaddstrc(y, x, color, text, noTranslate: true);
+  if (maxWidth == null) {
+    mvaddstrc(y, x, color, text, noTranslate: true);
+  } else {
+    mvaddstrcFitted(y, x, color, text, maxWidth, noTranslate: true);
+  }
 }
 
 Future<void> pagedInterface({

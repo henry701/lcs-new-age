@@ -230,6 +230,8 @@ void main() {
       '1 - Recruiting': '1 - Recrutar',
       '2 - Steal a Car': '2 - Roubar um Carro',
       '3 - Make Clothing': '3 - Fazer Roupas',
+      '4 - Make a Flag': '4 - Fazer uma Bandeira',
+      '5 - Procure a Wheelchair': '5 - Arranjar uma cadeira de rodas',
       '1 - Teach Liberal Arts': '1 - Ensinar Artes Liberais',
       '2 - Teach Covert Ops': '2 - Ensinar Operações Secretas',
       '3 - Teach Fighting': '3 - Ensinar Luta',

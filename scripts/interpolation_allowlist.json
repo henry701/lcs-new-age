@@ -58,31 +58,31 @@
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 611,
+      "line": 612,
       "text": "\\$${craftable[index].makePrice + craftable[index].allowedArmor.first.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 653,
+      "line": 654,
       "text": "${craftable[selectedClothingIndex].idName}:ARMOR$selectedArmorIndex",
       "reason": "Stable activity identifier; never rendered as player-facing prose."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 676,
+      "line": 677,
       "text": "\\$${craftable[selected].makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 713,
+      "line": 715,
       "text": "\\$${flag.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 766,
+      "line": 768,
       "text": "\\$${clothing.makePrice + armor.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -1342,7 +1342,7 @@
     },
     {
       "file": "common_display/print_party.dart",
-      "line": 89,
+      "line": 90,
       "text": "$skill/${c.weaponSkill}",
       "reason": "Locale-neutral numeric skill summary fitted into a fixed-width management cell."
     },

@@ -459,7 +459,7 @@ void main() {
 
     expect(
       opening,
-      'Após uma série de protestos violentos da extrema direita, o '
+      'Após uma série de protestos violentos da extrema-direita, o '
       'presidente Conservador {name} renunciou em desgraça. Seu '
       'vice-presidente arqui-conservador, {name}, aliado próximo dos '
       'manifestantes, foi empossado como novo Presidente dos Estados Unidos.',
@@ -473,7 +473,7 @@ void main() {
         'United States.';
     expect(
       catalog[openingKey],
-      'Após uma série de protestos violentos da extrema direita, o presidente '
+      'Após uma série de protestos violentos da extrema-direita, o presidente '
       'Conservador {oldPresident} renunciou em desgraça. Seu vice-presidente '
       'de extrema-direita Arqui Conservadora, {president}, aliado próximo dos '
       'manifestantes, foi empossado como novo Presidente dos Estados Unidos.',

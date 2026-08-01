@@ -454,9 +454,10 @@ void _acquisitionSubmenu(Creature c) {
   _subActivity(ActivityType.recruiting, "1 - Recruiting");
   _subActivity(ActivityType.stealCars, "2 - Steal a Car");
   _subActivity(ActivityType.makeClothing, "3 - Make Clothing");
+  _subActivity(ActivityType.makeFlag, "4 - Make a Flag");
   _subActivity(
     ActivityType.wheelchair,
-    "4 - Procure a Wheelchair",
+    "5 - Procure a Wheelchair",
     greyOut: c.canWalk || c.hasWheelchair,
   );
 
@@ -689,7 +690,7 @@ Future<void> _selectFlagToMake(Creature cr) async {
       0: "FLAG",
       40: "ISSUE",
       56: "HEAT",
-      61: "DIFFICULTY",
+      62: "DIFFICULTY",
       75: "COST",
     },
     footerPrompt: "Crafted flags are stored in your safehouse inventory.",
@@ -698,18 +699,19 @@ Future<void> _selectFlagToMake(Creature cr) async {
     showBackButton: false,
     lineBuilder: (y, key, index) {
       FlagType flag = craftable[index];
-      addOptionText(
+      addOptionTextFitted(
         y,
         0,
         key,
         "{key} - {name}",
-        params: {"key": key, "name": flag.name},
+        39,
+        params: {"key": key, "name": LcsI18n.tr(flag.name)},
         baseColorKey: index == selected ? ColorKey.white : ColorKey.lightGray,
       );
-      mvaddstrc(y, 40, lightGray, flag.view.label);
+      mvaddstrcFitted(y, 40, lightGray, flag.view.label, 15);
       var (secrecyText, secrecyColor) = flagSecrecyText(flag);
       mvaddstrc(y, 56, secrecyColor, secrecyText);
-      addDifficultyText(y, 61, flag.makeDifficultyFor(cr));
+      addDifficultyText(y, 62, flag.makeDifficultyFor(cr), maxWidth: 13);
       mvaddstrc(y, 75, lightGreen, "\$${flag.makePrice}");
       // pagedInterface clears graphics on every redraw, so re-draw the preview
       // once per frame, on the first row.

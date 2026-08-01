@@ -1455,7 +1455,7 @@ traits, or price metadata, preventing strings such as `Taco de beisebolN/D`.
 - Severity: Medium
 - Type: Combat translation/redraw
 - Screen: Site mode → police alarm combat
-- Replay status: **Partially resolved on 2026-07-30; forced-chief talk-target replay clean, chase-specific screen still unverified**
+- Replay status: **Fixed and verified on 2026-08-01; strict-headless chase replay passed**
 
 The earlier route exposed a generated `Chief of Police` officer and appeared
 to retain a stale `Saque no chão!` legend fragment. The catalog maps
@@ -1465,7 +1465,15 @@ the roster path. It then exposed a second bypass in the `T` talk-target list:
 now translate encounter names before interpolation. A strict-headless forced-chief
 replay confirmed both the roster and talk-target selector as `Chefe de Polícia`;
 the stale legend itself is already clean. The chase-specific evasive-run screen
-was not reachable in that short route, so PT-134 still needs one direct replay.
+now preserves every `D/F/B/P` key prefix, localizes each action, wraps the
+Portuguese car legend before the 80-column edge, and keeps the vehicle roster
+below the wrapped row. The foot-chase legend likewise keeps its `D/F/E/G`
+prefixes while keeping disabled `O - Ordenar` visibly grey without a comma-only
+gap. The direct route rendered
+`Unidade Policial ainda está no seu encalço!` after the evasive action, and the
+car roster rendered `Unidade Policial` rather than the raw English role.
+Evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/chase-direct/`.
 
 ## PT-137: Combat armor target used a gendered article before dynamic armor names
 
@@ -1736,13 +1744,16 @@ compact label now uses `Hospital UW`, while the full site name remains
 - Severity: Medium
 - Type: Combat translation
 - Screen: Police alarm → car chase → evasive action
-- Replay status: **Fixed on 2026-07-30; strict-headless combat replay identified it and catalog regression added**
+- Replay status: **Fixed and verified on 2026-08-01; strict-headless direct chase replay passed**
 
 The Portuguese police-alarm route localized the siege roster to `Policial da
 SWAT`, but the chase warning bypassed the name translator and displayed
 `SWAT Officer ainda está no seu encalço!`. Chase enemy names now pass through
 the locale helper before interpolation, so the warning will render
 `Policial da SWAT ainda está no seu encalço!` while preserving custom names.
+The deterministic low-agility chase replay reached the same warning path with
+the localized generated role (`Unidade Policial ainda está no seu encalço!`),
+confirming that the runtime interpolation fix is active in the rebuilt web app.
 
 ## PT-135: Stealth alarm interpolated the English `Police Officer` name
 

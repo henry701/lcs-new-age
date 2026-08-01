@@ -163,40 +163,86 @@ enum CarChaseObstacles { fruitStand, truckPullsOut, crossTraffic, child }
 int get partysize => squad.length;
 int get partyalive => squad.where((s) => s.alive).length;
 
+String _localizedChaseOptionText(
+  String key,
+  String description, {
+  bool trailingComma = false,
+}) {
+  final text = StringBuffer()
+    ..write(key)
+    ..write(" - ")
+    ..write(LcsI18n.tr(description));
+  if (trailingComma) text.write(", ");
+  return text.toString();
+}
+
 void printChaseOptions() {
+  void addChaseOption(
+    String key,
+    String description, {
+    bool trailingComma = false,
+    bool enabledWhen = true,
+  }) {
+    addInlineOptionTextWrapped(
+      key,
+      _localizedChaseOptionText(key, description, trailingComma: trailingComma),
+      leftMargin: 1,
+      rightMargin: 1,
+      enabledWhen: enabledWhen,
+      noTranslate: true,
+    );
+  }
+
   setColor(lightGray);
-  addOptionText(10, 1, "D", "D-Try to lose them");
-  addstr(", ");
-  addInlineOptionText("F", "Fight");
-  addstr(", ");
-  addInlineOptionText("E", "Equip");
-  addstr(", ");
-  addInlineOptionText("O", "Order", enabledWhen: partysize > 1);
-  addstr(", ");
+  move(10, 1);
+  addInlineOptionText(
+    "D",
+    (StringBuffer()
+          ..write(LcsI18n.tr("D-Try to lose them"))
+          ..write(", "))
+        .toString(),
+    noTranslate: true,
+  );
+  addChaseOption("F", "Fight", trailingComma: true);
+  addChaseOption("E", "Equip", trailingComma: true);
   bool surrenderIsAnOption = chaseSequence?.canpullover ?? false;
-  addInlineOptionText("G", "Give up", enabledWhen: surrenderIsAnOption);
+  addChaseOption("O", "Order", trailingComma: true, enabledWhen: partysize > 1);
+  addChaseOption("G", "Give up", enabledWhen: surrenderIsAnOption);
 }
 
 void printCarChaseOptions({
-  String dOption = "rive hard to escape",
-  String fOption = "ight",
+  String dOption = "Drive hard to escape",
+  String fOption = "Fight",
   String? gOption,
   bool canBailOut = true,
 }) {
+  void addCarOption(
+    String key,
+    String description, {
+    bool trailingComma = false,
+  }) {
+    addInlineOptionTextWrapped(
+      key,
+      _localizedChaseOptionText(key, description, trailingComma: trailingComma),
+      leftMargin: 1,
+      rightMargin: 1,
+      noTranslate: true,
+    );
+  }
+
   setColor(lightGray);
-  addOptionText(12, 1, "D", "D{dOption}", params: {"dOption": dOption});
-  addstr(", ");
-  addInlineOptionText("F", "F{fOption}", params: {"fOption": fOption});
+  eraseArea(startY: 12, endY: 14, startX: 0, endX: console.width);
+  move(12, 1);
+  final hasPullOverOption = canBailOut && (chaseSequence?.canpullover ?? false);
+  addCarOption("D", dOption, trailingComma: true);
+  addCarOption("F", fOption, trailingComma: gOption != null || canBailOut);
   if (gOption != null) {
-    addstr(", ");
-    addInlineOptionText("G", "G{gOption}", params: {"gOption": gOption});
+    addCarOption("G", gOption, trailingComma: canBailOut);
   }
   if (canBailOut) {
-    addstr(", ");
-    addInlineOptionText("B", "Bail out and run");
-    if (chaseSequence!.canpullover) {
-      addstr(", ");
-      addInlineOptionText("P", "Pull over and surrender");
+    addCarOption("B", "Bail out and run", trailingComma: hasPullOverOption);
+    if (hasPullOverOption) {
+      addCarOption("P", "Pull over and surrender");
     }
   }
 }
@@ -348,31 +394,31 @@ Future<ChaseOutcome> carChaseSequence() async {
             "Street market ahead!  Flimsy fruit stands block the street.",
           );
           printCarChaseOptions(
-            dOption: "-Swerve into an alley",
-            fOption: "-Slow down",
-            gOption: "-Smash through",
+            dOption: "Swerve into an alley",
+            fOption: "Slow down",
+            gOption: "Smash through",
             canBailOut: false,
           );
           canDeliberatelyHit = true;
         case CarChaseObstacles.truckPullsOut:
           mvaddstrc(10, 1, purple, "A truck pulls out!");
           printCarChaseOptions(
-            dOption: "-Swerve around",
-            fOption: "-Slow down",
+            dOption: "Swerve around",
+            fOption: "Slow down",
             canBailOut: false,
           );
         case CarChaseObstacles.crossTraffic:
           mvaddstrc(10, 1, purple, "Red light with cross traffic!");
           printCarChaseOptions(
-            dOption: "-Run the light",
-            fOption: "-Slow down",
+            dOption: "Run the light",
+            fOption: "Slow down",
             canBailOut: false,
           );
         case CarChaseObstacles.child:
           mvaddstrc(10, 1, purple, "A kid in the street!");
           printCarChaseOptions(
-            dOption: "-Swerve into traffic",
-            fOption: "-Slow down",
+            dOption: "Swerve into traffic",
+            fOption: "Slow down",
             canBailOut: false,
           );
       }

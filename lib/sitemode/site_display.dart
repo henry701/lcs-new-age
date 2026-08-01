@@ -1187,8 +1187,10 @@ void printBasicEncounter() {
 /* prints the names of creatures you see in car chases */
 void printChaseEncounter() {
   if (chaseSequence?.enemycar.isNotEmpty == true) {
-    int startingY = 14;
-    eraseArea(startY: startingY - 1, endY: 21, startX: 0, endX: 80);
+    // Keep the row below the action legend available for wrapped Portuguese
+    // labels before drawing the vehicle roster.
+    int startingY = 15;
+    eraseArea(startY: startingY - 1, endY: 22, startX: 0, endX: 80);
     List<int> carsy = [
       startingY + 1,
       startingY + 1,
@@ -1213,7 +1215,10 @@ void printChaseEncounter() {
             v * 20 + 1,
             e.align.color,
             "{name}{driver}",
-            params: {"name": e.name, "driver": e.isDriver ? "-D" : ""},
+            params: {
+              "name": localizedCreatureName(e),
+              "driver": e.isDriver ? "-D" : "",
+            },
           );
           carsy[v]++;
         }

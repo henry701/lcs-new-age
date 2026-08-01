@@ -2158,6 +2158,40 @@ validation.
   renders `Siderúrgica Velha`; the pre-fix route capture is retained at
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/equipment-layout-pt142/daily-message-fixed-replay2.png`.
 
-Residual playtest follow-ups remain PT-048/PT-064 (combat branches) and
-PT-134 (a source-fixed chase warning still needing a fresh deterministic route
-capture); they are intentionally not marked complete here.
+At that point, residual playtest follow-ups remained PT-048/PT-064 (combat
+branches) and PT-134 (a source-fixed chase warning still needing a fresh
+deterministic route capture). The direct replay below closes the PT-064/PT-134
+follow-up; PT-048 remains open.
+
+## Strict-headless direct chase replay and prefix/wrap verification — 2026-08-01
+
+The chase branch was replayed again with the CLI `agent-browser` only, using
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+A disposable local debug hook seeded a one-member sports-car chase and forced
+low agility so the direct evasive-warning path was reachable; the hook was
+removed before validation. No headed browser was launched or left running.
+
+The first rebuilt replay exposed two real rendering defects in the chase
+legend: translated car actions lost their `D/F/B/P` key prefixes, and the full
+Portuguese legend clipped the tail of `P - Pare e renda-se` at the 80-column
+edge. The foot legend also dropped `F/E` prefixes and left a comma-only gap
+when `Order` was unavailable. The fix now renders complete key-prefixed labels,
+wraps each option as an intact unit, clears stale rows, and moves the vehicle
+roster down one row when the car legend wraps. The Portuguese car roster now
+uses the localized encounter-name helper as well.
+
+Final captures show:
+
+- Car chase: `D - Acelere para despistá-los, F - Lutar, B - Pular fora e correr,`
+  followed on the next row by `P - Pare e renda-se`; the roster starts below
+  the wrapped legend and contains `Unidade Policial`.
+- Foot chase: `D - Tentar despistá-los, F - Lutar, E - Equipar, O - Ordenar,
+  G - Desistir`; the disabled `O` remains visibly grey without leaving a
+  comma-only gap, and all prefixes remain intact.
+- Evasive warning: `Unidade Policial ainda está no seu encalço!`.
+
+Evidence is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/chase-direct/`, including
+`car-screen-finalfix2.png`, `foot-screen-finalfix2.png`, and
+`evasive-warning-finalfix.png`. PT-064 and PT-134 are now marked fixed and
+verified; PT-048's broader deterministic combat/alarm sweep remains open.

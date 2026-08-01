@@ -9,12 +9,14 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-131 fixed (2026-07-30): the high-score rank now renders `A Elite Liberal`
   instead of the source-emphasis form `A ELITE Liberal`. A strict-headless
   seeded-score replay and localized layout regression verify the final casing.
-- PT-048/PT-064: replay deterministic combat and random police-alarm officer
-  variants; confirm that no English fragments or stale action-legend tails
-  remain. The forced `Chief of Police` roster and talk-target selector now
-  render `Chefe de Polícia`; PT-135 stealth-name and PT-136 hospital activity
-  fixes are verified. The direct PT-134 chase warning screen remains
-  unreachable in the latest short route and needs one focused replay.
+- PT-048: replay deterministic combat and random police-alarm officer variants
+  that are broader than the direct chase route; inspect injury, surrender, and
+  post-fight summaries for English fragments.
+- PT-064/PT-134 fixed and verified (2026-08-01): the strict-headless chase
+  replay now keeps all Portuguese `D/F/B/P` and `D/F/E/G` prefixes, wraps the
+  car legend before the console edge, localizes the car roster, and renders
+  `Unidade Policial ainda está no seu encalço!` in the evasive warning. Evidence
+  is under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/chase-direct/`.
 - PT-138 fixed (2026-07-30): founder biography choices now use neutral
   Portuguese phrasing across the full question set; the focused character
   creation regression covers all rewritten choices. A rebuilt strict-headless

@@ -2,11 +2,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/basemode/help_system.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/location/location_type.dart';
+import 'package:lcs_new_age/location/site.dart';
+import 'package:lcs_new_age/sitemode/chase_sequence.dart';
 
 String _consoleText() => console.buffer
     .map((row) => row.map((character) => character.glyph).join())
     .join('\n');
+String _consoleLine(int y) =>
+    console.buffer[y].map((character) => character.glyph).join();
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -94,6 +100,47 @@ void main() {
     expect(text, isNot(contains('Fight')));
     expect(text, isNot(contains(' Equip,')));
     expect(text, isNot(contains(' Order')));
+  });
+
+  test('Portuguese car-chase action rows keep translated key prefixes', () {
+    printCarChaseOptions(canBailOut: false);
+
+    final text = _consoleText();
+    expect(text, contains('D - Acelere para despistá-los'));
+    expect(text, contains('F - Lutar'));
+    expect(text, isNot(contains('Drive hard to escape')));
+    expect(text, isNot(contains('Fight')));
+  });
+
+  test('Portuguese foot-chase action rows keep translated key prefixes', () {
+    printChaseOptions();
+
+    final text = _consoleText();
+    expect(text, contains('D - Tentar despistá-los'));
+    expect(text, contains('F - Lutar'));
+    expect(text, contains('E - Equipar'));
+    expect(text, contains('O - Ordenar'));
+    expect(text, contains('G - Desistir'));
+    expect(text, isNot(contains(', ,')));
+    expect(text, isNot(contains(', Lutar')));
+  });
+
+  test('Portuguese car-chase action rows wrap before the vehicle roster', () {
+    final previousChaseSequence = chaseSequence;
+    try {
+      chaseSequence = ChaseSequence(Site(SiteType.armsDealer))
+        ..canpullover = true;
+      printCarChaseOptions();
+
+      final firstRow = _consoleLine(12);
+      final secondRow = _consoleLine(13);
+      expect(firstRow, contains('B - Pular fora e correr'));
+      expect(firstRow, isNot(contains('P -')));
+      expect(firstRow.trimRight(), endsWith(','));
+      expect(secondRow.trimRight(), equals(' P - Pare e renda-se'));
+    } finally {
+      chaseSequence = previousChaseSequence;
+    }
   });
 
   test('Portuguese siege prose localizes dynamic raiders and units', () {

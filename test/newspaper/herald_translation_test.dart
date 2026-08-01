@@ -223,6 +223,28 @@ void main() {
     expect(content.storyText, contains('ele pudesse'));
   });
 
+  test(
+    'Portuguese child-killing conditions agree with the feminine plural subject',
+    () {
+      expect(
+        LcsI18n.tr('carved with satanic symbols'),
+        equals('esculpidas com símbolos satânicos'),
+      );
+      expect(LcsI18n.tr('sexually mutilated'), equals('mutiladas sexualmente'));
+    },
+  );
+
+  test('Portuguese sweatshop seasonal copy is translated', () {
+    expect(
+      LcsI18n.tr('Fall fashions hit the stores across the country.'),
+      equals('A moda de outono chega às lojas de todo o país.'),
+    );
+    expect(
+      LcsI18n.tr('Fall fashions are previewed in stores across the country.'),
+      equals('A moda de outono é apresentada nas lojas de todo o país.'),
+    );
+  });
+
   test('Portuguese hostage templates translate role words and participles', () {
     expect(LcsI18n.tr('rapist'), equals('estuprador'));
     expect(LcsI18n.tr('himself'), equals('ele mesmo'));

@@ -41,9 +41,13 @@ class LcsI18n {
   static final Set<String> _fileLoggedUntranslatedKeys = <String>{};
   static final RegExp _placeholderPattern = RegExp(r'\{(\w+)(?::(\w+))?\}');
   static const Set<String> _translatablePronounParameters = {
+    'he',
     'his',
     'her',
+    'she',
+    'him',
     'their',
+    'they',
     'them',
   };
 

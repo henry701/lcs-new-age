@@ -100,6 +100,7 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
       params: {"name": localizedCreatureName(tk)},
       x2: CONSOLE_WIDTH - 1,
     );
+    y = console.y;
     move(y++, 1);
     setColor(lightBlue);
     if (tk.type.id == CreatureTypeIds.mutant &&
@@ -172,6 +173,7 @@ Future<bool> talkAboutIssues(Creature a, Creature tk) async {
       params: {"name": localizedCreatureName(tk)},
       x2: CONSOLE_WIDTH - 1,
     );
+    y = console.y;
     setColor(lightBlue);
     if (tk.type.id == CreatureTypeIds.mutant &&
         tk.attribute(Attribute.intelligence) < 3) {

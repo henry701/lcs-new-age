@@ -180,6 +180,33 @@ void main() {
       expect(object, equals('B - Tente encantar ela com namoro online.'));
     });
 
+    test(
+      'translates subject and masculine object pronoun parameters',
+      () async {
+        await LcsI18n.initialize('pt_BR');
+
+        expect(
+          LcsI18n.processString('says {heShe} needs more time to think.', {
+            'heShe': 'she',
+          }),
+          equals('diz que ela precisa de mais tempo para pensar.'),
+        );
+        expect(
+          LcsI18n.processString(
+            'B - Try to charm {himHer} with online dating.',
+            {'himHer': 'him'},
+          ),
+          equals('B - Tente encantar ele com namoro online.'),
+        );
+        expect(
+          LcsI18n.processString('looks like {heShe} might be convinced.', {
+            'heShe': 'they',
+          }),
+          equals('parece que elu está se convencendo.'),
+        );
+      },
+    );
+
     test('translates standalone subject pronouns', () async {
       await LcsI18n.initialize('pt_BR');
 

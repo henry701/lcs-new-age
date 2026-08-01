@@ -234,10 +234,20 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   `Dificuldade:` labels so both values remain visible with a separator.
 - PT-156 fixed (2026-08-01): the new-game opening consistently uses
   `extrema-direita Arqui Conservadora`.
-- PT-160 residual (2026-08-01): a failed issue-talk response overwrites the
-  target's `responde,` label and leaves a stale `nde,` suffix (`"Tanto faz."
-  <se vira>nde,`). Advance the response row from `console.y` and add a
-  cross-locale regression before closing this layout issue.
+- PT-160 fixed and verified (2026-08-01): failed issue-talk responses now
+  advance from `console.y`, so the Portuguese row ends cleanly after
+  `"Tanto faz." <se vira>`; a focused layout regression guards the fix.
+- PT-161 fixed and verified (2026-08-01): newspaper dynamic pronoun
+  parameters now translate raw `he`, `she`, `him`, and `they` values as well as
+  the possessive/object forms already covered.
+- PT-162 fixed and verified (2026-08-01): child-victim newspaper conditions
+  now agree with plural feminine `mortas` (`esculpidas`/`mutiladas`).
+- PT-163 fixed and verified (2026-08-01): both runtime-selected seasonal
+  fashion sentences now have canonical Portuguese catalog entries.
+- PT-164 residual (2026-08-01): a deliberately oversized debug siege fixture
+  can print a ten-person reserve over the six-row fixed-width frame. No normal
+  campaign route reproduced it; add a roster-cap/import guard if the limit is
+  ever raised.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

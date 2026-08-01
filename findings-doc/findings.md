@@ -2131,13 +2131,65 @@ entries (`D - Comprar armas.` and `D - Comprar armas enquanto está nu.`).
 - Severity: Low
 - Type: Fixed-width layout / stale console text
 - Screen: Recruitment → gang-member conversation → talk about issues (failed persuasion)
-- Replay status: **Residual after the 2026-08-01 strict-headless replay; logged for future layout work**
+- Replay status: **Fixed and verified on 2026-08-01; focused regression added**
 
-On a failed issue-talk attempt, the target response label is written with
-`addparagraph`, but the response line then uses the same local `y` value instead
-of the updated console row. The response therefore overwrites the beginning of
-the label while its old tail remains in the fixed-width buffer. The Portuguese
-replay rendered `"Tanto faz." <se vira>nde,`; the `nde,` suffix is stale text
-from the overwritten `responde,` label, not a translation. Future work should
-advance `y` from `console.y` (and add a regression for both locales) before
-printing the response line.
+On a failed issue-talk attempt, the target response label was written with
+`addparagraph`, but the response line then reused the old local `y` value. The
+response overwrote the beginning of the label while its old tail remained in
+the fixed-width buffer. The Portuguese replay rendered `"Tanto faz." <se
+vira>nde,`; the `nde,` suffix was stale text from the overwritten `responde,`
+label, not a translation. The renderer now advances from `console.y`, and a
+Portuguese layout regression covers the failed-persuasion row.
+
+## PT-161: Newspaper subject/object pronoun parameters bypassed Portuguese
+
+- Severity: Medium
+- Type: Missing translation / dynamic interpolation
+- Screen: Newspaper → immigration and crime stories
+- Replay status: **Fixed and verified on 2026-08-01; focused regression added**
+
+The generic pronoun parameter allow-list translated `his`, `her`, `their`, and
+`them`, but not raw `he`, `she`, or `him`. Dynamic stories therefore showed
+English fragments such as `she aparecer` and `Pegamos him` inside otherwise
+Portuguese articles. The allow-list now covers all eight pronoun parameters,
+and the newspaper regression exercises subject and object forms.
+
+## PT-162: Plural feminine child-victim conditions used masculine adjectives
+
+- Severity: Medium
+- Type: Translation agreement
+- Screen: Newspaper → mass-child-killing story
+- Replay status: **Fixed and verified on 2026-08-01; focused regression added**
+
+The story template already translated `dead` as plural feminine `mortas`, but
+its dynamic condition catalog entries remained masculine singular (`esculpido`
+and `mutilado`). The rendered sentence was `mortas e esculpido com símbolos
+satânicos`. Both condition values now agree with the child-victim subject
+(`esculpidas ...` and `mutiladas ...`).
+
+## PT-163: Seasonal fashion newspaper copy fell back to English
+
+- Severity: Medium
+- Type: Missing catalog key / dynamic story selection
+- Screen: Newspaper → fashion story with picture
+- Replay status: **Fixed and verified on 2026-08-01; focused regression added**
+
+The fashion event selects one of two exact English sentences at runtime. Those
+dynamic keys were absent from the canonical catalogs, so both the headline
+subheadline and the picture-page text remained English in Portuguese mode.
+Both variants now have canonical English identity entries and Portuguese
+translations, with a regression covering the two seasonal branches.
+
+## PT-164: Debug-only oversized siege roster can overlap the fixed-width frame
+
+- Severity: Low
+- Type: Fixed-width layout / test-fixture limitation
+- Screen: Siege combat with a deliberately oversized debug roster
+- Replay status: **Residual; not reproduced in a normal campaign**
+
+The temporary siege fixture combined five debug-seeded liberals with four
+history-selected gang members. The resulting ten-person reserve printed past
+the six-row roster and overwrote the location box and combat legend (`9D -` was
+visible in the combat screen). The regular campaign route caps the active list
+at six and did not reproduce the collision; retain this as a future guard for
+save imports, debug fixtures, or any later feature that raises the roster cap.

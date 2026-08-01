@@ -2303,3 +2303,34 @@ by the context test. A failed issue-talk branch then exposed residual PT-160:
 label. This is a console-row bug to fix later, not a missing translation; the
 capture is retained at
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/recruitment-malformed-dialogue.png`.
+
+## Strict-headless siege combat and newspaper follow-up — 2026-08-01
+
+The siege route was replayed in a fresh CLI `agent-browser` session with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+No headed browser was launched or focused. Portuguese screens covered the
+police alarm, loudspeaker surrender announcement, siege briefing, combat
+roster, firearm actions, armor-hit messages, and reinforcement display. The
+combat text stayed Portuguese. The temporary debug fixture intentionally
+combined ten roster entries and exposed a `9D -` overlap in the fixed-width
+combat frame; this is recorded as PT-164 and the debug flags were reverted
+before validation.
+
+The same source audit and focused tests closed three newspaper gaps found in
+the previous replay:
+
+- PT-160 now advances the failed issue-talk response from `console.y`, removing
+  the stale `nde,` suffix; `test/talk/talk_about_issues_layout_test.dart`
+  reproduces the failure shape and verifies the clean row.
+- PT-161 adds raw subject/object pronoun parameters to the translation allow-list,
+  preventing `she`/`him` fragments from bypassing Portuguese stories.
+- PT-162 corrects plural-feminine child-victim conditions to `esculpidas` and
+  `mutiladas`.
+- PT-163 adds the two runtime-selected seasonal fashion sentences to both
+  canonical catalogs; newspaper tests cover each branch.
+
+The focused i18n, newspaper, and talk-layout suites passed after these fixes.
+The remaining open playtest items are PT-048/PT-148 (deterministic terminal
+combat/death/surrender variants), PT-083 (narrow viewport), PT-151 (intentional
+long issue-label ellipses), PT-164 (debug/import roster-cap guard), and the
+accepted English-only changelog notice PT-049.

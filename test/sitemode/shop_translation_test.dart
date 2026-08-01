@@ -262,9 +262,9 @@ void main() {
     expect(_consoleCells(1, 44, 59), startsWith('ROUPA'));
     expect(_consoleCells(2, 29, 44).trim(), startsWith('Rev. .22'));
     expect(_consoleCells(2, 44, 59).trim(), equals('Gola alta preta'));
-    expect(_consoleCells(10, 1, 27).trim(), equals('A - Faca de combate'));
-    expect(_consoleCells(10, 27, 53).trim(), equals('B - Vestido barato'));
-    expect(_consoleCells(10, 53, 80).trim(), equals('C - Munição .22 LR'));
+    expect(_consoleCells(10, 1, 28).trim(), equals('A - Faca de combate'));
+    expect(_consoleCells(10, 28, 55).trim(), equals('B - Vestido barato'));
+    expect(_consoleCells(10, 55, 80).trim(), equals('C - Munição .22 LR'));
     expect(
       _consoleCells(19, 1, 80).trimRight(),
       equals('Pressione uma letra para equipar um item Liberal'),
@@ -276,6 +276,27 @@ void main() {
       ),
     );
     expect(_consoleCells(24, 1, 80).trimRight(), equals('Entre - Concluído'));
+  });
+
+  test('long Portuguese equipment items stay inside their cells', () async {
+    final member = Creature()
+      ..name = 'Joana'
+      ..equippedWeapon = Weapon('WEAPON_22_REVOLVER')
+      ..equippedClothing = Clothing('CLOTHING_BLACKCLOTHES');
+    final squad = Squad()..members.add(member);
+    squads.add(squad);
+    activeSquad = squad;
+    activeSquadMemberIndex = -1;
+
+    console.keyEvent(_enterKey);
+    await equip([Weapon('WEAPON_M7'), Ammo('AMMO_68')]);
+
+    final leftCell = _consoleCells(10, 1, 28).trimRight();
+    final rightCell = _consoleCells(10, 28, 55).trimRight();
+    expect(leftCell, startsWith('A - Rifle M7'));
+    expect(rightCell, startsWith('B - Munição 6,8mm'));
+    expect(leftCell, isNot(contains('B -')));
+    expect(rightCell, isNot(contains('A -')));
   });
 
   test('pawn-shop status actions fit the full console width', () async {

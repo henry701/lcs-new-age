@@ -252,11 +252,46 @@ String localizedGeneratedSiteName(String adjective, String siteType) {
   final fullName = '$adjective $siteType';
   if (LcsI18n.hasTranslation(fullName)) return LcsI18n.tr(fullName);
 
+  if (LcsI18n.currentLocale == 'pt_BR') {
+    final translatedAdjective = _ptBrGeneratedAdjective(
+      adjective,
+      _ptBrFeminineGeneratedSiteTypes.contains(siteType),
+    );
+    if (translatedAdjective != null) {
+      return [LcsI18n.tr(siteType), translatedAdjective].join(' ');
+    }
+  }
+
   return LcsI18n.processString('{adjective} {siteType}', {
     'adjective': LcsI18n.tr(adjective),
     'siteType': LcsI18n.tr(siteType),
   });
 }
+
+const _ptBrFeminineGeneratedSiteTypes = <String>{
+  'Paper Mill',
+  'Schoolhouse',
+  'Bus Garage',
+  'Steel Plant',
+  'Church',
+  'Toy Factory',
+  'Train Station',
+  'Auto Plant',
+  'Textile Mill',
+  'Cannery',
+  'Brewery',
+  'Clinic',
+  'Library',
+};
+
+String? _ptBrGeneratedAdjective(String adjective, bool feminine) =>
+    switch (adjective) {
+      'Abandoned' => feminine ? 'Abandonada' : 'Abandonado',
+      'Forgotten' => feminine ? 'Esquecida' : 'Esquecido',
+      'Old' => feminine ? 'Velha' : 'Velho',
+      'Haunted' => feminine ? 'Assombrada' : 'Assombrado',
+      _ => null,
+    };
 
 enum SiteController { lcs, ccs, unaligned }
 

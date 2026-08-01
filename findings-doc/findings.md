@@ -71,6 +71,9 @@
 | PT-139 | Low | Shop context | Medieval armour footer says to buy clothes |
 | PT-140 | Medium | Shop layout | Car-dealer action rows collide at a narrow viewport |
 | PT-141 | Medium | Translation/context | Conservative-era intro uses feminine agreement for a male vice-president |
+| PT-142 | Medium | Shop layout | Portuguese equipment options overlap adjacent key prefixes |
+| PT-143 | Medium | Layout | Long daily result messages clip at the console edge |
+| PT-144 | Medium | Translation/context | Generated Portuguese site names use the wrong adjective gender |
 
 ## PT-001: Save-management option is clipped
 
@@ -1823,3 +1826,50 @@ vice-presidente ... aliada ... foi empossada`, despite the generated
 vice-president being a male patriarch. The translation now uses masculine
 agreement (`Seu vice-presidente ... aliado ... foi empossado`) while retaining
 the requested `extrema-direita Arqui Conservadora` capitalization.
+
+## PT-142: Portuguese equipment options overlap adjacent key prefixes
+
+- Severity: Medium
+- Type: Fixed-width layout / key-prefix preservation
+- Screen: Base mode → Equipar Esquadrão
+- Replay status: **Fixed on 2026-08-01; strict-headless replay and layout regression added**
+
+Long localized item labels could run into the next option, producing output
+such as `A - Rifle M7 (munição: 20)B - Munição 6,8mm x180`. The equipment
+renderer now fits each option to its 26-cell column and leaves a separator
+column between options. The regression checks that both `A -` and `B -`
+remain intact and that neither cell contains the other option's prefix.
+
+Evidence from the fixed strict-headless replay:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/equipment-layout-pt142/equipment-long-item-fixed-final2.png`.
+
+## PT-143: Long daily result messages clip at the console edge
+
+- Severity: Medium
+- Type: Fixed-width layout / dynamic interpolation
+- Screen: Base mode → daily activity result
+- Replay status: **Fixed on 2026-08-01; fitted-message regression added**
+
+`showAdvanceDayMessage` used an unconstrained write, so a long Portuguese
+message could be cut off at the 80-column console boundary. It now uses the
+fitted renderer and ends with an ellipsis when the translated/interpolated
+message is too long. The layout regression asserts the rendered row stays
+within the console width and preserves the truncation marker.
+
+## PT-144: Generated Portuguese site names use the wrong adjective gender
+
+- Severity: Medium
+- Type: Contextual translation / gender agreement
+- Screen: Base mode → generated warehouse site
+- Replay status: **Fixed on 2026-08-01; strict-headless replay and translation regression added**
+
+The generated site route rendered `Visitando Siderúrgica Velho` and
+`... olha ao redor de Siderúrgica Velho`. `Siderúrgica` is feminine in
+Brazilian Portuguese, so the generic adjective must be `Velha`. The
+generated-name helper now inflects the four warehouse adjectives against an
+explicit list of feminine site types while preserving exact catalog entries
+such as `Igreja Antiga` and `Antigo Motel`.
+
+The strict-headless replay capture showing the defect is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/equipment-layout-pt142/daily-message-fixed-replay2.png`; the focused regression now expects
+`Siderúrgica Velha` and `Armazém Abandonado`.

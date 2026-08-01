@@ -2135,3 +2135,29 @@ title and English-only notice were readable, and repeated ArrowDown input
 advanced the scroll position without clipping the modal frame. Captures are
 retained under
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/options-route/`.
+
+## Strict-headless layout and generated-site replay — 2026-08-01
+
+This verification used only the CLI `agent-browser` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+No headed browser was used or left running. A disposable local debug build
+seeded the equipment list and a warehouse visit so the high-risk rows could be
+reached quickly; all debug flags and seed instrumentation were removed before
+validation.
+
+- The pre-fix equipment capture showed `A - Rifle M7 (munição: 20)B - ...`
+  with the second key prefix overwritten. The fixed replay keeps the three
+  columns separate and fits `M - Rifle M7 (munição: 20…` inside its cell:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/equipment-layout-pt142/equipment-long-item-fixed-final2.png`.
+- The daily-message regression now constrains long interpolated Portuguese
+  rows to 80 columns and adds an ellipsis; the focused test covers the exact
+  dynamic message shape because the disposable route reaches the activity log
+  before the generic daily-result branch.
+- The warehouse route exposed `Visitando Siderúrgica Velho` and
+  `... olha ao redor de Siderúrgica Velho`. The generated-site helper now
+  renders `Siderúrgica Velha`; the pre-fix route capture is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/equipment-layout-pt142/daily-message-fixed-replay2.png`.
+
+Residual playtest follow-ups remain PT-048/PT-064 (combat branches) and
+PT-134 (a source-fixed chase warning still needing a fresh deterministic route
+capture); they are intentionally not marked complete here.

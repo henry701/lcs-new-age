@@ -1040,5 +1040,5 @@ void showAdvanceDayMessage(
   Map<String, dynamic>? params,
 }) {
   eraseLine(y);
-  mvaddstrc(y, x, color, message, params: params);
+  mvaddstrcFitted(y, x, color, message, console.width - x, params: params);
 }

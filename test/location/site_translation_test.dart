@@ -18,6 +18,17 @@ void main() {
     );
   });
 
+  test('Portuguese generated site names inflect generic adjectives', () {
+    expect(
+      localizedGeneratedSiteName('Old', 'Steel Plant'),
+      equals('Siderúrgica Velha'),
+    );
+    expect(
+      localizedGeneratedSiteName('Abandoned', 'Warehouse'),
+      equals('Armazém Abandonado'),
+    );
+  });
+
   test('Portuguese police siege copy avoids a gendered site article', () {
     expect(
       LcsI18n.tr('The police have surrounded the {location}!'),

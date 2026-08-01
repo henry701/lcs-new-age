@@ -65,6 +65,23 @@ void main() {
     expect(_consoleLine(8), equals(' Recrutando'));
   });
 
+  test('long Portuguese daily result messages end with an ellipsis', () {
+    showAdvanceDayMessage(
+      8,
+      1,
+      lightGray,
+      '{squad} decided {site} was too hot to risk.',
+      params: {
+        'squad': 'O Esquadrão do Crime Liberal',
+        'site': 'Estação Velho',
+      },
+    );
+
+    final line = _consoleLine(8);
+    expect(line, endsWith('…'));
+    expect(line.length, lessThanOrEqualTo(console.width));
+  });
+
   test('Portuguese agenda alignment legend is translated and fits one row', () {
     const labels = [
       'Elite Liberal',

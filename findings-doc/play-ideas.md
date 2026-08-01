@@ -188,6 +188,12 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   `month`/`months` period token before rendering the base activity line.
 - PT-137 fixed (2026-07-30): remove the gendered `o` article from the dynamic
   armor target template so `armadura` and `colete` both agree naturally.
+- PT-142 fixed (2026-08-01): fit Portuguese equipment options to their cells
+  and preserve the `A -`/`B -` key prefixes with a separator column.
+- PT-143 fixed (2026-08-01): fit long daily result messages to the console and
+  use an ellipsis instead of clipping the translated tail.
+- PT-144 fixed (2026-08-01): inflect generic Portuguese warehouse adjectives
+  for feminine site types (`Siderúrgica Velha`, not `Siderúrgica Velho`).
 
 ## Newly prioritized after the 2026-07-26 sweep
 

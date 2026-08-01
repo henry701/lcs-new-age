@@ -20,6 +20,8 @@ import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 
+const int equipmentItemCellWidth = 26;
+
 Future<void> equip(List<Item>? loot) async {
   if (activeSquad == null || loot == null) return;
 
@@ -49,11 +51,12 @@ Future<void> equip(List<Item>? loot) async {
       final stackSuffix = loot[l].stackSize > 1 && !loot[l].type.isMoney
           ? LcsI18n.processString("x{count}", {"count": loot[l].stackSize})
           : "";
-      addOptionText(
+      addOptionTextFitted(
         y,
         x,
         let,
         "{letter} - {title} {stackSuffix}",
+        min(equipmentItemCellWidth, console.width - x),
         params: {
           "letter": let,
           "title": loot[l].equipTitle(),
@@ -61,8 +64,11 @@ Future<void> equip(List<Item>? loot) async {
         },
       );
 
-      x += 26;
-      if (x > 53) {
+      // Leave a separator column between localized item options.  The final
+      // column is one cell narrower so its fitted text still ends at the
+      // console border.
+      x += 27;
+      if ((l - page * 18 + 1) % 3 == 0) {
         x = 1;
         y++;
       }

@@ -160,19 +160,19 @@
     },
     {
       "file": "common_actions/equipment.dart",
-      "line": 204,
+      "line": 210,
       "text": "Giving weapon ${loot[slot].type.name} to ${squaddie.name}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "common_actions/equipment.dart",
-      "line": 212,
+      "line": 218,
       "text": "Giving armor ${loot[slot].type.name} to ${squaddie.name}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "common_actions/equipment.dart",
-      "line": 605,
+      "line": 611,
       "text": "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

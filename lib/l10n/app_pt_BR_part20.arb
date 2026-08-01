@@ -217,7 +217,7 @@
   "{hour}:{tens}{ones} {period}": "{hour}: {tens} {ones} {period}",
   "{killer} executes {victim} by ": "{killer} executa {victim} por ",
   "{lead} somehow ends up on the defensive as {name} calls ": "{lead} de alguma forma acaba na defensiva enquanto {name} grita ",
-  "{letter} - {name} {ageGender}": "{letter} – {name} {ageGender}",
+  "{letter} - {name} {ageGender}": "{letter} - {name} {ageGender}",
   "{letter} - {title} {stackSuffix}": "{letter} - {title} {stackSuffix}",
   "{name} approves the {claim} claim.": "{name} aprova a solicitação de {claim}.",
   "{name} brandishes the {weapon}!": "{name} empunha o {weapon}!",

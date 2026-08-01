@@ -111,6 +111,19 @@ void main() {
     expect(catalog['month'], 'mês');
     expect(catalog['months'], 'meses');
     expect(
+      catalog['I learned what it took to survive.  When to move on, where to hide.'],
+      'Eu aprendi o que era preciso para sobreviver: quando seguir em frente e onde me esconder.',
+    );
+    expect(catalog['United States Flag'], 'Bandeira dos Estados Unidos');
+    expect(catalog['Rainbow Pride Flag'], 'Bandeira do Orgulho LGBTQ+');
+    expect(catalog['Transgender Pride Flag'], 'Bandeira do Orgulho Trans');
+    expect(catalog['Feminist Flag'], 'Bandeira Feminista');
+    expect(catalog['Pan-African Flag'], 'Bandeira Pan-Africana');
+    expect(
+      catalog['Demonstrate your patriotism by flying the national flag.'],
+      'Demonstre seu patriotismo hasteando a bandeira nacional.',
+    );
+    expect(
       catalog['{name} is still on your tail!'],
       '{name} ainda está no seu encalço!',
     );

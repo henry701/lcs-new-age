@@ -9,16 +9,37 @@ void main() {
       sourceEntries: const {
         r'A - Pay $100': r'A - Pay $100',
         'Enter - Continue...': 'Enter - Continue...',
+        r'{letter} - {name}': r'{letter} - {name}',
+        r'{key} - {name}': r'{key} - {name}',
       },
       targetEntries: const {
         r'A - Pay $100': r'Pagar $100',
         'Enter - Continue...': 'Entre - Continuar...',
+        r'{letter} - {name}': r'{letter} – {name}',
+        r'{key} - {name}': r'{key} – {name}',
       },
     );
 
     expect(mismatches.map((mismatch) => mismatch.key), <String>[
       r'A - Pay $100',
+      r'{key} - {name}',
+      r'{letter} - {name}',
     ]);
+  });
+
+  test('allows translated prose placeholders that are not option keys', () {
+    final mismatches = findCatalogPrefixMismatches(
+      sourceEntries: const {
+        r'{city} - A local story': r'{city} - A local story',
+        r'{state} - An innocent citizen': r'{state} - An innocent citizen',
+      },
+      targetEntries: const {
+        r'{city} - A local story': r'{city} – Uma notícia local',
+        r'{state} - An innocent citizen': r'{state} – Uma pessoa inocente',
+      },
+    );
+
+    expect(mismatches, isEmpty);
   });
 
   test('current catalogs contain no altered control prefixes', () {

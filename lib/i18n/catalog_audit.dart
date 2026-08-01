@@ -122,9 +122,11 @@ final RegExp catalogRawInterpolationPattern = RegExp(r'(?<!\\)\$\{');
 
 /// Prefixes that are part of the game's input/display contract rather than
 /// translatable prose. Keep this deliberately narrow to avoid constraining
-/// ordinary translated sentences that happen to start with a letter.
+/// ordinary translated sentences that happen to start with a letter. The
+/// placeholder names below are the keys used by option builders; `{city}` and
+/// other prose placeholders intentionally stay out of this contract.
 final RegExp catalogControlPrefixPattern = RegExp(
-  r'^(?:Enter|Entre|[A-Z0-9]) - ',
+  r'^(?:Enter|Entre|\{(?:letter|key|keys|index|number)\}|[A-Z0-9]) - ',
 );
 
 List<CatalogPrefixMismatch> findCatalogPrefixMismatches({

@@ -147,7 +147,7 @@ void main() {
       expect(_consoleLine(10), contains('TIPO DE MUNIÇÃO'));
       expect(_consoleLine(10), contains('DANO'));
       expect(_consoleLine(10), contains('PREÇO'));
-      expect(_consoleLine(11), contains('A – Revólver .22'));
+      expect(_consoleLine(11), contains('A - Revólver .22'));
       expect(_consoleLine(11), contains('.22 LR'));
       expect(
         _consoleLine(12),
@@ -180,7 +180,7 @@ void main() {
       expect(_consoleCells(10, 24, 39), startsWith('DANO'));
       expect(_consoleCells(10, 39, 59), startsWith('TAMANHO DA CAIXA'));
       expect(_consoleCells(10, 59, 80), startsWith('PREÇO'));
-      expect(_consoleCells(11, 0, 24).trim(), equals('A – Cartucho 12ga 00'));
+      expect(_consoleCells(11, 0, 24).trim(), equals('A - Cartucho 12ga 00'));
       expect(_consoleCells(11, 24, 39).trim(), equals('25x8'));
       expect(
         _consoleLine(21),
@@ -202,8 +202,8 @@ void main() {
     expect(_consoleCells(10, 4, 24), startsWith('NOME'));
     expect(_consoleCells(10, 24, 59), startsWith('CARACTERÍSTICAS ESPECIAIS'));
     expect(_consoleCells(10, 59, 80), startsWith('PREÇO'));
-    expect(_consoleCells(11, 0, 24).trim(), equals('A – Roupas'));
-    expect(_consoleCells(12, 0, 24).trim(), equals('B – Gola alta preta'));
+    expect(_consoleCells(11, 0, 24).trim(), equals('A - Roupas'));
+    expect(_consoleCells(12, 0, 24).trim(), equals('B - Gola alta preta'));
     expect(_consoleCells(12, 24, 59).trim(), equals('Furtiva'));
     expect(_consoleLine(21), equals('Pressione uma letra para comprar roupas'));
     expect(_consoleLine(22), equals('Entre - Voltar'));
@@ -220,7 +220,7 @@ void main() {
     await armorDepartment.browseArmor(customers, buyer);
 
     expect(_consoleLine(9), equals('O que Joana vai comprar?'));
-    expect(_consoleCells(11, 0, 24).trim(), equals('A – Couro de moto'));
+    expect(_consoleCells(11, 0, 24).trim(), equals('A - Couro de moto'));
     expect(
       _consoleLine(21),
       equals('Pressione uma letra para comprar armadura'),

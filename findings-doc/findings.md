@@ -78,6 +78,10 @@
 | PT-146 | Medium | Travel/layout | Four-digit pressure values merge with the secrecy label |
 | PT-147 | Low | Translation/style | Founder bonus line loses the requested `Artes Marciais` capitalization |
 | PT-148 | Medium | Combat translation | Combat interpolation exposes English officer names and death templates |
+| PT-149 | Medium | Controls/translation | Dynamic option prefixes change from `-` to an en dash |
+| PT-150 | Medium | Flags/translation/layout | Flag metadata remains English and the flag detail repeats cost text |
+| PT-151 | Low | Flags/layout | Long Portuguese flag issue labels are ellipsized in the compact table |
+| PT-152 | Low | Flags/coverage | Craft-only flag metadata still needs a dedicated localized route sweep |
 
 ## PT-001: Save-management option is clipped
 
@@ -1951,3 +1955,70 @@ The rebuilt route rendered `Policial da SWAT` in the roster and messages such
 as `acerta capacete de Policial da SWAT`; it won before a random death template
 could be selected. Keep the broader deterministic injury, surrender, arrest,
 and post-fight sweep open in PT-048.
+
+## PT-149: Dynamic option prefixes change from `-` to an en dash
+
+- Severity: Medium
+- Type: Controls / translation contract
+- Screen: Base mode → travel destinations, intercity travel, vehicles, and other dynamic option lists
+- Replay status: **Fixed on 2026-08-01; strict-headless replay and validator regression added**
+
+The Portuguese catalog translated dynamic option templates such as
+`{letter} - {name}`, `{key} - {vehicle}`, and `{index} - {base}` to use an en
+dash. Static controls retained the ASCII hyphen, so the same input prefix was
+rendered inconsistently (`A – Comércio` beside `F - Viajar...`). Because these
+prefixes identify the key the player must press, the catalog audit now treats
+the option-builder placeholders as control prefixes and rejects changed or
+removed separators while allowing prose keys such as `{city} - ...` to vary.
+All affected Portuguese templates now preserve ` - `.
+
+The rebuilt strict-headless travel route rendered `A - Comércio`, `B - Centro
+de Seattle`, and `F - Viajar para outra cidade ($100)` after restarting the
+web-server so the updated ARB assets were loaded.
+
+## PT-150: Flag metadata remains English and the flag detail repeats cost text
+
+- Severity: Medium
+- Type: Flag metadata / translation / layout
+- Screen: Base mode → `P - Orgulho: Hastear bandeira ($20)`
+- Replay status: **Fixed on 2026-08-01; strict-headless replay and focused regression added**
+
+Flag names and descriptions came directly from `assets/xml/flags.xml`, so the
+Portuguese menu exposed `United States Flag` and the English patriotism
+description. The issue labels were also rendered raw, and the detail footer
+printed `Cost: ` before a `Cost: $20` line, producing a duplicated cost in
+Portuguese. The visible buyable flag metadata now has catalog entries; the
+renderer localizes names, descriptions, and issue labels exactly once, keeps
+the issue cell separate from heat, and prints one localized `Custo: $20` line.
+
+The rebuilt strict-headless menu rendered `Bandeira dos Estados Unidos`,
+`Bandeira do Orgulho LGBTQ+`, `Demonstre seu patriotismo hasteando a bandeira
+nacional.`, `Questão: Liberdade de Expressão`, and `Custo: $20`; no raw English
+flag name or `Custo:Custo` duplication remained.
+
+## PT-151: Long Portuguese flag issue labels are ellipsized in the compact table
+
+- Severity: Low
+- Type: Fixed-width layout / residual enhancement
+- Screen: Base mode → flag menu compact table
+- Replay status: **Residual after the 2026-08-01 fix; logged for future layout work**
+
+The table reserves 17 columns for the issue before the heat value at column 57.
+Labels such as `Liberdade de Expressão` and `Direitos das Mulheres` therefore
+render as `Liberdade de Exp…` and `Direitos das Mul…`. The truncation no longer
+overwrites the heat value, but a responsive header or a wider detail column
+would improve readability without reducing the flag-name column.
+
+## PT-152: Craft-only flag metadata still needs a dedicated localized route sweep
+
+- Severity: Low
+- Type: Flag metadata coverage / residual verification
+- Screen: Flag crafting flow (not reached in the compact buyable-flag menu)
+- Replay status: **Open follow-up logged on 2026-08-01**
+
+The menu replay covered the five visible buyable flags. The XML also defines
+craft-only flags such as `Progress Pride Flag`, `Black Flag`, and
+`Anarcha-Feminist Flag`; those names, short names, and descriptions remain
+outside the current focused regression. A future crafting route should seed a
+tailoring-capable liberal, walk every craft page, add missing catalog entries,
+and verify that the same issue-column fitting works for the longer metadata.

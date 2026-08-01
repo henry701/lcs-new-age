@@ -84,11 +84,22 @@ void flagMenuDetail(
   int row = 18;
   if (flag.description.isNotEmpty) {
     setColor(darkGray);
-    addparagraph(row, x, flag.description, y2: 21, x2: CONSOLE_WIDTH - 1);
+    addparagraph(
+      row,
+      x,
+      flag.description,
+      y2: 21,
+      x2: CONSOLE_WIDTH - 1,
+    );
     row = console.y + 1;
   }
   row = 20;
-  mvaddstrx(row, x, "&wIssue: &G{label}", params: {"label": flag.view.label});
+  mvaddstrx(
+    row,
+    x,
+    "&wIssue: &G{label}",
+    params: {"label": LcsI18n.tr(flag.view.label)},
+  );
   row++;
   mvaddstrc(row, x, lightGray, "Heat: ");
   var (secrecyText, secrecyColor) = flagSecrecyText(flag);
@@ -98,8 +109,7 @@ void flagMenuDetail(
     addDifficultyText(row, x + 12, difficulty);
   }
   row++;
-  mvaddstrc(row, x, lightGray, "Cost: ");
-  addstrc(costColor, costLine);
+  mvaddstrc(row, x, costColor, costLine);
 }
 
 Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
@@ -195,11 +205,11 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
         0,
         key,
         "{key} - {name}",
-        params: {"key": key, "name": flag.name},
+        params: {"key": key, "name": LcsI18n.tr(flag.name)},
         baseColorKey: index == selected ? ColorKey.white : ColorKey.lightGray,
         enabledWhen: en,
       );
-      mvaddstrc(y, 40, lightGray, flag.view.label);
+      mvaddstrcFitted(y, 40, lightGray, flag.view.label, 17);
       var (secrecyText, secrecyColor) = flagSecrecyText(flag);
       mvaddstrc(y, 57, secrecyColor, secrecyText);
       mvaddstrc(y, 70, costColor(flag), costText(flag));
@@ -268,7 +278,7 @@ void renderFlagPreview(
   eraseArea(startY: 16);
   makeDelimiter(y: 16);
   _drawFlagGraphic(flag, top: 17, left: 10);
-  mvaddstrc(17, 40, white, flag.name);
+  mvaddstrcFitted(17, 40, white, flag.name, CONSOLE_WIDTH - 40);
   flagMenuDetail(
     flag,
     difficulty: difficulty,

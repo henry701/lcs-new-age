@@ -5,7 +5,8 @@
 - Local URL: `http://127.0.0.1:7357`
 - Flutter: 3.35.4
 - Dart: 3.9.2
-- Browser: isolated headed Chrome-for-Testing session
+- Browser (historical initial pass): isolated headed Chrome-for-Testing session;
+  all current verification replays use the strict-headless CLI session below
 - Repository branch: `feature/localization`
 - Starting commit: `03e2ca594771276f6a809ba6be941dd49521aed7`
 - Viewport captured at 1527 × 1293
@@ -2216,3 +2217,24 @@ The seeded squad won before a randomized terminal death/final-words template
 was selected. PT-048 therefore remains an explicit follow-up for deterministic
 injury, surrender, arrest, post-fight, and death-variant coverage; the source
 interpolation audit and catalog additions are tracked as PT-148.
+
+## Strict-headless travel and flag replay after catalog fixes — 2026-08-01
+
+This replay used only the CLI `agent-browser` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The local Flutter web-server was restarted before the final pass so changed
+ARB assets were loaded; no headed browser was launched or left running.
+
+The fresh Portuguese new-game route reached the base, selected the founder's
+squad, and opened the travel selector. Dynamic options now retain their input
+prefixes as `A - Comércio`, `B - Centro de Seattle`, and
+`F - Viajar para outra cidade ($100)` rather than mixing an en dash with the
+ASCII control separator.
+
+Returning to base and opening `P - Orgulho: Hastear bandeira ($20)` rendered
+localized buyable flag names, the Portuguese national-flag description, and
+`Questão: Liberdade de Expressão` without the previous heat-column collision.
+The detail footer rendered one `Custo: $20` line. Long issue labels are safely
+ellipsized before the heat column (`Liberdade de Exp…0`), which is recorded as
+residual PT-151. Craft-only XML flags remain a separate coverage follow-up in
+PT-152.

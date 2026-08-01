@@ -205,6 +205,17 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   use an ellipsis instead of clipping the translated tail.
 - PT-144 fixed (2026-08-01): inflect generic Portuguese warehouse adjectives
   for feminine site types (`Siderúrgica Velha`, not `Siderúrgica Velho`).
+- PT-149 fixed (2026-08-01): preserve ASCII ` - ` in dynamic option templates;
+  the catalog validator now covers `{letter}`, `{key}`, `{keys}`, `{index}`,
+  and `{number}` control prefixes while leaving `{city}`/`{state}` prose free.
+- PT-150 fixed (2026-08-01): localize visible XML flag names/descriptions and
+  issue labels, reserve the heat column, and avoid duplicating `Custo:` in the
+  flag preview footer.
+- PT-151 residual (2026-08-01): the compact flag table still ellipsizes long
+  Portuguese issue labels; consider a responsive issue/detail layout.
+- PT-152 open (2026-08-01): seed a tailoring-capable liberal and sweep every
+  craft-only flag name, short name, description, and issue column for catalog
+  coverage.
 
 ## Newly prioritized after the 2026-07-26 sweep
 

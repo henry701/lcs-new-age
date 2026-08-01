@@ -472,25 +472,25 @@
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 163,
+      "line": 165,
       "text": "{${match.group(1)!}}",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 184,
+      "line": 186,
       "text": "ARB directory not found: $arbDirPath",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 302,
+      "line": 304,
       "text": "^app_${RegExp.escape(locale)}_part(\\\\d+)\\\\.arb\\$",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/catalog_audit.dart",
-      "line": 368,
+      "line": 370,
       "text": "${name}Color",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },

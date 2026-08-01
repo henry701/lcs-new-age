@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/basemode/activate_regulars.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/basemode/base_mode.dart';
+import 'package:lcs_new_age/basemode/flag.dart';
 import 'package:lcs_new_age/basemode/plan_site_visit.dart';
 import 'package:lcs_new_age/basemode/review_mode.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
@@ -472,6 +473,34 @@ void main() {
       isNot(contains('…')),
     );
   });
+
+  test(
+    'Portuguese flag menu localizes metadata and reserves issue columns',
+    () async {
+      _founder();
+      ledger.forceSetFunds(100);
+      console.injectKey('Escape');
+
+      await selectAndFlyFlag(_homelessCamp);
+
+      final rendered = _consoleText();
+      expect(rendered, contains('Bandeira dos Estados Unidos'));
+      expect(rendered, contains('Bandeira do Orgulho LGBTQ+'));
+      expect(rendered, contains('Demonstre seu patriotismo'));
+      expect(rendered, contains('Questão: Liberdade de Expressão'));
+      expect(rendered, contains('Custo: \$20'));
+      expect(rendered, isNot(contains('United States Flag')));
+      expect(rendered, isNot(contains('Demonstrate your patriotism')));
+      expect(rendered, isNot(contains('Custo:Custo:')));
+
+      final issueCell = console.buffer[2]
+          .sublist(40, 57)
+          .map((character) => character.glyph)
+          .join();
+      expect(issueCell, isNot(contains('0')));
+      expect(console.buffer[2][57].glyph, equals('0'));
+    },
+  );
 
   test('Portuguese character profiles localize profession and body labels', () {
     final founder = _founder()

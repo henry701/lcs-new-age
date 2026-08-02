@@ -86,6 +86,8 @@
 | PT-154 | Medium | Flags/translation/layout | Crafting exposes raw XML metadata and lets long rows overwrite columns |
 | PT-155 | Medium | Flags/layout | Craft preview overwrites heat and joins the translated difficulty label |
 | PT-156 | Low | Translation/style | New-game opening mixes hyphenated and unhyphenated `extrema-direita` |
+| PT-168 | Medium | Core layout | Localized party armor overwrites the health column |
+| PT-169 | Low | Translation pipeline | High-score months are translated twice in Portuguese rendering |
 
 ## PT-001: Save-management option is clipped
 
@@ -2245,3 +2247,32 @@ Hated`). The same event prompt now uses the consistent source translation
 `Memorandos das Notícias a Cabo` instead of `Memorandos da Cable News`. The
 headless replay verified `Prisões: -10.0%` in an article and the corrected
 memo text in the Guardian prompt.
+
+## PT-168: Localized party armor overwrote the health column
+
+- Severity: Medium
+- Type: Fixed-width layout / translated equipment
+- Screen: Base mode → party roster
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; focused layout regression added**
+
+The Portuguese short name `Unif. de Segurança` is longer than the original
+English label. The party renderer wrote the full armor value at column 44 and
+then wrote health at column 59, producing `Unif. de Segura~ 130` and making the
+health value unreadable. The armor cell now has an explicit 14-cell budget and
+an empty separator before health. The live replay renders
+`Unif. de Segu… ~ 130`, with the health indicator and value preserved.
+
+## PT-169: High-score months were translated twice
+
+- Severity: Low
+- Type: Translation pipeline / redundant localization
+- Screen: Title screen → high scores
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; static source regression added**
+
+`getMonth` already returns the localized month, but the detailed high-score
+renderer called `LcsI18n.tr` on that Portuguese result a second time. The
+visible date was correct, but the runtime reported false missing translations
+for `Maio` and `Novembro`, polluting translation telemetry and making a future
+catalog collision possible. The renderer now passes `getMonth(s.month)`
+directly; the live high-score screen remains `Maio de 2024`/`Novembro de 2023`
+without those false missing-translation events.

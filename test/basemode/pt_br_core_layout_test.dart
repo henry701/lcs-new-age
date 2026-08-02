@@ -13,6 +13,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/weapon.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 
@@ -80,16 +81,19 @@ void main() {
     expect(_consoleLine(24), contains('B - Agentes Infiltrados'));
   });
 
-  test('Portuguese base agenda option matches its detail-screen terminology', () {
-    expect(
-      LcsI18n.tr('L - The Status of the Liberal Agenda'),
-      equals('L - O status da agenda Liberal'),
-    );
-    expect(
-      LcsI18n.tr('The Status of the Liberal Agenda'),
-      equals('O status da agenda Liberal'),
-    );
-  });
+  test(
+    'Portuguese base agenda option matches its detail-screen terminology',
+    () {
+      expect(
+        LcsI18n.tr('L - The Status of the Liberal Agenda'),
+        equals('L - O status da agenda Liberal'),
+      );
+      expect(
+        LcsI18n.tr('The Status of the Liberal Agenda'),
+        equals('O status da agenda Liberal'),
+      );
+    },
+  );
 
   test('base options clear stale daily-message tails before redrawing', () {
     mvaddstr(
@@ -215,6 +219,36 @@ void main() {
     expect(_consoleCells(2, 23, 24), equals(' '));
     expect(_consoleCells(2, 29, 30), equals(' '));
     expect(_consoleCells(2, 30, 44).trim(), isNotEmpty);
+  });
+
+  test('Portuguese party armor is fitted before the health column', () {
+    final liberal = _activeLiberal()
+      ..equippedClothing = Clothing('CLOTHING_SECURITYUNIFORM');
+    final squad = Squad()..members.add(liberal);
+    squads.add(squad);
+    activeSquad = squad;
+
+    printParty(fullParty: true);
+
+    final armor = _consoleCells(
+      2,
+      ManagementTableLayout.partyArmorX,
+      ManagementTableLayout.partyHealthX,
+    );
+    expect(armor, equals('Unif. de Segu… '));
+    expect(
+      _consoleCells(
+        2,
+        ManagementTableLayout.partyHealthX,
+        ManagementTableLayout.partyHealthX +
+            ManagementTableLayout.partyHealthWidth,
+      ).trim(),
+      isNotEmpty,
+    );
+    expect(
+      console.buffer[2][ManagementTableLayout.partyHealthX - 1].glyph,
+      equals(' '),
+    );
   });
 
   test('Portuguese character details respect field and skill budgets', () {

@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
-import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/saveload/save_load.dart';
 import 'package:lcs_new_age/title_screen/game_over.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -209,7 +208,7 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
     };
     addstr(
       endingTemplate,
-      params: {"month": LcsI18n.tr(getMonth(s.month)), "year": s.year},
+      params: {"month": getMonth(s.month), "year": s.year},
     );
     mvaddstr(
       y + 2,

@@ -178,13 +178,13 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 269,
+      "line": 273,
       "text": "\\$${ledger.funds}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 392,
+      "line": 396,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },
@@ -1318,7 +1318,7 @@
     },
     {
       "file": "title_screen/high_scores.dart",
-      "line": 317,
+      "line": 316,
       "text": "loadHighScores: Unknown scoreVersion: $loadversion",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -1342,7 +1342,7 @@
     },
     {
       "file": "common_display/print_party.dart",
-      "line": 90,
+      "line": 95,
       "text": "$skill/${c.weaponSkill}",
       "reason": "Locale-neutral numeric skill summary fitted into a fixed-width management cell."
     },

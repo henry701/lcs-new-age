@@ -303,6 +303,12 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-167 fixed: dynamic media impact labels and Guardian memo names now have
   Portuguese catalog coverage; the replay showed `Prisões: -10.0%` and
   `Memorandos das Notícias a Cabo`.
+- PT-168 fixed (2026-08-02): fit the localized party armor cell before health;
+  the security-uniform replay now renders `Unif. de Segu… ~ 130` with a
+  separator instead of `Unif. de Segura~ 130`.
+- PT-169 fixed (2026-08-02): high-score detail no longer translates the
+  already-localized month a second time; the replay stopped false `Maio`/
+  `Novembro` missing-translation telemetry.
 - Residuals remain PT-048/PT-148 (deterministic terminal combat variants),
   PT-083 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
   (oversized debug/import roster), and accepted PT-049 (English changelog

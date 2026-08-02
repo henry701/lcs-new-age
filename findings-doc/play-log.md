@@ -2365,3 +2365,33 @@ No new translation or layout defect was confirmed. Residuals remain
 PT-048/PT-148 (deterministic terminal combat/death/surrender variants), PT-083
 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
 (oversized debug/import roster), and accepted PT-049 (English changelog body).
+
+## Strict-headless high-score, narrow-overlay, and party-roster replay — 2026-08-02
+
+This pass used only the CLI `agent-browser` session `pt-next-20260802`, with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The local web server was hot-restarted after the renderer changes; no headed
+browser was launched, focused, or left running.
+
+The title route was seeded with two disposable high-score records through the
+browser's Portuguese preferences. The high-score page rendered the localized
+heading, endings, dates (`Maio de 2024` and `Novembro de 2023`), stats, and
+currency labels. Before the fix, the browser console also reported false
+missing translations for the already-localized month values `Maio` and
+`Novembro`; after the hot restart and replay those events disappeared. The
+400×300 capture is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/high-scores-400x300.png`.
+
+The changelog overlay at 400×300 remains the known PT-083 fixed-console
+limitation: the Portuguese title and English-only release-note notice are
+visible, but the lower modal body extends below the viewport. The capture is
+retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/changelog-400x300.png`; no new
+translation defect was found.
+
+A fresh Portuguese founder route selected the security-uniform biography
+branch and reached base mode. Before the fix the roster row merged the
+localized armor and health cells as `Unif. de Segura~ 130`. The live rebuilt
+buffer now shows `Unif. de Segu… ~ 130`, with the fitted armor cell, separator,
+health indicator, and value all readable. This closes PT-168. The focused
+layout suite and full static interpolation gate passed after the change.

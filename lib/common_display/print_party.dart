@@ -5,7 +5,6 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
-import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
 void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
@@ -53,15 +52,21 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
       setWeaponColor(party[p]);
       printWeapon(party[p]);
       setColorForArmor(party[p]);
-      mvaddstr(
+      mvaddstrFitted(
         p + 2,
-        44,
-        LcsI18n.tr(party[p].clothing.shortName),
-        noTranslate: true,
+        ManagementTableLayout.partyArmorX,
+        party[p].clothing.shortName,
+        ManagementTableLayout.partyArmorWidth,
       );
       // Keep one separator column before the transport cell; Portuguese armor
       // labels can be longer than their English counterparts.
-      printHealthStat(p + 2, 59, party[p], small: true, maxWidth: 10);
+      printHealthStat(
+        p + 2,
+        ManagementTableLayout.partyHealthX,
+        party[p],
+        small: true,
+        maxWidth: ManagementTableLayout.partyHealthWidth,
+      );
       setColor(lightGray);
       move(p + 2, 70);
       printTransportation(party[p], showCarPrefs);

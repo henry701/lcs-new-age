@@ -417,6 +417,11 @@ void main() {
       expect(source, isNot(contains('liberalized the country in "')));
       expect(source, contains('liberalized the country in {month} {year}.'));
       expect(source, contains('was defeated in {month} {year}.'));
+      expect(
+        source,
+        contains('params: {"month": getMonth(s.month), "year": s.year}'),
+      );
+      expect(source, isNot(contains('LcsI18n.tr(getMonth(s.month))')));
     });
 
     test('shop sale totals are full currency templates', () {

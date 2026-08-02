@@ -50,6 +50,10 @@ abstract final class ManagementTableLayout {
   static const int partySkillHeaderX = 23;
   static const int partySkillX = 24;
   static const int partyWeaponX = 30;
+  static const int partyArmorX = 44;
+  static const int partyHealthX = 59;
+  static const int partyArmorWidth = partyHealthX - partyArmorX - 1;
+  static const int partyHealthWidth = 10;
   static const int skillX = 24;
   static const int skillWidth = 7;
   static const int healthX = 32;

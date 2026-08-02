@@ -125,7 +125,7 @@ void main() {
     printParty(fullParty: true);
 
     final rendered = _consoleText();
-    expect(rendered, contains('Jaqueta Torcida'));
+    expect(rendered, contains('Jaqueta Torci…'));
     expect(rendered, isNot(contains('Cheer Jacket')));
     expect(founder.equippedClothing?.shortName, equals('Cheer Jacket'));
   });
@@ -137,7 +137,7 @@ void main() {
     printParty(fullParty: true);
 
     final rendered = _consoleText();
-    expect(rendered, contains('Unif. de Segura'));
+    expect(rendered, contains('Unif. de Segu…'));
     expect(rendered, isNot(contains('Security Unif.')));
   });
 

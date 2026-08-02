@@ -275,7 +275,7 @@ void main() {
     expect(_consoleCells(1, 30, 44), startsWith('ARMA'));
     expect(_consoleCells(1, 44, 59), startsWith('ROUPA'));
     expect(_consoleCells(2, 29, 44).trim(), startsWith('Rev. .22'));
-    expect(_consoleCells(2, 44, 59).trim(), equals('Gola alta preta'));
+    expect(_consoleCells(2, 44, 59).trim(), equals('Gola alta pre…'));
     expect(_consoleCells(10, 1, 28).trim(), equals('A - Faca de combate'));
     expect(_consoleCells(10, 28, 55).trim(), equals('B - Vestido barato'));
     expect(_consoleCells(10, 55, 80).trim(), equals('C - Munição .22 LR'));

@@ -2491,3 +2491,19 @@ catalog entries, restarting the web server to refresh the asset manifest, and
 replaying the route, the live buffer showed `POSTES` and `GERADOR`. No new
 player-visible translation defect was found. Deterministic death/arrest and
 save/import/narrow-viewport routes remain in the residual queue.
+
+## Strict-headless project-config and narrow-layout replay — 2026-08-02
+
+The repository-level `agent-browser.json` was exercised without shell
+overrides. `agent-browser doctor --json` reported a valid project config, and
+the live Chrome process included `--ozone-platform=headless`; the session was
+closed after the replay. No headed browser or desktop focus was used.
+
+At a 480×320 viewport, the Portuguese title and base screens remained
+translated, but the fixed 80-column console was scaled to very small text and
+the title's version/focus footer reached the viewport edge. The base buffer
+itself remained complete, so this reconfirms the known PT-083 responsive
+readability/clipping limitation rather than a new translation defect. Captures
+are retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-narrow-config-20260802.png`
+and `base-narrow-config-20260802.png`.

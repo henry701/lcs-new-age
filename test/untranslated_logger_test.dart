@@ -115,6 +115,14 @@ void main() {
       );
       expect(UntranslatedStringLogger.shouldIgnoreString('0xFA12'), isTrue);
       expect(UntranslatedStringLogger.shouldIgnoreString('1234.50'), isTrue);
+      expect(UntranslatedStringLogger.shouldIgnoreString('+152'), isTrue);
+      expect(UntranslatedStringLogger.shouldIgnoreString('-3.5'), isTrue);
+      expect(UntranslatedStringLogger.shouldIgnoreString('.44 Magnum'), isTrue);
+      expect(UntranslatedStringLogger.shouldIgnoreString('Banjo'), isTrue);
+      expect(
+        UntranslatedStringLogger.shouldIgnoreString('{letter} - {name}'),
+        isTrue,
+      );
       expect(
         UntranslatedStringLogger.shouldIgnoreString('DEBUG trace'),
         isTrue,

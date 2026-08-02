@@ -2395,3 +2395,28 @@ localized armor and health cells as `Unif. de Segura~ 130`. The live rebuilt
 buffer now shows `Unif. de Segu… ~ 130`, with the fitted armor cell, separator,
 health indicator, and value all readable. This closes PT-168. The focused
 layout suite and full static interpolation gate passed after the change.
+
+## Strict-headless siege/review replay after fixes — 2026-08-02
+
+This follow-up stayed in the CLI `agent-browser` session
+`pt-combat-20260802` with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless`; no headed browser was launched or
+focused. The rebuilt review-assets screen was rechecked after the layout fix.
+The long location remains inside its 19-cell budget, the activity starts after
+the separator, and pager controls render as `Página Anterior`/`Próxima Página`
+without a second translation pass. The capture is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/post-fix-current.png`.
+
+The siege source route had exposed two copy issues: `sobreviver a isso
+confronto` and `Você é procurado por interrogatório!`. The first now composes
+as `sobreviver a este confronto`; the no-crime warning has a dedicated key and
+renders `Você está sendo procurado para interrogatório!`. A focused siege
+regression drives the real `stateBrokenLaws` renderer and verifies the latter.
+
+The same replay's console output contained false missing-translation noise for
+prelocalized pager strings, structural templates, unchanged model/proper-name
+values, and signed numeric deltas. Pager call sites now use `noTranslate`, and
+the logger ignores structural keys and signed numbers while retaining normal
+human-readable missing-key reporting. Focused pager/logger tests pass. No new
+translation or layout defect was confirmed; existing residuals remain
+PT-048/PT-148, PT-083, PT-151, PT-164, and accepted PT-049.

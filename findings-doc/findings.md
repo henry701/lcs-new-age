@@ -88,6 +88,10 @@
 | PT-156 | Low | Translation/style | New-game opening mixes hyphenated and unhyphenated `extrema-direita` |
 | PT-168 | Medium | Core layout | Localized party armor overwrites the health column |
 | PT-169 | Low | Translation pipeline | High-score months are translated twice in Portuguese rendering |
+| PT-170 | Medium | Core layout | Long squad locations overwrite the activity column in review rows |
+| PT-171 | Low | Combat translation | Siege briefing joins `a isso confronto` in Portuguese |
+| PT-172 | Medium | Combat translation | Generic wanted-for template produces unnatural questioning wording |
+| PT-173 | Low | Translation telemetry | Prelocalized pager labels, structural keys, and signed numbers create false missing logs |
 
 ## PT-001: Save-management option is clipped
 
@@ -2276,3 +2280,62 @@ for `Maio` and `Novembro`, polluting translation telemetry and making a future
 catalog collision possible. The renderer now passes `getMonth(s.month)`
 directly; the live high-score screen remains `Maio de 2024`/`Novembro de 2023`
 without those false missing-translation events.
+
+## PT-170: Long squad locations overwrite the activity column
+
+- Severity: Medium
+- Type: Fixed-width layout / localized location name
+- Screen: Base mode → Revisar seus Liberais e Monte Esquadrões
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; focused layout regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-review.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/post-fix-current.png`
+
+The review table wrote a localized site name directly at column 31 and the
+activity at column 51. `Fabricantes de brinquedos` therefore ran into
+`Mantendo Discrição`, making the activity unreadable. The location and activity
+cells now have explicit 19- and 29-column budgets with an empty separator. The
+headless rebuilt screen keeps both values in their own cells, and the layout
+test uses a deliberately long Portuguese site name.
+
+## PT-171: Siege briefing used the wrong demonstrative
+
+- Severity: Low
+- Type: Translation agreement / concatenated prose
+- Screen: Siege → escape or engage briefing
+- Replay status: **Fixed and verified on 2026-08-02; context catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-siege-fight-menu.png`
+
+The source sentence is split across two keys. Portuguese translated the first
+fragment as `... sobreviver a isso` and the second as `confronto.`, producing
+`sobreviver a isso confronto`. The fragment now ends with `a este`, yielding
+`sobreviver a este confronto`.
+
+## PT-172: Wanted-for-questioning announcement was unnatural
+
+- Severity: Medium
+- Type: Translation context
+- Screen: Siege → loudspeaker surrender announcement
+- Replay status: **Fixed and verified on 2026-08-02; focused siege regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-siege-start.png`
+
+When no specific broken law was present, the generic template rendered
+`Você é procurado por interrogatório!`. That construction is not idiomatic
+Portuguese and does not preserve the English meaning “wanted for questioning”.
+The zero-crime branch now uses a dedicated catalog key rendered as
+`Você está sendo procurado para interrogatório!`; crime-specific announcements
+still use the interpolated template.
+
+## PT-173: Translation telemetry reported intentional rendered values
+
+- Severity: Low
+- Type: Translation pipeline / diagnostics
+- Screen: Any paged Portuguese list; combat/equipment numeric updates
+- Replay status: **Fixed and verified on 2026-08-02; logger and pager regressions added**
+
+Pager getters return already-localized strings such as `[ - Anterior`, but
+several callers sent those values through the translator a second time. The
+runtime consequently reported false missing keys for pager labels, structural
+templates, unchanged model/proper-name values such as `.44 Magnum` and `Banjo`,
+and signed numeric deltas such as `+152`. Pager call sites now mark the
+prelocalized values as `noTranslate`, and the logger ignores the existing
+structural exception set plus signed numeric values. Human-readable missing
+copy continues to be reported normally.

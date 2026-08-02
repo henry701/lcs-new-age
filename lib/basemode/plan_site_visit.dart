@@ -142,8 +142,12 @@ Future<void> planSiteVisit() async {
       );
     }
     setColor(lightGray);
-    if (page > 0) mvaddstr(10, 60, previousPageStr);
-    if (page + 1 < destinationList.length / 11) mvaddstr(20, 60, nextPageStr);
+    if (page > 0) {
+      mvaddstr(10, 60, previousPageStr, noTranslate: true);
+    }
+    if (page + 1 < destinationList.length / 11) {
+      mvaddstr(20, 60, nextPageStr, noTranslate: true);
+    }
     if (area == squadLocation?.city) {
       addOptionText(
         24,

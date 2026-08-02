@@ -21,11 +21,23 @@ Future<void> setVehicles() async {
     setColor(lightGray);
     //PAGE UP
     if (page > 0) {
-      addOptionText(19, 1, previousPageStr.split(" ").first, previousPageStr);
+      addOptionText(
+        19,
+        1,
+        previousPageStr.split(" ").first,
+        previousPageStr,
+        noTranslate: true,
+      );
     }
     //PAGE DOWN
     if ((page + 1) * carsPerPage < vehiclePool.length) {
-      addOptionText(19, 53, nextPageStr.split(" ").first, nextPageStr);
+      addOptionText(
+        19,
+        53,
+        nextPageStr.split(" ").first,
+        nextPageStr,
+        noTranslate: true,
+      );
     }
 
     mvaddstr(

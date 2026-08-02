@@ -104,7 +104,7 @@ Future<int> choiceprompt(
         );
     }
     move(23, 0);
-    addstr(pageStr);
+    addstr(pageStr, noTranslate: true);
     if (allowexitwochoice) {
       addOptionText(
         24,

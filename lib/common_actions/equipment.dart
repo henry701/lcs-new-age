@@ -76,11 +76,11 @@ Future<void> equip(List<Item>? loot) async {
 
     //PAGE UP
     if (page > 0) {
-      mvaddstr(17, 1, previousPageStr);
+      mvaddstr(17, 1, previousPageStr, noTranslate: true);
     }
     //PAGE DOWN
     if ((page + 1) * 18 < loot.length) {
-      mvaddstr(17, 53, nextPageStr);
+      mvaddstr(17, 53, nextPageStr, noTranslate: true);
     }
 
     mvaddstrc(19, 1, lightGray, "Press a letter to equip a Liberal item");
@@ -366,11 +366,11 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
     //PAGE UP
     setColor(lightGray);
     if (page > 0) {
-      mvaddstr(17, 1, previousPageStr);
+      mvaddstr(17, 1, previousPageStr, noTranslate: true);
     }
     //PAGE DOWN
     if ((page + 1) * 18 < source.length) {
-      mvaddstr(17, 53, nextPageStr);
+      mvaddstr(17, 53, nextPageStr, noTranslate: true);
     }
 
     mvaddstrc(23, 1, lightGray, "Press a letter to select an item.");

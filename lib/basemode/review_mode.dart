@@ -15,6 +15,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/creature/sort_creatures.dart';
 import 'package:lcs_new_age/daily/advance_day.dart';
 import 'package:lcs_new_age/daily/hostages/traumatize.dart';
+import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
@@ -29,6 +30,12 @@ import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+
+const int reviewSquadNameWidth = 30;
+const int reviewLocationX = 31;
+const int reviewActivityX = 51;
+const int reviewLocationWidth = reviewActivityX - reviewLocationX - 1;
+const int reviewActivityWidth = CONSOLE_WIDTH - reviewActivityX;
 
 Future<void> reviewAssetsAndFormSquads() async {
   int page = 0;
@@ -75,7 +82,7 @@ Future<void> reviewAssetsAndFormSquads() async {
           0,
           letter,
           "{letter} - {name}",
-          30,
+          reviewSquadNameWidth,
           baseColorKey: active ? "W" : "w",
           params: {
             "letter": letter,
@@ -94,7 +101,13 @@ Future<void> reviewAssetsAndFormSquads() async {
                 setColor(active ? yellow : brown);
               }
             }
-            mvaddstr(y, 31, loc.getName(short: true, includeCity: true));
+            mvaddstrFitted(
+              y,
+              reviewLocationX,
+              loc.getName(short: true, includeCity: true),
+              reviewLocationWidth,
+              noTranslate: true,
+            );
             setColor(active ? white : lightGray);
           }
         }
@@ -116,7 +129,13 @@ Future<void> reviewAssetsAndFormSquads() async {
               setColor(white);
             }
           }
-          mvaddstr(y, 51, str, noTranslate: true);
+          mvaddstrFitted(
+            y,
+            reviewActivityX,
+            str,
+            reviewActivityWidth,
+            noTranslate: true,
+          );
         }
       } else if (p == squads.length) {
         addOptionText(
@@ -1405,7 +1424,7 @@ Future<void> promoteliberals() async {
     );
     if (temppool.length > pageLength) {
       move(24, 0);
-      addstr(pageStr);
+      addstr(pageStr, noTranslate: true);
     }
 
     int c = await getKey();

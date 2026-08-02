@@ -962,8 +962,7 @@ void main() {
       'R - Release, ': 'R - Libertar, ',
       'R - Reorganize, ': 'R - Reorganizar, ',
       'D - Buy weapons.': 'D - Comprar armas.',
-      'D - Buy weapons while naked.':
-          'D - Comprar armas enquanto está nu.',
+      'D - Buy weapons while naked.': 'D - Comprar armas enquanto está nu.',
     };
 
     for (final entry in expected.entries) {
@@ -1835,6 +1834,10 @@ void main() {
       "There's nothing left but smoking wreckage...":
           'Não resta nada além de destroços fumegantes...',
       'Your Liberals are starving!': 'Seus Liberais estão passando fome!',
+      'You are wanted for questioning!':
+          'Você está sendo procurado para interrogatório!',
+      'you will have to defeat them all or run away to survive this':
+          'você terá que derrotá-los todos ou fugir para sobreviver a este',
     };
     for (final entry in expected.entries) {
       expect(catalog[entry.key], entry.value, reason: entry.key);

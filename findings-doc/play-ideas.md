@@ -309,6 +309,16 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-169 fixed (2026-08-02): high-score detail no longer translates the
   already-localized month a second time; the replay stopped false `Maio`/
   `Novembro` missing-translation telemetry.
+- PT-170 fixed and verified (2026-08-02): review-assets rows now fit long
+  Portuguese locations before the activity column and preserve a separator.
+- PT-171 fixed and verified (2026-08-02): the split siege briefing now joins
+  as `sobreviver a este confronto`.
+- PT-172 fixed and verified (2026-08-02): a no-crime siege warning now says
+  `Você está sendo procurado para interrogatório!` instead of using the
+  generic `procurado por interrogatório` construction.
+- PT-173 fixed and verified (2026-08-02): already-localized pager labels,
+  structural templates, unchanged model/proper-name values, and signed numeric
+  deltas no longer pollute missing-translation telemetry.
 - Residuals remain PT-048/PT-148 (deterministic terminal combat variants),
   PT-083 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
   (oversized debug/import roster), and accepted PT-049 (English changelog

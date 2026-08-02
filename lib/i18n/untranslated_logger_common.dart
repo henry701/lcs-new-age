@@ -1,3 +1,5 @@
+import 'package:lcs_new_age/i18n/translation_exceptions.dart';
+
 final _whitespaceSplitPattern = RegExp(r'\s+');
 final _urlPattern = RegExp(r'^(?:https?|file)://');
 final _windowsPathPattern = RegExp(r'^[A-Za-z]:[\\/]');
@@ -11,7 +13,7 @@ final _slashSeparatedFilePathPattern = RegExp(
 final _hexLikePattern = RegExp(
   r'^(?:0[xX])?(?=[0-9a-fA-F]{4,}$)(?=.*\d)[0-9a-fA-F]+$',
 );
-final _numericPattern = RegExp(r'^[\d.]+$');
+final _numericPattern = RegExp(r'^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$');
 final _whitespaceOnlyPattern = RegExp(r'^[\s\t\r\n]+$');
 final _singlePlaceholderPattern = RegExp(r'^\{[^{}]+\}$');
 final _symbolOnlyPattern = RegExp(r'^[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?]+$');
@@ -24,6 +26,10 @@ bool shouldIgnoreUntranslatedString(String englishText) {
 
   // Empty or whitespace only
   if (trimmed.isEmpty) return true;
+
+  // These keys intentionally remain unchanged because their dynamic pieces
+  // are translated separately or the value is a proper name/model label.
+  if (structuralTranslationKeys.contains(trimmed)) return true;
 
   // Generated prose bodies are too large and volatile to be useful translation keys.
   final wordCount = trimmed

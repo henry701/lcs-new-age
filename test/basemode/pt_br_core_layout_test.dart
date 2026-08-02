@@ -15,6 +15,9 @@ import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/weapon.dart';
+import 'package:lcs_new_age/location/city.dart';
+import 'package:lcs_new_age/location/location_type.dart';
+import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 
 import '../test_support.dart';
@@ -177,6 +180,49 @@ void main() {
       );
     },
   );
+
+  test('Portuguese squad review fits long locations before activity', () async {
+    final previousGameState = gameState;
+    try {
+      gameState = GameState();
+      final city = City('Seattle, WA', 'SEA', '');
+      gameState.cities = [city];
+      final district = city.addDistrict('Comércio', 'Comércio');
+      final site = Site(SiteType.warehouse, city, district)
+        ..rename('Toy Factory', 'Fabricantes de brinquedos');
+      district.sites.add(site);
+
+      final member = _activeLiberal()..location = site;
+      final squad = Squad()
+        ..name = 'The Liberal Crime Squad'
+        ..members.add(member);
+      squads.add(squad);
+      pool.add(member);
+      activeSquad = squad;
+      console.keyEvent(_enterKey);
+
+      await reviewAssetsAndFormSquads();
+
+      expect(
+        _consoleCells(2, reviewLocationX, reviewActivityX - 1).trim(),
+        equals(
+          fitConsoleText(
+            site.getName(short: true, includeCity: true),
+            reviewLocationWidth,
+          ),
+        ),
+      );
+      expect(
+        _consoleCells(2, reviewActivityX, console.width).trim(),
+        equals(
+          fitConsoleText(member.activity.description, reviewActivityWidth),
+        ),
+      );
+      expect(console.buffer[2][reviewActivityX - 1].glyph, equals(' '));
+    } finally {
+      gameState = previousGameState;
+    }
+  });
 
   test(
     'Portuguese active-Liberal review footer keeps controls separated',

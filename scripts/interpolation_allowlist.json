@@ -124,37 +124,37 @@
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 465,
+      "line": 484,
       "text": "\\$${tempp.medicalBills}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1284,
+      "line": 1303,
       "text": "&${ColorKey.fromColor(bracketcolor)}[",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1286,
+      "line": 1305,
       "text": "&${ColorKey.fromColor(blue)}[",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1287,
+      "line": 1306,
       "text": "&${ColorKey.fromColor(blue)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1289,
+      "line": 1308,
       "text": "&${ColorKey.fromColor(bracketcolor)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1292,
+      "line": 1311,
       "text": "&${ColorKey.fromColor(namecolor)}$name",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },

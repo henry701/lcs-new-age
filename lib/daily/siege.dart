@@ -2429,7 +2429,9 @@ Future<void> stateBrokenLaws(Site loc) async {
               ?.chargedWith ??
           "questioning",
     );
-    if (typenum > 1) {
+    if (typenum == 0) {
+      mvaddstrc(4, 1, red, "You are wanted for questioning!");
+    } else if (typenum > 1) {
       mvaddstrc(
         4,
         1,

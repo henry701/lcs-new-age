@@ -802,11 +802,11 @@ class Shop extends ShopOption {
       //PAGE UP
       setColor(lightGray);
       if (page > 0) {
-        mvaddstr(17, 1, previousPageStr);
+        mvaddstr(17, 1, previousPageStr, noTranslate: true);
       }
       //PAGE DOWN
       if ((page + 1) * 18 < base.loot.length) {
-        mvaddstr(17, 53, nextPageStr);
+        mvaddstr(17, 53, nextPageStr, noTranslate: true);
       }
 
       mvaddstrc(23, 1, lightGray, "Press a letter to select an item to sell.");
@@ -907,7 +907,7 @@ class Shop extends ShopOption {
 
       mvaddstrc(22, 0, lightGray, "Press a Letter to select a Mask");
       move(23, 0);
-      addstr(pageStr);
+      addstr(pageStr, noTranslate: true);
       addOptionText(
         24,
         0,

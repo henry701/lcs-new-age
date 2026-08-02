@@ -2507,3 +2507,25 @@ readability/clipping limitation rather than a new translation defect. Captures
 are retained at
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-narrow-config-20260802.png`
 and `base-narrow-config-20260802.png`.
+
+## Strict-headless injury-treatment redraw replay — 2026-08-02
+
+This pass used only the CLI `agent-browser` session
+`pt-injury-fix-20260802`, launched with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless`. The temporary local
+all-pool injury fixture was used only to make the daily treatment branch
+deterministic and was not retained in the production build.
+
+After selecting Portuguese, starting a new founder, travelling to the
+industrial district's homeless encampment, and executing the plan, the first
+treatment prompt rendered as the clean single-row sentence
+`Os ferimentos de Jared Toft exigem tratamento profissional.`. The previous
+replay had appended stale `...-teto.` text from the safehouse location header;
+the new `showAdvanceDayMessage` call clears and fits row 8. Repeated Enter
+prompts drained the fixture and reached `2 de jan de 2023` with no stale tail.
+Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-message-2-20260802.png`
+and `injury-drained-20260802.png`.
+
+The strict-headless combat terminal death/arrest variants were not reproduced
+in this pass and remain open under PT-048/PT-148. Other residuals remain
+PT-083, PT-151, PT-164, and accepted PT-049.

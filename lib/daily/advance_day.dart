@@ -1034,10 +1034,10 @@ Future<void> _dailyHealing() async {
           p.align == Alignment.liberal &&
           p.site!.controller == SiteController.lcs &&
           p.site!.type != SiteType.universityHospital) {
-        setColor(white);
-        mvaddstr(
+        showAdvanceDayMessage(
           8,
           1,
+          white,
           "{name}'s injuries require professional treatment.",
           params: {"name": p.name},
         );

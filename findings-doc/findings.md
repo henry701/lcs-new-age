@@ -102,6 +102,7 @@
 | PT-181 | Medium | Core layout | Localized sleeper site name overwrites the activity column |
 | PT-182 | Medium | Flags/translation/layout | Flag rows expose raw status labels and collide with the issue column |
 | PT-183 | Medium | Missing translation/route coverage | Compound status row exposes raw `BOLLARDS` and `GENERATOR` |
+| PT-184 | Medium | Core layout | Daily injury-treatment messages leave stale text on the fixed console row |
 
 ## PT-001: Save-management option is clipped
 
@@ -2487,3 +2488,24 @@ siege and after surrender returned to the normal safehouse screen. The
 canonical catalogs now map these keys to the compact Portuguese labels
 `POSTES` and `GERADOR`; the rebuilt browser buffer showed both translations in
 the fixed-width row without a collision.
+
+## PT-184: Daily injury-treatment messages left stale text on the fixed row
+
+- Severity: Medium
+- Type: Core layout / localized rendering
+- Screen: End-of-day processing after a Liberal needs professional treatment
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-02; static and layout regressions added**
+
+The injury-treatment branch wrote its localized sentence directly to row 8
+with `mvaddstr`, without clearing the rest of the fixed-width console row. If
+the preceding screen left a longer header or location label there, the live
+buffer showed a Portuguese sentence followed by stale text, for example
+`Os ferimentos de Jared Toft exigem tratamento profissional.l.-teto.`
+
+The branch now uses `showAdvanceDayMessage`, which clears the row and fits the
+localized template before waiting for input. A fresh deterministic replay with
+the temporary all-pool injury fixture rendered the clean line
+`Os ferimentos de Jared Toft exigem tratamento profissional.` and then reached
+day 2 without residual text. Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-message-2-20260802.png`
+and `injury-drained-20260802.png`.

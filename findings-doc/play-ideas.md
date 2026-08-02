@@ -342,6 +342,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-183 fixed and verified (2026-08-02): police-siege safehouse compound
   status now translates `BOLLARDS`/`GENERATOR` as `POSTES`/`GERADOR` in both
   siege and post-surrender screens.
+- PT-184 fixed and verified (2026-08-02): daily injury-treatment prompts now
+  clear and fit row 8 before rendering the Portuguese sentence, so stale
+  safehouse/location tails cannot remain after the message.
 - Residuals remain PT-048/PT-148 (deterministic terminal combat variants),
   PT-083 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
   (oversized debug/import roster), and accepted PT-049 (English changelog

@@ -156,6 +156,16 @@ void main() {
       expect(advanceDay, isNot(contains(r'"${p.name} has been discharged')));
       expect(advanceDay, contains('"{name} has been discharged from {site}."'));
       expect(advanceDay, contains('showAdvanceDayMessage('));
+      expect(
+        advanceDay,
+        contains(
+          'showAdvanceDayMessage(\n'
+          '          8,\n'
+          '          1,\n'
+          '          white,\n'
+          '          "{name}\'s injuries require professional treatment.",',
+        ),
+      );
       expect(flag, isNot(contains(r'${loc.getName(short: true)}')));
       expect(flag, contains('"Change the flag flying over the {site}:"'));
       expect(flag, contains('"Fly a flag over the {site}:"'));

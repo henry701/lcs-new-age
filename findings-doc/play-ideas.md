@@ -339,6 +339,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   before `Mantendo Discrição`, so `Casa Branca` cannot overwrite activity.
 - PT-182 fixed and verified (2026-08-02): flag status keys are cataloged and
   long names are fitted before the issue column.
+- PT-183 fixed and verified (2026-08-02): police-siege safehouse compound
+  status now translates `BOLLARDS`/`GENERATOR` as `POSTES`/`GERADOR` in both
+  siege and post-surrender screens.
 - Residuals remain PT-048/PT-148 (deterministic terminal combat variants),
   PT-083 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
   (oversized debug/import roster), and accepted PT-049 (English changelog
@@ -358,3 +361,12 @@ Do not mark the localization goal complete until a fresh Portuguese replay
 covers the high-risk routes above, every confirmed issue is fixed or explicitly
 accepted, focused and full tests pass, and the findings tracker has no open
 translation or layout issues backed by current evidence.
+
+# 2026-08-02 strict-headless combat follow-up
+
+The headless combat fixture reached a Portuguese siege briefing, combat roster,
+victory screen, and surrender path. The compound row initially leaked the raw
+English labels `BOLLARDS` and `GENERATOR`; PT-183 adds `POSTES` and `GERADOR`
+and a fresh server restart verified the translations in the live buffer. Death
+and arrest variants were not reproduced; keep them open with save/import and
+narrow-layout coverage.

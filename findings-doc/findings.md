@@ -101,6 +101,7 @@
 | PT-180 | Medium | Controls/translation | Review-mode profile footer uses an unbounded English-prefix renderer |
 | PT-181 | Medium | Core layout | Localized sleeper site name overwrites the activity column |
 | PT-182 | Medium | Flags/translation/layout | Flag rows expose raw status labels and collide with the issue column |
+| PT-183 | Medium | Missing translation/route coverage | Compound status row exposes raw `BOLLARDS` and `GENERATOR` |
 
 ## PT-001: Save-management option is clipped
 
@@ -2472,3 +2473,17 @@ column. The canonical catalogs now provide `Grátis`, `Hasteada`, and `Banida`.
 The first column is fitted to 40 cells, leaving the issue cell at column 40;
 the rebuilt menu showed an ellipsis before `Direitos LGBTQ+` instead of a
 collision.
+
+## PT-183: Compound status row exposed raw BOLLARDS and GENERATOR
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Base mode → police-siege safehouse status
+- Replay status: **Fixed and verified in a fresh strict-headless bundle on 2026-08-02; vocabulary regression added**
+
+The safehouse compound status row was otherwise Portuguese but displayed the
+raw English labels `BOLLARDS` and `GENERATOR`, both while the site was under
+siege and after surrender returned to the normal safehouse screen. The
+canonical catalogs now map these keys to the compact Portuguese labels
+`POSTES` and `GERADOR`; the rebuilt browser buffer showed both translations in
+the fixed-width row without a collision.

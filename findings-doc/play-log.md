@@ -2474,3 +2474,20 @@ reached in this pass, so PT-048/PT-148 remain open for deterministic terminal
 death, surrender, arrest, and post-fight variants. Other residuals remain
 PT-083 (narrow viewport), PT-151 (intentional issue-label ellipses), PT-164
 (oversized debug/import roster), and accepted PT-049 (English changelog body).
+
+## Strict-headless combat and compound-label replay — 2026-08-02
+
+This replay used only the CLI `agent-browser` session
+`pt-combat-20260802` with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless`. A temporary local debug fixture
+created a police siege so the safehouse and combat routes could be reached
+deterministically; the debug flags were not retained for the production build.
+
+The siege briefing, combat roster, combat log, victory screen, and surrender
+messages were all Portuguese. The first fresh bundle exposed `BOLLARDS` and
+`GENERATOR` in the compound status row on both the siege and post-surrender
+safehouse screens (PT-183). After adding the canonical `POSTES` and `GERADOR`
+catalog entries, restarting the web server to refresh the asset manifest, and
+replaying the route, the live buffer showed `POSTES` and `GERADOR`. No new
+player-visible translation defect was found. Deterministic death/arrest and
+save/import/narrow-viewport routes remain in the residual queue.

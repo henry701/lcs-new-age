@@ -332,6 +332,11 @@ void main() {
     expect(LcsI18n.tr('Police'), equals('Polícia'));
   });
 
+  test('Portuguese compound status labels are localized', () {
+    expect(LcsI18n.tr('BOLLARDS'), equals('POSTES'));
+    expect(LcsI18n.tr('GENERATOR'), equals('GERADOR'));
+  });
+
   test('Portuguese compact character info localizes clothing metadata', () {
     final founder = _founder();
 

@@ -1,6 +1,7 @@
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 
@@ -64,7 +65,7 @@ Future<void> sortingPrompt(SortingScreens sortScreen) async {
   setColor(lightGray);
   addstr(
     "Choose how to sort the list of {description}.",
-    params: {"description": sortScreen.description},
+    params: {"description": LcsI18n.tr(sortScreen.description)},
   );
   addOptionText(3, 2, "A", "A - No sorting.");
   addOptionText(4, 2, "B", "B - Sort by name.");

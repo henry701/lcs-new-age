@@ -275,10 +275,14 @@ void main() {
         '+2 Intelligence, November 9th': '+2 Inteligência, 9 de novembro',
         '+2 Charisma, October 8th': '+2 Carisma, 8 de outubro',
         '+2 Heart, May 17th': '+2 Coração, 17 de maio',
+        '+1 Computers, +1 Intelligence': '+1 Computadores, +1 Inteligência',
+        '+3 Computers': '+3 Computadores',
         '+4 Int, +2 Science Computers Writing and Teaching, +1 Business and Law':
-            '+4 Int., +2 Ciência, Computação, Escrita e Ensino, +1 Negócios e Lei',
+            '+4 Int., +2 Ciência, Computadores, Escrita e Ensino, +1 Negócios e Lei',
         '+4 Heart, +1 Intelligence Strength Agility and Charisma':
             '+4 Coração, +1 Inteligência, Força, Agilidade e Carisma',
+        'Trains: Computers, Security, Stealth, Disguise, Tailoring, Seduction,':
+            'Treina: Computadores, Segurança, Furtividade, Disfarce, Alfaiataria, Sedução,',
       };
       for (final entry in expected.entries) {
         expect(catalog[entry.key], entry.value, reason: entry.key);
@@ -303,6 +307,17 @@ void main() {
     }.entries) {
       expect(LcsI18n.tr(entry.key), entry.value);
     }
+  });
+
+  test('agenda polling fragments preserve Portuguese articles', () {
+    expect(
+      catalog['{approval}% have a favorable opinion of '],
+      '{approval}% têm uma opinião favorável do ',
+    );
+    expect(
+      catalog['are concerned about gun violence'],
+      'estão preocupados com a violência armada',
+    );
   });
 
   test('site destination names are translated in Portuguese', () {

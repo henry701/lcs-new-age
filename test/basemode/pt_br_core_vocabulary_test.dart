@@ -13,6 +13,7 @@ import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/skills.dart';
+import 'package:lcs_new_age/creature/sort_creatures.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/crime_squad.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -492,6 +493,12 @@ void main() {
       expect(rendered, contains('Questão: Liberdade de Expressão'));
       expect(rendered, contains('Custo: \$20'));
       expect(rendered, contains('Escape - Cancelar'));
+      expect(
+        rendered,
+        contains(
+          'Poucas bandeiras podem ser compradas. Muitas outras podem ser feitas pela LCS.',
+        ),
+      );
       expect(rendered, isNot(contains('United States Flag')));
       expect(rendered, isNot(contains('Demonstrate your patriotism')));
       expect(rendered, isNot(contains('Custo:Custo:')));
@@ -502,6 +509,29 @@ void main() {
           .join();
       expect(issueCell, isNot(contains('0')));
       expect(console.buffer[2][57].glyph, equals('0'));
+    },
+  );
+
+  test(
+    'Portuguese sorting prompt translates its dynamic list description',
+    () async {
+      console.injectKey('Escape');
+      await sortingPrompt(SortingScreens.activateRegulars);
+      final activityPrompt = _consoleText();
+      expect(
+        activityPrompt,
+        contains('Escolha como ordenar a lista de atividade Liberal.'),
+      );
+      expect(activityPrompt, isNot(contains('Liberal activity')));
+
+      console.injectKey('Escape');
+      await sortingPrompt(SortingScreens.hostages);
+      final hostagePrompt = _consoleText();
+      expect(
+        hostagePrompt,
+        contains('Escolha como ordenar a lista de reféns.'),
+      );
+      expect(hostagePrompt, isNot(contains('hostages')));
     },
   );
 

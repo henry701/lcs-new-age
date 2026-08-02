@@ -319,10 +319,21 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-173 fixed and verified (2026-08-02): already-localized pager labels,
   structural templates, unchanged model/proper-name values, and signed numeric
   deltas no longer pollute missing-translation telemetry.
+- PT-174 fixed and verified (2026-08-02): founder biography rewards and the
+  training description now use the canonical `Computadores` label consistently.
+- PT-175 fixed and verified (2026-08-02): agenda polling fragments now render
+  `do Presidente` and `com a violência armada` with the required articles.
+- PT-176 fixed and verified (2026-08-02): sorting descriptions are translated
+  before interpolation; the `hostages` description is now cataloged as
+  `reféns`.
+- PT-177 fixed and verified (2026-08-02): the flag-selection footer was
+  shortened to a grammatical single-row Portuguese sentence so its final
+  `LCS.` is not overwritten by paging controls.
 - Residuals remain PT-048/PT-148 (deterministic terminal combat variants),
   PT-083 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
   (oversized debug/import roster), and accepted PT-049 (English changelog
-  body). No new translation or layout issue was confirmed in this pass.
+  body). After these fixes, no additional translation or layout issue was
+  confirmed in the replayed routes.
 
 ## Runtime acceleration
 

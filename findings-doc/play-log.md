@@ -2420,3 +2420,28 @@ the logger ignores structural keys and signed numbers while retaining normal
 human-readable missing-key reporting. Focused pager/logger tests pass. No new
 translation or layout defect was confirmed; existing residuals remain
 PT-048/PT-148, PT-083, PT-151, PT-164, and accepted PT-049.
+
+## Strict-headless founder, flag, sorting, and agenda replay — 2026-08-02
+
+This pass used only the CLI `agent-browser` session `pt-fix-20260802`, with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The web server was restarted after the catalog/source changes; no headed
+browser was launched, focused, or left running.
+
+The founder route walked the Portuguese biography questions and confirmed the
+skill vocabulary fix: `+1 Computadores`, `+3 Computadores`, and both composite
+reward lines now agree with the roster's canonical `Computadores` label. The
+flag route then rendered the complete one-row footer `Poucas bandeiras podem
+ser compradas. Muitas outras podem ser feitas pela LCS.`; the previous missing
+`LCS.` tail is gone.
+
+The Assign Tasks sorting prompt now renders `Escolha como ordenar a lista de
+atividade Liberal.` instead of interpolating raw `Liberal activity`. The agenda
+route's second page now shows `uma opinião favorável do Presidente Dino Dawkins`
+and `estão preocupados com a violência armada`; page three remained Portuguese
+through the remaining polling rows. These checks close PT-174–PT-177.
+
+The future queue is unchanged: PT-048/PT-148 (deterministic terminal combat
+variants), PT-083 (narrow viewport), PT-151 (intentional long-label ellipses),
+PT-164 (oversized debug/import roster), and accepted PT-049 (English changelog
+body).

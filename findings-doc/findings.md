@@ -92,6 +92,10 @@
 | PT-171 | Low | Combat translation | Siege briefing joins `a isso confronto` in Portuguese |
 | PT-172 | Medium | Combat translation | Generic wanted-for template produces unnatural questioning wording |
 | PT-173 | Low | Translation telemetry | Prelocalized pager labels, structural keys, and signed numbers create false missing logs |
+| PT-174 | Medium | Translation/context | Founder skill rewards use three different Portuguese names for Computers |
+| PT-175 | Low | Translation/context | Opinion-poll fragments omit Portuguese articles |
+| PT-176 | Medium | Coverage/context | Sorting prompt interpolates the raw English list description |
+| PT-177 | Medium | Flags/layout | Portuguese flag footer is truncated before its final sentence |
 
 ## PT-001: Save-management option is clipped
 
@@ -2339,3 +2343,60 @@ and signed numeric deltas such as `+152`. Pager call sites now mark the
 prelocalized values as `noTranslate`, and the logger ignores the existing
 structural exception set plus signed numeric values. Human-readable missing
 copy continues to be reported normally.
+
+## PT-174: Founder skill rewards use inconsistent Portuguese vocabulary
+
+- Severity: Medium
+- Type: Translation/context
+- Screen: New game → founder biography questions and activity descriptions
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; context catalog regression added**
+
+The same `Computers` skill appeared as `Informática`, `Computação`, and
+`Computadores` while creating a founder. The roster and canonical skill label
+already use `Computadores`, so the mixed reward vocabulary was confusing and
+made the biography screens appear to describe different skills. All founder
+bonus strings and the training description now use the canonical
+`Computadores` label. The fresh Portuguese replay showed `+1 Computadores`,
+`+3 Computadores`, and both composite reward variants with the same term.
+
+## PT-175: Opinion-poll fragments omit Portuguese articles
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Liberal Agenda → Opinion Polling (Parts 1–2)
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; context catalog regression added**
+
+The agenda composes each polling sentence from translated fragments and a
+dynamic executive name. The approval line rendered `uma opinião favorável de
+Presidente Dino Dawkins`, and the gun-control row rendered `preocupados com
+violência armada`. The fragments now produce `uma opinião favorável do
+Presidente Dino Dawkins` and `preocupados com a violência armada`.
+
+## PT-176: Sorting prompt interpolates the raw English list description
+
+- Severity: Medium
+- Type: Missing translation / dynamic interpolation
+- Screen: Base mode → Assign Tasks to Liberals → Sort options
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; focused prompt regression added**
+
+`SortingScreens.description` was passed as an interpolation value without a
+translation lookup. Portuguese therefore showed `Escolha como ordenar a lista
+de Liberal activity.` even though catalog entries existed for most list
+descriptions. The prompt now translates that value before substitution and the
+catalog adds the missing `hostages` entry. The replay showed
+`lista de atividade Liberal` and `lista de reféns` with no English leak.
+
+## PT-177: Portuguese flag footer is truncated before its final sentence
+
+- Severity: Medium
+- Type: Fixed-width layout / translation
+- Screen: Base mode → Pride → flag selection
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; flag-menu regression added**
+
+The Portuguese footer was 84 cells wide while `pagedInterface` reserves one
+row for it and the next row for paging controls. The console stopped drawing
+at column 80, leaving `Apenas algumas ... feitos pelo` with no `LCS.` and also
+used the wrong gender for `bandeiras`. The translation is now a faithful
+single-row sentence, `Poucas bandeiras podem ser compradas. Muitas outras
+podem ser feitas pela LCS.`, which fits the fixed-width footer. The replay
+showed the complete sentence in the live DOM buffer.

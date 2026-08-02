@@ -20,6 +20,7 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
+import 'package:lcs_new_age/items/flag.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -289,10 +290,46 @@ void main() {
         .join()
         .trimRight();
     expect(navigation, contains('ESQUERDA / '));
+    expect(navigation, contains('DIREITA - Outros'));
     expect(footer, contains('CIMA / BAIXO - Mais Info'));
     expect(navigation, isNot(contains('ESQUERDA DIREITA')));
     expect(navigation, isNot(contains('ESQUERDA RIGHT')));
     expect(footer, isNot(contains('CIMA BAIXO')));
+  });
+
+  test('Portuguese review profile navigation localizes the right prefix', () {
+    addProfileNavigationOptions(
+      0,
+      50,
+      'LEFT',
+      'LEFT',
+      'RIGHT',
+      'RIGHT - View Others',
+    );
+
+    final navigation = _consoleText().split('\n').first;
+    expect(navigation, contains('ESQUERDA / DIREITA - Ver Outr'));
+    expect(navigation, isNot(contains('ESQUERDRIGHT')));
+  });
+
+  test('Portuguese full skill headers translate both current and maximum', () {
+    final founder = _founder();
+
+    printFullCreatureSkills(founder);
+
+    final rendered = _consoleText();
+    expect(rendered, contains('ATUAL'));
+    expect(rendered, contains('MÁX.'));
+    expect(rendered, isNot(contains('NOW')));
+    expect(rendered, isNot(contains('MAX')));
+    final header = console.buffer[4].map((character) => character.glyph).join();
+    expect(header[53], equals(' '));
+    expect(header[54], equals('H'));
+  });
+
+  test('Portuguese site short names cover sleeper and justice routes', () {
+    expect(LcsI18n.tr('WhiteHouse'), equals('Casa Branca'));
+    expect(LcsI18n.tr('Police'), equals('Polícia'));
   });
 
   test('Portuguese compact character info localizes clothing metadata', () {
@@ -482,6 +519,8 @@ void main() {
     () async {
       _founder();
       ledger.forceSetFunds(100);
+      _homelessCamp.loot.add(Flag.fromType(flagTypes['FLAG_RAINBOW']!));
+      _homelessCamp.loot.add(Flag.fromType(flagTypes['FLAG_INTERSEX']!));
       console.injectKey('Escape');
 
       await selectAndFlyFlag(_homelessCamp);
@@ -492,6 +531,7 @@ void main() {
       expect(rendered, contains('Demonstre seu patriotismo'));
       expect(rendered, contains('Questão: Liberdade de Expressão'));
       expect(rendered, contains('Custo: \$20'));
+      expect(rendered, contains('Grátis'));
       expect(rendered, contains('Escape - Cancelar'));
       expect(
         rendered,
@@ -501,7 +541,25 @@ void main() {
       );
       expect(rendered, isNot(contains('United States Flag')));
       expect(rendered, isNot(contains('Demonstrate your patriotism')));
+      expect(rendered, isNot(contains('Free')));
       expect(rendered, isNot(contains('Custo:Custo:')));
+
+      final intersexRow = console.buffer.indexWhere(
+        (row) => row
+            .map((character) => character.glyph)
+            .join()
+            .startsWith('C - Bandeira do Orgulho Progressista'),
+      );
+      expect(intersexRow, greaterThanOrEqualTo(0));
+      expect(console.buffer[intersexRow][40].glyph, equals('D'));
+      expect(
+        console.buffer[intersexRow]
+            .sublist(0, 40)
+            .map((character) => character.glyph)
+            .join()
+            .trimRight(),
+        endsWith('…'),
+      );
 
       final issueCell = console.buffer[2]
           .sublist(40, 57)
@@ -511,6 +569,12 @@ void main() {
       expect(console.buffer[2][57].glyph, equals('0'));
     },
   );
+
+  test('Portuguese flag status labels are localized', () {
+    expect(LcsI18n.tr('Free'), equals('Grátis'));
+    expect(LcsI18n.tr('Flying'), equals('Hasteada'));
+    expect(LcsI18n.tr('Banned'), equals('Banida'));
+  });
 
   test(
     'Portuguese sorting prompt translates its dynamic list description',

@@ -593,9 +593,14 @@ Future<void> reviewMode(ReviewMode mode) async {
             addOptionText(23, 26, "G", "G - Change Gender");
           }
           if (temppool.length > 1) {
-            addOptionText(23, 50, "LEFT", "LEFT");
-            addstr(" / ");
-            addOptionText(23, 57, "RIGHT", "RIGHT - View Others");
+            addProfileNavigationOptions(
+              23,
+              50,
+              "LEFT",
+              "LEFT",
+              "RIGHT",
+              "RIGHT - View Others",
+            );
           }
           addOptionText(
             24,

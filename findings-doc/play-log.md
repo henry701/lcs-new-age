@@ -2445,3 +2445,32 @@ The future queue is unchanged: PT-048/PT-148 (deterministic terminal combat
 variants), PT-083 (narrow viewport), PT-151 (intentional long-label ellipses),
 PT-164 (oversized debug/import roster), and accepted PT-049 (English changelog
 body).
+
+## Strict-headless sleeper, justice, profile, and flag replay — 2026-08-02
+
+This pass used only the CLI `agent-browser` session
+`pt-debug-20260802e`, with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless`. The web server was rebuilt on a
+fresh port after the source and catalog changes; no headed browser was
+launched, focused, or left running.
+
+The rebuilt Portuguese routes confirmed the following fixes in the live DOM
+buffer:
+
+- Activate Sleepers now renders `DC — Casa Bran…` and keeps `Mantendo
+  Discrição` in its activity column (PT-178/PT-181).
+- The justice list uses `SEA — Polícia` instead of `SEA — Police` (PT-178).
+- Both the normal and review-mode profile footers preserve the separator and
+  translate the right prefix: `ESQUERDA / DIREITA - Ver Outr…` (PT-180).
+- The full skill sheet renders `ATUAL  MÁX.` without leaking `NOW`/`MAX` or
+  overwriting the following `HABIL.` header (PT-179).
+- Pride flag selection shows `Grátis` and fits the long Intersex row before
+  the issue column; no raw `Free` or column collision remains (PT-182).
+
+The same sweep rechecked the already-fixed media overview, Liberal Agenda,
+task sorting, equipment, vehicles, travel, and industrial-district routes;
+they remained Portuguese and within their fixed-width cells. Combat was not
+reached in this pass, so PT-048/PT-148 remain open for deterministic terminal
+death, surrender, arrest, and post-fight variants. Other residuals remain
+PT-083 (narrow viewport), PT-151 (intentional issue-label ellipses), PT-164
+(oversized debug/import roster), and accepted PT-049 (English changelog body).

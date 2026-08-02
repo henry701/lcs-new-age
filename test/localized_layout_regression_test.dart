@@ -102,10 +102,7 @@ void main() {
   });
 
   test('Portuguese agenda exit footer stays readable at the console edge', () {
-    expect(
-      LcsI18n.tr('Any Other Key - Exit'),
-      equals('Outra tecla - Sair'),
-    );
+    expect(LcsI18n.tr('Any Other Key - Exit'), equals('Outra tecla - Sair'));
     expect(LcsI18n.tr('Any Other Key - Exit').length, lessThanOrEqualTo(20));
   });
 
@@ -451,6 +448,23 @@ void main() {
     } finally {
       gameState.cities = previousCities;
     }
+  });
+
+  test('Portuguese sleeper site cells leave room for activity text', () {
+    mvaddstrcFitted(
+      2,
+      42,
+      lightGray,
+      'DC — Casa Branca',
+      15,
+      noTranslate: true,
+    );
+    mvaddstr(2, 58, 'Mantendo Discrição', noTranslate: true);
+
+    final line = _consoleLine(2);
+    expect(line.length, lessThanOrEqualTo(80));
+    expect(console.buffer[2][58].glyph, equals('M'));
+    expect(line.substring(42, 58).trimRight(), endsWith('…'));
   });
 
   test('Portuguese squad review names stay inside the location column', () {

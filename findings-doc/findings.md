@@ -96,6 +96,11 @@
 | PT-175 | Low | Translation/context | Opinion-poll fragments omit Portuguese articles |
 | PT-176 | Medium | Coverage/context | Sorting prompt interpolates the raw English list description |
 | PT-177 | Medium | Flags/layout | Portuguese flag footer is truncated before its final sentence |
+| PT-178 | Medium | Translation/coverage | Sleeper and justice routes expose raw `WhiteHouse`/`Police` site names |
+| PT-179 | Medium | Translation/layout | Full skill sheet exposes `NOW`/`MAX` and crowds the next Portuguese column |
+| PT-180 | Medium | Controls/translation | Review-mode profile footer uses an unbounded English-prefix renderer |
+| PT-181 | Medium | Core layout | Localized sleeper site name overwrites the activity column |
+| PT-182 | Medium | Flags/translation/layout | Flag rows expose raw status labels and collide with the issue column |
 
 ## PT-001: Save-management option is clipped
 
@@ -2400,3 +2405,70 @@ used the wrong gender for `bandeiras`. The translation is now a faithful
 single-row sentence, `Poucas bandeiras podem ser compradas. Muitas outras
 podem ser feitas pela LCS.`, which fits the fixed-width footer. The replay
 showed the complete sentence in the live DOM buffer.
+
+## PT-178: Sleeper and justice routes exposed raw site names
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Base mode → Activate Sleepers; Justice site list
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; vocabulary regression added**
+
+The sleeper activity and justice list used short site names that were not in
+the Portuguese catalog. The live buffer therefore showed `WhiteHouse` and
+`Police` inside otherwise translated screens. The canonical catalogs now map
+these keys to `Casa Branca` and `Polícia`; the replay confirmed both routes
+without the raw English names.
+
+## PT-179: Full skill sheet leaked English headers and crossed a column boundary
+
+- Severity: Medium
+- Type: Missing translation / fixed-width layout
+- Screen: Character profile → full skill sheet
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; vocabulary/layout regression added**
+
+The full profile renderer wrote the source headers `NOW   MAX` with raw
+`addstr`, so Portuguese mode displayed English labels. Translating the two
+headers exposed a second defect: `ATUAL MÁX.` used the next skill column's
+first cell. The renderer now translates both labels and keeps an explicit
+blank separator; the rebuilt profile showed `ATUAL  MÁX.` followed by the
+next `HABIL.` header in its own column.
+
+## PT-180: Review-mode profile footer concatenated navigation controls
+
+- Severity: Medium
+- Type: Controls / missing translation / fixed-width layout
+- Screen: Base mode → Review Liberals → profile detail
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; route regression added**
+
+Review mode had a separate footer implementation from the normal profile
+screen. It placed a translated `ESQUERDA` option beside an untranslated raw
+`RIGHT` option with no reserved separator, producing `ESQUERDRIGHT - Ver
+Outros`. The route now reuses the fitted profile-navigation helper and the
+catalog uses `DIREITA`; the replay showed `ESQUERDA / DIREITA - Ver Outr…`.
+
+## PT-181: Portuguese sleeper site names overwrote activity text
+
+- Severity: Medium
+- Type: Fixed-width layout / localized location name
+- Screen: Base mode → Activate Sleepers
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; focused layout regression added**
+
+After adding `Casa Branca`, the sleeper row wrote the localized location into
+an unbounded cell beginning at column 42. `Mantendo Discrição` begins at
+column 58, so the longer Portuguese value consumed its first characters. The
+location cell now has a 15-column budget and ellipsis; the rebuilt buffer kept
+the activity text readable after the separator.
+
+## PT-182: Flag status labels leaked English and long rows overwrote issue text
+
+- Severity: Medium
+- Type: Missing translation / fixed-width layout
+- Screen: Base mode → Pride → flag selection
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-02; integration and catalog regressions added**
+
+The flag table passed `Free`, `Flying`, and `Banned` through translation
+without catalog entries, and a long Portuguese flag name ran into the issue
+column. The canonical catalogs now provide `Grátis`, `Hasteada`, and `Banida`.
+The first column is fitted to 40 cells, leaving the issue cell at column 40;
+the rebuilt menu showed an ellipsis before `Direitos LGBTQ+` instead of a
+collision.

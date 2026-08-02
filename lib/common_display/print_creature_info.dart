@@ -367,7 +367,7 @@ String creatureAgeAndGender(Creature person) {
   );
 }
 
-void _addProfileNavigationOptions(
+void addProfileNavigationOptions(
   int y,
   int x,
   String firstKey,
@@ -412,7 +412,7 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
     addOptionText(23, 0, "N", "N - Change Name");
     addOptionText(23, 26, "G", "G - Change Gender");
     if ((activeSquad?.members.length ?? 0) > 1) {
-      _addProfileNavigationOptions(
+      addProfileNavigationOptions(
         23,
         50,
         "LEFT",
@@ -427,14 +427,7 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
       "Any Other Key",
       "Any Other Key - Continue the Struggle",
     );
-    _addProfileNavigationOptions(
-      24,
-      52,
-      "UP",
-      "UP",
-      "DOWN",
-      "DOWN - More Info",
-    );
+    addProfileNavigationOptions(24, 52, "UP", "UP", "DOWN", "DOWN - More Info");
 
     int c = await getKey();
 
@@ -496,7 +489,9 @@ void printFullCreatureSkills(Creature cr) {
       move(4, 27 * (s ~/ 3));
       addstr("SKILL");
       move(4, 15 + 27 * (s ~/ 3));
-      addstr("NOW   MAX");
+      addstr("NOW");
+      addstr("  ", noTranslate: true);
+      addstr("MAX");
     }
 
     highlightColorForSkill(cr, skill);

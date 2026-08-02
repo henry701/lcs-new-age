@@ -88,7 +88,7 @@
     },
     {
       "file": "basemode/activate_sleepers.dart",
-      "line": 322,
+      "line": 323,
       "text": "Unexpected sleeper activity type: ${cr.activity.type.name}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -130,31 +130,31 @@
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1303,
+      "line": 1308,
       "text": "&${ColorKey.fromColor(bracketcolor)}[",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1305,
+      "line": 1310,
       "text": "&${ColorKey.fromColor(blue)}[",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1306,
+      "line": 1311,
       "text": "&${ColorKey.fromColor(blue)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1308,
+      "line": 1313,
       "text": "&${ColorKey.fromColor(bracketcolor)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1311,
+      "line": 1316,
       "text": "&${ColorKey.fromColor(namecolor)}$name",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
@@ -190,13 +190,13 @@
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 617,
+      "line": 612,
       "text": "${LcsI18n.tr(",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 617,
+      "line": 612,
       "text": ")}$next",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },

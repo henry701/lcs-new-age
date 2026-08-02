@@ -78,11 +78,12 @@ Future<void> activateSleepers() async {
         params: {"percentage": (tempp.infiltration * 100).ceil()},
       );
 
-      mvaddstrc(
+      mvaddstrcFitted(
         y,
         42,
         lightGray,
         tempp.workLocation.getName(short: true, includeCity: true),
+        15,
       );
 
       move(y, 58);

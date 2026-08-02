@@ -202,11 +202,12 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
     lineBuilder: (y, key, index) {
       FlagType flag = flags[index];
       bool en = enabled(flag);
-      addOptionText(
+      addOptionTextFitted(
         y,
         0,
         key,
         "{key} - {name}",
+        40,
         params: {"key": key, "name": LcsI18n.tr(flag.name)},
         baseColorKey: index == selected ? ColorKey.white : ColorKey.lightGray,
         enabledWhen: en,

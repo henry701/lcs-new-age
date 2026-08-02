@@ -329,6 +329,16 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-177 fixed and verified (2026-08-02): the flag-selection footer was
   shortened to a grammatical single-row Portuguese sentence so its final
   `LCS.` is not overwritten by paging controls.
+- PT-178 fixed and verified (2026-08-02): sleeper and justice short site names
+  now resolve `WhiteHouse`/`Police` to `Casa Branca`/`Polícia`.
+- PT-179 fixed and verified (2026-08-02): the full skill sheet translates
+  `NOW`/`MAX` to `ATUAL`/`MÁX.` and preserves a separator before `HABIL.`.
+- PT-180 fixed and verified (2026-08-02): review-mode profile navigation now
+  uses the shared fitted footer and the Portuguese `DIREITA` prefix.
+- PT-181 fixed and verified (2026-08-02): the sleeper location cell is fitted
+  before `Mantendo Discrição`, so `Casa Branca` cannot overwrite activity.
+- PT-182 fixed and verified (2026-08-02): flag status keys are cataloged and
+  long names are fitted before the issue column.
 - Residuals remain PT-048/PT-148 (deterministic terminal combat variants),
   PT-083 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
   (oversized debug/import roster), and accepted PT-049 (English changelog

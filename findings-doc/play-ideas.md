@@ -345,6 +345,15 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-184 fixed and verified (2026-08-02): daily injury-treatment prompts now
   clear and fit row 8 before rendering the Portuguese sentence, so stale
   safehouse/location tails cannot remain after the message.
+- PT-185 fixed and verified (2026-08-02): squad assembly now right-aligns the
+  translated `Esquadrão:` header by visible width, keeping the full default
+  squad name on the 80-column console.
+- PT-186 fixed and verified (2026-08-02): the CIA raid opening has a canonical
+  full-template Portuguese entry instead of falling back to English from two
+  translated fragments.
+- PT-187 fixed and verified (2026-08-02): CIA compound-suspense and darkness
+  messages now wrap long Portuguese lines with `addparagraph`; camera and
+  final-period clipping no longer occur.
 - Residuals remain PT-048/PT-148 (deterministic terminal combat variants),
   PT-083 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
   (oversized debug/import roster), and accepted PT-049 (English changelog

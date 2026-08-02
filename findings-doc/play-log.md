@@ -2529,3 +2529,46 @@ and `injury-drained-20260802.png`.
 The strict-headless combat terminal death/arrest variants were not reproduced
 in this pass and remain open under PT-048/PT-148. Other residuals remain
 PT-083, PT-151, PT-164, and accepted PT-049.
+
+## Strict-headless CIA raid translation and wrapping replay — 2026-08-02
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless`. The route temporarily enabled
+`debugSiege=true`, `debugSiegeType="cia"`, and `megaFounderCheat=true` to make
+the CIA safehouse branch reachable; all three local fixture changes were
+restored before validation. A stale browser cache initially served the old
+catalog, so the final replay used a fresh Flutter web-server origin and a new
+headless session.
+
+The first Portuguese squad-assembly route exposed PT-185: the right-aligned
+header rendered `Esquadrão: O Esquadrão do Crime Lib`. The renderer now uses
+the translated string's visible width, and the replay showed the complete
+`Esquadrão: O Esquadrão do Crime Liberal` header. The pre-fix capture is
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-header-clipping-20260802.png`.
+
+The CIA replay then exposed PT-186. The opening screen was English even though
+the suspense lines below it were Portuguese:
+`In the dead of the night, a column of unmarked black vans with tinted windows
+surrounds the ...`. The source passed one full template to the translator,
+while the catalog held only two fragments. Adding the complete `{location}`
+entry fixed the lookup; the fresh-origin buffer showed
+`No meio da noite, uma coluna de vans pretas sem identificação e com vidros
+escuros cerca o ...`. Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-raid-english-arrival-20260802.png`
+and `cia-raid-arrival-fixed-20260802.png`.
+
+The same route exposed PT-187: long compound-suspense and darkness messages
+were written with single-row calls and clipped at the fixed console edge. The
+camera line ended at `...encarar diretamente os`, and the final darkness line
+lost its period. The affected CIA messages now use paragraph wrapping; the
+rebuilt DOM buffer showed the camera sentence split across two complete rows
+and preserved `destrancam espontaneamente.`. The focused regression covers
+both long templates. The route itself remained Portuguese through `A CIA
+chegou.` and the under-attack base screen.
+
+No new unresolved issue was confirmed after PT-185/PT-186/PT-187. Residual
+follow-ups remain PT-048/PT-148 (deterministic combat terminal variants),
+PT-083 (narrow fixed-console viewport), PT-151 (intentional long-label
+ellipses), PT-164 (oversized debug/import roster), and accepted PT-049 (the
+English changelog body).

@@ -224,6 +224,22 @@ void main() {
     }
   });
 
+  test('Portuguese squad assembly right-aligns its translated header', () async {
+    final member = _activeLiberal();
+    final squad = Squad()
+      ..name = 'The Liberal Crime Squad'
+      ..members.add(member);
+    pool.add(member);
+    squads.add(squad);
+    activeSquad = squad;
+    console.keyEvent(_enterKey);
+
+    await assembleSquad(squad);
+
+    expect(_consoleLine(0), contains('Esquadrão: O Esquadrão do Crime Liberal'));
+    expect(_consoleLine(0).length, lessThanOrEqualTo(console.width));
+  });
+
   test(
     'Portuguese active-Liberal review footer keeps controls separated',
     () async {

@@ -842,27 +842,27 @@ Future<void> siegeCheck() async {
           ]);
         }
         if (compoundSuspense.isNotEmpty) {
-          mvaddstr(console.y + 2, 1, compoundSuspense.random);
+          addparagraph(console.y + 2, 1, compoundSuspense.random);
           await getKey();
         }
         if (l.compound.cameras) {
-          mvaddstr(console.y + 2, 1, "The camera feeds are dead.");
+          addparagraph(console.y + 2, 1, "The camera feeds are dead.");
           l.siege.camerasOff = true;
           await getKey();
         }
         if (l.compound.generator) {
-          mvaddstr(console.y + 2, 1, "The generator won't start.");
+          addparagraph(console.y + 2, 1, "The generator won't start.");
           await getKey();
         }
         if (l.compound.solarPanels) {
-          mvaddstr(
+          addparagraph(
             console.y + 2,
             1,
             "The solar batteries are suddenly reporting no charge.",
           );
           await getKey();
         }
-        mvaddstr(
+        addparagraph(
           console.y + 2,
           1,
           "The compound is plunged into darkness as the doors spontaneously unlock.",

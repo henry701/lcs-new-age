@@ -917,8 +917,8 @@ Future<void> assembleSquad(Squad? cursquad) async {
       addstr("New Squad");
     } else {
       final displayedName = localizedSquadName(cursquad.name);
-      move(0, 73 - displayedName.length);
-      addstr("Squad: {name}", params: {"name": displayedName});
+      // Translate before measuring so the longer Portuguese prefix stays visible.
+      mvaddstrRight(0, "Squad: {name}", params: {"name": displayedName});
     }
 
     const professionX = 43;

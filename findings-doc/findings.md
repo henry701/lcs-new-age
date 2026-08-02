@@ -103,6 +103,9 @@
 | PT-182 | Medium | Flags/translation/layout | Flag rows expose raw status labels and collide with the issue column |
 | PT-183 | Medium | Missing translation/route coverage | Compound status row exposes raw `BOLLARDS` and `GENERATOR` |
 | PT-184 | Medium | Core layout | Daily injury-treatment messages leave stale text on the fixed console row |
+| PT-185 | Medium | Core layout | Squad assembly right-aligns the translated header using the English prefix width |
+| PT-186 | Medium | Missing translation | CIA raid opening sentence falls back to English because only source fragments are catalogued |
+| PT-187 | Medium | Combat/layout | CIA suspense messages clip long Portuguese translations at the fixed console edge |
 
 ## PT-001: Save-management option is clipped
 
@@ -2509,3 +2512,49 @@ the temporary all-pool injury fixture rendered the clean line
 day 2 without residual text. Evidence is retained at
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-message-2-20260802.png`
 and `injury-drained-20260802.png`.
+
+## PT-185: Squad assembly clipped the translated right-aligned header
+
+- Severity: Medium
+- Type: Fixed-width layout / localized rendering
+- Screen: Base mode → Review Assets and Form Squads → squad assembly
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-02; focused layout regression added**
+
+The squad assembly screen positioned `Squad: {name}` using the English
+`Squad:` width, then translated the prefix to `Esquadrão:`. The longer
+Portuguese label pushed the end of the default name off the 80-column console,
+rendering `Esquadrão: O Esquadrão do Crime Lib`. The renderer now uses the
+translated string's visible width through `mvaddstrRight`; the replay showed
+the complete `Esquadrão: O Esquadrão do Crime Liberal` header.
+
+## PT-186: CIA raid opening sentence fell back to English
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: CIA safehouse raid opening
+- Replay status: **Fixed and verified in a fresh strict-headless Portuguese bundle on 2026-08-02; catalog and translation regression added**
+
+The raid source passed one full template to `LcsI18n.processString`, but the
+Portuguese catalog contained only two independently translated source
+fragments. Exact lookup therefore fell back to the English sentence while the
+following suspense messages were Portuguese. The canonical `pt_BR` catalog
+now includes the complete `{location}` template. A fresh-origin replay showed
+`No meio da noite, uma coluna de vans pretas sem identificação e com vidros
+escuros cerca o ...` before continuing through the localized raid sequence.
+Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-raid-english-arrival-20260802.png`
+and `cia-raid-arrival-fixed-20260802.png`.
+
+## PT-187: CIA suspense messages clipped long Portuguese translations
+
+- Severity: Medium
+- Type: Fixed-width layout / localized rendering
+- Screen: CIA safehouse raid suspense sequence
+- Replay status: **Fixed and verified in a fresh strict-headless Portuguese replay on 2026-08-02; focused layout regression added**
+
+The CIA sequence wrote compound-suspense, camera, generator, solar-battery,
+and darkness messages with single-row `mvaddstr` calls. Portuguese text was
+longer than the fixed console width, so the camera message ended at
+`...encarar diretamente os` and the darkness message lost its final period.
+Those messages now use `addparagraph` so words wrap within the console before
+the next prompt. The rebuilt buffer showed the complete camera sentence on two
+rows and preserved `destrancam espontaneamente.` in the darkness message.

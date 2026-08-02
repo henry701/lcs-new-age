@@ -18,4 +18,14 @@ void main() {
 
     expect(testConsole.checkkey(), equals('Enter'));
   });
+
+  test('headless playtest key injection supports getKeyEvent screens', () async {
+    final testConsole = Console();
+    final key = testConsole.getKeyEvent();
+
+    testConsole.injectKey(']');
+
+    final event = await key;
+    expect(keyEventToString(event), equals(']'));
+  });
 }

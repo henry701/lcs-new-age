@@ -14,6 +14,7 @@ abstract final class MediaOverviewLayout {
   static const int dateX = 36;
   static const int sourceX = 55;
   static const int impactX = 72;
+  static const int sourceWidth = impactX - sourceX - 1;
 }
 
 Future<void> mediaOverview() async {
@@ -143,11 +144,12 @@ Future<void> mediaOverview() async {
             "headline": headline,
           },
         );
-        mvaddstrc(
+        mvaddstrcFitted(
           y,
           MediaOverviewLayout.sourceX,
           ns.publicationAlignment.color,
           ns.publicationName,
+          MediaOverviewLayout.sourceWidth,
         );
         if (totalImpact > 0) {
           mvaddstrc(
@@ -190,7 +192,12 @@ Future<void> readNewsStory(NewsStory ns) async {
   ns.unread = false;
   erase();
   setColor(ns.publicationAlignment.color);
-  mvaddstrc(0, 0, ns.publicationAlignment.color, ns.publicationName);
+  mvaddstrc(
+    0,
+    0,
+    ns.publicationAlignment.color,
+    LcsI18n.tr(ns.publicationName),
+  );
   if (ns.headline.isNotEmpty) {
     addstrc(lightGray, " - ");
     addstrc(white, ns.headline);

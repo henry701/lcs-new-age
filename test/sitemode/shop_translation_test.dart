@@ -13,7 +13,9 @@ import 'package:lcs_new_age/items/ammo.dart';
 import 'package:lcs_new_age/items/ammo_type.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
+import 'package:lcs_new_age/items/flag.dart';
 import 'package:lcs_new_age/items/item_type.dart';
+import 'package:lcs_new_age/items/loot.dart';
 import 'package:lcs_new_age/items/weapon.dart';
 import 'package:lcs_new_age/items/weapon_type.dart';
 import 'package:lcs_new_age/sitemode/shop.dart';
@@ -231,11 +233,22 @@ void main() {
   test('equipment title helpers preserve localized short and full forms', () {
     final ammo = Ammo('AMMO_22');
     final clothing = Clothing('CLOTHING_BLACKCLOTHES');
+    final loot = Loot('LOOT_CHEAPJEWELRY');
+    final cableNewsMemos = Loot('LOOT_CABLENEWSFILES');
+    final flag = Flag('FLAG_RAINBOW');
+    final blmFlag = Flag('FLAG_BLACK_LIVES_MATTER');
 
     expect(ammo.equipTitle(), equals('Munição .22 LR'));
     expect(ammo.equipTitle(full: true), equals('Munição .22 LR'));
     expect(clothing.equipTitle(), startsWith('Gola alta preta'));
     expect(clothing.equipTitle(full: true), startsWith('Gola alta preta'));
+    expect(loot.equipTitle(), equals('Joias baratas'));
+    expect(
+      cableNewsMemos.equipTitle(),
+      equals('Memorandos das Notícias a Cabo'),
+    );
+    expect(flag.equipTitle(), equals('Bandeira Arco-Íris'));
+    expect(blmFlag.equipTitle(), equals('Bandeira BLM'));
   });
 
   test('equipment screen translates headers and visible item names', () async {

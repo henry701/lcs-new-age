@@ -2334,3 +2334,34 @@ The remaining open playtest items are PT-048/PT-148 (deterministic terminal
 combat/death/surrender variants), PT-083 (narrow viewport), PT-151 (intentional
 long issue-label ellipses), PT-164 (debug/import roster-cap guard), and the
 accepted English-only changelog notice PT-049.
+
+## Strict-headless equipment and media verification — 2026-08-01
+
+This follow-up used a fresh local web-server build and the CLI
+`agent-browser` session `pt-final-20260801` only. Every browser invocation set
+`AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless`; no headed browser was launched,
+focused, or left running. The temporary `megaFounderCheat` and
+`debugAllItems` flags were enabled only for the route, then reverted before
+validation.
+
+The Portuguese campaign reached `Equipar a Equipe` and walked the long item
+pages with injected/real key events. The live console showed translated
+generic items, clothing, loot, memos, and flags, including `Roupa de trabalho`,
+`Gasolina`, `Memorandos da Rádio AM`, `Memorandos das Notícias a Cabo`,
+`Hábito`, `Traje de tanque`, `Camisa esportiva`, `Quimono`, `Fantasia de ninja`,
+`Equipamento PMC`, and `Bandeira BLM`. This closes PT-165; unchanged
+loanwords such as `Fursuit`, `Tie-dye`, and `Toga` are intentional.
+
+After advancing the game, the media overview displayed a generated story as
+`Rádio AM` in the source column. Opening it rendered `Rádio AM - REFÉM MORTO`
+and the translated dynamic footer `Prisões: -10.0%`. A later event prompt
+displayed `Memorandos da Rádio AM` and `Memorandos das Notícias a Cabo`,
+confirming PT-166/PT-167 in the live buffer. Focused tests also cover all nine
+publication names and all 30 view labels; the source column now reserves 16
+cells so long localized names cannot overwrite impact values.
+
+No new translation or layout defect was confirmed. Residuals remain
+PT-048/PT-148 (deterministic terminal combat/death/surrender variants), PT-083
+(narrow viewport), PT-151 (intentional long-label ellipses), PT-164
+(oversized debug/import roster), and accepted PT-049 (English changelog body).

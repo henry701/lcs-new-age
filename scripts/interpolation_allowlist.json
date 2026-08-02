@@ -112,7 +112,7 @@
     },
     {
       "file": "basemode/media_overview.dart",
-      "line": 113,
+      "line": 114,
       "text": "${headline.substring(0, 32).trim()}...",
       "reason": "Layout-only headline truncation; the headline itself is translated before display."
     },
@@ -814,19 +814,19 @@
     },
     {
       "file": "items/item.dart",
-      "line": 42,
+      "line": 43,
       "text": "Item constructor: Unknown item type: $idName",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "items/item.dart",
-      "line": 65,
+      "line": 66,
       "text": "Item.fromJson: Unknown item type: ${json['typeName']}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "items/item.dart",
-      "line": 181,
+      "line": 182,
       "text": "UNKNOWN ITEM TYPE: $typename",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

@@ -291,6 +291,23 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   localized compact name (`Visitando Casa de Penhores`) and has a layout
   regression.
 
+## Strict-headless equipment and media replay — 2026-08-01
+
+- PT-165 fixed: sweep every all-item equipment page after catalog changes;
+  generic loot, clothing, memos, and flags now resolve through the Portuguese
+  item helpers. Keep `Fursuit`, `Tie-dye`, and `Toga` as intentional unchanged
+  loanwords unless a product glossary says otherwise.
+- PT-166 fixed: media overview source cells now translate and reserve 16
+  columns; the AM Radio row and article header rendered `Rádio AM` in the
+  fresh browser pass.
+- PT-167 fixed: dynamic media impact labels and Guardian memo names now have
+  Portuguese catalog coverage; the replay showed `Prisões: -10.0%` and
+  `Memorandos das Notícias a Cabo`.
+- Residuals remain PT-048/PT-148 (deterministic terminal combat variants),
+  PT-083 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
+  (oversized debug/import roster), and accepted PT-049 (English changelog
+  body). No new translation or layout issue was confirmed in this pass.
+
 ## Runtime acceleration
 
 `lib/title_screen/title_screen.dart` exposes `megaFounderCheat`, and

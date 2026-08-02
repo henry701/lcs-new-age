@@ -2193,3 +2193,55 @@ the six-row roster and overwrote the location box and combat legend (`9D -` was
 visible in the combat screen). The regular campaign route caps the active list
 at six and did not reproduce the collision; retain this as a future guard for
 save imports, debug fixtures, or any later feature that raises the roster cap.
+
+## PT-165: XML-backed equipment titles bypassed the Portuguese catalog
+
+- Severity: Medium
+- Type: Missing translation / equipment metadata
+- Screen: Base mode → Equipar a Equipe (all-item debug sweep)
+- Replay status: **Fixed and verified on 2026-08-01; focused catalog and title-helper regressions added**
+
+The equipment route displayed raw XML names for generic items and flags even
+when the rest of the screen was Portuguese. The sweep exposed English rows
+such as `Work Clothes`, `Gasoline`, `Cable News Memos`, `Habit`, `Ninja
+Costume`, and `BLM Flag`. `Item.equipTitle` and the flag override now resolve
+their canonical names through `LcsI18n`, and the English/PT catalogs cover the
+XML-backed equipment set. The fresh strict-headless replay covered the long
+clothing, loot, memo, and flag pages; rows now render as `Roupa de trabalho`,
+`Gasolina`, `Memorandos das Notícias a Cabo`, `Hábito`, `Fantasia de ninja`,
+and `Bandeira BLM`. Loanwords such as `Fursuit`, `Tie-dye`, and `Toga` remain
+unchanged intentionally.
+
+## PT-166: Media source names were raw and could overwrite the impact column
+
+- Severity: Medium
+- Type: Missing translation / fixed-width layout
+- Screen: Base mode → Visão Geral da Mídia & Impacto and newspaper detail
+- Replay status: **Fixed and verified on 2026-08-01; focused publication and layout regressions added**
+
+The media overview wrote `publicationName` directly, so a Portuguese replay
+showed raw `AM Radio`/`Cable News` source names. The source cell also had no
+explicit width, allowing long localized names to run into the impact column.
+The overview now translates through the fitted renderer with a 16-cell source
+budget, while the article header translates its source explicitly. All nine
+publication names have canonical Portuguese entries. A fresh headless replay
+rendered `Rádio AM` in the overview and `Rádio AM - REFÉM MORTO` in the
+article header; the publication catalog regression covers the remaining
+sources, including `Estrela Conservadora`.
+
+## PT-167: Dynamic media impact labels and Cable News memo names fell back to English
+
+- Severity: Medium
+- Type: Missing translation / dynamic catalog coverage
+- Screen: Newspaper footer and Liberal Guardian secret-publication prompt
+- Replay status: **Fixed and verified on 2026-08-01; focused impact and equipment regressions added**
+
+Runtime-generated article effects used view labels that were absent from the
+Portuguese catalog, so a story could end with raw `Justices: -9.3%` even when
+the body was translated. The all-view catalog audit now covers the nine
+previously missing labels (`Animal Research`, `Intelligence`, `Justices`,
+`Corporations`, `Military`, `Prisons`, `LCS Known`, `LCS Liked`, and `CCS
+Hated`). The same event prompt now uses the consistent source translation
+`Memorandos das Notícias a Cabo` instead of `Memorandos da Cable News`. The
+headless replay verified `Prisões: -10.0%` in an article and the corrected
+memo text in the Guardian prompt.

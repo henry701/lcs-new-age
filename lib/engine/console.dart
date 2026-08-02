@@ -248,17 +248,23 @@ class Console {
 
   Future<KeyEvent> getKeyEvent() async {
     flush();
-    KeyEvent? result = lastKey;
-    while (result == null || keyEventToString(result) == '') {
-      while (lastKey == null) {
-        nextKeyEvent = Completer<KeyEvent>();
-        await nextKeyEvent!.future;
-        nextKeyEvent = null;
+    while (true) {
+      if (injectedKeys.isNotEmpty) {
+        return _keyEventFromInjected(injectedKeys.removeAt(0));
       }
-      result = lastKey;
-      lastKey = null;
+
+      final result = lastKey;
+      if (result != null) {
+        lastKey = null;
+        if (keyEventToString(result).isNotEmpty) return result;
+      }
+
+      nextKeyEvent = Completer<KeyEvent>();
+      nextInjectedKey = Completer<void>();
+      await Future.any([nextKeyEvent!.future, nextInjectedKey!.future]);
+      nextKeyEvent = null;
+      nextInjectedKey = null;
     }
-    return result;
   }
 
   String checkkey() {
@@ -272,6 +278,29 @@ class Console {
   void addGraphic(ConsoleGraphic graphic) {
     graphics.add(graphic);
   }
+}
+
+KeyEvent _keyEventFromInjected(String key) {
+  final (logicalKey, physicalKey) = switch (key) {
+    'Enter' => (LogicalKeyboardKey.enter, PhysicalKeyboardKey.enter),
+    'Escape' => (LogicalKeyboardKey.escape, PhysicalKeyboardKey.escape),
+    'Up' => (LogicalKeyboardKey.arrowUp, PhysicalKeyboardKey.arrowUp),
+    'Down' => (LogicalKeyboardKey.arrowDown, PhysicalKeyboardKey.arrowDown),
+    'Left' => (LogicalKeyboardKey.arrowLeft, PhysicalKeyboardKey.arrowLeft),
+    'Right' => (LogicalKeyboardKey.arrowRight, PhysicalKeyboardKey.arrowRight),
+    'Tab' => (LogicalKeyboardKey.tab, PhysicalKeyboardKey.tab),
+    'Backspace' => (
+      LogicalKeyboardKey.backspace,
+      PhysicalKeyboardKey.backspace,
+    ),
+    _ => (LogicalKeyboardKey.keyA, PhysicalKeyboardKey.keyA),
+  };
+  return KeyDownEvent(
+    logicalKey: logicalKey,
+    physicalKey: physicalKey,
+    character: key.length == 1 ? key : null,
+    timeStamp: Duration.zero,
+  );
 }
 
 String keyEventToString(KeyEvent event) {

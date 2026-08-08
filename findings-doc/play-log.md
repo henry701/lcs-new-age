@@ -2572,3 +2572,41 @@ follow-ups remain PT-048/PT-148 (deterministic combat terminal variants),
 PT-083 (narrow fixed-console viewport), PT-151 (intentional long-label
 ellipses), PT-164 (oversized debug/import roster), and accepted PT-049 (the
 English changelog body).
+
+## Strict-headless inventory/profile replay — 2026-08-08
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The Flutter web server ran on a fresh local origin (`127.0.0.1:7752`) so the
+updated ARB asset manifest was loaded; no headed browser was launched or
+focused.
+
+The all-items founder fixture covered the Portuguese equipment pages, roster,
+finance report, profile stats/skills/crimes, and task-assignment menus. The
+profile route exposed PT-188: a transgender character rendered
+`Não binário, Transgender` while the surrounding identity labels were already
+localized. Adding the `Transgender` catalog entry and restarting the bundle
+produced `Não binário, Transgênero`; evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-transgender-fixed-20260808.png`.
+
+The same profile route confirmed PT-189 remains open: fixed 15-column cells
+ellipsize long Portuguese attribute, skill, and crime labels, including
+`Inteligência: …`, `Primeiros Soco…`, and `entrada ilegal nos Estados U…`.
+The numeric columns remain separated, so this is a readability enhancement
+rather than a collision. Captures are retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-truncation-stats-20260808.png`,
+`profile-truncation-skills-20260808.png`, and
+`profile-truncation-crimes-20260808.png`.
+
+The Health and Support task help exposed PT-190: `Médicos capazes sempre
+fornecerão ... ou outro` was a literal, grammatically awkward composition.
+The revised fragments render as `Médicos capacitados sempre oferecem cuidados
+médicos para si ou para outros no mesmo local. Isso não interfere com outras
+tarefas.` across four readable rows. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-support-fixed-20260808.png`.
+
+Equipment, finance, roster, assignment, and footer controls remained in
+Portuguese. The broader residual queue is unchanged apart from PT-188/PT-190
+being fixed and PT-189 being added: PT-048/PT-148 terminal combat variants,
+PT-083 narrow viewport readability, PT-151 flag-label ellipses, PT-164
+oversized debug/import roster, and accepted PT-049 English changelog body.

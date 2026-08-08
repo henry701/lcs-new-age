@@ -36,6 +36,15 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-141 fixed (2026-07-30): the conservative-era intro now uses masculine
   agreement for the generated male vice-president while preserving the
   requested `extrema-direita Arqui Conservadora` capitalization.
+- PT-188 fixed (2026-08-08): character profiles now translate the transgender
+  status token as `Transgênero`; keep the profile identity route in the
+  vocabulary regression suite.
+- PT-190 fixed (2026-08-08): the Health and Support help paragraph now uses
+  natural Portuguese (`Médicos capacitados... para si ou para outros`) rather
+  than the literal `... ou outro` wording.
+- PT-189 remains open (2026-08-08): profile stats, skills, and crimes still
+  ellipsize long Portuguese labels in fixed-width cells; investigate a detail
+  view or wider label budget without regressing numeric-column separation.
 - Recruitment route: the first profession selector, candidate list, profile,
   political conversation, and response are covered by the latest headless pass;
   continue with a successful recruitment meeting and a conservative target.

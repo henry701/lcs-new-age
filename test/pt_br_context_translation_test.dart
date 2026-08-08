@@ -117,7 +117,16 @@ void main() {
     expect(catalog['United States Flag'], 'Bandeira dos Estados Unidos');
     expect(catalog['Rainbow Pride Flag'], 'Bandeira do Orgulho LGBTQ+');
     expect(catalog['Transgender Pride Flag'], 'Bandeira do Orgulho Trans');
+    expect(catalog['Transgender'], 'Transgênero');
     expect(catalog['Feminist Flag'], 'Bandeira Feminista');
+    expect(
+      catalog['Capable medics will always provide'],
+      'Médicos capacitados sempre oferecem',
+    );
+    expect(
+      catalog['medical care to themselves or others'],
+      'cuidados médicos para si ou para outros',
+    );
     expect(catalog['Pan-African Flag'], 'Bandeira Pan-Africana');
     expect(
       catalog['Demonstrate your patriotism by flying the national flag.'],

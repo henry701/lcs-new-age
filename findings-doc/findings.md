@@ -106,6 +106,9 @@
 | PT-185 | Medium | Core layout | Squad assembly right-aligns the translated header using the English prefix width |
 | PT-186 | Medium | Missing translation | CIA raid opening sentence falls back to English because only source fragments are catalogued |
 | PT-187 | Medium | Combat/layout | CIA suspense messages clip long Portuguese translations at the fixed console edge |
+| PT-188 | Medium | Missing translation | Character profile gender status exposes raw `Transgender` in Portuguese |
+| PT-189 | Low | Profile/layout | Long Portuguese profile labels and attribute names are ellipsized in fixed-width columns |
+| PT-190 | Medium | Translation/context | Medical-support help text uses awkward literal Portuguese wording |
 
 ## PT-001: Save-management option is clipped
 
@@ -2558,3 +2561,51 @@ longer than the fixed console width, so the camera message ended at
 Those messages now use `addparagraph` so words wrap within the console before
 the next prompt. The rebuilt buffer showed the complete camera sentence on two
 rows and preserved `destrancam espontaneamente.` in the darkness message.
+
+## PT-188: Character profile gender status exposed raw `Transgender`
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Base mode → Review Liberals → character profile
+- Replay status: **Fixed in the current strict-headless replay; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-transgender-fixed-20260808.png`
+
+The profile's gender line translated `Nonbinary` and `Cisgender`, but a
+transgender profile still rendered the raw English `Transgender` token:
+`Nascimento: ... (Não binário, Transgender)`. The canonical Portuguese
+catalog now maps `Transgender` to `Transgênero`; the focused vocabulary test
+guards the entry, and a fresh web-server replay showed
+`Nascimento: ... (Não binário, Transgênero)`.
+
+## PT-189: Long Portuguese profile labels are ellipsized in fixed columns
+
+- Severity: Low
+- Type: Fixed-width layout / readability enhancement
+- Screen: Base mode → Review Liberals → character profile stats, skills, and crimes
+- Replay status: **Open; log for a responsive/profile-detail follow-up**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-truncation-stats-20260808.png`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-truncation-skills-20260808.png`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-truncation-crimes-20260808.png`
+
+The 15-column profile cells preserve the numeric values but abbreviate several
+Portuguese labels to the point of ambiguity, including `Inteligência: …`,
+`Primeiros Soco…`, `Armas Pesada…`, `profanação da bandeira nacio…`, and
+`entrada ilegal nos Estados U…`. The existing fitting prevents column
+collisions, but a wider/detail view or a label glossary would preserve the
+meaning without hiding an attribute value.
+
+## PT-190: Medical-support help text used awkward literal Portuguese
+
+- Severity: Medium
+- Type: Translation / contextual wording
+- Screen: Base mode → Assign Tasks → Health and Support
+- Replay status: **Fixed in the current strict-headless replay; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-support-fixed-20260808.png`
+
+The help paragraph said `Médicos capazes sempre fornecerão cuidados médicos
+para si mesmos ou outro no mesmo local`, which is unnatural and leaves
+`outro` without a noun. The fragments now compose as `Médicos capacitados
+sempre oferecem cuidados médicos para si ou para outros no mesmo local`,
+followed by the unchanged task warning. The contextual translation test
+covers both revised fragments.

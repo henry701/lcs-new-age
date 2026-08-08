@@ -212,7 +212,9 @@ void printTopSkills(
   skills.sort((a, b) => b.value.compareTo(a.value));
   skills = skills.where((s) => s.value > 0).take(numberToPrint).toList();
   if (skills.isNotEmpty) {
-    mvaddstrc(y, x, lightGray, "Top Skills:");
+    // Keep the translated heading inside the compact profile's skill column;
+    // the wound table begins at column 49.
+    mvaddstrcFitted(y, x, lightGray, "Top Skills:", 49 - x - 1);
   }
   for (int i = 0; i < skills.length; i++) {
     Skill s = skills[i].key;
@@ -262,14 +264,21 @@ void printTopSkills(
 }
 
 void printWounds(Creature cr, {int y = 2, int x = 49, int? maxWidth}) {
-  final nameWidth = maxWidth == null ? 12 : (maxWidth - 10).clamp(1, 12);
-  final statusX = x + nameWidth;
+  final nameWidth = maxWidth == null ? 11 : (maxWidth - 10).clamp(1, 12);
+  final statusX = x + nameWidth + (maxWidth == null ? 1 : 0);
   final statusWidth = maxWidth == null ? null : maxWidth - nameWidth;
   for (int i = 0; i < cr.body.parts.length; i++) {
     BodyPart p = cr.body.parts[i];
     setColor(p.bleeding > 0 ? red : lightGray);
     if (maxWidth == null) {
-      mvaddstr(y + i, x, "{name}:", params: {"name": p.name});
+      mvaddstrFitted(
+        y + i,
+        x,
+        "{name}:",
+        nameWidth,
+        params: {"name": LcsI18n.tr(p.name)},
+        noTranslate: true,
+      );
     } else {
       mvaddstrFitted(
         y + i,
@@ -327,11 +336,14 @@ void printWounds(Creature cr, {int y = 2, int x = 49, int? maxWidth}) {
 }
 
 void _addWoundStatus(String status, int? maxWidth) {
+  // Injury codes are composed at runtime (for example, "Sht,Brs,Cut"), so
+  // translate each component instead of looking up an unavailable compound
+  // key in the catalog.
+  final rendered = status.split(",").map(LcsI18n.tr).join(",");
   if (maxWidth == null) {
-    addstr(status);
+    addstr(rendered, noTranslate: true);
     return;
   }
-  final rendered = LcsI18n.tr(status);
   addstr(fitConsoleText(rendered, maxWidth), noTranslate: true);
 }
 

@@ -10,6 +10,7 @@ import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_creature_info.dart';
 import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
+import 'package:lcs_new_age/creature/body.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/skills.dart';
@@ -268,6 +269,88 @@ void main() {
     }
   });
 
+  test(
+    'Portuguese wound details localize status codes and special injuries',
+    () {
+      final founder = _founder();
+      final body = founder.body as HumanoidBody
+        ..puncturedHeart = true
+        ..puncturedRightLung = true
+        ..puncturedLeftLung = true
+        ..neck = InjuryState.untreated
+        ..upperSpine = InjuryState.untreated
+        ..lowerSpine = InjuryState.untreated
+        ..missingRightEye = true
+        ..missingLeftEye = true
+        ..missingNose = true
+        ..missingTongue = true
+        ..teeth = 0
+        ..puncturedLiver = true
+        ..puncturedRightKidney = true
+        ..puncturedLeftKidney = true
+        ..puncturedStomach = true
+        ..puncturedSpleen = true
+        ..ribs = 0;
+      body.leftLeg
+        ..shot = true
+        ..bruised = true
+        ..cut = true
+        ..torn = true
+        ..burned = true;
+
+      final untranslatedInjuryKeys = body
+          .allSpecialInjuries()
+          .where((injury) => LcsI18n.tr(injury) == injury)
+          .toList();
+      expect(untranslatedInjuryKeys, isEmpty);
+
+      printFullCreatureStats(founder);
+
+      final rendered = _consoleText();
+      for (final expected in [
+        'Coração Perfurado',
+        'Pulmão D. Colapsado',
+        'Pulmão E. Colapsado',
+        'Pescoço Quebrado',
+        'Coluna Sup. Quebrada',
+        'Coluna Inf. Quebrada',
+        'Sem Olho Direito',
+        'Sem Olho Esquerdo',
+        'Sem Nariz',
+        'Sem Língua',
+        'Tir',
+      ]) {
+        expect(rendered, contains(expected));
+      }
+      for (final leakedEnglish in [
+        'Heart Punctured',
+        'R. Lung Collapsed',
+        'L. Lung Collapsed',
+        'Broken Neck',
+        'Broken Up Spine',
+        'Broken Lw Spine',
+        'No Right Eye',
+        'No Left Eye',
+        'No Nose',
+        'No Tongue',
+        'Sht',
+        'Brs',
+        'Trn',
+        'Brn',
+      ]) {
+        expect(rendered, isNot(contains(leakedEnglish)));
+      }
+
+      erase();
+      printCreatureInfo(founder);
+      final compactRendered = _consoleText();
+      expect(compactRendered, contains('Perna esqu… Tir'));
+      expect(compactRendered, isNot(contains('Left Leg:')));
+      expect(compactRendered, isNot(contains('Habilidades Prin…Perna')));
+      expect(_consoleCells(2, 61, 65), equals('Tir,'));
+    },
+  );
+
   test('Portuguese profile navigation controls preserve separators', () async {
     final founder = _founder();
     final second = Creature.fromId(CreatureTypeIds.thief)
@@ -330,6 +413,20 @@ void main() {
   test('Portuguese site short names cover sleeper and justice routes', () {
     expect(LcsI18n.tr('WhiteHouse'), equals('Casa Branca'));
     expect(LcsI18n.tr('Police'), equals('Polícia'));
+  });
+
+  test('Portuguese hospital discharge localizes the site parameter', () {
+    final hospital = sites.firstWhere(
+      (site) => site.type == SiteType.universityHospital,
+    );
+
+    final rendered = LcsI18n.processString(
+      "{name} is being discharged from {site}.",
+      {"name": "Erica Thurlow", "site": hospital.getName()},
+    );
+
+    expect(rendered, contains('Centro Médico UW'));
+    expect(rendered, isNot(contains('UW Medical Center')));
   });
 
   test('Portuguese compound status labels are localized', () {

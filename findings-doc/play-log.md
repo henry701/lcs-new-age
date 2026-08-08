@@ -2610,3 +2610,40 @@ Portuguese. The broader residual queue is unchanged apart from PT-188/PT-190
 being fixed and PT-189 being added: PT-048/PT-148 terminal combat variants,
 PT-083 narrow viewport readability, PT-151 flag-label ellipses, PT-164
 oversized debug/import roster, and accepted PT-049 English changelog body.
+
+## Strict-headless injury and hospital replay — 2026-08-08
+
+This pass used only the CLI `agent-browser` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The Flutter web server ran on `127.0.0.1:7753`; no headed browser was launched
+or focused. A temporary `debugBadlyInjured` fixture made the severe-injury and
+hospital branches deterministic and was restored to `false` before validation.
+
+The profile route exposed PT-191. Before the catalog/code fix, every body part
+showed raw `Sht,Brs,Cut,Trn,Brn` and the special-injury column showed English
+labels including `Heart Punctured`, `R. Lung Collapsed`, and `Broken Neck`.
+The rebuilt route now renders `Tir,Con,Cor,Ras,Que`, `Coração Perfurado`,
+`Pulmão D. Colapsado`, and the remaining localized injury labels. Captures:
+`injury-profile-stats-20260808.png` (before) and
+`injury-profile-translated-20260808.png` (after).
+
+The same fixture exposed PT-192 in the activity detail view: the translated
+`Habilidades Principais` heading and long Portuguese body-part names overwrote
+the status column. Fitting both cells and reserving separators produced the
+readable `Habilidades Prin… Perna esque… Tir,Con,...` layout. Capture:
+`activity-wounds-layout-fixed-20260808.png`.
+
+The first hospital discharge replay exposed PT-193: the translated sentence
+still interpolated raw `UW Medical Center` because the caller passed
+`p.site!.name`. Passing `p.site!.getName()` fixed the screen; the live buffer
+now says `Ivana Matheson está recebendo alta de Centro Médico UW.` and keeps
+the unpaid-bill choices in Portuguese. Before/after evidence:
+`injury-hospital-days-20260808.txt` and
+`hospital-discharge-translated-20260808.png`.
+
+The fixture also reconfirmed PT-194: more than 13 special injuries extend below
+the 25-row console, so later kidney, stomach, spleen, and rib labels are not
+visible. Keep this as an open pagination/detail-view enhancement. The broader
+queue remains PT-048/PT-148 terminal combat variants, PT-083 narrow viewport,
+PT-151 flag-label ellipses, PT-164 oversized debug/import roster, and accepted
+PT-049 English changelog body.

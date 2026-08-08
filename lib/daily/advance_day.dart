@@ -110,10 +110,7 @@ Future<void> _advanceSquads() async {
             1,
             lightGray,
             message,
-            params: {
-              "member": c.name,
-              "squad": localizedSquadName(s.name),
-            },
+            params: {"member": c.name, "squad": localizedSquadName(s.name)},
           );
           await getKey();
         }
@@ -1061,7 +1058,7 @@ Future<void> _dailyHealing() async {
           6,
           1,
           "{name} is being discharged from {site}.",
-          params: {"name": p.name, "site": p.site!.name},
+          params: {"name": p.name, "site": p.site!.getName()},
         );
         mvaddstrx(
           8,
@@ -1097,7 +1094,7 @@ Future<void> _dailyHealing() async {
       } else {
         await showMessage(
           "{name} has been discharged from {site}.",
-          params: {"name": p.name, "site": p.site!.name},
+          params: {"name": p.name, "site": p.site!.getName()},
         );
       }
 

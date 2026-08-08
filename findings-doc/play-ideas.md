@@ -42,6 +42,16 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-190 fixed (2026-08-08): the Health and Support help paragraph now uses
   natural Portuguese (`Médicos capacitados... para si ou para outros`) rather
   than the literal `... ou outro` wording.
+- PT-191 fixed (2026-08-08): profile and activity wound displays now localize
+  all special injuries and runtime wound codes (`Tir,Con,Cor,Ras,Que`). Keep
+  the injury fixture regression when adding new body states.
+- PT-192 fixed (2026-08-08): compact activity details fit the translated
+  `Habilidades Principais` heading and body-part labels before the status
+  column; replay the route if the compact profile layout changes.
+- PT-193 fixed (2026-08-08): hospital discharge now passes `Site.getName()`
+  into the translated bill template, keeping `Centro Médico UW` localized.
+- PT-194 remains open (2026-08-08): a profile with many special injuries can
+  overflow the 25-row console. Add paging or a scrollable wound detail view.
 - PT-189 remains open (2026-08-08): profile stats, skills, and crimes still
   ellipsize long Portuguese labels in fixed-width cells; investigate a detail
   view or wider label budget without regressing numeric-column separation.

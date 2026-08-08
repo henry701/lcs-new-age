@@ -109,6 +109,10 @@
 | PT-188 | Medium | Missing translation | Character profile gender status exposes raw `Transgender` in Portuguese |
 | PT-189 | Low | Profile/layout | Long Portuguese profile labels and attribute names are ellipsized in fixed-width columns |
 | PT-190 | Medium | Translation/context | Medical-support help text uses awkward literal Portuguese wording |
+| PT-191 | Medium | Profile/translation | Wound status codes and special injuries remain in English in Portuguese profiles |
+| PT-192 | Medium | Profile/layout | Translated compact wound labels collide with the top-skills heading and status column |
+| PT-193 | Medium | Hospital/translation | Hospital discharge interpolates the raw English site name |
+| PT-194 | Low | Profile/layout | Long special-injury lists run below the 25-row console and become invisible |
 
 ## PT-001: Save-management option is clipped
 
@@ -2609,3 +2613,60 @@ para si mesmos ou outro no mesmo local`, which is unnatural and leaves
 sempre oferecem cuidados médicos para si ou para outros no mesmo local`,
 followed by the unchanged task warning. The contextual translation test
 covers both revised fragments.
+
+## PT-191: Wound status and special-injury labels fell back to English
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Base mode → Review Liberals → character profile and task assignment
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-08; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-profile-stats-20260808.png` (before), `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-profile-translated-20260808.png` (after)
+
+The deterministic injury fixture exposed raw `Sht,Brs,Cut,Trn,Brn` codes and
+English labels such as `Heart Punctured`, `R. Lung Collapsed`, and `Broken
+Neck` in an otherwise Portuguese profile. The catalog now covers every
+`HumanoidBody.allSpecialInjuries()` key. Runtime wound codes are translated
+component-by-component because their comma-separated combinations are built
+at runtime. The regression also checks that the compact profile has no English
+injury tokens.
+
+## PT-192: Compact Portuguese wound labels overwrote adjacent columns
+
+- Severity: Medium
+- Type: Fixed-width layout / localized rendering
+- Screen: Base mode → Assign Tasks → Liberal activity details
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-08; layout regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/activity-wounds-layout-fixed-20260808.png`
+
+The compact activity view assumed the English `Top Skills:` heading and short
+body-part names. Portuguese text rendered as `Habilidades PrincipaisPerna...`
+and `Perna esquerdaTir...`, overwriting the wound/status column. The heading
+and body-part labels now fit their cells, reserve a separator, and keep the
+localized status codes readable (`Perna esque… Tir,Con,...`).
+
+## PT-193: Hospital discharge used an untranslated site parameter
+
+- Severity: Medium
+- Type: Missing translation / contextual interpolation
+- Screen: Daily healing → hospital discharge bill
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-08; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-hospital-days-20260808.txt` (before), `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-discharge-translated-20260808.png` (after)
+
+The discharge template itself was translated, but its `{site}` parameter was
+passed as `p.site!.name`, so the bill screen said `recebendo alta de UW Medical
+Center`. The caller now passes `p.site!.getName()`, producing `recebendo alta
+de Centro Médico UW` and keeping the location consistent with the task screen.
+
+## PT-194: Special-injury list overflows the fixed console
+
+- Severity: Low
+- Type: Fixed-width layout / discoverability
+- Screen: Character profile with multiple severe injuries
+- Replay status: **Open; retain as a profile pagination/detail-view follow-up**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-profile-translated-20260808.png`
+
+The injury fixture can produce more than the 13 rows available below the
+profile's fixed content. The screen shows the first labels through `Fígado
+Danificado`, while later localized injuries (kidneys, stomach, spleen, and
+ribs) fall below the 25-row console and are not visible. Consider paging or a
+scrollable detail panel rather than silently dropping the remaining status.

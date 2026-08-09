@@ -498,6 +498,7 @@ Future<void> equipmentBaseAssign() async {
         lightGray,
         siteFromItem[items[p]]!.getName(short: true, includeCity: true),
         25,
+        noTranslate: true,
       );
     }
 

@@ -218,6 +218,11 @@ void main() {
       );
       expect(
         LcsI18n.getMissingTranslations(),
+        isNot(contains('{current}/{max}')),
+      );
+      expect(LcsI18n.getMissingTranslations(), isNot(contains('+{armor}')));
+      expect(
+        LcsI18n.getMissingTranslations(),
         isNot(contains(RegExp(r'^\+~\d+ \(proteção\)$'))),
       );
     },
@@ -740,6 +745,21 @@ void main() {
     expect(compositeName, isNot(contains('New York, NY')));
     expect(newYork.getName(short: true), equals('NYC'));
     expect(LcsI18n.getMissingTranslations(), isNot(contains('NYC')));
+  });
+
+  test('Portuguese headquarters and generated site names stay localized', () {
+    final intelligenceHq = sites.firstWhere(
+      (site) => site.type == SiteType.intelligenceHQ,
+    );
+    final corporateHq = sites.firstWhere(
+      (site) => site.type == SiteType.corporateHQ,
+    );
+    final armyBase = sites.firstWhere((site) => site.type == SiteType.armyBase);
+
+    expect(intelligenceHq.getName(), equals('Sede de Inteligência'));
+    expect(corporateHq.getName(), equals('Sede Corporativa'));
+    expect(armyBase.getName(), startsWith('Base do Exército '));
+    expect(LcsI18n.getMissingTranslations(), isNot(contains(armyBase.name)));
   });
 
   test('Portuguese base localizes shared location activity and slogan', () {

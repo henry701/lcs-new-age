@@ -499,6 +499,18 @@ narrow-layout coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-combat-layout-20260809/`.
 - Keep PT-048/PT-148, PT-083, and accepted PT-049 in the residual queue.
 
+## 2026-08-09 — Headquarters and dynamic-name telemetry follow-up
+
+- PT-244/PT-245 are fixed: the Portuguese Washington travel menu and HQ
+  headers now use `Sede de Inteligência`, `Sede Corporativa`, and the security
+  creature label `Cão de Guarda`.
+- PT-246/PT-247 are fixed: generated site names and numeric display shells no
+  longer pollute missing-translation telemetry. Keep the logger allowlist
+  tests when adding other runtime-composed labels.
+- The residual playtest queue remains PT-048/PT-148 (deterministic terminal
+  combat/post-fight coverage), PT-083 (broader narrow-console coverage), and
+  accepted PT-049 (historical changelog English).
+
 ## Strict-headless education-picker follow-up — 2026-08-10
 
 - The strict-headless route reached the Portuguese education skill picker and

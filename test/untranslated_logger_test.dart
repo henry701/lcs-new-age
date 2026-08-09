@@ -128,6 +128,12 @@ void main() {
         isTrue,
       );
       expect(
+        UntranslatedStringLogger.shouldIgnoreString('{current}/{max}'),
+        isTrue,
+      );
+      expect(UntranslatedStringLogger.shouldIgnoreString('+{armor}'), isTrue);
+      expect(UntranslatedStringLogger.shouldIgnoreString(' ({price})'), isTrue);
+      expect(
         UntranslatedStringLogger.shouldIgnoreString('DEBUG trace'),
         isTrue,
       );

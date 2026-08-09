@@ -402,6 +402,12 @@ void main() {
       localizedCreatureNameValue('Private Military', 'Private Military'),
       'Militar Privado',
     );
+    expect(catalog['Guard Dog'], 'Cão de Guarda');
+    expect(LcsI18n.hasTranslation('Guard Dog'), isTrue);
+    expect(
+      localizedCreatureNameValue('Guard Dog', 'Guard Dog'),
+      'Cão de Guarda',
+    );
     expect(catalog['responds'], 'responde');
     expect(catalog['openly stares'], 'encara abertamente');
     expect(

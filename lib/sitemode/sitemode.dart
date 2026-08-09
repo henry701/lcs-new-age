@@ -261,7 +261,13 @@ Future<void> _siteModeAux() async {
     erase();
 
     if (activeSiteUnderSiege) {
-      mvaddstrc(0, 0, red, activeSite!.getName(includeCity: true));
+      mvaddstrc(
+        0,
+        0,
+        red,
+        activeSite!.getName(includeCity: true),
+        noTranslate: true,
+      );
       addstr(", Level {level}: Escape or Engage", params: {"level": locz + 1});
     } else {
       if (postAlarmTimer > 80) {
@@ -271,7 +277,7 @@ Future<void> _siteModeAux() async {
       } else {
         setColor(lightGray);
       }
-      mvaddstr(0, 0, activeSite!.getName(includeCity: true));
+      mvaddstr(0, 0, activeSite!.getName(includeCity: true), noTranslate: true);
       addstr(", Level {level}", params: {"level": locz + 1});
 
       if (postAlarmTimer > 80) {

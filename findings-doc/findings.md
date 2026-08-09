@@ -126,6 +126,10 @@
 | PT-241 | Medium | Investment layout/translation | Safehouse investment options clip and mix Portuguese currency formats |
 | PT-242 | Medium | Combat translation | Private Military combatants remain in English |
 | PT-243 | Low | Translation telemetry/context | Composed Portuguese status values are translated a second time |
+| PT-244 | Medium | Travel/site translation | Intelligence HQ and Corporate HQ remain in English in Portuguese routes |
+| PT-245 | Medium | Combat translation | Guard Dog remains in English in security encounters |
+| PT-246 | Low | Translation telemetry | Generated Portuguese site names are falsely reported as missing keys |
+| PT-247 | Low | Translation telemetry | Numeric health, armor, and price shells create false missing warnings |
 
 ## PT-001: Save-management option is clipped
 
@@ -3421,3 +3425,59 @@ names remain stable map codes. The focused vocabulary, logger, and character
 creation tests cover the behavior. A rebuilt headless replay keeps the visible
 Portuguese output while the warning log contains no false entries from these
 values.
+
+## PT-244: Headquarters route names remained in English
+
+- Severity: Medium
+- Type: Travel / site translation
+- Screen: Portuguese base → Leste de Washington → headquarters routes
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809/03-intelligence-hq-map-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809/05-corporate-hq-map-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809-final/01-washington-menu-after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809-final/02-corporate-hq-map-after.txt`
+
+The Portuguese travel menu exposed `Intelligence HQ` and `Corporate HQ`, and
+the site-mode header repeated the English names. The canonical catalogs now
+provide `Sede de Inteligência` and `Sede Corporativa`; the fresh route renders
+both names in the travel menu and the site header (`SEA — Sede Corporativa,
+Nível 1`).
+
+## PT-245: Guard Dog encounter label remained in English
+
+- Severity: Medium
+- Type: Combat translation / generated creature names
+- Screen: Portuguese security-site encounters
+- Replay status: **Fixed and verified by focused combat-context regression and strict-headless HQ replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809/04-intelligence-hq-console.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809/05-corporate-hq-console.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809-final/02-corporate-hq-console-after.txt`
+
+Security maps instantiated `Guard Dog` alongside translated `Agent`, leaving a
+raw English generated role in the encounter path. `Guard Dog` is now a
+canonical Portuguese entry (`Cão de Guarda`) and the shared creature display
+helper is covered by `pt_br_context_translation_test.dart`.
+
+## PT-246: Generated Portuguese site names polluted missing-translation telemetry
+
+- Severity: Low
+- Type: Translation telemetry / generated names
+- Screen: Portuguese travel and site-mode headers
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809/01-console-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809/06-army-base-console.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809-final/01-console-after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809-final/02-corporate-hq-console-after.txt`
+
+Names generated during world creation, such as `Prisão Sullivan` and `Base
+do Exército McKinley`, were already localized but were sent back through the
+English-key translator on every render. That produced false missing-key
+warnings. `Site.getName` now translates only stable catalog keys and preserves
+generated localized values; the core vocabulary regression covers this path.
+
+## PT-247: Numeric display shells polluted missing-translation telemetry
+
+- Severity: Low
+- Type: Translation telemetry / runtime formatting
+- Screen: Portuguese roster, armor, and shop-price renderers
+- Replay status: **Fixed and verified by focused logger regressions and a fresh strict-headless replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809/01-console-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809-final/01-console-after.txt`
+
+Runtime shells `{current}/{max}`, `+{armor}`, and ` ({price})` were logged as
+untranslated even though their numeric values and surrounding labels are
+assembled at render time. The structural-key allowlist now matches the
+trimmed price shell and both compact health/armor shells. Logger and core
+Portuguese regressions assert that these values stay out of the missing-key
+report.

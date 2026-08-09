@@ -3382,3 +3382,26 @@ capture contains none of those false entries. Durable evidence is under
 `08-base-after-city-code.txt`, and `08-console-after-city-code.txt`.
 
 No new visible translation or layout defect was confirmed on this route.
+
+## Strict-headless headquarters and security-site replay — 2026-08-09
+
+This pass used only CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless` against a freshly rebuilt
+Flutter `web-server` on port 7904. The viewport was 480×320, and the opt-in
+`?playtest=1` DOM bridge supplied the fixed 80×25 buffer. No headed browser was
+launched or focused.
+
+The Portuguese route reached `Leste de Washington` with the four destination
+labels translated: `Prisão Rehnquist`, `Sede de Inteligência`, `Sede
+Corporativa`, and `Base do Exército Adams`. Entering Corporate HQ rendered the
+site header as `SEA — Sede Corporativa, Nível 1`; the fresh console contained
+only map/resource logs and no targeted missing-translation warnings. The
+before/after buffers are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809/` and
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sweep-20260809-final/`.
+
+The same HQ fixture instantiated the security `Guard Dog` encounter path.
+The Portuguese context regression now verifies `Cão de Guarda`, while the
+runtime route stayed Portuguese and introduced no additional layout defect.
+The temporary founder/item cheats were restored to their committed all-false
+values, and the headless browser/server were closed after capture.

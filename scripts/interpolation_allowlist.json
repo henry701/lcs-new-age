@@ -166,7 +166,7 @@
     },
     {
       "file": "common_actions/equipment.dart",
-      "line": 625,
+      "line": 626,
       "text": "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -874,13 +874,13 @@
     },
     {
       "file": "location/site.dart",
-      "line": 214,
+      "line": 219,
       "text": "Site$id",
       "reason": "Stable runtime identifier or asset path; never player-facing prose."
     },
     {
       "file": "location/site.dart",
-      "line": 252,
+      "line": 257,
       "text": "$adjective $siteType",
       "reason": "Generated site-name lookup key; translated as a complete name when the catalog provides one."
     },

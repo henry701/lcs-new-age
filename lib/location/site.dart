@@ -175,9 +175,14 @@ class Site extends Location {
 
   @override
   String getName({bool short = false, bool includeCity = false}) {
-    String fullName = LcsI18n.tr(
-      short ? (frontShortName ?? shortName) : (frontName ?? name),
-    );
+    final rawName = short ? (frontShortName ?? shortName) : (frontName ?? name);
+    // Generated site names are already localized when the world is created.
+    // Only pass stable catalog keys through the translator; otherwise a name
+    // such as "Base do Exército Sullivan" is incorrectly reported as a
+    // missing English key on every render.
+    final fullName = LcsI18n.hasTranslation(rawName)
+        ? LcsI18n.tr(rawName)
+        : rawName;
     if (includeCity && multipleCityMode) {
       return LcsI18n.processString("{site}, {city}", {
         "site": fullName,

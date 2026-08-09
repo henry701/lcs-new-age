@@ -200,6 +200,27 @@ void main() {
     },
   );
 
+  test('activity category changes clear the previous action preview', () async {
+    final member = _activeLiberal()
+      ..activity = Activity(ActivityType.sellDrugs);
+    pool.add(member);
+
+    final activation = activateRegulars();
+    console.injectKey('a');
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+    console.injectKey('d');
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+
+    expect(_consoleLine(22), isEmpty);
+    expect(_consoleLine(23), isEmpty);
+    expect(_consoleLine(24), isEmpty);
+
+    console.injectKey('Escape');
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+    console.injectKey('Escape');
+    await activation;
+  });
+
   test('Portuguese bulk activity labels fit the right column', () async {
     final member = _activeLiberal()..activity = Activity.none();
     pool.add(member);

@@ -49,6 +49,7 @@
 | PT-064 | Medium | Combat translation/redraw | Police alarm route exposes `Chief of Police` and a stale action legend tail |
 | PT-065 | Medium | Help coverage | Direct Action help overlay remains entirely in English |
 | PT-066 | Medium | Recruitment context | Generated profession name can bypass the localized display helper in meeting text |
+| PT-070 | Medium | Activity layout | Activity preview remains stale after category changes |
 | PT-118 | Medium | Newspaper detail | Article impact labels render raw English View names |
 | PT-119 | Medium | Newspaper translation | Death-penalty article retains an English sentence fragment |
 | PT-120 | Medium | Newspaper layout | Housing article appends filler city directly to the final sentence |
@@ -3306,3 +3307,20 @@ The score counters track Americans lost and saved, but the source labels said
 people. The canonical keys now use `Americans`, with Portuguese labels
 `Total de Americanos Perdidos/Salvos`; the title capture confirms both labels
 fit their columns.
+
+## PT-070: Activity preview remained stale after category changes
+
+- Severity: Medium
+- Type: Activity selection / fixed-width redraw
+- Screen: Portuguese base mode → `Atribuir Tarefas` → activity category
+- Replay status: **Fixed and verified in strict-headless replay plus focused regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/activity-sweep-20260811/acquisition-menu.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/activity-sweep-after-20260811/07-acquisition-menu-postfix.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/activity-sweep-after-20260811/08-acquisition-recruiting-postfix.txt`
+
+Switching from Liberal Activism to `Recrutamento e Aquisição` changed the
+submenu but left the previous activity footer visible, for example
+`vai assar e vender brownies de maconha.`. The footer now clears its three
+detail rows whenever the current activity does not belong to the open
+category. Choosing a valid sub-option restores the localized preview, such as
+`vai recrutar novos membros.`. The focused
+`activity category changes clear the previous action preview` regression
+protects both the blank transition and subsequent selection behavior.

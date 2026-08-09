@@ -192,7 +192,13 @@ Future<void> assignTask(Creature c) async {
     } else if (state == Key.m) {
       _medicalSubmenu(c);
     }
-    _activityFooter(c);
+    final categoryActivities = _activitiesForState(state);
+    _activityFooter(
+      c,
+      visible:
+          categoryActivities == null ||
+          categoryActivities.contains(c.activity.type),
+    );
     int key = await getKey();
     switch (key) {
       case Key.a:
@@ -318,6 +324,17 @@ void _subActivity(ActivityType activity, String desc, {bool greyOut = false}) {
     maxWidth: _subActivityWidth,
   );
 }
+
+List<ActivityType>? _activitiesForState(int state) => switch (state) {
+  Key.a => _activism,
+  Key.b => _legal,
+  Key.c => _illegal,
+  Key.d => _acquisition,
+  Key.e => _study,
+  Key.t => _teaching,
+  Key.m => _medical,
+  _ => null,
+};
 
 void _activismSubmenu(Creature c) {
   _y = 10;
@@ -914,12 +931,13 @@ Future<void> _selectSkillForEducation(
   );
 }
 
-void _activityFooter(Creature cr) {
+void _activityFooter(Creature cr, {bool visible = true}) {
   // The teaching view owns all three detail rows. Clear the previous
   // activity first so a shorter translated line cannot leave stale text.
   eraseLine(22);
   eraseLine(23);
   eraseLine(24);
+  if (!visible) return;
 
   final activityMessageTemplate = switch (cr.activity.type) {
     ActivityType.none =>

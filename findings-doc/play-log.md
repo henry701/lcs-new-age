@@ -3252,3 +3252,28 @@ restored to their committed all-false values. The next useful route remains a
 deterministic non-police terminal death/post-fight summary for PT-048/PT-148,
 followed by the broader PT-083 narrow-console audit; accepted PT-049 historical
 changelog English remains out of scope.
+
+## Strict-headless activity-category replay — 2026-08-11
+
+This pass used the CLI `agent-browser` only, with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`
+against a freshly restarted Flutter `web-server` build on port 7851. The
+viewport was 480×320, and the opt-in `?playtest=1` DOM bridge supplied the
+80×25 buffer. No headed browser was launched or focused.
+
+The Portuguese campaign reached Base → `Atribuir Tarefas`, selected a Liberal,
+and opened `D - Recrutamento e Aquisição`. The pre-fix buffer retained the
+unrelated footer `vai assar e vender brownies de maconha.` after the category
+changed; it is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/activity-sweep-20260811/acquisition-menu.txt`.
+The fixed build clears rows 22–24 while the acquisition submenu is open, as
+shown in
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/activity-sweep-after-20260811/07-acquisition-menu-postfix.txt`
+and its screenshot. Selecting `1 - Recrutar` then restores the expected
+Portuguese preview (`vai recrutar novos membros.`) in
+`08-acquisition-recruiting-postfix.txt`.
+
+PT-070 is fixed. Temporary siege/all-items/funds debug flags were restored to
+their committed all-false values after the replay. The residual queue remains
+PT-048/PT-148 terminal combat summaries, PT-083 narrow-console readability,
+and accepted PT-049 historical changelog English.

@@ -44,6 +44,17 @@ import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
+void showFullSiteMap() {
+  // The full map uses rows 1–23, so clear the underlying party and command
+  // legends before drawing it and reserve row 24 for the dismissal prompt.
+  eraseArea(startY: 1, endY: console.height, startX: 0, endX: console.width);
+  for (final tile in levelMap.allOnFloor(locz)) {
+    move(tile.y + 1, tile.x + 5);
+    drawTileContent(tile);
+  }
+  addOptionText(24, 1, 'any key', 'Press any key to continue.');
+}
+
 Future<void> siteMode(Site loc) async {
   activeSite = loc;
   siteAlarm = false;
@@ -732,9 +743,7 @@ Future<void> _siteModeAux() async {
                           1,
                           white,
                           "{name} won't talk to you.",
-                          params: {
-                            "name": LcsI18n.tr(encounter[tk].name),
-                          },
+                          params: {"name": LcsI18n.tr(encounter[tk].name)},
                         );
 
                         await getKey();
@@ -794,11 +803,7 @@ Future<void> _siteModeAux() async {
       if (c == '0'.codePoint) activeSquadMemberIndex = -1;
 
       if (c == Key.m) {
-        for (SiteTile tile in levelMap.allOnFloor(locz)) {
-          move(tile.y + 1, tile.x + 5);
-          drawTileContent(tile);
-        }
-
+        showFullSiteMap();
         await getKey();
       }
 

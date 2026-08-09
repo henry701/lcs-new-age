@@ -113,6 +113,9 @@
 | PT-192 | Medium | Profile/layout | Translated compact wound labels collide with the top-skills heading and status column |
 | PT-193 | Medium | Hospital/translation | Hospital discharge interpolates the raw English site name |
 | PT-194 | Low | Profile/layout | Long special-injury lists run below the 25-row console and become invisible |
+| PT-233 | Medium | Translation/context | Tailoring skill label says `Costura` while the same skill is `Alfaiataria` elsewhere |
+| PT-234 | Low | Translation/context | Generated latte-stand names use adjective fragments as malformed noun phrases |
+| PT-235 | Medium | Site-map/layout | Full-map overlay leaves a clipped Portuguese control legend underneath the map |
 
 ## PT-001: Save-management option is clipped
 
@@ -3195,3 +3198,45 @@ punctured-heart catalog templates share the article-safe form. The focused
 context regression covers both the generated SWAT label and `Zack Marsh`, and
 the same headless campaign reached the Portuguese siege victory screen after
 the fix.
+
+## PT-233: Tailoring skill label disagreed with the rest of the Portuguese UI
+
+- Severity: Medium
+- Type: Contextual translation / vocabulary consistency
+- Screen: Base → Atribuir Tarefas → Educação e Aprendizado → skill picker
+- Replay status: **Fixed and verified in strict-headless replay plus focused context regression on 2026-08-10**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/tailoring-label-20260810/skill-picker.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/tailoring-label-20260810/skill-picker-after.txt`
+
+The skill picker rendered `T - Costura`, while founder rewards and the help
+text consistently called the same `Tailoring` skill `Alfaiataria`. The catalog
+label now uses `Alfaiataria`, and the focused activity-menu regression asserts
+the shared vocabulary.
+
+## PT-234: Generated latte-stand names used malformed adjective fragments
+
+- Severity: Low
+- Type: Contextual translation / generated commerce name
+- Screen: Travel → Centro de Seattle site list
+- Replay status: **Fixed and verified in strict-headless replay plus focused composition regression on 2026-08-10**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/latte-name-20260810/latte-after.txt`
+
+The dynamic Portuguese template turned `Milky Mug Latte Stand` into
+`Quiosque de Latte Caneca de Leitoso`; the adjective was being used after
+`de` as though it were a noun. Context-specific fragments now render as
+`Leite` and `Espuma`, producing grammatical forms such as
+`Quiosque de Latte Caneca de Leite` and `Quiosque de Latte Caneca de Espuma`.
+The catalog composition regression covers both repaired fragments.
+
+## PT-235: Full-map overlay left a clipped control legend
+
+- Severity: Medium
+- Type: Fixed-width layout / site map
+- Screen: Portuguese site mode → `M - Mapa`
+- Replay status: **Fixed and verified in strict-headless replay plus focused map-overlay regression on 2026-08-10**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-controls-overflow-20260810/map-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-controls-overflow-20260810/map-after.txt`
+
+The full map draws through rows 1–23, but the underlying command legend was
+left in place. Unknown tiles exposed fragments such as `W,A,`, while the
+remaining Portuguese controls were clipped off the bottom of the 25-row
+console. The overlay now clears the stale roster/legend and reserves row 24
+for the localized `Pressione qualquer tecla para continuar.` prompt.

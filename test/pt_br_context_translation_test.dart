@@ -283,29 +283,26 @@ void main() {
     );
   });
 
-  test(
-    'founder biography bonuses keep Portuguese punctuation and date casing',
-    () {
-      const expected = {
-        '+2 Agility, June 30th': '+2 Agilidade, 30 de junho',
-        '+2 Strength, September 5th': '+2 Força, 5 de setembro',
-        '+2 Intelligence, November 9th': '+2 Inteligência, 9 de novembro',
-        '+2 Charisma, October 8th': '+2 Carisma, 8 de outubro',
-        '+2 Heart, May 17th': '+2 Coração, 17 de maio',
-        '+1 Computers, +1 Intelligence': '+1 Computadores, +1 Inteligência',
-        '+3 Computers': '+3 Computadores',
-        '+4 Int, +2 Science Computers Writing and Teaching, +1 Business and Law':
-            '+4 Int., +2 Ciência, Computadores, Escrita e Ensino, +1 Negócios e Lei',
-        '+4 Heart, +1 Intelligence Strength Agility and Charisma':
-            '+4 Coração, +1 Inteligência, Força, Agilidade e Carisma',
-        'Trains: Computers, Security, Stealth, Disguise, Tailoring, Seduction,':
-            'Treina: Computadores, Segurança, Furtividade, Disfarce, Alfaiataria, Sedução,',
-      };
-      for (final entry in expected.entries) {
-        expect(catalog[entry.key], entry.value, reason: entry.key);
-      }
-    },
-  );
+  test('founder biography bonuses keep Portuguese punctuation and date casing', () {
+    const expected = {
+      '+2 Agility, June 30th': '+2 Agilidade, 30 de junho',
+      '+2 Strength, September 5th': '+2 Força, 5 de setembro',
+      '+2 Intelligence, November 9th': '+2 Inteligência, 9 de novembro',
+      '+2 Charisma, October 8th': '+2 Carisma, 8 de outubro',
+      '+2 Heart, May 17th': '+2 Coração, 17 de maio',
+      '+1 Computers, +1 Intelligence': '+1 Computadores, +1 Inteligência',
+      '+3 Computers': '+3 Computadores',
+      '+4 Int, +2 Science Computers Writing and Teaching, +1 Business and Law':
+          '+4 Int., +2 Ciência, Computadores, Escrita e Ensino, +1 Negócios e Lei',
+      '+4 Heart, +1 Intelligence Strength Agility and Charisma':
+          '+4 Coração, +1 Inteligência, Força, Agilidade e Carisma',
+      'Trains: Computers, Security, Stealth, Disguise, Tailoring, Seduction,':
+          'Treina: Computadores, Segurança, Furtividade, Disfarce, Alfaiataria, Sedução,',
+    };
+    for (final entry in expected.entries) {
+      expect(catalog[entry.key], entry.value, reason: entry.key);
+    }
+  });
 
   test('management data vocabulary is localized', () {
     for (final entry in {
@@ -660,6 +657,20 @@ void main() {
         'noun': LcsI18n.tr('Mug'),
       }),
       'Quiosque de Latte Caneca de Cafeína',
+    );
+    expect(
+      LcsI18n.processString('{adjective} {noun} Latte Stand', {
+        'adjective': LcsI18n.tr('Milky'),
+        'noun': LcsI18n.tr('Mug'),
+      }),
+      'Quiosque de Latte Caneca de Leite',
+    );
+    expect(
+      LcsI18n.processString('{adjective} {noun} Latte Stand', {
+        'adjective': LcsI18n.tr('Frothy'),
+        'noun': LcsI18n.tr('Mug'),
+      }),
+      'Quiosque de Latte Caneca de Espuma',
     );
   });
 
@@ -1850,6 +1861,7 @@ void main() {
       'Chemistry, biology, physics, and more.':
           'Química, biologia, física e mais.',
       'Sewing, pattern making, and more.': 'Costura, modelagem e mais.',
+      'Tailoring': 'Alfaiataria',
       'The method and practice of pedagogy.': 'Métodos e prática da pedagogia.',
       'Creative writing and essays.': 'Escrita criativa e redação.',
       'Press a Letter to select a Type of Clothing':

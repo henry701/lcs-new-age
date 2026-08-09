@@ -3169,3 +3169,31 @@ cases. The victory capture is retained at
 No terminal-death or post-fight-summary branch was reached in this replay;
 PT-048/PT-148 remain open alongside PT-083's broader narrow-console audit and
 accepted PT-049 historical changelog English.
+
+## Strict-headless management and site-map replay — 2026-08-10
+
+This pass used only the CLI `agent-browser` session
+`pt-prod-7822-20260810` with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless` against the local web-server build
+on port 7822. No headed browser was launched or focused. The opt-in
+`?playtest=1` bridge supplied the fixed 80×25 buffer and key injection.
+
+The fresh Portuguese campaign visited the base task picker and reproduced the
+Tailoring vocabulary mismatch (`T - Costura` versus `Alfaiataria` in the rest
+of the UI). After the catalog fix, the live picker rendered `T - Alfaiataria`;
+the focused activity-menu regression passed.
+
+The same campaign visited Centro de Seattle and generated
+`Quiosque de Latte Maravilha de Noite`; focused composition tests cover the
+repaired `Leite`/`Espuma` fragments that previously produced
+`Caneca de Leitoso`.
+
+At a police-station site, `M - Mapa` previously left partial controls beneath
+the full-map draw (`W,A,` and a truncated second row). The overlay now clears
+the underlying roster and legend and shows the complete Portuguese dismissal
+prompt in row 24. Before/after buffers and screenshots are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-controls-overflow-20260810/`.
+
+The remaining queue is PT-048/PT-148 terminal combat/post-fight coverage,
+PT-083's broader narrow-console audit, and accepted PT-049 historical
+changelog English.

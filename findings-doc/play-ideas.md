@@ -530,3 +530,18 @@ narrow-layout coverage.
   role-label and proper-name forms.
 - Keep PT-048/PT-148 open until a deterministic terminal death/post-fight
   summary is captured, then continue the PT-083 narrow-console sweep.
+
+## Strict-headless management and site-map replay — 2026-08-10
+
+- PT-233 fixed: the skill picker now calls Tailoring `Alfaiataria`, matching
+  founder rewards and help text instead of the isolated `Costura` label.
+- PT-234 fixed: latte-stand name fragments now produce noun phrases such as
+  `Caneca de Leite` and `Caneca de Espuma`, avoiding the adjective misuse in
+  `Caneca de Leitoso`.
+- PT-235 fixed: the full site map clears stale roster/command content and
+  reserves a complete Portuguese continue prompt on row 24.
+- Durable before/after captures live under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-controls-overflow-20260810/`;
+  the generated latte-name replay is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/latte-name-20260810/`.
+- Keep PT-048/PT-148, PT-083, and accepted PT-049 in the residual queue.

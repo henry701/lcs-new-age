@@ -1755,7 +1755,8 @@ Future<SallyForthResult> sallyForthPart3(Site loc) async {
     }
   }
 
-  chaseSequence = ChaseSequence(loc);
+  chaseSequence = ChaseSequence(loc)
+    ..canpullover = canSurrenderToEncounter(encounter);
   ChaseOutcome outcome = await footChaseSequence(
     showStandardText: false,
     autoPromoteFromSitePool: loc,

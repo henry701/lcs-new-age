@@ -3768,19 +3768,26 @@ errors.
 - Severity: Medium
 - Type: Combat controls / police-siege flow
 - Screen: Portuguese safehouse under siege → `F - Lutar/Fugir` → foot chase
-- Replay status: **Residual; logged for a future police-alarm control fix on 2026-08-09**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-surrender-20260809/replay.txt` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-surrender-20260809.png`
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-09**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-surrender-20260809/replay.txt`; fixed `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-fixed-20260809/replay.txt` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-fixed-20260809.png`
 
-The strict-headless Portuguese siege replay reached a foot chase with six
-`Policial da SWAT` pursuers. The action legend displayed `G - Desistir`, but
-the control was visibly disabled and pressing `G` did not enter the localized
-arrest result; the buffer remained unchanged after repeated attempts.
+The pre-fix strict-headless Portuguese siege replay reached a foot chase with
+six `Policial da SWAT` pursuers. The action legend displayed `G - Desistir`,
+but the control was visibly disabled and pressing `G` did not enter the
+localized arrest result; the buffer remained unchanged after repeated
+attempts.
 
-The screen should either hide the unavailable surrender action or enable it
-for a police pursuit and route the player to the existing arrest/capture
-result. The Portuguese roster (`Armadura da SWAT`, `Policial da SWAT`) and
-fixed-width layout were otherwise clean in this replay.
+Direct police sieges bypass the generic chaser builder, so their fresh
+`ChaseSequence` never enabled surrender even though the encounter contained
+law-enforcement enemies. The siege path now derives `canpullover` from the
+alive enemy law-enforcement encounter, matching the normal police pursuit
+policy while leaving mercenary and military pursuers ineligible.
+
+The fixed replay accepts `G` immediately and renders `Você para e é preso.`.
+The Portuguese roster (`Armadura da SWAT`, `Policial da SWAT`) and fixed-width
+layout remain clean: 25 rows, maximum width 80, no English-control matches,
+and no browser errors.
 
 A comparison replay confirmed that the same safehouse's base-mode
 `G - Desistir` action works and renders the confiscation result in Portuguese;
-the residual is isolated to the foot-chase control state.
+the original residual was isolated to the foot-chase control state.

@@ -45,6 +45,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-262 remains open: `Trabalhador de Escritório` is fitted to
   `Trabalhador de E…` in the 17-cell encounter-name column. Decide later
   whether the roster needs a compact context-specific role label.
+- PT-264 fixed and verified (2026-08-09): direct police sieges now derive the
+  foot-chase surrender flag from alive enemy law-enforcement pursuers. The
+  strict-headless replay accepts `G - Desistir` and renders `Você para e é
+  preso.`; the focused chase-policy regression covers police versus mercenary
+  pursuers.
 
 ## Current residuals to verify after fixes
 
@@ -727,18 +732,21 @@ narrow-layout coverage.
 
 ## Strict-headless police-siege surrender follow-up — 2026-08-09
 
-- PT-264 is confirmed: a Portuguese police-siege foot chase shows the grey
-  `G - Desistir` action, but repeated `G` input is ignored after the evasive
-  sequence. The localized SWAT roster and 80-column layout are otherwise
-  clean. Either enable the existing arrest result for this police pursuit or
-  remove the unavailable action from the legend.
-- Keep PT-264 with the broader PT-048/PT-148 police-alarm route work; retain
-  PT-083 as the responsive-readability enhancement and PT-049 as accepted
-  historical changelog English.
+- PT-264 was confirmed as a residual: a Portuguese police-siege foot chase
+  showed the grey `G - Desistir` action, but repeated `G` input was ignored
+  after the evasive sequence. The localized SWAT roster and 80-column layout
+  were otherwise clean.
+- The follow-up fix is now verified: the direct siege path sets the chase
+  surrender flag from alive enemy law-enforcement candidates, so the same
+  route accepts `G` and renders `Você para e é preso.`. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-fixed-20260809/`.
+- Keep only the broader PT-048/PT-148 police-alarm variants, PT-083 as the
+  responsive-readability enhancement, and PT-049 as accepted historical
+  changelog English in the residual queue.
 
 ## Strict-headless surrender-path comparison — 2026-08-09
 
 - The same police siege's base-mode `G - Desistir` action works and is fully
   localized, including confiscation, intact-funds, fortification, trap, and
-  anti-aircraft-gun results. PT-264 is therefore isolated to the foot-chase
-  control state rather than the shared surrender result.
+  anti-aircraft-gun results. This comparison helped isolate the now-fixed
+  PT-264 control state rather than the shared surrender result.

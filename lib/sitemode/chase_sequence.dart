@@ -163,6 +163,11 @@ enum CarChaseObstacles { fruitStand, truckPullsOut, crossTraffic, child }
 int get partysize => squad.length;
 int get partyalive => squad.where((s) => s.alive).length;
 
+bool canSurrenderToEncounter(Iterable<Creature> candidates) => candidates.any(
+  (candidate) =>
+      candidate.alive && candidate.isEnemy && candidate.type.lawEnforcement,
+);
+
 String _localizedChaseOptionText(
   String key,
   String description, {

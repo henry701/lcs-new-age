@@ -3789,3 +3789,25 @@ entering the foot chase. The action worked and produced localized results:
 This comparison narrows PT-264 to the foot-chase surrender control; the base
 give-up path is localized and functional. Evidence is retained at
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-giveup-20260809/`.
+
+## Strict-headless police-siege surrender fixed replay — 2026-08-09
+
+The PT-264 fix was replayed in a fresh CLI `agent-browser` session
+`police-fixed-7983` with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage
+--disable-cache` against a new Flutter `web-server` on port 7983. No headed
+browser was launched or focused. The temporary deterministic `debugSiege`
+fixture was enabled only for this run and restored to false before validation.
+
+The Portuguese campaign reached the besieged `Garagem de Ônibus Velha`,
+entered `CERCO: FUGIR OU ENFRENTAR`, and opened the foot chase. The roster
+showed ten localized `Policial da SWAT` pursuers and the action legend kept
+`G - Desistir`. Pressing `G` now resolves to `Você para e é preso.`, proving
+that the previously disabled surrender action is wired to the arrest result.
+
+The fixed buffer had 25 rows, a maximum width of 80, no rows over the console
+boundary, no English-control matches, no browser errors, and no pending
+options. Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-fixed-20260809/`.
+PT-264 is closed; continue the broader PT-048/PT-148 alarm variants and the
+remaining layout/readability residuals.

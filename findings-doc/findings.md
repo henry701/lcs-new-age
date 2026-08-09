@@ -118,6 +118,8 @@
 | PT-235 | Medium | Site-map/layout | Full-map overlay leaves a clipped Portuguese control legend underneath the map |
 | PT-236 | Medium | Vehicle translation/layout | Vehicle assignment leaks English prompts and drops the final controls below the console |
 | PT-237 | Medium | Profile/layout | Special-injury overflow marker collides with the review profile action footer |
+| PT-238 | Medium | Safehouse layout | Portuguese compound-status labels overwrite adjacent columns during a siege |
+| PT-239 | Low | Title translation/context | Universal score labels call lost/saved people “Américas” |
 
 ## PT-001: Save-management option is clipped
 
@@ -3274,3 +3276,33 @@ edge. Profile-page rendering now reserves row 22 for that footer, reducing the
 visible injury list by one row only when needed. The marker remains intact and
 the action is fully readable; `test/basemode/pt_br_profile_footer_layout_test.dart`
 covers the collision.
+
+## PT-238: Portuguese safehouse status labels overwrote adjacent columns
+
+- Severity: Medium
+- Type: Safehouse layout / translated fixed-width labels
+- Screen: Portuguese base mode → CIA siege safehouse
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-cia-20260809/base-siege-before-decoded.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-cia-20260809/base-siege-after-pt-inline.txt`
+
+The base renderer kept English column positions for compound upgrades. The
+longer Portuguese labels therefore rendered as
+`CÂMERAS DESLIGADARMADILHAS` and `CANHÃO AAPOSTES` in the live siege buffer.
+Each status now uses a bounded fitted cell with explicit one-column separators;
+the focused core-layout regression covers cameras, traps, the AA gun, and
+bollards, and the corrected replay keeps the entire row inside 80 columns.
+
+## PT-239: Universal score labels referred to continents instead of people
+
+- Severity: Low
+- Type: Title translation / contextual wording
+- Screen: Portuguese title screen → Universal Liberal Statistics
+- Replay status: **Fixed and verified in a fresh strict-headless title replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-stats-pt-20260809/title.txt`
+
+The score counters track Americans lost and saved, but the source labels said
+`Total Americas Lost/Saved`. Portuguese consequently displayed
+`Total de Américas Perdidas/Salvas`, which describes continents rather than
+people. The canonical keys now use `Americans`, with Portuguese labels
+`Total de Americanos Perdidos/Salvos`; the title capture confirms both labels
+fit their columns.

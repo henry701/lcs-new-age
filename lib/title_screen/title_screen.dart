@@ -515,13 +515,13 @@ void titleScreenScores(HighScores? highScores, {int startY = 9}) {
   mvaddstr(
     startY + 1,
     44,
-    "Total Americas Lost: {count}",
+    "Total Americans Lost: {count}",
     params: {'count': highScores.universalLosses},
   );
   mvaddstr(
     startY + 2,
     44,
-    "Total Americas Saved: {count}",
+    "Total Americans Saved: {count}",
     params: {'count': highScores.universalVictories},
   );
   if (highScores.wins.isNotEmpty) {

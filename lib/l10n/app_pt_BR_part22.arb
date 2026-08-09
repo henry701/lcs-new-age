@@ -32,14 +32,6 @@
       }
     }
   },
-  "@Total Americas Lost: {count}": {
-    "placeholders": {
-      "count": {
-        "example": "5",
-        "type": "int"
-      }
-    }
-  },
   "A - Language Selection": "A - Seleção de Idioma",
   "AA GUN": "CANHÃO AA",
   "AM IMPLOSION": "IMPLOSÃO AM",
@@ -148,7 +140,6 @@
   "Times": "Vezes",
   "Today, the Conservative Machine executed {name}": "Hoje, a Máquina Conservadora executou {name}",
   "Topeka, KS": "Topeka, Kansas",
-  "Total Americas Lost: {count}": "Total de Américas Perdidas: {count}",
   "U - Graffiti, ": "U - Fazer grafite, ",
   "US Flag": "Bandeira dos EUA",
   "We need more women!": "Precisamos de mais mulheres!",

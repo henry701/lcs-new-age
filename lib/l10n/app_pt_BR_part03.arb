@@ -27,6 +27,14 @@
   "=== Get a Wheelchair ===": "=== Obter uma Cadeira de Rodas ===",
   "=== PLANNING ===": "=== PLANEJAMENTO ===",
   "@NEW AGE": {},
+  "@Total Americans Saved: {count}": {
+    "placeholders": {
+      "count": {
+        "example": "5",
+        "type": "int"
+      }
+    }
+  },
   "A - Hotwire the car.": "A - Fazer ligação direta no carro.",
   "A screeching truck pulls up to {location}!": "Um caminhão com os pneus cantando para em {location}!",
   "A union of the lipstick lesbian and butch lesbian flags.": "Uma união das bandeiras lésbica de batom e lésbica butch.",
@@ -153,6 +161,7 @@
   "This is the doing of the Conservative Crime Squad butchers.  ": "Isto é obra dos açougueiros do Esquadrão do Crime Conservador.  ",
   "This really doesn't do much if the public is Liberal. They're ": "Isto realmente não faz muita diferença se o público for Liberal. Eles ",
   "This {site} map has no {objective} (the site objective).": "Este mapa de {site} não tem {objective} (o objetivo do local).",
+  "Total Americans Saved: {count}": "Total de Americanos Salvos: {count}",
   "Toymakers": "Fabricantes de brinquedos",
   "Trains: Martial Arts, Firearms, Throwing, Heavy Weapons, Dodge,": "Treina: Artes Marciais, Tiro, Arremesso, Armas Pesadas, Esquiva,",
   "Tuscaloosa, AL": "Tuscaloosa, Alabama",

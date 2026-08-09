@@ -34,6 +34,14 @@
       }
     }
   },
+  "@Total Americans Lost: {count}": {
+    "placeholders": {
+      "count": {
+        "example": "5",
+        "type": "int"
+      }
+    }
+  },
   "@and many others who have contributed to LCS over the years": {},
   "A - Come to {location} as a &Gregular member&x.": "A - Venha para {location} como um &Gmembro regular&x.",
   "A corruption scandal is brewing...": "Um escândalo de corrupção está fermentando...",
@@ -165,6 +173,7 @@
   "They executed this one dude, and like, his head caught on fire.": "Eles executaram esse cara, e tipo, a cabeça dele pegou fogo.",
   "Throwing": "Arremesso",
   "Tofu": "Tofu (soja)",
+  "Total Americans Lost: {count}": "Total de Americanos Perdidos: {count}",
   "Tragic LCS Strike": "Golpe Trágico do LCS",
   "Trenton, NJ": "Trenton, New Jersey",
   "Uni": "Uni",

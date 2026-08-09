@@ -3226,3 +3226,29 @@ severe injury list. The old `A - Atribuir uma TarefaO` collision is captured in
 Debug flags were restored to their committed all-false values after the replay.
 The residual queue remains PT-048/PT-148 terminal combat summaries, PT-083
 narrow-console readability, and accepted PT-049 historical changelog English.
+
+## Strict-headless CIA siege and title-stat replay — 2026-08-09
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`
+against freshly restarted Flutter `web-server` builds on ports 7841 and 7842.
+No headed browser was launched or focused. The opt-in `?playtest=1` bridge
+supplied the fixed 80×25 buffer and key injection.
+
+The debug-assisted Portuguese campaign entered a CIA safehouse siege. The
+before buffer reproduced `CÂMERAS DESLIGADARMADILHAS` and
+`CANHÃO AAPOSTES`; after fitted status cells and a one-column separator, the
+same row rendered `CÂMERAS DESLIGADAS   ARMADILHAS   CANHÃO AA POSTES` with
+`LUZES APAGADAS` still inside the console. The durable buffers are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-cia-20260809/`.
+
+The title replay then switched to Portuguese and confirmed the universal
+statistics now say `Total de Americanos Perdidos` and `Total de Americanos
+Salvos`, replacing the misleading `Américas` wording. The capture is retained
+at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-stats-pt-20260809/title.txt`.
+
+Focused base-layout and title-translation regressions passed. Debug flags were
+restored to their committed all-false values. The next useful route remains a
+deterministic non-police terminal death/post-fight summary for PT-048/PT-148,
+followed by the broader PT-083 narrow-console audit; accepted PT-049 historical
+changelog English remains out of scope.

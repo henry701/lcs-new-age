@@ -267,26 +267,26 @@ void printLocation(Site loc) {
     }
     if (loc.compound.cameras) {
       if (loc.siege.underSiege && loc.siege.camerasOff) {
-        mvaddstrc(5, 1, red, "CAMERAS OFF");
+        mvaddstrcFitted(5, 1, red, "CAMERAS OFF", 20);
       } else {
-        mvaddstrc(5, 1, lightGreen, "CAMERAS ON");
+        mvaddstrcFitted(5, 1, lightGreen, "CAMERAS ON", 20);
       }
     }
     if (loc.compound.boobyTraps) {
-      mvaddstrc(5, 17, red, "BOOBY TRAPS");
+      mvaddstrcFitted(5, 22, red, "BOOBY TRAPS", 12);
     }
     if (loc.compound.aaGun) {
-      mvaddstrc(5, 33, orange, "AA GUN");
+      mvaddstrcFitted(5, 35, orange, "AA GUN", 9);
     }
     if (loc.compound.bollards) {
-      mvaddstrc(5, 45, yellow, "BOLLARDS");
+      mvaddstrcFitted(5, 45, yellow, "BOLLARDS", 12);
     }
     if (loc.siege.underSiege && loc.siege.lightsOff) {
-      mvaddstrc(5, 58, lightGray, "LIGHTS OUT");
+      mvaddstrcFitted(5, 58, lightGray, "LIGHTS OUT", 22);
     } else if (loc.compound.solarPanels) {
-      mvaddstrc(5, 58, lightGreen, "SOLAR POWER");
+      mvaddstrcFitted(5, 58, lightGreen, "SOLAR POWER", 22);
     } else if (loc.compound.generator) {
-      mvaddstrc(5, 59, white, "GENERATOR");
+      mvaddstrcFitted(5, 58, white, "GENERATOR", 22);
     }
     int eaters = numberEating(loc), days = foodDaysLeft(loc);
     if (eaters > 0) {

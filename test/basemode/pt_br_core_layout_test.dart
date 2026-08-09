@@ -18,6 +18,7 @@ import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/weapon.dart';
 import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/location_type.dart';
+import 'package:lcs_new_age/location/siege.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/vehicles/vehicle.dart';
@@ -85,6 +86,48 @@ void main() {
     expect(_consoleLine(21), isNot(contains('TarefasB')));
     expect(_consoleLine(24), contains('B - Agentes Infiltrados'));
   });
+
+  test(
+    'Portuguese safehouse upgrades keep translated status labels separated',
+    () {
+      final previousGameState = gameState;
+      final previousActiveSafehouse = activeSafehouse;
+      try {
+        gameState = GameState();
+        final city = City('Seattle, WA', 'SEA', '');
+        gameState.cities = [city];
+        final district = city.addDistrict('Comércio', 'Comércio');
+        final site = Site(SiteType.warehouse, city, district);
+        district.sites.add(site);
+        site.compound
+          ..cameras = true
+          ..boobyTraps = true
+          ..aaGun = true
+          ..bollards = true;
+        site.siege
+          ..activeSiegeType = SiegeType.cia
+          ..camerasOff = true
+          ..lightsOff = true;
+        activeSafehouse = site;
+
+        baseModeSquadSafehouseDisplay(site);
+
+        final statusRow = _consoleLine(5);
+        expect(statusRow, contains('CÂMERAS DESLIGADAS'));
+        expect(statusRow, contains('ARMADILHAS'));
+        expect(statusRow, contains('CANHÃO AA'));
+        expect(statusRow, contains('POSTES'));
+        expect(statusRow, isNot(contains('CÂMERAS DESLIGADASARMADILHAS')));
+        expect(statusRow, isNot(contains('CANHÃO AAPOSTES')));
+        expect(_consoleCells(5, 19, 22), equals('   '));
+        expect(_consoleCells(5, 44, 45), equals(' '));
+        expect(statusRow.length, lessThanOrEqualTo(console.width));
+      } finally {
+        gameState = previousGameState;
+        activeSafehouse = previousActiveSafehouse;
+      }
+    },
+  );
 
   test(
     'Portuguese base agenda option matches its detail-screen terminology',

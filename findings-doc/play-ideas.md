@@ -558,3 +558,17 @@ narrow-layout coverage.
 - The next high-value branch is still a deterministic non-police terminal death
   and post-fight summary for PT-048/PT-148, followed by the broader 480×320
   responsive-console sweep for PT-083.
+
+## 2026-08-09 — CIA safehouse status and title statistics
+
+- PT-238 fixed and verified: a strict-headless CIA siege exposed translated
+  compound-status labels overwriting their English-width columns. Keep the
+  fitted status-cell regression when adding upgrades or changing the 80-column
+  base layout.
+- PT-239 fixed and verified: universal title statistics now distinguish people
+  (`Americanos`) from continents (`Américas`) in Portuguese, with corrected
+  canonical English keys. Recheck the title-score column if new counters are
+  added.
+- The next high-value branch remains a deterministic non-police terminal death
+  and post-fight summary for PT-048/PT-148, then a 480×320 responsive-console
+  sweep for PT-083.

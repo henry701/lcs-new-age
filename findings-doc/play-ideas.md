@@ -14,7 +14,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   post-fight summaries for English fragments. The 2026-08-10 sweep verified
   angry-mob, corporate-mercenary, and CCS terminal `G - Desistir` endings plus
   their high-score text, but did not reliably reach a live encounter's talk or
-  surrender action; keep that runtime branch sweep open.
+  surrender action; keep that runtime branch sweep open. A 2026-08-09
+  strict-headless siege foot-chase replay separately verified `G - Desistir` →
+  `Você para e é preso.` and the Portuguese court flow, but it used a temporary
+  surrender-enabled siege fixture and does not replace live-encounter coverage.
 - PT-145/PT-146/PT-147 fixed and verified (2026-08-01): the party roster now
   separates `HABIL.—ARMA`, four-digit pressure values retain a gap before
   `Sigilo`, and the founder bonus preserves `Artes Marciais` capitalization.

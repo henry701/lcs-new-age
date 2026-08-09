@@ -2910,3 +2910,29 @@ and keeps the 80-column buffer invariant. A fresh post-fix sweep continued to
 second runtime failure. Residual coverage remains PT-048/PT-148 terminal combat variants, PT-083 narrow viewport readability,
 PT-151/PT-189 intentional long-label ellipses, PT-164 oversized debug/import
 rosters, and accepted PT-049 English changelog body.
+
+## Strict-headless siege foot-chase surrender and narrow-viewport replay — 2026-08-09
+
+This pass used only the CLI `agent-browser` session `siege-combat-20260809`
+with `AGENT_BROWSER_HEADED=0` and Chromium `--headless=new
+--ozone-platform=headless`. The opt-in `?playtest=1` DOM bridge supplied the
+80×25 buffer and option list; no headed browser was launched or focused. A
+temporary local police-siege fixture injured the generated squad and enabled
+the foot-chase surrender control so the terminal path could be exercised;
+all fixture changes were reverted before validation.
+
+The Portuguese safehouse briefing, six-member roster, and opening SWAT
+encounter remained inside the fixed-width console. The terminal chase route
+rendered `G - Desistir`, then `Você para e é preso.`, followed by the Portuguese
+court accusation and guilty-plea screens. No raw English, interpolation leak,
+or stale-row collision appeared. The same combat screen was checked at
+640×480 and 480×320 headless viewports; the table, controls, and enemy roster
+remained within bounds (the smaller viewport is dense but not clipped).
+
+Captures are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-live-20260809/`,
+including `chase-open3.txt`, `chase-surrender3.txt`, and the narrow-viewport
+screenshots. This closes only the deterministic foot-chase surrender coverage;
+PT-048/PT-148 still need an ordinary live encounter's talk/surrender and
+post-fight-summary variants, plus the remaining PT-083 responsive-console
+enhancement.

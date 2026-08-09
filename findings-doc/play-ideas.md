@@ -702,3 +702,13 @@ narrow-layout coverage.
 - Continue with the existing PT-048/PT-148 terminal combat/post-fight route,
   then broaden PT-083 narrow-console coverage; keep accepted PT-049 historical
   changelog English out of the fix queue.
+
+## Strict-headless corporate terminal-death sweep — 2026-08-09
+
+- PT-048/PT-148 coverage advanced: a fresh Portuguese mercenary-siege replay
+  exercised randomized final-words and death-reaction templates after 140 live
+  combat inputs. `Militar Privado` and `Policial da SWAT` remained localized;
+  the browser error channel stayed empty.
+- The temporary mercenary fixture and debug flags were restored before
+  validation. Keep the broader police-alarm surrender/arrest variants open,
+  then continue the PT-083 narrow-console sweep and accepted PT-049 review.

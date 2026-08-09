@@ -3697,3 +3697,27 @@ before the fixture was restored.
 
 The temporary `debugSiege`/CIA changes were reverted before leaving the route;
 `agent-browser.json` remains configured with `headed: false`.
+
+## Strict-headless Portuguese corporate terminal-death sweep — 2026-08-09
+
+This pass used a fresh Flutter `web-server` on port 7978 and the typed
+`agent-browser` session `merc-pt-7978` with `headed=false` plus
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage
+--disable-cache`. The `?playtest=1` bridge supplied the fixed 80×25 console;
+the browser error channel stayed empty and no headed browser was launched or
+focused.
+
+A temporary local-only fixture placed the Portuguese squad at its generated
+safehouse and seeded corporate mercenaries into the siege sally-forth roster.
+The fixture was removed before validation. The live route reached
+`CERCO: FUGIR OU ENFRENTAR`, rendered `Militar Privado`/`Equipamento PMC`, and
+advanced 140 combat inputs. Randomized terminal text included
+`Militar Privado profere suas últimas palavras: "Melhor morrer do que ser ..."`
+and `O Policial da SWAT sussurra "Estou morto?"`; generated names and death
+templates stayed Portuguese, with no raw `Private Military` or `SWAT Officer`
+leak.
+
+Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-merc-20260809/replay.txt`.
+The remaining queue is broader police-alarm surrender/arrest variation under
+PT-048/PT-148, PT-083 narrow-console readability, and accepted PT-049
+historical changelog English.

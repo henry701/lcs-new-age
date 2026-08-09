@@ -1317,7 +1317,7 @@ regression tests assert the fixed-column limits.
 - Severity: Medium
 - Type: Contextual translation quality
 - Screen: Site mode → combat / car chase
-- Replay status: **Fixed in catalogs/source; core siege replay verified on 2026-08-01; broader random branches remain open**
+- Replay status: **Fixed in catalogs/source; core siege plus non-police terminal branches verified in strict-headless replays; police surrender/arrest variants remain open**
 
 The tooth-damage composition produced forms such as `está queimou!` and
 `está corte!`. Car-chase fragments also read awkwardly, and the sneak-miss
@@ -1326,9 +1326,10 @@ and the warning to `antes de o ataque acertar`.
 
 The fresh strict-headless siege route reached the police alarm, surrender
 announcement, siege briefing, localized encounter roster, and localized hit
-messages. The run ended in a victory before a terminal surrender/death branch,
-so the random injury, surrender, arrest, and post-fight variants remain a
-follow-up rather than an unverified completion claim.
+messages. A later Portuguese corporate-mercenary fixture advanced 140 live
+combat inputs and reached randomized final-words/death-reaction text without
+raw-English names. Keep the broader police surrender/arrest variants as a
+follow-up rather than claiming every random branch is covered.
 
 ## PT-049: Changelog release notes are intentionally English-only
 
@@ -2008,7 +2009,7 @@ replay and context catalog test cover the complete line.
 - Severity: Medium
 - Type: Runtime interpolation / translation coverage
 - Screen: Police alarm → siege combat
-- Replay status: **Fixed on 2026-08-01; direct strict-headless route verifies roster, hit, and injury branches; terminal random branches remain under PT-048**
+- Replay status: **Fixed on 2026-08-01; direct strict-headless routes verify roster, hit, injury, and non-police terminal branches; police surrender/arrest variants remain under PT-048**
 
 Combat messages passed raw generated creature names into attack, injury, loot,
 reaction, and death templates, so Portuguese combat could expose `SWAT
@@ -2016,9 +2017,10 @@ Officer`. Several randomized death/final-words templates also had no catalog
 entry. Combat interpolation now uses the localized creature-name helper and
 the missing English/Portuguese template pairs are present in both catalogs.
 The rebuilt route rendered `Policial da SWAT` in the roster and messages such
-as `acerta capacete de Policial da SWAT`; it won before a random death template
-could be selected. Keep the broader deterministic injury, surrender, arrest,
-and post-fight sweep open in PT-048.
+as `acerta capacete de Policial da SWAT`. A fresh Portuguese corporate-
+mercenary route also rendered localized `Militar Privado` final words and a
+localized SWAT death reaction after 140 combat inputs. Keep broader
+police-alarm surrender/arrest coverage open in PT-048.
 
 ## PT-149: Dynamic option prefixes change from `-` to an en dash
 

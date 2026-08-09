@@ -6,6 +6,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 
 ## Current residuals to verify after fixes
 
+- PT-224/PT-225/PT-226 fixed and verified (2026-08-09): the strict-headless
+  shop/education/graffiti/newspaper sweep corrected the graffiti pickup
+  context, the education skill-column separator, and the Justice Amok
+  possessive clause. Keep their focused regressions with future catalog or
+  fixed-width changes.
 - PT-131 fixed (2026-07-30): the high-score rank now renders `A Elite Liberal`
   instead of the source-emphasis form `A ELITE Liberal`. A strict-headless
   seeded-score replay and localized layout regression verify the final casing.
@@ -107,8 +112,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   `perpPronounSelf` placeholders while using idiomatic Portuguese grammar.
 - PT-124 fixed (2026-07-29): article impact labels now cover the previously
   missing `Taxes` and `Drugs` enum names (`Impostos`, `Drogas`).
-- PT-125 open: replay the military newspaper branch and replace generated
-  country fragments such as `Islands de Korsazistan` with locale-aware names.
+- PT-125 fixed (2026-07-29): generated military country names now translate
+  `Islands` as `Ilhas`; retain the deterministic article regression when
+  changing country-name composition.
 
 ## Recruitment/police replay follow-ups (2026-07-29)
 

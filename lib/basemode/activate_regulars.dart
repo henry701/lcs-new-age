@@ -881,7 +881,7 @@ Future<void> _selectSkillForEducation(
   await pagedInterface(
     headerPrompt: headerPrompt,
     headerPromptParams: {"name": cr.name},
-    headerKey: {4: "SKILL", 22: "NOW", 28: "MAX", 34: "DESCRIPTION"},
+    headerKey: {4: "SKILL", 23: "NOW", 29: "MAX", 34: "DESCRIPTION"},
     footerPrompt: "Press a Letter to select a Skill",
     count: skills.length,
     lineBuilder: (y, key, index) {
@@ -895,7 +895,7 @@ Future<void> _selectSkillForEducation(
         params: {"key": key, "skill": LcsI18n.tr(skill.displayName)},
       );
       highlightColorForSkill(cr, skill);
-      printSkillValue(cr, skill, y, 22, emphasizePotential: true);
+      printSkillValue(cr, skill, y, 23, emphasizePotential: true);
       mvaddstrc(
         y,
         34,

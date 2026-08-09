@@ -571,6 +571,28 @@ void main() {
     }
   });
 
+  test(
+    'Portuguese skill picker leaves a separator after long skill names',
+    () async {
+      final founder = _founder();
+      founder.rawSkill[Skill.firstAid] = 30;
+      console.injectKey('e');
+      console.injectKey('1');
+
+      final assignment = assignTask(founder);
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      final skillRow = _consoleText().split('\n')[8];
+      expect(skillRow, contains('Primeiros Socorros '));
+      expect(skillRow, isNot(contains('Primeiros Socorros30')));
+
+      console.injectKey('Escape');
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      console.injectKey('Escape');
+      await assignment;
+    },
+  );
+
   test('Portuguese bulk activity labels are localized', () {
     const labels = {
       'Community Service': 'Serviço Comunitário',

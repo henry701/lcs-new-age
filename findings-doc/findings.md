@@ -3054,3 +3054,45 @@ transport cell. Appending the driver marker afterward left a dangling
 columns before fitting the translated vehicle name, so the marker remains
 visible with an ellipsis when needed. The focused layout regression checks that
 the cell contains `-D` and never ends with a bare hyphen.
+
+## PT-224: Graffiti pickup used the wrong article and leaked the English safehouse name
+
+- Severity: Medium
+- Type: Contextual translation / dynamic location name
+- Screen: Daily graffiti activity when a Liberal scavenges spray paint
+- Replay status: **Fixed and verified by focused Portuguese activity regression on 2026-08-09**
+
+The pickup message rendered `Wally Rexford agarrou um Tinta spray de Homeless
+Camp.`. The article disagreed with the feminine weapon name, and the activity
+passed the site's raw English `name` instead of its locale-aware display name.
+The message now uses the parameter-aware translation path and `Site.getName()`,
+producing `Wally Rexford pegou uma Tinta spray no Acampamento sem-teto.`.
+`test/daily/graffiti_translation_test.dart` covers the exact Portuguese output
+and the safehouse localization.
+
+## PT-225: Long Portuguese skill names collided with education values
+
+- Severity: Medium
+- Type: Fixed-width layout
+- Screen: Base → Atribuir Tarefas → Educação e Aprendizado → skill picker
+- Replay status: **Fixed and verified in strict-headless Portuguese replay and focused regression on 2026-08-09**
+
+With a high first-aid value, the picker joined the translated label and number
+as `Primeiros Socorros30.0`. The numeric columns now start one cell later,
+leaving a separator after long skill names while preserving the description
+column and 80-column buffer. The Portuguese core-vocabulary regression asserts
+the separator and rejects the collision.
+
+## PT-226: Justice Amok used an ungrammatical possessive interpolation
+
+- Severity: Medium
+- Type: Contextual translation / dynamic interpolation
+- Screen: Portuguese newspaper → Justice Amok major event
+- Replay status: **Fixed and verified by focused regression plus a rebuilt strict-headless newspaper route on 2026-08-09**
+
+The translated article composed the source placeholders as `com base em dele
+crença de que ...`, which is not valid Brazilian Portuguese. The catalog now
+keeps the reason phrase independent and places the gendered possessive in the
+neutral `na opinião {judgePossessive}` clause, so both `dele` and `dela` remain
+grammatical. `test/newspaper/herald_translation_test.dart` renders the exact
+template and rejects the old `dele crença` form.

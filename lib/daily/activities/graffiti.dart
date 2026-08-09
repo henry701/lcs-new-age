@@ -35,11 +35,12 @@ Future<void> doActivityGraffiti(List<Creature> graffiti) async {
       );
       if (sprayPaint != null) {
         await showMessage(
-          LcsI18n.processString("{name} grabbed a {weapon} from {location}.", {
+          "{name} grabbed a {weapon} from {location}.",
+          params: {
             "name": graffiti[s].name,
             "weapon": sprayPaint.getName(),
-            "location": graffiti[s].base!.name,
-          }),
+            "location": graffiti[s].base!.getName(),
+          },
         );
         graffiti[s].giveWeapon(sprayPaint, graffiti[s].base!.loot);
       } else if (sprayType != null && ledger.funds >= sprayType.price) {

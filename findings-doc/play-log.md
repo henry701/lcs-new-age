@@ -3001,3 +3001,36 @@ frame. The new regression lives in
 These checks close PT-151, PT-164, and PT-189. The remaining queue is PT-048/
 PT-148 terminal combat variants, PT-083 narrow-console readability, and the
 accepted English-only changelog body PT-049.
+
+## Strict-headless shop, activity, and newspaper replay — 2026-08-09
+
+This pass used only the CLI `agent-browser` session `shop-sweep-20260809` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The opt-in `?playtest=1` DOM bridge supplied the fixed 80×25 console buffer and
+key injection; no headed browser was launched or focused. Temporary all-items,
+high-funds, and founder fixtures enabled a disposable sweep and were reverted
+before validation.
+
+The route covered equipment and vehicle pages, media, education, graffiti,
+department-store shopping, and newspaper output. It reproduced three concrete
+Portuguese defects. Graffiti pickup showed `Wally Rexford agarrou um Tinta spray
+de Homeless Camp.`; the fix uses the translated safehouse name and a parameter
+aware message (`pegou uma ... no Acampamento sem-teto`). The education picker
+joined `Primeiros Socorros` to its numeric value; the value columns now leave a
+separator. A Justice Amok article composed `com base em dele crença ...`; the
+catalog now places the possessive in `na opinião dele/dela`.
+
+After the source/catalog reload, the same headless session started a fresh
+Portuguese game and reached the title, founder, agenda, roster, equipment, and
+newspaper routes without a crash or English control leakage. Focused regressions
+`test/daily/graffiti_translation_test.dart`,
+`test/basemode/pt_br_core_vocabulary_test.dart`, and
+`test/newspaper/herald_translation_test.dart` all pass and guard the exact
+outputs. The extended random-day run also reached the Liberal Guardian secret
+selection prompt without a new translation or layout defect.
+
+Remaining work is coverage, not a new confirmed defect: PT-048/PT-148 still
+need a live combat death/post-fight-summary branch, PT-083 remains the narrow
+480×320 readability enhancement, and PT-049 intentionally retains the English
+historical changelog body. Compact profile/shop labels that end in an ellipsis
+remain bounded by their fixed cells and are tracked as accepted presentation.

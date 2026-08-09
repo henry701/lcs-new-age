@@ -3610,3 +3610,27 @@ All temporary debug hooks were restored before validation.
 PT-256 is fixed; continue the remaining PT-048/PT-148 random combat coverage,
 PT-083 narrow-console readability sweep, and accepted PT-049 historical
 changelog English review queue.
+
+## Strict-headless terminal-combat layout follow-up — 2026-08-09
+
+This pass used only the CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless --disable-dev-shm-usage`
+against a freshly hot-restarted Flutter `web-server` on port 7944. The
+480×320 viewport used the opt-in `?playtest=1` bridge for the fixed 80×25
+console; no headed browser was launched or focused.
+
+A temporary in-memory terminal police-siege fixture reached the Portuguese
+encounter roster. The old capture showed every armored enemy as `+…` because
+the translated `(proteção)` suffix consumed the six-cell health budget (PT-257).
+The fixed replay now shows compact `+` markers (`170 +`, `140 +`) while the
+wider party roster keeps numeric armor details. The same route produced a long
+Portuguese hit sentence that previously ran into the column-80 boundary (PT-258).
+The fixed attack renderer wraps it across rows 9–10; the captured message is
+complete and the browser error channel is empty.
+
+The death-reflection route also confirmed residual PT-259: a defeated enemy
+can briefly render a negative health value such as `-4 +24` before its row is
+removed. It is logged for a future status-rendering decision; no fixture or
+debug flag remains in the repository.
+
+Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.png`, and the prior death capture at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/death-message-after.txt`.

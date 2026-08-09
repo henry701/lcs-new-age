@@ -964,7 +964,15 @@ Future<bool> attack(
       attackMessageTemplate = "{attacker} hits {target}.";
     }
 
-    addstr(attackMessageTemplate, params: attackMessageParams);
+    clearMessageArea();
+    addparagraph(
+      9,
+      1,
+      LcsI18n.processString(attackMessageTemplate, attackMessageParams),
+      y2: 10,
+      x2: console.width - 1,
+      noTranslate: true,
+    );
     await getKey();
 
     bool aliveBefore = t.alive;

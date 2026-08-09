@@ -1,8 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
+import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -92,5 +95,45 @@ void main() {
       contains('Policial da SWAT morre antes que o corpo dela atinja o chão.'),
     );
     expect(rendered, isNot(contains('corpo ela')));
+  });
+
+  test('Portuguese combat hit messages wrap across the message rows', () async {
+    final attacker = Creature.fromId(CreatureTypeIds.agent)
+      ..name = 'Sambor Smallwood'
+      ..align = Alignment.liberal
+      ..rawSkill[Skill.firearms] = 20
+      ..rawSkill[Skill.dodge] = 20;
+    attacker.giveWeaponAndAmmo('WEAPON_M7', 9);
+
+    final target = Creature.fromId(CreatureTypeIds.swat)
+      ..name = 'SWAT Officer'
+      ..align = Alignment.conservative
+      ..rawSkill[Skill.dodge] = 0
+      ..rawAttributes[Attribute.agility] = 1
+      ..rawAttributes[Attribute.strength] = 100
+      ..rawAttributes[Attribute.wisdom] = 100;
+    target.blood = target.maxBlood;
+    mode = GameMode.site;
+
+    final attackFuture = attack(attacker, target, false);
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    expect(_consoleLine(9), contains('Sambor Smallwood'));
+
+    console.injectKey('x');
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    final hitMessage = '${_consoleLine(9)} ${_consoleLine(10)}'
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    expect(hitMessage, contains('Sambor Smallwood'));
+    expect(hitMessage, contains('Policial da SWAT'));
+    expect(hitMessage, contains('3 vezes'));
+    expect(_consoleLine(9), isNot(contains('…')));
+    expect(console.buffer.every((row) => row.length == 80), isTrue);
+
+    for (var i = 0; i < 10; i++) {
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      console.injectKey('x');
+    }
+    await attackFuture;
   });
 }

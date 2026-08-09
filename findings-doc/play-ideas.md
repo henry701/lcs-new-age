@@ -31,6 +31,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   esconderijo.` and returns safely. The base action guard, last-second empty
   squad guard, focused regression, and fresh strict-headless replay cover the
   former `Bad state: No element` crash at `lib/sitemode/sitemode.dart:211`.
+- PT-257/PT-258 fixed and verified (2026-08-09): the strict-headless terminal
+  combat replay now preserves a visible armor marker in the six-cell enemy
+  health column and wraps long Portuguese hit descriptions over rows 9–10.
+  Keep the compact-status and combat-message regressions with future roster or
+  localization changes.
 
 ## Current residuals to verify after fixes
 
@@ -45,6 +50,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   reserved rows; `test/sitemode/fight_death_layout_test.dart` guards the full
   `Melhor morrer do que ser liberal...` output. Keep broader live-combat
   death/post-fight-summary coverage open under PT-048/PT-148.
+- PT-259 remains open: the death-reflection redraw can show negative enemy
+  health values such as `-4 +24` before the defeated row is removed. Decide in
+  a future combat pass whether to display `Morto`, remove the row earlier, or
+  use a distinct corpse status.
 - PT-070 fixed and verified (2026-08-11): switching activity categories now
   clears an unrelated preview footer until a valid sub-option is selected.
   The 480×320 strict-headless replay and focused core-layout regression cover

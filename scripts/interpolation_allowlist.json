@@ -1090,55 +1090,55 @@
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1129,
+      "line": 1137,
       "text": "Damage mod: $mod, damage before application: $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1133,
+      "line": 1141,
       "text": "Damage reduced to $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1136,
+      "line": 1144,
       "text": "Damage increased to $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1163,
+      "line": 1171,
       "text": "Random: $random, fixed: $fixed, hits: $bursthits",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1164,
+      "line": 1172,
       "text": "Initial damage roll: $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1256,
+      "line": 1264,
       "text": "Final damage after hit location effects: $damamount",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1264,
+      "line": 1272,
       "text": "Target blood before hit: ${target.blood}/${target.maxBlood}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 1266,
+      "line": 1274,
       "text": "Target blood after hit: ${target.blood}/${target.maxBlood}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 2068,
+      "line": 2076,
       "text": "Making loot for ${cr.name} into $lootPile",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

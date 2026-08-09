@@ -6,6 +6,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/sitemode/site_display.dart';
 
@@ -64,5 +65,23 @@ void main() {
 
     expect(_consoleCells(12, 2, 19).trim(), equals('policial da SWAT'));
     expect(_consoleCells(12, 2, 19), isNot(contains('swat')));
+  });
+
+  test('Portuguese encounter health cells mark armor without clipping', () {
+    final observer = Creature()
+      ..align = Alignment.liberal
+      ..rawAttributes[Attribute.intelligence] = 12;
+    pool.add(observer);
+
+    encounter.add(
+      Creature.fromId(CreatureTypeIds.swat, align: Alignment.conservative)
+        ..equippedClothing = Clothing('CLOTHING_SWATARMOR'),
+    );
+
+    printEncounter();
+
+    final status = _consoleCells(12, 49, 55);
+    expect(status, contains('+'));
+    expect(status, isNot(contains('…')));
   });
 }

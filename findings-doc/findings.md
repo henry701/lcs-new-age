@@ -139,6 +139,9 @@
 | PT-254 | Medium | Safehouse layout | Long Portuguese safehouse names overwrite the security-box frame and action row |
 | PT-255 | Low | Combat translation/style | Fleeing creature display lowercases the `SWAT` acronym |
 | PT-256 | High | Safehouse/siege runtime | Entering a safehouse siege with no active squad crashes before combat |
+| PT-257 | Medium | Combat/layout | Portuguese encounter armor details collapse to an ellipsis in the six-cell health column |
+| PT-258 | Medium | Combat/layout | Long Portuguese hit descriptions are clipped at the fixed console edge |
+| PT-259 | Medium | Combat/status layout | Death-reflection rows expose negative health values for defeated enemies |
 
 ## PT-001: Save-management option is clipped
 
@@ -3633,3 +3636,52 @@ before entering site mode. The guarded route displays the localized
 explanation `Não há Liberais disponíveis para defender este esconderijo.` and
 returns safely. The focused siege regression and fresh headless replay cover
 both the message and the no-squad state.
+
+## PT-257: Portuguese encounter armor details collapsed to an ellipsis
+
+- Severity: Medium
+- Type: Combat layout / compact status rendering
+- Screen: Portuguese terminal-combat encounter roster
+- Replay status: **Fixed and verified in a fresh strict-headless replay and focused regressions on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-armor-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.png`, `test/basemode/pt_br_core_vocabulary_test.dart`, and `test/sitemode/site_encounter_layout_test.dart`
+
+The Portuguese armor translation appends `(proteção)` to the numeric detail.
+The encounter roster gives the health cell only six columns, so the old fitted
+renderer reduced every value to `+…`, hiding whether the enemy had any armor.
+The compact renderer now keeps a plain `+` marker when the numeric token cannot
+fit, while preserving the numeric `+~30 (proteção)` prefix in wider party cells.
+The fresh replay shows `170 +` and `140 +` in the encounter roster with no
+ellipsis, and the focused tests cover both narrow encounter and wider party
+cells.
+
+## PT-258: Long Portuguese hit descriptions clipped at the console edge
+
+- Severity: Medium
+- Type: Combat layout / fixed-width rendering
+- Screen: Portuguese terminal-combat attack and hit-message rows
+- Replay status: **Fixed and verified in a fresh strict-headless replay and focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.png`, and `test/sitemode/fight_death_layout_test.dart`
+
+Long localized hit descriptions were written with a single unbounded
+`addstr`, so text such as `... armadura de braço direito ... atingindo 3 vezes`
+was cut at column 80. The attack-message renderer now clears its reserved
+message area and wraps the already-localized sentence across rows 9–10. The
+fresh buffer keeps the complete two-line Portuguese sentence and every console
+row remains exactly 80 cells wide.
+
+## PT-259: Death-reflection rows expose negative health values
+
+- Severity: Medium
+- Type: Combat status / layout
+- Screen: Portuguese combat death reflection immediately after an enemy dies
+- Replay status: **Residual; logged for a future combat-rendering pass on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/death-message-after.txt`
+
+When a defeated enemy's death message is shown, the encounter list is redrawn
+before the corpse is removed. The row can therefore display a negative blood
+value such as `-4 +24` (and, in an earlier capture, `-274 +133`) rather than a
+clear dead-state label or an empty status. The value is understandable to the
+engine but misleading to players and can make the armor marker look like a
+live statistic. Keep this open for a follow-up decision on whether dead rows
+should show `Morto`, be removed before the redraw, or retain a distinct corpse
+status.

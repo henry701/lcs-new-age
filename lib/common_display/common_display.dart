@@ -460,7 +460,7 @@ void printHealthStat(
     if (localizedArmor.isNotEmpty) addstr(" ");
     addstrc(
       lightBlue,
-      fitConsoleText(localizedArmor, remainingWidth),
+      _fitCompactArmorDetail(localizedArmor, remainingWidth),
       noTranslate: true,
     );
   }
@@ -475,6 +475,19 @@ String _getVagueHealthDescription(Creature creature) {
   if (healthPercent >= 0.4) return "Wnd";
   if (healthPercent >= 0.2) return "Bad";
   return "Crit";
+}
+
+String _fitCompactArmorDetail(String armor, int maxWidth) {
+  if (maxWidth <= 0) return "";
+  if (strLenX(armor) <= maxWidth) return armor;
+
+  // The Portuguese precision label adds a parenthetical explanation. Keep
+  // the numeric armor token visible in the narrow roster health cell.
+  final compactArmor = armor.split(' ').first;
+  if (strLenX(compactArmor) <= maxWidth) return compactArmor;
+  // A one-character marker is more useful than an ellipsis when the encounter
+  // roster leaves only one or two cells after the health value.
+  return armor.startsWith('+') ? "+" : fitConsoleText(armor, maxWidth);
 }
 
 String _getHealthDisplayForSkill(

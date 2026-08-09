@@ -17,6 +17,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/creature/sort_creatures.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/crime_squad.dart';
+import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
@@ -244,6 +245,24 @@ void main() {
     expect(rendered, contains('+Lev'));
     expect(rendered, isNot(contains('Crit')));
     expect(rendered, isNot(contains('+Lgt')));
+  });
+
+  test('Portuguese party health cells keep compact armor details', () {
+    mode = GameMode.base;
+    activeSite = null;
+    _founder()
+      ..rawAttributes[Attribute.intelligence] = 9
+      ..equippedClothing = Clothing('CLOTHING_LEATHER');
+
+    printParty(fullParty: true);
+
+    final health = _consoleCells(
+      2,
+      ManagementTableLayout.partyHealthX,
+      ManagementTableLayout.transportX,
+    );
+    expect(health, contains('+~'));
+    expect(health, isNot(contains('…')));
   });
 
   test(

@@ -207,4 +207,21 @@ void main() {
       ),
     );
   });
+
+  test(
+    'already-localized volunteer answer is not translated a second time',
+    () {
+      final option = localizedVolunteerCandidateOption();
+
+      renderCharacterCreationPrompt(
+        question: 'I was only 15 when I ran away, and...',
+        answers: [(option: option, description: '', params: null)],
+        choose: true,
+        noTranslateOptions: {option},
+      );
+
+      expect(_normalizedConsoleLines(11, 13), contains(option));
+      expect(LcsI18n.getMissingTranslations(), isNot(contains(option)));
+    },
+  );
 }

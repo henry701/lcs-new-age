@@ -25,6 +25,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   footer now preserves the separator between `CIMA` and `BAIXO - Mais Info`.
   The 480×320 strict-headless profile replay and vocabulary regression cover
   the localized prefixes and reject the old merged `CIMA BAIXO` form.
+- PT-243 fixed and verified (2026-08-09): compact Portuguese health/armor
+  values, the localized volunteer biography answer, and city short codes no
+  longer pass through translation a second time. The fresh strict-headless
+  founder/status replay keeps the visible output Portuguese and removes the
+  corresponding false missing-translation warnings.
 - PT-131 fixed (2026-07-30): the high-score rank now renders `A Elite Liberal`
   instead of the source-emphasis form `A ELITE Liberal`. A strict-headless
   seeded-score replay and localized layout regression verify the final casing.

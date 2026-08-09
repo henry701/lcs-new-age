@@ -27,11 +27,18 @@ class _Question {
 }
 
 class _Option {
-  _Option(this.option, this.description, this.callback, {this.params});
+  _Option(
+    this.option,
+    this.description,
+    this.callback, {
+    this.params,
+    this.noTranslate = false,
+  });
   final String option;
   final String description;
   final Function() callback;
   final Map<String, dynamic>? params;
+  final bool noTranslate;
 }
 
 enum Recruits { gang, none }
@@ -65,6 +72,7 @@ void renderCharacterCreationPrompt({
   required List<CharacterCreationAnswerText> answers,
   required bool choose,
   int? highlight,
+  Set<String> noTranslateOptions = const {},
 }) {
   final renderedQuestion = LcsI18n.processString(question, null);
   mvaddstrc(9, 0, white, renderedQuestion, noTranslate: true);
@@ -73,7 +81,11 @@ void renderCharacterCreationPrompt({
     if (!choose && i != highlight) continue;
     final option = answers[i];
     String letter = letterAPlus(i);
-    final renderedOption = LcsI18n.processString(option.option, option.params);
+    final renderedOption = LcsI18n.processString(
+      option.option,
+      option.params,
+      noTranslate: noTranslateOptions.contains(option.option),
+    );
     final renderedDescription = LcsI18n.processString(option.description, null);
     final optionLines = _wrapCharacterCreationText(renderedOption, 76);
     final descriptionLines = _wrapCharacterCreationText(
@@ -477,6 +489,7 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
           founder.adjustSkill(Skill.law, 1);
           founder.adjustAttribute(Attribute.charisma, 1);
         },
+        noTranslate: true,
       ),
       _Option(
         "I let people pay me for sex.  I needed the money to survive.",
@@ -703,6 +716,10 @@ Future<void> characterCreationQuestions(Creature founder, bool choose) async {
       ],
       choose: choose,
       highlight: highlight,
+      noTranslateOptions: {
+        for (final answer in question.answers)
+          if (answer.noTranslate) answer.option,
+      },
     );
 
     printCreatureInfo(founder);

@@ -178,7 +178,7 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 421,
+      "line": 436,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },
@@ -1330,7 +1330,7 @@
     },
     {
       "file": "title_screen/questions.dart",
-      "line": 51,
+      "line": 58,
       "text": "$current $word",
       "reason": "Layout-only word wrapping join; input text is already translated before wrapping."
     },

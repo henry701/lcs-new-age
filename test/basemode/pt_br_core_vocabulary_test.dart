@@ -212,6 +212,14 @@ void main() {
           .join()
           .trimRight();
       expect(healthLine, matches(RegExp(r'~?\d+/\d+ \+')));
+      expect(
+        LcsI18n.getMissingTranslations(),
+        isNot(contains('~{current}/{max}')),
+      );
+      expect(
+        LcsI18n.getMissingTranslations(),
+        isNot(contains(RegExp(r'^\+~\d+ \(proteção\)$'))),
+      );
     },
   );
 
@@ -730,6 +738,8 @@ void main() {
     expect(compositeName, contains('Ilha de Manhattan'));
     expect(compositeName, contains('New York, New York'));
     expect(compositeName, isNot(contains('New York, NY')));
+    expect(newYork.getName(short: true), equals('NYC'));
+    expect(LcsI18n.getMissingTranslations(), isNot(contains('NYC')));
   });
 
   test('Portuguese base localizes shared location activity and slogan', () {

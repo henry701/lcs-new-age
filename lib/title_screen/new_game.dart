@@ -280,7 +280,7 @@ Future<void> makeCharacter() async {
     mvaddstrc(4, 6, white, "The Founder of the Liberal Crime Squad");
 
     mvaddstrc(7, 2, lightGray, "Given Name: ");
-    addstrc(white, first[sex]!);
+    addstrc(white, first[sex]!, noTranslate: true);
     addOptionText(
       7,
       40,
@@ -290,7 +290,7 @@ Future<void> makeCharacter() async {
     );
 
     mvaddstrc(9, 2, lightGray, "Family Name: ");
-    addstrc(white, last);
+    addstrc(white, last, noTranslate: true);
     addOptionText(
       9,
       40,
@@ -324,7 +324,7 @@ Future<void> makeCharacter() async {
     );
 
     mvaddstrc(15, 2, lightGray, "City: ");
-    addstrc(white, startingCity.getName(includeCity: true));
+    addstrc(white, startingCity.getName(includeCity: true), noTranslate: true);
     addOptionText(
       15,
       40,

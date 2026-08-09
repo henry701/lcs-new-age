@@ -28,6 +28,8 @@ const Set<String> structuralTranslationKeys = {
   '{letter} - {title} {stackSuffix}',
   '{letter} - {item}',
   ' ({price})',
+  // Compact health values are composed from numeric placeholders at runtime.
+  '~{current}/{max}',
   // Control-shell templates are translated at their dynamic insertion points.
   '{index} - {base}',
   '{index} - {name}',

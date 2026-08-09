@@ -124,6 +124,8 @@
 | PT-071 | Medium | Controls/translation/layout | Review profile footer loses the navigation separator in Portuguese |
 | PT-240 | Medium | Daily redraw/layout | Injury-death result leaves the previous hospital destination tail on screen |
 | PT-241 | Medium | Investment layout/translation | Safehouse investment options clip and mix Portuguese currency formats |
+| PT-242 | Medium | Combat translation | Private Military combatants remain in English |
+| PT-243 | Low | Translation telemetry/context | Composed Portuguese status values are translated a second time |
 
 ## PT-001: Save-management option is clipped
 
@@ -3398,3 +3400,24 @@ roster/profile caller. The focused Portuguese context regression asserts the
 catalog entry, translation presence, and rendered creature name. The replay
 also reached the live death reflection and high-score screen without a new
 layout defect.
+
+## PT-243: Composed status values were translated a second time
+
+- Severity: Low
+- Type: Translation telemetry / composed runtime values
+- Screen: Portuguese founder creation → biography prompt → base status header
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regressions on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/dc-route-20260809/07-console-warnings.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/dc-route-20260809/07-console-warnings-after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/dc-route-20260809/07-tragic-origin-volunteer-after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/dc-route-20260809/08-base-after-city-code.txt`
+
+The Portuguese founder route displayed correct text, but the console reported
+false missing translations for already-rendered values such as
+`~130/130`, `+~30 (proteção)`, and the localized volunteer biography answer.
+City codes such as `DC` were also sent through the prose translator. This
+polluted headless telemetry and made real missing translations harder to spot.
+
+Compact health/armor rendering now translates only stable catalog entries,
+already-localized biography options opt out of a second pass, and city short
+names remain stable map codes. The focused vocabulary, logger, and character
+creation tests cover the behavior. A rebuilt headless replay keeps the visible
+Portuguese output while the warning log contains no false entries from these
+values.

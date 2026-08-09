@@ -43,7 +43,9 @@ class City extends Location {
 
   @override
   String getName({bool short = false, bool includeCity = false}) {
-    return LcsI18n.tr(short ? shortName : name);
+    // City short names are stable map/roster codes (for example, NYC or DC),
+    // not prose labels. Translating them creates false missing-key warnings.
+    return short ? shortName : LcsI18n.tr(name);
   }
 
   void addCommercialDistrict() {

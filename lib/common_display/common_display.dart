@@ -376,6 +376,16 @@ void setColorForArmor(Creature creature) {
   setColor(fg, background: bg);
 }
 
+final _composedCompactStatusPattern = RegExp(
+  r'^(?:~?\d+(?:/\d+)?|\+~?\d+(?: \(.+\))?)$',
+);
+
+String _localizeCompactStatusValue(String value) {
+  return _composedCompactStatusPattern.hasMatch(value)
+      ? value
+      : LcsI18n.tr(value);
+}
+
 void printHealthStat(
   int y,
   int x,
@@ -405,18 +415,23 @@ void printHealthStat(
       small,
     );
   }
+
+  // Some compact status values are composed after translation (for example
+  // "~120/120" or "+~30 (proteção)"). Translating those rendered values a
+  // second time only produces false missing-key warnings and can never change
+  // their text. Translate only stable catalog entries such as "OK" or "+Lgt".
+  final localizedHealth = _localizeCompactStatusValue(healthDisplay);
+  final armor = creature.clothing.shortArmorDetail();
+  final localizedArmor = _localizeCompactStatusValue(armor);
   if (maxWidth == null) {
-    addstr(healthDisplay);
-    final armor = creature.clothing.shortArmorDetail();
-    if (armor.isNotEmpty) {
+    addstr(localizedHealth, noTranslate: true);
+    if (localizedArmor.isNotEmpty) {
       addstr(" ");
-      addstrc(lightBlue, armor);
+      addstrc(lightBlue, localizedArmor, noTranslate: true);
     }
     return;
   }
 
-  final localizedHealth = LcsI18n.tr(healthDisplay);
-  final localizedArmor = LcsI18n.tr(creature.clothing.shortArmorDetail());
   final armorSeparator = localizedArmor.isEmpty ? "" : " ";
   final combined = "$localizedHealth$armorSeparator$localizedArmor";
   if (strLenX(combined) <= maxWidth) {

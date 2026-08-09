@@ -3357,3 +3357,28 @@ PT-242 is fixed. This pass also closes the live death/post-fight runtime
 coverage gap noted under PT-048/PT-148; broader random police-alarm variants,
 PT-083 narrow-console readability, and accepted PT-049 historical changelog
 English remain open.
+
+## Strict-headless founder/status replay — 2026-08-09
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`
+against a freshly rebuilt Flutter `web-server` on port 7895. The viewport was
+480×320 and the opt-in `?playtest=1` DOM bridge supplied the 80×25 console; no
+headed browser was launched or focused.
+
+The Portuguese route selected a new founder in Washington, DC, traversed the
+biography volunteer branch, completed the introduction/name screen, and
+reached the base status header. The visible output remained Portuguese,
+including `~130/130 +~30 (proteção)`, the volunteer biography answer, and
+`DC — Sem-teto`.
+
+The pre-fix warning capture reported false missing translations for those
+already-rendered values. Compact health/armor values now translate only stable
+catalog entries, already-localized biography options opt out of a second pass,
+and city short codes bypass prose translation. The fresh after-fix warning
+capture contains none of those false entries. Durable evidence is under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/dc-route-20260809/`, including
+`07-console-warnings-after.txt`, `07-tragic-origin-volunteer-after.txt`,
+`08-base-after-city-code.txt`, and `08-console-after-city-code.txt`.
+
+No new visible translation or layout defect was confirmed on this route.

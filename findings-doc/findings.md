@@ -116,6 +116,8 @@
 | PT-233 | Medium | Translation/context | Tailoring skill label says `Costura` while the same skill is `Alfaiataria` elsewhere |
 | PT-234 | Low | Translation/context | Generated latte-stand names use adjective fragments as malformed noun phrases |
 | PT-235 | Medium | Site-map/layout | Full-map overlay leaves a clipped Portuguese control legend underneath the map |
+| PT-236 | Medium | Vehicle translation/layout | Vehicle assignment leaks English prompts and drops the final controls below the console |
+| PT-237 | Medium | Profile/layout | Special-injury overflow marker collides with the review profile action footer |
 
 ## PT-001: Save-management option is clipped
 
@@ -3240,3 +3242,35 @@ left in place. Unknown tiles exposed fragments such as `W,A,`, while the
 remaining Portuguese controls were clipped off the bottom of the 25-row
 console. The overlay now clears the stale roster/legend and reserves row 24
 for the localized `Pressione qualquer tecla para continuar.` prompt.
+
+## PT-236: Vehicle assignment leaked prompts and dropped its final controls
+
+- Severity: Medium
+- Type: Vehicle translation / fixed-width layout
+- Screen: Portuguese base → vehicle assignment (`V`)
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/vehicle-passenger-20260810/before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fixed-route-20260809/vehicle-after-fresh-server.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fixed-route-20260809/vehicle-passenger-after.txt`
+
+The passenger prompt fell back to English (`Choose a Liberal to be a
+passenger.`), and the original footer wrote rows 25 and 26 even though the
+console ends at row 24. The red vehicle-status note and `Enter - Done` were
+therefore invisible. The driver/passenger prompts now have Portuguese catalog
+entries, the status legend is compact and fitted, and the completion action is
+kept on row 24. `test/basemode/pt_br_vehicle_layout_test.dart` protects the
+translations, visible footer, and 80-column bound.
+
+## PT-237: Review profile footer overwrote injury overflow text
+
+- Severity: Medium
+- Type: Profile layout / fixed-width footer
+- Screen: Portuguese review mode → active Liberals → `V` details → profile
+- Replay status: **Fixed and verified in strict-headless Portuguese replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fixed-route-20260809/review-profile-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fixed-route-20260809/review-profile-after-decoded.txt`
+
+With a badly injured Liberal, the compact special-injury overflow marker was
+drawn on the same row as the review action. The old buffer ended with
+`A - Atribuir uma TarefaO`, because the action overwrote the marker's right
+edge. Profile-page rendering now reserves row 22 for that footer, reducing the
+visible injury list by one row only when needed. The marker remains intact and
+the action is fully readable; `test/basemode/pt_br_profile_footer_layout_test.dart`
+covers the collision.

@@ -545,3 +545,16 @@ narrow-layout coverage.
   the generated latte-name replay is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/latte-name-20260810/`.
 - Keep PT-048/PT-148, PT-083, and accepted PT-049 in the residual queue.
+
+## 2026-08-09 — Vehicle assignment and review-profile replay
+
+- Keep the strict-headless route for vehicle assignment: inspect both lower- and
+  upper-case vehicle keys so passenger and driver prompts remain cataloged and
+  fit alongside the completion action.
+- Use a badly injured debug Liberal in review-mode details to exercise the
+  compact special-injury overflow marker. The footer must remain on its own
+  row; the retained route is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fixed-route-20260809/`.
+- The next high-value branch is still a deterministic non-police terminal death
+  and post-fight summary for PT-048/PT-148, followed by the broader 480×320
+  responsive-console sweep for PT-083.

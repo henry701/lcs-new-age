@@ -3197,3 +3197,32 @@ prompt in row 24. Before/after buffers and screenshots are retained under
 The remaining queue is PT-048/PT-148 terminal combat/post-fight coverage,
 PT-083's broader narrow-console audit, and accepted PT-049 historical
 changelog English.
+
+## Strict-headless vehicle/profile replay — 2026-08-09
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`
+against a freshly restarted Flutter `web-server` build on port 7831. No headed
+browser was launched or focused. The `?playtest=1` DOM bridge supplied the
+fixed 80×25 console and key injection.
+
+The fresh Portuguese campaign visited vehicle assignment. Before the restart,
+the passenger prompt was English and the footer controls were written below
+the visible console. After the catalog/layout fix, the driver prompt rendered
+`Escolha um Liberal para dirigir.`, the passenger prompt rendered
+`Escolha um Liberal para ser passageiro.`, the status legend was Portuguese,
+and `Entre - Concluído` remained visible on row 24. Captures are retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fixed-route-20260809/vehicle-after-fresh-server.txt`,
+`vehicle-passenger-after.txt`, and `vehicle-driver-after.txt`.
+
+The same debug-assisted campaign opened review-mode Liberal details with a
+severe injury list. The old `A - Atribuir uma TarefaO` collision is captured in
+`review-profile-before.txt`; after reserving the footer row, the action and
+`+8 outras — BAIXO` marker occupy separate rows in
+`review-profile-after-decoded.txt`. Focused regressions cover both defects:
+`test/basemode/pt_br_vehicle_layout_test.dart` and
+`test/basemode/pt_br_profile_footer_layout_test.dart`.
+
+Debug flags were restored to their committed all-false values after the replay.
+The residual queue remains PT-048/PT-148 terminal combat summaries, PT-083
+narrow-console readability, and accepted PT-049 historical changelog English.

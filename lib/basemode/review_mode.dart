@@ -571,7 +571,7 @@ Future<void> reviewMode(ReviewMode mode) async {
             addstr("Profile of a Liberal");
           }
 
-          printFullCreatureProfilePage(tempp, page);
+          printFullCreatureProfilePage(tempp, page, reserveFooter: true);
 
           // Add removal of squad members member
           move(22, 0);

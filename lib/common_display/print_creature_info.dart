@@ -38,10 +38,14 @@ int fullCreatureProfilePageCount(Creature cr) {
       (injuryCount + _specialInjuryPageSize - 1) ~/ _specialInjuryPageSize;
 }
 
-void printFullCreatureProfilePage(Creature cr, int page) {
+void printFullCreatureProfilePage(
+  Creature cr,
+  int page, {
+  bool reserveFooter = false,
+}) {
   switch (page) {
     case 0:
-      printFullCreatureStats(cr);
+      printFullCreatureStats(cr, reserveFooter: reserveFooter);
     case 1:
       printFullCreatureSkills(cr);
     case 2:
@@ -667,6 +671,7 @@ void printSkillValue(
 void printFullCreatureStats(
   Creature cr, {
   ShowCarPrefs showCarPrefs = ShowCarPrefs.showPreferences,
+  bool reserveFooter = false,
 }) {
   const attributeWidth = 15;
   const vitalityX = 16;
@@ -946,8 +951,11 @@ void printFullCreatureStats(
   List<String> injuries = cr.body.allSpecialInjuries();
   final x = woundsX;
   final width = ManagementTableLayout.consoleWidth - x;
-  final visibleCount = injuries.length > _compactSpecialInjuryVisibleRows
+  final availableRows = reserveFooter
       ? _compactSpecialInjuryVisibleRows - 1
+      : _compactSpecialInjuryVisibleRows;
+  final visibleCount = injuries.length > availableRows
+      ? availableRows - 1
       : injuries.length;
   for (int i = 0; i < visibleCount; i++) {
     mvaddstrFitted(_compactSpecialInjuryStartRow + i, x, injuries[i], width);

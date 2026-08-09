@@ -40,33 +40,31 @@ Future<void> setVehicles() async {
       );
     }
 
-    mvaddstr(
+    mvaddstrFitted(
       20,
       1,
       "Press a letter to specify passengers for that Liberal vehicle.",
+      console.width - 1,
     );
-    mvaddstr(21, 1, "Capitalize the letter to select a driver.");
-    mvaddstr(
+    mvaddstrFitted(
+      21,
+      1,
+      "Capitalize the letter to select a driver.",
+      console.width - 1,
+    );
+    mvaddstrFitted(
       22,
       1,
       "Press a number to remove that squad member from a vehicle.",
+      console.width - 1,
     );
-    mvaddstr(
+    mvaddstrFitted(
       23,
       1,
-      "Note:  Vehicles in yellow have already been selected by another squad.",
+      "Yellow = another squad; red = both; shared cars = one squad per day.",
+      console.width - 1,
     );
-    mvaddstr(
-      24,
-      1,
-      "       Vehicles in red have been selected by both this squad and another.",
-    );
-    mvaddstr(
-      25,
-      1,
-      "       These cars may be used by both squads but not on the same day.",
-    );
-    addOptionText(26, 1, "Enter", "Enter - Done");
+    addOptionText(24, 1, "Enter", "Enter - Done");
 
     String rawKey = await getKeyCaseSensitive();
     int input = rawKey.codePoint;

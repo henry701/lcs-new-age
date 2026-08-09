@@ -196,19 +196,19 @@
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 180,
+      "line": 184,
       "text": "$fittedVehicleName$driverSuffix",
       "reason": "Layout-only join of a fitted translated vehicle label and its driver marker."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 736,
+      "line": 741,
       "text": "${LcsI18n.tr(",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 736,
+      "line": 741,
       "text": ")}$next",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },

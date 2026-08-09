@@ -30,18 +30,19 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   seeded-score replay and localized layout regression verify the final casing.
 - PT-048: the 2026-08-09 strict-headless ordinary police route now covers the
   live `T - Falar` menu, target-name interpolation, `D - Render-se`, arrest,
-  newspaper, and court flow. Keep the broader finding open for random
-  police-alarm variants and a live combat death/post-fight-summary branch. The
-  separate siege foot-chase and non-police terminal sweeps remain useful
-  evidence but do not replace those variants.
+  newspaper, and court flow. The 2026-08-09 corporate siege replay now also
+  covers the live combat death reflection and high-score transition. Keep the
+  broader finding open only for random police-alarm variants; the separate
+  siege foot-chase and non-police terminal sweeps remain useful evidence.
 - PT-145/PT-146/PT-147 fixed and verified (2026-08-01): the party roster now
   separates `HABIL.—ARMA`, four-digit pressure values retain a gap before
   `Sigilo`, and the founder bonus preserves `Artes Marciais` capitalization.
 - PT-148 source/catalog fix verified on 2026-08-09: combat interpolation now
-  localizes generated officer names, and the ordinary live route reaches the
-  in-encounter surrender and Portuguese court flow. Keep only the live
-  death/post-fight-summary runtime coverage gap open; non-police terminal
-  endings were already swept on 2026-08-10.
+  localizes generated officer names, the ordinary live route reaches the
+  in-encounter surrender and Portuguese court flow, and the corporate siege
+  replay reaches the live death reflection and high-score transition. Keep
+  future coverage focused on new generated creature types and random alarm
+  variants; non-police terminal endings were already swept on 2026-08-10.
 - PT-064/PT-134 fixed and verified (2026-08-01): the strict-headless chase
   replay now keeps all Portuguese `D/F/B/P` and `D/F/E/G` prefixes, wraps the
   car legend before the console edge, localizes the car roster, and renders

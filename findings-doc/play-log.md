@@ -3331,3 +3331,29 @@ The route continued through a real pawn-shop visit (guns, ammunition, Liberal
 tools, equipment, and sell screens). Those screens remained Portuguese and
 inside the fixed console; no additional shop defect was confirmed. Temporary
 all-items/funds fixtures were restored after the replay.
+
+## Strict-headless live corporate-combat replay — 2026-08-09
+
+This pass used only the CLI `agent-browser` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`
+against a freshly restarted Flutter `web-server` on port 7891. The viewport
+was 480×320 and the opt-in `?playtest=1` DOM bridge supplied the 80×25 console;
+no headed browser was launched or focused. A temporary local-only siege
+fixture placed one fragile founder against a corporate mercenary so the live
+`F - Lutar` death branch could be replayed deterministically; the fixture was
+removed before validation.
+
+The before buffer showed `Private Military atira...` and a raw-English
+`Private Military` roster row in an otherwise Portuguese encounter. After the
+catalog fix, the same route rendered `Militar Privado atira...` and
+`Militar Privado  Equipamento PMC ...` in
+`06-live-encounter-after.txt`. The replay continued through the Portuguese
+`C - Reflita sobre sua incompetência Conservadora` death reflection and the
+high-score screen in `08-game-over-after.txt`; no additional live-combat
+layout defect was confirmed. Durable captures are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-live-20260809/`.
+
+PT-242 is fixed. This pass also closes the live death/post-fight runtime
+coverage gap noted under PT-048/PT-148; broader random police-alarm variants,
+PT-083 narrow-console readability, and accepted PT-049 historical changelog
+English remain open.

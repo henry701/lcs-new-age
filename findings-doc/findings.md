@@ -3380,3 +3380,21 @@ label is a concise contextual Portuguese phrase, and static and dynamic costs
 use the consistent Portuguese `US$ 3.000`/`US$ 40.000` style. The focused
 regression checks the full bollard row, removes the zero-width characters, and
 asserts the dynamic solar cost remains inside the 80-column console.
+
+## PT-242: Private Military combatants remained in English
+
+- Severity: Medium
+- Type: Combat translation / generated creature names
+- Screen: Portuguese safehouse siege → live corporate combat
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-live-20260809/04-live-encounter-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-live-20260809/06-live-encounter-after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-live-20260809/08-game-over-after.txt`
+
+The corporate siege route exposed the XML creature type name `Private
+Military` in both the opening attack message and the encounter roster, even
+though the rest of the route was Portuguese. The canonical catalogs now map
+that generated role label to `Militar Privado`; the shared
+`localizedCreatureNameValue` path therefore covers combat messages and every
+roster/profile caller. The focused Portuguese context regression asserts the
+catalog entry, translation presence, and rendered creature name. The replay
+also reached the live death reflection and high-score screen without a new
+layout defect.

@@ -396,6 +396,12 @@ void main() {
       localizedCreatureNameValue('College Student', 'College Student'),
       'Estudante Universitário',
     );
+    expect(catalog['Private Military'], 'Militar Privado');
+    expect(LcsI18n.hasTranslation('Private Military'), isTrue);
+    expect(
+      localizedCreatureNameValue('Private Military', 'Private Military'),
+      'Militar Privado',
+    );
     expect(catalog['responds'], 'responde');
     expect(catalog['openly stares'], 'encara abertamente');
     expect(

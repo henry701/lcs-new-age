@@ -1422,11 +1422,16 @@ Future<void> siegeTurn() async {
             );
             appendNewsParagraph(paragraph);
           } else {
-            String paragraph = LcsI18n.processString(
-              "{journalist} later went on to win a Pulitzer for it. "
-              "Virtually everyone in America was moved by {name}'s words.",
-              {"journalist": repname.firstLast, "name": pool[best].name},
-            );
+            String paragraph = [
+              LcsI18n.processString(
+                "{journalist} later went on to win a Pulitzer for it. ",
+                {"journalist": repname.firstLast},
+              ),
+              LcsI18n.processString(
+                "Virtually everyone in America was moved by {name}'s words.",
+                {"name": pool[best].name},
+              ),
+            ].join();
             appendNewsParagraph(paragraph);
           }
 

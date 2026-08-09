@@ -3506,3 +3506,31 @@ No additional translation or layout defect was confirmed on this route. The
 residual queue remains PT-048/PT-148 terminal combat/post-fight coverage,
 PT-083 broader narrow-console readability, and accepted PT-049 historical
 changelog English.
+
+## Strict-headless Portuguese combat/footer replay — 2026-08-09
+
+This pass used only CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless --disable-dev-shm-usage`
+against a freshly reloaded Flutter `web-server` on port 7921. The viewport was
+320×240 while the opt-in `?playtest=1` bridge supplied the fixed 80×25 console;
+no headed browser was launched or focused.
+
+The deterministic police-siege route reached the Portuguese
+`SOB ATAQUE: FUGIR OU ENFRENTAR` briefing and live combat. Before the renderer
+fix, the ground-loot label collided with the wrapped action legend:
+`R:ReorganizaSaque no chão!` (capture:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-footer-loot-20260809/01-loot-footer-before.txt`).
+The loot indicator now uses the free left side of row 22 and is drawn after
+encounter clearing. The fresh combat buffer keeps the final row readable as
+`R:Reorganizar ?`; `test/localized_layout_regression_test.dart` also asserts
+the Portuguese `Saque no chão!` indicator and row-24 footer together.
+
+The same route exposed an English fallback in the high-success interview event:
+the code had concatenated two separately cataloged English keys before calling
+the translator. The branch now translates each sentence independently and
+`test/daily/siege_translation_test.dart` guards both Portuguese outputs.
+
+Combat also produced the understandable but machine-like
+`a língua de Policial da SWAT é explodida!`; this remains open as PT-253 for a
+future wording pass. No other live translation or layout defect was confirmed
+in this replay.

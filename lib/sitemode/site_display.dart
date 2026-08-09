@@ -405,6 +405,10 @@ void drawTileContent(SiteTile tile) {
   }
 }
 
+void printGroundLootIndicator() {
+  mvaddstrc(22, 1, purple, "Loot on the ground!");
+}
+
 void printSiteMapSmall(int x, int y, int z) {
   // Build the frame
   // top, bottom
@@ -467,6 +471,10 @@ void printSiteMapSmall(int x, int y, int z) {
       }
     }
   }
+
+  // Keep the left side of the last map row free for the persistent loot
+  // indicator; the encounter roster ends on row 21 (ENCMAX is ten).
+  eraseArea(startY: 22, endY: 23, startX: 0, endX: 55);
 
   //PRINT SPECIAL
   String str;
@@ -584,8 +592,8 @@ void printSiteMapSmall(int x, int y, int z) {
   }
 
   if (groundLoot.isNotEmpty || levelMap[locx][locy][locz].loot) {
-    mvaddstrc(24, 57, purple, "Loot on the ground!");
     printEncounter();
+    printGroundLootIndicator();
   }
 }
 

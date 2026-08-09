@@ -131,6 +131,11 @@
 | PT-246 | Low | Translation telemetry | Generated Portuguese site names are falsely reported as missing keys |
 | PT-247 | Low | Translation telemetry | Numeric health, armor, and price shells create false missing warnings |
 | PT-248 | Medium | Review layout | New-squad header is clipped at the right edge in Portuguese |
+| PT-249 | Medium | Controls/translation | Portuguese yes/no prompts ignore the localized affirmative key |
+| PT-250 | Low | Translation/context | Vegan bar short label uses an unnatural translation |
+| PT-251 | Medium | Combat/layout | Ground-loot indicator collides with the localized action footer |
+| PT-252 | Medium | Daily translation | Successful interview outcome falls back to English after key concatenation |
+| PT-253 | Low | Combat translation/style | Blown-off tongue message uses unnatural Portuguese tense and wording |
 
 ## PT-001: Save-management option is clipped
 
@@ -3531,3 +3536,50 @@ regression exercises `Site.getName(short: true)`, and the after-fix replay
 renders `SEA — Bar Vegano` in both the campaign header and base panel. The
 temporary deterministic bar fixture used to reach this otherwise random site
 was removed and all debug flags remain disabled.
+
+## PT-251: Ground-loot indicator collides with the localized action footer
+
+- Severity: Medium
+- Type: Combat layout / fixed-width rendering
+- Screen: Portuguese siege combat at the 80×25 console
+- Replay status: **Fixed and verified by strict-headless combat replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-footer-loot-20260809/01-loot-footer-before.txt`, `test/localized_layout_regression_test.dart`
+
+The old renderer placed `Loot on the ground!` at row 24, column 57. A
+localized footer then wrapped into the same cells and produced
+`R:ReorganizaSaque no chão!`. The indicator now occupies the unused left side
+of row 22 and is drawn after encounter clearing, while row 24 remains reserved
+for the action legend. The fresh headless replay keeps the complete
+`R:Reorganizar ?` footer; the regression asserts both the Portuguese indicator
+and the intact final action row.
+
+## PT-252: Successful interview outcome falls back to English after key concatenation
+
+- Severity: Medium
+- Type: Daily-event translation coverage
+- Screen: Portuguese siege/news interview outcome
+- Replay status: **Fixed and verified by focused regression on 2026-08-09**
+- Evidence: `test/daily/siege_translation_test.dart`
+
+The successful interview branch passed two cataloged sentences to one
+`processString` call by concatenating their English keys first. The exact
+combined key was absent from the catalog, so the Portuguese replay displayed
+`Theo Godwin later went on to win a Pulitzer for it. Virtually everyone in
+America was moved by Ricardo Mathers's words.` The branch now translates each
+sentence independently before joining them; the focused test covers both
+interpolations.
+
+## PT-253: Blown-off tongue message uses unnatural Portuguese wording
+
+- Severity: Low
+- Type: Combat translation quality
+- Screen: Portuguese siege combat hit messages
+- Replay status: **Open for a future language-quality pass**
+- Evidence: strict-headless combat buffer from the 2026-08-09 replay
+
+Combat rendered `a língua de Policial da SWAT é explodida!`. The meaning is
+understandable, but the lower-case start and passive present tense sound like a
+machine translation; a natural past-tense form would be closer to `A língua de
+Policial da SWAT foi arrancada!`. Keep this separate from the fixed combat
+layout and interpolation work so future wording changes can be reviewed with
+the surrounding injury vocabulary.

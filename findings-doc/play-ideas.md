@@ -11,6 +11,13 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   `S` as well as the legacy `Y` affirmative key. The clean police-station
   replay advanced `Tentar arrombar a fechadura? (Sim ou Não)` with `S`; keep
   the alias regression when adding additional localized prompts.
+- PT-251 fixed and verified (2026-08-09): the Portuguese siege footer no longer
+  merges `R:Reorganizar` with `Saque no chão!`. The loot indicator is drawn on
+  row 22 after encounter clearing, and the focused fixed-width regression
+  covers the relocated label and intact row-24 action footer.
+- PT-252 fixed and verified (2026-08-09): successful interview news now
+  translates its two cataloged sentences independently instead of falling back
+  to the concatenated English key.
 
 ## Current residuals to verify after fixes
 
@@ -59,6 +66,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   replay reaches the live death reflection and high-score transition. Keep
   future coverage focused on new generated creature types and random alarm
   variants; non-police terminal endings were already swept on 2026-08-10.
+- PT-253: the live Portuguese combat message `a língua de Policial da SWAT é
+  explodida!` is understandable but machine-like. Review the tense, article,
+  and capitalization with the other tongue-injury translations before changing
+  the shared combat vocabulary.
 - PT-064/PT-134 fixed and verified (2026-08-01): the strict-headless chase
   replay now keeps all Portuguese `D/F/B/P` and `D/F/E/G` prefixes, wraps the
   car legend before the console edge, localizes the car roster, and renders

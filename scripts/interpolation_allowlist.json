@@ -418,7 +418,7 @@
     },
     {
       "file": "daily/siege.dart",
-      "line": 1583,
+      "line": 1588,
       "text": "\\$$confiscated",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -1216,13 +1216,13 @@
     },
     {
       "file": "sitemode/site_display.dart",
-      "line": 411,
+      "line": 415,
       "text": "\\u250C${",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/site_display.dart",
-      "line": 412,
+      "line": 416,
       "text": "\\u2514${",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

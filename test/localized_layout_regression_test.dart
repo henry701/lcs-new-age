@@ -13,6 +13,7 @@ import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/saveload/save_load.dart';
+import 'package:lcs_new_age/sitemode/site_display.dart';
 import 'package:lcs_new_age/title_screen/game_over.dart';
 import 'package:lcs_new_age/title_screen/high_scores.dart';
 import 'package:lcs_new_age/title_screen/title_screen.dart';
@@ -625,5 +626,38 @@ void main() {
     expect(_consoleLine(24), endsWith('?'));
     expect(console.y, equals(24));
     expect(console.x, lessThanOrEqualTo(79));
+  });
+
+  test('Portuguese site actions leave room for the ground-loot indicator', () {
+    move(23, 1);
+    for (final (key, label) in [
+      ('W', 'W,A,D,X - Move, '),
+      ('G', 'G - Get, '),
+      ('M', 'M - Map, '),
+      ('E', 'E - Equip, '),
+      ('S', 'S - Stall, '),
+      ('L', 'L - Load, '),
+      ('O', 'O - Order, '),
+      ('U', 'U - Use, '),
+      ('V', 'V - Flee, '),
+      ('F', 'F - Fight, '),
+      ('K', 'K - Kidnap, '),
+      ('T', 'T - Talk, '),
+      ('R', 'R - Reorganize, '),
+    ]) {
+      addInlineOptionTextWrapped(
+        key,
+        label,
+        leftMargin: 1,
+        rightMargin: 1,
+        compactLayout: true,
+      );
+    }
+    addstr('?', noTranslate: true);
+    printEncounter();
+    printGroundLootIndicator();
+
+    expect(_consoleLine(22), contains('Saque no chão!'));
+    expect(_consoleLine(24), contains('R:Reorganizar ?'));
   });
 }

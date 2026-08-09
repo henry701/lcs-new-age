@@ -58,6 +58,23 @@ void main() {
     );
   });
 
+  test('Portuguese successful interview keeps both translated sentences', () {
+    expect(
+      LcsI18n.processString(
+        '{journalist} later went on to win a Pulitzer for it. ',
+        {'journalist': 'Theo Godwin'},
+      ),
+      'Theo Godwin mais tarde ganhou um Pulitzer por isso. ',
+    );
+    expect(
+      LcsI18n.processString(
+        "Virtually everyone in America was moved by {name}'s words.",
+        {'name': 'Ricardo Mathers'},
+      ),
+      'Quase todos na América foram tocados pelas palavras de Ricardo Mathers.',
+    );
+  });
+
   test('CIA suspense paragraphs wrap long Portuguese messages', () {
     final source = File('lib/daily/siege.dart').readAsStringSync();
     final wrappedMessage = RegExp(

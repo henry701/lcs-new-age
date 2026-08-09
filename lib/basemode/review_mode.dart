@@ -608,9 +608,14 @@ Future<void> reviewMode(ReviewMode mode) async {
             "Any other key",
             "Any other key - continue the Struggle",
           );
-          addOptionText(24, 52, "UP", "UP");
-          addstr(" / ");
-          addOptionText(24, 57, "DOWN", "DOWN - More Info");
+          addProfileNavigationOptions(
+            24,
+            52,
+            "UP",
+            "UP",
+            "DOWN",
+            "DOWN - More Info",
+          );
 
           int c = await getKey();
 

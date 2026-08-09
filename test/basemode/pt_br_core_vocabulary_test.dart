@@ -485,6 +485,30 @@ void main() {
     expect(navigation, isNot(contains('ESQUERDRIGHT')));
   });
 
+  test(
+    'Portuguese review profile footer preserves the navigation separator',
+    () async {
+      _founder();
+
+      final review = reviewMode(ReviewMode.liberals);
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      console.injectKey('a');
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      final footer = console.buffer[24]
+          .map((character) => character.glyph)
+          .join()
+          .trimRight();
+      expect(footer, contains('CIMA / BAIXO - Mais Info'));
+      expect(footer, isNot(contains('CIMA BAIXO')));
+
+      console.injectKey('Escape');
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      console.injectKey('Escape');
+      await review;
+    },
+  );
+
   test('Portuguese full skill headers translate both current and maximum', () {
     final founder = _founder();
 

@@ -21,6 +21,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   clears an unrelated preview footer until a valid sub-option is selected.
   The 480×320 strict-headless replay and focused core-layout regression cover
   both the blank transition and the restored `Recrutar` preview.
+- PT-071 fixed and verified (2026-08-11): the Portuguese review-profile
+  footer now preserves the separator between `CIMA` and `BAIXO - Mais Info`.
+  The 480×320 strict-headless profile replay and vocabulary regression cover
+  the localized prefixes and reject the old merged `CIMA BAIXO` form.
 - PT-131 fixed (2026-07-30): the high-score rank now renders `A Elite Liberal`
   instead of the source-emphasis form `A ELITE Liberal`. A strict-headless
   seeded-score replay and localized layout regression verify the final casing.

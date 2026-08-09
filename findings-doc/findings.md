@@ -121,6 +121,7 @@
 | PT-237 | Medium | Profile/layout | Special-injury overflow marker collides with the review profile action footer |
 | PT-238 | Medium | Safehouse layout | Portuguese compound-status labels overwrite adjacent columns during a siege |
 | PT-239 | Low | Title translation/context | Universal score labels call lost/saved people “Américas” |
+| PT-071 | Medium | Controls/translation/layout | Review profile footer loses the navigation separator in Portuguese |
 
 ## PT-001: Save-management option is clipped
 
@@ -3324,3 +3325,22 @@ category. Choosing a valid sub-option restores the localized preview, such as
 `vai recrutar novos membros.`. The focused
 `activity category changes clear the previous action preview` regression
 protects both the blank transition and subsequent selection behavior.
+
+## PT-071: Review profile footer loses the navigation separator in Portuguese
+
+- Severity: Medium
+- Type: Controls / translation / fixed-width layout
+- Screen: Portuguese review mode → active Liberals → profile details
+- Replay status: **Fixed and verified in strict-headless replay plus focused regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-sweep-20260811/25-profile-actions.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-sweep-after-20260811/25-profile-after-fix`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-sweep-after-20260811/25-profile-after-fix.png`
+
+The profile footer placed the translated `CIMA` option at a fixed English
+width, then wrote the literal ` / ` separator and the translated `BAIXO`
+option at overlapping coordinates. The Portuguese buffer therefore showed
+`CIMA BAIXO - Mais Info`, making the two navigation actions ambiguous.
+
+Profile navigation now uses the shared bounded option helper, which advances
+the separator after the localized prefix. The replay shows
+`CIMA / BAIXO - Mais Info` inside the 80-column console, and the focused
+Portuguese vocabulary regression protects both the separator and the absence
+of the old merged form.

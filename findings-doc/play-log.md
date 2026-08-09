@@ -3277,3 +3277,26 @@ PT-070 is fixed. Temporary siege/all-items/funds debug flags were restored to
 their committed all-false values after the replay. The residual queue remains
 PT-048/PT-148 terminal combat summaries, PT-083 narrow-console readability,
 and accepted PT-049 historical changelog English.
+
+## Strict-headless review-profile footer replay — 2026-08-11
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`
+against a freshly rebuilt Flutter `web-server` on port 7862. The viewport was
+480×320, and the opt-in `?playtest=1` DOM bridge supplied the fixed 80×25
+buffer. No headed browser was launched or focused.
+
+The debug-assisted Portuguese campaign opened Base → `R - Revisar Ativos e
+Formar Equipes` → `1 - Liberais Ativos` → the founder profile. The pre-fix
+footer capture showed `CIMA BAIXO - Mais Info`: the translated `CIMA` prefix
+overlapped the literal separator before `BAIXO`.
+
+The fixed build renders `CIMA / BAIXO - Mais Info` in the same route, with the
+separator and both controls visible inside the narrow console. The corrected
+buffer and screenshot are retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-sweep-after-20260811/25-profile-after-fix`
+and
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-sweep-after-20260811/25-profile-after-fix.png`.
+The focused `Portuguese review profile footer preserves the navigation
+separator` regression passed. Temporary all-items, injury, and funds fixtures
+were restored to their committed all-false values after the replay.

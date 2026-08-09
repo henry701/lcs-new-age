@@ -508,3 +508,12 @@ narrow-layout coverage.
 - Continue the next pass with a deterministic non-police live-combat death
   and post-fight-summary route for PT-048/PT-148, then recheck title/save
   management at the same narrow viewport.
+
+## Strict-headless save-manager sweep — 2026-08-10
+
+- A Portuguese 480×320 campaign was saved, reopened through the save manager,
+  and loaded again. Headers, action labels, and the `Entre -` return prompt
+  fit the fixed console and preserved their key prefixes.
+- No new issue was confirmed. Keep the next pass focused on a deterministic
+  non-police terminal combat/post-fight route for PT-048/PT-148, followed by
+  broader narrow-console coverage for PT-083.

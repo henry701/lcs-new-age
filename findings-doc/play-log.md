@@ -3129,3 +3129,18 @@ and
 The remaining open coverage is PT-048/PT-148 live combat death/post-fight
 variants and PT-083's broader responsive-console audit; accepted PT-049
 historical changelog English remains out of scope.
+
+## Strict-headless save-manager sweep — 2026-08-10
+
+This follow-up used the same CLI-only `agent-browser` setup with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+At a real 480×320 viewport, a fresh Portuguese campaign was auto-saved, opened
+through `Carregar e gerenciar salvamentos`, and loaded again. The list header,
+save row, action menu, and return prompt stayed within the 80-column buffer;
+key prefixes such as `A -`, `L -`, `D -`, `E -`, and `Entre -` remained intact.
+
+The retained capture is
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-manager-pt-480x320-20260810.png`.
+No new translation or layout defect was confirmed. PT-048/PT-148 terminal
+combat/post-fight coverage and the broader PT-083 responsive-console audit
+remain open; accepted PT-049 historical changelog English remains out of scope.

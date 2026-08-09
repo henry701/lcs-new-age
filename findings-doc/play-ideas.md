@@ -735,3 +735,10 @@ narrow-layout coverage.
 - Keep PT-264 with the broader PT-048/PT-148 police-alarm route work; retain
   PT-083 as the responsive-readability enhancement and PT-049 as accepted
   historical changelog English.
+
+## Strict-headless surrender-path comparison — 2026-08-09
+
+- The same police siege's base-mode `G - Desistir` action works and is fully
+  localized, including confiscation, intact-funds, fortification, trap, and
+  anti-aircraft-gun results. PT-264 is therefore isolated to the foot-chase
+  control state rather than the shared surrender result.

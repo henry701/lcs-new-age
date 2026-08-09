@@ -3780,3 +3780,7 @@ The screen should either hide the unavailable surrender action or enable it
 for a police pursuit and route the player to the existing arrest/capture
 result. The Portuguese roster (`Armadura da SWAT`, `Policial da SWAT`) and
 fixed-width layout were otherwise clean in this replay.
+
+A comparison replay confirmed that the same safehouse's base-mode
+`G - Desistir` action works and renders the confiscation result in Portuguese;
+the residual is isolated to the foot-chase control state.

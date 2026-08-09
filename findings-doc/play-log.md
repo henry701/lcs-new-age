@@ -3773,3 +3773,19 @@ No additional translation or fixed-width layout defect was found on this
 screen. Continue PT-264 alongside the broader PT-048/PT-148 police-alarm
 coverage, PT-083 responsive readability, and accepted PT-049 historical
 changelog English.
+
+## Strict-headless police-siege base surrender comparison — 2026-08-09
+
+To isolate PT-264, a fresh strict-headless Portuguese replay selected the same
+under-siege safehouse and used the base-mode `G - Desistir` action before
+entering the foot chase. The action worked and produced localized results:
+`A polícia confisca tudo, incluindo armas do Esquadrão.`,
+`Felizmente, seus fundos permanecem intactos.`,
+`As fortificações do complexo são desmontadas.`,
+`As armadilhas são desarmadas e removidas.`, and
+`A arma antiaérea é desmontada.`. After `Enter`, the base returned with
+`Você não está sob cerco... ainda.` and no browser errors.
+
+This comparison narrows PT-264 to the foot-chase surrender control; the base
+give-up path is localized and functional. Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-giveup-20260809/`.

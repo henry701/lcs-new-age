@@ -3811,3 +3811,30 @@ options. Evidence is retained at
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-fixed-20260809/`.
 PT-264 is closed; continue the broader PT-048/PT-148 alarm variants and the
 remaining layout/readability residuals.
+
+## Strict-headless medical-debt announcement replay — 2026-08-09
+
+This follow-up used only CLI `agent-browser` session `medical-fixed-7985` with
+`AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage
+--disable-cache` against a fresh Flutter `web-server` on port 7985. No headed
+browser was launched or focused. Temporary debt/funds fixtures plus a one-off
+medical timer assignment were used to reach the route and restored before
+cleanup.
+
+The nightmare-law Portuguese campaign triggered the medical-industry raid at
+the homeless encampment. The first announcement localized only the generated
+location (`Acampamento sem-teto`); the following office-worker/finance speech
+pages were raw English, including `A gangly accountant climbs up...` and
+`Please, we don't wanna shoot anyone, we're from the finance department!`.
+The final `Cobradores de dívidas hospitalares estão indo acertar contas com
+Acampamento sem-teto.` line was localized. This confirms PT-265: the catalog
+has source fragments, but the concatenated full `addparagraph` strings do not
+match those fragment keys at runtime.
+
+The same route surrendered to the medical collectors. The receipt labels and
+dot leaders remained Portuguese and aligned, but its title read
+`PARA HOMELESS CAMP:` while the rest of the UI used `Acampamento sem-teto`.
+This confirms PT-266, a separate dynamic-name localization leak. The retained
+receipt capture and route notes are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-residual-20260809/`.

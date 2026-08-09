@@ -50,6 +50,14 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   strict-headless replay accepts `G - Desistir` and renders `Você para e é
   preso.`; the focused chase-policy regression covers police versus mercenary
   pursuers.
+- PT-265 remains open: the medical-debt raid's office-worker and finance
+  announcement pages fall back to English because concatenated full strings do
+  not match the cataloged source fragments. Split the prose into complete
+  templates or add full-string catalog entries before the next siege sweep.
+- PT-266 remains open: the medical-debt receipt title uppercases raw
+  `HOMELESS CAMP` even though the surrounding UI uses `Acampamento sem-teto`.
+  Pass the localized site name into the receipt template while preserving the
+  existing amount alignment.
 
 ## Current residuals to verify after fixes
 

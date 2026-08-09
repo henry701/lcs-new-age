@@ -147,6 +147,8 @@
 | PT-262 | Low | Combat/layout | Long medical-debt role labels are truncated in the 17-cell encounter-name column |
 | PT-263 | Medium | Siege translation/context | CIA raid opening hard-codes a masculine article before feminine site names |
 | PT-264 | Medium | Combat controls | Police-siege foot chase advertises a disabled surrender action |
+| PT-265 | High | Siege translation/coverage | Medical-debt raid announcements remain English after the location fragment |
+| PT-266 | Medium | Siege translation/context | Medical-debt receipt title leaks the raw English safehouse name |
 
 ## PT-001: Save-management option is clipped
 
@@ -3791,3 +3793,38 @@ and no browser errors.
 A comparison replay confirmed that the same safehouse's base-mode
 `G - Desistir` action works and renders the confiscation result in Portuguese;
 the original residual was isolated to the foot-chase control state.
+
+## PT-265: Medical-debt raid announcements remain English
+
+- Severity: High
+- Type: Missing translation / full-template coverage
+- Screen: Portuguese base → medical-industry raid announcement
+- Replay status: **Residual; confirmed in a fresh strict-headless replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-residual-20260809/replay.txt`
+
+The deterministic medical-debt route localized the generated site name in the
+first announcement fragment, but the rest of the three-page raid briefing
+fell back to English. The raw output included `A small fleet of ambulances`,
+`A gangly accountant climbs up`, and the complete finance-department speech,
+while only the final `Hospital debt collectors are moving...` line was
+translated. The catalog contains source fragments for these sentences, but
+`daily/siege.dart` passes concatenated full strings to `addparagraph`, so the
+fragment entries cannot match at runtime.
+
+The fixed-width buffer stayed readable and the browser error channel was
+empty; this is a translation-coverage defect rather than a layout failure.
+
+## PT-266: Medical-debt receipt title leaks the raw safehouse name
+
+- Severity: Medium
+- Type: Dynamic-name localization / receipt context
+- Screen: Medical-debt raid → `G - Desistir` receipt
+- Replay status: **Residual; confirmed in a fresh strict-headless replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-residual-20260809/replay.txt` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-residual-20260809.png`
+
+The receipt title rendered `PARA HOMELESS CAMP:` even though the surrounding
+Portuguese base and raid screens displayed `Acampamento sem-teto`. The
+receipt currently uppercases `loc.name` directly instead of using the
+localized site-name helper. All receipt labels and amount alignment remained
+correct in this replay, so the residual is isolated to the interpolated
+location name.

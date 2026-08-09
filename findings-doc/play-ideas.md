@@ -712,3 +712,15 @@ narrow-layout coverage.
 - The temporary mercenary fixture and debug flags were restored before
   validation. Keep the broader police-alarm surrender/arrest variants open,
   then continue the PT-083 narrow-console sweep and accepted PT-049 review.
+
+## Strict-headless ultranarrow options follow-up — 2026-08-09
+
+- The Portuguese title, game options, interface options, and content/tone
+  screens were replayed at 320×240 and 240×160 with the browser forced into
+  Chromium headless mode. A font-size increase to 24 at 240×160 still kept the
+  complete 80×25 buffer, controls, and fixed viewport bounds; no browser
+  errors or stale English labels appeared.
+- No new defect was confirmed. Keep PT-083 as the broader responsive-
+  readability enhancement, continue PT-048/PT-148 police-alarm
+  surrender/arrest variants, and leave accepted PT-049 historical changelog
+  English out of the fix queue.

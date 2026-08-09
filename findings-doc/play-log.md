@@ -3721,3 +3721,30 @@ Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-merc-20260809
 The remaining queue is broader police-alarm surrender/arrest variation under
 PT-048/PT-148, PT-083 narrow-console readability, and accepted PT-049
 historical changelog English.
+
+## Strict-headless ultranarrow Portuguese options replay — 2026-08-09
+
+This pass used only CLI `agent-browser` session `pt083-7980` with
+`AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage
+--disable-cache` against a fresh Flutter `web-server` on port 7980. The
+viewport was checked at 320×240 and 240×160; no headed browser was launched or
+focused. The opt-in `?playtest=1` bridge supplied the fixed 80×25 console.
+
+The Portuguese route traversed the title language menu, `Opções de Jogo`,
+`Opções de Interface`, and `Conteúdo e Tom`. The interface font was increased
+from 16 to 24 at 240×160 before returning to the title screen. Portuguese
+labels stayed localized, including `ESQUADRÃO DO CRIME LIBERAL: NOVA ERA`,
+and the scan found no stale `English`, `Portuguese`, `Private Military`,
+`SWAT Officer`, `Enter`, `Continue`, or `Options` tokens. All 25 bridge rows
+remained exactly 80 cells wide; the 240×160 document had no horizontal or
+vertical overflow, and the browser error channel stayed empty.
+
+Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt083-narrow-20260809/replay.txt`
+and the accompanying screenshots. No new translation or layout defect was
+confirmed. PT-083 remains a responsive-readability enhancement because the
+fixed console is necessarily tiny on very narrow viewports; the checked
+routes did not clip, wrap incorrectly, or lose controls. The residual queue
+remains broader police-alarm surrender/arrest coverage under PT-048/PT-148
+and accepted PT-049 historical changelog English.

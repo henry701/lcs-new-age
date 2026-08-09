@@ -506,7 +506,8 @@ void baseModeOptionsDisplay(Site? loc) {
       "F - Fight/Escape",
       leftColumnWidth,
       enabledWhen:
-          squadSize > 0 || pool.any((p) => p.site?.siege.underAttack ?? false),
+          squadSize > 0 ||
+          (site != null && hasAvailableSafehouseDefenders(site)),
     );
     addOptionTextFitted(24, rightColumnX, "g", "G - Give Up", rightColumnWidth);
   } else {

@@ -128,6 +128,27 @@ void main() {
     );
   });
 
+  test(
+    'empty safehouse defenses return with a localized explanation',
+    () async {
+      final site = sites.first;
+      site.siege
+        ..activeSiegeType = SiegeType.corporateMercs
+        ..underAttack = true;
+      activeSafehouse = site;
+      console.injectKey('x');
+
+      await escapeOrEngage();
+
+      expect(
+        _consoleLine(3),
+        contains('Não há Liberais disponíveis para defender este esconderijo.'),
+      );
+      expect(activeSquad, isNull);
+      expect(squads, isEmpty);
+    },
+  );
+
   test('medical debt receipt translates labels before dot alignment', () async {
     final site = sites.first;
     final liberal = Creature()

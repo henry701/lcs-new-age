@@ -26,10 +26,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   action separate.
 - PT-255 fixed and verified (2026-08-09): fleeing creature names now lowercase
   only their first character, preserving acronyms such as `SWAT`.
-- PT-256 remains open (2026-08-09): selecting an under-attack safehouse with no
-  active squad and choosing `F - Lutar/Fugir` then `X - Enfrentar` crashes with
-  `Bad state: No element` at `lib/sitemode/sitemode.dart:211`. Keep a
-  deterministic empty-squad siege fixture for the eventual runtime fix.
+- PT-256 fixed and verified (2026-08-09): an under-attack safehouse with no
+  active squad now explains `Não há Liberais disponíveis para defender este
+  esconderijo.` and returns safely. The base action guard, last-second empty
+  squad guard, focused regression, and fresh strict-headless replay cover the
+  former `Bad state: No element` crash at `lib/sitemode/sitemode.dart:211`.
 
 ## Current residuals to verify after fixes
 

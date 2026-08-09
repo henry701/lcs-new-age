@@ -3587,3 +3587,26 @@ identified `lib/sitemode/sitemode.dart:211`, where `_siteModeAux` reads
 `findings.md` for a future runtime fix. All temporary siege/debug hooks were
 restored before validation, and the repository returned to its pre-playtest
 tracked diff.
+
+## Strict-headless empty-defense fix replay — 2026-08-09
+
+This follow-up used only the CLI `agent-browser` with
+`AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage` against a
+fresh Flutter `web-server` on port 7943. No headed browser was launched or
+focused; the 480×320 viewport still used the opt-in `?playtest=1` DOM bridge
+for the fixed 80×25 console.
+
+The deterministic Portuguese fixture selected the attacked corporate
+safehouse with no defenders. Pressing `F - Lutar/Fugir` after the fix rendered
+`Não há Liberais disponíveis para defender este esconderijo.` and returned to
+the base screen after one keypress. The browser error channel stayed empty and
+the durable after capture is under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/empty-defense-20260809.txt`
+with its screenshot at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/empty-defense-20260809.png`.
+All temporary debug hooks were restored before validation.
+
+PT-256 is fixed; continue the remaining PT-048/PT-148 random combat coverage,
+PT-083 narrow-console readability sweep, and accepted PT-049 historical
+changelog English review queue.

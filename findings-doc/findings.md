@@ -3613,20 +3613,23 @@ da SWAT` into `policial da swat`. The display now lowercases only the first
 character, preserving acronyms and proper nouns; the regression exercises the
 actual encounter renderer with a fleeing SWAT officer.
 
-## PT-256: Empty-squad safehouse siege entry crashes before combat
+## PT-256: Empty-squad safehouse siege entry crashed before combat
 
 - Severity: High
 - Type: Runtime crash / safehouse siege
 - Screen: Portuguese safehouse under attack → select a safehouse with no active squad → `F - Lutar/Fugir` → `X - Enfrentar`
-- Replay status: **Open; reproduced in a strict-headless replay on 2026-08-09**
-- Evidence: strict-headless corporate-siege route; stable multi-enemy capture at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/corporate-siege-20260809/combat-loot.png`
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/empty-defense-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/empty-defense-20260809.png`, and the stable multi-enemy capture at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/corporate-siege-20260809/combat-loot.png`
 
-The under-attack safehouse can be selected while the campaign has no active
-squad. Choosing `F - Lutar/Fugir` and then `X - Enfrentar` reaches the siege
-entry path, but the live Portuguese buffer changes to the crash report:
-`Bad state: No element`, with the stack pointing to
-`lib/sitemode/sitemode.dart:211`. `_siteModeAux` checks only whether
-`activeSquad` exists and then reads `squad.first`; an empty squad therefore
-throws before the encounter loop can render. The route is reproducible with a
-safehouse-siege fixture and should be fixed by handling an empty squad before
-dereferencing its first member (or by preventing the empty-squad action).
+The under-attack safehouse could be selected while the campaign had no active
+squad. Choosing `F - Lutar/Fugir` and then `X - Enfrentar` reached the siege
+entry path, but the live Portuguese buffer changed to the crash report
+`Bad state: No element` at `lib/sitemode/sitemode.dart:211`; `_siteModeAux`
+read `squad.first` after checking only `activeSquad`.
+
+The base action now checks for available active Liberals at the selected
+safehouse, and `escapeOrEngage` handles a last-second empty-squad transition
+before entering site mode. The guarded route displays the localized
+explanation `Não há Liberais disponíveis para defender este esconderijo.` and
+returns safely. The focused siege regression and fresh headless replay cover
+both the message and the no-squad state.

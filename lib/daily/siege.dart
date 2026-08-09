@@ -1920,9 +1920,28 @@ Future<void> sallyForthPart2(Site loc) async {
 }
 
 /* siege - prepares for entering site mode to fight the siege */
+bool hasAvailableSafehouseDefenders(Site loc) {
+  if (loc.creaturesPresent.any((p) => p.isActiveLiberal)) return true;
+  return activeSquad?.members.any((p) => p.isActiveLiberal) ?? false;
+}
+
 Future<void> escapeOrEngage() async {
   Site? loc = activeSafehouse ?? activeSquad?.members.firstOrNull?.site;
   if (loc == null) return;
+
+  if (!hasAvailableSafehouseDefenders(loc)) {
+    erase();
+    addparagraph(
+      3,
+      2,
+      "There are no available Liberals to defend this safehouse.",
+      y2: 21,
+      x2: console.width - 1,
+    );
+    addOptionText(23, 1, "any key", "Press any key to continue.");
+    await getKey();
+    return;
+  }
 
   //GIVE INFO SCREEN
   erase();
@@ -1996,6 +2015,13 @@ Future<void> escapeOrEngage() async {
       }
     }
     activeSquad = squads.last;
+  }
+
+  // A siege can outlive the last Liberal at a safehouse while the briefing
+  // is on screen. Do not pass an empty squad into site mode.
+  if (activeSquad?.members.isEmpty ?? true) {
+    activeSquad = null;
+    return;
   }
 
   //MAKE SURE PARTY IS ORGANIZED

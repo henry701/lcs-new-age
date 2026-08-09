@@ -3664,12 +3664,12 @@ with a screenshot at
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-server-restart-20260809.png`;
 the browser error channel was empty.
 
-PT-262 remains a low-priority readability enhancement: the fixed 17-cell
-column fits `Trabalhador de Escritório` as `Trabalhador de E…` without column
-overlap. One playtester detail is worth retaining: after ARB edits, a Flutter
+At that point PT-262 was a low-priority readability enhancement: the fixed
+17-cell column fit `Trabalhador de Escritório` as `Trabalhador de E…` without
+column overlap. The later roster follow-up closes it with a compact cataloged
+label. One playtester detail is worth retaining: after ARB edits, a Flutter
 web-server hot restart can keep the old asset snapshot. Restart the web server
-before judging catalog changes; the fresh process loaded the new 7,912-entry
-catalog.
+before judging catalog changes; the fresh process loaded the new catalog.
 
 ## Strict-headless Portuguese CIA-siege replay — 2026-08-09
 
@@ -3878,3 +3878,27 @@ The version footer is still visually tight at this viewport, but it remains
 bounded and is the accepted PT-083 responsive-readability enhancement. No new
 translation, layout, or browser-error defect was confirmed. Evidence is under
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/responsive-followup-20260809/`.
+
+## Strict-headless medical-debt roster compact-label replay — 2026-08-09
+
+This route used only CLI `agent-browser` session `medical-role-7990` with
+`AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage
+--disable-cache` against a fresh Flutter `web-server` on port 7990. No headed
+browser was launched or focused. A temporary medical-siege fixture injected
+six generated Office Worker enemies so the fixed-width encounter roster could
+be inspected deterministically; the fixture and all debug flags were restored
+before validation.
+
+The first live buffer showed six `Trabalhador de E…` rows in Portuguese. The
+fixed replay, after restarting Flutter so the new ARB shard entry was loaded,
+shows two fleeing `funcionário` rows and four `Funcionário` rows. Every row
+keeps its clothing, weapon, health, and map preview cells; all captured lines
+are at most 80 cells and `agent-browser errors` is empty. The full role label
+still renders as `Trabalhador de Escritório` in the context regression.
+
+Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-role-7990/`.
+PT-262 is closed. Continue the broader PT-048/PT-148 police-alarm variants
+and PT-083 responsive-readability route; accepted PT-049 historical changelog
+English remains out of the fix queue.

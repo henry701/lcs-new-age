@@ -1162,7 +1162,7 @@ void printBasicEncounter() {
     if (!e.alive) continue;
 
     mvaddstrc(y, 0, darkGray, ((displayIndex + 1) % 10).toString());
-    String name = localizedCreatureName(e);
+    String name = localizedEncounterCreatureName(e);
     setColor(e.align.color);
     if (e.align == Alignment.conservative && e.calculateWillRunAway()) {
       name = lowercaseFirstCharacter(name);

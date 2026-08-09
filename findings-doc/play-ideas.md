@@ -42,9 +42,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   case-variant generated role names, and preserves the `CPA` acronym while
   applying flee styling. Keep the role-label and acronym regressions with
   future encounter rendering changes.
-- PT-262 remains open: `Trabalhador de Escritório` is fitted to
-  `Trabalhador de E…` in the 17-cell encounter-name column. Decide later
-  whether the roster needs a compact context-specific role label.
+- PT-262 is now fixed and verified: the 17-cell encounter-name column uses
+  the compact cataloged `Funcionário` label for generated Office Worker rows,
+  while the full `Trabalhador de Escritório` label remains available elsewhere.
 - PT-264 fixed and verified (2026-08-09): direct police sieges now derive the
   foot-chase surrender flag from alive enemy law-enforcement pursuers. The
   strict-headless replay accepts `G - Desistir` and renders `Você para e é
@@ -762,3 +762,19 @@ narrow-layout coverage.
   localized, including confiscation, intact-funds, fortification, trap, and
   anti-aircraft-gun results. This comparison helped isolate the now-fixed
   PT-264 control state rather than the shared surrender result.
+
+## Strict-headless medical-debt roster follow-up — 2026-08-09
+
+- PT-262 is fixed and verified: the Portuguese medical-debt encounter roster
+  now renders generated Office Worker rows as `Funcionário`, fitting the
+  17-cell name budget without touching clothing, weapon, health, or map cells.
+  The full `Trabalhador de Escritório` translation remains available outside
+  this compact roster context.
+- Focused encounter-layout and context tests pass. A fresh strict-headless
+  replay after a full Flutter asset-manifest restart shows six compact rows,
+  all 80-column lines, and no browser errors. Before/after captures are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-role-7990/`.
+- Temporary medical-siege and encounter fixtures were restored before
+  validation. Keep PT-048/PT-148 random police-alarm variants and PT-083
+  narrow-console readability in the residual queue; accepted PT-049 remains
+  historical changelog English.

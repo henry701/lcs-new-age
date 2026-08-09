@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
@@ -41,6 +42,21 @@ String localizedCreatureNameValue(String creatureName, String typeName) {
 
 String localizedCreatureName(Creature creature) =>
     localizedCreatureNameValue(creature.name, creature.type.name);
+
+/// Uses a compact role label only where the fixed-width encounter roster
+/// cannot fit the full Portuguese translation.
+String localizedEncounterCreatureName(Creature creature) {
+  final localizedName = localizedCreatureName(creature);
+  final isGeneratedRole =
+      creature.name.trim().toLowerCase() ==
+      creature.type.name.trim().toLowerCase();
+  if (LcsI18n.currentLocale == 'pt_BR' &&
+      creature.type.id == CreatureTypeIds.officeWorker &&
+      isGeneratedRole) {
+    return LcsI18n.tr('Office Worker (compact encounter label)');
+  }
+  return localizedName;
+}
 
 /// Lowercases a leading ordinary word while preserving leading acronyms.
 String lowercaseFirstCharacter(String value) {

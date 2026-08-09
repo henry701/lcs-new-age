@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -87,12 +88,27 @@ void main() {
     printEncounter();
 
     for (var i = 0; i < roleIds.length; i++) {
-      expect(
-        _consoleCells(12 + i, 2, 19).trimRight(),
-        startsWith(roleIds[i].$2),
-      );
+      final renderedName = _consoleCells(12 + i, 2, 19).trimRight();
+      if (roleIds[i].$1 == CreatureTypeIds.officeWorker) {
+        expect(renderedName, equals('Funcionário'));
+      } else {
+        expect(renderedName, startsWith(roleIds[i].$2));
+      }
     }
   });
+
+  test(
+    'Portuguese encounter compact label preserves the full role elsewhere',
+    () {
+      final role = Creature.fromId(
+        CreatureTypeIds.officeWorker,
+        align: Alignment.conservative,
+      );
+
+      expect(localizedCreatureName(role), equals('Trabalhador de Escritório'));
+      expect(localizedEncounterCreatureName(role), equals('Funcionário'));
+    },
+  );
 
   test('Portuguese encounter health cells mark armor without clipping', () {
     final observer = Creature()

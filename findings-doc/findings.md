@@ -3738,15 +3738,16 @@ the restarted medical-debt replay both keep `CPA` uppercase.
 - Severity: Low
 - Type: Combat layout / readability enhancement
 - Screen: Portuguese medical-debt siege encounter roster
-- Replay status: **Residual; logged for a future fixed-width roster pass on 2026-08-09**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-before-20260809.txt` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-server-restart-20260809.txt`
+- Replay status: **Fixed and verified in focused regressions and a fresh strict-headless replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-role-7990/office-worker-roster-before.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-role-7990/office-worker-roster-after-restart.png`, and `test/sitemode/site_encounter_layout_test.dart`
 
 The encounter name column has a deliberate 17-cell budget. The natural
-translation `Trabalhador de Escritório` therefore renders as
-`Trabalhador de E…`. It remains readable and does not overwrite the clothing,
-weapon, or health columns, so this is not a correctness defect. Consider a
-short context-specific label (for example, `Funcionário`) or a role-aware
-compact-name catalog if future roster work prioritizes full labels.
+translation `Trabalhador de Escritório` formerly rendered as
+`Trabalhador de E…`. The encounter-only renderer now uses the cataloged
+`Funcionário` label for generated Office Worker rows, which fits the 17-cell
+budget while leaving the full role translation unchanged in profiles,
+dialogue, and siege announcements. Flee styling still lowercases the compact
+label without changing the other roster columns.
 
 ## PT-263: CIA raid opening uses the wrong article for feminine site names
 

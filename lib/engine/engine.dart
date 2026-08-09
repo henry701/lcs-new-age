@@ -11,6 +11,12 @@ Future<KeyEvent> getKeyEvent() async => await console.getKeyEvent();
 Future<String> getKeyCaseSensitive() async => console.getkey();
 int checkKey() => console.checkkey().codePoint;
 String checkKeyCaseSensitive() => console.checkkey();
+
+bool isYesKey(int key) =>
+    key == Key.y || (LcsI18n.currentLocale == 'pt_BR' && key == Key.s);
+
+bool isNoKey(int key) => key == Key.n;
+
 void setColor(Color foreground, {Color background = black}) =>
     console.setColor(foreground, background);
 void addchar(String c) => console.addchar(c);

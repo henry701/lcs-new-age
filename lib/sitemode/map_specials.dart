@@ -938,8 +938,8 @@ Future<bool> sitemodePromptOneLine(String line) async {
   while (true) {
     int c = await getKey();
 
-    if (c == Key.y) return true;
-    if (c == Key.n) return false;
+    if (isYesKey(c)) return true;
+    if (isNoKey(c)) return false;
   }
 }
 
@@ -958,8 +958,8 @@ Future<bool> sitemodePrompt(
   while (true) {
     int c = await getKey();
 
-    if (c == Key.y) return true;
-    if (c == Key.n) return false;
+    if (isYesKey(c)) return true;
+    if (isNoKey(c)) return false;
   }
 }
 

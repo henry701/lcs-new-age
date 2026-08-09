@@ -454,19 +454,19 @@
     },
     {
       "file": "engine/engine.dart",
-      "line": 135,
+      "line": 141,
       "text": "${renderedText.substring(0, renderedText.length - 2)} ",
       "reason": "Layout-only punctuation cleanup after a complete translated option label."
     },
     {
       "file": "engine/engine.dart",
-      "line": 203,
+      "line": 209,
       "text": "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "engine/engine.dart",
-      "line": 208,
+      "line": 214,
       "text": "&$disabledColorKey$renderedText",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },

@@ -7,6 +7,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-248 fixed and verified (2026-08-09): the Portuguese `Novo Esquadrão`
   header now right-aligns from its localized width instead of clipping at
   column 71. Keep the focused layout regression and narrow replay evidence.
+- PT-249 fixed and verified (2026-08-09): Portuguese yes/no prompts now accept
+  `S` as well as the legacy `Y` affirmative key. The clean police-station
+  replay advanced `Tentar arrombar a fechadura? (Sim ou Não)` with `S`; keep
+  the alias regression when adding additional localized prompts.
 
 ## Current residuals to verify after fixes
 
@@ -43,6 +47,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   covers the live combat death reflection and high-score transition. Keep the
   broader finding open only for random police-alarm variants; the separate
   siege foot-chase and non-police terminal sweeps remain useful evidence.
+- Police-station rescue fixture: the strict-headless route reached a locked
+  door and the translated `Sim ou Não` prompt, verified the `S` alias, and
+  confirmed the 20 debug liberals appear under `Liberais no Sistema Judiciário`.
 - PT-145/PT-146/PT-147 fixed and verified (2026-08-01): the party roster now
   separates `HABIL.—ARMA`, four-digit pressure values retain a gap before
   `Sigilo`, and the founder bonus preserves `Artes Marciais` capitalization.

@@ -3436,3 +3436,26 @@ The residual queue is PT-048/PT-148 broader random combat/post-fight coverage,
 PT-083 narrow-console readability, and accepted PT-049 historical changelog
 English. The profile phrase `Qualquer outra tecla - continue a Luta` was
 reviewed against the source key's capitalization and retained intentionally.
+
+## Strict-headless police-station rescue and localized yes/no replay — 2026-08-09
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The viewport was 480×320, the opt-in `?playtest=1` DOM bridge supplied the
+fixed 80×25 console, and no headed browser was launched or focused. A
+temporary `debugPartyRescue` fixture populated the police-station justice
+roster; the flag was restored to `false` before validation.
+
+The route reached `Centro de Seattle` → `Delegacia de Polícia`, entered the
+site map, and confirmed the 20 generated college-student Liberals appear in
+`Liberais no Sistema Judiciário`. The locked-door prompt exposed PT-249: its
+Portuguese text said `Tentar arrombar a fechadura? (Sim ou Não)`, but `S` did
+nothing before the fix. A clean server restart after the input helper landed
+accepted `S` and rendered `Wendell Sellers destranca a porta!`.
+
+Durable before/after captures are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/party-rescue-20260809/` and
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/party-rescue-fixed-20260809/`.
+The remaining route did not expose another confirmed translation or layout
+defect; PT-048/PT-148 random combat variants, PT-083 narrow-console
+readability, and accepted PT-049 changelog English remain in the queue.

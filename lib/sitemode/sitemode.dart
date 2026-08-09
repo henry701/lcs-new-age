@@ -2033,9 +2033,9 @@ Future<void> _openDoor(bool restricted) async {
     while (true) {
       int c = await getKey();
 
-      if (c == Key.y) {
+      if (isYesKey(c)) {
         break;
-      } else if (c == Key.n) {
+      } else if (isNoKey(c)) {
         return;
       }
     }
@@ -2060,7 +2060,7 @@ Future<void> _openDoor(bool restricted) async {
 
       clearMessageArea();
 
-      if (c == Key.y) {
+      if (isYesKey(c)) {
         UnlockResult result = await unlock(UnlockTypes.door);
         // If the unlock was successful
 
@@ -2104,7 +2104,7 @@ Future<void> _openDoor(bool restricted) async {
           await noticeCheck();
         }
         return;
-      } else if (c == Key.n) {
+      } else if (isNoKey(c)) {
         return;
       }
     }
@@ -2128,7 +2128,7 @@ Future<void> _openDoor(bool restricted) async {
 
       int c = await getKey();
 
-      if (c == Key.y) {
+      if (isYesKey(c)) {
         UnlockResult result = await bash(BashTypes.door);
 
         if (result == UnlockResult.unlocked || result == UnlockResult.bashed) {
@@ -2171,7 +2171,7 @@ Future<void> _openDoor(bool restricted) async {
         }
 
         break;
-      } else if (c == Key.n) {
+      } else if (isNoKey(c)) {
         break;
       }
     }

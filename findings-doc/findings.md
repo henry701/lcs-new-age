@@ -3498,3 +3498,20 @@ The renderer now uses the shared right-alignment helper, which measures the
 localized text before choosing its start column. The fresh 480×320 replay
 shows the complete `Novo Esquadrão` label, and the focused layout regression
 asserts that the translated header remains visible and within the console.
+
+## PT-249: Portuguese yes/no prompts ignored the localized affirmative key
+
+- Severity: Medium
+- Type: Input localization / interaction contract
+- Screen: Portuguese site mode → police-station locked door
+- Replay status: **Fixed and verified in a clean strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/party-rescue-20260809/03-portuguese-yes-prompt-s-ignored.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/party-rescue-fixed-20260809/02-portuguese-s-accepted.txt`
+
+The translated prompt displayed `Tentar arrombar a fechadura? (Sim ou Não)`
+but the input loop accepted only the English `Y`/`N` codes. Pressing the
+natural Portuguese `S` key left the prompt blocked, while `Y` advanced it.
+Localized yes/no handling now accepts `S` as an additional affirmative key in
+Portuguese while retaining `Y` for compatibility; the direct site-door loops
+and shared special-tile prompts use the same helper. The focused regression
+guards the Portuguese aliases, and the clean 480×320 replay advanced with `S`
+and rendered `Wendell Sellers destranca a porta!`.

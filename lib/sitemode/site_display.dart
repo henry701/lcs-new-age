@@ -1180,7 +1180,9 @@ void printBasicEncounter() {
       11,
       noTranslate: true,
     );
-    printHealthStat(y, 49, e, small: true);
+    // The map preview begins at column 55; keep the compact health cell
+    // within the six available columns so armor text cannot overwrite it.
+    printHealthStat(y, 49, e, small: true, maxWidth: 6);
   }
 }
 

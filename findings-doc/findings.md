@@ -3114,3 +3114,33 @@ so the live replay keeps the complete output as
 below it. `test/sitemode/fight_death_layout_test.dart` selects the deterministic
 final-words branch, asserts the complete Portuguese sentence, and checks the
 80-column buffer invariant.
+
+## PT-228: Combat death message used a subject pronoun as a possessive
+
+- Severity: Medium
+- Type: Contextual translation / gendered interpolation
+- Screen: Portuguese ordinary police combat death message
+- Replay status: **Fixed and verified by focused Portuguese regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-combat-layout-20260809/overlap.txt`
+
+The live female-officer branch rendered `o corpo ela`, because the death
+renderer translated the English `her` key instead of the catalog's
+`her (possessive)` entry. The sentence now uses the possessive catalog key and
+the neutral verb form, producing `morre antes que o corpo dela atinja o chão.`
+The focused death-layout suite covers the deterministic branch and rejects the
+old `corpo ela` composition.
+
+## PT-229: Encounter health text overwrote the police-station map
+
+- Severity: Medium
+- Type: Fixed-width layout / combat roster
+- Screen: Portuguese ordinary police combat map and encounter roster
+- Replay status: **Fixed and verified in a fresh strict-headless route plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-combat-layout-20260809/overlap.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-combat-layout-20260809/overlap-fixed.txt`
+
+The encounter roster printed health and armor from column 49 without a width
+limit, while the map preview starts at column 55. Portuguese armor details
+therefore overwrote the map (`Bem +Ext.d` and `Bem   xt.`). The compact health
+cell now fits within six columns, preserving the map frame and its contents
+with a bounded ellipsis. `test/sitemode/site_encounter_layout_test.dart`
+protects the map columns and the 80-column buffer invariant.

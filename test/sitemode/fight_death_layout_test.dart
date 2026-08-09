@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
+import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
@@ -61,5 +62,35 @@ void main() {
       ),
     );
     expect(console.buffer.every((row) => row.length == 80), isTrue);
+  });
+
+  test('Portuguese combat death messages use a possessive pronoun', () {
+    final target = Creature.fromId(CreatureTypeIds.swat)
+      ..name = 'SWAT Officer'
+      ..gender = Gender.female
+      ..align = Alignment.conservative;
+    target.blood = -target.maxBlood * 3;
+
+    int? deadBeforeGroundSeed;
+    for (var seed = 1; seed < 10000; seed++) {
+      reseedRNG(seed: seed);
+      if (lcsRandom(8) == 0) {
+        deadBeforeGroundSeed = seed;
+        break;
+      }
+    }
+    expect(deadBeforeGroundSeed, isNotNull);
+
+    reseedRNG(seed: deadBeforeGroundSeed!);
+    addDeathMessage(target);
+
+    final rendered = '${_consoleLine(9)} ${_consoleLine(10)}'
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    expect(
+      rendered,
+      contains('Policial da SWAT morre antes que o corpo dela atinja o chão.'),
+    );
+    expect(rendered, isNot(contains('corpo ela')));
   });
 }

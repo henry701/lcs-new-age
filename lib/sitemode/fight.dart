@@ -2391,7 +2391,12 @@ void addDeathMessage(Creature cr) {
       message,
       params: {
         "name": localizedCreatureName(cr),
-        "hisHer": LcsI18n.tr(cr.gender.hisHer),
+        "hisHer": switch (cr.gender.hisHer) {
+          "his" => LcsI18n.tr("his (possessive)"),
+          "her" => LcsI18n.tr("her (possessive)"),
+          "their" => LcsI18n.tr("their (possessive)"),
+          _ => cr.gender.hisHer,
+        },
         "himHer": LcsI18n.tr(cr.gender.himHer),
       },
     );

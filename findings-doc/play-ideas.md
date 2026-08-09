@@ -473,3 +473,14 @@ narrow-layout coverage.
   regression covers the Portuguese caption and visible ellipsis. A fresh
   strict-headless sweep then reached 13 Feb 2023, including January/February
   newspaper and agenda screens, without another runtime failure.
+
+## Strict-headless ordinary police follow-up — 2026-08-09
+
+- PT-228 fixed: the female combat death branch now uses `dela` instead of the
+  subject pronoun `ela`; the focused deterministic death regression covers the
+  exact sentence.
+- PT-229 fixed: ordinary encounter health/armor status is capped before the
+  map preview, and a fresh headless police route shows the map boundary intact
+  after the roster is drawn. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-combat-layout-20260809/`.
+- Keep PT-048/PT-148, PT-083, and accepted PT-049 in the residual queue.

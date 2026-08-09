@@ -3064,3 +3064,23 @@ title version line still runs into the right edge at that size; this is the
 existing PT-083 responsive-console enhancement, not a new translation defect.
 PT-048/PT-148 remain open for a non-siege live-combat death/post-fight-summary
 variant, and PT-049 remains the intentional English changelog body.
+
+## Strict-headless ordinary police combat replay — 2026-08-09
+
+This follow-up used only the CLI `agent-browser` session
+`pt-route2-20260809` with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless`; no headed browser was launched or
+focused. The opt-in `?playtest=1` DOM bridge supplied the fixed 80×25 buffer and
+key injection.
+
+The fresh Portuguese campaign entered `Delegacia de Polícia`, walked the
+ordinary site map, and stalled until two police officers appeared. Before the
+fix, the roster overwrote the map preview with armor text (`Bem +Ext.d` and
+`Bem   xt.`); the saved buffer is `overlap.txt`. After rebuilding, the same
+route rendered bounded status (`Bem +…`) followed immediately by the intact
+map border and tiles; `overlap-fixed.txt` records the result. The female death
+branch was also reproduced before the fix as `o corpo ela`; the deterministic
+focused regression now verifies `o corpo dela`.
+
+Residual coverage remains PT-048/PT-148 terminal combat summaries, PT-083
+narrow-console readability, and accepted PT-049 historical changelog English.

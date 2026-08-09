@@ -1,17 +1,24 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/daily/siege.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/location/siege.dart';
+import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/title_screen/world.dart';
+
+import '../test_support.dart';
 
 String _consoleLine(int y) =>
     console.buffer[y].map((character) => character.glyph).join().trimRight();
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(ensureGameDataLoaded);
 
   setUp(() async {
     gameState = GameState();
@@ -102,5 +109,29 @@ void main() {
       ).hasMatch(source),
       isTrue,
     );
+  });
+
+  test('medical debt receipt translates labels before dot alignment', () async {
+    final site = sites.first;
+    final liberal = Creature()
+      ..align = Alignment.liberal
+      ..location = site
+      ..medicalBills = 50000;
+    pool.add(liberal);
+    ledger.forceSetFunds(7);
+    console.injectKey('c');
+
+    await surrenderToMedicalIndustry(site);
+
+    expect(_consoleLine(6), contains('Total da dívida pendente....50000'));
+    expect(_consoleLine(7), contains('Valor pago..................7'));
+    expect(_consoleLine(8), contains('Ajuste de boa-fé............49993'));
+    expect(_consoleLine(10), contains('Total da dívida quitada.....50000'));
+    expect(_consoleLine(11), contains('Dívida restante.............0'));
+    expect(_consoleLine(6).indexOf('50000'), 50);
+    expect(_consoleLine(7).indexOf('7'), 50);
+    expect(_consoleLine(8).indexOf('49993'), 50);
+    expect(_consoleLine(10).indexOf('50000'), 50);
+    expect(_consoleLine(11).indexOf('0'), 50);
   });
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/gamestate/crime_squad.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
 import 'package:lcs_new_age/saveload/save_load.dart';
@@ -162,7 +163,7 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
     } else {
       setColor(red);
     }
-    mvaddstr(y, 0, s.slogan, noTranslate: true);
+    mvaddstr(y, 0, CrimeSquad.localizedSlogan(s.slogan), noTranslate: true);
     if (s.score == yourScore?.score &&
         s.daysSince2000 == yourScore?.daysSince2000) {
       if (s.endType == Ending.victory) {

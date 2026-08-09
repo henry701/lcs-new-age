@@ -3,6 +3,7 @@ import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/basemode/disbanding.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/gamestate/crime_squad.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
@@ -40,6 +41,17 @@ void main() {
       equals('O Esquadrão do Crime Liberal'),
     );
     expect(localizedSquadName('Minha Equipe'), equals('Minha Equipe'));
+  });
+
+  test('high scores localize built-in slogans but preserve custom text', () {
+    expect(
+      CrimeSquad.localizedSlogan('Revolution never comes with a warning!'),
+      equals('A revolução nunca avisa quando vem!'),
+    );
+    expect(
+      CrimeSquad.localizedSlogan('Minha palavra de ordem'),
+      'Minha palavra de ordem',
+    );
   });
 
   test('activity banner clears stale text before a shorter result', () {

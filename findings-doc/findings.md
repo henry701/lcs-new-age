@@ -2942,3 +2942,47 @@ Portuguese and used title-style capitalization in a sentence. The replacement
 left-hand 38-column area, and leaves `X - Sair para a Tela Inicial` intact in
 the adjacent column. A base-mode regression covers both the wording and the
 column boundary.
+
+## PT-217: Single-arrest siege result used a malformed present-tense fragment
+
+- Severity: Medium
+- Type: Contextual translation
+- Screen: Police siege surrender with exactly one wanted Liberal
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/single-arrest-20260809/before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/single-arrest-20260809/after.txt`
+
+The one-person branch rendered `Prendem Antonio Balgos.`. This is an
+imperative-like fragment rather than a natural report of what just happened.
+The catalog now uses `A polícia deteve {name}.`, and the focused Portuguese
+context regression covers the exact branch wording.
+
+## PT-218: Built-in high-score slogans bypassed Portuguese localization
+
+- Severity: Medium
+- Type: Missing translation / legacy-save compatibility
+- Screen: Game over → high scores after a CIA terminal surrender
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-surrender-20260809/before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-surrender-20260809/after.txt`
+
+The game-over screen showed the stored built-in slogan `Revolution never
+comes with a warning!` in English while the surrounding score screen was
+Portuguese. High-score rendering now localizes only known built-in default
+slogans and preserves arbitrary player-created slogans. A focused regression
+covers both behaviors.
+
+## PT-219: Medical-debt receipt labels were untranslated and overlaid by dots
+
+- Severity: High
+- Type: Missing translation / fixed-width layout
+- Screen: Medical-industry siege surrender receipt
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260809/before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260809/after-fixed.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260809/after-fixed.png`
+
+The receipt initially leaked five English labels: `Total outstanding debt`,
+`Cash paid`, `Good faith adjustment`, `Total debt cleared`, and `Total debt
+remaining`. Adding catalog entries exposed a second defect: the dot leader was
+positioned using the English source length, so longer Portuguese labels were
+silently overwritten (`Total da dívida penden...`, `Total da dívida qu...`).
+The receipt now translates and fits the label before calculating the dot
+leader, keeping every amount at column 50. A direct receipt-rendering test
+guards the Portuguese labels and column alignment.

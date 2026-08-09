@@ -868,7 +868,7 @@
     },
     {
       "file": "location/siege.dart",
-      "line": 296,
+      "line": 297,
       "text": "\\$$confiscated",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -1318,7 +1318,7 @@
     },
     {
       "file": "title_screen/high_scores.dart",
-      "line": 316,
+      "line": 317,
       "text": "loadHighScores: Unknown scoreVersion: $loadversion",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -397,9 +398,13 @@ Future<void> surrenderToMedicalIndustry(Site loc) async {
   }
 
   void receiptLine(int row, String label, int amount) {
+    final renderedLabel = fitConsoleText(
+      LcsI18n.tr(label),
+      moneyCol - textLeft,
+    );
     setColor(black, background: lightGray);
-    mvaddstr(row, textLeft, label);
-    int dotStart = textLeft + label.length;
+    mvaddstr(row, textLeft, renderedLabel, noTranslate: true);
+    int dotStart = textLeft + strLenX(renderedLabel);
     if (moneyCol > dotStart) {
       mvaddstr(row, dotStart, "".padRight(moneyCol - dotStart, "."));
     }

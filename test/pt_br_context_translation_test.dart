@@ -358,6 +358,19 @@ void main() {
   });
 
   test('playtest combat and kidnapping fragments stay localized', () {
+    expect(catalog['{name} is arrested.'], 'A polícia deteve {name}.');
+    final medicalReceiptLabels = {
+      'Total outstanding debt': 'Total da dívida pendente',
+      'Cash paid': 'Valor pago',
+      'Good faith adjustment': 'Ajuste de boa-fé',
+      'Total debt cleared': 'Total da dívida quitada',
+      'Total debt remaining': 'Dívida restante',
+    };
+    for (final entry in medicalReceiptLabels.entries) {
+      expect(catalog[entry.key], entry.value);
+      expect(LcsI18n.tr(entry.key), entry.value);
+      expect(entry.value.length, lessThanOrEqualTo(28));
+    }
     expect(catalog['Club Security'], 'Segurança de Boate');
     expect(catalog['Naked'], 'Nu');
     expect(catalog['flails at'], 'golpeia');

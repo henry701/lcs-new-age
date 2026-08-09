@@ -64,5 +64,9 @@ class CrimeSquad {
     "We're actually leftists, not liberals": 1,
   };
   String slogan = lcsRandomWeighted(defaultSlogans);
-  String get displaySlogan => LcsI18n.tr(slogan);
+  String get displaySlogan => localizedSlogan(slogan);
+
+  static String localizedSlogan(String value) {
+    return defaultSlogans.containsKey(value) ? LcsI18n.tr(value) : value;
+  }
 }

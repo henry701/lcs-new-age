@@ -2779,3 +2779,35 @@ screenshot are retained under
 
 Terminal death/arrest variants remain open as PT-048/PT-148; this replay did
 not claim those branches covered.
+
+## Strict-headless terminal arrest, high-score, and medical-receipt replay — 2026-08-09
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The DOM command bridge drove keys through `#lcs-playtest-buffer`; no headed
+browser was launched or focused. Temporary terminal fixtures were kept in the
+debug branch and restored after the replay.
+
+The police terminal route with exactly one wanted Liberal reproduced PT-217:
+`Prendem Antonio Balgos.`. The catalog fix now renders `A polícia deteve
+Osama Cruise.` in the fresh live buffer. Before/after captures are retained
+under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/single-arrest-20260809/`.
+
+The CIA lethal-surrender route reached game over and reproduced PT-218: the
+stored default slogan `Revolution never comes with a warning!` bypassed the
+Portuguese catalog. High-score rendering now translates only built-in default
+slogans while preserving custom text; the after capture shows a translated
+default slogan. Captures are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-surrender-20260809/`.
+
+The medical-industry surrender route reproduced PT-219. The receipt first
+showed five English labels; after adding the catalog entries, the live replay
+also exposed source-length dot leaders overwriting longer Portuguese labels.
+The receipt now translates/fits labels before placing dots, and every amount
+stays at column 50. The final buffer and screenshot are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260809/`.
+
+The residual queue remains PT-194 (special-injury pagination), PT-048/PT-148
+(other deterministic terminal combat variants), PT-083 (narrow viewport),
+PT-151/PT-189 (intentional long-label ellipses), PT-164 (oversized
+debug/import roster), and accepted PT-049 (English changelog body).

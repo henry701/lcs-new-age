@@ -444,3 +444,9 @@ narrow-layout coverage.
   after the fixes.
 - PT-216 fixed (2026-08-09): the siege wait warning now uses natural Portuguese
   and stays inside the left column without colliding with the exit action.
+- PT-217 fixed (2026-08-09): the single-arrest police result now uses a
+  complete Portuguese sentence (`A polícia deteve {name}.`).
+- PT-218 fixed (2026-08-09): high-score rendering localizes built-in slogans
+  while preserving custom player slogans.
+- PT-219 fixed (2026-08-09): medical-debt receipt labels are cataloged and
+  aligned from their rendered Portuguese width so amounts stay in column 50.

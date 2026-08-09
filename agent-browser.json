@@ -1,5 +1,5 @@
 {
   "$schema": "https://agent-browser.dev/schema.json",
   "headed": false,
-  "args": "--headless=new,--ozone-platform=headless"
+  "args": "--headless=new,--ozone-platform=headless,--disable-dev-shm-usage,--disable-cache"
 }

@@ -15,7 +15,7 @@ When the query flag is present, `#lcs-playtest-buffer` contains the current
 
 ```sh
 export AGENT_BROWSER_HEADED=0
-export AGENT_BROWSER_ARGS='--headless=new,--ozone-platform=headless'
+export AGENT_BROWSER_ARGS='--headless=new,--ozone-platform=headless,--disable-dev-shm-usage,--disable-cache'
 ```
 
 The repository also includes `agent-browser.json`, which makes headless mode

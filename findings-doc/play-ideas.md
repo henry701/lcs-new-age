@@ -63,9 +63,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   now show a bounded `+N outras — BAIXO` hint and a localized paged detail
   screen. Keep the page-count helper shared between review mode and standalone
   profile screens.
-- PT-189 remains open (2026-08-08): profile stats, skills, and crimes still
-  ellipsize long Portuguese labels in fixed-width cells; investigate a detail
-  view or wider label budget without regressing numeric-column separation.
+- PT-189 fixed and verified (2026-08-09): the full profile now uses two wider
+  skill columns and dedicated crime-label cells; keep the captured page buffers
+  and layout regressions when changing profile widths.
 - Recruitment route: the first profession selector, candidate list, profile,
   political conversation, and response are covered by the latest headless pass;
   continue with a successful recruitment meeting and a conservative target.
@@ -241,8 +241,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-150 fixed (2026-08-01): localize visible XML flag names/descriptions and
   issue labels, reserve the heat column, and avoid duplicating `Custo:` in the
   flag preview footer.
-- PT-151 residual (2026-08-01): the compact flag table still ellipsizes long
-  Portuguese issue labels; consider a responsive issue/detail layout.
+- PT-151 fixed and verified (2026-08-09): the compact flag table now gives the
+  issue column 24 cells and keeps heat/cost at fixed boundaries; recheck the
+  column budget if more flag categories are added.
 - PT-157 fixed and verified (2026-08-01): the base agenda action now uses
   `O status da agenda Liberal`, matching the agenda detail screen instead of
   the inconsistent `O Estado da Agenda Liberal`.
@@ -274,10 +275,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   now agree with plural feminine `mortas` (`esculpidas`/`mutiladas`).
 - PT-163 fixed and verified (2026-08-01): both runtime-selected seasonal
   fashion sentences now have canonical Portuguese catalog entries.
-- PT-164 residual (2026-08-01): a deliberately oversized debug siege fixture
-  can print a ten-person reserve over the six-row fixed-width frame. No normal
-  campaign route reproduced it; add a roster-cap/import guard if the limit is
-  ever raised.
+- PT-164 fixed and verified (2026-08-09): oversized debug/import rosters now
+  render five members plus a `+N…` overflow marker, preserving the delimiter
+  and combat frame; retain the regression if the squad cap changes.
 
 ## Newly prioritized after the 2026-07-26 sweep
 
@@ -385,10 +385,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   messages now wrap long Portuguese lines with `addparagraph`; camera and
   final-period clipping no longer occur.
 - Residuals remain PT-048/PT-148 (deterministic terminal combat variants),
-  PT-083 (narrow viewport), PT-151 (intentional long-label ellipses), PT-164
-  (oversized debug/import roster), and accepted PT-049 (English changelog
-  body). After these fixes, no additional translation or layout issue was
-  confirmed in the replayed routes.
+  PT-083 (narrow viewport), and accepted PT-049 (English changelog body).
+  After these fixes, no additional translation or layout issue was confirmed
+  in the replayed routes.
 
 ## Strict-headless follow-up — 2026-08-08
 
@@ -443,9 +442,8 @@ narrow-layout coverage.
   terminal death/arrest/surrender combat branches open; the briefing itself is
   covered by the saved before/after buffers under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/under-attack-briefing-20260808/`.
-- Keep PT-194, PT-048/PT-148, PT-083, PT-151/PT-189, PT-164, and accepted
-  PT-049 in the residual queue; no new open issue was confirmed in this route
-  after the fixes.
+- Keep PT-194, PT-048/PT-148, PT-083, and accepted PT-049 in the residual
+  queue; no new open issue was confirmed in this route after the fixes.
 - PT-216 fixed (2026-08-09): the siege wait warning now uses natural Portuguese
   and stays inside the left column without colliding with the exit action.
 - PT-217 fixed (2026-08-09): the single-arrest police result now uses a

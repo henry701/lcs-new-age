@@ -2968,3 +2968,36 @@ Keep those findings open only for broader alarm variants and a live combat
 death/post-fight-summary branch, alongside PT-083 responsive-console
 readability, PT-151/PT-189 intentional long-label ellipses, and PT-164's
 oversized debug/import roster.
+
+## Strict-headless profile, flag, and oversized-roster replay — 2026-08-09
+
+This pass used only CLI `agent-browser` session `profile-pt-20260810` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The Flutter web server was restarted on a fresh port after catalog changes; no
+headed browser was launched, focused, or left running. The opt-in
+`?playtest=1` DOM bridge supplied the 80×25 console buffer and key events.
+
+The Portuguese founder route reached Review Liberals → Liberais Ativos → the
+full profile. The skill page now keeps `Primeiros Socorros`, `Armas Pesadas`,
+and every other skill name readable in two 40-cell columns. The crime page
+keeps `profanação da bandeira nacional`, `entrada ilegal nos Estados Unidos`,
+and the compact `distribuição de drogas`, `terrorismo digital`, and
+`vandalismo digital` labels inside dedicated numeric cells. The post-restart
+buffers are retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-pt-20260810/page1-fixed3.txt`
+and `page2-fixed3.txt`.
+
+The same live campaign opened the flag menu. `Liberdade de Expressão`,
+`Direitos LGBTQ+`, `Direitos das Mulheres`, and `Direitos Civis` remained
+readable before heat and cost; the capture is
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-pt-20260810/flag-fixed.txt`.
+
+PT-164 was reproduced as a focused renderer fixture with eight members. The
+party table now renders five rows, a `+3…` overflow marker, and an untouched
+row-8 delimiter, so debug/import rosters cannot overwrite the fixed combat
+frame. The new regression lives in
+`test/basemode/pt_br_core_layout_test.dart`.
+
+These checks close PT-151, PT-164, and PT-189. The remaining queue is PT-048/
+PT-148 terminal combat variants, PT-083 narrow-console readability, and the
+accepted English-only changelog body PT-049.

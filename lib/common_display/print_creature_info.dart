@@ -23,6 +23,13 @@ const int _specialInjuryPageStartRow = 5;
 const int _specialInjuryPageSize = 17;
 const int _compactSpecialInjuryStartRow = 12;
 const int _compactSpecialInjuryVisibleRows = 11;
+const int _fullProfileSkillColumnWidth = 40;
+const int _fullProfileSkillLabelWidth = 19;
+const int _fullProfileSkillCurrentOffset = 20;
+const int _fullProfileSkillMaxOffset = 28;
+const int _fullProfileCrimeColumnWidth = 40;
+const int _fullProfileCrimeLabelWidth = 35;
+const int _fullProfileCrimeNumberOffset = 36;
 
 int fullCreatureProfilePageCount(Creature cr) {
   final injuryCount = cr.body.allSpecialInjuries().length;
@@ -583,30 +590,41 @@ void printFullCreatureSkills(Creature cr) {
   // Add name
   printFullCreatureNameBlock(cr);
 
-  // Add all skills
+  // Two wider columns keep the longest localized skill names readable. The
+  // previous three-column layout gave each label only 13 cells, which turned
+  // useful Portuguese names such as "Primeiros Socorros" into fragments.
   for (int s = 0; s < Skill.values.length; s++) {
     Skill skill = Skill.values[s];
-    if (s % 3 == 0 && s < 9) {
+    final columnX = _fullProfileSkillColumnWidth * (s % 2);
+    final row = 5 + s ~/ 2;
+    if (s < 2) {
       setColor(lightGray);
-      move(4, 27 * (s ~/ 3));
+      move(4, columnX);
       addstr("SKILL");
-      move(4, 15 + 27 * (s ~/ 3));
+      move(4, columnX + _fullProfileSkillCurrentOffset);
       addstr("NOW");
       addstr("  ", noTranslate: true);
+      move(4, columnX + _fullProfileSkillMaxOffset);
       addstr("MAX");
     }
 
     highlightColorForSkill(cr, skill);
 
     mvaddstrFitted(
-      5 + s ~/ 3,
-      27 * (s % 3),
+      row,
+      columnX,
       "{skill}:",
-      13,
+      _fullProfileSkillLabelWidth,
       params: {"skill": skill.localizedName},
       noTranslate: true,
     );
-    printSkillValue(cr, skill, 5 + s ~/ 3, 14 + 27 * (s % 3));
+    printSkillValue(
+      cr,
+      skill,
+      row,
+      columnX + _fullProfileSkillCurrentOffset,
+      maxOffset: _fullProfileSkillMaxOffset - _fullProfileSkillCurrentOffset,
+    );
   }
   setColor(lightGray);
 }
@@ -618,6 +636,7 @@ void printSkillValue(
   int x, {
   bool emphasizePotential = false,
   bool showCap = true,
+  int maxOffset = 6,
 }) {
   move(y, x);
   addstr("{:2d}.".format(cr.skill(skill)));
@@ -639,7 +658,7 @@ void printSkillValue(
         setColor(darkGray);
       }
     }
-    move(y, x + 6);
+    move(y, x + maxOffset);
     addstr("{:2d}.00".format(cr.skillCap(skill)));
   }
 }
@@ -1016,8 +1035,9 @@ void printFullCreatureCrimes(Creature cr) {
     Crime crime = Crime.values[i];
     if (i % 2 == 0 && i < 4) {
       setColor(lightGray);
-      mvaddstr(4, 40 * (i ~/ 2), "CRIME");
-      mvaddstr(4, 30 + 40 * (i ~/ 2), "NUM");
+      final columnX = _fullProfileCrimeColumnWidth * (i ~/ 2);
+      mvaddstr(4, columnX, "CRIME");
+      mvaddstr(4, columnX + _fullProfileCrimeNumberOffset, "NUM");
     }
 
     // Commited crimes are yellow
@@ -1029,22 +1049,38 @@ void printFullCreatureCrimes(Creature cr) {
 
     mvaddstrFitted(
       5 + i ~/ 2,
-      40 * (i % 2),
+      _fullProfileCrimeColumnWidth * (i % 2),
       "{crime}: ",
-      29,
-      params: {"crime": LcsI18n.tr(crime.chargedWith)},
+      _fullProfileCrimeLabelWidth,
+      params: {"crime": _profileCrimeLabel(crime)},
       noTranslate: true,
     );
     mvaddstrFitted(
       5 + i ~/ 2,
-      30 + 40 * (i % 2),
+      _fullProfileCrimeNumberOffset + _fullProfileCrimeColumnWidth * (i % 2),
       "{:02d}".format(cr.wantedForCrimes[crime]!),
-      10,
+      _fullProfileCrimeColumnWidth - _fullProfileCrimeNumberOffset,
       noTranslate: true,
     );
   }
 
   setColor(lightGray);
+}
+
+String _profileCrimeLabel(Crime crime) {
+  final localizedDescription = LcsI18n.tr(crime.chargedWith);
+  if (strLenX(localizedDescription) + 2 <= _fullProfileCrimeLabelWidth) {
+    return localizedDescription;
+  }
+
+  final compactKey = switch (crime) {
+    Crime.drugDistribution => "Drug Distribution",
+    Crime.cyberTerrorism => "Digital Terrorism",
+    Crime.cyberVandalism => "Digital Vandalism",
+    _ => null,
+  };
+  if (compactKey == null) return localizedDescription;
+  return LcsI18n.tr(compactKey).toLowerCase();
 }
 
 void printFullCreatureNameBlock(Creature cr) {

@@ -293,6 +293,28 @@ void main() {
     expect(_consoleCells(2, 70, 80), isNot(contains('Esportivo')));
   });
 
+  test(
+    'Portuguese party table caps oversized rosters before the delimiter',
+    () {
+      final squad = Squad();
+      for (var i = 0; i < 8; i++) {
+        squad.members.add(_activeLiberal()..name = 'Liberal $i');
+      }
+      squads.add(squad);
+      activeSquad = squad;
+
+      printParty(fullParty: true);
+
+      expect(_consoleCells(7, 0, 8).trim(), equals('+3…'));
+      expect(
+        _consoleLine(8),
+        equals(List.filled(console.width, emDash).join()),
+      );
+      expect(_consoleText(), isNot(contains('Liberal 5')));
+      expect(_consoleText(), isNot(contains('Liberal 7')));
+    },
+  );
+
   test('Portuguese transport keeps the driver marker inside its cell', () {
     final liberal = _activeLiberal();
     final vehicle = Vehicle('SPORTSCAR');

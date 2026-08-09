@@ -118,6 +118,8 @@ void main() {
     expect(catalog['Rainbow Pride Flag'], 'Bandeira do Orgulho LGBTQ+');
     expect(catalog['Transgender Pride Flag'], 'Bandeira do Orgulho Trans');
     expect(catalog['Transgender'], 'Transgênero');
+    expect(catalog['Digital Terrorism'], 'Terrorismo digital');
+    expect(catalog['Digital Vandalism'], 'Vandalismo digital');
     expect(catalog['Feminist Flag'], 'Bandeira Feminista');
     expect(
       catalog['Capable medics will always provide'],

@@ -495,9 +495,14 @@ void main() {
     expect(rendered, contains('MÁX.'));
     expect(rendered, isNot(contains('NOW')));
     expect(rendered, isNot(contains('MAX')));
+    expect(rendered, contains('Primeiros Socorros:'));
+    expect(rendered, contains('Armas Pesadas:'));
+    expect(rendered, isNot(contains('Primeiros So…')));
+    expect(rendered, isNot(contains('Armas Pesada…')));
     final header = console.buffer[4].map((character) => character.glyph).join();
-    expect(header[53], equals(' '));
-    expect(header[54], equals('H'));
+    expect(header.substring(40, 45), equals('HABIL'));
+    expect(header[60], equals('A'));
+    expect(header[68], equals('M'));
   });
 
   test('Portuguese site short names cover sleeper and justice routes', () {
@@ -790,11 +795,11 @@ void main() {
       );
 
       final issueCell = console.buffer[2]
-          .sublist(40, 57)
+          .sublist(40, 64)
           .map((character) => character.glyph)
           .join();
       expect(issueCell, isNot(contains('0')));
-      expect(console.buffer[2][57].glyph, equals('0'));
+      expect(console.buffer[2][64].glyph, equals('0'));
     },
   );
 
@@ -920,18 +925,33 @@ void main() {
 
     printFullCreatureCrimes(founder);
 
-    final leftCharge = console.buffer[8]
-        .sublist(0, 30)
-        .map((character) => character.glyph)
-        .join()
-        .trimRight();
     final rightCharge = console.buffer[14]
-        .sublist(40, 70)
+        .sublist(40, 76)
         .map((character) => character.glyph)
         .join()
         .trimRight();
-    expect(leftCharge, contains('profanação da bandeira nacio…'));
-    expect(rightCharge, contains('entrada ilegal nos Estados U…'));
+    final leftCharge = console.buffer[8]
+        .sublist(0, 36)
+        .map((character) => character.glyph)
+        .join()
+        .trimRight();
+    expect(leftCharge, contains('profanação da bandeira nacional:'));
+    expect(rightCharge, contains('entrada ilegal nos Estados Unidos:'));
+    expect(_consoleText(), contains('distribuição de drogas:'));
+    expect(_consoleText(), contains('terrorismo digital:'));
+    expect(_consoleText(), contains('vandalismo digital:'));
+    expect(
+      _consoleText(),
+      isNot(contains('distribuição de substância control…')),
+    );
+    expect(
+      _consoleText(),
+      isNot(contains('violação de sistemas de segurança …')),
+    );
+    expect(
+      _consoleText(),
+      isNot(contains('vandalismo de sistemas de computad…')),
+    );
     expect(_consoleText(), contains('DELITO'));
     expect(_consoleText(), contains('Nº'));
     expect(_consoleText(), isNot(contains('NUM')));
@@ -940,8 +960,8 @@ void main() {
       _consoleText(),
       isNot(contains('illegal entry into the United States')),
     );
-    expect(console.buffer[8][30].glyph, equals('0'));
-    expect(console.buffer[14][70].glyph, equals('0'));
+    expect(console.buffer[8][36].glyph, equals('0'));
+    expect(console.buffer[14][76].glyph, equals('0'));
   });
 
   test('Portuguese catalog covers every shared skill label', () {

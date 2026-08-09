@@ -7,6 +7,9 @@ import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
+const int _partyFirstRow = 2;
+const int _partyVisibleRows = 6;
+
 void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
   showCarPrefs ??= mode == GameMode.base
       ? ShowCarPrefs.showPreferences
@@ -27,52 +30,69 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
       59: "HEALTH",
       ManagementTableLayout.transportX: "TRANSPORT",
     });
-    for (int p = 0; p < party.length; p++) {
+    // The fixed console reserves rows 2–7 for the roster and row 8 for its
+    // delimiter. Imported/debug saves can contain more members than the
+    // normal six-person squad, so reserve the last roster row for an overflow
+    // marker instead of letting extra rows overwrite the frame below.
+    final visiblePartyCount = party.length > _partyVisibleRows
+        ? _partyVisibleRows - 1
+        : party.length;
+    for (int p = 0; p < visiblePartyCount; p++) {
+      final member = party[p];
       addOptionTextFitted(
-        p + 2,
+        _partyFirstRow + p,
         0,
         String.fromCharCode('1'.codePoint + p),
         "{key} {name}",
         ManagementTableLayout.nameWidth,
         params: {
           "key": String.fromCharCode('1'.codePoint + p),
-          "name": party[p].name,
+          "name": member.name,
         },
         noTranslate: true,
         baseColorKey: ColorKey.white,
       );
-      if (party[p].isHoldingBody) addstrc(pink, "+H");
+      if (member.isHoldingBody) addstrc(pink, "+H");
       printSkillSummary(
-        p + 2,
+        _partyFirstRow + p,
         ManagementTableLayout.partySkillX,
-        party[p],
+        member,
         showWeaponSkill: true,
       );
-      move(p + 2, ManagementTableLayout.partyWeaponX);
-      setWeaponColor(party[p]);
-      printWeapon(party[p], maxWidth: ManagementTableLayout.partyWeaponWidth);
-      setColorForArmor(party[p]);
+      move(_partyFirstRow + p, ManagementTableLayout.partyWeaponX);
+      setWeaponColor(member);
+      printWeapon(member, maxWidth: ManagementTableLayout.partyWeaponWidth);
+      setColorForArmor(member);
       mvaddstrFitted(
-        p + 2,
+        _partyFirstRow + p,
         ManagementTableLayout.partyArmorX,
-        party[p].clothing.shortName,
+        member.clothing.shortName,
         ManagementTableLayout.partyArmorWidth,
       );
       // Keep one separator column before the transport cell; Portuguese armor
       // labels can be longer than their English counterparts.
       printHealthStat(
-        p + 2,
+        _partyFirstRow + p,
         ManagementTableLayout.partyHealthX,
-        party[p],
+        member,
         small: true,
         maxWidth: ManagementTableLayout.partyHealthWidth,
       );
       setColor(lightGray);
-      move(p + 2, ManagementTableLayout.transportX);
+      move(_partyFirstRow + p, ManagementTableLayout.transportX);
       printTransportation(
-        party[p],
+        member,
         showCarPrefs,
         maxWidth: ManagementTableLayout.transportWidth,
+      );
+    }
+    if (visiblePartyCount < party.length) {
+      mvaddstrFitted(
+        _partyFirstRow + visiblePartyCount,
+        0,
+        "+${party.length - visiblePartyCount}…",
+        console.width,
+        noTranslate: true,
       );
     }
   }

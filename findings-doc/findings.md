@@ -2030,15 +2030,16 @@ flag name or `Custo:Custo` duplication remained.
 ## PT-151: Long Portuguese flag issue labels are ellipsized in the compact table
 
 - Severity: Low
-- Type: Fixed-width layout / residual enhancement
+- Type: Fixed-width layout
 - Screen: Base mode → flag menu compact table
-- Replay status: **Residual after the 2026-08-01 fix; logged for future layout work**
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-09; regression added**
 
-The table reserves 17 columns for the issue before the heat value at column 57.
-Labels such as `Liberdade de Expressão` and `Direitos das Mulheres` therefore
-render as `Liberdade de Exp…` and `Direitos das Mul…`. The truncation no longer
-overwrites the heat value, but a responsive header or a wider detail column
-would improve readability without reducing the flag-name column.
+The compact table now reserves 24 columns for the translated issue before the
+heat value at column 64, while keeping the cost cell at column 70. The fresh
+headless route rendered `Liberdade de Expressão`, `Direitos LGBTQ+`,
+`Direitos das Mulheres`, and `Direitos Civis` without ellipsizing or overwriting
+the numeric columns. The focused vocabulary/layout regression guards the new
+column boundaries.
 
 ## PT-152: Craft-only flag metadata still needs a dedicated localized route sweep
 
@@ -2210,16 +2211,17 @@ translations, with a regression covering the two seasonal branches.
 ## PT-164: Debug-only oversized siege roster can overlap the fixed-width frame
 
 - Severity: Low
-- Type: Fixed-width layout / test-fixture limitation
+- Type: Fixed-width layout / import guard
 - Screen: Siege combat with a deliberately oversized debug roster
-- Replay status: **Residual; not reproduced in a normal campaign**
+- Replay status: **Fixed and verified on 2026-08-09; oversized-roster regression added**
 
 The temporary siege fixture combined five debug-seeded liberals with four
 history-selected gang members. The resulting ten-person reserve printed past
 the six-row roster and overwrote the location box and combat legend (`9D -` was
-visible in the combat screen). The regular campaign route caps the active list
-at six and did not reproduce the collision; retain this as a future guard for
-save imports, debug fixtures, or any later feature that raises the roster cap.
+visible in the combat screen). The fixed renderer now shows the first five
+members plus a compact `+N…` overflow marker, preserving row 8 for the
+delimiter and preventing imported/debug rosters from writing into the frame.
+Normal six-member campaigns retain all rows.
 
 ## PT-165: XML-backed equipment titles bypassed the Portuguese catalog
 
@@ -2584,20 +2586,20 @@ guards the entry, and a fresh web-server replay showed
 ## PT-189: Long Portuguese profile labels are ellipsized in fixed columns
 
 - Severity: Low
-- Type: Fixed-width layout / readability enhancement
+- Type: Fixed-width layout / readability
 - Screen: Base mode → Review Liberals → character profile stats, skills, and crimes
-- Replay status: **Open; log for a responsive/profile-detail follow-up**
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-09; focused regressions added**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-truncation-stats-20260808.png`,
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-truncation-skills-20260808.png`,
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-truncation-crimes-20260808.png`
 
-The 15-column profile cells preserve the numeric values but abbreviate several
-Portuguese labels to the point of ambiguity, including `Inteligência: …`,
-`Primeiros Soco…`, `Armas Pesada…`, `profanação da bandeira nacio…`, and
-`entrada ilegal nos Estados U…`. The existing fitting prevents column
-collisions, but a wider/detail view or a label glossary would preserve the
-meaning without hiding an attribute value.
+The full profile now uses two wider skill columns and 35-cell crime labels,
+with numeric values kept in dedicated cells. The fresh route rendered complete
+`Primeiros Socorros`, `Armas Pesadas`, `profanação da bandeira nacional`, and
+`entrada ilegal nos Estados Unidos` labels. Long crime descriptions use the
+localized compact names `distribuição de drogas`, `terrorismo digital`, and
+`vandalismo digital`; no prior ellipses appeared in the captured page buffers.
 
 ## PT-190: Medical-support help text used awkward literal Portuguese
 

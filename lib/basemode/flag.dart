@@ -194,7 +194,9 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
 
   await pagedInterface(
     headerPrompt: prompt,
-    headerKey: const {0: "FLAG", 40: "ISSUE", 57: "HEAT", 70: "COST"},
+    // Give translated political-issue names enough room to remain legible;
+    // the heat and cost cells still retain their fixed right-hand boundaries.
+    headerKey: const {0: "FLAG", 40: "ISSUE", 64: "HEAT", 70: "COST"},
     footerPrompt: footer,
     pageSize: 12,
     count: flags.length,
@@ -212,9 +214,9 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
         baseColorKey: index == selected ? ColorKey.white : ColorKey.lightGray,
         enabledWhen: en,
       );
-      mvaddstrcFitted(y, 40, lightGray, flag.view.label, 17);
+      mvaddstrcFitted(y, 40, lightGray, flag.view.label, 24);
       var (secrecyText, secrecyColor) = flagSecrecyText(flag);
-      mvaddstrc(y, 57, secrecyColor, secrecyText);
+      mvaddstrc(y, 64, secrecyColor, secrecyText);
       mvaddstrc(y, 70, costColor(flag), costText(flag));
       // pagedInterface clears graphics on every redraw, so re-draw the preview
       // (including the flag image) once per frame, on the first row.

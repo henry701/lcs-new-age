@@ -3173,3 +3173,25 @@ metadata used an un-margined right-aligned renderer and wrote through column
 79. At the narrow viewport this visibly clipped `Versão 1.5.5.HF.1-SNAPSHOT`
 against the border. A two-column right margin keeps both frame cells clear;
 `test/title_screen/title_screen_translation_test.dart` now protects them.
+
+## PT-232: Combat heart injury used the wrong Portuguese role article
+
+- Severity: Medium
+- Type: Contextual translation / possessive interpolation
+- Screen: Portuguese police siege → live combat → torso special injury
+- Replay status: **Fixed and verified in a strict-headless siege replay plus focused regression on 2026-08-10**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/heart-possessive-20260810/heart-message-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/heart-possessive-20260810/victory-fixed.png`
+
+The heart-injury branch translated the English possessive template as
+`O coração de {name} foi destruído!`. When `{name}` was the generated role
+label `Policial da SWAT`, the live Portuguese buffer showed
+`O coração de Policial da SWAT foi destruído!`; the role label needs the
+contracted masculine article `do`. Proper names still need the neutral `de`
+construction.
+
+The combat renderer now formats a locale-aware possessive name (`do`/`da` for
+generated role labels, `de` for named characters), and the blast, torn, and
+punctured-heart catalog templates share the article-safe form. The focused
+context regression covers both the generated SWAT label and `Zack Marsh`, and
+the same headless campaign reached the Portuguese siege victory screen after
+the fix.

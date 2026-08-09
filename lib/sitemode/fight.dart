@@ -1654,7 +1654,12 @@ Future<void> hit(
               } else {
                 heartMessage = "{name}'s heart is punctured!";
               }
-              mvaddstr(9, 1, heartMessage, params: {"name": targetDisplayName});
+              mvaddstr(
+                9,
+                1,
+                heartMessage,
+                params: {"name": localizedCreaturePossessiveName(target)},
+              );
 
               await getKey();
 

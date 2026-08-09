@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
@@ -39,6 +40,27 @@ String localizedCreatureNameValue(String creatureName, String typeName) {
 
 String localizedCreatureName(Creature creature) =>
     localizedCreatureNameValue(creature.name, creature.type.name);
+
+/// Formats a creature name for Portuguese possessive clauses.
+///
+/// Generated role labels need a contracted article ("do"/"da"), while
+/// proper names use the neutral "de" construction. English callers keep the
+/// original name because the source templates add their own possessive suffix.
+String localizedCreaturePossessiveName(Creature creature) {
+  final localizedName = localizedCreatureName(creature);
+  if (LcsI18n.currentLocale != 'pt_BR') return localizedName;
+
+  final isGeneratedRole = creature.name.trim() == creature.type.name.trim();
+  String withArticle(String article) => [article, localizedName].join(' ');
+
+  if (!isGeneratedRole) return withArticle('de');
+
+  return switch (creature.gender) {
+    Gender.female => withArticle('da'),
+    Gender.male => withArticle('do'),
+    _ => withArticle('de'),
+  };
+}
 
 abstract final class ManagementTableLayout {
   static const int consoleWidth = 80;

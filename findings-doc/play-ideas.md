@@ -519,3 +519,14 @@ narrow-layout coverage.
 - No new issue was confirmed. Keep the next pass focused on a deterministic
   non-police terminal combat/post-fight route for PT-048/PT-148, followed by
   broader narrow-console coverage for PT-083.
+
+## 2026-08-10 — Combat possessive articles
+
+- PT-232 is fixed: generated Portuguese combat role labels now contract
+  possessive articles (`do Policial da SWAT` / `da ...`), while named
+  characters use `de ...`.
+- The strict-headless siege route reached the live combat loop and Portuguese
+  victory screen after the fix; the focused context regression protects both
+  role-label and proper-name forms.
+- Keep PT-048/PT-148 open until a deterministic terminal death/post-fight
+  summary is captured, then continue the PT-083 narrow-console sweep.

@@ -3148,3 +3148,24 @@ remain open; accepted PT-049 historical changelog English remains out of scope.
 The same viewport also visited `Opções de Jogo → Opções de Interface` and
 `Conteúdo e Tom`. Their wrapped Portuguese paragraphs stayed inside the
 80-column buffer with no text reaching column 79.
+
+## Strict-headless live combat possessive replay — 2026-08-10
+
+This pass used only the CLI `agent-browser` session
+`pt-terminal-heart-fixed-20260810` with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless` against the local
+web-server build on port 7815. The DOM bridge supplied the fixed 80×25 buffer;
+no headed browser was launched or focused.
+
+The Portuguese campaign entered a police siege, reached `CERCO: FUGIR OU
+ENFRENTAR`, ran the live `F - Lutar` combat loop, and returned through the
+Portuguese `VITÓRIA` screen to squad management. The earlier run exposed
+`O coração de Policial da SWAT foi destruído!`; the heart templates now pass a
+locale-aware possessive phrase so generated role labels render with `do`/`da`
+while proper names retain `de`. The focused context regression passed for both
+cases. The victory capture is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/heart-possessive-20260810/victory-fixed.png`.
+
+No terminal-death or post-fight-summary branch was reached in this replay;
+PT-048/PT-148 remain open alongside PT-083's broader narrow-console audit and
+accepted PT-049 historical changelog English.

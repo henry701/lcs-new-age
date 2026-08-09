@@ -184,13 +184,13 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 276,
+      "line": 298,
       "text": "\\$${ledger.funds}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 399,
+      "line": 421,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },
@@ -1150,7 +1150,7 @@
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 2063,
+      "line": 2068,
       "text": "Making loot for ${cr.name} into $lootPile",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

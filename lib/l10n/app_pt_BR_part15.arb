@@ -205,7 +205,7 @@
   "{name} {cower}": "{name} {cower} (reação)",
   "{name}'S {part} IS BLOWN APART!": "A PARTE {part} DE {name} FOI ESTOURADA!",
   "{name}'s face is blasted off!": "o rosto de {name} é explodido!",
-  "{name}'s heart is torn!": "o coração de {name} está rasgado!",
+  "{name}'s heart is torn!": "O coração {name} está rasgado!",
   "{name}'s nose is removed!": "o nariz de {name} é removido!",
   "{name}'s right lung is blasted!": "o pulmão direito de {name} é explodido!",
   "{name}'s upper spine is shattered!": "a coluna superior de {name} está destruída!",

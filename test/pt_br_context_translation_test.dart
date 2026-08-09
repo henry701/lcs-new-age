@@ -3,7 +3,12 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
+import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/creature/creature_type.dart';
+import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+
+import 'test_support.dart';
 
 Map<String, String> _loadPortugueseCatalog() {
   final entries = <String, String>{};
@@ -46,6 +51,7 @@ void main() {
   final catalog = _loadPortugueseCatalog();
 
   setUpAll(() async {
+    await ensureGameDataLoaded();
     await LcsI18n.initialize('pt_BR');
   });
   tearDownAll(LcsI18n.reset);
@@ -414,6 +420,31 @@ void main() {
       '+2 Artes Marciais, +1 Força, Katana e Wakizashi',
     );
   });
+
+  test(
+    'Portuguese combat heart injuries contract articles for role labels',
+    () {
+      final swatOfficer = Creature.fromId(CreatureTypeIds.swat)
+        ..name = 'SWAT Officer'
+        ..gender = Gender.male;
+      final namedTarget = Creature.fromId(CreatureTypeIds.swat)
+        ..name = 'Zack Marsh'
+        ..gender = Gender.male;
+
+      expect(
+        LcsI18n.processString("{name}'s heart is blasted!", {
+          'name': localizedCreaturePossessiveName(swatOfficer),
+        }),
+        'O coração do Policial da SWAT foi destruído!',
+      );
+      expect(
+        LcsI18n.processString("{name}'s heart is blasted!", {
+          'name': localizedCreaturePossessiveName(namedTarget),
+        }),
+        'O coração de Zack Marsh foi destruído!',
+      );
+    },
+  );
 
   test('plural tooth injuries use complete Portuguese templates', () {
     expect(

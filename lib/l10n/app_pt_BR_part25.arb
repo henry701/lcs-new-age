@@ -205,7 +205,7 @@
   "{name} speaks these final words: \"A plague on both your houses...\"": "{name} profere suas últimas palavras: \"Uma praga sobre as duas casas...\"",
   "{name} thinks up new protest songs while in prison.": "{name} inventa novas canções de protesto enquanto está na prisão.",
   "{name} will write articles for the Liberal Guardian.": "{name} vai escrever artigos para o Guardião Liberal.",
-  "{name}'s heart is blasted!": "O coração de {name} foi destruído!",
+  "{name}'s heart is blasted!": "O coração {name} foi destruído!",
   "{name}'s right eye is cut open!": "O olho direito de {name} foi cortado!",
   "{name}'s {article} about this doesn't have much impact. ": "{article} de {name} sobre isso não tem muito impacto. ",
   "{name}'s {showName}": "{showName} de {name}",

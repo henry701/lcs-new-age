@@ -634,3 +634,14 @@ narrow-layout coverage.
 - Keep PT-083 as a future responsive-readability enhancement, PT-048/PT-148
   as broader random-combat coverage, and accepted PT-049 (historical English
   changelog) out of the fix queue.
+
+## 2026-08-09 — Vegan bar label follow-up
+
+- PT-250 is fixed and verified: the live Portuguese site header changed from
+  `SEA — Barra Vegan` to `SEA — Bar Vegano`, with a focused `Site.getName`
+  regression protecting the short-label translation.
+- The strict-headless before/after captures live under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/vegan-bar-20260809/`.
+- Continue with the existing PT-048/PT-148 terminal combat/post-fight route,
+  then broaden PT-083 narrow-console coverage; keep accepted PT-049 historical
+  changelog English out of the fix queue.

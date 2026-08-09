@@ -3483,3 +3483,26 @@ title screenshots. No new translation or layout defect was confirmed. PT-083
 remains a future responsive-readability enhancement, PT-048/PT-148 remain
 broader random-combat coverage, and PT-049 remains the accepted historical
 English changelog body.
+
+## Strict-headless vegan bar label replay — 2026-08-09
+
+This pass used only CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless --disable-dev-shm-usage`
+against a freshly restarted Flutter `web-server` on port 7918. The viewport
+was 480×320, and the opt-in `?playtest=1` DOM bridge supplied the 80×25
+console; no headed browser was launched or focused.
+
+The catalog audit identified `Vegan Bar` as `Barra Vegan`. A temporary
+developer-only founder fixture forced a bar site into the normal campaign base
+so the translated short name could be checked in context. The before capture
+showed `SEA — Barra Vegan` in the campaign header and base panel. After the
+catalog entry changed to `Bar Vegano`, a clean server restart rendered
+`SEA — Bar Vegano` in both locations. The fixture was removed before code
+validation and the debug flags were restored to their committed all-false
+values. Durable before/after buffers and screenshots are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/vegan-bar-20260809/`.
+
+No additional translation or layout defect was confirmed on this route. The
+residual queue remains PT-048/PT-148 terminal combat/post-fight coverage,
+PT-083 broader narrow-console readability, and accepted PT-049 historical
+changelog English.

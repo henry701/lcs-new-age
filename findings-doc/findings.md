@@ -3515,3 +3515,19 @@ Portuguese while retaining `Y` for compatibility; the direct site-door loops
 and shared special-tile prompts use the same helper. The focused regression
 guards the Portuguese aliases, and the clean 480×320 replay advanced with `S`
 and rendered `Wendell Sellers destranca a porta!`.
+
+## PT-250: Vegan bar short label used an unnatural translation
+
+- Severity: Low
+- Type: Translation quality / site labels
+- Screen: Portuguese new-game route → campaign base header
+- Replay status: **Fixed and verified in a strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/vegan-bar-20260809/01-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/vegan-bar-20260809/01-before.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/vegan-bar-20260809/02-after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/vegan-bar-20260809/02-after.png`
+
+The short site key `Vegan Bar` appeared in the live Portuguese header as
+`Barra Vegan`, which is not natural Brazilian Portuguese for a bar or
+restaurant. The canonical catalog now uses `Bar Vegano`. A focused site-name
+regression exercises `Site.getName(short: true)`, and the after-fix replay
+renders `SEA — Bar Vegano` in both the campaign header and base panel. The
+temporary deterministic bar fixture used to reach this otherwise random site
+was removed and all debug flags remain disabled.

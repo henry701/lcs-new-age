@@ -547,6 +547,14 @@ void main() {
     expect(LcsI18n.tr('Police'), equals('Polícia'));
   });
 
+  test('Portuguese vegan bar short name uses natural noun order', () {
+    final veganBar = sites.firstWhere(
+      (site) => site.type == SiteType.barAndGrill,
+    )..rename('Vegan Bar & Grill', 'Vegan Bar');
+
+    expect(veganBar.getName(short: true), equals('Bar Vegano'));
+  });
+
   test('Portuguese hospital discharge localizes the site parameter', () {
     final hospital = sites.firstWhere(
       (site) => site.type == SiteType.universityHospital,

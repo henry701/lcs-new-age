@@ -38,4 +38,11 @@ void main() {
       );
     },
   );
+
+  test('Portuguese title version keeps the right frame border clear', () {
+    printTitleScreen(null);
+
+    expect(console.buffer[23][78].glyph, ' ');
+    expect(console.buffer[23][79].glyph, ' ');
+  });
 }

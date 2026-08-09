@@ -3109,3 +3109,23 @@ guards the fix.
 The residual queue remains PT-048/PT-148 terminal combat summaries,
 PT-083 narrow-console readability, and accepted PT-049 historical changelog
 English.
+
+## Strict-headless narrow-title replay — 2026-08-10
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The Portuguese title was rendered at a real 480×320 headless viewport; no
+headed browser was launched or focused.
+
+The pre-fix screenshot showed `Versão 1.5.5.HF.1-SNAPSHOT` overwriting the
+title frame's right edge. The title renderer now leaves the two reserved
+border columns blank. The post-fix screenshot keeps the complete version line
+inside the frame, and the focused title regression asserts that columns 78 and
+79 remain spaces. Captures are retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-narrow-pt-480x320-20260810.png`
+and
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-narrow-pt-480x320-20260810-fixed2.png`.
+
+The remaining open coverage is PT-048/PT-148 live combat death/post-fight
+variants and PT-083's broader responsive-console audit; accepted PT-049
+historical changelog English remains out of scope.

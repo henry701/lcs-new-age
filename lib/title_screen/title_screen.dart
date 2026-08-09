@@ -457,7 +457,12 @@ void printTitleScreen(HighScores? highScores) {
   );
 
   setColor(black, background: lightGray);
-  mvaddstrRight(23, "Version {version}", params: {"version": gameVersion});
+  mvaddstrRight(
+    23,
+    "Version {version}",
+    marginX: 2,
+    params: {"version": gameVersion},
+  );
   setColor(lightGray);
   mvaddstrCenter(24, "(click the game window to give it keyboard focus)");
 }

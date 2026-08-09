@@ -496,3 +496,15 @@ narrow-layout coverage.
 - Next useful routes are a deterministic terminal combat death/post-fight
   branch for PT-048/PT-148 and a 480×320 title/save-manager sweep for PT-083;
   keep the accepted English changelog body PT-049 out of the fix queue.
+
+## Strict-headless narrow-title follow-up — 2026-08-10
+
+- PT-231 was reproduced at 480×320: the right-aligned Portuguese version line
+  overwrote the title frame border. A two-column margin and a focused title
+  regression now keep the version metadata inside the frame.
+- Before/after screenshots live under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/` with the
+  `title-narrow-pt-480x320-20260810` prefix.
+- Continue the next pass with a deterministic non-police live-combat death
+  and post-fight-summary route for PT-048/PT-148, then recheck title/save
+  management at the same narrow viewport.

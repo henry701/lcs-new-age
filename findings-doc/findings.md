@@ -3159,3 +3159,17 @@ so rows rendered as `38.00Crie obras visuais...`. The description header and
 text now start at column 35, preserving column 34 as a separator, and the
 description is fitted to the right edge. The focused core-layout regression
 checks the separator, description start, and Portuguese text.
+
+## PT-231: Narrow title version overwrote the frame border
+
+- Severity: Medium
+- Type: Fixed-width layout / responsive viewport
+- Screen: Portuguese title screen at a 480×320 viewport
+- Replay status: **Fixed and verified in strict-headless Portuguese replay and focused regression on 2026-08-10**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-narrow-pt-480x320-20260810.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-narrow-pt-480x320-20260810-fixed2.png`
+
+The title frame reserves columns 78–79 for its right border, but the version
+metadata used an un-margined right-aligned renderer and wrote through column
+79. At the narrow viewport this visibly clipped `Versão 1.5.5.HF.1-SNAPSHOT`
+against the border. A two-column right margin keeps both frame cells clear;
+`test/title_screen/title_screen_translation_test.dart` now protects them.

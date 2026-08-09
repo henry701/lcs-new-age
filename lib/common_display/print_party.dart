@@ -50,7 +50,7 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
       );
       move(p + 2, ManagementTableLayout.partyWeaponX);
       setWeaponColor(party[p]);
-      printWeapon(party[p]);
+      printWeapon(party[p], maxWidth: ManagementTableLayout.partyWeaponWidth);
       setColorForArmor(party[p]);
       mvaddstrFitted(
         p + 2,

@@ -772,8 +772,7 @@ Future<Creature?> _promoteSubordinates(Creature cr) async {
     mvaddstr(
       10,
       1,
-      "{newboss} is the new leader "
-      "of the Liberal Crime Squad!",
+      "{newboss} is the new leader of the Liberal Crime Squad!",
       params: {"newboss": newboss.name},
     );
     await getKey();

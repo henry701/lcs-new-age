@@ -88,7 +88,7 @@
     },
     {
       "file": "basemode/activate_sleepers.dart",
-      "line": 323,
+      "line": 324,
       "text": "Unexpected sleeper activity type: ${cr.activity.type.name}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -160,43 +160,43 @@
     },
     {
       "file": "common_actions/equipment.dart",
-      "line": 210,
+      "line": 221,
       "text": "Giving weapon ${loot[slot].type.name} to ${squaddie.name}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "common_actions/equipment.dart",
-      "line": 218,
+      "line": 229,
       "text": "Giving armor ${loot[slot].type.name} to ${squaddie.name}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "common_actions/equipment.dart",
-      "line": 611,
+      "line": 625,
       "text": "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 273,
+      "line": 274,
       "text": "\\$${ledger.funds}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 396,
+      "line": 397,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 624,
+      "line": 672,
       "text": "${LcsI18n.tr(",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 624,
+      "line": 672,
       "text": ")}$next",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
@@ -298,49 +298,49 @@
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 850,
+      "line": 849,
       "text": "ribs(${b.ribs}/${b.maxRibs})",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 860,
+      "line": 859,
       "text": "[HOSP] ${p.name} day=${p.daysHospitalized} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 861,
+      "line": 860,
       "text": "ct=${clinictime(p)} blood=${p.blood}/${p.maxBlood} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 862,
+      "line": 861,
       "text": "med=${medical[p.site]} canon=${identical(canonical, p.site)} ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 863,
+      "line": 862,
       "text": "site=${p.site?.idString}(${p.site?.type.name}) ",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 864,
+      "line": 863,
       "text": "inj=$inj nasty=$nasty",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 1067,
+      "line": 1066,
       "text": "\\$${p.medicalBills}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/advance_day.dart",
-      "line": 1073,
+      "line": 1072,
       "text": "\\$${ledger.funds}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

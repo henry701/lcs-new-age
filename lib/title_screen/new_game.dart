@@ -76,6 +76,12 @@ List<(String, String, Color)> get _initiativeChoices => [
   ),
 ];
 
+String founderBirthSexDescription(Gender sex) => switch (sex) {
+  Gender.male => LcsI18n.tr("Male"),
+  Gender.female => LcsI18n.tr("Female"),
+  _ => LcsI18n.tr("Intersex"),
+};
+
 void renderNewGameOptions({
   required int gameWorld,
   required int ccsOption,
@@ -269,14 +275,6 @@ Future<void> makeCharacter() async {
     Gender.nonbinary,
   ];
   founder.giveClothingType("CLOTHING_CLOTHES");
-  String sexDesc() {
-    return switch (sex) {
-      Gender.male => "Male",
-      Gender.female => "Female",
-      _ => "Intersex",
-    };
-  }
-
   while (true) {
     erase();
     mvaddstrc(4, 6, white, "The Founder of the Liberal Crime Squad");
@@ -302,7 +300,7 @@ Future<void> makeCharacter() async {
     );
 
     mvaddstrc(11, 2, lightGray, "Sex at Birth: ");
-    addstrc(white, sexDesc());
+    addstrc(white, founderBirthSexDescription(sex), noTranslate: true);
     addOptionText(
       11,
       40,

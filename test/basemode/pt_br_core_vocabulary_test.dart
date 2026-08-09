@@ -214,6 +214,40 @@ void main() {
     },
   );
 
+  test('Portuguese health and armor status abbreviations are localized', () {
+    final founder = _founder()
+      ..rawAttributes[Attribute.intelligence] = 0
+      ..blood = 10;
+    founder.equippedClothing = Clothing('CLOTHING_LEATHER');
+
+    printHealthStat(0, 0, founder);
+
+    final rendered = console.buffer.first
+        .map((character) => character.glyph)
+        .join()
+        .trimRight();
+    expect(rendered, contains('Crít'));
+    expect(rendered, contains('+Lev'));
+    expect(rendered, isNot(contains('Crit')));
+    expect(rendered, isNot(contains('+Lgt')));
+  });
+
+  test(
+    'Portuguese founder succession message is a complete translation key',
+    () {
+      final translated = LcsI18n.processString(
+        '{newboss} is the new leader of the Liberal Crime Squad!',
+        {'newboss': 'James Simon'},
+      );
+
+      expect(
+        translated,
+        equals('James Simon é o novo líder do Esquadrão do Crime Liberal!'),
+      );
+      expect(translated, isNot(contains('is the new leader')));
+    },
+  );
+
   test('Portuguese compact attribute columns keep a separator', () {
     final founder = _founder()
       ..rawAttributes[Attribute.heart] = 13
@@ -224,6 +258,17 @@ void main() {
     final line = console.buffer[4].map((character) => character.glyph).join();
     expect(line.substring(0, 23), contains('Coração: 15 Sab.: 1'));
     expect(line.substring(0, 23), isNot(contains('13Sab')));
+  });
+
+  test('Portuguese compact skill cells leave a separator before wounds', () {
+    final founder = _founder()..rawSkill[Skill.firearms] = 9;
+
+    printCreatureInfo(founder);
+
+    for (var y = 3; y <= 7; y++) {
+      expect(console.buffer[y][48].glyph, equals(' '), reason: 'row $y');
+    }
+    expect(_consoleText(), isNot(contains('0.0Braço')));
   });
 
   test('Portuguese transport localizes XML vehicle short names', () {

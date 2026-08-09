@@ -379,6 +379,24 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   body). After these fixes, no additional translation or layout issue was
   confirmed in the replayed routes.
 
+## Strict-headless follow-up — 2026-08-08
+
+- PT-195–PT-207 fixed and verified: replay the roster, equipment, profile,
+  sleeper, media, finance, and assignment routes after any future catalog
+  reshards; the compact columns now have explicit separators and localized
+  headers/actions.
+- PT-208 fixed: keep the compact health/armor code catalog entries in the
+  short-label regression so a future translation pass does not reintroduce
+  raw `Crit`, `OK`, `+Lgt`, or `+Hvy` into site-mode rosters.
+- PT-209 fixed: treat split adjacent string literals as one complete
+  translation template; search for other concatenated `mvaddstr` literals in
+  daily advance and succession/death screens.
+- PT-194 remains the next concrete UI enhancement: page or scroll the full
+  special-injury list instead of silently dropping rows below the console.
+- The police-siege route now reaches a complete Portuguese briefing and combat
+  roster in headless mode; next sweep should target the terminal death/arrest
+  variants (PT-048/PT-148) with a deterministic combat fixture.
+
 ## Runtime acceleration
 
 `lib/title_screen/title_screen.dart` exposes `megaFounderCheat`, and

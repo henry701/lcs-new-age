@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/title_screen/new_game.dart';
@@ -161,6 +162,10 @@ void main() {
     for (final entry in neutralTranslations.entries) {
       expect(LcsI18n.tr(entry.key), entry.value, reason: entry.key);
     }
+  });
+
+  test('founder birth-sex description is localized for intersex founders', () {
+    expect(founderBirthSexDescription(Gender.nonbinary), equals('Intersexo'));
   });
 
   test('long biography options wrap instead of disappearing at the edge', () {

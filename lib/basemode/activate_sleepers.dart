@@ -48,11 +48,12 @@ Future<void> activateSleepers() async {
     for (Creature tempp in temppool.skip(page * 9).take(9)) {
       setColor(lightGray);
       String letter = letterAPlus((y - 2) ~/ 2);
-      addOptionText(
+      addOptionTextFitted(
         y,
         0,
         letter,
         "{letter} - {name}",
+        23,
         params: {"letter": letter, "name": tempp.name},
       );
 
@@ -401,12 +402,13 @@ Future<void> activateSleepersBulk() async {
     });
 
     void addOption(int i, String name, {bool enabled = true}) {
-      addOptionText(
+      addOptionTextFitted(
         i + 1,
         58,
         i.toString(),
         "{index} - {name}",
-        params: {"index": i.toString(), "name": name},
+        console.width - 58,
+        params: {"index": i.toString(), "name": LcsI18n.tr(name)},
         baseColorKey: selectedactivity == i - 1 ? "W" : "w",
         enabledWhen: enabled,
       );
@@ -428,11 +430,12 @@ Future<void> activateSleepersBulk() async {
     ) {
       Creature tempp = temppool[p];
       String letter = letterAPlus(p - page * 19);
-      addOptionText(
+      addOptionTextFitted(
         y,
         0,
         letter,
         "{letter} - {name}",
+        19,
         params: {"letter": letter, "name": tempp.name},
       );
       setColor(lightGray);
@@ -462,19 +465,16 @@ Future<void> activateSleepersBulk() async {
       // Show current activity (first word only if long)
       move(y, 40);
       setColor(tempp.activity.type.color);
-      String activityLabel = tempp.activity.type.label;
-      if (activityLabel.length > 17) {
-        addstr(activityLabel.split(" ").first);
-      } else {
-        addstr(activityLabel);
-      }
+      String activityLabel = LcsI18n.tr(tempp.activity.type.label);
+      addstr(fitConsoleText(activityLabel, 17), noTranslate: true);
     }
 
-    mvaddstrc(
+    mvaddstrcFitted(
       22,
       0,
       lightGray,
       "Press a Letter to Assign an Activity.  Press a Number to select an Activity.",
+      console.width,
     );
     addPageButtons(y: 23, x: 0);
 

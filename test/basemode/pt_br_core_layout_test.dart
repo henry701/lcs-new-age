@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/basemode/activate_regulars.dart';
+import 'package:lcs_new_age/basemode/activate_sleepers.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/basemode/base_mode.dart';
 import 'package:lcs_new_age/basemode/review_mode.dart';
@@ -19,6 +20,7 @@ import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
+import 'package:lcs_new_age/vehicles/vehicle.dart';
 
 import '../test_support.dart';
 
@@ -224,21 +226,27 @@ void main() {
     }
   });
 
-  test('Portuguese squad assembly right-aligns its translated header', () async {
-    final member = _activeLiberal();
-    final squad = Squad()
-      ..name = 'The Liberal Crime Squad'
-      ..members.add(member);
-    pool.add(member);
-    squads.add(squad);
-    activeSquad = squad;
-    console.keyEvent(_enterKey);
+  test(
+    'Portuguese squad assembly right-aligns its translated header',
+    () async {
+      final member = _activeLiberal();
+      final squad = Squad()
+        ..name = 'The Liberal Crime Squad'
+        ..members.add(member);
+      pool.add(member);
+      squads.add(squad);
+      activeSquad = squad;
+      console.keyEvent(_enterKey);
 
-    await assembleSquad(squad);
+      await assembleSquad(squad);
 
-    expect(_consoleLine(0), contains('Esquadrão: O Esquadrão do Crime Liberal'));
-    expect(_consoleLine(0).length, lessThanOrEqualTo(console.width));
-  });
+      expect(
+        _consoleLine(0),
+        contains('Esquadrão: O Esquadrão do Crime Liberal'),
+      );
+      expect(_consoleLine(0).length, lessThanOrEqualTo(console.width));
+    },
+  );
 
   test(
     'Portuguese active-Liberal review footer keeps controls separated',
@@ -283,6 +291,98 @@ void main() {
     expect(_consoleCells(2, 30, 44).trim(), isNotEmpty);
   });
 
+  test('Portuguese party weapon is fitted before the armor column', () {
+    final liberal = _activeLiberal()..giveWeaponAndAmmo('WEAPON_45_HANDGUN', 2);
+    final squad = Squad()..members.add(liberal);
+    squads.add(squad);
+    activeSquad = squad;
+
+    printParty(fullParty: true);
+
+    final weaponCell = _consoleCells(
+      2,
+      ManagementTableLayout.partyWeaponX,
+      ManagementTableLayout.partyArmorX,
+    );
+    expect(weaponCell.trim(), isNotEmpty);
+    expect(weaponCell, isNot(contains('Moda urbana')));
+    expect(
+      console.buffer[2][ManagementTableLayout.partyArmorX - 1].glyph,
+      equals(' '),
+    );
+  });
+
+  test('Portuguese sleeper review heading is localized', () async {
+    final sleeper = _activeLiberal()..sleeperAgent = true;
+    pool.add(sleeper);
+    console.injectKey('Enter');
+
+    await reviewMode(ReviewMode.sleepers);
+
+    expect(_consoleLine(0), equals('Agentes Infiltrados'));
+  });
+
+  test('Portuguese sleeper review option preserves title casing', () async {
+    pool.add(_activeLiberal()..sleeperAgent = true);
+    console.injectKey('x');
+
+    await reviewAssetsAndFormSquads();
+
+    expect(_consoleLine(6), contains('5 - Agentes Infiltrados (1)'));
+  });
+
+  test(
+    'Portuguese sleeper activation keeps the name before the job column',
+    () async {
+      final sleeper =
+          Creature.fromId('CREATURE_PRESIDENT', align: Alignment.liberal)
+            ..name = 'Presidente Kilbourne'
+            ..sleeperAgent = true;
+      pool.add(sleeper);
+      final city = City('Seattle, WA', 'SEA', 'Birthplace of the LCS');
+      cities.add(city);
+      console.injectKey('x');
+
+      try {
+        await activateSleepers();
+      } finally {
+        cities.remove(city);
+      }
+
+      expect(_consoleCells(1, 24, 42).trim(), startsWith('PROFISSÃO'));
+      expect(_consoleCells(1, 42, 58).trim(), startsWith('LOCAL'));
+      expect(console.buffer[2][23].glyph, equals(' '));
+      expect(_consoleCells(2, 24, 42).trim(), isNotEmpty);
+
+      console.injectKey('x');
+      await activateSleepersBulk();
+
+      expect(_consoleCells(1, 20, 35).trim(), startsWith('PROFISSÃO'));
+      expect(console.buffer[2][19].glyph, equals(' '));
+      expect(_consoleCells(2, 20, 35).trim(), isNotEmpty);
+      expect(console.buffer[2][57].glyph, equals(' '));
+      expect(_consoleCells(2, 40, 57).trim(), startsWith('Mantendo'));
+      expect(_consoleCells(2, 58, 80), contains('Manter Discrição'));
+      expect(
+        _consoleCells(2, 58, 80),
+        isNot(contains('Defender o Liberalismo')),
+      );
+      expect(_consoleLine(22), endsWith('…'));
+    },
+  );
+
+  test('Portuguese social-attack weapon labels are localized', () {
+    final president = Creature.fromId(
+      'CREATURE_PRESIDENT',
+      align: Alignment.liberal,
+    );
+
+    printCreatureInfo(president);
+
+    expect(_consoleText(), contains('Arma: Voz'));
+    expect(_consoleText(), isNot(contains('Arma: Voice')));
+  });
+
   test('Portuguese party armor is fitted before the health column', () {
     final liberal = _activeLiberal()
       ..equippedClothing = Clothing('CLOTHING_SECURITYUNIFORM');
@@ -314,7 +414,7 @@ void main() {
   });
 
   test('Portuguese character details respect field and skill budgets', () {
-    final liberal = _activeLiberal();
+    final liberal = _activeLiberal()..birthDate = DateTime(2004, 11, 9);
 
     printFullCreatureStats(liberal);
 
@@ -339,5 +439,26 @@ void main() {
     expect(_consoleLine(19), isNot(contains('Recruits')));
     expect(_consoleLine(20), isNot(contains(' Max')));
     expect(_consoleText(), isNot(contains('Liberal (')));
+    expect(_consoleLine(3), contains('de novembro'));
+    expect(_consoleLine(3), isNot(contains('de Novembro')));
+  });
+
+  test('Portuguese character details fit vehicle names before skills', () {
+    final liberal = _activeLiberal();
+    for (final skill in Skill.values) {
+      liberal.rawSkill[skill] = 10;
+    }
+    final vehicle = Vehicle('SPORTSCAR')
+      ..color = 'Beige'
+      ..heat = 1;
+    vehiclePool.add(vehicle);
+    liberal.carId = vehicle.id;
+    liberal.preferredCarId = vehicle.id;
+
+    printFullCreatureStats(liberal);
+
+    expect(_consoleLine(16), contains('Carro:'));
+    expect(console.buffer[16][29].glyph, equals(' '));
+    expect(_consoleCells(16, 0, 30), isNot(contains('31.00')));
   });
 }

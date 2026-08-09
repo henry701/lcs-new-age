@@ -2647,3 +2647,32 @@ visible. Keep this as an open pagination/detail-view enhancement. The broader
 queue remains PT-048/PT-148 terminal combat variants, PT-083 narrow viewport,
 PT-151 flag-label ellipses, PT-164 oversized debug/import roster, and accepted
 PT-049 English changelog body.
+
+## Strict-headless management, combat, and succession replay — 2026-08-08
+
+This continuation used only the CLI `agent-browser` session
+`pt-fix-replay-20260808`, with `AGENT_BROWSER_HEADED=0` and
+`--headless=new --ozone-platform=headless`. I rebuilt the Flutter web server
+on `127.0.0.1:7754` after the catalog/source changes; no headed browser was
+launched or focused.
+
+The fresh Portuguese bundle covered the base roster, vehicle assignment,
+destination map, police site, site-mode map, siege briefing, siege combat
+roster, equipment screen, and bulk/single sleeper management. The previously
+reported table/layout fixes held: `M7 20/180` stayed separated from `Jaqueta
+Punk`, sleeper names stopped before `PROFISSÃO`/`LOCAL`, bulk actions were
+Portuguese and fitted, `Voz` replaced `Voice`, and equipment reassignment showed
+`LOCALIZAÇÃO ATUAL`/`NOVO LOCAL`.
+
+Two additional raw-English routes were reproduced and fixed in this cycle.
+The site-mode roster now shows `Crít +Lev` and `Bem +Pes` instead of `Crit
++Lgt`, `OK`, and `+Hvy`. After the founder was killed by the deterministic
+injury fixture, the successor screen now says `James Simon é o novo líder do
+Esquadrão do Crime Liberal!` instead of falling back to the split English
+template. Focused regressions cover both complete translation paths.
+
+The siege branch reached `CERCO: FUGIR OU ENFRENTAR`, the Portuguese combat
+roster, and live firing messages without a new raw-English or collision issue.
+PT-194 remains open: the full special-injury list still needs pagination or a
+scrollable detail panel. Other documented residuals remain PT-048/PT-148,
+PT-083, PT-151, PT-164, and accepted PT-049.

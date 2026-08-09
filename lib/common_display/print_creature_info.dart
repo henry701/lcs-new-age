@@ -56,7 +56,7 @@ void printCreatureInfo(
   mvaddstr(7, 0, "Clothes: ");
   addstr(cr.clothing.shortName);
 
-  printTopSkills(2, 31, cr, 5, knowledge: knowledge);
+  printTopSkills(2, 31, cr, 5, knowledge: knowledge, maxWidth: 17);
 
   printHealthStat(1, 49, cr);
   if (cr.body.parts.any((p) => p.wounded)) {
@@ -155,7 +155,12 @@ void setWeaponColor(Creature cr) {
   }
 }
 
-void printWeapon(Creature cr) {
+void printWeapon(Creature cr, {int? maxWidth}) {
+  if (maxWidth != null) {
+    addstr(fitConsoleText(_weaponDisplayText(cr), maxWidth), noTranslate: true);
+    return;
+  }
+
   if (cr.equippedWeapon == null && cr.type.socialAttacks.isNotEmpty) {
     addstr("Voice");
     return;
@@ -193,12 +198,46 @@ void printWeapon(Creature cr) {
   }
 }
 
+String _weaponDisplayText(Creature cr) {
+  if (cr.equippedWeapon == null && cr.type.socialAttacks.isNotEmpty) {
+    return LcsI18n.tr("Voice");
+  }
+
+  final weaponName = LcsI18n.tr(cr.weapon.type.shortName);
+  if (cr.weapon.type.usesAmmo) {
+    if (cr.weapon.ammo > 0) {
+      return (StringBuffer(weaponName)
+            ..write(' ')
+            ..write(cr.weapon.ammo)
+            ..write('/')
+            ..write(cr.spareAmmo?.stackSize ?? 0))
+          .toString();
+    }
+    final spare = cr.spareAmmo?.stackSize ?? 0;
+    if (spare > 0) {
+      return (StringBuffer(weaponName)
+            ..write(' ')
+            ..write(spare))
+          .toString();
+    }
+    return (StringBuffer(weaponName)..write(' 0')).toString();
+  }
+  if (cr.weapon.type.thrown) {
+    return (StringBuffer(weaponName)
+          ..write(' ')
+          ..write(cr.weapon.stackSize))
+        .toString();
+  }
+  return weaponName;
+}
+
 void printTopSkills(
   int y,
   int x,
   Creature cr,
   int numberToPrint, {
   int knowledge = 255,
+  int? maxWidth,
 }) {
   // Get skills sorted by level and experience
   List<MapEntry<Skill, int>> skills = List.generate(
@@ -214,7 +253,7 @@ void printTopSkills(
   if (skills.isNotEmpty) {
     // Keep the translated heading inside the compact profile's skill column;
     // the wound table begins at column 49.
-    mvaddstrcFitted(y, x, lightGray, "Top Skills:", 49 - x - 1);
+    mvaddstrcFitted(y, x, lightGray, "Top Skills:", maxWidth ?? 49 - x - 1);
   }
   for (int i = 0; i < skills.length; i++) {
     Skill s = skills[i].key;
@@ -232,34 +271,40 @@ void printTopSkills(
     } else {
       setColor(lightGray);
     }
-    move(y + i + 1, x);
-    if (knowledge > i) {
-      addstr(s.localizedName, noTranslate: true);
-    } else {
-      addstr("???????");
-    }
-    addstr(": ");
+    final skillName = knowledge > i ? s.localizedName : "???????";
+    String value;
     if (knowledge > i + 2) {
       if (levelXP < 100) {
-        addstr(
-          "{level}.",
-          params: {"level": levelXP.toString()},
-          noTranslate: true,
-        );
-        if (levelXP < 10) {
-          addstr("0", noTranslate: true);
-        }
-        addstr(levelXP.toString(), noTranslate: true);
+        final paddedLevel = levelXP < 10 ? '0' : '';
+        value =
+            (StringBuffer(levelXP)
+                  ..write('.')
+                  ..write(paddedLevel)
+                  ..write(levelXP))
+                .toString();
       } else {
-        addstr(
-          "{level}.99+",
-          params: {"level": levelXP.toString()},
-          noTranslate: true,
-        );
+        value = (StringBuffer(levelXP)..write('.99+')).toString();
       }
     } else {
-      addstr("?");
+      value = "?";
     }
+
+    move(y + i + 1, x);
+    if (maxWidth == null) {
+      addstr(skillName, noTranslate: true);
+      addstr(": ", noTranslate: true);
+      addstr(value, noTranslate: true);
+      continue;
+    }
+
+    final labelWidth = (maxWidth - strLenX(value) - 1).clamp(1, maxWidth);
+    final skillLabel = StringBuffer(skillName)..write(':');
+    addstr(
+      fitConsoleText(skillLabel.toString(), labelWidth),
+      noTranslate: true,
+    );
+    addstr(" ", noTranslate: true);
+    addstr(fitConsoleText(value, maxWidth - labelWidth - 1), noTranslate: true);
   }
 }
 
@@ -577,7 +622,10 @@ void printFullCreatureStats(
     3,
     0,
     "Born {month} {day}, ",
-    params: {"month": getMonth(cr.birthDate.month), "day": cr.birthDate.day},
+    params: {
+      "month": getMonthInSentence(cr.birthDate.month),
+      "day": cr.birthDate.day,
+    },
   );
   addstr(
     "{year} (Age {age}, ",
@@ -749,33 +797,40 @@ void printFullCreatureStats(
   mvaddstrc(console.y + 1, 0, lightGray, "Clothes: ");
   cr.clothing.printEquipTitle(full: true, armor: false);
 
-  // Add vehicle
-  mvaddstrc(console.y + 1, 0, lightGray, "Car: ");
+  // Add vehicle, keeping the description inside the left profile column.
   Vehicle? v;
   if (showCarPrefs == ShowCarPrefs.showPreferences) {
     v = cr.preferredCar;
   } else {
     v = cr.car;
   }
+  String carName;
   if (v != null && showCarPrefs != ShowCarPrefs.onFoot) {
-    addstr(v.fullName());
+    carName = v.fullName();
     bool d;
     if (showCarPrefs == ShowCarPrefs.showPreferences) {
       d = cr.preferredDriver;
     } else {
       d = cr.isDriver;
     }
-    if (d) addstr("-D");
+    if (d) carName += "-D";
   } else {
     int legok = cr.body.legok;
     if (cr.hasWheelchair) {
-      addstr("Wheelchair");
+      carName = LcsI18n.tr("Wheelchair");
     } else if (legok >= 1) {
-      addstr("On Foot");
+      carName = LcsI18n.tr("On Foot");
     } else {
-      addstr("On \"Foot\"");
+      carName = LcsI18n.tr("On \"Foot\"");
     }
   }
+  mvaddstrFitted(
+    console.y + 1,
+    0,
+    LcsI18n.tr("Car: ") + carName,
+    skillX - 1,
+    noTranslate: true,
+  );
 
   // Add recruit stats
   if (!cr.brainwashed) {

@@ -2670,3 +2670,177 @@ profile's fixed content. The screen shows the first labels through `Fígado
 Danificado`, while later localized injuries (kidneys, stomach, spleen, and
 ribs) fall below the 25-row console and are not visible. Consider paging or a
 scrollable detail panel rather than silently dropping the remaining status.
+
+## PT-195: Base roster weapon/ammo text collided with the armor column
+
+- Severity: Medium
+- Type: Fixed-width layout / localized rendering
+- Screen: Base mode party roster
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-08; layout regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/roster-weapon-ammo-fixed-20260808.txt`
+
+The roster's weapon cell used the full weapon title and ammo suffix without a
+cell boundary. `M7 20/180` could run directly into `Jaqueta Punk`, especially
+after Portuguese equipment labels were expanded. The weapon cell now has an
+explicit width and the live buffer keeps a blank separator before the armor
+column.
+
+## PT-196: Sleeper review heading exposed raw `Sleepers`
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Base mode → Review Assets and Form Squads
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-08; catalog regression added**
+
+The management heading still displayed `Sleepers` while the rest of the review
+menu was Portuguese. The canonical catalog now uses `Agentes Infiltrados` and
+the review route shows the same phrase in its heading and option label.
+
+## PT-197: Founder birth-sex description exposed raw `Intersex`
+
+- Severity: Medium
+- Type: Missing translation / character creation
+- Screen: New game founder biography
+- Replay status: **Fixed and verified in focused test and strict-headless replay on 2026-08-08**
+
+The nonbinary founder path used the literal `Intersex` label instead of the
+localized catalog. It now renders `Intersexo` through the shared translation
+key.
+
+## PT-198: Profile month names were capitalized mid-sentence
+
+- Severity: Low
+- Type: Contextual translation / readability
+- Screen: Base mode → Review Liberals → profile birth date
+- Replay status: **Fixed and verified in focused test and strict-headless replay on 2026-08-08**
+
+Portuguese profile dates rendered `9 de Novembro`, using the standalone month
+translation in a sentence. The sentence-context month helper now lowercases
+the month (`9 de novembro`) without changing title-style month headings.
+
+## PT-199: Loaded weapon titles clipped before the ammo count
+
+- Severity: Medium
+- Type: Fixed-width layout / equipment rendering
+- Screen: Base mode → Equip Squad → weapon assignment
+- Replay status: **Fixed and verified in focused test and strict-headless replay on 2026-08-08**
+
+The long weapon title was fitted before its ammo suffix, so the useful count
+could disappear (`Rifle M…`). Equipment routes now use a compact title such as
+`Rifle M7 (20)` before fitting, preserving the count in the fixed cell.
+
+## PT-200: Task-detail skill text overwrote the wound column
+
+- Severity: Medium
+- Type: Fixed-width layout / localized rendering
+- Screen: Base mode → Assign Tasks → activity details
+- Replay status: **Fixed and verified in focused test and strict-headless replay on 2026-08-08**
+
+`Armas de Fogo: 0.0` was rendered without a bounded skill cell, so the next
+Portuguese wound label began immediately after the value (`0.0Braço...`). The
+skill summary now fits its cell and leaves a separator before wounds.
+
+## PT-201: Sleeper review option capitalization differed from its heading
+
+- Severity: Low
+- Type: Translation consistency
+- Screen: Review Assets and Form Squads menu
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-08**
+
+The heading used `Agentes Infiltrados`, but the numbered option used
+`Agentes infiltrados`. The option now follows the title-case wording of the
+heading.
+
+## PT-202: Full profile vehicle text overwrote the first skill value
+
+- Severity: Medium
+- Type: Fixed-width layout / profile rendering
+- Screen: Character profile with a vehicle assigned
+- Replay status: **Fixed and verified in focused test and strict-headless replay on 2026-08-08**
+
+Long localized vehicle names plus the driver suffix could reach the skill
+column (`Carro: ... 31.00`). The vehicle field now stops one column before the
+skill sheet and ellipsizes its own content.
+
+## PT-203: Sleeper activation names overwrote job and site columns
+
+- Severity: Medium
+- Type: Fixed-width layout / management table
+- Screen: Base mode → Activate Sleeper Agents
+- Replay status: **Fixed and verified in focused test and strict-headless replay on 2026-08-08**
+
+Long Portuguese sleeper names ran into the job and location columns in both
+the single-agent and bulk activation tables. Both name cells now have explicit
+widths and retain a blank separator before the following column.
+
+## PT-204: Sleeper activation headers exposed raw `JOB` and `SITE`
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Activate Sleeper Agents tables
+- Replay status: **Fixed and verified in focused test and strict-headless replay on 2026-08-08**
+
+The table headers were still English (`JOB`, `SITE`). Canonical Portuguese
+entries now render `PROFISSÃO` and `LOCAL` in both activation modes.
+
+## PT-205: Bulk sleeper management mixed raw English actions with an overflowing activity cell
+
+- Severity: Medium
+- Type: Missing translation + fixed-width layout
+- Screen: Activate Sleeper Agents in bulk
+- Replay status: **Fixed and verified in focused test and fresh strict-headless replay on 2026-08-08**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/sleeper-bulk-fixed-20260808.txt`
+
+The bulk table exposed English headers/actions (`EFF`, `CURRENT`, `BULK
+ACTIVITY`, `Lay Low`, `Advocate Liberalism`, and others). Its current-activity
+text also ran into the numbered action options, and the footer was hard-clipped
+at the right edge. The Portuguese catalog now covers the headers/actions; the
+current-activity and action cells are bounded, and the footer uses ellipsis.
+
+## PT-206: Social weapon label exposed raw `Voice`
+
+- Severity: Medium
+- Type: Missing translation / character profile
+- Screen: Character profile with a social weapon
+- Replay status: **Fixed and verified in focused test and strict-headless replay on 2026-08-08**
+
+The profile's weapon line showed `Voice` while all surrounding labels were
+Portuguese. The canonical entry now renders `Voz`.
+
+## PT-207: Equipment reassignment headers exposed raw English labels
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Equip Squad → move equipment between safehouses
+- Replay status: **Fixed and verified in fresh strict-headless replay on 2026-08-08**
+
+The reassignment table used `CURRENT LOCATION` and `NEW LOCATION`. These
+headers now render `LOCALIZAÇÃO ATUAL` and `NOVO LOCAL`, with the item and
+location cells still separated in the 80-column console.
+
+## PT-208: Compact health and armor codes exposed raw English abbreviations
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Site-mode party roster and combat roster
+- Replay status: **Fixed and verified in focused test and fresh strict-headless replay on 2026-08-08**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/health-status-fixed-20260808.txt`
+
+Low-intelligence health summaries rendered `Crit`, `OK`, and armor codes such
+as `+Lgt` and `+Hvy` in an otherwise Portuguese roster. The canonical short
+labels now render as `Crít`, `Bem`, `+Lev`, and `+Pes` (with the remaining
+severity levels covered as well), preserving the compact column width.
+
+## PT-209: Founder succession message fell back to English after a split key
+
+- Severity: Medium
+- Type: Missing translation / complete-template lookup
+- Screen: Daily advance after the founder dies
+- Replay status: **Fixed and verified in focused test and fresh strict-headless replay on 2026-08-08**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/founder-succession-fixed-20260808.txt`
+
+The source concatenated `"{newboss} is the new leader "` with
+`"of the Liberal Crime Squad!"`, while the Portuguese catalog only contained
+the fragment with a trailing space. Exact lookup therefore showed the full
+English sentence. The source now uses one complete template and the live
+buffer shows `James Simon é o novo líder do Esquadrão do Crime Liberal!`.

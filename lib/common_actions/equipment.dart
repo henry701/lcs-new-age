@@ -22,6 +22,17 @@ import 'package:lcs_new_age/utils/interface_options.dart';
 
 const int equipmentItemCellWidth = 26;
 
+String compactEquipmentTitle(Item item) {
+  if (item case Weapon weapon when weapon.ammo > 0) {
+    return (StringBuffer(weapon.getName())
+          ..write(' (')
+          ..write(weapon.ammo)
+          ..write(')'))
+        .toString();
+  }
+  return item.equipTitle();
+}
+
 Future<void> equip(List<Item>? loot) async {
   if (activeSquad == null || loot == null) return;
 
@@ -59,7 +70,7 @@ Future<void> equip(List<Item>? loot) async {
         min(equipmentItemCellWidth, console.width - x),
         params: {
           "letter": let,
-          "title": loot[l].equipTitle(),
+          "title": compactEquipmentTitle(loot[l]),
           "stackSuffix": stackSuffix,
         },
       );
@@ -353,7 +364,10 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
       addstrc(
         baseColor,
         "{title} {selection}",
-        params: {"title": source[l].equipTitle(), "selection": selection},
+        params: {
+          "title": compactEquipmentTitle(source[l]),
+          "selection": selection,
+        },
       );
 
       x += 26;
@@ -457,7 +471,7 @@ Future<void> equipmentBaseAssign() async {
     ) {
       final params = {
         "letter": letterAPlus(y - 2),
-        "item": items[p].equipTitle(),
+        "item": compactEquipmentTitle(items[p]),
         "count": items[p].stackSize,
       };
       if (items[p].stackSize > 1) {

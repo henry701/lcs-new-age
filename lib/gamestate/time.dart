@@ -32,4 +32,9 @@ const _monthShortNames = [
 
 String getMonth(int month) => LcsI18n.tr(_monthNames[month - 1]);
 
+String getMonthInSentence(int month) {
+  final name = getMonth(month);
+  return LcsI18n.currentLocale.startsWith('pt') ? name.toLowerCase() : name;
+}
+
 String getMonthShort(int month) => LcsI18n.tr(_monthShortNames[month - 1]);

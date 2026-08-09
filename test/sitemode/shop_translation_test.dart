@@ -251,6 +251,12 @@ void main() {
     expect(blmFlag.equipTitle(), equals('Bandeira BLM'));
   });
 
+  test('loaded weapons use compact equipment titles in fixed cells', () {
+    final weapon = Weapon.fromType(weaponTypes['WEAPON_M7']!, fullammo: true);
+
+    expect(compactEquipmentTitle(weapon), equals('Rifle M7 (20)'));
+  });
+
   test('equipment screen translates headers and visible item names', () async {
     final member = Creature()
       ..name = 'Joana'
@@ -312,6 +318,26 @@ void main() {
     expect(leftCell, isNot(contains('B -')));
     expect(rightCell, isNot(contains('A -')));
   });
+
+  test(
+    'loaded Portuguese weapon titles retain ammo counts in equipment cells',
+    () async {
+      final member = Creature()
+        ..name = 'Joana'
+        ..equippedWeapon = Weapon('WEAPON_22_REVOLVER')
+        ..equippedClothing = Clothing('CLOTHING_BLACKCLOTHES');
+      final squad = Squad()..members.add(member);
+      squads.add(squad);
+      activeSquad = squad;
+      activeSquadMemberIndex = -1;
+
+      final weapon = Weapon.fromType(weaponTypes['WEAPON_M7']!, fullammo: true);
+      console.keyEvent(_enterKey);
+      await equip([weapon]);
+
+      expect(_consoleCells(10, 1, 28).trim(), equals('A - Rifle M7 (20)'));
+    },
+  );
 
   test('pawn-shop status actions fit the full console width', () async {
     makeWorld();

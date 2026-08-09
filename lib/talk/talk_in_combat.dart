@@ -391,6 +391,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
       await getKey();
     }
   } else if (c == 'c'.codePoint) {
+    clearMessageArea();
     setColor(white);
     move(9, 1);
     if (activeSiteUnderSiege) {

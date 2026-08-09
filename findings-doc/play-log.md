@@ -2861,3 +2861,28 @@ PT-194 is resolved; the residual queue is PT-048/PT-148 live encounter
 talk/surrender coverage, PT-083 narrow viewport readability, PT-151/PT-189
 intentional long-label ellipses, PT-164 oversized debug/import rosters, and
 accepted PT-049 English changelog body.
+
+## Strict-headless live encounter bluff replay — 2026-08-09
+
+This pass used only CLI `agent-browser` session `live-bluff-fixed-20260809`
+with `AGENT_BROWSER_HEADED=0` and Chromium `--headless=new
+--ozone-platform=headless`. The opt-in `?playtest=1` DOM bridge drove the
+Portuguese new-game route and the live site encounter; no headed browser was
+launched or focused. A temporary local encounter fixture was used to make the
+police target deterministic and was restored before repository validation.
+
+The first replay reproduced PT-220: after `T - Falar` → `C - Blefar`, the
+short result `"A situação está sob controle."` overwrote the prior
+`...fala com ...:` header without clearing its tail, producing a visible
+`...controle."e Willett:` suffix. The combat-talk branch now calls
+`clearMessageArea()` before drawing bluff output. The fresh replay shows the
+same Portuguese result on a clean row, and the talk menu remains fully
+localized. Before/after buffers and screenshots are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/live-combat-20260809/`.
+
+The replay plus the preceding surrender route cover the live talk menu,
+bluff, and surrender branches. PT-048/PT-148 remain open only for the
+unplayed terminal death/arrest and post-fight summary variants; other
+residuals remain PT-083 (narrow viewport), PT-151/PT-189 (intentional
+long-label ellipses), PT-164 (oversized debug/import roster), and accepted
+PT-049 (English changelog body).

@@ -2988,3 +2988,19 @@ silently overwritten (`Total da dívida penden...`, `Total da dívida qu...`).
 The receipt now translates and fits the label before calculating the dot
 leader, keeping every amount at column 50. A direct receipt-rendering test
 guards the Portuguese labels and column alignment.
+
+## PT-220: Bluff result left the previous talk header suffix on screen
+
+- Severity: Medium
+- Type: Fixed-width layout / stale frame rendering
+- Screen: Live site encounter → `T - Falar` → `C - Blefar`
+- Replay status: **Fixed and verified in a fresh strict-headless Portuguese replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/live-combat-20260809/bluff-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/live-combat-20260809/bluff-before.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/live-combat-20260809/bluff-after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/live-combat-20260809/bluff-after.png`
+
+The bluff branch wrote the shorter result directly over the row containing
+`Buster Lovecraft fala com Pierre Willett:`. Because it did not clear the
+message area first, the live Portuguese buffer showed
+`"A situação está sob controle."e Willett:`. The branch now clears rows 9–10
+before rendering every bluff response. The focused
+`test/talk/talk_in_combat_layout_test.dart` regression captures the actual
+intermediate frame and asserts that the previous target name cannot remain.

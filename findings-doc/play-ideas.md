@@ -454,3 +454,6 @@ narrow-layout coverage.
   while preserving custom player slogans.
 - PT-219 fixed (2026-08-09): medical-debt receipt labels are cataloged and
   aligned from their rendered Portuguese width so amounts stay in column 50.
+- PT-220 fixed (2026-08-09): live combat bluff responses now clear the prior
+  talk header before drawing the shorter Portuguese result; the strict-headless
+  replay no longer leaves a target-name suffix on row 9.

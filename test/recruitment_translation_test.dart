@@ -89,7 +89,7 @@ void main() {
       'Drug Addict': 'Dependente Químico',
       'Emo': 'Emo (estilo)',
       'Goth': 'Gótico',
-      'Highschool Dropout': 'Evadido do Ensino Médio',
+      'Highschool Dropout': 'Desistente do Ensino Médio',
       'Hippie': 'Hippie (movimento)',
       'Homeless': 'Sem-teto',
       'Punk': 'Punk (estilo)',

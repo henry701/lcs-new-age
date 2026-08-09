@@ -1601,7 +1601,7 @@ MajorEventContent generateMajorEventContent(
                   "person": LcsI18n.tr(newBoss.gender.manWoman),
                   "newBossLast": newBoss.last,
                   "heShe": LcsI18n.tr(newBoss.gender.heShe),
-                  "heSheCap": LcsI18n.tr(newBoss.gender.heSheCap),
+                  "heSheCap": capitalize(LcsI18n.tr(newBoss.gender.heShe)),
                 },
               ),
             );

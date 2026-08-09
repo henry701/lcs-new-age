@@ -223,6 +223,24 @@ void main() {
     expect(content.storyText, contains('ele pudesse'));
   });
 
+  test('Portuguese civil-rights stories localize generated gender words', () {
+    var sawWokeHire = false;
+    for (var i = 0; i < 200; i++) {
+      final story = NewsStory.unpublished(NewsStories.majorEvent)
+        ..publication = Publication.herald;
+      final content = generateMajorEventContent(View.civilRights, false, story);
+      if (content.headline != 'WOKE HIRE') continue;
+      sawWokeHire = true;
+      expect(content.storyText, isNot(contains(' (man)')));
+      expect(content.storyText, isNot(contains(' (woman)')));
+      expect(content.storyText, isNot(contains('He probably')));
+      expect(content.storyText, isNot(contains('She probably')));
+      expect(content.storyText, isNot(contains('probably just')));
+      expect(content.storyText, contains('provavelmente'));
+    }
+    expect(sawWokeHire, isTrue);
+  });
+
   test(
     'Portuguese child-killing conditions agree with the feminine plural subject',
     () {

@@ -1235,12 +1235,13 @@ Future<void> _activateBulk() async {
     addHeader({4: "CODE NAME", 25: "CURRENT ACTIVITY", 51: "BULK ACTIVITY"});
 
     void addOption(int i, BulkActivity activity) {
-      addOptionText(
+      addOptionTextFitted(
         i + 1,
         51,
         i.toString(),
         "{index} - {name}",
-        params: {"index": i.toString(), "name": activity.name},
+        console.width - 51,
+        params: {"index": i.toString(), "name": LcsI18n.tr(activity.name)},
         baseColorKey: selectedActivity == activity ? "W" : "w",
       );
     }

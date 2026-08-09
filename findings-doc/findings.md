@@ -2844,3 +2844,67 @@ The source concatenated `"{newboss} is the new leader "` with
 the fragment with a trailing space. Exact lookup therefore showed the full
 English sentence. The source now uses one complete template and the live
 buffer shows `James Simon é o novo líder do Esquadrão do Crime Liberal!`.
+
+## PT-210: High-school dropout was translated as an escapee
+
+- Severity: Medium
+- Type: Contextual translation error
+- Screen: New game biography, recruitment profession selector, and character profile
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-08; focused regressions updated**
+
+The `Highschool Dropout` creature type appeared as `Evadido do Ensino Médio`.
+In Brazilian Portuguese, `evadido` describes someone who escaped or fled, so
+the label misrepresented the recruit type. The catalog now uses the contextual
+person label `Desistente do Ensino Médio`, and recruitment/profile vocabulary
+tests cover it.
+
+## PT-211: Generated newspaper gender words and capitalization fell back to English
+
+- Severity: Medium
+- Type: Missing translation / generated interpolation
+- Screen: Monthly advance → Portuguese newspaper article
+- Replay status: **Fixed and verified by strict-headless newspaper replay and focused regression on 2026-08-08**
+
+A generated `WOKE HIRE` article rendered `(man)` after the Portuguese phrase
+`uma pessoa negra` and left the sentence-start interpolation as `He
+provavelmente...`. The dynamic `man`/`woman`/`friend` vocabulary is now in the
+catalog, and the article capitalizes the translated lower-case pronoun rather
+than looking up the absent key `He`/`She`.
+
+## PT-212: Bulk regular-activity choices leaked English labels
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Atribuir Tarefas → Atribuir Tarefas em Massa
+- Replay status: **Fixed and verified in strict-headless Portuguese replay and focused regression on 2026-08-08**
+
+The bulk-action selector rendered `Community Service`, `Liberal Activism`,
+`Liberal Guardian`, `Legal Fundraising`, `Sell Brownies`, `Prostitution`,
+`Credit Card Fraud`, `Stealing Cars`, and `Recruiting` in English even though
+the surrounding task-management screens were Portuguese. The selector now
+translates the enum labels through `LcsI18n`; the missing `Sell Brownies` and
+`Stealing Cars` keys are present in both canonical locales.
+
+## PT-213: Bulk regular-activity column clipped long Portuguese labels
+
+- Severity: Medium
+- Type: Fixed-width layout / readability
+- Screen: Atribuir Tarefas → Atribuir Tarefas em Massa
+- Replay status: **Fixed and verified in strict-headless Portuguese replay and focused layout regression on 2026-08-08**
+
+After localization, `Fraude de Cartão de Crédito` was written with an
+unbounded option renderer at column 51 and silently ended as
+`Fraude de Cartão de Crédi`, with no indication that the text was truncated.
+The bulk selector now uses the fitted option renderer and shows a visible
+ellipsis while preserving the 80-column boundary.
+
+## PT-214: Bulk regular-activity header leaked `CURRENT ACTIVITY`
+
+- Severity: Medium
+- Type: Missing translation / route coverage
+- Screen: Atribuir Tarefas → Atribuir Tarefas em Massa
+- Replay status: **Fixed and verified in strict-headless Portuguese replay and focused layout regression on 2026-08-08**
+
+The bulk table header still showed `CURRENT ACTIVITY`; the Portuguese bundle
+now renders `ATIVIDADE ATUAL` and keeps the header cell separated from the
+bulk-action column.

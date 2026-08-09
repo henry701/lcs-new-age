@@ -50,6 +50,13 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   column; replay the route if the compact profile layout changes.
 - PT-193 fixed (2026-08-08): hospital discharge now passes `Site.getName()`
   into the translated bill template, keeping `Centro Médico UW` localized.
+- PT-210 fixed (2026-08-08): recruitment and profile screens translated
+  `Highschool Dropout` as the false friend `Evadido do Ensino Médio`. It now
+  uses the contextual Portuguese label `Desistente do Ensino Médio`.
+- PT-211 fixed (2026-08-08): a generated newspaper article leaked `(man)` and
+  `He provavelmente` through dynamic gender interpolation. Catalog entries now
+  cover `man`, `woman`, and `friend`; sentence-start pronouns capitalize after
+  translation.
 - PT-194 remains open (2026-08-08): a profile with many special injuries can
   overflow the 25-row console. Add paging or a scrollable wound detail view.
 - PT-189 remains open (2026-08-08): profile stats, skills, and crimes still
@@ -419,3 +426,14 @@ English labels `BOLLARDS` and `GENERATOR`; PT-183 adds `POSTES` and `GERADOR`
 and a fresh server restart verified the translations in the live buffer. Death
 and arrest variants were not reproduced; keep them open with save/import and
 narrow-layout coverage.
+
+## Strict-headless bulk-task follow-up — 2026-08-08
+
+- PT-212 fixed: bulk regular-task choices now pass their labels through the
+  Portuguese catalog, including `Vender Brownies` and `Roubo de Carros`.
+- PT-213 fixed: the long `Fraude de Cartão de Crédito` option now uses the
+  fitted renderer and displays an ellipsis inside the right-hand column.
+- PT-214 fixed: `CURRENT ACTIVITY` now renders as `ATIVIDADE ATUAL`.
+- Keep PT-194, PT-048/PT-148, PT-083, PT-151/PT-189, PT-164, and accepted
+  PT-049 in the residual queue; no new open issue was confirmed in this route
+  after the fixes.

@@ -521,6 +521,24 @@ void main() {
     }
   });
 
+  test('Portuguese bulk activity labels are localized', () {
+    const labels = {
+      'Community Service': 'Serviço Comunitário',
+      'Liberal Activism': 'Ativismo Liberal',
+      'Liberal Guardian': 'Guardião Liberal',
+      'Legal Fundraising': 'Arrecadação Legal',
+      'Sell Brownies': 'Vender Brownies',
+      'Prostitution': 'Prostituição',
+      'Credit Card Fraud': 'Fraude de Cartão de Crédito',
+      'Stealing Cars': 'Roubo de Carros',
+      'Recruiting': 'Recrutando',
+    };
+
+    for (final entry in labels.entries) {
+      expect(LcsI18n.tr(entry.key), equals(entry.value));
+    }
+  });
+
   test(
     'Portuguese teaching footer clears stale activity text and localizes costs',
     () async {
@@ -777,7 +795,7 @@ void main() {
     printFullCreatureStats(founder);
 
     final rendered = _consoleText();
-    expect(rendered, contains('Evadido do Ensino Médio'));
+    expect(rendered, contains('Desistente do Ensino Médio'));
     expect(rendered, contains('Perna esq'));
     expect(rendered, contains('Braço dir'));
     expect(rendered, isNot(contains('Highschool Dropout')));

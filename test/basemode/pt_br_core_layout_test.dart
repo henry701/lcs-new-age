@@ -157,6 +157,25 @@ void main() {
     },
   );
 
+  test('Portuguese bulk activity labels fit the right column', () async {
+    final member = _activeLiberal()..activity = Activity.none();
+    pool.add(member);
+
+    final activation = activateRegulars();
+    console.injectKey('z');
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+
+    final bulkColumn = _consoleCells(8, 51, console.width);
+    expect(_consoleCells(1, 25, 51), startsWith('ATIVIDADE ATUAL'));
+    expect(bulkColumn, contains('7 - Fraude de Cartão de Créd…'));
+    expect(bulkColumn.length, lessThanOrEqualTo(console.width - 51));
+
+    console.injectKey('x');
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+    console.injectKey('x');
+    await activation;
+  });
+
   test(
     'Portuguese active-Liberal row keeps health location and activity apart',
     () async {

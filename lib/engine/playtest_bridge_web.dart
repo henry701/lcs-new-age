@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:lcs_new_age/engine/console.dart';
@@ -11,23 +12,46 @@ import 'package:web/web.dart' as web;
 class PlaytestBridge {
   static bool get _enabled => web.window.location.search.contains('playtest=1');
   static bool _keyboardBridgeInstalled = false;
+  static Timer? _commandPoller;
+
+  static void _recordKey(web.Element? node, String key) {
+    node?.setAttribute('data-last-key', key);
+  }
 
   static void _installKeyboardBridge(Console console) {
     if (_keyboardBridgeInstalled) return;
     _keyboardBridgeInstalled = true;
     web.window.onKeyDown.listen((event) {
       final key = switch (event.key) {
-        'Enter' => 'Enter',
-        'Escape' => 'Escape',
-        'ArrowUp' => 'Up',
-        'ArrowDown' => 'Down',
-        'ArrowLeft' => 'Left',
-        'ArrowRight' => 'Right',
-        'Tab' => 'Tab',
-        'Backspace' => 'Backspace',
-        _ => event.key.length == 1 ? event.key : '',
+        'Enter' ||
+        'Escape' ||
+        'ArrowUp' ||
+        'ArrowDown' ||
+        'ArrowLeft' ||
+        'ArrowRight' ||
+        'Tab' ||
+        'Backspace' => event.key,
+        _ when event.key.length == 1 => event.key,
+        _ => '',
       };
+      if (key.isEmpty) return;
       console.injectKey(key);
+      _recordKey(
+        web.window.document.querySelector('#lcs-playtest-buffer'),
+        key,
+      );
+    });
+
+    // Headless CDP keyboard events do not consistently reach Flutter's focus
+    // node. Polling an opt-in DOM command attribute keeps playtests reliable
+    // without requiring a headed window or compositor focus.
+    _commandPoller ??= Timer.periodic(const Duration(milliseconds: 25), (_) {
+      final node = web.window.document.querySelector('#lcs-playtest-buffer');
+      final key = node?.getAttribute('data-key');
+      if (key == null || key.isEmpty) return;
+      node!.removeAttribute('data-key');
+      console.injectKey(key);
+      _recordKey(node, key);
     });
   }
 

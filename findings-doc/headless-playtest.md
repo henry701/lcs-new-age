@@ -32,6 +32,17 @@ JSON.parse(document.querySelector('#lcs-playtest-buffer').dataset.options)
 document.querySelector('#lcs-playtest-buffer').textContent
 ```
 
+To send a key without relying on browser focus, set the bridge command
+attribute and wait for the next buffer update:
+
+```js
+document.querySelector('#lcs-playtest-buffer').setAttribute('data-key', 'l')
+```
+
+Named keys are accepted as well (`Enter`, `ArrowLeft`, `Escape`, and so on).
+The bridge consumes the attribute once and records the last consumed command in
+`data-last-key` for diagnostics.
+
 Use screenshots only when investigating glyph rendering or fixed-width layout.
 For translation checks, assert against the DOM buffer and option list instead
 of OCR.

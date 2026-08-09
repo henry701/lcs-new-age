@@ -220,8 +220,19 @@ class Console {
 
   /// Injects a key for headless playtests without requiring Flutter focus.
   void injectKey(String key) {
-    if (key.isEmpty) return;
-    injectedKeys.add(key);
+    final normalizedKey = switch (key) {
+      'Enter' => 'Enter',
+      'Escape' => 'Escape',
+      'ArrowUp' => 'Up',
+      'ArrowDown' => 'Down',
+      'ArrowLeft' => 'Left',
+      'ArrowRight' => 'Right',
+      'Tab' => 'Tab',
+      'Backspace' => 'Backspace',
+      _ => key,
+    };
+    if (normalizedKey.isEmpty) return;
+    injectedKeys.add(normalizedKey);
     nextInjectedKey?.complete();
   }
 

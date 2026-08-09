@@ -2676,3 +2676,59 @@ roster, and live firing messages without a new raw-English or collision issue.
 PT-194 remains open: the full special-injury list still needs pagination or a
 scrollable detail panel. Other documented residuals remain PT-048/PT-148,
 PT-083, PT-151, PT-164, and accepted PT-049.
+
+## Strict-headless new-game, management, recruitment, and month-rollover replay — 2026-08-08
+
+This pass used only `agent-browser` session `pt-cont-20260808` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The DOM command bridge drove keys through `#lcs-playtest-buffer`, so no headed
+window was focused. The route covered Portuguese language selection, founder
+creation (including `Intersexo`), all biography prompt layouts, save/load
+management, media overview, asset review, profile, funding report, shops,
+equipment, task assignment, recruitment profession/candidate selection,
+political dialogue, newspaper rendering, the January-to-February rollover, and
+the legislative agenda.
+
+The replay confirmed the fixed-width profile ellipses tracked as PT-189/PT-151
+remain readable but intentionally truncated (`Habilidades Prin…`, `Armas de
+Fo…`, `Gola alta pre…`). It also reproduced two translation defects in a
+generated newspaper article: `(man)` remained after `uma pessoa negra`, and
+`He provavelmente` appeared at sentence start. PT-211 adds dynamic gender
+vocabulary and capitalizes translated pronouns; the Herald regression now
+generates WOKE HIRE articles repeatedly and rejects those English fragments.
+
+The recruitment profession list also exposed the false-friend
+`Evadido do Ensino Médio` for `Highschool Dropout`; PT-210 changes it to
+`Desistente do Ensino Médio` and updates the profile/recruitment regressions.
+The remaining queue is PT-048/PT-148 terminal combat variants, PT-083 narrow
+viewport readability, PT-151/PT-189 long-label ellipses, PT-164 oversized
+debug/import rosters, PT-194 wound-list pagination, and accepted PT-049 English
+changelog body.
+
+## Strict-headless bulk-task continuation — 2026-08-08
+
+Session `pt-cont-20260808` stayed headless (`AGENT_BROWSER_HEADED=0`,
+Chromium `--headless=new --ozone-platform=headless`) and used the DOM command
+bridge. The bulk regular-task screen initially showed nine English labels and
+the header `CURRENT ACTIVITY`; the long Portuguese credit-card option also
+ended silently at `Fraude de Cartão de Crédi` in the 80-column console.
+
+PT-212 adds catalog-backed labels and routes the `BulkActivity` names through
+`LcsI18n`; PT-213 uses the fitted option renderer for the column; PT-214 adds
+`ATIVIDADE ATUAL`. A fresh server restart and replay now show `Serviço
+Comunitário`, `Ativismo Liberal`, `Guardião Liberal`, `Arrecadação Legal`,
+`Vender Brownies`, `Prostituição`, `Fraude de Cartão de Créd…`, `Roubo de
+Carros`, and `Recrutando`, with no English header leak or column overwrite.
+Focused regressions cover label localization, header translation, and the
+ellipsis boundary. The residual queue remains PT-194, PT-048/PT-148, PT-083,
+PT-151/PT-189, PT-164, and accepted PT-049.
+
+## Strict-headless narrow-viewport recheck — 2026-08-08
+
+The same browser session was resized to 480×400 without leaving headless
+Chromium. The title screen remains readable, but the two-column action rows
+and right-aligned version/footer still run into the viewport edge; the
+Portuguese `C - Continuar ...` row is visibly clipped in the screenshot:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-narrow-480x400.png`.
+This reconfirms PT-083 as an open responsive-console enhancement, not a new
+translation defect.

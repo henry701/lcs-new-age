@@ -3144,3 +3144,7 @@ The retained capture is
 No new translation or layout defect was confirmed. PT-048/PT-148 terminal
 combat/post-fight coverage and the broader PT-083 responsive-console audit
 remain open; accepted PT-049 historical changelog English remains out of scope.
+
+The same viewport also visited `Opções de Jogo → Opções de Interface` and
+`Conteúdo e Tom`. Their wrapped Portuguese paragraphs stayed inside the
+80-column buffer with no text reaching column 79.

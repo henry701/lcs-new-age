@@ -514,6 +514,8 @@ narrow-layout coverage.
 - A Portuguese 480×320 campaign was saved, reopened through the save manager,
   and loaded again. Headers, action labels, and the `Entre -` return prompt
   fit the fixed console and preserved their key prefixes.
+- The same viewport covered `Opções de Jogo`, `Opções de Interface`, and
+  `Conteúdo e Tom`; wrapped Portuguese copy stayed within the console.
 - No new issue was confirmed. Keep the next pass focused on a deterministic
   non-police terminal combat/post-fight route for PT-048/PT-148, followed by
   broader narrow-console coverage for PT-083.

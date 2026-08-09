@@ -621,3 +621,16 @@ narrow-layout coverage.
 - The strict-headless pawn-shop route (guns, ammo, tools, equipment, and sell)
   found no additional translation or layout issue.
 - Keep PT-048/PT-148, PT-083, and accepted PT-049 in the residual queue.
+
+## Strict-headless responsive-console follow-up — 2026-08-09
+
+- A fresh Portuguese route was replayed at 320×240 and 200×150, including
+  title/language selection, founder creation, base management, review/profile
+  detail, game options, interface options, and content/tone. A font-size-20
+  title capture was also checked at 200×150.
+- The fixed 80×25 buffer stayed complete, bounded profile ellipses remained
+  intentional, Portuguese labels stayed localized, and the browser error
+  channel remained empty. No new issue was confirmed.
+- Keep PT-083 as a future responsive-readability enhancement, PT-048/PT-148
+  as broader random-combat coverage, and accepted PT-049 (historical English
+  changelog) out of the fix queue.

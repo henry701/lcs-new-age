@@ -3459,3 +3459,27 @@ Durable before/after captures are under
 The remaining route did not expose another confirmed translation or layout
 defect; PT-048/PT-148 random combat variants, PT-083 narrow-console
 readability, and accepted PT-049 changelog English remain in the queue.
+
+## Strict-headless responsive-console and options replay — 2026-08-09
+
+This pass used only CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless --disable-dev-shm-usage`.
+The Flutter `web-server` ran on port 7913; no headed browser was launched or
+focused. The viewport was first 320×240, then 200×150, while the opt-in
+`?playtest=1` bridge supplied the complete 80×25 console buffer.
+
+The Portuguese route covered the title and language menu, new-game settings,
+all founder biography screens, the base, review/active roster, founder profile
+and skill detail, game options, interface options, and content/tone options. A
+font-size increase to 20 was also checked at 200×150. Long Portuguese labels
+used their existing bounded ellipses, all fixed-width rows remained within the
+80-column buffer, and no English labels or stale tails were observed. The
+browser error channel was empty.
+
+Durable captures are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow083-20260809/`, including
+the 320×240 title/base/profile views and the 200×150 profile and font-size
+title screenshots. No new translation or layout defect was confirmed. PT-083
+remains a future responsive-readability enhancement, PT-048/PT-148 remain
+broader random-combat coverage, and PT-049 remains the accepted historical
+English changelog body.

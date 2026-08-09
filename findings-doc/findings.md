@@ -3678,17 +3678,21 @@ row remains exactly 80 cells wide.
 - Severity: Medium
 - Type: Combat status / layout
 - Screen: Portuguese combat death reflection immediately after an enemy dies
-- Replay status: **Residual; logged for a future combat-rendering pass on 2026-08-09**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/death-message-after.txt`
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/replay-negative-7974.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/fixed-replay-7976.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/fixed-replay-7976.png`, and `test/sitemode/site_encounter_layout_test.dart`
 
-When a defeated enemy's death message is shown, the encounter list is redrawn
-before the corpse is removed. The row can therefore display a negative blood
-value such as `-4 +24` (and, in an earlier capture, `-274 +133`) rather than a
-clear dead-state label or an empty status. The value is understandable to the
-engine but misleading to players and can make the armor marker look like a
-live statistic. Keep this open for a follow-up decision on whether dead rows
-should show `Morto`, be removed before the redraw, or retain a distinct corpse
-status.
+When a defeated enemy's death message was shown, the encounter list was
+redrawn before the corpse was removed. The row could therefore display a
+negative blood value such as `-4 +24` (and, in a fresh replay, `-400 +`) rather
+than a clear dead-state label or an empty status. The value is understandable
+to the engine but misleading to players and can make the armor marker look
+like a live statistic.
+
+The compact encounter renderer now omits dead rows during that transient
+redraw; the death message remains the player-facing terminal state. The
+focused regression protects an empty dead row, and a fresh 480×320
+strict-headless siege replay advanced 34 attacks with multiple enemy deaths,
+no negative-health rows, 25 rows of exactly 80 cells, and no browser errors.
 
 ## PT-260: Medical-debt collector roles remain English in Portuguese
 
@@ -3744,7 +3748,14 @@ compact-name catalog if future roster work prioritizes full labels.
 - Severity: Medium
 - Type: Siege translation / dynamic-name agreement
 - Screen: Portuguese base → CIA safehouse raid opening
-- Replay status: **Residual; logged for a future contextual translation pass on 2026-08-09**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/opening.txt` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/current.png`
+- Replay status: **Fixed and verified in focused tests and a fresh strict-headless replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/opening.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/current.png`, and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/fixed-replay.txt`
 
-The catalog entry for `In the dead of the night, a column of unmarked black vans with tinted windows surrounds the {location}.` renders the fixed phrase `cerca o {location}`. A strict-headless CIA replay therefore showed `cerca o Estação Esquecida`, even though `Estação` is feminine in Portuguese. The same template receives generated site names independently, so a single masculine article cannot agree with every site. Rephrase the template with a gender-neutral construction such as `cerca o local: {location}` or pass an article-aware location form.
+The catalog entry for `In the dead of the night, a column of unmarked black vans with tinted windows surrounds the {location}.` formerly rendered the fixed phrase `cerca o {location}`. A strict-headless CIA replay therefore showed `cerca o Estação Esquecida`, even though `Estação` is feminine in Portuguese. The same template receives generated site names independently, so a single masculine article cannot agree with every site.
+
+The Portuguese catalog now uses `cerca o local chamado {location}`, which is
+grammatically neutral for both masculine and feminine generated site names.
+The regression covers `Antigo Motel` and `Estação Esquecida`; a fresh
+640×480 headless CIA replay rendered `cerca o local chamado Frigorífico
+Abandonado.` with all 25 bridge rows exactly 80 cells wide and no browser
+errors.

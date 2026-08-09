@@ -54,7 +54,13 @@ void main() {
     expect(
       LcsI18n.processString(template, {'location': 'Antigo Motel'}),
       'No meio da noite, uma coluna de vans pretas sem identificação e com '
-      'vidros escuros cerca o Antigo Motel.',
+      'vidros escuros cerca o local chamado Antigo Motel.',
+    );
+
+    expect(
+      LcsI18n.processString(template, {'location': 'Estação Esquecida'}),
+      'No meio da noite, uma coluna de vans pretas sem identificação e com '
+      'vidros escuros cerca o local chamado Estação Esquecida.',
     );
   });
 

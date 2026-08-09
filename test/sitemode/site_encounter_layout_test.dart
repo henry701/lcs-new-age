@@ -111,4 +111,24 @@ void main() {
     expect(status, contains('+'));
     expect(status, isNot(contains('…')));
   });
+
+  test('dead encounter rows do not expose negative health values', () {
+    final dead = Creature.fromId(
+      CreatureTypeIds.swat,
+      align: Alignment.conservative,
+    )
+      ..alive = false
+      ..blood = -400
+      ..equippedClothing = Clothing('CLOTHING_SWATARMOR');
+    encounter.add(dead);
+
+    printEncounter();
+
+    expect(_consoleCells(12, 2, 19).trim(), isEmpty);
+    expect(_consoleCells(12, 49, 55).trim(), isEmpty);
+    expect(
+      console.buffer.map((row) => row.map((cell) => cell.glyph).join()).join(),
+      isNot(contains('-400')),
+    );
+  });
 }

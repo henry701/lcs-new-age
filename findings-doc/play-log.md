@@ -3628,12 +3628,20 @@ Portuguese hit sentence that previously ran into the column-80 boundary (PT-258)
 The fixed attack renderer wraps it across rows 9–10; the captured message is
 complete and the browser error channel is empty.
 
-The death-reflection route also confirmed residual PT-259: a defeated enemy
-can briefly render a negative health value such as `-4 +24` before its row is
-removed. It is logged for a future status-rendering decision; no fixture or
-debug flag remains in the repository.
+The death-reflection route also confirmed PT-259: a defeated enemy briefly
+rendered a negative health value such as `-4 +24` (the fresh capture also
+showed `-400 +`) before its row was removed. A focused regression now requires
+dead encounter rows to remain blank, and the renderer skips them while the
+death message is displayed.
 
-Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.png`, and the prior death capture at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/death-message-after.txt`.
+A fresh server restart and strict-headless 480×320 replay then advanced 34
+combat turns through multiple SWAT deaths. The live buffer retained only
+living rows, reported 25 rows all exactly 80 cells wide, and had an empty
+browser error channel. The fixed capture is
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/fixed-replay-7976.txt`
+with screenshot `fixed-replay-7976.png`.
+
+Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/replay-negative-7974.txt`, and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/fixed-replay-7976.txt`.
 
 ## Strict-headless Portuguese medical-debt replay — 2026-08-09
 
@@ -3674,11 +3682,18 @@ fixed 80×25 console; the replay also checked a 640×480 rendering.
 
 A temporary CIA-siege fixture reached the Portuguese safehouse warning,
 fortification status, siege briefing, and encounter roster. The opening
-message exposed PT-263: `cerca o Estação Esquecida` uses a masculine article
-before the feminine generated site name. The exact buffer and screenshot are
-under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/`.
-The browser error channel stayed empty. Movement and map inspection found no
-additional translation or layout defect before the fixture was restored.
+message exposed PT-263: `cerca o Estação Esquecida` used a masculine article
+before the feminine generated site name. The catalog was then changed to the
+neutral `cerca o local chamado {location}` template, and the focused regression
+covered both masculine and feminine site names.
+
+A fresh server restart and strict-headless replay rendered
+`cerca o local chamado Frigorífico Abandonado.` at 640×480. All 25 bridge rows
+remained exactly 80 cells wide and the browser error channel stayed empty.
+The before/after buffer and screenshots are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/`.
+Movement and map inspection found no additional translation or layout defect
+before the fixture was restored.
 
 The temporary `debugSiege`/CIA changes were reverted before leaving the route;
 `agent-browser.json` remains configured with `headed: false`.

@@ -1153,20 +1153,20 @@ void printEncounter() {
 void printBasicEncounter() {
   clearEncounterArea();
 
-  for (int i = 0; i < encounter.length; i++) {
-    Creature e = encounter[i];
-    //if (!e.alive) continue;
-    int y = 12 + i;
-    mvaddstrc(y, 0, darkGray, ((i + 1) % 10).toString());
+  int y = 12;
+  int displayIndex = 0;
+  for (final e in encounter) {
+    // A target can remain in the encounter list until the attack caller
+    // removes it. Do not expose its transient negative blood value in that
+    // redraw; the death message already communicates the terminal state.
+    if (!e.alive) continue;
+
+    mvaddstrc(y, 0, darkGray, ((displayIndex + 1) % 10).toString());
     String name = localizedCreatureName(e);
-    if (!e.alive) {
-      setColor(darkGray);
-    } else {
-      setColor(e.align.color);
-      if (e.align == Alignment.conservative && e.calculateWillRunAway()) {
-        name = lowercaseFirstCharacter(name);
-        setColor(darkRed);
-      }
+    setColor(e.align.color);
+    if (e.align == Alignment.conservative && e.calculateWillRunAway()) {
+      name = lowercaseFirstCharacter(name);
+      setColor(darkRed);
     }
     mvaddstrFitted(y, 2, name, 17, noTranslate: true);
     setColor(lightGray);
@@ -1191,6 +1191,8 @@ void printBasicEncounter() {
     // The map preview begins at column 55; keep the compact health cell
     // within the six available columns so armor text cannot overwrite it.
     printHealthStat(y, 49, e, small: true, maxWidth: 6);
+    y++;
+    displayIndex++;
   }
 }
 

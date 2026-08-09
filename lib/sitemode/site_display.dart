@@ -1164,7 +1164,7 @@ void printBasicEncounter() {
     } else {
       setColor(e.align.color);
       if (e.align == Alignment.conservative && e.calculateWillRunAway()) {
-        name = name.toLowerCase();
+        name = lowercaseFirstCharacter(name);
         setColor(darkRed);
       }
     }

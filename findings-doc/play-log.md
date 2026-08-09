@@ -3531,6 +3531,33 @@ the translator. The branch now translates each sentence independently and
 `test/daily/siege_translation_test.dart` guards both Portuguese outputs.
 
 Combat also produced the understandable but machine-like
-`a língua de Policial da SWAT é explodida!`; this remains open as PT-253 for a
-future wording pass. No other live translation or layout defect was confirmed
-in this replay.
+`a língua de Policial da SWAT é explodida!`; this was logged as PT-253 and
+resolved in the follow-up replay below. No other live translation or layout
+defect was confirmed in this initial pass.
+
+## Strict-headless Portuguese injury and safehouse replay — 2026-08-09
+
+This verification pass used only CLI `agent-browser` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless
+--disable-dev-shm-usage` against a freshly restarted Flutter `web-server` on
+port 7934. The opt-in `?playtest=1` DOM bridge supplied the fixed 80×25 console;
+no headed browser was launched or focused.
+
+The fresh base screen reproduced the long safehouse-name route. Before the
+fitted renderer was rebuilt, `SEA — Fabricantes de brinquedos` overwrote the
+security-box border and ran into `O - Reordenar`. The fixed fresh buffer now
+keeps the frame visible, for example `┌SEA — Escola────┐            O -
+Reordenar`; `test/basemode/pt_br_core_layout_test.dart` asserts the 16-cell
+name budget and right border.
+
+The same run entered the Portuguese siege combat roster and live hit-message
+buffer. It showed the corrected injury vocabulary (`O nariz ... foi
+destruído!`, `O pulmão direito ... foi destruído!`, and
+`Os ossos do pescoço ... foram estilhaçados!`) with no English injury fallback.
+The focused combat regression also confirms that a fleeing officer renders as
+`policial da SWAT`, not `policial da swat`; the acronym-preserving helper is
+covered by `test/sitemode/site_encounter_layout_test.dart` and
+`test/pt_br_context_translation_test.dart`.
+
+The route reached live combat after the `CERCO: FUGIR OU ENFRENTAR` briefing.
+No additional translation or layout defect was confirmed in this fresh pass.

@@ -363,6 +363,10 @@ void main() {
   });
 
   test('playtest combat and kidnapping fragments stay localized', () {
+    expect(
+      catalog["{name}'s tongue is blown off!"],
+      'A língua de {name} foi arrancada!',
+    );
     expect(catalog['{name} is arrested.'], 'A polícia deteve {name}.');
     final medicalReceiptLabels = {
       'Total outstanding debt': 'Total da dívida pendente',
@@ -430,6 +434,11 @@ void main() {
     );
   });
 
+  test('fleeing Portuguese creature names preserve acronym casing', () {
+    expect(lowercaseFirstCharacter('Policial da SWAT'), 'policial da SWAT');
+    expect(lowercaseFirstCharacter(''), isEmpty);
+  });
+
   test(
     'Portuguese combat heart injuries contract articles for role labels',
     () {
@@ -454,6 +463,63 @@ void main() {
       );
     },
   );
+
+  test('standalone combat injuries use natural Portuguese past tense', () {
+    final injuryTranslations = {
+      "{name}'s right lung is punctured!":
+          'O pulmão direito de {name} foi perfurado!',
+      "{name}'s tongue is torn out!": 'A língua de {name} foi arrancada!',
+      "{name}'s left lung is blasted!":
+          'O pulmão esquerdo de {name} foi destruído!',
+      "{name}'s spleen is torn!": 'O baço de {name} foi rasgado!',
+      "{name}'s tongue is burned away!": 'A língua de {name} foi queimada!',
+      "{name}'s left lung is punctured!":
+          'O pulmão esquerdo de {name} foi perfurado!',
+      "{name}'s stomach is torn!": 'O estômago de {name} foi rasgado!',
+      "{name}'s liver is torn!": 'O fígado de {name} foi rasgado!',
+      "{name}'s right kidney is blasted!":
+          'O rim direito de {name} foi destruído!',
+      "{name}'s face is removed!": 'O rosto de {name} foi removido!',
+      "{name}'s lower spine is broken!":
+          'A coluna inferior de {name} foi quebrada!',
+      "{name}'s spleen is punctured!": 'O baço de {name} foi perfurado!',
+      "{name}'s left eye is removed!":
+          'O olho esquerdo de {name} foi removido!',
+      "{name}'s face is torn off!": 'O rosto de {name} foi arrancado!',
+      "{name}'s right eye is removed!":
+          'O olho direito de {name} foi removido!',
+      "{name}'s neck is broken!": 'O pescoço de {name} foi quebrado!',
+      "{name}'s face is cut away!": 'O rosto de {name} foi cortado!',
+      "{name}'s right eye is shot out!":
+          'O olho direito de {name} foi alvejado!',
+      "{name}'s right kidney is torn!": 'O rim direito de {name} foi rasgado!',
+      "{name}'s nose is cut off!": 'O nariz de {name} foi cortado!',
+      "{name}'s face is blasted off!": 'O rosto de {name} foi destruído!',
+      "{name}'s heart is torn!": 'O coração {name} foi rasgado!',
+      "{name}'s nose is removed!": 'O nariz de {name} foi removido!',
+      "{name}'s right lung is blasted!":
+          'O pulmão direito de {name} foi destruído!',
+      "{name}'s upper spine is shattered!":
+          'A coluna superior de {name} foi estilhaçada!',
+      "{name}'s neck bones are shattered!":
+          'Os ossos do pescoço de {name} foram estilhaçados!',
+      "{name}'s nose is blown off!": 'O nariz de {name} foi destruído!',
+      "{name}'s liver is blasted!": 'O fígado de {name} foi destruído!',
+      "{name}'s nose is torn off!": 'O nariz de {name} foi arrancado!',
+      "{name}'s stomach is blasted!": 'O estômago de {name} foi destruído!',
+      "{name}'s right lung is torn!": 'O pulmão direito de {name} foi rasgado!',
+      "{name}'s stomach is punctured!": 'O estômago de {name} foi perfurado!',
+      "{name}'s left lung is torn!": 'O pulmão esquerdo de {name} foi rasgado!',
+      "{name}'s lower spine is shattered!":
+          'A coluna inferior de {name} foi estilhaçada!',
+      "{name}'s upper spine is broken!":
+          'A coluna superior de {name} foi quebrada!',
+    };
+
+    for (final entry in injuryTranslations.entries) {
+      expect(catalog[entry.key], entry.value);
+    }
+  });
 
   test('plural tooth injuries use complete Portuguese templates', () {
     expect(

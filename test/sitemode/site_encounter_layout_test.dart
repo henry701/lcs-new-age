@@ -51,4 +51,18 @@ void main() {
     expect(_consoleCells(12, 49, 55).length, lessThanOrEqualTo(6));
     expect(console.buffer.every((row) => row.length == 80), isTrue);
   });
+
+  test('Portuguese fleeing SWAT names preserve the acronym', () {
+    final fleeing =
+        Creature.fromId(CreatureTypeIds.swat, align: Alignment.conservative)
+          ..blood = 0
+          ..juice = 0
+          ..nonCombatant = true;
+    encounter.add(fleeing);
+
+    printEncounter();
+
+    expect(_consoleCells(12, 2, 19).trim(), equals('policial da SWAT'));
+    expect(_consoleCells(12, 2, 19), isNot(contains('swat')));
+  });
 }

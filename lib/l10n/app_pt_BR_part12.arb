@@ -251,7 +251,7 @@
   "{name} sweats profusely, murmurs something [good] about Jesus, and dies.": "{name} sua muito, murmura algo positivo sobre Jesus e morre.",
   "{name} tried to make {clothing}, but failed.": "{name} tentou fazer {clothing}, mas falhou.",
   "{name} {venueType}": "{venueType} {name}",
-  "{name}'s neck is broken!": "o pescoço de {name} é quebrado!",
+  "{name}'s neck is broken!": "O pescoço de {name} foi quebrado!",
   "{pName} has a \"hot\" date with {dateList} over video chat.": "{pName} tem um encontro \"quente\" com {dateList} durante o chat de vídeo.",
   "{position} {oldLast} ": "{position} {oldLast}, ",
   "{pronounCap} can maintain {relationshipCount} more {relationshipLabel}.": "{pronounCap} pode manter mais {relationshipCount} {relationshipLabel}.",

@@ -41,6 +41,12 @@ String localizedCreatureNameValue(String creatureName, String typeName) {
 String localizedCreatureName(Creature creature) =>
     localizedCreatureNameValue(creature.name, creature.type.name);
 
+/// Lowercases only the first character so acronyms and proper nouns survive.
+String lowercaseFirstCharacter(String value) {
+  if (value.isEmpty) return value;
+  return value[0].toLowerCase() + value.substring(1);
+}
+
 /// Formats a creature name for Portuguese possessive clauses.
 ///
 /// Generated role labels need a contracted article ("do"/"da"), while

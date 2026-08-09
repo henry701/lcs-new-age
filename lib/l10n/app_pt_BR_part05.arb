@@ -257,6 +257,6 @@
   "{name} wanders aimlessly through the city, unable to think.": "{name} vagueia sem rumo pela cidade, incapaz de pensar.",
   "{name} works through the night on a large mural.": "{name} trabalha a noite toda em um grande mural.",
   "{name} {ageGender}": "{name}, {ageGender}",
-  "{name}'s left lung is punctured!": "o pulmão esquerdo de {name} é perfurado!",
+  "{name}'s left lung is punctured!": "O pulmão esquerdo de {name} foi perfurado!",
   "{year} {vehicle}": "{vehicle} ({year})"
 }

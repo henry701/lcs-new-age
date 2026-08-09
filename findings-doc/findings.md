@@ -136,6 +136,8 @@
 | PT-251 | Medium | Combat/layout | Ground-loot indicator collides with the localized action footer |
 | PT-252 | Medium | Daily translation | Successful interview outcome falls back to English after key concatenation |
 | PT-253 | Low | Combat translation/style | Blown-off tongue message uses unnatural Portuguese tense and wording |
+| PT-254 | Medium | Safehouse layout | Long Portuguese safehouse names overwrite the security-box frame and action row |
+| PT-255 | Low | Combat translation/style | Fleeing creature display lowercases the `SWAT` acronym |
 
 ## PT-001: Save-management option is clipped
 
@@ -3574,12 +3576,38 @@ interpolations.
 - Severity: Low
 - Type: Combat translation quality
 - Screen: Portuguese siege combat hit messages
-- Replay status: **Open for a future language-quality pass**
-- Evidence: strict-headless combat buffer from the 2026-08-09 replay
+- Replay status: **Fixed and verified in a fresh strict-headless combat replay plus focused regression on 2026-08-09**
+- Evidence: fresh port-7934 combat buffer and `test/pt_br_context_translation_test.dart`
 
-Combat rendered `a língua de Policial da SWAT é explodida!`. The meaning is
-understandable, but the lower-case start and passive present tense sound like a
-machine translation; a natural past-tense form would be closer to `A língua de
-Policial da SWAT foi arrancada!`. Keep this separate from the fixed combat
-layout and interpolation work so future wording changes can be reviewed with
-the surrounding injury vocabulary.
+Combat rendered `a língua de Policial da SWAT é explodida!`. The canonical
+catalog now uses the natural past-tense form `A língua de {name} foi
+arrancada!`, and the focused context test covers the tongue message alongside
+the other standalone injury templates.
+
+## PT-254: Long safehouse names overwrite the security-box frame
+
+- Severity: Medium
+- Type: Safehouse layout / fixed-width rendering
+- Screen: Portuguese base mode → safehouse security box
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: fresh port-7934 base buffer and `test/basemode/pt_br_core_layout_test.dart`
+
+The security box has a 16-cell interior, but the renderer wrote the localized
+short site name without a width limit. A name such as `SEA — Fabricantes de
+brinquedos` overwrote the right border and visually merged into `O -
+Reordenar`. The name now uses the shared fitted renderer with the box's 16-cell
+budget; the regression asserts the border remains at column 18 and the action
+starts independently.
+
+## PT-255: Fleeing creature display lowercased the `SWAT` acronym
+
+- Severity: Low
+- Type: Combat translation/style
+- Screen: Portuguese site combat roster when a conservative flees
+- Replay status: **Fixed and verified in a focused render regression and fresh strict-headless combat replay on 2026-08-09**
+- Evidence: fresh port-7934 combat buffer and `test/sitemode/site_encounter_layout_test.dart`
+
+The flee indicator used `name.toLowerCase()`, turning the translated `Policial
+da SWAT` into `policial da swat`. The display now lowercases only the first
+character, preserving acronyms and proper nouns; the regression exercises the
+actual encounter renderer with a fleeing SWAT officer.

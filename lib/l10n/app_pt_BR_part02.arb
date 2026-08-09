@@ -258,7 +258,7 @@
   "{name}'S {part} IS SLICED OFF!": "A PARTE {part} DE {name} FOI DECEPADA!",
   "{name}'s Conservative beliefs are shaken.": "As crenças Conservadoras de {name} estão abaladas.",
   "{name}'s arguments are pretty good.": "Os argumentos de {name} são muito bons.",
-  "{name}'s right lung is punctured!": "O pulmão direito de {name} é perfurado!",
+  "{name}'s right lung is punctured!": "O pulmão direito de {name} foi perfurado!",
   "{name}, you are sentenced to time served.  You are free to go.": "{name}, você foi condenado à pena já cumprida e está livre para ir.",
   "{pName} has dates to manage with {dateList}.": "{pName} tem encontros marcados com {dateList}.",
   "{site}, {city}": "{city} — {site}",

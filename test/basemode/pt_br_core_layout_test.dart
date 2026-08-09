@@ -129,6 +129,29 @@ void main() {
     },
   );
 
+  test('Portuguese safehouse names stay inside the security box', () {
+    final previousGameState = gameState;
+    try {
+      gameState = GameState();
+      final city = City('Seattle, WA', 'SEA', '');
+      final secondCity = City('Portland, OR', 'PDX', '');
+      gameState.cities = [city, secondCity];
+      final district = city.addDistrict('Comércio', 'Comércio');
+      final site = Site(SiteType.warehouse, city, district)
+        ..rename('Toy Factory', 'Toymakers');
+      district.sites.add(site);
+
+      printSafehouseSecurityBox(site);
+
+      final name = site.getName(short: true, includeCity: true);
+      expect(_consoleCells(9, 2, 18), equals(fitConsoleText(name, 16)));
+      expect(console.buffer[9][18].glyph, equals('┐'));
+      expect(_consoleCells(9, 19, console.width).trim(), isEmpty);
+    } finally {
+      gameState = previousGameState;
+    }
+  });
+
   test(
     'Portuguese base agenda option matches its detail-screen terminology',
     () {

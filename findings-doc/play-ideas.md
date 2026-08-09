@@ -18,6 +18,14 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-252 fixed and verified (2026-08-09): successful interview news now
   translates its two cataloged sentences independently instead of falling back
   to the concatenated English key.
+- PT-253 fixed and verified (2026-08-09): standalone combat injuries now use
+  natural Portuguese past tense and sentence capitalization, including `A
+  língua de {name} foi arrancada!`.
+- PT-254 fixed and verified (2026-08-09): long safehouse names are fitted to
+  the 16-cell security-box interior, keeping the frame and `O - Reordenar`
+  action separate.
+- PT-255 fixed and verified (2026-08-09): fleeing creature names now lowercase
+  only their first character, preserving acronyms such as `SWAT`.
 
 ## Current residuals to verify after fixes
 
@@ -66,10 +74,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   replay reaches the live death reflection and high-score transition. Keep
   future coverage focused on new generated creature types and random alarm
   variants; non-police terminal endings were already swept on 2026-08-10.
-- PT-253: the live Portuguese combat message `a língua de Policial da SWAT é
-  explodida!` is understandable but machine-like. Review the tense, article,
-  and capitalization with the other tongue-injury translations before changing
-  the shared combat vocabulary.
+- PT-253/PT-254/PT-255 are fixed and verified in the latest strict-headless
+  replay; keep their focused regressions with future combat catalog or
+  safehouse-layout changes.
 - PT-064/PT-134 fixed and verified (2026-08-01): the strict-headless chase
   replay now keeps all Portuguese `D/F/B/P` and `D/F/E/G` prefixes, wraps the
   car legend before the console edge, localizes the car roster, and renders

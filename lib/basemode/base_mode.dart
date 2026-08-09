@@ -692,10 +692,11 @@ void printSafehouseSecurityBox(Site site) {
   mvaddstr(11, 1, "│                │");
   mvaddstr(12, 1, "└────────────────┘");
 
-  mvaddstr(
+  mvaddstrFitted(
     9,
     2,
     site.getName(short: true, includeCity: true),
+    16,
     noTranslate: true,
   );
   if (site.siege.underAttack) {

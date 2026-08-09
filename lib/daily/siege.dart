@@ -1923,62 +1923,35 @@ Future<void> escapeOrEngage() async {
   erase();
   mvaddstrc(1, 26, red, "UNDER ATTACK: ESCAPE OR ENGAGE");
 
-  mvaddstrc(
-    3,
-    16,
-    lightGray,
+  final engagementBriefing = <String>[
     "You are about to engage Conservative forces in battle.",
-  );
-  mvaddstr(
-    4,
-    11,
-    "You will find yourself in the Liberal safehouse, and it will",
-  );
-  mvaddstr(5, 11, "be swarming with Conservative units.  The Liberal Crime");
-  mvaddstr(
-    6,
-    11,
-    "Squad will be located far from the entrance to the safehouse.",
-  );
-  mvaddstr(
-    7,
-    11,
-    "It is your task to bring your squad out to safety, or fight",
-  );
-  mvaddstr(
-    8,
-    11,
-    "off the Conservatives within the perimeter.  Either way you",
-  );
-  mvaddstr(
-    9,
-    11,
-    "choose, any equipment from the safehouse which isn't held by a",
-  );
-  mvaddstr(10, 11, "Liberal will be scattered about the compound.  Save what");
-  mvaddstr(11, 11, "you can.  You might notice your Squad has filled out to");
-  mvaddstr(
-    12,
-    11,
-    "six members if any were available.  If you have a larger pool",
-  );
-  mvaddstr(13, 11, "of Liberals, they will be traveling behind the Squad.");
-  mvaddstr(14, 11, "There is a new button, (R)eorganize, which reflects this.");
-  mvaddstr(15, 11, "Squad members in the back with firearms can provide cover");
-  mvaddstr(
-    16,
-    11,
-    "fire.  If you have at least six people total, then six must",
-  );
-  mvaddstr(17, 11, "be in the Squad.  If less than six, then they all must.");
+    "You will find yourself in the Liberal safehouse, and it will be swarming "
+        "with Conservative units. The Liberal Crime Squad will be located far "
+        "from the entrance to the safehouse. It is your task to bring your "
+        "squad out to safety, or fight off the Conservatives within the "
+        "perimeter. Either way you choose, any equipment from the safehouse "
+        "which isn't held by a Liberal will be scattered about the compound. "
+        "Save what you can. You might notice your Squad has filled out to six "
+        "members if any were available. If you have a larger pool of Liberals, "
+        "they will be traveling behind the Squad. There is a new button, "
+        "(R)eorganize, which reflects this. Squad members in the back with "
+        "firearms can provide cover fire. If you have at least six people total, "
+        "then six must be in the Squad. If less than six, then they all must.",
+    if (loc.compound.cameras)
+      "Your security cameras let you see units on the (M)ap.",
+    if (loc.compound.boobyTraps)
+      "Your traps will harass the enemy, but not the Squad.",
+  ].map((line) => LcsI18n.tr(line).trim()).join(" ");
 
-  int y = 19;
-  if (loc.compound.cameras) {
-    mvaddstr(y++, 16, "Your security cameras let you see units on the (M)ap.");
-  }
-  if (loc.compound.boobyTraps) {
-    mvaddstr(y++, 16, "Your traps will harass the enemy, but not the Squad.");
-  }
+  setColor(lightGray);
+  addparagraph(
+    3,
+    2,
+    engagementBriefing,
+    y2: 21,
+    x2: console.width - 1,
+    noTranslate: true,
+  );
 
   mvaddstrc(
     23,

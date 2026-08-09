@@ -2732,3 +2732,29 @@ Portuguese `C - Continuar ...` row is visibly clipped in the screenshot:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/title-narrow-480x400.png`.
 This reconfirms PT-083 as an open responsive-console enhancement, not a new
 translation defect.
+
+## Strict-headless under-attack briefing replay — 2026-08-08
+
+This pass used only `agent-browser` session `pt-siege-route-20260808` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The Flutter web server ran on `127.0.0.1:7758`; the DOM-backed
+`#lcs-playtest-buffer` supplied the live 80×25 console, with no headed browser
+window launched or focused. A temporary local `debugSiege`/mega-founder fixture
+created a Portuguese founder and advanced the police siege until the safehouse
+was under attack; both flags were restored before validation.
+
+The first live `F - Lutar` briefing reproduced PT-215. Its fixed rows clipped
+the Portuguese body at the right edge and exposed malformed split-fragment
+translations (`ele estar`, `um Liberais`, and `dar cobertura fogo`). The body is
+now one complete catalog template, translated once, and wrapped from row 3
+through row 21. The fresh replay renders the complete grammatical text,
+`Suas câmeras...`/`Suas armadilhas...`, and the prompt
+`Pressione qualquer tecla para Confrontar os Agressores Conservadores` without
+overflow. Before/after buffers and the post-fix screenshot are retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/under-attack-briefing-20260808/`.
+
+After dismissing the briefing, the same route rechecked the Portuguese help,
+map, and equipment screens; all remained readable. The next combat pass should
+still target the unresolved terminal death/arrest/surrender variants (PT-048/
+PT-148), rather than treating this briefing as complete coverage of those
+branches.

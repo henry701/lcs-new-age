@@ -89,4 +89,18 @@ void main() {
     expect(_consoleLine(3).length, lessThanOrEqualTo(console.width - 1));
     expect(_consoleLine(4).length, lessThanOrEqualTo(console.width - 1));
   });
+
+  test('under-attack briefing wraps translated body before the prompt', () {
+    final source = File('lib/daily/siege.dart').readAsStringSync();
+
+    expect(source, contains('final engagementBriefing ='));
+    expect(
+      RegExp(
+        r'addparagraph\(\s*3,\s*2,\s*engagementBriefing,\s*'
+        r'y2:\s*21,\s*x2:\s*console\.width - 1,\s*'
+        r'noTranslate:\s*true,\s*\)',
+      ).hasMatch(source),
+      isTrue,
+    );
+  });
 }

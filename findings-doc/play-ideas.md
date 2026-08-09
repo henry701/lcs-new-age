@@ -434,6 +434,11 @@ narrow-layout coverage.
 - PT-213 fixed: the long `Fraude de Cartão de Crédito` option now uses the
   fitted renderer and displays an ellipsis inside the right-hand column.
 - PT-214 fixed: `CURRENT ACTIVITY` now renders as `ATIVIDADE ATUAL`.
+- PT-215 fixed (2026-08-08): the police-siege under-attack briefing now uses
+  one complete Portuguese template and wraps inside the console. Keep the
+  terminal death/arrest/surrender combat branches open; the briefing itself is
+  covered by the saved before/after buffers under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/under-attack-briefing-20260808/`.
 - Keep PT-194, PT-048/PT-148, PT-083, PT-151/PT-189, PT-164, and accepted
   PT-049 in the residual queue; no new open issue was confirmed in this route
   after the fixes.

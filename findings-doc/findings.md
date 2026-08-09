@@ -2908,3 +2908,21 @@ ellipsis while preserving the 80-column boundary.
 The bulk table header still showed `CURRENT ACTIVITY`; the Portuguese bundle
 now renders `ATIVIDADE ATUAL` and keeps the header cell separated from the
 bulk-action column.
+
+## PT-215: Under-attack briefing clipped translated text and used broken fragments
+
+- Severity: Medium
+- Type: Contextual translation / fixed-width layout
+- Screen: Safehouse siege → `F - Lutar` → `SOB ATAQUE: FUGIR OU ENFRENTAR`
+- Replay status: **Fixed and verified in a fresh strict-headless Portuguese replay on 2026-08-08**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/under-attack-briefing-20260808/before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/under-attack-briefing-20260808/after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/under-attack-briefing-20260808/after.png`
+
+The briefing was drawn as fixed source-width rows. Portuguese text was silently
+cut at the 80-column edge (`...Crime Liber`, `...grupo maio`, and `...dar
+cobert...`), while separately translated fragments produced malformed grammar
+such as `ele estar`, `um Liberais`, and `dar cobertura fogo`. The source now
+looks up one complete catalog template and wraps the combined body with
+`addparagraph` before the prompt. The live buffer now shows grammatical
+Portuguese throughout, with every body line inside the console boundary and the
+prompt preserved on its own row. A focused siege translation regression guards
+the wrapped layout.

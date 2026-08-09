@@ -2811,3 +2811,30 @@ The residual queue remains PT-194 (special-injury pagination), PT-048/PT-148
 (other deterministic terminal combat variants), PT-083 (narrow viewport),
 PT-151/PT-189 (intentional long-label ellipses), PT-164 (oversized
 debug/import roster), and accepted PT-049 (English changelog body).
+
+## Strict-headless non-police terminal branch sweep — 2026-08-10
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new
+--ozone-platform=headless`. Each route ran on a fresh local Flutter web
+server and used the opt-in `?playtest=1` DOM bridge; no headed browser was
+launched or focused. A temporary debug-only fixture placed the generated
+Liberals in the safehouse and selected one terminal siege type at a time. The
+fixture was restored before repository validation.
+
+The angry-mob, corporate-mercenary, and CCS `G - Desistir` routes all reached
+the terminal `Todos em ... foram mortos.` screen and the corresponding
+high-score ending. The localized endings were readable inside the 80-column
+console: `foi linchado pela multidão`, `foi enxugado`, and `foi superado no
+próprio jogo`. No raw English, interpolation leak, or column collision was
+reproduced. Evidence is retained under:
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-rural-20260810/`
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-corp-20260810/`
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-ccs-20260810/`
+
+The CCS route also rechecked the complete `SOB ATAQUE: FUGIR OU ENFRENTAR`
+briefing and the opening site-mode roster. Both remained Portuguese and
+within bounds. PT-048/PT-148 stay open for a future deterministic fixture
+that reaches a live encounter's talk/surrender action and post-fight summary;
+the terminal safehouse `G` branch alone is not sufficient coverage.

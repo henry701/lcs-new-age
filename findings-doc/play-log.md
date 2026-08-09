@@ -3300,3 +3300,34 @@ and
 The focused `Portuguese review profile footer preserves the navigation
 separator` regression passed. Temporary all-items, injury, and funds fixtures
 were restored to their committed all-false values after the replay.
+
+## Strict-headless hospital and investment-menu replay — 2026-08-09
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+No headed browser was launched or focused. The opt-in `?playtest=1` DOM bridge
+supplied the fixed 80×25 buffer at a 480×320 viewport.
+
+The debug-assisted hospital route reproduced the stale-tail defect: after a
+long `estará em Centro Médico UW por 16 meses.` message, the next-day death
+result retained the suffix (`...morreu de ferimentos.co UW por 16 meses.`).
+After replacing the raw row write with the shared clearing message helper, a
+fresh replay rendered only `Grace Redman morreu de ferimentos.`. The before and
+after buffers and a screenshot are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/management-hospital-sweep-20260809/`
+and
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/management-hospital-sweep-after-20260809/`.
+
+The same fresh Portuguese campaign reached the LA warehouse investment menu.
+Before the fix, the bollard option was clipped at `(US` and contained invisible
+zero-width spaces; static and dynamic prices also used inconsistent currency
+notation. The fixed menu fits every option to the remaining console width,
+renders `B - Instale postes reforçados contra veículos (US$ 3.000)`, and uses
+the same `US$`/thousands separator convention for dynamic costs. The after
+buffer and screenshot are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-invest-after-20260809/`.
+
+The route continued through a real pawn-shop visit (guns, ammunition, Liberal
+tools, equipment, and sell screens). Those screens remained Portuguese and
+inside the fixed console; no additional shop defect was confirmed. Temporary
+all-items/funds fixtures were restored after the replay.

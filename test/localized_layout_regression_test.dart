@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/basemode/disbanding.dart';
+import 'package:lcs_new_age/basemode/invest_in_location.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/crime_squad.dart';
@@ -76,6 +77,64 @@ void main() {
 
     expect(_consoleLine(8), equals(' Recrutando'));
   });
+
+  test('daily injury death result clears the preceding hospital message', () {
+    showAdvanceDayMessage(
+      8,
+      1,
+      lightGray,
+      '{patient} will be at {location} for {time} {period}.',
+      params: {
+        'patient': 'Sandy Zedong',
+        'location': 'Centro Médico UW',
+        'time': 16,
+        'period': 'months',
+      },
+    );
+    showAdvanceDayMessage(
+      8,
+      1,
+      lightGray,
+      '{name} has died of injuries.',
+      params: {'name': 'Sandy Zedong'},
+    );
+
+    final line = _consoleLine(8);
+    expect(line, contains('Sandy Zedong morreu de ferimentos.'));
+    expect(line, isNot(contains('Centro Médico UW')));
+    expect(line, isNot(contains('por 16 meses')));
+  });
+
+  test(
+    'Portuguese investment options fit and use consistent currency',
+    () async {
+      final previousGameState = gameState;
+      try {
+        gameState = GameState();
+        final city = City('Seattle, WA', 'SEA', '');
+        gameState.cities = [city];
+        final district = city.addDistrict('Comércio', 'Comércio');
+        final site = Site(SiteType.warehouse, city, district);
+        district.sites.add(site);
+        gameState.ledger.forceSetFunds(1_000_000);
+
+        console.injectKey('Escape');
+        await investInLocation(site);
+
+        expect(
+          _consoleLine(11),
+          contains(
+            'B - Instale postes reforçados contra veículos (US\$ 3.000)',
+          ),
+        );
+        expect(_consoleLine(11), isNot(contains('\u200b')));
+        expect(_consoleLine(11).length, lessThanOrEqualTo(console.width));
+        expect(_consoleLine(13), contains('US\$ 40.000'));
+      } finally {
+        gameState = previousGameState;
+      }
+    },
+  );
 
   test('long Portuguese daily result messages end with an ellipsis', () {
     showAdvanceDayMessage(

@@ -886,7 +886,7 @@ Future<void> _dailyHealing() async {
       }
       if (p.alive && p.blood < 0) {
         p.die();
-        mvaddstrc(
+        showAdvanceDayMessage(
           8,
           1,
           lightGray,

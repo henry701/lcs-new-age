@@ -580,3 +580,15 @@ narrow-layout coverage.
 - The next high-value branch remains a deterministic non-police terminal death
   and post-fight summary for PT-048/PT-148, then a 480×320 responsive-console
   sweep for PT-083.
+
+## 2026-08-09 — Hospital outcome and investment-menu follow-up
+
+- PT-240 fixed and verified: the injury-death result now clears the longer
+  hospital destination message before drawing its shorter Portuguese text.
+  Keep the shared clearing helper for new day-result branches.
+- PT-241 fixed and verified: investment options now fit the translated 80-column
+  menu, the bollard label avoids the literal automated wording and invisible
+  spacing, and all Portuguese costs use the same `US$` convention.
+- The strict-headless pawn-shop route (guns, ammo, tools, equipment, and sell)
+  found no additional translation or layout issue.
+- Keep PT-048/PT-148, PT-083, and accepted PT-049 in the residual queue.

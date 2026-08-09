@@ -1,4 +1,5 @@
 import 'package:lcs_new_age/basemode/base_mode.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -11,6 +12,36 @@ import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+
+String _formatInvestmentCost(int amount) {
+  final separator = LcsI18n.currentLocale == 'pt_BR' ? '.' : ',';
+  final grouped = amount.toString().replaceAllMapped(
+    RegExp(r'\B(?=(\d{3})+(?!\d))'),
+    (_) => separator,
+  );
+  return (StringBuffer()
+        ..write(LcsI18n.currentLocale == 'pt_BR' ? 'US\$ ' : '\$')
+        ..write(grouped))
+      .toString();
+}
+
+void _addInvestmentOption(
+  int y,
+  String key,
+  String text, {
+  bool enabledWhen = true,
+  Map<String, dynamic>? params,
+}) {
+  addOptionTextFitted(
+    y,
+    1,
+    key,
+    text,
+    console.width - 1,
+    enabledWhen: enabledWhen,
+    params: params,
+  );
+}
 
 Future<void> investInLocation(Site loc) async {
   int solarCost = switch (laws[Law.pollution]!) {
@@ -40,9 +71,8 @@ Future<void> investInLocation(Site loc) async {
         } else if (loc.type == SiteType.bombShelter) {
           fortifyText = LcsI18n.tr("Fortify the bomb shelter entrances");
         }
-        addOptionText(
+        _addInvestmentOption(
           8,
-          1,
           "W",
           "W - {action} (\$2000)",
           params: {"action": fortifyText},
@@ -50,62 +80,55 @@ Future<void> investInLocation(Site loc) async {
         );
       }
       if (!loc.compound.cameras) {
-        addOptionText(
+        _addInvestmentOption(
           9,
-          1,
           "C",
           "C - Place Security Cameras around the compound (\$2000)",
           enabledWhen: ledger.funds >= 2000,
         );
       }
       if (!loc.compound.boobyTraps) {
-        addOptionText(
+        _addInvestmentOption(
           10,
-          1,
           "T",
           "T - Place Booby Traps throughout the compound (\$3000)",
           enabledWhen: ledger.funds >= 3000,
         );
       }
       if (!loc.compound.bollards) {
-        addOptionText(
+        _addInvestmentOption(
           11,
-          1,
           "B",
           "B - Install heavy Bollards to keep vehicles away (\$3000)",
           enabledWhen: ledger.funds >= 3000,
         );
       }
       if (!loc.compound.generator) {
-        addOptionText(
+        _addInvestmentOption(
           12,
-          1,
           "G",
           "G - Install a backup diesel generator for the compound (\$3000)",
           enabledWhen: ledger.funds >= 3000,
         );
       }
       if (!loc.compound.aaGun && !loc.compound.solarPanels) {
-        addOptionText(
+        _addInvestmentOption(
           13,
-          1,
           "P",
           "P - Install a battery and Solar Panel array on the roof ({cost})",
-          params: {"cost": "\$${solarCost ~/ 1000},000"},
+          params: {"cost": _formatInvestmentCost(solarCost)},
           enabledWhen: ledger.funds >= solarCost,
         );
         if (laws[Law.gunControl] == DeepAlignment.archConservative) {
-          addOptionText(
+          _addInvestmentOption(
             14,
-            1,
             "A",
             "A - Install a perfectly legal Anti-Aircraft gun on the roof (\$35,000)",
             enabledWhen: ledger.funds >= 35000,
           );
         } else {
-          addOptionText(
+          _addInvestmentOption(
             14,
-            1,
             "A",
             "A - Install and conceal an illegal Anti-Aircraft gun on the roof (\$200,000)",
             enabledWhen: ledger.funds >= 200000,
@@ -113,27 +136,24 @@ Future<void> investInLocation(Site loc) async {
         }
       }
       if (!loc.compound.videoRoom) {
-        addOptionText(
+        _addInvestmentOption(
           15,
-          1,
           "V",
           "V - Prepare a room as a Video Studio (\$2000)",
           enabledWhen: ledger.funds >= 2000,
         );
       }
       if (!loc.compound.hackerDen) {
-        addOptionText(
+        _addInvestmentOption(
           16,
-          1,
           "H",
           "H - Prepare a room as a Hacker Den (\$4000)",
           enabledWhen: ledger.funds >= 4000,
         );
       }
       if (!loc.businessFront && !loc.discreet) {
-        addOptionText(
+        _addInvestmentOption(
           17,
-          1,
           "F",
           "F - Set up a Business Front to ward off suspicion (\$3000)",
           enabledWhen: ledger.funds >= 3000,
@@ -141,23 +161,21 @@ Future<void> investInLocation(Site loc) async {
       }
     }
     if (loc.compound.generator) {
-      addOptionText(
+      _addInvestmentOption(
         18,
-        1,
         "D",
         "D - Stockpile 5 days of diesel for the generator ({cost})",
-        params: {"cost": "\$$dieselCost"},
+        params: {"cost": _formatInvestmentCost(dieselCost)},
         enabledWhen: ledger.funds >= dieselCost,
       );
     }
-    addOptionText(
+    _addInvestmentOption(
       19,
-      1,
       "R",
       "R - Stockpile 20 daily rations of food (\$150)",
       enabledWhen: ledger.funds >= 150,
     );
-    addOptionText(20, 1, "Enter", "Enter - Done");
+    _addInvestmentOption(20, "Enter", "Enter - Done");
     int c = await getKey();
     if (isBackKey(c)) break;
     if (loc.upgradable) {

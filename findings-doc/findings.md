@@ -122,6 +122,8 @@
 | PT-238 | Medium | Safehouse layout | Portuguese compound-status labels overwrite adjacent columns during a siege |
 | PT-239 | Low | Title translation/context | Universal score labels call lost/saved people “Américas” |
 | PT-071 | Medium | Controls/translation/layout | Review profile footer loses the navigation separator in Portuguese |
+| PT-240 | Medium | Daily redraw/layout | Injury-death result leaves the previous hospital destination tail on screen |
+| PT-241 | Medium | Investment layout/translation | Safehouse investment options clip and mix Portuguese currency formats |
 
 ## PT-001: Save-management option is clipped
 
@@ -3344,3 +3346,37 @@ the separator after the localized prefix. The replay shows
 `CIMA / BAIXO - Mais Info` inside the 80-column console, and the focused
 Portuguese vocabulary regression protects both the separator and the absence
 of the old merged form.
+
+## PT-240: Injury-death result leaves the previous hospital destination tail
+
+- Severity: Medium
+- Type: Daily redraw / fixed-width layout
+- Screen: Portuguese management → hospital treatment → next-day injury death
+- Replay status: **Fixed and verified in strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/management-hospital-sweep-20260809/10-after-hospital-day.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/management-hospital-sweep-after-20260809/09-hospital-message-after-fix.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/management-hospital-sweep-after-20260809/10-death-after-fix.txt`
+
+The hospital branch first displayed a long destination message such as
+`Grace Redman estará em Centro Médico UW por 16 meses.`. When the Liberal died
+of injuries on the following day, the death branch used a raw `mvaddstrc` call
+and overwrote only the beginning of the row. The live buffer therefore showed
+`Sandy Zedong morreu de ferimentos.co UW por 16 meses.`. The death result now
+uses `showAdvanceDayMessage`, which clears the row before rendering the shorter
+localized result. The focused layout regression verifies that the hospital
+location and duration cannot survive into the death message.
+
+## PT-241: Safehouse investment options clip and mix Portuguese currency formats
+
+- Severity: Medium
+- Type: Investment menu / translation / fixed-width layout
+- Screen: Portuguese base → LA warehouse → `I - Investir neste local`
+- Replay status: **Fixed and verified in strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-travel-sweep-20260809/14-invest.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-invest-after-20260809/09-invest-after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-invest-after-20260809/09-invest-after.png`
+
+The long automated translation for the bollard upgrade contained invisible
+zero-width spaces and ran through the right edge, leaving only `(US` visible
+for its price. The same menu mixed `$ 2.000`, `$3000`, `$40,000`, and `US$`
+formats. Investment rows now use the bounded option renderer, the bollard
+label is a concise contextual Portuguese phrase, and static and dynamic costs
+use the consistent Portuguese `US$ 3.000`/`US$ 40.000` style. The focused
+regression checks the full bollard row, removes the zero-width characters, and
+asserts the dynamic solar cost remains inside the 80-column console.

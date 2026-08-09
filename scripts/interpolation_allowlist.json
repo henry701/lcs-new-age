@@ -99,18 +99,6 @@
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
-      "file": "basemode/invest_in_location.dart",
-      "line": 94,
-      "text": "\\$${solarCost ~/ 1000},000",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "basemode/invest_in_location.dart",
-      "line": 149,
-      "text": "\\$$dieselCost",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
       "file": "basemode/liberal_agenda.dart",
       "line": 411,
       "text": "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ${LcsI18n.tr(issue)}",

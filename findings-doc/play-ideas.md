@@ -11,6 +11,12 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   context, the education skill-column separator, and the Justice Amok
   possessive clause. Keep their focused regressions with future catalog or
   fixed-width changes.
+- PT-227 fixed and verified (2026-08-09): the strict-headless police-siege
+  combat replay found a Portuguese final-words death message clipped at the
+  80-column edge. The shared death-message renderer now wraps across its two
+  reserved rows; `test/sitemode/fight_death_layout_test.dart` guards the full
+  `Melhor morrer do que ser liberal...` output. Keep broader live-combat
+  death/post-fight-summary coverage open under PT-048/PT-148.
 - PT-131 fixed (2026-07-30): the high-score rank now renders `A Elite Liberal`
   instead of the source-emphasis form `A ELITE Liberal`. A strict-headless
   seeded-score replay and localized layout regression verify the final casing.

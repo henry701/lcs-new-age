@@ -2310,6 +2310,18 @@ Future<void> captureCreature(Creature t) async {
   t.squad = null;
 }
 
+void _addDeathMessageText(String message, {Map<String, dynamic>? params}) {
+  final rendered = LcsI18n.processString(message, params);
+  addparagraph(
+    9,
+    1,
+    rendered,
+    y2: 10,
+    x2: console.width - 1,
+    noTranslate: true,
+  );
+}
+
 /* describes a character's death */
 void addDeathMessage(Creature cr) {
   clearMessageArea();
@@ -2324,11 +2336,12 @@ void addDeathMessage(Creature cr) {
       "is dead.",
       "is gone.",
     ].random;
-    addstr(
-      LcsI18n.processString("{name} {deathMessage}", {
+    _addDeathMessageText(
+      "{name} {deathMessage}",
+      params: {
         "name": localizedCreatureName(cr),
         "deathMessage": LcsI18n.tr(deathMessage),
-      }),
+      },
     );
     return;
   }
@@ -2356,13 +2369,13 @@ void addDeathMessage(Creature cr) {
             : "{name} squirts blood out of the neck and falls to the side.",
       _ => "{name} sucks a last breath through the neck hole, then is quiet.",
     };
-    addstr(message, params: {"name": localizedCreatureName(cr)});
+    _addDeathMessageText(message, params: {"name": localizedCreatureName(cr)});
   } else if (body?.missing == true) {
     final message = switch (lcsRandom(2)) {
       0 => "{name} breaks into pieces.",
       _ => "{name} falls apart and is dead.",
     };
-    addstr(message, params: {"name": localizedCreatureName(cr)});
+    _addDeathMessageText(message, params: {"name": localizedCreatureName(cr)});
   } else if (cr.blood < cr.maxBlood * -2) {
     final message = switch (lcsRandom(8)) {
       0 => "{name} is dead before {hisHer} body hits the ground.",
@@ -2374,7 +2387,7 @@ void addDeathMessage(Creature cr) {
       6 => "{name}'s body slumps to the floor.",
       _ => "{name}'s body hits the ground with a dull thump.",
     };
-    addstr(
+    _addDeathMessageText(
       message,
       params: {
         "name": localizedCreatureName(cr),
@@ -2411,7 +2424,7 @@ void addDeathMessage(Creature cr) {
             : "{name} speaks these final words: \"Better dead than liberal...\"",
       _ => "{name} is gone.", // Fallback (lcsRandom(11) returns 0-10)
     };
-    addstr(
+    _addDeathMessageText(
       line1,
       params: {"name": localizedCreatureName(cr), "slogan": slogan},
     );

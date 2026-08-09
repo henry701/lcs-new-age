@@ -3034,3 +3034,33 @@ need a live combat death/post-fight-summary branch, PT-083 remains the narrow
 480×320 readability enhancement, and PT-049 intentionally retains the English
 historical changelog body. Compact profile/shop labels that end in an ellipsis
 remain bounded by their fixed cells and are tracked as accepted presentation.
+
+## Strict-headless siege combat death-message replay — 2026-08-09
+
+This replay used only the CLI `agent-browser` session
+`pt-residual-20260809` with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless`. The opt-in `?playtest=1` DOM bridge
+supplied the 80×25 console buffer and key injection; no headed browser was
+launched or focused.
+
+A fresh Portuguese campaign entered the debug police-siege warehouse and
+reached the live `F - Lutar` combat route. The pre-fix final-words death line
+was clipped at the fixed-width boundary:
+`Policial da SWAT profere suas últimas palavras: "Melhor morrer do que ser liber`.
+The post-fix replay kept the complete sentence by wrapping it across the two
+message rows:
+`Policial da SWAT profere suas últimas palavras: "Melhor morrer do que ser` /
+`liberal...`.
+
+The shared death renderer now uses the existing two-row message area and
+`addparagraph`, with `noTranslate: true` after interpolation. The focused
+`test/sitemode/fight_death_layout_test.dart` regression passed and verified that
+every console row remains exactly 80 columns. Captures are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/`.
+
+The same pass rechecked the siege victory screen and the title/save-manager
+route at a 480×320 viewport. The fixed-width canvas remained usable, but the
+title version line still runs into the right edge at that size; this is the
+existing PT-083 responsive-console enhancement, not a new translation defect.
+PT-048/PT-148 remain open for a non-siege live-combat death/post-fight-summary
+variant, and PT-049 remains the intentional English changelog body.

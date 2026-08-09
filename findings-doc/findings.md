@@ -3096,3 +3096,21 @@ keeps the reason phrase independent and places the gendered possessive in the
 neutral `na opinião {judgePossessive}` clause, so both `dele` and `dela` remain
 grammatical. `test/newspaper/herald_translation_test.dart` renders the exact
 template and rejects the old `dele crença` form.
+
+## PT-227: Combat death messages clipped long Portuguese final words
+
+- Severity: Medium
+- Type: Fixed-width layout / combat feedback
+- Screen: Police siege → `F - Lutar` → live combat death-result message
+- Replay status: **Fixed and verified in a fresh strict-headless Portuguese siege replay and focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/death-message-before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/death-message-after.txt`
+
+The final-words branch wrote a localized sentence directly into one fixed-width
+row. At 80 columns the Portuguese line ended at
+`"Melhor morrer do que ser liber`, silently dropping the rest of
+`liberal...`. Death messages now render through a two-row `addparagraph` area,
+so the live replay keeps the complete output as
+`"Melhor morrer do que ser` / `liberal...` and preserves the combat roster
+below it. `test/sitemode/fight_death_layout_test.dart` selects the deterministic
+final-words branch, asserts the complete Portuguese sentence, and checks the
+80-column buffer invariant.

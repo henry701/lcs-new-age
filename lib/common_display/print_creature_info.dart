@@ -148,24 +148,41 @@ enum ShowCarPrefs {
   showPreferences, // "1"
 }
 
-void printTransportation(Creature cr, ShowCarPrefs showCarPrefs) {
+void printTransportation(
+  Creature cr,
+  ShowCarPrefs showCarPrefs, {
+  int? maxWidth,
+}) {
   Vehicle? v;
   if (showCarPrefs == ShowCarPrefs.showActualCar) v = cr.car;
   if (showCarPrefs == ShowCarPrefs.showPreferences) v = cr.preferredCar;
   if (v != null) {
-    addstr(LcsI18n.tr(v.shortName), noTranslate: true);
-    if (showCarPrefs == ShowCarPrefs.showPreferences
-        ? cr.preferredDriver
-        : cr.isDriver) {
-      addstr("-D");
-    }
+    final driverSuffix =
+        (showCarPrefs == ShowCarPrefs.showPreferences
+            ? cr.preferredDriver
+            : cr.isDriver)
+        ? "-D"
+        : "";
+    final vehicleWidth = maxWidth == null
+        ? null
+        : maxWidth - driverSuffix.length;
+    final vehicleName = LcsI18n.tr(v.shortName);
+    final fittedVehicleName = vehicleWidth == null
+        ? vehicleName
+        : fitConsoleText(vehicleName, vehicleWidth);
+    addstr("$fittedVehicleName$driverSuffix", noTranslate: true);
   } else {
     int legok = cr.body.legs.where((l) => !l.missing).length;
-    if (cr.hasWheelchair) {
-      addstr("Wheelchair");
-    } else {
-      addstr(legok >= 1 ? "On Foot" : "On \"Foot\"");
-    }
+    final transportName = cr.hasWheelchair
+        ? "Wheelchair"
+        : (legok >= 1 ? "On Foot" : "On \"Foot\"");
+    final localizedTransportName = LcsI18n.tr(transportName);
+    addstr(
+      maxWidth == null
+          ? localizedTransportName
+          : fitConsoleText(localizedTransportName, maxWidth),
+      noTranslate: true,
+    );
   }
 }
 

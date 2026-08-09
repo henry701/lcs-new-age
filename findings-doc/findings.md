@@ -3022,3 +3022,33 @@ through the existing console-width fitter after localization, preserving a
 visible ellipsis and leaving the stored story text available for the article
 view. `test/newspaper/herald_translation_test.dart` renders the exact event in
 Portuguese and guards both normal completion and the ellipsis boundary.
+
+## PT-222: Live combat talk header exposed the generated SWAT target in English
+
+- Severity: Medium
+- Type: Missing translation / dynamic interpolation
+- Screen: Ordinary live site encounter → `T - Falar`
+- Replay status: **Fixed and verified in strict-headless Portuguese replay and focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/live-encounter-20260809/ordinary-combat-open.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/live-encounter-20260809/talk-header-fixed.txt`
+
+The ordinary police encounter itself rendered `Policial da SWAT`, but the
+combat-talk header inserted the generated creature's raw `name`, producing
+`Les Rappaport fala com SWAT Officer:`. The talk and intimidation response
+paths now use `localizedCreatureName`, which translates built-in type names
+while preserving player-created names. The Portuguese combat-layout
+regression asserts the full localized header.
+
+## PT-223: Portuguese transport labels clipped the driver marker
+
+- Severity: Medium
+- Type: Fixed-width layout / stale suffix
+- Screen: Ordinary live site encounter and base party roster
+- Replay status: **Fixed and verified by focused Portuguese layout regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/live-encounter-20260809/ordinary-combat-open-fixed.txt`, `/home/henry/tmp/lcs-new-age-playtest/live-encounter-20260809/surrender-fixed.txt`
+
+The localized vehicle label `Esportivo` occupied nearly the entire ten-column
+transport cell. Appending the driver marker afterward left a dangling
+`Esportivo-` and hid the `D`. Party rendering now reserves the two marker
+columns before fitting the translated vehicle name, so the marker remains
+visible with an ellipsis when needed. The focused layout regression checks that
+the cell contains `-D` and never ends with a bare hyphen.

@@ -25,7 +25,7 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
       ManagementTableLayout.partyWeaponX: "WEAPON",
       44: "ARMOR",
       59: "HEALTH",
-      70: "TRANSPORT",
+      ManagementTableLayout.transportX: "TRANSPORT",
     });
     for (int p = 0; p < party.length; p++) {
       addOptionTextFitted(
@@ -68,8 +68,12 @@ void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
         maxWidth: ManagementTableLayout.partyHealthWidth,
       );
       setColor(lightGray);
-      move(p + 2, 70);
-      printTransportation(party[p], showCarPrefs);
+      move(p + 2, ManagementTableLayout.transportX);
+      printTransportation(
+        party[p],
+        showCarPrefs,
+        maxWidth: ManagementTableLayout.transportWidth,
+      );
     }
   }
   makeDelimiter();

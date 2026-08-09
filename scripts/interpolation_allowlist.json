@@ -19,6 +19,12 @@
       "reason": "Currency-only value; no prose or user-facing composition."
     },
     {
+      "file": "common_display/print_creature_info.dart",
+      "context": "addstr",
+      "text": "$fittedVehicleName$driverSuffix",
+      "reason": "Layout-only join of a fitted translated vehicle label and its driver marker."
+    },
+    {
       "file": "engine/engine.dart",
       "context": "addstrx",
       "text": "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
@@ -178,25 +184,31 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 274,
+      "line": 276,
       "text": "\\$${ledger.funds}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 397,
+      "line": 399,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 700,
+      "line": 173,
+      "text": "$fittedVehicleName$driverSuffix",
+      "reason": "Layout-only join of a fitted translated vehicle label and its driver marker."
+    },
+    {
+      "file": "common_display/print_creature_info.dart",
+      "line": 717,
       "text": "${LcsI18n.tr(",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 700,
+      "line": 717,
       "text": ")}$next",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
@@ -1342,7 +1354,7 @@
     },
     {
       "file": "common_display/print_party.dart",
-      "line": 95,
+      "line": 99,
       "text": "$skill/${c.weaponSkill}",
       "reason": "Locale-neutral numeric skill summary fitted into a fixed-width management cell."
     },

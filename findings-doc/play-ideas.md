@@ -9,23 +9,20 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-131 fixed (2026-07-30): the high-score rank now renders `A Elite Liberal`
   instead of the source-emphasis form `A ELITE Liberal`. A strict-headless
   seeded-score replay and localized layout regression verify the final casing.
-- PT-048: replay deterministic combat and random police-alarm officer variants
-  that are broader than the direct chase route; inspect injury, surrender, and
-  post-fight summaries for English fragments. The 2026-08-10 sweep verified
-  angry-mob, corporate-mercenary, and CCS terminal `G - Desistir` endings plus
-  their high-score text, but did not reliably reach a live encounter's talk or
-  surrender action; keep that runtime branch sweep open. A 2026-08-09
-  strict-headless siege foot-chase replay separately verified `G - Desistir` →
-  `Você para e é preso.` and the Portuguese court flow, but it used a temporary
-  surrender-enabled siege fixture and does not replace live-encounter coverage.
+- PT-048: the 2026-08-09 strict-headless ordinary police route now covers the
+  live `T - Falar` menu, target-name interpolation, `D - Render-se`, arrest,
+  newspaper, and court flow. Keep the broader finding open for random
+  police-alarm variants and a live combat death/post-fight-summary branch. The
+  separate siege foot-chase and non-police terminal sweeps remain useful
+  evidence but do not replace those variants.
 - PT-145/PT-146/PT-147 fixed and verified (2026-08-01): the party roster now
   separates `HABIL.—ARMA`, four-digit pressure values retain a gap before
   `Sigilo`, and the founder bonus preserves `Artes Marciais` capitalization.
-- PT-148 source/catalog fix verified on the same route: combat interpolation
-  now localizes generated officer names and supplies the missing death/final-
-  words templates. The 2026-08-10 terminal sweep covered non-police death
-  endings; force an in-encounter surrender and post-fight summary in a future
-  deterministic harness to close the remaining runtime coverage gap.
+- PT-148 source/catalog fix verified on 2026-08-09: combat interpolation now
+  localizes generated officer names, and the ordinary live route reaches the
+  in-encounter surrender and Portuguese court flow. Keep only the live
+  death/post-fight-summary runtime coverage gap open; non-police terminal
+  endings were already swept on 2026-08-10.
 - PT-064/PT-134 fixed and verified (2026-08-01): the strict-headless chase
   replay now keeps all Portuguese `D/F/B/P` and `D/F/E/G` prefixes, wraps the
   car legend before the console edge, localizes the car roster, and renders

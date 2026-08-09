@@ -2936,3 +2936,35 @@ screenshots. This closes only the deterministic foot-chase surrender coverage;
 PT-048/PT-148 still need an ordinary live encounter's talk/surrender and
 post-fight-summary variants, plus the remaining PT-083 responsive-console
 enhancement.
+
+## Strict-headless ordinary police encounter replay — 2026-08-09
+
+This pass used only CLI `agent-browser` session `live-encounter-20260809` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The opt-in `?playtest=1` DOM bridge drove a Portuguese new game into the
+Seattle industrial district's abandoned toy factory. A temporary deterministic
+live-encounter fixture made the police alarm branch reliable; it was removed
+before validation and was never committed.
+
+The route required two visits (travel, then entry) and reached the ordinary
+`POLÍCIA RESPONDENDO` encounter. The opening roster stayed inside the 80-column
+console and showed `Policial da SWAT`. The live `T - Falar` frame then exposed
+`SWAT Officer` in the target-name interpolation, while the party row showed
+the clipped vehicle/driver text `Esportivo-`. The talk header now renders
+`Les Rappaport fala com Policial da SWAT:`, and the party renderer reserves the
+`-D` marker before fitting `Esportivo`.
+
+The same route selected `D - Render-se às autoridades`, followed the arrest
+screen, Portuguese newspaper result, and Portuguese courthouse guilty-plea
+flow. The retained buffers are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/live-encounter-20260809/`;
+`talk-header-fixed.txt` and `surrender-fixed.txt` are the post-fix frames,
+while `ordinary-combat-open.txt` and `ordinary-combat-open-fixed.txt` preserve
+the original layout evidence. Focused regressions now cover both the localized
+generated target name and the transport marker boundary.
+
+This closes the ordinary police talk/surrender runtime gap in PT-048/PT-148.
+Keep those findings open only for broader alarm variants and a live combat
+death/post-fight-summary branch, alongside PT-083 responsive-console
+readability, PT-151/PT-189 intentional long-label ellipses, and PT-164's
+oversized debug/import roster.

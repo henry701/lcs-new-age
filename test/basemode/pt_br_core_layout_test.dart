@@ -293,6 +293,28 @@ void main() {
     expect(_consoleCells(2, 70, 80), isNot(contains('Esportivo')));
   });
 
+  test('Portuguese transport keeps the driver marker inside its cell', () {
+    final liberal = _activeLiberal();
+    final vehicle = Vehicle('SPORTSCAR');
+    vehiclePool.add(vehicle);
+    liberal.preferredCarId = vehicle.id;
+    liberal.preferredDriver = true;
+    pool.add(liberal);
+    final squad = Squad()..members.add(liberal);
+    squads.add(squad);
+    activeSquad = squad;
+
+    printParty();
+
+    final transport = _consoleCells(
+      2,
+      ManagementTableLayout.transportX,
+      ManagementTableLayout.transportX + ManagementTableLayout.transportWidth,
+    );
+    expect(transport, contains('-D'));
+    expect(transport, isNot(endsWith('-')));
+  });
+
   test('Portuguese party roster keeps skill and weapon cells separated', () {
     final liberal = _activeLiberal()..equippedWeapon = Weapon('WEAPON_M7');
     pool.add(liberal);

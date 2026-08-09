@@ -9,6 +9,7 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/talk/talk_about_issues.dart';
+import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 import '../test_support.dart';
 
@@ -22,6 +23,7 @@ void main() {
 
   setUp(() async {
     gameState = GameState();
+    nextRngSeed = 1;
     await LcsI18n.initialize('pt_BR');
     console.injectedKeys.clear();
     console.lastKey = null;

@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/common_actions/common_actions.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -32,7 +33,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
     "{name:white} talks to {target:color}:",
     params: {
       "name": liberal.name,
-      "target": target.name,
+      "target": localizedCreatureName(target),
       "targetColor": target.align.colorKey,
     },
   );
@@ -117,7 +118,13 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
             (e.type.canPerformArrests || e.type.edgelord),
       );
       if (e != null) {
-        mvaddstrc(9, 1, white, "{name}:", params: {"name": e.name});
+        mvaddstrc(
+          9,
+          1,
+          white,
+          "{name}:",
+          params: {"name": localizedCreatureName(e)},
+        );
         move(10, 1);
         if (e.align != Alignment.conservative ||
             (e.type.id == CreatureTypeIds.secretService &&
@@ -262,7 +269,13 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
 
           if (hostages > 1 && !e.type.edgelord) {
             clearMessageArea();
-            mvaddstrc(9, 1, white, "{name}: ", params: {"name": e.name});
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "{name}: ",
+              params: {"name": localizedCreatureName(e)},
+            );
             setColor(red);
             move(10, 1);
             if (noProfanity) {
@@ -317,7 +330,13 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
 
           if (e.type.edgelord) {
             clearMessageArea();
-            mvaddstrc(9, 1, white, "{name}: ", params: {"name": e.name});
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "{name}: ",
+              params: {"name": localizedCreatureName(e)},
+            );
             setColor(red);
             move(10, 1);
             switch (lcsRandom(5)) {
@@ -336,7 +355,13 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
             await getKey();
           } else {
             clearMessageArea();
-            mvaddstrc(9, 1, white, "{name}: ", params: {"name": e.name});
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "{name}: ",
+              params: {"name": localizedCreatureName(e)},
+            );
             setColor(red);
             move(10, 1);
             switch (lcsRandom(4)) {
@@ -385,7 +410,7 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
       move(9, 1);
       addstr(
         "{name1} isn't interested in your pathetic threats.",
-        params: {"name1": target.name},
+        params: {"name1": localizedCreatureName(target)},
       );
 
       await getKey();
@@ -401,7 +426,8 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
         SiegeType.angryRuralMob => "{name} {action}",
         SiegeType.ccs => "{name} {action}",
         SiegeType.corporateMercs => "{name} pretends to be a mercenary.",
-        SiegeType.medicalDebtCollectors => "{name} pretends to be an accountant.",
+        SiegeType.medicalDebtCollectors =>
+          "{name} pretends to be an accountant.",
         SiegeType.none => "{name} sniffs around for Liberals.",
       };
       final actionDetail = switch (activeSite!.siege.activeSiegeType) {
@@ -497,18 +523,18 @@ Future<bool> talkInCombat(Creature liberal, Creature target) async {
       if (target.type.id == CreatureTypeIds.angryRuralMob) {
         addstr(
           "But {name} weren't born yesterday.",
-          params: {"name": target.name},
+          params: {"name": localizedCreatureName(target)},
         );
       } else {
         if (noProfanity) {
           addstr(
             "{name} is not fooled by that [act].",
-            params: {"name": target.name},
+            params: {"name": localizedCreatureName(target)},
           );
         } else {
           addstr(
             "{name} is not fooled by that crap.",
-            params: {"name": target.name},
+            params: {"name": localizedCreatureName(target)},
           );
         }
       }
@@ -649,7 +675,7 @@ Future<void> intimidate(Creature liberal) async {
 
       if (attack > defense || e.nonCombatant) {
         clearMessageArea();
-        mvaddstrc(9, 1, white, e.name, noTranslate: true);
+        mvaddstrc(9, 1, white, localizedCreatureName(e), noTranslate: true);
 
         if (e.equippedWeapon != null) {
           if (e.body.legok < 2 || e.blood < e.maxBlood * 0.45) {
@@ -659,7 +685,7 @@ Future<void> intimidate(Creature liberal) async {
               white,
               "{name} drops the {weapon} and {escape}",
               params: {
-                "name": e.name,
+                "name": localizedCreatureName(e),
                 "weapon": e.equippedWeapon!.getName(),
                 "escape": LcsI18n.tr(escapeCrawling.random).trimLeft(),
               },
@@ -671,7 +697,7 @@ Future<void> intimidate(Creature liberal) async {
               white,
               "{name} drops the {weapon} and {escape}",
               params: {
-                "name": e.name,
+                "name": localizedCreatureName(e),
                 "weapon": e.equippedWeapon!.getName(),
                 "escape": LcsI18n.tr(escapeRunning.random).trimLeft(),
               },
@@ -686,7 +712,7 @@ Future<void> intimidate(Creature liberal) async {
               white,
               "{name} {escape}",
               params: {
-                "name": e.name,
+                "name": localizedCreatureName(e),
                 "escape": LcsI18n.tr(escapeCrawling.random).trimLeft(),
               },
             );
@@ -697,7 +723,7 @@ Future<void> intimidate(Creature liberal) async {
               white,
               "{name} {escape}",
               params: {
-                "name": e.name,
+                "name": localizedCreatureName(e),
                 "escape": LcsI18n.tr(escapeRunning.random).trimLeft(),
               },
             );

@@ -61,4 +61,30 @@ void main() {
     expect(bluffLine, equals(' "A situação está sob controle."'));
     expect(bluffLine, isNot(contains('Delegada')));
   });
+
+  test(
+    'Portuguese combat talk header localizes generated target names',
+    () async {
+      final liberal = Creature()
+        ..name = 'Alex'
+        ..align = Alignment.liberal;
+      final target = Creature.fromId(CreatureTypeIds.swat)
+        ..name = 'SWAT Officer'
+        ..align = Alignment.conservative;
+      final testSquad = Squad.temporary()..members.add(liberal);
+
+      gameState.lcs.squads.add(testSquad);
+      activeSquad = testSquad;
+      String? headerLine;
+      console.flush = () {
+        final line = _consoleLine(9);
+        if (line.contains('fala com')) headerLine = line;
+      };
+      console.injectKey('e');
+
+      await talkInCombat(liberal, target);
+
+      expect(headerLine, contains('fala com Policial da SWAT:'));
+    },
+  );
 }

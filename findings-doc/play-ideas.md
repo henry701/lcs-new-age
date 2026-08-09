@@ -484,3 +484,15 @@ narrow-layout coverage.
   after the roster is drawn. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-combat-layout-20260809/`.
 - Keep PT-048/PT-148, PT-083, and accepted PT-049 in the residual queue.
+
+## Strict-headless education-picker follow-up — 2026-08-10
+
+- The strict-headless route reached the Portuguese education skill picker and
+  confirmed PT-230: max values and descriptions were concatenated at the
+  fixed-width boundary. The production column shift and fitted renderer are
+  fixed, replayed, and protected by a focused regression.
+- Durable before/after buffers live under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/education-skill-layout-20260810/`.
+- Next useful routes are a deterministic terminal combat death/post-fight
+  branch for PT-048/PT-148 and a 480×320 title/save-manager sweep for PT-083;
+  keep the accepted English changelog body PT-049 out of the fix queue.

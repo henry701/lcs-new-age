@@ -3144,3 +3144,18 @@ therefore overwrote the map (`Bem +Ext.d` and `Bem   xt.`). The compact health
 cell now fits within six columns, preserving the map frame and its contents
 with a bounded ellipsis. `test/sitemode/site_encounter_layout_test.dart`
 protects the map columns and the 80-column buffer invariant.
+
+## PT-230: Education skill picker joined max value to description
+
+- Severity: Medium
+- Type: Fixed-width layout / education picker
+- Screen: Base → Atribuir Tarefas → Educação e Aprendizado → Praticar uma Habilidade
+- Replay status: **Fixed and verified in strict-headless Portuguese replay and focused regression on 2026-08-10**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/education-skill-layout-20260810/before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/education-skill-layout-20260810/after.txt`
+
+The picker placed `DESCRIÇÃO` at column 34 immediately after `MÁX.` at
+column 29. Portuguese max values such as `38.00` consumed through column 33,
+so rows rendered as `38.00Crie obras visuais...`. The description header and
+text now start at column 35, preserving column 34 as a separator, and the
+description is fitted to the right edge. The focused core-layout regression
+checks the separator, description start, and Portuguese text.

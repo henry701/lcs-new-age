@@ -870,6 +870,7 @@ Future<void> _selectSkillForEducation(
   Creature cr,
   ActivityType activityType,
 ) async {
+  const descriptionX = 35;
   List<Skill> skills = Skill.values;
   if (activityType == ActivityType.takeClass) {
     skills = skills.where((s) => s.canTakeClasses).toList();
@@ -881,7 +882,7 @@ Future<void> _selectSkillForEducation(
   await pagedInterface(
     headerPrompt: headerPrompt,
     headerPromptParams: {"name": cr.name},
-    headerKey: {4: "SKILL", 23: "NOW", 29: "MAX", 34: "DESCRIPTION"},
+    headerKey: {4: "SKILL", 23: "NOW", 29: "MAX", descriptionX: "DESCRIPTION"},
     footerPrompt: "Press a Letter to select a Skill",
     count: skills.length,
     lineBuilder: (y, key, index) {
@@ -896,13 +897,14 @@ Future<void> _selectSkillForEducation(
       );
       highlightColorForSkill(cr, skill);
       printSkillValue(cr, skill, y, 23, emphasizePotential: true);
-      mvaddstrc(
+      mvaddstrcFitted(
         y,
-        34,
+        descriptionX,
         lightGray,
         activityType == ActivityType.takeClass
             ? skill.classText
             : skill.description,
+        console.width - descriptionX,
       );
     },
     onChoice: (index) async {

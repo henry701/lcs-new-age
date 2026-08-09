@@ -3084,3 +3084,28 @@ focused regression now verifies `o corpo dela`.
 
 Residual coverage remains PT-048/PT-148 terminal combat summaries, PT-083
 narrow-console readability, and accepted PT-049 historical changelog English.
+
+## Strict-headless education-picker replay — 2026-08-10
+
+This pass used only the CLI `agent-browser` session `pt-next-20260810` with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`
+against the local web-server build on port 7806. The opt-in `?playtest=1` DOM
+bridge supplied the fixed 80×25 console buffer and key injection; no headed
+browser was launched or focused. Disposable founder/all-items/funds fixtures
+were reverted before validation.
+
+The fresh Portuguese campaign reached Base → Atribuir Tarefas → Educação e
+Aprendizado → Praticar uma Habilidade. Before the fix, every skill row joined
+the max value to its description, for example `38.00Crie obras visuais de
+beleza.`; the captured buffer is
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/education-skill-layout-20260810/before.txt`.
+After moving the description column one cell right and fitting its text, the
+same route rendered `38.00 Crie obras visuais de beleza.` with a blank
+separator at column 34 and all rows exactly 80 columns; the after-capture is
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/education-skill-layout-20260810/after.txt`.
+PT-230 records the defect and `test/basemode/pt_br_core_layout_test.dart`
+guards the fix.
+
+The residual queue remains PT-048/PT-148 terminal combat summaries,
+PT-083 narrow-console readability, and accepted PT-049 historical changelog
+English.

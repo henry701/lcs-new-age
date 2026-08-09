@@ -177,6 +177,36 @@ void main() {
   });
 
   test(
+    'Portuguese education skill rows separate values from descriptions',
+    () async {
+      pool.add(_activeLiberal());
+
+      final activation = activateRegulars();
+      console.injectKey('a');
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      console.injectKey('e');
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      console.injectKey('1');
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      expect(_consoleCells(2, 34, 35), equals(' '));
+      expect(
+        _consoleCells(2, 35, console.width).trimLeft(),
+        startsWith('Crie obras visuais'),
+      );
+
+      console.injectKey('Enter');
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      console.injectKey('x');
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      console.injectKey('Escape');
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      console.injectKey('Escape');
+      await activation;
+    },
+  );
+
+  test(
     'Portuguese active-Liberal row keeps health location and activity apart',
     () async {
       pool.add(_activeLiberal());

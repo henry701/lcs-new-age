@@ -2662,14 +2662,16 @@ de Centro Médico UW` and keeping the location consistent with the task screen.
 - Severity: Low
 - Type: Fixed-width layout / discoverability
 - Screen: Character profile with multiple severe injuries
-- Replay status: **Open; retain as a profile pagination/detail-view follow-up**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-profile-translated-20260808.png`
+- Replay status: **Fixed and verified in strict-headless Portuguese replay on 2026-08-09; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-pagination-20260808/before.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-pagination-20260808/after.png`
 
-The injury fixture can produce more than the 13 rows available below the
-profile's fixed content. The screen shows the first labels through `Fígado
-Danificado`, while later localized injuries (kidneys, stomach, spleen, and
-ribs) fall below the 25-row console and are not visible. Consider paging or a
-scrollable detail panel rather than silently dropping the remaining status.
+The injury fixture can produce more special injuries than the fixed stats
+column can show beside the profile controls. The stats page now keeps the
+first rows bounded and displays a localized `+7 outras — BAIXO` hint. The
+existing up/down profile navigation opens a dedicated, localized injury page
+that fits all 17 labels, including kidneys, stomach, spleen, and ribs, without
+writing into the footer rows. Both the standalone profile screen and the
+review-mode profile use the same page-count and renderer helpers.
 
 ## PT-195: Base roster weapon/ammo text collided with the armor column
 

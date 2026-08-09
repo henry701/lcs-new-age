@@ -368,6 +368,7 @@ void main() {
       ]) {
         expect(rendered, contains(expected));
       }
+      expect(rendered, contains('+7 outras — BAIXO'));
       for (final leakedEnglish in [
         'Heart Punctured',
         'R. Lung Collapsed',
@@ -394,6 +395,49 @@ void main() {
       expect(compactRendered, isNot(contains('Left Leg:')));
       expect(compactRendered, isNot(contains('Habilidades Prin…Perna')));
       expect(_consoleCells(2, 61, 65), equals('Tir,'));
+    },
+  );
+
+  test(
+    'Portuguese profile injury detail page keeps the full wound list visible',
+    () {
+      final founder = _founder();
+      (founder.body as HumanoidBody)
+        ..puncturedHeart = true
+        ..puncturedRightLung = true
+        ..puncturedLeftLung = true
+        ..neck = InjuryState.untreated
+        ..upperSpine = InjuryState.untreated
+        ..lowerSpine = InjuryState.untreated
+        ..missingRightEye = true
+        ..missingLeftEye = true
+        ..missingNose = true
+        ..missingTongue = true
+        ..teeth = 0
+        ..puncturedLiver = true
+        ..puncturedRightKidney = true
+        ..puncturedLeftKidney = true
+        ..puncturedStomach = true
+        ..puncturedSpleen = true
+        ..ribs = 0;
+
+      expect(fullCreatureProfilePageCount(founder), equals(4));
+      printFullCreatureSpecialInjuries(founder, page: 0);
+
+      final rendered = _consoleText();
+      for (final expected in [
+        'Lesões Especiais (1 de 1)',
+        'Sem Língua',
+        'Fígado Danificado',
+        'Rim D. Danificado',
+        'Rim E. Danificado',
+        'Estômago Ferido',
+        'Baço Rompido',
+        'Todas Costelas Queb.',
+      ]) {
+        expect(rendered, contains(expected));
+      }
+      expect(rendered, isNot(contains('Heart Punctured')));
     },
   );
 

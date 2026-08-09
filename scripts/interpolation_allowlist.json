@@ -190,13 +190,13 @@
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 672,
+      "line": 700,
       "text": "${LcsI18n.tr(",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },
     {
       "file": "common_display/print_creature_info.dart",
-      "line": 672,
+      "line": 700,
       "text": ")}$next",
       "reason": "Color-safe concatenation of a translated static label and a numeric threshold."
     },

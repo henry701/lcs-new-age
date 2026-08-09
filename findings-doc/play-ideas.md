@@ -59,8 +59,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   `He provavelmente` through dynamic gender interpolation. Catalog entries now
   cover `man`, `woman`, and `friend`; sentence-start pronouns capitalize after
   translation.
-- PT-194 remains open (2026-08-08): a profile with many special injuries can
-  overflow the 25-row console. Add paging or a scrollable wound detail view.
+- PT-194 fixed and verified (2026-08-09): profiles with many special injuries
+  now show a bounded `+N outras — BAIXO` hint and a localized paged detail
+  screen. Keep the page-count helper shared between review mode and standalone
+  profile screens.
 - PT-189 remains open (2026-08-08): profile stats, skills, and crimes still
   ellipsize long Portuguese labels in fixed-width cells; investigate a detail
   view or wider label budget without regressing numeric-column separation.

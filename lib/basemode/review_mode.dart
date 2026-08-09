@@ -558,6 +558,8 @@ Future<void> reviewMode(ReviewMode mode) async {
         //const int pagenum=2;
         while (true) {
           Creature tempp = temppool[p];
+          final pageCount = fullCreatureProfilePageCount(tempp);
+          if (page >= pageCount) page = 0;
           erase();
 
           move(0, 0);
@@ -569,9 +571,7 @@ Future<void> reviewMode(ReviewMode mode) async {
             addstr("Profile of a Liberal");
           }
 
-          if (page == 0) printFullCreatureStats(tempp);
-          if (page == 1) printFullCreatureSkills(tempp);
-          if (page == 2) printFullCreatureCrimes(tempp);
+          printFullCreatureProfilePage(tempp, page);
 
           // Add removal of squad members member
           move(22, 0);
@@ -630,13 +630,13 @@ Future<void> reviewMode(ReviewMode mode) async {
 
           if (c == Key.downArrow || c == Key.x) {
             page++;
-            if (page > 2) page = 0;
+            if (page >= pageCount) page = 0;
             continue;
           }
 
           if (c == Key.upArrow || c == Key.w) {
             page--;
-            if (page < 0) page = 2;
+            if (page < 0) page = pageCount - 1;
             continue;
           }
 

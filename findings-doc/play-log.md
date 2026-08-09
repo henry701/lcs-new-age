@@ -2838,3 +2838,26 @@ briefing and the opening site-mode roster. Both remained Portuguese and
 within bounds. PT-048/PT-148 stay open for a future deterministic fixture
 that reaches a live encounter's talk/surrender action and post-fight summary;
 the terminal safehouse `G` branch alone is not sufficient coverage.
+
+## Strict-headless injury-pagination replay — 2026-08-09
+
+This replay used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new --ozone-platform=headless`.
+The opt-in `?playtest=1` DOM bridge drove every key; no headed browser was
+launched or focused. A temporary `debugBadlyInjured` fixture created the full
+severe-injury state, then was restored to `false` before validation.
+
+The pre-fix stats page stopped at the first ten or eleven right-column rows and
+silently hid the kidneys, stomach, spleen, and ribs. The post-fix stats page
+now shows the bounded `+7 outras — BAIXO` hint. Pressing `BAIXO` through the
+profile pages reaches `Lesões Especiais (1 de 1)`, where all 17 localized
+injuries fit across rows 5–21. The same page renderer and dynamic page count
+are used by standalone profiles and review-mode profiles. No English title,
+interpolation leak, footer overwrite, or column collision was reproduced.
+
+Buffers and captures are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-pagination-20260808/`.
+PT-194 is resolved; the residual queue is PT-048/PT-148 live encounter
+talk/surrender coverage, PT-083 narrow viewport readability, PT-151/PT-189
+intentional long-label ellipses, PT-164 oversized debug/import rosters, and
+accepted PT-049 English changelog body.

@@ -18,6 +18,35 @@ import 'package:lcs_new_age/sitemode/stealth.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/vehicles/vehicle.dart';
 
+const int _fullCreatureBasePageCount = 3;
+const int _specialInjuryPageStartRow = 5;
+const int _specialInjuryPageSize = 17;
+const int _compactSpecialInjuryStartRow = 12;
+const int _compactSpecialInjuryVisibleRows = 11;
+
+int fullCreatureProfilePageCount(Creature cr) {
+  final injuryCount = cr.body.allSpecialInjuries().length;
+  if (injuryCount == 0) return _fullCreatureBasePageCount;
+  return _fullCreatureBasePageCount +
+      (injuryCount + _specialInjuryPageSize - 1) ~/ _specialInjuryPageSize;
+}
+
+void printFullCreatureProfilePage(Creature cr, int page) {
+  switch (page) {
+    case 0:
+      printFullCreatureStats(cr);
+    case 1:
+      printFullCreatureSkills(cr);
+    case 2:
+      printFullCreatureCrimes(cr);
+    default:
+      printFullCreatureSpecialInjuries(
+        cr,
+        page: page - _fullCreatureBasePageCount,
+      );
+  }
+}
+
 void printCreatureInfo(
   Creature cr, {
   ShowCarPrefs? showCarPrefs,
@@ -452,19 +481,18 @@ void addProfileNavigationOptions(
 Future<void> fullCreatureInfoScreen(Creature cr) async {
   if (activeSquad == null) return;
 
-  const int pagenum = 3;
   int page = 0;
 
   while (true) {
+    final pageCount = fullCreatureProfilePageCount(cr);
+    if (page >= pageCount) page = 0;
     erase();
 
     setColor(lightGreen);
     move(0, 0);
     addstr("Profile of a Liberal");
 
-    if (page == 0) printFullCreatureStats(cr);
-    if (page == 1) printFullCreatureSkills(cr);
-    if (page == 2) printFullCreatureCrimes(cr);
+    printFullCreatureProfilePage(cr, page);
 
     addOptionText(23, 0, "N", "N - Change Name");
     addOptionText(23, 26, "G", "G - Change Gender");
@@ -496,11 +524,11 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
       cr = squad[index % squad.length];
     } else if (c == Key.downArrow || c == Key.x) {
       page++;
-      page %= pagenum;
+      page %= pageCount;
     } else if (c == Key.upArrow || c == Key.w) {
       page--;
-      if (page < 0) page = pagenum - 1;
-      page %= pagenum;
+      if (page < 0) page = pageCount - 1;
+      page %= pageCount;
     } else if (c == Key.n) {
       setColor(lightGray);
       mvaddstr(
@@ -879,13 +907,59 @@ void printFullCreatureStats(
   //SPECIAL WOUNDS
   setColor(red);
 
-  int y = 12;
-  int x = woundsX;
   List<String> injuries = cr.body.allSpecialInjuries();
-  for (String injury in injuries) {
-    mvaddstrFitted(y++, x, injury, ManagementTableLayout.consoleWidth - x);
+  final x = woundsX;
+  final width = ManagementTableLayout.consoleWidth - x;
+  final visibleCount = injuries.length > _compactSpecialInjuryVisibleRows
+      ? _compactSpecialInjuryVisibleRows - 1
+      : injuries.length;
+  for (int i = 0; i < visibleCount; i++) {
+    mvaddstrFitted(_compactSpecialInjuryStartRow + i, x, injuries[i], width);
+  }
+  if (visibleCount < injuries.length) {
+    mvaddstrFitted(
+      _compactSpecialInjuryStartRow + visibleCount,
+      x,
+      "+{count} more - DOWN",
+      width,
+      params: {"count": injuries.length - visibleCount},
+    );
   }
 
+  setColor(lightGray);
+}
+
+void printFullCreatureSpecialInjuries(Creature cr, {required int page}) {
+  final injuries = cr.body.allSpecialInjuries();
+  if (injuries.isEmpty) return;
+
+  final pageCount =
+      (injuries.length + _specialInjuryPageSize - 1) ~/ _specialInjuryPageSize;
+  final boundedPage = page.clamp(0, pageCount - 1);
+  final start = boundedPage * _specialInjuryPageSize;
+  final end = (start + _specialInjuryPageSize < injuries.length)
+      ? start + _specialInjuryPageSize
+      : injuries.length;
+
+  printFullCreatureNameBlock(cr);
+  setColor(lightGray);
+  mvaddstrFitted(
+    3,
+    0,
+    "Special Injuries (Page {page} of {pages})",
+    ManagementTableLayout.consoleWidth,
+    params: {"page": boundedPage + 1, "pages": pageCount},
+  );
+
+  setColor(red);
+  for (int i = start; i < end; i++) {
+    mvaddstrFitted(
+      _specialInjuryPageStartRow + i - start,
+      0,
+      injuries[i],
+      ManagementTableLayout.consoleWidth,
+    );
+  }
   setColor(lightGray);
 }
 

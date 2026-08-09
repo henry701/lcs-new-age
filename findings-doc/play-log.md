@@ -3662,3 +3662,23 @@ overlap. One playtester detail is worth retaining: after ARB edits, a Flutter
 web-server hot restart can keep the old asset snapshot. Restart the web server
 before judging catalog changes; the fresh process loaded the new 7,912-entry
 catalog.
+
+## Strict-headless Portuguese CIA-siege replay — 2026-08-09
+
+This pass used only the CLI `agent-browser` session `cia-headless-7972` with
+`AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage
+--disable-cache` against a fresh Flutter `web-server` on port 7972. No headed
+browser was launched or focused. The opt-in `?playtest=1` bridge exposed the
+fixed 80×25 console; the replay also checked a 640×480 rendering.
+
+A temporary CIA-siege fixture reached the Portuguese safehouse warning,
+fortification status, siege briefing, and encounter roster. The opening
+message exposed PT-263: `cerca o Estação Esquecida` uses a masculine article
+before the feminine generated site name. The exact buffer and screenshot are
+under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/`.
+The browser error channel stayed empty. Movement and map inspection found no
+additional translation or layout defect before the fixture was restored.
+
+The temporary `debugSiege`/CIA changes were reverted before leaving the route;
+`agent-browser.json` remains configured with `headed: false`.

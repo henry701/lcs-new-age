@@ -663,6 +663,17 @@ narrow-layout coverage.
   found no additional translation or layout issue.
 - Keep PT-048/PT-148, PT-083, and accepted PT-049 in the residual queue.
 
+## Strict-headless CIA-siege follow-up — 2026-08-09
+
+- PT-263 is open: the CIA raid opening says `cerca o Estação Esquecida`; the
+  dynamic site name is feminine, so the fixed article is grammatically wrong.
+  Prefer a gender-neutral template or an article-aware site-name helper before
+  the next siege catalog pass.
+- The strict-headless route also covered the Portuguese fortification status,
+  siege briefing, encounter roster, and map controls with no browser errors.
+- Temporary CIA debug hooks were restored. Keep PT-259, PT-262, PT-263,
+  PT-048/PT-148, PT-083, and accepted PT-049 in the residual queue.
+
 ## Strict-headless responsive-console follow-up — 2026-08-09
 
 - A fresh Portuguese route was replayed at 320×240 and 200×150, including

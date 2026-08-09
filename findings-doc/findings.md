@@ -145,6 +145,7 @@
 | PT-260 | Medium | Combat translation | Medical-debt collector roles remain English in the Portuguese encounter roster |
 | PT-261 | Low | Combat translation/style | Fleeing `CPA` is rendered as `cPA` instead of preserving the acronym |
 | PT-262 | Low | Combat/layout | Long medical-debt role labels are truncated in the 17-cell encounter-name column |
+| PT-263 | Medium | Siege translation/context | CIA raid opening hard-codes a masculine article before feminine site names |
 
 ## PT-001: Save-management option is clipped
 
@@ -3737,3 +3738,13 @@ translation `Trabalhador de Escritório` therefore renders as
 weapon, or health columns, so this is not a correctness defect. Consider a
 short context-specific label (for example, `Funcionário`) or a role-aware
 compact-name catalog if future roster work prioritizes full labels.
+
+## PT-263: CIA raid opening uses the wrong article for feminine site names
+
+- Severity: Medium
+- Type: Siege translation / dynamic-name agreement
+- Screen: Portuguese base → CIA safehouse raid opening
+- Replay status: **Residual; logged for a future contextual translation pass on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/opening.txt` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260809/current.png`
+
+The catalog entry for `In the dead of the night, a column of unmarked black vans with tinted windows surrounds the {location}.` renders the fixed phrase `cerca o {location}`. A strict-headless CIA replay therefore showed `cerca o Estação Esquecida`, even though `Estação` is feminine in Portuguese. The same template receives generated site names independently, so a single masculine article cannot agree with every site. Rephrase the template with a gender-neutral construction such as `cerca o local: {location}` or pass an article-aware location form.

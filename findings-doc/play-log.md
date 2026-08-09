@@ -3561,3 +3561,29 @@ covered by `test/sitemode/site_encounter_layout_test.dart` and
 
 The route reached live combat after the `CERCO: FUGIR OU ENFRENTAR` briefing.
 No additional translation or layout defect was confirmed in this fresh pass.
+
+## Strict-headless corporate-siege and empty-squad replay — 2026-08-09
+
+This pass used only CLI `agent-browser` sessions with
+`AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage`. Fresh
+Flutter `web-server` instances ran on local ports 7939–7942; no headed browser
+was launched or focused. The opt-in `?playtest=1` bridge supplied the fixed
+80×25 console.
+
+A temporary local fixture forced a Portuguese corporate siege. The safehouse
+briefing, four-enemy PMC roster, live attack and injury messages, loot footer,
+map overlay, and action legend all stayed Portuguese and within the 80-column
+console. The durable combat capture is
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/corporate-siege-20260809/combat-loot.png`.
+`Equipamento PMC` is understandable in context; no translation or layout
+defect was promoted from this stable replay.
+
+The same route exposed residual PT-256: selecting the attacked safehouse with
+no active squad, then choosing `F - Lutar/Fugir` and `X - Enfrentar`, changed
+the live buffer to `RELATÓRIO DE FALHA` with `Bad state: No element`. The stack
+identified `lib/sitemode/sitemode.dart:211`, where `_siteModeAux` reads
+`squad.first` after checking only `activeSquad`. The crash is logged in
+`findings.md` for a future runtime fix. All temporary siege/debug hooks were
+restored before validation, and the repository returned to its pre-playtest
+tracked diff.

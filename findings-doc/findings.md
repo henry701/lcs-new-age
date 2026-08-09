@@ -138,6 +138,7 @@
 | PT-253 | Low | Combat translation/style | Blown-off tongue message uses unnatural Portuguese tense and wording |
 | PT-254 | Medium | Safehouse layout | Long Portuguese safehouse names overwrite the security-box frame and action row |
 | PT-255 | Low | Combat translation/style | Fleeing creature display lowercases the `SWAT` acronym |
+| PT-256 | High | Safehouse/siege runtime | Entering a safehouse siege with no active squad crashes before combat |
 
 ## PT-001: Save-management option is clipped
 
@@ -3611,3 +3612,21 @@ The flee indicator used `name.toLowerCase()`, turning the translated `Policial
 da SWAT` into `policial da swat`. The display now lowercases only the first
 character, preserving acronyms and proper nouns; the regression exercises the
 actual encounter renderer with a fleeing SWAT officer.
+
+## PT-256: Empty-squad safehouse siege entry crashes before combat
+
+- Severity: High
+- Type: Runtime crash / safehouse siege
+- Screen: Portuguese safehouse under attack → select a safehouse with no active squad → `F - Lutar/Fugir` → `X - Enfrentar`
+- Replay status: **Open; reproduced in a strict-headless replay on 2026-08-09**
+- Evidence: strict-headless corporate-siege route; stable multi-enemy capture at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/corporate-siege-20260809/combat-loot.png`
+
+The under-attack safehouse can be selected while the campaign has no active
+squad. Choosing `F - Lutar/Fugir` and then `X - Enfrentar` reaches the siege
+entry path, but the live Portuguese buffer changes to the crash report:
+`Bad state: No element`, with the stack pointing to
+`lib/sitemode/sitemode.dart:211`. `_siteModeAux` checks only whether
+`activeSquad` exists and then reads `squad.first`; an empty squad therefore
+throws before the encounter loop can render. The route is reproducible with a
+safehouse-siege fixture and should be fixed by handling an empty squad before
+dereferencing its first member (or by preventing the empty-squad action).

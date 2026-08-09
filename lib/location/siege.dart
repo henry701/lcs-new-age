@@ -416,7 +416,7 @@ Future<void> surrenderToMedicalIndustry(Site loc) async {
     slipTop + 1,
     textLeft,
     "MEDICAL DEBT COLLECTION RECEIPT FOR {location}:",
-    params: {"location": loc.name.toUpperCase()},
+    params: {"location": loc.getName().toUpperCase()},
     y2: 4,
     x2: textRight,
   );

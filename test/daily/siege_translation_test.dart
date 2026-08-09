@@ -6,6 +6,7 @@ import 'package:lcs_new_age/daily/siege.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/siege.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/title_screen/world.dart';
@@ -61,6 +62,35 @@ void main() {
       LcsI18n.processString(template, {'location': 'Estação Esquecida'}),
       'No meio da noite, uma coluna de vans pretas sem identificação e com '
       'vidros escuros cerca o local chamado Estação Esquecida.',
+    );
+  });
+
+  test('Portuguese medical debt briefings translate complete templates', () {
+    expect(
+      LcsI18n.processString(medicalDebtArrivalBriefing, {
+        'location': 'Acampamento sem-teto',
+      }),
+      'Uma pequena frota de ambulâncias cerca a entrada do local chamado '
+      'Acampamento sem-teto. Quando as portas se abrem, um bando de '
+      'trabalhadores de '
+      'escritório em ternos baratos desce, segurando rifles que a maioria '
+      'parece não saber usar.',
+    );
+    expect(
+      LcsI18n.tr(medicalDebtCollectionSpeech),
+      'Um contador desengonçado sobe em uma das ambulâncias e fala em um '
+      'alto-falante: "Esquadrão do Crime Liberal! Viemos cobrar suas contas '
+      'hospitalares em atraso! Não temos nada contra vocês por motivos '
+      'políticos; não vamos tentar levá-los à justiça nem nada disso, mas '
+      'vocês nos devem uma bolada e viemos acertar a dívida!"',
+    );
+    expect(
+      LcsI18n.tr(medicalDebtFinanceSpeech),
+      'O contador ergue um AR-15 de qualquer jeito e continua: "Abram e '
+      'teremos uma conversa amigável! Sem nossas armas, inclusive! Tenho '
+      'umas canetas ótimas para assinarmos a papelada, e até trouxemos '
+      'donuts! São sem glúten; vocês vão gostar! Por favor, não queremos '
+      'atirar em ninguém, somos do departamento financeiro!"',
     );
   });
 
@@ -156,7 +186,9 @@ void main() {
   );
 
   test('medical debt receipt translates labels before dot alignment', () async {
-    final site = sites.first;
+    final site = sites.firstWhere(
+      (site) => site.type == SiteType.homelessEncampment,
+    );
     final liberal = Creature()
       ..align = Alignment.liberal
       ..location = site
@@ -177,5 +209,9 @@ void main() {
     expect(_consoleLine(8).indexOf('49993'), 50);
     expect(_consoleLine(10).indexOf('50000'), 50);
     expect(_consoleLine(11).indexOf('0'), 50);
+    final receiptTitle =
+        '${_consoleLine(2)} ${_consoleLine(3)} ${_consoleLine(4)}';
+    expect(receiptTitle, contains('PARA ${site.getName().toUpperCase()}:'));
+    expect(receiptTitle, isNot(contains('HOMELESS CAMP')));
   });
 }

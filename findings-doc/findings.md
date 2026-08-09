@@ -3799,32 +3799,31 @@ the original residual was isolated to the foot-chase control state.
 - Severity: High
 - Type: Missing translation / full-template coverage
 - Screen: Portuguese base → medical-industry raid announcement
-- Replay status: **Residual; confirmed in a fresh strict-headless replay on 2026-08-09**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-residual-20260809/replay.txt`
+- Replay status: **Fixed and verified in focused regressions and a fresh strict-headless replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-20260809/replay.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-20260809/receipt.png`, and `test/daily/siege_translation_test.dart`
 
-The deterministic medical-debt route localized the generated site name in the
-first announcement fragment, but the rest of the three-page raid briefing
-fell back to English. The raw output included `A small fleet of ambulances`,
-`A gangly accountant climbs up`, and the complete finance-department speech,
-while only the final `Hospital debt collectors are moving...` line was
-translated. The catalog contains source fragments for these sentences, but
-`daily/siege.dart` passes concatenated full strings to `addparagraph`, so the
-fragment entries cannot match at runtime.
+The deterministic medical-debt route originally localized only the generated
+site name; the three-page briefing then fell back to English because the
+runtime concatenated full strings while the catalog contained only fragments.
+The source now uses complete templates for the arrival, collection speech, and
+finance speech, with full English/Portuguese catalog entries and a focused
+translation regression. The fixed replay rendered all three pages in natural
+Portuguese, including the office-worker and finance-department jokes.
 
-The fixed-width buffer stayed readable and the browser error channel was
-empty; this is a translation-coverage defect rather than a layout failure.
+The fixed-width buffer stayed readable, with long speeches wrapping inside the
+80-column console, and the browser error channel was empty.
 
 ## PT-266: Medical-debt receipt title leaks the raw safehouse name
 
 - Severity: Medium
 - Type: Dynamic-name localization / receipt context
 - Screen: Medical-debt raid → `G - Desistir` receipt
-- Replay status: **Residual; confirmed in a fresh strict-headless replay on 2026-08-09**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-residual-20260809/replay.txt` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-residual-20260809.png`
+- Replay status: **Fixed and verified in a focused receipt regression and a fresh strict-headless replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-20260809/replay.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-20260809/receipt.png`, and `test/daily/siege_translation_test.dart`
 
-The receipt title rendered `PARA HOMELESS CAMP:` even though the surrounding
-Portuguese base and raid screens displayed `Acampamento sem-teto`. The
-receipt currently uppercases `loc.name` directly instead of using the
-localized site-name helper. All receipt labels and amount alignment remained
-correct in this replay, so the residual is isolated to the interpolated
-location name.
+The receipt title originally rendered `PARA HOMELESS CAMP:` even though the
+surrounding Portuguese base and raid screens displayed `Acampamento sem-teto`.
+The receipt now passes `loc.getName()` through the complete title template
+before uppercasing it, so the fixed replay rendered `PARA ACAMPAMENTO
+SEM-TETO:`. Receipt labels, dot leaders, and amount alignment remained clean
+at column 50.

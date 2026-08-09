@@ -3838,3 +3838,29 @@ dot leaders remained Portuguese and aligned, but its title read
 This confirms PT-266, a separate dynamic-name localization leak. The retained
 receipt capture and route notes are under
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-residual-20260809/`.
+
+## Strict-headless medical-debt fix replay — 2026-08-09
+
+After replacing the fragment-only briefing calls with complete cataloged
+templates and passing `loc.getName()` into the receipt title, a fresh
+`medical-fix-7985` replay used only headless Chromium with
+`AGENT_BROWSER_HEADED=0` and
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage
+--disable-cache`. The temporary debt/funds fixture was restored before
+cleanup; no headed browser was launched or focused.
+
+All three announcement pages were Portuguese: the first rendered
+`Uma pequena frota de ambulâncias...`, the second rendered
+`Um contador desengonçado sobe...`, and the third rendered
+`O contador ergue um AR-15...`. The final status now reads
+`Cobradores de dívidas hospitalares estão indo acertar contas com o local
+chamado Acampamento sem-teto.` The dynamic-site wording stays grammatical
+without assuming a masculine or feminine site name. Long text wrapped within
+the fixed 80-column buffer.
+
+The `G - Desistir` receipt now renders `PARA ACAMPAMENTO SEM-TETO:`. The
+labels and amounts remain aligned at column 50, and the browser error channel
+is empty. Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-20260809/`.
+PT-265 and PT-266 are closed; continue with the remaining exploratory route
+queue.

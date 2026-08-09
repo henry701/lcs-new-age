@@ -39,6 +39,28 @@ import 'package:lcs_new_age/title_screen/game_over.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
+const medicalDebtArrivalBriefing =
+    'A small fleet of ambulances surrounds the front of {location}. '
+    'As they open, a bunch of office workers in cheap suits climb out '
+    'while handling rifles that most of them look like they have '
+    'no idea how to use.';
+
+const medicalDebtCollectionSpeech =
+    'A gangly accountant climbs up onto one of the ambulances and '
+    'speaks into a loudspeaker: "Liberal Crime Squad! We\'re here '
+    'to collect on your unpaid hospital bills! We have no political '
+    'issue with you, we\'re not gonna try to bring you to justice '
+    'or anything like that, but you owe us a buncha money and '
+    'we\'re here to settle the debt!"';
+
+const medicalDebtFinanceSpeech =
+    'The accountant lifts an AR-15 haphazardly and continues: '
+    '"Open up and we\'ll have a nice chat! Without our guns even! '
+    'I have some sweet pens we can sign the paperwork with, and we '
+    'even brought doughnuts! They\'re gluten free, you\'ll like them! '
+    'Please, we don\'t wanna shoot anyone, we\'re from the finance '
+    'department!"';
+
 /* siege - updates upcoming sieges */
 Future<void> siegeCheck() async {
   if (disbanding) return;
@@ -586,35 +608,14 @@ Future<void> siegeCheck() async {
         addparagraph(
           4,
           1,
-          "A small fleet of ambulances surrounds the front of {location}. "
-          "As they open, a bunch of office workers in cheap suits climb out "
-          "while handling rifles that most of them look like they have "
-          "no idea how to use.",
+          medicalDebtArrivalBriefing,
           params: {"location": l.getName()},
         );
         await getKey();
         setColor(white);
-        addparagraph(
-          console.y + 1,
-          1,
-          "A gangly accountant climbs up onto one of the ambulances and "
-          "speaks into a loudspeaker: \"Liberal Crime Squad! We're here "
-          "to collect on your unpaid hospital bills! We have no political "
-          "issue with you, we're not gonna try to bring you to justice "
-          "or anything like that, but you owe us a buncha money and "
-          "we're here to settle the debt!\"",
-        );
+        addparagraph(console.y + 1, 1, medicalDebtCollectionSpeech);
         await getKey();
-        addparagraph(
-          console.y + 1,
-          1,
-          "The accountant lifts an AR-15 haphazardly and continues: "
-          "\"Open up and we'll have a nice chat! Without our guns even! "
-          "I have some sweet pens we can sign the paperwork with, and we "
-          "even brought doughnuts! They're gluten free, you'll like them! "
-          "Please, we don't wanna shoot anyone, we're from the finance "
-          "department!\"",
-        );
+        addparagraph(console.y + 1, 1, medicalDebtFinanceSpeech);
         await getKey();
         setColor(lightBlue);
         addparagraph(

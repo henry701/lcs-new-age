@@ -3634,3 +3634,31 @@ removed. It is logged for a future status-rendering decision; no fixture or
 debug flag remains in the repository.
 
 Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-combat-fixed-20260809.png`, and the prior death capture at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/combat-death-20260809/death-message-after.txt`.
+
+## Strict-headless Portuguese medical-debt replay — 2026-08-09
+
+This pass used only CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+Chromium `--headless=new --ozone-platform=headless --disable-dev-shm-usage`
+against a freshly restarted Flutter `web-server` on port 7960. The opt-in
+`?playtest=1` bridge supplied the fixed 80×25 console; no headed browser was
+launched or focused. A deliberate pause after choosing Portuguese ensured the
+locale catalog finished loading before the campaign route continued.
+
+The medical-debt siege roster reproduced PT-260 and PT-261 before the fix:
+`Actuary`, `Claims Adjuster`, and `cPA` appeared alongside Portuguese labels.
+After adding the role entries, making generated-name matching case-insensitive,
+using the idiomatic `Regulador de Sinistros`, and preserving leading acronyms,
+the restarted server reported 7,912 loaded Portuguese translations and the
+roster rendered `Regulador de Sin…` and
+`CPA`. `Auditor` stayed unchanged as a valid Portuguese cognate. The fixed
+capture is `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-server-restart-20260809.txt`
+with a screenshot at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-server-restart-20260809.png`;
+the browser error channel was empty.
+
+PT-262 remains a low-priority readability enhancement: the fixed 17-cell
+column fits `Trabalhador de Escritório` as `Trabalhador de E…` without column
+overlap. One playtester detail is worth retaining: after ARB edits, a Flutter
+web-server hot restart can keep the old asset snapshot. Restart the web server
+before judging catalog changes; the fresh process loaded the new 7,912-entry
+catalog.

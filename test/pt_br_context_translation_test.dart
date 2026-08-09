@@ -412,6 +412,16 @@ void main() {
       localizedCreatureNameValue('Guard Dog', 'Guard Dog'),
       'Cão de Guarda',
     );
+    expect(catalog['Actuary'], 'Atuário');
+    expect(catalog['Claims Adjuster'], 'Regulador de Sinistros');
+    expect(catalog['Auditor'], 'Auditor');
+    expect(catalog['CPA'], 'CPA');
+    expect(
+      localizedCreatureNameValue('Claims Adjuster', 'Claims Adjuster'),
+      'Regulador de Sinistros',
+    );
+    expect(localizedCreatureNameValue('actuary', 'Actuary'), 'Atuário');
+    expect(localizedCreatureNameValue('CPA', 'CPA'), 'CPA');
     expect(catalog['responds'], 'responde');
     expect(catalog['openly stares'], 'encara abertamente');
     expect(
@@ -436,6 +446,7 @@ void main() {
 
   test('fleeing Portuguese creature names preserve acronym casing', () {
     expect(lowercaseFirstCharacter('Policial da SWAT'), 'policial da SWAT');
+    expect(lowercaseFirstCharacter('CPA'), 'CPA');
     expect(lowercaseFirstCharacter(''), isEmpty);
   });
 

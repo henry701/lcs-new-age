@@ -30,20 +30,27 @@ String localizedSquadName(String name) =>
 
 String localizedCreatureNameValue(String creatureName, String typeName) {
   final normalizedName = creatureName.trim();
+  final normalizedTypeName = typeName.trim();
   if (LcsI18n.hasTranslation(normalizedName)) {
     return LcsI18n.tr(normalizedName);
   }
-  return normalizedName == typeName.trim()
-      ? LcsI18n.tr(normalizedName)
-      : creatureName;
+  final isGeneratedTypeName =
+      normalizedName.toLowerCase() == normalizedTypeName.toLowerCase();
+  return isGeneratedTypeName ? LcsI18n.tr(normalizedTypeName) : creatureName;
 }
 
 String localizedCreatureName(Creature creature) =>
     localizedCreatureNameValue(creature.name, creature.type.name);
 
-/// Lowercases only the first character so acronyms and proper nouns survive.
+/// Lowercases a leading ordinary word while preserving leading acronyms.
 String lowercaseFirstCharacter(String value) {
   if (value.isEmpty) return value;
+  final firstWord = value.split(RegExp(r'\s+')).first;
+  final isAcronym =
+      firstWord.length > 1 &&
+      firstWord == firstWord.toUpperCase() &&
+      firstWord != firstWord.toLowerCase();
+  if (isAcronym) return value;
   return value[0].toLowerCase() + value.substring(1);
 }
 
@@ -56,7 +63,9 @@ String localizedCreaturePossessiveName(Creature creature) {
   final localizedName = localizedCreatureName(creature);
   if (LcsI18n.currentLocale != 'pt_BR') return localizedName;
 
-  final isGeneratedRole = creature.name.trim() == creature.type.name.trim();
+  final isGeneratedRole =
+      creature.name.trim().toLowerCase() ==
+      creature.type.name.trim().toLowerCase();
   String withArticle(String article) => [article, localizedName].join(' ');
 
   if (!isGeneratedRole) return withArticle('de');

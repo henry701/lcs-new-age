@@ -172,13 +172,13 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 304,
+      "line": 313,
       "text": "\\$${ledger.funds}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 442,
+      "line": 451,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },

@@ -67,6 +67,33 @@ void main() {
     expect(_consoleCells(12, 2, 19), isNot(contains('swat')));
   });
 
+  test('Portuguese medical debt roles use localized encounter labels', () {
+    final roleIds = [
+      (CreatureTypeIds.actuary, 'Atuário'),
+      (CreatureTypeIds.cpa, 'CPA'),
+      (CreatureTypeIds.claimsAdjuster, 'Regulador de S'),
+      (CreatureTypeIds.auditor, 'Auditor'),
+      (CreatureTypeIds.officeWorker, 'Trabalhador de E'),
+    ];
+    for (final (id, _) in roleIds) {
+      final role = Creature.fromId(id, align: Alignment.conservative)
+        ..blood = 10000
+        ..juice = 10000
+        ..nonCombatant = false;
+      encounter.add(role);
+      expect(role.name, role.type.name);
+    }
+
+    printEncounter();
+
+    for (var i = 0; i < roleIds.length; i++) {
+      expect(
+        _consoleCells(12 + i, 2, 19).trimRight(),
+        startsWith(roleIds[i].$2),
+      );
+    }
+  });
+
   test('Portuguese encounter health cells mark armor without clipping', () {
     final observer = Creature()
       ..align = Alignment.liberal

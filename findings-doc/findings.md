@@ -142,6 +142,9 @@
 | PT-257 | Medium | Combat/layout | Portuguese encounter armor details collapse to an ellipsis in the six-cell health column |
 | PT-258 | Medium | Combat/layout | Long Portuguese hit descriptions are clipped at the fixed console edge |
 | PT-259 | Medium | Combat/status layout | Death-reflection rows expose negative health values for defeated enemies |
+| PT-260 | Medium | Combat translation | Medical-debt collector roles remain English in the Portuguese encounter roster |
+| PT-261 | Low | Combat translation/style | Fleeing `CPA` is rendered as `cPA` instead of preserving the acronym |
+| PT-262 | Low | Combat/layout | Long medical-debt role labels are truncated in the 17-cell encounter-name column |
 
 ## PT-001: Save-management option is clipped
 
@@ -3685,3 +3688,52 @@ engine but misleading to players and can make the armor marker look like a
 live statistic. Keep this open for a follow-up decision on whether dead rows
 should show `Morto`, be removed before the redraw, or retain a distinct corpse
 status.
+
+## PT-260: Medical-debt collector roles remain English in Portuguese
+
+- Severity: Medium
+- Type: Combat translation / generated creature labels
+- Screen: Portuguese medical-debt siege encounter roster
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regressions on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-before-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-before-20260809.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-server-restart-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-server-restart-20260809.png`, and `test/sitemode/site_encounter_layout_test.dart`
+
+The medical-debt collector encounter drew `Actuary` and `Claims Adjuster`
+unchanged in the Portuguese roster. Generated role names can also arrive with
+only their first word lowercased, which previously bypassed the exact-key
+lookup. The canonical catalog now uses `Atuário` and the idiomatic Brazilian
+insurance term `Regulador de Sinistros`, and creature-name localization
+recognizes case-insensitive generated role names before translating them.
+`Auditor` remains `Auditor` because that is the
+same valid Brazilian Portuguese term; it is explicitly recorded as an
+intentional unchanged catalog label. The restarted web-server replay loaded
+all 7,912 Portuguese entries and rendered `Regulador de Sin…` in the fixed
+17-cell roster column with no browser errors.
+
+## PT-261: Fleeing `CPA` is rendered as `cPA`
+
+- Severity: Low
+- Type: Combat translation/style / acronym casing
+- Screen: Portuguese medical-debt siege encounter roster when a conservative flees
+- Replay status: **Fixed and verified in focused render regressions and a fresh strict-headless replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-before-20260809.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-server-restart-20260809.txt`, and `test/pt_br_context_translation_test.dart`
+
+The flee styling lowercased the first character of every conservative name,
+turning the acronym `CPA` into `cPA`. The shared helper now preserves any
+leading all-uppercase acronym while still lowercasing ordinary labels such as
+`Policial da SWAT` to `policial da SWAT`. The focused encounter regression and
+the restarted medical-debt replay both keep `CPA` uppercase.
+
+## PT-262: Long medical-debt role labels are truncated
+
+- Severity: Low
+- Type: Combat layout / readability enhancement
+- Screen: Portuguese medical-debt siege encounter roster
+- Replay status: **Residual; logged for a future fixed-width roster pass on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-before-20260809.txt` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-server-restart-20260809.txt`
+
+The encounter name column has a deliberate 17-cell budget. The natural
+translation `Trabalhador de Escritório` therefore renders as
+`Trabalhador de E…`. It remains readable and does not overwrite the clothing,
+weapon, or health columns, so this is not a correctness defect. Consider a
+short context-specific label (for example, `Funcionário`) or a role-aware
+compact-name catalog if future roster work prioritizes full labels.

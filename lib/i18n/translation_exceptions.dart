@@ -60,6 +60,8 @@ const Set<String> structuralTranslationKeys = {
   'Tablet',
   'Van',
   'CEO',
+  'CPA',
+  'Auditor',
   'Cuba',
   'DNA',
   'DEO VINDICE',

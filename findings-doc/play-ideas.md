@@ -36,6 +36,15 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   health column and wraps long Portuguese hit descriptions over rows 9–10.
   Keep the compact-status and combat-message regressions with future roster or
   localization changes.
+- PT-260/PT-261 fixed and verified (2026-08-09): the restarted Portuguese
+  medical-debt replay now translates `Actuary`/`Claims Adjuster` as
+  `Atuário`/`Regulador de Sinistros`, handles
+  case-variant generated role names, and preserves the `CPA` acronym while
+  applying flee styling. Keep the role-label and acronym regressions with
+  future encounter rendering changes.
+- PT-262 remains open: `Trabalhador de Escritório` is fitted to
+  `Trabalhador de E…` in the 17-cell encounter-name column. Decide later
+  whether the roster needs a compact context-specific role label.
 
 ## Current residuals to verify after fixes
 

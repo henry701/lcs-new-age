@@ -3864,3 +3864,17 @@ is empty. Evidence is retained at
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-fixed-20260809/`.
 PT-265 and PT-266 are closed; continue with the remaining exploratory route
 queue.
+
+## Strict-headless responsive/options follow-up — 2026-08-09
+
+A fresh Portuguese session at a 480×320 viewport used only the headless CLI
+browser. The title, game-options, interface-options, and content/tone screens
+were captured through the DOM bridge and screenshots. Long explanatory copy
+wrapped inside the fixed 80-column console; toggling `Tom mais claro` changed
+only its state line and did not leave stale text. `Page Up/Down`, `Mouse`, and
+`JSON` remain intentionally technical labels, as recorded in PT-008.
+
+The version footer is still visually tight at this viewport, but it remains
+bounded and is the accepted PT-083 responsive-readability enhancement. No new
+translation, layout, or browser-error defect was confirmed. Evidence is under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/responsive-followup-20260809/`.

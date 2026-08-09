@@ -57,6 +57,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-266 fixed and verified (2026-08-09): the medical-debt receipt now passes
   the localized site name into its title template, rendering `PARA
   ACAMPAMENTO SEM-TETO:` while preserving the existing amount alignment.
+- 2026-08-09 responsive/options follow-up: the 480×320 Portuguese title,
+  game-options, interface-options, and content/tone screens stayed bounded and
+  localized. The version footer remains the accepted PT-083 narrow-viewport
+  enhancement; no new defect was confirmed. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/responsive-followup-20260809/`.
 
 ## Current residuals to verify after fixes
 

@@ -3405,3 +3405,34 @@ The Portuguese context regression now verifies `Cão de Guarda`, while the
 runtime route stayed Portuguese and introduced no additional layout defect.
 The temporary founder/item cheats were restored to their committed all-false
 values, and the headless browser/server were closed after capture.
+
+## Strict-headless narrow management and CIA-siege replay — 2026-08-09
+
+This pass used only CLI `agent-browser` sessions with `AGENT_BROWSER_HEADED=0`
+and Chromium `--headless=new --ozone-platform=headless`. The viewport was
+480×320, and the opt-in `?playtest=1` DOM bridge supplied the fixed 80×25
+buffer and key events. No headed browser was launched or focused.
+
+The fresh Portuguese founder route traversed Review → Assemble Squad, media,
+agenda, vehicles, travel, Corporate HQ, the site map/help overlay, and site
+equipment. The new-squad header reproduced PT-248 before the fix: the fixed
+column-71 placement cut `Novo Esquadrão` to `Novo Esqu`. After replacing that
+placement with localized right alignment, the fresh replay shows the complete
+header in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-sweep-20260809/14-assemble-squad-fixed.txt`
+and its screenshot. The other narrow routes stayed Portuguese and within the
+80-column buffer; bounded ellipses in compact roster/profile cells remain the
+accepted PT-083/long-label presentation queue.
+
+A temporary CIA-siege fixture then reached the Portuguese safehouse briefing,
+combat roster, and fixed-width site controls. The route confirmed the spaced
+compound-status row and localized `SOB ATAQUE: FUGIR OU ENFRENTAR` briefing;
+random movement did not reach a second live encounter in this pass. Evidence
+is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/terminal-cia-20260809/`.
+The debug flags were restored to their committed all-false values before
+validation.
+
+The residual queue is PT-048/PT-148 broader random combat/post-fight coverage,
+PT-083 narrow-console readability, and accepted PT-049 historical changelog
+English. The profile phrase `Qualquer outra tecla - continue a Luta` was
+reviewed against the source key's capitalization and retained intentionally.

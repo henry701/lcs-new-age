@@ -362,6 +362,19 @@ void main() {
   );
 
   test(
+    'Portuguese new-squad header stays visible at the console edge',
+    () async {
+      pool.add(_activeLiberal());
+      console.keyEvent(_enterKey);
+
+      await assembleSquad(null);
+
+      expect(_consoleLine(0), endsWith('Novo Esquadrão'));
+      expect(_consoleLine(0).length, lessThanOrEqualTo(console.width));
+    },
+  );
+
+  test(
     'Portuguese active-Liberal review footer keeps controls separated',
     () async {
       pool.add(_activeLiberal());

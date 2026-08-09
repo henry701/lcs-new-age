@@ -4,6 +4,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 `play-log.md` after completing it; promote only confirmed defects to
 `findings.md`.
 
+- PT-248 fixed and verified (2026-08-09): the Portuguese `Novo Esquadrão`
+  header now right-aligns from its localized width instead of clipping at
+  column 71. Keep the focused layout regression and narrow replay evidence.
+
 ## Current residuals to verify after fixes
 
 - PT-224/PT-225/PT-226 fixed and verified (2026-08-09): the strict-headless

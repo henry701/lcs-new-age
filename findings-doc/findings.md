@@ -130,6 +130,7 @@
 | PT-245 | Medium | Combat translation | Guard Dog remains in English in security encounters |
 | PT-246 | Low | Translation telemetry | Generated Portuguese site names are falsely reported as missing keys |
 | PT-247 | Low | Translation telemetry | Numeric health, armor, and price shells create false missing warnings |
+| PT-248 | Medium | Review layout | New-squad header is clipped at the right edge in Portuguese |
 
 ## PT-001: Save-management option is clipped
 
@@ -3481,3 +3482,19 @@ assembled at render time. The structural-key allowlist now matches the
 trimmed price shell and both compact health/armor shells. Logger and core
 Portuguese regressions assert that these values stay out of the missing-key
 report.
+
+## PT-248: New-squad header is clipped at the right edge in Portuguese
+
+- Severity: Medium
+- Type: Review layout / fixed-width rendering
+- Screen: Portuguese review mode → `Z - Montar um Novo Esquadrão`
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-sweep-20260809/13-assemble-squad.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-sweep-20260809/13-assemble-squad.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-sweep-20260809/14-assemble-squad-fixed.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-sweep-20260809/14-assemble-squad-fixed.png`
+
+The new-squad renderer placed the source-length `New Squad` label at column
+71. Its Portuguese translation, `Novo Esquadrão`, is longer than the
+remaining nine cells and was cut to `Novo Esqu` at the 80-column boundary.
+The renderer now uses the shared right-alignment helper, which measures the
+localized text before choosing its start column. The fresh 480×320 replay
+shows the complete `Novo Esquadrão` label, and the focused layout regression
+asserts that the translated header remains visible and within the console.

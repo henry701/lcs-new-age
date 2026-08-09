@@ -918,8 +918,7 @@ Future<void> assembleSquad(Squad? cursquad) async {
     }
 
     if (newsquad) {
-      move(0, 71);
-      addstr("New Squad");
+      mvaddstrRight(0, "New Squad");
     } else {
       final displayedName = localizedSquadName(cursquad.name);
       // Translate before measuring so the longer Portuguese prefix stays visible.

@@ -2926,3 +2926,19 @@ looks up one complete catalog template and wraps the combined body with
 Portuguese throughout, with every body line inside the console boundary and the
 prompt preserved on its own row. A focused siege translation regression guards
 the wrapped layout.
+
+## PT-216: Siege wait warning was a literal, ungrammatical phrase
+
+- Severity: Medium
+- Type: Contextual translation / fixed-width layout
+- Screen: Safehouse siege base screen
+- Replay status: **Fixed and verified in a fresh strict-headless Portuguese replay on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-wait-warning-20260809/after.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-wait-warning-20260809/after.png`
+
+The warning `Cannot Wait until Siege Resolved` rendered as
+`Não Pode Esperar até Cerco Resolvido`, which was not natural Brazilian
+Portuguese and used title-style capitalization in a sentence. The replacement
+`Não pode esperar até o cerco terminar` preserves the meaning, fits the
+left-hand 38-column area, and leaves `X - Sair para a Tela Inicial` intact in
+the adjacent column. A base-mode regression covers both the wording and the
+column boundary.

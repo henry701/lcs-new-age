@@ -2758,3 +2758,24 @@ map, and equipment screens; all remained readable. The next combat pass should
 still target the unresolved terminal death/arrest/surrender variants (PT-048/
 PT-148), rather than treating this briefing as complete coverage of those
 branches.
+
+## Strict-headless siege surrender and wait-warning replay — 2026-08-09
+
+This follow-up used only `agent-browser` session `pt-terminal-cops-20260809c`
+with `AGENT_BROWSER_HEADED=0` and Chromium `--headless=new
+--ozone-platform=headless`. A temporary local mega-founder/police-siege
+fixture entered the safehouse branch immediately after founder creation; the
+fixture was used only for the replay and was restored before validation.
+
+The `G - Desistir` surrender path rendered the confiscation, funds, and
+fortification messages in Portuguese and returned to the base without a raw
+English leak. The same base screen reproduced PT-216: `Não Pode Esperar até
+Cerco Resolvido` was an ungrammatical literal and sat beside the right-column
+exit action. The catalog now renders `Não pode esperar até o cerco terminar`;
+the fresh server restart shows it entirely in the left column while
+`X - Sair para a Tela Inicial` remains separate. The post-fix buffer and
+screenshot are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-wait-warning-20260809/`.
+
+Terminal death/arrest variants remain open as PT-048/PT-148; this replay did
+not claim those branches covered.

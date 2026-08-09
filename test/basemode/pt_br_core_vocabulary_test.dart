@@ -25,6 +25,7 @@ import 'package:lcs_new_age/items/flag.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
+import 'package:lcs_new_age/location/siege.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/title_screen/world.dart';
@@ -654,6 +655,24 @@ void main() {
     expect(rendered, isNot(contains('We really need a slogan!')));
     expect(founder.activity.type, ActivityType.none);
   });
+
+  test(
+    'Portuguese siege wait warning stays natural and clear of exit action',
+    () {
+      final founder = _founder();
+      founder.base = _homelessCamp;
+      _homelessCamp.siege.activeSiegeType = SiegeType.police;
+      _homelessCamp.siege.underAttack = true;
+
+      baseModeOptionsDisplay(_homelessCamp);
+
+      expect(
+        _consoleCells(23, 0, 40).trim(),
+        equals('Não pode esperar até o cerco terminar'),
+      );
+      expect(_consoleCells(23, 40, 80).trim(), startsWith('X - Sair'));
+    },
+  );
 
   test('Portuguese base header keeps the date clear of activity text', () {
     _founder();

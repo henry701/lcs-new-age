@@ -442,3 +442,5 @@ narrow-layout coverage.
 - Keep PT-194, PT-048/PT-148, PT-083, PT-151/PT-189, PT-164, and accepted
   PT-049 in the residual queue; no new open issue was confirmed in this route
   after the fixes.
+- PT-216 fixed (2026-08-09): the siege wait warning now uses natural Portuguese
+  and stays inside the left column without colliding with the exit action.

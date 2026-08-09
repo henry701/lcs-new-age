@@ -3748,3 +3748,28 @@ fixed console is necessarily tiny on very narrow viewports; the checked
 routes did not clip, wrap incorrectly, or lose controls. The residual queue
 remains broader police-alarm surrender/arrest coverage under PT-048/PT-148
 and accepted PT-049 historical changelog English.
+
+## Strict-headless police-siege surrender replay — 2026-08-09
+
+This pass used only CLI `agent-browser` session `police-subdue-7981` with
+`AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage
+--disable-cache` against a fresh Flutter `web-server` on port 7981. No headed
+browser was launched or focused. A temporary local-only `debugSiege` fixture
+was restored before validation.
+
+The Portuguese campaign reached `Siderúrgica Abandonada` under police siege,
+selected `F - Lutar/Fugir`, and entered the foot chase. The live frame showed
+the localized roster (`Policial da SWAT`, `Armadura da SWAT`) and the action
+legend `D - Tentar despistá-los, F - Lutar, E - Equipar, O - Ordenar, G - Desistir`.
+After the evasive sequence completed, `G - Desistir` remained visibly grey and
+pressing `G` twice left the bridge buffer unchanged; no arrest result appeared.
+This confirms PT-264, a residual police-siege control bug: the screen
+advertises surrender but does not accept it in this foot-chase variant.
+
+Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-surrender-20260809/`.
+No additional translation or fixed-width layout defect was found on this
+screen. Continue PT-264 alongside the broader PT-048/PT-148 police-alarm
+coverage, PT-083 responsive readability, and accepted PT-049 historical
+changelog English.

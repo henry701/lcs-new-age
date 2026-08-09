@@ -146,6 +146,7 @@
 | PT-261 | Low | Combat translation/style | Fleeing `CPA` is rendered as `cPA` instead of preserving the acronym |
 | PT-262 | Low | Combat/layout | Long medical-debt role labels are truncated in the 17-cell encounter-name column |
 | PT-263 | Medium | Siege translation/context | CIA raid opening hard-codes a masculine article before feminine site names |
+| PT-264 | Medium | Combat controls | Police-siege foot chase advertises a disabled surrender action |
 
 ## PT-001: Save-management option is clipped
 
@@ -3761,3 +3762,21 @@ The regression covers `Antigo Motel` and `Estação Esquecida`; a fresh
 640×480 headless CIA replay rendered `cerca o local chamado Frigorífico
 Abandonado.` with all 25 bridge rows exactly 80 cells wide and no browser
 errors.
+
+## PT-264: Police-siege foot chase advertises a disabled surrender action
+
+- Severity: Medium
+- Type: Combat controls / police-siege flow
+- Screen: Portuguese safehouse under siege → `F - Lutar/Fugir` → foot chase
+- Replay status: **Residual; logged for a future police-alarm control fix on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-surrender-20260809/replay.txt` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-surrender-20260809.png`
+
+The strict-headless Portuguese siege replay reached a foot chase with six
+`Policial da SWAT` pursuers. The action legend displayed `G - Desistir`, but
+the control was visibly disabled and pressing `G` did not enter the localized
+arrest result; the buffer remained unchanged after repeated attempts.
+
+The screen should either hide the unavailable surrender action or enable it
+for a police pursuit and route the player to the existing arrest/capture
+result. The Portuguese roster (`Armadura da SWAT`, `Policial da SWAT`) and
+fixed-width layout were otherwise clean in this replay.

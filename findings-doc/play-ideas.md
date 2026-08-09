@@ -724,3 +724,14 @@ narrow-layout coverage.
   readability enhancement, continue PT-048/PT-148 police-alarm
   surrender/arrest variants, and leave accepted PT-049 historical changelog
   English out of the fix queue.
+
+## Strict-headless police-siege surrender follow-up — 2026-08-09
+
+- PT-264 is confirmed: a Portuguese police-siege foot chase shows the grey
+  `G - Desistir` action, but repeated `G` input is ignored after the evasive
+  sequence. The localized SWAT roster and 80-column layout are otherwise
+  clean. Either enable the existing arrest result for this police pursuit or
+  remove the unavailable action from the legend.
+- Keep PT-264 with the broader PT-048/PT-148 police-alarm route work; retain
+  PT-083 as the responsive-readability enhancement and PT-049 as accepted
+  historical changelog English.

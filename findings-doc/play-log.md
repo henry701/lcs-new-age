@@ -2886,3 +2886,27 @@ unplayed terminal death/arrest and post-fight summary variants; other
 residuals remain PT-083 (narrow viewport), PT-151/PT-189 (intentional
 long-label ellipses), PT-164 (oversized debug/import roster), and accepted
 PT-049 (English changelog body).
+
+## Strict-headless monthly newspaper sweep — 2026-08-09
+
+This pass used only the CLI `agent-browser` session `monthly-sweep-20260809`
+with `AGENT_BROWSER_HEADED=0` and Chromium `--headless=new
+--ozone-platform=headless`. The opt-in `?playtest=1` DOM bridge drove a fresh
+Portuguese game through the month-end `W` route; no headed browser was
+launched or focused.
+
+At day 17 the route opened a `View.sweatshops` major-event picture story and
+reproduced a real runtime failure. The localized caption was wider than the
+80-column console, and `mvaddstrCenter` computed `x = -8`; `Console.addchar`
+then raised `RangeError (index): Index out of range: index must not be
+negative`. The failing buffer is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/monthly-sweep-20260809/day-17-0.txt`.
+
+PT-221 fits localized picture captions to 78 visible columns before centering.
+The exact Portuguese event now completes under
+`test/newspaper/herald_translation_test.dart`, renders a visible ellipsis,
+and keeps the 80-column buffer invariant. A fresh post-fix sweep continued to
+13 Feb 2023, visiting January/February newspaper and agenda screens without a
+second runtime failure. Residual coverage remains PT-048/PT-148 terminal combat variants, PT-083 narrow viewport readability,
+PT-151/PT-189 intentional long-label ellipses, PT-164 oversized debug/import
+rosters, and accepted PT-049 English changelog body.

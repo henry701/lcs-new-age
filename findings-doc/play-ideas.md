@@ -457,3 +457,9 @@ narrow-layout coverage.
 - PT-220 fixed (2026-08-09): live combat bluff responses now clear the prior
   talk header before drawing the shorter Portuguese result; the strict-headless
   replay no longer leaves a target-name suffix on row 9.
+- PT-221 fixed (2026-08-09): the sweatshop major-event picture caption now
+  fits the localized text before centering, preventing the negative-x
+  `RangeError` reproduced during the month-end newspaper sweep. The focused
+  regression covers the Portuguese caption and visible ellipsis. A fresh
+  strict-headless sweep then reached 13 Feb 2023, including January/February
+  newspaper and agenda screens, without another runtime failure.

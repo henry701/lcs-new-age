@@ -3004,3 +3004,21 @@ message area first, the live Portuguese buffer showed
 before rendering every bluff response. The focused
 `test/talk/talk_in_combat_layout_test.dart` regression captures the actual
 intermediate frame and asserts that the previous target name cannot remain.
+
+## PT-221: Long Portuguese major-event picture caption crashed the newspaper
+
+- Severity: High
+- Type: Fixed-width layout / runtime crash
+- Screen: Monthly advance → Portuguese major-event newspaper (`View.sweatshops`)
+- Replay status: **Fixed and verified by a deterministic Portuguese rendering regression and a fresh strict-headless sweep through 13 Feb 2023 on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/monthly-sweep-20260809/day-17-0.txt`
+
+The monthly sweep reached the sweatshop picture story and crashed while
+centering its localized caption. `Uma camiseta em uma loja é encontrada
+rabiscada com uma mensagem de um trabalhador de uma oficina exploradora.` is
+longer than the 80-column console, so `mvaddstrCenter` computed an x origin of
+`-8` and `Console.addchar` raised a `RangeError`. Picture captions now pass
+through the existing console-width fitter after localization, preserving a
+visible ellipsis and leaving the stored story text available for the article
+view. `test/newspaper/herald_translation_test.dart` renders the exact event in
+Portuguese and guards both normal completion and the ellipsis boundary.

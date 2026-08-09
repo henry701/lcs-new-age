@@ -213,6 +213,24 @@ void main() {
     expect(console.buffer.every((line) => line.length == 80), isTrue);
   });
 
+  test('long Portuguese picture captions render safely', () {
+    final story = NewsStory.unpublished(NewsStories.majorEvent)
+      ..publication = Publication.herald
+      ..view = View.sweatshops
+      ..liberalSpin = true;
+
+    expect(
+      () => displayMajorEventStory(
+        story,
+        List<int>.filled(25, 1),
+        List<int>.filled(25, 78),
+      ),
+      returnsNormally,
+    );
+    expect(console.buffer.every((line) => line.length == 80), isTrue);
+    expect(_consoleLine(12), contains('…'));
+  });
+
   test('Portuguese gun-control story translates the shooter pronoun', () {
     final story = NewsStory.unpublished(NewsStories.majorEvent)
       ..publication = Publication.herald

@@ -120,7 +120,13 @@ void displayMajorEventStory(
 
   if (content.pictureId != null) {
     if (content.subheadline != null) {
-      mvaddstrCenter(12, content.subheadline!);
+      // Picture captions share a single console row; fit the localized text
+      // before centering so a long translation cannot produce a negative x.
+      final caption = fitConsoleText(
+        LcsI18n.processString(content.subheadline!, null),
+        console.width - 2,
+      );
+      mvaddstrCenter(12, caption, noTranslate: true);
       ns.body = content.subheadline!;
     }
     displayNewsPicture(content.pictureId!, 13, ns, content.remapSkinTones);

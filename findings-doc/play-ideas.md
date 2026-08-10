@@ -852,3 +852,14 @@ narrow-layout coverage.
 - Continue the daily/news sweep and dynamic site-name families. Keep
   PT-048/PT-148 police-alarm variants and PT-083 responsive readability open;
   accepted PT-049 historical changelog English remains out of the fix queue.
+
+## Strict-headless White House action follow-up — 2026-08-09
+
+- The fixed route was replayed from a fresh Portuguese Washington, DC game.
+  It reached `DC — Casa Branca, Nível 2`, the direct-action help page, and the
+  exit path without exposing another English site label.
+- The roster/header truncation remains bounded by the 80-column console, and
+  the browser error channel stayed empty. No new defect was confirmed.
+- Keep PT-048/PT-148 police-alarm variants and PT-083 responsive readability
+  open; accepted PT-049 historical changelog English remains out of the fix
+  queue.

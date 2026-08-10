@@ -4038,3 +4038,19 @@ new translation or layout issue appeared. Evidence is retained at
 PT-271 is closed. Continue the residual PT-048/PT-148 police-alarm variants
 and PT-083 responsive-readability enhancement; accepted PT-049 historical
 changelog English remains out of the fix queue.
+
+## Strict-headless White House action follow-up — 2026-08-09
+
+A fresh Portuguese Washington, DC game was played through the DOM bridge with
+an isolated Chromium `HeadlessChrome` session. The route selected National
+Mall → `Casa Branca`, entered the site, rendered `DC — Casa Branca, Nível 2`,
+opened the `Ação Direta` help page, and exited back to base. The direct-action
+controls and explanatory copy stayed in Portuguese; the roster's compact
+vehicle cell remained bounded by the existing 80-column layout. The browser
+error channel was empty. The capture is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/whitehouse-8004.json`.
+
+No new translation or layout issue was confirmed. Continue the residual
+PT-048/PT-148 police-alarm variants and PT-083 responsive-readability
+enhancement; accepted PT-049 historical changelog English remains out of the
+fix queue.

@@ -3902,3 +3902,24 @@ Evidence is retained at
 PT-262 is closed. Continue the broader PT-048/PT-148 police-alarm variants
 and PT-083 responsive-readability route; accepted PT-049 historical changelog
 English remains out of the fix queue.
+
+## Strict-headless police terminal-combat and responsive sweep — 2026-08-09
+
+- A fresh Portuguese police-siege fixture on Flutter web-server port 7991 was
+  replayed exclusively through an isolated `agent-browser` session with
+  `AGENT_BROWSER_HEADED=0` and Chromium `--headless=new`,
+  `--ozone-platform=headless`, `--disable-dev-shm-usage`, and
+  `--disable-cache`. No headed browser was launched or focused.
+- The route covered the siege briefing, direct foot-chase `F - Lutar`,
+  randomized combat hit/death/final-word messages, and the post-fight victory
+  page. The surrender comparison also covered confiscation and court pages;
+  the Portuguese defense branches rendered cleanly. No English controls or
+  untranslated combat strings appeared, every captured buffer line stayed at
+  or below 80 cells, and `agent-browser errors` remained empty.
+- The 480×320 title, game-options, interface-options, and content/tone pages
+  were captured headlessly. The version footer remains visually tight but
+  bounded, matching the accepted PT-083 responsive-readability enhancement;
+  no new clipping or translation defect was confirmed.
+- The temporary police-siege fixture and debug flags were restored before
+  validation. Evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-7991/`.

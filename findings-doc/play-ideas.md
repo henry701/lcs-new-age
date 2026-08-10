@@ -778,3 +778,15 @@ narrow-layout coverage.
   validation. Keep PT-048/PT-148 random police-alarm variants and PT-083
   narrow-console readability in the residual queue; accepted PT-049 remains
   historical changelog English.
+
+## 2026-08-09 — Police terminal-combat follow-up
+
+- The deterministic Portuguese police-siege route now has live coverage for
+  direct fight, randomized injury/death/final-word text, post-fight victory,
+  surrender/confiscation, and court defense branches. No new translation or
+  layout issue was confirmed; the 80-column buffer and browser error channel
+  stayed clean.
+- The 480×320 title/options sweep also found no actionable defect. Keep PT-083
+  as a future responsive-readability enhancement, retain PT-048/PT-148 for
+  broader random police-alarm variants, and leave accepted PT-049 historical
+  changelog English out of the fix queue.

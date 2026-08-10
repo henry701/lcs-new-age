@@ -117,6 +117,24 @@ void main() {
     expect(catalog['month'], 'mês');
     expect(catalog['months'], 'meses');
     expect(
+      catalog['{approval}% have a favorable opinion of '],
+      '{approval}% têm uma opinião favorável sobre ',
+    );
+    expect(
+      catalog[
+        'Elections are run fairly, though they remain heavily influenced by big money.'
+      ],
+      'As eleições são justas, mas sofrem forte influência das grandes fortunas.',
+    );
+    expect(
+      catalog['The death penalty is permitted but only rarely applied.'],
+      'A pena de morte é permitida, mas raramente aplicada.',
+    );
+    expect(
+      catalog['are terrified of nuclear power'],
+      'estão aterrorizados com a energia nuclear',
+    );
+    expect(
       catalog['I learned what it took to survive.  When to move on, where to hide.'],
       'Eu aprendi o que era preciso para sobreviver: quando seguir em frente e onde me esconder.',
     );
@@ -326,7 +344,7 @@ void main() {
   test('agenda polling fragments preserve Portuguese articles', () {
     expect(
       catalog['{approval}% have a favorable opinion of '],
-      '{approval}% têm uma opinião favorável do ',
+      '{approval}% têm uma opinião favorável sobre ',
     );
     expect(
       catalog['are concerned about gun violence'],

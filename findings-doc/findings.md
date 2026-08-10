@@ -149,6 +149,7 @@
 | PT-264 | Medium | Combat controls | Police-siege foot chase advertises a disabled surrender action |
 | PT-265 | High | Siege translation/coverage | Medical-debt raid announcements remain English after the location fragment |
 | PT-266 | Medium | Siege translation/context | Medical-debt receipt title leaks the raw English safehouse name |
+| PT-267 | Low | Politics translation/context | Agenda polling and active-law prose use awkward Portuguese wording |
 
 ## PT-001: Save-management option is clipped
 
@@ -3828,3 +3829,25 @@ The receipt now passes `loc.getName()` through the complete title template
 before uppercasing it, so the fixed replay rendered `PARA ACAMPAMENTO
 SEM-TETO:`. Receipt labels, dot leaders, and amount alignment remained clean
 at column 50.
+
+## PT-267: Agenda polling and active-law prose use awkward Portuguese wording
+
+- Severity: Low
+- Type: Politics translation/context
+- Screen: Portuguese Liberal Agenda pages 2, 4, and 5
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agenda-fix-7993/pt-page2.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agenda-fix-7993/pt-page4.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agenda-fix-7993/pt-page5.png`, and `test/pt_br_context_translation_test.dart`
+
+The agenda polling fragment `{approval}% have a favorable opinion of ` was
+translated as `têm uma opinião favorável do`, which reads as though the
+President owns the favorable opinion. The active-law sentence for “big money”
+used the literal and unnatural `pelo grande dinheiro`, and two adjacent law
+lines lacked the Portuguese article/comma required by their context:
+`com energia nuclear` and `permitida mas`.
+
+The catalog now uses `opinião favorável sobre`, `forte influência das grandes
+fortunas`, `com a energia nuclear`, and `permitida, mas`. The focused context
+regression protects all four fragments. After a Flutter asset-manifest restart,
+the Portuguese replay rendered the corrected opinion line and the complete
+active-law sentence without new clipping; the existing fixed-width ellipses on
+longer law rows remain bounded and intentional.

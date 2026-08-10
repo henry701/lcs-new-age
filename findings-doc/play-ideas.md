@@ -790,3 +790,15 @@ narrow-layout coverage.
   as a future responsive-readability enhancement, retain PT-048/PT-148 for
   broader random police-alarm variants, and leave accepted PT-049 historical
   changelog English out of the fix queue.
+
+## 2026-08-09 — Liberal Agenda context follow-up
+
+- PT-267 is fixed and replayed headlessly across agenda pages 2, 4, and 5:
+  the opinion fragment now uses `sobre`, “big money” now uses
+  `grandes fortunas`, and the nuclear/death-penalty lines have the required
+  Portuguese article and comma.
+- The active-law sentence now fits on the 80-column page; intentionally
+  bounded ellipses remain on longer policy rows and are not new defects.
+- Continue with the broader PT-048/PT-148 police-alarm variants and PT-083
+  responsive-readability enhancement. Keep PT-049 historical changelog
+  English accepted and out of the fix queue.

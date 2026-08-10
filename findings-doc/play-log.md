@@ -3923,3 +3923,26 @@ English remains out of the fix queue.
 - The temporary police-siege fixture and debug flags were restored before
   validation. Evidence is retained under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-7991/`.
+
+## Strict-headless Liberal Agenda context sweep — 2026-08-09
+
+- A fresh Flutter web-server on port 7993 was exercised only through CLI
+  `agent-browser` session `agenda-fix-7993` with
+  `AGENT_BROWSER_HEADED=0` and Chromium `--headless=new`,
+  `--ozone-platform=headless`, `--disable-dev-shm-usage`, and
+  `--disable-cache`. No headed browser was launched or focused.
+- The Portuguese route covered the five-page Liberal Agenda overview. Page 2
+  exposed `opinião favorável do Presidente`; page 5 exposed the literal
+  `grande dinheiro`, and page 4 showed the missing article/comma in the
+  nuclear-power and death-penalty lines. These became PT-267.
+- The catalog fixes were replayed after a full Flutter restart. Page 2 now
+  renders `opinião favorável sobre Presidente`, page 4 renders
+  `com a energia nuclear` and `permitida, mas`, and page 5 renders
+  `As eleições são justas, mas sofrem forte influência das grandes fortunas.`
+  The complete sentence fits without the prior truncation; longer law rows
+  still use bounded fixed-column ellipses. No browser errors were reported.
+- Evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agenda-fix-7993/`.
+  PT-267 is fixed; retain PT-048/PT-148 for broader police-alarm variants,
+  PT-083 for the accepted responsive-readability enhancement, and PT-049 for
+  accepted historical changelog English.

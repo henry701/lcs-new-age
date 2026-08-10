@@ -47,6 +47,7 @@ void main() {
     expect(LcsI18n.tr('CEO House'), equals('Casa do CEO'));
     expect(LcsI18n.tr('CEO Castle'), equals('Castelo do CEO'));
     expect(LcsI18n.tr('NursingHome'), equals('Casa de repouso'));
+    expect(LcsI18n.tr('White House'), equals('Casa Branca'));
     expect(LcsI18n.tr('Juice Bar'), equals('Bar de Sucos'));
     expect(
       LcsI18n.tr('{adjective} {noun} Juice Bar'),

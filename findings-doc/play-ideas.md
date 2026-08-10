@@ -840,3 +840,15 @@ narrow-layout coverage.
 - Continue exploring dynamic site-name families and daily/news events, while
   retaining PT-048/PT-148 police-alarm variants, PT-083 responsive readability,
   and accepted PT-049 historical changelog English in the residual queue.
+
+## Strict-headless Washington National Mall follow-up — 2026-08-09
+
+- PT-271 reproduced a full-site-label gap: the Portuguese National Mall menu
+  showed `B - White House` while the compact `WhiteHouse` key was already
+  localized.
+- Adding the canonical `White House` → `Casa Branca` pair fixed the route;
+  the post-restart capture shows `B - Casa Branca`, with no English control
+  leak, no browser errors, and no rows beyond 80 columns.
+- Continue the daily/news sweep and dynamic site-name families. Keep
+  PT-048/PT-148 police-alarm variants and PT-083 responsive readability open;
+  accepted PT-049 historical changelog English remains out of the fix queue.

@@ -3919,3 +3919,21 @@ uses a phrase-level `Bar de Sucos {noun} {adjective}` template and inflects
 focused site-translation regression protects the compact label, template, and
 both contextual examples. The fresh strict-headless replay reported
 `HeadlessChrome`, no browser errors, and no rows wider than 80 columns.
+
+## PT-271: White House site label leaks English in Portuguese National Mall menu
+
+- Severity: Low
+- Type: Missing translation / full site label
+- Screen: Portuguese Washington, DC → National Mall site list
+- Replay status: **Fixed and verified in a focused regression and a fresh strict-headless replay on 2026-08-09**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/dc-national-mall-8003/01-before.txt`; fixed `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/dc-national-mall-8003/02-after.txt` and `test/location/site_translation_test.dart`
+
+The National Mall travel menu translated `Grayson Park` but displayed the
+White House entry as `B - White House`. The short key `WhiteHouse` already
+translated to `Casa Branca`, but `Site.getName()` uses the full `White House`
+label in this menu and the full key was missing from both canonical catalogs.
+
+The English catalog now declares the full key and the Portuguese catalog maps
+it to `Casa Branca`. The regression protects the full label, and the fixed
+replay renders `B - Casa Branca`. The 80-column buffer stayed bounded and the
+headless browser identified itself as `HeadlessChrome`.

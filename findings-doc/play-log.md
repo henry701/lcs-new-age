@@ -4018,3 +4018,23 @@ was empty. Fixed evidence is under
 
 PT-270 is closed. Continue with dynamic site-name/news exploration and the
 residual PT-048/PT-148, PT-083, and accepted PT-049 queue.
+
+## Strict-headless Washington National Mall translation replay — 2026-08-09
+
+The Portuguese Washington, DC route resumed from the existing disposable save
+and opened the National Mall travel list through the DOM bridge. Before the
+fix, the second option was `B - White House`; the compact `WhiteHouse` key was
+already translated, so this was a missing full site-label entry rather than a
+general locale failure. The pre-fix capture is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/dc-national-mall-8003/01-before.txt`.
+
+After adding `White House` to the English and Portuguese hash-sharded catalogs
+and restarting Flutter to reload the asset manifest, the same strict-headless
+session rendered `B - Casa Branca`. The post-fix capture reports
+`HeadlessChrome`, the options list stayed within the 80-column console, and no
+new translation or layout issue appeared. Evidence is retained at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/dc-national-mall-8003/02-after.txt`.
+
+PT-271 is closed. Continue the residual PT-048/PT-148 police-alarm variants
+and PT-083 responsive-readability enhancement; accepted PT-049 historical
+changelog English remains out of the fix queue.

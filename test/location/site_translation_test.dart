@@ -37,6 +37,8 @@ void main() {
   });
 
   test('Portuguese generated site labels cover full location names', () {
+    expect(LcsI18n.tr('The Oubliette'), equals('O Calabouço'));
+    expect(LcsI18n.tr('Oubliette'), equals('Calabouço'));
     expect(
       LcsI18n.tr('Cable News Station'),
       equals('Canal de Notícias a Cabo'),

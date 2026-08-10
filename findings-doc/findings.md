@@ -3878,3 +3878,23 @@ After a Flutter asset-manifest restart, the strict-headless replay rendered
 `Casa de repouso Jornada Carinhosa`, `Canal de Notícias a Cabo`, `Mansão do
 CEO`, and `Cooperativa Vegana Prado de Rabanete`. Both captured menus stayed at
 80 columns or less, and the browser error channel was empty.
+
+## PT-269: Oubliette shop names remain English in Portuguese activity context
+
+- Severity: Low
+- Type: Missing translation / dynamic site-name context
+- Screen: Portuguese New York commerce → The Oubliette
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ny-sites-7996/37-shopping-sites.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ny-sites-7996/38-oubliette-selected.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ny-sites-7996/39-after-wait.txt`; fixed `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/oubliette-fixed-7998/`
+
+The commerce menu translated surrounding site labels but left the branded
+`The Oubliette` name in English. Selecting the shop then leaked the same name
+through `Visitando The Oubliette`, the arrival message, and the short active-site
+header `NYC — Oubliette`.
+
+The Portuguese catalog now uses `O Calabouço` for the full name and `Calabouço`
+for the compact header key. The focused site-translation regression protects
+both keys. After a Flutter asset-manifest restart, the headless route rendered
+`O Calabouço`, `Visitando O Calabouço`, and `NYC — Calabouço`; the Oubliette
+action screen remained Portuguese, all rows stayed within 80 columns, and the
+browser error channel was empty.

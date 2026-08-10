@@ -3970,3 +3970,26 @@ English remains out of the fix queue.
 - PT-268 is fixed. Keep PT-048/PT-148 broader police-alarm variants, PT-083
   responsive readability, and accepted PT-049 historical changelog English in
   the residual queue.
+
+## Strict-headless New York Oubliette translation replay — 2026-08-09
+
+The first New York city sweep used only an isolated CLI `agent-browser` session
+with `AGENT_BROWSER_HEADED=0` and Chromium
+`--headless=new --ozone-platform=headless --disable-dev-shm-usage
+--disable-cache`. The commerce menu exposed `The Oubliette`; after selecting
+the shop and waiting a day, the base rendered `Visitando The Oubliette` and the
+arrival message repeated the raw English name. The compact active-site header
+also showed `NYC — Oubliette`. These captures are retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ny-sites-7996/`.
+
+After adding full and short Portuguese catalog entries, a fresh Flutter
+asset-manifest restart and strict-headless replay on port 7998 rendered
+`O Calabouço`, `Visitando O Calabouço`, `O Esquadrão do Crime Liberal chegou ao
+destino: O Calabouço.`, and `NYC — Calabouço`. The Oubliette action menu stayed
+localized, every buffer row was at most 80 cells, the headless check reported
+`HeadlessChrome`, and `agent-browser errors` was empty. Evidence is retained
+under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/oubliette-fixed-7998/`.
+
+PT-269 is closed. Continue the residual PT-048/PT-148 police-alarm variants,
+PT-083 responsive-readability enhancement, and accepted PT-049 historical
+changelog English review queue.

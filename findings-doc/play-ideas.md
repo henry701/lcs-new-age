@@ -818,3 +818,14 @@ narrow-layout coverage.
 - Continue with the broader PT-048/PT-148 police-alarm variants and PT-083
   responsive-readability enhancement. Keep accepted PT-049 historical
   changelog English out of the fix queue.
+
+## Strict-headless New York Oubliette follow-up — 2026-08-09
+
+- PT-269 is fixed and verified: the New York commerce menu and active Oubliette
+  route now use `O Calabouço` / `Calabouço` instead of leaking the English full
+  and short names through activity and arrival messages.
+- The fixed route reached the Oubliette purchase menu with Portuguese action
+  labels, no browser errors, and no rows wider than the 80-column console.
+- Keep PT-048/PT-148 broader police-alarm variants, PT-083 responsive
+  readability, and accepted PT-049 historical changelog English in the residual
+  queue.

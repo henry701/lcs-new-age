@@ -3937,3 +3937,31 @@ The English catalog now declares the full key and the Portuguese catalog maps
 it to `Casa Branca`. The regression protects the full label, and the fixed
 replay renders `B - Casa Branca`. The 80-column buffer stayed bounded and the
 headless browser identified itself as `HeadlessChrome`.
+
+## PT-272: Monthly Guardian AM Radio stories mixed English and malformed Portuguese
+
+- Severity: Medium
+- Type: Translation assembly / context-sensitive Portuguese grammar
+- Screen: Portuguese game → monthly Liberal Guardian → AM Radio memoranda
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/monthly-loot-8005b/01-am-radio-before.txt`; fixed `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/monthly-loot-8005b/02-am-radio-after.txt`
+
+The monthly AM Radio story assembled adjacent source literals into a single
+lookup key, while the catalogs stored the fragments independently. That made
+the runtime fall back to English for complete paragraphs. Independently
+translated fragments also exposed context errors such as `promover um ditador
+estrangeiro`, `dinheiro de o regime`, and `para garantir seguir o nome`; the
+LGBT variant mixed gender and spacing in `um pedófilo`.
+
+Monthly story construction now translates each catalog fragment separately and
+keeps paragraph separators as raw layout text. Canonical catalogs contain clean
+keys for the paragraph endings and retaliation lines. The Portuguese catalog
+also fixes the AM lead and fragment grammar (`sobre planos`, `para promover`,
+`do regime`, LGBT feminine agreement, and the listener/hostility sentence).
+The focused context suite protects these keys and the assembled low-power
+paragraph. A fresh headless route rendered an AM story with no English text,
+80-column maximum width, and an empty browser-error channel.
+
+No new defect was confirmed after the replay. Keep the residual PT-048/PT-148
+police-alarm variants and PT-083 responsive-readability enhancement open;
+accepted PT-049 historical changelog English remains out of the fix queue.

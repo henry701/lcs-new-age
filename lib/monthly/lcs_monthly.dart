@@ -427,15 +427,20 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
     story += LcsI18n.tr("\n\n");
     if (power < 4) {
       story += LcsI18n.tr(
-        "The information is posted to the internet with little fanfare."
+        "The information is posted to the internet with little fanfare.",
+      );
+      story += " ";
+      story += LcsI18n.tr(
         "Some conspiracy theorists mention it, but most people don't believe it.",
       );
       return basePotency ~/ 5;
     } else if (power < 10) {
       story += LcsI18n.processString(
-        "{name}'s {article} about this doesn't have much impact. "
-        "The information is taken up by watchdog groups but never really catches on.",
+        "{name}'s {article} about this doesn't have much impact. ",
         {"name": leadersName, "article": article},
+      );
+      story += LcsI18n.tr(
+        "The information is taken up by watchdog groups but never really catches on.",
       );
       return basePotency ~/ 4;
     } else if (power < 15) {
@@ -480,7 +485,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
         {"name": leadersName, "article": article},
       );
       story += LcsI18n.tr(
-        "The major networks and publications fixate on the story for weeks. "
+        "The major networks and publications fixate on the story for weeks. ",
+      );
+      story += LcsI18n.tr(
         "The information is so explosive that it becomes a national scandal.",
       );
       return (basePotency * 1.5).round();
@@ -548,8 +555,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       for (Creature p in publishers) {
         p.offendedCorps++;
       }
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nBe on guard for retaliation.  This guy is not the forgiving type...",
+        "Be on guard for retaliation.  This guy is not the forgiving type...",
       );
       addparagraph(6, 1, story, noTranslate: true);
     case LootTypeIds.ceoLoveLetters:
@@ -599,8 +607,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       for (Creature p in publishers) {
         p.offendedCorps++;
       }
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nBe on guard for retaliation.  This guy is not the forgiving type...",
+        "Be on guard for retaliation.  This guy is not the forgiving type...",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
@@ -623,8 +632,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       for (Creature p in publishers) {
         p.offendedCorps++;
       }
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nBe on guard for retaliation.  This guy is not the forgiving type...",
+        "Be on guard for retaliation.  This guy is not the forgiving type...",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
@@ -674,27 +684,52 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       for (Creature p in publishers) {
         p.offendedCorps++;
       }
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nBe on guard for retaliation.  These guys don't like to lose...",
+        "Be on guard for retaliation.  These guys don't like to lose...",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
       }
     case LootTypeIds.ccsBackerList:
       story = LcsI18n.tr(
-        "The Liberal Guardian runs more than one thousand pages of documents about "
-        "the CCS organization, also revealing in extreme detail the names and "
-        "responsibilities of Conservative Crime Squad sympathizers and supporters "
-        "in the state and federal governments. Sections precisely document the "
-        "extensive planning to create an extra-judicial death squad that would be "
-        "above prosecution, and could hunt down law-abiding Liberals and act "
-        "as a foil when no other enemies were present to direct public energy "
-        "against.\n\n"
-        "The scandal reaches into the heart of the Conservative leadership in the "
-        "country, and the full ramifications of this revelation may not be felt "
-        "for months. One thing is clear, however, from the immediate public reaction "
-        "toward the revelations, and the speed with which even AM Radio and Cable "
-        "News denounce the CCS.\n\n"
+        "The Liberal Guardian runs more than one thousand pages of documents about ",
+      );
+      story += LcsI18n.tr(
+        "the CCS organization, also revealing in extreme detail the names and ",
+      );
+      story += LcsI18n.tr(
+        "responsibilities of Conservative Crime Squad sympathizers and supporters ",
+      );
+      story += LcsI18n.tr(
+        "in the state and federal governments. Sections precisely document the ",
+      );
+      story += LcsI18n.tr(
+        "extensive planning to create an extra-judicial death squad that would be ",
+      );
+      story += LcsI18n.tr(
+        "above prosecution, and could hunt down law-abiding Liberals and act ",
+      );
+      story += LcsI18n.tr(
+        "as a foil when no other enemies were present to direct public energy ",
+      );
+      story += LcsI18n.tr("against.");
+      story += "\n\n";
+      story += LcsI18n.tr(
+        "The scandal reaches into the heart of the Conservative leadership in the ",
+      );
+      story += LcsI18n.tr(
+        "country, and the full ramifications of this revelation may not be felt ",
+      );
+      story += LcsI18n.tr(
+        "for months. One thing is clear, however, from the immediate public reaction ",
+      );
+      story += LcsI18n.tr(
+        "toward the revelations, and the speed with which even AM Radio and Cable ",
+      );
+      story += LcsI18n.tr("News denounce the CCS.");
+      story += "\n\n";
+      story += LcsI18n.tr(
         "This is the beginning of the end for the Conservative Crime Squad.",
       );
       startY = 5;
@@ -733,8 +768,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
           );
           issues.add(View.womensRights);
       }
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nBe on guard for retaliation.  These guys REALLY don't like to lose...",
+        "Be on guard for retaliation.  These guys REALLY don't like to lose...",
       );
       issues.add(View.intelligence);
       potency = reception(50);
@@ -780,8 +816,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       }
       issues.add(View.policeBehavior);
       potency = reception(50);
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nThe cops hate this, but what else is new?  They're already on your ass.",
+        "The cops hate this, but what else is new?  They're already on your ass.",
       );
     case LootTypeIds.judgeFiles:
       story = LcsI18n.tr(
@@ -797,8 +834,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       }
       issues.add(View.justices);
       potency = reception(50);
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nThis Judge is too weak to pose a real threat to you moving forward.",
+        "This Judge is too weak to pose a real threat to you moving forward.",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
@@ -826,8 +864,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
           issues.add(View.genetics);
       }
       potency = reception(50);
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nThe research company is too small to pose a real threat to you.",
+        "The research company is too small to pose a real threat to you.",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
@@ -865,8 +904,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       }
       issues.addAll([View.prisons, View.deathPenalty]);
       potency = reception(50);
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nThe prison system doesn't love this, but what are they gonna do?  Jail you?",
+        "The prison system doesn't love this, but what are they gonna do?  Jail you?",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
@@ -878,17 +918,21 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       switch (lcsRandom(7)) {
         case 0:
           story += LcsI18n.tr(
-            "mandating that any investigative news stories must be "
-            "approved by the network's Conservative commentators before they "
-            "can be aired.",
+            "mandating that any investigative news stories must be ",
           );
+          story += LcsI18n.tr(
+            "approved by the network's Conservative commentators before they ",
+          );
+          story += LcsI18n.tr("can be aired.");
         case 1:
           story += LcsI18n.tr(
             "mandating negative coverage of Liberal politicians.",
           );
         case 2:
           story += LcsI18n.tr(
-            "planning to drum up a false scandal about a Liberal figure "
+            "planning to drum up a false scandal about a Liberal figure ",
+          );
+          story += LcsI18n.tr(
             "that they privately acknowledge to be unimpeachable.",
           );
         case 3:
@@ -898,26 +942,29 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
           issues.add(View.womensRights);
         case 4:
           story += LcsI18n.tr(
-            "directing staff to prioritize crime coverage in which the suspect "
-            "is Black.",
+            "directing staff to prioritize crime coverage in which the suspect ",
           );
+          story += LcsI18n.tr("is Black.");
           issues.add(View.civilRights);
         case 5:
           story += LcsI18n.tr(
-            "searching for particularly ineffectual Liberal media personalities "
+            "searching for particularly ineffectual Liberal media personalities ",
+          );
+          story += LcsI18n.tr(
             "to bring on opposite one of their Conservative hosts.",
           );
         case 6:
           story += LcsI18n.tr(
-            "intenarnally acknowledging that several of their recent stories "
-            "have been largely made up.",
+            "intenarnally acknowledging that several of their recent stories ",
           );
+          story += LcsI18n.tr("have been largely made up.");
       }
       issues.add(View.cableNews);
       offendedAngryRuralMobs = true;
       potency = reception(50);
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nThis is bound to get the Conservative masses a little riled up...",
+        "This is bound to get the Conservative masses a little riled up...",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
@@ -930,19 +977,25 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       switch (lcsRandom(5)) {
         case 0:
           story += LcsI18n.tr(
-            "to promote a foreign dictator as a hero to listeners "
-            "after a major radio host received a large sum of money from "
-            "the dictator's regime.",
+            "to promote a foreign dictator as a hero to listeners ",
           );
+          story += LcsI18n.tr(
+            "after a major radio host received a large sum of money from ",
+          );
+          story += LcsI18n.tr("the dictator's regime.");
         case 1:
           story += LcsI18n.tr(
-            "brainstorming, in very blunt terms, which overt lies to "
-            "tell listeners based on what they think their listeners are "
-            "'stupid enough' to believe.",
+            "brainstorming, in very blunt terms, which overt lies to ",
           );
+          story += LcsI18n.tr(
+            "tell listeners based on what they think their listeners are ",
+          );
+          story += LcsI18n.tr("'stupid enough' to believe.");
         case 2:
           story += LcsI18n.tr(
-            "planning to drum up a false scandal about a Liberal figure "
+            "planning to drum up a false scandal about a Liberal figure ",
+          );
+          story += LcsI18n.tr(
             "that they privately acknowledge to be unimpeachable.",
           );
         case 3:
@@ -952,17 +1005,20 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
           issues.add(View.civilRights);
         case 4:
           story += LcsI18n.tr(
-            "to make sure to follow the name of every LGBT figure "
-            "mentioned on the program with the words \"who is known to be a "
-            "pedophile and a groomer, by the way.\"",
+            "to make sure to follow the name of every LGBT figure ",
           );
+          story += LcsI18n.tr(
+            "mentioned on the program with the words \"who is known to be a ",
+          );
+          story += LcsI18n.tr("pedophile and a groomer, by the way.\"");
           issues.add(View.lgbtRights);
       }
       issues.add(View.amRadio);
       potency = reception(50);
       offendedAngryRuralMobs = true;
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nThis is bound to get the Conservative masses a little riled up...",
+        "This is bound to get the Conservative masses a little riled up...",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
@@ -1004,8 +1060,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       }
       issues.add(View.housing);
       potency = reception(50);
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nRelations with big rental companies are likely to be frosty after this...",
+        "Relations with big rental companies are likely to be frosty after this...",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
@@ -1056,8 +1113,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       for (Creature p in publishers) {
         p.offendedCorps++;
       }
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nBe on guard for retaliation.  These guys don't like to lose...",
+        "Be on guard for retaliation.  These guys don't like to lose...",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);
@@ -1098,8 +1156,9 @@ Future<void> printNews(LootType li, Iterable<Creature> publishers) async {
       for (Creature p in publishers) {
         p.offendedCorps++;
       }
+      story += "\n\n";
       story += LcsI18n.tr(
-        "\n\nYou probably don't need to worry about retaliation with this one.",
+        "You probably don't need to worry about retaliation with this one.",
       );
       for (Creature c in publishers) {
         addjuice(c, 20, 1000);

@@ -863,3 +863,12 @@ narrow-layout coverage.
 - Keep PT-048/PT-148 police-alarm variants and PT-083 responsive readability
   open; accepted PT-049 historical changelog English remains out of the fix
   queue.
+
+## Strict-headless monthly Guardian coverage — 2026-08-09
+
+- Add monthly-event replay checkpoints to the headless playtester so each
+  Guardian source family can be selected deterministically after a fresh save.
+- Keep capturing the buffer text and row widths; this caught both the English
+  fallback and the 80-column layout risk without a headed browser.
+- The AM Radio family is now clean on the exercised route. Continue with the
+  remaining monthly source families and the residual police-alarm variants.

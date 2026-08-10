@@ -4054,3 +4054,18 @@ No new translation or layout issue was confirmed. Continue the residual
 PT-048/PT-148 police-alarm variants and PT-083 responsive-readability
 enhancement; accepted PT-049 historical changelog English remains out of the
 fix queue.
+
+## Strict-headless monthly AM Radio replay — 2026-08-09
+
+- Replayed a fresh Portuguese game through Los Angeles → Downtown and Grande
+  Hollywood, advanced to February, and selected the AM Radio monthly leak.
+- The pre-fix capture showed a mixed Portuguese/English story caused by
+  adjacent source literals being looked up as one untranslated key.
+- After splitting the monthly story fragments and correcting the context
+  translations, the replay rendered `O Guardião Liberal publica uma matéria
+  sobre planos de rádio AM para promover sistematicamente a hostilidade contra
+  pessoas negras`, followed by fully Portuguese paragraphs.
+- The route used `HeadlessChrome`, measured a maximum 80-column row, and had no
+  browser errors. The next monthly prompt also stayed in Portuguese.
+- No new translation or layout issue was confirmed. Keep PT-048/PT-148,
+  PT-083, and accepted PT-049 in the residual queue.

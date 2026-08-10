@@ -1024,7 +1024,7 @@ void main() {
     );
     expect(
       catalog['pedophile and a groomer, by the way."'],
-      'pedófilo e aliciador de menores, aliás."',
+      'pedófila e aliciadora de menores, aliás."',
     );
     expect(
       catalog['The defense is really slick.'],
@@ -1856,7 +1856,7 @@ void main() {
     );
     expect(
       catalog['to systematically promote hostility toward Black people.'],
-      'para promover sistematicamente hostilidade contra pessoas negras.',
+      'para promover sistematicamente a hostilidade contra pessoas negras.',
     );
     expect(
       catalog['cheerfully describing foreign corporate sweatshops.'],
@@ -1877,6 +1877,82 @@ void main() {
       catalog['│   by impressive advertising, America tunes in.    │'],
       isNot(contains('ajusta')),
     );
+  });
+
+  test('monthly Guardian paragraphs use catalog fragments at runtime', () {
+    final lowPowerStory =
+        '${LcsI18n.tr("The information is posted to the internet with little fanfare.")} '
+        '${LcsI18n.tr("Some conspiracy theorists mention it, but most people don't believe it.")}';
+    expect(
+      lowPowerStory,
+      'A informação é publicada na internet sem grande alarde. Alguns teóricos da conspiração mencionam isso, mas a maioria das pessoas não acredita.',
+    );
+    expect(
+      LcsI18n.tr('This is bound to get the Conservative masses a little riled up...'),
+      'Isso certamente deixará as massas conservadoras um pouco agitadas...',
+    );
+    expect(LcsI18n.tr('News denounce the CCS.'), 'Notícias denunciam o CCS.');
+    expect(LcsI18n.tr('against.'), 'contra ele.');
+    expect(LcsI18n.tr('is Black.'), 'é uma pessoa negra.');
+    expect(
+      catalog['to promote a foreign dictator as a hero to listeners '],
+      'para promover um ditador estrangeiro como herói para os ouvintes ',
+    );
+    expect(
+      catalog['after a major radio host received a large sum of money from '],
+      'após um importante apresentador de rádio receber uma grande soma de dinheiro do ',
+    );
+    expect(
+      catalog['to make sure to follow the name of every LGBT figure '],
+      'para garantir que o nome de toda figura LGBT ',
+    );
+    expect(
+      catalog['The Liberal Guardian runs a story featuring AM radio plans '],
+      'O Guardião Liberal publica uma matéria sobre planos de rádio AM ',
+    );
+    expect(
+      catalog['brainstorming, in very blunt terms, which overt lies to '],
+      'elaborando, em termos muito diretos, quais mentiras óbvias ',
+    );
+    expect(
+      catalog['tell listeners based on what they think their listeners are '],
+      'contar aos ouvintes com base no que acham que seus ouvintes são ',
+    );
+    expect(
+      catalog['mentioned on the program with the words "who is known to be a '],
+      'mencionada no programa seja acompanhada das palavras "que é conhecida por ser uma ',
+    );
+    expect(
+      catalog['pedophile and a groomer, by the way."'],
+      'pedófila e aliciadora de menores, aliás."',
+    );
+    expect(
+      LcsI18n.tr("'stupid enough' to believe."),
+      "'estúpidos o suficiente' para acreditar.",
+    );
+    const retaliationEndings = {
+      'Be on guard for retaliation.  This guy is not the forgiving type...':
+          'Cuidado com a retaliação. Esse sujeito não é do tipo que perdoa...',
+      "Be on guard for retaliation.  These guys don't like to lose...":
+          'Esteja atento a retaliações.  Esses caras não gostam de perder...',
+      "Be on guard for retaliation.  These guys REALLY don't like to lose...":
+          'Esteja atento a retaliações.  Esses caras REALMENTE não gostam de perder...',
+      "The cops hate this, but what else is new?  They're already on your ass.":
+          'A polícia odeia isso, mas qual é a novidade? Já está na sua cola.',
+      'This Judge is too weak to pose a real threat to you moving forward.':
+          'Este juiz é muito fraco para representar uma ameaça real para você seguir em frente.',
+      'The research company is too small to pose a real threat to you.':
+          'A empresa de pesquisa é pequena demais para representar uma ameaça real para você.',
+      "The prison system doesn't love this, but what are they gonna do?  Jail you?":
+          'O sistema penitenciário não gosta disso, mas o que eles vão fazer?  Prender você?',
+      'Relations with big rental companies are likely to be frosty after this...':
+          'As relações com grandes empresas de locação provavelmente ficarão tensas depois disso...',
+      "You probably don't need to worry about retaliation with this one.":
+          'Você provavelmente não precisa se preocupar com retaliações com este.',
+    };
+    for (final entry in retaliationEndings.entries) {
+      expect(LcsI18n.tr(entry.key), entry.value);
+    }
   });
 
   test('dynamic eagerness translations avoid gendered agreement', () {

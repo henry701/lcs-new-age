@@ -286,6 +286,24 @@ String localizedGeneratedNursingHomeName(String adjective, String noun) {
   });
 }
 
+String localizedGeneratedJuiceBarName(String adjective, String noun) {
+  final fullName = [adjective, noun, 'Juice Bar'].join(' ');
+  if (LcsI18n.hasTranslation(fullName)) return LcsI18n.tr(fullName);
+
+  if (LcsI18n.currentLocale != 'pt_BR') {
+    return LcsI18n.processString('{adjective} {noun} Juice Bar', {
+      'adjective': LcsI18n.tr(adjective),
+      'noun': LcsI18n.tr(noun),
+    });
+  }
+
+  return LcsI18n.processString('{juiceBar} {noun} {adjective}', {
+    'juiceBar': LcsI18n.tr('Juice Bar'),
+    'noun': LcsI18n.tr(noun),
+    'adjective': _ptBrJuiceBarAdjective(adjective, noun),
+  }, noTranslate: true);
+}
+
 const _ptBrFeminineNursingHomeNouns = <String>{
   'Journey',
   'Compass',
@@ -329,6 +347,27 @@ String _ptBrNursingHomeAdjective(String adjective, String noun) {
     ('Carinhoso', true, false) => 'Carinhosa',
     ('Carinhoso', false, true) => 'Carinhosos',
     ('Carinhoso', false, false) => 'Carinhoso',
+    _ => base,
+  };
+}
+
+const _ptBrFeminineJuiceBarNouns = <String>{'Diet', 'Orange', 'Carrot'};
+
+const _ptBrPluralJuiceBarNouns = <String>{'Methods'};
+
+String _ptBrJuiceBarAdjective(String adjective, String noun) {
+  final base = switch (adjective) {
+    'Harmonious' => 'Harmonioso',
+    _ => LcsI18n.tr(adjective),
+  };
+  final feminine = _ptBrFeminineJuiceBarNouns.contains(noun);
+  final plural = _ptBrPluralJuiceBarNouns.contains(noun);
+
+  return switch ((base, feminine, plural)) {
+    ('Harmonioso', true, true) => 'Harmoniosas',
+    ('Harmonioso', true, false) => 'Harmoniosa',
+    ('Harmonioso', false, true) => 'Harmoniosos',
+    ('Harmonioso', false, false) => 'Harmonioso',
     _ => base,
   };
 }
@@ -659,10 +698,7 @@ void initSiteName(Site loc) {
     case SiteType.juiceBar:
       const adj = ["Natural", "Harmonious", "Restful", "Healthy", "New You"];
       const noun = ["Diet", "Methods", "Plan", "Orange", "Carrot"];
-      loc.name = LcsI18n.processString("{adjective} {noun} Juice Bar", {
-        "adjective": LcsI18n.tr(adj.random),
-        "noun": LcsI18n.tr(noun.random),
-      });
+      loc.name = localizedGeneratedJuiceBarName(adj.random, noun.random);
       loc.shortName = "Juice Bar";
     case SiteType.veganCoOp:
       const veggie = ["Asparagus", "Tofu", "Broccoli", "Radish", "Eggplant"];

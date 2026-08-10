@@ -829,3 +829,14 @@ narrow-layout coverage.
 - Keep PT-048/PT-148 broader police-alarm variants, PT-083 responsive
   readability, and accepted PT-049 historical changelog English in the residual
   queue.
+
+## Strict-headless Seattle juice-bar follow-up — 2026-08-09
+
+- PT-270 is fixed and verified: generated Portuguese juice bars now use
+  `Bar de Sucos`, with the noun/adjective order and `Harmonious` agreement
+  checked by focused tests and a fresh University District replay.
+- The replay also kept the generated nursing-home, vegan-co-op, and
+  internet-café rows inside the 80-column console with no browser errors.
+- Continue exploring dynamic site-name families and daily/news events, while
+  retaining PT-048/PT-148 police-alarm variants, PT-083 responsive readability,
+  and accepted PT-049 historical changelog English in the residual queue.

@@ -3898,3 +3898,24 @@ both keys. After a Flutter asset-manifest restart, the headless route rendered
 `O Calabouço`, `Visitando O Calabouço`, and `NYC — Calabouço`; the Oubliette
 action screen remained Portuguese, all rows stayed within 80 columns, and the
 browser error channel was empty.
+
+## PT-270: Juice bars are mislabeled as energy bars in Portuguese
+
+- Severity: Low
+- Type: Generated-site translation / business-type context
+- Screen: Portuguese Seattle → University District site list
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-09**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/daily-sweep-8000/02-u-district-sites.txt`; fixed `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/juice-fixed-8001/`
+
+The generated `Healthy Carrot Juice Bar` / `New You Orange Juice Bar` family
+used `Bar de Energia`, which changes a juice shop into an energy-bar business.
+The live Portuguese University District menu exposed `G - Bar de Energia Novo
+Você Laranja`.
+
+The catalog now calls the business `Bar de Sucos`. The generated-name helper
+uses a phrase-level `Bar de Sucos {noun} {adjective}` template and inflects
+`Harmonious` for plural/feminine generated nouns, yielding names such as
+`Bar de Sucos Laranja Relaxante` and `Bar de Sucos Métodos Harmoniosos`. The
+focused site-translation regression protects the compact label, template, and
+both contextual examples. The fresh strict-headless replay reported
+`HeadlessChrome`, no browser errors, and no rows wider than 80 columns.

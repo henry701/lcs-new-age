@@ -3993,3 +3993,28 @@ under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/oubliette-fixed-7998/`.
 PT-269 is closed. Continue the residual PT-048/PT-148 police-alarm variants,
 PT-083 responsive-readability enhancement, and accepted PT-049 historical
 changelog English review queue.
+
+## Strict-headless Seattle juice-bar translation replay — 2026-08-09
+
+The new route used only an isolated CLI `agent-browser` session with
+`AGENT_BROWSER_HEADED=0` and Chromium `--headless=new
+--ozone-platform=headless --disable-dev-shm-usage --disable-cache`. A disposable
+founder/all-items/funds fixture reached Seattle's University District menu. The
+pre-fix buffer showed `Bar de Energia Novo Você Laranja` for the generated juice
+bar entry; the phrase had changed the site type from juice to energy bar. The
+capture is retained under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/daily-sweep-8000/`.
+
+After changing the short and full Portuguese catalog entries and adding the
+phrase-level generated-name helper, a fresh Flutter asset-manifest restart on
+port 8001 replayed the same route. It rendered `Bar de Sucos Laranja
+Relaxante` and kept `Casa de repouso Cuidado Carinhoso`, `Cooperativa Vegana
+Jardim de Berinjela`, and `Internet Café Unicórnio Tecno` readable. The focused
+site translation test also checks `Bar de Sucos Laranja Novo Você` and
+`Bar de Sucos Métodos Harmoniosos`; every captured row was at most 80 cells,
+the browser identified itself as `HeadlessChrome`, and `agent-browser errors`
+was empty. Fixed evidence is under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/juice-fixed-8001/`.
+
+PT-270 is closed. Continue with dynamic site-name/news exploration and the
+residual PT-048/PT-148, PT-083, and accepted PT-049 queue.

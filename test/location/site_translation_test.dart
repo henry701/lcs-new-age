@@ -47,6 +47,19 @@ void main() {
     expect(LcsI18n.tr('CEO House'), equals('Casa do CEO'));
     expect(LcsI18n.tr('CEO Castle'), equals('Castelo do CEO'));
     expect(LcsI18n.tr('NursingHome'), equals('Casa de repouso'));
+    expect(LcsI18n.tr('Juice Bar'), equals('Bar de Sucos'));
+    expect(
+      LcsI18n.tr('{adjective} {noun} Juice Bar'),
+      equals('Bar de Sucos {noun} {adjective}'),
+    );
+    expect(
+      localizedGeneratedJuiceBarName('New You', 'Orange'),
+      equals('Bar de Sucos Laranja Novo Você'),
+    );
+    expect(
+      localizedGeneratedJuiceBarName('Harmonious', 'Methods'),
+      equals('Bar de Sucos Métodos Harmoniosos'),
+    );
   });
 
   test('Portuguese vegan co-op names preserve the linking preposition', () {
@@ -58,6 +71,17 @@ void main() {
       equals('Cooperativa Vegana Prado de Aspargo'),
     );
   });
+
+  test(
+    'English generated juice-bar names preserve source word order',
+    () async {
+      await LcsI18n.initialize('en_US');
+      expect(
+        localizedGeneratedJuiceBarName('Natural', 'Diet'),
+        equals('Natural Diet Juice Bar'),
+      );
+    },
+  );
 
   test('Portuguese police siege copy avoids a gendered site article', () {
     expect(

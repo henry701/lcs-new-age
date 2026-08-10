@@ -802,3 +802,19 @@ narrow-layout coverage.
 - Continue with the broader PT-048/PT-148 police-alarm variants and PT-083
   responsive-readability enhancement. Keep PT-049 historical changelog
   English accepted and out of the fix queue.
+
+## 2026-08-09 — Los Angeles generated-site follow-up
+
+- PT-268 is fixed and verified. The strict-headless LA sweep caught a
+  false-friend nursing-home name, two raw-English Hollywood labels, and a
+  missing `de` in a vegan co-op name.
+- The new nursing-home helper keeps the phrase natural for every random noun
+  by inflecting Portuguese adjectives for gender and number. Full Cable News,
+  CEO, and nursing-home labels now resolve through the catalog, and the vegan
+  co-op template keeps its linking preposition.
+- Downtown and Hollywood replay buffers stayed within 80 columns and the
+  browser error channel was empty. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/city-sites-7995/`.
+- Continue with the broader PT-048/PT-148 police-alarm variants and PT-083
+  responsive-readability enhancement. Keep accepted PT-049 historical
+  changelog English out of the fix queue.

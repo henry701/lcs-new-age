@@ -3946,3 +3946,27 @@ English remains out of the fix queue.
   PT-267 is fixed; retain PT-048/PT-148 for broader police-alarm variants,
   PT-083 for the accepted responsive-readability enhancement, and PT-049 for
   accepted historical changelog English.
+
+## Strict-headless Los Angeles generated-site follow-up — 2026-08-09
+
+- A fresh Portuguese new-game route used only CLI `agent-browser` session
+  `city-sites-7995` with `AGENT_BROWSER_HEADED=0` and Chromium
+  `--headless=new --ozone-platform=headless --disable-dev-shm-usage
+  --disable-cache` against Flutter web-server port 7995. No headed browser was
+  launched or focused.
+- The pre-fix LA Downtown menu reproduced `Concurso Reflexões Casa de
+  Enfermagem`; the Grande Hollywood menu reproduced raw `Cable News Station`,
+  raw `CEO Mansion`, and `Cooperativa Vegana Prado Aspargo`.
+- The fix adds a phrase-level nursing-home renderer with Portuguese
+  gender/number agreement, complete Cable News/CEO/nursing site keys, and the
+  missing vegan-co-op preposition. The changed catalogs and helper are covered
+  by `test/location/site_translation_test.dart`.
+- After a Flutter asset-manifest restart, the replay rendered `Casa de repouso
+  Jornada Carinhosa`, `Canal de Notícias a Cabo`, `Mansão do CEO`, and
+  `Cooperativa Vegana Prado de Rabanete`. The downtown and Hollywood buffers
+  were each at most 80 columns, the screenshot showed no row collisions, and
+  `agent-browser errors` was empty. Evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/city-sites-7995/`.
+- PT-268 is fixed. Keep PT-048/PT-148 broader police-alarm variants, PT-083
+  responsive readability, and accepted PT-049 historical changelog English in
+  the residual queue.

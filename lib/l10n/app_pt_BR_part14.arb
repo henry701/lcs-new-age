@@ -214,7 +214,7 @@
   "yelps in pain...": "dá um grito de dor...",
   "you'll get the opportunity to run a special edition at the end of ": "você terá a oportunidade de publicar uma edição especial no final de ",
   "{actor} staged a sit-in at the courthouse!": "{actor} fez uma ocupação pacífica no tribunal!",
-  "{adjective} {noun} Nursing Home": "{adjective} {noun} Casa de Enfermagem",
+  "{adjective} {noun} Nursing Home": "Casa de repouso {noun} {adjective}",
   "{carrier} can no longer handle {prisoner}.": "{carrier} não consegue mais lidar com {prisoner}.",
   "{driver} and {vehicle} trade paint!": "{driver} e {vehicle} roçam um no outro!",
   "{driver} sends {vehicle} out of control!": "{driver} manda {vehicle} sair de controle!",

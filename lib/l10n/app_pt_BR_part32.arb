@@ -261,7 +261,7 @@
   "{name}'s lower spine is shattered!": "A coluna inferior de {name} foi estilhaçada!",
   "{name}'s upper spine is broken!": "A coluna superior de {name} foi quebrada!",
   "{percent}% ": "{percent}% ",
-  "{vegetable} {noun} Vegan Co-op": "Cooperativa Vegana {noun} {vegetable}",
+  "{vegetable} {noun} Vegan Co-op": "Cooperativa Vegana {noun} de {vegetable}",
   "{vehicle} couldn't keep up.": "{vehicle} não conseguiu acompanhar.",
   "{vehicle} spins out of control!": "{vehicle} sai girando fora de controle!",
   "{vehicle} struggles to maintain speed and falls away.": "{vehicle} tem dificuldade para manter a velocidade e fica para trás.",

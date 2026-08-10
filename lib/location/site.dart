@@ -273,6 +273,66 @@ String localizedGeneratedSiteName(String adjective, String siteType) {
   });
 }
 
+String localizedGeneratedNursingHomeName(String adjective, String noun) {
+  final fullName = [adjective, noun, 'Nursing Home'].join(' ');
+  if (LcsI18n.hasTranslation(fullName)) return LcsI18n.tr(fullName);
+
+  final translatedAdjective = LcsI18n.currentLocale == 'pt_BR'
+      ? _ptBrNursingHomeAdjective(adjective, noun)
+      : LcsI18n.tr(adjective);
+  return LcsI18n.processString('{adjective} {noun} Nursing Home', {
+    'adjective': translatedAdjective,
+    'noun': LcsI18n.tr(noun),
+  });
+}
+
+const _ptBrFeminineNursingHomeNouns = <String>{
+  'Journey',
+  'Compass',
+  'Reflections',
+};
+
+const _ptBrPluralNursingHomeNouns = <String>{'Moments', 'Reflections'};
+
+String _ptBrNursingHomeAdjective(String adjective, String noun) {
+  final base = switch (adjective) {
+    'Happy' => 'Feliz',
+    'Gentle' => 'Gentil',
+    'Quiet' => 'Silencioso',
+    'Radiant' => 'Radiante',
+    'Loving' => 'Amoroso',
+    'Tender' => 'Carinhoso',
+    'Joyful' => 'Alegre',
+    _ => LcsI18n.tr(adjective),
+  };
+  final feminine = _ptBrFeminineNursingHomeNouns.contains(noun);
+  final plural = _ptBrPluralNursingHomeNouns.contains(noun);
+
+  return switch ((base, feminine, plural)) {
+    ('Feliz', _, true) => 'Felizes',
+    ('Feliz', _, false) => 'Feliz',
+    ('Gentil', _, true) => 'Gentis',
+    ('Gentil', _, false) => 'Gentil',
+    ('Alegre', _, true) => 'Alegres',
+    ('Alegre', _, false) => 'Alegre',
+    ('Radiante', _, true) => 'Radiantes',
+    ('Radiante', _, false) => 'Radiante',
+    ('Silencioso', true, true) => 'Silenciosas',
+    ('Silencioso', true, false) => 'Silenciosa',
+    ('Silencioso', false, true) => 'Silenciosos',
+    ('Silencioso', false, false) => 'Silencioso',
+    ('Amoroso', true, true) => 'Amorosas',
+    ('Amoroso', true, false) => 'Amorosa',
+    ('Amoroso', false, true) => 'Amorosos',
+    ('Amoroso', false, false) => 'Amoroso',
+    ('Carinhoso', true, true) => 'Carinhosas',
+    ('Carinhoso', true, false) => 'Carinhosa',
+    ('Carinhoso', false, true) => 'Carinhosos',
+    ('Carinhoso', false, false) => 'Carinhoso',
+    _ => base,
+  };
+}
+
 const _ptBrFeminineGeneratedSiteTypes = <String>{
   'Paper Mill',
   'Schoolhouse',
@@ -379,10 +439,10 @@ void initSiteName(Site loc) {
         "Care",
         "Reflections",
       ];
-      loc.name = LcsI18n.processString("{adjective} {noun} Nursing Home", {
-        "adjective": LcsI18n.tr(adjective.random),
-        "noun": LcsI18n.tr(noun.random),
-      });
+      loc.name = localizedGeneratedNursingHomeName(
+        adjective.random,
+        noun.random,
+      );
       loc.shortName = "NursingHome";
     case SiteType.insuranceOffice:
       const adjective = ["United", "Human", "Blue", "First", "Golden"];

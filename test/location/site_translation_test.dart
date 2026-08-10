@@ -29,6 +29,34 @@ void main() {
     );
   });
 
+  test('Portuguese nursing-home names use a phrase-level template', () {
+    expect(
+      localizedGeneratedNursingHomeName('Tender', 'Reflections'),
+      equals('Casa de repouso Reflexões Carinhosas'),
+    );
+  });
+
+  test('Portuguese generated site labels cover full location names', () {
+    expect(
+      LcsI18n.tr('Cable News Station'),
+      equals('Canal de Notícias a Cabo'),
+    );
+    expect(LcsI18n.tr('CEO Mansion'), equals('Mansão do CEO'));
+    expect(LcsI18n.tr('CEO House'), equals('Casa do CEO'));
+    expect(LcsI18n.tr('CEO Castle'), equals('Castelo do CEO'));
+    expect(LcsI18n.tr('NursingHome'), equals('Casa de repouso'));
+  });
+
+  test('Portuguese vegan co-op names preserve the linking preposition', () {
+    expect(
+      LcsI18n.processString('{vegetable} {noun} Vegan Co-op', {
+        'vegetable': LcsI18n.tr('Asparagus'),
+        'noun': LcsI18n.tr('Meadow'),
+      }),
+      equals('Cooperativa Vegana Prado de Aspargo'),
+    );
+  });
+
   test('Portuguese police siege copy avoids a gendered site article', () {
     expect(
       LcsI18n.tr('The police have surrounded the {location}!'),

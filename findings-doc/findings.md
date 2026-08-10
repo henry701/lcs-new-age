@@ -148,8 +148,9 @@
 | PT-263 | Medium | Siege translation/context | CIA raid opening hard-codes a masculine article before feminine site names |
 | PT-264 | Medium | Combat controls | Police-siege foot chase advertises a disabled surrender action |
 | PT-265 | High | Siege translation/coverage | Medical-debt raid announcements remain English after the location fragment |
-| PT-266 | Medium | Siege translation/context | Medical-debt receipt title leaks the raw English safehouse name |
+| PT-266 | Medium | Dynamic-name localization | Medical-debt receipt title leaks the raw safehouse name |
 | PT-267 | Low | Politics translation/context | Agenda polling and active-law prose use awkward Portuguese wording |
+| PT-268 | Medium | Generated-site translation/context | Los Angeles site names leak English and use malformed Portuguese |
 
 ## PT-001: Save-management option is clipped
 
@@ -3851,3 +3852,29 @@ regression protects all four fragments. After a Flutter asset-manifest restart,
 the Portuguese replay rendered the corrected opinion line and the complete
 active-law sentence without new clipping; the existing fixed-width ellipses on
 longer law rows remain bounded and intentional.
+
+## PT-268: Los Angeles generated site names leak English and use malformed Portuguese
+
+- Severity: Medium
+- Type: Generated-site translation / contextual grammar
+- Screen: Portuguese new game → Los Angeles → Downtown and Grande Hollywood
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regressions on 2026-08-09**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/city-sites-7995/headless-check.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/city-sites-7995/13-la-downtown.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/city-sites-7995/15-la-hollywood.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/city-sites-7995/15-la-hollywood.png`, and `test/location/site_translation_test.dart`
+
+The pre-fix LA route exposed three generated-name defects. A nursing home
+appeared as `Concurso Reflexões Casa de Enfermagem`: `Tender` had the wrong
+false-friend translation, the facility term was not Brazilian Portuguese, and
+the word order did not form a natural name. Grande Hollywood also displayed the
+raw-English `Cable News Station` and `CEO Mansion`. The vegan co-op template
+rendered `Cooperativa Vegana Prado Aspargo`, omitting the linking preposition.
+
+Portuguese nursing-home generation now uses the phrase-level `Casa de repouso
+{noun} {adjective}` template and inflects the generated adjective for the noun's
+gender and number. The catalog adds full and short site labels for Cable News,
+CEO mansion/castle/house, and nursing homes, corrects `Tender`/`Touch`, and
+changes the vegan co-op template to `Cooperativa Vegana {noun} de {vegetable}`.
+
+After a Flutter asset-manifest restart, the strict-headless replay rendered
+`Casa de repouso Jornada Carinhosa`, `Canal de Notícias a Cabo`, `Mansão do
+CEO`, and `Cooperativa Vegana Prado de Rabanete`. Both captured menus stayed at
+80 columns or less, and the browser error channel was empty.

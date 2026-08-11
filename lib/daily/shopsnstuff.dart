@@ -191,7 +191,10 @@ Future<void> dealership(Site loc) async {
       addInlineOptionText(
         "S",
         "S - Sell the {car} ({price})",
-        params: {"car": carToSell.fullName(), "price": "\$$price"},
+        params: {
+          "car": carToSell.fullName(lowercaseFirst: true),
+          "price": "\$$price",
+        },
       );
     } else {
       addInlineOptionText("S", "S - Sell a car", enabledWhen: false);

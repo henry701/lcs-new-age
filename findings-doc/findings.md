@@ -4888,3 +4888,31 @@ renderer now uses a dedicated `No weapon equipped` catalog key only for the
 empty weapon sentinel, leaving other `None` contexts unchanged. A rebuilt
 480×320 route rendered `Nenhuma` in both the roster and profile with a 25×80
 buffer, no overflow, and an empty playtest error channel.
+
+## PT-331: Dealership sale label used a hard-coded article and title case
+
+- Severity: Low
+- Type: Translation/context and capitalization
+- Screen: Portuguese Commerce → car dealership → sell a stolen car
+- Replay status: **Fixed and verified in a fresh strict-headless 480×320 replay on 2026-08-11; focused context regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/funded-shops-20260811/dealership-fixed.json` and `dealership-fixed-480x320.png`; regression `test/pt_br_context_translation_test.dart`
+
+The dealership combined the Portuguese article `o` with the generated title-case
+vehicle name, producing `S - Vender o Veículo roubado: Esportivo Azul ($800)`.
+The sale label now omits the article and asks the vehicle formatter for
+sentence-case output, rendering `S - Vender veículo roubado: Esportivo Azul
+($800)` while leaving other vehicle-name contexts unchanged.
+
+## PT-332: Pawn-shop bulk actions mixed verbs and title case
+
+- Severity: Low
+- Type: Translation/context and capitalization
+- Screen: Portuguese Commerce → pawn shop → sell items
+- Replay status: **Fixed and verified in a fresh strict-headless 480×320 replay on 2026-08-11; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/funded-shops-20260811/pawn-fixed.json` and `pawn-fixed-480x320.png`; regression `test/pt_br_context_translation_test.dart`
+
+The bulk-action row mixed `Empenhar` and `Penhorar` and capitalized common
+nouns in sentence context: `F - Empenhar Seletivamente`, `W - Penhorar todas as
+Armas`, and `L - Empenhar todo o Saque`. The labels now consistently use the
+Brazilian Portuguese pawn-shop verb and sentence case: `F - Penhorar
+seletivamente`, `W - Penhorar todas as armas`, and `L - Penhorar todo o saque`.

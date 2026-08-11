@@ -7,6 +7,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/vehicles/vehicle.dart';
 
 import 'test_support.dart';
 
@@ -2375,6 +2376,25 @@ void main() {
       }),
       'Pressione uma letra para selecionar Veículo',
     );
+  });
+
+  test('dealership sale labels use sentence-case stolen vehicle names', () {
+    final vehicle = Vehicle('SPORTSCAR')..heat = 1;
+    final carName = vehicle.fullName(lowercaseFirst: true);
+    final saleLabel = LcsI18n.processString('S - Sell the {car} ({price})', {
+      'car': carName,
+      'price': '\$640',
+    });
+
+    expect(carName, startsWith('veículo roubado:'));
+    expect(saleLabel, startsWith('S - Vender veículo roubado:'));
+    expect(saleLabel, isNot(contains('Vender o Veículo')));
+  });
+
+  test('pawn-shop bulk actions use consistent sentence-case Portuguese', () {
+    expect(catalog['F - Pawn Selectively'], 'F - Penhorar seletivamente');
+    expect(catalog['W - Pawn all Weapons'], 'W - Penhorar todas as armas');
+    expect(catalog['L - Pawn all Loot'], 'L - Penhorar todo o saque');
   });
 
   test('siege and election alerts are translated in context', () {

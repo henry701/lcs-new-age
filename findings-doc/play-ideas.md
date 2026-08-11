@@ -1288,3 +1288,13 @@ narrow-layout coverage.
   an English warehouse name after switching the UI to Portuguese. Do not
   count that as a fresh Portuguese-world translation regression without a
   product decision on translating persisted generated proper names.
+
+## 2026-08-11 — funded Commerce residual review
+
+- PT-331 and PT-332 are fixed and replayed at 480×320 through the repository's
+  strict-headless `agent-browser` profile. The dealership and pawn-shop action
+  rows now use context-appropriate articles, verbs, and sentence case.
+- No new shop, equipment, department-store, or oubliette issue was confirmed.
+- Residual work remains: random PT-048/PT-148 police-terminal seed variation,
+  optional PT-083 narrow-console readability improvements, and the product
+  decision about persisted generated names after a locale switch.

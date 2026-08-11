@@ -364,13 +364,13 @@
     },
     {
       "file": "daily/shopsnstuff.dart",
-      "line": 194,
+      "line": 196,
       "text": "\\$$price",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "daily/shopsnstuff.dart",
-      "line": 260,
+      "line": 263,
       "text": "\\$$price",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },

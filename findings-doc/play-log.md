@@ -4932,3 +4932,27 @@ scope.
 No new issue was confirmed. Keep the residual queue limited to random
 PT-048/PT-148 police-terminal seeds, the optional PT-083 responsive-readability
 enhancement, and the previously documented generated-name language-switch edge.
+
+## 2026-08-11 — strict-headless funded Commerce shop follow-up
+
+- Replayed a fresh Portuguese game with the temporary all-items/funded debug
+  fixture through CLI `agent-browser` only. Chromium stayed strict-headless
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`) at
+  480×320; the bridge reported `HeadlessChrome/150.0.0.0`. The DOM bridge
+  supplied the fixed 80×25 buffer directly, so OCR was not needed.
+- The dealership route reproduced the old `S - Vender o Veículo roubado:
+  Esportivo Azul ($800)` label. After the fix, the rebuilt route rendered
+  `S - Vender veículo roubado: Esportivo Azul ($800)`.
+- The pawn-shop sale route reproduced the mixed bulk-action labels. After the
+  fix, the rebuilt route rendered `Penhorar seletivamente`, `Penhorar todas as
+  armas`, and `Penhorar todo o saque` in sentence case.
+- Both final screens had 25 rows, maximum width 80, no over-wide rows, and an
+  empty `#lcs-playtest-errors` channel. Fixed screenshots and JSON captures are
+  under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/funded-shops-20260811/`.
+- The temporary `debugAllItems`/`debugAMilli` flags were restored before
+  validation. No additional translation or layout issue was confirmed in the
+  department-store, dealership, pawn-shop, or oubliette surfaces.
+
+PT-331 and PT-332 are fixed. Keep the existing random police-terminal seeds,
+optional PT-083 narrow-console readability work, and the persisted generated-name
+language-switch edge in the residual queue.

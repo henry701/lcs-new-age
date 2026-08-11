@@ -32,7 +32,7 @@ class Vehicle {
   @JsonKey(includeToJson: false, includeFromJson: false)
   String get shortName => type.shortName;
 
-  String fullName({bool extraVerbose = false}) {
+  String fullName({bool extraVerbose = false, bool lowercaseFirst = false}) {
     final vehicle = extraVerbose ? type.longName : type.shortName;
     final stolen = heat > 0;
     final showColor = type.displayColor;
@@ -44,10 +44,12 @@ class Vehicle {
       (false, false, true) => "{year} {vehicle}",
       _ => "{vehicle}",
     };
-    return LcsI18n.processString(template, {
+    final fullName = LcsI18n.processString(template, {
       "color": LcsI18n.tr(color),
       "year": year,
       "vehicle": LcsI18n.tr(vehicle),
     });
+    if (!lowercaseFirst || fullName.isEmpty) return fullName;
+    return fullName[0].toLowerCase() + fullName.substring(1);
   }
 }

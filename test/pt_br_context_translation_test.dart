@@ -129,6 +129,10 @@ void main() {
       'As eleições são justas, mas sofrem forte influência das grandes fortunas.',
     );
     expect(
+      catalog['Semi-automatic versions of military rifles are widely available.'],
+      'Versões semiautomáticas de rifles militares estão amplamente disponíveis.',
+    );
+    expect(
       catalog['The death penalty is permitted but only rarely applied.'],
       'A pena de morte é permitida, mas raramente aplicada.',
     );

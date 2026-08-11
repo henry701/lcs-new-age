@@ -4524,3 +4524,21 @@ PT-302 is fixed and covered. Continue the strict-headless narrow-console
 The remaining queue is future random-seed variation of already-covered
 PT-048/PT-148 terminal branches plus PT-083's optional responsive-console
 enhancement; neither produced a new defect in this sweep.
+
+## Strict-headless agenda/CIA follow-up — 2026-08-11
+
+- Replayed the agenda policy page on a rebuilt server at 480×320. The gun-
+  control row now reads `Versões semiautomáticas de rifles militares estão
+  amplamente disponíveis.`; it stays within 80 columns and the playtest-error
+  channel is empty. This fixes PT-304.
+- Replayed the temporary CIA siege fixture through the alarm, compound status,
+  under-attack briefing, combat roster, and map view. All Portuguese rows were
+  at most 80 columns and `#lcs-playtest-errors` remained empty.
+- Every browser invocation used `AGENT_BROWSER_HEADED=0` with Chromium
+  `--headless=new --ozone-platform=headless`; no headed browser or desktop
+  focus was used. Durable evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-next-20260811/replay.md`.
+
+PT-304 is fixed and covered. No additional translation or layout defect was
+confirmed; keep only the future random-seed PT-048/PT-148 terminal variants
+and optional PT-083 responsive-console enhancement open.

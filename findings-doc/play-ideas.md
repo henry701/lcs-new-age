@@ -1084,3 +1084,14 @@ narrow-layout coverage.
 - Keep only future random-seed coverage for already-covered PT-048/PT-148
   terminals and the optional PT-083 responsive-console enhancement in the
   findings backlog.
+
+## 2026-08-11 — agenda/CIA follow-up
+
+- PT-304 is fixed: active-law copy now uses the current Brazilian Portuguese
+  compound `semiautomáticas`, with a catalog regression and a live 480×320
+  agenda replay.
+- The CIA alarm/status/briefing/combat/map route stayed within 80 columns and
+  produced no playtest errors. The temporary siege fixture is disabled again.
+- Continue only with random terminal-seed variation for PT-048/PT-148 and the
+  optional PT-083 responsive-console enhancement; do not reopen the accepted
+  English changelog body.

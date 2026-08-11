@@ -169,6 +169,7 @@
 | PT-295 | Low | News translation/context | Drug acronyms and gang names carry explanatory glosses into prose |
 | PT-296 | Low | Translation/context | Generated cultural labels and recursive fragments carry out-of-context glosses |
 | PT-297 | Low | Dialogue translation/context | LGBT pickup lines use gender-incompatible or duplicated noun phrases |
+| PT-304 | Low | Politics translation/style | Active-law text uses the legacy hyphen in `semiautomáticas` |
 
 ## PT-001: Save-management option is clipped
 
@@ -4503,3 +4504,17 @@ then appended the year, yielding `Nascimento: 30 de junho, 2004`. Brazilian
 Portuguese uses `de` between the month and year in this date form. The catalog
 now supplies `Nascimento: {day} de {month} de `, and the focused profile test
 requires `Nascimento: 9 de novembro de 2004` while rejecting the comma form.
+
+## PT-304: Active-law text used a legacy hyphen in `semiautomáticas`
+
+- Severity: Low
+- Type: Politics translation/style
+- Screen: Portuguese agenda → Active Laws (Part 1)
+- Replay status: **Fixed and verified in a rebuilt strict-headless 480×320 replay on 2026-08-11; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-next-20260811/replay.md`; `test/pt_br_context_translation_test.dart`
+
+The gun-control policy row used `Versões semi-automáticas de rifles
+militares...`. In current Brazilian Portuguese orthography, the compound is
+`semiautomáticas`; the hyphen made an otherwise polished active-law page look
+like an unreviewed legacy spelling. The catalog now uses the corrected form and
+the live page renders it within the 80-column console.

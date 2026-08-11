@@ -5016,3 +5016,29 @@ PT-336 and PT-337 are fixed and verified. Keep the residual queue limited to
 random PT-048/PT-148 police-terminal seeds, the optional PT-083 narrow-console
 readability enhancement, and the persisted generated-name language-switch
 edge.
+
+## 2026-08-11 — strict-headless hospital/courthouse and locale-switch follow-up
+
+- Replayed a fresh female-founder Portuguese world through the hospital and
+  courthouse planner routes. `Centro Médico UW`, `Fórum`, their site footer,
+  and the action-help overlay stayed Portuguese; no raw English control text,
+  bridge error, or over-wide row appeared.
+- The same world was switched to English and the Industrial District planner
+  was opened. Generated names remained materialized in Portuguese inside the
+  English screen (`Frigorífico Esquecido`, `Conjuntos habitacionais da Rua
+  Reading`, `Confecções March`, and `Casa de Drogas da Rua Nakamura`). Switching
+  back to Portuguese translated the surrounding labels while preserving those
+  names. This confirms the existing locale-switch edge in both directions,
+  not a fresh-world Portuguese defect.
+- At 480×320 the final Portuguese planner buffer measured 25 rows with a
+  maximum width of 80, no document overflow, and an empty
+  `#lcs-playtest-errors` channel. Chromium remained strict-headless on every
+  invocation (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`); the DOM bridge supplied the text directly.
+- Durable route evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/locale-switch-generated-names-20260811/replay.md`.
+
+No new translation or layout defect was confirmed. Keep random PT-048/PT-148
+police-terminal seed variation, optional PT-083 narrow-console readability
+work, and the bidirectional persisted generated-name locale edge in the
+residual queue.

@@ -7,6 +7,15 @@
   both real handlers. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-shop-confirm-20260811/`.
 
+- 2026-08-11 strict-headless hospital/courthouse and locale-switch follow-up:
+  the hospital/courthouse routes stayed fully Portuguese. Switching a
+  Portuguese-created world to English leaves generated site names in
+  Portuguese; switching back leaves them stable while the surrounding labels
+  translate. This is the bidirectional form of the persisted generated-name
+  locale edge, retained as a product enhancement rather than a fresh-world
+  translation defect. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/locale-switch-generated-names-20260811/`.
+
 Persistent route ideas for the playtester. Mark each route with evidence in
 `play-log.md` after completing it; promote only confirmed defects to
 `findings.md`.

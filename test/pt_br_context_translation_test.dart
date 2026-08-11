@@ -131,7 +131,7 @@ void main() {
     expect(catalog['months'], 'meses');
     expect(
       catalog['{approval}% have a favorable opinion of '],
-      '{approval}% têm uma opinião favorável sobre ',
+      '{approval}% têm uma opinião favorável sobre o ',
     );
     expect(
       catalog['Elections are run fairly, though they remain heavily influenced by big money.'],
@@ -206,6 +206,14 @@ void main() {
     expect(
       catalog['Fortify the compound for a siege'],
       'Fortificar o complexo para um cerco',
+    );
+    expect(
+      catalog['{approval}% have a favorable opinion of '],
+      '{approval}% têm uma opinião favorável sobre o ',
+    );
+    expect(
+      catalog['You are not under siege... yet.'],
+      'Você ainda não está sob cerco...',
     );
     expect(
       catalog['reduced stress and anxiety'],
@@ -382,7 +390,7 @@ void main() {
   test('agenda polling fragments preserve Portuguese articles', () {
     expect(
       catalog['{approval}% have a favorable opinion of '],
-      '{approval}% têm uma opinião favorável sobre ',
+      '{approval}% têm uma opinião favorável sobre o ',
     );
     expect(
       catalog['are concerned about gun violence'],

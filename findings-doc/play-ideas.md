@@ -4,6 +4,13 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 `play-log.md` after completing it; promote only confirmed defects to
 `findings.md`.
 
+- PT-333/PT-334/PT-335 fixed and verified (2026-08-11): the strict-headless
+  management sweep standardized investment-menu verb mood, added the article
+  before dynamic `Presidente`/`Rei` poll labels, and reordered the location
+  siege status to idiomatic Portuguese. Keep the exact catalog/layout tests
+  beside future menu or agenda changes; evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/deep-sweep-20260811/`.
+
 - PT-330 fixed and verified (2026-08-11): the base roster and Liberal profile
   now use feminine `Nenhuma` for an unequipped `arma`; keep the contextual
   weapon-label regression beside future item-name catalog changes.

@@ -177,6 +177,11 @@
 | PT-328 | Medium | Daily-siege translation/context | Unoccupied police raids expose English rescued-role names |
 | PT-329 | Medium | Daily-siege translation/layout | Dynamic unoccupied-raid locations receive the wrong article and clip the final period |
 | PT-330 | Low | Translation/context | Portuguese weapon cells use masculine `Nenhum` for the feminine noun `arma` |
+| PT-331 | Low | Translation/context | Dealership sale label uses a hard-coded article and title case |
+| PT-332 | Low | Translation/context | Pawn-shop bulk actions mix verbs and title case |
+| PT-333 | Low | Translation/style | Investment actions mix imperative and infinitive forms |
+| PT-334 | Low | Agenda translation/context | Presidential opinion poll omits the Portuguese article |
+| PT-335 | Low | Location translation/style | Siege status sentence uses unnatural Portuguese word order |
 
 ## PT-001: Save-management option is clipped
 
@@ -4916,3 +4921,42 @@ nouns in sentence context: `F - Empenhar Seletivamente`, `W - Penhorar todas as
 Armas`, and `L - Empenhar todo o Saque`. The labels now consistently use the
 Brazilian Portuguese pawn-shop verb and sentence case: `F - Penhorar
 seletivamente`, `W - Penhorar todas as armas`, and `L - Penhorar todo o saque`.
+
+## PT-333: Investment actions mixed imperative and infinitive forms
+
+- Severity: Low
+- Type: Translation/style
+- Screen: Portuguese base mode → location → `I - Investir neste local`
+- Replay status: **Fixed and verified in a rebuilt strict-headless replay on 2026-08-11; focused layout regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/deep-sweep-20260811/investment-menu-before.png`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/deep-sweep-20260811/investment-menu-after.png`
+
+The investment list mixed infinitive labels (`Fortificar`, `Preparar`, `Criar`)
+with formal imperatives (`Coloque`, `Instale`, `Armazene`). The corrected
+catalog uses consistent menu-style infinitives: `Colocar`, `Instalar`, and
+`Armazenar`, while preserving the existing Portuguese currency formatting and
+80-column fitting.
+
+## PT-334: Presidential opinion poll omitted the Portuguese article
+
+- Severity: Low
+- Type: Agenda translation/context
+- Screen: Portuguese Liberal Agenda → opinion polling, page 2
+- Replay status: **Fixed and verified in a rebuilt strict-headless replay on 2026-08-11; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/deep-sweep-20260811/agenda-polling-after.png`
+
+The prefix translation composed `... opinião favorável sobre Presidente`.
+Because the following dynamic label is `President {name}` (or `King {name}`),
+the Portuguese prefix now includes `o`, producing `... sobre o Presidente
+Ezekiel Lipman.` and the corresponding `Rei` variant.
+
+## PT-335: Location siege status used unnatural word order
+
+- Severity: Low
+- Type: Location translation/style
+- Screen: Portuguese base mode → location status header
+- Replay status: **Fixed and verified in a rebuilt strict-headless replay on 2026-08-11; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/deep-sweep-20260811/investment-menu-after.png`
+
+`Você não está sob cerco... ainda.` is grammatical but unnatural in Brazilian
+Portuguese. The status now reads `Você ainda não está sob cerco...`, keeping the
+threatening pause while placing `ainda` in its idiomatic position.

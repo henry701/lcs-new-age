@@ -124,14 +124,49 @@ void main() {
         await investInLocation(site);
 
         expect(
+          _consoleLine(8),
+          contains(
+            'W - Fortificar o complexo para um cerco (US\$ 2.000)',
+          ),
+        );
+        expect(
+          _consoleLine(9),
+          contains(
+            'C - Colocar câmeras de segurança ao redor do complexo (US\$ 2.000)',
+          ),
+        );
+        expect(
+          _consoleLine(10),
+          contains(
+            'T - Colocar armadilhas ocultas em todo o complexo (US\$ 3.000)',
+          ),
+        );
+        expect(
           _consoleLine(11),
           contains(
-            'B - Instale postes reforçados contra veículos (US\$ 3.000)',
+            'B - Instalar postes reforçados contra veículos (US\$ 3.000)',
           ),
+        );
+        expect(
+          _consoleLine(12),
+          contains(
+            'G - Instalar um gerador a diesel de reserva no complexo (US\$ 3.000)',
+          ),
+        );
+        expect(
+          _consoleLine(13),
+          contains('P - Instalar uma bateria e painel solar no telhado'),
         );
         expect(_consoleLine(11), isNot(contains('\u200b')));
         expect(_consoleLine(11).length, lessThanOrEqualTo(console.width));
         expect(_consoleLine(13), contains('US\$ 40.000'));
+        expect(_consoleLine(15), contains('V - Preparar uma sala como estúdio'));
+        expect(_consoleLine(16), contains('H - Preparar um quarto como covil'));
+        expect(_consoleLine(17), contains('F - Criar uma frente de negócios'));
+        expect(
+          _consoleLine(19),
+          contains('R - Armazenar 20 rações diárias de comida (US\$ 150)'),
+        );
       } finally {
         gameState = previousGameState;
       }

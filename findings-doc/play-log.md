@@ -4956,3 +4956,33 @@ enhancement, and the previously documented generated-name language-switch edge.
 PT-331 and PT-332 are fixed. Keep the existing random police-terminal seeds,
 optional PT-083 narrow-console readability work, and the persisted generated-name
 language-switch edge in the residual queue.
+
+## 2026-08-11 — strict-headless management and agenda follow-up
+
+- Replayed a fresh Portuguese game against a rebuilt local Flutter web-server
+  at port 8791. The CLI `agent-browser` session stayed strict-headless
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`);
+  the runtime UA was `HeadlessChrome/150.0.0.0`. The DOM bridge supplied the
+  fixed 80×25 buffer directly, so no headed browser or OCR was used.
+- Covered review/assets, squad assembly and profiles, promotion, all five
+  agenda pages, media overview, ten equipment pages, task assignment and help,
+  infiltrated-agent assignment, travel selection, and a squadless-location
+  investment menu.
+- The investment menu exposed mixed verb moods (`Coloque`/`Instale`/`Armazene`
+  beside infinitives). PT-333 changed those catalog entries to consistent
+  infinitives. The rebuilt menu now shows `Colocar câmeras`, `Colocar
+  armadilhas`, `Instalar postes`, `Instalar um gerador`, `Instalar uma bateria`,
+  and `Armazenar 20 rações`.
+- Agenda page 2 exposed `opinião favorável sobre Presidente`; PT-334 adds the
+  required Portuguese article. The rebuilt poll reads `0% têm uma opinião
+  favorável sobre o Presidente Ezekiel Lipman.`.
+- The location header's `Você não está sob cerco... ainda.` was reviewed as an
+  unnatural word order. PT-335 now renders `Você ainda não está sob cerco...`.
+- The investment and agenda buffers each measured 25 rows with maximum width
+  80 and an empty `#lcs-playtest-errors` channel. Evidence and screenshots are
+  under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/deep-sweep-20260811/`.
+
+PT-333–PT-335 are fixed. No additional fresh-world translation or layout issue
+was confirmed. Keep random PT-048/PT-148 police-terminal seed variation,
+optional PT-083 narrow-console readability work, and the persisted generated
+name language-switch edge in the residual queue.

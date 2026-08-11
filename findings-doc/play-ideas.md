@@ -8,6 +8,15 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   now use feminine `Nenhuma` for an unequipped `arma`; keep the contextual
   weapon-label regression beside future item-name catalog changes.
 
+- 2026-08-11 strict-headless police-warehouse follow-up: fresh Portuguese
+  surrender and `F - Lutar/Fugir` routes covered the alarm, cleanup, SWAT
+  roster, escape turns, and translated combat messages at 480×320. A 320×240
+  and 240×160 pass stayed bounded with no bridge errors or over-wide rows. The
+  existing `Escopeta pump` term is acceptable in Brazilian Portuguese. Keep
+  only random PT-048/PT-148 terminal seeds and PT-083 narrow readability open;
+  evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-warehouse-followup-20260811/`.
+
 - PT-325 fixed and verified (2026-08-11): generated newspaper locations now
   spell `San Bernardino, CA` correctly. Keep the proper-name regression beside
   the city table when adding or reweighting locations.

@@ -4906,3 +4906,29 @@ closed before handoff. The remaining fresh-world queue is random PT-048/PT-148
 police-terminal seeds plus the optional PT-083 responsive-console enhancement;
 the language-switch generated-name edge case is separately noted for future
 scope.
+
+## 2026-08-11 — strict-headless police warehouse and narrow-console follow-up
+
+- Replayed two fresh Portuguese games against the temporary warehouse-police
+  fixture with CLI `agent-browser` only. Chromium stayed strict-headless
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`); the bridge reported `HeadlessChrome/150.0.0.0`.
+- The first route exercised the alarm, loudspeaker, `G - Desistir`, and every
+  police cleanup page. The second exercised `F - Lutar/Fugir`, the SWAT roster,
+  repeated `D - Tentar despistá-los` escape turns, and a translated hit message.
+  `Policial da SWAT`, `Armadura da SWAT`, `Espingarda`, and `Submet. MP5` all
+  remained Portuguese; the only raw-English token was the intentional `SWAT`
+  acronym.
+- Buffers stayed at 25 rows with a maximum width of 80, and
+  `#lcs-playtest-errors` stayed empty. At 320×240 and 240×160 the rendered
+  console had no document overflow; the text is small at the latter size but
+  no clipping defect was reproduced. Narrow screenshots and the full route
+  transcript are retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-warehouse-followup-20260811/`.
+- The existing `Escopeta pump` catalog term was reviewed in context and is an
+  accepted Brazilian Portuguese rendering of pump shotgun; it was not promoted
+  to a finding.
+
+No new issue was confirmed. Keep the residual queue limited to random
+PT-048/PT-148 police-terminal seeds, the optional PT-083 responsive-readability
+enhancement, and the previously documented generated-name language-switch edge.

@@ -2232,6 +2232,8 @@ void main() {
           '{name} profere suas últimas palavras: "Uma praga sobre as duas casas..."',
       '{name} speaks these final words: "Better dead than liberal..."':
           '{name} profere suas últimas palavras: "Melhor morrer do que ser liberal..."',
+      '{name} breathes heavily, coughing up blood...  then is quiet.':
+          '{name} respira com dificuldade, tossindo sangue... e então fica em silêncio.',
       '{name} sweats profusely, murmurs something [good] about Jesus, and dies.':
           '{name} sua muito, murmura algo positivo sobre Jesus e morre.',
       '{name} sweats profusely, murmurs something about Jesus, and dies.':

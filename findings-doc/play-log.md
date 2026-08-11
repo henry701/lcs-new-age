@@ -4055,6 +4055,25 @@ PT-048/PT-148 police-alarm variants and PT-083 responsive-readability
 enhancement; accepted PT-049 historical changelog English remains out of the
 fix queue.
 
+## Strict-headless management and clothing-prompt replay — 2026-08-12
+
+- Replayed a fresh Portuguese game with only the isolated CLI `agent-browser`
+  session, `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; no headed window or screenshot was used.
+- The clothing selector initially clipped the translated header after
+  `... tiver tec` at the 80-column boundary. After shortening the canonical
+  wording, the live row rendered in full as `O que Greg Craft fará? (Custo pela
+  metade com tecido)`.
+- The same route swept the activity categories, skill and paid-class pickers,
+  travel destinations, vehicle assignment, and safehouse investment controls.
+  Every captured row stayed at or below 80 columns, and the DOM error channel
+  stayed empty. Evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/clothing-prompt-20260812/`.
+
+The PT-285 catalog wording is now fixed and covered by a context regression.
+The remaining queue is PT-048/PT-148 random police-alarm terminal coverage and
+the PT-083 narrow-console readability enhancement.
+
 ## Strict-headless monthly AM Radio replay — 2026-08-09
 
 - Replayed a fresh Portuguese game through Los Angeles → Downtown and Grande

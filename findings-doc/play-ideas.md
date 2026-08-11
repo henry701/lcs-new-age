@@ -984,3 +984,15 @@ narrow-layout coverage.
 - PT-283 and PT-284 are fixed. Continue with PT-048/PT-148 random
   alarm/terminal combat variants and the PT-083 narrow-console readability
   sweep, using only strict-headless sessions.
+
+## 2026-08-12 — activity/header follow-up
+
+- Keep the clothing-crafting selector assertion in the Portuguese management
+  sweep: a long translated header can lose its suffix even when every option
+  row fits the console.
+- The compact cost note now renders completely; the activity, skill, paid-class,
+  travel, vehicle, and investment screens were clean in the fresh headless
+  replay.
+- PT-285 and PT-286 are fixed. Continue only with PT-048/PT-148 random
+  police-alarm terminal variants and the PT-083 narrow-console readability
+  exploration.

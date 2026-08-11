@@ -655,6 +655,7 @@ void main() {
     await Future<void>.delayed(const Duration(milliseconds: 30));
 
     final rendered = _consoleText();
+    expect(rendered, contains('Custo pela metade com tecido'));
     for (final expected in [
       'Traje do Black Bloc',
       'Regata',

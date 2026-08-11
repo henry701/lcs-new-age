@@ -157,6 +157,7 @@
 | PT-283 | Medium | Infiltrated-agent translation | Liberal level title `Revolutionary` remains English in the action header |
 | PT-284 | Low | Help-text style | Hospital activity help line contains an unnecessary double space |
 | PT-285 | Low | Combat translation/style | Death-reflection message uses unnatural Portuguese phrasing |
+| PT-286 | Low | Activity layout | Clothing-crafting header loses its Portuguese suffix at 80 columns |
 
 ## PT-001: Save-management option is clipped
 
@@ -4202,8 +4203,8 @@ translation now uses `no mesmo local. Isso não`; the console remains bounded to
 - Severity: Low
 - Type: Combat translation/style
 - Screen: Portuguese police-siege combat death reflection
-- Replay status: **Open; confirmed in a fresh strict-headless replay on 2026-08-11**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-live-20260811/route.md`
+- Replay status: **Fixed in the Portuguese catalog and covered by a focused regression on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-live-20260811/route.md`; regression `test/pt_br_context_translation_test.dart`
 
 The live death reflection for the catalog key `{name} breathes heavily,
 coughing up blood...  then is quiet.` rendered as `Policial da SWAT respira
@@ -4213,7 +4214,22 @@ understandable, but `respira fortemente` is not idiomatic for a dying person and
 natural option would be `respira com dificuldade, tossindo sangue... e então
 fica em silêncio.` while preserving the existing death-message tone.
 
-The same replay confirmed that the message remains bounded to the 80-column
-console, and the surrounding roster and control text are localized. This is a
-wording-only residual for a future catalog pass; no code change was made during
-the playtest.
+The catalog now uses `respira com dificuldade, tossindo sangue... e então fica
+em silêncio.`. The focused composition regression protects the complete
+sentence, interpolation, and absence of the old literal phrasing; the existing
+strict-headless route confirmed the surrounding combat screen remains bounded.
+
+## PT-286: Clothing-crafting header loses its Portuguese suffix at 80 columns
+
+- Severity: Low
+- Type: Activity layout / translation length
+- Screen: Portuguese base mode → Atribuir Tarefas → Recrutamento e Aquisição → Fazer Roupas
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/clothing-prompt-20260812/route.md`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The translated header `O que {name} vai tentar fazer?  (Nota: Metade do custo
+se você tiver tecido)` was drawn as one fixed-width line. With a normal founder
+name the console ended at `... tiver tec`, hiding the rest of the cost note.
+The compact Portuguese wording is now `O que {name} fará? (Custo pela metade
+com tecido)`, and the focused selector regression requires the complete suffix
+while retaining the 80-column limit.

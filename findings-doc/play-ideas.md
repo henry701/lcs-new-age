@@ -1180,3 +1180,12 @@ narrow-layout coverage.
   month-end and sleeper-agent surfaces through February with no new defect.
 - Keep random PT-048/PT-148 police-terminal seed variation and PT-083's
   optional responsive-console enhancement as the only open playtest ideas.
+
+## 2026-08-11 — police combat variation
+
+- Keep the strict-headless siege fixture able to exercise both surrender and
+  fight branches at 480×320. The combat roster intentionally lowercases a
+  conservative role when its health makes it flee; preserve that state marker
+  while checking that the generated role remains localized.
+- The fresh variation stayed clean. Continue only with future random terminal
+  seeds and the optional PT-083 responsive-console sweep.

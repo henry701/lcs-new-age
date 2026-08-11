@@ -4686,3 +4686,25 @@ open; accepted PT-049 historical changelog English remains out of scope.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/random-variants-20260811/replay.md`.
 - Remaining playtest ideas are still random PT-048/PT-148 police-terminal
   variants and the optional PT-083 responsive-console enhancement.
+
+## Strict-headless police combat variation — 2026-08-11
+
+- Rebuilt a disposable police-siege bundle and replayed surrender plus a
+  480×320 fight variation using isolated CLI `agent-browser` sessions only.
+  Chromium ran with `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; the bridge reported `HeadlessChrome/150.0.0.0`.
+- The surrender route covered the alarm, loudspeaker, safehouse selection,
+  confiscation, funds seizure, fortification/trap cleanup, and anti-aircraft
+  cleanup pages. The fight route covered the confrontation briefing, SWAT
+  roster, Portuguese weapon/armor labels, and localized hit messages.
+- One low-health SWAT row changed to `policial da SWAT`. Source inspection
+  confirms this is intentional: the encounter renderer lowercases conservative
+  targets whose `calculateWillRunAway()` state is true. It is a fleeing-state
+  marker, not a translation or capitalization defect.
+- Every captured row stayed at or below 80 columns and
+  `#lcs-playtest-errors` remained empty. Temporary debug flags and the local
+  server were restored/stopped. Evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-random-20260811/`.
+
+No new issue was confirmed. Keep only future PT-048/PT-148 terminal-seed
+variation and PT-083 responsive-console exploration open.

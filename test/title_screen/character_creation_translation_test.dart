@@ -126,7 +126,7 @@ void main() {
       'I was obsessed with Japanese swords and started lifting weights.':
           'Eu tinha obsessão por espadas japonesas e comecei a levantar pesos.',
       'I volunteered for a left-wing candidate.  {pronoun} didn\'t even come close.':
-          'Fiz voluntariado para uma candidatura de esquerda. {pronoun} nem chegou perto de vencer.',
+          'Fiz voluntariado para uma pessoa de esquerda que se candidatou. {pronoun} nem chegou perto de vencer.',
       'I got caught making out with {person}.  So God hated me for that?':
           'Me pegaram aos beijos com {person}. Então Deus me odiava por isso?',
       'I was a daydreamer.  What is, what was, what could be.':
@@ -202,8 +202,18 @@ void main() {
     expect(
       localizedVolunteerCandidateOption(),
       equals(
-        'Fiz voluntariado para uma candidatura de esquerda. '
+        'Fiz voluntariado para uma pessoa de esquerda que se candidatou. '
         'Ela nem chegou perto de vencer.',
+      ),
+    );
+  });
+
+  test('volunteer answer keeps the candidate pronoun consistent for men', () {
+    expect(
+      localizedVolunteerCandidateOption(candidateGender: Gender.male),
+      equals(
+        'Fiz voluntariado para uma pessoa de esquerda que se candidatou. '
+        'Ele nem chegou perto de vencer.',
       ),
     );
   });

@@ -4585,3 +4585,22 @@ PT-307–PT-317 are fixed and covered. Keep future work limited to random-seed
 variation of the already-covered police terminals and an optional responsive
 console enhancement; continue strict-headless runs for any new Portuguese
 content.
+
+## 2026-08-11 — dealership and gendered-biography replay
+
+- Replayed a fresh Portuguese route at 480×320 using only the CLI
+  `agent-browser` bridge with `AGENT_BROWSER_HEADED=0` and Chromium
+  `--headless=new --ozone-platform=headless`; no headed browser was focused.
+- Reached Commerce → Carros Usados de Lance, advanced the day, and opened the
+  vehicle picker. The pre-fix capture showed raw `Pickup Truck`, `Sportscar`,
+  `Red`, `White`, `Vehicle`, `Color`, and the English exit label. The rebuilt
+  picker now shows `Picape`, `Carro esportivo`, `Vermelho`, `Branco`, `Veículo`,
+  `Cor`, and `Não precisamos de um carro Conservador`.
+- The same founder route exercised the female candidate option. The catalog
+  regression also invokes the runtime helper with a male candidate, confirming
+  that the neutral noun no longer conflicts with `Ele`.
+- Both raw and fixed DOM captures plus a fixed screenshot are retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/vehicle-picker-20260811/`.
+- PT-318 and PT-319 are fixed. Continue the remaining random-seed terminal
+  variation and optional responsive-console work with the same headless-only
+  harness.

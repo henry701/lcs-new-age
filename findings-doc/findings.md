@@ -4686,3 +4686,37 @@ Buckman` was written directly to the 80-column row, dropping the final `n`
 without indicating that any text was missing. Arrival messages now use the
 shared fitted daily-message renderer and end with an ellipsis when the
 destination name is too long.
+
+## PT-318: Dealership picker bypassed Portuguese for dynamic vehicle and color text
+
+- Severity: Medium
+- Type: Translation/context
+- Screen: Portuguese base mode → dealership → comprar um carro
+- Replay status: **Fixed and verified in a fresh strict-headless 480×320 replay on 2026-08-11; focused catalog/UI regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/vehicle-picker-20260811/raw-vehicle-picker.json`, `raw-color-picker.json`, `fixed-vehicle-picker.json`, and `fixed-color-picker.json`
+
+The dealership built its option list from XML names and colors, then passed those
+values as interpolation parameters. The translation helper intentionally leaves
+ordinary parameters untouched, so the Portuguese picker showed `Pickup Truck`,
+`Sportscar`, `Red`, and `White`. The footer and exit label were also injected as
+raw parameters, producing `selecionar Vehicle` and `We don't need a Conservative
+car`. The call site now translates the dynamic vehicle/color values and the
+labels before interpolation. The rebuilt screen renders `Picape`, `Carro
+esportivo`, `Vermelho`, `Branco`, `Veículo`, `Cor`, and
+`Não precisamos de um carro Conservador`.
+
+## PT-319: Volunteer biography noun disagreed with a masculine candidate pronoun
+
+- Severity: Low
+- Type: Translation/context and grammatical agreement
+- Screen: Portuguese new game → founder biography → “I was only 15 when I ran away...”
+- Replay status: **Fixed in the catalog and covered for female and male runtime genders on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-sweep-after-20260811/11-founder-options`; regression `test/title_screen/character_creation_translation_test.dart`
+
+The previous translation rendered `Fiz voluntariado para uma candidatura de
+esquerda. {pronoun} nem chegou perto de vencer.` The source supplies a runtime
+candidate pronoun, so the male branch could produce the semantically broken
+`candidatura ... Ele`. The translation now uses the gender-neutral person
+description `Fiz voluntariado para uma pessoa de esquerda que se candidatou.
+{pronoun} nem chegou perto de vencer.`, preserving the interpolation while
+remaining grammatical for `Ela`, `Ele`, or `Elu`.

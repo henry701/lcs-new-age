@@ -2274,6 +2274,28 @@ void main() {
     }
   });
 
+  test('dealership dynamic vehicle and color labels are localized', () {
+    expect(catalog['Vehicle'], 'Veículo');
+    expect(catalog['Color'], 'Cor');
+    expect(catalog['Pickup Truck'], 'Picape');
+    expect(catalog['Sportscar'], 'Carro esportivo');
+    expect(catalog['Red'], 'Vermelho');
+    expect(catalog['White'], 'Branco');
+    expect(
+      LcsI18n.processString('{vehicle} ({price})', {
+        'vehicle': LcsI18n.tr('Pickup Truck'),
+        'price': '\$5000',
+      }),
+      'Picape — \$5000',
+    );
+    expect(
+      LcsI18n.processString('Press a Letter to select a {optiontypename}', {
+        'optiontypename': LcsI18n.tr('Vehicle'),
+      }),
+      'Pressione uma letra para selecionar Veículo',
+    );
+  });
+
   test('siege and election alerts are translated in context', () {
     const expected = {
       'A skilled pilot gets through!': 'Um piloto habilidoso consegue passar!',

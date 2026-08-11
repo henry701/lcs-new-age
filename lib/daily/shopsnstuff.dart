@@ -256,7 +256,7 @@ Future<void> dealership(Site loc) async {
         vehicleprice.add(price);
         vehicleoption.add(
           LcsI18n.processString("{vehicle} ({price})", {
-            "vehicle": vt.longName,
+            "vehicle": LcsI18n.tr(vt.longName),
             "price": "\$$price",
           }),
         );
@@ -266,9 +266,9 @@ Future<void> dealership(Site loc) async {
           "Choose a vehicle",
           "",
           vehicleoption,
-          "Vehicle",
+          LcsI18n.tr("Vehicle"),
           true,
-          "We don't need a Conservative car",
+          LcsI18n.tr("We don't need a Conservative car"),
         );
         if (carchoice != -1 && vehicleprice[carchoice] > ledger.funds) {
           mvaddstrc(1, 1, darkRed, "You don't have enough money!");
@@ -286,10 +286,10 @@ Future<void> dealership(Site loc) async {
       int colorchoice = await choiceprompt(
         "Choose a color",
         "",
-        availablevehicle[carchoice].colors,
-        "Color",
+        availablevehicle[carchoice].colors.map(LcsI18n.tr).toList(),
+        LcsI18n.tr("Color"),
         true,
-        "These colors are Conservative",
+        LcsI18n.tr("These colors are Conservative"),
       );
 
       if (colorchoice == -1) continue;

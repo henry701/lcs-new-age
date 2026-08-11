@@ -1120,3 +1120,15 @@ narrow-layout coverage.
 - The fresh arrival route stayed at or below 80 columns with no bridge errors.
   Continue strict-headless random-seed variation for PT-048/PT-148 police
   terminals and keep PT-083's responsive-console idea optional.
+
+## 2026-08-11 — dealership interpolation follow-up
+
+- PT-318 confirms that XML-backed vehicle names, colors, and choice labels
+  need explicit translation at the interpolation call site; catalog coverage
+  alone does not translate ordinary parameters.
+- PT-319 confirms that biography translations must remain valid for every
+  runtime gender supplied to a `{pronoun}` placeholder. Keep neutral noun
+  phrasing when the source does not expose a gendered noun parameter.
+- Preserve the headless-only browser profile and keep the raw/fixed dealership
+  captures under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/` for future
+  regression replay.

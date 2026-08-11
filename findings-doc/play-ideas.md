@@ -1144,3 +1144,15 @@ narrow-layout coverage.
   restored before handoff.
 - Residuals are limited to future random-seed PT-048/PT-148 terminal variation
   and the optional PT-083 responsive-console readability enhancement.
+
+## 2026-08-11 — site-map label follow-up
+
+- PT-320 is fixed: full and compact site-map overlays now lay out translated
+  special labels using the localized width, fitting or ellipsizing them inside
+  their map regions. Keep the focused `pt_br_map_overlay_test.dart` beside any
+  future map-label changes.
+- The fresh police-station route remained strict-headless and clean but ended
+  on a random police encounter before a lockup-special tile could be held for a
+  screenshot. The deterministic renderer test covers that missing tile state.
+- The only open playtest ideas remain future random-seed PT-048/PT-148 police
+  terminal variation and PT-083's optional responsive-console enhancement.

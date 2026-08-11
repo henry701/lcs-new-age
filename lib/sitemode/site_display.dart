@@ -178,7 +178,9 @@ void printSiteMap(int x, int y, int z) {
       str = "";
   }
   if (levelMap[locx][locy][locz].special != TileSpecial.none) {
-    mvaddstrc(24, 67 - (str.length >> 1), white, str);
+    final localizedLabel = _fitSiteSpecialLabel(str, 27);
+    final labelX = 53 + ((27 - strLenX(localizedLabel)) ~/ 2);
+    mvaddstrc(24, labelX, white, localizedLabel, noTranslate: true);
   }
 
   //PRINT PARTY
@@ -562,7 +564,7 @@ void printSiteMapSmall(int x, int y, int z) {
   }
   move(23, 57);
   if (str != "") {
-    addstrc(yellow, str);
+    addstrc(yellow, _fitSiteSpecialLabel(str, 23), noTranslate: true);
   }
   if (levelMap[locx][locy][locz].burning) {
     if (str != "") addstr(" ");
@@ -595,6 +597,11 @@ void printSiteMapSmall(int x, int y, int z) {
     printEncounter();
     printGroundLootIndicator();
   }
+}
+
+String _fitSiteSpecialLabel(String englishLabel, int maxWidth) {
+  if (englishLabel.isEmpty) return englishLabel;
+  return fitConsoleText(LcsI18n.tr(englishLabel), maxWidth);
 }
 
 const wallUp = 0;

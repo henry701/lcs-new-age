@@ -4720,3 +4720,20 @@ candidate pronoun, so the male branch could produce the semantically broken
 description `Fiz voluntariado para uma pessoa de esquerda que se candidatou.
 {pronoun} nem chegou perto de vencer.`, preserving the interpolation while
 remaining grammatical for `Ela`, `Ele`, or `Elu`.
+
+## PT-320: Portuguese site-map special labels clipped at the map edge
+
+- Severity: Medium
+- Type: Fixed-console layout
+- Screen: Portuguese site mode → full map and compact map overlays
+- Replay status: **Fixed and verified with a strict-headless police-station replay and focused map-overlay regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-special-labels-20260811/replay.md`; regression `test/sitemode/pt_br_map_overlay_test.dart`
+
+The map label renderers translated special labels through the console wrappers,
+but positioned them using the raw English length and wrote them into fixed-width
+rows without fitting the localized text. For example, `Police Detention Room`
+is 21 columns in English but `Sala de Detenção da Polícia` is 27 columns in
+Portuguese; the full-map label started too far right and the compact label was
+silently cut at column 80. Both renderers now translate before layout, fit to
+their 27- and 23-column map regions with an ellipsis when necessary, and center
+the full-map label inside its frame.

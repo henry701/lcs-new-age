@@ -4627,3 +4627,20 @@ content.
 No new issue was confirmed. Keep only future random-seed PT-048/PT-148
 terminal variation and the optional PT-083 responsive-console enhancement
 open; accepted PT-049 historical changelog English remains out of scope.
+
+## 2026-08-11 — site-map special-label layout follow-up
+
+- Replayed the Portuguese founder → Seattle → police-station route against a
+  fresh web-server build with CLI `agent-browser` only. The browser stayed
+  strict-headless (`AGENT_BROWSER_HEADED=0`, Chromium `--headless=new` with the
+  headless Ozone backend), reached the locked-door prompt, accepted the
+  Portuguese `S` response, and showed Portuguese police labels with no bridge
+  errors. The random police encounter ended the live route before the lockup
+  tile could remain visible.
+- A deterministic renderer regression then exercised the same police lockup
+  special in both full and compact map overlays. `Sala de Detenção da Polícia`
+  now fits the full 27-column row, while the compact 23-column row uses an
+  ellipsis instead of dropping text at the console edge. This fixes PT-320.
+- Temporary debug flags and the disposable server/browser session were restored
+  or closed. Residual work remains limited to random PT-048/PT-148 terminal
+  variation and the optional PT-083 responsive-console enhancement.

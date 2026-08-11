@@ -1,5 +1,20 @@
 # Portuguese Playtest Scratch Pad
 
+- PT-340 fixed and verified (2026-08-11): the recruitment conversation's
+  Torture discussion now composes `permitindo que o governo torture e abuse de
+  seres humanos em nosso nome.` instead of the infinitive leak. The live
+  recruitment route reproduced the pre-fix sentence; the focused catalog
+  regression covers the corrected fragment. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/recruitment-torture-20260811/`.
+
+- 2026-08-11 strict-headless police-terminal seed 3: a third fresh Portuguese
+  warehouse route (`Armazém Assombrado`) covered the daily police alarm,
+  loudspeaker surrender, confiscation, compound cleanup, and post-siege
+  roster. The terminal stayed Portuguese and bounded at 80 columns with no
+  bridge errors. No new defect was confirmed; keep one more random terminal
+  seed only if future catalog changes warrant it. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-seed3-20260811/`.
+
 - PT-336/PT-337 fixed and verified (2026-08-11): Portuguese save deletion and
   pawn-shop bulk-sale confirmations now accept `S` through the shared locale-
   aware yes-key path. The pawn prompt localizes the dynamic category (`Vender

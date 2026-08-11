@@ -184,6 +184,7 @@
 | PT-335 | Low | Location translation/style | Siege status sentence uses unnatural Portuguese word order |
 | PT-338 | Low | Politics translation/context | Congressional House summary uses literal `Casa` instead of `Câmara` |
 | PT-339 | Low | Finance translation/style | Monthly net-change label uses an English title-case calque |
+| PT-340 | Low | Dialogue translation/context | Torture discussion fragment uses infinitives after `permitindo que` |
 
 ## PT-001: Save-management option is clipped
 
@@ -5022,3 +5023,21 @@ title-case calque that reads unnaturally in Brazilian Portuguese. The catalog
 now uses the sentence-case label `Variação líquida neste mês (dia):`; the
 replayed report showed the corrected label alongside the translated purchase
 and asset rows.
+
+## PT-340: Torture discussion fragment used infinitives after `permitindo que`
+
+- Severity: Low
+- Type: Dialogue translation/context
+- Screen: Portuguese recruitment conversation → political discussion → Torture
+- Replay status: **Fixed in catalog and focused context regression; live
+  recruitment route reproduced the pre-fix wording and the rebuilt catalog
+  assertion passes**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/recruitment-torture-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The recruitment discussion composes two fragments. The Portuguese first
+fragment ends with `permitindo que`, so the second fragment must use the
+subjunctive. The live route rendered `... permitindo que o governo torturar e
+abusar de seres humanos em nosso nome.`, which is ungrammatical. The catalog
+now uses `o governo torture e abuse de seres humanos em nosso nome.`; the
+focused context test asserts the exact corrected fragment and the rebuilt
+Portuguese catalog passes it.

@@ -5101,3 +5101,42 @@ PT-338 and PT-339 are fixed and verified. The temporary debug fixtures were
 restored before validation. Keep the residual queue limited to future random
 PT-048/PT-148 terminal seeds, the optional PT-083 responsive-readability work,
 and the persisted generated-name locale-switch product decision.
+
+## 2026-08-11 — strict-headless police-terminal seed 3
+
+- A third fresh Portuguese warehouse route used the generated name
+  `Armazém Assombrado` and covered the daily police alarm, loudspeaker,
+  surrender prompt, confiscation, compound cleanup, and post-siege roster.
+- The route stayed Portuguese: `A polícia cercou o local: Armazém Assombrado!`,
+  `Você ouve uma voz alta em um alto-falante:`, `Rendam-se!`, and the
+  fortification, trap, and anti-aircraft cleanup lines were all localized.
+- The CLI `agent-browser` session remained strict-headless
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`,
+  `--disable-dev-shm-usage`, `--disable-cache`) with UA
+  `HeadlessChrome/150.0.0.0`; no headed window was opened or focused. The DOM
+  bridge measured 25 rows, maximum width 80, no document overflow, an empty
+  `#lcs-playtest-errors` channel, and no raw English control tokens.
+- Evidence and screenshot: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/
+  police-terminal-seed3-20260811/`.
+
+No new translation, key-prefix, punctuation, or layout defect was reproduced.
+
+## 2026-08-11 — strict-headless recruitment dialogue
+
+- A fresh Portuguese route assigned `Recrutar`, selected `Estudante
+  Universitário`, and traversed a nonbinary/trans candidate profile, political
+  conversation, and follow-up recruitment meeting at 480×320.
+- The live conversation exposed PT-340: the composed Torture discussion read
+  `... permitindo que o governo torturar e abusar de seres humanos em nosso
+  nome.`. The catalog fragment now reads `o governo torture e abuse de seres
+  humanos em nosso nome.`; the focused context test was observed failing before
+  the edit and passing after it.
+- The rebuilt route kept 25 rows at a maximum width of 80, with an empty
+  `#lcs-playtest-errors` channel and no raw English control text beyond the
+  intentional `Enter/Escape` key name. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/recruitment-torture-20260811/`.
+
+PT-340 is fixed. Continue with the remaining recruitment/date/profile route
+ideas and random police-terminal seeds when future catalog changes justify
+them; PT-083 responsive readability and persisted generated-name localization
+remain product-level edges rather than confirmed regressions.

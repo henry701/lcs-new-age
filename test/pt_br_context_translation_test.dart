@@ -165,6 +165,10 @@ void main() {
     expect(catalog['Transgender'], 'Transgênero');
     expect(catalog['Digital Terrorism'], 'Terrorismo digital');
     expect(catalog['Digital Vandalism'], 'Vandalismo digital');
+    expect(
+      catalog['the government torture and abuse human beings on our behalf.'],
+      'o governo torture e abuse de seres humanos em nosso nome.',
+    );
     expect(catalog['Feminist Flag'], 'Bandeira Feminista');
     expect(
       catalog['Capable medics will always provide'],

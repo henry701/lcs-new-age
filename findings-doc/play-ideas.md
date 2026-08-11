@@ -4,6 +4,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 `play-log.md` after completing it; promote only confirmed defects to
 `findings.md`.
 
+- PT-330 fixed and verified (2026-08-11): the base roster and Liberal profile
+  now use feminine `Nenhuma` for an unequipped `arma`; keep the contextual
+  weapon-label regression beside future item-name catalog changes.
+
 - PT-325 fixed and verified (2026-08-11): generated newspaper locations now
   spell `San Bernardino, CA` correctly. Keep the proper-name regression beside
   the city table when adding or reweighting locations.
@@ -1256,3 +1260,14 @@ narrow-layout coverage.
   columns, with punctuation intact and no bridge errors.
 - Keep only future random PT-048/PT-148 police-terminal seed variation and the
   optional PT-083 responsive-console readability enhancement open.
+
+## 2026-08-11 — PT-330 weapon-label follow-up
+
+- The broad funded/all-items route found and fixed masculine `Nenhum` in the
+  Portuguese weapon column and profile. The rebuilt headless route now shows
+  `Nenhuma` with no width or bridge errors. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/weapon-label-20260811/`.
+- Keep future item-name and roster routes checking contextual grammatical
+  agreement rather than changing the shared `None` translation globally.
+- The only open playtest ideas remain future random PT-048/PT-148 police
+  terminal variation and the optional PT-083 responsive-console enhancement.

@@ -4856,3 +4856,23 @@ terminal seeds and optional PT-083 responsive-console readability.
 
 The residual queue remains future random PT-048/PT-148 police-terminal seeds
 and the optional PT-083 responsive-console readability enhancement.
+
+## 2026-08-11 — strict-headless broad-funded route / PT-330 weapon label
+
+- Replayed a fresh Portuguese new game after restarting the local web server.
+  The CLI browser stayed strict-headless (`AGENT_BROWSER_HEADED=0`, Chromium
+  `--headless=new --ozone-platform=headless`) at 480×320; the bridge reported
+  `HeadlessChrome/150.0.0.0`.
+- The broad all-items/funded route exposed `Nenhum` in the base roster's
+  `ARMA` cell for an unequipped founder. The same shared label also appeared
+  as `Arma: Nenhum` in the active-Liberal profile. This is a context defect:
+  `arma` is feminine in Brazilian Portuguese.
+- PT-330 now uses a dedicated `No weapon equipped` catalog key for the empty
+  weapon sentinel. The rebuilt route rendered `Nenhuma` in both screens; the
+  final bridge buffer stayed 25×80, the exact old token was absent, and
+  `#lcs-playtest-errors` remained empty. The focused vocabulary regression
+  covers the fixed roster cell. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/weapon-label-20260811/replay.md`.
+
+The residual queue remains future random PT-048/PT-148 police-terminal seeds
+and the optional PT-083 responsive-console readability enhancement.

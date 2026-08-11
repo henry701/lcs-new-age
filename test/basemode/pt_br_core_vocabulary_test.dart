@@ -123,6 +123,19 @@ void main() {
     }
   });
 
+  test('Portuguese weapon labels use feminine no-weapon agreement', () {
+    _founder();
+
+    printParty(fullParty: true);
+
+    final weaponCell = _consoleCells(
+      2,
+      ManagementTableLayout.partyWeaponX,
+      ManagementTableLayout.partyArmorX,
+    );
+    expect(weaponCell.trim(), equals('Nenhuma'));
+  });
+
   test('Portuguese combat outfit labels localize XML short names', () {
     final founder = _founder()
       ..equippedClothing = Clothing('CLOTHING_CHEERLEADER');

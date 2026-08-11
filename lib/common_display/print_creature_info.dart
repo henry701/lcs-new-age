@@ -222,7 +222,7 @@ void printWeapon(Creature cr, {int? maxWidth}) {
     addstr("Voice");
     return;
   }
-  addstr(cr.weapon.type.shortName);
+  addstr(_localizedWeaponShortName(cr));
   setColor(lightGray);
   if (cr.weapon.type.usesAmmo) {
     if (cr.weapon.ammo > 0) {
@@ -260,7 +260,7 @@ String _weaponDisplayText(Creature cr) {
     return LcsI18n.tr("Voice");
   }
 
-  final weaponName = LcsI18n.tr(cr.weapon.type.shortName);
+  final weaponName = _localizedWeaponShortName(cr);
   if (cr.weapon.type.usesAmmo) {
     if (cr.weapon.ammo > 0) {
       return (StringBuffer(weaponName)
@@ -286,6 +286,13 @@ String _weaponDisplayText(Creature cr) {
         .toString();
   }
   return weaponName;
+}
+
+String _localizedWeaponShortName(Creature cr) {
+  if (cr.equippedWeapon == null && cr.weapon.type.idName == "WEAPON_NONE") {
+    return LcsI18n.tr("No weapon equipped");
+  }
+  return LcsI18n.tr(cr.weapon.type.shortName);
 }
 
 void printTopSkills(
@@ -738,9 +745,9 @@ void printFullCreatureStats(
     mvaddstrFitted(
       10,
       vitalityX,
-      "${LcsI18n.tr("Next:  ")}$next",
+      "Next:  {next}",
       vitalityWidth,
-      noTranslate: true,
+      params: {"next": next},
     );
   }
   // Add attributes

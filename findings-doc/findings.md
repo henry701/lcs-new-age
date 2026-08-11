@@ -176,6 +176,7 @@
 | PT-327 | Medium | Siege translation/context | Singular rescued-hostage terminal exposes English role names and masculine agreement |
 | PT-328 | Medium | Daily-siege translation/context | Unoccupied police raids expose English rescued-role names |
 | PT-329 | Medium | Daily-siege translation/layout | Dynamic unoccupied-raid locations receive the wrong article and clip the final period |
+| PT-330 | Low | Translation/context | Portuguese weapon cells use masculine `Nenhum` for the feminine noun `arma` |
 
 ## PT-001: Save-management option is clipped
 
@@ -4871,3 +4872,19 @@ final period at the 80-column boundary. The police, no-LCS-members, and
 Conservative raid templates now use `local chamado {location}` with the
 shorter `esconderijo vazio` wording, and their dynamic opening rows use the
 width-aware renderer.
+
+## PT-330: Portuguese weapon cells used masculine no-weapon agreement
+
+- Severity: Low
+- Type: Translation / grammatical agreement
+- Screen: Portuguese base roster and Liberal profile
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/weapon-label-20260811/replay.md`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The shared `None` item-name translation rendered `Nenhum` in the `ARMA`
+column and the profile line `Arma: Nenhum`. In this context the omitted item
+is an `arma`, a feminine noun, so the label must be `Nenhuma`. The weapon
+renderer now uses a dedicated `No weapon equipped` catalog key only for the
+empty weapon sentinel, leaving other `None` contexts unchanged. A rebuilt
+480×320 route rendered `Nenhuma` in both the roster and profile with a 25×80
+buffer, no overflow, and an empty playtest error channel.

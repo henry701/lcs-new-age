@@ -4876,3 +4876,33 @@ and the optional PT-083 responsive-console readability enhancement.
 
 The residual queue remains future random PT-048/PT-148 police-terminal seeds
 and the optional PT-083 responsive-console readability enhancement.
+
+## 2026-08-11 — strict-headless medical-debt receipt replay
+
+- Rebuilt a disposable medical-industry siege fixture and replayed it through
+  the CLI-only strict-headless browser at 480×320. Chromium ran with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; the bridge reported
+  `HeadlessChrome/150.0.0.0`.
+- The fresh Portuguese world route reached a generated
+  `Garagem de Ônibus Esquecida` safehouse with 50,000 in hospital debt and
+  surrendered with `G - Desistir`. The receipt rendered `RECIBO DE COBRANÇA DE
+  DÍVIDA MÉDICA`, the localized safehouse title, all Portuguese labels, and
+  aligned amounts.
+- The final buffer had 25 rows, a maximum width of 80, no over-wide rows, and
+  an empty `#lcs-playtest-errors` channel. No new fresh-world translation or
+  layout issue was confirmed. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260811/`.
+- A separate exploratory run intentionally created the world in English and
+  switched locale mid-game; its persisted generated warehouse name remained
+  English in the Portuguese receipt. This is a future language-switch
+  enhancement (generated names are materialized during `makeWorld()`), not a
+  defect in a fresh Portuguese game. Keep it visible in the residual queue if
+  the language-menu promise that all text changes immediately is broadened to
+  persisted generated proper names.
+
+The temporary fixture, browser session, and local server were restored or
+closed before handoff. The remaining fresh-world queue is random PT-048/PT-148
+police-terminal seeds plus the optional PT-083 responsive-console enhancement;
+the language-switch generated-name edge case is separately noted for future
+scope.

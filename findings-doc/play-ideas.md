@@ -1269,5 +1269,13 @@ narrow-layout coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/weapon-label-20260811/`.
 - Keep future item-name and roster routes checking contextual grammatical
   agreement rather than changing the shared `None` translation globally.
-- The only open playtest ideas remain future random PT-048/PT-148 police
-  terminal variation and the optional PT-083 responsive-console enhancement.
+- The fresh Portuguese medical-debt receipt route also stayed localized and
+  bounded; evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260811/`.
+- Future random PT-048/PT-148 police-terminal variation and the optional PT-083
+  responsive-console enhancement remain open. A separate low-priority edge
+  case is language switching after world creation: generated site names are
+  persisted in their creation locale, so an English-created world can retain
+  an English warehouse name after switching the UI to Portuguese. Do not
+  count that as a fresh Portuguese-world translation regression without a
+  product decision on translating persisted generated proper names.

@@ -4356,3 +4356,25 @@ fix queue.
 PT-289 through PT-291 are fixed. Continue with the remaining police-terminal
 variant and narrow-console exploration, and keep all browser sessions
 strictly headless.
+
+## Strict-headless generated-gloss and fixed-column follow-up — 2026-08-11
+
+- Used only the CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+  Chromium `--headless=new --ozone-platform=headless --disable-dev-shm-usage
+  --disable-cache`. No headed browser, screenshot, or GUI focus was used.
+- The bridge reported `HeadlessChrome/150.0.0.0`; all captured rows were at
+  most 80 columns and the playtest-error channel was empty.
+- A fresh Portuguese route to `Distrito Universitário` rendered
+  `Cooperativa Vegana Jardim de Tofu (soja)`. `Tofu` is a generated name
+  fragment, so the automated `(soja)` explanation is a confirmed PT-292
+  context defect. The route also rendered the already-fixed `Internet Café
+  Unicórnio Nano` without the former `Nano (escala)` gloss.
+- A separate fresh world routed to `Distrito Industrial` and reproduced the
+  fixed-column issue as `Fábrica de Brinquedos Assombrada (Possível
+  EscondePressão: 0   Sigilo: 15`. The site/status text runs into the fixed
+  pressure and secrecy columns; this is logged as PT-293 under the broader
+  PT-083 readability queue.
+- Durable capture: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/generated-gloss-layout-20260811/replay.md`.
+
+PT-292 and PT-293 remain open for a later code/test pass. The browser harness
+is configured to stay strict-headless for all subsequent playtests.

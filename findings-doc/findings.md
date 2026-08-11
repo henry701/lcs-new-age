@@ -163,6 +163,8 @@
 | PT-289 | Low | Generated-site translation/context | Upscale-apartment names retain English word order in Portuguese |
 | PT-290 | Low | Generated-site translation/style | Juice-bar adjectives do not agree with plural Portuguese nouns |
 | PT-291 | Low | Generated-site translation/context | Internet-café brand fragments expose automated translator glosses |
+| PT-292 | Low | Generated-site translation/context | Vegan co-op names expose an automated `Tofu (soja)` gloss |
+| PT-293 | Medium | Fixed-console layout | Industrial site status text overwrites long Portuguese site names |
 
 ## PT-001: Save-management option is clipped
 
@@ -4316,3 +4318,37 @@ the parenthetical explanations came from translating isolated words without
 their generated-name context. The catalog now uses `Panda` and `Nano` without
 glosses, records both as intentional unchanged fragments for runtime
 telemetry, and the composed name is protected as `Internet Café Panda Nano`.
+
+## PT-292: Vegan co-op names expose an automated `Tofu (soja)` gloss
+
+- Severity: Low
+- Type: Generated-site translation / out-of-context gloss
+- Screen: Portuguese base mode → plan a site visit in Distrito Universitário
+- Replay status: **Open; reproduced in a strict-headless replay on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/generated-gloss-layout-20260811/replay.md`
+
+The live district menu rendered `Cooperativa Vegana Jardim de Tofu (soja)`.
+The source uses `Tofu` as one of the generated vegetable/name fragments in
+`{vegetable} {noun} Vegan Co-op`; the parenthetical ` (soja)` is an isolated
+translator explanation, not player-facing site-name content. The same replay
+showed the already-fixed `Nano` fragment without its former `(escala)` gloss.
+Remove the gloss in the Portuguese catalog and register `Tofu` as an intended
+unchanged generated fragment, with a phrase-level regression for the composed
+site name.
+
+## PT-293: Industrial site status text overwrites long Portuguese site names
+
+- Severity: Medium
+- Type: Fixed-console layout / dynamic site status
+- Screen: Portuguese base mode → plan a site visit in Distrito Industrial
+- Replay status: **Open; reproduced in a strict-headless replay on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/generated-gloss-layout-20260811/replay.md`
+
+The industrial-district menu rendered a long LCS row as
+`Fábrica de Brinquedos Assombrada (Possível EscondePressão: 0   Sigilo: 15`.
+The localized site name and `(Possível Esconderijo)` status extend into the
+fixed `Pressão`/`Sigilo` columns at column 54, so the status and name merge even
+though the buffer remains 80 columns wide. Reserve the right-side status/stat
+columns when fitting destination rows, then add a regression with a long LCS
+site name and live pressure/secrecy values. This is the concrete reproduction
+to carry under the broader PT-083 narrow/fixed-console layout queue.

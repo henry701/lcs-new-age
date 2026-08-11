@@ -1023,3 +1023,19 @@ narrow-layout coverage.
 - PT-289–PT-291 are fixed and verified/covered in strict-headless runs. Sweep
   the remaining city/district families, but keep all temporary debug fixtures
   disabled before validation.
+
+## 2026-08-11 — generated gloss and destination-row follow-up
+
+- PT-292: remove the catalog-only `Tofu (soja)` gloss from the vegan co-op's
+  generated name fragments. Audit neighboring short generated fragments
+  (`Micro (microfone)`, `LSD (droga)`, `MDMA (droga)`, and
+  `Crips/Bloods (gangue)`) against their source contexts before changing them;
+  recruitment glosses such as `Emo (estilo)` remain intentional and should not
+  be flattened blindly.
+- PT-293: fit plan-site destination rows around the fixed right-side
+  `Pressão`/`Sigilo` columns. Add a deterministic long-LCS-site regression so
+  `(Possível Esconderijo)` cannot merge into `Pressão` even when the Portuguese
+  site name consumes most of the row.
+- Keep the only browser path as the strict-headless CLI harness documented in
+  `findings-doc/headless-playtest.md`; do not use the pre-existing headed Chrome
+  MCP for future runs.

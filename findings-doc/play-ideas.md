@@ -16,6 +16,14 @@
   translation defect. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/locale-switch-generated-names-20260811/`.
 
+- 2026-08-11 strict-headless random police-terminal follow-up: two fresh
+  seeded Portuguese police variants covered `Armazém Assombrado` surrender
+  and `Fábrica de Brinquedos Velha` fight/foot-escape paths. Alarm, cleanup,
+  SWAT, chase, and combat text stayed localized and bounded. No new defect was
+  confirmed. Keep only additional random PT-048/PT-148 seeds and optional
+  PT-083 narrow-console readability work open. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-random-20260811/`.
+
 Persistent route ideas for the playtester. Mark each route with evidence in
 `play-log.md` after completing it; promote only confirmed defects to
 `findings.md`.

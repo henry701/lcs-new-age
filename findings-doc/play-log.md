@@ -5042,3 +5042,31 @@ No new translation or layout defect was confirmed. Keep random PT-048/PT-148
 police-terminal seed variation, optional PT-083 narrow-console readability
 work, and the bidirectional persisted generated-name locale edge in the
 residual queue.
+
+## 2026-08-11 — strict-headless random police-terminal variants
+
+- Rebuilt a disposable local police-siege fixture with `debugSiege=true` only
+  during setup, then restored the flag to `false` and stopped the server.
+  Two fresh Portuguese worlds exercised different generated warehouse names:
+  `Armazém Assombrado` and `Fábrica de Brinquedos Velha`.
+- Variant A covered the alarm, loudspeaker, safehouse status, surrender,
+  confiscation, fortification/trap/AA cleanup, and post-siege status. The
+  generated-name article stayed correct in
+  `A polícia cercou o local: Armazém Assombrado!`, and the status returned as
+  `Você ainda não está sob cerco...`.
+- Variant B covered the fight briefing, SWAT roster, foot-escape messages,
+  and a localized combat sentence. `Policial da SWAT`, `Armadura da SWAT`,
+  `Espingarda`, `M4`, and `Submet. MP5` stayed Portuguese; the chase messages
+  `Policial da SWAT não consegue acompanhar!` and
+  `Policial da SWAT ainda está no seu encalço!` were grammatically intact.
+- Every invocation used the strict-headless profile (`AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`, `--disable-dev-shm-usage`,
+  `--disable-cache`). The bridge reported `HeadlessChrome/150.0.0.0`.
+  Inspected buffers stayed at 25 rows with maximum width 80 and an empty
+  `#lcs-playtest-errors` channel.
+- Durable route evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-random-20260811/replay.md`.
+
+No new translation or layout defect was confirmed. Keep only additional
+random PT-048/PT-148 terminal seeds and the optional PT-083 narrow-console
+readability enhancement open.

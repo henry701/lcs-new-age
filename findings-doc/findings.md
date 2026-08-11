@@ -3996,3 +3996,26 @@ browser identified itself as `HeadlessChrome`, and the error channel was empty.
 Keep PT-048/PT-148 police-alarm variants and PT-083 responsive-readability
 enhancement open; accepted PT-049 historical changelog English remains out of
 the fix queue.
+
+## PT-274: First American Bank teller prompt fell back to English
+
+- Severity: Low
+- Type: Missing translation / encounter message
+- Screen: Portuguese First American Bank site view → teller tile
+- Replay status: **Fixed and verified in a strict-headless replay after a full Flutter web-server restart on 2026-08-10**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/bank-teller-8014e-before.txt`; fixed `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/bank-teller-8014e-after.txt`; regression `test/pt_br_context_translation_test.dart`
+
+Stepping onto the bank teller tile displayed the raw English line `A bank
+teller is available.` in an otherwise Portuguese route. The canonical English
+catalog now declares the key and the Portuguese catalog maps it to `Há um caixa
+do banco disponível.`. The focused runtime catalog test protects the exact
+entry, and the fresh headless replay rendered the Portuguese line with no
+English fallback, no browser errors, and no row wider than the fixed 80-column
+console.
+
+No new layout issue was confirmed. The compact roster cell `Esporti…-D` is the
+existing fixed-width vehicle truncation covered by `test/basemode/pt_br_vehicle_layout_test.dart`.
+
+Keep PT-048/PT-148 police-alarm variants and PT-083 responsive-readability
+enhancement open; accepted PT-049 historical changelog English remains out of
+the fix queue.

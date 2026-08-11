@@ -111,6 +111,10 @@ void main() {
     expect(catalog['UW Medical'], 'Hospital UW');
     expect(catalog['SWAT Officer'], 'Policial da SWAT');
     expect(
+      catalog['A bank teller is available.'],
+      'Há um caixa do banco disponível.',
+    );
+    expect(
       catalog['{name} looks at the Squad suspiciously.'],
       '{name} olha para o Esquadrão com suspeita.',
     );

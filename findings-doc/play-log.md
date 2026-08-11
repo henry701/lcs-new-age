@@ -4107,3 +4107,19 @@ fix queue.
 - No new translation issue was confirmed. Keep only the already-known random
   branch coverage and PT-083 responsive-readability enhancement open; accepted
   PT-049 historical changelog English remains out of the fix queue.
+
+## Strict-headless First American Bank teller replay — 2026-08-10
+
+- The Portuguese First American Bank route was replayed with the isolated
+  `car-chase-8014e` CLI session. Stepping onto the teller tile first reproduced
+  the raw English `A bank teller is available.` prompt.
+- The English key was added to the canonical hash-sharded catalogs with the
+  Portuguese value `Há um caixa do banco disponível.`. After a full Flutter
+  web-server restart, the same route rendered the Portuguese prompt.
+- The bridge reported `HeadlessChrome/150.0.0.0`, an empty browser-error
+  channel, and a maximum 80-column row. No headed browser was launched or
+  focused. Captures are retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/bank-teller-8014e-*.txt`.
+- PT-274 is fixed. Continue the residual PT-048/PT-148 police-alarm variants
+  and PT-083 narrow-layout sweep; accepted PT-049 historical changelog
+  English remains out of the fix queue.

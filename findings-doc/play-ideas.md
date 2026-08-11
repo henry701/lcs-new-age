@@ -894,3 +894,15 @@ narrow-layout coverage.
 - Current replay found no additional Portuguese defect. If another pass is
   useful, vary the site type to force a car chase and test `P - Pare e
   renda-se`, then return to the residual narrow-layout sweep.
+
+## 2026-08-10 — bank encounter follow-up
+
+- Add deterministic bank-site fixtures to the headless playtester so the teller
+  tile, robbery prompt, alarm branch, and return-to-base result can be replayed
+  without depending on random map generation.
+- Keep a catalog fallback assertion for short encounter messages: the teller
+  prompt was easy to miss because the surrounding bank map and controls were
+  already translated.
+- After the bank branch, return to the residual police car-chase/surrender
+  route and the narrow-console option-layout sweep. Keep every browser session
+  strictly headless and close named sessions after captures.

@@ -121,9 +121,7 @@ void main() {
       '{approval}% têm uma opinião favorável sobre ',
     );
     expect(
-      catalog[
-        'Elections are run fairly, though they remain heavily influenced by big money.'
-      ],
+      catalog['Elections are run fairly, though they remain heavily influenced by big money.'],
       'As eleições são justas, mas sofrem forte influência das grandes fortunas.',
     );
     expect(
@@ -1888,11 +1886,16 @@ void main() {
       'A informação é publicada na internet sem grande alarde. Alguns teóricos da conspiração mencionam isso, mas a maioria das pessoas não acredita.',
     );
     expect(
-      LcsI18n.tr('This is bound to get the Conservative masses a little riled up...'),
+      LcsI18n.tr(
+        'This is bound to get the Conservative masses a little riled up...',
+      ),
       'Isso certamente deixará as massas conservadoras um pouco agitadas...',
     );
-    expect(LcsI18n.tr('News denounce the CCS.'), 'Notícias denunciam o CCS.');
-    expect(LcsI18n.tr('against.'), 'contra ele.');
+    expect(
+      LcsI18n.tr('News denounce the CCS.'),
+      'as Notícias a Cabo denunciam o CCS.',
+    );
+    expect(LcsI18n.tr('against.'), 'pública.');
     expect(LcsI18n.tr('is Black.'), 'é uma pessoa negra.');
     expect(
       catalog['to promote a foreign dictator as a hero to listeners '],
@@ -1900,7 +1903,7 @@ void main() {
     );
     expect(
       catalog['after a major radio host received a large sum of money from '],
-      'após um importante apresentador de rádio receber uma grande soma de dinheiro do ',
+      'após um importante apresentador de rádio receber uma grande soma de dinheiro ',
     );
     expect(
       catalog['to make sure to follow the name of every LGBT figure '],
@@ -1908,11 +1911,11 @@ void main() {
     );
     expect(
       catalog['The Liberal Guardian runs a story featuring AM radio plans '],
-      'O Guardião Liberal publica uma matéria sobre planos de rádio AM ',
+      'O Guardião Liberal publica uma matéria com planos de rádio AM ',
     );
     expect(
       catalog['brainstorming, in very blunt terms, which overt lies to '],
-      'elaborando, em termos muito diretos, quais mentiras óbvias ',
+      'nos quais se discutem, em termos muito diretos, quais mentiras óbvias ',
     );
     expect(
       catalog['tell listeners based on what they think their listeners are '],
@@ -1920,7 +1923,7 @@ void main() {
     );
     expect(
       catalog['mentioned on the program with the words "who is known to be a '],
-      'mencionada no programa seja acompanhada das palavras "que é conhecida por ser uma ',
+      'mencionada no programa seja acompanhado pelas palavras "que é conhecida por ser uma ',
     );
     expect(
       catalog['pedophile and a groomer, by the way."'],
@@ -1929,6 +1932,56 @@ void main() {
     expect(
       LcsI18n.tr("'stupid enough' to believe."),
       "'estúpidos o suficiente' para acreditar.",
+    );
+    final amCase0 = [
+      LcsI18n.tr('The Liberal Guardian runs a story featuring AM radio plans '),
+      LcsI18n.tr('to promote a foreign dictator as a hero to listeners '),
+      LcsI18n.tr(
+        'after a major radio host received a large sum of money from ',
+      ),
+      LcsI18n.tr("the dictator's regime."),
+    ].join();
+    expect(
+      amCase0,
+      'O Guardião Liberal publica uma matéria com planos de rádio AM para promover um ditador estrangeiro como herói para os ouvintes após um importante apresentador de rádio receber uma grande soma de dinheiro do regime do ditador.',
+    );
+    final cableCase0 = [
+      LcsI18n.tr(
+        'The Liberal Guardian runs a story featuring cable news memos ',
+      ),
+      LcsI18n.tr('mandating that any investigative news stories must be '),
+      LcsI18n.tr(
+        "approved by the network's Conservative commentators before they ",
+      ),
+      LcsI18n.tr('can be aired.'),
+    ].join();
+    expect(
+      cableCase0,
+      'O Guardião Liberal publica uma matéria apresentando memorandos de notícias a cabo exigindo que todas as reportagens investigativas sejam aprovadas pelos comentaristas conservadores da rede antes que possam ser exibidas.',
+    );
+    expect(
+      LcsI18n.tr('have been largely made up.'),
+      'foram em grande parte inventadas.',
+    );
+    final ccsTail = [
+      LcsI18n.tr(
+        'extensive planning to create an extra-judicial death squad that would be ',
+      ),
+      LcsI18n.tr(
+        'above prosecution, and could hunt down law-abiding Liberals and act ',
+      ),
+      LcsI18n.tr(
+        'as a foil when no other enemies were present to direct public energy ',
+      ),
+      LcsI18n.tr('against.'),
+    ].join();
+    expect(
+      ccsTail,
+      'planejamento extensivo para criar um esquadrão da morte extrajudicial que estaria acima de qualquer processo e poderia caçar Liberais cumpridores da lei e servir de contraponto quando não houvesse outros inimigos contra os quais direcionar a energia pública.',
+    );
+    expect(
+      LcsI18n.tr('News denounce the CCS.'),
+      'as Notícias a Cabo denunciam o CCS.',
     );
     const retaliationEndings = {
       'Be on guard for retaliation.  This guy is not the forgiving type...':

@@ -4069,3 +4069,41 @@ fix queue.
   browser errors. The next monthly prompt also stayed in Portuguese.
 - No new translation or layout issue was confirmed. Keep PT-048/PT-148,
   PT-083, and accepted PT-049 in the residual queue.
+
+## Strict-headless monthly context replay — 2026-08-10
+
+- Used only the isolated CLI `agent-browser` session `monthly-after-8010f` with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; no headed browser was launched or focused.
+- Replayed a fresh Portuguese game through January, February, and March with
+  all debug loot available. The AM Radio, Cable News, and CCS families were
+  selected in successive monthly Guardian prompts.
+- The pre-fix sweep exposed malformed AM/Cable joins and several CCS grammar
+  fragments. After the catalog corrections, the live buffers rendered
+  `destinados a forjar um escândalo falso`, the complete Cable/AM clauses, and
+  a fluent CCS paragraph ending in `energia pública`; all rows remained within
+  the fixed 80-column console.
+- The bridge reported `HeadlessChrome/150.0.0.0` and an empty browser-error
+  channel. Captures are retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/monthly-context-8010f/`.
+- PT-273 is fixed. Continue PT-048/PT-148 police-alarm and PT-083 narrow-layout
+  exploration; keep accepted PT-049 historical changelog English out of the
+  fix queue.
+
+## Strict-headless police alarm post-fix replay — 2026-08-10
+
+- Replayed a fresh Portuguese game with a temporary `debugSiege` police fixture
+  using only `agent-browser` session `police-after-8012a` and
+  `AGENT_BROWSER_HEADED=0`; Chromium ran with `--headless=new` and
+  `--ozone-platform=headless`, and no headed browser was launched or focused.
+- The one-day alarm, loudspeaker warning, siege briefing, encounter roster,
+  foot-chase `D - Tentar despistá-los`, and `G - Desistir` branch all rendered
+  Portuguese. The result was `Você para e é preso.`, followed by the localized
+  base state after arrest.
+- The route reached the same broader PT-048/PT-148 police-alarm coverage that
+  remained on the queue. No raw English combat/control text, over-wide buffer
+  row, or browser error appeared. Evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-after-8012a/replay.txt`.
+- No new translation issue was confirmed. Keep only the already-known random
+  branch coverage and PT-083 responsive-readability enhancement open; accepted
+  PT-049 historical changelog English remains out of the fix queue.

@@ -872,3 +872,25 @@ narrow-layout coverage.
   fallback and the 80-column layout risk without a headed browser.
 - The AM Radio family is now clean on the exercised route. Continue with the
   remaining monthly source families and the residual police-alarm variants.
+
+## 2026-08-10 — monthly contextual-join follow-up
+
+- When a monthly prompt has multiple loot families, select the same source
+  family in successive months so a random story branch can be checked without
+  headed UI automation. Preserve the selected-row buffer and max-width result.
+- For adjacent translation literals, compose the exact production fragments in
+  a focused test as well as replaying a random branch. This catches agreement
+  and preposition errors that a single branch may not exercise.
+- The remaining high-value play ideas are police-alarm/surrender/terminal
+  combat variants (PT-048/PT-148), then a narrow-width option-layout sweep
+  (PT-083). Keep all sessions strictly headless and close them after capture.
+
+## 2026-08-10 — police alarm follow-up
+
+- Reconfirm the full police route after each combat-localization change: alarm,
+  loudspeaker, siege briefing, foot chase, evasive message, surrender, and
+  return to base. Consume every blocking result page before judging the next
+  action; combat can queue several enemy messages.
+- Current replay found no additional Portuguese defect. If another pass is
+  useful, vary the site type to force a car chase and test `P - Pare e
+  renda-se`, then return to the residual narrow-layout sweep.

@@ -3965,3 +3965,34 @@ paragraph. A fresh headless route rendered an AM story with no English text,
 No new defect was confirmed after the replay. Keep the residual PT-048/PT-148
 police-alarm variants and PT-083 responsive-readability enhancement open;
 accepted PT-049 historical changelog English remains out of the fix queue.
+
+## PT-273: Monthly Guardian Cable News and CCS stories needed contextual joins
+
+- Severity: Medium
+- Type: Translation assembly / context-sensitive Portuguese grammar
+- Screen: Portuguese game → monthly Liberal Guardian → Cable News and CCS loot
+- Replay status: **Fixed and verified in a fresh strict-headless replay plus focused regression on 2026-08-10**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/monthly-context-8010f/01-before-summary.txt`; fixed `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/monthly-context-8010f/02-after.txt`
+
+The broader monthly-family replay found context errors that were not covered by
+the earlier AM Radio fix. Cable News case 0 had incorrect agreement and
+conjunctions (`obrigando que ... devem ser aprovado ... antes de eles pode ser
+exibido`), while the shared planning branch became `planos ... planejando` in
+AM Radio and did not agree with Cable News' plural `memorandos`. The CCS story
+also contained literal-translation and fragment-join errors: `revelando em
+detalhes extremos`, `seria acima da acusação`, `poderiam ... agir`, a dangling
+`contra ele`, and an awkward second paragraph.
+
+The Portuguese catalog now uses context-aware fragments: `com planos`,
+`destinados a forjar`, `exigindo que ... sejam aprovadas ... antes que possam
+ser exibidas`, and a complete CCS sentence with `acima de qualquer processo`,
+`poderia ... e servir de contraponto`, and `energia pública`. The CCS media
+ending now explicitly names `as Notícias a Cabo`. Focused runtime composition
+assertions protect the AM, Cable, and CCS joins.
+
+The fixed route selected AM Radio, Cable News, and the CCS backer list in
+successive months. All captured Portuguese rows stayed within 80 columns, the
+browser identified itself as `HeadlessChrome`, and the error channel was empty.
+Keep PT-048/PT-148 police-alarm variants and PT-083 responsive-readability
+enhancement open; accepted PT-049 historical changelog English remains out of
+the fix queue.

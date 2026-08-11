@@ -252,6 +252,17 @@ void printCarChaseOptions({
   }
 }
 
+void printCarChaseIntro() {
+  setColor(white);
+  addparagraph(
+    0,
+    0,
+    "As you pull away from the site, you notice that you are being followed by Conservative swine!",
+    x2: console.width - 1,
+    y2: console.height - 1,
+  );
+}
+
 Future<void> handleChaseSquadOptions(int c) async {
   if (c == Key.o && partysize > 1) await orderparty();
   if (c == Key.num0) activeSquadMemberIndex = -1;
@@ -279,12 +290,7 @@ Future<ChaseOutcome> carChaseSequence() async {
   mode = GameMode.carChase;
 
   erase();
-  mvaddstrc(
-    0,
-    0,
-    white,
-    "As you pull away from the site, you notice that you are being followed by Conservative swine!",
-  );
+  printCarChaseIntro();
   await getKey();
 
   if (chase.location is Site) {

@@ -4019,3 +4019,25 @@ existing fixed-width vehicle truncation covered by `test/basemode/pt_br_vehicle_
 Keep PT-048/PT-148 police-alarm variants and PT-083 responsive-readability
 enhancement open; accepted PT-049 historical changelog English remains out of
 the fix queue.
+
+## PT-275: Portuguese car-chase intro clipped at the console edge
+
+- Severity: Low
+- Type: Portuguese layout / unbounded single-line intro
+- Screen: Portuguese car chase → immediate pursuit introduction
+- Replay status: **Fixed and verified in a focused regression and a fresh strict-headless replay on 2026-08-10**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/car-chase-8022/before-intro.txt`; fixed `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/car-chase-8023/after-intro.txt`; regression `test/basemode/help_translation_test.dart`
+
+The translated intro was emitted with an unbounded single-line `mvaddstrc`
+call. At the fixed 80-column console edge, `Ao se afastar do local, você
+percebe que está sendo seguido por porcos Conservadores!` ended at
+`Conservad`, hiding the final `ores!` from the player. The intro now uses a
+bounded paragraph renderer, and the focused test asserts the complete
+Portuguese sentence plus the 80-column limit.
+
+The fixed replay also exercised car-chase `D` and `B`, the evasive foot-chase,
+and its `F` result path. Every captured row stayed within 80 columns, the
+browser identified itself as `HeadlessChrome`, and the browser-error channel
+was empty. Keep the random police-alarm variants PT-048/PT-148 and the PT-083
+narrow-layout enhancement open; accepted PT-049 historical changelog English
+remains out of the fix queue.

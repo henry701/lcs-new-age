@@ -906,3 +906,17 @@ narrow-layout coverage.
 - After the bank branch, return to the residual police car-chase/surrender
   route and the narrow-console option-layout sweep. Keep every browser session
   strictly headless and close named sessions after captures.
+
+## 2026-08-10 — car-chase layout follow-up
+
+- Keep a deterministic car fixture in a disposable local-only hook when
+  testing `soloChaseSequence`; it exposes the intro and every action branch
+  without relying on random traffic or a headed window. Remove the hook before
+  validation and commit.
+- Assert both the translated text and maximum row width after each chase action;
+  the intro was the only row that failed because it bypassed the paragraph
+  renderer while the option and obstacle rows were already bounded.
+- Repeat the matrix with a narrow console once PT-083 is scheduled, especially
+  `D - Acelere para despistá-los`, `F - Lutar`, `B - Pular fora e correr`, and
+  `P - Pare e renda-se`. Keep the strict-headless DOM bridge and close each
+  named session after saving one high-signal capture.

@@ -4123,3 +4123,24 @@ fix queue.
 - PT-274 is fixed. Continue the residual PT-048/PT-148 police-alarm variants
   and PT-083 narrow-layout sweep; accepted PT-049 historical changelog
   English remains out of the fix queue.
+
+## Strict-headless police car-chase replay — 2026-08-10
+
+- Used only isolated CLI `agent-browser` sessions with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and `--ozone-platform=headless`;
+  no headed browser was launched or focused.
+- A disposable car fixture reached the real `soloChaseSequence` intro. Before
+  the fix, the Portuguese line ended at `porcos Conservad` because the
+  single-line renderer clipped the final `ores!` at column 80.
+- After replacing the intro with a bounded paragraph, the same route rendered
+  `Ao se afastar do local, você percebe que está sendo seguido por porcos` and
+  `Conservadores!` on two rows. The captured maximum row width was 80 and the
+  browser-error channel was empty; evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/car-chase-802{2,3}/`.
+- The replay continued through the car chase, obstacle, bail-out, evasive
+  foot-chase, and fight-result branches. All visible controls and action
+  messages remained Portuguese with no new English fallback.
+
+PT-275 is fixed. Continue the residual PT-048/PT-148 random police-alarm
+variants and PT-083 narrow-layout exploration; accepted PT-049 historical
+changelog English remains out of the fix queue.

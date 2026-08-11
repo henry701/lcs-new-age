@@ -112,6 +112,26 @@ void main() {
     expect(text, isNot(contains('Fight')));
   });
 
+  test('Portuguese car-chase intro wraps the complete translated sentence', () {
+    printCarChaseIntro();
+
+    final text = _consoleText();
+    final normalized = text.replaceAll(RegExp(r'\s+'), ' ').trim();
+    expect(
+      normalized,
+      contains(
+        'Ao se afastar do local, você percebe que está sendo seguido por porcos Conservadores!',
+      ),
+    );
+    expect(text, isNot(contains('As you pull away from the site')));
+    expect(
+      console.buffer.every(
+        (row) => row.map((character) => character.glyph).join().length <= 80,
+      ),
+      isTrue,
+    );
+  });
+
   test('Portuguese foot-chase action rows keep translated key prefixes', () {
     printChaseOptions();
 

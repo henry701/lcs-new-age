@@ -1078,7 +1078,7 @@
     },
     {
       "file": "sitemode/chase_sequence.dart",
-      "line": 779,
+      "line": 785,
       "text": "${enemyCar.fullName()} distance: ${chaseSequence!.enemyCarDistance[enemyCar]} => $enemyCarDistance",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

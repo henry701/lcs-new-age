@@ -4793,3 +4793,16 @@ the gendered possessive before inserting it, so the sentence ends in `dele`,
 `A seleção do júri é primeiro` is not idiomatic Brazilian Portuguese. The
 notice now says `A seleção do júri é a primeira etapa`, preserving the source
 meaning while reading naturally.
+
+## PT-325: Generated newspaper city list misspelled San Bernardino
+
+- Severity: Low
+- Type: Source data / proper-name accuracy
+- Screen: Portuguese newspaper generated from a city-name event
+- Replay status: **Fixed and verified in the strict-headless city/site replay on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/city-sites-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The generated city table used `San Bernadino, CA`, dropping the second `r` from
+the real city name. The table now reuses the `sanBernardinoCity` constant for
+both weighted entries, so generated newspaper locations retain the correct
+proper-name spelling in every locale.

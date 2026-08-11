@@ -4,6 +4,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 `play-log.md` after completing it; promote only confirmed defects to
 `findings.md`.
 
+- PT-325 fixed and verified (2026-08-11): generated newspaper locations now
+  spell `San Bernardino, CA` correctly. Keep the proper-name regression beside
+  the city table when adding or reweighting locations.
+
 - PT-248 fixed and verified (2026-08-09): the Portuguese `Novo Esquadrão`
   header now right-aligns from its localized width instead of clipping at
   column 71. Keep the focused layout regression and narrow replay evidence.

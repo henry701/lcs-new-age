@@ -4708,3 +4708,27 @@ open; accepted PT-049 historical changelog English remains out of scope.
 
 No new issue was confirmed. Keep only future PT-048/PT-148 terminal-seed
 variation and PT-083 responsive-console exploration open.
+
+## Strict-headless save and city/site replay — 2026-08-11
+
+- Used isolated CLI `agent-browser` sessions with `AGENT_BROWSER_HEADED=0`,
+  Chromium `--headless=new`, and `--ozone-platform=headless`; the bridge
+  reported `HeadlessChrome/150.0.0.0`. No headed browser was opened or focused.
+- The Portuguese save-management route rendered its headers, save row, load,
+  delete, export, and return actions within the fixed 80-column buffer. The
+  manage-screen export path returned without a browser or bridge error.
+- A fresh Seattle → Distrito Universitário → Cooperativa Vegana Fazenda de
+  Tofu route exercised the site map, help overlay, full map, and exit-to-news
+  path at the fixed console width. Every captured row stayed at or below 80
+  columns and `#lcs-playtest-errors` remained empty.
+- The generated newspaper exposed `San Bernadino, CA` in the city list. The
+  source city table now uses `San Bernardino, CA` through a shared constant;
+  the focused Portuguese-context test passes after the change. The raw
+  pre-fix screenshot is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/city-sites-20260811/newspaper.png`.
+- The same article's `depois de ele aparecer` wording was reviewed against the
+  `{heShe}` placeholder. It is the grammatically valid explicit-subject form
+  for `ele`/`ela`/`elu`, so no placeholder contract change was made.
+
+PT-325 is fixed. Continue only the existing random PT-048/PT-148 police-terminal
+variation and optional PT-083 responsive-console exploration.

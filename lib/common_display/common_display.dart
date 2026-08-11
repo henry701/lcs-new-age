@@ -609,6 +609,8 @@ String romanNumeral(int num) {
 
 String randomStateName() => states.random.name;
 
+const String sanBernardinoCity = "San Bernardino, CA";
+
 String randomCityName() => [
   /* City population < 100,000 = listed once if the city is somehow important
         (i.e., biggest city in a U.S. state or territory, or most important city in a
@@ -921,7 +923,7 @@ String randomCityName() => [
   "Salt Lake City, UT",
   "San Antonio, TX", "San Antonio, TX", "San Antonio, TX",
   "San Antonio, TX", "San Antonio, TX",
-  "San Bernadino, CA", "San Bernadino, CA",
+  sanBernardinoCity, sanBernardinoCity,
   "San Diego, CA", "San Diego, CA", "San Diego, CA", "San Diego, CA",
   "San Diego, CA",
   "San Francisco, CA", "San Francisco, CA", "San Francisco, CA",

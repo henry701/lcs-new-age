@@ -56,6 +56,14 @@ void main() {
   });
   tearDownAll(LcsI18n.reset);
 
+  test('generated newspaper city names keep San Bernardino spelling', () {
+    expect(sanBernardinoCity, equals('San Bernardino, CA'));
+    expect(
+      File('lib/common_display/common_display.dart').readAsStringSync(),
+      isNot(contains('"San Bernadino, CA"')),
+    );
+  });
+
   test(
     'Portuguese translations preserve every source placeholder occurrence',
     () {

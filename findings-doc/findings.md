@@ -4960,3 +4960,35 @@ Ezekiel Lipman.` and the corresponding `Rei` variant.
 `Você não está sob cerco... ainda.` is grammatical but unnatural in Brazilian
 Portuguese. The status now reads `Você ainda não está sob cerco...`, keeping the
 threatening pause while placing `ainda` in its idiomatic position.
+
+## PT-336: Portuguese save deletion ignored the localized affirmative key
+
+- Severity: Medium
+- Type: Runtime input / localized control path
+- Screen: Portuguese save management → saved-game deletion confirmation
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-shop-confirm-20260811/replay.md`; regression `test/save_load_translation_test.dart`
+
+The Portuguese confirmation displayed `Y - Sim, excluir o salvamento.`, but
+pressing the natural Portuguese affirmative key `S` left the deletion prompt
+open. The handler compared only the legacy `Y` code point instead of the
+shared locale-aware yes-key predicate. It now accepts `S` in Portuguese while
+preserving the original `Y` control prefix required by the catalog validator.
+
+## PT-337: Pawn-shop bulk sale leaked an English category and ignored `S`
+
+- Severity: Medium
+- Type: Runtime interpolation / localized control path
+- Screen: Portuguese Commerce → pawn shop → bulk weapon sale confirmation
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-shop-confirm-20260811/replay.md`; regression `test/sitemode/shop_translation_test.dart`
+
+The bulk-sale confirmation rendered `Vender realmente todos os weapons? (S)im
+para confirmar.`. The category was a lower-case internal token with no catalog
+entry, so English leaked into the Portuguese screen. The same handler accepted
+only `Y`, making the advertised Portuguese `S` confirmation ineffective. The
+runtime now uses cataloged `Weapons`/`Armas` (and the corresponding ammunition
+and clothes keys), a neutral `Vender todo o lote de {items}?` template, and
+the shared locale-aware yes-key predicate. A strict-headless replay rendered
+`Vender todo o lote de armas? (S)im para confirmar.` and completed the sale
+with `S`.

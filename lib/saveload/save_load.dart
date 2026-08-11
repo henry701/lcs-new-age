@@ -378,7 +378,7 @@ Future<void> deleteSave(SaveFile selectedSave) async {
   addOptionText(6, 1, "N", "N - No, do not delete the save.");
   while (true) {
     int c = await getKey();
-    if (c == Key.y) {
+    if (isYesKey(c)) {
       await deleteSaveGameId(selectedSave.gameId);
       return;
     } else if (c == Key.n) {

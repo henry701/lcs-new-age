@@ -1,5 +1,12 @@
 # Portuguese Playtest Scratch Pad
 
+- PT-336/PT-337 fixed and verified (2026-08-11): Portuguese save deletion and
+  pawn-shop bulk-sale confirmations now accept `S` through the shared locale-
+  aware yes-key path. The pawn prompt localizes the dynamic category (`Vender
+  todo o lote de armas? (S)im para confirmar.`), and the new regressions cover
+  both real handlers. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-shop-confirm-20260811/`.
+
 Persistent route ideas for the playtester. Mark each route with evidence in
 `play-log.md` after completing it; promote only confirmed defects to
 `findings.md`.

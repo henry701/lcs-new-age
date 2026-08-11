@@ -674,16 +674,16 @@ class Shop extends ShopOption {
         move(18, 1);
         setColor(white);
         String items = switch (c) {
-          Key.w => "weapons",
-          Key.a => "ammo",
-          _ => "clothes",
+          Key.w => "Weapons",
+          Key.a => "Ammunition",
+          _ => "Clothes",
         };
         addstr(
           "Really sell all {items}? (Y)es to confirm.           ",
-          params: {"items": _localizedShopText(items)},
+          params: {"items": _localizedShopText(items).toLowerCase()},
         );
 
-        if (await getKey() != Key.y) c = 0; //no sale
+        if (!isYesKey(await getKey())) c = 0; //no sale
       }
 
       if ((c == Key.w ||

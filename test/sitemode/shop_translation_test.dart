@@ -360,6 +360,47 @@ void main() {
   });
 
   test(
+    'Portuguese bulk pawning localizes the category and accepts Sim',
+    () async {
+      makeWorld();
+      final pawnShop = shopTypes['PAWNSHOP']!;
+      final base = sites.first;
+      final buyer = Creature()
+        ..name = 'Joana'
+        ..base = base;
+      final customers = Squad.temporary()..members.add(buyer);
+      activeSquad = customers;
+      base.loot.add(Weapon('WEAPON_22_REVOLVER'));
+      ledger.forceSetFunds(0);
+
+      console.injectKey('w');
+      console.injectKey('s');
+      final selling = pawnShop.sellLoot(customers);
+      for (var attempt = 0; attempt < 100; attempt++) {
+        if (_consoleLine(18).contains('Vender todo o lote de armas?')) break;
+        await Future<void>.delayed(const Duration(milliseconds: 1));
+      }
+
+      expect(
+        _consoleLine(18),
+        contains('Vender todo o lote de armas? (S)im para confirmar.'),
+      );
+      expect(_consoleLine(18), isNot(contains('weapons')));
+
+      console.injectKey('Enter');
+      for (var attempt = 0; attempt < 100; attempt++) {
+        if (base.loot.isEmpty && ledger.funds > 0) break;
+        await Future<void>.delayed(const Duration(milliseconds: 1));
+      }
+      console.injectKey('Enter');
+      await selling;
+
+      expect(base.loot, isEmpty);
+      expect(ledger.funds, greaterThan(0));
+    },
+  );
+
+  test(
     'all XML-backed purchasable metadata has EN and PT catalog coverage',
     () {
       final en = _loadCatalog('en_US');

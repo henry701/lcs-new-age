@@ -4986,3 +4986,33 @@ PT-333–PT-335 are fixed. No additional fresh-world translation or layout issue
 was confirmed. Keep random PT-048/PT-148 police-terminal seed variation,
 optional PT-083 narrow-console readability work, and the persisted generated
 name language-switch edge in the residual queue.
+
+## 2026-08-11 — strict-headless save and pawn confirmation replay
+
+- Started a fresh local Flutter web-server on port 8803 and used the CLI
+  `agent-browser` session `confirm_after_0811` exclusively with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`. The runtime UA was
+  `HeadlessChrome/150.0.0.0`; no headed browser window was used or focused.
+- The DOM bridge supplied the 80×25 console directly, so OCR and screenshots
+  were unnecessary for translation assertions. A normal Portuguese founder
+  route selected the `$1000` background, bought two revolvers, and reached the
+  pawn shop without debug fixtures.
+- Before the fix, the captured pawn confirmation read
+  `Vender realmente todos os weapons? (S)im para confirmar.` and pressing `S`
+  did not sell. After the fix, the exact buffer row read
+  `Vender todo o lote de armas? (S)im para confirmar.`; `S` sold the weapon,
+  the funds receipt appeared, and the flow returned to the pawn menu.
+- The same replay auto-saved, opened the Portuguese save manager, selected the
+  save, and reached `Excluir Salvamento`. Pressing `S` returned to the title
+  screen, proving the localized affirmative path now deletes the save. The
+  prompt still preserves `Y - Sim` as required by the key-prefix invariant.
+- The final bridge error channel was empty and all inspected buffers remained
+  25 rows with a maximum width of 80. The browser and local server were closed
+  after replay. Evidence and the prior prompt screenshot are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-shop-confirm-20260811/`.
+
+PT-336 and PT-337 are fixed and verified. Keep the residual queue limited to
+random PT-048/PT-148 police-terminal seeds, the optional PT-083 narrow-console
+readability enhancement, and the persisted generated-name language-switch
+edge.

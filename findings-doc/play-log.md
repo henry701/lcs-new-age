@@ -4838,3 +4838,21 @@ terminal seeds and optional PT-083 responsive-console readability.
 - The temporary fixture, debug flags, browser session, and local servers were
   restored or closed. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-unoccupied-20260811/replay.md`.
+
+## 2026-08-11 — strict-headless PT-287 terminal replay after restart
+
+- Rebuilt the app with a disposable CIA-siege fixture and replayed the
+  Portuguese warehouse route in a fresh CLI-only `agent-browser` session.
+  Chromium stayed headless (`AGENT_BROWSER_HEADED=0`, `--headless=new
+  --ozone-platform=headless`) at 480×320; the runtime UA was
+  `HeadlessChrome/150.0.0.0`.
+- The `G - Desistir` terminal rendered
+  `Todos os presentes em Estação Assombrada foram mortos.`. The row measured
+  exactly 80 columns, retained its final period, contained no raw English
+  terminal terms, and left `#lcs-playtest-errors` empty.
+- This closes the previously pending post-restart replay for PT-287. No new
+  translation or layout defect was confirmed. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-terminal-replay-20260811/`.
+
+The residual queue remains future random PT-048/PT-148 police-terminal seeds
+and the optional PT-083 responsive-console readability enhancement.

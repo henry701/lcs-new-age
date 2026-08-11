@@ -4257,8 +4257,8 @@ while retaining the 80-column limit.
 - Severity: Low
 - Type: Siege translation / dynamic-site context
 - Screen: Portuguese police siege → surrender terminal
-- Replay status: **Fixed in the Portuguese catalog and covered by a focused regression on 2026-08-11; fresh headless replay pending after restart**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-terminal-20260811/route.md`; regression `test/pt_br_context_translation_test.dart`
+- Replay status: **Fixed in the Portuguese catalog, covered by a focused regression, and verified in a fresh strict-headless replay on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-terminal-20260811/route.md`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-terminal-replay-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
 
 The police-siege terminal rendered `Todos em Armazém Esquecido foram mortos.`.
 For a generated site name, the bare `em` construction is awkward and reads as

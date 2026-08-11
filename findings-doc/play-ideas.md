@@ -1247,3 +1247,12 @@ narrow-layout coverage.
   width-aware opening messages. The only open playtest ideas are future random
   PT-048/PT-148 police-terminal seeds and optional PT-083 responsive-console
   readability work.
+
+## 2026-08-11 — PT-287 post-restart verification
+
+- PT-287 is now fully verified: a rebuilt strict-headless CIA-siege route
+  reached `G - Desistir` and rendered
+  `Todos os presentes em Estação Assombrada foram mortos.` at exactly 80
+  columns, with punctuation intact and no bridge errors.
+- Keep only future random PT-048/PT-148 police-terminal seed variation and the
+  optional PT-083 responsive-console readability enhancement open.

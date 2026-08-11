@@ -3,6 +3,7 @@ import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/basemode/disbanding.dart';
 import 'package:lcs_new_age/basemode/invest_in_location.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
+import 'package:lcs_new_age/daily/advance_day.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/crime_squad.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -154,6 +155,19 @@ void main() {
     expect(line.length, lessThanOrEqualTo(console.width));
   });
 
+  test('Portuguese squad arrival messages stay inside the console width', () {
+    showSquadArrivalMessage(
+      squadName: 'O Esquadrão do Crime Liberal',
+      siteName: 'Loja de Departamentos de Buckman',
+      sameBase: false,
+    );
+
+    final line = _consoleLine(8);
+    expect(line, endsWith('…'));
+    expect(line, contains('O Esquadrão do Crime Liberal chegou ao destino'));
+    expect(line.length, lessThanOrEqualTo(console.width));
+  });
+
   test('Portuguese agenda alignment legend is translated and fits one row', () {
     const labels = [
       'Elite Liberal',
@@ -223,7 +237,7 @@ void main() {
     expect(LcsI18n.tr('Moderate'), equals('Moderado'));
     expect(LcsI18n.tr('Low'), equals('Baixo'));
     expect(LcsI18n.tr('Minimal'), equals('Mínimo'));
-    expect(LcsI18n.tr('None'), equals('Nenhuma'));
+    expect(LcsI18n.tr('None'), equals('Nenhum'));
   });
 
   test(

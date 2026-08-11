@@ -72,6 +72,13 @@ void main() {
         'Liberals who hang out at the safehouse will still pitch in and do '
         'some laundry and mending as needed.';
     expect(LcsI18n.tr(layingLow), contains('Não fazer nada'));
+    expect(
+      LcsI18n.tr(layingLow),
+      contains(
+        'Liberais que ficam no esconderijo ainda ajudam com a lavanderia '
+        'e os consertos quando necessário.',
+      ),
+    );
     expect(LcsI18n.tr(layingLow), isNot(contains('Doing nothing')));
   });
 

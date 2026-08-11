@@ -925,12 +925,17 @@ Future<void> assembleSquad(Squad? cursquad) async {
       mvaddstrRight(0, "Squad: {name}", params: {"name": displayedName});
     }
 
-    const professionX = 43;
-    const locationX = 63;
+    // Leave a separator after the health/armor cell before the translated
+    // profession; keep the profession width unchanged while shifting the
+    // location column right. The health width is capped to that boundary so
+    // long armor details cannot overwrite the profession.
+    const healthX = 34;
+    const professionX = 46;
+    const locationX = 66;
     addHeader({
       6: "CODE NAME",
       27: "SKILL",
-      34: "HEALTH",
+      healthX: "HEALTH",
       professionX: "PROFESSION",
       locationX: "LOCATION",
     });
@@ -991,7 +996,7 @@ Future<void> assembleSquad(Squad? cursquad) async {
 
       mvaddstrc(y, 27, bright ? white : lightGray, skill.toString());
 
-      printHealthStat(y, 34, tempp);
+      printHealthStat(y, healthX, tempp, maxWidth: professionX - healthX - 1);
 
       mvaddstrcFitted(
         y,

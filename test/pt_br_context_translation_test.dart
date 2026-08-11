@@ -328,6 +328,10 @@ void main() {
           '+4 Coração, +1 Inteligência, Força, Agilidade e Carisma',
       'Trains: Computers, Security, Stealth, Disguise, Tailoring, Seduction,':
           'Treina: Computadores, Segurança, Furtividade, Disfarce, Alfaiataria, Sedução,',
+      'I resorted to controlling people.  I built my own clique of outcasts.':
+          'Passei a manipular pessoas. Construí meu próprio grupo de marginalizados.',
+      'my step mom shot her ex-husband, my dad, with a shotgun.  She got off.':
+          'Minha madrasta atirou no ex-marido dela, meu pai, com uma espingarda. Ela foi absolvida.',
     };
     for (final entry in expected.entries) {
       expect(catalog[entry.key], entry.value, reason: entry.key);
@@ -361,6 +365,15 @@ void main() {
     expect(
       catalog['are concerned about gun violence'],
       'estão preocupados com a violência armada',
+    );
+    expect(catalog['animal research'], 'Pesquisa com animais');
+    expect(
+      catalog['internal animal research reports'],
+      'Relatórios internos de pesquisa com animais',
+    );
+    expect(
+      catalog['deplore animal research'],
+      'deploram a pesquisa com animais',
     );
   });
 
@@ -732,6 +745,18 @@ void main() {
     expect(
       catalog['The LCS has &G{funds}&w available.'],
       'O LCS tem &G{funds}&w disponíveis.',
+    );
+    expect(
+      catalog['Taking Undercover Action:   What will {name} focus on?'],
+      'Ação Encoberta:   Qual será o foco de {name}?',
+    );
+    expect(
+      catalog['Press a letter to specify passengers for that Liberal vehicle.'],
+      'Pressione uma letra para escolher os passageiros daquele veículo Liberal.',
+    );
+    expect(
+      catalog['available.  If you have a larger pool of Liberals, they'],
+      'disponível. Se você tiver uma reserva maior de Liberais, eles',
     );
   });
 
@@ -1513,10 +1538,9 @@ void main() {
       'Caramba! Uma mulher está a fim de mim! Eu nem curto garotas.',
     );
     expect(
-      LcsI18n.processString(
-        'Wait, with {person}? I... I could, but... no.',
-        {'person': LcsI18n.tr('a man')},
-      ),
+      LcsI18n.processString('Wait, with {person}? I... I could, but... no.', {
+        'person': LcsI18n.tr('a man'),
+      }),
       'Espera, com um homem? Eu... eu até poderia, mas... não.',
     );
     expect(
@@ -1661,9 +1685,14 @@ void main() {
       ),
       allOf(
         contains('este incrível novo produto na verdade {benefit}'),
+        contains('Aquela história de {incident} é pura {hooey}'),
         contains('pura {hooey}'),
         contains('padrão ético superior'),
       ),
+    );
+    expect(
+      catalog['siege on your safehouse.  The enemy is ready for you, and'],
+      'cerco ao seu esconderijo.  Os inimigos estão prontos para você, e',
     );
     expect(
       catalog.values.singleWhere(

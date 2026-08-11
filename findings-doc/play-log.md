@@ -4562,3 +4562,26 @@ and optional PT-083 responsive-console enhancement open.
   (PT-306).
 - Durable raw evidence is retained under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/media-security-20260811/`.
+
+## Strict-headless contextual/layout replay — 2026-08-11
+
+- Rebuilt a fresh debug bundle on port 8087 and used only the CLI
+  `agent-browser` harness with `AGENT_BROWSER_HEADED=0`, Chromium
+  `--headless=new`, and `--ozone-platform=headless`. The bridge reported an
+  empty error channel; no headed browser or desktop focus was used.
+- Replayed the founder flow and confirmed the repaired `Minha madrasta...`
+  and `Passei a manipular pessoas...` choices. Replayed the base agenda page,
+  vehicle picker, and sleeper-agent picker; PT-309 and PT-312–PT-316 are all
+  visible in the fresh bundle.
+- A new destination sweep exposed PT-317: the long `Loja de Departamentos de
+  Buckman` arrival message silently lost its final character at the 80-column
+  edge. The message now uses the fitted daily-result renderer and ends in an
+  ellipsis; the fresh replay measured max row length 80 with no rows over the
+  limit.
+- Durable evidence and screenshots are retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/`.
+
+PT-307–PT-317 are fixed and covered. Keep future work limited to random-seed
+variation of the already-covered police terminals and an optional responsive
+console enhancement; continue strict-headless runs for any new Portuguese
+content.

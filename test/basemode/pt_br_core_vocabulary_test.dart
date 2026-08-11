@@ -692,10 +692,7 @@ void main() {
     ]) {
       expect(rendered, isNot(contains(leakedEnglish)));
     }
-    expect(
-      rendered.split('\n').every((line) => line.length <= 80),
-      isTrue,
-    );
+    expect(rendered.split('\n').every((line) => line.length <= 80), isTrue);
 
     console.injectKey('c');
     await Future<void>.delayed(const Duration(milliseconds: 10));
@@ -712,10 +709,7 @@ void main() {
     ]) {
       expect(detail, isNot(contains(leakedEnglish)));
     }
-    expect(
-      detail.split('\n').every((line) => line.length <= 80),
-      isTrue,
-    );
+    expect(detail.split('\n').every((line) => line.length <= 80), isTrue);
 
     for (var i = 0; i < 6; i++) {
       console.injectKey('ArrowRight');
@@ -1113,7 +1107,8 @@ void main() {
   test(
     'Portuguese squad assembly keeps profession and location columns apart',
     () async {
-      _founder();
+      final founder = _founder()
+        ..equippedClothing = Clothing('CLOTHING_BLACKSUIT_AGENT');
       console.injectKey('x');
 
       await assembleSquad(null);
@@ -1121,7 +1116,10 @@ void main() {
       final row = console.buffer[2].map((character) => character.glyph).join();
       expect(row, contains('Profissional do Ro…'));
       expect(row, contains('SEA — Sem-teto'));
+      expect(console.buffer[2][45].glyph, equals(' '));
+      expect(row, isNot(matches(RegExp(r'\+\d+Profissional'))));
       expect(row, isNot(contains('Profissional do RSEA')));
+      expect(founder.equippedClothing!.shortArmorDetail(), isNotEmpty);
     },
   );
 

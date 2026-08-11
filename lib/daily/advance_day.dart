@@ -359,27 +359,12 @@ Future<void> _squadDepart(Squad s) async {
     );
     return;
   }
-  if (s.members.first.base == site) {
-    eraseLine(8);
-    mvaddstrc(
-      8,
-      1,
-      lightGray,
-      "{squad} looks around {site}.",
-      params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
-    );
-    await getKey();
-  } else {
-    eraseLine(8);
-    mvaddstrc(
-      8,
-      1,
-      lightGray,
-      "{squad} has arrived at {site}.",
-      params: {"squad": LcsI18n.tr(s.name), "site": site.getName()},
-    );
-    await getKey();
-  }
+  showSquadArrivalMessage(
+    squadName: LcsI18n.tr(s.name),
+    siteName: site.getName(),
+    sameBase: s.members.first.base == site,
+  );
+  await getKey();
   int c = Key.t;
 
   if (site.controller == SiteController.lcs && s.members.first.base != site) {
@@ -439,6 +424,23 @@ Future<void> _squadDepart(Squad s) async {
     c.location = c.base;
     c.car?.locationId = c.site?.id;
   }
+}
+
+/// Keeps the generated destination name inside the fixed-width daily message row.
+void showSquadArrivalMessage({
+  required String squadName,
+  required String siteName,
+  required bool sameBase,
+}) {
+  showAdvanceDayMessage(
+    8,
+    1,
+    lightGray,
+    sameBase
+        ? "{squad} looks around {site}."
+        : "{squad} has arrived at {site}.",
+    params: {"squad": squadName, "site": siteName},
+  );
 }
 
 enum DispersalTypes {

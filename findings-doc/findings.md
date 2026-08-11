@@ -4549,3 +4549,140 @@ broadcast and a good show. The previous `O espectáculo foi bom.` used the
 European spelling `espectáculo` and erased the intended middle-tier meaning.
 It now reads `O espetáculo foi razoável.`, using current Brazilian spelling
 and preserving the distinction from the following `bom espetáculo` result.
+
+## PT-307: Squad assembly columns merged health and profession text
+
+- Severity: Medium
+- Type: Fixed-console layout
+- Screen: Portuguese base mode → Revisar Ativos e Formar Equipes → squad assembly
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; exact-row regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/replay.md`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The health bonus and translated profession were drawn into adjacent fixed
+columns, producing rows such as `+30Profissional` and allowing the location
+field to run into the profession. The renderer now reserves separator cells,
+caps the health column, and fits profession/location independently.
+
+## PT-308: Safehouse activity-help body used literal house-repair wording
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese help → activity overview
+- Replay status: **Fixed and covered by a focused regression on 2026-08-11**
+- Evidence: regression `test/basemode/help_translation_test.dart`
+
+`casa segura` and `remendos` were literal choices that did not match the
+game's established `esconderijo` and `consertos` vocabulary. The body now
+reads `Liberais que ficam no esconderijo ainda ajudam com a lavanderia e os
+consertos quando necessário.`
+
+## PT-309: Public-interest level used feminine `Nenhuma` under a masculine header
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese agenda → Pesquisa de Opinião
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/replay.md`; regression `test/localized_layout_regression_test.dart`
+
+The `Interesse público` column rendered `Nenhuma`, disagreeing with the
+masculine noun and with the other level labels. The catalog now uses
+`Nenhum`; the live page shows it on every row.
+
+## PT-310: GM newspaper template produced the malformed `o(a)` article
+
+- Severity: Low
+- Type: Generated-news translation/context
+- Screen: Portuguese media/news generated story
+- Replay status: **Fixed and covered by the context regression on 2026-08-11**
+- Evidence: regression `test/pt_br_context_translation_test.dart`
+
+The template inserted `o(a)` before an already gendered incident, yielding
+output such as `o(a) garota`. The Portuguese template now uses the neutral
+construction `Aquela história de {incident} é pura {hooey}.`.
+
+## PT-311: Siege briefing mixed a singular enemy with plural pronouns
+
+- Severity: Low
+- Type: Translation/grammar
+- Screen: Portuguese safehouse siege briefing
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; exact-fragment regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The briefing said `O inimigo está pronto...` and then switched to
+`derrotá-los`. It now consistently uses plural `Os inimigos estão prontos...`
+and `derrotá-los`.
+
+## PT-312: Animal-research terminology varied across agenda and polling text
+
+- Severity: Low
+- Type: Translation/context consistency
+- Screen: Portuguese agenda and public-interest polling
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; catalog regressions added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+Related fragments alternated between `pesquisa animal` and
+`investigação em animais`, with the latter sounding like an unrelated
+investigation. The family now consistently uses `pesquisa com animais`.
+
+## PT-313: Undercover-action prompt used an unnatural focus question
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese Agentes Infiltrados → activity selection
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; exact-fragment regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+`Ação Encoberta: No que Presidente Winter vai focar?` was conversationally
+awkward and became especially clumsy with generated names. It now reads
+`Ação Encoberta: Qual será o foco de Presidente Winter?`.
+
+## PT-314: Vehicle passenger instruction was a literal translation
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese vehicle assignment
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; exact-fragment regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+`Pressione uma letra para especificar passageiros...` sounded like a form
+field rather than an instruction to choose squad members. It now reads
+`Pressione uma letra para escolher os passageiros daquele veículo Liberal.`
+
+## PT-315: Siege reserve fragment lowercased the faction name
+
+- Severity: Low
+- Type: Faction-vocabulary consistency
+- Screen: Portuguese siege briefing
+- Replay status: **Fixed and covered by the context regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The fragment used lowercase `liberais` even though the game's faction name
+is capitalized as `Liberais` throughout management and combat screens. The
+catalog now preserves that proper faction casing.
+
+## PT-316: Founder biography choices contained literal and inconsistent casing
+
+- Severity: Low
+- Type: Translation/context and capitalization
+- Screen: Portuguese new game → founder biography
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; exact-entry regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The founder choices showed `Recorri ao controle de pessoas...` and began the
+stepmother choice with lowercase `minha`. They now read
+`Passei a manipular pessoas. Construí meu próprio grupo de marginalizados.`
+and `Minha madrasta atirou...`, respectively.
+
+## PT-317: Long destination name was silently clipped in the arrival message
+
+- Severity: Medium
+- Type: Fixed-console layout
+- Screen: Portuguese base mode after executing a site visit
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; fitted-message regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/squad-layout-20260811/replay.md`; regression `test/localized_layout_regression_test.dart`
+
+`O Esquadrão do Crime Liberal chegou ao destino: Loja de Departamentos de
+Buckman` was written directly to the 80-column row, dropping the final `n`
+without indicating that any text was missing. Arrival messages now use the
+shared fitted daily-message renderer and end with an ellipsis when the
+destination name is too long.

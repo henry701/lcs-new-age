@@ -1105,3 +1105,18 @@ narrow-layout coverage.
 - PT-305 and PT-306 are fixed and covered. Continue the remaining police
   terminal seed variation and narrow-console exploration, and exercise a
   successful broadcast result when a deterministic media fixture is available.
+
+## 2026-08-11 — contextual/layout follow-up
+
+- PT-307–PT-316 are fixed and replayed in a fresh strict-headless Portuguese
+  bundle. Keep the exact-context regressions beside the catalogs: generated
+  founder choices, siege fragments, agenda levels, vehicle instructions, and
+  undercover prompts are all sensitive to capitalization, grammatical number,
+  or the surrounding screen.
+- PT-317 confirms that destination names need the same width-aware treatment
+  as other daily messages. When adding new generated-name templates, exercise
+  the longest site name at 480×320 and require an ellipsis rather than silent
+  truncation.
+- The fresh arrival route stayed at or below 80 columns with no bridge errors.
+  Continue strict-headless random-seed variation for PT-048/PT-148 police
+  terminals and keep PT-083's responsive-console idea optional.

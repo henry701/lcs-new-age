@@ -172,6 +172,7 @@
 | PT-304 | Low | Politics translation/style | Active-law text uses the legacy hyphen in `semiautomáticas` |
 | PT-305 | Medium | Combat translation/coverage | Generated `Security Guard` encounter names fall back to English |
 | PT-306 | Low | Media translation/context | Mid-tier broadcast quality uses an incorrect Brazilian Portuguese register |
+| PT-326 | Medium | Siege translation/context | Singular police arrest aliases expose English role names and `preso(a)` |
 
 ## PT-001: Save-management option is clipped
 
@@ -4806,3 +4807,18 @@ The generated city table used `San Bernadino, CA`, dropping the second `r` from
 the real city name. The table now reuses the `sanBernardinoCity` constant for
 both weighted entries, so generated newspaper locations retain the correct
 proper-name spelling in every locale.
+
+## PT-326: Singular police arrest aliases exposed English role names
+
+- Severity: Medium
+- Type: Runtime interpolation / translation context
+- Screen: Portuguese police siege → surrender → singular arrest terminal
+- Replay status: **Fixed and verified in a strict-headless replay on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-alias-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The singular alias branch rendered `Sergio Macy, vulgo Police Officer, é
+preso(a).` in Portuguese. The dynamic role name bypassed the localized
+creature-name helper, and the parenthetical gender workaround was awkward
+Brazilian Portuguese. The runtime now localizes the alias as `Oficial de
+Polícia`, while the catalog uses the neutral and natural `As autoridades
+prendem {properName}, vulgo {name}.` form.

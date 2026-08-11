@@ -8,6 +8,12 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   spell `San Bernardino, CA` correctly. Keep the proper-name regression beside
   the city table when adding or reweighting locations.
 
+- PT-326 fixed and verified (2026-08-11): the singular police-surrender alias
+  now localizes generated role names (`Oficial de Polícia`) and avoids the
+  awkward `preso(a)` construction with a neutral `As autoridades prendem...`
+  sentence. Keep the alias interpolation regression beside future siege
+  terminal changes.
+
 - PT-248 fixed and verified (2026-08-09): the Portuguese `Novo Esquadrão`
   header now right-aligns from its localized width instead of clipping at
   column 71. Keep the focused layout regression and narrow replay evidence.
@@ -108,9 +114,9 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   live `T - Falar` menu, target-name interpolation, `D - Render-se`, arrest,
   newspaper, and court flow. The 2026-08-09 corporate siege replay now also
   covers the live combat death reflection and high-score transition. Keep the
-  broader finding open only for random police-alarm variants and unexercised
-  singular-arrest/name-alias branches; the 2026-08-11 deterministic plural
-  arrest surrender route rendered `5 Liberais são presos.` cleanly. The
+  broader finding open only for random police-alarm variants; the 2026-08-11
+  deterministic plural arrest surrender route rendered `5 Liberais são
+  presos.` cleanly, and PT-326 covers the singular name-alias branch. The
   separate siege foot-chase and non-police terminal sweeps remain useful
   evidence.
 - Police-station rescue fixture: the strict-headless route reached a locked

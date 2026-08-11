@@ -432,6 +432,17 @@ void main() {
       'A língua de {name} foi arrancada!',
     );
     expect(catalog['{name} is arrested.'], 'A polícia deteve {name}.');
+    expect(
+      catalog['{properName}, aka {name}, is arrested.'],
+      'As autoridades prendem {properName}, vulgo {name}.',
+    );
+    expect(
+      LcsI18n.processString('{properName}, aka {name}, is arrested.', {
+        'properName': 'Sergio Macy',
+        'name': localizedCreatureNameValue('Police Officer', 'Agent'),
+      }),
+      'As autoridades prendem Sergio Macy, vulgo Oficial de Polícia.',
+    );
     final medicalReceiptLabels = {
       'Total outstanding debt': 'Total da dívida pendente',
       'Cash paid': 'Valor pago',

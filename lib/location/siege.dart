@@ -259,7 +259,7 @@ Future<void> surrenderToAuthorities(Site loc) async {
         "{properName}, aka {name}, is arrested.",
         params: {
           "properName": arrested.first.properName,
-          "name": arrested.first.name,
+          "name": localizedCreatureName(arrested.first),
         },
       );
     } else {

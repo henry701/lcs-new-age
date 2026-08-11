@@ -4768,3 +4768,27 @@ PT-083 responsive-console readability still optional.
 The residual queue remains random PT-048/PT-148 police terminal seeds and
 singular-arrest/name-alias variants; PT-083 is still an optional readability
 enhancement.
+
+## 2026-08-11 — strict-headless singular police-alias surrender follow-up
+
+- Replayed a fresh Portuguese police siege with a disposable fixture that put
+  one converted-style `Police Officer` alias into the wanted pool. The browser
+  was CLI-only and strict-headless (`AGENT_BROWSER_HEADED=0`, Chromium
+  `--headless=new --ozone-platform=headless`) at 480×320; the bridge reported
+  `HeadlessChrome/150.0.0.0`.
+- The live terminal reproduced the defect as
+  `Sergio Macy, vulgo Police Officer, é preso(a).`: the role name was English
+  and the gender-parenthesis construction was awkward. The runtime now passes
+  the localized creature-name helper, and the Portuguese catalog uses
+  `As autoridades prendem {properName}, vulgo {name}.`.
+- A rebuilt post-fix replay of the same fixture rendered `As autoridades
+  prendem Adolf Meir, vulgo Oficial de Polícia.` with no English role name,
+  no `preso(a)` marker, no row wider than 80 columns, and an empty
+  `#lcs-playtest-errors` channel.
+- The temporary fixture was restored. The focused context regression now
+  asserts both the neutral template and `Oficial de Polícia` interpolation.
+  Durable before/fix evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-alias-20260811/replay.md`.
+
+PT-326 is fixed. The remaining playtest queue is random PT-048/PT-148 police
+terminal seeds and optional PT-083 responsive-console readability.

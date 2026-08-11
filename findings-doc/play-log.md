@@ -4421,3 +4421,26 @@ and `é uma mulher`; focused regressions cover masculine and feminine paths.
 PT-296 and PT-297 are fixed. The residual queue is PT-048/PT-148
 police-terminal variants and the broader PT-083 narrow-console sweep. The
 strict-headless browser harness remains the only playtest path.
+
+## Strict-headless police-terminal and narrow-console replay — 2026-08-11
+
+- Replayed both police-siege branches with a temporary local-only debug
+  fixture using isolated CLI `agent-browser` sessions. Every invocation used
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; no headed browser or desktop focus was used.
+- The surrender route rendered the Portuguese alarm, loudspeaker warning,
+  confiscation, fortification cleanup, trap cleanup, and anti-aircraft cleanup
+  pages. The fight route rendered the confrontation briefing, SWAT roster,
+  localized hit messages, victory screen, and the next-day news pages.
+- The 480×320 sweep covered the title, base, gameplay-options,
+  interface-options, and content/tone screens. The localized option rows,
+  version/footer, and long descriptions stayed readable; newspaper `~` rows
+  were confirmed as intentional `generateFiller` output rather than a
+  translation leak.
+- The bridge identified `HeadlessChrome/150.0.0.0`, every DOM buffer row was at
+  most 80 columns, and `#lcs-playtest-errors` stayed empty. The temporary
+  debug flag was restored to `false` afterward. Durable evidence is retained
+  at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-variants-20260811/`.
+
+No new issue was confirmed. PT-285 is fixed and verified; keep PT-048/PT-148
+random police-terminal variants and PT-083 narrow-console exploration open.

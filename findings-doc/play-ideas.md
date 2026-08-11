@@ -80,11 +80,10 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   the death redraw, so negative health values cannot flash beside armor
   markers. The focused renderer regression and fresh 34-turn strict-headless
   replay both passed with fixed 80-column rows and no browser errors.
-- PT-285 is open (2026-08-11): a fresh police-siege death reflection renders
-  `respira fortemente, tossindo sangue... então está quieto`, which is
-  understandable but unnatural Portuguese. Prefer a future catalog-only
-  wording pass such as `respira com dificuldade, tossindo sangue... e então
-  fica em silêncio`; no code change was made during the playtest.
+- PT-285 fixed and verified (2026-08-11): the police-siege death reflection
+  now uses `respira com dificuldade, tossindo sangue... e então fica em
+  silêncio`; the focused catalog regression and the fresh police-terminal
+  replay cover the complete interpolation.
 - PT-070 fixed and verified (2026-08-11): switching activity categories now
   clears an unrelated preview footer until a valid sub-option is selected.
   The 480×320 strict-headless replay and focused core-layout regression cover

@@ -4765,3 +4765,31 @@ The shorter Portuguese `Pressione qualquer tecla para continuar as eleições.`
 prompt was written over a longer prior prompt without clearing the row, leaving
 the visible suffix `s eleições.`. The presidential, Senate, and House election
 renderers now clear their prompt rows before writing the localized text.
+
+## PT-323: Trial notices used masculine agreement for arbitrary names
+
+- Severity: Medium
+- Type: Translation/context and grammatical agreement
+- Screen: Portuguese month-end court notices and trial screens
+- Replay status: **Fixed in the catalog and trial interpolation path; strict-headless replay captured the female-name failure on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/random-variants-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The source templates provide only `{name}`, but the Portuguese translations
+used masculine forms such as `é levado`, `está sendo julgado`, `foi absolvido`,
+and `será devolvido`. A generated female defendant (`Roberta Westlake`) was
+shown as `Roberta Westlake é levado ao tribunal para julgamento.`. The affected
+notices now use neutral verb forms. The acquittal return path also translates
+the gendered possessive before inserting it, so the sentence ends in `dele`,
+`dela`, or `delu` instead of the raw English pronoun.
+
+## PT-324: Jury-selection notice was a literal, unidiomatic translation
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese trial flow → jury selection
+- Replay status: **Fixed and verified in the strict-headless trial replay on 2026-08-11; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/random-variants-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+`A seleção do júri é primeiro` is not idiomatic Brazilian Portuguese. The
+notice now says `A seleção do júri é a primeira etapa`, preserving the source
+meaning while reading naturally.

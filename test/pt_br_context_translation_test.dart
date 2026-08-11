@@ -175,6 +175,19 @@ void main() {
       '{name} ainda está no seu encalço!',
     );
     expect(
+      catalog['{name} is moved to the courthouse for trial.'],
+      '{name} segue para o tribunal para julgamento.',
+    );
+    expect(
+      catalog['The trial proceeds.  Jury selection is first.'],
+      'O julgamento prossegue.  A seleção do júri é a primeira etapa.',
+    );
+    expect(catalog['{name} is standing trial.'], '{name} está em julgamento.');
+    expect(
+      catalog['{name} was acquitted but returns to prison to serve time.'],
+      'A Justiça absolveu {name}, mas retorna à prisão para cumprir pena.',
+    );
+    expect(
       catalog['and I went to live with my dad.  I learned gun safety the hard way.'],
       'e fui morar com meu pai. Aprendi do jeito difícil a ter cuidado com armas.',
     );
@@ -874,7 +887,20 @@ void main() {
     expect(catalog['{pronoun} anime waifu'], 'a waifu de anime {pronoun}');
     expect(
       catalog['{name} will be returned to prison to resume {pronoun} earlier sentence.'],
-      '{name} será devolvido à prisão para continuar cumprindo a pena anterior {pronoun}.',
+      '{name} retorna à prisão para continuar cumprindo a pena anterior {pronoun}.',
+    );
+    expect(
+      LcsI18n.processString(
+        '{name} will be returned to prison to resume {pronoun} earlier sentence.',
+        {
+          'name': 'Roberta Westlake',
+          'pronoun': LcsI18n.translatePronoun(
+            'her',
+            role: PronounRole.possessive,
+          ),
+        },
+      ),
+      'Roberta Westlake retorna à prisão para continuar cumprindo a pena anterior dela.',
     );
     expect(
       catalog['The ransom money is lost in the chaos, but {lead} manages to escape with {possessive} life.'],

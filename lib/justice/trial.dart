@@ -585,7 +585,13 @@ Future<void> trial(Creature g) async {
         1,
         lightGray,
         "{name} will be returned to prison to resume {pronoun} earlier sentence.",
-        params: {"name": g.name, "pronoun": g.gender.hisHer},
+        params: {
+          "name": g.name,
+          "pronoun": LcsI18n.translatePronoun(
+            g.gender.hisHer,
+            role: PronounRole.possessive,
+          ),
+        },
       );
       g.sentence--;
       if (g.deathPenalty) {

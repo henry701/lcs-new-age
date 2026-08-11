@@ -1160,6 +1160,16 @@ narrow-layout coverage.
 - The only open playtest ideas remain future random-seed PT-048/PT-148 police
   terminal variation and PT-083's optional responsive-console enhancement.
 
+## 2026-08-11 — trial-language follow-up
+
+- Strict-headless month-end replay reached multiple court notices and exposed
+  source-only `{name}` templates whose Portuguese agreement assumed a male
+  defendant. PT-323 and PT-324 are fixed and covered; keep future trial routes
+  seeded with female and nonbinary names so new catalog edits do not reintroduce
+  the same class of error.
+- Continue random PT-048/PT-148 police-terminal variation and the optional
+  PT-083 responsive-console enhancement.
+
 ## 2026-08-11 — month-end amendment/election follow-up
 
 - PT-321 is fixed: constitutional-amendment fragments now compose grammatical

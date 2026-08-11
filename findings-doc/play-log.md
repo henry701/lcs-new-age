@@ -4669,3 +4669,20 @@ open; accepted PT-049 historical changelog English remains out of scope.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/debt-sleeper-20260811/replay.md`.
 - The only remaining playtest ideas are future random-seed PT-048/PT-148
   terminal variation and the optional PT-083 responsive-console enhancement.
+
+## 2026-08-11 — strict-headless trial/gender replay
+
+- Used only an isolated CLI `agent-browser` session with `AGENT_BROWSER_HEADED=0`
+  and Chromium `--headless=new`; no headed browser was opened or focused.
+- Forced the hospital, month-end, sleeper, and court branches with temporary
+  debug fixtures, then restored every debug flag to `false`.
+- The female generated name `Roberta Westlake` reproduced the masculine
+  courthouse notice `é levado`; the jury-selection screen also showed the
+  literal `A seleção do júri é primeiro`. Both are fixed, along with the
+  source-only standing-trial and acquittal-return notices that had the same
+  gender-agreement risk.
+- The route stayed within 80 columns and `#lcs-playtest-errors` stayed empty.
+  Focused Portuguese-context tests passed after the fixes. Evidence is kept in
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/random-variants-20260811/replay.md`.
+- Remaining playtest ideas are still random PT-048/PT-148 police-terminal
+  variants and the optional PT-083 responsive-console enhancement.

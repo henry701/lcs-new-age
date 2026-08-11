@@ -252,6 +252,12 @@ void main() {
     console.injectKey('z');
     await Future<void>.delayed(const Duration(milliseconds: 20));
 
+    expect(
+      _consoleLine(22),
+      equals(
+        'Pressione uma letra para atribuir uma atividade; um número para selecioná-la.',
+      ),
+    );
     final bulkColumn = _consoleCells(8, 51, console.width);
     expect(_consoleCells(1, 25, 51), startsWith('ATIVIDADE ATUAL'));
     expect(bulkColumn, contains('7 - Fraude de Cartão de Créd…'));
@@ -560,7 +566,12 @@ void main() {
         _consoleCells(2, 58, 80),
         isNot(contains('Defender o Liberalismo')),
       );
-      expect(_consoleLine(22), endsWith('…'));
+      expect(
+        _consoleLine(22),
+        equals(
+          'Pressione uma letra para atribuir uma atividade; um número para selecioná-la.',
+        ),
+      );
     },
   );
 

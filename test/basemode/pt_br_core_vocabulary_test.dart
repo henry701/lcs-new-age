@@ -1010,7 +1010,7 @@ void main() {
       final activityPrompt = _consoleText();
       expect(
         activityPrompt,
-        contains('Escolha como ordenar a lista de atividade Liberal.'),
+        contains('Escolha como ordenar a lista de atividades Liberais.'),
       );
       expect(activityPrompt, isNot(contains('Liberal activity')));
 

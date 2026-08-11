@@ -735,6 +735,11 @@ void main() {
       'Selecione uma opção para seguir sua agenda liberal',
     );
     expect(catalog['Let Me Choose'], 'Deixe-me escolher');
+    expect(catalog['Let Fate Decide'], 'O destino decide');
+    expect(
+      catalog['In the moments after I was born in 2004...'],
+      'Pouco depois de eu nascer, em 2004...',
+    );
     expect(
       catalog['What is your name to the people?'],
       'Como você será conhecido pelo povo?',

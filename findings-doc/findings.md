@@ -4420,3 +4420,55 @@ templates now pass localized article-bearing fragments (`um homem`, `uma
 mulher`, or the nonbinary fallback) and compose as `Uma mulher está a fim de
 mim`, `com um homem`, and `é uma mulher` without changing placeholder names or
 the rejection pool's tone.
+
+## PT-298: Bulk activity instructions were clipped in Portuguese
+
+- Severity: Medium
+- Type: Fixed-console layout / translation length
+- Screen: Portuguese base mode → Atribuir Tarefas em Massa
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; exact-row regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/queue-audit-20260811/replay.md`; regression `test/basemode/pt_br_core_layout_test.dart`
+
+The localized instruction exceeded the fixed 80-column console and was
+clipped after `seleci`. The catalog now uses the concise, natural
+`Pressione uma letra para atribuir uma atividade; um número para selecioná-la.`
+The regular and sleeper bulk screens both assert the complete 77-column row.
+
+## PT-299: Founder fate toggle used an unnatural and then overlong label
+
+- Severity: Medium
+- Type: Translation/context and fixed-console layout
+- Screen: Portuguese new game → founder setup → Origem Trágica
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/queue-audit-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The literal `Destino Decide` read like a malformed headline. The initially
+natural `Deixar o destino decidir` then collided with the fixed `(D para...)`
+hint, so the final context-aware label is the compact and grammatical `O
+destino decide`.
+
+## PT-300: Biography question header used an unnatural literal construction
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese new game → randomized founder biography
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; title-screen regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/queue-audit-20260811/replay.md`; regression `test/title_screen/character_creation_translation_test.dart`
+
+`Nos momentos após meu nascimento, em 2004...` was grammatical but stilted
+and did not sound like a first-person biography prompt. It now reads
+`Pouco depois de eu nascer, em 2004...` in both the catalog and live route.
+
+## PT-301: Activity sorting prompt used singular noun and English-style casing
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese base mode → Atribuir Tarefas → sorting options
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; vocabulary regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/queue-audit-20260811/replay.md`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The dynamic source description `Liberal activity` was translated as
+`atividade Liberal`, producing `lista de atividade Liberal` for a multi-item
+list. The catalog now uses `atividades Liberais`, yielding the natural
+`Escolha como ordenar a lista de atividades Liberais.` and a consistent
+faction adjective in generated stealth prose.

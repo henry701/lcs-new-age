@@ -1038,3 +1038,18 @@ narrow-layout coverage.
 - Keep the only browser path as the strict-headless CLI harness documented in
   `findings-doc/headless-playtest.md`; do not use the pre-existing headed Chrome
   MCP for future runs.
+
+## 2026-08-11 — founder/activity wording and fixed-column follow-up
+
+- PT-298 is fixed: the bulk activity instruction now fits completely in the
+  Portuguese 80-column console and is asserted on both regular and sleeper
+  screens.
+- PT-299 is fixed: `O destino decide` is a compact, natural founder fate label
+  that leaves the `(D para...)` hint untouched. Keep this value short if the
+  founder row is retranslated.
+- PT-300 and PT-301 are fixed: the biography header and activity-sorting
+  description now read naturally in context. The focused title, vocabulary,
+  and catalog regressions should remain alongside future translation changes.
+- The fresh route stayed within 80 columns and had no playtest errors. Continue
+  only with PT-048/PT-148 random police-terminal variants and the PT-083
+  narrow-console sweep, using the strict-headless CLI harness.

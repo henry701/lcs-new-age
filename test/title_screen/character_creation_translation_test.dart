@@ -101,7 +101,7 @@ void main() {
 
     expect(
       _consoleLine(9),
-      equals('Nos momentos após meu nascimento, em 2004...'),
+      equals('Pouco depois de eu nascer, em 2004...'),
     );
     expect(
       _consoleLine(11),

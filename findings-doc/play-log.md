@@ -4444,3 +4444,29 @@ strict-headless browser harness remains the only playtest path.
 
 No new issue was confirmed. PT-285 is fixed and verified; keep PT-048/PT-148
 random police-terminal variants and PT-083 narrow-console exploration open.
+
+## Strict-headless founder/activity route audit — 2026-08-11
+
+- Replayed a fresh Portuguese new-game route with only the CLI
+  `agent-browser` harness: `AGENT_BROWSER_HEADED=0`, Chromium
+  `--headless=new --ozone-platform=headless --disable-dev-shm-usage
+  --disable-cache`. The bridge reported `HeadlessChrome/150.0.0.0`; no headed
+  browser, screenshot, or desktop focus was used.
+- Covered language selection, new-game configuration, founder setup, fate
+  toggle, randomized biography questions, base roster, bulk activity
+  assignment, and activity sorting. Every captured row stayed at or below 80
+  columns and `#lcs-playtest-errors` remained empty.
+- The route confirmed PT-298's complete bulk instruction,
+  `Pressione uma letra para atribuir uma atividade; um número para selecioná-la.`,
+  PT-300's `Pouco depois de eu nascer, em 2004...`, and PT-301's
+  `lista de atividades Liberais`.
+- A first post-change replay exposed a new layout defect in the otherwise
+  natural `Deixar o destino decidir`: it overlapped the founder's fixed `(D
+  para...)` hint. The final `O destino decide` value was rebuilt and verified
+  in the same route with the hint intact (PT-299).
+- Durable evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/queue-audit-20260811/replay.md`.
+
+PT-298 through PT-301 are fixed and covered. Continue with PT-048/PT-148
+random police-terminal variants and the PT-083 narrow-console sweep; keep all
+future playtests strict-headless.

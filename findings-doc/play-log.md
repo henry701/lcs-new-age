@@ -4641,6 +4641,10 @@ open; accepted PT-049 historical changelog English remains out of scope.
   special in both full and compact map overlays. `Sala de Detenção da Polícia`
   now fits the full 27-column row, while the compact 23-column row uses an
   ellipsis instead of dropping text at the console edge. This fixes PT-320.
+- Two additional fresh games exercised different police-station rosters. They
+  kept `Oficial de Polícia`, `Unidade Policial`, `Zelador`, `Uniforme Policial`,
+  `Macacão`, `Pist. 9 mm`, and the locked-door prompt in Portuguese, with empty
+  bridge-error channels and no rows over the fixed console width.
 - Temporary debug flags and the disposable server/browser session were restored
   or closed. Residual work remains limited to random PT-048/PT-148 terminal
   variation and the optional PT-083 responsive-console enhancement.

@@ -1154,5 +1154,8 @@ narrow-layout coverage.
 - The fresh police-station route remained strict-headless and clean but ended
   on a random police encounter before a lockup-special tile could be held for a
   screenshot. The deterministic renderer test covers that missing tile state.
+- Two additional fresh roster seeds kept the police labels and locked-door
+  prompt Portuguese, with no bridge errors or width violations. Keep the raw
+  route summary in the durable playtest scratchpad for future comparisons.
 - The only open playtest ideas remain future random-seed PT-048/PT-148 police
   terminal variation and PT-083's optional responsive-console enhancement.

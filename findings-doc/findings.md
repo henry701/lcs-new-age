@@ -170,6 +170,8 @@
 | PT-296 | Low | Translation/context | Generated cultural labels and recursive fragments carry out-of-context glosses |
 | PT-297 | Low | Dialogue translation/context | LGBT pickup lines use gender-incompatible or duplicated noun phrases |
 | PT-304 | Low | Politics translation/style | Active-law text uses the legacy hyphen in `semiautomáticas` |
+| PT-305 | Medium | Combat translation/coverage | Generated `Security Guard` encounter names fall back to English |
+| PT-306 | Low | Media translation/context | Mid-tier broadcast quality uses an incorrect Brazilian Portuguese register |
 
 ## PT-001: Save-management option is clipped
 
@@ -4518,3 +4520,32 @@ militares...`. In current Brazilian Portuguese orthography, the compound is
 `semiautomáticas`; the hyphen made an otherwise polished active-law page look
 like an unreviewed legacy spelling. The catalog now uses the corrected form and
 the live page renders it within the 80-column console.
+
+## PT-305: Generated `Security Guard` encounter names fall back to English
+
+- Severity: Medium
+- Type: Combat translation/coverage
+- Screen: Portuguese AM Radio site → encounter roster
+- Replay status: **Fixed in the catalog and verified by focused regression on 2026-08-11; fresh-server replay captured the defect before the fix**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/media-security-20260811/raw.json` and `security-guard-raw.png`; regression `test/pt_br_context_translation_test.dart`
+
+The generated creature type is `Security Guard`, while the Portuguese catalog
+only contained the lower-case fragment `security guard`. The encounter helper
+therefore treated the generated role as untranslated and rendered
+`Security Guard` in both the roster and the suspicion message. The exact
+capitalized key now maps to `Segurança`, preserving the existing lower-case
+newspaper fragment for contexts that need it.
+
+## PT-306: Mid-tier broadcast quality used an incorrect Brazilian Portuguese register
+
+- Severity: Low
+- Type: Media translation/context
+- Screen: AM Radio/Cable News broadcast quality result
+- Replay status: **Fixed in the catalog and covered by the context regression on 2026-08-11**
+- Evidence: `lib/sitemode/miscactions.dart` (`_mediaQualityDescriptionTemplate`), `test/pt_br_context_translation_test.dart`
+
+The quality ladder places `The show was all right.` between a mediocre
+broadcast and a good show. The previous `O espectáculo foi bom.` used the
+European spelling `espectáculo` and erased the intended middle-tier meaning.
+It now reads `O espetáculo foi razoável.`, using current Brazilian spelling
+and preserving the distinction from the following `bom espetáculo` result.

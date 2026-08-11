@@ -132,6 +132,7 @@ void main() {
       catalog['Semi-automatic versions of military rifles are widely available.'],
       'Versões semiautomáticas de rifles militares estão amplamente disponíveis.',
     );
+    expect(catalog['The show was all right.'], 'O espetáculo foi razoável.');
     expect(
       catalog['The death penalty is permitted but only rarely applied.'],
       'A pena de morte é permitida, mas raramente aplicada.',
@@ -416,6 +417,11 @@ void main() {
     expect(catalog['Overalls'], 'Macacão');
     expect(catalog['Police Uniform'], 'Uniforme Policial');
     expect(catalog['Police Gang Unit'], 'Unidade Policial');
+    expect(catalog['Security Guard'], 'Segurança');
+    expect(
+      localizedCreatureNameValue('Security Guard', 'Security Guard'),
+      'Segurança',
+    );
     expect(LcsI18n.hasTranslation('Police Gang Unit'), isTrue);
     expect(
       localizedCreatureNameValue('Police Gang Unit', 'Different type name'),

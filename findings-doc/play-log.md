@@ -4542,3 +4542,23 @@ enhancement; neither produced a new defect in this sweep.
 PT-304 is fixed and covered. No additional translation or layout defect was
 confirmed; keep only the future random-seed PT-048/PT-148 terminal variants
 and optional PT-083 responsive-console enhancement open.
+
+## Strict-headless media/security follow-up — 2026-08-11
+
+- Replayed a fresh Portuguese route with CLI `agent-browser` only at 480×320;
+  `AGENT_BROWSER_HEADED=0`, Chromium `--headless=new` and
+  `--ozone-platform=headless`. The bridge reported `HeadlessChrome/150.0.0.0`.
+- Entered the AM Radio site and captured a real encounter roster. The first
+  render exposed `Security Guard` in the roster and suspicion message even
+  though the rest of the route was Portuguese. The row-width invariant stayed
+  at 80 and `#lcs-playtest-errors` was empty.
+- Added the exact generated-role key `Security Guard → Segurança`; the lower-
+  case `security guard → segurança` fragment remains unchanged for newspaper
+  prose. Added a focused helper regression as PT-305.
+- Audited the adjacent media quality ladder in `_mediaQualityDescriptionTemplate`.
+  `The show was all right.` was translated as European `espectáculo` and as
+  `bom`, collapsing the intended mid-tier distinction. It now reads
+  `O espetáculo foi razoável.` and is asserted by the Portuguese context test
+  (PT-306).
+- Durable raw evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/media-security-20260811/`.

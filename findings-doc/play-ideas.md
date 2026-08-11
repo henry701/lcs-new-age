@@ -1095,3 +1095,13 @@ narrow-layout coverage.
 - Continue only with random terminal-seed variation for PT-048/PT-148 and the
   optional PT-083 responsive-console enhancement; do not reopen the accepted
   English changelog body.
+
+## 2026-08-11 — media/security follow-up
+
+- A strict-headless AM Radio route finally exercised a generated
+  `Security Guard` roster. Keep exact-capitalization coverage for generated
+  creature type names; lower-case fragments used in newspaper prose are a
+  separate translation context.
+- PT-305 and PT-306 are fixed and covered. Continue the remaining police
+  terminal seed variation and narrow-console exploration, and exercise a
+  successful broadcast result when a deterministic media fixture is available.

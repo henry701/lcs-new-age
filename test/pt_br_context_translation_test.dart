@@ -155,6 +155,11 @@ void main() {
       catalog['medical care to themselves or others'],
       'cuidados médicos para si ou para outros',
     );
+    expect(
+      catalog['in the same location.  This does not'],
+      'no mesmo local. Isso não',
+    );
+    expect(catalog['Revolutionary'], 'Revolucionário');
     expect(catalog['Pan-African Flag'], 'Bandeira Pan-Africana');
     expect(
       catalog['Demonstrate your patriotism by flying the national flag.'],

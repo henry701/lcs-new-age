@@ -347,6 +347,17 @@ void main() {
     }
   });
 
+  test('Portuguese character status translates liberal level titles', () {
+    final founder = _founder()..juice = 100;
+    expect(founder.level, 4);
+
+    printFullCreatureStats(founder);
+
+    final rendered = _consoleText();
+    expect(rendered, contains('Revolucionário'));
+    expect(rendered, isNot(contains('Revolutionary')));
+  });
+
   test(
     'Portuguese wound details localize status codes and special injuries',
     () {

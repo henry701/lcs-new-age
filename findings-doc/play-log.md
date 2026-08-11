@@ -4241,3 +4241,23 @@ narrow-console readability exploration.
 No new CIA translation or layout issue was confirmed. Keep only the random
 PT-048/PT-148 alarm/terminal variants and the PT-083 narrow-console
 readability enhancement in the residual queue.
+
+## Strict-headless infiltrated-title and help-spacing replay — 2026-08-11
+
+- Replayed the Portuguese management route with the isolated CLI
+  `agent-browser` session, `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; no headed browser was launched or focused.
+- The infiltrated-agent route had previously exposed
+  `——Leila Hemingway, Revolutionary——` in an otherwise Portuguese action
+  header. The missing title key is now present in both catalogs and the focused
+  profile regression renders `Revolucionário` instead.
+- The Hospital task help line previously retained an awkward double space in
+  `no mesmo local.  Isso não`; the canonical Portuguese value now uses one
+  space, protected by the context catalog regression.
+- Catalog canonicalization, control-prefix validation, interpolation checks,
+  and the focused Portuguese suites pass. Evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/infiltrated-title-20260811/`
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-help-spacing-20260811/`.
+
+The two findings are fixed. Keep PT-048/PT-148 random alarm/terminal combat
+variants and PT-083 narrow-console readability exploration open.

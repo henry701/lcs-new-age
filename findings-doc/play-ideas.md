@@ -967,3 +967,15 @@ narrow-layout coverage.
 - No new CIA issue was confirmed. Leave the residual queue focused on random
   PT-048/PT-148 alarm/terminal variants and the PT-083 narrow-console
   readability enhancement.
+
+## 2026-08-11 — infiltrated-title/help-spacing follow-up
+
+- Keep a deterministic infiltrated-agent fixture with a level-four liberal in
+  the headless matrix; it exercises dynamic `levelTitle` catalog keys that
+  ordinary base-roster screens may not reach.
+- Preserve exact-spacing assertions for fixed-width activity help fragments;
+  source double spaces can survive translation and become visible typography
+  defects even when the row still fits the console.
+- PT-283 and PT-284 are fixed. Continue with PT-048/PT-148 random
+  alarm/terminal combat variants and the PT-083 narrow-console readability
+  sweep, using only strict-headless sessions.

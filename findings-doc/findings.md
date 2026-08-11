@@ -154,6 +154,8 @@
 | PT-276 | Medium | Translation/context | Clothing crafting selector and preview bypass the Portuguese catalog |
 | PT-277 | Medium | Clothing-preview layout | Translated armor stat labels collide at the fixed column boundary |
 | PT-282 | Low | Mod-tools translation | Concatenated Mod Tools explanation falls back to English |
+| PT-283 | Medium | Infiltrated-agent translation | Liberal level title `Revolutionary` remains English in the action header |
+| PT-284 | Low | Help-text style | Hospital activity help line contains an unnecessary double space |
 
 ## PT-001: Save-management option is clipped
 
@@ -4161,4 +4163,35 @@ The renderer now translates the two fragments independently and preserves their
 joining space. The fixed headless replay rendered `Crie e edite mapas
 personalizados para o Esquadrão do Crime Liberal. Este recurso está atualmente
 em desenvolvimento.`, with no raw English, no browser errors, and no rows over
+80 columns.
+
+## PT-283: Infiltrated-agent action header exposes the English `Revolutionary` title
+
+- Severity: Medium
+- Type: Missing translation / dynamic level title
+- Screen: Portuguese base mode → Agentes Infiltrados → covert-action focus
+- Replay status: **Fixed and covered by a strict-headless reproduction plus focused regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/infiltrated-title-20260811/route.md`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The infiltrated-agent header rendered a liberal at level four as
+`——Leila Hemingway, Revolutionary——` even though the surrounding screen was
+Portuguese. `levelTitle` translated the other level names but the source key was
+missing from both catalogs, so the runtime returned the English key and logged a
+missing translation.
+
+The source and Portuguese catalogs now include `Revolutionary` →
+`Revolucionário`. The focused profile regression exercises the level-four title,
+requires the Portuguese value, and rejects raw English.
+
+## PT-284: Hospital activity help line contains an unnecessary double space
+
+- Severity: Low
+- Type: Portuguese help-text typography
+- Screen: Portuguese base mode → Atribuir Tarefas → Hospital
+- Replay status: **Fixed and covered by a strict-headless replay plus catalog regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-help-spacing-20260811/route.md`; regression `test/pt_br_context_translation_test.dart`
+
+The fixed-width help line displayed `no mesmo local.  Isso não`, preserving an
+English double-space typo that is awkward in Portuguese. The canonical
+translation now uses `no mesmo local. Isso não`; the console remains bounded to
 80 columns.

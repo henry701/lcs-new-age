@@ -308,7 +308,7 @@ void main() {
     );
 
     expect(_consoleLine(0).length, lessThanOrEqualTo(80));
-    expect(_consoleLine(0), contains('Casa:'));
+    expect(_consoleLine(0), contains('Câmara:'));
   });
 
   test('Portuguese save-management title option fits inside its frame', () {

@@ -182,6 +182,8 @@
 | PT-333 | Low | Translation/style | Investment actions mix imperative and infinitive forms |
 | PT-334 | Low | Agenda translation/context | Presidential opinion poll omits the Portuguese article |
 | PT-335 | Low | Location translation/style | Siege status sentence uses unnatural Portuguese word order |
+| PT-338 | Low | Politics translation/context | Congressional House summary uses literal `Casa` instead of `Câmara` |
+| PT-339 | Low | Finance translation/style | Monthly net-change label uses an English title-case calque |
 
 ## PT-001: Save-management option is clipped
 
@@ -4992,3 +4994,31 @@ and clothes keys), a neutral `Vender todo o lote de {items}?` template, and
 the shared locale-aware yes-key predicate. A strict-headless replay rendered
 `Vender todo o lote de armas? (S)im para confirmar.` and completed the sale
 with `S`.
+
+## PT-338: Congressional House summary used the literal `Casa`
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese Liberal Agenda → summary page
+- Replay status: **Fixed and verified in a rebuilt strict-headless replay on 2026-08-11; catalog and layout regressions added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-content-20260811/replay.md`, `test/pt_br_context_translation_test.dart`, and `test/localized_layout_regression_test.dart`
+
+The context-specific `House: {summary}` catalog entry rendered
+`Casa: 125 pessoas ...`, while the same political surface and the standalone
+`House` key already use `Câmara`. The entry now renders
+`Câmara: {summary}`, matching Brazilian Portuguese congressional terminology
+and staying within the fixed-width summary row.
+
+## PT-339: Monthly net-change label used English title-case capitalization
+
+- Severity: Low
+- Type: Translation/style
+- Screen: Portuguese Liberal Agenda → finance report
+- Replay status: **Fixed and verified in a rebuilt strict-headless replay on 2026-08-11; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-content-20260811/replay.md` and `test/pt_br_context_translation_test.dart`
+
+The finance report showed `Mudança Líquida Este Mês (Dia):`, an English
+title-case calque that reads unnaturally in Brazilian Portuguese. The catalog
+now uses the sentence-case label `Variação líquida neste mês (dia):`; the
+replayed report showed the corrected label alongside the translated purchase
+and asset rows.

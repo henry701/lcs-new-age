@@ -7,6 +7,13 @@
   both real handlers. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/save-shop-confirm-20260811/`.
 
+- PT-338/PT-339 fixed and verified (2026-08-11): the narrow/high-content
+  strict-headless sweep corrected the congressional `House` summary to
+  `Câmara` and the finance net-change heading to
+  `Variação líquida neste mês (dia):`. The rebuilt 240×160/480×320 routes
+  stayed at 25×80 with no bridge errors. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-content-20260811/`.
+
 - 2026-08-11 strict-headless hospital/courthouse and locale-switch follow-up:
   the hospital/courthouse routes stayed fully Portuguese. Switching a
   Portuguese-created world to English leaves generated site names in

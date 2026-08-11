@@ -129,6 +129,11 @@ void main() {
     );
     expect(catalog['month'], 'mês');
     expect(catalog['months'], 'meses');
+    expect(catalog['House: {summary}'], 'Câmara: {summary}');
+    expect(
+      catalog['Net Change This Month (Day):'],
+      'Variação líquida neste mês (dia):',
+    );
     expect(
       catalog['{approval}% have a favorable opinion of '],
       '{approval}% têm uma opinião favorável sobre o ',

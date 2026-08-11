@@ -57,7 +57,7 @@
   "Generated think-tank name: {first} {second} {third}{preposition}": "{third} {first}{preposition}{second}",
   "Health: ": "Saúde: ",
   "High": "Alto",
-  "House: {summary}": "Casa: {summary}",
+  "House: {summary}": "Câmara: {summary}",
   "How should {name} approach the situation?": "Como {name} deve abordar a situação?",
   "How should {name} respond?": "Como {name} deve responder?",
   "I don't want to see you again.": "Não quero te ver novamente.",

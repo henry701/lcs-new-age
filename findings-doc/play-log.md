@@ -5070,3 +5070,34 @@ residual queue.
 No new translation or layout defect was confirmed. Keep only additional
 random PT-048/PT-148 terminal seeds and the optional PT-083 narrow-console
 readability enhancement open.
+
+## 2026-08-11 — strict-headless narrow/high-content follow-up
+
+- Replayed a fresh Portuguese founder world against a rebuilt local Flutter
+  web-server on port 8813. The CLI `agent-browser` session stayed strict-headless
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`) at both 240×160 and 480×320. The DOM bridge
+  supplied the fixed 80×25 console directly; no headed browser or OCR was used.
+- Covered base/travel, Commerce department store, pawn shop, dealership,
+  review/assets, ten all-items equipment pages, all five agenda pages, media
+  overview, and a department-store purchase followed by the finance report.
+- The narrow console scaled inside the viewport with no document overflow. Every
+  inspected buffer stayed at 25 rows with maximum width 80, and
+  `#lcs-playtest-errors` remained empty. The 240×160 view is intentionally tiny
+  but did not reproduce clipping; screenshots and the full route notes are in
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-content-20260811/`.
+- The agenda summary exposed `Casa: ...` for the congressional House. PT-338
+  changes the context-specific catalog entry to `Câmara: ...`; the rebuilt
+  agenda showed the corrected row.
+- The finance report exposed `Mudança Líquida Este Mês (Dia):`. PT-339 changes
+  it to `Variação líquida neste mês (dia):`; the purchase-backed finance report
+  showed the corrected sentence-case label.
+- The all-items route also reviewed compact labels (`Metr. leve M250`,
+  `Escopeta pump`). The M250 abbreviation is retained because the equipment
+  transfer column is 24 cells wide and the full phrase truncates; the existing
+  Brazilian Portuguese `Escopeta pump` loanword remains accepted.
+
+PT-338 and PT-339 are fixed and verified. The temporary debug fixtures were
+restored before validation. Keep the residual queue limited to future random
+PT-048/PT-148 terminal seeds, the optional PT-083 responsive-readability work,
+and the persisted generated-name locale-switch product decision.

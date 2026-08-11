@@ -4144,3 +4144,28 @@ fix queue.
 PT-275 is fixed. Continue the residual PT-048/PT-148 random police-alarm
 variants and PT-083 narrow-layout exploration; accepted PT-049 historical
 changelog English remains out of the fix queue.
+
+## Strict-headless clothing-crafting replay — 2026-08-10
+
+- Replayed a fresh Portuguese game through `Atribuir Tarefas` → `A` → `D` →
+  `3` using only the isolated CLI `agent-browser` session `clothfix0810c`.
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless` were enforced; no headed browser was launched
+  or focused.
+- The first capture confirmed the clothing selector and preview leaked XML
+  clothing names, armor descriptions, dynamic traits, and the `Alarming`
+  trait. The fix localizes and bounds those values and adds the missing armor
+  description catalog entries.
+- The fullest armor upgrade then exposed a separate collision where translated
+  `Armadura` joined `Precisão`/`Complexidade`. Reserving the right stats at
+  column 42 and fitting the left values removed the collision.
+- Final capture rendered `Alarmante`, `Armadura  Precisão`, and
+  `Armadura  Complexidade`; raw English and concatenated forms were absent.
+  The DOM bridge reported `HeadlessChrome/150.0.0.0`, an empty browser-error
+  channel, and a maximum rendered row width of 80. Evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/clothing-selector-20260810/`.
+
+PT-276 and PT-277 are fixed and verified. Continue only the residual
+PT-048/PT-148 random police-alarm variants and PT-083 narrow-layout
+exploration; accepted PT-049 historical changelog English remains out of the
+fix queue.

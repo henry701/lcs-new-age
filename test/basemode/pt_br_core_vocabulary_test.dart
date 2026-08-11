@@ -635,6 +635,84 @@ void main() {
     }
   });
 
+  test('Portuguese clothing selector localizes XML item names', () async {
+    final founder = _founder()..rawSkill[Skill.tailoring] = 30;
+    console.injectKey('d');
+    console.injectKey('3');
+
+    final assignment = assignTask(founder);
+    await Future<void>.delayed(const Duration(milliseconds: 30));
+
+    final rendered = _consoleText();
+    for (final expected in [
+      'Traje do Black Bloc',
+      'Regata',
+      'Togas judiciais',
+      'Moda urbana',
+      'Camiseta de banda',
+      'Traje boêmio',
+      'Avental',
+    ]) {
+      expect(rendered, contains(expected));
+    }
+    for (final leakedEnglish in [
+      'Black Bloc Outfit',
+      'Tank Top',
+      'Judicial Robes',
+      'Streetwear',
+      'Band Tee',
+      'Bohemian Outfit',
+      'Apron',
+    ]) {
+      expect(rendered, isNot(contains(leakedEnglish)));
+    }
+    expect(
+      rendered.split('\n').every((line) => line.length <= 80),
+      isTrue,
+    );
+
+    console.injectKey('c');
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+    final detail = _consoleText();
+    expect(detail, contains('Traje do Black Bloc'));
+    expect(detail, contains(r'Sem armadura $30'));
+    expect(detail, contains('Roupa sem valor de armadura.'));
+    expect(detail, contains('Esconde o rosto, Furtiva'));
+    for (final leakedEnglish in [
+      'Black Bloc Outfit',
+      'Clothing with no armor value.',
+      'Hides Face',
+      'Sneaky',
+    ]) {
+      expect(detail, isNot(contains(leakedEnglish)));
+    }
+    expect(
+      detail.split('\n').every((line) => line.length <= 80),
+      isTrue,
+    );
+
+    for (var i = 0; i < 6; i++) {
+      console.injectKey('ArrowRight');
+      await Future<void>.delayed(const Duration(milliseconds: 5));
+    }
+    final upgradedDetail = _consoleText();
+    expect(upgradedDetail, matches(RegExp(r'Armadura\s+Precisão')));
+    expect(upgradedDetail, matches(RegExp(r'Armadura\s+Complexidade')));
+    expect(upgradedDetail, contains('Alarmante'));
+    expect(upgradedDetail, isNot(contains('ArmaduraPrecisão')));
+    expect(upgradedDetail, isNot(contains('ArmaduraComplexidade')));
+    expect(upgradedDetail, isNot(contains('Alarming')));
+    expect(
+      upgradedDetail.split('\n').every((line) => line.length <= 80),
+      isTrue,
+    );
+
+    console.injectKey('Escape');
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+    console.injectKey('Escape');
+    await assignment;
+  });
+
   test(
     'Portuguese skill picker leaves a separator after long skill names',
     () async {

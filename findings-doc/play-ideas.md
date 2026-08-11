@@ -920,3 +920,16 @@ narrow-layout coverage.
   `D - Acelere para despistá-los`, `F - Lutar`, `B - Pular fora e correr`, and
   `P - Pare e renda-se`. Keep the strict-headless DOM bridge and close each
   named session after saving one high-signal capture.
+
+## 2026-08-10 — clothing crafting follow-up
+
+- Keep the clothing-crafting route in the focused vocabulary suite: selector
+  names, armor descriptions, traits, numeric penalty shells, and the fullest
+  armor preview all exercise different translation paths.
+- Preserve the fixed-width assertion around the split armor stats. Portuguese
+  `Armadura` is longer than the English source label and can silently collide
+  with the right-side Dodge/Accuracy/Complexity columns if their origin moves.
+- The strict-headless replay is clean after PT-276/PT-277. Residual work stays
+  limited to PT-048/PT-148 police-alarm branch coverage and PT-083 narrow-layout
+  exploration; keep accepted PT-049 historical changelog English out of the
+  queue.

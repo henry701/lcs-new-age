@@ -616,18 +616,19 @@ Future<void> _selectClothingToMake(Creature cr) async {
       bool selected = selectedClothingIndex == index;
       String color = ColorKey.lightGray;
       if (selected) color = ColorKey.white;
-      addOptionText(
+      addOptionTextFitted(
         y,
         0,
         key,
         "{key} - {name}",
-        params: {"key": key, "name": craftable[index].name},
+        36,
+        params: {"key": key, "name": LcsI18n.tr(craftable[index].name)},
         baseColorKey: color,
       );
       addDifficultyText(y, 37, difficulty + 4);
       String price =
           "\$${craftable[index].makePrice + craftable[index].allowedArmor.first.makePrice}";
-      mvaddstrc(y, 64 - price.length, lightGreen, price);
+      mvaddstrc(y, 64 - price.length, lightGreen, price, noTranslate: true);
     },
     onChoice: (index) async {
       selectedClothingIndex = index;
@@ -777,12 +778,22 @@ void _clothingDetailFooter(
       enabledWhen: armorIndex > 0,
       highlightColorKey: "W",
     );
-    addstrc(lightGray, "{name}, ", params: {"name": clothing.name});
-    addstrc(lightBlue, armor.name);
+    addstrc(
+      lightGray,
+      "{name}, ",
+      params: {"name": fitConsoleText(LcsI18n.tr(clothing.name), 24)},
+      noTranslate: true,
+    );
+    addstrc(
+      lightBlue,
+      fitConsoleText(LcsI18n.tr(armor.name), 24),
+      noTranslate: true,
+    );
     addstrc(
       lightGreen,
       " {price}",
       params: {"price": "\$${clothing.makePrice + armor.makePrice}"},
+      noTranslate: true,
     );
 
     if (clothing.allowedArmor.length > 1) {
@@ -793,6 +804,7 @@ void _clothingDetailFooter(
           "current": armorIndex + 1,
           "total": clothing.allowedArmor.length,
         },
+        noTranslate: true,
       );
     }
     addInlineOptionText(
@@ -809,7 +821,11 @@ void _clothingDetailFooter(
   } else {
     setColor(lightBlue);
   }
-  mvaddstrCenter(18, armor.description);
+  mvaddstrCenter(
+    18,
+    fitConsoleText(LcsI18n.tr(armor.description), console.width),
+    noTranslate: true,
+  );
 
   mvaddstrc(19, 20, lightGray, "Special Traits: ");
   List<String> traits = clothing.traitsList(
@@ -823,51 +839,62 @@ void _clothingDetailFooter(
       addstrc(darkGray, "None");
     }
   } else {
-    addstrc(lightBlue, traits.join(", "));
+    addstrc(
+      lightBlue,
+      fitConsoleText(traits.map(LcsI18n.tr).join(", "), 44),
+      noTranslate: true,
+    );
     if (alarming) {
       addstr(", ");
       addstrc(red, "Alarming");
     }
   }
+
+  const rightStatsX = 42;
+
+  void addArmorStat(int y, String label, int value) {
+    mvaddstrc(y, 20, lightGray, label);
+    final rendered = LcsI18n.processString(
+      "{armor} Armor",
+      {"armor": value.toString()},
+    );
+    addstrc(
+      lightBlue,
+      fitConsoleText(rendered, rightStatsX - console.x - 1),
+      noTranslate: true,
+    );
+  }
+
   int headArmor = armor.headArmor;
   if (headArmor == 0 && clothing.concealsFace) {
     headArmor = armor.limbArmor;
   }
-  mvaddstrc(20, 20, lightGray, "Head: ");
-  addstrc(lightBlue, "{armor} Armor", params: {"armor": headArmor.toString()});
-  mvaddstrc(21, 20, lightGray, "Torso: ");
-  addstrc(
-    lightBlue,
-    "{armor} Armor",
-    params: {"armor": armor.bodyArmor.toString()},
-  );
-  mvaddstrc(22, 20, lightGray, "Limbs: ");
-  addstrc(
-    lightBlue,
-    "{armor} Armor",
-    params: {"armor": armor.limbArmor.toString()},
-  );
-  mvaddstrc(20, 40, lightGray, "Dodge: ");
+  addArmorStat(20, "Head: ", headArmor);
+  addArmorStat(21, "Torso: ", armor.bodyArmor);
+  addArmorStat(22, "Limbs: ", armor.limbArmor);
+  mvaddstrc(20, rightStatsX, lightGray, "Dodge: ");
   if (armor.dodgePenalty > 0) {
     addstrc(
       red,
       "-{penalty}",
       params: {"penalty": armor.dodgePenalty.toString()},
+      noTranslate: true,
     );
   } else {
     addstrc(lightGreen, "No Penalty");
   }
-  mvaddstrc(21, 40, lightGray, "Accuracy: ");
+  mvaddstrc(21, rightStatsX, lightGray, "Accuracy: ");
   if (armor.accuracyPenalty > 0) {
     addstrc(
       red,
       "-{penalty}",
       params: {"penalty": armor.accuracyPenalty.toString()},
+      noTranslate: true,
     );
   } else {
     addstrc(lightGreen, "No Penalty");
   }
-  mvaddstrc(22, 40, lightGray, "Complexity: ");
+  mvaddstrc(22, rightStatsX, lightGray, "Complexity: ");
   int difficulty = clothing.makeDifficulty + armor.makeDifficulty + 4 - skill;
   addDifficultyText(console.y, console.x, difficulty);
 

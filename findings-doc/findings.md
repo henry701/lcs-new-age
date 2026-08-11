@@ -151,6 +151,8 @@
 | PT-266 | Medium | Dynamic-name localization | Medical-debt receipt title leaks the raw safehouse name |
 | PT-267 | Low | Politics translation/context | Agenda polling and active-law prose use awkward Portuguese wording |
 | PT-268 | Medium | Generated-site translation/context | Los Angeles site names leak English and use malformed Portuguese |
+| PT-276 | Medium | Translation/context | Clothing crafting selector and preview bypass the Portuguese catalog |
+| PT-277 | Medium | Clothing-preview layout | Translated armor stat labels collide at the fixed column boundary |
 
 ## PT-001: Save-management option is clipped
 
@@ -4041,3 +4043,45 @@ browser identified itself as `HeadlessChrome`, and the browser-error channel
 was empty. Keep the random police-alarm variants PT-048/PT-148 and the PT-083
 narrow-layout enhancement open; accepted PT-049 historical changelog English
 remains out of the fix queue.
+
+## PT-276: Clothing crafting selector and preview bypassed the Portuguese catalog
+
+- Severity: Medium
+- Type: Missing translation / dynamic metadata
+- Screen: Portuguese base mode → Atribuir Tarefas → Recrutamento e Aquisição → Fazer Roupas
+- Replay status: **Fixed and verified in a strict-headless replay after a full Flutter web-server restart on 2026-08-10**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/clothing-selector-20260810/before.txt`; fixed `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/clothing-selector-20260810/after.txt`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The clothing selector rendered XML item names such as `Black Bloc Outfit`,
+`Tank Top`, and `Apron` in English. Its detail preview also passed dynamic
+clothing names and traits as un-translated parameters, and all 14 armor
+descriptions were absent from the canonical catalogs. The fullest armor
+preview additionally exposed the raw trait `Alarming`.
+
+The selector now localizes and bounds each item name before drawing the fixed
+36-column cell. The preview pre-translates dynamic names and traits, uses the
+new English/Portuguese armor-description entries, maps `Alarming` to
+`Alarmante`, and marks numeric penalty shells as non-translatable. The focused
+test protects selector coverage, preview descriptions/traits, the alarming
+branch, raw-English absence, and the 80-column limit. The fresh replay reported
+`HeadlessChrome/150.0.0.0`, an empty browser-error channel, and a maximum row
+width of 80.
+
+## PT-277: Translated clothing-preview armor stats collided at the fixed boundary
+
+- Severity: Medium
+- Type: Fixed-width layout
+- Screen: Portuguese clothing detail preview, fullest armor upgrade
+- Replay status: **Fixed and verified in the same strict-headless replay on 2026-08-10**
+- Evidence: pre-fix `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/clothing-selector-20260810/collision-before.txt`; fixed output and DOM checks `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/clothing-selector-20260810/after.txt`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+After `Armor` was localized to `Armadura`, the left stat values were still
+drawn up to the old right-column origin. Rows became `ArmaduraPrecisão` and
+`ArmaduraComplexidade`, visually merging the armor type and the adjacent
+accuracy/complexity labels.
+
+The preview now reserves the right stats at column 42 and fits each left stat
+to the remaining width. The final replay rendered `Armadura  Precisão` and
+`Armadura  Complexidade` with visible separation, retained all controls, and
+kept every row at or below 80 columns. The regression rejects both concatenated
+forms.

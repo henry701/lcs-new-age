@@ -996,3 +996,30 @@ narrow-layout coverage.
 - PT-285 and PT-286 are fixed. Continue only with PT-048/PT-148 random
   police-alarm terminal variants and the PT-083 narrow-console readability
   exploration.
+
+## 2026-08-11 — police-terminal context follow-up
+
+- Recheck dynamic site-name joins whenever a siege terminal says that everyone
+  was killed; avoid assuming a fixed `no`/`na` contraction for generated names.
+- PT-287 is catalog-fixed and regression-covered; perform the fresh-server
+  replay before closing it.
+
+## 2026-08-11 — generated street-site follow-up
+
+- Keep phrase-level tests for every `{name} St. ...` site template; translating
+  the pieces independently can preserve English street order or leave `St.`
+  visible in Portuguese.
+- PT-288 is fixed and live-verified. Continue with police/terminal variants and
+  other city/district site families rather than assuming one generated-name
+  template covers all locations.
+
+## 2026-08-11 — generated apartment/commerce-name follow-up
+
+- Keep phrase-level tests for generated `{name} Condominiums` and composed
+  juice-bar names; random district seeds can hide a broken combination.
+- Treat parenthetical translations such as `Panda (animal)` and `Nano
+  (escala)` as context defects when the source is a generated brand fragment,
+  not as useful player-facing explanations.
+- PT-289–PT-291 are fixed and verified/covered in strict-headless runs. Sweep
+  the remaining city/district families, but keep all temporary debug fixtures
+  disabled before validation.

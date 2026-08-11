@@ -144,6 +144,11 @@ const Set<String> structuralTranslationKeys = {
   'Dis',
   'Hill',
   'MedStar Washington',
+  // "Motel" is the same established loanword in Brazilian Portuguese.
+  'Motel',
+  // Generated Internet Cafe brand fragments are valid unchanged loanwords.
+  'Nano',
+  'Panda',
   // City and district proper names intentionally remain unchanged.
   'Arlington',
   'Arlington, VA',

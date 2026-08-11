@@ -158,6 +158,11 @@
 | PT-284 | Low | Help-text style | Hospital activity help line contains an unnecessary double space |
 | PT-285 | Low | Combat translation/style | Death-reflection message uses unnatural Portuguese phrasing |
 | PT-286 | Low | Activity layout | Clothing-crafting header loses its Portuguese suffix at 80 columns |
+| PT-287 | Low | Siege translation/context | Dynamic-site death alert uses an unnatural Portuguese preposition |
+| PT-288 | Low | Generated-site translation/context | Street-site names retain English word order in Portuguese |
+| PT-289 | Low | Generated-site translation/context | Upscale-apartment names retain English word order in Portuguese |
+| PT-290 | Low | Generated-site translation/style | Juice-bar adjectives do not agree with plural Portuguese nouns |
+| PT-291 | Low | Generated-site translation/context | Internet-café brand fragments expose automated translator glosses |
 
 ## PT-001: Save-management option is clipped
 
@@ -4233,3 +4238,81 @@ name the console ended at `... tiver tec`, hiding the rest of the cost note.
 The compact Portuguese wording is now `O que {name} fará? (Custo pela metade
 com tecido)`, and the focused selector regression requires the complete suffix
 while retaining the 80-column limit.
+
+## PT-287: Dynamic-site death alert uses an unnatural Portuguese preposition
+
+- Severity: Low
+- Type: Siege translation / dynamic-site context
+- Screen: Portuguese police siege → surrender terminal
+- Replay status: **Fixed in the Portuguese catalog and covered by a focused regression on 2026-08-11; fresh headless replay pending after restart**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/siege-terminal-20260811/route.md`; regression `test/pt_br_context_translation_test.dart`
+
+The police-siege terminal rendered `Todos em Armazém Esquecido foram mortos.`.
+For a generated site name, the bare `em` construction is awkward and reads as
+if the name were an unintroduced common noun. The translation now uses
+`Todos os presentes em {location} foram mortos.`, which remains grammatical
+for every dynamic site name without guessing its grammatical gender or adding
+an incorrect contraction.
+
+## PT-288: Street-site names retain English word order in Portuguese
+
+- Severity: Low
+- Type: Generated-site translation / contextual word order
+- Screen: Portuguese base mode → plan a site visit in the Seattle industrial district
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; focused location regressions added**
+- Evidence: fresh site-list buffer from the strict-headless replay; regression `test/location/site_translation_test.dart`
+
+The generated list exposed `Motel (hotel) Abandonado`, `Conjuntos habitacionais
+Sánchez St.`, and `Gorbachev St. Casa de Drogas`. The first added an unnecessary
+gloss to an already natural Portuguese loanword; the latter two retained the
+English street suffix and placed it before/after the translated site type in a
+way that is not natural Brazilian Portuguese.
+
+The catalog now renders `Motel Abandonado`, `Conjuntos habitacionais da Rua
+{name}`, `Centro de Drogas Recreativas da Rua {name}`, `Dispensário de Maconha
+da Rua {name}`, and `Casa de Drogas da Rua {name}`. The focused tests cover the
+full dynamic templates and the identical-loanword exception for `Motel`.
+
+## PT-289: Upscale-apartment names retain English word order
+
+- Severity: Low
+- Type: Generated-site translation / contextual word order
+- Screen: Portuguese base mode → plan a site visit in Centro de Seattle
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-11; focused location regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/condominiums-20260811/after.txt`; regression `test/location/site_translation_test.dart`
+
+The live district menu rendered `Russell Condomínios`. The source template is
+`{name} Condominiums`, but Brazilian Portuguese places the common noun first:
+`Condomínios Russell`. The catalog now uses the natural order and the focused
+regression protects the placeholder position. A fresh headless menu rendered
+`Condomínios Piercey` with no browser errors and an 80-column maximum.
+
+## PT-290: Juice-bar adjectives do not agree with plural Portuguese nouns
+
+- Severity: Low
+- Type: Generated-site translation / Portuguese number agreement
+- Screen: Portuguese base mode → plan a site visit in Distrito Universitário
+- Replay status: **Fixed and covered by a fresh strict-headless composition regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/condominiums-20260811/route.md`; regression `test/location/site_translation_test.dart`
+
+The live district menu rendered `Bar de Sucos Métodos Natural`. `Métodos` is
+plural, so the generated adjective must be `Naturais`. The juice-bar
+composition helper now inflects plural `Natural`, `Relaxante`, and `Saudável`
+forms, while preserving the existing gender and plural handling for
+`Harmonioso`. The focused regression requires `Bar de Sucos Métodos Naturais`;
+the fresh menu remained within 80 columns with no browser errors.
+
+## PT-291: Internet-café brand fragments expose automated translator glosses
+
+- Severity: Low
+- Type: Generated-site translation / out-of-context gloss
+- Screen: Portuguese base mode → plan a site visit in Distrito Universitário
+- Replay status: **Fixed in the Portuguese catalog and covered by a focused composition regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/condominiums-20260811/route.md`; regression `test/location/site_translation_test.dart`
+
+The generated menu rendered `Internet Café Panda (animal) Nano (escala)`.
+`Panda` and `Nano` are valid unchanged brand fragments in Brazilian Portuguese;
+the parenthetical explanations came from translating isolated words without
+their generated-name context. The catalog now uses `Panda` and `Nano` without
+glosses, records both as intentional unchanged fragments for runtime
+telemetry, and the composed name is protected as `Internet Café Panda Nano`.

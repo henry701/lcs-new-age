@@ -237,7 +237,7 @@
   "{hostage} gets in touch with {lead} later, expressing ": "{hostage} entra em contato com {lead} depois, expressando ",
   "{index} - {name}": "{index} - {name}",
   "{name1} already agrees with {name2}.": "{name1} já concorda com {name2}.",
-  "{name} St. Drug House": "{name} St. Casa de Drogas",
+  "{name} St. Drug House": "Casa de Drogas da Rua {name}",
   "{name} accidentally mumbles the slogan.": "{name} murmura acidentalmente o slogan.",
   "{name} decides to leave the Liberal Crime Squad.": "{name} decide abandonar o Esquadrão do Crime Liberal.",
   "{name} explains the Conservative tenets of {namePossessive} faith.": "{name} explica os princípios Conservadores da fé {namePossessive}.",

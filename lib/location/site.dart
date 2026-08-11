@@ -364,6 +364,9 @@ String _ptBrJuiceBarAdjective(String adjective, String noun) {
   final plural = _ptBrPluralJuiceBarNouns.contains(noun);
 
   return switch ((base, feminine, plural)) {
+    ('Natural', _, true) => 'Naturais',
+    ('Relaxante', _, true) => 'Relaxantes',
+    ('Saudável', _, true) => 'Saudáveis',
     ('Harmonioso', true, true) => 'Harmoniosas',
     ('Harmonioso', true, false) => 'Harmoniosa',
     ('Harmonioso', false, true) => 'Harmoniosos',

@@ -4074,6 +4074,26 @@ The PT-285 catalog wording is now fixed and covered by a context regression.
 The remaining queue is PT-048/PT-148 random police-alarm terminal coverage and
 the PT-083 narrow-console readability enhancement.
 
+## Strict-headless police-terminal replay — 2026-08-11
+
+- A disposable siege fixture was replayed in the CLI-only headless browser with
+  police alarms, the loudspeaker warning, siege combat, and surrender.
+- The terminal exposed `Todos em Armazém Esquecido foram mortos.`. The dynamic
+  site-name join is now `Todos os presentes em {location} foram mortos.` and is
+  protected by the siege/context catalog regression.
+- The pre-fix route stayed within 80 columns and reported no browser errors.
+  A fresh server restart is still required for the final live verification;
+  the temporary siege/wealth flags must not remain enabled.
+
+## Strict-headless generated site-name replay — 2026-08-11
+
+- The fresh Portuguese industrial-district menu rendered the corrected dynamic
+  names `Motel Abandonado`, `Conjuntos habitacionais da Rua Abbey`, and
+  `Casa de Drogas da Rua Keene` after a full Flutter web-server restart.
+- Every captured row stayed at or below 80 columns and the DOM error channel was
+  empty. The disposable siege, all-items, party-rescue, and funds flags were
+  reverted immediately after the replay.
+
 ## Strict-headless monthly AM Radio replay — 2026-08-09
 
 - Replayed a fresh Portuguese game through Los Angeles → Downtown and Grande
@@ -4313,3 +4333,26 @@ replay. The residual queue is now PT-285 wording, broader PT-048/PT-148
 random alarm/terminal coverage, and the PT-083 narrow-console readability
 enhancement; accepted PT-049 historical changelog English remains out of the
 fix queue.
+
+## Strict-headless generated apartment/commerce-name sweep — 2026-08-11
+
+- Used a fresh isolated CLI `agent-browser` session with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; no headed browser or screenshot was used.
+- Portuguese route: new game → one-person squad → `F - Vá adiante para deter
+  o mal` → `Centro de Seattle`, then `Distrito Universitário`.
+- The pre-fix Seattle menu rendered `Russell Condomínios`; the catalog now
+  renders `Condomínios {name}`, and a fresh restart rendered
+  `Condomínios Piercey`.
+- The pre-fix University menu rendered `Bar de Sucos Métodos Natural` and
+  `Internet Café Panda (animal) Nano (escala)`. The first lacked plural
+  agreement; the second exposed automated translator glosses on generated
+  brand fragments. Focused composition tests now require `Métodos Naturais`
+  and `Internet Café Panda Nano`.
+- Fresh DOM probes reported `HeadlessChrome/150.0.0.0`, maximum width 80, and
+  an empty playtest-error channel. Evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/condominiums-20260811/`.
+
+PT-289 through PT-291 are fixed. Continue with the remaining police-terminal
+variant and narrow-console exploration, and keep all browser sessions
+strictly headless.

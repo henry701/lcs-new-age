@@ -63,6 +63,46 @@ void main() {
     );
   });
 
+  test('Portuguese street-site names use natural Brazilian word order', () {
+    const expected = {
+      '{name} St. Housing Projects':
+          'Conjuntos habitacionais da Rua {name}',
+      '{name} St. Recreational Drugs Center':
+          'Centro de Drogas Recreativas da Rua {name}',
+      '{name} St. Marijuana Dispensary':
+          'Dispensário de Maconha da Rua {name}',
+      '{name} St. Drug House': 'Casa de Drogas da Rua {name}',
+    };
+    for (final entry in expected.entries) {
+      expect(LcsI18n.tr(entry.key), entry.value, reason: entry.key);
+    }
+  });
+
+  test('Portuguese generated condominiums put the name after the noun', () {
+    expect(LcsI18n.tr('{name} Condominiums'), 'Condomínios {name}');
+  });
+
+  test('Portuguese juice-bar adjectives agree with plural nouns', () {
+    expect(
+      localizedGeneratedJuiceBarName('Natural', 'Methods'),
+      'Bar de Sucos Métodos Naturais',
+    );
+  });
+
+  test('Portuguese generated internet cafes omit translator glosses', () {
+    expect(
+      LcsI18n.processString('{adjective} {noun} Internet Cafe', {
+        'adjective': LcsI18n.tr('Nano'),
+        'noun': LcsI18n.tr('Panda'),
+      }),
+      'Internet Café Panda Nano',
+    );
+  });
+
+  test('Portuguese generated motel names do not add an English gloss', () {
+    expect(localizedGeneratedSiteName('Abandoned', 'Motel'), 'Motel Abandonado');
+  });
+
   test('Portuguese vegan co-op names preserve the linking preposition', () {
     expect(
       LcsI18n.processString('{vegetable} {noun} Vegan Co-op', {

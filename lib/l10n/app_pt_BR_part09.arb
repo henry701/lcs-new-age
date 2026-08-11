@@ -245,7 +245,7 @@
   "{himHer}. {heSheCap} just hopes ": "{himHer}. {heSheCap} só espera ",
   "{journalist} canceled the interview halfway through ": "{journalist} cancelou a entrevista no meio de ",
   "{last} continues to ": "{last} continua a ",
-  "{name} St. Recreational Drugs Center": "{name} St. Centro de Drogas Recreativas",
+  "{name} St. Recreational Drugs Center": "Centro de Drogas Recreativas da Rua {name}",
   "{name} asks \"Are we the baddies?\"": "{name} pergunta: \"Nós somos os vilões?\"",
   "{name} has escaped!": "{name} escapou!",
   "{name} has reached level {level} in {skill}.": "{name} alcançou nível {level} em {skill}.",

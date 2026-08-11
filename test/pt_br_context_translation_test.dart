@@ -2203,6 +2203,8 @@ void main() {
       'Your Liberals are starving!': 'Seus Liberais estão passando fome!',
       'You are wanted for questioning!':
           'Você está sendo procurado para interrogatório!',
+      'Everyone in the {location} is slain.':
+          'Todos os presentes em {location} foram mortos.',
       'you will have to defeat them all or run away to survive this':
           'você terá que derrotá-los todos ou fugir para sobreviver a este',
     };

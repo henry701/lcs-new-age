@@ -4193,3 +4193,51 @@ fix queue.
 PT-278 through PT-281 are fixed. Keep only the residual PT-048/PT-148 random
 police-alarm branch coverage and PT-083 narrow-layout exploration open;
 accepted PT-049 historical changelog English remains out of the fix queue.
+
+## Strict-headless all-items/mod-tools replay — 2026-08-11
+
+- Enabled only temporary local debug fixtures for all-item inventory, rescue
+  liberals, and Mod Tools, then replayed a fresh Portuguese game through the
+  title, Mod Tools, equipment, assignment, review, rescue roster, and profile
+  screens using `agent-browser` with `AGENT_BROWSER_HEADED=0` and
+  `--headless=new --ozone-platform=headless`.
+- The pre-fix Mod Tools paragraph displayed the English concatenated sentence
+  `Create and edit custom maps for Liberal Crime Squad. This feature is
+  currently under development.` even though both source fragments had
+  Portuguese catalog entries.
+- After changing the renderer to translate the fragments independently, the
+  live replay rendered `Crie e edite mapas personalizados para o Esquadrão do
+  Crime Liberal. Este recurso está atualmente em desenvolvimento.`.
+- The all-item equipment pages, 20-person rescue roster, equipment-movement
+  list, and Liberal profile showed no additional confirmed English fallback or
+  layout defect. The bridge reported `HeadlessChrome/150.0.0.0`, maximum width
+  80, no over-wide rows, and an empty error channel. Evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/mod-tools-20260811/`.
+
+PT-282 is fixed. Temporary debug flags were restored before validation;
+continue the remaining random PT-048/PT-148 combat variants and PT-083
+narrow-console readability exploration.
+
+## Strict-headless CIA siege replay — 2026-08-11
+
+- Replayed a disposable Portuguese CIA fixture through the opening alarm,
+  fortified safehouse status, flee-or-fight briefing, and live combat screen
+  using only CLI `agent-browser` with `AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, and `--ozone-platform=headless`; no headed browser was
+  launched or focused.
+- The opening text rendered `No meio da noite, uma coluna de vans pretas sem
+  identificação e com vidros escuros cerca o local chamado Motel (hotel)
+  Esquecido.`, followed by the static-electricity and shipping-container
+  suspense paragraphs in Portuguese.
+- The siege status rendered `A CIA está invadindo este local!`,
+  `CÂMERAS DESLIGADAS`, `LUZES APAGADAS`, `Refúgio Sob Ataque`, and the
+  Portuguese controls `F - Lutar/Fugir`, `G - Desistir`, and `Não pode esperar
+  até o cerco terminar`. The fight briefing and live combat controls were also
+  localized.
+- The bridge reported `HeadlessChrome/150.0.0.0`, maximum width 80, no
+  over-wide rows, and an empty error channel. Evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-siege-20260811/`.
+
+No new CIA translation or layout issue was confirmed. Keep only the random
+PT-048/PT-148 alarm/terminal variants and the PT-083 narrow-console
+readability enhancement in the residual queue.

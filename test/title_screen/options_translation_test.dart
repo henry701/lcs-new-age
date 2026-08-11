@@ -59,4 +59,19 @@ void main() {
     expect(screen, contains('As mudanças entram em vigor imediatamente'));
     expect(screen, isNot(contains('Language selection affects')));
   });
+
+  test('mod-tools explanation translates independently composed fragments', () {
+    renderModdingMenu();
+
+    final screen = _normalizedConsoleText();
+    expect(
+      screen,
+      contains(
+        'Crie e edite mapas personalizados para o Esquadrão do Crime Liberal. '
+        'Este recurso está atualmente em desenvolvimento.',
+      ),
+    );
+    expect(screen, isNot(contains('Create and edit custom maps')));
+    expect(screen, isNot(contains('currently under development')));
+  });
 }

@@ -946,3 +946,24 @@ narrow-layout coverage.
 - The current replay is clean for PT-278–PT-281. Continue only with the
   remaining PT-048/PT-148 surrender/terminal branches and the PT-083
   narrow-console option-layout sweep. Keep all browser sessions headless.
+
+## 2026-08-11 — all-items/mod-tools follow-up
+
+- Keep composed title-screen explanations on the independent-fragment path;
+  the Mod Tools paragraph had complete fragment catalog entries but still fell
+  back because the source concatenated them before translation.
+- The all-item equipment, review, rescue, and profile sweep was clean after
+  PT-282. Continue with random PT-048/PT-148 combat variants and the PT-083
+  narrow-console readability sweep; do not treat proper names such as Black
+  Bloc as untranslated English without checking their intended Portuguese
+  usage.
+
+## 2026-08-11 — CIA siege follow-up
+
+- The deterministic CIA fixture reached the opening suspense, fortified
+  safehouse status, flee-or-fight briefing, and live combat screen cleanly in
+  Portuguese. Keep the route under the playtester’s strict-headless matrix so
+  future CIA text changes are checked at the 80-column boundary.
+- No new CIA issue was confirmed. Leave the residual queue focused on random
+  PT-048/PT-148 alarm/terminal variants and the PT-083 narrow-console
+  readability enhancement.

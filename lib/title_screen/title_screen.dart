@@ -406,19 +406,7 @@ void renderContentAndToneOptionsMenu() {
 
 Future<void> moddingMenu() async {
   while (true) {
-    erase();
-    setColor(lightGreen);
-    mvaddstrCenter(2, "MOD TOOLS");
-
-    addOptionText(4, 4, "E", "E - Map Editor");
-    setColor(midGray);
-    addparagraph(
-      console.y + 1,
-      8,
-      x2: 72,
-      "Create and edit custom maps for Liberal Crime Squad. This feature is "
-      "currently under development.",
-    );
+    renderModdingMenu();
 
     addOptionText(console.y + 1, 4, "B", "B - Back to Title Screen");
 
@@ -431,6 +419,24 @@ Future<void> moddingMenu() async {
         return;
     }
   }
+}
+
+void renderModdingMenu() {
+  erase();
+  setColor(lightGreen);
+  mvaddstrCenter(2, "MOD TOOLS");
+
+  addOptionText(4, 4, "E", "E - Map Editor");
+  setColor(midGray);
+  _addLocalizedParagraph(
+    console.y + 1,
+    8,
+    x2: 72,
+    fragments: const [
+      "Create and edit custom maps for Liberal Crime Squad. This feature is ",
+      "currently under development.",
+    ],
+  );
 }
 
 void printTitleScreen(HighScores? highScores) {

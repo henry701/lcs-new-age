@@ -153,6 +153,7 @@
 | PT-268 | Medium | Generated-site translation/context | Los Angeles site names leak English and use malformed Portuguese |
 | PT-276 | Medium | Translation/context | Clothing crafting selector and preview bypass the Portuguese catalog |
 | PT-277 | Medium | Clothing-preview layout | Translated armor stat labels collide at the fixed column boundary |
+| PT-282 | Low | Mod-tools translation | Concatenated Mod Tools explanation falls back to English |
 
 ## PT-001: Save-management option is clipped
 
@@ -4142,3 +4143,22 @@ entry now reads `Este local não pode ser melhorado`.
 The equipment control said `Equipar a Equipe` while the rest of the game calls
 the organization `Esquadrão`. The catalog and regression now keep the control
 consistent as `Equipar o Esquadrão`.
+
+## PT-282: Mod Tools explanation falls back to English after source concatenation
+
+- Severity: Low
+- Type: Translation assembly / missing runtime translation
+- Screen: Portuguese title screen → Ferramentas de Mod
+- Replay status: **Fixed and verified in a strict-headless replay plus focused regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/mod-tools-20260811/route.md`; regression `test/title_screen/options_translation_test.dart`
+
+The Mod Tools paragraph concatenated two English source literals before the
+translation wrapper ran. The catalogs contained translations for the separate
+fragments, but the runtime looked up the combined sentence and displayed the
+English explanation in the Portuguese menu.
+
+The renderer now translates the two fragments independently and preserves their
+joining space. The fixed headless replay rendered `Crie e edite mapas
+personalizados para o Esquadrão do Crime Liberal. Este recurso está atualmente
+em desenvolvimento.`, with no raw English, no browser errors, and no rows over
+80 columns.

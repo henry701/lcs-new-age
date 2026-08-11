@@ -4169,3 +4169,27 @@ PT-276 and PT-277 are fixed and verified. Continue only the residual
 PT-048/PT-148 random police-alarm variants and PT-083 narrow-layout
 exploration; accepted PT-049 historical changelog English remains out of the
 fix queue.
+
+## Strict-headless siege/news/repair replay — 2026-08-11
+
+- Used only isolated CLI `agent-browser` sessions with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; no headed browser was launched or focused.
+- Replayed a fresh Portuguese game on the rebuilt local web server through the
+  police alarm, loudspeaker, siege fight, victory, and next-day base route.
+- The pre-fix newspaper capture had singular `escapou`/`Lutou`-style fragments,
+  a missing join space (`de acordoa`), and an incorrect `to ...` preposition.
+  The fixed route rendered plural siege copy ending in `de acordo com um
+  porta-voz da polícia.`.
+- The same route verified the contextual alarm text `A polícia cercou o local:
+  Fábrica de Brinquedos Assombrada!`, the upgrade wording `Este local não pode
+  ser melhorado`, and the equipment label `Equipar o Esquadrão`.
+- After advancing one day, clothing repair rendered `Sherlock Bump conserta a
+  peça de roupa chamada Terno preto.`. The raw buffer contained no `Black Suit`.
+- DOM probes reported `HeadlessChrome/150.0.0.0`, an 80-column maximum with no
+  over-wide rows, and an empty playtest-error channel. Concise captures are
+  retained under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/repair-20260811/`.
+
+PT-278 through PT-281 are fixed. Keep only the residual PT-048/PT-148 random
+police-alarm branch coverage and PT-083 narrow-layout exploration open;
+accepted PT-049 historical changelog English remains out of the fix queue.

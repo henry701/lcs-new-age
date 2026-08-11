@@ -933,3 +933,16 @@ narrow-layout coverage.
   limited to PT-048/PT-148 police-alarm branch coverage and PT-083 narrow-layout
   exploration; keep accepted PT-049 historical changelog English out of the
   queue.
+
+## 2026-08-11 — siege/news/repair follow-up
+
+- Keep the police-siege newspaper composition assertion in the focused suite;
+  its plural subject and trailing join space are easy to regress when a source
+  fragment is retranslated.
+- Retain a deterministic one-day repair route in the headless playtester or a
+  focused fixture. Dynamic clothing names must be translated before being
+  passed into wash, recycle, and repair messages, and the Portuguese article
+  phrase must remain gender-neutral.
+- The current replay is clean for PT-278–PT-281. Continue only with the
+  remaining PT-048/PT-148 surrender/terminal branches and the PT-083
+  narrow-console option-layout sweep. Keep all browser sessions headless.

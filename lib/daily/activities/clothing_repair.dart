@@ -36,8 +36,12 @@ Future<void> doActivityRepairClothing(Creature cr) async {
 
   if (armor == null) return;
 
-  String armorName = armor.type.name;
-  String aan = pile ? aOrAn(armorName) : cr.gender.hisHer;
+  String armorName = LcsI18n.tr(armor.type.name);
+  String aan = LcsI18n.currentLocale == 'pt_BR'
+      ? "peça de roupa chamada"
+      : pile
+      ? aOrAn(armor.type.name)
+      : cr.gender.hisHer;
   bool repairFailed = true;
   bool armorDestroyed = armor.quality > armor.type.qualityLevels;
   if (armor.damaged) {

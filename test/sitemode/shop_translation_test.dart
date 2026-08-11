@@ -274,7 +274,7 @@ void main() {
       Clothing('CLOTHING_CHEAPDRESS'),
     ]);
 
-    expect(_consoleLine(0), equals('Equipar a Equipe'));
+    expect(_consoleLine(0), equals('Equipar o Esquadrão'));
     expect(_consoleCells(1, 2, 23), startsWith('NOME DE CÓDIGO'));
     expect(_consoleCells(1, 23, 29), startsWith('HABIL.'));
     expect(_consoleCells(1, 29, 30), equals('—'));

@@ -4085,3 +4085,60 @@ to the remaining width. The final replay rendered `Armadura  Precisão` and
 `Armadura  Complexidade` with visible separation, retained all controls, and
 kept every row at or below 80 columns. The regression rejects both concatenated
 forms.
+
+## PT-278: Police-siege newspaper fragments disagreed with the squad and joined incorrectly
+
+- Severity: Medium
+- Type: Translation assembly / Portuguese agreement and spacing
+- Screen: Portuguese police-siege result → next-day Liberal Guardian newspaper
+- Replay status: **Fixed and verified in a strict-headless replay plus focused regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/repair-20260811/newspaper-and-terms.md`; regression `test/pt_br_context_translation_test.dart`
+
+The newspaper prepended the plural subject `Membros do Esquadrão do Crime
+Liberal` to singular fragments such as `escapou`. The translated fragment also
+omitted its joining space, producing `de acordoa`, and the following source
+fragment used the wrong Portuguese preposition. The four police-siege variants
+now use plural verbs, retain the trailing join space, and end in
+`de acordo com um porta-voz ...`. The focused composition test protects all
+four variants. The fixed replay rendered a complete Portuguese sentence with
+an 80-column maximum and no browser errors.
+
+## PT-279: Clothing-repair activity exposed English item names and a bad gender placeholder
+
+- Severity: Medium
+- Type: Dynamic translation / activity message
+- Screen: Portuguese base mode → end-of-day clothing repair message
+- Replay status: **Fixed and verified in a strict-headless replay plus focused regression on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/repair-20260811/route.md`; regression `test/daily/clothing_repair_translation_test.dart`
+
+The repair activity passed the raw XML item name and an English gender
+placeholder into the Portuguese sentence, producing text like `Kate Yankovic
+repara ela Black Suit.`. The activity now translates the dynamic clothing
+name and uses a Portuguese-neutral clothing phrase for wash, recycle, and
+repair messages. The fixed route rendered `Sherlock Bump conserta a peça de
+roupa chamada Terno preto.` with no `Black Suit`, no browser errors, and no
+rows wider than 80 columns.
+
+## PT-280: Upgrade restriction was translated as an update restriction
+
+- Severity: Low
+- Type: Contextual terminology
+- Screen: Portuguese base mode → non-upgradable location
+- Replay status: **Fixed and covered by catalog/context validation on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/repair-20260811/newspaper-and-terms.md`
+
+The location action used `Este local não pode ser atualizado`, which describes
+updating rather than improving/upgrading a site. The canonical Portuguese
+entry now reads `Este local não pode ser melhorado`.
+
+## PT-281: Equipment action used an inconsistent Portuguese squad term
+
+- Severity: Low
+- Type: Contextual terminology
+- Screen: Portuguese base mode → squad planning controls
+- Replay status: **Fixed and covered by catalog/context validation on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/repair-20260811/newspaper-and-terms.md`; regression `test/sitemode/shop_translation_test.dart`
+
+The equipment control said `Equipar a Equipe` while the rest of the game calls
+the organization `Esquadrão`. The catalog and regression now keep the control
+consistent as `Equipar o Esquadrão`.

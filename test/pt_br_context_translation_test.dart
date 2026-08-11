@@ -1839,6 +1839,46 @@ void main() {
     expect(catalog['One vehicle crashed.  '], 'Um veículo bateu.  ');
   });
 
+  test(
+    'police-siege newspaper fragments agree with plural subjects and join',
+    () {
+      const fragments = {
+        'escaped from a police siege yesterday, according ':
+            'escaparam de um cerco policial ontem, de acordo ',
+        'escaped from police officers during a raid yesterday, according ':
+            'escaparam dos policiais durante uma batida ontem, de acordo ',
+        'fought off a police raid yesterday, according ':
+            'repeliram uma batida policial ontem, de acordo ',
+        'violently broke a police siege yesterday, according ':
+            'romperam violentamente um cerco policial ontem, de acordo ',
+      };
+      const endings = {
+        'to a spokesperson from the police department.':
+            'com um porta-voz da polícia.',
+        'to a Liberal Crime Squad spokesperson.':
+            'com um porta-voz do Esquadrão do Crime Liberal.',
+      };
+
+      for (final entry in fragments.entries) {
+        expect(catalog[entry.key], entry.value);
+        for (final ending in endings.entries) {
+          final story = [
+            'Membros do Esquadrão do Crime Liberal ',
+            LcsI18n.tr(entry.key),
+            LcsI18n.tr(ending.key),
+          ].join();
+          expect(story, contains('Membros do Esquadrão do Crime Liberal '));
+          expect(
+            story,
+            isNot(contains('Membros do Esquadrão do Crime Liberal escapou')),
+          );
+          expect(story, isNot(contains('de acordoa')));
+          expect(story, endsWith(ending.value));
+        }
+      }
+    },
+  );
+
   test('monthly loot expose fragments translate before story assembly', () {
     expect(
       catalog['showing a pattern of unfair evictions.'],

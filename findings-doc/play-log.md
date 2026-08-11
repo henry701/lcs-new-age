@@ -4732,3 +4732,39 @@ variation and PT-083 responsive-console exploration open.
 
 PT-325 is fixed. Continue only the existing random PT-048/PT-148 police-terminal
 variation and optional PT-083 responsive-console exploration.
+
+## 2026-08-11 — strict-headless police arrest surrender follow-up
+
+- Replayed a fresh Portuguese game with a disposable local siege fixture that
+  marked the generated warehouse defenders wanted for resisting arrest. The
+  browser was CLI-only and strict-headless (`AGENT_BROWSER_HEADED=0`, Chromium
+  `--headless=new --ozone-platform=headless`) at 480×320; the bridge reported
+  `HeadlessChrome/150.0.0.0`.
+- The forced alarm and loudspeaker rendered `A polícia cercou o local` and
+  `Você é procurado por resistir à prisão!`. Selecting `G - Desistir` reached
+  the plural arrest terminal, `5 Liberais são presos.`, followed by localized
+  funds, fortification, trap, and anti-aircraft cleanup lines.
+- All captured rows stayed at or below 80 columns and
+  `#lcs-playtest-errors` remained empty. The temporary fixture was restored
+  before handoff. Durable route evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-arrest-20260811/replay.md`.
+
+No new issue was confirmed. Keep only future random PT-048/PT-148 police
+terminal seeds and unexercised singular-arrest/name-alias variants open, with
+PT-083 responsive-console readability still optional.
+
+## 2026-08-11 — strict-headless 240×160 title/founder follow-up
+
+- Rebuilt from the restored clean source and exercised the Portuguese title,
+  language selection, new-game options, and founder screen through CLI
+  `agent-browser` at 240×160. Chromium remained strict-headless
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new --ozone-platform=headless`) and
+  identified itself as `HeadlessChrome/150.0.0.0`.
+- Every captured DOM buffer row stayed within the fixed 80-column console and
+  `#lcs-playtest-errors` was empty. No new responsive or translation defect was
+  reproduced. Durable evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-narrow-followup-20260811/replay.md`.
+
+The residual queue remains random PT-048/PT-148 police terminal seeds and
+singular-arrest/name-alias variants; PT-083 is still an optional readability
+enhancement.

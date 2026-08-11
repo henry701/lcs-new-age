@@ -108,8 +108,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   live `T - Falar` menu, target-name interpolation, `D - Render-se`, arrest,
   newspaper, and court flow. The 2026-08-09 corporate siege replay now also
   covers the live combat death reflection and high-score transition. Keep the
-  broader finding open only for random police-alarm variants; the separate
-  siege foot-chase and non-police terminal sweeps remain useful evidence.
+  broader finding open only for random police-alarm variants and unexercised
+  singular-arrest/name-alias branches; the 2026-08-11 deterministic plural
+  arrest surrender route rendered `5 Liberais são presos.` cleanly. The
+  separate siege foot-chase and non-police terminal sweeps remain useful
+  evidence.
 - Police-station rescue fixture: the strict-headless route reached a locked
   door and the translated `Sim ou Não` prompt, verified the `S` alias, and
   confirmed the 20 debug liberals appear under `Liberais no Sistema Judiciário`.

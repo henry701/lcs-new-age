@@ -4604,3 +4604,26 @@ content.
 - PT-318 and PT-319 are fixed. Continue the remaining random-seed terminal
   variation and optional responsive-console work with the same headless-only
   harness.
+
+## 2026-08-11 — narrow and police-terminal verification replay
+
+- Replayed the Portuguese title, founder, biography, base-management, vehicle,
+  review, agenda, media, travel, direct-action help, and site-map routes at
+  240×160 through 480×320 with CLI `agent-browser` only. Every buffer row stayed
+  at or below 80 columns and `#lcs-playtest-errors` remained empty.
+- Rebuilt a temporary local police-siege fixture and covered the warning,
+  loudspeaker, `Esconderijo Sob Cerco`, surrender, confiscation/funds seizure,
+  fortification/trap/anti-aircraft cleanup, fight briefing, SWAT roster,
+  foot-chase attempt, and `Você para e é preso.` arrest result. All generated
+  police labels and terminal messages were Portuguese; no new layout defect
+  appeared.
+- Every invocation used `AGENT_BROWSER_HEADED=0` with Chromium
+  `--headless=new --ozone-platform=headless`; no headed browser or desktop
+  focus was used. Temporary siege/debug edits were restored before handoff.
+- Durable summaries and screenshots are retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-matrix-20260811/` and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-followup-20260811/`.
+
+No new issue was confirmed. Keep only future random-seed PT-048/PT-148
+terminal variation and the optional PT-083 responsive-console enhancement
+open; accepted PT-049 historical changelog English remains out of scope.

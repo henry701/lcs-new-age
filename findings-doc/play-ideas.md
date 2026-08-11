@@ -1132,3 +1132,15 @@ narrow-layout coverage.
 - Preserve the headless-only browser profile and keep the raw/fixed dealership
   captures under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/` for future
   regression replay.
+
+## 2026-08-11 — narrow and police-terminal verification follow-up
+
+- A strict-headless Portuguese matrix at 240×160 through 480×320 covered the
+  founder, management, travel, media, direct-action help, and site-map routes;
+  all rows stayed within 80 columns and the browser-error channel stayed empty.
+- A temporary police-siege fixture covered warning, loudspeaker, surrender,
+  confiscation/cleanup, SWAT combat briefing, foot-chase, and arrest. No new
+  translation or layout defect was reproduced. Temporary fixture edits were
+  restored before handoff.
+- Residuals are limited to future random-seed PT-048/PT-148 terminal variation
+  and the optional PT-083 responsive-console readability enhancement.

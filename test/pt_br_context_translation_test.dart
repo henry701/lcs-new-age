@@ -811,6 +811,8 @@ void main() {
       'um vídeo mostrando a zona morta de Chernobyl',
     );
     expect(catalog['cowers in the corner.'], 'Encolhe-se no canto.');
+    expect(catalog['{name} {cower}'], '{name} {cower}');
+    expect(catalog['{items}, {item}'], '{items}, {item}');
     expect(
       catalog['crawls off trailing blood...'],
       'Rasteja para longe, deixando um rastro de sangue...',
@@ -1486,6 +1488,29 @@ void main() {
       catalog['Oh lawd have mercy, the libs are tryin\' ta trans my gender.'],
       'Oh meu Deus, tem misericórdia, os liberais estão tentando transicionar meu gênero.',
     );
+    expect(catalog['a man'], 'um homem');
+    expect(catalog['a woman'], 'uma mulher');
+    expect(
+      LcsI18n.processString(
+        "Hot damn! {person} is into me! I'm not even into {people}.",
+        {'person': 'Uma mulher', 'people': 'garotas'},
+      ),
+      'Caramba! Uma mulher está a fim de mim! Eu nem curto garotas.',
+    );
+    expect(
+      LcsI18n.processString(
+        'Wait, with {person}? I... I could, but... no.',
+        {'person': LcsI18n.tr('a man')},
+      ),
+      'Espera, com um homem? Eu... eu até poderia, mas... não.',
+    );
+    expect(
+      LcsI18n.processString(
+        'Great. The only person willing to be with me is {person}.',
+        {'person': LcsI18n.tr('a woman')},
+      ),
+      'Ótimo. A única pessoa disposta a ficar comigo é uma mulher.',
+    );
   });
 
   test('newspaper satire keeps ironic police and pundit voice', () {
@@ -1813,6 +1838,15 @@ void main() {
       }, noTranslate: true),
       'envenenado o guarda com drogas introduzidas na prisão pela gangue Crips',
     );
+  });
+
+  test('generated cultural labels stay names outside explanatory prose', () {
+    expect(catalog['Emo'], 'Emo');
+    expect(catalog['Hippie'], 'Hippie');
+    expect(catalog['Punk'], 'Punk');
+    expect(catalog['Emo'], isNot(contains('(')));
+    expect(catalog['Hippie'], isNot(contains('(')));
+    expect(catalog['Punk'], isNot(contains('(')));
   });
 
   test('newspaper fragments and pickup idioms avoid literal mistranslations', () {

@@ -4402,3 +4402,22 @@ is configured to stay strict-headless for all subsequent playtests.
 PT-292 and PT-293 are fixed. PT-294 and PT-295 are fixed with focused
 regressions. The residual playtest queue remains PT-048/PT-148 random
 police-terminal variants and the broader PT-083 narrow-console sweep.
+
+## Strict-headless parenthetical-context audit — 2026-08-11
+
+- Reviewed the latest Portuguese catalog against its runtime call sites using
+  the repository's static catalog tests and the strict-headless playtest
+  harness; no headed browser, screenshot, or GUI focus was used.
+- Confirmed five out-of-context glosses: `Emo (estilo)`, `Hippie (movimento)`,
+  `Punk (estilo)`, `{items}, {item} (lista)`, and `{name} {cower} (reação)`.
+  The first three are generated cultural labels/title fragments; the latter
+  two are recursive/runtime sentence shells. All now render without the
+  parenthetical translator notes and have focused regressions.
+- The same audit found three gender-sensitive LGBT pickup-line templates
+  (`Essa pessoa ({person})`, `outro(a) {person}`). They now use one
+article-aware gender helper and compose as `Uma mulher está a fim de mim`, `com um homem`,
+and `é uma mulher`; focused regressions cover masculine and feminine paths.
+
+PT-296 and PT-297 are fixed. The residual queue is PT-048/PT-148
+police-terminal variants and the broader PT-083 narrow-console sweep. The
+strict-headless browser harness remains the only playtest path.

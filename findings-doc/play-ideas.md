@@ -1031,6 +1031,11 @@ narrow-layout coverage.
 - PT-294 and PT-295 are also fixed: generated Internet Café fragments now avoid
   glosses, lowercase brand casing, `Cabeado`, and duplicated `Café`; drug and
   gang proper names no longer carry explanatory parentheses into prose.
+- PT-296 and PT-297 are fixed: generated `Emo`, `Hippie`, and `Punk` labels,
+  recursive court/combat fragments, and the three gender-sensitive LGBT
+  pickup-line templates no longer expose translator-note or slash-style
+  wording. Keep the article-bearing helper covered if more rejection lines are
+  added.
 - Keep the only browser path as the strict-headless CLI harness documented in
   `findings-doc/headless-playtest.md`; do not use the pre-existing headed Chrome
   MCP for future runs.

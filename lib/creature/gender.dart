@@ -25,6 +25,16 @@ enum Gender {
   final String s;
   final String manWoman;
 
+  /// Article-bearing noun used by dialogue templates that need a complete
+  /// Portuguese noun phrase rather than the bare `man`/`woman` label.
+  String get manWomanWithIndefiniteArticle => switch (this) {
+    Gender.nonbinary => 'a friend',
+    Gender.male ||
+    Gender.whiteMalePatriarch ||
+    Gender.maleBias => 'a man',
+    Gender.female || Gender.femaleBias => 'a woman',
+  };
+
   Gender get simplified {
     return switch (this) {
       Gender.nonbinary => Gender.nonbinary,

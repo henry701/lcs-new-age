@@ -14,6 +14,9 @@ const Set<String> structuralTranslationKeys = {
   '{lead} {action}.',
   '{lead} {activity}',
   '{name} {escape}',
+  // Runtime sentence shells composed from already-localized fragments.
+  '{name} {cower}',
+  '{items}, {item}',
   '{name1} {versus} {name2}',
   '{subject} {action}.',
   '{subject} {action}...',
@@ -157,6 +160,10 @@ const Set<String> structuralTranslationKeys = {
   'Panda',
   'Troll',
   'Tofu',
+  // Cultural labels and title fragments are used as names, not glossed prose.
+  'Emo',
+  'Hippie',
+  'Punk',
   // City and district proper names intentionally remain unchanged.
   'Arlington',
   'Arlington, VA',

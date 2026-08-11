@@ -797,8 +797,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           }),
           LcsI18n.tr("I don't swing that way."),
           LcsI18n.processString(
-            "Wait, with another {person}? I... I could, but... no.",
-            {"person": LcsI18n.tr(a.gender.manWoman)},
+            "Wait, with {person}? I... I could, but... no.",
+            {"person": LcsI18n.tr(a.gender.manWomanWithIndefiniteArticle)},
           ),
           LcsI18n.processString(
             "Damn it, I told {name}, my {era} era was only a phase!",
@@ -824,15 +824,17 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
             {"person": LcsI18n.tr(aLesbian)},
           ),
           LcsI18n.processString(
-            "Hot damn! This {person}'s into me! I'm not even into {people}.",
+            "Hot damn! {person} is into me! I'm not even into {people}.",
             {
-              "person": LcsI18n.tr(a.gender.manWoman),
+              "person": capitalize(
+                LcsI18n.tr(a.gender.manWomanWithIndefiniteArticle),
+              ),
               "people": LcsI18n.tr(guys),
             },
           ),
           LcsI18n.processString(
-            "Great. The only person willing to be with me is another {person}.",
-            {"person": LcsI18n.tr(a.gender.manWoman)},
+            "Great. The only person willing to be with me is {person}.",
+            {"person": LcsI18n.tr(a.gender.manWomanWithIndefiniteArticle)},
           ),
           LcsI18n.tr("I'm straight."),
           LcsI18n.processString("Huh. {people}.", {

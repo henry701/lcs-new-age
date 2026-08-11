@@ -167,6 +167,8 @@
 | PT-293 | Medium | Fixed-console layout | Industrial site status text overwrites long Portuguese site names |
 | PT-294 | Low | Generated-name translation/context | Internet-café fragments use glosses, awkward casing, or duplicated nouns |
 | PT-295 | Low | News translation/context | Drug acronyms and gang names carry explanatory glosses into prose |
+| PT-296 | Low | Translation/context | Generated cultural labels and recursive fragments carry out-of-context glosses |
+| PT-297 | Low | Dialogue translation/context | LGBT pickup lines use gender-incompatible or duplicated noun phrases |
 
 ## PT-001: Save-management option is clipped
 
@@ -4382,3 +4384,39 @@ The isolated values `LSD (droga)`, `MDMA (droga)`, `Crips (gangue)`, and
 `Bloods (gangue)` were inserted into sentences and lists where the source
 already supplies the context. The acronyms and gang names now remain proper
 names, and the gang sentence explicitly renders `pela gangue Crips/Bloods`.
+
+## PT-296: Generated labels and recursive fragments carry out-of-context glosses
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese recruitment labels, newspaper title fragments, court charges, and combat reactions
+- Replay status: **Fixed in the Portuguese catalog and covered by focused regressions on 2026-08-11**
+- Evidence: `test/recruitment_translation_test.dart`; `test/pt_br_context_translation_test.dart`
+
+The context audit found `Emo (estilo)`, `Hippie (movimento)`, and
+`Punk (estilo)` being used as generated labels or title fragments, plus
+`{items}, {item} (lista)` and `{name} {cower} (reação)` being appended to
+runtime sentences. Those parenthetical explanations were not part of the
+source context and made otherwise natural Portuguese read like translator
+notes. The values now remain `Emo`, `Hippie`, `Punk`, `{items}, {item}`, and
+`{name} {cower}`; the three cultural fragments are recorded as intentional
+unchanged names for translation telemetry.
+
+## PT-297: LGBT pickup lines use gender-incompatible or duplicated noun phrases
+
+- Severity: Low
+- Type: Dialogue translation/context
+- Screen: Portuguese pickup-line rejection pool
+- Replay status: **Fixed in the source templates and Portuguese catalog, with
+  gendered composition regressions on 2026-08-11**
+- Evidence: `lib/creature/gender.dart`, `lib/talk/drop_a_pickup_line.dart`, and
+  `test/pt_br_context_translation_test.dart`
+
+The rejection pool rendered `Caramba! Essa pessoa ({person}) está a fim de
+mim!`, `com outro(a) {person}`, and `é outro(a) {person}`. The first exposed
+the English gender token as a parenthetical gloss, while the latter two used a
+slash-style placeholder that is not player-facing Portuguese. The three source
+templates now pass localized article-bearing fragments (`um homem`, `uma
+mulher`, or the nonbinary fallback) and compose as `Uma mulher está a fim de
+mim`, `com um homem`, and `é uma mulher` without changing placeholder names or
+the rejection pool's tone.

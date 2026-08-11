@@ -356,19 +356,21 @@ Future<void> siegeCheck() async {
         } else {
           erase();
           if (l.type == SiteType.homelessEncampment) {
-            mvaddstrc(
+            mvaddstrcFitted(
               8,
               1,
               white,
               "The cops have raided the {location}.  No LCS members were present.",
+              console.width - 1,
               params: {"location": l.getName()},
             );
           } else {
-            mvaddstrc(
+            mvaddstrcFitted(
               8,
               1,
               white,
               "The cops have raided the {location}, an unoccupied safehouse.",
+              console.width - 1,
               params: {"location": l.getName()},
             );
           }
@@ -380,7 +382,7 @@ Future<void> siegeCheck() async {
               move(y++, 1);
               addstr(
                 "{name}'s corpse has been recovered.",
-                params: {"name": p.name},
+                params: {"name": localizedCreatureName(p)},
               );
               await getKey();
               pool.remove(p);
@@ -388,7 +390,10 @@ Future<void> siegeCheck() async {
             }
             if (p.align != Alignment.liberal) {
               move(y++, 1);
-              addstr("{name} has been rescued.", params: {"name": p.name});
+              addstr(
+                "{name} has been rescued.",
+                params: {"name": localizedCreatureName(p)},
+              );
               await getKey();
               pool.remove(p);
               p.location = p.workLocation;
@@ -957,10 +962,11 @@ Future<void> siegeTurn() async {
       erase();
       setColor(white);
 
-      mvaddstr(
+      mvaddstrFitted(
         8,
         1,
         "Conservatives have raided the {location}, an unoccupied safehouse.",
+        console.width - 1,
         params: {"location": l.getName()},
       );
 
@@ -977,22 +983,24 @@ Future<void> siegeTurn() async {
         Creature p = pool[i];
         if (p.location != l) continue;
         if (!p.alive) {
-          mvaddstr(
+          mvaddstrFitted(
             y++,
             1,
             "{name}'s corpse has been recovered.",
-            params: {"name": p.name},
+            console.width - 1,
+            params: {"name": localizedCreatureName(p)},
           );
           await getKey();
           pool.remove(p);
           continue;
         }
         if (p.align != Alignment.liberal) {
-          mvaddstr(
+          mvaddstrFitted(
             y++,
             1,
             "{name} has been rescued.",
-            params: {"name": p.name},
+            console.width - 1,
+            params: {"name": localizedCreatureName(p)},
           );
           await getKey();
           pool.remove(p);

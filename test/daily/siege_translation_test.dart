@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/daily/siege.dart';
 import 'package:lcs_new_age/engine/engine.dart';
@@ -91,6 +92,40 @@ void main() {
       'umas canetas ótimas para assinarmos a papelada, e até trouxemos '
       'donuts! São sem glúten; vocês vão gostar! Por favor, não queremos '
       'atirar em ninguém, somos do departamento financeiro!"',
+    );
+  });
+
+  test('Portuguese unoccupied raid lines localize roles and fit site names', () {
+    final source = File('lib/daily/siege.dart').readAsStringSync();
+    expect(source, contains('localizedCreatureName(p)'));
+    expect(source, contains('mvaddstrcFitted('));
+
+    const template =
+        'The cops have raided the {location}, an unoccupied safehouse.';
+    final rendered = LcsI18n.processString(template, {
+      'location': 'Escola Velha',
+    });
+    expect(
+      rendered,
+      'Os policiais invadiram o local chamado Escola Velha, um esconderijo vazio.',
+    );
+    expect(rendered, endsWith('.'));
+
+    erase();
+    mvaddstrFitted(
+      8,
+      1,
+      template,
+      console.width - 1,
+      params: {'location': 'Escola Velha'},
+    );
+    expect(_consoleLine(8).trim(), rendered);
+    expect(_consoleLine(8).length, lessThanOrEqualTo(console.width));
+    expect(
+      LcsI18n.processString('{name} has been rescued.', {
+        'name': localizedCreatureNameValue('Police Officer', 'Police Officer'),
+      }),
+      'Conseguiram resgatar Oficial de Polícia.',
     );
   });
 

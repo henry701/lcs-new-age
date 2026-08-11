@@ -400,25 +400,25 @@
     },
     {
       "file": "daily/siege.dart",
-      "line": 1284,
+      "line": 1292,
       "text": "\\n\\n$paragraph",
       "reason": "Layout-only paragraph join after each paragraph is translated."
     },
     {
       "file": "daily/siege.dart",
-      "line": 1333,
+      "line": 1341,
       "text": "bestvalue: $bestvalue",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/siege.dart",
-      "line": 1336,
+      "line": 1344,
       "text": "segmentpower: $segmentpower",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "daily/siege.dart",
-      "line": 1589,
+      "line": 1597,
       "text": "\\$$confiscated",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },

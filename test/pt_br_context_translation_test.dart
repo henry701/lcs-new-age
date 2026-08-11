@@ -453,6 +453,32 @@ void main() {
       }),
       'As autoridades colocam Oficial de Polícia sob custódia para reabilitação.',
     );
+    expect(catalog['{name} has been rescued.'], 'Conseguiram resgatar {name}.');
+    expect(
+      LcsI18n.processString('{name} has been rescued.', {
+        'name': localizedCreatureNameValue('Police Officer', 'Police Officer'),
+      }),
+      'Conseguiram resgatar Oficial de Polícia.',
+    );
+    expect(
+      catalog['The cops have raided the {location}, an unoccupied safehouse.'],
+      'Os policiais invadiram o local chamado {location}, um esconderijo vazio.',
+    );
+    expect(
+      LcsI18n.processString(
+        'The cops have raided the {location}, an unoccupied safehouse.',
+        {'location': 'Escola Velha'},
+      ),
+      'Os policiais invadiram o local chamado Escola Velha, um esconderijo vazio.',
+    );
+    expect(
+      catalog['The cops have raided the {location}.  No LCS members were present.'],
+      'A polícia fez uma batida no local chamado {location}. Nenhum membro do LCS estava presente.',
+    );
+    expect(
+      catalog['Conservatives have raided the {location}, an unoccupied safehouse.'],
+      'Conservadores invadiram o local chamado {location}, um esconderijo vazio.',
+    );
     final medicalReceiptLabels = {
       'Total outstanding debt': 'Total da dívida pendente',
       'Cash paid': 'Valor pago',

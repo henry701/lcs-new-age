@@ -174,6 +174,8 @@
 | PT-306 | Low | Media translation/context | Mid-tier broadcast quality uses an incorrect Brazilian Portuguese register |
 | PT-326 | Medium | Siege translation/context | Singular police arrest aliases expose English role names and `preso(a)` |
 | PT-327 | Medium | Siege translation/context | Singular rescued-hostage terminal exposes English role names and masculine agreement |
+| PT-328 | Medium | Daily-siege translation/context | Unoccupied police raids expose English rescued-role names |
+| PT-329 | Medium | Daily-siege translation/layout | Dynamic unoccupied-raid locations receive the wrong article and clip the final period |
 
 ## PT-001: Save-management option is clipped
 
@@ -4837,3 +4839,35 @@ custódia e reabilitado.`. It bypassed localized creature-role rendering and
 used a masculine-only construction for an arbitrary victim. The runtime now
 localizes the role and the catalog uses `As autoridades colocam {name} sob
 custódia para reabilitação.`.
+
+## PT-328: Unoccupied police raids exposed English rescued-role names
+
+- Severity: Medium
+- Type: Runtime interpolation / translation context
+- Screen: Portuguese daily police raid → unoccupied safehouse cleanup
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-unoccupied-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+When a police raid found a conservative creature in an otherwise empty LCS
+safehouse, the cleanup line passed the raw `p.name` value into
+`{name} has been rescued.`. A generated role therefore appeared as
+`Conseguiram resgatar Police Officer.`. Both the police and Conservative
+unoccupied-raid branches now pass creature names through the localized-role
+helper, producing `Conseguiram resgatar Oficial de Polícia.`.
+
+## PT-329: Unoccupied-raid locations used a hard-coded article and clipped
+the final period
+
+- Severity: Medium
+- Type: Translation / fixed-console layout
+- Screen: Portuguese daily police raid → unoccupied safehouse opening
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-unoccupied-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The opening template rendered `Os policiais invadiram o Escola Velha, um
+esconderijo desocupado.`. The fixed `o` article disagreed with a feminine
+generated site name, and the longer neutral replacement silently dropped the
+final period at the 80-column boundary. The police, no-LCS-members, and
+Conservative raid templates now use `local chamado {location}` with the
+shorter `esconderijo vazio` wording, and their dynamic opening rows use the
+width-aware renderer.

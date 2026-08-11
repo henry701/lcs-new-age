@@ -20,6 +20,12 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   reabilitação.`). Keep the hostage interpolation regression beside future
   siege terminal changes.
 
+- PT-328/PT-329 fixed and verified (2026-08-11): daily unoccupied police raids
+  now localize rescued-role names and render generated site names without a
+  hard-coded article. Width-aware opening rows preserve their final period at
+  the fixed console boundary; keep the daily-siege regressions beside future
+  raid-template changes.
+
 - PT-248 fixed and verified (2026-08-09): the Portuguese `Novo Esquadrão`
   header now right-aligns from its localized width instead of clipping at
   column 71. Keep the focused layout regression and narrow replay evidence.
@@ -1223,3 +1229,21 @@ narrow-layout coverage.
 - Singular arrested and rescued-hostage branches are now covered. The only
   open playtest ideas are future random PT-048/PT-148 police-terminal seeds
   and the optional PT-083 responsive-console readability enhancement.
+
+## 2026-08-11 — unoccupied daily police-raid follow-up
+
+- A strict-headless Portuguese route forced an empty `Escola Velha` warehouse
+  with one conservative `Police Officer` so the daily no-Liberal police-raid
+  branch ran. Before the fix it showed `Conseguiram resgatar Police Officer.`
+  and `Os policiais invadiram o Escola Velha, um esconderijo desocupado.`;
+  the latter also lost its final period at the 80-column edge.
+- PT-328 and PT-329 are fixed and verified in a rebuilt 480×320 replay. The
+  route now shows `Conseguiram resgatar Oficial de Polícia.` and
+  `Os policiais invadiram o local chamado Escola Velha, um esconderijo vazio.`
+  with no rows wider than 80 columns, intact punctuation, and an empty
+  `#lcs-playtest-errors` channel. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-unoccupied-20260811/`.
+- Both daily no-Liberal raid branches now use localized creature names and
+  width-aware opening messages. The only open playtest ideas are future random
+  PT-048/PT-148 police-terminal seeds and optional PT-083 responsive-console
+  readability work.

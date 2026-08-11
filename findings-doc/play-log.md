@@ -4815,3 +4815,26 @@ terminal seeds and optional PT-083 responsive-console readability.
   restored or closed. Singular arrested and rescued-hostage branches are now
   covered; only future random PT-048/PT-148 terminal seeds and optional PT-083
   responsive-console exploration remain open.
+
+## 2026-08-11 — strict-headless unoccupied daily police-raid follow-up
+
+- Replayed a fresh Portuguese game with a disposable fixture that moved the
+  founder away from a renamed `Escola Velha` warehouse and left one
+  conservative `Police Officer` there. The daily no-Liberal police-raid branch
+  ran in a CLI-only strict-headless browser (`AGENT_BROWSER_HEADED=0`, Chromium
+  `--headless=new --ozone-platform=headless`) at 480×320; the bridge reported
+  `HeadlessChrome/150.0.0.0`.
+- Before the fix, the opening line was `Os policiais invadiram o Escola
+  Velha, um esconderijo desocupado.` and the cleanup line was `Conseguiram
+  resgatar Police Officer.`. The opening row also lost its final period at the
+  fixed console edge.
+- PT-328 and PT-329 now localize both daily no-Liberal raid branches with
+  `localizedCreatureName`, use `local chamado {location}` and the shorter
+  `esconderijo vazio` wording, and render dynamic opening lines with the
+  width-aware helpers. The rebuilt route showed `Os policiais invadiram o local
+  chamado Escola Velha, um esconderijo vazio.` and `Conseguiram resgatar
+  Oficial de Polícia.` with intact punctuation, no rows wider than 80 columns,
+  and an empty `#lcs-playtest-errors` channel.
+- The temporary fixture, debug flags, browser session, and local servers were
+  restored or closed. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-unoccupied-20260811/replay.md`.

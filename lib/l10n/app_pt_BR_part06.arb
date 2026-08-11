@@ -129,7 +129,7 @@
   "The Liberal Crime Squad": "O Esquadrão do Crime Liberal",
   "The authorities have been driven back——for now.  While they are regrouping, you might consider abandoning this safe house for a safer location.": "As autoridades foram repelidas — por enquanto. Enquanto se reagrupam, talvez seja melhor abandonar este esconderijo por um local mais seguro.",
   "The business phone rings once, then goes dead.": "O telefone comercial toca uma vez e depois fica mudo.",
-  "The cops have raided the {location}, an unoccupied safehouse.": "Os policiais invadiram o {location}, um esconderijo desocupado.",
+  "The cops have raided the {location}, an unoccupied safehouse.": "Os policiais invadiram o local chamado {location}, um esconderijo vazio.",
   "The following Executive Officers are also chosen in perpetuity:": "Os seguintes Oficiais Executivos também são escolhidos em perpetuidade:",
   "The healthcare system is a dysfunctional mess of insurance bureaucracy.": "O sistema de saúde é uma confusão disfuncional de burocracia de seguros.",
   "The judge has blocked {count} ex-LCS members from testifying against {name}.": "O juiz impediu {count} ex-membros da LCS de testemunhar contra {name}.",

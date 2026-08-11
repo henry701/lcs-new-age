@@ -1159,3 +1159,14 @@ narrow-layout coverage.
   route summary in the durable playtest scratchpad for future comparisons.
 - The only open playtest ideas remain future random-seed PT-048/PT-148 police
   terminal variation and PT-083's optional responsive-console enhancement.
+
+## 2026-08-11 — month-end amendment/election follow-up
+
+- PT-321 is fixed: constitutional-amendment fragments now compose grammatical
+  Brazilian Portuguese across their line boundaries.
+- PT-322 is fixed: election-result prompts clear the previous screen row before
+  writing the shorter Portuguese text, preventing stale suffixes.
+- The strict-headless founder-debt/sleeper route covered the remaining slow
+  month-end and sleeper-agent surfaces through February with no new defect.
+- Keep random PT-048/PT-148 police-terminal seed variation and PT-083's
+  optional responsive-console enhancement as the only open playtest ideas.

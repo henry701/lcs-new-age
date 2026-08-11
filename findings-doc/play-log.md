@@ -4648,3 +4648,24 @@ open; accepted PT-049 historical changelog English remains out of scope.
 - Temporary debug flags and the disposable server/browser session were restored
   or closed. Residual work remains limited to random PT-048/PT-148 terminal
   variation and the optional PT-083 responsive-console enhancement.
+
+## 2026-08-11 — founder-debt/sleeper month-end replay
+
+- Started a fresh Portuguese game against `http://127.0.0.1:8107/?playtest=1`
+  with the strict-headless CLI session `debt-sleeper-fixed-20260811`.
+- Enabled only disposable founder-debt, sleeper-agent, elite-opinion, party,
+  money, and all-items fixtures to reach otherwise slow month-end and roster
+  states; all flags were restored to `false` afterward.
+- Exercised review/profile, task assignment, agenda pages 1–5, media, pride
+  flags, all equipment pages, vehicles, sleeper-agent assignment/sorting/mass
+  assignment, daily waiting/newspaper, special-edition selection, Congress,
+  constitutional amendment proposal, ratification, Senate and House results,
+  court notices, and the February finance report.
+- This replay confirmed PT-321 (the amendment fragment grammar) and PT-322
+  (stale election prompt suffix). Both are fixed and rechecked in the rebuilt
+  bundle; the fixed amendment lines and election prompts stayed Portuguese.
+- Final fixed-route buffer at `6 de fev de 2023` had no bridge errors, no rows
+  wider than 80 columns, and no stale election suffix. Evidence is retained in
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/debt-sleeper-20260811/replay.md`.
+- The only remaining playtest ideas are future random-seed PT-048/PT-148
+  terminal variation and the optional PT-083 responsive-console enhancement.

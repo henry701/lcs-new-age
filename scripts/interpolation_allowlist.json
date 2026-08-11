@@ -946,13 +946,13 @@
     },
     {
       "file": "politics/elections.dart",
-      "line": 423,
+      "line": 424,
       "text": "${yesvotes ~/ 10}.${yesvotes % 10}",
       "reason": "Locale-neutral numeric percentage value passed to a complete translated template or diagnostic."
     },
     {
       "file": "politics/elections.dart",
-      "line": 441,
+      "line": 442,
       "text": "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}",
       "reason": "Locale-neutral numeric percentage value passed to a complete translated template or diagnostic."
     },

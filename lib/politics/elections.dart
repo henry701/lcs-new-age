@@ -274,6 +274,7 @@ Future<void> presidentialElection() async {
   }
 
   if (canSeeThings) {
+    eraseLine(8);
     mvaddstrc(8, 0, lightGray, "Press any key to continue the elections.    ");
 
     checkKey();
@@ -562,7 +563,8 @@ Future<void> senateElections(int senmod) async {
 
   if (canSeeThings) {
     _showWinner(change, mood, 2);
-    mvaddstr(23, 0, "Press any key to continue the elections.    ");
+    eraseLine(23);
+    mvaddstrc(23, 0, lightGray, "Press any key to continue the elections.    ");
     checkKey();
     await getKey();
   }
@@ -655,7 +657,13 @@ Future<void> houseElections() async {
   if (canSeeThings) {
     _showWinner(change, mood, 6);
     if (!disbanding) {
-      mvaddstr(23, 0, "Press any key to continue the elections.    ");
+      eraseLine(23);
+      mvaddstrc(
+        23,
+        0,
+        lightGray,
+        "Press any key to continue the elections.    ",
+      );
 
       checkKey();
       await getKey();

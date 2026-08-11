@@ -4737,3 +4737,31 @@ Portuguese; the full-map label started too far right and the compact label was
 silently cut at column 80. Both renderers now translate before layout, fit to
 their 27- and 23-column map regions with an ellipsis when necessary, and center
 the full-map label inside its frame.
+
+## PT-321: Constitutional amendment fragments broke Portuguese agreement
+
+- Severity: Low
+- Type: Translation/context
+- Screen: Portuguese month end → constitutional amendment proposal
+- Replay status: **Fixed and verified in a fresh strict-headless founder-debt/sleeper replay on 2026-08-11; catalog regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/debt-sleeper-20260811/replay.md`; regression `test/monthly/month_end_translation_test.dart`
+
+The amendment was assembled from short translated fragments. The previous
+values produced `ser limitados a um mandato no cargo. Isso será imediatamente
+aplicado ... após o ratificação desta emenda`, with a wrong preposition and
+awkward agreement. The fragments now compose a grammatical sentence using
+`deverão ... ter apenas um mandato`, `Essa regra será aplicada imediatamente`,
+and `após a ratificação desta emenda`.
+
+## PT-322: Election result prompt retained stale text from the previous screen
+
+- Severity: Medium
+- Type: Fixed-console layout
+- Screen: Portuguese Senate/House election result screens
+- Replay status: **Fixed and verified in a fresh strict-headless founder-debt/sleeper replay on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/debt-sleeper-20260811/replay.md`
+
+The shorter Portuguese `Pressione qualquer tecla para continuar as eleições.`
+prompt was written over a longer prior prompt without clearing the row, leaving
+the visible suffix `s eleições.`. The presidential, Senate, and House election
+renderers now clear their prompt rows before writing the localized text.

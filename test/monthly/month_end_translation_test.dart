@@ -74,6 +74,27 @@ void main() {
     }
   });
 
+  test('Portuguese constitutional amendment fragments remain grammatical', () {
+    final portuguese = _loadCatalog('pt_BR');
+    const expectedPortuguese = {
+      'In light of the Conservative nature of entrenched politicians,':
+          'À luz da natureza Conservadora de políticos arraigados,',
+      'and the corrupting influence of incumbency on the democratic process,':
+          'e da influência corruptora da permanência no cargo sobre o processo democrático,',
+      'all members of the House of Representatives and Senate shall henceforth':
+          'todos os membros da Câmara dos Deputados e do Senado deverão, daqui em diante,',
+      'be limited to one term in office.  This shall be immediately enforced':
+          'ter apenas um mandato. Essa regra será aplicada imediatamente',
+      'by holding elections to replace all members of Congress upon the':
+          'por meio de eleições para substituir todos os membros do Congresso após a',
+      'ratification of this amendment.': 'ratificação desta emenda.',
+    };
+
+    for (final entry in expectedPortuguese.entries) {
+      expect(portuguese[entry.key], entry.value, reason: entry.key);
+    }
+  });
+
   test('Portuguese month names and abbreviations are localized', () async {
     await LcsI18n.initialize('pt_BR');
 

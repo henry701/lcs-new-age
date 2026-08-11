@@ -241,7 +241,7 @@ Future<void> surrenderToAuthorities(Site loc) async {
       y += 2,
       1,
       "{name} is taken into custody and rehabilitated.",
-      params: {"name": rescued.first.name},
+      params: {"name": localizedCreatureName(rescued.first)},
     );
   } else if (rescued.length > 1) {
     mvaddstr(

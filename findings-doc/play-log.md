@@ -4792,3 +4792,26 @@ enhancement.
 
 PT-326 is fixed. The remaining playtest queue is random PT-048/PT-148 police
 terminal seeds and optional PT-083 responsive-console readability.
+
+## 2026-08-11 — strict-headless rescued-hostage terminal follow-up
+
+- Replayed a fresh Portuguese police siege with a disposable fixture that put
+  one missing, kidnapped `Police Officer` in the warehouse so the surrender
+  flow reached its singular rescued-hostage terminal. The CLI browser was
+  strict-headless (`AGENT_BROWSER_HEADED=0`, Chromium `--headless=new
+  --ozone-platform=headless`) at 480×320; the bridge reported
+  `HeadlessChrome/150.0.0.0`.
+- Before the fix, the terminal rendered `Police Officer é levado para
+  custódia e reabilitado.`. The role name bypassed localized creature-name
+  rendering, and the masculine construction was not valid for an arbitrary
+  rescued victim. PT-327 changed the call site to use the localized helper and
+  replaced the catalog sentence with neutral custody prose.
+- The rebuilt post-fix route rendered `As autoridades colocam Oficial de
+  Polícia sob custódia para reabilitação.`. The final 25×80 buffer had no row
+  wider than 80 columns and `#lcs-playtest-errors` was empty. Durable before /
+  after evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-hostage-20260811/replay.md`.
+- The temporary fixture, debug flags, browser session, and local servers were
+  restored or closed. Singular arrested and rescued-hostage branches are now
+  covered; only future random PT-048/PT-148 terminal seeds and optional PT-083
+  responsive-console exploration remain open.

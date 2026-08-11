@@ -443,6 +443,16 @@ void main() {
       }),
       'As autoridades prendem Sergio Macy, vulgo Oficial de Polícia.',
     );
+    expect(
+      catalog['{name} is taken into custody and rehabilitated.'],
+      'As autoridades colocam {name} sob custódia para reabilitação.',
+    );
+    expect(
+      LcsI18n.processString('{name} is taken into custody and rehabilitated.', {
+        'name': localizedCreatureNameValue('Police Officer', 'Agent'),
+      }),
+      'As autoridades colocam Oficial de Polícia sob custódia para reabilitação.',
+    );
     final medicalReceiptLabels = {
       'Total outstanding debt': 'Total da dívida pendente',
       'Cash paid': 'Valor pago',

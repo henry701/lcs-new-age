@@ -207,7 +207,7 @@
   "{name} escaped from prison!": "{name} escapou da prisão!",
   "{name} gets high off drugs smuggled into the prison.": "{name} fica chapado com drogas contrabandeadas para a prisão.",
   "{name} hotwires the car!": "{name} liga o carro direto!",
-  "{name} is taken into custody and rehabilitated.": "{name} é levado para custódia e reabilitado.",
+  "{name} is taken into custody and rehabilitated.": "As autoridades colocam {name} sob custódia para reabilitação.",
   "{name} just looks {pronoun} guilty.": "{name} parece culpado até para {pronoun}.",
   "{name} learns lots of little skills from other inmates.": "{name} aprende várias habilidades com outros detentos.",
   "{name} lost touch with the Liberal Crime Squad.": "{name} perdeu contato com o Esquadrão do Crime Liberal.",

@@ -14,6 +14,12 @@ Persistent route ideas for the playtester. Mark each route with evidence in
   sentence. Keep the alias interpolation regression beside future siege
   terminal changes.
 
+- PT-327 fixed and verified (2026-08-11): the singular rescued-hostage
+  terminal now localizes generated role names and uses neutral custody prose
+  (`As autoridades colocam Oficial de Polícia sob custódia para
+  reabilitação.`). Keep the hostage interpolation regression beside future
+  siege terminal changes.
+
 - PT-248 fixed and verified (2026-08-09): the Portuguese `Novo Esquadrão`
   header now right-aligns from its localized width instead of clipping at
   column 71. Keep the focused layout regression and narrow replay evidence.
@@ -1202,3 +1208,18 @@ narrow-layout coverage.
   while checking that the generated role remains localized.
 - The fresh variation stayed clean. Continue only with future random terminal
   seeds and the optional PT-083 responsive-console sweep.
+
+## 2026-08-11 — rescued-hostage terminal follow-up
+
+- A strict-headless Portuguese police-siege fixture reached the singular
+  rescued-hostage terminal. Before the fix it rendered the raw English role
+  name and masculine agreement: `Police Officer é levado para custódia e
+  reabilitado.`
+- PT-327 is fixed and verified in a rebuilt 480×320 headless replay. The
+  terminal now renders `As autoridades colocam Oficial de Polícia sob
+  custódia para reabilitação.`, with no rows wider than 80 columns and an empty
+  `#lcs-playtest-errors` channel. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-hostage-20260811/`.
+- Singular arrested and rescued-hostage branches are now covered. The only
+  open playtest ideas are future random PT-048/PT-148 police-terminal seeds
+  and the optional PT-083 responsive-console readability enhancement.

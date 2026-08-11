@@ -173,6 +173,7 @@
 | PT-305 | Medium | Combat translation/coverage | Generated `Security Guard` encounter names fall back to English |
 | PT-306 | Low | Media translation/context | Mid-tier broadcast quality uses an incorrect Brazilian Portuguese register |
 | PT-326 | Medium | Siege translation/context | Singular police arrest aliases expose English role names and `preso(a)` |
+| PT-327 | Medium | Siege translation/context | Singular rescued-hostage terminal exposes English role names and masculine agreement |
 
 ## PT-001: Save-management option is clipped
 
@@ -4822,3 +4823,17 @@ creature-name helper, and the parenthetical gender workaround was awkward
 Brazilian Portuguese. The runtime now localizes the alias as `Oficial de
 Polícia`, while the catalog uses the neutral and natural `As autoridades
 prendem {properName}, vulgo {name}.` form.
+
+## PT-327: Singular rescued-hostage terminal exposed English role names
+
+- Severity: Medium
+- Type: Runtime interpolation / translation context
+- Screen: Portuguese police siege → surrender → rescued-hostage terminal
+- Replay status: **Fixed and verified in strict-headless replay on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-hostage-20260811/replay.md`; regression `test/pt_br_context_translation_test.dart`
+
+The singular rescued-hostage branch rendered `Police Officer é levado para
+custódia e reabilitado.`. It bypassed localized creature-role rendering and
+used a masculine-only construction for an arbitrary victim. The runtime now
+localizes the role and the catalog uses `As autoridades colocam {name} sob
+custódia para reabilitação.`.

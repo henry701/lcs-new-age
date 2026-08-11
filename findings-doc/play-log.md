@@ -4261,3 +4261,36 @@ readability enhancement in the residual queue.
 
 The two findings are fixed. Keep PT-048/PT-148 random alarm/terminal combat
 variants and PT-083 narrow-console readability exploration open.
+
+## Strict-headless live police-siege combat replay — 2026-08-11
+
+- Rebuilt the local Flutter web-server with a temporary police-siege fixture
+  and replayed a fresh Portuguese game using only CLI `agent-browser` with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`,
+  `--disable-dev-shm-usage`, and `--disable-cache`. The viewport was 480×320;
+  no headed browser or screenshots were used.
+- New-game copy preserved the requested capitalization `extrema-direita Arqui
+  Conservadora`, and the dynamic continuation prefix rendered as
+  `Entre - Continuar...`. The police alarm, loudspeaker warning, under-siege
+  base, `F - Lutar/Fugir`, and `G - Desistir` controls were localized and
+  remained enabled where expected.
+- The base surrender branch rendered the Portuguese confiscation and
+  fortification cleanup pages before returning to the roster. The sally-forth
+  branch rendered a bounded briefing and a live `Policial da SWAT` roster with
+  `Armadura da SWAT` and compact armor markers. The long hit sentence wrapped
+  across rows 9–10 instead of clipping at column 80.
+- The combat route advanced through multiple deaths, reached the localized
+  victory screen, and produced a next-day Guardian article. One death
+  reflection was understandable but stylistically awkward:
+  `Policial da SWAT respira fortemente, tossindo sangue... então está quieto.`
+  This is logged as PT-285 for a future catalog-only wording pass.
+- Every captured DOM buffer stayed at or below 80 columns, the browser error
+  channel remained empty, and the UA contained `HeadlessChrome/150.0.0.0`.
+  Evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-live-20260811/`.
+
+PT-259 is confirmed fixed by the existing renderer regression and prior live
+replay. The residual queue is now PT-285 wording, broader PT-048/PT-148
+random alarm/terminal coverage, and the PT-083 narrow-console readability
+enhancement; accepted PT-049 historical changelog English remains out of the
+fix queue.

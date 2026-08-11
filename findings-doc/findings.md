@@ -156,6 +156,7 @@
 | PT-282 | Low | Mod-tools translation | Concatenated Mod Tools explanation falls back to English |
 | PT-283 | Medium | Infiltrated-agent translation | Liberal level title `Revolutionary` remains English in the action header |
 | PT-284 | Low | Help-text style | Hospital activity help line contains an unnecessary double space |
+| PT-285 | Low | Combat translation/style | Death-reflection message uses unnatural Portuguese phrasing |
 
 ## PT-001: Save-management option is clipped
 
@@ -4195,3 +4196,24 @@ The fixed-width help line displayed `no mesmo local.  Isso não`, preserving an
 English double-space typo that is awkward in Portuguese. The canonical
 translation now uses `no mesmo local. Isso não`; the console remains bounded to
 80 columns.
+
+## PT-285: Combat death-reflection message uses unnatural Portuguese phrasing
+
+- Severity: Low
+- Type: Combat translation/style
+- Screen: Portuguese police-siege combat death reflection
+- Replay status: **Open; confirmed in a fresh strict-headless replay on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-siege-live-20260811/route.md`
+
+The live death reflection for the catalog key `{name} breathes heavily,
+coughing up blood...  then is quiet.` rendered as `Policial da SWAT respira
+fortemente, tossindo sangue... então está quieto.`. The sentence is
+understandable, but `respira fortemente` is not idiomatic for a dying person and
+`então está quieto` is a literal, abrupt rendering of “then is quiet”. A more
+natural option would be `respira com dificuldade, tossindo sangue... e então
+fica em silêncio.` while preserving the existing death-message tone.
+
+The same replay confirmed that the message remains bounded to the 80-column
+console, and the surrounding roster and control text are localized. This is a
+wording-only residual for a future catalog pass; no code change was made during
+the playtest.

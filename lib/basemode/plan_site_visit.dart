@@ -1,7 +1,11 @@
+import 'dart:math' as math;
+import 'dart:ui';
+
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_party.dart';
+import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
@@ -53,45 +57,76 @@ Future<void> planSiteVisit() async {
       City? thisCity = (thisLocation is City) ? thisLocation : null;
       String name = thisLocation.getName();
       String letter = letterAPlus(y - 10);
-      addOptionText(
+      final statusParts = <({String text, Color color})>[];
+      void addStatus(String source, Color color) {
+        statusParts.add((text: LcsI18n.tr(source), color: color));
+      }
+
+      if (thisLocation == squadLocation ||
+          thisCity == squadLocation?.city ||
+          thisDistrict == squadLocation?.district) {
+        addStatus(" (Current Location)", white);
+      } else if (thisSite?.controller == SiteController.lcs) {
+        if (thisSite!.heatProtection <= 5) {
+          addStatus(" (LCS Temp Shelter)", lightGreen);
+        } else {
+          if (thisSite.creaturesPresent.isEmpty &&
+              !thisSite.compound.upgraded) {
+            addStatus(" (Potential Safehouse)", lightGreen);
+          } else {
+            addStatus(" (LCS Safehouse)", lightGreen);
+          }
+        }
+      } else if (thisSite?.controller == SiteController.ccs &&
+          (ccsInPublicEye || thisSite?.mapped == true)) {
+        addStatus(" (CCS Safehouse)", red);
+      } else if (thisSite?.isClosed == true) {
+        addStatus(" (Closed Down)", red);
+      } else if (thisSite?.hasHighSecurity == true) {
+        addStatus(" (High Security)", pink);
+      }
+      if (thisLocation.area != squadLocation?.area && !haveCar) {
+        addStatus(" (Need Car)", yellow);
+      }
+      if (thisSite?.siege.underSiege == true) {
+        addStatus(" (Under Siege)", red);
+      }
+
+      final metadataStart = thisSite?.controller == SiteController.lcs
+          ? 54
+          : thisCity != null
+          ? 50
+          : CONSOLE_WIDTH;
+      final statusTextWidth = statusParts.fold<int>(
+        0,
+        (width, status) => width + strLenX(status.text),
+      );
+      final statusWidth = math.min(
+        statusTextWidth,
+        math.max(0, metadataStart - 1),
+      );
+      final optionWidth = math.max(1, metadataStart - statusWidth);
+      addOptionTextFitted(
         y,
         0,
         letter,
         "{letter} - {name}",
+        optionWidth,
         params: {"letter": letter, "name": name},
         enabledWhen:
             thisSite?.isClosed != true &&
             thisSite?.siege.underSiege != true &&
             (thisLocation.area == squadLocation?.area || haveCar),
       );
-      if (thisLocation == squadLocation ||
-          thisCity == squadLocation?.city ||
-          thisDistrict == squadLocation?.district) {
-        addstrc(white, " (Current Location)");
-      } else if (thisSite?.controller == SiteController.lcs) {
-        if (thisSite!.heatProtection <= 5) {
-          addstrc(lightGreen, " (LCS Temp Shelter)");
-        } else {
-          if (thisSite.creaturesPresent.isEmpty &&
-              !thisSite.compound.upgraded) {
-            addstrc(lightGreen, " (Potential Safehouse)");
-          } else {
-            addstrc(lightGreen, " (LCS Safehouse)");
-          }
-        }
-      } else if (thisSite?.controller == SiteController.ccs &&
-          (ccsInPublicEye || thisSite?.mapped == true)) {
-        addstrc(red, " (CCS Safehouse)");
-      } else if (thisSite?.isClosed == true) {
-        addstrc(red, " (Closed Down)");
-      } else if (thisSite?.hasHighSecurity == true) {
-        addstrc(pink, " (High Security)");
-      }
-      if (thisLocation.area != squadLocation?.area && !haveCar) {
-        addstrc(yellow, " (Need Car)");
-      }
-      if (thisSite?.siege.underSiege == true) {
-        addstrc(red, " (Under Siege)");
+      var statusRemaining = statusWidth;
+      for (final status in statusParts) {
+        if (statusRemaining <= 0) break;
+        final fittedStatus = fitConsoleText(
+          status.text,
+          math.min(strLenX(status.text), statusRemaining),
+        );
+        addstrc(status.color, fittedStatus, noTranslate: true);
+        statusRemaining -= strLenX(fittedStatus);
       }
       if (thisSite != null && thisSite.controller == SiteController.lcs) {
         int heat = thisSite.heat;

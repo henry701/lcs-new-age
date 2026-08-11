@@ -65,12 +65,10 @@ void main() {
 
   test('Portuguese street-site names use natural Brazilian word order', () {
     const expected = {
-      '{name} St. Housing Projects':
-          'Conjuntos habitacionais da Rua {name}',
+      '{name} St. Housing Projects': 'Conjuntos habitacionais da Rua {name}',
       '{name} St. Recreational Drugs Center':
           'Centro de Drogas Recreativas da Rua {name}',
-      '{name} St. Marijuana Dispensary':
-          'Dispensário de Maconha da Rua {name}',
+      '{name} St. Marijuana Dispensary': 'Dispensário de Maconha da Rua {name}',
       '{name} St. Drug House': 'Casa de Drogas da Rua {name}',
     };
     for (final entry in expected.entries) {
@@ -99,8 +97,30 @@ void main() {
     );
   });
 
+  test('Portuguese generated internet cafes keep brand fragments natural', () {
+    expect(
+      localizedGeneratedInternetCafeName('Micro', 'Panda'),
+      'Internet Café Panda Micro',
+    );
+    expect(
+      localizedGeneratedInternetCafeName('Electric', 'Troll'),
+      'Internet Café Troll Elétrico',
+    );
+    expect(
+      localizedGeneratedInternetCafeName('Wired', 'Panda'),
+      'Internet Café Panda Conectado',
+    );
+    expect(
+      localizedGeneratedInternetCafeName('Electric', 'Latte'),
+      'Internet Café Latte Elétrico',
+    );
+  });
+
   test('Portuguese generated motel names do not add an English gloss', () {
-    expect(localizedGeneratedSiteName('Abandoned', 'Motel'), 'Motel Abandonado');
+    expect(
+      localizedGeneratedSiteName('Abandoned', 'Motel'),
+      'Motel Abandonado',
+    );
   });
 
   test('Portuguese vegan co-op names preserve the linking preposition', () {
@@ -110,6 +130,17 @@ void main() {
         'noun': LcsI18n.tr('Meadow'),
       }),
       equals('Cooperativa Vegana Prado de Aspargo'),
+    );
+  });
+
+  test('Portuguese vegan co-op names omit translator glosses on tofu', () {
+    expect(LcsI18n.tr('Tofu'), equals('Tofu'));
+    expect(
+      LcsI18n.processString('{vegetable} {noun} Vegan Co-op', {
+        'vegetable': LcsI18n.tr('Tofu'),
+        'noun': LcsI18n.tr('Garden'),
+      }),
+      equals('Cooperativa Vegana Jardim de Tofu'),
     );
   });
 

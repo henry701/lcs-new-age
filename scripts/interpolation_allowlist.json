@@ -112,7 +112,7 @@
     },
     {
       "file": "basemode/plan_site_visit.dart",
-      "line": 141,
+    "line": 176,
       "text": "\\$$ticketPrice",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },

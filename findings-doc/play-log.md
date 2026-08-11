@@ -4378,3 +4378,27 @@ strictly headless.
 
 PT-292 and PT-293 remain open for a later code/test pass. The browser harness
 is configured to stay strict-headless for all subsequent playtests.
+
+## Strict-headless post-fix generated-name/layout replay — 2026-08-11
+
+- Reloaded the local Flutter web-server and replayed a fresh Portuguese route
+  using only CLI `agent-browser` with `AGENT_BROWSER_HEADED=0` and Chromium
+  `--headless=new --ozone-platform=headless --disable-dev-shm-usage
+  --disable-cache`. The bridge reported `HeadlessChrome/150.0.0.0`; no headed
+  browser, screenshot, or GUI focus was used.
+- The new-game/title/base route stayed localized, every captured row remained
+  at or below 80 columns, and `#lcs-playtest-errors` stayed empty. A 120-step
+  location cycle did not happen to select the targeted random Internet Café,
+  vegan-co-op, or long industrial LCS row again; deterministic Flutter screen
+  regressions therefore cover those exact post-fix states.
+- Focused regressions now verify `Cooperativa Vegana Jardim de Tofu`, the
+  bounded `Pressão`/`Sigilo` destination row, natural Internet Café fragments,
+  and proper `LSD`/`MDMA`/`Crips`/`Bloods` composition. The generated-name helper
+  also prevents `Café latte` from becoming a duplicated `Internet Café Café`
+  brand.
+- Durable before/after evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/generated-gloss-layout-20260811/replay.md`.
+
+PT-292 and PT-293 are fixed. PT-294 and PT-295 are fixed with focused
+regressions. The residual playtest queue remains PT-048/PT-148 random
+police-terminal variants and the broader PT-083 narrow-console sweep.

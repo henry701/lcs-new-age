@@ -304,6 +304,26 @@ String localizedGeneratedJuiceBarName(String adjective, String noun) {
   }, noTranslate: true);
 }
 
+String localizedGeneratedInternetCafeName(String adjective, String noun) {
+  final fullName = [adjective, noun, 'Internet Cafe'].join(' ');
+  if (LcsI18n.hasTranslation(fullName)) return LcsI18n.tr(fullName);
+
+  if (LcsI18n.currentLocale != 'pt_BR') {
+    return LcsI18n.processString('{adjective} {noun} Internet Cafe', {
+      'adjective': LcsI18n.tr(adjective),
+      'noun': LcsI18n.tr(noun),
+    });
+  }
+
+  // "Latte" is translated as "Café latte" as a standalone label, but that
+  // would duplicate the café noun in this generated brand name.
+  final translatedNoun = noun == 'Latte' ? 'Latte' : LcsI18n.tr(noun);
+  return LcsI18n.processString(LcsI18n.tr('{adjective} {noun} Internet Cafe'), {
+    'noun': translatedNoun,
+    'adjective': LcsI18n.tr(adjective),
+  }, noTranslate: true);
+}
+
 const _ptBrFeminineNursingHomeNouns = <String>{
   'Journey',
   'Compass',
@@ -714,10 +734,7 @@ void initSiteName(Site loc) {
     case SiteType.internetCafe:
       const adj = ["Electric", "Wired", "Nano", "Micro", "Techno"];
       const noun = ["Panda", "Troll", "Latte", "Unicorn", "Pixie"];
-      loc.name = LcsI18n.processString("{adjective} {noun} Internet Cafe", {
-        "adjective": LcsI18n.tr(adj.random),
-        "noun": LcsI18n.tr(noun.random),
-      });
+      loc.name = localizedGeneratedInternetCafeName(adj.random, noun.random);
       loc.shortName = "Net Cafe";
     case SiteType.latteStand:
       const adj = ["Frothy", "Milky", "Caffeine", "Morning", "Evening"];

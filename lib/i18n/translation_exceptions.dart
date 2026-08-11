@@ -116,6 +116,11 @@ const Set<String> structuralTranslationKeys = {
   'Van Lynden',
   'Van Rechteren',
   'MWC',
+  // Drug acronyms and gang names are proper names in generated news prose.
+  'LSD',
+  'MDMA',
+  'Crips',
+  'Bloods',
   // Proper names and generated name components intentionally remain unchanged.
   'Donald J. Trump',
   'Bay 12 Games, IsaacG, SlatersQuest, TheCheshireCat, Kamal-Sadek,',
@@ -146,9 +151,12 @@ const Set<String> structuralTranslationKeys = {
   'MedStar Washington',
   // "Motel" is the same established loanword in Brazilian Portuguese.
   'Motel',
-  // Generated Internet Cafe brand fragments are valid unchanged loanwords.
+  // Generated name fragments are valid unchanged loanwords.
   'Nano',
+  'Micro',
   'Panda',
+  'Troll',
+  'Tofu',
   // City and district proper names intentionally remain unchanged.
   'Arlington',
   'Arlington, VA',

@@ -165,6 +165,8 @@
 | PT-291 | Low | Generated-site translation/context | Internet-café brand fragments expose automated translator glosses |
 | PT-292 | Low | Generated-site translation/context | Vegan co-op names expose an automated `Tofu (soja)` gloss |
 | PT-293 | Medium | Fixed-console layout | Industrial site status text overwrites long Portuguese site names |
+| PT-294 | Low | Generated-name translation/context | Internet-café fragments use glosses, awkward casing, or duplicated nouns |
+| PT-295 | Low | News translation/context | Drug acronyms and gang names carry explanatory glosses into prose |
 
 ## PT-001: Save-management option is clipped
 
@@ -4324,31 +4326,59 @@ telemetry, and the composed name is protected as `Internet Café Panda Nano`.
 - Severity: Low
 - Type: Generated-site translation / out-of-context gloss
 - Screen: Portuguese base mode → plan a site visit in Distrito Universitário
-- Replay status: **Open; reproduced in a strict-headless replay on 2026-08-11**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/generated-gloss-layout-20260811/replay.md`
+- Replay status: **Fixed and covered by a focused composition regression on 2026-08-11; post-fix strict-headless route stayed clean**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/generated-gloss-layout-20260811/replay.md`; regression `test/location/site_translation_test.dart`
 
-The live district menu rendered `Cooperativa Vegana Jardim de Tofu (soja)`.
-The source uses `Tofu` as one of the generated vegetable/name fragments in
-`{vegetable} {noun} Vegan Co-op`; the parenthetical ` (soja)` is an isolated
-translator explanation, not player-facing site-name content. The same replay
-showed the already-fixed `Nano` fragment without its former `(escala)` gloss.
-Remove the gloss in the Portuguese catalog and register `Tofu` as an intended
-unchanged generated fragment, with a phrase-level regression for the composed
-site name.
+The pre-fix live district menu rendered `Cooperativa Vegana Jardim de Tofu
+(soja)`. The source uses `Tofu` as one of the generated vegetable/name
+fragments in `{vegetable} {noun} Vegan Co-op`; the parenthetical ` (soja)` was
+an isolated translator explanation, not player-facing site-name content. The
+catalog now keeps `Tofu` unchanged, registers it as an intentional generated
+fragment, and the phrase-level regression requires `Cooperativa Vegana Jardim
+de Tofu`.
 
 ## PT-293: Industrial site status text overwrites long Portuguese site names
 
 - Severity: Medium
 - Type: Fixed-console layout / dynamic site status
 - Screen: Portuguese base mode → plan a site visit in Distrito Industrial
-- Replay status: **Open; reproduced in a strict-headless replay on 2026-08-11**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/generated-gloss-layout-20260811/replay.md`
+- Replay status: **Fixed and verified by a deterministic Portuguese screen regression on 2026-08-11; post-fix strict-headless route stayed within 80 columns**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/generated-gloss-layout-20260811/replay.md`; regression `test/basemode/pt_br_plan_site_visit_layout_test.dart`
 
-The industrial-district menu rendered a long LCS row as
+The pre-fix industrial-district menu rendered a long LCS row as
 `Fábrica de Brinquedos Assombrada (Possível EscondePressão: 0   Sigilo: 15`.
-The localized site name and `(Possível Esconderijo)` status extend into the
-fixed `Pressão`/`Sigilo` columns at column 54, so the status and name merge even
-though the buffer remains 80 columns wide. Reserve the right-side status/stat
-columns when fitting destination rows, then add a regression with a long LCS
-site name and live pressure/secrecy values. This is the concrete reproduction
-to carry under the broader PT-083 narrow/fixed-console layout queue.
+The localized site name and `(Possível Esconderijo)` status extended into the
+fixed `Pressão`/`Sigilo` columns at column 54, so the status and name merged
+even though the buffer remained 80 columns wide. Destination rows now reserve
+the fixed metadata columns and fit both the name and status before rendering;
+the deterministic regression asserts no `EscondePressão` merge and an 80-cell
+row. The broader PT-083 narrow/fixed-console queue remains open for other
+screens.
+
+## PT-294: Internet-café fragments use glosses, awkward casing, or duplicated nouns
+
+- Severity: Low
+- Type: Generated-site translation / short-fragment context
+- Screen: Portuguese base mode → generated Internet Café names
+- Replay status: **Fixed and covered by focused generated-name regressions on 2026-08-11**
+- Evidence: regression `test/location/site_translation_test.dart`
+
+The neighboring fragment audit found `Micro (microfone)`, lowercase `troll`,
+`Cabeado` for the brand adjective `Wired`, and `Café latte` producing the
+duplicated name `Internet Café Café latte ...`. The catalog now uses `Micro`,
+`Troll`, and the idiomatic `Conectado`; the context-aware generated-name helper
+keeps the standalone `Latte` label while rendering the generated brand as
+`Internet Café Latte ...`.
+
+## PT-295: News drug and gang names carry explanatory glosses into prose
+
+- Severity: Low
+- Type: News translation / proper-name context
+- Screen: Portuguese newspaper and hostage-news fragments
+- Replay status: **Fixed and covered by focused catalog/composition regressions on 2026-08-11**
+- Evidence: regression `test/pt_br_context_translation_test.dart`
+
+The isolated values `LSD (droga)`, `MDMA (droga)`, `Crips (gangue)`, and
+`Bloods (gangue)` were inserted into sentences and lists where the source
+already supplies the context. The acronyms and gang names now remain proper
+names, and the gang sentence explicitly renders `pela gangue Crips/Bloods`.

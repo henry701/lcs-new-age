@@ -1795,6 +1795,26 @@ void main() {
     );
   });
 
+  test('drug and gang names stay proper in narrative fragments', () {
+    expect(catalog['LSD'], 'LSD');
+    expect(catalog['MDMA'], 'MDMA');
+    expect(catalog['Crips'], 'Crips');
+    expect(catalog['Bloods'], 'Bloods');
+
+    const gangKey =
+        'poisoned the guard with drugs smuggled into the prison by the {gang}';
+    expect(
+      catalog[gangKey],
+      'envenenado o guarda com drogas introduzidas na prisão pela gangue {gang}',
+    );
+    expect(
+      LcsI18n.processString(catalog[gangKey]!, {
+        'gang': catalog['Crips']!,
+      }, noTranslate: true),
+      'envenenado o guarda com drogas introduzidas na prisão pela gangue Crips',
+    );
+  });
+
   test('newspaper fragments and pickup idioms avoid literal mistranslations', () {
     expect(
       catalog['"Fuck me if I\'m wrong but you want to kiss me, right?"'],

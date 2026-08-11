@@ -5140,3 +5140,25 @@ PT-340 is fixed. Continue with the remaining recruitment/date/profile route
 ideas and random police-terminal seeds when future catalog changes justify
 them; PT-083 responsive readability and persisted generated-name localization
 remain product-level edges rather than confirmed regressions.
+
+## 2026-08-11 — strict-headless activity-help resource terminology
+
+- Replayed a fresh Portuguese founder world against a rebuilt local Flutter
+  web-server on port 8818. The CLI `agent-browser` session used only the
+  strict-headless profile (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`, `--disable-dev-shm-usage`, `--disable-cache`).
+- Opened task assignment, selected `1 - Serviço Comunitário`, and opened the
+  activity help overlay. The pre-fix body visibly called the resource `Ânimo`,
+  unlike the in-game `Energia` label used elsewhere. PT-341 changes the full
+  catalog translation to `aumentando gradualmente a Energia até o máximo de
+  10.` and the focused regression covers the exact line.
+- The rebuilt headless screen rendered the corrected `Energia` wording. The
+  bridge reported 25 rows with maximum width 80, no document overflow, an
+  empty `#lcs-playtest-errors` channel, and UA
+  `HeadlessChrome/150.0.0.0`. No `.nn` newline artifacts or English prose were
+  visible during the adjacent activity-help sweep.
+- Durable buffer and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/community-service-energy-20260811/`.
+
+PT-341 is fixed and verified. Keep the activity-help sweep in the strict-
+headless matrix when future resource terminology changes land.

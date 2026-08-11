@@ -185,6 +185,7 @@
 | PT-338 | Low | Politics translation/context | Congressional House summary uses literal `Casa` instead of `Câmara` |
 | PT-339 | Low | Finance translation/style | Monthly net-change label uses an English title-case calque |
 | PT-340 | Low | Dialogue translation/context | Torture discussion fragment uses infinitives after `permitindo que` |
+| PT-341 | Low | Help translation/context | Community-service help calls the in-game `Energia` resource `Ânimo` |
 
 ## PT-001: Save-management option is clipped
 
@@ -5041,3 +5042,19 @@ abusar de seres humanos em nosso nome.`, which is ungrammatical. The catalog
 now uses `o governo torture e abuse de seres humanos em nosso nome.`; the
 focused context test asserts the exact corrected fragment and the rebuilt
 Portuguese catalog passes it.
+
+## PT-341: Community-service help used an inconsistent resource name
+
+- Severity: Low
+- Type: Help translation/context
+- Screen: Portuguese task assignment → `? - Sobre a Atividade Selecionada` for `1 - Serviço Comunitário`
+- Replay status: **Fixed in catalog and focused help regression; fresh strict-headless replay passes**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/community-service-energy-20260811/replay.md`; regression `test/help_system_translation_test.dart`
+
+The community-service help body called the game’s `Juice` resource `Ânimo`:
+`aumentando gradualmente o Ânimo até o máximo de 10.`. The same resource is
+consistently labeled `Energia` in counters, recruitment prompts, and the other
+activity help bodies. The catalog now says `aumentando gradualmente a Energia
+até o máximo de 10.`. The focused regression failed against the old wording,
+then passed after the edit; the fresh headless browser rendered the corrected
+line with no over-wide rows or bridge errors.

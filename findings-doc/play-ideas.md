@@ -1,5 +1,11 @@
 # Portuguese Playtest Scratch Pad
 
+- PT-341 fixed and verified (2026-08-11): the community-service help overlay
+  now calls the in-game `Juice` resource `Energia` instead of the inconsistent
+  `Ânimo`. The focused help regression and a fresh strict-headless route both
+  passed at 25×80 with no bridge errors. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/community-service-energy-20260811/`.
+
 - PT-340 fixed and verified (2026-08-11): the recruitment conversation's
   Torture discussion now composes `permitindo que o governo torture e abuse de
   seres humanos em nosso nome.` instead of the infinitive leak. The live

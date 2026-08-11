@@ -38,6 +38,22 @@ void main() {
   });
 
   test(
+    'Portuguese community-service help uses the in-game energy term',
+    () async {
+      console.injectKey('x');
+
+      await helpOnActivity(ActivityType.communityService);
+
+      final text = _consoleText();
+      expect(
+        text,
+        contains('aumentando gradualmente a Energia até o máximo de 10'),
+      );
+      expect(text, isNot(contains('Ânimo')));
+    },
+  );
+
+  test(
     'Guardian streaming help renders its complete Portuguese body',
     () async {
       console.injectKey('x');

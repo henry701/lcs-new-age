@@ -324,10 +324,14 @@ Future<void> showMessage(
   await getKey();
 }
 
-void printFunds({int y = 0, int offsetFromRight = 1, Color color = lightGray}) {
-  final text = LcsI18n.processString("Money: {amount}", {
+String fundsDisplayText() {
+  return LcsI18n.processString("Money: {amount}", {
     "amount": "\$${ledger.funds}",
   });
+}
+
+void printFunds({int y = 0, int offsetFromRight = 1, Color color = lightGray}) {
+  final text = fundsDisplayText();
   mvaddstrc(
     y,
     console.width - text.length - offsetFromRight,

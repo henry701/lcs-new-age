@@ -4440,7 +4440,7 @@ strict-headless browser harness remains the only playtest path.
 - The bridge identified `HeadlessChrome/150.0.0.0`, every DOM buffer row was at
   most 80 columns, and `#lcs-playtest-errors` stayed empty. The temporary
   debug flag was restored to `false` afterward. Durable evidence is retained
-  at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-variants-20260811/`.
+  at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-variants-20260811/`.
 
 No new issue was confirmed. PT-285 is fixed and verified; keep PT-048/PT-148
 random police-terminal variants and PT-083 narrow-console exploration open.
@@ -4470,3 +4470,57 @@ random police-terminal variants and PT-083 narrow-console exploration open.
 PT-298 through PT-301 are fixed and covered. Continue with PT-048/PT-148
 random police-terminal variants and the PT-083 narrow-console sweep; keep all
 future playtests strict-headless.
+
+## Strict-headless narrow activity-header replay — 2026-08-11
+
+- Replayed the Portuguese founder/activity route after the narrow-console
+  sweep, using only CLI `agent-browser` with `AGENT_BROWSER_HEADED=0`,
+  Chromium `--headless=new`, and `--ozone-platform=headless`; no headed
+  browser or desktop focus was used.
+- At 480×320, a long generated founder name first exposed the header merge
+  `Entrando em Ação: O que Mercedes Kwokaaaaaaaaaaaaaaaaaaa fará hoje?Dinheiro: $0`.
+  The title consumed the blank cell immediately before the right-aligned
+  funds label (PT-302).
+- The Portuguese title is now the compact `O que {name} fará hoje?`, and the
+  activity renderer fits it against the funds label. A fresh live screen
+  rendered `O que Sasha Inkinga fará hoje?                                     Dinheiro: $7`;
+  rows stayed at or below 80 columns and `#lcs-playtest-errors` was empty.
+- Durable evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-sweep-20260811/replay.md`.
+
+PT-302 is fixed and covered. Continue the strict-headless narrow-console
+  sweep through management, travel, media, agenda, and site/combat screens;
+  keep PT-048/PT-148 random police-terminal variants open until exercised.
+
+## Strict-headless profile date follow-up — 2026-08-11
+
+- The 480×320 profile route then paged through the full Portuguese character
+  sheet: profile stats, skills, crimes, and the return path all stayed within
+  80 columns with an empty playtest-error channel.
+- The birth line exposed `Nascimento: 30 de junho, 2004`; the comma was an
+  English date separator and is incorrect in Brazilian Portuguese (PT-303).
+- The catalog now renders `Nascimento: 30 de junho de 2004`, with a focused
+  regression using a fixed 9 November 2004 birth date. The rebuilt server
+  replayed the same profile route at 480×320; the corrected line stayed within
+  80 columns and `#lcs-playtest-errors` remained empty.
+- Durable evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-date-fix-20260811/route.md`.
+
+## Strict-headless route-completion sweep — 2026-08-11
+
+- After the two fixes, the rebuilt Portuguese 480×320 matrix covered the
+  title/new-game path, base management, active-Liberal profiles and skills,
+  crimes, finance, promotion, squad assembly, agenda, media/news, travel and
+  location/site lists, pawn-shop and investment screens, activity/help/skill
+  pickers, daily-message pages, and the police-terminal variants.
+- Every captured DOM buffer stayed at or below 80 columns and
+  `#lcs-playtest-errors` remained empty. No additional translation or layout
+  defect was confirmed after PT-302 and PT-303.
+- Evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-sweep-20260811/`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/route-sweep-after-20260811/`,
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-variants-20260811/replay.md`.
+
+The remaining queue is future random-seed variation of already-covered
+PT-048/PT-148 terminal branches plus PT-083's optional responsive-console
+enhancement; neither produced a new defect in this sweep.

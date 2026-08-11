@@ -4472,3 +4472,34 @@ The dynamic source description `Liberal activity` was translated as
 list. The catalog now uses `atividades Liberais`, yielding the natural
 `Escolha como ordenar a lista de atividades Liberais.` and a consistent
 faction adjective in generated stealth prose.
+
+## PT-302: Activity header joined the translated title to the funds label
+
+- Severity: Medium
+- Type: Fixed-console layout / translation length
+- Screen: Portuguese base mode → Atribuir Tarefas → select a Liberal
+- Replay status: **Fixed and verified in a fresh strict-headless 480×320 replay on 2026-08-11; focused regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-sweep-20260811/replay.md`; `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The long Portuguese translation `Entrando em Ação: O que {name} fará hoje?`
+could consume the blank cell before the right-aligned `Dinheiro: $0` label.
+The live header therefore rendered `...fará hoje?Dinheiro: $0`, merging the
+title and funds metadata. The player-facing title is now the concise,
+natural `O que {name} fará hoje?`, and the renderer fits it to the available
+width before the funds label, preserving a visible separator for long names.
+The focused regression uses a deliberately long generated name; the fresh
+480×320 replay stayed within 80 columns with an empty playtest-error channel.
+
+## PT-303: Full-profile birth date used English punctuation
+
+- Severity: Low
+- Type: Contextual translation / date formatting
+- Screen: Portuguese base mode → Review Liberals → view a Liberal → full profile
+- Replay status: **Fixed and verified in a fresh strict-headless 480×320 replay on 2026-08-11; focused layout regression added**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-date-fix-20260811/route.md`; `test/basemode/pt_br_core_layout_test.dart`
+
+The profile composed the localized prefix as `Nascimento: 30 de junho, ` and
+then appended the year, yielding `Nascimento: 30 de junho, 2004`. Brazilian
+Portuguese uses `de` between the month and year in this date form. The catalog
+now supplies `Nascimento: {day} de {month} de `, and the focused profile test
+requires `Nascimento: 9 de novembro de 2004` while rejecting the comma form.

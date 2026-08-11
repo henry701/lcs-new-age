@@ -643,6 +643,8 @@ void main() {
     expect(_consoleLine(19), isNot(contains('Recruits')));
     expect(_consoleLine(20), isNot(contains(' Max')));
     expect(_consoleText(), isNot(contains('Liberal (')));
+    expect(_consoleLine(3), contains('Nascimento: 9 de novembro de 2004'));
+    expect(_consoleLine(3), isNot(contains('de novembro, 2004')));
     expect(_consoleLine(3), contains('de novembro'));
     expect(_consoleLine(3), isNot(contains('de Novembro')));
   });

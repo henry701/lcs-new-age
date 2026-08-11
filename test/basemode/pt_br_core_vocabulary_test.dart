@@ -646,6 +646,20 @@ void main() {
     }
   });
 
+  test(
+    'Portuguese activity header keeps a separator before the funds label',
+    () async {
+      final founder = _founder()..name = 'Mercedes Kwokaaaaaaaaaaaaaaaaaaa';
+      console.keyEvent(_enterKey);
+
+      await assignTask(founder);
+
+      final header = _consoleText().split('\n').first;
+      expect(header, matches(RegExp(r'fará hoje\? +Dinheiro: \$0')));
+      expect(header, isNot(contains(r'fará hoje?Dinheiro: $0')));
+    },
+  );
+
   test('Portuguese clothing selector localizes XML item names', () async {
     final founder = _founder()..rawSkill[Skill.tailoring] = 30;
     console.injectKey('d');

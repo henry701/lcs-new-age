@@ -128,19 +128,22 @@ Future<void> assignTask(Creature c) async {
       true;
   while (true) {
     erase();
+    final fundsText = fundsDisplayText();
     printFunds();
     if (c.income > 0) {
-      mvaddstr(
+      mvaddstrFitted(
         0,
         0,
         "{name} made {income} yesterday. What now?",
+        console.width - fundsText.length - 2,
         params: {"name": c.name, "income": "\$${c.income}"},
       );
     } else {
-      mvaddstr(
+      mvaddstrFitted(
         0,
         0,
         "Taking Action: What will {name} do today?",
+        console.width - fundsText.length - 2,
         params: {"name": c.name},
       );
     }

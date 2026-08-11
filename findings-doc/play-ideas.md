@@ -1053,3 +1053,34 @@ narrow-layout coverage.
 - The fresh route stayed within 80 columns and had no playtest errors. Continue
   only with PT-048/PT-148 random police-terminal variants and the PT-083
   narrow-console sweep, using the strict-headless CLI harness.
+
+## 2026-08-11 — narrow activity-header follow-up
+
+- PT-302 is fixed: the Portuguese activity header now uses the compact
+  `O que {name} fará hoje?` wording and a width-aware renderer, leaving a
+  separator before the funds label even for long generated names.
+- Keep the 480×320 activity-header assertion in the strict-headless matrix;
+  dynamic names are the useful stress case. Continue through the remaining
+  management, travel, media, agenda, and site/combat screens before closing
+  the PT-083 narrow-console queue.
+
+## 2026-08-11 — profile date follow-up
+
+- PT-303 is catalog-fixed and regression-covered: use `Nascimento: {day} de
+  {month} de {year}` in Brazilian Portuguese, not the English comma before
+  the year.
+- The rebuilt strict-headless replay is clean. Keep the full profile
+  pagination in the narrow-screen matrix because date and identity text share
+  the fixed header row.
+
+## 2026-08-11 — route-completion follow-up
+
+- The rebuilt 480×320 Portuguese matrix now covers management, profiles,
+  skills/crimes, finance, promotion, squad assembly, agenda/media/news,
+  travel/location/site lists, pawn-shop/investment screens, activity/help
+  pickers, daily messages, and police-terminal variants.
+- PT-302 and PT-303 stayed fixed across the replay; all rows were at most 80
+  columns and the playtest-error channel remained empty.
+- Keep only future random-seed coverage for already-covered PT-048/PT-148
+  terminals and the optional PT-083 responsive-console enhancement in the
+  findings backlog.

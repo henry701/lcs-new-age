@@ -58,37 +58,37 @@
   "allEntries": [
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 137,
+      "line": 139,
       "text": "\\$${c.income}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 630,
+      "line": 633,
       "text": "\\$${craftable[index].makePrice + craftable[index].allowedArmor.first.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 672,
+      "line": 675,
       "text": "${craftable[selectedClothingIndex].idName}:ARMOR$selectedArmorIndex",
       "reason": "Stable activity identifier; never rendered as player-facing prose."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 695,
+      "line": 698,
       "text": "\\$${craftable[selected].makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 733,
+      "line": 736,
       "text": "\\$${flag.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 795,
+      "line": 798,
       "text": "\\$${clothing.makePrice + armor.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -178,7 +178,7 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 467,
+      "line": 471,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },

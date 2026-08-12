@@ -31,6 +31,20 @@
   random PT-048/PT-148 variants, PT-083 usability, and the generated-name
   locale-switch product decision.
 
+## Playtest continuation — 2026-08-13 (PT-356)
+
+- The president-sleeper fixture covered activation, monthly assignment,
+  February newspaper, legislative votes, and funding at 480×320 under
+  `HeadlessChrome/150.0.0.0` only.
+- Pre-fix CPC newspaper art placed 950 U+0000 glyphs in the hidden DOM buffer;
+  the canvas itself rendered blank cells. Added `displayableConsoleGlyph` and
+  reused it in both text surfaces, plus `test/console_glyph_test.dart`.
+- Clean post-fix replay reports `nul: 0`, `maxRow: 80`, empty bridge errors, and
+  an unchanged screenshot. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/president-sleeper-20260813/`.
+- Restored `debugPresidentSleeper=false`. Residual queue remains PT-048/PT-148
+  random terminals, PT-083 usability, and generated-name locale switching.
+
 ## Playtest continuation — 2026-08-13 police-siege fight verification
 
 - Strict-headless Portuguese police-siege replay covered the warning, SWAT

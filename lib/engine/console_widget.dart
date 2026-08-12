@@ -250,14 +250,7 @@ class _ConsoleWidgetState extends State<ConsoleWidget> {
             (foreground != char.foreground || background != char.background)) {
           addSpan();
         }
-        String glyph = char.glyph;
-        if (['░', '▒', '▓', '▀', '▌', '▐', '▄', '█'].contains(glyph)) {
-          glyph = ' '; // leave these to the BlockPainter
-        }
-        if (glyph.codeUnitAt(0) < 32) {
-          // ignore control characters
-          glyph = " ";
-        }
+        String glyph = displayableConsoleGlyph(char.glyph);
         text += bg ? "." : glyph;
         foreground = bg ? char.background : char.foreground;
         background = bg ? char.background : Colors.transparent;

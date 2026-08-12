@@ -24,6 +24,17 @@
   PT-083 fixed-width-console readability/usability, and the persisted
   generated-name locale-switch decision.
 
+## 2026-08-13 — PT-356 sleeper/newspaper bridge follow-up
+
+- The president-sleeper route found raw U+0000 CPC-art cells in the hidden
+  playtest buffer. The visual canvas already blanked those cells, so this was a
+  text-capture/display-surface inconsistency rather than a translation leak.
+- Shared glyph sanitization now makes the DOM bridge and Flutter text renderer
+  agree. The rebuilt Portuguese newspaper route reports zero NULs, no rows over
+  80 columns, and no bridge errors; the focused sanitizer regression passes.
+- Keep future playtests checking both the canvas screenshot and DOM text for
+  control glyphs when entering newspaper/art-heavy screens.
+
 - 2026-08-13 strict-headless police-siege fight verification: warning,
   loudspeaker, `F - Lutar/Fugir`, SWAT combat, fleeing-role styling, victory,
   and post-siege return all stayed Portuguese and within 80 columns. The

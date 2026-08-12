@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:lcs_new_age/engine/console.dart';
+import 'package:lcs_new_age/engine/console_char.dart';
 import 'package:web/web.dart' as web;
 
 /// Exposes the fixed-width console to headless browser playtesters.
@@ -60,7 +61,11 @@ class PlaytestBridge {
     _installKeyboardBridge(console);
 
     final lines = console.buffer
-        .map((row) => row.map((character) => character.glyph).join())
+        .map(
+          (row) => row
+              .map((character) => displayableConsoleGlyph(character.glyph))
+              .join(),
+        )
         .toList(growable: false);
     final options = lines
         .expand(

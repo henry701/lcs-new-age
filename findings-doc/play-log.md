@@ -57,6 +57,28 @@
   fixed-width-console usability work, and the persisted generated-name
   locale-switch product decision.
 
+## 2026-08-13 — PT-356 strict-headless sleeper/newspaper buffer verification
+
+- The president-sleeper developer fixture exercised Portuguese sleeper
+  activation, espionage/embezzlement assignment, a February newspaper cycle,
+  legislative vote screens, and the funding report at 480×320. Dynamic labels
+  such as `Presidente`, `Casa Branca`, `Espionagem`, and `Desviando Fundos`
+  stayed localized and bounded.
+- The newspaper's CPC art exposed a bridge-only defect: raw U+0000 control
+  glyphs were published into `#lcs-playtest-buffer` even though the canvas
+  correctly rendered those cells as blank. The pre-fix capture contained 950
+  NULs and made text/OCR automation unreliable.
+- PT-356 centralizes text-surface glyph sanitization in
+  `displayableConsoleGlyph`, reuses it in the Flutter text renderer and the
+  headless bridge, and adds `test/console_glyph_test.dart`. A clean rebuilt
+  replay now reports `nul: 0`, a 25×80 buffer with `maxRow: 80`, and an empty
+  bridge-error channel; the post-fix screenshot remains visually unchanged.
+- The temporary president-sleeper flag was restored to `false`. Evidence is
+  under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/president-sleeper-20260813/`.
+- Residual gameplay queue remains PT-048/PT-148 random terminal variation,
+  PT-083 fixed-width-console usability, and the generated-name locale-switch
+  product decision.
+
 ## Environment
 
 - Local URL: `http://127.0.0.1:7357`

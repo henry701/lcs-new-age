@@ -255,6 +255,24 @@
   prison-control, nursing-home, and insurance states. Replayed the same tile
   after rebuild; the identifier no longer leaks. Debug flag/server restored.
 
+## 2026-08-12 — PT-363 bank-vault catalog audit
+
+- Strict-headless Portuguese bank replay reached `Primeiro Banco Americano`
+  and verified the teller prompt. The live random map did not reliably reach
+  the vault tile, so the adjacent vault source was audited against both
+  canonical catalogs instead of claiming a full vault screenshot.
+- Found thirteen missing vault fragments: the lock description/prompt,
+  lock-result continuations, manager/hostage/sleeper outcomes, no-qualified
+  member fallback, and empty teller-window message. Added English and PT-BR
+  hash-sharded entries. Corrected `The squad will need a security expert, a
+  computer ` from `um computador` to `um especialista em informática`.
+- Added a focused assertion in `test/pt_br_context_translation_test.dart` for
+  catalog presence, exact Portuguese context, and the specialist noun. ARB
+  canonicalization, prefix validation, and the full interpolation/static
+  coverage suite pass. The compact footer's box-drawing interpolation is now
+  represented in the canonical escaped form and explicitly classified.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/additional-route/19-bank-arrival.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/bank-teller-8014e-after.txt`.
+
 ---
 
 ## Run 2026-03-14 14:40 UTC

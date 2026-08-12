@@ -577,7 +577,12 @@ void printSiteMapSmall(int x, int y, int z) {
   if (str != "") {
     final label = _fitSiteSpecialLabel(str, 23);
     if (actionLegendUsesMapFooter) {
-      mvaddstr(22, 55, "└${"".padRight(23, "─")}┘", noTranslate: true);
+      mvaddstr(
+        22,
+        55,
+        "\u2514${"".padRight(23, "\u2500")}\u2518",
+        noTranslate: true,
+      );
       mvaddstrc(22, 56, yellow, label.padRight(23), noTranslate: true);
     } else {
       move(23, 57);

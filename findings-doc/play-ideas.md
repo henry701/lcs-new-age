@@ -1128,12 +1128,14 @@ narrow-layout coverage.
 
 ## 2026-08-10 — bank encounter follow-up
 
-- Add deterministic bank-site fixtures to the headless playtester so the teller
-  tile, robbery prompt, alarm branch, and return-to-base result can be replayed
-  without depending on random map generation.
-- Keep a catalog fallback assertion for short encounter messages: the teller
-  prompt was easy to miss because the surrounding bank map and controls were
-  already translated.
+- The teller tile is now covered by a live strict-headless replay, and the vault
+  route has deterministic catalog coverage for every lock, manager, hostage,
+  alarm, and empty-teller fragment. Keep the focused fragment assertion when
+  adding any future bank fixture.
+- If a deterministic vault fixture is added later, exercise the three-lock
+  success/failure branches and capture the resulting robbery/alarm screens;
+  the current fix was confirmed by source audit plus catalog regression because
+  random map traversal did not reliably reach the vault tile.
 - After the bank branch, return to the residual police car-chase/surrender
   route and the narrow-console option-layout sweep. Keep every browser session
   strictly headless and close named sessions after captures.

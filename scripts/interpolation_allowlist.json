@@ -1204,15 +1204,21 @@
     },
     {
       "file": "sitemode/site_display.dart",
-      "line": 417,
+      "line": 429,
       "text": "\\u250C${",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+      "reason": "Box-drawing frame only; contains no human language."
     },
     {
       "file": "sitemode/site_display.dart",
-      "line": 418,
+      "line": 430,
       "text": "\\u2514${",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
+      "reason": "Box-drawing frame only; contains no human language."
+    },
+    {
+      "file": "sitemode/site_display.dart",
+      "line": 583,
+      "text": "\\u2514${",
+      "reason": "Box-drawing frame only; contains no human language."
     },
     {
       "file": "sitemode/sitemap.dart",

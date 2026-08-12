@@ -201,6 +201,7 @@
 | PT-359 | Low | Interface-options translation/grammar | Encounter-warning help uses masculine `por eles` for feminine `pessoas` |
 | PT-360 | — | Playtest verification | Additional police-terminal surrender/fight variation stayed localized and width-safe |
 | PT-361 | Medium | Site-map console layout | Courthouse special label overwrote the Portuguese `L:Carregar` command |
+| PT-363 | Medium | Bank-vault translation/coverage | Vault continuation fragments fell back to English and called an informática specialist `um computador` |
 
 ## PT-001: Save-management option is clipped
 
@@ -5333,3 +5334,28 @@ to user-facing English source labels, which are translated through `LcsI18n`.
 The regression covers representative Oval Office, prison-control, nursing-home,
 and insurance labels; the rebuilt headless replay confirms the same tile no
 longer exposes the enum identifier.
+
+## PT-363: Bank-vault continuation fragments fell back to English
+
+- Severity: Medium
+- Type: Translation coverage / context
+- Screen: Portuguese First American Bank site map → vault route
+- Replay status: **Fixed in the catalogs and covered by a focused regression on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/additional-route/19-bank-arrival.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/bank-teller-8014e-after.txt`; regression `test/pt_br_context_translation_test.dart`
+
+The fresh strict-headless bank replay reached the Portuguese `Primeiro Banco
+Americano` map and verified the teller prompt. A source/catalog audit of the
+adjacent vault route then found thirteen production fragments absent from both
+hash-sharded catalogs. The missing pieces included the lock description,
+`Abrir o cofre do banco? (Sim ou Não)`, the three lock-result messages, hostage
+and sleeper-manager outcomes, the empty teller-window message, and the
+no-qualified-member fallback. Those literals would have rendered in English
+when the vault branch was reached.
+
+The same audit found an existing Portuguese fragment translating `a computer`
+as `um computador`; in this sentence it names a specialist, so it now reads
+`um especialista em informática`. The new regression asserts that every vault
+fragment exists in both catalogs, has the intended Portuguese value, and does
+not regress to the noun `um computador`. Catalog canonicalization and the
+prefix validator pass. The live route remained strictly headless
+(`HeadlessChrome/150.0.0.0`); no headed window was opened or focused.

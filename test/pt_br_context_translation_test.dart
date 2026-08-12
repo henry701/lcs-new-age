@@ -436,6 +436,46 @@ void main() {
     expect(catalog['Health Insurance HQ'], 'Sede do Seguro Saúde');
   });
 
+  test('bank vault continuation fragments stay translated and contextual', () {
+    const expected = {
+      'The vault door has three layers: A combo lock, ':
+          'A porta do cofre tem três camadas: Uma fechadura de combinação, ',
+      'an electronic lock, and a biometric lock.':
+          'uma fechadura eletrônica e uma fechadura biométrica.',
+      'The squad will need a security expert, a computer ':
+          'A equipe precisará de um especialista em segurança, um especialista em informática ',
+      'expert, and one of the bank managers.': 'e um dos gerentes do banco.',
+      'Open the bank vault? (Yes or No)':
+          'Abrir o cofre do banco? (Sim ou Não)',
+      'but you\'ll still have to crack the other locks.':
+          'mas você ainda terá de abrir as outras fechaduras.',
+      'be cracked by a security expert.':
+          'ser aberta por um especialista em segurança.',
+      'on the other side of this door...': 'do outro lado desta porta...',
+      'be bypassed by a computer expert.':
+          'ser contornada por um especialista em informática.',
+      'The money was so close the squad could taste it!':
+          'O dinheiro estava tão perto que o esquadrão quase podia sentir seu gosto!',
+      'to the bank\'s managers.': 'aos gerentes do banco.',
+      'The hostage is forced to open the vault.':
+          'O refém é forçado a abrir o cofre.',
+      'and will join the active LCS to avoid arrest.':
+          'e se juntará ao LCS ativo para evitar a prisão.',
+      'The squad has nobody that can do the job.':
+          'O esquadrão não tem ninguém capaz de fazer o trabalho.',
+      'The teller window is empty.': 'A janela do caixa está vazia.',
+    };
+
+    for (final entry in expected.entries) {
+      expect(englishCatalog[entry.key], entry.key, reason: entry.key);
+      expect(catalog[entry.key], entry.value, reason: entry.key);
+    }
+    expect(
+      catalog['The squad will need a security expert, a computer '],
+      isNot(contains('um computador ')),
+    );
+  });
+
   test('playtest save, score, and crash copy stays compact and consistent', () {
     expect(catalog['Error - Crash Expected'], 'Erro - Falha esperada');
     expect(

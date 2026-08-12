@@ -5566,3 +5566,25 @@ switch.
   pass; the rebuilt headless replay keeps the same status bounded and user-facing.
 - Temporary `debugShowMapEditor` and the temporary server were restored/stopped.
   Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-editor-followup-20260812/`.
+
+## 2026-08-12 — strict-headless bank-vault catalog audit (PT-363)
+
+- Replayed a fresh Portuguese First American Bank route with the repository
+  wrapper only: `AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`, and `--disable-cache`; UA was
+  `HeadlessChrome/150.0.0.0` and no headed browser was opened or focused.
+- The live map traversal reached the Portuguese bank destination and teller
+  prompt (`Há um caixa do banco disponível.`). A source/catalog audit of the
+  adjacent vault branch found thirteen literals missing from both catalogs,
+  including the yes/no prompt, lock continuations, manager/hostage outcomes,
+  and empty-teller fallback. The existing computer-specialist fragment also
+  incorrectly said `um computador` in Portuguese.
+- Added the missing English/PT-BR shard entries and corrected the specialist
+  continuation to `um especialista em informática`. The focused context test
+  asserts all vault fragments and rejects the old noun reading. Canonical ARB,
+  key-prefix, and full interpolation/static coverage validation all pass; the
+  box-drawing footer interpolation is explicitly classified in the allowlist.
+- A random live traversal did not reliably land on the vault tile, so this log
+  intentionally does not claim a full vault UI screenshot. The bank route and
+  teller captures are under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/additional-route/19-bank-arrival.txt`
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/bank-teller-8014e-after.txt`.

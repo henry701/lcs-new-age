@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
@@ -74,5 +75,49 @@ void main() {
     expect(_line(23).length, lessThanOrEqualTo(console.width));
 
     tile.special = TileSpecial.none;
+  });
+
+  test('site special labels avoid the Portuguese command legend', () {
+    mode = GameMode.site;
+    final squad = Squad.temporary();
+    gameState.lcs.squads.add(squad);
+    activeSquad = squad;
+    locx = 0;
+    locy = 0;
+    locz = 0;
+    levelMap[locx][locy][locz]
+      ..known = true
+      ..special = TileSpecial.displayCase;
+
+    move(23, 1);
+    for (final (key, label) in [
+      ('W', 'W,A,D,X - Move, '),
+      ('G', 'G - Get, '),
+      ('M', 'M - Map, '),
+      ('E', 'E - Equip, '),
+      ('S', 'S - Stall, '),
+      ('L', 'L - Load, '),
+      ('O', 'O - Order, '),
+      ('U', 'U - Use, '),
+    ]) {
+      addInlineOptionTextWrapped(
+        key,
+        label,
+        leftMargin: 1,
+        rightMargin: 1,
+        compactLayout: true,
+      );
+    }
+    addstr('?', noTranslate: true);
+
+    printSiteMapSmall(locx, locy, locz);
+
+    expect(_line(23), contains('L:Carregar'));
+    expect(_line(23), isNot(contains('CarregaVitrine')));
+    expect(_line(22), contains('Vitrine'));
+    expect(_line(23).length, lessThanOrEqualTo(console.width));
+    expect(_line(24).length, lessThanOrEqualTo(console.width));
+
+    levelMap[locx][locy][locz].special = TileSpecial.none;
   });
 }

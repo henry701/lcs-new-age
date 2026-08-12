@@ -5512,3 +5512,19 @@ switch.
   overflow and an empty `#lcs-playtest-errors` channel. The lowercase
   `policial da SWAT` marker is intentional flee-state styling. No new defect
   was confirmed. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-next-20260812/`.
+
+## 2026-08-12 — strict-headless courthouse map-footer replay (PT-361)
+
+- The courthouse route exposed a real fixed-console defect: a localized
+  `Vitrine` special label overwrote the row-23 Portuguese action legend and
+  produced `L:CarregaVitrineenar` instead of `L:Carregar`.
+- `printSiteMapSmall` now reserves the map's bottom border for special labels
+  whenever the action legend occupies the old footer range. The focused map
+  regression passes and rejects the merged command form.
+- The focused regression captured `Vitrine` on the dedicated map footer and
+  an intact `L:Carregar` command row. The accompanying live headless route
+  measured 25 rows, max width 80, no document overflow, and no bridge errors.
+  Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-map-command-overlap-20260812/`.
+- The temporary `debugPartyRescue` fixture was restored to `false`; no headed
+  browser was opened or focused.

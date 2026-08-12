@@ -1493,3 +1493,11 @@ the residual queue.
 - Residual work remains random PT-048/PT-148 terminal variation beyond the
   exercised outcomes, optional PT-083 narrow-console readability, and the
   persisted generated-name locale-switch product decision.
+
+## 2026-08-12 — compact-map footer protection
+
+- Keep the compact map's special-label footer and the action legend as separate
+  fixed-width regions. The courthouse `Vitrine` replay showed that localized
+  labels can be longer than their English source and overwrite command text.
+- PT-361 is fixed and covered by a regression; future map specials should use
+  the same dedicated-footer path rather than writing into row 23.

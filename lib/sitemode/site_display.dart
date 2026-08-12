@@ -412,6 +412,18 @@ void printGroundLootIndicator() {
 }
 
 void printSiteMapSmall(int x, int y, int z) {
+  // The compact map's label normally sits on row 23 at x=57. Clear that
+  // footer range before painting it so a previous label cannot survive a
+  // shorter one. If the action legend already occupies that range, use the
+  // map's bottom border as a dedicated label footer instead of overwriting
+  // the controls.
+  final bool actionLegendUsesMapFooter = console.buffer[23]
+      .skip(57)
+      .any((character) => character.glyph != ' ');
+  if (!actionLegendUsesMapFooter) {
+    eraseArea(startY: 23, endY: 24, startX: 57, endX: console.width);
+  }
+
   // Build the frame
   // top, bottom
   mvaddstrc(11, 55, lightGray, "\u250C${"".padRight(23, "\u2500")}\u2510");
@@ -562,9 +574,15 @@ void printSiteMapSmall(int x, int y, int z) {
     default:
       str = "";
   }
-  move(23, 57);
   if (str != "") {
-    addstrc(yellow, _fitSiteSpecialLabel(str, 23), noTranslate: true);
+    final label = _fitSiteSpecialLabel(str, 23);
+    if (actionLegendUsesMapFooter) {
+      mvaddstr(22, 55, "└${"".padRight(23, "─")}┘", noTranslate: true);
+      mvaddstrc(22, 56, yellow, label.padRight(23), noTranslate: true);
+    } else {
+      move(23, 57);
+      addstrc(yellow, label, noTranslate: true);
+    }
   }
   if (levelMap[locx][locy][locz].burning) {
     if (str != "") addstr(" ");

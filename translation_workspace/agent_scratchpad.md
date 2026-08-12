@@ -232,6 +232,19 @@
 - Target parts: part01, part05, part07, etc.
 - Continue until untranslatedAgainstSource == 0, missingInTarget == 0, emptyInTarget == 0.
 
+## 2026-08-12 — PT-361 compact map footer replay
+
+- Strict-headless courthouse map playtest found `Vitrine` overwriting the
+  Portuguese `L:Carregar` action, yielding `L:CarregaVitrineenar`.
+- Fixed `printSiteMapSmall` to use the compact map's bottom border as a
+  dedicated special-label footer whenever row 23 contains the command legend.
+- Added a regression in `test/sitemode/pt_br_map_overlay_test.dart` asserting
+  `Vitrine` remains separate from `L:Carregar` and that both rows fit 80 cols.
+- Post-fix bridge capture: 25 rows, max width 80, no overflow, empty errors,
+  UA `HeadlessChrome/150.0.0.0`. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-map-command-overlap-20260812/`.
+- Temporary `debugPartyRescue` was restored to `false` after replay.
+
 ---
 
 ## Run 2026-03-14 14:40 UTC

@@ -200,6 +200,7 @@
 | PT-358 | — | Playtest verification | Medical-debt raid and receipt replay clean; no new defect confirmed |
 | PT-359 | Low | Interface-options translation/grammar | Encounter-warning help uses masculine `por eles` for feminine `pessoas` |
 | PT-360 | — | Playtest verification | Additional police-terminal surrender/fight variation stayed localized and width-safe |
+| PT-361 | Medium | Site-map console layout | Courthouse special label overwrote the Portuguese `L:Carregar` command |
 
 ## PT-001: Save-management option is clipped
 
@@ -5294,3 +5295,22 @@ localized. Captures stayed at 25 rows and a maximum width of 80, with no
 document overflow or bridge errors. The lowercase `policial da SWAT` marker is
 intentional flee-state styling; no translation, prefix, punctuation, or layout
 defect was confirmed.
+
+## PT-361: Compact map special label overwrote the Portuguese command legend
+
+- Severity: Medium
+- Type: Site-map console layout
+- Screen: Portuguese courthouse site map with a localized special label
+- Replay status: **Fixed and verified by focused regression plus strict-headless replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-map-command-overlap-20260812/`; regression `test/sitemode/pt_br_map_overlay_test.dart`
+
+The compact map normally painted its special label at the same row and column
+range used by the site action legend. On a display case tile, `Vitrine` was
+painted over `L:Carregar`, producing `L:CarregaVitrineenar` and making the load
+command unreadable. `printSiteMapSmall` now detects an occupied command footer
+and uses the map's bottom border as a dedicated label footer, while retaining
+the existing clearing behavior for the non-overlapping layout. The regression
+asserts that `Vitrine` is on row 22, `L:Carregar` remains intact on row 23, and
+the old merged form cannot occur. The accompanying rebuilt headless route kept
+the command row at 25 rows and 80 columns with no document overflow or bridge
+errors.

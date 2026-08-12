@@ -272,6 +272,7 @@ Future<void> dealership(Site loc) async {
           LcsI18n.tr("Vehicle"),
           true,
           LcsI18n.tr("We don't need a Conservative car"),
+          optionPrompt: "Press a Letter to select a vehicle",
         );
         if (carchoice != -1 && vehicleprice[carchoice] > ledger.funds) {
           mvaddstrc(1, 1, darkRed, "You don't have enough money!");
@@ -293,6 +294,7 @@ Future<void> dealership(Site loc) async {
         LcsI18n.tr("Color"),
         true,
         LcsI18n.tr("These colors are Conservative"),
+        optionPrompt: "Press a Letter to select a color",
       );
 
       if (colorchoice == -1) continue;

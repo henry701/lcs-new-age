@@ -1,5 +1,15 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-13 — PT-355 dealership prompt follow-up
+
+- Fixed and verified the used-car dealer's Portuguese vehicle picker article:
+  `Pressione uma letra para selecionar um veículo` now uses an explicit
+  contextual key instead of the generic English `a/an` template. The color
+  picker uses its feminine counterpart, `... uma cor`.
+- Regression coverage is in `test/daily/dealership_layout_test.dart` and
+  `test/pt_br_context_translation_test.dart`; the clean strict-headless replay
+  reached the vehicle picker at 480×320 with no overflow or bridge errors.
+
 - 2026-08-13 strict-headless police-siege fight verification: warning,
   loudspeaker, `F - Lutar/Fugir`, SWAT combat, fleeing-role styling, victory,
   and post-siege return all stayed Portuguese and within 80 columns. The

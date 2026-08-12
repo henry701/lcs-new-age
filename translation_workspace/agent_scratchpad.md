@@ -1,5 +1,19 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-13 (PT-355)
+
+- Strict-headless commerce replay found the used-car dealer prompt
+  `Pressione uma letra para selecionar Veículo`. The generic English article
+  template cannot carry Portuguese noun gender or sentence case. Added
+  contextual vehicle/color prompt keys and a dealership behavior regression.
+- Clean restarted bundle verified `Pressione uma letra para selecionar um
+  veículo` at the 80-column console; the color assertion verifies `... uma
+  cor`. Browser UA remained `HeadlessChrome/150.0.0.0`, and the DOM bridge
+  error channel was empty.
+- Debug flags were restored to all-false before shutdown. Residual queue:
+  random PT-048/PT-148 police-terminal variants, PT-083 narrow-console
+  readability, and the persisted generated-name locale-switch decision.
+
 ## Playtest continuation — 2026-08-13 police-siege fight verification
 
 - Strict-headless Portuguese police-siege replay covered the warning, SWAT

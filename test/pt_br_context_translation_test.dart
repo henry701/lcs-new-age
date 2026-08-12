@@ -2400,10 +2400,12 @@ void main() {
       'Picape — \$5000',
     );
     expect(
-      LcsI18n.processString('Press a Letter to select a {optiontypename}', {
-        'optiontypename': LcsI18n.tr('Vehicle'),
-      }),
-      'Pressione uma letra para selecionar Veículo',
+      LcsI18n.tr('Press a Letter to select a vehicle'),
+      'Pressione uma letra para selecionar um veículo',
+    );
+    expect(
+      LcsI18n.tr('Press a Letter to select a color'),
+      'Pressione uma letra para selecionar uma cor',
     );
   });
 

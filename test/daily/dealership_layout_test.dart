@@ -36,6 +36,7 @@ void main() {
   });
 
   tearDown(() {
+    console.flush = () {};
     LcsI18n.reset();
     erase();
   });
@@ -61,4 +62,41 @@ void main() {
     expect(right.trimLeft(), startsWith('# -'));
     expect(right, isNot(contains('esquadrão#')));
   });
+
+  test(
+    'Portuguese car-dealer choice prompts use contextual articles',
+    () async {
+      final liberal = Creature()..name = 'Joana';
+      pool.add(liberal);
+      final customers = Squad()..members.add(liberal);
+      squads.add(customers);
+      activeSquad = customers;
+      ledger.forceSetFunds(100000);
+      activeSquadMemberIndex = -1;
+      final dealershipSite = sites.firstWhere(
+        (site) => site.type == SiteType.carDealership,
+      );
+      final prompts = <String>[];
+      console.flush = () {
+        final prompt = console.buffer[22]
+            .map((character) => character.glyph)
+            .join()
+            .trimRight();
+        if (prompt.isNotEmpty) prompts.add(prompt);
+      };
+
+      console
+        ..injectKey('g')
+        ..injectKey('a')
+        ..injectKey('a')
+        ..injectKey('Enter');
+      await dealership(dealershipSite);
+
+      expect(
+        prompts,
+        contains('Pressione uma letra para selecionar um veículo'),
+      );
+      expect(prompts, contains('Pressione uma letra para selecionar uma cor'));
+    },
+  );
 }

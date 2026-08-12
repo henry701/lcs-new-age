@@ -1,5 +1,24 @@
 # Portuguese Play Log
 
+## 2026-08-13 — PT-355 strict-headless commerce/car-choice verification
+
+- A fresh Portuguese commerce replay used only the repository headless wrapper
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`) and
+  reported `HeadlessChrome/150.0.0.0`; no headed browser was opened or focused.
+- At a compact 480×320 viewport, the department store, pawn shop, and used-car
+  dealer stayed within the fixed 80-column console. The vehicle picker exposed
+  the context defect `Pressione uma letra para selecionar Veículo`: the generic
+  English article template was being combined with a Portuguese title-case
+  noun.
+- PT-355 adds contextual vehicle/color prompt keys and routes the dealership
+  through them. The clean restarted bundle now renders
+  `Pressione uma letra para selecionar um veículo`; the dealership regression
+  also verifies `Pressione uma letra para selecionar uma cor`. The bridge-error
+  channel stayed empty.
+- The remaining playtest queue is PT-048/PT-148 random police-terminal
+  variants, PT-083 narrow-console readability, and the persisted generated-name
+  locale-switch decision.
+
 ## 2026-08-13 — strict-headless police-siege fight/victory verification
 
 - Rebuilt the deterministic Portuguese police-siege fixture with the repository

@@ -55,8 +55,9 @@ Future<int> choiceprompt(
   List<String> option,
   String optiontypename,
   bool allowexitwochoice,
-  String exitString,
-) async {
+  String exitString, {
+  String? optionPrompt,
+}) async {
   int page = 0;
 
   while (true) {
@@ -82,26 +83,30 @@ Future<int> choiceprompt(
 
     setColor(lightGray);
     move(22, 0);
-    switch (optiontypename[0]) {
-      case 'a':
-      case 'e':
-      case 'i':
-      case 'o':
-      case 'u':
-      case 'A':
-      case 'E':
-      case 'I':
-      case 'O':
-      case 'U':
-        addstr(
-          "Press a Letter to select an {optiontypename}",
-          params: {"optiontypename": optiontypename},
-        );
-      default:
-        addstr(
-          "Press a Letter to select a {optiontypename}",
-          params: {"optiontypename": optiontypename},
-        );
+    if (optionPrompt != null) {
+      addstr(optionPrompt);
+    } else {
+      switch (optiontypename[0]) {
+        case 'a':
+        case 'e':
+        case 'i':
+        case 'o':
+        case 'u':
+        case 'A':
+        case 'E':
+        case 'I':
+        case 'O':
+        case 'U':
+          addstr(
+            "Press a Letter to select an {optiontypename}",
+            params: {"optiontypename": optiontypename},
+          );
+        default:
+          addstr(
+            "Press a Letter to select a {optiontypename}",
+            params: {"optiontypename": optiontypename},
+          );
+      }
     }
     move(23, 0);
     addstr(pageStr, noTranslate: true);

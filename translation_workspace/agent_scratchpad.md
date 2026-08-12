@@ -7,8 +7,8 @@
   journalist template now uses a neutral publication construction and all five
   outlet types have catalog coverage; WOKE HIRE now says `uma pessoa negra que
   é homem/mulher`. Focused regressions cover both paths. Evidence is under
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-variants-20260813/`
-  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/journalist-postfix-20260813/`.
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-variants-20260813/`;
+  the focused regressions are the canonical post-fix verification.
 
 ## Playtest continuation — 2026-08-13
 

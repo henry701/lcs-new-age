@@ -13,7 +13,8 @@
   now agrees with dynamic outlet types, and WOKE HIRE no longer emits gender
   labels in parentheses after `pessoa negra`. Keep the dynamic-template tests
   beside future newspaper catalog edits. Evidence is under
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/journalist-postfix-20260813/`.
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-variants-20260813/`;
+  the focused regressions are the canonical post-fix verification.
 
 - PT-349 fixed and verified (2026-08-13): the Portuguese mod-tools map-editor
   route now localizes the Flutter toolbar, terrain/special palette, tooltips,

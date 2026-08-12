@@ -52,7 +52,7 @@
 - The fresh route used only `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agent-browser-headless.sh`; the UA was `HeadlessChrome/150.0.0.0`, with no headed browser opened or focused. The route selected Portuguese, created a founder, entered a generated industrial site, and advanced through a police siege and newspaper cycle using the DOM buffer.
 - PT-352: the elite-journalist siege event composed `do revista de notícias` because the fixed Portuguese article did not agree with the runtime outlet type. The catalog now uses the neutral `da publicação {publication} ({newsType})` construction, adds the previously missing `website`/`newspaper` dynamic vocabulary, and tests all five runtime outlet types.
 - PT-353: the WOKE HIRE article composed `uma pessoa negra (homem/mulher)`, leaking the English-era parenthetical structure into Portuguese. The catalog now renders `uma pessoa negra que é homem/mulher`; the generated-story regression rejects both English and Portuguese parenthetical leaks.
-- Focused siege and newspaper regressions pass. The pre-fix and route captures are under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-variants-20260813/` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/journalist-postfix-20260813/`.
+- Focused siege and newspaper regressions pass. The canonical pre-fix route capture is under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-variants-20260813/`; the post-fix replay was verified through the same DOM bridge and the focused regressions.
 
 ## Explored paths
 

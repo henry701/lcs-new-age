@@ -628,7 +628,12 @@ void main() {
     expect(_consoleCells(9, 29, 30), equals(' '));
     expect(
       _consoleCells(6, 30, 45).trim(),
-      equals(fitConsoleText('${Skill.streetSmarts.localizedName}:', 15)),
+      equals(
+        fitConsoleText(
+          '${LcsI18n.tr("Street Smarts (compact profile label)")}:',
+          15,
+        ),
+      ),
     );
     expect(_consoleCells(6, 45, 46), equals(' '));
     expect(_consoleCells(6, 46, 52).trim(), isNotEmpty);

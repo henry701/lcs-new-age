@@ -5154,3 +5154,20 @@ The origin option `A - Stealing from Corporations...` was translated as
 `A - roubando de Corporações...`. In this context the definite plural noun
 requires the contraction `das Corporações`; the corrected translation also
 preserves the original capitalization of `Corporações`.
+
+## PT-348: Compact Portuguese Liberal profile ellipsized useful labels
+
+- Severity: Low
+- Type: Profile/layout
+- Screen: Portuguese Review → Assemble Squad → `V - Ver um Liberal`
+- Replay status: **Fixed with context-specific compact catalog labels and verified in strict-headless replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/surface-sweep-20260812-current.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/compact-profile-fix-20260812/profile-after.txt`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The fixed 80-column profile cells previously rendered `Perna esq…`,
+`Braço dir…`, `Esperteza de R…`, and `Carro: Veículo roubado: Espo…`. The
+profile now uses cataloged compact labels (`Perna esq`, `Braço dir`,
+`Esp. de Rua`, and `Carro: Roubado: Esportivo`) only in those narrow cells;
+the full skill/profile pages retain their complete Portuguese wording. The
+post-fix browser capture has 25 rows, a maximum width of 80, no stale fragments,
+and an empty `#lcs-playtest-errors` channel. The adjacent crime and full-skills
+pages were also replayed and retained complete labels.

@@ -335,7 +335,9 @@ void printTopSkills(
     } else {
       setColor(lightGray);
     }
-    final skillName = knowledge > i ? s.localizedName : "???????";
+    final skillName = knowledge > i
+        ? (maxWidth == null ? s.localizedName : _compactProfileSkillName(s))
+        : "???????";
     String value;
     if (knowledge > i + 2) {
       if (levelXP < 100) {
@@ -394,7 +396,8 @@ void printWounds(Creature cr, {int y = 2, int x = 49, int? maxWidth}) {
         x,
         "{name}:",
         nameWidth - 1,
-        params: {"name": LcsI18n.tr(p.name)},
+        params: {"name": _compactProfileBodyPartName(p.name)},
+        noTranslate: true,
       );
     }
     move(y + i, statusX);
@@ -829,7 +832,7 @@ void printFullCreatureStats(
         skillX,
         "{skill}:",
         skillWidth,
-        params: {"skill": skill.localizedName},
+        params: {"skill": _compactProfileSkillName(skill)},
       );
       move(6 + skillsShown, currentSkillX);
       addstr("{:2d}.".format(cr.skill(skill)));
@@ -882,7 +885,7 @@ void printFullCreatureStats(
   }
   String carName;
   if (v != null && showCarPrefs != ShowCarPrefs.onFoot) {
-    carName = v.fullName();
+    carName = _compactProfileVehicleName(v);
     bool d;
     if (showCarPrefs == ShowCarPrefs.showPreferences) {
       d = cr.preferredDriver;
@@ -978,6 +981,33 @@ void printFullCreatureStats(
   }
 
   setColor(lightGray);
+}
+
+String _compactProfileBodyPartName(String bodyPartName) {
+  final compactKey = switch (bodyPartName) {
+    "Left Leg" => "Left Leg (compact profile label)",
+    "Right Leg" => "Right Leg (compact profile label)",
+    "Left Arm" => "Left Arm (compact profile label)",
+    "Right Arm" => "Right Arm (compact profile label)",
+    _ => null,
+  };
+  return compactKey == null ? LcsI18n.tr(bodyPartName) : LcsI18n.tr(compactKey);
+}
+
+String _compactProfileSkillName(Skill skill) {
+  if (skill == Skill.streetSmarts) {
+    return LcsI18n.tr("Street Smarts (compact profile label)");
+  }
+  return skill.localizedName;
+}
+
+String _compactProfileVehicleName(Vehicle vehicle) {
+  if (LcsI18n.currentLocale == 'pt_BR' && vehicle.heat > 0) {
+    return LcsI18n.processString("Stolen {vehicle} (compact profile label)", {
+      "vehicle": LcsI18n.tr(vehicle.type.shortName),
+    });
+  }
+  return vehicle.fullName();
 }
 
 void printFullCreatureSpecialInjuries(Creature cr, {required int page}) {

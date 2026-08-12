@@ -5221,9 +5221,24 @@ headless matrix when future resource terminology changes land.
   errors, and no document overflow. The canonical buffer is retained at
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/surface-sweep-20260812-current.txt`.
 
-PT-348 is now the only newly confirmed profile residual. The full-profile PT-189
-fix remains intact; future work should address compact-profile abbreviations or
-an alternate detail view without widening the fixed 80-column roster.
+PT-348 was the only newly confirmed profile residual in that pass. The
+full-profile PT-189 fix remains intact; the compact-label fix is recorded below.
+
+## 2026-08-12 — strict-headless compact-profile fix verification
+
+- Replayed the Portuguese founder → Review → Assemble Squad → Liberal profile
+  route using only the repository's strict-headless `agent-browser` wrapper
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`).
+- PT-348 now renders `Perna esq:`, `Braço dir:`, `Esp. de Rua:`, and
+  `Carro: Roubado: Esportivo` without ellipses. The full skills page still
+  renders `Esperteza de Rua`, confirming the compact key is context-specific.
+- The DOM bridge reported `HeadlessChrome/150.0.0.0`, 25 rows, maximum width
+  80, no document overflow, and an empty `#lcs-playtest-errors` channel. Durable
+  post-fix capture and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/compact-profile-fix-20260812/`.
+
+PT-348 is fixed and verified. Continue with the remaining recruitment/date,
+random police-terminal, and optional PT-083 responsive-console routes.
 
 ## 2026-08-12 — strict-headless mass-shooting and founder-context follow-up
 

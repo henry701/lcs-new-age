@@ -284,14 +284,11 @@ Persistent route ideas for the playtester. Mark each route with evidence in
 - PT-189 fixed and verified (2026-08-09): the full profile now uses two wider
   skill columns and dedicated crime-label cells; keep the captured page buffers
   and layout regressions when changing profile widths.
-- PT-348 newly confirmed (2026-08-12): the compact Liberal profile reached from
-  Review → Assemble Squad still uses narrow fixed cells. A fresh strict-headless
-  Portuguese route rendered `Perna esq…`, `Perna dir…`, `Braço esq…`,
-  `Braço dir…`, `Esperteza de R…`, and `Carro: Veículo roubado: Espo…` while
-  keeping the numeric/status columns separate. Treat this as a low-severity
-  readability follow-up distinct from PT-189's fixed full-profile pages; prefer
-  context-safe abbreviations or a compact detail page rather than widening the
-  80-column roster.
+- PT-348 fixed and verified (2026-08-12): the compact Liberal profile now uses
+  cataloged short labels (`Perna esq`, `Braço dir`, `Esp. de Rua`, and
+  `Carro: Roubado: Esportivo`) in its narrow cells while full profile pages
+  retain complete wording. Keep the compact-label regression and the strict-
+  headless profile capture when changing the fixed 80-column layout.
 - Recruitment route: the first profession selector, candidate list, profile,
   political conversation, and response are covered by the latest headless pass;
   continue with a successful recruitment meeting and a conservative target.

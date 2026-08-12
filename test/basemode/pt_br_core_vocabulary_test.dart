@@ -372,6 +372,30 @@ void main() {
   });
 
   test(
+    'Portuguese compact full profile uses readable short labels in fixed cells',
+    () {
+      final founder = _founder()..rawSkill[Skill.streetSmarts] = 10;
+      final vehicle = Vehicle('SPORTSCAR')
+        ..color = 'Beige'
+        ..heat = 1;
+      vehiclePool.add(vehicle);
+      founder.preferredCarId = vehicle.id;
+
+      printFullCreatureStats(founder);
+
+      final rendered = _consoleText();
+      expect(rendered, contains('Esp. de Rua:'));
+      expect(rendered, contains('Perna esq:'));
+      expect(rendered, contains('Braço dir:'));
+      expect(rendered, contains('Carro: Roubado: Esportivo'));
+      expect(rendered, isNot(contains('Esperteza de R…')));
+      expect(rendered, isNot(contains('Perna esq…')));
+      expect(rendered, isNot(contains('Braço dir…')));
+      expect(rendered, isNot(contains('Veículo roubado: Espo…')));
+    },
+  );
+
+  test(
     'Portuguese wound details localize status codes and special injuries',
     () {
       final founder = _founder();

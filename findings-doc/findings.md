@@ -5260,3 +5260,19 @@ finance speech, status line, under-attack base, and receipt. At 320×240 the DOM
 bridge remained 25 rows with a maximum width of 80, no document overflow, and
 an empty browser-error channel. The fixture was restored to its original
 all-false state; no translation, prefix, or layout fix was required.
+
+## PT-359: Interface-help text used the wrong pronoun for people
+
+- Severity: Low
+- Type: Interface-options translation / grammar
+- Screen: Portuguese title screen → Opções de Jogo → Opções de Interface
+- Replay status: **Fixed in the catalog and covered by a focused regression and strict-headless replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/interface-options-pronoun-20260812/`; regression `test/title_screen/options_translation_test.dart`
+
+The encounter-warning explanation rendered `Adiciona uma confirmação ao
+encontrar pessoas para que você não passe acidentalmente por eles.` The
+antecedent is the feminine plural noun `pessoas`, so `por eles` was a visible
+agreement error. The catalog now uses `por elas`; the focused screen regression
+rejects the masculine form. The rebuilt strict-headless replay stayed at 25
+rows and 80 columns with no document overflow, no bridge errors, and a
+`HeadlessChrome/150.0.0.0` user agent.

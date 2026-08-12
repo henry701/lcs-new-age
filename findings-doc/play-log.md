@@ -5484,3 +5484,17 @@ switch.
   prefix-preservation, or layout defect was confirmed.
 - Restored all temporary flags and fixture edits to their original values.
   Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260813/`.
+
+## 2026-08-12 — strict-headless interface-options grammar follow-up (PT-359)
+
+- A fresh Portuguese title-screen route opened `Opções de Jogo → Opções de
+  Interface` using the persistent headless wrapper only. The encounter-warning
+  help line exposed `passe acidentalmente por eles` after `pessoas`; this is a
+  Portuguese gender-agreement error, not a browser or input artifact.
+- PT-359 changes the catalog value to `passe acidentalmente por elas` and adds a
+  focused regression that rejects the old form.
+- The rebuilt strict-headless replay rendered the corrected line. The DOM
+  bridge reported 25 rows, max width 80, no document overflow, an empty
+  `#lcs-playtest-errors` channel, and UA `HeadlessChrome/150.0.0.0`.
+- Temporary browser/server resources were closed after capture. No headed
+  browser was opened or focused. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/interface-options-pronoun-20260812/`.

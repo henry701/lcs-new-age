@@ -27,7 +27,8 @@ void main() {
     final screen = _normalizedConsoleText();
     expect(screen, contains('E - Avisos de Encontros'));
     expect(screen, contains('Adiciona uma confirmação ao encontrar pessoas'));
-    expect(screen, contains('passe acidentalmente por eles'));
+    expect(screen, contains('passe acidentalmente por elas'));
+    expect(screen, isNot(contains('passe acidentalmente por eles')));
     expect(screen, contains('P - Teclas padrão de Page Up/Down'));
     expect(screen, contains('Altera apenas os prompts'));
     expect(screen, contains('Esta opção altera o tamanho da fonte no jogo'));

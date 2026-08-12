@@ -1,5 +1,23 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-12 (PT-359)
+
+- Fresh Portuguese strict-headless replay opened `Opções de Jogo → Opções de
+  Interface` and found `passe acidentalmente por eles` after `pessoas` in the
+  encounter-warning help text. This is a real gender-agreement error.
+- Updated `lib/l10n/app_pt_BR_part30.arb` to `passe acidentalmente por elas` and
+  changed `test/title_screen/options_translation_test.dart` to assert the
+  corrected form and reject the old form.
+- Focused test passed: `flutter test test/title_screen/options_translation_test.dart`.
+- Rebuilt strict-headless replay rendered the correction with 25 rows, max row
+  80, no document overflow, empty `#lcs-playtest-errors`, and UA
+  `HeadlessChrome/150.0.0.0`. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/interface-options-pronoun-20260812/`.
+- Closed the headless browser and temporary server; no headed browser was
+  opened or focused. Residual queue remains random PT-048/PT-148 terminals,
+  optional PT-083 narrow-console usability, and the persisted-name locale
+  switch decision.
+
 ## Playtest continuation — 2026-08-13 medical-debt replay
 
 - Used only the repository headless wrapper (`AGENT_BROWSER_HEADED=0`,

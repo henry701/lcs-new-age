@@ -66,3 +66,16 @@ warnings after the display-boundary fixes. An armored profile row now renders
 25 rows × 80 columns, no document overflow, and an empty
 `#lcs-playtest-errors` channel. Screenshot:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-armor-fixed-8901.png`.
+
+## 2026-08-12 CIA briefing telemetry replay
+
+The rebuilt Portuguese CIA fixture was replayed through the opening siege
+briefing with strict-headless Chromium (`HeadlessChrome/150.0.0.0`). The
+display remained 25×80 with no document overflow and an empty
+`#lcs-playtest-errors` channel. A prior run had logged the fully translated
+briefing sentence as a missing key because `addparagraph` translated an output
+from `LcsI18n.processString` a second time. The corporate and rural variants
+shared the same boundary. They now mark those rendered paragraphs
+`noTranslate`; the focused regression and clean replay show no warning.
+
+Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-briefing-fixed-8903.png`.

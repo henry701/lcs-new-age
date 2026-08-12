@@ -66,6 +66,20 @@ void main() {
     );
   });
 
+  test('pretranslated CIA paragraphs are not translated a second time', () {
+    const template =
+        'In the dead of the night, a column of unmarked black vans with '
+        'tinted windows surrounds the {location}.';
+    final rendered = LcsI18n.processString(template, {
+      'location': 'Armazém Assombrado',
+    });
+
+    addparagraph(0, 1, rendered, noTranslate: true);
+
+    expect(_consoleLine(0), contains('No meio da noite'));
+    expect(LcsI18n.getMissingTranslations(), isNot(contains(rendered)));
+  });
+
   test('Portuguese medical debt briefings translate complete templates', () {
     expect(
       LcsI18n.processString(medicalDebtArrivalBriefing, {

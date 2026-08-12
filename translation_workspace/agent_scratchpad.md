@@ -330,6 +330,21 @@
 - Residual queue: PT-048/PT-148 arrest/subdue variants, PT-083 narrow-console
   readability, generated-name locale-switch decision, accepted PT-049 history.
 
+## Playtest Entry — 2026-08-12 — CIA raid briefing boundary (PT-368)
+
+- Strict-headless rebuilt Portuguese CIA fixture (`HeadlessChrome/150.0.0.0`)
+  exposed a false missing-translation warning for an already rendered CIA
+  briefing sentence. `siege.dart` had passed `LcsI18n.processString` output
+  into `addparagraph`, which translated it again.
+- Fixed the CIA, corporate, rural-mob, and rural-assault pretranslated
+  paragraphs with `noTranslate: true`; raw templates remain translatable.
+- Focused siege regression and rebuilt replay pass. Final bridge: 25 rows,
+  max width 80, no overflow, empty bridge errors, no missing warning. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-briefing-fixed-8903.png`.
+- Temporary `debugSiege` fixture restored to `false` / `cops`. Residual queue:
+  PT-048/PT-148 arrest/subdue variants, PT-083 narrow-console readability,
+  persisted generated-name locale-switch decision, accepted PT-049 history.
+
 ---
 
 ## Run 2026-03-14 14:40 UTC

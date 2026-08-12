@@ -5449,3 +5449,26 @@ errors.
   names already stored in save data or preserve their original-language form.
 - PT-049: historical changelog English remains an accepted product decision,
   not an untracked translation defect.
+
+## PT-368: Pretranslated raid briefings were translated twice
+
+- Severity: Low
+- Type: Translation telemetry / siege display
+- Screen: Portuguese safehouse → CIA raid briefing (also corporate and rural
+  raid branches)
+- Replay status: **Fixed with a focused regression and fresh strict-headless
+  replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-briefing-fixed-8903.png`;
+  regression `test/daily/siege_translation_test.dart`
+
+The CIA fixture rendered the briefing in correct Portuguese, but the second
+translation pass still logged the complete rendered sentence as a missing
+catalog key. The same pretranslated-value boundary existed in the corporate
+raid, rural-mob raid, and rural assault paragraphs. Those calls now pass
+`noTranslate: true` after `LcsI18n.processString` has already rendered the
+template; raw templates continue through the normal translation path.
+
+The rebuilt CIA route reports `HeadlessChrome/150.0.0.0`, 25 rows, maximum
+width 80, no document overflow, an empty bridge-error channel, and no missing
+translation warning for the briefing. The temporary debug fixture was restored
+to its default disabled police setting.

@@ -5665,3 +5665,25 @@ switch.
 Residual work remains PT-048/PT-148 police arrest/subdue variants, PT-083
 narrow-console readability, the persisted generated-name locale-switch
 decision, and accepted PT-049 historical changelog English.
+
+## 2026-08-12 — strict-headless CIA briefing telemetry replay (PT-368)
+
+- Rebuilt a disposable Portuguese CIA-siege fixture and replayed the opening
+  alarm through the raid briefing with the repository wrapper only:
+  `AGENT_BROWSER_HEADED=0`, Chromium `--headless=new` and
+  `--ozone-platform=headless`. The runtime UA was
+  `HeadlessChrome/150.0.0.0`; no headed browser was opened or focused.
+- The first pass exposed a false missing-translation warning for the already
+  rendered sentence `No meio da noite, uma coluna de vans pretas sem
+  identificação e com vidros escuros cerca o local chamado Armazém Velho.`.
+  Source tracing found the same process-then-`addparagraph` pattern in the
+  corporate and rural siege branches.
+- `addparagraph` now receives `noTranslate: true` for those four pretranslated
+  paragraphs. The focused siege regression and rebuilt replay render the same
+  Portuguese text without the warning. The final bridge measured 25 rows,
+  maximum width 80, no document overflow, and an empty error channel. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-briefing-fixed-8903.png`.
+
+PT-368 is fixed. The residual queue remains random PT-048/PT-148
+police-terminal arrest/subdue variants, optional PT-083 narrow-console
+readability work, and the persisted generated-name locale-switch decision.

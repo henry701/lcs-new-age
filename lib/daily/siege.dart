@@ -516,7 +516,7 @@ Future<void> siegeCheck() async {
           "skull.",
           {"location": l.getName()},
         );
-        addparagraph(console.y + 1, 1, locationText);
+        addparagraph(console.y + 1, 1, locationText, noTranslate: true);
         await getKey();
         mvaddstrc(
           console.y + 1,
@@ -813,7 +813,7 @@ Future<void> siegeCheck() async {
           "tinted windows surrounds the {location}.",
           {"location": l.getName()},
         );
-        addparagraph(6, 1, locationText);
+        addparagraph(6, 1, locationText, noTranslate: true);
         await getKey();
         final ciaSuspense = [
           "Hair stands on end... the air is charged with the sound of silence.",
@@ -910,7 +910,7 @@ Future<void> siegeCheck() async {
           "and Confederate flags is approaching the {location}.",
           {"location": l.getName()},
         );
-        addparagraph(6, 1, locationText);
+        addparagraph(6, 1, locationText, noTranslate: true);
         await getKey();
         setColor(white);
         addparagraph(
@@ -929,7 +929,7 @@ Future<void> siegeCheck() async {
           "to assault the {location}!",
           {"district": l.district.name, "location": l.getName()},
         );
-        addparagraph(console.y + 1, 1, assaultText);
+        addparagraph(console.y + 1, 1, assaultText, noTranslate: true);
         await getKey();
 
         l.siege.activeSiegeType = SiegeType.angryRuralMob;

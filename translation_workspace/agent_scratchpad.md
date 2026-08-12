@@ -1,5 +1,15 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-13 (PT-352/PT-353)
+
+- Strict-headless siege/media replay found `do revista de notícias` in the
+  elite-journalist event and `uma pessoa negra (homem)` in WOKE HIRE. The
+  journalist template now uses a neutral publication construction and all five
+  outlet types have catalog coverage; WOKE HIRE now says `uma pessoa negra que
+  é homem/mulher`. Focused regressions cover both paths. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-variants-20260813/`
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/journalist-postfix-20260813/`.
+
 ## Playtest continuation — 2026-08-13
 
 - PT-350/PT-351 fixed and verified: strict-headless newspaper replay found

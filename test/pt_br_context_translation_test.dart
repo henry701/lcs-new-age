@@ -1286,7 +1286,7 @@ void main() {
       catalog.values.singleWhere(
         (value) => value.startsWith('{city} - Uma empresa local foi acusada'),
       ),
-      contains('que é uma pessoa negra ({person})'),
+      contains('uma pessoa negra que é {person}'),
     );
   });
 

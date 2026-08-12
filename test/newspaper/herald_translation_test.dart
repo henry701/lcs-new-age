@@ -333,6 +333,10 @@ void main() {
       sawWokeHire = true;
       expect(content.storyText, isNot(contains(' (man)')));
       expect(content.storyText, isNot(contains(' (woman)')));
+      expect(content.storyText, isNot(contains(' (homem)')));
+      expect(content.storyText, isNot(contains(' (mulher)')));
+      expect(content.storyText, contains('uma pessoa negra'));
+      expect(content.storyText, matches(RegExp(r'que é (homem|mulher)')));
       expect(content.storyText, isNot(contains('He probably')));
       expect(content.storyText, isNot(contains('She probably')));
       expect(content.storyText, isNot(contains('probably just')));

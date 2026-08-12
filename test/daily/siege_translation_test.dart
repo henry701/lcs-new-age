@@ -146,6 +146,35 @@ void main() {
     );
   });
 
+  test('Portuguese elite journalist copy agrees with every outlet type', () {
+    const template =
+        'Elite Journalist {journalist} from the {newsType} {publication} '
+        'got into the compound somehow!';
+    const outletTypes = {
+      'news program': 'programa de notícias',
+      'news magazine': 'revista de notícias',
+      'website': 'site',
+      'scandal rag': 'jornal sensacionalista',
+      'newspaper': 'jornal',
+    };
+
+    for (final entry in outletTypes.entries) {
+      final rendered = LcsI18n.processString(template, {
+        'journalist': 'Joyce Storm',
+        'newsType': LcsI18n.tr(entry.key),
+        'publication': 'Atual Constituição',
+      });
+
+      expect(rendered, isNot(contains(' do revista ')));
+      expect(rendered, isNot(contains(' do site ')));
+      expect(rendered, isNot(contains(' do jornal ')));
+      expect(rendered, contains('da publicação Atual Constituição'));
+      expect(rendered, contains('(${entry.value})'));
+      expect(rendered, contains('Joyce Storm'));
+      expect(rendered, contains('Atual Constituição'));
+    }
+  });
+
   test('CIA suspense paragraphs wrap long Portuguese messages', () {
     final source = File('lib/daily/siege.dart').readAsStringSync();
     final wrappedMessage = RegExp(

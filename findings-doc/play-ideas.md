@@ -9,6 +9,12 @@
   `test/newspaper/herald_translation_test.dart`; source capture is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-rerun-20260813/`.
 
+- PT-352/PT-353 fixed and verified (2026-08-13): the siege journalist event
+  now agrees with dynamic outlet types, and WOKE HIRE no longer emits gender
+  labels in parentheses after `pessoa negra`. Keep the dynamic-template tests
+  beside future newspaper catalog edits. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/journalist-postfix-20260813/`.
+
 - PT-349 fixed and verified (2026-08-13): the Portuguese mod-tools map-editor
   route now localizes the Flutter toolbar, terrain/special palette, tooltips,
   dropdown labels, and status messages. The top bar scrolls at narrow widths

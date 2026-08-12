@@ -1,5 +1,29 @@
 # Portuguese Play Log
 
+## 2026-08-12 — strict-headless funded equipment follow-up
+
+- Replayed a fresh Portuguese campaign with temporary `debugAllItems` and
+  `debugAMilli` fixtures using only the repository's strict-headless wrapper
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`, `--disable-dev-shm-usage`, and
+  `--disable-cache`). The runtime UA was `HeadlessChrome/150.0.0.0`; no
+  headed browser was opened or focused.
+- Covered the full 14-page equipment pager, medieval clothing/armor/weapons,
+  the department-store route, and a compact 320×240 base screen. Every
+  captured buffer had 25 rows and maximum width 80; document overflow was
+  false and `#lcs-playtest-errors` was empty.
+- The only English-looking equipment terms were `Fursuit` and `Tie-dye`.
+  Both are intentional Brazilian Portuguese loanwords retained by the
+  translation exceptions and prior playtest findings, so no defect was
+  promoted. The temporary debug flags were restored before handoff.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/
+  funded-all-items-20260812/`.
+
+No new translation, key-prefix, or layout issue was confirmed. The residual
+queue remains random PT-048/PT-148 police-terminal variants, optional PT-083
+fixed-width readability work, and the persisted generated-name locale-switch
+decision.
+
 ## 2026-08-13 — PT-355 strict-headless commerce/car-choice verification
 
 - A fresh Portuguese commerce replay used only the repository headless wrapper

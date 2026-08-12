@@ -295,6 +295,22 @@
 
 ---
 
+## Playtest Entry — 2026-08-12 — Funded equipment route
+- Browser: repository `agent-browser-headless.sh`; strict headless only
+  (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`, `--disable-cache`). UA:
+  `HeadlessChrome/150.0.0.0`.
+- Route: Portuguese fresh world with temporary all-items/funds fixtures;
+  equipment pages 1–14, medieval clothing/armor/weapons, department store,
+  and 320×240 compact base view.
+- Result: 25×80 DOM buffers, no document overflow, and no bridge errors. The
+  apparent `Fursuit`/`Tie-dye` English terms are intentional loanwords listed
+  in `translation_exceptions.dart`; no catalog change was warranted.
+- Temporary debug flags were restored to `false`. Captures:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/funded-all-items-20260812/`.
+
+---
+
 ## Run Entry — 2026-03-14 (UTC) — Verification Pass
 - **Batch file used**: NONE (exhaustion verification)
 - **Entries translated**: 0

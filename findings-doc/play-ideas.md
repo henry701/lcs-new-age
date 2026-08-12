@@ -1,5 +1,26 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-12 — strict-headless funded equipment follow-up
+
+- Replayed a fresh Portuguese campaign with temporary `debugAllItems` and
+  `debugAMilli` fixtures. The browser used only the repository wrapper at
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; UA was `HeadlessChrome/150.0.0.0`.
+- Covered the full 14-page equipment pager, medieval clothing/armor/weapons,
+  the department-store footer, and a 320×240 compact base view. The DOM
+  bridge stayed at 25 rows with maximum width 80, document width matched the
+  viewport, and `#lcs-playtest-errors` remained empty.
+- `Fursuit` and `Tie-dye` were reviewed in context and are intentional
+  Brazilian Portuguese loanwords retained by the translation exceptions and
+  earlier findings; no new translation or prefix-preservation defect was
+  confirmed. The temporary flags were restored to `false`.
+- Durable captures and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/funded-all-items-20260812/`.
+
+Keep the remaining work limited to random PT-048/PT-148 police-terminal
+variants, optional PT-083 fixed-width readability, and the persisted
+generated-name locale-switch decision.
+
 ## 2026-08-13 — PT-355 dealership prompt follow-up
 
 - Fixed and verified the used-car dealer's Portuguese vehicle picker article:

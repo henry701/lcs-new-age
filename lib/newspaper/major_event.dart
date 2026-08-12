@@ -32,6 +32,23 @@ class MajorEventContent {
   bool get useBigFont => pictureId != null;
 }
 
+const _militaryHostageIncident =
+    "somehow managed to shoot every one of the hostages and none of the "
+    "captors during a hostage rescue mission";
+const _militaryHostageIncidentLead =
+    "somehow managed to shoot every one of the hostages and none of the ";
+const _militaryHostageIncidentTail = "captors during a hostage rescue mission";
+
+/// Translates the one military incident whose source is split across catalog
+/// fragments, while keeping ordinary incidents on the normal exact-key path.
+String translateMilitaryIncident(String incident) {
+  if (incident == _militaryHostageIncident) {
+    return LcsI18n.tr(_militaryHostageIncidentLead) +
+        LcsI18n.tr(_militaryHostageIncidentTail);
+  }
+  return LcsI18n.tr(incident);
+}
+
 NewsStory randomMajorEventStory() {
   NewsStory ns = NewsStory.unpublished(NewsStories.majorEvent);
   while (true) {
@@ -977,12 +994,11 @@ MajorEventContent generateMajorEventContent(
               "third": actualActivities.randomPop(),
               "fourth": actualActivities.randomPop(),
             });
-        String incident = LcsI18n.tr(
+        String incident = translateMilitaryIncident(
           [
             "bombed a wedding party, killing more than 30 people",
             "accidentally started selling weapons directly to the enemy",
-            "somehow managed to shoot every one of the hostages and none of the "
-                "captors during a hostage rescue mission",
+            _militaryHostageIncident,
             "bombed a local hospital used exclusively by civilians",
             "shot down a civilian airliner, killing everyone on board",
           ].random,

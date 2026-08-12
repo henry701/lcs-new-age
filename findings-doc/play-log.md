@@ -5162,3 +5162,33 @@ remain product-level edges rather than confirmed regressions.
 
 PT-341 is fixed and verified. Keep the activity-help sweep in the strict-
 headless matrix when future resource terminology changes land.
+
+## 2026-08-11 — strict-headless developer-flag media and newspaper sweep
+
+- The reusable headless wrapper at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agent-browser-headless.sh`
+  enforced `AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`, `--disable-dev-shm-usage`, and
+  `--disable-cache` for every CLI browser command. The browser reported
+  `HeadlessChrome/150.0.0.0`; no headed window was opened or focused.
+- A temporary local fixture enabled all items, funds, rescued-party entries,
+  public-opinion extremes, and founder medical debt. It was restored to all
+  `false` values before the rebuild. The route covered the founder setup,
+  review/profile pages, finance, equipment pages, all five agenda pages,
+  media overview, and several daily newspaper cycles at the fixed 80×25
+  bridge.
+- The media overview rendered `GENIUS MUTANT` in English while the selected
+  article title rendered `MUTANTE GÊNIO`; PT-342 fixes the overview's stored
+  headline path. The pre-fix buffer is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/media-headline-20260811/`.
+- A fresh rebuilt route then reached the Portuguese military article
+  `FIM DA GUERRA`. Its body exposed the English sentence fragment
+  `somehow managed to shoot every one of the hostages and none of the captors
+  during a hostage rescue mission`; PT-343 now translates the two existing
+  catalog fragments independently. The pre-fix article capture is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/military-article-20260811/`.
+- Both focused regressions were red before their implementation changes and
+  green afterward. The random post-fix browser route did not reselect the same
+  military incident within 30 additional day steps, so the deterministic
+  fragment test is the authoritative post-fix check for PT-343; future seeded
+  newspaper cycles should retain this route.

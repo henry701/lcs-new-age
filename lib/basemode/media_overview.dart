@@ -17,6 +17,9 @@ abstract final class MediaOverviewLayout {
   static const int sourceWidth = impactX - sourceX - 1;
 }
 
+String localizedMediaHeadline(String headline) =>
+    headline.isEmpty ? headline : LcsI18n.tr(headline);
+
 Future<void> mediaOverview() async {
   List<NewsStory> newsArchive = gameState.newsArchive.reversed.toList();
   bool redraw = true;
@@ -71,7 +74,7 @@ Future<void> mediaOverview() async {
       pageSize: 17,
       lineBuilder: (y, key, index) {
         NewsStory ns = newsArchive[index];
-        String headline = ns.headline;
+        String headline = localizedMediaHeadline(ns.headline);
         if (headline.isEmpty) {
           switch (ns.type) {
             case NewsStories.squadSiteAction:

@@ -106,7 +106,7 @@
     },
     {
       "file": "basemode/media_overview.dart",
-      "line": 114,
+      "line": 117,
       "text": "${headline.substring(0, 32).trim()}...",
       "reason": "Layout-only headline truncation; the headline itself is translated before display."
     },

@@ -186,6 +186,8 @@
 | PT-339 | Low | Finance translation/style | Monthly net-change label uses an English title-case calque |
 | PT-340 | Low | Dialogue translation/context | Torture discussion fragment uses infinitives after `permitindo que` |
 | PT-341 | Low | Help translation/context | Community-service help calls the in-game `Energia` resource `Ânimo` |
+| PT-342 | Medium | Media translation/coverage | Media overview leaves a stored Portuguese headline in English |
+| PT-343 | Medium | Newspaper translation/coverage | Military article exposes an English hostage-rescue sentence fragment |
 
 ## PT-001: Save-management option is clipped
 
@@ -5058,3 +5060,35 @@ activity help bodies. The catalog now says `aumentando gradualmente a Energia
 até o máximo de 10.`. The focused regression failed against the old wording,
 then passed after the edit; the fresh headless browser rendered the corrected
 line with no over-wide rows or bridge errors.
+
+## PT-342: Media overview leaves a stored headline in English
+
+- Severity: Medium
+- Type: Media translation/coverage
+- Screen: Portuguese base mode → `Visão geral da mídia`
+- Replay status: **Fixed with a headline-rendering helper and focused regression; strict-headless live route reproduced the leak before the fix**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/media-headline-20260811/media-overview-before.txt`; regression `test/basemode/media_overview_translation_test.dart`
+
+The media overview interpolated non-empty stored headlines into an option
+template without translating the value. A developer-flag route archived the
+television headline `GENIUS MUTANT`; the overview showed that English text
+while opening the article showed the cataloged `MUTANTE GÊNIO`. The overview
+now translates stored headlines before fitting them into the fixed-width row,
+while dynamic headlines and already-localized values remain unchanged.
+
+## PT-343: Military article exposes an English hostage-rescue sentence fragment
+
+- Severity: Medium
+- Type: Newspaper translation/coverage
+- Screen: Portuguese newspaper → military intervention article (`FIM DA GUERRA`)
+- Replay status: **Fixed with split-fragment composition and focused regression; strict-headless route reproduced the live leak before the fix**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/military-article-20260811/article-before.txt`; regression `test/newspaper/herald_translation_test.dart`
+
+The military article translated the incident with one exact lookup even though
+the catalog stores the adjacent source literals separately. The live route
+therefore rendered `somehow managed to shoot every one of the hostages and
+none of the captors during a hostage rescue mission` inside an otherwise
+Portuguese article. `translateMilitaryIncident` now translates the two
+cataloged fragments independently and joins them as
+`de alguma forma conseguiu atirar em todos os reféns e em nenhum dos captores
+durante uma missão de resgate de reféns`.

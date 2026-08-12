@@ -75,6 +75,10 @@ void main() {
     }
   });
 
+  test('stored media headlines are localized in Portuguese', () {
+    expect(localizedMediaHeadline('GENIUS MUTANT'), 'MUTANTE GÊNIO');
+  });
+
   test('every media impact label is localized in Portuguese', () {
     const expected = {
       'Animal Research': 'Pesquisa Animal',

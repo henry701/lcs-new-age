@@ -1,5 +1,13 @@
 # Portuguese Playtest Scratch Pad
 
+- PT-342/PT-343 fixed (2026-08-11): the developer-flag media/newspaper sweep
+  found a stored `GENIUS MUTANT` headline bypassing the Portuguese media
+  overview and a military article sentence whose adjacent source fragments
+  composed as raw English. Focused regressions now cover both paths. Evidence
+  is under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/media-headline-20260811/`
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/military-article-20260811/`;
+  keep a seeded newspaper cycle for future live verification.
+
 - PT-341 fixed and verified (2026-08-11): the community-service help overlay
   now calls the in-game `Juice` resource `Energia` instead of the inconsistent
   `Ânimo`. The focused help regression and a fresh strict-headless route both

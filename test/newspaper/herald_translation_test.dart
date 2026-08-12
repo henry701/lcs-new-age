@@ -131,6 +131,17 @@ void main() {
     },
   );
 
+  test('military hostage incidents compose translated fragments', () {
+    expect(
+      translateMilitaryIncident(
+        'somehow managed to shoot every one of the hostages and none of the '
+        'captors during a hostage rescue mission',
+      ),
+      'de alguma forma conseguiu atirar em todos os reféns e em nenhum dos '
+      'captores durante uma missão de resgate de reféns',
+    );
+  });
+
   test(
     'abortion article call to action uses the complete Portuguese phrase',
     () {

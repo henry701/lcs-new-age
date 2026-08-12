@@ -858,10 +858,9 @@ void _clothingDetailFooter(
 
   void addArmorStat(int y, String label, int value) {
     mvaddstrc(y, 20, lightGray, label);
-    final rendered = LcsI18n.processString(
-      "{armor} Armor",
-      {"armor": value.toString()},
-    );
+    final rendered = LcsI18n.processString("{armor} Armor", {
+      "armor": value.toString(),
+    });
     addstrc(
       lightBlue,
       fitConsoleText(rendered, rightStatsX - console.x - 1),
@@ -1435,7 +1434,9 @@ Future<void> _selectTendHostage(Creature cr) async {
         y,
         45,
         lightGray,
-        h.location?.getName(short: true, includeCity: true) ?? "Missing",
+        h.location?.getName(short: true, includeCity: true) ??
+            LcsI18n.tr("Missing"),
+        noTranslate: true,
       );
       mvaddstr(
         y,

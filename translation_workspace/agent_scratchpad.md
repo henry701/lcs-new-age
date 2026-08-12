@@ -312,6 +312,24 @@
   represented in the canonical escaped form and explicitly classified.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/additional-route/19-bank-arrival.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/bank-teller-8014e-after.txt`.
 
+## 2026-08-12 — PT-366/PT-367 profile-boundary replay
+
+- Strict-headless rebuilt replay (`HeadlessChrome/150.0.0.0`) found another
+  cluster of false missing-translation warnings for values already localized
+  by `LcsI18n.tr` or `Location.getName`: clothing titles, Review rows, sleeper
+  work locations, equipment-transfer site labels, and full-profile clothing.
+- Added `noTranslate` at those display boundaries while preserving catalog
+  translation for fallback labels (`Away`/`Missing`). Added focused regressions
+  for weapon, clothing, profile, Review, task, and equipment paths.
+- Fixed the profile armor separator so status and bonus render as
+  `Liberal +…`, not `Liberal+…`; added a regression for the merged form.
+- Final bridge: 25 rows, max width 80, no overflow, no browser/bridge errors,
+  no missing-translation warnings. Full suite: 635 passing. Catalog, prefix,
+  interpolation, and static validation all pass.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-armor-fixed-8901.png`.
+- Residual queue: PT-048/PT-148 arrest/subdue variants, PT-083 narrow-console
+  readability, generated-name locale-switch decision, accepted PT-049 history.
+
 ---
 
 ## Run 2026-03-14 14:40 UTC

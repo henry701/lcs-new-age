@@ -24,6 +24,7 @@ import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/flag.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
+import 'package:lcs_new_age/items/weapon.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/siege.dart';
@@ -258,6 +259,18 @@ void main() {
     expect(rendered, contains('+Lev'));
     expect(rendered, isNot(contains('Crit')));
     expect(rendered, isNot(contains('+Lgt')));
+  });
+
+  test('Portuguese profile separates body status from armor details', () {
+    final founder = _founder()
+      ..rawAttributes[Attribute.intelligence] = 10
+      ..equippedClothing = Clothing('CLOTHING_ARMYARMOR');
+
+    printFullCreatureStats(founder);
+
+    final rendered = _consoleText();
+    expect(rendered, contains('Liberal +'));
+    expect(rendered, isNot(contains('Liberal+')));
   });
 
   test('Portuguese party health cells keep compact armor details', () {
@@ -954,6 +967,45 @@ void main() {
     expect(LcsI18n.getMissingTranslations(), isNot(contains('Daishō')));
     expect(LcsI18n.getMissingTranslations(), isNot(contains('Nenhuma')));
   });
+
+  test('Portuguese item titles do not retranslate localized weapon labels', () {
+    final weapon = Weapon('WEAPON_DAISHO');
+
+    weapon.printEquipTitle();
+
+    expect(_consoleText(), contains('Daishō'));
+    expect(LcsI18n.getMissingTranslations(), isNot(contains('Daishō')));
+  });
+
+  test(
+    'Portuguese full profile does not retranslate localized clothing labels',
+    () {
+      final founder = _founder()
+        ..equippedClothing = Clothing('CLOTHING_CLOTHES');
+
+      printFullCreatureStats(founder);
+
+      final rendered = _consoleText();
+      expect(rendered, contains('Roupas: Roupas'));
+      expect(LcsI18n.getMissingTranslations(), isNot(contains('Roupas')));
+    },
+  );
+
+  test(
+    'Portuguese review rows do not retranslate localized site names',
+    () async {
+      _founder();
+      console.injectKey('Escape');
+
+      await reviewMode(ReviewMode.liberals);
+
+      expect(_consoleText(), contains('SEA — Sem-teto'));
+      expect(
+        LcsI18n.getMissingTranslations(),
+        isNot(contains('SEA — Sem-teto')),
+      );
+    },
+  );
 
   test('Portuguese task rows do not retranslate localized site names', () {
     final founder = _founder();

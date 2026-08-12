@@ -5639,3 +5639,29 @@ switch.
   removed and the temporary browser/server were closed; persistent port 8872
   was untouched. Evidence directory:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-subdue-20260812/`.
+
+## 2026-08-12 — strict-headless profile-boundary and armor follow-up (PT-366/PT-367)
+
+- Rebuilt the disposable Flutter web server and replayed the Portuguese
+  founder/profile route with the repository wrapper only:
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`, and
+  `--disable-cache`. UA was `HeadlessChrome/150.0.0.0`; no headed browser was
+  opened or focused.
+- The fresh route reproduced false missing-translation telemetry for visible
+  Portuguese values such as `Roupas`, `Daishō`, and `SEA — Sem-teto`. The
+  affected display boundaries now use `noTranslate` after their values have
+  already been localized; fallback labels still use the catalogs. Focused
+  regressions cover profile clothing/weapon, Review locations, task locations,
+  and equipment-transfer site names.
+- The armored profile also exposed `Liberal+30` where body status and armor
+  detail touched. `printWounds` now inserts a separator before fitting the
+  armor suffix. The final DOM bridge measured 25 rows and max width 80, with no
+  document overflow, no bridge errors, and no `Missing translation` warnings.
+- Full suite result: 635 tests passed. Catalog canonicalization, key-prefix
+  validation, interpolation audit, static validation, and `git diff --check`
+  all passed. Screenshot evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-armor-fixed-8901.png`.
+
+Residual work remains PT-048/PT-148 police arrest/subdue variants, PT-083
+narrow-console readability, the persisted generated-name locale-switch
+decision, and accepted PT-049 historical changelog English.

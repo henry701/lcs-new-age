@@ -433,15 +433,16 @@ void printWounds(Creature cr, {int y = 2, int x = 49, int? maxWidth}) {
         final armorText = LcsI18n.processString("+{armor}", {
           "armor": armor.toString(),
         });
+        final armorTextWithSeparator = " $armorText";
         final remainingWidth = statusWidth == null
             ? null
             : statusWidth - (console.x - statusX);
         if (remainingWidth == null) {
-          addstrc(lightBlue, armorText, noTranslate: true);
+          addstrc(lightBlue, armorTextWithSeparator, noTranslate: true);
         } else if (remainingWidth > 0) {
           addstrc(
             lightBlue,
-            fitConsoleText(armorText, remainingWidth),
+            fitConsoleText(armorTextWithSeparator, remainingWidth),
             noTranslate: true,
           );
         }

@@ -55,3 +55,14 @@ validated deterministically in `test/newspaper/herald_translation_test.dart`.
 Use screenshots only when investigating glyph rendering or fixed-width layout.
 For translation checks, assert against the DOM buffer and option list instead
 of OCR.
+
+## 2026-08-12 profile-boundary replay
+
+The rebuilt Portuguese profile route was replayed strictly headless with
+`HeadlessChrome/150.0.0.0`. Already-localized weapon, clothing, task, Review,
+sleeper, and equipment site values produced no false missing-translation
+warnings after the display-boundary fixes. An armored profile row now renders
+`Liberal +…` rather than the merged `Liberal+…` form. The final bridge measured
+25 rows × 80 columns, no document overflow, and an empty
+`#lcs-playtest-errors` channel. Screenshot:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-armor-fixed-8901.png`.

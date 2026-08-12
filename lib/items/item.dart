@@ -88,7 +88,7 @@ class Item implements Comparable<Item> {
 
   String equipTitle({bool full = false}) => LcsI18n.tr(type.name);
   void printEquipTitle({bool full = false, Color baseColor = lightGray}) =>
-      addstrc(baseColor, equipTitle());
+      addstrc(baseColor, equipTitle(), noTranslate: true);
 
   Item clone() => Item(type.idName)..stackSize = stackSize;
 

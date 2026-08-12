@@ -85,6 +85,7 @@ Future<void> activateSleepers() async {
         lightGray,
         tempp.workLocation.getName(short: true, includeCity: true),
         15,
+        noTranslate: true,
       );
 
       move(y, 58);

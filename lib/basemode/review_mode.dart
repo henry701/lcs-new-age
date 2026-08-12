@@ -404,11 +404,15 @@ Future<void> reviewMode(ReviewMode mode) async {
       } else {
         setColor(lightGray);
       }
+      final locationName =
+          tempp.location?.getName(short: true, includeCity: true) ??
+          LcsI18n.tr("Away");
       mvaddstrFitted(
         y,
         ManagementTableLayout.locationX,
-        tempp.location?.getName(short: true, includeCity: true) ?? "Away",
+        locationName,
         ManagementTableLayout.locationWidth,
+        noTranslate: true,
       );
 
       move(y, ManagementTableLayout.trailingX);
@@ -1201,7 +1205,9 @@ Future<void> assignNewBasesToTheSquadless() async {
       mvaddstr(
         y,
         25,
-        tempp.base?.getName(short: true, includeCity: true) ?? "Away",
+        tempp.base?.getName(short: true, includeCity: true) ??
+            LcsI18n.tr("Away"),
+        noTranslate: true,
       );
       if (tempp.base?.siege.underSiege == true) {
         addstr(" <Under Siege>");

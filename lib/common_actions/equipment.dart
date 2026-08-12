@@ -113,11 +113,11 @@ Future<void> equip(List<Item>? loot) async {
         loot != site.loot) {
       setColorConditional(site.loot.isNotEmpty);
       addOptionText(23, 1, "Y", "Y - Get things from ");
-      addstr(site.getName(short: true));
+      addstr(site.getName(short: true), noTranslate: true);
 
       setColorConditional(loot.isNotEmpty);
       addOptionText(23, 40, "Z", "Z - Stash things at ");
-      addstr(site.getName(short: true));
+      addstr(site.getName(short: true), noTranslate: true);
     }
 
     addOptionText(24, 1, "Enter", "Enter - Done");

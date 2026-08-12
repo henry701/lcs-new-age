@@ -5413,3 +5413,39 @@ as `noTranslate`; the Assign Tasks fallback `In Hiding` still uses the catalog.
 Focused regressions cover both paths. A rebuilt headless replay kept the labels
 unchanged, removed the false warnings, and stayed at 25×80 with no overflow or
 bridge errors.
+
+The follow-up sweep found the same boundary pattern in clothing titles, Review
+location rows, sleeper work locations, equipment-transfer site labels, and the
+full profile's `Roupas` value. Those renderers now also preserve values returned
+by `LcsI18n.tr` or `Location.getName`; their fallback labels (`Away` and
+`Missing`) still enter the catalog normally. The new regressions cover weapon,
+clothing, Review, task, and equipment display paths, and the rebuilt replay
+produced no false missing-translation warnings.
+
+## PT-367: Profile armor details touched the body-status label
+
+- Severity: Low
+- Type: Fixed-width profile layout
+- Screen: Portuguese founder profile with armored clothing
+- Replay status: **Fixed with a focused regression and fresh strict-headless replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/profile-armor-fixed-8901.png`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The profile printed each body status and armor bonus without a separator, so
+the Portuguese row read `Perna esq: Liberal+30`. This merged the translated
+status with its numeric detail and made the label harder to scan. The shared
+`printWounds` renderer now prepends one literal space to the already-rendered
+armor suffix before fixed-width fitting. The regression rejects `Liberal+` and
+requires the separated form. The rebuilt 80-column headless capture shows
+`Liberal +…`, remains 25 rows wide-safe, and reports no browser or bridge
+errors.
+
+### Residual queue after this playtest
+
+- PT-048/PT-148: force and verify the random police arrest/subdue terminal
+  variants that the normal combat fixture does not reliably reach.
+- PT-083: decide whether the 80-column narrow-console presentation needs a
+  dedicated readability redesign beyond current fitting and ellipses.
+- Persisted generated names: decide whether a locale switch should translate
+  names already stored in save data or preserve their original-language form.
+- PT-049: historical changelog English remains an accepted product decision,
+  not an untracked translation defect.

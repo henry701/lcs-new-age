@@ -94,7 +94,7 @@
     },
     {
       "file": "basemode/activate_sleepers.dart",
-      "line": 324,
+      "line": 325,
       "text": "Unexpected sleeper activity type: ${cr.activity.type.name}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
@@ -118,37 +118,37 @@
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 484,
+      "line": 488,
       "text": "\\$${tempp.medicalBills}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1317,
+      "line": 1323,
       "text": "&${ColorKey.fromColor(bracketcolor)}[",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1319,
+      "line": 1325,
       "text": "&${ColorKey.fromColor(blue)}[",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1320,
+      "line": 1326,
       "text": "&${ColorKey.fromColor(blue)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1322,
+      "line": 1328,
       "text": "&${ColorKey.fromColor(bracketcolor)}]",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
       "file": "basemode/review_mode.dart",
-      "line": 1325,
+      "line": 1331,
       "text": "&${ColorKey.fromColor(namecolor)}$name",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
@@ -187,6 +187,12 @@
       "line": 184,
       "text": "$fittedVehicleName$driverSuffix",
       "reason": "Layout-only join of a fitted translated vehicle label and its driver marker."
+    },
+    {
+      "file": "common_display/print_creature_info.dart",
+      "line": 436,
+      "text": " $armorText",
+      "reason": "Layout-only separator prepended to an armor detail already localized before rendering."
     },
     {
       "file": "creature/creature.dart",

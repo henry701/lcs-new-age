@@ -1,5 +1,22 @@
 # Portuguese Play Log
 
+## 2026-08-13 — strict-headless police-siege fight/victory verification
+
+- Rebuilt the deterministic Portuguese police-siege fixture with the repository
+  wrapper only (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`). The browser reported
+  `HeadlessChrome/150.0.0.0`; no headed window was opened or focused.
+- Covered the siege warning, loudspeaker surrender notice, safehouse
+  `F - Lutar/Fugir` briefing, SWAT roster, live combat turns, fleeing-unit
+  styling, victory terminal, and return to the defended safehouse.
+- The route stayed Portuguese and within the 80-column console. The lowercase
+  `policial da SWAT` row is intentional flee-state styling from the shared
+  conservative-role renderer; it preserves the `SWAT` acronym. The DOM error
+  channel remained empty and no new translation or layout defect was confirmed.
+- Temporary siege/all-items/combat/funds flags were restored to their original
+  disabled state after the replay. Keep PT-048/PT-148 random terminal seeds and
+  PT-083 narrow-console readability as the remaining playtest follow-ups.
+
 ## Environment
 
 - Local URL: `http://127.0.0.1:7357`

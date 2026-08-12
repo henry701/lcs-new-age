@@ -1,5 +1,13 @@
 # Portuguese Playtest Scratch Pad
 
+- 2026-08-13 strict-headless police-siege fight verification: warning,
+  loudspeaker, `F - Lutar/Fugir`, SWAT combat, fleeing-role styling, victory,
+  and post-siege return all stayed Portuguese and within 80 columns. The
+  lowercase `policial da SWAT` row is intentional flee-state styling, not a
+  translation defect. No new issue was confirmed; keep only the random
+  PT-048/PT-148 terminal variants, PT-083 narrow-console readability, and the
+  persisted generated-name locale-switch decision open.
+
 - PT-354 fixed and verified (2026-08-13): the founder profile's
   `Profissional do Roubo` was replaced with the natural Brazilian Portuguese
   occupation label `Ladrão Profissional`. The existing core-vocabulary profile

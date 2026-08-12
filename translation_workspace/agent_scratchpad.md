@@ -1,5 +1,20 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-13 police-siege fight verification
+
+- Strict-headless Portuguese police-siege replay covered the warning, SWAT
+  encounter, live fight turns, fleeing-role styling, victory screen, and
+  post-siege safehouse return. The fixed 80-column buffer stayed bounded and
+  `#lcs-playtest-errors` remained empty.
+- The observed lowercase `policial da SWAT` is deliberate: the encounter
+  renderer lowercases a conservative role when its health triggers flee
+  styling, while preserving the acronym. No new translation/layout issue was
+  confirmed.
+- Temporary debug fixture values were restored to all-false after the run.
+  Residual queue remains random PT-048/PT-148 terminal variation, PT-083
+  narrow-console readability, and the persisted generated-name locale-switch
+  product decision.
+
 ## Playtest continuation — 2026-08-13 (PT-354)
 
 - Strict-headless founder replay reached the Portuguese profile and exposed

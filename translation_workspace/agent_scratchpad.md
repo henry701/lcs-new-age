@@ -1,5 +1,22 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-13
+
+- Confirmed PT-349 in a separate strict-headless Flutter map-editor route:
+  Portuguese mod-tools opened an English toolbar/palette and overflowed at a
+  compact viewport. Fixed by routing map-editor labels/status/tooltips through
+  `LcsI18n`, adding hash-sharded en_US/pt_BR catalog entries, scrolling the top
+  bar, and constraining long dropdown names.
+- Focused regression: `flutter test test/map_editor/map_editor_translation_test.dart`.
+- Validators after the fix: canonical ARB catalogs, prefix preservation,
+  interpolation, and the focused i18n static/runtime suites all pass; the full
+  Flutter suite remains the final verification gate for this cycle.
+- Strict-headless evidence belongs under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-editor-translation-20260813/`.
+- Keep the remaining random PT-048/PT-148 police-terminal seeds, PT-083 narrow
+  console enhancement, and persisted generated-name locale-switch decision in
+  the residual queue.
+
 ## Run 2026-03-14 00:00 UTC
 
 - **Run timestamp in UTC:** 2026-03-14 00:00 UTC

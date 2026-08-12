@@ -880,25 +880,25 @@
     },
     {
       "file": "map_editor/map_editor_screen.dart",
-      "line": 747,
+      "line": 762,
       "text": "mapCSV_$base${suffix}_Tiles.csv",
       "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
     },
     {
       "file": "map_editor/map_editor_screen.dart",
-      "line": 751,
+      "line": 766,
       "text": "mapCSV_$base${suffix}_Specials.csv",
       "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
     },
     {
       "file": "map_editor/map_editor_screen.dart",
-      "line": 760,
+      "line": 775,
       "text": "mapCSV_$base.zip",
       "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
     },
     {
       "file": "map_editor/map_editor_screen.dart",
-      "line": 770,
+      "line": 785,
       "text": "mapCSV_$base.zip",
       "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
     },

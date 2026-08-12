@@ -93,6 +93,7 @@
   "Let's go for a walk.": "Vamos dar uma volta.",
   "Liberal (body status)": "Liberal",
   "Liberals must be in the same location to form a squads.": "Liberais devem estar no mesmo local para formar esquadrões.",
+  "Locked": "Trancada",
   "M250": "M250",
   "Mamma, why did they kill {name}?": "Mamãe, por que mataram {name}?",
   "Manhattan": "Manhattan",
@@ -252,5 +253,6 @@
   "{pName} has dates to manage with {dateList} at {location}.": "{pName} tem encontros marcados com {dateList} em {location}.",
   "{recruit} found {recruiter}'s views to be insightful.": "{recruit} achou as opiniões de {recruiter} perspicazes.",
   "{squad} paid {price} to travel to {site}.": "{squad} pagou {price} para viajar para {site}.",
+  "{width} × {height} · Floor {current}/{count}": "{width} × {height} · Andar {current}/{count}",
   "│   viewers across the nation were listening.       │": "│   espectadores de todo o país estavam ouvindo.       │"
 }

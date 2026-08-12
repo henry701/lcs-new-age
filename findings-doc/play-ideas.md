@@ -1,5 +1,13 @@
 # Portuguese Playtest Scratch Pad
 
+- PT-349 fixed and verified (2026-08-13): the Portuguese mod-tools map-editor
+  route now localizes the Flutter toolbar, terrain/special palette, tooltips,
+  dropdown labels, and status messages. The top bar scrolls at narrow widths
+  and long site names ellipsize inside the dropdown rather than overflowing.
+  The focused widget regression is `test/map_editor/map_editor_translation_test.dart`;
+  strict-headless route captures and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-editor-translation-20260813/`.
+
 - PT-342/PT-343 fixed (2026-08-11): the developer-flag media/newspaper sweep
   found a stored `GENIUS MUTANT` headline bypassing the Portuguese media
   overview and a military article sentence whose adjacent source fragments

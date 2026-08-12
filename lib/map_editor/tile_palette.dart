@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/map_editor/editor_tools.dart';
 import 'package:lcs_new_age/map_editor/map_editor_controller.dart';
 
@@ -64,27 +65,42 @@ class _TilePaletteState extends State<TilePalette> {
                   spacing: 6,
                   runSpacing: 6,
                   children: [
-                    for (final TerrainBrush b in terrainBrushes) _chip(b)
+                    for (final TerrainBrush b in terrainBrushes) _chip(b),
                   ],
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 4),
-                  child: Text('Door modifiers',
-                      style: TextStyle(
-                          color: editorTextTertiary,
-                          fontSize: 11,
-                          letterSpacing: 0.4)),
+                  child: Text(
+                    LcsI18n.tr('Door modifiers'),
+                    style: TextStyle(
+                      color: editorTextTertiary,
+                      fontSize: 11,
+                      letterSpacing: 0.4,
+                    ),
+                  ),
                 ),
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
                   children: [
-                    _modifierChip('Locked', const Color(0xFFFF4136),
-                        controller.doorLocked, controller.toggleDoorLocked),
-                    _modifierChip('Alarmed', const Color(0xFFE0683A),
-                        controller.doorAlarmed, controller.toggleDoorAlarmed),
-                    _modifierChip('Metal', const Color(0xFF8FB0E0),
-                        controller.doorMetal, controller.toggleDoorMetal),
+                    _modifierChip(
+                      'Locked',
+                      const Color(0xFFFF4136),
+                      controller.doorLocked,
+                      controller.toggleDoorLocked,
+                    ),
+                    _modifierChip(
+                      'Alarmed',
+                      const Color(0xFFE0683A),
+                      controller.doorAlarmed,
+                      controller.toggleDoorAlarmed,
+                    ),
+                    _modifierChip(
+                      'Metal',
+                      const Color(0xFF8FB0E0),
+                      controller.doorMetal,
+                      controller.toggleDoorMetal,
+                    ),
                   ],
                 ),
               ],
@@ -96,7 +112,11 @@ class _TilePaletteState extends State<TilePalette> {
   }
 
   Widget _modifierChip(
-      String label, Color color, bool active, VoidCallback onToggle) {
+    String label,
+    Color color,
+    bool active,
+    VoidCallback onToggle,
+  ) {
     return GestureDetector(
       onTap: onToggle,
       child: Container(
@@ -105,22 +125,26 @@ class _TilePaletteState extends State<TilePalette> {
           color: active ? editorChipActiveBg : editorChipBg,
           borderRadius: BorderRadius.circular(6),
           border: Border.all(
-              color: active ? color : editorBorder, width: active ? 1.5 : 1),
+            color: active ? color : editorBorder,
+            width: active ? 1.5 : 1,
+          ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-                active
-                    ? Icons.check_box_outlined
-                    : Icons.check_box_outline_blank,
-                size: 14,
-                color: active ? color : editorTextTertiary),
+              active ? Icons.check_box_outlined : Icons.check_box_outline_blank,
+              size: 14,
+              color: active ? color : editorTextTertiary,
+            ),
             const SizedBox(width: 6),
-            Text(label,
-                style: TextStyle(
-                    color: active ? editorTextPrimary : editorTextSecondary,
-                    fontSize: 13)),
+            Text(
+              LcsI18n.tr(label),
+              style: TextStyle(
+                color: active ? editorTextPrimary : editorTextSecondary,
+                fontSize: 13,
+              ),
+            ),
           ],
         ),
       ),
@@ -168,7 +192,8 @@ class _TilePaletteState extends State<TilePalette> {
     final List<SpecialBrush> matches = [
       for (final SpecialBrush b in specialBrushes)
         if (b.category == cat &&
-            (query.isEmpty || b.label.toLowerCase().contains(query)))
+            (query.isEmpty ||
+                LcsI18n.tr(b.label).toLowerCase().contains(query)))
           b,
     ];
     if (matches.isEmpty) return const <Widget>[];
@@ -178,7 +203,10 @@ class _TilePaletteState extends State<TilePalette> {
         child: Text(
           _categoryLabel(cat),
           style: const TextStyle(
-              color: editorTextTertiary, fontSize: 11, letterSpacing: 0.4),
+            color: editorTextTertiary,
+            fontSize: 11,
+            letterSpacing: 0.4,
+          ),
         ),
       ),
       Wrap(
@@ -199,12 +227,17 @@ class _TilePaletteState extends State<TilePalette> {
         cursorColor: editorAccent,
         decoration: InputDecoration(
           isDense: true,
-          hintText: 'Filter specials…',
+          hintText: LcsI18n.tr('Filter specials…'),
           hintStyle: const TextStyle(color: editorTextTertiary, fontSize: 13),
-          prefixIcon: const Icon(Icons.search,
-              size: 16, color: editorTextTertiary),
-          prefixIconConstraints:
-              const BoxConstraints(minWidth: 30, minHeight: 30),
+          prefixIcon: const Icon(
+            Icons.search,
+            size: 16,
+            color: editorTextTertiary,
+          ),
+          prefixIconConstraints: const BoxConstraints(
+            minWidth: 30,
+            minHeight: 30,
+          ),
           contentPadding: const EdgeInsets.symmetric(vertical: 6),
           filled: true,
           fillColor: editorChipBg,
@@ -221,11 +254,14 @@ class _TilePaletteState extends State<TilePalette> {
     );
   }
 
-  Widget _label(String text) => Text(text,
-      style: const TextStyle(
-          color: editorTextSecondary,
-          fontSize: 13,
-          fontWeight: FontWeight.w500));
+  Widget _label(String text) => Text(
+    LcsI18n.tr(text),
+    style: const TextStyle(
+      color: editorTextSecondary,
+      fontSize: 13,
+      fontWeight: FontWeight.w500,
+    ),
+  );
 
   Widget _chip(EditorBrush brush) {
     final bool active = identical(controller.brush, brush);
@@ -237,8 +273,9 @@ class _TilePaletteState extends State<TilePalette> {
           color: active ? editorChipActiveBg : editorChipBg,
           borderRadius: BorderRadius.circular(6),
           border: Border.all(
-              color: active ? editorAccent : editorBorder,
-              width: active ? 1.5 : 1),
+            color: active ? editorAccent : editorBorder,
+            width: active ? 1.5 : 1,
+          ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -253,22 +290,25 @@ class _TilePaletteState extends State<TilePalette> {
               ),
             ),
             const SizedBox(width: 7),
-            Text(brush.label,
-                style: TextStyle(
-                    color: active ? editorAccent : editorTextPrimary,
-                    fontSize: 13)),
+            Text(
+              LcsI18n.tr(brush.label),
+              style: TextStyle(
+                color: active ? editorAccent : editorTextPrimary,
+                fontSize: 13,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  String _categoryLabel(SpecialCategory c) => switch (c) {
-        SpecialCategory.navigation => 'Navigation',
-        SpecialCategory.objective => 'Objectives',
-        SpecialCategory.security => 'Security',
-        SpecialCategory.containment => 'Containment',
-        SpecialCategory.industry => 'Industry',
-        SpecialCategory.furniture => 'Furniture',
-      };
+  String _categoryLabel(SpecialCategory c) => LcsI18n.tr(switch (c) {
+    SpecialCategory.navigation => 'Navigation',
+    SpecialCategory.objective => 'Objectives',
+    SpecialCategory.security => 'Security',
+    SpecialCategory.containment => 'Containment',
+    SpecialCategory.industry => 'Industry',
+    SpecialCategory.furniture => 'Furniture',
+  });
 }

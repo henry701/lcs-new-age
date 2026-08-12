@@ -143,72 +143,81 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
     return Container(
       color: editorPanelBg,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        children: [
-          const Icon(Icons.map_outlined, size: 18, color: editorTextSecondary),
-          const SizedBox(width: 8),
-          const Text(
-            'Map editor',
-            style: TextStyle(
-              color: editorTextPrimary,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.map_outlined,
+              size: 18,
+              color: editorTextSecondary,
             ),
-          ),
-          const SizedBox(width: 16),
-          _siteDropdown(),
-          const SizedBox(width: 16),
-          _floorStepper(),
-          const Spacer(),
-          if (controller.dirty)
-            const Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Text(
-                'Unsaved',
-                style: TextStyle(color: Color(0xFFE0A23A), fontSize: 12),
+            const SizedBox(width: 8),
+            Text(
+              LcsI18n.tr('Map editor'),
+              style: TextStyle(
+                color: editorTextPrimary,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
               ),
             ),
-          _iconButton(
-            Icons.undo,
-            'Undo',
-            enabled: controller.canUndo,
-            onTap: controller.undo,
-          ),
-          _iconButton(
-            Icons.redo,
-            'Redo',
-            enabled: controller.canRedo,
-            onTap: controller.redo,
-          ),
-          const SizedBox(width: 8),
-          _iconButton(
-            controller.previewMode ? Icons.visibility_off : Icons.visibility,
-            controller.previewMode ? 'Exit preview' : 'Preview (walk-through)',
-            onTap: _togglePreview,
-          ),
-          _iconButton(Icons.checklist, 'Validate map', onTap: _validate),
-          _iconButton(
-            Icons.upload_file,
-            'Import CSV map (.csv files)',
-            onTap: () => unawaited(_import()),
-          ),
-          _iconButton(
-            Icons.note_add_outlined,
-            'New blank map',
-            onTap: controller.newBlankMap,
-          ),
-          _iconButton(
-            Icons.download,
-            'Export all floors (.zip)',
-            onTap: () => unawaited(_export()),
-          ),
-          if (!widget.directLaunch)
+            const SizedBox(width: 16),
+            _siteDropdown(),
+            const SizedBox(width: 16),
+            _floorStepper(),
+            if (controller.dirty)
+              Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Text(
+                  LcsI18n.tr('Unsaved'),
+                  style: TextStyle(color: Color(0xFFE0A23A), fontSize: 12),
+                ),
+              ),
             _iconButton(
-              Icons.close,
-              'Close',
-              onTap: () => unawaited(Navigator.maybePop(context)),
+              Icons.undo,
+              'Undo',
+              enabled: controller.canUndo,
+              onTap: controller.undo,
             ),
-        ],
+            _iconButton(
+              Icons.redo,
+              'Redo',
+              enabled: controller.canRedo,
+              onTap: controller.redo,
+            ),
+            const SizedBox(width: 8),
+            _iconButton(
+              controller.previewMode ? Icons.visibility_off : Icons.visibility,
+              controller.previewMode
+                  ? 'Exit preview'
+                  : 'Preview (walk-through)',
+              onTap: _togglePreview,
+            ),
+            _iconButton(Icons.checklist, 'Validate map', onTap: _validate),
+            _iconButton(
+              Icons.upload_file,
+              'Import CSV map (.csv files)',
+              onTap: () => unawaited(_import()),
+            ),
+            _iconButton(
+              Icons.note_add_outlined,
+              'New blank map',
+              onTap: controller.newBlankMap,
+            ),
+            _iconButton(
+              Icons.download,
+              'Export all floors (.zip)',
+              onTap: () => unawaited(_export()),
+            ),
+            if (!widget.directLaunch)
+              _iconButton(
+                Icons.close,
+                'Close',
+                onTap: () => unawaited(Navigator.maybePop(context)),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -243,7 +252,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
   Widget _siteItem(SiteType type, {bool compact = false}) {
     final bool hasMap = _sitesWithMap.contains(type);
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Icon(
           hasMap ? Icons.check_circle : Icons.radio_button_unchecked,
@@ -251,17 +260,21 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
           color: hasMap ? const Color(0xFF5FA85A) : editorTextTertiary,
         ),
         const SizedBox(width: 8),
-        Text(
-          type.name,
-          style: TextStyle(
-            color: hasMap ? editorTextPrimary : editorTextSecondary,
-            fontSize: 13,
+        Flexible(
+          child: Text(
+            LcsI18n.tr(type.name),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: hasMap ? editorTextPrimary : editorTextSecondary,
+              fontSize: 13,
+            ),
           ),
         ),
         if (!compact && hasMap) ...[
           const SizedBox(width: 8),
-          const Text(
-            '· has map',
+          Text(
+            LcsI18n.tr('· has map'),
             style: TextStyle(color: Color(0xFF5FA85A), fontSize: 11),
           ),
         ],
@@ -397,7 +410,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
     return Padding(
       padding: const EdgeInsets.only(right: 6),
       child: Tooltip(
-        message: tip,
+        message: LcsI18n.tr(tip),
         child: GestureDetector(
           onTap: () => controller.selectTool(tool),
           child: Container(
@@ -426,7 +439,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
     bool enabled = true,
   }) {
     return Tooltip(
-      message: tip,
+      message: LcsI18n.tr(tip),
       child: IconButton(
         icon: Icon(icon, size: 18),
         color: editorTextSecondary,
@@ -504,7 +517,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
 
   String _hoverText() {
     final (int, int)? hov = controller.hover;
-    if (hov == null) return 'Hover the map';
+    if (hov == null) return LcsI18n.tr('Hover the map');
     final SiteTile tile = levelMap[hov.$1][hov.$2][controller.currentFloor];
     final String desc = tile.special != TileSpecial.none
         ? specialLabel(tile.special)
@@ -648,8 +661,10 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
     if (!mounted) return;
     if (tiles.isEmpty) {
       messenger.showSnackBar(
-        const SnackBar(
-          content: Text('No mapCSV_*_Tiles.csv files in the selection.'),
+        SnackBar(
+          content: Text(
+            LcsI18n.tr('No mapCSV_*_Tiles.csv files in the selection.'),
+          ),
         ),
       );
       return;
@@ -683,8 +698,8 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
             style: const TextStyle(color: editorTextPrimary, fontSize: 16),
           ),
           content: issues.isEmpty
-              ? const Text(
-                  'The map passed all checks.',
+              ? Text(
+                  LcsI18n.tr('The map passed all checks.'),
                   style: TextStyle(color: editorTextSecondary),
                 )
               : SizedBox(
@@ -723,7 +738,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
+              child: Text(LcsI18n.tr('Close')),
             ),
           ],
         ),

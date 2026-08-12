@@ -88,6 +88,7 @@
   "Miramar, FL": "Miramar, FL",
   "Naperville, IL": "Naperville, IL",
   "Nobody comes to arrest {name}.": "Nobody comes to arrest {name}.",
+  "Nuclear Plant": "Nuclear Plant",
   "Nuclear power is illegal.": "Nuclear power is illegal.",
   "OH Issue {number}": "OH Issue {number}",
   "Oh my Science!   We've got to do something!": "Oh my Science!   We've got to do something!",
@@ -143,6 +144,7 @@
   "Uncover Secrets": "Uncover Secrets",
   "Under siege: only flags already in your inventory can be raised.": "Under siege: only flags already in your inventory can be raised.",
   "V-Flee, ": "V-Flee, ",
+  "Vegan Co-op": "Vegan Co-op",
   "Warren, MI": "Warren, MI",
   "Watch": "Watch",
   "Who, if not you? When, if not now?": "Who, if not you? When, if not now?",
@@ -255,5 +257,6 @@
   "{pronoun} goldfish": "{pronoun} goldfish",
   "{protagonist} and the {adjective} {noun}": "{protagonist} and the {adjective} {noun}",
   "{skill}:": "{skill}:",
-  "{vicePresident} ": "{vicePresident} "
+  "{vicePresident} ": "{vicePresident} ",
+  "· has map": "· has map"
 }

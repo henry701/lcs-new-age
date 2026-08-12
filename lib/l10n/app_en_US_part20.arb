@@ -89,6 +89,7 @@
   "Let's go for a walk.": "Let's go for a walk.",
   "Liberal (body status)": "Liberal (body status)",
   "Liberals must be in the same location to form a squads.": "Liberals must be in the same location to form a squads.",
+  "Locked": "Locked",
   "M250": "M250",
   "Mamma, why did they kill {name}?": "Mamma, why did they kill {name}?",
   "Manhattan": "Manhattan",
@@ -248,5 +249,6 @@
   "{pName} has dates to manage with {dateList} at {location}.": "{pName} has dates to manage with {dateList} at {location}.",
   "{recruit} found {recruiter}'s views to be insightful.": "{recruit} found {recruiter}'s views to be insightful.",
   "{squad} paid {price} to travel to {site}.": "{squad} paid {price} to travel to {site}.",
+  "{width} × {height} · Floor {current}/{count}": "{width} × {height} · Floor {current}/{count}",
   "│   viewers across the nation were listening.       │": "│   viewers across the nation were listening.       │"
 }

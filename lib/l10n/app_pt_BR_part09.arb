@@ -107,6 +107,7 @@
   "Miramar, FL": "Miramar, Flórida",
   "Naperville, IL": "Naperville, Illinois",
   "Nobody comes to arrest {name}.": "Ninguém vem prender {name}.",
+  "Nuclear Plant": "Usina nuclear",
   "Nuclear power is illegal.": "Energia nuclear é ilegal.",
   "OH Issue {number}": "OH Pauta {number}",
   "Oh my Science!   We've got to do something!": "Oh minha Ciência!   Temos que fazer algo!",
@@ -162,6 +163,7 @@
   "Uncover Secrets": "Descobrir Segredos",
   "Under siege: only flags already in your inventory can be raised.": "Sob cerco: apenas bandeiras já no seu inventário podem ser levantadas.",
   "V-Flee, ": "V-Fugir, ",
+  "Vegan Co-op": "Cooperativa vegana",
   "Warren, MI": "Warren, Michigan",
   "Watch": "Relógio",
   "Who, if not you? When, if not now?": "Quem, senão você? Quando, senão agora?",
@@ -274,5 +276,6 @@
   "{pronoun} goldfish": "o peixinho dourado {pronoun}",
   "{protagonist} and the {adjective} {noun}": "{protagonist} e o {adjective} {noun}",
   "{skill}:": "{skill}:",
-  "{vicePresident} ": "{vicePresident}, "
+  "{vicePresident} ": "{vicePresident}, ",
+  "· has map": "· tem mapa"
 }

@@ -192,7 +192,9 @@ class MapEditorController extends ChangeNotifier {
         .where((t) => t.special == TileSpecial.stairsDown)
         .length;
     if (downOn(0) > 0) {
-      issues.add('Floor 1 has stairs down, but it is the ground floor.');
+      issues.add(
+        LcsI18n.tr('Floor 1 has stairs down, but it is the ground floor.'),
+      );
     }
     if (upOn(floorCount - 1) > 0) {
       issues.add(

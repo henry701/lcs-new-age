@@ -193,6 +193,7 @@
 | PT-346 | Low | Newspaper translation/context | Mass-shooting article drops Portuguese school articles and name order |
 | PT-347 | Low | Founder translation/context | Founder-origin option says `roubando de Corporações` instead of `das Corporações` |
 | PT-348 | Low | Profile/layout | Compact Portuguese Liberal profile ellipsizes body-part, skill, and vehicle labels |
+| PT-349 | Medium | Map editor translation/layout | Portuguese map editor bypasses localization and its toolbar overflows narrow viewports |
 
 ## PT-001: Save-management option is clipped
 
@@ -5171,3 +5172,22 @@ the full skill/profile pages retain their complete Portuguese wording. The
 post-fix browser capture has 25 rows, a maximum width of 80, no stale fragments,
 and an empty `#lcs-playtest-errors` channel. The adjacent crime and full-skills
 pages were also replayed and retained complete labels.
+
+## PT-349: Map editor controls remained English and overflowed narrow viewports
+
+- Severity: Medium
+- Type: Map editor translation / layout
+- Screen: Portuguese mod-tools → Map Editor (Flutter route)
+- Replay status: **Fixed with runtime localization, catalog coverage, and strict-headless/widget replay on 2026-08-13**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-editor-translation-20260813/`; regression `test/map_editor/map_editor_translation_test.dart`
+
+The Portuguese mod-tools menu opened a separate Flutter map editor whose toolbar,
+terrain palette, special palette, and tooltips remained English (`Map editor`,
+`Pencil`, `Objectives`, `Validate map`, and similar labels). The same route also
+overflowed horizontally at a compact viewport, and a long site name could clip
+inside the dropdown. The editor now routes visible labels through `LcsI18n`,
+adds the missing English/Portuguese catalog entries, scrolls the top toolbar
+instead of overflowing, and ellipsizes long site names within the dropdown.
+The focused widget replay confirms Portuguese palette and toolbar semantics;
+the strict-headless browser replay confirms the separate route uses
+`HeadlessChrome/150.0.0.0` with no headed window or browser focus.

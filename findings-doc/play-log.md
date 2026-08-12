@@ -11,6 +11,21 @@
 - Starting commit: `03e2ca594771276f6a809ba6be941dd49521aed7`
 - Viewport captured at 1527 × 1293
 
+## 2026-08-13 — PT-349 strict-headless map-editor replay
+
+- Entry: Portuguese mod-tools → `E - Editor de Mapas`.
+- Before: the separate Flutter route exposed English toolbar, palette, and
+  tooltip labels; its top bar overflowed at a compact viewport and long site
+  names could clip in the dropdown.
+- Fix: route visible labels and validation/status text through `LcsI18n`, add
+  the en_US/pt_BR catalog entries, make the top bar horizontally scrollable,
+  and ellipsize long dropdown names.
+- After: the direct route loaded under the strict-headless
+  `HeadlessChrome/150.0.0.0` session without a headed window or bridge error;
+  the Portuguese widget replay found `Editor de mapas`, `Desfazer`, and
+  `Validar mapa` and no longer found `Pencil (P)`.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-editor-translation-20260813/`.
+
 ## Explored paths
 
 ### Title and language selection

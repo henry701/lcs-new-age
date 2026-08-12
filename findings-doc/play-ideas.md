@@ -1,5 +1,11 @@
 # Portuguese Playtest Scratch Pad
 
+- PT-354 fixed and verified (2026-08-13): the founder profile's
+  `Profissional do Roubo` was replaced with the natural Brazilian Portuguese
+  occupation label `Ladrão Profissional`. The existing core-vocabulary profile
+  regression rejects the old wording. Strict-headless evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-founder-20260813/`.
+
 - PT-350/PT-351 fixed and verified (2026-08-13): the strict-headless newspaper
   sweep found uncovered dynamic drug choices plus `vai morrem` in `DRUG PANIC`,
   and invalid `Parceria Unido`/`porta-voz do` agreement in `INSECURITY`.

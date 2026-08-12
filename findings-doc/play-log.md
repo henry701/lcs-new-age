@@ -54,6 +54,23 @@
 - PT-353: the WOKE HIRE article composed `uma pessoa negra (homem/mulher)`, leaking the English-era parenthetical structure into Portuguese. The catalog now renders `uma pessoa negra que é homem/mulher`; the generated-story regression rejects both English and Portuguese parenthetical leaks.
 - Focused siege and newspaper regressions pass. The canonical pre-fix route capture is under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-variants-20260813/`; the post-fix replay was verified through the same DOM bridge and the focused regressions.
 
+## 2026-08-13 — PT-354 strict-headless founder profile replay
+
+- The fresh Portuguese route used only the strict wrapper and reported
+  `HeadlessChrome/150.0.0.0`; no headed browser was opened or focused.
+- The founder profile rendered the translated creature type as
+  `Profissional do Roubo`. That wording is understandable but unnatural in
+  Brazilian Portuguese for the occupation `Professional Thief`; the direct
+  noun phrase is `Ladrão Profissional`.
+- PT-354 changes the canonical catalog value and extends the existing profile
+  regression to reject the old wording. The rebuilt headless route reached the
+  Portuguese founder/task screens without bridge errors; the focused profile
+  test verifies the corrected label. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-founder-20260813/`.
+- The 320×240 capture still shows the known PT-083 fixed-width console scaling;
+  it has no horizontal DOM overflow and is retained as a layout follow-up,
+  not a new regression.
+
 ## Explored paths
 
 ### Title and language selection

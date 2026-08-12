@@ -338,7 +338,7 @@ void main() {
     final rendered = _consoleText();
     for (final expected in [
       'Civil',
-      'Profissional do Roubo',
+      'Ladrão Profissional',
       'Cisgênero',
       'Segurança:',
       'Computadores:',
@@ -350,6 +350,7 @@ void main() {
     for (final leakedEnglish in [
       'Civilian',
       'Professional Thief',
+      'Profissional do Roubo',
       'Cisgender',
       'Security:',
       'Computers:',
@@ -1151,11 +1152,11 @@ void main() {
       await assembleSquad(null);
 
       final row = console.buffer[2].map((character) => character.glyph).join();
-      expect(row, contains('Profissional do Ro…'));
+      expect(row, contains('Ladrão Profissional'));
       expect(row, contains('SEA — Sem-teto'));
       expect(console.buffer[2][45].glyph, equals(' '));
       expect(row, isNot(matches(RegExp(r'\+\d+Profissional'))));
-      expect(row, isNot(contains('Profissional do RSEA')));
+      expect(row, isNot(contains('Ladrão ProfissionalSEA')));
       expect(founder.equippedClothing!.shortArmorDetail(), isNotEmpty);
     },
   );

@@ -1,5 +1,16 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-13 (PT-354)
+
+- Strict-headless founder replay reached the Portuguese profile and exposed
+  `Profissional do Roubo` for the `Professional Thief` creature type. The
+  catalog now uses `Ladrão Profissional`; the core profile regression asserts
+  the natural label and rejects the old wording. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/narrow-founder-20260813/`.
+- The same replay at 320×240 retained the known PT-083 fixed-width-console
+  scaling limitation without horizontal DOM overflow; no new layout issue was
+  confirmed.
+
 ## Playtest continuation — 2026-08-13 (PT-352/PT-353)
 
 - Strict-headless siege/media replay found `do revista de notícias` in the

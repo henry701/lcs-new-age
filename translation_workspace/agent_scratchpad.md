@@ -43,6 +43,22 @@
 - Durable capture directory:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/debug-flag-sweep-20260812/`.
 
+## Playtest continuation — 2026-08-12 commerce/profile follow-up
+
+- Strict-headless Portuguese replay covered the Commerce → `O Calabouço`
+  armor, clothing, and weapon departments plus department-store travel. The
+  live rows preserved translated metadata, purchase footers, and key prefixes;
+  evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/armor-footer-20260812/`.
+- A rebuilt temporary injured-founder/all-items route exercised Review profile
+  pages. `+8 outras — BAIXO`, the full special-injury page, skill page, and
+  crime page remained Portuguese and bounded at 80 columns. Flags were
+  restored before shutdown; evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-profile-20260812/`.
+- No new translation, prefix, or layout issue was confirmed. Keep the random
+  PT-048/PT-148 terminal variants, PT-083 narrow-console enhancement, and the
+  persisted generated-name locale-switch decision in the residual queue.
+
 ## Run 2026-03-14 00:00 UTC
 
 - **Run timestamp in UTC:** 2026-03-14 00:00 UTC

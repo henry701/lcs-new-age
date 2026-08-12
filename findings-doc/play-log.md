@@ -5322,3 +5322,28 @@ Residual work remains limited to broader random PT-048/PT-148 police-terminal
 variants, the optional PT-083 narrow-console readability enhancement, and the
 product decision about translating persisted generated names after a locale
 switch.
+
+## 2026-08-12 — strict-headless commerce and injured-profile follow-up
+
+- Replayed a fresh Portuguese campaign with the repository wrapper only:
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`,
+  and `--disable-cache`. The browser UA was
+  `HeadlessChrome/150.0.0.0`; no headed window was opened or focused.
+- Covered the planned Commerce route through `O Calabouço`, including the
+  medieval armor, Halloween clothing, and medieval weapon departments. Item
+  names, traits, prices, `A -`/`C -`/`M -` prefixes, and purchase footers stayed
+  Portuguese and within the 80-column DOM bridge. The route also reached the
+  department-store and travel-plan screens without a bridge error.
+- Rebuilt once with temporary all-items, funds, and badly-injured founder flags
+  to exercise Review → Liberals → profile. The compact profile showed the
+  translated wound overflow marker (`+8 outras — BAIXO`); the skills, crimes,
+  and full special-injury page stayed Portuguese, bounded, and navigable. The
+  temporary flags were restored to `false` before stopping the server.
+- No new translation, prefix, or layout defect was confirmed. Durable captures
+  are under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/armor-footer-20260812/`
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/injury-profile-20260812/`.
+
+Residual work remains limited to broader random PT-048/PT-148 police-terminal
+variants, the optional PT-083 narrow-console readability enhancement, and the
+product decision about translating persisted generated names after a locale
+switch.

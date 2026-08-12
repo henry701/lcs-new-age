@@ -1,5 +1,17 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-13 — PT-366 localized-value boundary follow-up
+
+- PT-366 is fixed and verified: profile weapon labels and Assign Tasks site
+  names no longer re-enter the English-key translator after localization.
+  This removes false `Nenhuma`, `Daishō`, and `SEA — Sem-teto` telemetry while
+  preserving the visible Portuguese output. Keep `noTranslate` at display
+  boundaries when a helper already returns a localized value; use the catalog
+  for raw source/fallback labels.
+- Focused base/i18n tests and a rebuilt strict-headless replay pass with no
+  missing-translation warnings, bridge errors, or width overflow. Evidence is
+  under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/double-translation-20260813/`.
+
 ## 2026-08-12 — police combat follow-up (PT-365)
 
 - The strict-headless replay covered the police warning, surrender prompt,

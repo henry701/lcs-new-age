@@ -296,6 +296,7 @@ void printManagementTableRow({
     locationColor,
     location,
     ManagementTableLayout.locationWidth,
+    noTranslate: true,
   );
   mvaddstrcFitted(
     y,

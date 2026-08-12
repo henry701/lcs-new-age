@@ -1,5 +1,21 @@
 # Portuguese Play Log
 
+## 2026-08-13 — PT-366 localized-value boundary replay
+
+- Replayed a fresh Portuguese founder through the profile, base roster, Assign
+  Tasks screen, and activity picker using only the repository strict-headless
+  wrapper. The browser reported `HeadlessChrome/150.0.0.0`; no headed browser
+  was opened or focused.
+- The first run exposed false missing-key logs for already-localized `Nenhuma`,
+  `Daishō`, and `SEA — Sem-teto`. Source tracing showed a profile weapon value
+  and task-table location value being translated twice. The fix marks those
+  rendered values `noTranslate` while preserving translation for raw fallback
+  labels.
+- The rebuilt route retained Portuguese labels, emitted no missing/fallback
+  warnings or runtime errors, and stayed at 25 rows × 80 columns with no
+  document overflow or bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/double-translation-20260813/`.
+
 ## 2026-08-12 — strict-headless funded equipment follow-up
 
 - Replayed a fresh Portuguese campaign with temporary `debugAllItems` and

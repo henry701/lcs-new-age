@@ -1,5 +1,15 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-13 localized-value boundary (PT-366)
+
+- Fresh strict-headless Portuguese founder/base replay found false missing
+  telemetry for `Nenhuma`, `Daishō`, and `SEA — Sem-teto`. The profile weapon
+  and Assign Tasks location cells were translating already-localized values a
+  second time.
+- Fixed by marking those display boundaries `noTranslate`; raw `In Hiding`
+  fallback still goes through the catalog. Focused tests and rebuilt route
+  pass. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/double-translation-20260813/`.
+
 ## Playtest continuation — 2026-08-12 police combat follow-up (PT-365)
 
 - A disposable fixture placed the active founder squad at the besieged site

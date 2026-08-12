@@ -944,6 +944,35 @@ void main() {
     expect(founder.activity.type, ActivityType.none);
   });
 
+  test('Portuguese profile does not retranslate localized weapon labels', () {
+    final founder = _founder()..giveWeaponAndAmmo('WEAPON_DAISHO', 0);
+
+    printCreatureInfo(founder);
+
+    final rendered = _consoleText();
+    expect(rendered, contains('Arma: Daishō'));
+    expect(LcsI18n.getMissingTranslations(), isNot(contains('Daishō')));
+    expect(LcsI18n.getMissingTranslations(), isNot(contains('Nenhuma')));
+  });
+
+  test('Portuguese task rows do not retranslate localized site names', () {
+    final founder = _founder();
+    final location = _homelessCamp.getName(short: true, includeCity: true);
+
+    printManagementTableRow(
+      y: 2,
+      key: 'A',
+      creature: founder,
+      location: location,
+      locationColor: lightGray,
+      trailing: founder.activity.description,
+      trailingColor: founder.activity.color,
+    );
+
+    expect(_consoleText(), contains('SEA — Sem-teto'));
+    expect(LcsI18n.getMissingTranslations(), isNot(contains(location)));
+  });
+
   test(
     'Portuguese siege wait warning stays natural and clear of exit action',
     () {

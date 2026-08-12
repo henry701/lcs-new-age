@@ -47,7 +47,8 @@ Future<void> activateRegulars() async {
         key: key,
         creature: c,
         location:
-            c.location?.getName(short: true, includeCity: true) ?? "In Hiding",
+            c.location?.getName(short: true, includeCity: true) ??
+            LcsI18n.tr("In Hiding"),
         locationColor: c.site?.isPartOfTheJusticeSystem == true
             ? yellow
             : lightGray,

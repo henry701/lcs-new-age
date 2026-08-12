@@ -204,6 +204,7 @@
 | PT-363 | Medium | Bank-vault translation/coverage | Vault continuation fragments fell back to English and called an informática specialist `um computador` |
 | PT-364 | — | Playtest verification | Rebuilt police-fixture route stayed localized and width-safe; arrest/subdue branch remains unforced |
 | PT-365 | — | Playtest verification | Strict-headless police combat replay stayed localized and width-safe; normal subdue terminal remains residual |
+| PT-366 | Low | Translation telemetry / display boundary | Already-localized profile and site values were retranslated |
 
 ## PT-001: Save-management option is clipped
 
@@ -5394,3 +5395,21 @@ bridge errors appeared. No English fallback, key-prefix mutation, punctuation
 loss, or layout collision was observed. The normal `_fightSubdued` guard did not
 fire before the combat state changed, so PT-048 arrest/subdue coverage remains
 explicitly residual rather than being treated as verified.
+
+## PT-366: Already-localized profile and site values were retranslated
+
+- Severity: Low
+- Type: Translation telemetry / display boundary
+- Screen: Portuguese founder profile and base → Assign Tasks
+- Replay status: **Fixed with focused regressions and a fresh strict-headless replay on 2026-08-13**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/double-translation-20260813/replay.md`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The Portuguese founder route logged `Nenhuma`, `Daishō`, and `SEA — Sem-teto`
+as missing translations even though each value was already localized and
+visible in the correct Portuguese form. The profile weapon renderer and the
+Assign Tasks location cell passed their rendered values through the English-key
+translation wrapper a second time. Those boundaries now mark resolved values
+as `noTranslate`; the Assign Tasks fallback `In Hiding` still uses the catalog.
+Focused regressions cover both paths. A rebuilt headless replay kept the labels
+unchanged, removed the false warnings, and stayed at 25×80 with no overflow or
+bridge errors.

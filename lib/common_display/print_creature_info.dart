@@ -222,7 +222,10 @@ void printWeapon(Creature cr, {int? maxWidth}) {
     addstr("Voice");
     return;
   }
-  addstr(_localizedWeaponShortName(cr));
+  // _localizedWeaponShortName already resolves the catalog key. Passing its
+  // result through the normal wrapper again makes Portuguese values such as
+  // "Nenhuma" and "Daishō" look like missing English keys.
+  addstr(_localizedWeaponShortName(cr), noTranslate: true);
   setColor(lightGray);
   if (cr.weapon.type.usesAmmo) {
     if (cr.weapon.ammo > 0) {

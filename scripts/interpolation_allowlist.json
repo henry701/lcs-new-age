@@ -58,37 +58,37 @@
   "allEntries": [
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 139,
+      "line": 140,
       "text": "\\$${c.income}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 633,
+      "line": 634,
       "text": "\\$${craftable[index].makePrice + craftable[index].allowedArmor.first.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 675,
+      "line": 676,
       "text": "${craftable[selectedClothingIndex].idName}:ARMOR$selectedArmorIndex",
       "reason": "Stable activity identifier; never rendered as player-facing prose."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 698,
+      "line": 699,
       "text": "\\$${craftable[selected].makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 736,
+      "line": 737,
       "text": "\\$${flag.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 798,
+      "line": 799,
       "text": "\\$${clothing.makePrice + armor.makePrice}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
@@ -172,13 +172,13 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 329,
+      "line": 330,
       "text": "\\$${ledger.funds}",
       "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 471,
+      "line": 472,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },

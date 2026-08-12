@@ -5604,3 +5604,22 @@ switch.
   confirmed. The combat `_fightSubdued` arrest branch was not forced, so the
   broader PT-048 arrest/subdue queue remains open. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-cops-20260812/`.
+
+## 2026-08-12 — strict-headless police combat follow-up (PT-365)
+
+- Replayed the disposable Portuguese police fixture after moving the active
+  squad placement to the end of character creation so it survived into the
+  besieged warehouse. The repository wrapper remained strict headless only:
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`, and `--disable-cache`; UA was
+  `HeadlessChrome/150.0.0.0`. No headed browser was opened or focused.
+- Covered the surround warning, `Rendam-se!` loudspeaker prompt, surrender
+  status, combat briefing, SWAT equipment roster, localized weapons and armor,
+  hit/injury messages, and repeated `F - Lutar` rounds. Buffers stayed at 25
+  rows/max width 80 with no document overflow and no bridge errors.
+- The normal `_fightSubdued` condition was not reached before combat state
+  changed, so no arrest terminal was claimed. The residual PT-048
+  arrest/subdue queue remains open. Temporary fixture/diagnostic edits were
+  removed and the temporary browser/server were closed; persistent port 8872
+  was untouched. Evidence directory:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-subdue-20260812/`.

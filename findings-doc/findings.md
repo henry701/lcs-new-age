@@ -203,6 +203,7 @@
 | PT-361 | Medium | Site-map console layout | Courthouse special label overwrote the Portuguese `L:Carregar` command |
 | PT-363 | Medium | Bank-vault translation/coverage | Vault continuation fragments fell back to English and called an informática specialist `um computador` |
 | PT-364 | — | Playtest verification | Rebuilt police-fixture route stayed localized and width-safe; arrest/subdue branch remains unforced |
+| PT-365 | — | Playtest verification | Strict-headless police combat replay stayed localized and width-safe; normal subdue terminal remains residual |
 
 ## PT-001: Save-management option is clipped
 
@@ -5376,3 +5377,20 @@ reported 25 rows with a maximum width of 80, no document overflow, no bridge
 errors, and a `HeadlessChrome/150.0.0.0` user agent. The run did not force the
 combat `_fightSubdued` arrest path, so PT-048 arrest/subdue coverage remains
 open rather than being marked complete.
+
+## PT-365: Strict-headless police combat replay found no new defect
+
+- Severity: Informational
+- Type: Playtest verification / translation and layout
+- Screen: Portuguese safehouse → police siege → surrender → SWAT combat
+- Replay status: **Verified clean in a fresh strict-headless replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-subdue-20260812/`
+
+The rebuilt disposable route exercised the police surround warning, loudspeaker
+`Rendam-se!` prompt, surrender status, combat briefing, SWAT roster, localized
+weapons and armor, hit/injury messages, and repeated `F - Lutar` rounds. The DOM
+bridge remained at 25 rows with a maximum width of 80; no document overflow or
+bridge errors appeared. No English fallback, key-prefix mutation, punctuation
+loss, or layout collision was observed. The normal `_fightSubdued` guard did not
+fire before the combat state changed, so PT-048 arrest/subdue coverage remains
+explicitly residual rather than being treated as verified.

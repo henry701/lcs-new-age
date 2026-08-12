@@ -1,5 +1,18 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-12 police combat follow-up (PT-365)
+
+- A disposable fixture placed the active founder squad at the besieged site
+  after character creation and ran under the repository's strict headless
+  wrapper only. The route covered the police warning, `Rendam-se!` prompt,
+  surrender status, SWAT roster, localized equipment, and combat hit/injury
+  messages at 80 columns with no bridge errors or document overflow.
+- The ordinary `_fightSubdued` threshold did not fire before the combat state
+  changed; the arrest terminal therefore remains an open PT-048 residual, not
+  a verified clean branch. All temporary flags, source diagnostics, and the
+  temporary server/browser were removed/closed. Persistent port 8872 was left
+  untouched. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-subdue-20260812/`.
+
 ## Playtest continuation — 2026-08-12 rebuilt police fixture (PT-364)
 
 - Restarted the temporary web server after setting the disposable fixture to

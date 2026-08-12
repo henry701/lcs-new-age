@@ -1,5 +1,13 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-12 — police combat follow-up (PT-365)
+
+- The strict-headless replay covered the police warning, surrender prompt,
+  SWAT roster, localized equipment, combat messages, and repeated fight rounds
+  without a new issue. The normal `_fightSubdued` guard still needs a
+  deterministic production-safe route; do not mark PT-048 complete from this
+  run.
+
 ## 2026-08-12 — rebuilt police-fixture replay (PT-364)
 
 - Restarted only the temporary 8899 server after setting the disposable siege

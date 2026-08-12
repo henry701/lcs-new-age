@@ -192,6 +192,7 @@
 | PT-345 | Low | Newspaper translation/grammar | Mass-shooting article uses the finite verb `matou` after `já tinha` |
 | PT-346 | Low | Newspaper translation/context | Mass-shooting article drops Portuguese school articles and name order |
 | PT-347 | Low | Founder translation/context | Founder-origin option says `roubando de Corporações` instead of `das Corporações` |
+| PT-348 | Low | Profile/layout | Compact Portuguese Liberal profile ellipsizes body-part, skill, and vehicle labels |
 
 ## PT-001: Save-management option is clipped
 

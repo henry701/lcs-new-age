@@ -5204,6 +5204,27 @@ headless matrix when future resource terminology changes land.
   at 80 columns with no bridge errors; captures and metrics are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-wounds-context-20260811/`.
 
+## 2026-08-12 — strict-headless compact profile residual
+
+- A fresh Portuguese founder route used only the repository's strict-headless
+  `agent-browser` wrapper (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`) and the DOM console bridge. It covered founder
+  creation, commerce, police, hospital/university travel, equipment, squad
+  assembly, and the Review → Liberal profile path.
+- The compact profile remained Portuguese and structurally separated, but its
+  fixed cells visibly ellipsized useful labels:
+  `Perna esq…`, `Perna dir…`, `Braço esq…`, `Braço dir…`,
+  `Esperteza de R…`, and `Carro: Veículo roubado: Espo…`. The fixed numeric and
+  wound-status columns did not collide, so this is a low-severity readability
+  residual rather than a data-loss or crash defect.
+- The bridge reported `HeadlessChrome/150.0.0.0`, 25 console rows, no browser
+  errors, and no document overflow. The canonical buffer is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/surface-sweep-20260812-current.txt`.
+
+PT-348 is now the only newly confirmed profile residual. The full-profile PT-189
+fix remains intact; future work should address compact-profile abbreviations or
+an alternate detail view without widening the fixed 80-column roster.
+
 ## 2026-08-12 — strict-headless mass-shooting and founder-context follow-up
 
 - A fresh Portuguese founder route ran only through the repository's strict

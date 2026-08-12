@@ -118,6 +118,10 @@ void main() {
       '{squad} chegou ao destino: {site}.',
     );
     expect(catalog['UW Medical'], 'Hospital UW');
+    expect(
+      catalog['F - Go in and fix up Conservative wounds'],
+      'F - Entrar e tratar os ferimentos dos Conservadores',
+    );
     expect(catalog['SWAT Officer'], 'Policial da SWAT');
     expect(
       catalog['A bank teller is available.'],

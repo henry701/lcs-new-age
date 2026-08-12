@@ -188,6 +188,7 @@
 | PT-341 | Low | Help translation/context | Community-service help calls the in-game `Energia` resource `Ânimo` |
 | PT-342 | Medium | Media translation/coverage | Media overview leaves a stored Portuguese headline in English |
 | PT-343 | Medium | Newspaper translation/coverage | Military article exposes an English hostage-rescue sentence fragment |
+| PT-344 | Low | Hospital translation/context | Hospital action omits the possessive article for Conservative wounds |
 
 ## PT-001: Save-management option is clipped
 
@@ -5092,3 +5093,18 @@ Portuguese article. `translateMilitaryIncident` now translates the two
 cataloged fragments independently and joins them as
 `de alguma forma conseguiu atirar em todos os reféns e em nenhum dos captores
 durante uma missão de resgate de reféns`.
+
+## PT-344: Hospital wound-action label omits the possessive article
+
+- Severity: Low
+- Type: Hospital translation/context
+- Screen: Portuguese site mode → University Hospital (`Centro Médico UW`)
+- Replay status: **Fixed with a contextual catalog correction and strict-headless replay on 2026-08-11**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-wounds-context-20260811/before.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-wounds-context-20260811/after.txt`; regression `test/pt_br_context_translation_test.dart`
+
+The hospital action translated `F - Go in and fix up Conservative wounds` as
+`F - Entrar e tratar ferimentos Conservadores`. Without the article and
+possessive preposition, `Conservadores` modifies `ferimentos` as an adjective
+rather than naming the faction whose wounds are being treated. The catalog now
+renders `F - Entrar e tratar os ferimentos dos Conservadores`, which keeps the
+faction term and its context explicit.

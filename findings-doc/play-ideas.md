@@ -8,6 +8,12 @@
   and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/military-article-20260811/`;
   keep a seeded newspaper cycle for future live verification.
 
+- PT-344 fixed (2026-08-11): the University Hospital action now says `Entrar
+  e tratar os ferimentos dos Conservadores`, replacing the ambiguous
+  `ferimentos Conservadores`. The strict-headless route and contextual catalog
+  regression are recorded under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-wounds-context-20260811/`.
+
 - PT-341 fixed and verified (2026-08-11): the community-service help overlay
   now calls the in-game `Juice` resource `Energia` instead of the inconsistent
   `Ânimo`. The focused help regression and a fresh strict-headless route both

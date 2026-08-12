@@ -5192,3 +5192,14 @@ headless matrix when future resource terminology changes land.
   military incident within 30 additional day steps, so the deterministic
   fragment test is the authoritative post-fix check for PT-343; future seeded
   newspaper cycles should retain this route.
+
+## 2026-08-11 — strict-headless hospital context follow-up
+
+- A fresh Portuguese founder route traveled to the University District and
+  opened `Centro Médico UW`. The action row exposed `F - Entrar e tratar
+  ferimentos Conservadores`, an ambiguous literal translation of the
+  Conservative-faction wound action.
+- PT-344 changes the catalog entry to `F - Entrar e tratar os ferimentos dos
+  Conservadores`. The rebuilt strict-headless route rendered the corrected row
+  at 80 columns with no bridge errors; captures and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-wounds-context-20260811/`.

@@ -198,6 +198,7 @@
 | PT-351 | Low | Newspaper translation/context | Retirement story composes generated think-tank names with invalid gender/article agreement |
 | PT-357 | Low | Newspaper translation/style | FM article repeats “radio” in `radialista de rádio FM` |
 | PT-358 | — | Playtest verification | Medical-debt raid and receipt replay clean; no new defect confirmed |
+| PT-359 | Low | Interface-options translation/grammar | Encounter-warning help uses masculine `por eles` for feminine `pessoas` |
 
 ## PT-001: Save-management option is clipped
 

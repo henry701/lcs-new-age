@@ -5203,3 +5203,23 @@ headless matrix when future resource terminology changes land.
   Conservadores`. The rebuilt strict-headless route rendered the corrected row
   at 80 columns with no bridge errors; captures and metrics are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-wounds-context-20260811/`.
+
+## 2026-08-12 — strict-headless mass-shooting and founder-context follow-up
+
+- A fresh Portuguese founder route ran only through the repository's strict
+  headless CLI browser (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`) at the fixed 80×25 console. The route reached
+  hospital discharge, month-end news, courtroom notices, and a live Portuguese
+  newspaper page without opening or focusing a headed window.
+- The captured mass-shooting article exposed PT-345 (`já tinha matou`) and
+  PT-346 (`em escola fundamental Spasov` / `entrou em escola fundamental`).
+  The catalog/runtime now use the correct past participle and school-specific
+  articles/name order. A deterministic regression generates 500 stories and
+  observes all four school types, rejecting the old forms.
+- The founder-origin capture also confirmed PT-347: `roubando de Corporações`
+  is now `roubando das Corporações`, with original capitalization retained.
+- Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/mass-shooting-context-20260812/`
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/founder-choices-20260812/`.
+  The live post-fix route remained Portuguese and bounded; no DOM bridge errors
+  or new translation defect were confirmed during the follow-up.

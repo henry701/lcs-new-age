@@ -14,6 +14,7 @@ import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/saveload/load_cpc_images.dart';
+import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 String _consoleLine(int y) =>
     console.buffer[y].map((character) => character.glyph).join().trimRight();
@@ -266,6 +267,40 @@ void main() {
     expect(content.storyText, contains('ele pudesse'));
   });
 
+  test('Portuguese gun-control stories contract school articles by type', () {
+    reseedRNG(seed: 20260812);
+    const schoolPhrases = [
+      'na escola primária',
+      'na escola fundamental',
+      'no ensino médio',
+      'na universidade',
+    ];
+    final seen = <String>{};
+    for (var i = 0; i < 500; i++) {
+      final story = NewsStory.unpublished(NewsStories.majorEvent)
+        ..publication = Publication.herald
+        ..view = View.gunControl;
+      final text = generateMajorEventContent(
+        View.gunControl,
+        true,
+        story,
+      ).storyText!;
+
+      expect(text, isNot(contains('já tinha matou')));
+      expect(text, isNot(contains('em escola ')));
+      expect(text, isNot(contains('em ensino ')));
+      expect(text, isNot(contains('em universidade ')));
+      for (final phrase in schoolPhrases) {
+        if (text.contains('dois professores $phrase') &&
+            text.contains('entrou $phrase')) {
+          seen.add(phrase);
+        }
+      }
+    }
+
+    expect(seen, containsAll(schoolPhrases));
+  });
+
   test('Portuguese civil-rights stories localize generated gender words', () {
     var sawWokeHire = false;
     for (var i = 0; i < 200; i++) {
@@ -344,6 +379,8 @@ void main() {
       'The Herald': 'O Arauto',
       'SUBSCRIBE {price} WEEKLY': 'ASSINE {price}/SEM',
       'mass shooting': 'tiroteio em massa',
+      'killed {count} and wounded dozens more':
+          'matado {count} e ferido dezenas de outras pessoas',
       'university': 'universidade',
       'The Cuyahoga River is ablaze as pollution increases.':
           'O Rio Cuyahoga está em chamas com o aumento da poluição.',

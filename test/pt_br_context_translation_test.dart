@@ -139,6 +139,14 @@ void main() {
       'Variação líquida neste mês (dia):',
     );
     expect(
+      catalog['stealing from Corporations.  I know they\'re hiding the truth.'],
+      'roubando das Corporações.  Eu sei que eles estão escondendo a verdade.',
+    );
+    expect(
+      catalog['killed {count} and wounded dozens more'],
+      'matado {count} e ferido dezenas de outras pessoas',
+    );
+    expect(
       catalog['{approval}% have a favorable opinion of '],
       '{approval}% têm uma opinião favorável sobre o ',
     );

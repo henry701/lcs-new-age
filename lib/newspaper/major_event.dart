@@ -425,15 +425,23 @@ MajorEventContent generateMajorEventContent(
                 "surprised at how easy it was to get his hands on the guns",
               )
             : LcsI18n.tr("disturbingly obsessed with guns and death");
+        final schoolLastName = lastName();
         String schoolName = LcsI18n.processString("{name} {school}", {
-          "name": lastName(),
+          "name": schoolLastName,
           "school": school,
         });
+        final schoolArticle = schoolType == 2 ? "no" : "na";
+        final schoolAt = LcsI18n.currentLocale == "pt_BR"
+            ? [schoolArticle, school, schoolLastName].join(" ")
+            : ["at", schoolName].join(" ");
+        final schoolWithArticle = LcsI18n.currentLocale == "pt_BR"
+            ? [schoolArticle, school].join(" ")
+            : ["the", school].join(" ");
 
         return MajorEventContent(
           headline: "MASS SHOOTING",
           storyText: LcsI18n.processString(
-            "{city} - A student has gone on a {shootingRampage} at a local {school}.  {shooter}, {shooterAge}, used a variety of guns to {mowDown} more than a dozen classmates and two teachers at {schoolName}.  {shooter} entered the {school} while classes were in session, then systematically started breaking into classrooms, {sprayingBulletsAt} students and teachers inside.  When other students tried to wrestle the weapons away from {shooterLast}, they were {shot} as well.&r  When the police {finallyArrived}, the student had already {beforePolice}.  {shooterFirst} {unalived} shortly afterwards.  {policeWereUseless}&r  Investigators are currently searching the student's belongings, and initial reports indicate that the student kept a journal that showed {shooterFirst} was {journalFinding}.&r",
+            "{city} - A student has gone on a {shootingRampage} at a local {school}.  {shooter}, {shooterAge}, used a variety of guns to {mowDown} more than a dozen classmates and two teachers {schoolAt}.  {shooter} entered {schoolWithArticle} while classes were in session, then systematically started breaking into classrooms, {sprayingBulletsAt} students and teachers inside.  When other students tried to wrestle the weapons away from {shooterLast}, they were {shot} as well.&r  When the police {finallyArrived}, the student had already {beforePolice}.  {shooterFirst} {unalived} shortly afterwards.  {policeWereUseless}&r  Investigators are currently searching the student's belongings, and initial reports indicate that the student kept a journal that showed {shooterFirst} was {journalFinding}.&r",
             {
               "city": randomCityName(),
               "shootingRampage": shootingRampage,
@@ -441,7 +449,8 @@ MajorEventContent generateMajorEventContent(
               "shooter": shooter.firstLast,
               "shooterAge": shooterAge,
               "mowDown": mowDown,
-              "schoolName": schoolName,
+              "schoolAt": schoolAt,
+              "schoolWithArticle": schoolWithArticle,
               "sprayingBulletsAt": sprayingBulletsAt,
               "shooterLast": shooter.last,
               "shot": shot,

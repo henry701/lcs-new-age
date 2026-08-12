@@ -43,6 +43,15 @@ Named keys are accepted as well (`Enter`, `ArrowLeft`, `Escape`, and so on).
 The bridge consumes the attribute once and records the last consumed command in
 `data-last-key` for diagnostics.
 
+## 2026-08-12 route note
+
+The mass-shooting/founder follow-up used the strict-headless wrapper and DOM
+buffer only; no headed browser was opened or focused. Captures and metrics are
+under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/mass-shooting-context-20260812/`.
+The live route covered hospital discharge, month-end news, courtroom notices,
+and Portuguese newspaper chrome. The article-specific school variants are
+validated deterministically in `test/newspaper/herald_translation_test.dart`.
+
 Use screenshots only when investigating glyph rendering or fixed-width layout.
 For translation checks, assert against the DOM buffer and option list instead
 of OCR.

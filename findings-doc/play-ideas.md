@@ -14,6 +14,15 @@
   regression are recorded under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/hospital-wounds-context-20260811/`.
 
+- PT-345/PT-346/PT-347 fixed and verified (2026-08-12): a strict-headless
+  newspaper/founder sweep corrected the mass-shooting past participle and
+  school articles/name order, plus the founder-origin contraction `das
+  Corporações`. Keep the 500-sample school-type regression and the original
+  capitalization assertion beside future automated newspaper translation
+  changes. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/mass-shooting-context-20260812/`
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/founder-choices-20260812/`.
+
 - PT-341 fixed and verified (2026-08-11): the community-service help overlay
   now calls the in-game `Juice` resource `Energia` instead of the inconsistent
   `Ânimo`. The focused help regression and a fresh strict-headless route both

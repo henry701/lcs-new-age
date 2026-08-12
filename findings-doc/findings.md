@@ -189,6 +189,9 @@
 | PT-342 | Medium | Media translation/coverage | Media overview leaves a stored Portuguese headline in English |
 | PT-343 | Medium | Newspaper translation/coverage | Military article exposes an English hostage-rescue sentence fragment |
 | PT-344 | Low | Hospital translation/context | Hospital action omits the possessive article for Conservative wounds |
+| PT-345 | Low | Newspaper translation/grammar | Mass-shooting article uses the finite verb `matou` after `já tinha` |
+| PT-346 | Low | Newspaper translation/context | Mass-shooting article drops Portuguese school articles and name order |
+| PT-347 | Low | Founder translation/context | Founder-origin option says `roubando de Corporações` instead of `das Corporações` |
 
 ## PT-001: Save-management option is clipped
 
@@ -5108,3 +5111,45 @@ possessive preposition, `Conservadores` modifies `ferimentos` as an adjective
 rather than naming the faction whose wounds are being treated. The catalog now
 renders `F - Entrar e tratar os ferimentos dos Conservadores`, which keeps the
 faction term and its context explicit.
+
+## PT-345: Mass-shooting article used the wrong past participle
+
+- Severity: Low
+- Type: Newspaper translation / grammar
+- Screen: Portuguese newspaper → mass-shooting major event
+- Replay status: **Fixed in the catalog and covered by a deterministic school-type regression on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/mass-shooting-context-20260812/before.txt`; regression `test/newspaper/herald_translation_test.dart`
+
+The article rendered `Quando a polícia chegou, o estudante já tinha matou 23...`.
+After the auxiliary `tinha`, Brazilian Portuguese requires the past participle
+`matado`. The catalog now uses `matado {count} e ferido dezenas de outras
+pessoas`; the regression rejects the old phrase across 500 generated stories.
+
+## PT-346: Mass-shooting article lost Portuguese school articles and name order
+
+- Severity: Low
+- Type: Newspaper translation / contextual grammar
+- Screen: Portuguese newspaper → mass-shooting major event
+- Replay status: **Fixed with context-aware school placeholders and covered by the same deterministic regression on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/mass-shooting-context-20260812/before.txt`; regression `test/newspaper/herald_translation_test.dart`
+
+The pre-fix article composed `dois professores em escola fundamental Spasov`
+and `entrou em escola fundamental`. The runtime now supplies Portuguese
+contextual placeholders: `na escola fundamental Spasov` and `na escola
+fundamental` (with `no ensino médio` for high school). The regression covers all
+four generated school types and rejects the article-less `em escola`, `em
+ensino`, and `em universidade` forms. The source-language path retains the
+original English `at {schoolName}` / `the {school}` wording.
+
+## PT-347: Founder-origin option used the wrong Portuguese contraction
+
+- Severity: Low
+- Type: Founder setup / contextual grammar
+- Screen: Portuguese new-game founder origin choices
+- Replay status: **Fixed in the catalog and covered by the Portuguese context catalog regression on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/founder-choices-20260812/last-year-before.txt`; regression `test/pt_br_context_translation_test.dart`
+
+The origin option `A - Stealing from Corporations...` was translated as
+`A - roubando de Corporações...`. In this context the definite plural noun
+requires the contraction `das Corporações`; the corrected translation also
+preserves the original capitalization of `Corporações`.

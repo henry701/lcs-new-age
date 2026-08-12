@@ -14,6 +14,23 @@
   random PT-048/PT-148 police-terminal variants, PT-083 narrow-console
   readability, and the persisted generated-name locale-switch decision.
 
+## Playtest continuation — 2026-08-13 police-terminal flee/narrow replay
+
+- Used the repository headless wrapper only; UA was
+  `HeadlessChrome/150.0.0.0`. No headed browser was launched or focused.
+- A clean Portuguese police-siege fixture reached both SWAT chase messages,
+  one combat turn, and safehouse return. `Escopeta pump` remains an acceptable
+  Brazilian Portuguese equipment term; no English leak or malformed dynamic
+  role was found.
+- Replayed the chase at 320×240 and 240×160. The DOM buffer stayed 25×80 with
+  `maxRow=80`, no over-wide rows, and an empty `#lcs-playtest-errors` channel.
+  The screenshots show the known small-console scaling, but no new clipping or
+  layout regression. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/
+  police-terminal-rerun-20260813/`.
+- Restored `debugSiege` and `debugAMilli` to `false`. Residual queue remains
+  random PT-048/PT-148 variants, PT-083 usability, and the generated-name
+  locale-switch product decision.
+
 ## Playtest continuation — 2026-08-13 police-siege fight verification
 
 - Strict-headless Portuguese police-siege replay covered the warning, SWAT

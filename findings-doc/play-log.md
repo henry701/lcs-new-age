@@ -36,6 +36,27 @@
   disabled state after the replay. Keep PT-048/PT-148 random terminal seeds and
   PT-083 narrow-console readability as the remaining playtest follow-ups.
 
+## 2026-08-13 — strict-headless police-terminal flee/narrow-layout verification
+
+- Replayed a fresh deterministic Portuguese police siege through the repository
+  wrapper only (`AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`); the browser reported
+  `HeadlessChrome/150.0.0.0`, with no headed window opened or focused.
+- Covered the SWAT chase's `ainda está no seu encalço` and
+  `não consegue acompanhar` branches, then returned to the safehouse. The
+  roster, weapon labels, combat message (`...com Escopeta pump!`), and siege
+  status remained Portuguese. The lowercase fleeing `Policial da SWAT` styling
+  is intentional shared encounter rendering, not a localization defect.
+- Repeated the active chase at 320×240 and 240×160. The DOM bridge still
+  exposed a 25×80 console (`maxRow=80`, zero rows over 80 columns) and the
+  narrow screenshots showed no horizontal clipping. The bridge error channel
+  remained empty; no new translation or layout issue was confirmed.
+- Temporary siege/funds debug flags were restored to `false`. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-rerun-20260813/`.
+- Residual queue remains: random PT-048/PT-148 terminal variants, PT-083
+  fixed-width-console usability work, and the persisted generated-name
+  locale-switch product decision.
+
 ## Environment
 
 - Local URL: `http://127.0.0.1:7357`

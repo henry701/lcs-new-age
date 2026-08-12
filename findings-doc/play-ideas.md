@@ -10,6 +10,20 @@
   `test/pt_br_context_translation_test.dart`; the clean strict-headless replay
   reached the vehicle picker at 480×320 with no overflow or bridge errors.
 
+## 2026-08-13 — police-terminal flee/narrow-layout follow-up
+
+- A deterministic strict-headless Portuguese siege replay covered both SWAT
+  chase outcomes (`ainda está no seu encalço` and `não consegue acompanhar`),
+  a combat turn, and return to the safehouse. All observed dynamic rows stayed
+  Portuguese; `Policial da SWAT` capitalization changes only with the existing
+  fleeing-role style.
+- At 320×240 and 240×160, the bridge reported a fixed 25×80 buffer with no
+  over-wide rows and no DOM bridge errors. This pass confirms the existing
+  compact-layout behavior; it does not close the broader PT-083 usability item.
+- Keep the remaining work limited to random PT-048/PT-148 terminal variants,
+  PT-083 fixed-width-console readability/usability, and the persisted
+  generated-name locale-switch decision.
+
 - 2026-08-13 strict-headless police-siege fight verification: warning,
   loudspeaker, `F - Lutar/Fugir`, SWAT combat, fleeing-role styling, victory,
   and post-siege return all stayed Portuguese and within 80 columns. The

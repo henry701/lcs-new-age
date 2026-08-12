@@ -5588,3 +5588,19 @@ switch.
   intentionally does not claim a full vault UI screenshot. The bank route and
   teller captures are under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/additional-route/19-bank-arrival.txt`
   and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/bank-teller-8014e-after.txt`.
+
+## 2026-08-12 — strict-headless rebuilt police-fixture replay (PT-364)
+
+- Restarted the temporary 8899 web server after switching the disposable
+  fixture to `debugSiegeType = "cops"`; the persistent 8872 server was left
+  untouched. The browser wrapper forced `AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, and `--ozone-platform=headless`; UA was
+  `HeadlessChrome/150.0.0.0`.
+- A fresh Portuguese route rendered `A polícia cercou o local`, the
+  loudspeaker `Rendam-se!` prompt, localized SWAT equipment, and the combat
+  legend. The DOM bridge stayed at 25 rows/max width 80, with no document
+  overflow and an empty `#lcs-playtest-errors` channel.
+- No translation, prefix-preservation, punctuation, or layout defect was
+  confirmed. The combat `_fightSubdued` arrest branch was not forced, so the
+  broader PT-048 arrest/subdue queue remains open. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-cops-20260812/`.

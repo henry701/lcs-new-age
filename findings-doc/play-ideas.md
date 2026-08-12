@@ -1,5 +1,22 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-12 — rebuilt police-fixture replay (PT-364)
+
+- Restarted only the temporary 8899 server after setting the disposable siege
+  fixture to cops; the persistent 8872 server remained untouched. The
+  repository wrapper stayed strict headless (`AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`) with UA
+  `HeadlessChrome/150.0.0.0`.
+- The fresh Portuguese route rendered the police surround message, the
+  `Rendam-se!` loudspeaker prompt, localized SWAT equipment, and the combat
+  legend. The bridge stayed at 25 rows/max width 80 with no document overflow
+  or bridge errors. No new translation, prefix, punctuation, or layout issue
+  was confirmed.
+- The combat `_fightSubdued` arrest path was not forced. Keep PT-048 arrest /
+  subdue variants, PT-083 narrow-console usability, and the persisted
+  generated-name locale-switch decision open. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-cops-20260812/`.
+
 ## 2026-08-12 — strict-headless funded equipment follow-up
 
 - Replayed a fresh Portuguese campaign with temporary `debugAllItems` and

@@ -1,5 +1,21 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-12 rebuilt police fixture (PT-364)
+
+- Restarted the temporary web server after setting the disposable fixture to
+  `debugSiegeType = "cops"`; the persistent 8872 server remained untouched.
+  The repository wrapper was strict headless only (`AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`), with UA
+  `HeadlessChrome/150.0.0.0`.
+- The fresh Portuguese route rendered `A polícia cercou o local`, the
+  loudspeaker `Rendam-se!` prompt, localized SWAT equipment, and the
+  Portuguese combat legend. The bridge remained 25 rows with max width 80,
+  no document overflow, and no bridge errors.
+- No new issue was confirmed. The `_fightSubdued` arrest branch was not
+  forced, so keep PT-048 arrest/subdue coverage, PT-083 narrow-console
+  usability, and the persisted generated-name locale-switch decision open.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-cops-20260812/`.
+
 ## Playtest continuation — 2026-08-12 (PT-359)
 
 - Fresh Portuguese strict-headless replay opened `Opções de Jogo → Opções de

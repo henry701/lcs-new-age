@@ -35,6 +35,14 @@
 - Keep future playtests checking both the canvas screenshot and DOM text for
   control glyphs when entering newspaper/art-heavy screens.
 
+## 2026-08-13 — PT-357 FM article wording follow-up
+
+- The police-terminal continuation reached a randomized `FM OBSCENITY` article
+  and found the out-of-context repetition `radialista de rádio FM`.
+- Fixed the catalog to `radialista de uma rádio FM` and added a generated-story
+  regression. Keep future newspaper passes checking medium labels against the
+  noun that already carries that meaning.
+
 - 2026-08-13 strict-headless police-siege fight verification: warning,
   loudspeaker, `F - Lutar/Fugir`, SWAT combat, fleeing-role styling, victory,
   and post-siege return all stayed Portuguese and within 80 columns. The

@@ -79,6 +79,24 @@
   PT-083 fixed-width-console usability, and the generated-name locale-switch
   product decision.
 
+## 2026-08-13 — PT-357 strict-headless police-terminal/article follow-up
+
+- A fresh `debugSiege=true` Portuguese campaign used only the strict-headless
+  wrapper (`HeadlessChrome/150.0.0.0`) at 480×320, then 320×240. It covered the
+  police alarm, loudspeaker, safehouse return, multiple daily waits, the
+  newspaper, and the `FM OBSCENITY` article. The bridge stayed at 25×80 with
+  no document overflow or playtest errors.
+- The article exposed `O polêmico radialista de rádio FM ...`; `radialista`
+  already means a radio presenter, so the repeated `rádio` is an unnatural
+  contextual calque. PT-357 changes it to `O polêmico radialista de uma rádio
+  FM ...`. The generated-story regression now rejects the old wording.
+- The temporary siege flag was restored to `false`; the headless browser and
+  disposable web server were closed. Captures are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-next-20260813/`.
+- Remaining queue: additional random PT-048/PT-148 terminal outcomes, PT-083
+  fixed-width-console usability, and the generated-name locale-switch product
+  decision.
+
 ## Environment
 
 - Local URL: `http://127.0.0.1:7357`

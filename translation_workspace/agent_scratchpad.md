@@ -45,6 +45,17 @@
 - Restored `debugPresidentSleeper=false`. Residual queue remains PT-048/PT-148
   random terminals, PT-083 usability, and generated-name locale switching.
 
+## Playtest continuation — 2026-08-13 (PT-357)
+
+- The fresh strict-headless `debugSiege` route reached `FM OBSCENITY` after
+  several daily waits. Its Portuguese article said `O polêmico radialista de
+  rádio FM`, repeating the medium already encoded by `radialista`.
+- The catalog now uses `O polêmico radialista de uma rádio FM`; the generated
+  newspaper regression rejects the old phrase and the English fallback.
+- Evidence and 480×320/320×240 captures are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-next-20260813/`.
+  Restored `debugSiege=false` and closed the headless server/browser.
+
 ## Playtest continuation — 2026-08-13 police-siege fight verification
 
 - Strict-headless Portuguese police-siege replay covered the warning, SWAT

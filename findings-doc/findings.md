@@ -196,6 +196,7 @@
 | PT-349 | Medium | Map editor translation/layout | Portuguese map editor bypasses localization and its toolbar overflows narrow viewports |
 | PT-350 | Low | Newspaper translation/context | Drug-panic story falls back to drug names and uses a finite verb after `vai` |
 | PT-351 | Low | Newspaper translation/context | Retirement story composes generated think-tank names with invalid gender/article agreement |
+| PT-357 | Low | Newspaper translation/style | FM article repeats “radio” in `radialista de rádio FM` |
 
 ## PT-001: Save-management option is clipped
 
@@ -5226,3 +5227,19 @@ neutral construction (`porta-voz da organização ...`) with invariant modifiers
 such as `da União` and `Familiar`, so every randomized noun/adjective draw
 remains grammatical. The regression samples 200 generated stories and rejects
 the former agreement and English fallback.
+
+## PT-357: FM article repeated the radio label in Portuguese
+
+- Severity: Low
+- Type: Newspaper translation / contextual style
+- Screen: Portuguese newspaper → `FM OBSCENITY`
+- Replay status: **Fixed in the canonical catalog and covered by a generated-story regression on 2026-08-13**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-next-20260813/day-5.txt`; regression `test/newspaper/herald_translation_test.dart`
+
+The live strict-headless police-siege replay reached the FM article and showed
+`O polêmico radialista de rádio FM ...`. In Brazilian Portuguese, `radialista`
+already identifies a radio presenter, so `de rádio FM` repeats the medium and
+reads like an automated calque. The catalog now says
+`O polêmico radialista de uma rádio FM ...`, which keeps the station context
+without the duplicated label. The deterministic regression generates the
+article under Portuguese and rejects the old wording and English fallback.

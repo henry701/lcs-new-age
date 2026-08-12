@@ -206,6 +206,19 @@ void main() {
     },
   );
 
+  test('Portuguese FM obscenity stories avoid a repeated radio label', () {
+    reseedRNG(seed: 20260814);
+    final story = NewsStory.unpublished(NewsStories.majorEvent)
+      ..publication = Publication.herald
+      ..view = View.amRadio;
+
+    final content = generateMajorEventContent(View.amRadio, false, story);
+
+    expect(content.storyText, isNot(contains('radialista de rádio FM')));
+    expect(content.storyText, contains('radialista de uma rádio FM'));
+    expect(content.storyText, isNot(contains('Infamous FM radio shock jock')));
+  });
+
   test('major-event filler starts after a paragraph separator', () {
     final story = NewsStory.unpublished(NewsStories.majorEvent)
       ..publication = Publication.herald

@@ -245,6 +245,16 @@
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-map-command-overlap-20260812/`.
 - Temporary `debugPartyRescue` was restored to `false` after replay.
 
+## 2026-08-12 — PT-362 map-editor special-label replay
+
+- Strict-headless Portuguese map-editor replay at 640×480 exercised the
+  compact palette, site dropdown, filter, brush status, and tooltips.
+- White House floor 2 exposed `ovalOfficeNW [bloco 7, especial 39]` in hover
+  status because non-palette specials fell back to raw enum names.
+- Added localized fallback labels and a regression for Oval Office,
+  prison-control, nursing-home, and insurance states. Replayed the same tile
+  after rebuild; the identifier no longer leaks. Debug flag/server restored.
+
 ---
 
 ## Run 2026-03-14 14:40 UTC

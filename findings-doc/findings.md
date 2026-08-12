@@ -5314,3 +5314,22 @@ asserts that `Vitrine` is on row 22, `L:Carregar` remains intact on row 23, and
 the old merged form cannot occur. The accompanying rebuilt headless route kept
 the command row at 25 rows and 80 columns with no document overflow or bridge
 errors.
+
+## PT-362: Map-editor hover status leaked raw special enum names
+
+- Severity: Low
+- Type: Map editor translation
+- Screen: Portuguese mod-tools → Map Editor → White House, floor 2
+- Replay status: **Fixed with localized fallback labels and verified in strict-headless replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-editor-followup-20260812/`; regression `test/map_editor/map_editor_translation_test.dart`
+
+The editor’s curated palette did not include every special state that can be
+loaded from shipped CSV maps. Its hover/status fallback used the Dart enum name
+directly, so the White House’s Oval Office tile rendered
+`ovalOfficeNW [bloco 7, especial 39]` in a Portuguese playtest. The shared
+`specialLabel` boundary now maps non-palette states (Oval Office, prison
+security tiers, nursing-home/insurance states, tents, and post-visit markers)
+to user-facing English source labels, which are translated through `LcsI18n`.
+The regression covers representative Oval Office, prison-control, nursing-home,
+and insurance labels; the rebuilt headless replay confirms the same tile no
+longer exposes the enum identifier.

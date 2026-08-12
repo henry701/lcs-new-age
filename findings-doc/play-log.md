@@ -5528,3 +5528,17 @@ switch.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/site-map-command-overlap-20260812/`.
 - The temporary `debugPartyRescue` fixture was restored to `false`; no headed
   browser was opened or focused.
+
+## 2026-08-12 — strict-headless map-editor special-label replay (PT-362)
+
+- Used the repository headless wrapper only (`AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`) at 640×480. The Portuguese
+  map editor’s desktop and compact palettes, site dropdown, filter, brush
+  status, and tooltips were exercised without a headed browser.
+- Loading `Casa Branca` and switching to floor 2 exposed a real fallback bug:
+  hovering the Oval Office tile showed `ovalOfficeNW [bloco 7, especial 39]`.
+- `specialLabel` now covers loaded-but-not-paintable special states and routes
+  them through the catalogs. The focused widget regression and catalog checks
+  pass; the rebuilt headless replay keeps the same status bounded and user-facing.
+- Temporary `debugShowMapEditor` and the temporary server were restored/stopped.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-editor-followup-20260812/`.

@@ -400,7 +400,33 @@ String specialGlyph(TileSpecial special) =>
 // Display name for a special, used in hover/status. Falls back to the enum name
 // for specials that aren't offered as brushes.
 String specialLabel(TileSpecial special) =>
-    _specialBrushIndex[special]?.label ?? special.name;
+    _specialBrushIndex[special]?.label ??
+    switch (special) {
+      // These states are loaded from existing maps but are intentionally not
+      // paintable palette entries. Keep their hover/status labels user-facing
+      // instead of leaking Dart enum names such as `ovalOfficeNW`.
+      TileSpecial.prisonControlLow => 'Low-security prison control room',
+      TileSpecial.prisonControlMedium => 'Medium-security prison control room',
+      TileSpecial.prisonControlHigh => 'High-security prison control room',
+      TileSpecial.labEquipment => 'Lab Equipment',
+      TileSpecial.tent => 'Tent',
+      TileSpecial.clubBouncerSecondVisit => 'Bouncer',
+      TileSpecial.securitySecondVisit => 'Checkpoint',
+      TileSpecial.ccsBoss => 'CCS Boss',
+      TileSpecial.displayCase => 'Display Case',
+      TileSpecial.ovalOfficeNW ||
+      TileSpecial.ovalOfficeNE ||
+      TileSpecial.ovalOfficeSW ||
+      TileSpecial.ovalOfficeSE => 'Oval Office',
+      TileSpecial.nursingHomeFiles => 'Nursing home files',
+      TileSpecial.nursingHomeManager => 'Nursing home manager',
+      TileSpecial.nursingHomePatient ||
+      TileSpecial.nursingHomePatientDone => 'Nursing home patient',
+      TileSpecial.insuranceFiles => 'Insurance files',
+      TileSpecial.insuranceCEO => 'Insurance CEO',
+      TileSpecial.insuranceClaimsTerminal => 'Claims Terminal',
+      _ => special.name,
+    };
 
 // The palette brush that best matches an existing tile, for the eyedropper:
 // its special if it has a palette-known one, otherwise its terrain.

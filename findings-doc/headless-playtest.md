@@ -79,3 +79,19 @@ shared the same boundary. They now mark those rendered paragraphs
 `noTranslate`; the focused regression and clean replay show no warning.
 
 Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/cia-briefing-fixed-8903.png`.
+
+## 2026-08-12 city proper-name fallback
+
+The police-subdue replay logged `San Antonio, TX` even though it is an
+intentional generated proper-name fallback. `City.getName()` now uses the same
+catalog-presence guard as site names: selected city translations remain
+localized, while uncatalogued city names stay unchanged without false missing
+telemetry. The focused vocabulary regression covers the boundary.
+
+## 2026-08-12 police-behavior headline follow-up
+
+The siege replay surfaced the player-facing major-event headline `BASTARDS`
+and its censored alternative `[JERKS]` as missing Portuguese keys. They now
+render as `CANALHAS` and `[BABACAS]`; the focused Herald regression passes.
+The rebuilt strict-headless replay still reports 25×80, no overflow, and no
+bridge errors.

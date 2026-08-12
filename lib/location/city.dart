@@ -45,7 +45,12 @@ class City extends Location {
   String getName({bool short = false, bool includeCity = false}) {
     // City short names are stable map/roster codes (for example, NYC or DC),
     // not prose labels. Translating them creates false missing-key warnings.
-    return short ? shortName : LcsI18n.tr(name);
+    if (short) return shortName;
+
+    // The generated city pool contains many proper names that intentionally
+    // remain unchanged in Portuguese. Only send catalog-backed names through
+    // the translator so those names do not create false missing-key telemetry.
+    return LcsI18n.hasTranslation(name) ? LcsI18n.tr(name) : name;
   }
 
   void addCommercialDistrict() {

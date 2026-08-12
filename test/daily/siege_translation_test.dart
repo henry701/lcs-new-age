@@ -80,6 +80,13 @@ void main() {
     expect(LcsI18n.getMissingTranslations(), isNot(contains(rendered)));
   });
 
+  test('Portuguese police subdue terminal uses physical-restraint wording', () {
+    final rendered = LcsI18n.tr('The police subdue and arrest the squad.');
+
+    expect(rendered, 'A polícia imobiliza e prende o esquadrão.');
+    expect(rendered, isNot(contains('domina')));
+  });
+
   test('Portuguese medical debt briefings translate complete templates', () {
     expect(
       LcsI18n.processString(medicalDebtArrivalBriefing, {

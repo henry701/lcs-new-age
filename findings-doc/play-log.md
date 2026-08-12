@@ -5687,3 +5687,39 @@ decision, and accepted PT-049 historical changelog English.
 PT-368 is fixed. The residual queue remains random PT-048/PT-148
 police-terminal arrest/subdue variants, optional PT-083 narrow-console
 readability work, and the persisted generated-name locale-switch decision.
+
+## 2026-08-12 — strict-headless forced police-subdue terminal replay
+
+- Used a disposable-only debug fixture to route a fresh Portuguese police
+  siege into `_fightSubdued` after the normal briefing; the product debug flags
+  and source were restored before shutdown. Chromium ran only through the
+  repository wrapper with `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; UA was `HeadlessChrome/150.0.0.0` and no headed
+  browser was opened or focused.
+- The terminal rendered `A polícia imobiliza e prende o esquadrão.`. No raw
+  English role, missing-translation warning, or bridge error appeared. The
+  bridge measured 25 rows, maximum width 80, and no document overflow.
+- This closes the previously unverified PT-048 police subdue wording branch.
+  PT-148's broader random police-alarm variants remain in the queue. The
+  temporary server and browser session were closed; persistent ports 8872 and
+  8898 were untouched.
+
+## 2026-08-12 — strict-headless city proper-name telemetry follow-up (PT-369)
+
+- The same rebuilt police fixture logged `San Antonio, TX` as missing after
+  the subdue terminal. Source tracing showed `City.getName()` translated every
+  generated city name, unlike the catalog-aware `Site.getName()` fallback.
+- `City.getName()` now translates only explicit catalog entries and preserves
+  uncatalogued proper names verbatim. A focused vocabulary regression passes;
+  the city warning is no longer recorded on the replay path.
+
+## 2026-08-12 — strict-headless police-behavior headline follow-up (PT-370)
+
+- The fixed police-subdue replay also generated the `View.policeBehavior`
+  major-event headline and logged missing key `BASTARDS`. Source tracing found
+  the no-profanity alternative `[JERKS]` in the same player-facing headline
+  generator; both values were absent from Portuguese catalogs.
+- Added canonical shard entries `BASTARDS → CANALHAS` and
+  `[JERKS] → [BABACAS]`, with a focused Herald regression. A fresh strict-headless
+  browser session reported `HeadlessChrome/150.0.0.0`, 25 rows, maximum width 80,
+  no document overflow, and an empty bridge-error channel after the fix.

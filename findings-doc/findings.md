@@ -1390,6 +1390,16 @@ combat inputs and reached randomized final-words/death-reaction text without
 raw-English names. Keep the broader police surrender/arrest variants as a
 follow-up rather than claiming every random branch is covered.
 
+### PT-048 follow-up — forced police subdue terminal (2026-08-12)
+
+A disposable-only debug hook routed the rebuilt Portuguese police fixture into
+the exact `_fightSubdued` terminal after the siege briefing. It rendered
+`A polícia imobiliza e prende o esquadrão.` from the canonical catalog, with no
+English role names, missing-translation warning, or fixed-width overflow. The
+bridge remained 25 rows at maximum width 80 with an empty error channel. This
+closes the previously unverified police subdue wording branch; the random
+police-alarm variants tracked by PT-148 remain a separate broader route queue.
+
 ## PT-049: Changelog release notes are intentionally English-only
 
 - Severity: Low
@@ -5472,3 +5482,33 @@ The rebuilt CIA route reports `HeadlessChrome/150.0.0.0`, 25 rows, maximum
 width 80, no document overflow, an empty bridge-error channel, and no missing
 translation warning for the briefing. The temporary debug fixture was restored
 to its default disabled police setting.
+
+## PT-369: Proper-name city fallback polluted Portuguese telemetry
+
+- Severity: Low
+- Type: Translation telemetry / proper-name boundary
+- Screen: Portuguese police-siege daily cycle and city-composite labels
+- Replay status: **Fixed with a focused regression and strict-headless replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-subdue-fixed-8906.png`; regression `test/basemode/pt_br_core_vocabulary_test.dart`
+
+The forced police-subdue replay exposed a false missing-translation warning for
+`San Antonio, TX`. `City.getName()` always sent every generated city proper name
+through `LcsI18n.tr`, even though the Portuguese catalog intentionally contains
+only selected localized city labels. The city renderer now mirrors the existing
+site-name boundary: catalog-backed names are translated, while proper-name
+fallbacks remain unchanged without telemetry. The regression covers an
+uncatalogued city and confirms it is rendered verbatim with no missing key.
+
+## PT-370: Police-behavior major-event headlines lacked Portuguese variants
+
+- Severity: Low
+- Type: Translation coverage / newspaper headline
+- Screen: Portuguese newspaper → police-behavior major event
+- Replay status: **Fixed with canonical catalog entries and focused regression on 2026-08-12**
+
+The strict-headless police replay logged `BASTARDS` while generating the
+player-facing police-behavior headline. The no-profanity branch also used
+`[JERKS]`; neither key had a Portuguese catalog entry. The canonical shards now
+render these as `CANALHAS` and `[BABACAS]`, preserving the headline's tone
+without a missing-key warning. Regression:
+`test/newspaper/herald_translation_test.dart`.

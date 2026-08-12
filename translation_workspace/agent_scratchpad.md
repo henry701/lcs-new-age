@@ -345,6 +345,21 @@
   PT-048/PT-148 arrest/subdue variants, PT-083 narrow-console readability,
   persisted generated-name locale-switch decision, accepted PT-049 history.
 
+## Playtest continuation — 2026-08-12 forced police-subdue branch
+
+- A disposable-only instrumentation hook routed a fresh Portuguese police
+  fixture directly into `_fightSubdued`; it was removed before shutdown and
+  the normal debug flags are restored to `false`.
+- The pre-fix strict-headless buffer rendered `A polícia domina e prende o
+  esquadrão.` with UA `HeadlessChrome/150.0.0.0`, 25 rows, max width 80, no
+  overflow, no bridge errors, and no missing-translation warning. The follow-up
+  wording fix now renders `A polícia imobiliza e prende o esquadrão.`.
+- PT-048's previously unverified police-subdue wording branch is now closed;
+  the contextual wording correction is recorded below.
+  Keep PT-148's broader random police-alarm variants, PT-083 narrow-console
+  readability, persisted generated-name locale switching, and accepted PT-049
+  history in the residual queue.
+
 ---
 
 ## Run 2026-03-14 14:40 UTC
@@ -382,6 +397,26 @@
   - Brand names (Fandango, Micro, Mega, etc.)
   - 7 missingInTarget entries are source-only keys not yet synced to pt_BR
   - No safe translation work remains; emitting NO_WORK_DONE
+
+## Playtest continuation — 2026-08-12 city proper-name fallback (PT-369)
+
+- The forced police replay also logged `San Antonio, TX` as a missing
+  translation. This was a false positive: `City.getName()` translated every
+  generated city name, while only selected city proper names have Portuguese
+  catalog entries.
+- Added the catalog-presence guard used by site names and a vocabulary
+  regression. Localized city entries remain translated; uncatalogued proper
+  names render verbatim without missing-key telemetry.
+
+## Playtest continuation — 2026-08-12 police-behavior headline (PT-370)
+
+- The fresh strict-headless replay logged `BASTARDS` from the player-facing
+  police-behavior major-event headline. The censored `[JERKS]` branch was also
+  absent from Portuguese catalogs.
+- Added canonical shard translations `CANALHAS` and `[BABACAS]` plus the
+  focused Herald regression. Fresh replay metrics remained 25 rows, max width
+  80, no overflow, and no bridge errors. The fixed police terminal is now
+  `A polícia imobiliza e prende o esquadrão.`.
 
 ---
 

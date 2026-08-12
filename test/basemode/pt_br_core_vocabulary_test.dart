@@ -26,6 +26,7 @@ import 'package:lcs_new_age/items/flag.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/items/weapon.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
+import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/siege.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -921,6 +922,16 @@ void main() {
     expect(compositeName, isNot(contains('New York, NY')));
     expect(newYork.getName(short: true), equals('NYC'));
     expect(LcsI18n.getMissingTranslations(), isNot(contains('NYC')));
+  });
+
+  test('Portuguese proper-name cities do not create missing-key telemetry', () {
+    final sanAntonio = City('San Antonio, TX', 'SAT', '');
+
+    expect(sanAntonio.getName(), 'San Antonio, TX');
+    expect(
+      LcsI18n.getMissingTranslations(),
+      isNot(contains('San Antonio, TX')),
+    );
   });
 
   test('Portuguese headquarters and generated site names stay localized', () {

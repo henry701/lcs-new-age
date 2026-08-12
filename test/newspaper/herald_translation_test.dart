@@ -101,6 +101,20 @@ void main() {
     expect(LcsI18n.tr(View.ceoSalary.label), equals('Desigualdade de Renda'));
   });
 
+  test('Portuguese police-behavior headlines preserve their tone', () {
+    expect(LcsI18n.tr('BASTARDS'), equals('CANALHAS'));
+    expect(LcsI18n.tr('[JERKS]'), equals('[BABACAS]'));
+
+    final story = NewsStory.unpublished(NewsStories.majorEvent)
+      ..publication = Publication.herald;
+    final content = generateMajorEventContent(
+      View.policeBehavior,
+      false,
+      story,
+    );
+    expect(['CANALHAS', '[BABACAS]'], contains(LcsI18n.tr(content.headline)));
+  });
+
   test('Justice Amok uses a grammatical Portuguese possessive clause', () {
     const template =
         r'''{city} - The conviction of confessed serial killer {serialKiller} was overturned by a federal judge yesterday.  Judge {judge} of the notoriously liberal court of appeals here made the decision based on {judgePossessive} {judgeReason}, despite the confession of {serialKillerLast}, which even Judge {judgeLast} grants was not coerced in any way.&r  Ten years ago, {serialKillerLast} was convicted of the now-infamous {slayingName} slayings.  After an intensive manhunt, {serialKillerLast} was found with the murder weapon covered in the victims' blood.  {serialKillerLast} confessed and was sentenced to life, saying "Thank you for saving me from myself.  If I were to be released, I would surely kill again."&r  A spokesperson for the district attorney has stated that the case will not be retried, due to the current economic doldrums that have left the state completely strapped for cash.&r''';

@@ -18,6 +18,20 @@
   optional PT-083 narrow-console usability, and the persisted-name locale
   switch decision.
 
+## Playtest continuation — 2026-08-12 (PT-360)
+
+- Replayed a fresh Portuguese police-siege fixture through the strict-headless
+  wrapper only; UA was `HeadlessChrome/150.0.0.0` and no headed browser was
+  opened or focused.
+- Covered police warning, loudspeaker, surrender status, fight briefing, SWAT
+  roster, foot escape, combat hits, fleeing-role styling, and post-siege
+  return. The generated warehouse/equipment labels stayed localized.
+- The bridge remained 25 rows with max width 80, no document overflow, and an
+  empty `#lcs-playtest-errors` channel. The lowercase `policial da SWAT`
+  marker is intentional flee-state styling; no new defect was confirmed.
+- Restored `debugSiege=false` and closed the temporary browser/server. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-next-20260812/`.
+
 ## Playtest continuation — 2026-08-13 medical-debt replay
 
 - Used only the repository headless wrapper (`AGENT_BROWSER_HEADED=0`,

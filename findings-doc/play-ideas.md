@@ -1484,3 +1484,12 @@ the residual queue.
 - The residual playtest queue is unchanged: random PT-048/PT-148 police
   terminal variation, optional PT-083 narrow-console readability work, and the
   product decision about persisted generated names after a locale switch.
+
+## 2026-08-12 — police-terminal variation follow-up
+
+- PT-360 is a clean additional surrender/fight/foot-escape/combat replay. No
+  new translation or layout issue was added; the known lowercased fleeing role
+  remains intentional.
+- Residual work remains random PT-048/PT-148 terminal variation beyond the
+  exercised outcomes, optional PT-083 narrow-console readability, and the
+  persisted generated-name locale-switch product decision.

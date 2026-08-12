@@ -199,6 +199,7 @@
 | PT-357 | Low | Newspaper translation/style | FM article repeats “radio” in `radialista de rádio FM` |
 | PT-358 | — | Playtest verification | Medical-debt raid and receipt replay clean; no new defect confirmed |
 | PT-359 | Low | Interface-options translation/grammar | Encounter-warning help uses masculine `por eles` for feminine `pessoas` |
+| PT-360 | — | Playtest verification | Additional police-terminal surrender/fight variation stayed localized and width-safe |
 
 ## PT-001: Save-management option is clipped
 
@@ -5277,3 +5278,19 @@ agreement error. The catalog now uses `por elas`; the focused screen regression
 rejects the masculine form. The rebuilt strict-headless replay stayed at 25
 rows and 80 columns with no document overflow, no bridge errors, and a
 `HeadlessChrome/150.0.0.0` user agent.
+
+## PT-360: Additional police-terminal variation found no residual issue
+
+- Severity: Informational
+- Type: Playtest verification / translation and layout
+- Screen: Portuguese safehouse → police siege → surrender, fight, foot escape, and combat terminal
+- Replay status: **Verified clean in a fresh strict-headless replay on 2026-08-12**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-next-20260812/`
+
+A second seeded police-siege route exercised the warning, loudspeaker, surrender
+status, fight briefing, SWAT roster, foot-escape, combat-hit, fleeing-role, and
+post-siege screens. The generated warehouse and equipment labels remained
+localized. Captures stayed at 25 rows and a maximum width of 80, with no
+document overflow or bridge errors. The lowercase `policial da SWAT` marker is
+intentional flee-state styling; no translation, prefix, punctuation, or layout
+defect was confirmed.

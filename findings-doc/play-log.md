@@ -5498,3 +5498,17 @@ switch.
   `#lcs-playtest-errors` channel, and UA `HeadlessChrome/150.0.0.0`.
 - Temporary browser/server resources were closed after capture. No headed
   browser was opened or focused. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/interface-options-pronoun-20260812/`.
+
+## 2026-08-12 — strict-headless police-terminal variation (PT-360)
+
+- Used a temporary `debugSiege=true` fixture for a fresh Portuguese police
+  siege, then restored the flag to `false`. The persistent wrapper reported UA
+  `HeadlessChrome/150.0.0.0`; no headed browser was opened or focused.
+- Exercised warning, loudspeaker, surrender status, fight briefing, SWAT
+  roster, foot escape, combat hit, fleeing-role styling, and post-siege return.
+  The generated `Armazém Esquecido` route kept `Armadura da SWAT`, `Espingarda`,
+  `Carabina M4`, `Rifle M7`, and `Submet. MP5` localized.
+- All inspected buffers stayed at 25 rows and max width 80 with no document
+  overflow and an empty `#lcs-playtest-errors` channel. The lowercase
+  `policial da SWAT` marker is intentional flee-state styling. No new defect
+  was confirmed. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-next-20260812/`.

@@ -5295,3 +5295,30 @@ random police-terminal, and optional PT-083 responsive-console routes.
   and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/founder-choices-20260812/`.
   The live post-fix route remained Portuguese and bounded; no DOM bridge errors
   or new translation defect were confirmed during the follow-up.
+
+## 2026-08-12 — strict-headless developer-flag management sweep
+
+- Replayed a fresh Portuguese founder world with temporary debug fixtures for
+  all-items, injured-founder, rescued-party, public-opinion, sleeper-agent,
+  medical-debt, and map-editor coverage. Every browser command used the
+  repository wrapper with `AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`, and `--disable-cache`; the UA was
+  `HeadlessChrome/150.0.0.0` and no headed window was opened or focused.
+- Covered Review categories (active, hostages, hospital, justice, infiltrated,
+  dead, absent, and equipment), equipment/vehicle menus, all agenda pages,
+  media overview, infiltrated agents, task assignment, flagging, location
+  selection, department-store travel, and activity assignment. Portuguese
+  copy stayed bounded in the 80-column bridge and no browser errors were
+  reported.
+- The scripted founder-name capture showed `Miguel Goldsteinaaaa`; this was
+  reproduced as repeated injected `a` keys arriving while the name editor was
+  still active, so it is an input-harness timing artifact rather than a game
+  or translation defect. A fresh title/menu capture after returning from the
+  game was localized and stable.
+- Temporary debug flags were restored to their original `false` values before
+  stopping the server. No new translation or layout issue was confirmed.
+
+Residual work remains limited to broader random PT-048/PT-148 police-terminal
+variants, the optional PT-083 narrow-console readability enhancement, and the
+product decision about translating persisted generated names after a locale
+switch.

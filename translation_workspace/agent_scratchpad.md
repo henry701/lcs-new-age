@@ -26,6 +26,23 @@
   console enhancement, and persisted generated-name locale-switch decision in
   the residual queue.
 
+## Playtest continuation — 2026-08-12
+
+- Completed a strict-headless developer-flag management sweep at the fixed
+  80-column console. Covered Review categories, equipment, vehicles, agenda,
+  media, infiltrated agents, task assignment, flags, location selection,
+  department-store travel, and activity assignment with temporary all-items,
+  injury, rescue, public-opinion, sleeper, medical-debt, and map-editor flags.
+- The browser wrapper reported `HeadlessChrome/150.0.0.0` on every call; no
+  headed browser was opened or focused, the DOM error channel stayed empty,
+  and captured Portuguese rows remained bounded. No new translation or layout
+  defect was confirmed.
+- `Miguel Goldsteinaaaa` was isolated as repeated `a` key injection during the
+  founder-name editor, not a product defect. All temporary debug flags were
+  restored to `false`; no source changes were retained from this sweep.
+- Durable capture directory:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/debug-flag-sweep-20260812/`.
+
 ## Run 2026-03-14 00:00 UTC
 
 - **Run timestamp in UTC:** 2026-03-14 00:00 UTC

@@ -2411,16 +2411,15 @@ MajorEventContent generateMajorEventContent(
           ),
         );
       case View.retirement:
-        String thinkTankAdjective = LcsI18n.tr(
-          [
-            "American",
-            "United",
-            "Patriot",
-            "Family",
-            "Children's",
-            "National",
-          ].random,
-        );
+        String thinkTankAdjectiveKey = [
+          "American",
+          "United",
+          "Patriot",
+          "Family",
+          "Children's",
+          "National",
+        ].random;
+        String thinkTankAdjective = LcsI18n.tr(thinkTankAdjectiveKey);
         String thinkTankNounKey = [
           "Heritage",
           "Enterprise",
@@ -2440,17 +2439,28 @@ MajorEventContent generateMajorEventContent(
             "Association",
           ].random,
         );
-        String thinkTankName = LcsI18n.processString(
-          "Generated think-tank name: {first} {second} {third}{preposition}",
-          {
-            "first": thinkTankAdjective,
-            "second": thinkTankNoun,
-            "third": thinkTankNoun2,
-            "preposition": LcsI18n.currentLocale == "pt_BR"
-                ? (thinkTankNounKey == "Enterprise" ? " do " : " da ")
-                : "",
-          },
-        );
+        final thinkTankName = LcsI18n.currentLocale == "pt_BR"
+            ? LcsI18n.processString("{third} de {second} {first}", {
+                "first": switch (thinkTankAdjectiveKey) {
+                  "American" => "dos Estados Unidos",
+                  "United" => "da União",
+                  "Patriot" => "do Patriotismo",
+                  "Family" => "Familiar",
+                  "Children's" => "Infantil",
+                  _ => "Nacional",
+                },
+                "second": thinkTankNoun,
+                "third": thinkTankNoun2,
+              }, noTranslate: true)
+            : LcsI18n.processString(
+                "Generated think-tank name: {first} {second} {third}{preposition}",
+                {
+                  "first": thinkTankAdjective,
+                  "second": thinkTankNoun,
+                  "third": thinkTankNoun2,
+                  "preposition": "",
+                },
+              );
         FullName thinkTankSpokesperson = generateFullName(
           Gender.whiteMalePatriarch,
         );

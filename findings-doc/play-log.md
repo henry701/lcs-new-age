@@ -26,6 +26,27 @@
   `Validar mapa` and no longer found `Pencil (P)`.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/map-editor-translation-20260813/`.
 
+## 2026-08-13 — PT-350/PT-351 strict-headless newspaper replay
+
+- The fresh Portuguese replay used only the repository wrapper with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; the browser UA was
+  `HeadlessChrome/150.0.0.0`. No headed window was opened or focused.
+- The pre-fix randomized `DRUG PANIC` capture selected English
+  `methamphetamine` and rendered `vai morrem instantaneamente`. The canonical
+  catalog now supplies `metanfetamina`, `cocaína`, `heroína`, and `fentanil`,
+  and translates `instantly die` as `morrer instantaneamente`.
+- The same newspaper sweep exposed a retirement `INSECURITY` composition such
+  as `porta-voz do Parceria Unido da Liberdade`. PT-351 now uses
+  `porta-voz da organização ...` and a Portuguese generated-name construction
+  with invariant modifiers, avoiding noun gender/article failures.
+- The rebuilt browser loaded the updated Portuguese catalogs and completed a
+  bounded newspaper cycle without bridge errors or new English control chrome.
+  The exact drug-panic event did not recur after rebuild; deterministic
+  regressions sample the dynamic drug/consequence choices and 200 retirement
+  stories. Pre-fix and post-rebuild captures are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-rerun-20260813/`.
+
 ## Explored paths
 
 ### Title and language selection

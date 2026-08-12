@@ -194,6 +194,8 @@
 | PT-347 | Low | Founder translation/context | Founder-origin option says `roubando de Corporações` instead of `das Corporações` |
 | PT-348 | Low | Profile/layout | Compact Portuguese Liberal profile ellipsizes body-part, skill, and vehicle labels |
 | PT-349 | Medium | Map editor translation/layout | Portuguese map editor bypasses localization and its toolbar overflows narrow viewports |
+| PT-350 | Low | Newspaper translation/context | Drug-panic story falls back to drug names and uses a finite verb after `vai` |
+| PT-351 | Low | Newspaper translation/context | Retirement story composes generated think-tank names with invalid gender/article agreement |
 
 ## PT-001: Save-management option is clipped
 
@@ -5191,3 +5193,36 @@ instead of overflowing, and ellipsizes long site names within the dropdown.
 The focused widget replay confirms Portuguese palette and toolbar semantics;
 the strict-headless browser replay confirms the separate route uses
 `HeadlessChrome/150.0.0.0` with no headed window or browser focus.
+
+## PT-350: Drug-panic article used English choices and the wrong verb form
+
+- Severity: Low
+- Type: Newspaper translation / contextual grammar
+- Screen: Portuguese newspaper → `DRUG PANIC`
+- Replay status: **Fixed in the canonical catalogs and covered by a focused regression on 2026-08-13**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-rerun-20260813/newspaper.txt`; regression `test/newspaper/herald_translation_test.dart`
+
+The randomized article selected `methamphetamine`, which had no Brazilian
+Portuguese entry, and rendered the consequence as `vai morrem instantaneamente`.
+The dynamic choices now include `cocaína`, `heroína`, `metanfetamina`, and
+`fentanil`; `instantly die` is `morrer instantaneamente`, preserving the
+infinitive required by `vai {consequence}`. The rebuilt strict-headless replay
+loaded the updated catalogs; the random article did not reselect this exact
+event within its bounded post-fix cycle, so the deterministic regression is the
+authoritative post-fix check.
+
+## PT-351: Retirement article generated invalid think-tank agreement
+
+- Severity: Low
+- Type: Newspaper translation / contextual grammar
+- Screen: Portuguese newspaper → `INSECURITY`
+- Replay status: **Fixed with context-specific generated-name composition and covered by a randomized regression on 2026-08-13**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-rerun-20260813/postfix-w-*.txt` (adjacent newspaper sweep); regression `test/newspaper/herald_translation_test.dart`
+
+The retirement article could produce forms such as `porta-voz do Parceria
+Unido da Liberdade`: `Parceria` is feminine, and the article/adjective
+agreement was invalid. Portuguese retirement names now use an organization-
+neutral construction (`porta-voz da organização ...`) with invariant modifiers
+such as `da União` and `Familiar`, so every randomized noun/adjective draw
+remains grammatical. The regression samples 200 generated stories and rejects
+the former agreement and English fallback.

@@ -172,6 +172,28 @@ void main() {
   });
 
   test(
+    'Portuguese retirement stories keep generated organizations neutral',
+    () {
+      reseedRNG(seed: 20260813);
+      for (var i = 0; i < 200; i++) {
+        final story = NewsStory.unpublished(NewsStories.majorEvent)
+          ..publication = Publication.herald
+          ..view = View.retirement;
+        final text = generateMajorEventContent(
+          View.retirement,
+          false,
+          story,
+        ).storyText!;
+
+        expect(text, contains('porta-voz da organização '));
+        expect(text, isNot(contains('porta-voz do ')));
+        expect(text, isNot(contains('Parceria Unido')));
+        expect(text, isNot(contains('a spokesperson for the')));
+      }
+    },
+  );
+
+  test(
     'pollution think-tank prose uses a neutral Portuguese organization name',
     () {
       for (var i = 0; i < 30; i++) {
@@ -371,6 +393,28 @@ void main() {
     expect(story, equals('É engraçado pra caramba.'));
     expect(story, isNot(contains('hell')));
   });
+
+  test(
+    'Portuguese drug-panic choices translate dynamic drugs and infinitives',
+    () {
+      const expectedDrugs = {
+        'cocaine': 'cocaína',
+        'heroin': 'heroína',
+        'methamphetamine': 'metanfetamina',
+        'fentanyl': 'fentanil',
+      };
+
+      for (final entry in expectedDrugs.entries) {
+        expect(LcsI18n.tr(entry.key), equals(entry.value), reason: entry.key);
+      }
+
+      expect(LcsI18n.tr('instantly die'), equals('morrer instantaneamente'));
+      expect(
+        'vai ${LcsI18n.tr('instantly die')}.',
+        equals('vai morrer instantaneamente.'),
+      );
+    },
+  );
 
   test('Herald and pollution localization units have catalog coverage', () {
     final english = loadLocaleStringEntries('en_US');

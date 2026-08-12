@@ -2,6 +2,15 @@
 
 ## Playtest continuation — 2026-08-13
 
+- PT-350/PT-351 fixed and verified: strict-headless newspaper replay found
+  dynamic `DRUG PANIC` fallback/grammar defects (`methamphetamine` and
+  `vai morrem`) and invalid retirement think-tank agreement (`Parceria Unido`,
+  `porta-voz do`). Canonical catalogs now cover all drug choices and the
+  infinitive consequence; retirement names use a neutral organization phrase
+  and invariant Portuguese modifiers. Focused regression:
+  `flutter test test/newspaper/herald_translation_test.dart`; captures are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/police-terminal-rerun-20260813/`.
+
 - Confirmed PT-349 in a separate strict-headless Flutter map-editor route:
   Portuguese mod-tools opened an English toolbar/palette and overflowed at a
   compact viewport. Fixed by routing map-editor labels/status/tooltips through

@@ -5468,3 +5468,19 @@ Residual work remains limited to broader random PT-048/PT-148 police-terminal
 variants, the optional PT-083 narrow-console readability enhancement, and the
 product decision about translating persisted generated names after a locale
 switch.
+
+## 2026-08-13 — strict-headless medical-debt replay
+
+- Replayed a fresh Portuguese founder campaign with the repository wrapper only:
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`, and
+  `--disable-cache`; UA was `HeadlessChrome/150.0.0.0` and no headed browser was
+  opened or focused.
+- Temporarily made the founder-debt fixture deterministic by supplying eligible
+  funds, hostile healthcare law, and an immediate medical raid. Captured the
+  ambulance briefing, collection speech, finance speech, status line, base
+  under-attack state, and the `G - Desistir` receipt in Portuguese.
+- At 320×240 the DOM bridge stayed 25 rows with `maxRow=80`, no document
+  overflow, and an empty `#lcs-playtest-errors` channel. No translation,
+  prefix-preservation, or layout defect was confirmed.
+- Restored all temporary flags and fixture edits to their original values.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260813/`.

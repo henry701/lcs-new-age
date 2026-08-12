@@ -197,6 +197,7 @@
 | PT-350 | Low | Newspaper translation/context | Drug-panic story falls back to drug names and uses a finite verb after `vai` |
 | PT-351 | Low | Newspaper translation/context | Retirement story composes generated think-tank names with invalid gender/article agreement |
 | PT-357 | Low | Newspaper translation/style | FM article repeats “radio” in `radialista de rádio FM` |
+| PT-358 | — | Playtest verification | Medical-debt raid and receipt replay clean; no new defect confirmed |
 
 ## PT-001: Save-management option is clipped
 
@@ -5243,3 +5244,19 @@ reads like an automated calque. The catalog now says
 `O polêmico radialista de uma rádio FM ...`, which keeps the station context
 without the duplicated label. The deterministic regression generates the
 article under Portuguese and rejects the old wording and English fallback.
+
+## PT-358: Medical-debt raid replay found no residual issue
+
+- Severity: Informational
+- Type: Playtest verification / translation and layout
+- Screen: Portuguese base → medical-industry raid → debt receipt
+- Replay status: **Verified clean in a fresh strict-headless replay on 2026-08-13**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260813/`
+
+The temporary founder-debt fixture was adjusted only for deterministic coverage:
+it supplied eligible funds, hostile healthcare law, and an immediate medical
+raid. The replay rendered the Portuguese ambulance briefing, collection and
+finance speech, status line, under-attack base, and receipt. At 320×240 the DOM
+bridge remained 25 rows with a maximum width of 80, no document overflow, and
+an empty browser-error channel. The fixture was restored to its original
+all-false state; no translation, prefix, or layout fix was required.

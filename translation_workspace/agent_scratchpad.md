@@ -1,5 +1,19 @@
 # Translation Agent Scratchpad
 
+## Playtest continuation — 2026-08-13 medical-debt replay
+
+- Used only the repository headless wrapper (`AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`, `--disable-cache`); UA was
+  `HeadlessChrome/150.0.0.0` and no headed browser was opened or focused.
+- Temporarily made the founder-debt fixture deterministic with eligible funds,
+  hostile healthcare law, and an immediate raid. Portuguese briefing, collector
+  speech, finance speech, status line, under-attack base, and receipt all stayed
+  contextual and localized.
+- The 320×240 bridge stayed at 25 rows and `maxRow=80`, with no document
+  overflow and no browser errors. No translation or layout fix was needed.
+- Restored all temporary fixture flags/edits. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/medical-debt-20260813/`.
+
 ## Playtest continuation — 2026-08-13 (PT-355)
 
 - Strict-headless commerce replay found the used-car dealer prompt

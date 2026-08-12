@@ -1466,3 +1466,12 @@ narrow-layout coverage.
 - Residual work remains: random PT-048/PT-148 police-terminal seed variation,
   optional PT-083 narrow-console readability improvements, and the product
   decision about persisted generated names after a locale switch.
+
+## 2026-08-13 — medical-debt branch rechecked
+
+The temporary debt fixture was replayed end to end in strict headless mode.
+The Portuguese briefing, collector dialogue, base status, and receipt remained
+localized and width-safe at 320×240. No new medical-debt translation or layout
+idea was added; retain the broader random police-terminal variation, optional
+PT-083 responsive-console review, and persisted-name locale-switch decision as
+the residual queue.

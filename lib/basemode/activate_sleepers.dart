@@ -143,12 +143,14 @@ Future<void> activateSleeper(Creature cr) async {
     erase();
 
     setColor(lightGray);
+    final fundsText = fundsDisplayText();
     printFunds();
 
-    mvaddstr(
+    mvaddstrFitted(
       0,
       0,
       "Taking Undercover Action:   What will {name} focus on?",
+      console.width - fundsText.length - 2,
       params: {"name": cr.name},
     );
 

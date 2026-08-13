@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/elections.dart';
 import 'package:lcs_new_age/politics/laws.dart';
@@ -43,13 +44,14 @@ Future<void> tryToPurgeSupremeCourt() async {
 
     amendmentHeading();
 
-    mvaddstr(
-      2,
-      5,
-      tossnum != 1
-          ? "The following former citizens are branded Arch-Conservative:"
-          : "The following former citizen are branded Arch-Conservative:",
-    );
+    final purgeHeading = tossnum != 1
+        ? LcsI18n.tr(
+            "The following former citizens are branded Arch-Conservative:",
+          )
+        : LcsI18n.tr(
+            "The following former citizen are branded Arch-Conservative:",
+          );
+    mvaddstr(2, 5, purgeHeading, noTranslate: true);
 
     int y = 4;
 

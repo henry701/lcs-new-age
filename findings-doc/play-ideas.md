@@ -29,6 +29,56 @@
   `em vez de cumprir a atividade planejada` template; narrow ellipsizing is
   part of the existing PT-083 fixed-console queue.
 
+## 2026-08-13 — fresh broad replay found sleeper funds-header collision (PT-376)
+
+- A fresh strict-headless Portuguese run on session
+  `playtester-fresh-20260813` covered the title, founder, base, equipment,
+  assignment/crafting, agenda, media, and sleeper routes on disposable port
+  8961. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fresh-broad-20260813/`.
+- The president-sleeper activity screen still writes its localized title with
+  an unbounded `mvaddstr`, overwriting the right-aligned funds label as
+  `...Lovecraft?heiro: US$ 1.000.000`. Track this as PT-376; apply the same
+  measured separator/fitting strategy used by PT-302's regular activity
+  header.
+- Other broad routes stayed Portuguese and fixed-width safe. Keep PT-083 and
+  the residual PT-048/PT-148 random police-terminal variants open; victory was
+  not reached during this pass.
+
+## 2026-08-13 — constitutional purge heading fallback (PT-377)
+
+- The fresh month-end route reached the Supreme Court purge amendment and
+  exposed `The following former citizens are branded Arch-Conservative:` in
+  an otherwise Portuguese screen. Record both singular/plural heading keys in
+  the canonical catalogs and route them through the standard translation
+  boundary; this is not a duplicate of PT-321's fixed agreement fragments.
+- Durable captures: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fresh-broad-20260813/auto-checkpoint-50.json`
+  and `auto-checkpoint-75.json`.
+
+## 2026-08-13 — disposable victory-fixture terminal replay
+
+- Natural month-end progression remained in court/trial loops, so a temporary
+  victory fixture was used to set all political state to Elite Liberal and CCS
+  defeated. The fresh strict-headless run reached `O Triunfo da Agenda Liberal`
+  and then the Portuguese high-score terminal `A Elite Liberal`.
+- The fixture was removed/restored exactly after capture. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fresh-broad-20260813/`;
+  keep the natural route's PT-377 English purge heading and PT-376 sleeper
+  collision as the actionable findings from the broader replay.
+
+## 2026-08-13 — fixer/verifier closure for the fresh broad replay
+
+- PT-375 flag paging, PT-376 sleeper-header fitting, and PT-377 singular/plural
+  Supreme Court purge headings were fixed and independently replayed at
+  1280×577, 480×320, and 320×240 with no new translation, layout, or bridge
+  errors. Evidence is recorded in `findings-doc/findings.md` and
+  `findings-doc/play-log.md`.
+- The fresh Portuguese route reached the localized victory agenda and
+  Portuguese high-score terminal. Remaining notes are the pre-existing
+  optional PT-083 narrow-console enhancement, the generated-name locale-switch
+  product decision, accepted PT-049 English changelog copy, and broader random
+  police-terminal seed coverage under PT-048/PT-148.
+
 ## 2026-08-12 — PT-371–PT-373 craft-route verification
 
 - The former fixer queue is closed: strict-headless replay verified the SWAT

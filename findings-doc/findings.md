@@ -209,6 +209,9 @@
 | PT-372 | Medium | Flag-crafting layout | Portuguese currency costs clip and difficulty touches the cost column |
 | PT-373 | Low | Clothing-crafting navigation | Paging leaves an off-page clothing preview selected |
 | PT-374 | Medium | Hostage translation/composition | Hostage prose falls back to English or leaves nested placeholders |
+| PT-375 | Low | Flag-crafting navigation | Paging leaves an off-page flag preview selected |
+| PT-376 | Medium | Sleeper-management layout | Undercover activity header overwrites the Portuguese funds label |
+| PT-377 | Medium | Constitutional-amendment translation | Supreme Court purge heading falls back to English in Portuguese |
 
 ## PT-001: Save-management option is clipped
 
@@ -5583,3 +5586,98 @@ love-bomb activities are rendered before nesting; release siege labels are
 localized before insertion. The focused tests cover a composed recruitment
 paragraph, a nested pronoun reaction, a love-bomb activity, and release/
 psychology fragments, including assertions that no placeholder survives.
+
+## PT-375: Flag-crafting paging leaves an off-page preview selected
+
+- Severity: Low
+- Type: Fixed-width flag-crafting navigation/display
+- Screen: Portuguese base mode → Atribuir Tarefas → Recrutamento e Aquisição → Fazer uma Bandeira
+- Replay status: **Fixed and independently verified in a fresh strict-headless replay on 2026-08-13**
+- Before evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-crafting-20260813/15-flag-page2-H-selected-normal.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-crafting-20260813/16-flag-page1-after-back-normal.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-crafting-20260813/17-flag-page1-after-back-480x320.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-crafting-20260813/18-flag-page1-after-back-320x240.json`
+- After evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-final-20260813/03-flag-page2-H-selected-normal.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-final-20260813/04-flag-page1-after-back-normal.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-final-20260813/05-flag-page1-after-back-480x320.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-final-20260813/06-flag-page1-after-back-320x240.json`
+
+### Reproduction
+
+1. Open the Portuguese flag-crafting route from Assign Tasks → Recrutamento e Aquisição → `4 - Fazer uma Bandeira`.
+2. Press `]` to move from page 1 to page 2.
+3. Press `H` to select `Bandeira do Orgulho Progressista Inters…`.
+4. Press `[` to return to page 1.
+
+### Actual
+
+Page 1 correctly lists flags `A`–`L`, but the detail footer still shows the page-2 selection: `Bandeira do Orgulho Progressista Inters…`, its description, `Questão: Direitos LGBTQ+`, `Dificuldade: Acima da Média`, and `US$ 20`. The preview is not a visible row on the current page. The behavior is reproducible at 1280×577, 480×320, and 320×240; each bridge capture remains 25×80 with no document overflow or runtime errors.
+
+### Expected / recommendation
+
+Changing the flag page should clear the preview or move the selected row into view, matching the fixed clothing-crafting pager behavior in PT-373. Add an `onPageChanged` reset for the selected flag (and clear the preview area) before considering PT-375 closed.
+
+### Resolution
+
+The flag pager now clears the selected preview and detail area on page changes. In the fresh replay, selecting page-2 `H` and returning to page 1 left the page-1 footer blank at 1280×577, 480×320, and 320×240; all captures remained 25×80 with no overflow or bridge errors.
+
+## PT-376: Sleeper activity header overwrites the Portuguese funds label
+
+- Severity: Medium
+- Type: Fixed-console sleeper-management layout
+- Screen: Portuguese base mode → Agentes Infiltrados → select a sleeper
+- Replay status: **Fixed and independently verified in a fresh strict-headless replay on 2026-08-13**
+- Before evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fresh-broad-20260813/36-sleeper-activity.json`
+- After evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-final-20260813/10-sleeper-highfunds-normal.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-final-20260813/11-sleeper-highfunds-480x320.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-final-20260813/12-sleeper-highfunds-320x240.json` (natural-funds captures remain in `07`–`09`)
+
+### Reproduction
+
+1. Start a fresh Portuguese campaign with an available sleeper agent (the disposable replay used the president-sleeper fixture).
+2. From base mode, open `B - Agentes Infiltrados`.
+3. Select `A - Presidente Lovecraft`.
+
+### Actual
+
+The row-0 header is rendered as
+`Ação Encoberta: Qual será o foco de Presidente Lovecraft?heiro: US$ 1.000.000`.
+The long localized title consumes the start of the right-aligned `Dinheiro:` label, leaving the suffix `heiro` attached to the question. The DOM bridge remains exactly 80 cells wide, so this is an overwrite/collision rather than an over-wide-row report.
+
+### Expected / recommendation
+
+Keep a visible separator and the complete `Dinheiro: US$ 1.000.000` metadata. Fit or ellipsize the undercover-action title against the funds column, using the same width-aware header treatment as PT-302's regular activity screen. The affected source path is the unbounded `mvaddstr` title in `lib/basemode/activate_sleepers.dart`.
+
+### Resolution
+
+The sleeper header now fits the action title against the funds column. In the
+fresh president-sleeper replay with the isolated fixture's longest tested
+funds value, the header preserved the complete `Dinheiro: US$ 1.000.000` label
+with a visible separator at 1280×577, 480×320, and 320×240; each capture
+remained 25×80 with no overflow or bridge errors.
+
+## PT-377: Supreme Court purge heading falls back to English in Portuguese
+
+- Severity: Medium
+- Type: Missing translation / endgame constitutional-amendment route
+- Screen: Portuguese month end → elite-liberal constitutional amendment → Supreme Court purge
+- Replay status: **Fixed and independently verified in a fresh strict-headless replay on 2026-08-13**
+- Before evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fresh-broad-20260813/auto-checkpoint-50.json` and `auto-checkpoint-75.json`
+- After evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt377-20260813/01-plural-1280x577.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt377-20260813/02-plural-480x320.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt377-20260813/03-plural-320x240.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt377-20260813/04-singular-1280x577.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt377-20260813/05-singular-480x320.json`, and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt377-20260813/06-singular-320x240.json`
+
+### Reproduction
+
+1. Start a fresh Portuguese campaign with the disposable elite-liberal/public-opinion fixture.
+2. Advance through the month-end constitutional-amendment route until the Supreme Court purge amendment is displayed.
+3. Observe the heading above the former justices.
+
+### Actual
+
+The Portuguese amendment screen renders the raw English line:
+`The following former citizens are branded Arch-Conservative:`
+while the heading, names, and following paragraph are otherwise in the Portuguese route. The source writes this dynamic singular/plural heading directly with `mvaddstr` in `lib/politics/constitution.dart` and no Portuguese catalog entry exists.
+
+### Expected / recommendation
+
+Localize both singular and plural heading variants (and preserve the existing agreement branch) before writing to the console. The route should not expose English constitutional language in a Portuguese endgame screen.
+
+### Resolution
+
+The singular and plural purge headings now use the Portuguese catalog before
+writing to the fixed-width console. Independent strict-headless fixture replays
+rendered `Os seguintes ex-cidadãos são classificados como Arqui-Conservadores:`
+and `O seguinte ex-cidadão é classificado como Arqui-Conservador:` at
+1280×577, 480×320, and 320×240. No raw English heading, overflow, or bridge
+error remained.

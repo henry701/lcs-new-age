@@ -96,6 +96,54 @@ void main() {
     }
   });
 
+  test(
+    'Portuguese Supreme Court purge headings localize singular and plural forms',
+    () async {
+      const expectedPortuguese = {
+        'The following former citizens are branded Arch-Conservative:':
+            'Os seguintes ex-cidadãos são classificados como Arqui-Conservadores:',
+        'The following former citizen are branded Arch-Conservative:':
+            'O seguinte ex-cidadão é classificado como Arqui-Conservador:',
+      };
+
+      final constitution = File(
+        'lib/politics/constitution.dart',
+      ).readAsStringSync();
+      expect(constitution, contains('final purgeHeading = tossnum != 1'));
+      expect(constitution, contains('LcsI18n.tr('));
+      expect(
+        constitution,
+        contains(
+          '"The following former citizens are branded Arch-Conservative:"',
+        ),
+      );
+      expect(
+        constitution,
+        contains(
+          '"The following former citizen are branded Arch-Conservative:"',
+        ),
+      );
+      expect(
+        constitution,
+        contains('mvaddstr(2, 5, purgeHeading, noTranslate: true);'),
+      );
+
+      final portuguese = _loadCatalog('pt_BR');
+      for (final entry in expectedPortuguese.entries) {
+        expect(portuguese[entry.key], entry.value, reason: entry.key);
+      }
+
+      await LcsI18n.initialize('pt_BR');
+      for (final entry in expectedPortuguese.entries) {
+        final translatedHeading = LcsI18n.tr(entry.key);
+        expect(translatedHeading, entry.value, reason: entry.key);
+        mvaddstr(0, 0, translatedHeading, noTranslate: true);
+        expect(_consoleLine(0), startsWith(entry.value), reason: entry.key);
+      }
+      expect(LcsI18n.getMissingTranslations(), isEmpty);
+    },
+  );
+
   test('Portuguese month names and abbreviations are localized', () async {
     await LcsI18n.initialize('pt_BR');
 

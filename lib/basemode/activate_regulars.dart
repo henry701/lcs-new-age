@@ -778,8 +778,15 @@ Future<void> _selectFlagToMake(Creature cr) async {
       }
       return false;
     },
+    onPageChanged: (_) {
+      // A preview from the previous page must not remain displayed below the
+      // newly rendered rows. Clear the selection so Enter cannot confirm an
+      // off-page flag after navigation.
+      selected = -1;
+      eraseArea(startY: 16);
+    },
   );
-  if (confirmed) {
+  if (confirmed && selected != -1) {
     cr.activity = Activity(
       ActivityType.makeFlag,
       idString: craftable[selected].idName,

@@ -5841,3 +5841,152 @@ readability work, and the persisted generated-name locale-switch decision.
   `[JERKS] → [BABACAS]`, with a focused Herald regression. A fresh strict-headless
   browser session reported `HeadlessChrome/150.0.0.0`, 25 rows, maximum width 80,
   no document overflow, and an empty bridge-error channel after the fix.
+
+## 2026-08-13 — independent strict-headless craft-navigation verification (PT-371–PT-373/PT-375)
+
+- Replayed a fresh Portuguese founder through `Atribuir Tarefas →
+  Recrutamento e Aquisição → Fazer Roupas` and `Fazer uma Bandeira` against a
+  disposable Flutter `web-server` on port 8957. The only browser was the
+  repository wrapper `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agent-browser-headless.sh`
+  with session `verifier-crafting-20260813`, `AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`, `--disable-dev-shm-usage`,
+  and `--disable-cache`; the UA was
+  `HeadlessChrome/150.0.7871.115`. No headed window, desktop input, CDP
+  attach, or other browser session was used.
+- Clothing pages 3–5 stayed Portuguese and width-safe. Page 4 rendered
+  `Armadura tática da SWAT ... Impossível        US$ 2.100` with a visible
+  separator and complete cost; page 5 rendered the complete `US$ 5.000` for
+  `Traje de tanque humano`. Selecting page-5 `G`, then pressing `[` to page 4,
+  cleared the tank footer; page 4 showed no off-page preview. PT-371 and PT-373
+  remain fixed in this independent replay.
+- Flag pages 1–2 kept complete `US$ 10`, `US$ 15`, and `US$ 20` amounts with a
+  separator before costs. Selecting page-2 `H - Bandeira do Orgulho
+  Progressista Inters…`, then pressing `[` to page 1, left the page-2 preview
+  footer visible below page 1: `Bandeira do Orgulho Progressista Inters…`,
+  `Questão: Direitos LGBTQ+`, `Dificuldade: Acima da Média`, `US$ 20`, even
+  though page 1 contains only `A`–`L` rows for different flags. This is a new
+  reproducible sibling navigation defect, tracked as PT-375; PT-372's cost
+  clipping/separator defect remains fixed.
+- Normal 1280×577, 480×320, and 320×240 captures all measured 25 rows,
+  `maxRow=80`, zero over-wide rows, document width equal to viewport, and an
+  empty `#lcs-playtest-errors` channel. The bridge consumed each `data-key`
+  command; `data-options` exposed the 12 current page rows. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-crafting-20260813/`.
+
+## 2026-08-13 — strict-headless fresh broad replay and sleeper-header follow-up (PT-376)
+
+- Replayed a fresh Portuguese campaign against disposable Flutter `web-server`
+  port 8961 with the repository wrapper only:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agent-browser-headless.sh`,
+  session `playtester-fresh-20260813`, `AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`,
+  `--disable-dev-shm-usage`, and `--disable-cache`. The browser UA was
+  `HeadlessChrome/150.0.0.0`; no headed browser, desktop input, or CDP attach
+  was used.
+- The route covered Portuguese title/language selection, all founder prompts,
+  the conservative-era intro, base mode, profile/review, equipment with
+  all-item inventory, task assignment, clothing pages 1–5, both flag pages,
+  agenda, media overview/article, and sleeper activation. Captures are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fresh-broad-20260813/`.
+- Selecting the president sleeper reproduced PT-376 at row 0:
+  `Ação Encoberta: Qual será o foco de Presidente Lovecraft?heiro: US$ 1.000.000`.
+  The title overwrites the `Dinheiro:` funds label; the exact 80-cell buffer
+  and empty `#lcs-playtest-errors` channel are recorded in
+  `36-sleeper-activity.json`. This is distinct from the fixed regular activity
+  header PT-302 because `activate_sleepers.dart` still uses an unbounded title
+  write.
+- No other new translation/layout/runtime issue was confirmed in the broad
+  routes. Victory was not reached in this pass; waiting reached the newspaper
+  route and the replay then returned to base after dismissal.
+
+## 2026-08-13 — constitutional-amendment endgame translation follow-up (PT-377)
+
+- Continuing the same strict-headless Portuguese replay through month-end
+  amendment and election screens reached the Supreme Court purge route. The
+  DOM buffer at `auto-checkpoint-50.json` and `auto-checkpoint-75.json` shows
+  the otherwise Portuguese amendment screen followed by the raw English
+  heading `The following former citizens are branded Arch-Conservative:`.
+- This is a new missing-translation route defect, distinct from PT-321's
+  previously fixed Portuguese agreement fragments. The source branch in
+  `lib/politics/constitution.dart` writes the singular/plural heading directly
+  with `mvaddstr`, so the Portuguese catalog is bypassed.
+- The route remained 25×80 with no over-wide rows or bridge errors. The broad
+  run continued into repeated Portuguese court/trial screens but did not reach
+  the victory terminal.
+
+## 2026-08-13 — strict-headless disposable victory-fixture replay
+
+- After the natural replay stalled in repeated court/trial/month-end screens,
+  a disposable-only `debugInstantVictory` fixture initialized all laws,
+  Congress, Supreme Court, and executive offices to Elite Liberal and disabled
+  the CCS. The fixture was removed and both source files restored exactly after
+  capture; it was never committed.
+- A fresh Portuguese route used web-server port 8963 and isolated session
+  `playtester-victory-20260813` through the repository wrapper only. The UA was
+  `HeadlessChrome/150.0.0.0`; no headed browser, desktop input, or CDP attach
+  was used. Advancing one day reached the localized victory agenda screen:
+  `O Triunfo da Agenda Liberal` / `O país alcançou o status de Liberal de Elite!`.
+- Selecting `L - Ver a lista de pontuação alta` reached the Portuguese high-score
+  terminal, `A Elite Liberal`, with January 2023 and no bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fresh-broad-20260813/victory-04-wait.json`,
+  `victory-05-highscores.json`, and `victory-final-metrics.json`.
+
+## 2026-08-13 — independent strict-headless fixer-batch verification (PT-375/PT-376)
+
+- Replayed PT-375 against a fresh Flutter `web-server` on `127.0.0.1:8973`
+  from an isolated disposable source copy. The only browser was
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agent-browser-headless.sh`
+  with session `verifier-final-20260813`, `AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`, `--disable-dev-shm-usage`,
+  and `--disable-cache`; the UA was `HeadlessChrome/150.0.0.0`. No headed
+  window, desktop input, or CDP attach was used.
+- The Portuguese flag route selected page-2 `H - Bandeira do Orgulho
+  Progressista Inters…`, then returned to page 1 with `[`. The page-1 detail
+  footer was cleared; the off-page preview and its `US$ 20` no longer
+  remained. Normal 1280×577, 480×320, and 320×240 captures all measured 25
+  rows, `maxRow=80`, no over-wide rows, document width equal to viewport, and
+  an empty `#lcs-playtest-errors` channel. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-final-20260813/01-flag-page1-normal.json`
+  through `06-flag-page1-after-back-320x240.json`.
+- Replayed PT-376 in separate fresh headless sessions using the isolated
+  president-sleeper fixture. The initial natural-funds run
+  (`verifier-sleeper-final-20260813`) selected `A - Presidente Yim`; a second
+  isolated-only run (`verifier-sleeper-highfunds-20260813`) forced the funds to
+  `US$ 1.000.000` and selected `A - Presidente Antle`. Its header rendered
+  `Ação Encoberta:   Qual será o foco de Presidente Antle? Dinheiro: US$ 1.000.000 `:
+  the complete longest funds label is visible with a separator and no title
+  overwrite. The same 25×80, zero-overflow, no-error result held at 1280×577,
+  480×320, and 320×240. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-final-20260813/10-sleeper-highfunds-normal.json`
+  through `12-sleeper-highfunds-320x240.json` (natural-funds captures are
+  `07`–`09`).
+- PT-375 and PT-376 are closed as independently verified. Tracker audit found
+  PT-377 remains the only other `Replay status: Open` entry; it is the separate
+  Supreme Court purge heading finding and remains intentionally open.
+
+## 2026-08-13 — independent strict-headless PT-377 fixer verification
+
+- Replayed the Supreme Court purge heading from a fresh isolated source copy
+  against a disposable Flutter `web-server` on `127.0.0.1:8977`. The temporary
+  fixture called `tryToPurgeSupremeCourt()` directly after initializing a fresh
+  Portuguese `GameState`, with separate plural and singular court compositions;
+  no shared source or debug flag was changed.
+- The only browser was
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agent-browser-headless.sh`
+  with sessions `verifier-pt377-plural-20260813` and
+  `verifier-pt377-singular-20260813`, `AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`, `--disable-dev-shm-usage`,
+  and `--disable-cache`; UA:
+  `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36`.
+  No headed window, desktop input, or CDP attach was used.
+- Plural branch rendered `Os seguintes ex-cidadãos são classificados como
+  Arqui-Conservadores:` and singular branch rendered `O seguinte ex-cidadão é
+  classificado como Arqui-Conservador:`. Neither DOM buffer contained the raw
+  English heading. Both branches were captured at 1280×577, 480×320, and
+  320×240; every capture measured 25 rows, `maxRow=80`, zero over-wide rows,
+  document width equal to viewport, and an empty `#lcs-playtest-errors`
+  channel. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt377-20260813/01-plural-1280x577.json`
+  through `06-singular-320x240.json`.
+- PT-377 is closed as independently verified; no new translation, layout, or
+  runtime issue appeared on either agreement branch.

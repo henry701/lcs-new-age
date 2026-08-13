@@ -267,6 +267,57 @@ void main() {
     await activation;
   });
 
+  test(
+    'Portuguese sleeper activity header keeps funds in a separate cell',
+    () async {
+      final sleeper = _activeLiberal()
+        ..name = 'Presidente Lovecraftheiro Muito Longo'
+        ..activity = Activity.none();
+
+      final activation = activateSleeper(sleeper);
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+
+      final fundsText = fundsDisplayText();
+      final fundsStart = console.width - fundsText.length - 1;
+      expect(
+        _consoleCells(0, fundsStart, console.width).trimRight(),
+        fundsText,
+      );
+      expect(console.buffer[0][fundsStart - 1].glyph, equals(' '));
+      expect(_consoleLine(0), contains('Ação Encoberta'));
+
+      console.injectKey('Escape');
+      await activation;
+    },
+  );
+
+  test(
+    'Portuguese flag crafting clears an off-page preview after paging back',
+    () async {
+      final crafter = _activeLiberal()..rawSkill[Skill.tailoring] = 30;
+      console.injectKey('d');
+      console.injectKey('4');
+
+      final assignment = assignTask(crafter);
+      await Future<void>.delayed(const Duration(milliseconds: 30));
+
+      console.injectKey(']');
+      await Future<void>.delayed(const Duration(milliseconds: 15));
+      console.injectKey('h');
+      await Future<void>.delayed(const Duration(milliseconds: 15));
+      expect(_consoleLine(17), isNotEmpty);
+
+      console.injectKey('[');
+      await Future<void>.delayed(const Duration(milliseconds: 15));
+      expect(_consoleLine(17), isEmpty);
+
+      console.injectKey('Escape');
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      console.injectKey('Escape');
+      await assignment;
+    },
+  );
+
   test('Portuguese bulk activity labels fit the right column', () async {
     final member = _activeLiberal()..activity = Activity.none();
     pool.add(member);

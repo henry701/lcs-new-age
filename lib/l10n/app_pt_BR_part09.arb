@@ -11,6 +11,7 @@
   "\"That was a very traumatic incident.\" <cries>": "\"Foi um incidente muito traumático.\" <chora>",
   "\"You don't take a hint, do you?\"": "\"Você não entende uma dica, não é?\"",
   "\"[Will you marry me?]\"": "\"[Quer se casar comigo?]\"",
+  "&cOnly {amount}": "&cSó {amount}",
   "&w{name} &mdoesn't really &Kfeel anything...": "&w{name} &mnão sente &Knada realmente...",
   ", Level {level}: Escape or Engage": ", Nível {level}: Fugir ou Enfrentar",
   "...and accidentally {action}!": "...e acidentalmente {action}!",

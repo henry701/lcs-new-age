@@ -800,7 +800,7 @@ void main() {
           'lib/newspaper/display_news.dart',
         ).readAsStringSync();
 
-        expect(ads, contains('&cNow {amount}49.99'));
+        expect(ads, contains('&cNow {amount}'));
         expect(ads, contains('&c{description} {who} {seeking}&r'));
         expect(ads, isNot(contains(r'&cNow $${')));
         expect(ads, isNot(contains(r'&c${sexdesc()}')));

@@ -707,8 +707,8 @@ void main() {
       await assignTask(founder);
 
       final header = _consoleText().split('\n').first;
-      expect(header, matches(RegExp(r'fará hoje\? +Dinheiro: \$0')));
-      expect(header, isNot(contains(r'fará hoje?Dinheiro: $0')));
+      expect(header, matches(RegExp(r'fará hoje\? +Dinheiro: US\$ 0')));
+      expect(header, isNot(contains(r'fará hoje?Dinheiro: US$ 0')));
     },
   );
 
@@ -750,7 +750,7 @@ void main() {
     await Future<void>.delayed(const Duration(milliseconds: 10));
     final detail = _consoleText();
     expect(detail, contains('Traje do Black Bloc'));
-    expect(detail, contains(r'Sem armadura $30'));
+    expect(detail, contains(r'Sem armadura US$ 30'));
     expect(detail, contains('Roupa sem valor de armadura.'));
     expect(detail, contains('Esconde o rosto, Furtiva'));
     for (final leakedEnglish in [
@@ -844,7 +844,7 @@ void main() {
       expect(
         rendered,
         contains(
-          r'Aulas custam até $20/dia. Todas as pessoas liberais aptas participarão.',
+          r'Aulas custam até US$ 20/dia. Todas as pessoas liberais aptas participarão.',
         ),
       );
       expect(rendered, isNot(contains('Classes cost up to')));
@@ -1071,7 +1071,7 @@ void main() {
     _founder();
     baseModeOptionsDisplay(_homelessCamp);
 
-    expect(_consoleText(), contains(r'P - Orgulho: Hastear bandeira ($20)'));
+    expect(_consoleText(), contains(r'P - Orgulho: Hastear bandeira (US$ 20)'));
     expect(
       console.buffer[22].map((character) => character.glyph).join(),
       isNot(contains('…')),
@@ -1094,7 +1094,7 @@ void main() {
       expect(rendered, contains('Bandeira do Orgulho LGBTQ+'));
       expect(rendered, contains('Demonstre seu patriotismo'));
       expect(rendered, contains('Questão: Liberdade de Expressão'));
-      expect(rendered, contains('Custo: \$20'));
+      expect(rendered, contains('Custo: US\$ 20'));
       expect(rendered, contains('Grátis'));
       expect(rendered, contains('Escape - Cancelar'));
       expect(

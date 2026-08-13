@@ -205,6 +205,9 @@
 | PT-364 | — | Playtest verification | Rebuilt police-fixture route stayed localized and width-safe; arrest/subdue branch remains unforced |
 | PT-365 | — | Playtest verification | Strict-headless police combat replay stayed localized and width-safe; normal subdue terminal remains residual |
 | PT-366 | Low | Translation telemetry / display boundary | Already-localized profile and site values were retranslated |
+| PT-371 | Medium | Clothing-crafting layout | Long localized difficulty collides with a four-digit craft cost |
+| PT-372 | Medium | Flag-crafting layout | Portuguese currency costs clip and difficulty touches the cost column |
+| PT-373 | Low | Clothing-crafting navigation | Paging leaves an off-page clothing preview selected |
 
 ## PT-001: Save-management option is clipped
 
@@ -5512,3 +5515,51 @@ player-facing police-behavior headline. The no-profanity branch also used
 render these as `CANALHAS` and `[BABACAS]`, preserving the headline's tone
 without a missing-key warning. Regression:
 `test/newspaper/herald_translation_test.dart`.
+
+## PT-371: Clothing-crafting difficulty collides with a four-digit cost
+
+- Severity: Medium
+- Type: Fixed-width clothing-crafting layout
+- Screen: Portuguese base mode → Atribuir Tarefas → Recrutamento e Aquisição → Fazer Roupas, page 4
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-12**
+- Before evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/crafting-clothing-20260813/page4-after-back.txt`; after evidence is recorded in `findings-doc/play-log.md` and the `crafting-fixes-20260813` capture set.
+
+The selector writes the localized difficulty at column 37 and right-aligns the
+cost from column 64. For `Armadura tática da SWAT`, the full `Extremamente
+Difícil` label and `US$ 2.100` overlap, producing
+`Extremamente DifícUS$ 2.100`. Shorter prices do not expose the collision.
+The difficulty and cost columns need a measured separator or a width-aware
+cost/difficulty layout. The fix now reserves that space; the focused layout
+regression and fresh page replay show no collision.
+
+## PT-372: Flag-crafting currency and difficulty cells are clipped or joined
+
+- Severity: Medium
+- Type: Fixed-width flag-crafting layout
+- Screen: Portuguese base mode → Atribuir Tarefas → Recrutamento e Aquisição → Fazer uma Bandeira
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-12**
+- Before evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/crafting-clothing-20260813/flags-page1.txt`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/crafting-clothing-20260813/flags-page2.txt`, and `flags-page2-h.png`; after evidence is recorded in `findings-doc/play-log.md` and the `crafting-fixes-20260813` capture set.
+
+The table places Portuguese currency at column 75, leaving only five cells
+(columns 75–79); `US$ 10` therefore renders as `US$ 1`
+and `US$ 20` as `US$ 2`. The selected flag's detail footer shows the complete
+amount, proving the list value is being clipped rather than intentionally
+rounded. On page 2, `Abaixo da Mé…US$ 2` also has no separator between the
+fitted difficulty and cost. Keep the full amount visible and reserve at least
+one blank cell between the two cells. The width-aware cost column now satisfies
+both constraints in the fresh replay.
+
+## PT-373: Clothing-crafting paging leaves an off-page preview selected
+
+- Severity: Low
+- Type: Fixed-width clothing-crafting navigation/display
+- Screen: Portuguese base mode → Atribuir Tarefas → Recrutamento e Aquisição → Fazer Roupas
+- Replay status: **Fixed and verified in a fresh strict-headless replay on 2026-08-12**
+- Before evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/crafting-clothing-20260813/page4-after-back.txt`; after evidence is recorded in `findings-doc/play-log.md` and the `crafting-fixes-20260813` capture set.
+
+After selecting `G - Traje de tanque humano` on page 5 and pressing `[` to
+return to page 4, the footer still shows the page-5 tank preview even though
+that item is no longer in the visible page. Paging should either keep the
+selected row in view or clear/reselect the detail footer when the page changes.
+The page-change handler now clears the selection; the after capture has no
+off-page tank footer.

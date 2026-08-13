@@ -68,6 +68,17 @@ void main() {
       expect(LcsI18n.currentLocale, equals('pt_BR'));
     });
 
+    test('currency amounts follow the active locale convention', () async {
+      await LcsI18n.initialize('pt_BR');
+      expect(LcsI18n.currencyAmount(0), equals(r'US$ 0'));
+      expect(LcsI18n.currencyAmount(3000), equals(r'US$ 3.000'));
+      expect(LcsI18n.currencyAmount(-1200), equals(r'US$ -1.200'));
+      expect(LcsI18n.currencyAmount(1234.5), equals(r'US$ 1.234,5'));
+
+      await LcsI18n.initialize('en_US');
+      expect(LcsI18n.currencyAmount(3000), equals(r'$3000'));
+    });
+
     test(
       'initialize keeps the previous locale until async load completes',
       () async {

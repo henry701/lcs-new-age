@@ -4,8 +4,6 @@ import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
-String _dollars(int amount) => (StringBuffer(r'$')..write(amount)).toString();
-
 void displaysinglead(
   bool liberalguardian,
   List<(int, int)> addplace,
@@ -89,8 +87,10 @@ void displaysinglead(
         case 1:
           ad = "&cFine Leather Chairs&r&r";
           ad += "&cSpecial Purchase&r";
-          ad += LcsI18n.processString("&cNow {amount}49.99", {
-            "amount": _dollars(lcsRandom(8) + 8),
+          ad += LcsI18n.processString("&cNow {amount}", {
+            "amount": LcsI18n.currencyAmount(
+              (lcsRandom(8) + 8) * 100 + 49.99,
+            ),
           });
           ad += "&r";
         case 2:
@@ -104,8 +104,10 @@ void displaysinglead(
             "year": (2020 - lcsRandom(15)).toString(),
           });
           ad += "&cSedan 4D&r";
-          ad += LcsI18n.processString("&cOnly {amount},750", {
-            "amount": _dollars(lcsRandom(19) + 3),
+          ad += LcsI18n.processString("&cOnly {amount}", {
+            "amount": LcsI18n.currencyAmount(
+              (lcsRandom(19) + 3) * 1000 + 750,
+            ),
           });
           ad += "&r";
         case 4:

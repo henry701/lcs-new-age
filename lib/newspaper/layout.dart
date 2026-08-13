@@ -150,7 +150,7 @@ void theHeraldTop() {
     1,
     "SUBSCRIBE {price} WEEKLY",
     marginX: 1,
-    params: {"price": "\$3"},
+    params: {"price": LcsI18n.currencyAmount(3)},
   );
   mvaddstrRight(2, "FOR FULL ACCESS", marginX: 1);
   mvaddstrRight(3, "DIGITAL EDITION", marginX: 1);

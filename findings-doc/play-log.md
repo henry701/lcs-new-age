@@ -1,5 +1,108 @@
 # Portuguese Play Log
 
+## 2026-08-12 — strict-headless crafting-fix verification (PT-371–PT-373)
+
+- Replayed `Atribuir Tarefas → Recrutamento e Aquisição → Fazer Roupas`
+  and `Fazer uma Bandeira` against a disposable Flutter `web-server` on
+  port 8930. The repository wrapper forced `AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`,
+  `--disable-dev-shm-usage`, and `--disable-cache`; the runtime UA was
+  `HeadlessChrome/150.0.0.0`. No headed window, desktop input, or `:9222`
+  target was used.
+- Before: the prior replay under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/crafting-clothing-20260813/`
+  captured `Extremamente DifícUS$ 2.100`, clipped flag costs (`US$ 1` /
+  `US$ 2`), and a stale page-5 tank footer after returning to clothing page 4.
+- After: clothing page 3 keeps long `Extremamente Difícil` labels within the
+  measured difficulty column, while page 4 renders
+  `Armadura tática da SWAT ... Impossível        US$ 2.100` with a visible
+  separator and the complete four-digit cost. The focused Portuguese layout
+  regression passed (`pt_br_core_layout_test.dart`, 1 test).
+- After: flag pages 1–2 and the selected-item preview retain complete
+  `US$ 10`, `US$ 15`, and `US$ 20` values with a separator before cost;
+  no `US$ 1`/`US$ 2` clipping remains. Selecting page-5 clothing `G` and
+  paging back to page 4 now clears the off-page tank detail footer.
+- Normal, 320×240, and 480×320 captures stayed at 25 rows × 80 columns,
+  matched document width to the viewport, and reported no bridge/runtime
+  errors. High-signal DOM captures are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/crafting-fixes-20260813/`.
+
+## 2026-08-12 — strict-headless broad Portuguese regression replay
+
+- Replayed a fresh Portuguese campaign against a disposable Flutter
+  `web-server` on port 8920. The only browser was the repository
+  `agent-browser` session `pt-fresh-8920`, launched with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, `--ozone-platform=headless`,
+  `--disable-dev-shm-usage`, and `--disable-cache`; the runtime UA was
+  `HeadlessChrome/150.0.0.0`. No headed window, desktop input, or `:9222`
+  target was used. The session and server were closed after capture.
+- Covered title/language selection, all nine founder questions, the
+  conservative-era intro, founder name/slogan, base mode, Review Assets,
+  Assign Tasks, Liberal Agenda, Media Overview plus a generated article,
+  flag purchase, investment, district/site changes, and a short wait/newspaper
+  cycle. Visible controls retained their key prefixes (`A -`, `P -`, `Entre -`)
+  and the intro retained `extrema-direita Arqui Conservadora` capitalization.
+- Repeated base, agenda, media, and article observations at 320×240. Every
+  bridge capture remained 25 rows by 80 columns, the document width equaled
+  the viewport, and `#lcs-playtest-errors` stayed empty. Narrow-screen
+  ellipses are the existing PT-083 fixed-console behavior; no new translation,
+  prefix, or layout defect was confirmed.
+- DOM-only captures and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fresh-broad-20260813/`.
+
+## 2026-08-13 — strict-headless travel, courthouse, and hospital replay
+
+- Replayed a fresh Portuguese founder through the title/language flow, Seattle
+  district travel, the courthouse destination, the University Hospital route,
+  and the site-mode map/action legend. The browser was launched only with the
+  repository headless settings (`AGENT_BROWSER_HEADED=0`,
+  `--headless=new`, `--ozone-platform=headless`,
+  `--disable-dev-shm-usage`, `--disable-cache`) and reported
+  `HeadlessChrome/150.0.7871.115`; no headed browser or `:9222` CDP target was
+  used.
+- The route covered normal 1280px and narrow 320×240 viewports. The travel
+  lists showed localized districts and destinations; the courthouse and
+  hospital labels/actions remained Portuguese. The hospital action rendered
+  `Entrar e tratar os ferimentos dos Conservadores`, and the site map legend
+  remained localized.
+- The previously known daily mismatch wording appeared in its current neutral
+  form (`em vez de cumprir a atividade…`) and was not refiled as PT-123. The
+  visible ellipsis at 320px is the existing fixed-console fitting behavior, not
+  a new untranslated string.
+- Normal and narrow captures each measured 25 rows, `maxRow=80`, zero rows
+  over 80 columns, document width equal to the viewport, and an empty
+  `#lcs-playtest-errors` channel. No new translation, key-prefix, or layout
+  defect was confirmed. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sites-20260813/`.
+
+## 2026-08-13 — strict-headless clothing and flag-crafting replay (PT-371–PT-373)
+
+- Replayed a fresh Portuguese founder through `Atribuir Tarefas →
+  Recrutamento e Aquisição → Fazer Roupas` and walked all five clothing pages,
+  then opened both pages of `Fazer uma Bandeira`. The browser used the
+  repository wrapper with `AGENT_BROWSER_HEADED=0`, `--headless=new`,
+  `--ozone-platform=headless`, `--disable-dev-shm-usage`, and `--disable-cache`;
+  its UA was `HeadlessChrome/150.0.7871.115`. No headed browser was opened or
+  focused.
+- Clothing page 4 row G (`Armadura tática da SWAT`, US$ 2.100) renders
+  `Extremamente DifícUS$ 2.100`: the localized difficulty string runs into the
+  right-aligned four-digit cost. The same collision is not visible for shorter
+  costs. This is PT-371.
+- Flag-crafting rows right-align Portuguese currency at column 75, leaving
+  only five cells. Every `US$ 10` price appears as `US$ 1`, and `US$ 20`
+  appears as `US$ 2`, while the selected item's footer correctly shows the full
+  amount. Page 2 also joins a full-width difficulty with the cost as
+  `Abaixo da Mé…US$ 2`. These are PT-372 fixed-column clipping/separator
+  defects.
+- Pressing `]` to page from clothing page 4 to page 5, selecting `G`, then
+  pressing `[` leaves the page-5 `Traje de tanque humano` detail footer below
+  page 4, even though that item is no longer visible. This stale off-page
+  selection is PT-373.
+- All captured buffers stayed at 25 rows and max width 80; `#lcs-playtest-errors`
+  was empty and document width equaled the viewport. Evidence (including
+  page-by-page DOM captures and a headless screenshot) is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/crafting-clothing-20260813/`.
+
 ## 2026-08-13 — PT-366 localized-value boundary replay
 
 - Replayed a fresh Portuguese founder through the profile, base roster, Assign

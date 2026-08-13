@@ -5,12 +5,20 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/crime_squad.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/saveload/save_load.dart';
 import 'package:lcs_new_age/title_screen/game_over.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const int scoreVersion = 1;
+
+String _highScoreAmount(int amount) {
+  if (LcsI18n.currentLocale == 'pt_BR') {
+    return LcsI18n.currencyAmount(amount);
+  }
+  return amount.toString();
+}
 
 class HighScores {
   HighScores({
@@ -230,8 +238,18 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
       "Kidnappings: {kidnappings}",
       params: {"kidnappings": s.statKidnappings},
     );
-    mvaddstr(y + 2, 40, "\$ Taxed: {taxed}", params: {"taxed": s.statFunds});
-    mvaddstr(y + 3, 40, "\$ Spent: {spent}", params: {"spent": s.statSpent});
+    mvaddstr(
+      y + 2,
+      40,
+      "\$ Taxed: {taxed}",
+      params: {"taxed": _highScoreAmount(s.statFunds)},
+    );
+    mvaddstr(
+      y + 3,
+      40,
+      "\$ Spent: {spent}",
+      params: {"spent": _highScoreAmount(s.statSpent)},
+    );
     mvaddstr(y + 2, 60, "Flags Bought: {buys}", params: {"buys": s.statBuys});
     mvaddstr(
       y + 3,
@@ -274,13 +292,13 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
     23,
     40,
     "\$ Taxed: {count}",
-    params: {'count': highScores.universalFunds},
+    params: {'count': _highScoreAmount(highScores.universalFunds)},
   );
   mvaddstr(
     24,
     40,
     "\$ Spent: {count}",
-    params: {'count': highScores.universalSpent},
+    params: {'count': _highScoreAmount(highScores.universalSpent)},
   );
   mvaddstr(
     23,

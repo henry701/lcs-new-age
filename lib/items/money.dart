@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/loot_type.dart';
 
@@ -19,6 +20,6 @@ class Money extends Item {
 
   @override
   String equipTitle({bool full = false}) {
-    return "\$$stackSize";
+    return LcsI18n.currencyAmount(stackSize);
   }
 }

@@ -360,14 +360,14 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
     1,
     lightBlue,
     "\"It'll be {rent} a month.",
-    params: {"rent": "\$$rent"},
+    params: {"rent": LcsI18n.currencyAmount(rent)},
   );
 
   mvaddstr(
     14,
     1,
     "I'll need {rent} now as a security deposit.\"",
-    params: {"rent": "\$$rent"},
+    params: {"rent": LcsI18n.currencyAmount(rent)},
   );
 
   await getKey();

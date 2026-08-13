@@ -352,7 +352,7 @@ void main() {
       '3 - Make and Sell Art': '3 - Fazer e Vender Arte',
       '4 - Perform Live Music': '4 - Fazer Música ao Vivo',
       '1 - Practice a Skill (Free)': '1 - Praticar uma Habilidade (Grátis)',
-      '2 - Take Paid Classes (\$30/day)': '2 - Fazer Aulas Pagas (\$30/dia)',
+      '2 - Take Paid Classes (\$30/day)': '2 - Fazer Aulas Pagas (US\$ 30/dia)',
       '1 - Recruiting': '1 - Recrutar',
       '2 - Steal a Car': '2 - Roubar um Carro',
       '3 - Make Clothing': '3 - Fazer Roupas',
@@ -458,8 +458,12 @@ void main() {
     for (final text in [
       LcsI18n.processString('Flags Bought: {buys}', {'buys': '12'}),
       LcsI18n.processString('Flags Burned: {burns}', {'burns': '12'}),
-      LcsI18n.processString(r'$ Taxed: {count}', {'count': '1200'}),
-      LcsI18n.processString(r'$ Spent: {count}', {'count': '1200'}),
+      LcsI18n.processString(r'$ Taxed: {count}', {
+        'count': LcsI18n.currencyAmount(1200),
+      }),
+      LcsI18n.processString(r'$ Spent: {count}', {
+        'count': LcsI18n.currencyAmount(1200),
+      }),
     ]) {
       expect(text.length, lessThanOrEqualTo(20), reason: text);
     }

@@ -111,7 +111,7 @@ void flagMenuDetail(
     );
   }
   row++;
-  mvaddstrc(row, x, costColor, costLine);
+  mvaddstrc(row, x, costColor, costLine, noTranslate: true);
 }
 
 Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
@@ -139,10 +139,10 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
   }
 
   String costText(FlagType flag) {
-    if (isFlying(flag)) return "Flying";
-    if (flagOwned(loc, flag)) return "Free";
-    if (lawBanned(flag)) return "Banned";
-    return "\$20";
+    if (isFlying(flag)) return LcsI18n.tr("Flying");
+    if (flagOwned(loc, flag)) return LcsI18n.tr("Free");
+    if (lawBanned(flag)) return LcsI18n.tr("Banned");
+    return LcsI18n.currencyAmount(20);
   }
 
   Color costColor(FlagType flag) {
@@ -154,10 +154,12 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
   }
 
   String costLine(FlagType flag) {
-    if (isFlying(flag)) return "Currently flying";
-    if (flagOwned(loc, flag)) return "Cost: Free (in storage)";
-    if (lawBanned(flag)) return "Cost: Banned";
-    return "Cost: \$20";
+    if (isFlying(flag)) return LcsI18n.tr("Currently flying");
+    if (flagOwned(loc, flag)) {
+      return LcsI18n.tr("Cost: Free (in storage)");
+    }
+    if (lawBanned(flag)) return LcsI18n.tr("Cost: Banned");
+    return LcsI18n.tr("Cost: \$20");
   }
 
   Color costLineColor(FlagType flag) {
@@ -174,16 +176,10 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
   }
   bool confirmed = false;
 
-  String prompt;
-  if (loc.hasFlag) {
-    prompt = LcsI18n.processString("Change the flag flying over the {site}:", {
-      "site": loc.getName(short: true),
-    });
-  } else {
-    prompt = LcsI18n.processString("Fly a flag over the {site}:", {
-      "site": loc.getName(short: true),
-    });
-  }
+  final prompt = loc.hasFlag
+      ? "Change the flag flying over the {site}:"
+      : "Fly a flag over the {site}:";
+  final promptParams = {"site": loc.getName(short: true)};
   String footer;
   if (ownedOnly) {
     footer = "Under siege: only flags already in your inventory can be raised.";
@@ -194,6 +190,7 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
 
   await pagedInterface(
     headerPrompt: prompt,
+    headerPromptParams: promptParams,
     // Give translated political-issue names enough room to remain legible;
     // the heat and cost cells still retain their fixed right-hand boundaries.
     headerKey: const {0: "FLAG", 40: "ISSUE", 64: "HEAT", 70: "COST"},
@@ -217,7 +214,7 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
       mvaddstrcFitted(y, 40, lightGray, flag.view.label, 24);
       var (secrecyText, secrecyColor) = flagSecrecyText(flag);
       mvaddstrc(y, 64, secrecyColor, secrecyText);
-      mvaddstrc(y, 70, costColor(flag), costText(flag));
+      mvaddstrc(y, 70, costColor(flag), costText(flag), noTranslate: true);
       // pagedInterface clears graphics on every redraw, so re-draw the preview
       // (including the flag image) once per frame, on the first row.
       if (key == letterAPlus(0)) {

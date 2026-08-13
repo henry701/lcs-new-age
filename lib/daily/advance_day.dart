@@ -1065,13 +1065,16 @@ Future<void> _dailyHealing() async {
           8,
           1,
           "&w{name}'s hospital bill comes to &R{bill}&w.",
-          params: {"name": p.name, "bill": "\$${p.medicalBills}"},
+          params: {
+            "name": p.name,
+            "bill": LcsI18n.currencyAmount(p.medicalBills),
+          },
         );
         mvaddstrx(
           9,
           1,
           "The LCS has &G{funds}&w available.",
-          params: {"funds": "\$${ledger.funds}"},
+          params: {"funds": LcsI18n.currencyAmount(ledger.funds)},
         );
         addOptionText(
           11,

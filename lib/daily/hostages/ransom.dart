@@ -87,7 +87,7 @@ Future<void> handleRansomNote(
           ].random,
         ),
         "hostage": cr.name,
-        "amount": "\$${intr.ransomAmount}",
+        "amount": LcsI18n.currencyAmount(intr.ransomAmount),
       },
     ),
   );
@@ -163,7 +163,10 @@ Future<bool> handleRansomPayment(
         "We have placed the money in the location you requested. It's yours. Just give our dear {name} back.",
         "We will do anything to get {name} back. The money is in the location you specified. We are trusting you. Please keep your word.",
       ].random,
-      {"amount": "\$${intr.ransomAmount}", "name": cr.properName},
+      {
+        "amount": LcsI18n.currencyAmount(intr.ransomAmount),
+        "name": cr.properName,
+      },
     ),
   );
   y = console.y + 1;

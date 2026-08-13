@@ -557,6 +557,27 @@ class LcsI18n {
     return output.toString();
   }
 
+  /// Formats an in-game dollar amount using the active locale's currency
+  /// convention. The game economy is denominated in US dollars even when the
+  /// surrounding interface is translated into Brazilian Portuguese.
+  static String currencyAmount(num amount) {
+    final raw = amount.toString();
+    if (_currentLocale != 'pt_BR') return '\$$raw';
+
+    final sign = raw.startsWith('-') ? '-' : '';
+    final unsigned = sign.isEmpty ? raw : raw.substring(1);
+    final parts = unsigned.split('.');
+    final groupedInteger = parts.first.replaceAllMapped(
+      RegExp(r'\B(?=(\d{3})+(?!\d))'),
+      (_) => '.',
+    );
+    const decimalSeparator = ',';
+    final decimal = parts.length > 1
+        ? decimalSeparator + parts.sublist(1).join(decimalSeparator)
+        : '';
+    return 'US\$ $sign$groupedInteger$decimal';
+  }
+
   /// Reset state (for testing)
   static void reset() {
     _initialized = false;

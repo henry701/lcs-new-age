@@ -250,7 +250,9 @@ class Shop extends ShopOption {
         String desc = availableOptions[p].halfscreenDescription();
         if (availableOptions[p] is ShopItem) {
           desc += LcsI18n.processString(" ({price})", {
-            "price": "\$${(availableOptions[p] as ShopItem).price(false)}",
+            "price": LcsI18n.currencyAmount(
+              (availableOptions[p] as ShopItem).price(false),
+            ),
           }, noTranslate: true);
         }
         addInlineOptionTextWrapped(
@@ -383,11 +385,13 @@ class Shop extends ShopOption {
         );
         if (availableOptions[index] is ShopItem) {
           move(y, 39);
-          final price = StringBuffer(r'$')
-            ..write((availableOptions[index] as ShopItem).price(false));
           addstr(
             "{price}",
-            params: {"price": price.toString()},
+            params: {
+              "price": LcsI18n.currencyAmount(
+                (availableOptions[index] as ShopItem).price(false),
+              ),
+            },
             noTranslate: true,
           );
         }
@@ -476,7 +480,9 @@ class Shop extends ShopOption {
           addstr(
             "{price}",
             params: {
-              "price": "\$${(availableOptions[i] as ShopItem).price(false)}",
+              "price": LcsI18n.currencyAmount(
+                (availableOptions[i] as ShopItem).price(false),
+              ),
             },
             noTranslate: true,
           );
@@ -544,7 +550,9 @@ class Shop extends ShopOption {
         addstr(
           "{price}",
           params: {
-            "price": "\$${(availableOptions[index] as ShopItem).price(false)}",
+            "price": LcsI18n.currencyAmount(
+              (availableOptions[index] as ShopItem).price(false),
+            ),
           },
           noTranslate: true,
         );
@@ -605,7 +613,9 @@ class Shop extends ShopOption {
         addstr(
           "{price}",
           params: {
-            "price": "\$${(availableOptions[index] as ShopItem).price(false)}",
+            "price": LcsI18n.currencyAmount(
+              (availableOptions[index] as ShopItem).price(false),
+            ),
           },
           noTranslate: true,
         );
@@ -722,7 +732,7 @@ class Shop extends ShopOption {
             1,
             white,
             "You add {amount} to Liberal Funds.",
-            params: {"amount": "\$$fenceamount"},
+            params: {"amount": LcsI18n.currencyAmount(fenceamount)},
           );
 
           await getKey();
@@ -752,7 +762,7 @@ class Shop extends ShopOption {
           0,
           30,
           "Estimated Liberal Amount: {amount}",
-          params: {"amount": "\$$ret"},
+          params: {"amount": LcsI18n.currencyAmount(ret)},
         );
       }
 

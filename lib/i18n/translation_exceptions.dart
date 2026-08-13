@@ -32,6 +32,12 @@ const Set<String> structuralTranslationKeys = {
   '{letter} - {item}',
   ' ({price})',
   '({price})',
+  // Sign and parentheses are structural shells around locale-formatted
+  // currency values; the amount itself is localized before insertion.
+  '+{amount}',
+  '-{amount}',
+  '(+{amount})',
+  '(-{amount})',
   // Compact health values are composed from numeric placeholders at runtime.
   '{current}/{max}',
   '~{current}/{max}',

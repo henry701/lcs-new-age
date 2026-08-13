@@ -14,15 +14,7 @@ import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 String _formatInvestmentCost(int amount) {
-  final separator = LcsI18n.currentLocale == 'pt_BR' ? '.' : ',';
-  final grouped = amount.toString().replaceAllMapped(
-    RegExp(r'\B(?=(\d{3})+(?!\d))'),
-    (_) => separator,
-  );
-  return (StringBuffer()
-        ..write(LcsI18n.currentLocale == 'pt_BR' ? 'US\$ ' : '\$')
-        ..write(grouped))
-      .toString();
+  return LcsI18n.currencyAmount(amount);
 }
 
 void _addInvestmentOption(

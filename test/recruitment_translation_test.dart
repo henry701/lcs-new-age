@@ -21,7 +21,7 @@ void main() {
         'A - Spend \$50 on props and a book for them to keep.',
         null,
       ),
-      equals('A - Gaste \$50 em materiais e um livro para guardar.'),
+      equals('A - Gaste US\$ 50 em materiais e um livro para guardar.'),
     );
     expect(
       LcsI18n.processString('C - {recruit} joins the LCS.', {

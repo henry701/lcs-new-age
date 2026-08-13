@@ -137,7 +137,7 @@ Future<void> assignTask(Creature c) async {
         0,
         "{name} made {income} yesterday. What now?",
         console.width - fundsText.length - 2,
-        params: {"name": c.name, "income": "\$${c.income}"},
+        params: {"name": c.name, "income": LcsI18n.currencyAmount(c.income)},
       );
     } else {
       mvaddstrFitted(
@@ -629,10 +629,18 @@ Future<void> _selectClothingToMake(Creature cr) async {
         params: {"key": key, "name": LcsI18n.tr(craftable[index].name)},
         baseColorKey: color,
       );
-      addDifficultyText(y, 37, difficulty + 4);
-      String price =
-          "\$${craftable[index].makePrice + craftable[index].allowedArmor.first.makePrice}";
-      mvaddstrc(y, 64 - price.length, lightGreen, price, noTranslate: true);
+      String price = LcsI18n.currencyAmount(
+        craftable[index].makePrice +
+            craftable[index].allowedArmor.first.makePrice,
+      );
+      final priceX = 64 - price.length;
+      addDifficultyText(
+        y,
+        37,
+        difficulty + 4,
+        maxWidth: (priceX - 37 - 1).clamp(0, console.width - 37),
+      );
+      mvaddstrc(y, priceX, lightGreen, price, noTranslate: true);
     },
     onChoice: (index) async {
       selectedClothingIndex = index;
@@ -668,6 +676,13 @@ Future<void> _selectClothingToMake(Creature cr) async {
       }
       return false;
     },
+    onPageChanged: (_) {
+      // A selected row from the old page must not remain displayed below the
+      // new page. The pager invokes this only after a real page transition.
+      selectedClothingIndex = -1;
+      selectedArmorIndex = 0;
+      eraseArea(startY: 16);
+    },
   );
   if (selectedClothingIndex != -1) {
     cr.activity = Activity(
@@ -696,7 +711,7 @@ Future<void> _selectFlagToMake(Creature cr) async {
     renderFlagPreview(
       craftable[selected],
       difficulty: craftable[selected].makeDifficultyFor(cr),
-      costLine: "\$${craftable[selected].makePrice}",
+      costLine: LcsI18n.currencyAmount(craftable[selected].makePrice),
       costColor: lightGreen,
       cancelText: "Escape - Cancel Making Flag",
     );
@@ -713,7 +728,7 @@ Future<void> _selectFlagToMake(Creature cr) async {
       40: "ISSUE",
       56: "HEAT",
       62: "DIFFICULTY",
-      75: "COST",
+      74: "COST",
     },
     footerPrompt: "Crafted flags are stored in your safehouse inventory.",
     pageSize: 12,
@@ -733,8 +748,20 @@ Future<void> _selectFlagToMake(Creature cr) async {
       mvaddstrcFitted(y, 40, lightGray, flag.view.label, 15);
       var (secrecyText, secrecyColor) = flagSecrecyText(flag);
       mvaddstrc(y, 56, secrecyColor, secrecyText);
-      addDifficultyText(y, 62, flag.makeDifficultyFor(cr), maxWidth: 13);
-      mvaddstrc(y, 75, lightGreen, "\$${flag.makePrice}");
+      const costX = 74;
+      addDifficultyText(
+        y,
+        62,
+        flag.makeDifficultyFor(cr),
+        maxWidth: costX - 62 - 1,
+      );
+      mvaddstrc(
+        y,
+        costX,
+        lightGreen,
+        LcsI18n.currencyAmount(flag.makePrice),
+        noTranslate: true,
+      );
       // pagedInterface clears graphics on every redraw, so re-draw the preview
       // once per frame, on the first row.
     },
@@ -796,7 +823,9 @@ void _clothingDetailFooter(
     addstrc(
       lightGreen,
       " {price}",
-      params: {"price": "\$${clothing.makePrice + armor.makePrice}"},
+      params: {
+        "price": LcsI18n.currencyAmount(clothing.makePrice + armor.makePrice),
+      },
       noTranslate: true,
     );
 

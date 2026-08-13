@@ -11,6 +11,7 @@
   "\"That was a very traumatic incident.\" <cries>": "\"That was a very traumatic incident.\" <cries>",
   "\"You don't take a hint, do you?\"": "\"You don't take a hint, do you?\"",
   "\"[Will you marry me?]\"": "\"[Will you marry me?]\"",
+  "&cOnly {amount}": "&cOnly {amount}",
   "&w{name} &mdoesn't really &Kfeel anything...": "&w{name} &mdoesn't really &Kfeel anything...",
   ", Level {level}: Escape or Engage": ", Level {level}: Escape or Engage",
   "...and accidentally {action}!": "...and accidentally {action}!",

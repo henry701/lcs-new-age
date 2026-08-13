@@ -1,22 +1,10 @@
 {
   "entries": [
     {
-      "file": "basemode/activate_regulars.dart",
-      "context": "mvaddstrc",
-      "text": "\\$${flag.makePrice}",
-      "reason": "Currency-only value; no prose or user-facing composition."
-    },
-    {
       "file": "basemode/activate_sleepers.dart",
       "context": "mvaddstrc",
       "text": "Unexpected sleeper activity type: ${cr.activity.type.name}",
       "reason": "Developer diagnostic falsely associated with the nearby wrapper by the line-based audit."
-    },
-    {
-      "file": "basemode/review_mode.dart",
-      "context": "addstr",
-      "text": "\\$${tempp.medicalBills}",
-      "reason": "Currency-only value; no prose or user-facing composition."
     },
     {
       "file": "common_display/print_creature_info.dart",
@@ -58,39 +46,21 @@
   "allEntries": [
     {
       "file": "basemode/activate_regulars.dart",
-      "line": 140,
-      "text": "\\$${c.income}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "basemode/activate_regulars.dart",
-      "line": 634,
-      "text": "\\$${craftable[index].makePrice + craftable[index].allowedArmor.first.makePrice}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "basemode/activate_regulars.dart",
-      "line": 676,
+      "line": 691,
       "text": "${craftable[selectedClothingIndex].idName}:ARMOR$selectedArmorIndex",
       "reason": "Stable activity identifier; never rendered as player-facing prose."
     },
     {
-      "file": "basemode/activate_regulars.dart",
-      "line": 699,
-      "text": "\\$${craftable[selected].makePrice}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+      "file": "i18n/i18n.dart",
+      "line": 565,
+      "text": "\\$$raw",
+      "reason": "Currency formatter returns an English-locale dollar amount; the value is not a translatable sentence."
     },
     {
-      "file": "basemode/activate_regulars.dart",
-      "line": 737,
-      "text": "\\$${flag.makePrice}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "basemode/activate_regulars.dart",
-      "line": 799,
-      "text": "\\$${clothing.makePrice + armor.makePrice}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
+      "file": "i18n/i18n.dart",
+      "line": 578,
+      "text": "US\\$ $sign$groupedInteger$decimal",
+      "reason": "Currency formatter assembles the locale-specific numeric amount after applying Brazilian separators."
     },
     {
       "file": "basemode/activate_sleepers.dart",
@@ -109,18 +79,6 @@
       "line": 117,
       "text": "${headline.substring(0, 32).trim()}...",
       "reason": "Layout-only headline truncation; the headline itself is translated before display."
-    },
-    {
-      "file": "basemode/plan_site_visit.dart",
-    "line": 176,
-      "text": "\\$$ticketPrice",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "basemode/review_mode.dart",
-      "line": 488,
-      "text": "\\$${tempp.medicalBills}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "basemode/review_mode.dart",
@@ -169,12 +127,6 @@
       "line": 626,
       "text": "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "common_display/common_display.dart",
-      "line": 330,
-      "text": "\\$${ledger.funds}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "common_display/common_display.dart",
@@ -273,12 +225,6 @@
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
-      "file": "daily/activities/hacking.dart",
-      "line": 152,
-      "text": "\\$$fundgain",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
       "file": "daily/advance_day.dart",
       "line": 158,
       "text": "site.cityId: ${site.cityId}",
@@ -327,58 +273,16 @@
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
-      "file": "daily/advance_day.dart",
-      "line": 1068,
-      "text": "\\$${p.medicalBills}",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "daily/advance_day.dart",
-      "line": 1074,
-      "text": "\\$${ledger.funds}",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
       "file": "daily/dating.dart",
       "line": 57,
       "text": "&W${date.name}&w",
       "reason": "Console color-control or box-drawing markup applied after translated text is rendered."
     },
     {
-      "file": "daily/hostages/ransom.dart",
-      "line": 90,
-      "text": "\\$${intr.ransomAmount}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "daily/hostages/ransom.dart",
-      "line": 166,
-      "text": "\\$${intr.ransomAmount}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "daily/hostages/tend_hostage.dart",
-      "line": 227,
-      "text": "\\$$cost",
-      "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
       "file": "daily/hostages/tend_hostage.dart",
       "line": 722,
       "text": "Rapport: ${rapport[a.id]?.toStringAsFixed(1) ?? 0}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "daily/shopsnstuff.dart",
-      "line": 196,
-      "text": "\\$$price",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "daily/shopsnstuff.dart",
-      "line": 263,
-      "text": "\\$$price",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "daily/siege.dart",
@@ -409,12 +313,6 @@
       "line": 1344,
       "text": "segmentpower: $segmentpower",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
-    },
-    {
-      "file": "daily/siege.dart",
-      "line": 1597,
-      "text": "\\$$confiscated",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "engine/changelog.dart",
@@ -831,12 +729,6 @@
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
-      "file": "items/money.dart",
-      "line": 22,
-      "text": "\\$$stackSize",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
       "file": "items/weapon_type_xml.dart",
       "line": 82,
       "text": "Unknown key $key in weapon type ${weapon.name}",
@@ -859,12 +751,6 @@
       "line": 57,
       "text": "District$id",
       "reason": "Stable runtime identifier or asset path; never player-facing prose."
-    },
-    {
-      "file": "location/siege.dart",
-      "line": 297,
-      "text": "\\$$confiscated",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "location/site.dart",
@@ -907,18 +793,6 @@
       "line": 785,
       "text": "mapCSV_$base.zip",
       "reason": "Map asset/file identifier or loader diagnostic; never gameplay text."
-    },
-    {
-      "file": "monthly/lcs_monthly.dart",
-      "line": 27,
-      "text": "\\$$value",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "monthly/sleeper_update.dart",
-      "line": 572,
-      "text": "\\$$income",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
     },
     {
       "file": "newspaper/display_news.dart",
@@ -1155,42 +1029,6 @@
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
-      "file": "sitemode/shop.dart",
-      "line": 253,
-      "text": "\\$${(availableOptions[p] as ShopItem).price(false)}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 479,
-      "text": "\\$${(availableOptions[i] as ShopItem).price(false)}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 547,
-      "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 608,
-      "text": "\\$${(availableOptions[index] as ShopItem).price(false)}",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 725,
-      "text": "\\$$fenceamount",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "sitemode/shop.dart",
-      "line": 755,
-      "text": "\\$$ret",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
       "file": "sitemode/shop_xml.dart",
       "line": 86,
       "text": "Invalid shop item in XML: ${xml.toXmlString()}",
@@ -1305,20 +1143,8 @@
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
-      "file": "talk/talk_outside_combat.dart",
-      "line": 363,
-      "text": "\\$$rent",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
-      "file": "talk/talk_outside_combat.dart",
-      "line": 370,
-      "text": "\\$$rent",
-      "reason": "Currency-only numeric value, used independently or as a parameter of a complete translated template."
-    },
-    {
       "file": "title_screen/high_scores.dart",
-      "line": 317,
+      "line": 335,
       "text": "loadHighScores: Unknown scoreVersion: $loadversion",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

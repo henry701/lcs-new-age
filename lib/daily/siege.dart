@@ -1594,7 +1594,7 @@ Future<void> siegeDefeat() async {
           8,
           1,
           "Law enforcement has confiscated {amount} in LCS funds.",
-          params: {"amount": "\$$confiscated"},
+          params: {"amount": LcsI18n.currencyAmount(confiscated)},
         );
         ledger.subtractFunds(confiscated, Expense.confiscated);
       }

@@ -11,7 +11,7 @@
   "\"You're not getting out of here alive.\"": "\"Você não vai sair daqui vivo.\"",
   "\"Your recognition of our superiority is wise.\"": "\"Seu reconhecimento de nossa superioridade é sábio.\"",
   "\"[I go to your church.]\"": "\"[Eu vou à sua igreja.]\"",
-  "$ Taxed: {taxed}": "Impostos: R$ {taxed}",
+  "$ Taxed: {taxed}": "Impostos: {taxed}",
   "&cLiberal Defense Lawyer&r": "&cAdvogado de Defesa Liberal&r",
   "&w (&G{fontSize}&w)": "&w ( &G {fontSize} &w )",
   "*** VETO ***": "*** VETO! ***",

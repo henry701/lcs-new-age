@@ -484,8 +484,8 @@ void main() {
     );
     expect(catalog['Flags Bought: {count}'], 'Bandeiras compr.: {count}');
     expect(catalog['Flags Burned: {count}'], 'Bandeiras queim.: {count}');
-    expect(catalog[r'$ Spent: {count}'], r'Gastos: R$ {count}');
-    expect(catalog[r'$ Taxed: {count}'], r'Impostos: R$ {count}');
+    expect(catalog[r'$ Spent: {count}'], r'Gastos: {count}');
+    expect(catalog[r'$ Taxed: {count}'], r'Impostos: {count}');
     expect(
       catalog['Fastest Victory: {month} {year}'],
       'Vitória mais rápida: {month}/{year}',
@@ -2356,7 +2356,7 @@ void main() {
       '2 - Steal a Car': '2 - Roubar um Carro',
       '3 - Make Clothing': '3 - Fazer Roupas',
       '1 - Practice a Skill (Free)': '1 - Praticar uma Habilidade (Grátis)',
-      '2 - Take Paid Classes (\$30/day)': '2 - Fazer Aulas Pagas (\$30/dia)',
+      '2 - Take Paid Classes (\$30/day)': '2 - Fazer Aulas Pagas (US\$ 30/dia)',
       '1 - Teach Liberal Arts': '1 - Ensinar Artes Liberais',
       '2 - Teach Covert Ops': '2 - Ensinar Operações Secretas',
       '3 - Teach Fighting': '3 - Ensinar Luta',

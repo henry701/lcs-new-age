@@ -569,8 +569,9 @@ Future<void> sleeperEmbezzle(Creature cr, Map<View, int> libpower) async {
     lightGray,
     LcsI18n.processString("Sleeper {name} has embezzled {amount}.", {
       "name": cr.name,
-      "amount": "\$$income",
+      "amount": LcsI18n.currencyAmount(income),
     }),
+    noTranslate: true,
   );
 
   if (takingHeat) {

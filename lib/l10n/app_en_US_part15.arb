@@ -13,6 +13,7 @@
   "\"What the fuck?\"": "\"What the fuck?\"",
   "\"You've a right to bear arms here or anywhere else.\"": "\"You've a right to bear arms here or anywhere else.\"",
   "+1 Business, $1000": "+1 Business, $1000",
+  "+{amount}": "+{amount}",
   "120mm Gun": "120mm Gun",
   "6 - The Dead ({dead})": "6 - The Dead ({dead})",
   "A - Strike up a conversation about politics while naked.": "A - Strike up a conversation about politics while naked.",

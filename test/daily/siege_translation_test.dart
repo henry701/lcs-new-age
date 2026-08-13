@@ -284,16 +284,25 @@ void main() {
 
     await surrenderToMedicalIndustry(site);
 
-    expect(_consoleLine(6), contains('Total da dívida pendente....50000'));
-    expect(_consoleLine(7), contains('Valor pago..................7'));
-    expect(_consoleLine(8), contains('Ajuste de boa-fé............49993'));
-    expect(_consoleLine(10), contains('Total da dívida quitada.....50000'));
-    expect(_consoleLine(11), contains('Dívida restante.............0'));
-    expect(_consoleLine(6).indexOf('50000'), 50);
-    expect(_consoleLine(7).indexOf('7'), 50);
-    expect(_consoleLine(8).indexOf('49993'), 50);
-    expect(_consoleLine(10).indexOf('50000'), 50);
-    expect(_consoleLine(11).indexOf('0'), 50);
+    expect(
+      _consoleLine(6),
+      contains(r'Total da dívida pendente....US$ 50.000'),
+    );
+    expect(_consoleLine(7), contains(r'Valor pago..................US$ 7'));
+    expect(
+      _consoleLine(8),
+      contains(r'Ajuste de boa-fé............US$ 49.993'),
+    );
+    expect(
+      _consoleLine(10),
+      contains(r'Total da dívida quitada.....US$ 50.000'),
+    );
+    expect(_consoleLine(11), contains(r'Dívida restante.............US$ 0'));
+    expect(_consoleLine(6).indexOf(r'US$ 50.000'), 50);
+    expect(_consoleLine(7).indexOf(r'US$ 7'), 50);
+    expect(_consoleLine(8).indexOf(r'US$ 49.993'), 50);
+    expect(_consoleLine(10).indexOf(r'US$ 50.000'), 50);
+    expect(_consoleLine(11).indexOf(r'US$ 0'), 50);
     final receiptTitle =
         '${_consoleLine(2)} ${_consoleLine(3)} ${_consoleLine(4)}';
     expect(receiptTitle, contains('PARA ${site.getName().toUpperCase()}:'));

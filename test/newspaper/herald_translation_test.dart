@@ -49,7 +49,7 @@ void main() {
         '       3 de jan de 2023',
       ),
     );
-    expect(_consoleLine(1), endsWith('ASSINE \$3/SEM'));
+    expect(_consoleLine(1), endsWith('ASSINE US\$ 3/SEM'));
     expect(_consoleLine(2), endsWith('PARA ACESSO COMPLETO'));
     expect(_consoleLine(3), endsWith('EDIÇÃO DIGITAL'));
     expect(console.buffer.every((line) => line.length == 80), isTrue);

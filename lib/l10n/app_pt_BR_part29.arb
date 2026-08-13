@@ -9,7 +9,7 @@
   "\"Take a shower, hippie.\"": "\"Tome um banho, hippie.\"",
   "\"The one that says 'Open All Night'.\"": "\"Aquele que diz 'Aberto a noite toda'.\"",
   "\"You don't work here, do you?\"": "\"Você não trabalha aqui, não é?\"",
-  "$ Taxed: {count}": "Impostos: R$ {count}",
+  "$ Taxed: {count}": "Impostos: {count}",
   "&wIssue: &G{label}": "&wQuestão: &G{label}",
   "+2 Martial Arts, +1 Street Smarts, +1 Strength": "+2 Artes Marciais, +1 Esperteza de Rua, +1 Força",
   "- Clips in inventory will be replaced with single bullets or shells": "- Clipes virarão balas ou cartuchos individuais",

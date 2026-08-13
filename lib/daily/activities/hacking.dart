@@ -149,7 +149,7 @@ Future<void> doActivityCCFraud(List<Creature> cc) async {
     1,
     lightGray,
     "Your hackers have stolen {amount} from credit cards.",
-    params: {"amount": "\$$fundgain"},
+    params: {"amount": LcsI18n.currencyAmount(fundgain)},
   );
   await getKey();
 }

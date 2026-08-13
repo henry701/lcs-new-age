@@ -173,7 +173,7 @@ Future<void> planSiteVisit() async {
       addstrc(
         ledger.funds < ticketPrice ? red : green,
         " ({price})",
-        params: {"price": "\$$ticketPrice"},
+        params: {"price": LcsI18n.currencyAmount(ticketPrice)},
       );
     }
     setColor(lightGray);

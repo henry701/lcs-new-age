@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/monthly/lcs_monthly.dart';
@@ -137,6 +138,7 @@ void main() {
     await fundReport(false);
 
     expect(_consoleLine(2), startsWith('Dinheiro'));
+    expect(_consoleLine(2), contains('US\$ 7'));
     expect(_consoleLine(3), startsWith('Ferramentas e Armas'));
     expect(_consoleLine(4), startsWith('Roupas e Armaduras'));
     expect(_consoleLine(5), startsWith('Munição'));
@@ -146,6 +148,28 @@ void main() {
     }
     expect(LcsI18n.getMissingTranslations(), isEmpty);
   });
+
+  test(
+    'Portuguese funding report renders dynamic currency values once',
+    () async {
+      await LcsI18n.initialize('pt_BR');
+      ledger.forceSetFunds(7);
+      ledger.income[Income.donations] = 1200;
+      ledger.dailyIncome[Income.donations] = 120;
+      ledger.expense[Expense.travel] = 300;
+      ledger.dailyExpense[Expense.travel] = 30;
+      _queueEnter();
+
+      await fundReport(false);
+
+      final rendered = List.generate(25, _consoleLine).join('\n');
+      expect(rendered, contains('US\$ 1.200'));
+      expect(rendered, contains('US\$ 300'));
+      final missing = LcsI18n.getMissingTranslations();
+      expect(missing, isNot(contains('+US\$ 1.200')));
+      expect(missing, isNot(contains('-US\$ 300')));
+    },
+  );
 
   test('English month-end rendering remains unchanged', () async {
     await LcsI18n.initialize('en_US');

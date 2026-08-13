@@ -327,7 +327,7 @@ Future<void> showMessage(
 
 String fundsDisplayText() {
   return LcsI18n.processString("Money: {amount}", {
-    "amount": "\$${ledger.funds}",
+    "amount": LcsI18n.currencyAmount(ledger.funds),
   });
 }
 
@@ -1053,6 +1053,7 @@ Future<void> pagedInterface({
   required void Function(int y, String key, int index) lineBuilder,
   required Future<bool> Function(int index) onChoice,
   bool Function(int key)? onOtherKey,
+  void Function(int page)? onPageChanged,
 }) async {
   int page = 0;
   int pageCount = (count / pageSize).ceil();
@@ -1088,8 +1089,10 @@ Future<void> pagedInterface({
     }
 
     int c = await getKey();
+    final previousPage = page;
     if (isPageUp(c) && page > 0) page--;
     if (isPageDown(c) && (page + 1) * pageSize < count) page++;
+    if (page != previousPage) onPageChanged?.call(page);
     if (c >= Key.a && c < Key.a + pageSize) {
       int index = page * pageSize ~/ linesPerOption + c - Key.a;
       if (index < count) {

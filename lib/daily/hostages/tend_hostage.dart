@@ -224,7 +224,7 @@ Future<void> tendHostage(InterrogationSession intr) async {
         noTranslate: noTranslate,
       );
       if (cost > 0) {
-        final costText = "\$$cost";
+        final costText = LcsI18n.currencyAmount(cost);
         final labelWidth = (27 - costText.length).clamp(0, 27);
         text = LcsI18n.processString("{label} ({cost})", {
           "label": text.padRight(labelWidth),

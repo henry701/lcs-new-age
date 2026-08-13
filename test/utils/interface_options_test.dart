@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
@@ -176,6 +177,22 @@ void main() {
         equals('&BPGUP/PGDN&x - View other Liberal pages (5/5)'),
       );
     });
+  });
+
+  test('paged interfaces report real page transitions', () async {
+    final changedPages = <int>[];
+    console.injectKey(']');
+    console.injectKey('Escape');
+
+    await pagedInterface(
+      pageSize: 1,
+      count: 2,
+      lineBuilder: (_, _, _) {},
+      onChoice: (_) async => false,
+      onPageChanged: changedPages.add,
+    );
+
+    expect(changedPages, equals([1]));
   });
 
   group('addPageButtons', () {

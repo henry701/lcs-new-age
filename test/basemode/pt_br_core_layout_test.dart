@@ -21,6 +21,7 @@ import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/siege.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
+import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/vehicles/vehicle.dart';
 
 import '../test_support.dart';
@@ -85,6 +86,28 @@ void main() {
     expect(_consoleLine(21), contains('A - Atribuir Tarefas'));
     expect(_consoleLine(21), isNot(contains('TarefasB')));
     expect(_consoleLine(24), contains('B - Agentes Infiltrados'));
+  });
+
+  test('Portuguese clothing difficulty leaves room for its cost column', () {
+    final price = LcsI18n.currencyAmount(2100);
+    addDifficultyText(0, 37, 8, maxWidth: 64 - price.length - 37 - 1);
+    mvaddstrc(0, 64 - price.length, lightGreen, price, noTranslate: true);
+
+    expect(console.buffer[0][54].glyph, equals(' '));
+    expect(_consoleLine(0), isNot(contains(r'DifíUS$')));
+    expect(_consoleLine(0), contains(r'US$ 2.100'));
+  });
+
+  test('Portuguese flag difficulty leaves room for its cost column', () {
+    const costX = 74;
+    addDifficultyText(0, 62, 5, maxWidth: costX - 62 - 1);
+    final price = LcsI18n.currencyAmount(10);
+    mvaddstrc(0, costX, lightGreen, price, noTranslate: true);
+
+    expect(console.buffer[0][73].glyph, equals(' '));
+    expect(console.buffer[0][74].glyph, equals('U'));
+    expect(_consoleLine(0), contains(r'US$ 10'));
+    expect(_consoleLine(0), isNot(contains(r'MédioUS$')));
   });
 
   test(

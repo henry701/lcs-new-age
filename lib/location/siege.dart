@@ -294,7 +294,7 @@ Future<void> surrenderToAuthorities(Site loc) async {
         y += 2,
         1,
         "Law enforcement has confiscated {amount} in LCS funds.",
-        params: {"amount": "\$$confiscated"},
+        params: {"amount": LcsI18n.currencyAmount(confiscated)},
       );
       ledger.subtractFunds(confiscated, Expense.confiscated);
     }
@@ -408,7 +408,13 @@ Future<void> surrenderToMedicalIndustry(Site loc) async {
     if (moneyCol > dotStart) {
       mvaddstr(row, dotStart, "".padRight(moneyCol - dotStart, "."));
     }
-    mvaddstr(row, moneyCol, "{amount}", params: {"amount": amount});
+    mvaddstr(
+      row,
+      moneyCol,
+      "{amount}",
+      params: {"amount": LcsI18n.currencyAmount(amount)},
+      noTranslate: true,
+    );
   }
 
   setColor(black, background: lightGray);

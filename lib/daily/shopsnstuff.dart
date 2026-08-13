@@ -193,7 +193,7 @@ Future<void> dealership(Site loc) async {
         "S - Sell the {car} ({price})",
         params: {
           "car": carToSell.fullName(lowercaseFirst: true),
-          "price": "\$$price",
+          "price": LcsI18n.currencyAmount(price),
         },
       );
     } else {
@@ -260,7 +260,7 @@ Future<void> dealership(Site loc) async {
         vehicleoption.add(
           LcsI18n.processString("{vehicle} ({price})", {
             "vehicle": LcsI18n.tr(vt.longName),
-            "price": "\$$price",
+            "price": LcsI18n.currencyAmount(price),
           }),
         );
       }

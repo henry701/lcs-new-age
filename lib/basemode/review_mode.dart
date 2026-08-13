@@ -485,7 +485,7 @@ Future<void> reviewMode(ReviewMode mode) async {
           }
         case ReviewMode.clinic:
           setColor(red);
-          addstr("\$${tempp.medicalBills}");
+          addstr(LcsI18n.currencyAmount(tempp.medicalBills), noTranslate: true);
         case ReviewMode.sleepers:
           setColor(tempp.align.color);
           addstr(tempp.type.name);

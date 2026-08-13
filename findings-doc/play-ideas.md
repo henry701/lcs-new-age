@@ -1,5 +1,35 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-12 — broad strict-headless regression replay
+
+- Fresh DOM-buffer replay covered the title/new-game/founder flow, base
+  management screens, agenda, media/article, flag purchase, investment,
+  district travel, and a 320×240 narrow-console pass. The browser was verified
+  as `HeadlessChrome/150.0.0.0`; no headed window was opened or focused.
+- No new issue was confirmed. Keep PT-083 (fixed-console readability), the
+  random PT-048/PT-148 police terminal variants, and the generated-name
+  locale-switch decision as the residual queue. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fresh-broad-20260813/`.
+
+## 2026-08-13 — travel/courthouse/hospital route clean replay
+
+- A fresh strict-headless route covered Seattle travel, courthouse arrival,
+  hospital navigation/action, site-map controls, and 320×240 plus normal
+  viewport checks. No new issue was confirmed. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/travel-sites-20260813/`.
+- Do not duplicate PT-123: the mismatch line now uses the neutral
+  `em vez de cumprir a atividade planejada` template; narrow ellipsizing is
+  part of the existing PT-083 fixed-console queue.
+
+## 2026-08-12 — PT-371–PT-373 craft-route verification
+
+- The former fixer queue is closed: strict-headless replay verified the SWAT
+  clothing cost/difficulty separation, full Portuguese flag currency with a
+  separator, and clearing of the off-page clothing preview after paging.
+- Before/after captures and the focused layout test result are recorded in
+  `findings-doc/play-log.md`; artifacts are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/crafting-fixes-20260813/`.
+
 ## 2026-08-13 — PT-366 localized-value boundary follow-up
 
 - PT-366 is fixed and verified: profile weapon labels and Assign Tasks site

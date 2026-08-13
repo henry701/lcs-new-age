@@ -27,6 +27,15 @@ Keep those variables set for every `agent-browser` invocation. Do not use a
 headed Chrome/Edge device for playtesting; the CLI session should remain
 headless for the entire replay.
 
+`browser-use` has a persisted profile outside this repository at
+`~/.config/browseruse/config.json`. If that MCP is used as a fallback, its
+default profile must contain `"headless": true` as well as the
+`BROWSER_USE_HEADLESS=true` environment override. Restart existing MCP
+processes after changing either setting; an already-running server keeps its
+old profile. For deterministic game replays, prefer the isolated
+`agent-browser` session above and verify its user agent contains
+`HeadlessChrome` before sending input.
+
 ```js
 JSON.parse(document.querySelector('#lcs-playtest-buffer').dataset.options)
 document.querySelector('#lcs-playtest-buffer').textContent

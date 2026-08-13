@@ -212,6 +212,8 @@
 | PT-375 | Low | Flag-crafting navigation | Paging leaves an off-page flag preview selected |
 | PT-376 | Medium | Sleeper-management layout | Undercover activity header overwrites the Portuguese funds label |
 | PT-377 | Medium | Constitutional-amendment translation | Supreme Court purge heading falls back to English in Portuguese |
+| PT-378 | Medium | High-score layout | Long Portuguese game-over ending rows overflow the fixed console |
+| PT-379 | Medium | Profile translation | Wheelchair transport label falls back to English in Portuguese profiles |
 
 ## PT-001: Save-management option is clipped
 
@@ -5681,3 +5683,103 @@ rendered `Os seguintes ex-cidadãos são classificados como Arqui-Conservadores:
 and `O seguinte ex-cidadão é classificado como Arqui-Conservador:` at
 1280×577, 480×320, and 320×240. No raw English heading, overflow, or bridge
 error remained.
+
+## PT-378: Long Portuguese game-over ending rows overflow the fixed console
+
+- Severity: Medium
+- Type: High-score layout / localized ending text
+- Screen: Portuguese game-over → high-score list
+- Replay status: **Fixed and independently verified in a fresh strict-headless replay on 2026-08-13**
+- Evidence: focused regression `test/title_screen/high_scores_layout_test.dart`; live replay `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt378-379-20260813/pt378-highscores.json`
+
+### Reproduction
+
+1. Seed or reach a Portuguese game-over high-score entry with ending
+   `Ending.medicalSiege`, month September, and year 2026.
+2. Open the high-score screen after the game-over terminal.
+3. Inspect the ending sentence row beneath the slogan.
+
+### Actual
+
+Before the fix, `lib/title_screen/high_scores.dart:218-220` wrote the
+localized `endingTemplate` with unbounded `addstr`. The Portuguese
+medical-siege sentence rendered as:
+
+`O Esquadrão do Crime Liberal foi à falência por contas médicas em Setembro de 2026.`
+
+The rendered width is 83 cells, so the fixed 80-cell console silently clips the
+last three cells (`26.`). The other longest tested ending, permanent hiding,
+renders as 81 cells:
+
+`O Esquadrão do Crime Liberal ficou permanentemente escondido em Setembro de 2026.`
+
+### Expected / recommendation
+
+Fit each localized ending row to the 80-cell console before writing it (for
+example, with `fitConsoleText` and a visible ellipsis), or wrap it without
+overwriting the score/stat rows. Preserve the full date when the row fits and
+ensure no ending text is silently clipped.
+
+The focused regression seeds `Ending.medicalSiege`, runs `viewHighScores`, and
+expects the row to equal the width-fitted Portuguese sentence.
+
+### Resolution
+
+`viewHighScores` now renders the translated ending through `mvaddstrFitted`
+with the full console width. This preserves the complete sentence when it
+fits and adds the shared visible ellipsis when a localized ending exceeds 80
+cells, preventing the ending row from writing into the stat columns below.
+The focused regression is green after this production change. A fresh
+strict-headless replay independently verified both the medical-siege and
+permanent-hiding variants in Portuguese; each live ending row measured 80
+cells with no raw English text or bridge errors. PT-378 is fixed and
+independently verified.
+
+## PT-379: Wheelchair transport label falls back to English in Portuguese profiles
+
+- Severity: Medium
+- Type: Profile translation / mobility status
+- Screen: Portuguese base mode → profile a Liberal with both legs missing and a wheelchair
+- Replay status: **Fixed and independently verified in a fresh strict-headless replay on 2026-08-13**
+- Evidence: focused regression `test/basemode/pt_br_wheelchair_profile_test.dart`; live replay `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt378-379-20260813/pt379-compact-profile.json` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt378-379-20260813/pt379-full-profile.json`
+
+### Reproduction
+
+1. Initialize a fresh `GameState` and Portuguese (`pt_BR`) locale.
+2. Create a Liberal whose `HumanoidBody.leftLeg.cleanOff` and
+   `rightLeg.cleanOff` are true, then set `hasWheelchair = true`.
+3. Render the compact profile with `printCreatureInfo` and the full profile
+   with `printFullCreatureStats`.
+
+### Actual (before fix)
+
+Both profile renderers call `LcsI18n.tr("Wheelchair")`, but neither canonical
+catalog contains a standalone `Wheelchair` key. The focused runtime test
+reported `LcsI18n: Missing translation for "Wheelchair" in pt_BR` and rendered
+`Transporte: Wheelchair` in the compact profile and `Carro: Wheelchair` in the
+full profile. Existing action/help keys (`Procure a Wheelchair`, `Procuring a
+Wheelchair`, and the wheelchair help paragraphs) do not cover this status
+label.
+
+The source branches are `lib/common_display/print_creature_info.dart` lines
+187–190 (compact profile) and 901–907 (full profile); the full profile writes
+the resulting label at lines 910–916.
+
+### Expected / recommendation
+
+Add a standalone Portuguese catalog entry for `Wheelchair` (for example,
+`Cadeira de rodas`) and keep both profile branches on that shared key. Add a
+focused profile regression asserting that both transport cells stay Portuguese
+and produce no missing-translation warning.
+
+### Resolution
+
+Added the standalone `Wheelchair` key to the canonical English and Portuguese
+shards (`app_en_US_part02.arb` and `app_pt_BR_part02.arb`), with the Portuguese
+value `Cadeira de rodas`. The existing compact `printTransportation` and full
+`printFullCreatureStats` branches now resolve the same key without falling
+back to English. The focused regression renders both branches with a
+wheelchair user and asserts the Portuguese label in each. A fresh
+strict-headless replay independently verified the live compact and full
+Portuguese profile screens; each wheelchair row measured 80 cells with no raw
+English text or bridge errors. PT-379 is fixed and independently verified.

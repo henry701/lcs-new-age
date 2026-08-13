@@ -5990,3 +5990,145 @@ readability work, and the persisted generated-name locale-switch decision.
   through `06-singular-320x240.json`.
 - PT-377 is closed as independently verified; no new translation, layout, or
   runtime issue appeared on either agreement branch.
+
+## 2026-08-13 — high-score ending-width probe (PT-378)
+
+- Source inspection of `lib/title_screen/high_scores.dart:218-220` found that
+  each localized game-over ending is passed to unbounded `addstr` after the
+  `Ending` switch. The longest Portuguese variants were measured at September
+  2026: medical-debt `O Esquadrão do Crime Liberal foi à falência por contas
+  médicas em Setembro de 2026.` (83 cells) and permanent hiding `O Esquadrão
+  do Crime Liberal ficou permanentemente escondido em Setembro de 2026.` (81
+  cells), both wider than the fixed 80-cell console.
+- Added a focused disposable-storage regression at
+  `test/title_screen/high_scores_layout_test.dart`. It seeds a September 2026
+  `Ending.medicalSiege` score, runs `viewHighScores`, and expects the visible
+  ending row to equal the width-fitted Portuguese sentence. The pre-fix run
+  failed as expected: actual row ended `... Setembro de 20`, while the
+  expected fitted row ended `... Setembro de 2…`.
+- The production renderer now calls `mvaddstrFitted` with `console.width` for
+  each translated ending row. The focused regression is green after the fix,
+  and the shared ellipsis keeps the 83-cell medical ending within 80 cells.
+- Commands: `flutter analyze lib/title_screen/high_scores.dart
+  test/title_screen/high_scores_layout_test.dart` and
+  `flutter test test/title_screen/high_scores_layout_test.dart`.
+  PT-378 is **Fixed-pending-verify** until an independent replay covers the
+  other ending variants. The ten pre-existing untracked
+  `translation_workspace` files were preserved.
+
+## 2026-08-13 — focused wheelchair-profile translation probe (PT-379)
+
+- Source tracing found two player-visible mobility branches in
+  `lib/common_display/print_creature_info.dart`: compact transport uses
+  `LcsI18n.tr("Wheelchair")` at lines 187–190, and the full profile uses the
+  same missing standalone key at lines 901–907 before writing `Carro:`.
+- Added the standalone `Wheelchair` key to the canonical English and
+  Portuguese shards (`app_en_US_part02.arb` and `app_pt_BR_part02.arb`), with
+  `Cadeira de rodas` as the Portuguese value. Both existing profile branches
+  now resolve the shared key.
+- Added permanent regression
+  `test/basemode/pt_br_wheelchair_profile_test.dart`. It initializes `pt_BR`,
+  makes both humanoid legs `cleanOff`, sets `hasWheelchair = true`, renders
+  `printCreatureInfo` and `printFullCreatureStats`, and asserts
+  `Transporte: Cadeira de rodas` and `Carro: Cadeira de rodas` with no raw
+  English `Wheelchair` label.
+- Focused test command: `flutter test
+  test/basemode/pt_br_wheelchair_profile_test.dart`. PT-379 is
+  **Fixed-pending-verify** until an independent replay confirms the live
+  profile screen. The ten pre-existing untracked `translation_workspace`
+  files remain untouched.
+-
+## 2026-08-13 — ten-strategy strict-headless Portuguese campaign replay
+
+Independent victory-only follow-up `stock-victory-independent-3-20260813` used
+the strict headless wrapper on port 9173 with the default Times climate, Clear
+Blue Skies CCS,
+and team-first initiative. The route selected ordinary founder answers,
+assigned Liberal Guardian writing, and waited through the Portuguese newspaper
+cycle to 25 January 2023. It remained stock-cheatless (`debugAssisted: false`)
+with no runtime/source fixture changes, and no victory/game-over terminal was
+reached. Captures and source hashes are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-independent-3/`.
+
+- Ran ten fresh, isolated strategy manifests under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/`.
+  Each manifest records its own local Flutter web-server port/session, commit
+  and debug-flag hashes, exact route evidence, and a `summary.json`. All
+  captures used only `agent-browser-headless.sh` with
+  `AGENT_BROWSER_HEADED=0`, `--headless=new`, and
+  `--ozone-platform=headless`; every terminal/route capture measured 25 rows,
+  `maxRow=80`, and an empty bridge-error channel. No headed browser, desktop
+  input, CDP attach, production edit, or debug fixture was used.
+- Stock/cheatless victory attempts (3): `stock-victory-1` stalled in ordinary
+  waiting on 7 March 2023; `stock-victory-2` stalled in an active
+  community-service route on 23 February 2023; and the third fresh attempt is
+  recorded at `stock-victory-3/stock-victory-3b` and stalled on 20 February
+  2023. No victory terminal was reached, so none is relabeled as a victory.
+- Stock/cheatless game-over attempts (3): `stock-gameover-1` stopped at the
+  travel-map liberal-threshold gate; `stock-gameover-2` reached the Portuguese
+  high-score terminal `A Elite Liberal` (`...caçado em Novembro de 2033.`);
+  `stock-gameover-3` reached the same localized terminal with a distinct route
+  (`...caçado em Dezembro de 2034.`).
+- Varied routes (4): `var-commerce-equipment-pt` covered equipment, Seattle
+  commerce, and Loja de Departamentos de Read; `var-politics-media` covered
+  media overview and agenda; `var-police-siege` covered Centro de Seattle and
+  Delegacia de Polícia (the siege action was correctly blocked by the liberal
+  threshold); `var-crafting-recruitment` covered clothing pages 1–5 and
+  recruitment. None reached victory/game-over, and none produced a new PT
+  translation/layout/runtime ticket.
+- Totals: 10 completed strategy manifests; 0 victory terminals; 2 stock
+  game-over terminals; 8 routes stalled or ended at a non-terminal gameplay
+  screen; 0 new findings; 0 source/debug cleanup actions. Existing
+  user-untracked `translation_workspace` files were preserved.
+
+## 2026-08-13 — independent strict-headless verification of PT-378/PT-379
+
+- This independent verifier used only
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agent-browser-headless.sh`
+  with session `verifier-pt378-379-20260813`, Flutter web-server port 9137,
+  `AGENT_BROWSER_HEADED=0`, and the wrapper's headless Chromium arguments. No
+  headed browser, CDP attach, desktop input, or production/debug fixture edit
+  was used. The route stayed at the opt-in `?playtest=1` DOM bridge.
+- PT-378 live high-score evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt378-379-20260813/pt378-highscores.json`.
+  An isolated browser local-storage score fixture seeded both `Ending.medicalSiege`
+  and `Ending.hiding` for September 2026. The live Portuguese rows rendered as
+  `O Esquadrão do Crime Liberal foi à falência por contas médicas em Setembro de 2…`
+  and `O Esquadrão do Crime Liberal ficou permanentemente escondido em Setembro de 202…`.
+  Both rows measured exactly 80 cells, no raw English ending appeared, and the
+  bridge error channel was empty.
+- PT-379 live profile evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt378-379-20260813/pt379-compact-profile.json`
+  and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt378-379-20260813/pt379-full-profile.json`.
+  An isolated IndexedDB save fixture made a Liberal with both legs missing and
+  `hasWheelchair = true`; the route reached the live Portuguese base, compact
+  activity profile, and full profile. The compact row showed
+  `Transporte: Cadeira de rodas`; the full row showed `Carro: Cadeira de rodas`.
+  Both captures measured 80-cell rows, contained no raw `Wheelchair`, and had an
+  empty bridge error channel.
+- PT-378 and PT-379 are fixed and independently verified. The ten pre-existing
+  untracked `translation_workspace` files remain untouched.
+
+## 2026-08-13 — strict stock-cheatless White House recruitment route
+
+- Fresh route `stock-victory-researched-20260813` used only the strict
+  headless wrapper on port 9184, with stock game settings and
+  `debugAssisted: false`. It selected the default Times climate, Clear Blue
+  Skies CCS, team initiative, and ordinary founder answers (including Sports
+  Car and manifesto). No source/runtime fixture, save fixture, or debug flag
+  was used.
+- The route first hit the legitimate `$100` travel-funds blocker, then assigned
+  Anne Rexford to solicit donations until `$643`. Captures show the White House
+  payment (`339-Enter.json`), arrival (`340-Enter.json`), no alarm on entry
+  (`341-f.json`), and the President present in the Oval Office
+  (`440-x.json`).
+- Talk → politics against President Tatters succeeded: he agreed to come by
+  later that night (`447-Enter.json`). The post-talk security response raised
+  the site to `CONSERVATIVES ALARMED`; the final capture has two Secret Service
+  opponents (`449-Enter.json`). The route stopped before safe exit and the
+  next-day sleeper-agent meeting, so it reached neither victory nor game-over.
+- Manifest, route narrative, source hashes, and captures are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-researched-20260813/`.
+  This is legitimate partial progress, not evidence of a cheatless victory;
+  no new ticket was created.

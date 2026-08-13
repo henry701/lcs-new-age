@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/crime_squad.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -182,7 +183,6 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
     } else {
       setColor(lightGray);
     }
-    move(y + 1, 0);
     final endingTemplate = switch (s.endType) {
       Ending.victory =>
         "The Liberal Crime Squad liberalized the country in {month} {year}.",
@@ -215,8 +215,11 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
       Ending.unspecified =>
         "The Liberal Crime Squad was defeated in {month} {year}.",
     };
-    addstr(
+    mvaddstrFitted(
+      y + 1,
+      0,
       endingTemplate,
+      console.width,
       params: {"month": getMonth(s.month), "year": s.year},
     );
     mvaddstr(

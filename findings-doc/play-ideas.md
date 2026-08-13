@@ -1649,3 +1649,16 @@ the residual queue.
   labels can be longer than their English source and overwrite command text.
 - PT-361 is fixed and covered by a regression; future map specials should use
   the same dedicated-footer path rather than writing into row 23.
+-
+## 2026-08-13 — ten-strategy replay residuals
+
+- The fresh strict-headless campaign completed ten isolated manifests with no
+  new Portuguese defect. The three stock victory attempts naturally stall in
+  early/base-mode progression; retain them as honest blocked routes rather
+  than substituting debug fixtures. Two distinct stock disband routes reached
+  localized high-score terminals, while the third remained blocked by the
+  travel-map liberal threshold.
+- The four varied routes covered commerce/equipment, politics/media,
+  police-site navigation, and crafting/recruitment. Keep future work focused
+  on random police terminal seeds, responsive-console readability, and the
+  existing persisted-name locale-switch product decision.

@@ -1150,7 +1150,7 @@
     },
     {
       "file": "title_screen/high_scores.dart",
-      "line": 335,
+      "line": 338,
       "text": "loadHighScores: Unknown scoreVersion: $loadversion",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

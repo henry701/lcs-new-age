@@ -1662,3 +1662,41 @@ the residual queue.
   police-site navigation, and crafting/recruitment. Keep future work focused
   on random police terminal seeds, responsive-console readability, and the
   existing persisted-name locale-switch product decision.
+
+## 2026-08-13 — disband-and-wait stock route
+
+- A distinct stock-cheatless Portuguese route used an intersex founder, fate
+  origin, New York steelworks, aggressive graffiti activism, and deliberate
+  `Dissolver e esperar`. It reached a localized September 2035 disband/high-
+  score game-over terminal without `Ending.victory`.
+- The route exposed PT-380: the disbanding executive summary interpolates raw
+  English `moderate`/`Conservative` alignment labels despite existing Portuguese
+  catalog entries. Fix and independently replay before treating disbanding
+  coverage as saturated.
+
+## 2026-08-13 — under-attack briefing static probe
+
+- The suspected fragment-translation gap is not a defect. Adjacent
+  Dart literals in `escapeOrEngage()` concatenate into the same full catalog
+  key already covered by the Portuguese bundle, and the rendered paragraph is
+  marked `noTranslate` after lookup. No new translation/layout idea remains
+  from this probe.
+
+- PT-381 is a confirmed residual: the homeless-camp defense briefing still
+  uses fixed source coordinates for translated rows. Keep the branch in the
+  next strict-headless siege replay after the width-aware fix.
+
+## 2026-08-13 — PT-381 independent replay complete
+
+- A deterministic disposable save derived from `test/saves/moe_1_5.json`
+  placed the active founder at a police-sieged homeless camp without changing
+  source or debug flags. The fresh strict-headless session
+  `verify-pt381-20260813` selected Portuguese and reached the live `F -
+  Lutar/Fugir` briefing through the normal base-mode branch.
+- The width-aware renderer preserved the entire Portuguese intro/body and the
+  row-23 confrontation prompt by wrapping rows inside the 80-column console.
+  Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt381-20260813/`;
+  `13-briefing-metrics.json` reports `maxRow: 80`, no over-wide rows, and no
+  playtest errors. PT-381 is independently verified and can leave the residual
+  queue.

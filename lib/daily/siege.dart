@@ -1802,34 +1802,55 @@ Future<SallyForthResult> sallyForthPart3(Site loc) async {
   }
 }
 
+void renderHomelessCampSiegeBriefing() {
+  // Keep the briefing inside the fixed console while allowing translated
+  // sentences to wrap instead of silently clipping their final words.
+  erase();
+  mvaddstrc(1, 26, red, "UNDER ATTACK: HOMELESS CAMP");
+
+  setColor(lightGray);
+  var y = 3;
+
+  void addBriefingLine(int x, String text) {
+    addparagraph(y, x, text, y2: 21, x2: console.width - 1);
+    y = console.y;
+  }
+
+  addBriefingLine(16, "You are about to mount a defense of the homeless camp.");
+  addBriefingLine(
+    11,
+    "The enemy is expecting resistance, and you will have to",
+  );
+  addBriefingLine(11, "defeat them all or run away to survive this encounter.");
+  addBriefingLine(
+    11,
+    "Some agitators are also turning out to resist with you.",
+  );
+
+  // Preserve the original section break before the squad instructions.
+  y++;
+  addBriefingLine(11, "Your Squad has filled out to six members if any were ");
+  addBriefingLine(
+    11,
+    "available.  If you have a larger pool of Liberals, they",
+  );
+  addBriefingLine(11, "will provide cover fire and hang back until needed.");
+
+  mvaddstrcFitted(
+    23,
+    11,
+    red,
+    "Press any key to Confront the Conservative Aggressors",
+    console.width - 11,
+  );
+}
+
 Future<void> fightHomelessCampSiege() async {
   Site? loc = activeSafehouse ?? activeSquad?.members.firstOrNull?.site;
   if (loc == null) return;
 
   //GIVE INFO SCREEN
-  erase();
-  mvaddstrc(1, 26, red, "UNDER ATTACK: HOMELESS CAMP");
-
-  mvaddstrc(
-    3,
-    16,
-    lightGray,
-    "You are about to mount a defense of the homeless camp.",
-  );
-  mvaddstr(4, 11, "The enemy is expecting resistance, and you will have to");
-  mvaddstr(5, 11, "defeat them all or run away to survive this encounter.");
-  mvaddstr(6, 11, "Some agitators are also turning out to resist with you.");
-
-  mvaddstr(8, 11, "Your Squad has filled out to six members if any were ");
-  mvaddstr(9, 11, "available.  If you have a larger pool of Liberals, they");
-  mvaddstr(10, 11, "will provide cover fire and hang back until needed.");
-
-  mvaddstrc(
-    23,
-    11,
-    red,
-    "Press any key to Confront the Conservative Aggressors",
-  );
+  renderHomelessCampSiegeBriefing();
 
   await getKey();
 

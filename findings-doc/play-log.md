@@ -6132,3 +6132,129 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-researched-20260813/`.
   This is legitimate partial progress, not evidence of a cheatless victory;
   no new ticket was created.
+
+## 2026-08-13 — fresh stock-cheatless disband-and-wait route
+
+- Fresh isolated session `fresh-stock-stealth-pt-20260813` used the strict
+  headless wrapper on Flutter port 9190 at `?playtest=1`. It selected Portuguese
+  before starting a stock game, created an intersex founder through the fate
+  origin branch, kept the generated New York steelworks base, assigned Liberal
+  graffiti activism, and then chose `D - Dissolver e esperar` from the Liberal
+  Agenda. No save fixture, debug flag, source edit, headed browser, or CDP
+  attach was used (`debugAssisted: false`).
+- The route advanced the political summary through September 2035 and reached
+  a genuine Portuguese disband/hiding high-score terminal:
+  `A Elite Liberal` / `O Esquadrão do Crime Liberal foi caçado em Setembro de
+  2035.` This is a game-over/disband ending, not campaign `Ending.victory`.
+- Evidence, route narrative, and source hashes are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/fresh-stock-stealth-pt-20260813/`.
+  Every sampled capture measured 25 rows with `maxRow: 80` and an empty bridge
+  error channel.
+- The route confirmed PT-380: disbanding monthly summaries expose raw English
+  executive alignment labels (`moderate`, `Conservative`) inside otherwise
+  Portuguese rows. The issue was filed Open in `findings-doc/findings.md` with
+  captures `62-agenda.json`, `120-month.json`, and `terminal.json`.
+
+## 2026-08-13 — second fresh strict stock route with Black Formalwear
+
+- A separate isolated headless session `stock-victory-blackformal-20260813`
+  (port 9185) used stock flags and `debugAssisted: false`. It selected the
+  default Times climate, Bad Blood CCS, team initiative, Q6 `E` Black
+  Formalwear, Sports Car, and manifesto. The founder visibly started in the
+  resulting Black Dress; no equipment or save fixture was injected.
+- Ordinary donations raised funds to `$241` by February 10, after which the
+  route legitimately traveled to Washington DC and entered White House Level
+  2. The final map capture is
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-blackformal-20260813/final-map.json`.
+- This route stalled on the stock site map before a victory/game-over
+  terminal. It adds no evidence of a natural victory and no new ticket.
+
+## 2026-08-13 — code-only under-attack briefing probe (false positive)
+
+- Reviewed `lib/daily/siege.dart:1960-1978`, where `escapeOrEngage()` builds
+  the Portuguese under-attack briefing. Dart's adjacent string literals at
+  lines 1962-1973 form one 815-character key, not separate translation
+  lookups. That exact key is present in both canonical catalogs; the
+  `pt_BR` value is the complete Portuguese briefing (841 characters).
+- The first sentence and optional camera/trap sentences are also exact
+  catalog keys. The final `addparagraph(..., noTranslate: true)` receives the
+  already translated text, so this path does not expose the raw English
+  fragments suspected during the initial static scan.
+- No ticket was filed: the suspected fragment-missing issue is a false
+  positive. Existing under-attack layout coverage remains in PT-215 and
+  `test/daily/siege_translation_test.dart`.
+
+## 2026-08-13 — code-only homeless-camp siege layout probe (PT-381)
+
+- Static source review found a branch not covered by the generic under-attack
+  regression: `fightHomelessCampSiege()` writes its translated intro and
+  cover-fire lines directly at fixed columns in `lib/daily/siege.dart:1813-1825`.
+- Current `pt_BR` values measure 65 cells at column 16 for
+  `Você está prestes a montar uma defesa do acampamento de sem-teto.` (ending
+  at cell 80) and 75 cells at column 11 for
+  `fornecerão fogo de cobertura e ficarão na retaguarda até serem necessários.`
+  (ending at cell 85). The latter silently clips six cells; the former writes
+  one cell beyond the 80-column frame. `sallyForth()`'s corresponding rows fit.
+- Filed PT-381 Open for a fixer and independent strict-headless verifier. No
+  production source or catalog was changed by this probe.
+
+## 2026-08-13 — independent PT-380 disbanding replay
+
+- A fresh isolated strict-headless session `verify-pt380-20260813` used the
+  repository wrapper against a rebuilt Flutter web-server on port 9240. It
+  selected Portuguese, created a stock founder, opened `L - O status da agenda
+  Liberal`, chose `D - Dissolver e esperar`, entered the generated
+  confirmation phrase through the DOM bridge, and advanced the monthly summary
+  through June 2026. No save fixture, debug flag, headed browser, CDP attach,
+  or production source edit was used.
+- The live executive row rendered the generated moderate president as
+  `Presidente: Judas Piercey, moderado, 1º Mandato` (captures 56, 62, and 75).
+  The route also rendered `Arqui-Conservador` before the alignment change. No
+  executive row contained exact raw `moderate` or `Conservative` labels.
+- All captures measured 25 rows with `maxRow: 80`, no over-wide rows, and an
+  empty `#lcs-playtest-errors` channel under `HeadlessChrome/150.0.0.0`.
+  Evidence and replay details are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt380-20260813/`.
+- PT-380 is fixed and independently verified; no new translation or layout
+  issue was found in this replay.
+
+## 2026-08-13 — PT-381 homeless-camp briefing fixer pass
+
+- Replaced the homeless-camp siege briefing's unbounded fixed-row writes with
+  `renderHomelessCampSiegeBriefing()`, which sends each translated sentence
+  through `addparagraph()` bounded by the 80-column console and advances later
+  sections after any wrapped rows. The row-23 prompt now uses the remaining
+  width through `mvaddstrcFitted()`.
+- Added a focused Portuguese regression in
+  `test/daily/siege_translation_test.dart`; it checks that every translated
+  sentence remains visible, the prompt is intact, and all rows stay within the
+  console width.
+- `dart format`, `git diff --check`, and the focused siege/layout command in
+  the PT-381 finding passed. Status is **fixed-pending-verify** until an
+  independent strict-headless siege replay confirms the live screen.
+
+## 2026-08-13 — independent PT-381 homeless-camp briefing replay
+
+- Rebuilt the current worktree and served it on Flutter web-server port 9251.
+  Fresh isolated session `verify-pt381-20260813` used only
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agent-browser-headless.sh`
+  with `?playtest=1` and the `#lcs-playtest-buffer` DOM bridge. The browser
+  user agent was `HeadlessChrome/150.0.0.0`; no headed browser, CDP attach,
+  source edit, or debug flag was used.
+- To make the rare homeless-camp branch deterministic, a disposable save was
+  derived from checked-in `test/saves/moe_1_5.json` and injected only into the
+  session's IndexedDB save store. It set Site21 (`homelessEncampment`) to a
+  police siege, selected it as the active safehouse, and left the repository
+  and debug flags unchanged. The fixture and generator are retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt381-20260813/` and
+  are not staged.
+- After selecting Portuguese, the live base screen showed `F - Lutar/Fugir`.
+  Pressing `F` opened the patched homeless-camp briefing. Capture
+  `12-briefing.json` contains the wrapped intro, all body text, and the full
+  Portuguese prompt `Pressione qualquer tecla para Confrontar os Agressores
+  Conservadores`; no raw English source sentence appears.
+- `13-briefing-metrics.json` measured 25 rows with `maxRow: 80`, no over-wide
+  rows, and an empty `#lcs-playtest-errors` channel. The Portuguese intro and
+  cover-fire lines were present across their wrapped rows, and the raw English
+  intro/cover-fire strings were absent. PT-381 is fixed and independently
+  verified.

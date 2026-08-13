@@ -249,6 +249,41 @@ void main() {
     );
   });
 
+  test('Portuguese homeless-camp briefing wraps every translated line', () {
+    renderHomelessCampSiegeBriefing();
+
+    final body = List.generate(
+      20,
+      _consoleLine,
+    ).join(' ').replaceAll(RegExp(r'\s+'), ' ');
+    final translatedLines = [
+      'You are about to mount a defense of the homeless camp.',
+      'The enemy is expecting resistance, and you will have to',
+      'defeat them all or run away to survive this encounter.',
+      'Some agitators are also turning out to resist with you.',
+      'Your Squad has filled out to six members if any were ',
+      'available.  If you have a larger pool of Liberals, they',
+      'will provide cover fire and hang back until needed.',
+    ];
+    for (final source in translatedLines) {
+      final expected = LcsI18n.tr(
+        source,
+      ).trim().replaceAll(RegExp(r'\s+'), ' ');
+      expect(body, contains(expected));
+      expect(body, isNot(contains(source.trim())));
+    }
+
+    final prompt = _consoleLine(23);
+    expect(
+      prompt.trim(),
+      LcsI18n.tr('Press any key to Confront the Conservative Aggressors'),
+    );
+    expect(prompt.length, lessThanOrEqualTo(console.width));
+    for (var y = 0; y < console.height; y++) {
+      expect(_consoleLine(y).length, lessThanOrEqualTo(console.width));
+    }
+  });
+
   test(
     'empty safehouse defenses return with a localized explanation',
     () async {

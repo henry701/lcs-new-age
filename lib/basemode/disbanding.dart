@@ -60,7 +60,7 @@ void printExec() {
     "President: {name}, {label}",
     params: {
       "name": execName[Exec.president]!.firstLast,
-      "label": exec[Exec.president]!.label,
+      "label": LcsI18n.tr(exec[Exec.president]!.label),
     },
   );
   if (politics.execTerm == 1) {

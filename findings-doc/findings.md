@@ -214,6 +214,8 @@
 | PT-377 | Medium | Constitutional-amendment translation | Supreme Court purge heading falls back to English in Portuguese |
 | PT-378 | Medium | High-score layout | Long Portuguese game-over ending rows overflow the fixed console |
 | PT-379 | Medium | Profile translation | Wheelchair transport label falls back to English in Portuguese profiles |
+| PT-380 | Medium | Disbanding translation | Disband-and-wait political summary exposes English executive alignment labels |
+| PT-381 | Medium | Fixed-console layout | Homeless-camp siege briefing overflows in Portuguese |
 
 ## PT-001: Save-management option is clipped
 
@@ -5783,3 +5785,148 @@ wheelchair user and asserts the Portuguese label in each. A fresh
 strict-headless replay independently verified the live compact and full
 Portuguese profile screens; each wheelchair row measured 80 cells with no raw
 English text or bridge errors. PT-379 is fixed and independently verified.
+
+## PT-380: Disband-and-wait political summary exposes English executive alignment labels
+
+- Severity: Medium
+- Type: Missing translation / disbanding political summary
+- Screen: Portuguese campaign → Liberal Agenda → Dissolver e esperar → monthly political summary
+- Replay status: **Fixed and independently verified in a fresh strict-headless replay on 2026-08-13**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/fresh-stock-stealth-pt-20260813/62-agenda.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/fresh-stock-stealth-pt-20260813/120-month.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/fresh-stock-stealth-pt-20260813/terminal.json`
+
+### Reproduction
+
+1. Start a fresh stock Portuguese campaign and continue through founder creation.
+2. Open `L - O status da agenda Liberal` from base mode.
+3. Choose `D - Dissolver e esperar` and advance the monthly political summary.
+4. Inspect the executive line beneath the Portuguese month heading.
+
+### Actual
+
+The otherwise Portuguese disbanding summary renders the executive alignment
+labels in English, for example:
+
+`Presidente: Don Justice, moderate, 1º Mandato`
+
+and later:
+
+`Presidente: Aidan Woods, Conservative, 1º Mandato`
+
+The Portuguese catalog already contains `moderate` → `moderado` and
+`Conservative` → `Conservador`, but `lib/basemode/disbanding.dart::printExec`
+passes `exec[Exec.president]!.label` directly to the interpolated string rather
+than translating it. The line is a fixed 80-column row; the captured route
+measured `maxRow: 80` and `#lcs-playtest-errors` was empty, so this is a
+translation leak rather than a width or runtime failure.
+
+### Fix and verification handoff
+
+`printExec()` now resolves `exec[Exec.president]!.label` through
+`LcsI18n.tr` before interpolating the Portuguese `President: {name}, {label}`
+template. The focused regression
+`test/basemode/disbanding_translation_test.dart` covers both `moderate` →
+`moderado` and `Conservative` → `Conservador` on the actual disbanding row.
+Focused command:
+
+```text
+/home/henry/extracted-apps/flutter-sdk/flutter/bin/flutter test test/basemode/disbanding_translation_test.dart
+```
+
+Independent verifier replay (required before closing):
+
+1. Rebuild the Flutter web app from the current branch and serve it on a fresh
+   local port.
+2. Start a new headless `agent-browser` session with a unique
+   `AGENT_BROWSER_SESSION`, open `http://127.0.0.1:<port>/?playtest=1`, and
+   select Portuguese (`pt_BR`).
+3. Complete founder creation, open `L - O status da agenda Liberal`, choose
+   `D - Dissolver e esperar`, and advance the monthly summary.
+4. Capture the executive row and confirm it contains `moderado` or
+   `Conservador` (depending on the generated president), contains no raw
+   `moderate`/`Conservative`, stays within 80 cells, and reports no bridge
+   errors.
+
+Verifier evidence: fresh isolated session
+`verify-pt380-20260813` on Flutter web-server port 9240. The live route reached
+the disbanding summary and advanced through June 2026. Captures
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt380-20260813/56-month.json`,
+`62-month.json`, and `75-month.json` render
+`Presidente: Judas Piercey, moderado, 1º Mandato`; no captured executive row
+contains exact `, moderate,` or `, Conservative,` text. Every capture measured
+25 rows with `maxRow: 80`, no over-wide rows, and an empty
+`#lcs-playtest-errors` channel under `HeadlessChrome/150.0.0.0`. Full route and
+source hashes: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verifier-pt380-20260813/route.md`.
+
+PT-380 is fixed and independently verified.
+
+## PT-381: Homeless-camp siege briefing overflows fixed-width console
+
+- Severity: Medium
+- Type: Fixed-console layout / translated siege briefing
+- Screen: Portuguese safehouse → homeless-camp siege → `F - Lutar`
+- Replay status: **Fixed and independently verified in a fresh strict-headless replay on 2026-08-13**
+- Evidence: static width reproduction from `lib/daily/siege.dart:1813-1825`;
+  Portuguese catalog values in `lib/l10n/app_pt_BR_part13.arb`,
+  `app_pt_BR_part03.arb`, and `app_pt_BR_part17.arb`; live capture
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt381-20260813/12-briefing.json`
+
+### Reproduction
+
+1. Start a Portuguese campaign with a Liberal safehouse at a homeless camp.
+2. Trigger a siege and choose `F - Lutar` to open the homeless-camp defense
+   briefing.
+3. Inspect the translated intro and cover-fire rows at the fixed 80-column
+   console boundary.
+
+### Actual
+
+`fightHomelessCampSiege()` writes translated strings with unbounded `mvaddstrc`
+and `mvaddstr` calls at fixed source coordinates. With the current `pt_BR`
+catalog, the intro `Você está prestes a montar uma defesa do acampamento de
+sem-teto.` is 65 cells at column 16, ending at cell 80 (one cell beyond the
+valid 0–79 range). The cover-fire row
+`fornecerão fogo de cobertura e ficarão na retaguarda até serem necessários.` is
+75 cells at column 11, ending at cell 85; six trailing cells are clipped.
+The corresponding `sallyForth()` safehouse rows fit, so this is a distinct
+homeless-camp branch gap rather than the already-fixed generic briefing.
+
+### Expected / recommendation
+
+Render the homeless-camp briefing with width-aware fitting or wrapped prose,
+preserving all Portuguese text and the row-23 prompt. Add a focused layout
+regression and an independent strict-headless replay at the standard narrow
+viewport before closing this ticket.
+
+### Fix and verification handoff
+
+`renderHomelessCampSiegeBriefing()` now renders each translated sentence through
+the bounded `addparagraph()` path, advancing the next section from the actual
+wrapped cursor position and reserving the row-23 prompt. The prompt itself uses
+`mvaddstrcFitted()` with the remaining console width. Regression coverage in
+`test/daily/siege_translation_test.dart` asserts that every Portuguese sentence
+is present in the rendered rows and that no row exceeds 80 cells.
+
+Focused commands:
+
+```text
+/home/henry/extracted-apps/flutter-sdk/flutter/bin/flutter test \
+  test/daily/siege_translation_test.dart \
+  test/localized_layout_regression_test.dart
+```
+
+Independent verifier replay: a rebuilt Flutter web app was opened through the
+strict-headless wrapper in isolated session `verify-pt381-20260813` on port
+9251. A deterministic save fixture derived from the checked-in
+`test/saves/moe_1_5.json` was injected into the browser's disposable IndexedDB
+save store; the fixture changed only Site21 to a police siege, set it as the
+active safehouse, and was not committed or used as a production/debug flag.
+After selecting Portuguese, the live base screen showed `F - Lutar/Fugir`;
+`F` opened the fixed homeless-camp briefing. Capture
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt381-20260813/12-briefing.json`
+contains the complete wrapped intro, body, and Portuguese row-23 prompt.
+The metrics capture
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt381-20260813/13-briefing-metrics.json`
+reports 25 rows, `maxRow: 80`, `overWideRows: []`, and an empty
+`#lcs-playtest-errors` channel under `HeadlessChrome/150.0.0.0`; the raw
+English intro and cover-fire text are absent. PT-381 is independently
+verified.

@@ -6305,3 +6305,59 @@ reached. Captures and source hashes are under
 - A new strict headless Portuguese session `stock-sleeper-cabinet-20260813` (Flutter web-server port 9260) tried a distinct long-campaign strategy: stock `Os tempos estão mudando`, `Céu Azul e Límpido`, team initiative, repeated recruitment of student candidates, and waiting for eventual sleeper/cabinet progression.
 - The route remained blocked in early January 2023. The founder stayed at US$7, candidate meetings repeatedly stalled before the `C - ... joins the LCS` threshold, and no executive was recruited or sleeperized. It did not reach `Ending.victory` or any game-over terminal.
 - Evidence and route narrative are under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-sleeper-cabinet-20260813/`. The 156 captured screens stayed at `maxRow: 80`, with empty playtest errors and no new translation/layout issue.
+
+## 2026-08-13 — code-only newspaper masthead probe (PT-383)
+
+- A focused Flutter console reproduction initialized `pt_BR`, rendered
+  `conservativeStarTop()` and `thePostTop()`, and captured the actual 80-cell
+  rows. The right-column Conservative Star string `NÓS CONHECEMOS NOSSOS`
+  stops at `NÓS CONHECEM`; The Post string `NOSSO PRÊMIO PULITZER` stops at
+  `NOSSO PRÊMIO PULITZ` because `layout.dart` writes at fixed columns 68 and
+  61 without fitting. This is a confirmed clipping defect; PT-383 is
+  fixed and independently verified after the renderer fix.
+- Evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-newspaper-mastheads-20260813/pt383-static-test.txt`.
+
+## 2026-08-13 — PT-383 independent browser verification
+
+- A fresh disposable copy was rebuilt on Flutter web-server port `9293` and
+  exercised through a new wrapper-only `HeadlessChrome/150.0.0.0` session.
+  Conservative Star row 2 ends `NÓS CONHECE…`; The Post row 2 ends
+  `NOSSO PRÊMIO PULIT…` at column 79.
+- Both captures are 25 rows by 80 columns with no over-wide rows, no bridge or
+  browser errors, and no raw English masthead strings. The focused newspaper
+  suite passed all 29 tests. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt383-20260813/`.
+- PT-383 is fixed and independently verified.
+
+## 2026-08-13 — fresh stock media/persuasion route
+
+- Session `stock-media-persuasion-20260813` used a fresh Portuguese stock game
+  through the strict headless wrapper only. The distinct strategy covered
+  slogan editing, media overview, Manhattan AM radio, newspaper reading,
+  donations, recruitment profession paging, candidate lists, sleeper checks,
+  and several waits.
+- It returned to the Portuguese title screen on 8 January 2023 without
+  reaching `Ending.victory` or a game-over terminal. `summary.json` records
+  `victory:false`, `gameOver:false`, `cheats:false`, and
+  `debugAssisted:false`; 113 captures measured `maxRow:80`, no over-wide rows,
+  and zero bridge errors. No new translation/layout issue was confirmed.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-media-persuasion-20260813/`.
+
+## 2026-08-13 — fresh stock police-territory route
+
+- Session `stock-police-territory-20260813` used a fresh Portuguese stock game
+  on Flutter web-server port `9273` through the strict headless wrapper and
+  `?playtest=1` DOM bridge only. No debug flags, save fixture, headed browser,
+  CDP attach, or production edit was used.
+- Strategy: recruited student candidates (including a trans candidate), played
+  multiple politics conversations and follow-up meetings, visited the Seattle
+  police station via the territory map, then ran Liberal Disobedience and illegal
+  weed-brownie activity from the homeless-camp base.
+- The route reached 31 January 2023 and stalled in base mode before any police
+  siege or campaign terminal. It did not reach `Ending.victory` or game-over;
+  `summary.json` records `victory:false`, `gameOver:false`, `cheats:false`, and
+  `debugAssisted:false`.
+- 226 retained captures measured `maxRow:80`, zero over-wide rows, and empty
+  `#lcs-playtest-errors`; no new translation/layout ticket was confirmed.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-police-territory-20260813/`.

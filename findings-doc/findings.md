@@ -217,6 +217,7 @@
 | PT-380 | Medium | Disbanding translation | Disband-and-wait political summary exposes English executive alignment labels |
 | PT-381 | Medium | Fixed-console layout | Homeless-camp siege briefing overflows in Portuguese |
 | PT-382 | Medium | High-score layout | Three-digit Portuguese flag counts clip at the right edge |
+| PT-383 | Medium | Newspaper layout | Translated decorative masthead strings clip at fixed right columns |
 
 ## PT-001: Save-management option is clipped
 
@@ -6004,3 +6005,54 @@ the 80-column buffer, and report no bridge errors.
   rows, `maxRow: 80`, no over-wide rows, an empty playtest error channel, and
   no raw English high-score strings. Evidence is retained under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt382-20260813/`.
+
+## PT-383: Translated decorative newspaper chrome clips at fixed right columns
+
+- Severity: Medium
+- Type: Fixed-width newspaper layout / translation
+- Screen: Portuguese newspaper mastheads (Conservative Star and The Post)
+- Replay status: **Fixed and independently verified in a fresh strict-headless replay on 2026-08-13**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-newspaper-mastheads-20260813/pt383-static-test.txt`; deterministic Flutter console reproduction against `lib/newspaper/layout.dart:76,139`
+
+### Reproduction
+
+1. Initialize the runtime with locale `pt_BR`.
+2. Render `conservativeStarTop()` and inspect row 2, or render `thePostTop()` and inspect row 2.
+3. Read the fixed 80-column console buffer.
+
+### Actual
+
+The Conservative Star masthead translates `WE KNOW OUR` to `NÓS CONHECEMOS NOSSOS` but writes it unbounded at column 68. Only the first 12 cells fit, so the live row ends `NÓS CONHECEM` and loses the rest of the phrase. The Post translates `OUR PULITZER PRIZE` to `NOSSO PRÊMIO PULITZER` but writes at column 61; the row ends `NOSSO PRÊMIO PULITZ`, dropping the final `ER`. `Console.addchar()` silently discards characters once x reaches 80. The catalog translations are present; this is a renderer-width defect, distinct from the already-verified Herald/Daily masthead paths.
+
+### Expected / recommendation
+
+Keep translated decorative copy inside its fixed right-hand masthead cells by fitting or shortening each phrase before drawing. Preserve the newspaper's satire and visual hierarchy, and add a focused regression for both mastheads asserting that no text is written beyond column 79 and that the chosen bounded copy remains legible.
+
+### Fix and verification handoff
+
+`conservativeStarTop()` and `thePostTop()` now pass their translated right-hand
+strings through `mvaddstrFitted()` with the remaining width (`console.width -
+68` and `console.width - 61`). This keeps the existing translated copy and
+uses the shared ellipsis behavior when it cannot fit. The focused regression in
+`test/newspaper/herald_translation_test.dart` renders both mastheads under
+`pt_BR` and asserts the bounded rows end with `NÓS CONHECE…` and
+`NOSSO PRÊMIO PULIT…` at the 80-column boundary.
+
+Independent verifier replay steps:
+
+1. Rebuild the Flutter web app after this change and serve it on a fresh local
+   web-server port.
+2. Start a new isolated strict-headless `agent-browser` session, open
+   `/?playtest=1`, and select `pt_BR`.
+3. Reach a Conservative Star newspaper and a Post newspaper, capturing the
+   masthead rows from `#lcs-playtest-buffer`.
+4. Confirm no row exceeds 80 cells, no bridge errors are present, and the
+   right-hand strings remain bounded without raw English text.
+
+### Independent verification result
+
+The fresh wrapper-only replay on Flutter web-server port 9293 captured both
+mastheads under `pt_BR`: `NÓS CONHECE…` and `NOSSO PRÊMIO PULIT…` ended at
+column 79. Both screens remained 25 rows by 80 columns with no over-wide rows,
+no bridge errors, and no raw English masthead strings. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt383-20260813/`.

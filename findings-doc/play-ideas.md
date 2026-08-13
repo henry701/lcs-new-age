@@ -1726,3 +1726,29 @@ the residual queue.
 
 - A fresh stock-cheatless Portuguese route focused on building a high-persuasion recruiter, joining student candidates, and eventually activating executive sleepers. It stayed in early base mode: the stock founder had only US$7 and repeated meetings never reached the join threshold, so no sleeper or cabinet update could occur.
 - Keep this as an honest blocked strategy manifest, not victory evidence. Existing true-victory evidence remains debug-assisted only; the stock `A Elite Liberal` disband title remains `Ending.hiding`, not `Ending.victory`.
+
+## 2026-08-13 — PT-383 newspaper masthead static probe
+
+- Code-only probe rendered the Portuguese Conservative Star and The Post mastheads through the real console renderer. `WE KNOW OUR` translates to `NÓS CONHECEMOS NOSSOS` at column 68 but the 80-column buffer ends at `NÓS CONHECEM`; `OUR PULITZER PRIZE` translates to `NOSSO PRÊMIO PULITZER` at column 61 but ends at `NOSSO PRÊMIO PULITZ`.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-newspaper-mastheads-20260813/pt383-static-test.txt`. PT-383 is fixed and independently verified in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt383-20260813/`; keep the browser captures with the already verified Herald/Daily chrome paths.
+
+## 2026-08-13 — stock media/persuasion route
+
+- Fresh strict-cheatless Portuguese session `stock-media-persuasion-20260813`
+  explored slogan/media/radio/newspaper/donation/recruitment surfaces and
+  returned to the title screen on 8 January 2023 without victory or game-over.
+- 113 captures stayed at `maxRow: 80` with no bridge errors or confirmed new
+  translation/layout issue. Evidence and route details are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-media-persuasion-20260813/`.
+
+## 2026-08-13 — police-territory stock route
+
+- Fresh strict-cheatless Portuguese session `stock-police-territory-20260813`
+  used a distinct recruiting → police-station territory → Liberal Disobedience
+  → illegal weed-brownie strategy. It reached 31 January 2023 without a siege,
+  victory, or game-over terminal and was stopped honestly in base mode.
+- The route covered recruitment metadata and conversations, police-station map
+  navigation, activity menus, daily activist messages, news, and illegal
+  activity. All 226 captures stayed at `maxRow: 80` with no bridge errors or
+  confirmed translation/layout issue. Evidence and route details are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-police-territory-20260813/`.

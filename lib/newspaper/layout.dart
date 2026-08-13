@@ -73,7 +73,7 @@ void conservativeStarTop() {
   print3x3NewsText(1, 1, "Conservative Star");
   setColor(black, background: bgColor);
   mvaddstr(1, 68, "DEO VINDICE");
-  mvaddstr(2, 68, "WE KNOW OUR");
+  mvaddstrFitted(2, 68, "WE KNOW OUR", console.width - 68);
   setColor(white, background: darkRed);
   mvaddstr(3, 68, "  ENEMIES  ");
   setColor(black, background: bgColor);
@@ -136,7 +136,7 @@ void thePostTop() {
   mvaddstr(0, 2, "U.S.   POLITICS   BUSINESS   WORLD   FOOD   LIFESTYLE");
   print3x5NewsText(1, 1, "The Post");
   mvaddstr(1, 63, "PLEASE SUPPORT");
-  mvaddstr(2, 61, "OUR PULITZER PRIZE");
+  mvaddstrFitted(2, 61, "OUR PULITZER PRIZE", console.width - 61);
   mvaddstr(3, 61, "WINNING JOURNALISM");
   _addDivider(Publication.post);
 }

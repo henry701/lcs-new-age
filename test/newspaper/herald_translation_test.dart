@@ -70,6 +70,19 @@ void main() {
     expect(console.buffer.every((row) => row.length == 80), isTrue);
   });
 
+  test('translated right-hand newspaper mastheads fit their fixed cells', () {
+    conservativeStarTop();
+
+    expect(_consoleLine(2).substring(68), equals('NÓS CONHECE…'));
+    expect(_consoleLine(2).length, equals(80));
+
+    erase();
+    thePostTop();
+
+    expect(_consoleLine(2).substring(61), equals('NOSSO PRÊMIO PULIT…'));
+    expect(_consoleLine(2).length, equals(80));
+  });
+
   test('pollution subheadline is localized before newspaper rendering', () {
     final story = NewsStory()..publication = Publication.herald;
     final content = generateMajorEventContent(View.pollution, true, story);

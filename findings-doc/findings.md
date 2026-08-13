@@ -216,6 +216,7 @@
 | PT-379 | Medium | Profile translation | Wheelchair transport label falls back to English in Portuguese profiles |
 | PT-380 | Medium | Disbanding translation | Disband-and-wait political summary exposes English executive alignment labels |
 | PT-381 | Medium | Fixed-console layout | Homeless-camp siege briefing overflows in Portuguese |
+| PT-382 | Medium | High-score layout | Three-digit Portuguese flag counts clip at the right edge |
 
 ## PT-001: Save-management option is clipped
 
@@ -5930,3 +5931,76 @@ reports 25 rows, `maxRow: 80`, `overWideRows: []`, and an empty
 `#lcs-playtest-errors` channel under `HeadlessChrome/150.0.0.0`; the raw
 English intro and cover-fire text are absent. PT-381 is independently
 verified.
+
+## PT-382: Three-digit Portuguese flag counts clip at the right edge
+
+- Severity: Medium
+- Type: Fixed-width high-score layout / dynamic numeric value
+- Screen: Portuguese title → high-score list / universal statistics
+- Replay status: **Fixed and independently verified in a fresh strict-headless replay on 2026-08-13**
+- Evidence: live replay and static runtime reproduction against `lib/title_screen/high_scores.dart:256-316` and the canonical `pt_BR` catalog
+
+### Reproduction
+
+1. Seed a high-score entry with `statBuys: 123` (or a universal total of 123)
+   and open the Portuguese high-score screen.
+2. Inspect the `Bandeiras compr.:` / `Bandeiras queim.:` cells at column 60.
+
+### Actual
+
+`viewHighScores()` writes the localized flag labels directly with `mvaddstr`
+at column 60. The Portuguese values are `Bandeiras compr.: {buys}` and
+`Bandeiras queim.: {burns}`. With the three-digit value `123`, each rendered
+cell is 21 columns wide, but only columns 60–79 (20 cells) are available; the
+last digit is silently dropped by `Console.addchar()` once `x == 80`. The
+same unbounded writes are used by the universal statistics rows. The existing
+PT-047 compact-label regression only exercises a two-digit value (`12`), so it
+does not cover this dynamic-width case.
+
+### Expected / recommendation
+
+Keep every flag-count value visible inside its 20-column cell for realistic
+three-digit totals, using a width-aware numeric/label renderer or a shorter
+Portuguese label. Add a regression with `123` for both the per-score and
+universal rows before closing this ticket.
+
+### Fix and verification handoff
+
+`_printHighScoreFlagCount()` now translates the flag-count template first,
+shortens only its label as needed, and writes the complete numeric value within
+the 20-cell right-hand column. Both per-score and universal statistics use this
+shared bounded renderer. The focused regression in
+`test/title_screen/high_scores_layout_test.dart` seeds 123 bought/burned flags
+in both views and asserts that each Portuguese value remains visible through
+column 79.
+
+Focused commands:
+
+```text
+/home/henry/extracted-apps/flutter-sdk/flutter/bin/flutter test \
+  test/title_screen/high_scores_layout_test.dart \
+  test/localized_layout_regression_test.dart
+```
+
+The independent replay below confirms the four flag rows retain `123`, fit
+the 80-column buffer, and report no bridge errors.
+
+### Independent strict-headless verification
+
+- Rebuilt the current worktree on Flutter web-server port `9253` and used the
+  fresh isolated session `verify-pt382-fresh-20260813` through only
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/agent-browser-headless.sh`
+  with `?playtest=1` and the `#lcs-playtest-buffer` DOM bridge. The browser
+  user agent was `HeadlessChrome/150.0.0.0`; no headed browser, CDP attach,
+  source edit, or debug flag was used.
+- The disposable fixture was seeded only in that browser's SharedPreferences
+  web storage, using the package's nested JSON encoding: one high-score entry
+  with `statBuys: 123` and `statBurns: 123`, plus universal bought/burned totals
+  of `123`. The source and repository storage were not modified.
+- `07-title-pt.json` records the Portuguese title route and `08-highscore-pt.json`
+  records the live high-score screen. The per-score rows 4–5 and universal
+  rows 23–24 each retain the complete `Bandeiras compr. 123` and
+  `Bandeiras queim. 123` strings. `09-highscore-pt-metrics.json` reports 25
+  rows, `maxRow: 80`, no over-wide rows, an empty playtest error channel, and
+  no raw English high-score strings. Evidence is retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt382-20260813/`.

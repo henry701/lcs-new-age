@@ -6258,3 +6258,50 @@ reached. Captures and source hashes are under
   cover-fire lines were present across their wrapped rows, and the raw English
   intro/cover-fire strings were absent. PT-381 is fixed and independently
   verified.
+
+## 2026-08-13 — code-only high-score dynamic-count probe (PT-382)
+
+- Static review of `lib/title_screen/high_scores.dart` found that per-score
+  and universal flag counters use unbounded `mvaddstr` at column 60. Merged
+  `pt_BR` catalog values render as `Bandeiras compr.: 123` and
+  `Bandeiras queim.: 123` (21 cells), exceeding the 20-cell right-hand score
+  column and dropping the last digit when `Console.addchar()` reaches x=80.
+- PT-047's regression proves the compact labels for a two-digit value (`12`),
+  but does not cover realistic three-digit totals. PT-382 was filed Open; no
+  production source or catalog was changed by this probe.
+
+## 2026-08-13 — PT-382 high-score flag-count fixer pass
+
+- Added a shared `_printHighScoreFlagCount()` renderer in
+  `lib/title_screen/high_scores.dart`. It translates each flag-count template,
+  fits the label to the 20-cell right-hand statistics column, and preserves the
+  complete numeric value for both per-score and universal rows.
+- Added a focused regression in `test/title_screen/high_scores_layout_test.dart`
+  with 123 bought and burned flags in both views; all four Portuguese values
+  remain visible through column 79.
+- `dart format`, `git diff --check`, and the focused high-score/layout command
+  passed. The independent replay below confirms the live seeded high-score
+  screen.
+
+## 2026-08-13 — independent PT-382 high-score replay
+
+- Rebuilt the current worktree on Flutter web-server port `9253` and used the
+  fresh strict-headless session `verify-pt382-fresh-20260813`, with no headed
+  browser, CDP attach, source edit, or debug flag. The route selected
+  Portuguese through the normal title-screen language menu.
+- A disposable SharedPreferences web-storage seed supplied one game-over score
+  with `statBuys: 123`/`statBurns: 123` and universal bought/burned totals of
+  `123`. This exercised the live renderer without changing source or checked-in
+  data.
+- Captures `07-title-pt.json` and `08-highscore-pt.json` are retained under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt382-20260813/`.
+  The four flag rows visibly end in `Bandeiras compr. 123` and
+  `Bandeiras queim. 123`; `09-highscore-pt-metrics.json` measured 25 rows,
+  `maxRow: 80`, no over-wide rows, empty bridge errors, and no raw English
+  high-score strings. PT-382 is independently verified.
+
+## 2026-08-13 — fresh stock sleeper/cabinet route
+
+- A new strict headless Portuguese session `stock-sleeper-cabinet-20260813` (Flutter web-server port 9260) tried a distinct long-campaign strategy: stock `Os tempos estão mudando`, `Céu Azul e Límpido`, team initiative, repeated recruitment of student candidates, and waiting for eventual sleeper/cabinet progression.
+- The route remained blocked in early January 2023. The founder stayed at US$7, candidate meetings repeatedly stalled before the `C - ... joins the LCS` threshold, and no executive was recruited or sleeperized. It did not reach `Ending.victory` or any game-over terminal.
+- Evidence and route narrative are under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-sleeper-cabinet-20260813/`. The 156 captured screens stayed at `maxRow: 80`, with empty playtest errors and no new translation/layout issue.

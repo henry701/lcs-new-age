@@ -21,6 +21,40 @@ String _highScoreAmount(int amount) {
   return amount.toString();
 }
 
+const int _highScoreStatColumnWidth = 20;
+const int _highScoreFlagColumnX = 60;
+
+String _fitHighScoreFlagCount(String template, String parameter, int count) {
+  final countText = count.toString();
+  final translated = LcsI18n.processString(template, {parameter: count});
+  final countStart = translated.lastIndexOf(countText);
+  if (countStart < 0) {
+    return fitConsoleText(translated, _highScoreStatColumnWidth);
+  }
+
+  final label = translated.substring(0, countStart).trimRight();
+  final labelWidth = max(0, _highScoreStatColumnWidth - strLenX(countText) - 1);
+  final result = StringBuffer()
+    ..write(fitConsoleText(label, labelWidth, showEllipsis: false))
+    ..write(' ')
+    ..write(countText);
+  return result.toString();
+}
+
+void _printHighScoreFlagCount({
+  required int y,
+  required String template,
+  required String parameter,
+  required int count,
+}) {
+  mvaddstr(
+    y,
+    _highScoreFlagColumnX,
+    _fitHighScoreFlagCount(template, parameter, count),
+    noTranslate: true,
+  );
+}
+
 class HighScores {
   HighScores({
     this.universalRecruits = 0,
@@ -253,12 +287,17 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
       "\$ Spent: {spent}",
       params: {"spent": _highScoreAmount(s.statSpent)},
     );
-    mvaddstr(y + 2, 60, "Flags Bought: {buys}", params: {"buys": s.statBuys});
-    mvaddstr(
-      y + 3,
-      60,
-      "Flags Burned: {burns}",
-      params: {"burns": s.statBurns},
+    _printHighScoreFlagCount(
+      y: y + 2,
+      template: "Flags Bought: {buys}",
+      parameter: "buys",
+      count: s.statBuys,
+    );
+    _printHighScoreFlagCount(
+      y: y + 3,
+      template: "Flags Burned: {burns}",
+      parameter: "burns",
+      count: s.statBurns,
     );
     y += 4;
   }
@@ -303,17 +342,17 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
     "\$ Spent: {count}",
     params: {'count': _highScoreAmount(highScores.universalSpent)},
   );
-  mvaddstr(
-    23,
-    60,
-    "Flags Bought: {count}",
-    params: {"count": highScores.universalFlagBuys.toString()},
+  _printHighScoreFlagCount(
+    y: 23,
+    template: "Flags Bought: {count}",
+    parameter: "count",
+    count: highScores.universalFlagBuys,
   );
-  mvaddstr(
-    24,
-    60,
-    "Flags Burned: {count}",
-    params: {"count": highScores.universalFlagBurns.toString()},
+  _printHighScoreFlagCount(
+    y: 24,
+    template: "Flags Burned: {count}",
+    parameter: "count",
+    count: highScores.universalFlagBurns,
   );
   await getKey();
 }

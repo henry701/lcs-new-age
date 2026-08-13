@@ -1700,3 +1700,29 @@ the residual queue.
   `13-briefing-metrics.json` reports `maxRow: 80`, no over-wide rows, and no
   playtest errors. PT-381 is independently verified and can leave the residual
   queue.
+
+## 2026-08-13 — high-score dynamic-count static probe (PT-382)
+
+- The Portuguese high-score renderer still writes `Bandeiras compr.:` and
+  `Bandeiras queim.:` directly at column 60. Their canonical translations are
+  20 cells with a two-digit value, but 21 cells with `123`; the final digit is
+  silently discarded at the fixed 80-column boundary. This is distinct from
+  PT-047's two-digit compact-label coverage. PT-382 is Open for a focused
+  width-aware fix and independent replay.
+
+## 2026-08-13 — PT-382 independent replay complete
+
+- The fresh strict-headless Portuguese high-score replay
+  `verify-pt382-fresh-20260813` seeded three-digit bought/burned totals in the
+  browser's disposable SharedPreferences storage. Both per-score and universal
+  rows retained `123` in the live console, with 25 rows, `maxRow: 80`, no
+  over-wide rows, no bridge errors, and no raw English high-score strings.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt382-20260813/`
+  (`07-title-pt.json`, `08-highscore-pt.json`, and
+  `09-highscore-pt-metrics.json`). PT-382 is fixed and independently verified;
+  no new translation or layout issue was found in this replay.
+
+## 2026-08-13 — sleeper/cabinet route blocker
+
+- A fresh stock-cheatless Portuguese route focused on building a high-persuasion recruiter, joining student candidates, and eventually activating executive sleepers. It stayed in early base mode: the stock founder had only US$7 and repeated meetings never reached the join threshold, so no sleeper or cabinet update could occur.
+- Keep this as an honest blocked strategy manifest, not victory evidence. Existing true-victory evidence remains debug-assisted only; the stock `A Elite Liberal` disband title remains `Ending.hiding`, not `Ending.victory`.

@@ -86,4 +86,39 @@ void main() {
       );
     },
   );
+
+  test('Portuguese three-digit flag counts keep the value visible', () async {
+    final score = HighScore(
+      slogan: 'Avante',
+      month: 9,
+      year: 2026,
+      statRecruits: 0,
+      statMartyrs: 0,
+      statKills: 0,
+      statKidnappings: 0,
+      statFunds: 0,
+      statSpent: 0,
+      statBuys: 123,
+      statBurns: 123,
+      endType: Ending.medicalSiege,
+    );
+    final highScores = HighScores(
+      universalFlagBuys: 123,
+      universalFlagBurns: 123,
+    )..scoreList.add(score);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('scoreVersion', scoreVersion);
+    await prefs.setString('score', jsonEncode(highScores.toJson()));
+
+    console.injectKey('Enter');
+    await viewHighScores(score);
+
+    expect(_consoleLine(4).substring(60), 'Bandeiras compr. 123');
+    expect(_consoleLine(5).substring(60), 'Bandeiras queim. 123');
+    expect(_consoleLine(23).substring(60), 'Bandeiras compr. 123');
+    expect(_consoleLine(24).substring(60), 'Bandeiras queim. 123');
+    for (final row in [4, 5, 23, 24]) {
+      expect(_consoleLine(row).length, lessThanOrEqualTo(console.width));
+    }
+  });
 }

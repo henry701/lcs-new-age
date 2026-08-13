@@ -64,7 +64,7 @@
     },
     {
       "file": "basemode/activate_sleepers.dart",
-      "line": 325,
+      "line": 327,
       "text": "Unexpected sleeper activity type: ${cr.activity.type.name}",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

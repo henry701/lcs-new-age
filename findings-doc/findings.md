@@ -208,6 +208,7 @@
 | PT-371 | Medium | Clothing-crafting layout | Long localized difficulty collides with a four-digit craft cost |
 | PT-372 | Medium | Flag-crafting layout | Portuguese currency costs clip and difficulty touches the cost column |
 | PT-373 | Low | Clothing-crafting navigation | Paging leaves an off-page clothing preview selected |
+| PT-374 | Medium | Hostage translation/composition | Hostage prose falls back to English or leaves nested placeholders |
 
 ## PT-001: Save-management option is clipped
 
@@ -5563,3 +5564,22 @@ that item is no longer in the visible page. Paging should either keep the
 selected row in view or clear/reselect the detail footer when the page changes.
 The page-change handler now clears the selection; the after capture has no
 off-page tank footer.
+
+## PT-374: Hostage prose bypassed composed translation and nested formatting
+
+- Severity: Medium
+- Type: Translation coverage / runtime composition
+- Screen: Portuguese safehouse → hostage tending → recruitment, love-bombing, and release
+- Replay status: **Fixed with composed-template rendering and focused regressions on 2026-08-12**
+- Regression: `test/daily/hostages_translation_test.dart`
+
+Several hostage routes assembled sentences from adjacent source literals or
+inserted a second localized sentence as a parameter to an outer template.
+`processString` only performs one exact catalog lookup and one placeholder pass,
+so these paths either fell back to English or displayed literal `{heShe}` /
+`{hostage}` tokens. The new `processComposedString` helper translates the
+longest catalog fragments before formatting. Recruitment reactions and
+love-bomb activities are rendered before nesting; release siege labels are
+localized before insertion. The focused tests cover a composed recruitment
+paragraph, a nested pronoun reaction, a love-bomb activity, and release/
+psychology fragments, including assertions that no placeholder survives.

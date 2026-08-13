@@ -1399,7 +1399,10 @@ void main() {
           recruitment,
           contains('"law": LcsI18n.tr(Law.values.random.label)'),
         );
-        expect(lovebomb, contains('"activity": LcsI18n.tr('));
+        expect(
+          lovebomb,
+          contains('"activity": LcsI18n.processComposedString('),
+        );
         expect(lovebomb, contains('"holiday": LcsI18n.tr('));
         expect(
           lovebomb,

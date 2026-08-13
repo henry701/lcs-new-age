@@ -45,7 +45,7 @@ Future<void> handleLoveBombing(
     ];
     message = LcsI18n.processString("{lead} {activity}", {
       "lead": lead.name,
-      "activity": LcsI18n.tr(
+      "activity": LcsI18n.processComposedString(
         [
           "serves {hostage} an incredible vegan feast, complete with quinoa "
               "casserole and an oat milk latte, insisting that {pronoun} "
@@ -133,53 +133,56 @@ Future<void> handleLoveBombing(
               "for {hostagePronoun}, then encourages {obj} to "
               "get in touch with {hostagePossessive} true feelings.",
         ].random,
+        {
+          "lead": lead.name,
+          "hostage": cr.name,
+          "pronoun": cr.gender.heShe,
+          "obj": cr.gender.himHer,
+          "leadPossessive": lead.gender.hisHer,
+          "hostagePossessive": cr.gender.hisHer,
+          "hostagePronoun": cr.gender.heShe,
+          "holiday": LcsI18n.tr(
+            [
+              "Intersectional Justice Jubilee",
+              "Hug-Your-Haters Day",
+              "Intersectionality Awareness Day",
+              "Queer Liberation Day",
+              "Decolonization Day",
+              "Anarchist Abolitionist Day",
+              "Feminist Resistance Day",
+              "Trans Unity Day",
+              "Rainbow Butterfly Day",
+              "Incredible Inclusivity Day",
+              "Black Power Day",
+              "African Roots Day",
+              "Black And Proud Day",
+              "Black Lives Do In Fact Matter Day",
+              "Love Wins Day",
+              "Liberalism Day",
+              "Leftist Pride Day",
+              "Social Justice Day",
+              "Adopt-A-Conservative Day",
+              "Fuck The Police Day",
+              "Radical Self-Care Day",
+              "Resistance Day",
+              "Even Prouder Pride Day",
+              "I'm A Liberal Day",
+              "Damn It's Good To Be A Liberal Day",
+              "Liberalism Is The New Black Day",
+              "Join The LCS Day",
+              "Stop Being A Conservative Day",
+            ].random,
+          ),
+          "item1": LcsI18n.tr(miniOptions.randomPop()),
+          "item2": LcsI18n.tr(miniOptions.randomPop()),
+          "item3": LcsI18n.tr(miniOptions.randomPop()),
+        },
       ),
-      "hostage": cr.name,
-      "pronoun": cr.gender.heShe,
-      "obj": cr.gender.himHer,
-      "leadPossessive": lead.gender.hisHer,
-      "hostagePossessive": cr.gender.hisHer,
-      "hostagePronoun": cr.gender.heShe,
-      "holiday": LcsI18n.tr(
-        [
-          "Intersectional Justice Jubilee",
-          "Hug-Your-Haters Day",
-          "Intersectionality Awareness Day",
-          "Queer Liberation Day",
-          "Decolonization Day",
-          "Anarchist Abolitionist Day",
-          "Feminist Resistance Day",
-          "Trans Unity Day",
-          "Rainbow Butterfly Day",
-          "Incredible Inclusivity Day",
-          "Black Power Day",
-          "African Roots Day",
-          "Black And Proud Day",
-          "Black Lives Do In Fact Matter Day",
-          "Love Wins Day",
-          "Liberalism Day",
-          "Leftist Pride Day",
-          "Social Justice Day",
-          "Adopt-A-Conservative Day",
-          "Fuck The Police Day",
-          "Radical Self-Care Day",
-          "Resistance Day",
-          "Even Prouder Pride Day",
-          "I'm A Liberal Day",
-          "Damn It's Good To Be A Liberal Day",
-          "Liberalism Is The New Black Day",
-          "Join The LCS Day",
-          "Stop Being A Conservative Day",
-        ].random,
-      ),
-      "item1": LcsI18n.tr(miniOptions.randomPop()),
-      "item2": LcsI18n.tr(miniOptions.randomPop()),
-      "item3": LcsI18n.tr(miniOptions.randomPop()),
     });
   } else {
     message = LcsI18n.processString("{lead} {activity}", {
       "lead": lead.name,
-      "activity": LcsI18n.tr(
+      "activity": LcsI18n.processComposedString(
         [
           "raves about how good vegan food is to {hostage}.",
           "explains microaggressions to {hostage}.",
@@ -227,6 +230,14 @@ Future<void> handleLoveBombing(
               "understanding of them instead of the rejection {hostage} was "
               "expecting.",
         ].random,
+        {
+          "lead": lead.name,
+          "hostage": cr.name,
+          "pronoun": cr.gender.heShe,
+          "obj": cr.gender.himHer,
+          "possessive": cr.gender.hisHer,
+          "leadPossessive": lead.gender.hisHer,
+        },
       ),
       "hostage": cr.name,
       "pronoun": cr.gender.heShe,
@@ -305,7 +316,7 @@ Future<void> handleLoveBombing(
     if (rapportTemp > lcsRandom(3) ||
         cr.skill(Skill.psychology) > lead.skill(Skill.psychology)) {
       if (cr.skill(Skill.psychology) > lead.skill(Skill.psychology)) {
-        description = LcsI18n.processString(
+        description = LcsI18n.processComposedString(
           [
             "{name} plays along but somehow makes everything seem so "
                 "silly and trivial.",
@@ -428,7 +439,7 @@ Future<void> handleLoveBombing(
     addparagraph(
       y,
       0,
-      LcsI18n.processString(
+      LcsI18n.processComposedString(
         "{name} makes some fascinating points that {lead} has "
         "never considered before...",
         {"name": cr.name, "lead": lead.name},

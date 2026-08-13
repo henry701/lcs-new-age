@@ -381,10 +381,16 @@ Future<void> tendHostage(InterrogationSession intr) async {
       ].random;
     }
 
+    reaction = LcsI18n.processComposedString(reaction, {
+      "hisHer": cr.gender.hisHer,
+      "heShe": cr.gender.heShe,
+      "leadName": lead.name,
+    });
+
     addparagraph(
       y,
       0,
-      LcsI18n.processString(
+      LcsI18n.processComposedString(
         "{lead} attempts to recruit {name} to the Liberal Crime Squad. "
         "As the pitch goes on, {gender} {reaction}",
         {
@@ -422,10 +428,17 @@ Future<void> tendHostage(InterrogationSession intr) async {
       ].random;
 
       setColor(lightGreen);
+      reaction = LcsI18n.processComposedString(reaction, {
+        "himHer": cr.gender.himHer,
+        "hisHer": cr.gender.hisHer,
+        "heShe": cr.gender.heShe,
+        "heSheCap": cr.gender.heSheCap,
+        "leadName": lead.name,
+      });
       addparagraph(
         y,
         0,
-        LcsI18n.processString(
+        LcsI18n.processComposedString(
           "{lead} attempts to recruit {name} to the Liberal Crime Squad. "
           "As the pitch goes on, {gender} {reaction}",
           {
@@ -475,7 +488,16 @@ Future<void> tendHostage(InterrogationSession intr) async {
               "ANY DECENCY left at all, {leadHeShe} will let "
               "{himHer} go RIGHT NOW.",
         ].random;
-        reaction = LcsI18n.processString(reaction, {"profanity": profanity});
+        reaction = LcsI18n.processComposedString(reaction, {
+          "profanity": profanity,
+          "name": cr.name,
+          "hisHer": cr.gender.hisHer,
+          "leadName": lead.name,
+          "leadHisHer": lead.gender.hisHer,
+          "leadHeShe": lead.gender.heShe,
+          "heShe": cr.gender.heShe,
+          "himHer": cr.gender.himHer,
+        });
         rapport[lead.id] = (rapport[lead.id] ?? 0) - 2;
       } else {
         reaction = [
@@ -486,12 +508,18 @@ Future<void> tendHostage(InterrogationSession intr) async {
               "normal life once {leadName} lets {himHer} go.",
           "seems to have second thoughts about the whole thing.",
         ].random;
+        reaction = LcsI18n.processComposedString(reaction, {
+          "hisHer": cr.gender.hisHer,
+          "heShe": cr.gender.heShe,
+          "leadName": lead.name,
+          "himHer": cr.gender.himHer,
+        });
       }
       setColor(red);
       addparagraph(
         y,
         0,
-        LcsI18n.processString(
+        LcsI18n.processComposedString(
           "{name} rejects the offer to join. {gender} {reaction}",
           {
             "name": cr.name,

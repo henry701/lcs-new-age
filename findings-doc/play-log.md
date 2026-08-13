@@ -1,5 +1,20 @@
 # Portuguese Play Log
 
+## 2026-08-12 — PT-374 hostage-composition regression verification
+
+- Static/runtime-focused Portuguese checks reproduced the safehouse hostage
+  composition bug: an outer recruitment paragraph was English when its source
+  was assembled from two catalog fragments, and one-pass formatting left inner
+  pronoun/activity placeholders unresolved.
+- The new `processComposedString` path now translates adjacent fragments before
+  formatting. Recruitment, love-bombing, and release call sites render inner
+  reaction/activity values first; siege responder labels use their standalone
+  Portuguese entries.
+- `flutter test test/daily/hostages_translation_test.dart` passes five focused
+  cases, including no-orphan-placeholder assertions; the focused suite now
+  also covers release sleeper and psychology fragments. A future fixture replay
+  should force a hostage encounter to capture the visible UI route.
+
 ## 2026-08-12 — strict-headless crafting-fix verification (PT-371–PT-373)
 
 - Replayed `Atribuir Tarefas → Recrutamento e Aquisição → Fazer Roupas`

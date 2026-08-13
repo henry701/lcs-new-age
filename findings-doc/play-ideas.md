@@ -2,6 +2,14 @@
 
 ## 2026-08-12 — broad strict-headless regression replay
 
+- Static trace from the hostage route found a confirmed Portuguese rendering
+  gap: recruitment, love-bombing, and release paragraphs were assembled from
+  catalog fragments or nested sentence parameters, so exact lookup fell back
+  to English and could leave `{heShe}` / `{hostage}` visible. PT-374 is now
+  fixed with `LcsI18n.processComposedString`; focused tests cover the composed
+  paragraph, nested reaction, and activity parameter path. A live hostage
+  fixture remains useful for future playtest coverage.
+
 - Fresh DOM-buffer replay covered the title/new-game/founder flow, base
   management screens, agenda, media/article, flag purchase, investment,
   district travel, and a 320×240 narrow-console pass. The browser was verified

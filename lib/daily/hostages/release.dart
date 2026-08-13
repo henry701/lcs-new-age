@@ -43,10 +43,11 @@ Future<void> handleRelease(
       SiegeType.ccs => "CCS vigilantes",
       _ => "giant bugs",
     };
+    typeOfSiegers = LcsI18n.tr(typeOfSiegers);
     addparagraph(
       y,
       0,
-      LcsI18n.processString(
+      LcsI18n.processComposedString(
         "{lead} leads {hostage} to the front door and lets "
         "{pronoun} run into the arms of the waiting {siegers}. "
         "There is a brief commotion as {hostage} is led to safety, but "
@@ -143,7 +144,7 @@ Future<void> handleRelease(
   addparagraph(
     y,
     0,
-    LcsI18n.processString(
+    LcsI18n.processComposedString(
       "{lead} takes {hostage} to a secure location and releases "
       "{pronoun} from captivity. {hostage} {reaction}",
       {
@@ -164,7 +165,7 @@ Future<void> handleRelease(
     addparagraph(
       y,
       0,
-      LcsI18n.processString(
+      LcsI18n.processComposedString(
         "{hostage} gets in touch with {lead} later, expressing "
         "a desire to continue their conversations and offering "
         "{possessive} services as a sleeper agent for the "

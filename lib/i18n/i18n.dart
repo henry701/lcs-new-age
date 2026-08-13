@@ -32,6 +32,7 @@ enum PronounRole { subject, object, possessive }
 ///     params: {"target": "Conservative"},
 ///   );
 class LcsI18n {
+  static const int _minimumComposedFragmentLength = 16;
   static bool _initialized = false;
   static String _currentLocale = 'en_US';
   static AssetManifest? _assetManifest;
@@ -363,6 +364,39 @@ class LcsI18n {
     return translate(value);
   }
 
+  static String _formatTranslatedTemplate(
+    String translated,
+    Map<String, dynamic> params,
+    Map<String, String> colorMappings,
+    String baseColorKey,
+  ) {
+    String result = translated;
+    final cleanPlaceholderPattern = RegExp(r'\{(\w+)\}');
+
+    result = result.replaceAllMapped(cleanPlaceholderPattern, (match) {
+      final paramName = match.group(1)!;
+      final rawValue = params[paramName]?.toString();
+      final value = rawValue == null
+          ? match.group(0)!
+          : _translateParameterValue(paramName, rawValue);
+
+      final colorSpec = colorMappings[paramName];
+      if (colorSpec == null) return value;
+
+      if (colorSpec == 'color') {
+        final colorKeyParam = '${paramName}Color';
+        final colorKey = params[colorKeyParam]?.toString() ?? baseColorKey;
+        return '&$colorKey$value&$baseColorKey';
+      }
+
+      final colorKey = _colorNameToKey[colorSpec];
+      if (colorKey == null) return value;
+      return '&$colorKey$value&$baseColorKey';
+    });
+
+    return result;
+  }
+
   /// Color name to ColorKey mapping for inline color syntax
   static const Map<String, String> _colorNameToKey = {
     'white': 'W',
@@ -455,41 +489,12 @@ class LcsI18n {
         : translate(normalizedTemplate);
 
     // STEP 3: Format with params and re-apply colors using stored mappings
-    String result = translated;
-    final cleanPlaceholderPattern = RegExp(r'\{(\w+)\}');
-
-    result = result.replaceAllMapped(cleanPlaceholderPattern, (match) {
-      final paramName = match.group(1)!;
-      final rawValue = params[paramName]?.toString();
-      final value = rawValue == null
-          ? match.group(0)!
-          : _translateParameterValue(paramName, rawValue);
-
-      // Check if this parameter had a color specification
-      final colorSpec = colorMappings[paramName];
-      if (colorSpec == null) {
-        // No color specified, just return the value
-        return value;
-      }
-
-      if (colorSpec == 'color') {
-        // Dynamic color from param value (e.g., {target:color} becomes &{targetColor}{target})
-        final colorKeyParam = '${paramName}Color';
-        final colorKey = params[colorKeyParam]?.toString() ?? baseColorKey;
-        return '&$colorKey$value&$baseColorKey';
-      }
-
-      // Static color from color name
-      final colorKey = _colorNameToKey[colorSpec];
-      if (colorKey == null) {
-        // Unknown color, return without markers
-        return value;
-      }
-
-      return '&$colorKey$value&$baseColorKey';
-    });
-
-    return result;
+    return _formatTranslatedTemplate(
+      translated,
+      params,
+      colorMappings,
+      baseColorKey,
+    );
   }
 
   /// Change the current locale at runtime
@@ -528,10 +533,9 @@ class LcsI18n {
 
     final fallback = _translations['en_US'] ?? const <String, dynamic>{};
     final keys =
-        <String>{
-            ...localeData.keys,
-            ...fallback.keys,
-          }.where((key) => key.length >= 20).toList()
+        <String>{...localeData.keys, ...fallback.keys}
+            .where((key) => key.length >= _minimumComposedFragmentLength)
+            .toList()
           ..sort((a, b) => b.length.compareTo(a.length));
 
     final output = StringBuffer();
@@ -555,6 +559,38 @@ class LcsI18n {
       offset += matchedKey.length;
     }
     return output.toString();
+  }
+
+  /// Translates prose assembled from adjacent catalog fragments, then formats
+  /// its parameters. Use this for long paragraphs whose source is built from
+  /// multiple literals; normal complete templates should use [processString].
+  static String processComposedString(
+    String template,
+    Map<String, dynamic>? params, {
+    bool noTranslate = false,
+    String baseColorKey = 'w',
+  }) {
+    final colorMappings = <String, String>{};
+    final normalizedTemplate = template.replaceAllMapped(_placeholderPattern, (
+      match,
+    ) {
+      final parameterName = match.group(1)!;
+      final colorSpec = match.group(2);
+      if (colorSpec != null) colorMappings[parameterName] = colorSpec;
+      return '{$parameterName}';
+    });
+
+    final translated = noTranslate
+        ? normalizedTemplate
+        : translateComposed(normalizedTemplate);
+    if (params == null) return translated;
+
+    return _formatTranslatedTemplate(
+      translated,
+      params,
+      colorMappings,
+      baseColorKey,
+    );
   }
 
   /// Formats an in-game dollar amount using the active locale's currency

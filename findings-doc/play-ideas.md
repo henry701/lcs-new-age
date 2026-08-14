@@ -1910,3 +1910,15 @@ routes are optional breadth coverage.
 - Keep this as one of the independent stock game-over strategies. It is not
   campaign victory evidence, and no translation/layout ticket was found.
 - Artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-gameover-combat-20260814/`.
+
+## 2026-08-14 — cabinet/legislative stock route blocker
+
+- A fresh Portuguese stock-cheatless route focused on legislative preparation:
+  high intelligence/law/persuasion founder, questionnaire-created attorney
+  sleeper advocating liberalism, ordinary donations, and repeated university
+  politics meetings.
+- It reached 20 January recruitment lists but no candidate joined before the
+  bounded run stopped. Keep it as honest blocked coverage; it is not evidence
+  of stock victory or game-over.
+- Evidence and route notes:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-cabinet-20260814/`.

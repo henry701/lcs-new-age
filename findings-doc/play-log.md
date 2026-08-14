@@ -6596,3 +6596,25 @@ reached. Captures and source hashes are under
   over-wide rows, and no bridge errors; no new translation/layout issue was
   confirmed. Evidence, metrics, and route notes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-gameover-combat-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese cabinet/legislative route
+
+- Session `stock-victory-cabinet-final-20260814` used Flutter web-server port
+  `9308` through the strict headless wrapper and `?playtest=1` DOM bridge. The
+  earlier English/aborted attempt was quarantined and excluded. No debug flags,
+  save fixtures, headed browser, CDP attach, or production source edits were
+  used.
+- The distinct strategy built an intelligence/law/persuasion founder, assigned
+  the questionnaire-created attorney sleeper Pete Menéndez to
+  `Comunicação e Advocacia → Defender o Liberalismo`, then funded the squad
+  with ordinary donation solicitation. At 59.59 Persuasão and US$49, the
+  founder pursued recurring university recruitment meetings and politics
+  conversations, including trans and female candidates.
+- The route stopped at a normal 20 January 2023 university-candidate list
+  before any candidate reached `C - ... entra para o LCS`; no active recruit,
+  cabinet, political office, `Ending.victory`, or game-over terminal occurred.
+  All 129 captures stayed at 25×80 (`maxRow:80`) with no over-wide rows or
+  bridge errors, and no new translation/layout issue was confirmed.
+- Honest outcome: blocked, stock-cheatless, non-victory route. Evidence,
+  summary, and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-cabinet-20260814/`.

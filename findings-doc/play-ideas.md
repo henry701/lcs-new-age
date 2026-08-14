@@ -1922,3 +1922,16 @@ routes are optional breadth coverage.
   of stock victory or game-over.
 - Evidence and route notes:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-cabinet-20260814/`.
+
+## 2026-08-14 — coalition/media stock route blocker
+
+- A fresh strict stock-cheatless Portuguese route combined a high-charisma
+  manifesto founder, the questionnaire-created law-student sleeper, and
+  Liberal Guardian newspaper work. It reached the generated newspaper cycle
+  on 20 January and then stalled without a natural victory or game-over
+  terminal.
+- The route stayed within 25×80 with no bridge errors and found no new
+  translation/layout issue. Keep it as optional coalition/media breadth
+  coverage, not campaign-victory evidence.
+- Artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-coalition-20260814/`.

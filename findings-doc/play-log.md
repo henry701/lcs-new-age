@@ -6618,3 +6618,22 @@ reached. Captures and source hashes are under
 - Honest outcome: blocked, stock-cheatless, non-victory route. Evidence,
   summary, and metrics are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-cabinet-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese coalition/media route
+
+- Session `stock-victory-coalition-20260814` used Flutter web-server port
+  `9310` through the strict headless wrapper and normal `?playtest=1` DOM
+  bridge. It selected Portuguese and followed a charisma/persuasion,
+  questionnaire-lawyer, manifesto, and Liberal Guardian newspaper strategy;
+  no debug flags, save fixtures, headed browser, CDP attach, or production
+  edits were used.
+- The founder was assigned to `Escrever Artigos do Guardião Liberal`. The
+  route reached a generated newspaper on 20 January 2023, then returned to
+  the base screen after bounded `Enter`, `Space`, `W`, and `A` inputs. It did
+  not reach a recruit, political office, `Ending.victory`, or game-over
+  terminal.
+- All 49 captures stayed at 25×80 (`maxRow:80`) with no over-wide rows or
+  bridge errors. The inspected newspaper had no new translation/layout issue.
+  Honest outcome: stalled, stock-cheatless, non-victory route. Evidence and
+  metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-coalition-20260814/`.

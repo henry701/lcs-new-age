@@ -6964,8 +6964,8 @@ reached. Captures and source hashes are under
   bridge errors. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-gameover-d-20260814/`.
 - Neither route found a new translation or layout issue. Natural game-over
-  evidence remains the three earlier combat routes; the only victory evidence
-  remains the disposable debug-assisted victory fixture.
+  evidence remains the earlier combat routes; the only victory evidence remains
+  the disposable debug-assisted victory fixture.
 
 ## 2026-08-14 — stock sleeper/advocacy route H
 
@@ -7012,3 +7012,22 @@ reached. Captures and source hashes are under
   rows, zero bridge errors, and no generated-city warnings in browser console.
   Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt395-20260814/`.
   PT-395 is **Closed / Fixed**.
+
+## 2026-08-14 — stock executive route I
+
+- `stock-victory-i-20260814` targeted the natural executive route without
+  cheats: it recruited a sleeper, built a small Seattle squad and pickup,
+  raised ordinary donations, traveled to Washington, DC, and entered the
+  White House through the National Mall.
+- The metal detector alarm triggered a stock Secret Service encounter. All
+  four Liberals died in combat in February 2023, producing the Portuguese
+  game-over text `O Esquadrão do Crime Liberal foi morto em combate em
+  Fevereiro de 2023.` No `Ending.victory` screen appeared.
+- The route retained 601 non-empty captures (599 metadata-complete), maximum
+  width 80, zero over-wide rows, and zero bridge errors. `cheats`,
+  `debugAssisted`, fixtures, save imports, CDP, headed browser, and source
+  edits were all false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-i-20260814/`.
+- No new translation or layout finding was confirmed. This adds a fourth
+  independent stock-cheatless game-over route; natural victory remains
+  unobserved.

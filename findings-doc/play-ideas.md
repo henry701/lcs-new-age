@@ -2188,3 +2188,17 @@ routes are optional breadth coverage.
 - Width and bridge checks remained clean; no new finding was confirmed. The
   natural-victory question remains unresolved, with only debug-assisted victory
   evidence available.
+
+## 2026-08-14 — stock executive route I
+
+- Route I targeted the executive path with a fresh stock Portuguese game:
+  sleeper recruitment, ordinary donations, Seattle-to-DC travel, National
+  Mall entry, and a White House visit.
+- The metal detector alarm led to Secret Service combat; all four Liberals
+  died in February 2023. The terminal was a natural Portuguese game-over, not
+  `Ending.victory`. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-i-20260814/`.
+- The route was strict-cheatless and width/bridge clean (601 non-empty
+  captures, max width 80, zero over-wide rows, zero bridge errors). No new
+  issue was confirmed. Keep the victory claim limited to the disposable
+  debug-assisted fixture.

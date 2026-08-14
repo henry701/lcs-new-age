@@ -6515,3 +6515,20 @@ reached. Captures and source hashes are under
   empty `#lcs-playtest-errors` channel. No new translation/layout issue was
   confirmed and no ticket was filed. Route details are in
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-president-20260814/route.md`.
+
+## 2026-08-14 — fresh strict stock Portuguese Oval Office follow-up
+
+- Session `stock-victory-oval-20260814-r2` used the strict headless wrapper on
+  Flutter web-server port `9305`, with an isolated `?playtest=1` DOM-bridge
+  session. No debug flags, save fixtures, headed browser, CDP attach, or
+  source edits were used.
+- This distinct high-charisma route funded ordinary donation solicitation,
+  explored Seattle's used-car route, and exercised normal car theft. Two
+  Sportscar attempts triggered police pursuit and escape; a later Bug attempt
+  remained in the ordinary hotwire loop after repeated failures. Because no
+  vehicle was secured, travel to Washington and the White House/Oval Office
+  was unavailable.
+- The route stopped honestly with `victory:false`, `gameOver:false`,
+  `cheats:false`, and `debugAssisted:false`; no translation/layout issue was
+  confirmed. Evidence and the capture audit are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-oval-20260814/`.

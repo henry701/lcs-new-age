@@ -1857,3 +1857,17 @@ the residual queue.
   House, followed by `T` talk/recruitment where available, before attempting
   cabinet sleeper actions. Keep this run marked blocked, not victory; no issue
   ticket was confirmed.
+
+## 2026-08-14 — stock Oval Office route: vehicle acquisition blocker
+
+- A fresh Portuguese high-charisma founder funded the squad through ordinary
+  donation solicitation and reached the Seattle used-car route. With no
+  questionnaire car (the route deliberately chose the law-student sleeper),
+  every dealership option was unaffordable, so the route used the stock
+  `Roubar um Carro` activity.
+- Sportscar thefts triggered normal police pursuit; a later Bug theft found a
+  car but stayed in the hotwire loop after repeated failed attempts. No car
+  entered the squad, so Washington/White House travel was not possible.
+- Keep this as a bounded stock blocker, not victory evidence. Captures,
+  summary, and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-oval-20260814/`.

@@ -6532,3 +6532,18 @@ reached. Captures and source hashes are under
   `cheats:false`, and `debugAssisted:false`; no translation/layout issue was
   confirmed. Evidence and the capture audit are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-oval-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese car-to-White-House route
+
+- Session `stock-victory-car-20260814` used the strict headless wrapper on
+  Flutter web-server port `9306`, with Portuguese selected through the normal
+  menu. The questionnaire selected sports-car transport, and no debug flags,
+  save fixtures, source edits, headed browser, or CDP attach were used.
+- Ordinary donations funded travel from Seattle through Washington, DC and the
+  National Mall to the White House. The route reached the Level 2 map, talked
+  with guards, explored, and attempted to proceed toward the executive area.
+- Sneaking past the Secret Service triggered normal combat before any Oval
+  Office/president interaction. The honest summary is
+  `victory:false`, `gameOver:false`, `cheats:false`, and `debugAssisted:false`;
+  no translation/layout issue was confirmed. Evidence and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-car-20260814/`.

@@ -1871,3 +1871,13 @@ the residual queue.
 - Keep this as a bounded stock blocker, not victory evidence. Captures,
   summary, and metrics are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-oval-20260814/`.
+
+## 2026-08-14 — stock car-to-White-House route reached Secret Service combat
+
+- A fresh questionnaire-selected sports-car route removed the prior vehicle
+  acquisition blocker and reached the White House Level 2 map through ordinary
+  donations and travel.
+- Guard dialogue and exploration remained width-safe, but sneaking toward the
+  executive area triggered normal Secret Service combat before an Oval Office
+  interaction. Keep it as blocked stock coverage, not victory evidence.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-car-20260814/`.

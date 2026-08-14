@@ -7121,3 +7121,18 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-n-20260814/`.
 - No new translation or layout finding was confirmed. Natural victory remains
   unobserved after this sustained-advocacy route.
+
+## 2026-08-14 — Oval Office sleeper probe O
+
+- `stock-victory-o-20260814` used a fresh stock Portuguese founder with a
+  security uniform, ordinary recruitment, a stolen pickup, and travel to the
+  White House. It reached the Oval Office map without cheats or fixtures.
+- The metal detector still triggered suspicion. One ordinary flee reset the
+  encounter, but re-entry immediately produced `CONSERVADORES ALARMADOS`; the
+  President could not be contacted and no victory/game-over terminal appeared.
+- The strict-headless route retained 369 valid captures, maximum width 80,
+  zero over-wide rows, zero bridge errors, and zero document overflow. All
+  assistance flags were false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-o-20260814/`.
+- No new translation or layout finding was confirmed. This is a clean
+  President-contact blocker, not victory evidence.

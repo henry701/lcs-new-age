@@ -2262,3 +2262,13 @@ routes are optional breadth coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-n-20260814/`.
 - No natural victory appeared; retain the debug-assisted fixture as the only
   observed victory evidence.
+
+## 2026-08-14 — Oval Office sleeper probe O
+
+- Route O reached the White House with a security-uniform founder and a stolen
+  pickup, but the metal detector triggered the alarm. A flee reset once;
+  re-entry returned `CONSERVADORES ALARMADOS`, blocking contact with the
+  President.
+- It was a strict stock-cheatless Portuguese blocker (369 valid captures,
+  max width 80, zero over-wide rows, zero bridge errors), with no new issue.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-o-20260814/`.

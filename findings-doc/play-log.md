@@ -6927,6 +6927,25 @@ reached. Captures and source hashes are under
   used no cheats, fixtures, debug flags, CDP attach, or production edits.
 - Verifier evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt391-20260814/`.
 
+## 2026-08-14 — fresh stock victory and game-over routes F/C
+
+- `stock-victory-f-20260814` used a distinct Portuguese electoral/legal
+  coalition route: legal donations, a Liberal Judge recruit, a journalist
+  attempt, fundraising, and the Seattle Forum. It stalled on 27 January 2023
+  before any political terminal. The fresh strict-headless run used no cheats,
+  debug flags, fixtures, save import, or CDP attachment; 175 captures stayed
+  25×80 with zero over-wide rows and zero bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-f-20260814/electoral-route/`.
+- `stock-gameover-c-20260814` used a deliberately weak one-person Jenny Maddow
+  squad against an active CCS, then entered the Death Squad HQ and Desert Eagle
+  Bar bouncer encounter. Armed Conservatives appeared, but the route stalled
+  before a combat round, losses, or a game-over terminal. It used no cheats,
+  debug flags, fixtures, save import, or CDP attachment; 52 captures stayed
+  25×80 with zero over-wide rows and zero bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-gameover-c-20260814/`.
+- Neither route reached `Ending.victory`; no new translation or layout finding
+  was confirmed.
+
 ## 2026-08-14 — PT-395 code prober
 
 - A disposable Flutter test initialized `pt_BR`, called `generateFiller(1)`

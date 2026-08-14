@@ -2154,3 +2154,15 @@ routes are optional breadth coverage.
   every screen stayed 25×80 with zero over-wide rows and zero bridge errors.
   Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt395-20260814/`.
   PT-395 is **Closed / Fixed**.
+
+## 2026-08-14 — fresh stock routes F/C
+
+- The electoral/legal coalition route `stock-victory-f-20260814` reached a
+  Liberal Judge recruitment and Seattle Forum branch, then stalled on 27
+  January 2023 without victory or game-over. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-f-20260814/electoral-route/`.
+- The weak one-person combat route `stock-gameover-c-20260814` reached armed
+  Conservatives at the CCS bouncer but stalled before combat. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-gameover-c-20260814/`.
+- Both strict-headless Portuguese runs were stock-cheatless and width-safe;
+  neither produced a new issue. Keep the victory/game-over campaign open.

@@ -2276,6 +2276,19 @@ routes are optional breadth coverage.
   work must use a reliably navigated White House path and retain the exact
   site-map coordinates before any interaction.
 
+## 2026-08-14 — direct White House corridor probe Q
+
+- Route Q tested a different stock setup: a low-resource homeless founder
+  entered Washington, DC on foot, crossed National Mall, and reached White
+  House level 2.
+- The first detector conversation stayed Portuguese and layout-safe, but the
+  four-guard Secret Service corridor blocked progress before the Oval Office.
+  It remained clean-cheatless (42 captures, max width 80, zero over-wide rows,
+  bridge errors, or overflow) with no victory/game-over terminal.
+- Keep this as independent navigation-blocker evidence. It adds no PT ticket;
+  future victory work needs a route that reliably bypasses or neutralizes this
+  corridor without debug assistance.
+
 ## 2026-08-14 — Oval Office sleeper probe O
 
 - Route O reached the White House with a security-uniform founder and a stolen

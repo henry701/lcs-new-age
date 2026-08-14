@@ -7156,3 +7156,20 @@ reached. Captures and source hashes are under
 - No new translation or layout finding was confirmed. Natural victory remains
   unobserved; the only victory evidence is the disposable debug-assisted
   fixture.
+
+## 2026-08-14 — direct White House corridor probe Q
+
+- `stock-victory-q-20260814` used a fresh Portuguese stock-cheatless session
+  with a distinct low-resource route: a homeless founder started in DC, moved
+  through National Mall, and entered White House level 2 on foot.
+- The route passed the initial detector interaction (`Dia tranquilo, hoje.`),
+  then reached a four-guard Secret Service corridor and stopped before the
+  Oval Office or President sleeper interaction. No victory or game-over
+  terminal appeared.
+- The replay retained 42 non-empty captures, maximum width 80, zero over-wide
+  rows, zero bridge errors, and zero document overflow. All assistance flags
+  (`cheats`, `debugAssisted`, fixtures, save imports, CDP, headed browser, and
+  source edits) were false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-q-20260814/`.
+- No new translation or layout finding was confirmed. This is another clean
+  White House navigation blocker, not victory evidence.

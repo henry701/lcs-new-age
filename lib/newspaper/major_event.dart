@@ -1864,7 +1864,10 @@ MajorEventContent generateMajorEventContent(
             {
               "city": randomCityName(),
               "bookTitle": bookTitle,
-              "authorPossessive": LcsI18n.tr(author.gender.hisHer),
+              "authorPossessive": LcsI18n.translatePronoun(
+                author.gender.hisHer,
+                role: PronounRole.possessive,
+              ),
               "politicianName": politicianName,
               "callToAction": callToAction,
             },

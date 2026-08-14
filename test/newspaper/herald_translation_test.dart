@@ -189,6 +189,72 @@ void main() {
     },
   );
 
+  test(
+    'Portuguese Clinic Regret stories use gendered possessive pronouns',
+    () async {
+      const expectedPossessives = {1: 'dela', 2: 'dele'};
+
+      for (final entry in expectedPossessives.entries) {
+        reseedRNG(seed: entry.key);
+        final story = NewsStory.unpublished(NewsStories.majorEvent)
+          ..publication = Publication.herald
+          ..view = View.womensRights;
+        final content = generateMajorEventContent(
+          View.womensRights,
+          false,
+          story,
+        );
+
+        expect(
+          content.storyText,
+          contains('dedicou a aposentadoria ${entry.value}'),
+          reason: 'seed ${entry.key}',
+        );
+        expect(content.storyText, isNot(contains('aposentadoria ela')));
+        expect(content.storyText, isNot(contains('aposentadoria ele')));
+
+        reseedRNG(seed: entry.key);
+        final renderedStory = NewsStory.unpublished(NewsStories.majorEvent)
+          ..publication = Publication.herald
+          ..view = View.womensRights;
+        expect(
+          () => displayMajorEventStory(
+            renderedStory,
+            List<int>.filled(25, 1),
+            List<int>.filled(25, 78),
+          ),
+          returnsNormally,
+          reason: 'seed ${entry.key}',
+        );
+        expect(
+          renderedStory.body,
+          contains('dedicou a aposentadoria ${entry.value}'),
+        );
+        expect(console.buffer.every((row) => row.length == 80), isTrue);
+        erase();
+      }
+
+      await LcsI18n.initialize('en_US');
+      const englishPossessives = {1: 'her', 2: 'his'};
+      for (final entry in englishPossessives.entries) {
+        reseedRNG(seed: entry.key);
+        final story = NewsStory.unpublished(NewsStories.majorEvent)
+          ..publication = Publication.herald
+          ..view = View.womensRights;
+        final content = generateMajorEventContent(
+          View.womensRights,
+          false,
+          story,
+        );
+        expect(
+          content.storyText,
+          contains('dedicated ${entry.value} retirement'),
+          reason: 'English seed ${entry.key}',
+        );
+      }
+    },
+  );
+
   test('drug-study article uses grammatical Portuguese composition', () {
     expect(LcsI18n.tr('legalizing'), equals('a legalização de '));
     expect(LcsI18n.tr('decriminalizing'), equals('a descriminalização de '));

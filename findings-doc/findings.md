@@ -6217,7 +6217,7 @@ bridge errors. Evidence:
 - Severity: Medium
 - Type: Newspaper translation/context
 - Screen: Portuguese newspaper → generated major event about `The Abortion Files`
-- Replay status: **Open; confirmed in a fresh strict-headless stock replay**
+- Replay status: **Closed after fixer and independent verifier replay**
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-media-recruitment-20260814/141-arrival.json`
 
 ### Reproduction
@@ -6245,3 +6245,16 @@ Use a Portuguese possessive form that agrees with the template (for example
 `sua` or `dela`) while preserving the English and other-locale paths. Add a
 deterministic regression for both author genders and an independent fresh
 headless replay before closing PT-388.
+
+### Resolution and verification
+
+`major_event.dart` now passes `PronounRole.possessive` to the transparent
+pronoun translator. The regression covers deterministic feminine and masculine
+authors (`dela`/`dele`), English `her`/`his`, newspaper rendering, and 25×80
+rows. The fixer validation passed. Independent session
+`verify-pt388-fresh-20260814-r2` used a fresh strict-headless Portuguese
+session; its deterministic replay produced `dedicou a aposentadoria dela` and
+`dedicou a aposentadoria dele`, with neither malformed subject-pronoun form.
+The focused Herald suite passed all 31 tests; fresh captures were 25×80 with
+zero over-wide rows and zero bridge errors. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt388-20260814/`.

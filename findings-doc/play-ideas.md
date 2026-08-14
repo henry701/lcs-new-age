@@ -2001,3 +2001,13 @@ routes are optional breadth coverage.
   police-pursuit route to the normal Portuguese game-over with no crash or
   failure-report screen. Keep the verifier artifacts as the canonical replay:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt387-20260814/`.
+
+## 2026-08-14 — PT-388 closed after independent replay
+
+- `major_event.dart` now requests the possessive pronoun role, so the
+  abortion-book story renders `dela`/`dele` instead of subject `ela`/`ele`.
+- Independent fresh strict-headless Portuguese verification passed the
+  deterministic gender replay and all 31 Herald tests; browser captures stayed
+  25×80 with zero over-wide rows and zero bridge errors.
+- Keep the verifier artifacts as the canonical replay:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt388-20260814/`.

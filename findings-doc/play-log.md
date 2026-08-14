@@ -6754,3 +6754,16 @@ reached. Captures and source hashes are under
 - Captures stayed at 25×80 with zero over-wide rows and no bridge errors before
   the route continued. Evidence and metrics are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-media-recruitment-20260814/`.
+
+## 2026-08-14 — PT-388 fixed and independently verified
+
+- The production fix passes `PronounRole.possessive` for the abortion-book
+  author, and the deterministic regression covers both author genders plus
+  English fallback and 25×80 newspaper rendering.
+- Independent strict-headless session `verify-pt388-fresh-20260814-r2` used a
+  fresh Flutter web-server and Portuguese DOM-bridge session. Its replay
+  produced `dedicou a aposentadoria dela` and `dedicou a aposentadoria dele`,
+  never `aposentadoria ela/ele`; the Herald suite passed all 31 tests.
+- The four fresh browser captures were 25×80 with zero over-wide rows and zero
+  bridge errors. PT-388 is closed. Verifier artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt388-20260814/`.

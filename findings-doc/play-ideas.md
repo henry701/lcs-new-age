@@ -2113,6 +2113,13 @@ routes are optional breadth coverage.
   valid captures were width-safe (max 80) and bridge-error free, with no raw
   English alarm template. PT-394 is **Closed / Fixed**.
 
+## 2026-08-14 — PT-393 independent verification closure
+
+- Fresh session `verify-pt393-fresh-20260814-r4` reached the Portuguese CCS
+  bouncer and rendered `Soldado` for the formerly raw `Soldier` role. All seven
+  fixed role keys had zero raw hits in 21 valid captures, which stayed at max
+  width 80 with no bridge errors. PT-393 is **Closed / Fixed**.
+
 ## 2026-08-14 — PT-392 verification closure
 
 - Fresh session `verify-pt392-fresh-20260814` reached translated CCS newspaper

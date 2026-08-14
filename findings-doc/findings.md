@@ -6454,7 +6454,7 @@ were used. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt39
 - Type: Combat translation
 - Screen: Portuguese stock route → CCS safehouse → bouncer combat roster and
   hit log
-- Replay status: **Fixed-pending-verification**
+- Replay status: **Closed / Fixed**
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/202c-fight-guard.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/210c-fight-08.json`
 
 ### Reproduction
@@ -6477,7 +6477,7 @@ Add a Portuguese catalog entry such as `Soldado` and preserve the English
 fallback. Add deterministic CCS encounter coverage and a fresh strict-headless
 replay before closing PT-393.
 
-### Fix (pending independent verification)
+### Fix and verification
 
 The canonical English and Portuguese catalogs now cover all seven missing
 generated CCS cover roles: `Soldier`, `Transient`, `Crackhead`, `Telemarketer`,
@@ -6485,9 +6485,14 @@ generated CCS cover roles: `Soldier`, `Transient`, `Crackhead`, `Telemarketer`,
 unchanged. The focused
 `test/sitemode/ccs_cover_role_translation_test.dart` regression exercises the
 complete fixed-role pool through `localizedCreatureNameValue`; the runtime and
-static catalog suites plus canonical ARB validation pass. A fresh
-strict-headless Portuguese combat replay is still required before closing
-PT-393.
+static catalog suites plus canonical ARB validation pass. Fresh strict-headless
+session `verify-pt393-fresh-20260814-r4` then rendered the bouncer roster as
+`Soldado`; all seven formerly missing English role keys had zero raw hits in 21
+valid captures. Captures were 25 rows with maximum width 80, zero over-wide
+rows, and zero bridge errors. No fixtures, cheats, debug flags, CDP attachment,
+or production edits were used. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt393-fresh-20260814-r4/`.
+PT-393 is **Closed / Fixed**.
 
 ## PT-394: Portuguese CCS bouncer and alarm messages expose hard-coded English text
 

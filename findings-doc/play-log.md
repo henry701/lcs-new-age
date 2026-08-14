@@ -6863,6 +6863,17 @@ reached. Captures and source hashes are under
   **Closed / Fixed**. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt394-root-20260814/`.
 
+## 2026-08-14 — PT-393 independent verification closure
+
+- Fresh strict-headless session `verify-pt393-fresh-20260814-r4` used the
+  normal Portuguese active-CCS route to the Desert Eagle bouncer and combat.
+  The roster rendered `Soldado`; the seven fixed English role keys had zero raw
+  hits across 21 valid captures.
+- Captures measured 25 rows with max width 80, zero over-wide rows, and zero
+  bridge errors. No fixtures, cheats, debug flags, CDP attachment, or
+  production edits were used. PT-393 is **Closed / Fixed**. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt393-fresh-20260814-r4/`.
+
 ## 2026-08-14 — PT-392 independent verification closure
 
 - Fresh strict-headless session `verify-pt392-fresh-20260814` used a stock

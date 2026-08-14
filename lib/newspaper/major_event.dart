@@ -1657,6 +1657,18 @@ MajorEventContent generateMajorEventContent(
               );
               protesting = LcsI18n.tr("kicking up all this fuss");
             }
+            if (LcsI18n.currentLocale == "pt_BR") {
+              civilRightsMarch = LcsI18n.tr(
+                ns.publicationAlignment == DeepAlignment.archConservative
+                    ? "a bunch of black people"
+                    : "a large civil rights march",
+              );
+              marchers = LcsI18n.tr(
+                ns.publicationAlignment == DeepAlignment.archConservative
+                    ? "the black people"
+                    : "the marchers",
+              );
+            }
 
             return MajorEventContent(
               headline: "JAMMED UP",

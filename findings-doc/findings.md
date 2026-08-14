@@ -219,6 +219,7 @@
 | PT-382 | Medium | High-score layout | Three-digit Portuguese flag counts clip at the right edge |
 | PT-383 | Medium | Newspaper layout | Translated decorative masthead strings clip at fixed right columns |
 | PT-384 | Medium | Sleeper-management layout | Long Portuguese sleeper profession overwrites the site column |
+| PT-385 | Medium | Newspaper translation/context | Arch-conservative civil-rights story produces broken Portuguese agreement |
 
 ## PT-001: Save-management option is clipped
 
@@ -6125,3 +6126,37 @@ the bulk row rendered `Estudante Uni…`, blank separator, intact `50%`, and a
 `UniversiSEAio`/`Unive23%` corruption. Focused
 `flutter test test/basemode/pt_br_core_layout_test.dart` also passed all 31
 tests. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt384-20260814/`.
+
+## PT-385: Arch-conservative civil-rights story produces broken Portuguese agreement
+
+- Severity: Medium
+- Type: Newspaper translation/context
+- Screen: Portuguese newspaper → `JAMMED UP` major event (arch-conservative publication)
+- Replay status: **Fixed; independently verified after a fresh strict stock-cheatless reproduction**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-politics-20260814/39-wait-12.json`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign through the normal language menu.
+2. Assign the founder to `Escrever Artigos do Guardião Liberal` and wait through the January month roll-over.
+3. At the generated newspaper screen, inspect an arch-conservative `JAMMED UP` civil-rights story.
+
+### Actual
+
+The live Portuguese story begins `Wichita, KS - Uma um monte de pessoas negras bloqueou...` and later says `Embora os pessoas negras tenham saído...`. The template already supplies `Uma` and `os`, but the arch-conservative substitutions are translated as `um monte de pessoas negras` and `pessoas negras`; the resulting article has a duplicated article and masculine plural agreement error. This is a composed-template defect, not intentional satire or a missing proper-name translation.
+
+### Resolution and independent verification
+
+The Portuguese catalog now owns the article-bearing noun fragments for both the
+neutral and arch-conservative branches, and the Portuguese story template no
+longer supplies fixed `Uma`/`os` articles around those fragments. The source
+selects the context-specific keys only for `pt_BR`; English and other locales
+retain their existing template path. A focused regression covers both
+publication alignments.
+
+An independent source-level harness rendered neutral Herald and
+arch-conservative AM Radio stories from fresh deterministic seeds. Both
+contained the expected Portuguese phrases, rejected `Uma um monte` and `os
+pessoas`, and rendered as 25 rows of 80 cells. The focused newspaper suite (30
+tests) and `dart run scripts/validate.dart` also passed. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt385-20260814/`.

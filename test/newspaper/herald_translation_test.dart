@@ -386,6 +386,47 @@ void main() {
   });
 
   test(
+    'Portuguese civil-rights articles keep branch-specific noun articles',
+    () {
+      MajorEventContent? jammedUpStory(Publication publication) {
+        reseedRNG(seed: 20260815);
+        for (var i = 0; i < 100; i++) {
+          final story = NewsStory.unpublished(NewsStories.majorEvent)
+            ..publication = publication;
+          final content = generateMajorEventContent(
+            View.civilRights,
+            false,
+            story,
+          );
+          if (content.headline == 'JAMMED UP') return content;
+        }
+        return null;
+      }
+
+      final neutral = jammedUpStory(Publication.herald);
+      final archConservative = jammedUpStory(Publication.amRadio);
+
+      expect(neutral, isNotNull);
+      expect(archConservative, isNotNull);
+      expect(
+        neutral!.storyText,
+        contains('Uma grande marcha pelos direitos civis bloqueou'),
+      );
+      expect(neutral.storyText, contains('Embora os manifestantes tenham'));
+      expect(
+        archConservative!.storyText,
+        contains('Um monte de pessoas negras bloqueou'),
+      );
+      expect(
+        archConservative.storyText,
+        contains('Embora as pessoas negras tenham'),
+      );
+      expect(archConservative.storyText, isNot(contains('Uma um monte')));
+      expect(archConservative.storyText, isNot(contains('os pessoas')));
+    },
+  );
+
+  test(
     'Portuguese child-killing conditions agree with the feminine plural subject',
     () {
       expect(

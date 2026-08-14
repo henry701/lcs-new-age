@@ -6547,3 +6547,33 @@ reached. Captures and source hashes are under
   `victory:false`, `gameOver:false`, `cheats:false`, and `debugAssisted:false`;
   no translation/layout issue was confirmed. Evidence and metrics are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-car-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese politics/media route
+
+- Session `stock-victory-politics-20260814` used Flutter web-server port
+  `9307` and the strict headless wrapper with the `?playtest=1` DOM bridge.
+  No debug flags, save fixtures, headed browser, CDP attach, or production
+  source edits were used.
+- The politics/media strategy selected a high-charisma/persuasion founder,
+  assigned `Escrever Artigos do Guardião Liberal`, reviewed media, and waited
+  through the January rollover. It stalled at the generated Portuguese
+  newspaper screen on 26 January 2023 when repeated `W` inputs did not advance
+  the view; it did not reach `Ending.victory` or game-over.
+- 43 captures stayed at `maxRow:80` with no over-wide rows or bridge errors.
+  The `JAMMED UP` story exposed PT-385: `Uma um monte de pessoas negras` and
+  `Embora os pessoas negras`, a composed Portuguese article with duplicated
+  and mismatched agreement. Ticket details and evidence are in
+  `findings-doc/findings.md`; the live buffer is
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-politics-20260814/39-wait-12.json`.
+
+## 2026-08-14 — PT-385 fix independently verified
+
+- The Portuguese catalog now supplies article-aware noun fragments for the
+  neutral and arch-conservative `JAMMED UP` branches, while the Portuguese
+  template no longer duplicates fixed articles.
+- An independent deterministic harness rendered both branches at 25×80,
+  with the expected `Uma grande marcha...`/`Embora os manifestantes...` and
+  `Um monte de pessoas negras...`/`Embora as pessoas negras...` phrases and
+  no `Uma um monte` or `os pessoas` corruption. The focused newspaper suite
+  (30 tests) and translation validation passed.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt385-20260814/`.

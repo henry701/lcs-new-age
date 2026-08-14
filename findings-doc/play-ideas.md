@@ -1881,3 +1881,22 @@ the residual queue.
   executive area triggered normal Secret Service combat before an Oval Office
   interaction. Keep it as blocked stock coverage, not victory evidence.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-car-20260814/`.
+
+## 2026-08-14 — politics/media route and PT-385
+
+- Fresh strict stock-cheatless session `stock-victory-politics-20260814`
+  reached the 26 January generated newspaper after assigning the founder to
+  write Liberal Guardian articles. It stalled on the newspaper view rather
+  than claiming a terminal; metrics stayed at 25×80 with no bridge errors.
+- The arch-conservative `JAMMED UP` civil-rights article is a new confirmed
+  translation/composition issue: `Uma um monte de pessoas negras` and
+  `Embora os pessoas negras`. Track as PT-385 and add deterministic neutral/
+  arch-conservative newspaper coverage before closing it.
+- Route artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-politics-20260814/`.
+
+### PT-385 closure (2026-08-14)
+
+The article-aware catalog/template fix is independently verified for both
+publication alignments by a fresh 25×80 deterministic harness and the focused
+newspaper/translation suites. No further PT-385 work is open; future media
+routes are optional breadth coverage.

@@ -7085,3 +7085,22 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-l-20260814/`.
 - No new translation or layout finding was confirmed; natural victory remains
   unobserved.
+
+## 2026-08-14 — multi-election stock campaign M
+
+- `stock-victory-m-20260814` used a fresh stock Portuguese game and recruited a
+  broader legitimate roster: university, journalist, law, and persuasion
+  candidates. Activities were assigned across Guardian writing, community
+  service, law practice, and persuasion while the campaign processed repeated
+  agendas and elections.
+- It advanced about 783 calendar days (800 daily waits) to 22 February 2025.
+  The final politics screen still showed conservative laws and no
+  `Ending.victory` or game-over terminal; this is a long-run blocker, not a
+  victory claim.
+- The strict-headless replay retained 1,532 valid non-empty captures, maximum
+  row width 80, zero over-wide rows, zero bridge errors, and zero layout
+  overflow. `cheats`, `debugAssisted`, fixtures, save imports, CDP, headed
+  browser, and source edits were all false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-m-20260814/`.
+- No new translation or layout finding was confirmed. Natural victory remains
+  unobserved after this multi-election route.

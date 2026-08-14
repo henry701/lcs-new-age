@@ -2237,3 +2237,16 @@ routes are optional breadth coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-l-20260814/`.
 - This adds long-run saturation evidence but does not establish a natural
   victory; the only observed victory remains debug-assisted.
+
+## 2026-08-14 — multi-election stock campaign M
+
+- Route M broadened the active stock roster across university, journalist, law,
+  and persuasion recruits, then assigned Guardian, community-service, law, and
+  persuasion activities. It processed roughly 783 days through 22 February
+  2025 and captured repeated agenda/election screens.
+- The final page still showed conservative laws and no victory/game-over. All
+  1,532 valid captures were 80-column and bridge-error free, with assistance
+  flags false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-m-20260814/`.
+- Keep this as multi-election saturation evidence; the only observed victory
+  remains the debug-assisted fixture.

@@ -6494,3 +6494,24 @@ reached. Captures and source hashes are under
   translation or layout defect remains; random police-alarm seeds are optional
   breadth coverage only.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-police-residual-20260814/probe-report.md`.
+
+## 2026-08-14 — fresh strict stock Portuguese president/cabinet route
+
+- Session `stock-victory-president-20260814` used Flutter web-server port
+  `9305` and the strict headless wrapper with the `?playtest=1` DOM bridge.
+  No debug flags, save fixture, headed browser, CDP attach, or production edit
+  was used.
+- The valid fresh route chose Portuguese, Times climate, Clear Blue Skies,
+  team initiative, a high-charisma/persuasion founder, ordinary legal
+  donations, and ordinary travel from New York City to Washington, DC →
+  National Mall → White House. After the travel-arrival continuation it
+  reached `DC — Casa Branca, Nível 2`; evidence is
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-president-20260814/85-arrival-continue.json`.
+- The route stopped before the Oval Office/president encounter. It contains no
+  `Ending.victory` or game-over terminal. The honest summary is
+  `victory:false`, `gameOver:false`, `cheats:false`, and `debugAssisted:false`;
+  this is not victory evidence.
+- 141 retained DOM captures report `maxRow:80`, zero over-wide rows, and an
+  empty `#lcs-playtest-errors` channel. No new translation/layout issue was
+  confirmed and no ticket was filed. Route details are in
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-president-20260814/route.md`.

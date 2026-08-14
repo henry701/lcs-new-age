@@ -1845,3 +1845,15 @@ the residual queue.
   fixed and independently verified. Remaining random police-alarm seeds are
   optional breadth coverage, not an open translation/layout defect.
 - Probe report: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-police-residual-20260814/probe-report.md`.
+
+## 2026-08-14 — executive/president follow-up
+
+- The distinct strict stock-cheatless route
+  `stock-victory-president-20260814` progressed through ordinary donation
+  funding and travel to the White House Level 2 map. This is farther than the
+  earlier recruitment-only routes, but it stopped before the Oval Office or a
+  president/cabinet interaction.
+- The next useful bounded probe is normal map navigation inside the White
+  House, followed by `T` talk/recruitment where available, before attempting
+  cabinet sleeper actions. Keep this run marked blocked, not victory; no issue
+  ticket was confirmed.

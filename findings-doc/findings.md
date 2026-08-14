@@ -218,6 +218,7 @@
 | PT-381 | Medium | Fixed-console layout | Homeless-camp siege briefing overflows in Portuguese |
 | PT-382 | Medium | High-score layout | Three-digit Portuguese flag counts clip at the right edge |
 | PT-383 | Medium | Newspaper layout | Translated decorative masthead strings clip at fixed right columns |
+| PT-384 | Medium | Sleeper-management layout | Long Portuguese sleeper profession overwrites the site column |
 
 ## PT-001: Save-management option is clipped
 
@@ -6066,3 +6067,54 @@ mastheads under `pt_BR`: `NÓS CONHECE…` and `NOSSO PRÊMIO PULIT…` ended at
 column 79. Both screens remained 25 rows by 80 columns with no over-wide rows,
 no bridge errors, and no raw English masthead strings. Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt383-20260813/`.
+
+## PT-384: Long Portuguese sleeper profession overwrites the site column
+
+- Severity: Medium
+- Type: Fixed-width sleeper-management layout
+- Screen: Portuguese base mode → Agentes Infiltrados
+- Replay status: **Fixed and independently verified in a fresh strict-headless Portuguese replay on 2026-08-14**
+- Before evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-sleeper2-pt-20260814/107-sleeper-menu.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-sleeper2-pt-20260814/108-sleeper-bulk-menu.json`
+- After evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt384-20260814/10-single-sleeper.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt384-20260814/11-bulk-sleeper.json`, with cell metrics in the matching `*-metrics.json` files and full replay notes in `verification-summary.md`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign and recruit a college
+   student as a sleeper (the route reached this naturally after ordinary
+   donation and political-recruitment steps).
+2. From base mode, open `B - Agentes Infiltrados`.
+3. Inspect the sleeper table row containing the `Estudante Universitário`
+   profession.
+
+### Actual
+
+The row renders `Estudante UniversiSEAio`. The localized profession is written
+unbounded at column 24, while the short city site cell begins at column 42, so
+the legitimate `SEA` value overwrites the middle of `Universitário` and the
+trailing `io` spills after it. The bulk table has
+the same defect at its tighter columns: `Estudante Unive23%táMantendo Discriç…`
+merges the profession, effectiveness, current-activity, and bulk-action cells.
+Both rows remain 80 cells wide and report no bridge error, but the profession,
+site/metadata, and activity values are corrupted. This is distinct from PT-181
+(which bounded the site cell) and PT-203 (which bounded sleeper names); the
+job/profession cell itself still has no width budget.
+
+### Expected / recommendation
+
+Bound the profession/job cell to the space before column 42 (with a separator
+or ellipsis) in both single-sleeper and bulk activation tables. Add a focused
+regression using `Estudante Universitário` that asserts the site column remains
+intact and no row exceeds 80 cells.
+
+### Independent verification result
+
+The fixer bounds the single-sleeper profession to 17 cells and the bulk
+profession to 14 cells. In a fresh wrapper-only `HeadlessChrome/150.0.0.0`
+replay with a disposable college-student sleeper fixture, the single row
+rendered `Estudante Univer…` followed by a blank separator and intact `SEA`;
+the bulk row rendered `Estudante Uni…`, blank separator, intact `50%`, and a
+17-cell `Promovendo o Lib…` activity field. Both captures measured 25×80 with
+`maxRow=80`, `overWideRows=[]`, empty bridge errors, and no
+`UniversiSEAio`/`Unive23%` corruption. Focused
+`flutter test test/basemode/pt_br_core_layout_test.dart` also passed all 31
+tests. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt384-20260814/`.

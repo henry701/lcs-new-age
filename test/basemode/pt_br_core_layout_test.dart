@@ -9,6 +9,7 @@ import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_creature_info.dart';
 import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
@@ -646,6 +647,60 @@ void main() {
           'Pressione uma letra para atribuir uma atividade; um número para selecioná-la.',
         ),
       );
+    },
+  );
+
+  test(
+    'Portuguese sleeper professions stay inside site and activity columns',
+    () async {
+      final sleeper =
+          Creature.fromId(
+              CreatureTypeIds.collegeStudent,
+              align: Alignment.liberal,
+            )
+            ..name = 'Estudante'
+            ..sleeperAgent = true
+            ..infiltration = 0.5
+            ..activity = Activity(ActivityType.sleeperLiberal);
+      final city = City('Seattle, WA', 'SEA', 'Birthplace of the LCS');
+      sleeper.workLocation = city;
+      cities.add(city);
+      pool.add(sleeper);
+
+      try {
+        console.injectKey('x');
+        await activateSleepers();
+
+        final profession = LcsI18n.tr(sleeper.type.name);
+        expect(
+          _consoleCells(2, 24, 42),
+          equals('${fitConsoleText(profession, 17)} '),
+        );
+        expect(console.buffer[2][41].glyph, equals(' '));
+        expect(_consoleCells(2, 42, 58).trim(), equals('SEA'));
+        expect(console.buffer[2][57].glyph, equals(' '));
+        expect(
+          _consoleCells(2, 58, console.width).trim(),
+          startsWith(LcsI18n.tr(sleeper.activity.type.label).substring(0, 9)),
+        );
+
+        console.injectKey('x');
+        await activateSleepersBulk();
+
+        expect(
+          _consoleCells(2, 20, 35),
+          equals('${fitConsoleText(profession, 14)} '),
+        );
+        expect(console.buffer[2][34].glyph, equals(' '));
+        expect(_consoleCells(2, 35, 40).trim(), equals('50%'));
+        expect(console.buffer[2][39].glyph, equals(' '));
+        expect(
+          _consoleCells(2, 40, 57),
+          equals(fitConsoleText(LcsI18n.tr(sleeper.activity.type.label), 17)),
+        );
+      } finally {
+        cities.remove(city);
+      }
     },
   );
 

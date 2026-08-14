@@ -1,5 +1,21 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-14 — high-charisma sleeper route found PT-384
+
+- A fresh stock-cheatless Portuguese route reached a naturally recruited
+  university-student sleeper after ordinary donations, a US$50 materials
+  purchase, and repeated political conversations. The route inspected both
+  `Agentes Infiltrados` tables and the sleeper action screen on 17 January
+  2023.
+- PT-384 is confirmed in captures `107-sleeper-menu.json` and
+  `108-sleeper-bulk-menu.json`: `Estudante UniversiSEAio` and
+  `Estudante Unive23%táMantendo Discriç…` show the Portuguese profession
+  overwriting site/effectiveness/activity columns. Keep the ticket open for a
+  fixer/verifier; bound the job cell in both single and bulk tables.
+- The regular sleeper header in `110-sleeper-activity.json` is clean; no
+  victory/game-over terminal was reached. Artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-sleeper2-pt-20260814/`.
+
 ## 2026-08-14 — constitution-focused stock route blocker
 
 - A fresh stock-cheatless Portuguese route verified normal founder

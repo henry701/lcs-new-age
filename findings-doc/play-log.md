@@ -1,5 +1,46 @@
 # Portuguese Play Log
 
+## 2026-08-14 — independent PT-384 verifier pass
+
+- A fresh release build of the fixer source was served from a disposable copy
+  on port 9312 and driven through the strict `agent-browser-headless.sh`
+  wrapper in session `verify-pt384-static-20260814` (`HeadlessChrome/150.0.0.0`).
+  The disposable fixture seeded one liberal `Estudante Universitário` sleeper
+  at Seattle (`SEA`) with 50% infiltration and `Promovendo o Liberalismo`.
+- The single table now fits the profession to x24–41 (`Estudante Univer…`),
+  leaves x41 blank, and preserves `SEA` at x42. The bulk table fits the
+  profession to x20–33 (`Estudante Uni…`), leaves x34 blank, preserves `50%`
+  at x35, leaves x39 blank, and fits the current activity to x40–56. Both
+  tables measured 25×80 with no over-wide rows, no bridge errors, and no
+  `UniversiSEAio`/`Unive23%` corruption.
+- Focused `flutter test test/basemode/pt_br_core_layout_test.dart` passed all
+  31 tests. PT-384 is closed as fixed and independently verified. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt384-20260814/`.
+
+## 2026-08-14 — stock high-charisma sleeper route reached PT-384
+
+- Fresh strict-headless session `stock-victory-sleeper2-pt-20260814` used the
+  repository wrapper on Flutter web-server port 9304. It selected Português
+  through the normal language menu before starting a stock-cheatless game; no
+  debug flags, fixtures, source edits, headed browser, or CDP attach were used.
+- The route chose a high-charisma biography, built US$50 through ordinary
+  donations, attempted an attorney recruit, then recruited a university
+  student through repeated political conversations and the normal materials
+  option. The student joined on 17 January 2023 and was placed as a Seattle
+  sleeper. Single and bulk sleeper-management screens plus the ordinary
+  sleeper activity screen were captured.
+- The single sleeper table reproduced PT-384 as
+  `Estudante UniversiSEAio`: the unbounded Portuguese profession at column 24
+  overwrote the `SEA` site cell beginning at column 42. The bulk table showed
+  the same cell-budget defect as `Estudante Unive23%táMantendo Discriç…`.
+  PT-384 was filed in `findings-doc/findings.md`; no source fix was attempted.
+- The ordinary sleeper action header remained clean and retained the complete
+  funds label, so PT-376 did not recur. The 181 captures were all 25×80 with
+  `maxRow: 80`, zero over-wide rows, and an empty bridge-error channel. No
+  victory or game-over terminal was reached.
+- Evidence, route, summary, and metrics:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-sleeper2-pt-20260814/`.
+
 ## 2026-08-14 — stock constitution-focused route blocked at recruitment threshold
 
 - Fresh session `stock-constitution-9297` used the strict headless wrapper and

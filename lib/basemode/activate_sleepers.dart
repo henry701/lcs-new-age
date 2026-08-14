@@ -57,7 +57,7 @@ Future<void> activateSleepers() async {
         params: {"letter": letter, "name": tempp.name},
       );
 
-      mvaddstr(y, 24, LcsI18n.tr(tempp.type.name), noTranslate: true);
+      mvaddstrFitted(y, 24, LcsI18n.tr(tempp.type.name), 17, noTranslate: true);
 
       mvaddstr(y + 1, 6, "Effectiveness: ");
 
@@ -442,7 +442,7 @@ Future<void> activateSleepersBulk() async {
         params: {"letter": letter, "name": tempp.name},
       );
       setColor(lightGray);
-      mvaddstr(y, 20, LcsI18n.tr(tempp.type.name), noTranslate: true);
+      mvaddstrFitted(y, 20, LcsI18n.tr(tempp.type.name), 14, noTranslate: true);
 
       // Show infiltration level with color coding
       if (tempp.infiltration > 0.8) {

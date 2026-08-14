@@ -2178,3 +2178,13 @@ routes are optional breadth coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-gameover-d-20260814/`.
 - Keep any victory claim explicitly debug-assisted; no stock-cheatless victory
   has been observed.
+
+## 2026-08-14 — stock sleeper/advocacy route H
+
+- Route H combined active-CCS stock setup, legal/media/education recruitment,
+  two sleeper agents, Guardian writing, and advocacy, reaching 17 February
+  2023 without a campaign terminal. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-h-20260814/`.
+- Width and bridge checks remained clean; no new finding was confirmed. The
+  natural-victory question remains unresolved, with only debug-assisted victory
+  evidence available.

@@ -6967,6 +6967,20 @@ reached. Captures and source hashes are under
   evidence remains the three earlier combat routes; the only victory evidence
   remains the disposable debug-assisted victory fixture.
 
+## 2026-08-14 — stock sleeper/advocacy route H
+
+- `stock-victory-h-20260814` selected an active-CCS stock climate and built a
+  strong legal/media/education founder. It recruited journalists, teachers,
+  lawyers, and judges; sleeperized two liberals; assigned Liberal Guardian
+  writing and Advocate Liberalism; and advanced through the February newspaper
+  cycle to 17 February 2023. No `Ending.victory` or game-over terminal appeared.
+- The strict-headless Portuguese evidence retained 262 JSON captures (260
+  non-empty), max width 80, zero over-wide rows, and zero bridge errors. All
+  assistance flags were false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-h-20260814/`.
+- This route found no new translation or layout issue. It reinforces that the
+  only observed victory remains the disposable debug-assisted fixture.
+
 ## 2026-08-14 — PT-395 code prober
 
 - A disposable Flutter test initialized `pt_BR`, called `generateFiller(1)`

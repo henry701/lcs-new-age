@@ -6251,10 +6251,11 @@ headless replay before closing PT-388.
 `major_event.dart` now passes `PronounRole.possessive` to the transparent
 pronoun translator. The regression covers deterministic feminine and masculine
 authors (`dela`/`dele`), English `her`/`his`, newspaper rendering, and 25×80
-rows. The fixer validation passed. Independent session
-`verify-pt388-fresh-20260814-r2` used a fresh strict-headless Portuguese
-session; its deterministic replay produced `dedicou a aposentadoria dela` and
-`dedicou a aposentadoria dele`, with neither malformed subject-pronoun form.
-The focused Herald suite passed all 31 tests; fresh captures were 25×80 with
-zero over-wide rows and zero bridge errors. Evidence:
+rows. The fixer validation passed. Independent fresh strict-headless stock
+sessions `verify-pt388-814-r1` and `verify-pt388-814-r2` reached the actual
+Clinic Regret article: the feminine author produced `dedicou a aposentadoria
+dela` and the masculine author produced `dedicou a aposentadoria dele`, with
+neither malformed subject-pronoun form. The focused Herald suite passed all 31
+tests and the gender replay passed. Ten evidence captures were 25×80 with zero
+over-wide rows and zero bridge errors. Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt388-20260814/`.

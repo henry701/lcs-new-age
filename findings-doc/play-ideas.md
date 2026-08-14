@@ -2006,8 +2006,10 @@ routes are optional breadth coverage.
 
 - `major_event.dart` now requests the possessive pronoun role, so the
   abortion-book story renders `dela`/`dele` instead of subject `ela`/`ele`.
-- Independent fresh strict-headless Portuguese verification passed the
-  deterministic gender replay and all 31 Herald tests; browser captures stayed
-  25×80 with zero over-wide rows and zero bridge errors.
+- Independent fresh strict-headless Portuguese stock sessions reached the
+  Clinic Regret article for both feminine and masculine authors, passed the
+  deterministic gender replay and all 31 Herald tests, and captured `dela`/
+  `dele` without malformed `ela`/`ele`. Ten browser captures stayed 25×80 with
+  zero over-wide rows and zero bridge errors.
 - Keep the verifier artifacts as the canonical replay:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt388-20260814/`.

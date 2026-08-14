@@ -6760,10 +6760,11 @@ reached. Captures and source hashes are under
 - The production fix passes `PronounRole.possessive` for the abortion-book
   author, and the deterministic regression covers both author genders plus
   English fallback and 25×80 newspaper rendering.
-- Independent strict-headless session `verify-pt388-fresh-20260814-r2` used a
-  fresh Flutter web-server and Portuguese DOM-bridge session. Its replay
-  produced `dedicou a aposentadoria dela` and `dedicou a aposentadoria dele`,
-  never `aposentadoria ela/ele`; the Herald suite passed all 31 tests.
-- The four fresh browser captures were 25×80 with zero over-wide rows and zero
-  bridge errors. PT-388 is closed. Verifier artifacts:
+- Independent fresh strict-headless stock sessions `verify-pt388-814-r1` and
+  `verify-pt388-814-r2` reached the actual Clinic Regret article. The feminine
+  author rendered `dedicou a aposentadoria dela` and the masculine author
+  rendered `dedicou a aposentadoria dele`, never `aposentadoria ela/ele`; the
+  Herald suite passed all 31 tests and the gender replay passed.
+- Ten evidence captures were 25×80 with zero over-wide rows and zero bridge
+  errors. PT-388 is closed. Verifier artifacts:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt388-20260814/`.

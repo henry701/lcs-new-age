@@ -7047,3 +7047,22 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-j-20260814/`.
 - No new translation or layout finding was confirmed; this remains honest
   blocker evidence rather than a victory claim.
+
+## 2026-08-14 — long stock political campaign K
+
+- `stock-victory-k-20260814` used a fresh Portuguese game with the ordinary
+  Blue Sky CCS setting, a political/charisma founder, a university-student
+  recruit, and a journalist recruit. The route assigned activism, Guardian
+  Liberal article writing, and law practice, then processed ordinary monthly
+  agendas and the 2024 House election.
+- It advanced from January 2023 through 21 February 2025 without a natural
+  victory or game-over terminal. The final state was an ordinary base screen
+  with moderate agenda status, so this is long-run no-terminal evidence rather
+  than a victory claim.
+- The strict-headless replay retained 2,683 non-empty captures, maximum width
+  80, zero over-wide rows, and zero bridge-error captures. `cheats`,
+  `debugAssisted`, fixtures, save imports, CDP, headed browser, and source
+  edits were all false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-k-20260814/`.
+- No new translation or layout finding was confirmed. Natural victory remains
+  unobserved even after this multi-year stock campaign.

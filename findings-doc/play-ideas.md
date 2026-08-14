@@ -2212,3 +2212,15 @@ routes are optional breadth coverage.
 - It was a clean stock-cheatless Portuguese blocker (174 captures, max width
   80, zero over-wide rows, zero bridge errors), not victory or game-over.
   Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-j-20260814/`.
+
+## 2026-08-14 — long stock political campaign K
+
+- Route K is the strongest long-run stock attempt: ordinary Blue Sky CCS
+  setup, political founder, student and journalist recruits, Guardian writing,
+  law practice, and monthly waits through 21 February 2025.
+- It remained on the ordinary base screen with no `Ending.victory` or game-over
+  terminal. The 2,683 captures were strict-cheatless, 80-column safe, and
+  bridge-error free. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-k-20260814/`.
+- Keep this as long-run blocker evidence. The only observed campaign victory
+  remains the disposable debug-assisted fixture.

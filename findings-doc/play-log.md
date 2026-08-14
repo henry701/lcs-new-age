@@ -6768,3 +6768,70 @@ reached. Captures and source hashes are under
 - Ten evidence captures were 25×80 with zero over-wide rows and zero bridge
   errors. PT-388 is closed. Verifier artifacts:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt388-20260814/`.
+
+## 2026-08-14 — direct-car stock game-over route found PT-389
+
+- Session `stock-gameover-direct-car-814-r1` used a fresh strict-headless
+  Flutter web-server on port `9353`, normal `?playtest=1` bridge, and a stock
+  Portuguese campaign. The route selected a questionnaire Sportscar theft,
+  triggered a police pursuit, chose illegal brownie selling, and fought the
+  police unit to the normal combat game-over. No cheats, fixtures, debug flags,
+  headed browser, CDP attach, or production edits were used.
+- The terminal capture is
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-gameover-direct-car-20260814/208-terminal.json`:
+  `O Esquadrão do Crime Liberal foi morto em combate em Janeiro de 2023.`
+  This is clean game-over evidence, not campaign victory.
+- 209 captures remained exactly 25×80 (`maxRow:80`) with zero over-wide rows,
+  bridge errors, `Invalid argument`, or `RELATÓRIO DE FALHA` screens. Route
+  artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-gameover-direct-car-20260814/`.
+- Capture `147-brownies-w.json` confirmed PT-389: `A polícia aborda Hiro
+  Underhill enquanto selling brownies!`. The arrest template is translated,
+  but `lib/daily/activities/fundraising.dart:60` injected raw English
+  `selling brownies`. The fixer now routes all five raw fundraising actions
+  through the Portuguese catalog; PT-389 is Fixed-pending-verification until
+  an independent strict-headless replay passes.
+
+## 2026-08-14 — stock CCS combat game-over route found PT-390–PT-392
+
+- Session `stock-campaign-terminal3-20260814` used fresh strict-headless
+  browser sessions against a fresh Flutter web-server on port 9407. It
+  selected Português through the normal language menu, enabled the active CCS
+  and zipper combat options, waited through an ordinary January newspaper
+  cycle, entered the normal `Desert Eagle Bar e Grill (Esconderijo CCS)`, and
+  fought the stock encounter to a natural terminal. No fixtures, cheats,
+  debug flags, headed browser, CDP attach, or production edits were used.
+- Terminal capture:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/243c-reflect-conservatives.json`:
+  `A Elite Liberal` / `O Esquadrão do Crime Liberal foi morto em combate em
+  Janeiro de 2023.`. Title-screen return: `244c-highscores-after-terminal.json`.
+- The route retained 246 non-empty DOM-bridge captures; every capture measured
+  exactly 25 rows with `maxRow: 80`, zero over-wide rows, and an empty bridge
+  error channel. Metrics and source configuration are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/metrics-all.json`
+  and `source-config.txt`.
+- PT-390 is the hard-coded ad copy `Call for Details` / `Sale` in
+  `150c-wait2-01.json` (`lib/newspaper/ads.dart`). PT-391 is the hard-coded
+  crime-list conjunction `and` in `176c-wait2-14.json`
+  (`lib/newspaper/display_news.dart:493-501`). PT-392 is the hard-coded CCS
+  spoof-location names `Research Ethics Commission HQ`, `Labor Union HQ`, and
+  `Public Radio Station` in `170c-wait2-11.json`, `176c-wait2-14.json`, and
+  `184c-wait2-18.json` (`lib/newspaper/squad_story_text.dart:272-293`). All
+  three remain Open for separate prober/fixer/verifier passes.
+
+## 2026-08-14 — PT-389 and PT-390 fresh verification
+
+- Independent strict-headless session `verify-pt389-fresh-20260814-r5` used a
+  fresh Portuguese stock game, assigned `Vendendo Brownies`, and reached the
+  police branch on 26 January 2023. The live buffer rendered `A polícia aborda
+  Danielle Hammond enquanto vendendo brownies!`; no raw `selling brownies`
+  warning appeared. The replay recorded 59 width-safe captures with zero
+  over-wide rows, bridge errors, invalid-argument errors, or failure reports.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt389-20260814-fresh/r5/`.
+- Independent strict-headless session `verify-pt390-20260814-r1` reached a
+  Portuguese newspaper page with ads. The fresh capture rendered translated
+  labels such as `Mercado de Pulgas de Paris`, `Oferta`, `50% de Desconto`,
+  `Cadeiras de Couro Fino`, and `Sedã 4 Portas`; scans across 120 captures found
+  no `Call for Details`, `Sale`, or `and Fitness`. All captures stayed 25×80
+  with zero over-wide rows or bridge errors. The separate PT-391 `and` leak
+  remained visible and was not counted against PT-390.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt390-20260814/`.

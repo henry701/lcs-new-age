@@ -81,54 +81,80 @@ void displaysinglead(
       // Regular Newspaper Ads
       switch (choice) {
         case 0:
-          ad = "&cNo Fee&r";
-          ad += "&cConsignment Program&r&r";
-          ad += "&cCall for Details&r";
+          ad = "&c";
+          ad += LcsI18n.tr("No Fee");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Consignment Program");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Call for Details");
+          ad += "&r";
         case 1:
-          ad = "&cFine Leather Chairs&r&r";
-          ad += "&cSpecial Purchase&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Fine Leather Chairs");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Special Purchase");
+          ad += "&r";
           ad += LcsI18n.processString("&cNow {amount}", {
-            "amount": LcsI18n.currencyAmount(
-              (lcsRandom(8) + 8) * 100 + 49.99,
-            ),
+            "amount": LcsI18n.currencyAmount((lcsRandom(8) + 8) * 100 + 49.99),
           });
           ad += "&r";
         case 2:
-          ad = "&cParis Flea Market&r&r";
-          ad += "&cSale&r";
-          ad += "&c50% Off&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Paris Flea Market");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Sale");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("50% Off");
+          ad += "&r";
         case 3:
-          ad = "&cQuality Pre-Owned&r";
-          ad += "&cVehicles&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Quality Pre-Owned");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Vehicles");
+          ad += "&r";
           ad += LcsI18n.processString("&c{year} Lexus GS 300&r", {
             "year": (2020 - lcsRandom(15)).toString(),
           });
-          ad += "&cSedan 4D&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Sedan 4D");
+          ad += "&r";
           ad += LcsI18n.processString("&cOnly {amount}", {
-            "amount": LcsI18n.currencyAmount(
-              (lcsRandom(19) + 3) * 1000 + 750,
-            ),
+            "amount": LcsI18n.currencyAmount((lcsRandom(19) + 3) * 1000 + 750),
           });
           ad += "&r";
         case 4:
-          ad = "&cSpa&r";
-          ad += "&cHealth, Beauty&r";
-          ad += "&cand Fitness&r&r";
-          ad += "&c7 Days a Week&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Spa");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Health, Beauty");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("and Fitness");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("7 Days a Week");
+          ad += "&r";
         case 5:
           ad = "&c";
           switch (lcsRandom(5)) {
             // less explicit personals in regular newspaper than Liberal Guardian
             case 0:
-              ad += "Searching For Love";
+              ad += LcsI18n.tr("Searching For Love");
             case 1:
-              ad += "Seeking Love";
+              ad += LcsI18n.tr("Seeking Love");
             case 2:
-              ad += "Are You Lonely?";
+              ad += LcsI18n.tr("Are You Lonely?");
             case 3:
-              ad += "Looking For Love";
+              ad += LcsI18n.tr("Looking For Love");
             case 4:
-              ad += "Soulmate Wanted";
+              ad += LcsI18n.tr("Soulmate Wanted");
           }
           ad += "&r&r";
           ad += LcsI18n.processString("&c{description} {who} {seeking}&r", {
@@ -141,53 +167,95 @@ void displaysinglead(
             "who": sexwho(),
           });
         default:
-          ad = "&cDebuggers Needed&r&r";
-          ad += "&cIt Seems&r";
-          ad += "&cYou've Found&r";
-          ad += "&cA Bug!&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Debuggers Needed");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("It Seems");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("You've Found");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("A Bug!");
+          ad += "&r";
       }
     } else {
       // Liberal Guardian Ads
       switch (choice) // should be 6 choices from 1 to 6
       {
         case 0:
-          ad = "&cWant Organic?&r&r";
-          ad += "&cVisit The Vegan&r";
-          ad += "&cCo-Op&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Want Organic?");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Visit The Vegan");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Co-Op");
+          ad += "&r";
         case 1:
-          ad = "&cLiberal Defense Lawyer&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Liberal Defense Lawyer");
+          ad += "&r";
           ad += "&c";
           ad += lcsRandom(11 + 20).toString();
-          ad += " Years Experience&r&r";
-          ad += "&cCall Today&r";
+          ad += " ";
+          ad += LcsI18n.tr("Years Experience");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Call Today");
+          ad += "&r";
         case 2:
-          ad = "&cAbortion Clinic&r&r";
-          ad += "&cWalk-in, No&r";
-          ad += "&cQuestions Asked&r";
-          ad += "&cOpen 24/7&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Abortion Clinic");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Walk-in, No");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Questions Asked");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Open 24/7");
+          ad += "&r";
         case 3:
-          ad = "&cMarijuana Dispensary&r&r";
-          ad += "&cNo ID Or Prescription Needed!&r";
-          ad += "&cPlease Pay In Cash.&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Marijuana Dispensary");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("No ID Or Prescription Needed!");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Please Pay In Cash.");
+          ad += "&r";
         case 4:
-          ad = "&cGot Slack?&r&r";
-          ad += "&cVisit Your Local&r";
-          ad += "&cSubGenius Clench&r";
-          ad += "&cFor More Info&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Got Slack?");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("Visit Your Local");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("SubGenius Clench");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("For More Info");
+          ad += "&r";
         case 5:
           ad = "&c";
           switch (lcsRandom(5)) {
             // more explicit personals in Liberal Guardian than regular newspaper
             case 0:
-              ad += "Searching For Sex";
+              ad += LcsI18n.tr("Searching For Sex");
             case 1:
-              ad += "Seeking Sex";
+              ad += LcsI18n.tr("Seeking Sex");
             case 2:
-              ad += "Wanna Have Sex?";
+              ad += LcsI18n.tr("Wanna Have Sex?");
             case 3:
-              ad += "Looking For Sex";
+              ad += LcsI18n.tr("Looking For Sex");
             case 4:
-              ad += "Sex Partner Wanted";
+              ad += LcsI18n.tr("Sex Partner Wanted");
           }
           ad += "&r&r";
           ad += LcsI18n.processString("&c{description} {who} {seeking}&r", {
@@ -200,10 +268,18 @@ void displaysinglead(
             "who": sexwho(),
           });
         default:
-          ad = "&cDebuggers Needed&r&r";
-          ad += "&cIt Seems&r";
-          ad += "&cYou've Found&r";
-          ad += "&cA Bug!&r";
+          ad = "&c";
+          ad += LcsI18n.tr("Debuggers Needed");
+          ad += "&r&r";
+          ad += "&c";
+          ad += LcsI18n.tr("It Seems");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("You've Found");
+          ad += "&r";
+          ad += "&c";
+          ad += LcsI18n.tr("A Bug!");
+          ad += "&r";
       }
     }
 

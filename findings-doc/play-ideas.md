@@ -2013,3 +2013,50 @@ routes are optional breadth coverage.
   zero over-wide rows and zero bridge errors.
 - Keep the verifier artifacts as the canonical replay:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt388-20260814/`.
+
+## 2026-08-14 — direct-car combat game-over route and PT-389 follow-up
+
+- A fresh strict stock-cheatless Portuguese route used the questionnaire
+  Sportscar theft branch, then let the police pursuit escalate into combat.
+  Choosing illegal brownie selling before fighting the police produced a
+  normal January combat game-over after 209 width-safe captures. Keep this as
+  independent game-over evidence, not victory evidence. Artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-gameover-direct-car-20260814/`.
+- The same route found PT-389: the Portuguese arrest warning says `A polícia
+  aborda Hiro Underhill enquanto selling brownies!`. The focused source/catalog
+  fix now covers all five raw fundraising arrest actions and preserves the
+  localized bury-body path; the independent strict-headless replay remains
+  pending. Do not fold this into the closed PT-387/388 verifications.
+
+## 2026-08-14 — stock CCS combat game-over route found PT-390–PT-392
+
+- A fresh stock-cheatless Portuguese campaign reached the CCS safehouse at
+  `Desert Eagle Bar e Grill` after an ordinary January wait cycle, then ended
+  in the natural combat terminal. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/`;
+  the terminal is `243c-reflect-conservatives.json` and the title return is
+  `244c-highscores-after-terminal.json`.
+- The 246 retained DOM captures were all 25×80 (`maxRow:80`) with no over-wide
+  rows or bridge errors. No victory was claimed; this is game-over evidence.
+- PT-390 records the ordinary Portuguese newspaper ad overlay leaking
+  `Call for Details` and `Sale` (`150c-wait2-01.json`; source
+  `lib/newspaper/ads.dart`). PT-391 records the raw English `and` list
+  separator in translated crime prose (`176c-wait2-14.json`; source
+  `lib/newspaper/display_news.dart:493-501`). PT-392 records CCS spoof-place
+  labels left in English (`Research Ethics Commission HQ`, `Labor Union HQ`,
+  `Public Radio Station`) across `170c-wait2-11.json`,
+  `176c-wait2-14.json`, and `184c-wait2-18.json`; source
+  `lib/newspaper/squad_story_text.dart:272-293`. Keep all three Open for
+  separate prober/fixer/verifier passes.
+
+## 2026-08-14 — PT-389/PT-390 verification closure
+
+- PT-389 passed an independent fresh stock-cheatless replay: the brownies
+  arrest branch rendered `A polícia aborda Danielle Hammond enquanto vendendo
+  brownies!` with no raw English action. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt389-20260814-fresh/r5/`.
+- PT-390 passed an independent fresh stock-cheatless newspaper replay. The ad
+  labels were Portuguese, with 120 width-safe captures and no raw target hits.
+  The raw `and` on that page is the separately open PT-391 finding.
+  Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt390-20260814/`.

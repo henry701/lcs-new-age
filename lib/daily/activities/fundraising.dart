@@ -8,6 +8,7 @@ import 'package:lcs_new_age/daily/activities/arrest.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -20,14 +21,16 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Future<void> doActivitySolicitDonations(List<Creature> solicit) async {
   for (Creature solicitor in solicit) {
-    if (await checkForArrest(solicitor, "soliciting donations")) continue;
+    if (await checkForArrest(solicitor, LcsI18n.tr("soliciting donations"))) {
+      continue;
+    }
     _earnMoney(solicitor, Income.donations, estimateDonationsIncome(solicitor));
   }
 }
 
 Future<void> doActivitySellTshirts(List<Creature> tshirts) async {
   for (Creature seller in tshirts) {
-    if (await checkForArrest(seller, "selling shirts")) continue;
+    if (await checkForArrest(seller, LcsI18n.tr("selling shirts"))) continue;
     _backgroundInfluenceCheck(seller, Skill.tailoring);
     _earnMoney(seller, Income.tshirts, estimateTshirtIncome(seller));
   }
@@ -35,7 +38,7 @@ Future<void> doActivitySellTshirts(List<Creature> tshirts) async {
 
 Future<void> doActivitySellArt(List<Creature> art) async {
   for (Creature artist in art) {
-    if (await checkForArrest(artist, "selling art")) continue;
+    if (await checkForArrest(artist, LcsI18n.tr("selling art"))) continue;
     _backgroundInfluenceCheck(artist, Skill.art);
     _earnMoney(artist, Income.artSales, estimateArtIncome(artist));
   }
@@ -43,7 +46,7 @@ Future<void> doActivitySellArt(List<Creature> art) async {
 
 Future<void> doActivitySellMusic(List<Creature> music) async {
   for (Creature musician in music) {
-    if (await checkForArrest(musician, "playing music")) continue;
+    if (await checkForArrest(musician, LcsI18n.tr("playing music"))) continue;
     _backgroundInfluenceCheck(musician, Skill.music);
     _earnMoney(musician, Income.busking, estimateMusicIncome(musician));
   }
@@ -57,7 +60,7 @@ Future<void> doActivitySellBrownies(List<Creature> brownies) async {
       if (busted && !baker.skillCheck(Skill.streetSmarts, Difficulty.average)) {
         sitestory = NewsStory.prepare(NewsStories.arrestGoneWrong);
         criminalize(baker, Crime.drugDistribution);
-        await attemptArrest(baker, "selling brownies");
+        await attemptArrest(baker, LcsI18n.tr("selling brownies"));
       }
     }
 

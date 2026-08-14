@@ -220,6 +220,11 @@
 | PT-383 | Medium | Newspaper layout | Translated decorative masthead strings clip at fixed right columns |
 | PT-384 | Medium | Sleeper-management layout | Long Portuguese sleeper profession overwrites the site column |
 | PT-385 | Medium | Newspaper translation/context | Arch-conservative civil-rights story produces broken Portuguese agreement |
+| PT-389 | Medium | Daily translation/context | Brownie-selling arrest message interpolates the raw English action in Portuguese |
+| PT-390 | Medium | Newspaper translation | Portuguese newspaper ads expose hard-coded English copy in normal save/news overlays |
+| PT-391 | Medium | Newspaper translation | Portuguese squad-action crime lists join translated terms with hard-coded English `and` |
+| PT-392 | Medium | Newspaper translation/context | Portuguese CCS squad stories expose hard-coded English spoof-location labels |
+| PT-393 | Medium | Combat translation | Portuguese CCS encounter roster and hit log expose the raw role `Soldier` |
 
 ## PT-001: Save-management option is clipped
 
@@ -6259,3 +6264,169 @@ neither malformed subject-pronoun form. The focused Herald suite passed all 31
 tests and the gender replay passed. Ten evidence captures were 25×80 with zero
 over-wide rows and zero bridge errors. Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt388-20260814/`.
+
+## PT-389: Portuguese brownie-selling arrest message leaks the raw English action
+
+- Severity: Medium
+- Type: Daily translation/context
+- Screen: Portuguese stock route → illegal fundraising → `Vendendo Brownies` → police arrest warning
+- Replay status: **Closed after focused tests and an independent fresh strict-headless stock replay**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-gameover-direct-car-20260814/147-brownies-w.json`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign through the normal language menu.
+2. Assign a founder to `Arrecadação Ilegal → Vender Brownies` and advance one day until the ordinary police-arrest branch occurs.
+3. Inspect the visible `#lcs-playtest-buffer` output.
+
+### Actual
+
+The Portuguese daily result renders `A polícia aborda Hiro Underhill enquanto selling brownies!`. The localized arrest template in `lib/l10n/app_pt_BR_part02.arb:259` translates the surrounding sentence but interpolates the raw English action. `lib/daily/activities/fundraising.dart:60` passes the literal `selling brownies` to `attemptArrest`, so the live stock route exposes an English gerund inside Portuguese prose.
+
+### Expected / recommendation
+
+The action should be localized in Portuguese (for example, `vendendo brownies`) while preserving the existing English and other-locale text. Route the action through a localized key or translate the activity label before interpolation, then add a deterministic regression for the Portuguese arrest branch and a fresh strict-headless replay at 25×80.
+
+### Fix and verification
+
+The five raw fundraising arrest actions now pass through `LcsI18n.tr` before
+`attemptArrest`: soliciting donations, selling shirts, selling art, playing
+music, and selling brownies. English source keys and Portuguese translations
+(`solicitando doações`, `vendendo camisetas`, `vendendo arte`, `tocando música`,
+and `vendendo brownies`) are present in the canonical hash-sharded catalogs.
+The focused regression also preserves the already-localized bury-body action.
+Independent verifier session `verify-pt389-fresh-20260814-r5` reached the real
+arrest branch on 26 January 2023. The live buffer rendered `A polícia aborda
+Danielle Hammond enquanto vendendo brownies!`, with no raw `selling brownies`
+warning. The 59-capture replay stayed 25×80 with zero over-wide rows, bridge
+errors, invalid-argument errors, or failure reports. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt389-20260814-fresh/r5/`.
+
+## PT-390: Portuguese newspaper ads expose hard-coded English copy
+
+- Severity: Medium
+- Type: Newspaper translation
+- Screen: Portuguese stock route → ordinary newspaper/save overlay
+- Replay status: **Closed after fixer tests and an independent fresh strict-headless stock replay**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/150c-wait2-01.json`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign through the normal language menu.
+2. Advance ordinary days until a newspaper/save overlay renders an ordinary ad.
+3. Inspect the visible `#lcs-playtest-buffer` output.
+
+### Actual
+
+The Portuguese overlay renders the English ad fragments `Call for Details` and
+`Sale` alongside localized news text. The same capture also shows the ad's
+English `and` in an otherwise translated row. These strings are appended
+directly in `lib/newspaper/ads.dart` (including the `Call for Details` and
+`Sale` branches) instead of going through `LcsI18n`.
+
+### Expected / recommendation
+
+Catalog the ad copy and render the Portuguese equivalents in `pt_BR` while
+preserving the English and other-locale text. Add deterministic ad coverage and
+an independent strict-headless replay before closing PT-390.
+
+### Fix and verification
+
+`lib/newspaper/ads.dart` now translates every ordinary and Liberal Guardian ad
+label through `LcsI18n.tr` before the newspaper renderer's `noTranslate` layout
+path. The corresponding English and Portuguese keys were added to the
+canonical hash-sharded catalogs. Focused ad and newspaper tests pass, and the
+ARB catalog check is clean. Independent verifier session
+`verify-pt390-20260814-r1` rendered translated labels including `Mercado de
+Pulgas de Paris`, `Oferta`, `50% de Desconto`, `Cadeiras de Couro Fino`, and
+`Sedã 4 Portas`. Across 120 captures there were zero raw `Call for Details`,
+`Sale`, or `and Fitness` hits, zero over-wide rows, and zero bridge errors. The
+separate PT-391 raw `and` remained visible and was not counted against PT-390.
+Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt390-20260814/`.
+
+## PT-391: Portuguese squad-action crime lists use hard-coded English `and`
+
+- Severity: Medium
+- Type: Newspaper translation
+- Screen: Portuguese stock route → CCS/LCS newspaper save overlay
+- Replay status: **Open; requires separate prober, fixer, and verifier passes**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/176c-wait2-14.json`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign with an active CCS.
+2. Advance ordinary days until a squad-action newspaper story contains at
+   least three crimes.
+3. Inspect the visible `#lcs-playtest-buffer` output.
+
+### Actual
+
+The Portuguese story renders `em homicídio, violência, roubo and arrombamento
+e invasão.`. The crime names are translated, but the list separator remains
+the raw English `and`. `lib/newspaper/display_news.dart:493-501` appends
+`" and "`/`", and "` directly in `addDrama` without a locale branch.
+
+### Expected / recommendation
+
+Localize the list separator (`e`/`, e`) through the existing i18n path and add
+multi-crime Portuguese newspaper regression coverage. Keep PT-391 open until a
+fresh strict-headless replay confirms no English conjunction remains.
+
+## PT-392: Portuguese CCS squad stories expose English spoof-location labels
+
+- Severity: Medium
+- Type: Newspaper translation/context
+- Screen: Portuguese stock route → CCS newspaper/save overlays
+- Replay status: **Open; requires separate prober, fixer, and verifier passes**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/170c-wait2-11.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/176c-wait2-14.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/184c-wait2-18.json`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign with an active CCS.
+2. Advance ordinary days until a CCS newspaper story is generated at a
+   mapped site type.
+3. Inspect the visible `#lcs-playtest-buffer` output.
+
+### Actual
+
+Portuguese stories render English spoof-location labels such as `Research
+Ethics Commission HQ`, `Labor Union HQ`, and `Public Radio Station` in the
+middle of translated prose. `lib/newspaper/squad_story_text.dart:272-293`
+hard-codes these `mapCCSPlace` values; they are not generated persisted proper
+names and therefore should follow the selected locale.
+
+### Expected / recommendation
+
+Provide locale-aware labels for the CCS spoof locations (or catalog each
+mapped value) while preserving the source English names. Add deterministic
+coverage for the mapped site table and a fresh strict-headless replay before
+closing PT-392.
+
+## PT-393: Portuguese CCS combat exposes the raw role `Soldier`
+
+- Severity: Medium
+- Type: Combat translation
+- Screen: Portuguese stock route → CCS safehouse → bouncer combat roster and
+  hit log
+- Replay status: **Open; requires separate prober, fixer, and verifier passes**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/202c-fight-guard.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/210c-fight-08.json`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign with an active CCS and
+   enter the normal `Desert Eagle Bar e Grill (Esconderijo CCS)` encounter.
+2. Move into the bouncer fight and inspect the roster or hit messages.
+
+### Actual
+
+The Portuguese combat roster and hit log render the encounter role `Soldier`
+unchanged, for example `2 Soldier ... M4` and `Soldier atira em Ranma
+Gillmouth com Carabina M4!`. `lib/creature/hardcoded_creature_type_stuff.dart:310`
+assigns this cover role, and the UI passes it through `LcsI18n.tr`; unlike the
+other CCS cover roles, no `Soldier` key exists in the Portuguese catalog.
+
+### Expected / recommendation
+
+Add a Portuguese catalog entry such as `Soldado` and preserve the English
+fallback. Add deterministic CCS encounter coverage and a fresh strict-headless
+replay before closing PT-393.

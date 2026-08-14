@@ -2166,3 +2166,15 @@ routes are optional breadth coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-gameover-c-20260814/`.
 - Both strict-headless Portuguese runs were stock-cheatless and width-safe;
   neither produced a new issue. Keep the victory/game-over campaign open.
+
+## 2026-08-14 — long political route G and direct-car route D
+
+- `stock-victory-g-20260814` is the strongest natural-victory attempt so far:
+  political recruitment, Guardian writing, and monthly processing reached
+  2 July 2023 without `Ending.victory` or game-over. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-g-20260814/`.
+- `stock-gameover-d-20260814` reached the Aluminum Factory movement map after
+  ordinary car-theft attempts but no terminal. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-gameover-d-20260814/`.
+- Keep any victory claim explicitly debug-assisted; no stock-cheatless victory
+  has been observed.

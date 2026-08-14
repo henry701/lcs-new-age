@@ -6946,6 +6946,27 @@ reached. Captures and source hashes are under
 - Neither route reached `Ending.victory`; no new translation or layout finding
   was confirmed.
 
+## 2026-08-14 — long stock political route G and direct-car route D
+
+- `stock-victory-g-20260814` used a political founder, repeated university
+  recruitment and conversion, political follow-ups, Liberal Guardian writing,
+  and normal waits with CCS disabled by the stock climate option. It advanced
+  through the February Congress agenda and monthly processing to 2 July 2023,
+  then stopped at a stable New York base screen without `Ending.victory` or a
+  game-over. The strict-headless route had 272 captures (271 non-empty), max
+  width 80, zero over-wide captures, and zero bridge errors; all cheat/debug/
+  fixture/save/CDP/source-edit flags were false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-g-20260814/`.
+- `stock-gameover-d-20260814` used a weak unarmed founder, homeless recruits,
+  ordinary car-theft/alarm/hotwire attempts, and an Aluminum Factory visit. It
+  stalled on the stock movement map without victory or game-over. Assistance
+  flags were false, width stayed at 80 with zero over-wide captures and zero
+  bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-gameover-d-20260814/`.
+- Neither route found a new translation or layout issue. Natural game-over
+  evidence remains the three earlier combat routes; the only victory evidence
+  remains the disposable debug-assisted victory fixture.
+
 ## 2026-08-14 — PT-395 code prober
 
 - A disposable Flutter test initialized `pt_BR`, called `generateFiller(1)`

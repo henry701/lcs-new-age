@@ -6657,3 +6657,50 @@ reached. Captures and source hashes are under
   and no bridge errors. Keep this as blocked stock-cheatless education breadth,
   not campaign-victory evidence. Artifacts:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-education-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese mass-recruitment/activism route
+
+- Session `stock-victory-recruitment-20260814-r3` used Flutter web-server port
+  `9314`, the strict headless wrapper, and the normal `?playtest=1` DOM bridge.
+  It selected Portuguese, built a high-charisma founder, repeatedly recruited
+  university students through politics conversations, solicited ordinary legal
+  donations, and ran Liberal Guardian activism/articles. No debug flag, save
+  fixture, headed browser, CDP attach, or production edit was used.
+- Persuasão rose from 0.00 to 25.25 during recruitment and the treasury reached
+  US$22. The founder was then injured and spent three months at Centro Médico UW;
+  the normal discharge showed a US$2,380 bill, and exiting without payment left
+  no active squad on 19 February 2023. The route never reached a recruit in the
+  active roster, political office, `Ending.victory`, or game-over terminal.
+- 269 valid captures stayed at 25×80 (`maxRow:80`) with zero over-wide rows and
+  no bridge errors. No new translation/layout issue was confirmed. Honest
+  outcome: stalled stock-cheatless recruitment breadth, not victory evidence.
+  Evidence and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-recruitment-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese law/courthouse route (transient asset fetch)
+
+- Session `stock-victory-law-20260814` used the strict headless wrapper on
+  Flutter web-server port `9313` with the normal `?playtest=1` DOM bridge. It
+  selected Portuguese, built a high-intelligence/law founder, naturally
+  recruited the questionnaire lawyer sleeper Karla Hayes, activated her into
+  the active squad, and assigned both liberals to ordinary legal donations.
+  No debug flags, save fixtures, headed browser, CDP attach, or production
+  source edits were used.
+- The route advanced through the January newspaper and legislative agenda. On
+  the next monthly newspaper event, the stock Portuguese failure screen showed
+  `Unable to load asset: "assets/art/newscast.cmv". The asset does not exist or
+  has...`, with the Flutter stack rooted at `AssetBundle.load` from
+  `lib/newspaper/television.dart`.
+- An independent fresh-server probe did not reproduce a source/package defect:
+  the tracked 161,068-byte asset is declared by `pubspec.yaml`, appears in the
+  generated `AssetManifest.json`, is served with HTTP 200 and matching SHA-256
+  from a clean Flutter web-server, is fetched successfully by headless Chrome,
+  and loads through `rootBundle.load` in a Flutter test. Treat the single
+  capture as a transient dev-server/browser asset-fetch failure, not a
+  production ticket. Probe report:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-pt386-asset-20260814/probe-report.md`.
+- The honest outcome is blocked, not victory or game-over. 123 captures stayed
+  at 25×80 (`maxRow:80`) with zero over-wide rows; the failure evidence is
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-law-20260814/118-wait.json`.
+  Route artifacts and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-law-20260814/`.

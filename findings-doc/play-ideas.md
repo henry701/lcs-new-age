@@ -1946,3 +1946,29 @@ routes are optional breadth coverage.
   25×80 with no over-wide rows, bridge errors, or new translation/layout ticket.
 - Evidence and metrics:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-education-20260814/`.
+
+## 2026-08-14 — mass-recruitment/activism stock route blocker
+
+- A fresh strict Portuguese route combined a high-charisma founder, repeated
+  university recruitment conversations, legal donation solicitation, and
+  Liberal Guardian activism/article work. Persuasão reached 25.25, but contacts
+  remained scheduled meetings rather than active squad members.
+- The founder's injury/hospitalization interrupted the campaign. After three
+  months, the unpaid US$2,380 discharge bill and US$22 treasury left no active
+  squad; the route stopped at the normal February 19 base screen. Keep this as
+  blocked breadth coverage, not natural-victory evidence.
+- Artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-recruitment-20260814/`.
+
+## 2026-08-14 — law/courthouse route transient asset-fetch failure closed
+
+- A fresh Portuguese law-focused stock route activated a naturally recruited
+  lawyer sleeper, assigned legal donations, and reached the January legislative
+  agenda without cheats or fixtures.
+- The monthly newspaper then entered the Portuguese Flutter failure screen for
+  `assets/art/newscast.cmv`. A clean independent Flutter web-server, manifest,
+  headless fetch, and `rootBundle.load` probe all succeeded with matching asset
+  bytes, so this is a transient dev-server/browser fetch failure rather than a
+  confirmed production ticket. Keep the route blocked for campaign coverage,
+  but do not open PT-386. Probe report:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-pt386-asset-20260814/probe-report.md`.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-law-20260814/118-wait.json`.

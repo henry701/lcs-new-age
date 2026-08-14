@@ -6160,3 +6160,88 @@ contained the expected Portuguese phrases, rejected `Uma um monte` and `os
 pessoas`, and rendered as 25 rows of 80 cells. The focused newspaper suite (30
 tests) and `dart run scripts/validate.dart` also passed. Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt385-20260814/`.
+
+## PT-387: Portuguese police chase crashes while rendering invalid health
+
+- Severity: High
+- Type: Runtime crash / combat status layout
+- Screen: Portuguese stock route → stolen sportscar → police pursuit
+- Replay status: **Closed after fixer tests and an independent strict-headless stock replay**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-executive-20260814/305-police-d2-10.json`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign through the normal
+   language menu.
+2. Build a high-charisma/persuasion founder, recruit an ordinary lawyer and
+   university student, and assign ordinary legal donations.
+3. Assign the founder to `Roubar um Carro`, choose `Esportivo`, approach the
+   vehicle, and choose `Arrombar a fechadura`.
+4. During the police pursuit, repeatedly choose `D - Tentar despistá-los`.
+5. Inspect the visible `#lcs-playtest-buffer` output.
+
+### Actual
+
+The game emits `RELATÓRIO DE FALHA: Uma captura ajudará o desenvolvedor a
+corrigir este bug.`, followed by `Invalid argument: 0`. The stack points to
+`common_display.dart:550 _getHealthDisplayForSkill`, called by
+`printHealthStat`, `printCreatureInfo`, `printParty`, and `sitemode/fight.dart`
+line 1331. The founder's health reaches an invalid zero/negative value while
+the police pursuit is active, and no game-over/victory terminal is reached.
+The capture remains 25×80; this is a runtime failure in the visible buffer,
+not a bridge error.
+
+### Expected / recommendation
+
+Handle zero/negative health before `_getHealthDisplayForSkill` formats combat
+status, preserve a normal Portuguese game-over/failure path, and add a focused
+regression for a police pursuit that drives a liberal below zero health. A
+separate prober/fixer/verifier must confirm the invariant and independently
+replay the route before closing this ticket.
+
+### Resolution and verification
+
+`lib/common_display/common_display.dart` now clamps only the display-local
+health value to zero before precision rounding; the negative overkill model is
+unchanged. The focused Portuguese regression covers intelligence precision
+5/6/7, positive health, dead overkill, combat redraw, and 80-column layout.
+The fixer suite (71 tests plus validation and analysis) passed. An independent
+fresh session `verify-pt387-814-r1` replayed the same car-theft/police-pursuit
+route through normal combat game-over with 107 valid 25×80 captures, zero
+`Invalid argument`, zero `RELATÓRIO DE FALHA`, zero over-wide rows, and no
+bridge errors. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt387-20260814/`.
+
+## PT-388: Portuguese abortion-book story inserts a subject pronoun as a possessive
+
+- Severity: Medium
+- Type: Newspaper translation/context
+- Screen: Portuguese newspaper → generated major event about `The Abortion Files`
+- Replay status: **Open; confirmed in a fresh strict-headless stock replay**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-media-recruitment-20260814/141-arrival.json`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign through the normal
+   language menu.
+2. Build a founder with ordinary media/recruitment activities, assign the
+   founder to `Escrever para o Guardião Liberal`, and advance through the
+   March newspaper cycle.
+3. Inspect the generated Washington, DC abortion-book story in the visible
+   `#lcs-playtest-buffer` output.
+
+### Actual
+
+The story renders `O autor, um ex-médico abortista, dedicou a aposentadoria ela a desencorajar mulheres de fazer abortos.` The Portuguese catalog template at
+`lib/l10n/app_pt_BR_part15.arb:195` places `{authorPossessive}` after
+`a aposentadoria`, while `lib/newspaper/major_event.dart:1863-1867` supplies
+`author.gender.hisHer`; for a feminine author this becomes `ela`, a subject
+pronoun rather than a possessive. The resulting phrase is ungrammatical and
+visible in a normal stock route, not an intentional proper-name fallback.
+
+### Expected / recommendation
+
+Use a Portuguese possessive form that agrees with the template (for example
+`sua` or `dela`) while preserving the English and other-locale paths. Add a
+deterministic regression for both author genders and an independent fresh
+headless replay before closing PT-388.

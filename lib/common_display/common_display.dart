@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:lcs_new_age/basemode/activities.dart';
@@ -526,7 +527,10 @@ String _getHealthDisplayForSkill(
   bool small,
 ) {
   // Formula for increasing precision: higher skill = more precise rounding
-  int currentHP = creature.blood;
+  // Combat keeps negative blood values to distinguish overkill outcomes in
+  // death messages. Health rendering must not expose that internal value or
+  // pass it as the upper bound of a non-negative clamp.
+  int currentHP = max(creature.blood, 0);
   int maxHP = creature.maxBlood;
   int precision;
   switch (skillLevel) {

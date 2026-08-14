@@ -1972,3 +1972,32 @@ routes are optional breadth coverage.
   but do not open PT-386. Probe report:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-pt386-asset-20260814/probe-report.md`.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-law-20260814/118-wait.json`.
+
+## 2026-08-14 — media/recruitment stock route found PT-388
+
+- A fresh strict stock-cheatless Portuguese media/recruitment route reached
+  the March Washington, DC newspaper after ordinary legal donations, an active
+  student recruit, and Liberal Guardian article work.
+- The generated abortion-book story rendered `dedicou a aposentadoria ela a
+  desencorajar`, exposing a possessive-pronoun composition defect. Keep PT-388
+  open for independent prober, fixer, and verifier passes. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-media-recruitment-20260814/141-arrival.json`.
+
+## 2026-08-14 — executive stock route found PT-387 runtime crash
+
+- A fresh strict stock-cheatless Portuguese executive route reached a natural
+  sportscar theft and police pursuit after activating a lawyer and a student.
+- Repeated ordinary flee/disguise choices reduced the founder below zero
+  health; the combat party redraw then crashed with `Invalid argument: 0` in
+  `_getHealthDisplayForSkill`. Keep PT-387 open for independent probe, fixer,
+  and verifier passes. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-executive-20260814/305-police-d2-10.json`.
+
+## 2026-08-14 — PT-387 closed after independent replay
+
+- A display-local non-negative clamp fixed the invalid health formatting while
+  retaining negative overkill state for combat semantics.
+- Independent strict-headless session `verify-pt387-814-r1` replayed the same
+  police-pursuit route to the normal Portuguese game-over with no crash or
+  failure-report screen. Keep the verifier artifacts as the canonical replay:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt387-20260814/`.

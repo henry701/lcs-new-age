@@ -6704,3 +6704,53 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-law-20260814/118-wait.json`.
   Route artifacts and metrics are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-law-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese executive route (PT-387)
+
+- Session `stock-campaign-executive-20260814` used the strict headless wrapper
+  on Flutter web-server port `9320` with a fresh browser session and the
+  normal `?playtest=1` bridge. It selected Portuguese, recruited and activated
+  a lawyer and a university student through ordinary conversations, funded
+  them with legal donations, and reached a natural sportscar theft/police
+  pursuit. No debug flags, save fixtures, headed browser, CDP attach, or
+  production edits were used.
+- Repeated ordinary disguise/flee choices drove the founder's health below
+  zero. The next combat redraw emitted `RELATÓRIO DE FALHA` with `Invalid
+  argument: 0` from `_getHealthDisplayForSkill`/`printHealthStat` while
+  rendering the party, so the route reached neither victory nor game-over.
+- 302 captures remained 25×80 with `maxRow:80`, zero over-wide rows, and no
+  bridge errors; the runtime failure is in the visible buffer. Evidence and
+  route metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-executive-20260814/`.
+
+## 2026-08-14 — PT-387 fixed and independently verified
+
+- The display-only clamp in `common_display.dart` preserves negative overkill
+  state while rendering dead health as non-negative precision cells. Focused
+  regression coverage passed for skills 5/6/7, positive and dead health,
+  Portuguese party/profile redraw, and 80-column layout.
+- Independent session `verify-pt387-814-r1` replayed the natural sportscar
+  theft/police pursuit with no cheats or fixtures. It reached the normal
+  Portuguese combat game-over (`105-death-reflect.json`) with 107 valid
+  captures, all 25×80, zero over-wide rows, zero bridge errors, zero
+  `Invalid argument`, and zero `RELATÓRIO DE FALHA`. PT-387 is closed.
+- Verifier artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt387-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese media/recruitment route (PT-388)
+
+- Session `media-recruit-814-r1` used the strict headless wrapper on Flutter
+  web-server port `9320` with a fresh `?playtest=1` DOM-bridge session. It
+  selected Portuguese, built a high-intelligence/charisma founder, wrote
+  Liberal Guardian articles, recruited and activated Herb Redwine through
+  ordinary university-politics meetings, and funded the squad through legal
+  donations. No debug flags, save fixtures, headed browser, CDP attach, or
+  production edits were used.
+- The route reached a natural March Washington, DC newspaper while preparing
+  a White House visit. The generated abortion-book story showed the malformed
+  Portuguese possessive phrase `dedicou a aposentadoria ela a desencorajar`;
+  this is tracked as PT-388. The route then continued toward the White House
+  and did not claim victory or game-over.
+- Captures stayed at 25×80 with zero over-wide rows and no bridge errors before
+  the route continued. Evidence and metrics are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-media-recruitment-20260814/`.

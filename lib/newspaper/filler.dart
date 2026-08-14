@@ -4,7 +4,13 @@ import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 String generateFiller(int amount) {
-  String cityName = LcsI18n.tr(randomCityName());
+  final rawCityName = randomCityName();
+  // The generated city pool contains proper names that are intentionally not
+  // catalogued. Keep those fallbacks verbatim instead of recording a missing
+  // translation for every filler story.
+  final cityName = LcsI18n.hasTranslation(rawCityName)
+      ? LcsI18n.tr(rawCityName)
+      : rawCityName;
   String fillerStory = LcsI18n.processString(
     "{city:red} - ",
     {"city": cityName},

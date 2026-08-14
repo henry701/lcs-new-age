@@ -6514,3 +6514,52 @@ The bouncer message rendered `The bouncer assesses your squad.` and the alarm me
 ### Fix and verification
 
 Added canonical English fallbacks and Portuguese values (`O segurança avalia seu esquadrão.` and `... solta um grito de alarme Conservador penetrante!`) to the hash-sharded catalogs. The focused runtime regression passed, and fresh strict-headless session `verify-pt394-root-20260814` confirmed both messages with seven valid 25-row captures, maximum width 80, zero over-wide rows, zero bridge errors, and no raw alarm template. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt394-root-20260814/`. PT-394 is **Closed / Fixed**.
+
+## PT-395: Generated newspaper filler translates arbitrary city proper names
+
+- Severity: Low
+- Type: Translation telemetry / proper-name boundary
+- Screen: Portuguese newspaper filler stories generated during daily/news cycles
+- Replay status: **Closed / Fixed**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt395-20260814/verification-report.md`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt395-20260814/metrics.json`
+
+### Reproduction
+
+1. Initialize a fresh Portuguese runtime.
+2. Generate 100 short filler stories through `generateFiller(1)`.
+3. Inspect the runtime missing-translation set or logs.
+
+### Actual
+
+`lib/newspaper/filler.dart:6` calls `LcsI18n.tr(randomCityName())` for every
+generated city. Most city names are intentional proper-name fallbacks rather
+than catalog entries, so the run logs missing translations for names such as
+`Kent, WA`, `Anchorage, AK`, `Macon, GA`, and `Wichita, KS`. The visible names
+remain unchanged, but this bypasses the proper-name guard fixed by PT-369 and
+pollutes Portuguese missing-translation telemetry.
+
+### Expected / recommendation
+
+Use the same catalog-backed boundary as `City.getName()`: translate a city only
+when `LcsI18n.hasTranslation` is true, otherwise preserve the proper name
+without recording a missing key.
+
+### Fix and independent replay steps
+
+`generateFiller()` now applies that boundary before composing the colorized city
+prefix. The focused regression covers 500 deterministic generated-city seeds,
+including catalog-backed and uncatalogued names, and asserts that fallback names
+do not enter missing-translation telemetry. The regression passes.
+
+Fresh strict-headless Portuguese session `verify-pt395-20260814` on Flutter port
+9587 reached newspaper filler pages. `Stamford, CT` rendered as `Stamford,
+Connecticut` and `Westminster, CO` rendered as `Westminster, Colorado`; the
+uncatalogued `Fayetteville, NC` proper name remained unchanged in the same
+route. The focused regression directly checked `LcsI18n.getMissingTranslations()`
+for 500 deterministic seeds covering both city categories and passed. The
+route produced 161 valid 25-row captures, maximum width 80, zero over-wide
+rows, zero bridge errors, and no generated-city warnings in the browser
+console. The playtest bridge has no DOM missing-key set; unrelated console
+warnings are recorded in the verification metrics. Evidence is under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt395-20260814/`.
+PT-395 is **Closed / Fixed**.

@@ -2128,3 +2128,29 @@ routes are optional breadth coverage.
 - 436 valid captures stayed 25×80 with zero over-wide rows and zero bridge
   errors. PT-392 is **Closed / Fixed**. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt392-20260814/`.
+
+## 2026-08-14 — PT-395 prober route
+
+- A code-only Portuguese prober exercised `generateFiller(1)` 100 times and
+  found arbitrary generated city names being sent through `LcsI18n.tr`.
+- Proper names such as `Kent, WA`, `Anchorage, AK`, and `Wichita, KS` generated
+  missing-translation warnings even though they are intentionally untranslated
+  and visibly unchanged. The route is tracked as PT-395 for a focused boundary
+  fix and independent headless verification.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-pt395-20260814/`.
+
+## 2026-08-14 — PT-395 fixer handoff
+
+- The filler city boundary now matches `City.getName()`: known catalog keys
+  translate, while generated proper-name fallbacks remain unchanged without a
+  missing-key warning.
+- Focused regression `test/newspaper/filler_translation_test.dart` covers 500
+  deterministic seeds and both catalog-backed and uncatalogued city output.
+- Independent verifier session `verify-pt395-20260814` reached newspaper filler
+  pages and captured translated catalog-backed cities (`Stamford, Connecticut`
+  and `Westminster, Colorado`) plus a verbatim uncatalogued proper name
+  (`Fayetteville, NC`). The focused 500-seed regression checked the runtime
+  missing-key set for uncatalogued cities and passed. Across 161 valid captures,
+  every screen stayed 25×80 with zero over-wide rows and zero bridge errors.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt395-20260814/`.
+  PT-395 is **Closed / Fixed**.

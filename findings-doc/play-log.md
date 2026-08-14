@@ -6926,3 +6926,35 @@ reached. Captures and source hashes are under
   bridge-error captures, and zero raw English conjunction captures. The route
   used no cheats, fixtures, debug flags, CDP attach, or production edits.
 - Verifier evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt391-20260814/`.
+
+## 2026-08-14 — PT-395 code prober
+
+- A disposable Flutter test initialized `pt_BR`, called `generateFiller(1)`
+  100 times, and captured the runtime missing-translation set. The route
+  logged dozens of arbitrary city proper names (`Kent, WA`, `Anchorage, AK`,
+  `Macon, GA`, `Wichita, KS`, and others) from
+  `lib/newspaper/filler.dart:6`, which still calls `LcsI18n.tr(randomCityName())`.
+- The generated city names remain visually unchanged, but the call bypasses
+  the proper-name fallback guard established by PT-369. PT-395 was filed Open
+  for a focused fix and independent strict-headless verification.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-pt395-20260814/`.
+
+## 2026-08-14 — PT-395 fixer handoff
+
+- `generateFiller()` now mirrors `City.getName()`: catalog-backed city names
+  use `LcsI18n.tr`, while uncatalogued generated proper names remain verbatim
+  and do not enter missing-translation telemetry.
+- `test/newspaper/filler_translation_test.dart` runs 500 deterministic seeds,
+  covers both city categories, checks the rendered filler prefix, and asserts
+  that fallback names are absent from the missing-key set. The focused test
+  passes; no browser replay was run by this fixer.
+- Independent verifier session `verify-pt395-20260814` used a fresh strict-
+  headless Portuguese runtime on port 9587 and reached full newspaper filler
+  pages. `Stamford, CT` and `Westminster, CO` rendered as `Stamford,
+  Connecticut` and `Westminster, Colorado`; `Fayetteville, NC` remained a
+  verbatim uncatalogued proper name. The focused 500-seed regression directly
+  checked the missing-key set for fallback cities and passed. The replay
+  produced 161 valid 25-row captures with maximum width 80, zero over-wide
+  rows, zero bridge errors, and no generated-city warnings in browser console.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt395-20260814/`.
+  PT-395 is **Closed / Fixed**.

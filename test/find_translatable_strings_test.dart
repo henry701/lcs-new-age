@@ -252,6 +252,31 @@ Future<void> renderMonthEnd() async {
   );
 
   test(
+    'extractor captures encounter-message literals',
+    () async {
+      await fixture.writeAsString(r'''
+Future<void> renderEncounter() async {
+  await encounterMessage("A canonical encounter message.");
+}
+''');
+
+      final result = await Process.run('dart', [
+        'run',
+        'scripts/find_translatable_strings.dart',
+        '--print-only',
+        '--glob=__i18n_extractor_fixture_test.dart',
+      ]);
+
+      expect(result.exitCode, 0, reason: result.stderr.toString());
+      expect(
+        result.stdout.toString(),
+        contains('A canonical encounter message.'),
+      );
+    },
+    timeout: const Timeout(Duration(minutes: 2)),
+  );
+
+  test(
     'extractor emits a machine-readable live key set',
     () async {
       await fixture.writeAsString(r'''

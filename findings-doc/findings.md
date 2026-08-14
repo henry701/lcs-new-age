@@ -6570,7 +6570,7 @@ PT-395 is **Closed / Fixed**.
 - Type: Site-mode translation
 - Screen: Portuguese site mode → White House, CCS, armory, CEO safe, graffiti,
   corporate files, and safehouse interactions
-- Replay status: **Open**
+- Replay status: **Closed / Fixed**
 - Evidence: source probe `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-victory-20260814/probe-report.md`; affected call sites in `lib/sitemode/map_specials.dart`
 
 ### Reproduction
@@ -6596,12 +6596,24 @@ catalog with Portuguese text preserving the game's tone. Add focused runtime
 coverage for the affected specials and static catalog coverage so future
 `encounterMessage` literals cannot bypass extraction.
 
+### Resolution / Verification
+
+Added canonical `en_US`/`pt_BR` entries for the affected site-special messages,
+extended `find_translatable_strings.dart` to extract both quote forms of
+`encounterMessage`, and added static/catalog tests covering all affected
+literals and Oval Office variants. Independent verification used a fresh
+strict-headless Portuguese session and observed width-clean, Portuguese
+site/map/alarm buffers with no raw-English leakage; the exact special branches
+were not all reached in that bounded route. Focused map/death tests passed
+(`+9`). Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt396-397-20260814/verifier.md`.
+
 ## PT-397: Portuguese combat death descriptions expose raw English templates
 
 - Severity: Medium
 - Type: Combat translation
 - Screen: Portuguese site-mode combat → Liberal or enemy death messages
-- Replay status: **Open**
+- Replay status: **Closed / Fixed**
 - Evidence: source probe `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-victory-20260814/probe-report.md`; affected function `lib/sitemode/fight.dart:addDeathMessage`
 
 ### Reproduction
@@ -6625,3 +6637,14 @@ Translate the complete death-message templates and dynamic fragments through
 the canonical catalogs, retaining the existing tone/no-profanity variants and
 fixed-width safety. Add focused tests that exercise lighter-tone, head-loss,
 body-loss, severe, and ordinary death branches.
+
+### Resolution / Verification
+
+Added canonical `en_US`/`pt_BR` entries for the lighter-tone fragments and
+head/body-loss templates, with focused tests for Portuguese localization,
+pronouns, interpolation, and wrapping. Independent verification reached
+Portuguese combat and the natural death/game-over branch without raw-English
+leakage or width overflow; the individual death fragment was not retained in
+the final live buffer because combat redraws replaced it. Focused map/death
+tests passed (`+9`). Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt396-397-20260814/verifier.md`.

@@ -2298,3 +2298,14 @@ routes are optional breadth coverage.
 - It was a strict stock-cheatless Portuguese blocker (369 valid captures,
   max width 80, zero over-wide rows, zero bridge errors), with no new issue.
   Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-o-20260814/`.
+
+## 2026-08-14 — optimized White House stock campaign R
+
+- Route R repeated the strongest stock setup and sent the documented
+  WhiteHouse2 corridor keys from the site-map start. The detector guard still
+  required an interaction that returned to the map, leaving the Oval Office
+  specials unreachable.
+- Preserve the exact route and final-map capture in
+  `stock-victory-r-20260814`; it is a clean, bounded navigation blocker rather
+  than victory evidence. Future natural-victory work needs a verified way to
+  neutralize or bypass the Secret Service encounter without debug assistance.

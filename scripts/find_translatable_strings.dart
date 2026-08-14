@@ -830,6 +830,14 @@ List<(RegExp, String)> _buildWrapperCallPatterns() {
     ),
     (RegExp(r'\bshowMessage\s*\(\s*"((?:[^"\\]|\\.)*)"'), 'showMessage'),
     (RegExp(r"\bshowMessage\s*\(\s*'((?:[^'\\]|\\.)*)'"), 'showMessage'),
+    (
+      RegExp(r'\bencounterMessage\s*\(\s*"((?:[^"\\]|\\.)*)"'),
+      'encounterMessage',
+    ),
+    (
+      RegExp(r"\bencounterMessage\s*\(\s*'((?:[^'\\]|\\.)*)'"),
+      'encounterMessage',
+    ),
 
     // Option wrapper family
     (
@@ -928,6 +936,7 @@ List<(String, RegExp)> _buildMultilineContextPatterns() {
     'mvaddstrCenter',
     'addparagraph',
     'showMessage',
+    'encounterMessage',
     'addOptionText',
     'addInlineOptionText',
     'addCenteredOptionText',

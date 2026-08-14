@@ -7173,3 +7173,21 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-q-20260814/`.
 - No new translation or layout finding was confirmed. This is another clean
   White House navigation blocker, not victory evidence.
+
+## 2026-08-14 — optimized White House stock campaign R
+
+- `stock-victory-r-20260814` used a fresh Portuguese stock campaign with the
+  optimized questionnaire, a stolen and repaired pickup, six donation waits,
+  and the security-uniform/manifesto path. It reached White House level 2 and
+  replayed the exact 22-key corridor route toward the Oval Office.
+- The Secret Service encounter still stopped progress: target/escape choices
+  returned to the map before the Oval Office specials. No President contact,
+  victory, or game-over terminal appeared.
+- The strict-headless replay retained 80 screenshots, max row width 80, zero
+  over-wide rows, zero bridge errors, and zero layout overflow. All assistance
+  flags (`cheats`, `debugAssisted`, fixtures, save imports, CDP, headed browser,
+  and source edits) were false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-r-20260814/`.
+- No new translation or layout finding was confirmed. This is a clean
+  President-contact blocker; the only observed victory remains the disposable
+  debug-assisted fixture.

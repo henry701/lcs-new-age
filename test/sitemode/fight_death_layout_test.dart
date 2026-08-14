@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
+import 'package:lcs_new_age/creature/body.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
@@ -95,6 +96,87 @@ void main() {
       contains('Policial da SWAT morre antes que o corpo dela atinja o chão.'),
     );
     expect(rendered, isNot(contains('corpo ela')));
+  });
+
+  test('Portuguese lighter-tone death fragments are localized', () {
+    gameOptions.lighterTone = true;
+    final target = Creature.fromId(CreatureTypeIds.swat)
+      ..name = 'SWAT Officer'
+      ..align = Alignment.conservative;
+
+    int? diesSeed;
+    for (var seed = 1; seed < 10000; seed++) {
+      reseedRNG(seed: seed);
+      if (lcsRandom(4) == 0) {
+        diesSeed = seed;
+        break;
+      }
+    }
+    expect(diesSeed, isNotNull);
+
+    reseedRNG(seed: diesSeed!);
+    addDeathMessage(target);
+
+    final rendered = _consoleLine(9);
+    expect(rendered, contains('Policial da SWAT'));
+    expect(rendered, isNot(contains('dies.')));
+    expect(rendered.length, lessThanOrEqualTo(console.width));
+  });
+
+  test('Portuguese head-loss death templates are localized', () {
+    final target = Creature.fromId(CreatureTypeIds.swat)
+      ..name = 'SWAT Officer'
+      ..align = Alignment.conservative;
+    final body = target.body as HumanoidBody;
+    body.head.cleanOff = true;
+
+    int? headLossSeed;
+    for (var seed = 1; seed < 10000; seed++) {
+      reseedRNG(seed: seed);
+      if (lcsRandom(4) == 0) {
+        headLossSeed = seed;
+        break;
+      }
+    }
+    expect(headLossSeed, isNotNull);
+
+    reseedRNG(seed: headLossSeed!);
+    addDeathMessage(target);
+
+    final rendered = '${_consoleLine(9)} ${_consoleLine(10)}'
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    expect(rendered, contains('Policial da SWAT'));
+    expect(rendered, isNot(contains('reaches once where there is no head')));
+    expect(rendered.length, lessThanOrEqualTo(console.width * 2));
+  });
+
+  test('Portuguese body-loss death templates remain localized', () {
+    final target = Creature.fromId(CreatureTypeIds.swat)
+      ..name = 'SWAT Officer'
+      ..align = Alignment.conservative;
+    final body = target.body as HumanoidBody;
+    body.torso.cleanOff = true;
+
+    int? bodyLossSeed;
+    for (var seed = 1; seed < 10000; seed++) {
+      reseedRNG(seed: seed);
+      if (lcsRandom(2) == 0) {
+        bodyLossSeed = seed;
+        break;
+      }
+    }
+    expect(bodyLossSeed, isNotNull);
+
+    reseedRNG(seed: bodyLossSeed!);
+    addDeathMessage(target);
+
+    final rendered = '${_consoleLine(9)} ${_consoleLine(10)}'
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    expect(rendered, contains('Policial da SWAT'));
+    expect(rendered, isNot(contains('breaks into pieces')));
+    expect(rendered.length, lessThanOrEqualTo(console.width * 2));
   });
 
   test('Portuguese combat hit messages wrap across the message rows', () async {

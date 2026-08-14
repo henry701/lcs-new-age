@@ -1900,3 +1900,13 @@ The article-aware catalog/template fix is independently verified for both
 publication alignments by a fresh 25×80 deterministic harness and the focused
 newspaper/translation suites. No further PT-385 work is open; future media
 routes are optional breadth coverage.
+
+## 2026-08-14 — stock combat game-over route
+
+- A distinct strict stock-cheatless Portuguese route chose the active strong
+  CCS option, Liberal disobedience, and the Seattle Desert Eagle Bar e Grill
+  hideout. The normal bouncer fight reached the combat game-over terminal in
+  January 2023 after the founder and infiltrated agent were lost.
+- Keep this as one of the independent stock game-over strategies. It is not
+  campaign victory evidence, and no translation/layout ticket was found.
+- Artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-gameover-combat-20260814/`.

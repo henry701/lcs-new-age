@@ -6577,3 +6577,22 @@ reached. Captures and source hashes are under
   no `Uma um monte` or `os pessoas` corruption. The focused newspaper suite
   (30 tests) and translation validation passed.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt385-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese combat game-over route
+
+- Session `stock-gameover-combat-20260814` used the strict headless wrapper on
+  Flutter web-server port `9309` with the normal `?playtest=1` DOM bridge. It
+  selected Portuguese, the active strong CCS setting `Nós não iniciamos o
+  fogo`, and alternating combat initiative `Bem-vindo à Selva`; no debug flag,
+  save fixture, headed browser, CDP attach, or production edit was used.
+- The fate-selected founder received a Daishō, chose Liberal disobedience,
+  entered the Seattle Desert Eagle Bar e Grill CCS hideout, and started the
+  normal bouncer fight. The encounter spawned stock armed opponents and ended
+  in the Portuguese combat terminal: `A Elite Liberal` / `O Esquadrão do Crime
+  Liberal foi morto em combate em Janeiro de 2023.` This is a genuine stock
+  game-over, not `Ending.victory`.
+- The honest summary is `victory:false`, `gameOver:true`, `cheats:false`, and
+  `debugAssisted:false`. The route has 129 non-empty 25×80 captures, zero
+  over-wide rows, and no bridge errors; no new translation/layout issue was
+  confirmed. Evidence, metrics, and route notes are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-gameover-combat-20260814/`.

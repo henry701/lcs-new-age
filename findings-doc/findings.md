@@ -225,6 +225,7 @@
 | PT-391 | Medium | Newspaper translation | Portuguese squad-action crime lists join translated terms with hard-coded English `and` |
 | PT-392 | Medium | Newspaper translation/context | Portuguese CCS squad stories expose hard-coded English spoof-location labels |
 | PT-393 | Medium | Combat translation | Portuguese CCS encounter roster and hit log expose the raw role `Soldier` |
+| PT-394 | Medium | Combat translation | Portuguese CCS bouncer and alarm messages expose hard-coded English text |
 
 ## PT-001: Save-management option is clipped
 
@@ -6487,3 +6488,24 @@ complete fixed-role pool through `localizedCreatureNameValue`; the runtime and
 static catalog suites plus canonical ARB validation pass. A fresh
 strict-headless Portuguese combat replay is still required before closing
 PT-393.
+
+## PT-394: Portuguese CCS bouncer and alarm messages expose hard-coded English text
+
+- Severity: Medium
+- Type: Combat translation
+- Screen: Portuguese stock route → CCS safehouse → bouncer and alarm messages
+- Replay status: **Closed / Fixed**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-broad-20260814-ccs-combat/captures/022-move-1.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-broad-20260814-ccs-combat/captures/024-fight-start.json`
+
+### Reproduction
+
+1. Start a fresh stock-cheatless Portuguese campaign with an active CCS and enter the normal `Desert Eagle Bar e Grill (Esconderijo CCS)` encounter.
+2. Move into the bouncer encounter and force the alarmed combat branch.
+
+### Actual
+
+The bouncer message rendered `The bouncer assesses your squad.` and the alarm message rendered `{name} observes your Liberal activity and lets forth a piercing Conservative alarm cry!` without Portuguese translation. The sources are `lib/sitemode/map_specials.dart:194` and `lib/sitemode/stealth.dart:52`.
+
+### Fix and verification
+
+Added canonical English fallbacks and Portuguese values (`O segurança avalia seu esquadrão.` and `... solta um grito de alarme Conservador penetrante!`) to the hash-sharded catalogs. The focused runtime regression passed, and fresh strict-headless session `verify-pt394-root-20260814` confirmed both messages with seven valid 25-row captures, maximum width 80, zero over-wide rows, zero bridge errors, and no raw alarm template. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt394-root-20260814/`. PT-394 is **Closed / Fixed**.

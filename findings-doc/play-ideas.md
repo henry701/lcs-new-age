@@ -2098,6 +2098,21 @@ routes are optional breadth coverage.
 - PT-393 is **Fixed-pending-verification**. A fresh strict-headless Portuguese
   combat replay remains required; no browser replay was run during this fixer.
 
+## 2026-08-14 — PT-394 fixer handoff
+
+- The stock CCS combat route found raw English bouncer and Conservative alarm
+  text after the PT-393 role leak. Both strings now have canonical Portuguese
+  catalog entries and a focused runtime regression.
+- PT-394 is **Fixed-pending-verification** pending a fresh strict-headless
+  replay of the bouncer and alarm branch.
+
+## 2026-08-14 — PT-394 independent verification closure
+
+- Fresh session `verify-pt394-root-20260814` rendered the translated bouncer
+  and Conservative alarm messages in a stock Portuguese CCS route. The seven
+  valid captures were width-safe (max 80) and bridge-error free, with no raw
+  English alarm template. PT-394 is **Closed / Fixed**.
+
 ## 2026-08-14 — PT-392 verification closure
 
 - Fresh session `verify-pt392-fresh-20260814` reached translated CCS newspaper

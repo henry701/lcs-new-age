@@ -6842,6 +6842,27 @@ reached. Captures and source hashes are under
   static tests and canonical ARB validation pass. PT-393 is
   **Fixed-pending-verification**; no browser replay was run for this fixer.
 
+## 2026-08-14 — PT-394 fixer handoff
+
+- A fresh stock-cheatless CCS combat route exposed two untranslated Portuguese
+  messages: `The bouncer assesses your squad.` and the Conservative alarm
+  template from `lib/sitemode/stealth.dart:52`.
+- Added canonical English fallbacks and Portuguese translations, plus a focused
+  runtime regression. PT-394 is **Fixed-pending-verification**; a fresh
+  strict-headless replay remains required.
+
+## 2026-08-14 — PT-394 independent verification closure
+
+- Fresh strict-headless session `verify-pt394-root-20260814` replayed the
+  Portuguese CCS bouncer and alarm branch without fixtures, cheats, debug
+  flags, CDP attachment, or production edits.
+- The bouncer rendered `O segurança avalia seu esquadrão.` and the alarm
+  rendered Portuguese `observa sua atividade Liberal ... alarme Conservador`.
+  Seven valid captures stayed at 25 rows and max width 80, with zero
+  over-wide rows, bridge errors, or raw English alarm templates. PT-394 is
+  **Closed / Fixed**. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt394-root-20260814/`.
+
 ## 2026-08-14 — PT-392 independent verification closure
 
 - Fresh strict-headless session `verify-pt392-fresh-20260814` used a stock

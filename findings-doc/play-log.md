@@ -6830,6 +6830,20 @@ reached. Captures and source hashes are under
   validation pass. PT-392 is **Fixed-pending-verification**; no browser replay
   has been run for this fixer handoff.
 
+## 2026-08-14 — PT-392 independent verification closure
+
+- Fresh strict-headless session `verify-pt392-fresh-20260814` used a stock
+  Portuguese campaign with active CCS and no fixtures, cheats, debug flags,
+  CDP attach, or production edits.
+- Runtime CCS newspaper stories rendered translated spoof locations including
+  `Clínica de Aborto`, `Agência de Assistência Social`, `Escritórios do
+  Greenpeace`, `Estação de Notícias da Rede`, `Sede da Comissão de Ética em
+  Pesquisa`, and `Museu das Ervilhas Rodopiantes`; the raw scan found none of
+  the nineteen English map keys.
+- 436 valid non-empty captures were 25×80 with zero over-wide rows and zero
+  bridge errors. PT-392 is **Closed / Fixed**. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt392-20260814/`.
+
 ## 2026-08-14 — PT-389 and PT-390 fresh verification
 
 - Independent strict-headless session `verify-pt389-fresh-20260814-r5` used a

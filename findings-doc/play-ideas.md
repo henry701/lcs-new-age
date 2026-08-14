@@ -2087,3 +2087,12 @@ routes are optional breadth coverage.
   catalog suites, and canonical ARB check pass.
 - PT-392 is **Fixed-pending-verification**. A fresh strict-headless Portuguese
   replay remains required; no browser replay was run during this fixer pass.
+
+## 2026-08-14 — PT-392 verification closure
+
+- Fresh session `verify-pt392-fresh-20260814` reached translated CCS newspaper
+  stories for multiple mapped site types; all nineteen English spoof-location
+  keys were absent from the raw scan.
+- 436 valid captures stayed 25×80 with zero over-wide rows and zero bridge
+  errors. PT-392 is **Closed / Fixed**. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt392-20260814/`.

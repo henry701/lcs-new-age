@@ -6399,7 +6399,7 @@ production edits.
 - Severity: Medium
 - Type: Newspaper translation/context
 - Screen: Portuguese stock route → CCS newspaper/save overlays
-- Replay status: **Fixed-pending-verification**
+- Replay status: **Closed / Fixed**
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/170c-wait2-11.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/176c-wait2-14.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/184c-wait2-18.json`
 
 ### Reproduction
@@ -6424,7 +6424,7 @@ mapped value) while preserving the source English names. Add deterministic
 coverage for the mapped site table and a fresh strict-headless replay before
 closing PT-392.
 
-### Fix (pending independent verification)
+### Fix
 
 `lib/newspaper/squad_story_text.dart` now routes all nineteen fixed
 `mapCCSPlace` spoof-location labels through `LcsI18n.tr`, while leaving the
@@ -6433,8 +6433,19 @@ Portuguese catalog values were added for the complete mapped table, including
 `Sede da Comissão de Ética em Pesquisa`, `Sede do Sindicato`, and `Estação de
 Rádio Pública`. The focused `test/newspaper/squad_story_translation_test.dart`
 regression covers every mapped site type, the runtime/static catalog suites
-pass, and canonical ARB validation is clean. A fresh strict-headless stock
-Portuguese replay is still required before closing PT-392.
+pass, and canonical ARB validation is clean.
+
+### Independent verification
+
+Fresh strict-headless session `verify-pt392-fresh-20260814` replayed a stock
+Portuguese campaign with active CCS and reached translated CCS newspaper
+stories containing `Clínica de Aborto`, `Agência de Assistência Social`,
+`Escritórios do Greenpeace`, `Estação de Notícias da Rede`, `Sede da Comissão
+de Ética em Pesquisa`, and `Museu das Ervilhas Rodopiantes`. All nineteen
+fixed English keys were absent from the raw scan. The route produced 436 valid
+non-empty captures, all 25×80, with zero over-wide rows and zero bridge-error
+captures. No cheats, fixtures, debug flags, CDP attach, or production edits
+were used. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt392-20260814/`.
 
 ## PT-393: Portuguese CCS combat exposes the raw role `Soldier`
 

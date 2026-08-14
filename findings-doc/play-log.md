@@ -7136,3 +7136,23 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-o-20260814/`.
 - No new translation or layout finding was confirmed. This is a clean
   President-contact blocker, not victory evidence.
+
+## 2026-08-14 — optimized stock White House probe P
+
+- `stock-victory-p-20260814` used a fresh strict-headless Portuguese game with
+  an optimized stock questionnaire, ordinary Blue Sky CCS setup, a stolen
+  pickup, donations, and Seattle-to-Washington travel. It reached White House
+  level 2 and exercised the metal-detector/site-map path without fixtures,
+  save imports, CDP, headed browsing, or source edits.
+- The route never reached the Oval Office special or contacted the President.
+  A wrong movement sequence and a later guard encounter forced a documented
+  flee/replan; the final known state was a non-terminal White House map. No
+  victory or game-over terminal appeared.
+- The replay retained 259 captures (all non-empty), maximum width 80, zero
+  over-wide rows, zero bridge errors, and zero document overflow. All
+  assistance flags (`cheats`, `debugAssisted`, fixtures, save imports, CDP,
+  headed browser, and source edits) were false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-p-20260814/`.
+- No new translation or layout finding was confirmed. Natural victory remains
+  unobserved; the only victory evidence is the disposable debug-assisted
+  fixture.

@@ -2263,6 +2263,19 @@ routes are optional breadth coverage.
 - No natural victory appeared; retain the debug-assisted fixture as the only
   observed victory evidence.
 
+## 2026-08-14 — optimized stock White House probe P
+
+- Route P used the strongest stock questionnaire tested so far, then stole a
+  pickup, raised donations, and reached White House level 2 in Portuguese.
+- The route did not reach the Oval Office special: a movement-key mistake,
+  guard encounter, and failed replan left it at a non-terminal map state.
+  It remained strict-cheatless and layout-clean (259 non-empty captures,
+  max width 80, zero over-wide rows, zero bridge errors, zero overflow).
+- Treat this as a President-contact blocker, not victory evidence. The only
+  observed victory remains the debug-assisted fixture; future natural-victory
+  work must use a reliably navigated White House path and retain the exact
+  site-map coordinates before any interaction.
+
 ## 2026-08-14 — Oval Office sleeper probe O
 
 - Route O reached the White House with a security-uniform founder and a stolen

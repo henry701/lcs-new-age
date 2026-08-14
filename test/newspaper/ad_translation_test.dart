@@ -26,7 +26,7 @@ void main() {
       'Quality Pre-Owned': 'Usado de Qualidade',
       'Vehicles': 'Veículos',
       'Sedan 4D': 'Sedã 4 Portas',
-      'Spa': 'Spa',
+      'Spa': 'Centro de Spa',
       'Health, Beauty': 'Saúde, Beleza',
       'and Fitness': 'e Fitness',
       '7 Days a Week': '7 Dias por Semana',

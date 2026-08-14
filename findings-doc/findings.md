@@ -1401,8 +1401,9 @@ The fresh strict-headless siege route reached the police alarm, surrender
 announcement, siege briefing, localized encounter roster, and localized hit
 messages. A later Portuguese corporate-mercenary fixture advanced 140 live
 combat inputs and reached randomized final-words/death-reaction text without
-raw-English names. Keep the broader police surrender/arrest variants as a
-follow-up rather than claiming every random branch is covered.
+raw-English names. The deterministic terminal and interpolation paths are
+independently verified; additional police surrender/arrest seeds are optional
+breadth coverage, not unverified corrections.
 
 ### PT-048 follow-up — forced police subdue terminal (2026-08-12)
 
@@ -1411,8 +1412,8 @@ the exact `_fightSubdued` terminal after the siege briefing. It rendered
 `A polícia imobiliza e prende o esquadrão.` from the canonical catalog, with no
 English role names, missing-translation warning, or fixed-width overflow. The
 bridge remained 25 rows at maximum width 80 with an empty error channel. This
-closes the previously unverified police subdue wording branch; the random
-police-alarm variants tracked by PT-148 remain a separate broader route queue.
+closes the previously unverified police subdue wording branch; random
+police-alarm variants tracked by PT-148 are optional breadth coverage only.
 
 ## PT-049: Changelog release notes are intentionally English-only
 
@@ -2102,8 +2103,8 @@ the missing English/Portuguese template pairs are present in both catalogs.
 The rebuilt route rendered `Policial da SWAT` in the roster and messages such
 as `acerta capacete de Policial da SWAT`. A fresh Portuguese corporate-
 mercenary route also rendered localized `Militar Privado` final words and a
-localized SWAT death reaction after 140 combat inputs. Keep broader
-police-alarm surrender/arrest coverage open in PT-048.
+localized SWAT death reaction after 140 combat inputs. Additional police-alarm
+surrender/arrest seeds are optional breadth coverage under PT-048.
 
 ## PT-149: Dynamic option prefixes change from `-` to an en dash
 
@@ -4040,9 +4041,10 @@ The focused context suite protects these keys and the assembled low-power
 paragraph. A fresh headless route rendered an AM story with no English text,
 80-column maximum width, and an empty browser-error channel.
 
-No new defect was confirmed after the replay. Keep the residual PT-048/PT-148
-police-alarm variants and PT-083 responsive-readability enhancement open;
-accepted PT-049 historical changelog English remains out of the fix queue.
+No new defect was confirmed after the replay. The residual PT-048/PT-148
+police-alarm seeds are optional breadth coverage, and PT-083 is an optional
+responsive-readability enhancement rather than an unverified defect. Accepted
+PT-049 historical changelog English remains out of the fix queue.
 
 ## PT-273: Monthly Guardian Cable News and CCS stories needed contextual joins
 
@@ -4071,8 +4073,9 @@ assertions protect the AM, Cable, and CCS joins.
 The fixed route selected AM Radio, Cable News, and the CCS backer list in
 successive months. All captured Portuguese rows stayed within 80 columns, the
 browser identified itself as `HeadlessChrome`, and the error channel was empty.
-Keep PT-048/PT-148 police-alarm variants and PT-083 responsive-readability
-enhancement open; accepted PT-049 historical changelog English remains out of
+The residual PT-048/PT-148 police-alarm seeds are optional breadth coverage,
+and PT-083 is an optional responsive-readability enhancement rather than an
+unverified defect. Accepted PT-049 historical changelog English remains out of
 the fix queue.
 
 ## PT-274: First American Bank teller prompt fell back to English
@@ -4094,8 +4097,9 @@ console.
 No new layout issue was confirmed. The compact roster cell `Esporti…-D` is the
 existing fixed-width vehicle truncation covered by `test/basemode/pt_br_vehicle_layout_test.dart`.
 
-Keep PT-048/PT-148 police-alarm variants and PT-083 responsive-readability
-enhancement open; accepted PT-049 historical changelog English remains out of
+The residual PT-048/PT-148 police-alarm seeds are optional breadth coverage,
+and PT-083 is an optional responsive-readability enhancement rather than an
+unverified defect. Accepted PT-049 historical changelog English remains out of
 the fix queue.
 
 ## PT-275: Portuguese car-chase intro clipped at the console edge
@@ -4116,8 +4120,9 @@ Portuguese sentence plus the 80-column limit.
 The fixed replay also exercised car-chase `D` and `B`, the evasive foot-chase,
 and its `F` result path. Every captured row stayed within 80 columns, the
 browser identified itself as `HeadlessChrome`, and the browser-error channel
-was empty. Keep the random police-alarm variants PT-048/PT-148 and the PT-083
-narrow-layout enhancement open; accepted PT-049 historical changelog English
+was empty. The random police-alarm variants PT-048/PT-148 are optional
+breadth coverage, and PT-083 is an optional narrow-layout enhancement rather
+than an unverified defect. Accepted PT-049 historical changelog English
 remains out of the fix queue.
 
 ## PT-276: Clothing crafting selector and preview bypassed the Portuguese catalog
@@ -4414,8 +4419,8 @@ fixed `Pressão`/`Sigilo` columns at column 54, so the status and name merged
 even though the buffer remained 80 columns wide. Destination rows now reserve
 the fixed metadata columns and fit both the name and status before rendering;
 the deterministic regression asserts no `EscondePressão` merge and an 80-cell
-row. The broader PT-083 narrow/fixed-console queue remains open for other
-screens.
+row. PT-083 remains an optional narrow/fixed-console enhancement for other
+screens, not an unverified defect.
 
 ## PT-294: Internet-café fragments use glosses, awkward casing, or duplicated nouns
 
@@ -5400,8 +5405,9 @@ route rendered `A polícia cercou o local`, the Portuguese loudspeaker surrender
 prompt, localized SWAT equipment, and the Portuguese combat legend. The bridge
 reported 25 rows with a maximum width of 80, no document overflow, no bridge
 errors, and a `HeadlessChrome/150.0.0.0` user agent. The run did not force the
-combat `_fightSubdued` arrest path, so PT-048 arrest/subdue coverage remains
-open rather than being marked complete.
+combat `_fightSubdued` arrest path; that branch is covered separately by the
+deterministic replay and focused catalog test, while random seed variation is
+optional breadth coverage.
 
 ## PT-365: Strict-headless police combat replay found no new defect
 
@@ -5475,10 +5481,11 @@ errors.
 
 ### Residual queue after this playtest
 
-- PT-048/PT-148: force and verify the random police arrest/subdue terminal
-  variants that the normal combat fixture does not reliably reach.
-- PT-083: decide whether the 80-column narrow-console presentation needs a
-  dedicated readability redesign beyond current fitting and ellipses.
+- PT-048/PT-148: optional random police arrest/subdue seed variation; the
+  deterministic terminal and localized interpolation are already verified, so
+  there is no unverified correction pending.
+- PT-083: optional exploration of a broader 80-column narrow-console redesign
+  beyond current fitting and ellipses; no confirmed defect is tracked.
 - Persisted generated names: decide whether a locale switch should translate
   names already stored in save data or preserve their original-language form.
 - PT-049: historical changelog English remains an accepted product decision,

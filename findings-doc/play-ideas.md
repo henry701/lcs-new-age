@@ -2060,3 +2060,20 @@ routes are optional breadth coverage.
   The raw `and` on that page is the separately open PT-391 finding.
   Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt390-20260814/`.
+
+## 2026-08-14 — PT-391 independent verification closure
+
+- The newspaper crime-list separator now uses localized ` and ` / `, and ` keys;
+  pt_BR renders them as ` e ` / `, e ` while en_US remains unchanged.
+- Focused and full Portuguese context tests pass, and canonical ARB validation
+  is clean.
+- Independent strict-headless session `verify-pt391-20260814-r2` replayed a fresh
+  stock Portuguese campaign through three ordinary daily advances. The
+  four-crime story rendered `... homicídio, violência, roubo e arrombamento e
+  invasão.` with no raw English `and` or `, and`. Status: **Closed / Fixed**.
+- The canonical capture measured 25 rows with maximum width 80, zero over-wide
+  rows, and no bridge errors. Aggregate metrics measured seven non-empty
+  captures, maximum row width 80, zero over-wide captures, zero bridge-error
+  captures, and zero raw English conjunction captures. No cheats, fixtures,
+  debug flags, CDP attach, or production edits were used. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt391-20260814/`.

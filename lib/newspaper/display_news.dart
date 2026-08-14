@@ -496,9 +496,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
                 if (drama.contains(" and ") ||
                     (ns.publicationAlignment == DeepAlignment.eliteLiberal &&
                         !ccs)) {
-                  story += ", and ";
+                  story += LcsI18n.tr(", and ");
                 } else {
-                  story += " and ";
+                  story += LcsI18n.tr(" and ");
                 }
               }
               typesum--;

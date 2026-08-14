@@ -2133,6 +2133,33 @@ void main() {
     },
   );
 
+  test('Portuguese crime lists translate both conjunction separators', () {
+    expect(catalog[' and '], ' e ');
+    expect(catalog[', and '], ', e ');
+
+    final displayNews = File(
+      'lib/newspaper/display_news.dart',
+    ).readAsStringSync();
+    expect(displayNews, contains('story += LcsI18n.tr(" and ");'));
+    expect(displayNews, contains('story += LcsI18n.tr(", and ");'));
+
+    final regular = [
+      'homicídio',
+      'violência',
+      'roubo',
+      'arrombamento',
+    ].sublist(0, 3).join(', ');
+    final elite = ['homicídio', 'violência', 'roubo'].sublist(0, 2).join(', ');
+    expect(
+      '$regular${LcsI18n.tr(" and ")}arrombamento',
+      'homicídio, violência, roubo e arrombamento',
+    );
+    expect(
+      '$elite${LcsI18n.tr(", and ")}roubo',
+      'homicídio, violência, e roubo',
+    );
+  });
+
   test('monthly loot expose fragments translate before story assembly', () {
     expect(
       catalog['showing a pattern of unfair evictions.'],

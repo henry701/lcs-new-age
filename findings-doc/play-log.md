@@ -6835,3 +6835,24 @@ reached. Captures and source hashes are under
   with zero over-wide rows or bridge errors. The separate PT-391 `and` leak
   remained visible and was not counted against PT-390.
   Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt390-20260814/`.
+
+## 2026-08-14 — PT-391 independent verification closure
+
+- `display_news.dart` now routes both crime-list conjunction branches through
+  `LcsI18n.tr`: the ordinary ` and ` separator and the Oxford `, and ` branch.
+- English fallback and Portuguese (` e ` / `, e `) catalog entries are present
+  in the canonical hash-sharded catalogs.
+- The focused Portuguese crime-list regression and the full
+  `test/pt_br_context_translation_test.dart` suite pass; the ARB canonical
+  check also passes.
+- Independent strict-headless session `verify-pt391-20260814-r2` used a fresh
+  stock Portuguese campaign, normal CCS/zipper options, and three ordinary
+  daily advances. The four-crime story rendered `... homicídio, violência,
+  roubo e arrombamento e invasão.` with no raw English `and` or `, and` in the
+  Portuguese-route captures. PT-391 is **Closed / Fixed**.
+- `pt391-multicrime.json` recorded 25 rows, maximum width 80, zero over-wide
+  rows, and an empty bridge-error channel. Aggregate `metrics-all.json` recorded
+  seven non-empty captures, maximum row width 80, zero over-wide captures, zero
+  bridge-error captures, and zero raw English conjunction captures. The route
+  used no cheats, fixtures, debug flags, CDP attach, or production edits.
+- Verifier evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt391-20260814/`.

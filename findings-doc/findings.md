@@ -6349,8 +6349,12 @@ Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt390-20260814/
 - Severity: Medium
 - Type: Newspaper translation
 - Screen: Portuguese stock route → CCS/LCS newspaper save overlay
-- Replay status: **Open; requires separate prober, fixer, and verifier passes**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/176c-wait2-14.json`
+- Replay status: **Closed / Fixed**
+- Original evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-campaign-terminal3-20260814/176c-wait2-14.json`
+- Independent verification evidence:
+  - `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt391-20260814/report.md`
+  - `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt391-20260814/pt391-multicrime.json`
+  - `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt391-20260814/metrics-all.json`
 
 ### Reproduction
 
@@ -6369,8 +6373,26 @@ the raw English `and`. `lib/newspaper/display_news.dart:493-501` appends
 ### Expected / recommendation
 
 Localize the list separator (`e`/`, e`) through the existing i18n path and add
-multi-crime Portuguese newspaper regression coverage. Keep PT-391 open until a
-fresh strict-headless replay confirms no English conjunction remains.
+multi-crime Portuguese newspaper regression coverage; the fix and independent
+strict-headless replay below satisfy that closure requirement.
+
+### Fix and independent verification
+
+`lib/newspaper/display_news.dart` now translates both list conjunction branches
+(`and` and Oxford `, and`) before the newspaper renderer's `noTranslate` layout
+path. English fallback and Portuguese catalog entries were added for both
+separator fragments. The focused Portuguese context regression and full
+context-translation suite pass, and the canonical ARB check is clean. Independent
+strict-headless session `verify-pt391-20260814-r2` then replayed a fresh stock
+Portuguese campaign with normal CCS/zipper options and three ordinary daily
+advances. The four-crime story rendered `sugerem que o CCS se envolveu em
+homicídio, violência, roubo e arrombamento e invasão.` with no raw English `and`
+or `, and` in the Portuguese-route captures. The canonical capture had 25 rows,
+maximum width 80, zero over-wide rows, and an empty bridge-error channel.
+Aggregate metrics recorded seven non-empty captures, maximum row width 80, zero
+over-wide captures, zero bridge-error captures, and zero raw English conjunction
+captures. The route used no cheats, fixtures, debug flags, CDP attach, or
+production edits.
 
 ## PT-392: Portuguese CCS squad stories expose English spoof-location labels
 

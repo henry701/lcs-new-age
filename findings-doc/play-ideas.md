@@ -2202,3 +2202,13 @@ routes are optional breadth coverage.
   captures, max width 80, zero over-wide rows, zero bridge errors). No new
   issue was confirmed. Keep the victory claim limited to the disposable
   debug-assisted fixture.
+
+## 2026-08-14 — stock stealth White House probe J
+
+- Route J tried a high-charisma/persuasion/street-smarts founder and legal
+  donations before a low-profile Seattle-to-DC transport path. The resulting
+  founder still had zero Disguise and zero Security, so the route stalled on
+  repeated pickup-truck key searches before Washington, DC.
+- It was a clean stock-cheatless Portuguese blocker (174 captures, max width
+  80, zero over-wide rows, zero bridge errors), not victory or game-over.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-j-20260814/`.

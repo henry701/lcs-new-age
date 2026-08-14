@@ -7031,3 +7031,19 @@ reached. Captures and source hashes are under
 - No new translation or layout finding was confirmed. This adds a fourth
   independent stock-cheatless game-over route; natural victory remains
   unobserved.
+
+## 2026-08-14 — stock stealth White House probe J
+
+- `stock-victory-j-20260814` attempted a stealthy executive route with a
+  charisma/persuasion/street-smarts founder, legal donations, and low-profile
+  transport toward Washington, DC. The stock questionnaire left Disguise at
+  0.00, however, and the route reached a pickup-truck key-search screen with
+  no keys and no Security skill.
+- It stopped honestly before the White House: `victory:false`,
+  `gameOver:false`, `cheats:false`, `debugAssisted:false`, and all fixture,
+  save-import, CDP, headed-browser, and source-edit flags false. The 174
+  retained captures were non-empty, max width 80, zero over-wide rows, and
+  zero bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-j-20260814/`.
+- No new translation or layout finding was confirmed; this remains honest
+  blocker evidence rather than a victory claim.

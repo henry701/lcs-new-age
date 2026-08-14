@@ -7104,3 +7104,20 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-m-20260814/`.
 - No new translation or layout finding was confirmed. Natural victory remains
   unobserved after this multi-election route.
+
+## 2026-08-14 — sustained-advocacy stock campaign N
+
+- `stock-victory-n-20260814` used a fresh stock Portuguese campaign with three
+  regulars assigned Guardian Liberal writing/community service and an
+  undercover lawyer assigned exact `Promovendo o Liberalismo` (Defender
+  Liberalism) work at the Seattle Forum.
+- The route processed repeated monthly agendas from 1 January 2023 through
+  19 April 2027. Final agenda pages still did not satisfy the Elite-Liberal
+  win gate, and no natural victory or game-over terminal appeared.
+- Strict-headless evidence retained 134 non-empty captures, max row width 80,
+  zero over-wide rows, zero bridge-error text, and no layout overflow. All
+  assistance flags (`cheats`, `debugAssisted`, fixtures, save imports, CDP,
+  headed browser, and source edits) were false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-n-20260814/`.
+- No new translation or layout finding was confirmed. Natural victory remains
+  unobserved after this sustained-advocacy route.

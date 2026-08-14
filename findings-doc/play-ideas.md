@@ -2250,3 +2250,15 @@ routes are optional breadth coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-m-20260814/`.
 - Keep this as multi-election saturation evidence; the only observed victory
   remains the debug-assisted fixture.
+
+## 2026-08-14 — sustained-advocacy stock campaign N
+
+- Route N assigned Guardian writing and community service to regulars plus an
+  undercover lawyer's exact Defender Liberalism task, then processed monthly
+  agendas through 19 April 2027.
+- It remained a clean non-terminal stock route: 134 non-empty captures, max
+  width 80, zero over-wide rows, zero bridge errors, and all assistance flags
+  false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-n-20260814/`.
+- No natural victory appeared; retain the debug-assisted fixture as the only
+  observed victory evidence.

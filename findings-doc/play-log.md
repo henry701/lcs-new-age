@@ -6637,3 +6637,23 @@ reached. Captures and source hashes are under
   Honest outcome: stalled, stock-cheatless, non-victory route. Evidence and
   metrics are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-coalition-20260814/`.
+
+## 2026-08-14 — fresh strict stock Portuguese education/sleeper route
+
+- Session `stock-victory-education-20260814` used the strict headless wrapper
+  on Flutter web-server port `9311` with the normal `?playtest=1` DOM bridge.
+  It selected Portuguese and built an intelligence/science/education founder;
+  no debug flags, save fixtures, headed browser, CDP attach, or production
+  source edits were used.
+- The founder practiced Science, raised ordinary funds through legal donation
+  solicitation, and recruited university students through politics. A stock
+  student relationship produced the questionnaire lawyer sleeper Mick Weber,
+  who was assigned `Comunicação e Advocacia → Defender o Liberalismo`.
+- The route ended honestly at the normal base screen on 18 January 2023 before
+  an active recruit, political office, `Ending.victory`, or game-over terminal.
+  Its generated Portuguese newspaper, recruitment conversations, and sleeper
+  menus remained width-safe; no new translation/layout issue was confirmed.
+- 110 non-empty captures stayed at 25×80 (`maxRow:80`) with zero over-wide rows
+  and no bridge errors. Keep this as blocked stock-cheatless education breadth,
+  not campaign-victory evidence. Artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-education-20260814/`.

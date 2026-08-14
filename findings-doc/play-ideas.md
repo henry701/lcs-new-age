@@ -1935,3 +1935,14 @@ routes are optional breadth coverage.
   coverage, not campaign-victory evidence.
 - Artifacts:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-coalition-20260814/`.
+
+## 2026-08-14 — education/sleeper stock route blocker
+
+- A fresh strict Portuguese route emphasized questionnaire university courses,
+  Science practice, legal donations, and university recruitment. The resulting
+  lawyer sleeper was assigned to defend liberalism, but the bounded route did
+  not reach an active recruit, office, natural victory, or game-over terminal.
+- Treat this as optional education/sleeper breadth coverage. It stayed at
+  25×80 with no over-wide rows, bridge errors, or new translation/layout ticket.
+- Evidence and metrics:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/stock-victory-education-20260814/`.

@@ -6818,6 +6818,18 @@ reached. Captures and source hashes are under
   `184c-wait2-18.json` (`lib/newspaper/squad_story_text.dart:272-293`). All
   three remain Open for separate prober/fixer/verifier passes.
 
+## 2026-08-14 — PT-392 fixer handoff
+
+- `mapCCSPlace` now sends all nineteen fixed spoof-location labels through
+  `LcsI18n.tr`; the dynamic persisted `placename` fallback remains unchanged.
+- English fallback entries and natural Portuguese values were added to the
+  canonical hash-sharded catalogs, including `Sede da Comissão de Ética em
+  Pesquisa`, `Sede do Sindicato`, and `Estação de Rádio Pública`.
+- `test/newspaper/squad_story_translation_test.dart` covers every mapped site
+  type. Runtime/static catalog tests, the focused regression, and canonical ARB
+  validation pass. PT-392 is **Fixed-pending-verification**; no browser replay
+  has been run for this fixer handoff.
+
 ## 2026-08-14 — PT-389 and PT-390 fresh verification
 
 - Independent strict-headless session `verify-pt389-fresh-20260814-r5` used a

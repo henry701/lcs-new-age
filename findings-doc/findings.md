@@ -6399,7 +6399,7 @@ production edits.
 - Severity: Medium
 - Type: Newspaper translation/context
 - Screen: Portuguese stock route → CCS newspaper/save overlays
-- Replay status: **Open; requires separate prober, fixer, and verifier passes**
+- Replay status: **Fixed-pending-verification**
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/170c-wait2-11.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/176c-wait2-14.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260814/184c-wait2-18.json`
 
 ### Reproduction
@@ -6423,6 +6423,18 @@ Provide locale-aware labels for the CCS spoof locations (or catalog each
 mapped value) while preserving the source English names. Add deterministic
 coverage for the mapped site table and a fresh strict-headless replay before
 closing PT-392.
+
+### Fix (pending independent verification)
+
+`lib/newspaper/squad_story_text.dart` now routes all nineteen fixed
+`mapCCSPlace` spoof-location labels through `LcsI18n.tr`, while leaving the
+persisted `placename` fallback untouched. English catalog fallbacks and natural
+Portuguese catalog values were added for the complete mapped table, including
+`Sede da Comissão de Ética em Pesquisa`, `Sede do Sindicato`, and `Estação de
+Rádio Pública`. The focused `test/newspaper/squad_story_translation_test.dart`
+regression covers every mapped site type, the runtime/static catalog suites
+pass, and canonical ARB validation is clean. A fresh strict-headless stock
+Portuguese replay is still required before closing PT-392.
 
 ## PT-393: Portuguese CCS combat exposes the raw role `Soldier`
 

@@ -2077,3 +2077,13 @@ routes are optional breadth coverage.
   captures, and zero raw English conjunction captures. No cheats, fixtures,
   debug flags, CDP attach, or production edits were used. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt391-20260814/`.
+
+## 2026-08-14 — PT-392 fixer handoff
+
+- All nineteen fixed CCS spoof-location labels now pass through `LcsI18n.tr`,
+  while the persisted site-name fallback remains dynamic and untranslated.
+- English fallback and natural Portuguese catalog values are present for the
+  complete mapped table. The focused site-type regression, runtime/static
+  catalog suites, and canonical ARB check pass.
+- PT-392 is **Fixed-pending-verification**. A fresh strict-headless Portuguese
+  replay remains required; no browser replay was run during this fixer pass.

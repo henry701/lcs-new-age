@@ -6563,3 +6563,65 @@ console. The playtest bridge has no DOM missing-key set; unrelated console
 warnings are recorded in the verification metrics. Evidence is under
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt395-20260814/`.
 PT-395 is **Closed / Fixed**.
+
+## PT-396: Portuguese site specials expose hard-coded English encounter messages
+
+- Severity: Medium
+- Type: Site-mode translation
+- Screen: Portuguese site mode → White House, CCS, armory, CEO safe, graffiti,
+  corporate files, and safehouse interactions
+- Replay status: **Open**
+- Evidence: source probe `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-victory-20260814/probe-report.md`; affected call sites in `lib/sitemode/map_specials.dart`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) playtest with a route that enters a site
+   containing one of the affected specials.
+2. Trigger the special through the normal site-mode interaction.
+3. Inspect the encounter message buffer and the Portuguese catalog coverage.
+
+### Actual
+
+Multiple `encounterMessage` literals in `lib/sitemode/map_specials.dart` have
+no canonical ARB key and bypass the extractor, so the runtime renders English
+in Portuguese. Confirmed examples include the Oval Office (`The President is
+in the Oval Office.`), CCS boss states (`The CCS leader is here.`), the armory,
+graffiti, CEO/safe loot, corporate files, the conservative blocked door, and
+safehouse pickup branches.
+
+### Expected
+
+Every user-visible encounter message must pass through the normal translation
+catalog with Portuguese text preserving the game's tone. Add focused runtime
+coverage for the affected specials and static catalog coverage so future
+`encounterMessage` literals cannot bypass extraction.
+
+## PT-397: Portuguese combat death descriptions expose raw English templates
+
+- Severity: Medium
+- Type: Combat translation
+- Screen: Portuguese site-mode combat → Liberal or enemy death messages
+- Replay status: **Open**
+- Evidence: source probe `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-victory-20260814/probe-report.md`; affected function `lib/sitemode/fight.dart:addDeathMessage`
+
+### Reproduction
+
+1. Start a fresh Portuguese playtest and enter any ordinary combat encounter.
+2. Cause a combatant to die, including lighter-tone and severe/head/body-loss
+   branches where possible.
+3. Inspect the death-message buffer for raw English prose.
+
+### Actual
+
+`addDeathMessage` sends English templates through `processString` and then
+renders them with `noTranslate: true`; the dynamic fragments (`dies.`, `is
+dead.`, `is gone.`) and the head/body-loss and severe-death templates are absent
+from the canonical catalogs. Portuguese combat therefore exposes raw English
+death descriptions even though names and pronouns are localized.
+
+### Expected
+
+Translate the complete death-message templates and dynamic fragments through
+the canonical catalogs, retaining the existing tone/no-profanity variants and
+fixed-width safety. Add focused tests that exercise lighter-tone, head-loss,
+body-loss, severe, and ordinary death branches.

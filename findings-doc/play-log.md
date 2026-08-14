@@ -7066,3 +7066,22 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-k-20260814/`.
 - No new translation or layout finding was confirmed. Natural victory remains
   unobserved even after this multi-year stock campaign.
+
+## 2026-08-14 — mass-influence stock campaign L
+
+- `stock-victory-l-20260814` used a fresh stock Portuguese game with the
+  ordinary Blue Sky CCS setting. It recruited a university student and a
+  journalist, kept the founder active on Guardian Liberal writing, assigned
+  community service to the student, and assigned Liberal advocacy to the
+  journalist sleeper.
+- Adaptive stock daily waits handled agenda/news/vote/finance interludes and
+  advanced 397 days, from 1 January 2023 through 2 February 2024. The run
+  stayed on a non-Elite Liberal agenda screen with no victory or game-over
+  terminal.
+- All 773 retained bridge states were non-empty and 25×80, with maximum width
+  80, zero over-wide rows, zero bridge errors, zero document overflow, and no
+  terminal-pattern false positives. `cheats`, `debugAssisted`, fixtures,
+  save imports, CDP, headed browser, and source edits were false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-l-20260814/`.
+- No new translation or layout finding was confirmed; natural victory remains
+  unobserved.

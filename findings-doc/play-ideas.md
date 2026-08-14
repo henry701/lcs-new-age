@@ -2224,3 +2224,16 @@ routes are optional breadth coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-k-20260814/`.
 - Keep this as long-run blocker evidence. The only observed campaign victory
   remains the disposable debug-assisted fixture.
+
+## 2026-08-14 — mass-influence stock campaign L
+
+- Route L kept three legitimate Portuguese Liberals active: a Guardian-writing
+  founder, a university student on community service, and a journalist sleeper
+  promoting Liberalism. It processed stock agenda/news interludes for 397 days
+  through 2 February 2024.
+- The final agenda remained non-Elite Liberal with no victory or game-over.
+  The 773 captures were 80-column and bridge-error free, with all assistance
+  flags false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-l-20260814/`.
+- This adds long-run saturation evidence but does not establish a natural
+  victory; the only observed victory remains debug-assisted.

@@ -1,5 +1,15 @@
 # Portuguese Play Log
 
+## 2026-08-13 — stock constitution-focused route bootstrap blocker
+
+- Fresh session `stock-constitution-9296` used the strict headless wrapper and
+  Portuguese `?playtest=1` DOM bridge on port 9296 with stock flags unchanged.
+- Delayed Flutter bootstrap produced one empty bridge capture; a retry reached
+  the normal 25×80 Portuguese title screen with no browser/bridge errors. The
+  bounded route stopped before constitutional gameplay, so no victory or
+  game-over terminal was captured and no issue ticket was filed.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-constitution-20260813/`.
+
 ## 2026-08-12 — PT-374 hostage-composition regression verification
 
 - Static/runtime-focused Portuguese checks reproduced the safehouse hostage
@@ -6361,3 +6371,43 @@ reached. Captures and source hashes are under
 - 226 retained captures measured `maxRow:80`, zero over-wide rows, and empty
   `#lcs-playtest-errors`; no new translation/layout ticket was confirmed.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-police-territory-20260813/`.
+
+## 2026-08-13 — stock sleeper/executive bootstrap blocker
+
+- Fresh session `stock-victory-sleeper-20260813` was intended to exercise a strict stock-cheatless Portuguese sleeper/executive campaign. No debug flags, save fixture, source edit, headed browser, or CDP attach was used.
+- The new Flutter web-server on port 9290 never emitted `main.dart.js` (HTTP 404) after roughly 30 minutes of frontend compilation, so `#lcs-playtest-buffer` never mounted. Only two empty bootstrap captures exist; no gameplay, terminal, or issue evidence was obtained.
+- Preserve as a harness blocker rather than victory/game-over evidence. Summary and route: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-sleeper-20260813/`.
+
+## 2026-08-13 — stock funds-first route
+
+- Fresh strict-cheatless Portuguese session stock-victory-funds-20260813 used
+  Flutter web-server port 9295 and the repository headless wrapper only; no
+  debug flags, save fixtures, headed browser, CDP attach, or production edits
+  were used.
+- Strategy began with a randomly generated five-person founder gang, then
+  opened task assignment and selected legal fundraising. The route exercised
+  Fazer e Vender Arte, Solicitar Doações, and the skill/task pickers, but
+  remained at the first base assignment on 1 January 2023 with US$7 before a
+  daily activity could produce money. It reached no victory or game-over
+  terminal; summary.json records the honest blocker.
+- The 46 retained DOM captures stayed at 25 rows and maxRow 80, with zero
+  over-wide rows and an empty playtest error channel. No new translation or
+  layout issue was confirmed. Evidence is under
+  /home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-funds-20260813/.
+
+## 2026-08-13 — fresh stock liberalization/recruitment route
+
+- Session `stock-victory-liberalization-20260813` used a fresh Portuguese
+  stock-cheatless game on Flutter web-server port `9281`, through the strict
+  headless wrapper and `?playtest=1` DOM bridge only. No debug flag, save
+  fixture, headed browser, CDP attach, or production source edit was used.
+- The strategy selected a persuasion-oriented founder, repeatedly recruited
+  university and homeless-camp candidates, discussed liberal politics
+  (including abolition), and waited through ordinary base progression. It
+  reached January 4, 2023 recruitment meetings with candidates interested but
+  not yet joined; no political office, sleeper cabinet, siege, victory, or
+  game-over terminal was reached.
+- The 119 retained captures report `maxRow:80`, no over-wide rows, and empty
+  `#lcs-playtest-errors`; no new translation/layout issue was confirmed.
+  Evidence and the honest blocked summary are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-liberalization-20260813/`.

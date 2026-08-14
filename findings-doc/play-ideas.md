@@ -1,5 +1,15 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-13 — constitution-focused route bootstrap blocker
+
+- The fresh stock-cheatless constitution route reached the Portuguese title
+  screen only after delayed Flutter bootstrap; the first DOM capture was empty,
+  and the retry was clean at 80 columns. No constitutional surface, victory,
+  game-over terminal, or new translation/layout issue was observed.
+- Preserve as blocked route evidence and retry only when a healthy compiled
+  server is available. Artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-constitution-20260813/`.
+
 ## 2026-08-12 — broad strict-headless regression replay
 
 - Static trace from the hostage route found a confirmed Portuguese rendering
@@ -1752,3 +1762,39 @@ the residual queue.
   activity. All 226 captures stayed at `maxRow: 80` with no bridge errors or
   confirmed translation/layout issue. Evidence and route details are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-police-territory-20260813/`.
+
+## 2026-08-13 — sleeper/executive route bootstrap blocker
+
+- The fresh stock-cheatless sleeper/executive attempt could not start because the new Flutter web-server frontend remained unserved (`main.dart.js` HTTP 404) and the headless page lacked the DOM bridge. No route or ticket was produced; retry only after a healthy compiled server is available.
+
+## 2026-08-13 — stock liberalization/recruitment route
+
+- Fresh strict stock-cheatless Portuguese session
+  `stock-victory-liberalization-20260813` pursued high-persuasion recruiting,
+  abolition/politics conversations, and ordinary waits. It reached interested
+  student and homeless-camp recruitment meetings in early January 2023 but
+  no join threshold, executive sleeper, victory, or game-over terminal.
+- All 119 captures stayed within the 80-column bridge with no errors and no
+  confirmed translation/layout issue. Keep the route as honest blocked
+  evidence, not as a victory replay; summary and route details are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-liberalization-20260813/`.
+
+## 2026-08-13 — funds-first stock route
+
+- The fresh stock-cheatless funds-first campaign reached base assignment and
+  covered legal fundraising menus (Fazer e Vender Arte and Solicitar Doações)
+  with a randomly generated five-person founder gang. It stalled before the
+  first day elapsed at US$7, so no victory/game-over terminal was reached.
+- Keep this as an honest blocked route; do not treat the paid-task selector as
+  funds evidence or substitute debug/fixture victory evidence. The existing
+  strict victory gate remains open.
+
+## 2026-08-13 — PT-048/PT-148 police residual code probe
+
+- Static tracing confirms \`_fightSubdued()\` requires a live cop, police chief,
+  or SWAT member with \`blood > 60\` while every living squad member has
+  \`blood <= 40\`; existing replays did not meet both thresholds.
+- The Portuguese arrest sentence is already catalogued and 41 cells wide, so
+  no translation/layout defect was confirmed. A disposable threshold fixture
+  remains a possible coverage route, not replay evidence.
+- Probe report: \`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-police-residual-20260813/probe-report.md\`.

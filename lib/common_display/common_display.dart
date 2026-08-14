@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:lcs_new_age/basemode/activities.dart';
@@ -530,7 +529,7 @@ String _getHealthDisplayForSkill(
   // Combat keeps negative blood values to distinguish overkill outcomes in
   // death messages. Health rendering must not expose that internal value or
   // pass it as the upper bound of a non-negative clamp.
-  int currentHP = max(creature.blood, 0);
+  int currentHP = creature.blood < 0 ? 0 : creature.blood;
   int maxHP = creature.maxBlood;
   int precision;
   switch (skillLevel) {

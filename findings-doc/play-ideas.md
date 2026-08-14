@@ -1,5 +1,17 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-14 — constitution-focused stock route blocker
+
+- A fresh stock-cheatless Portuguese route verified normal founder
+  persuasion/recruitment, legal donations, politics meetings, and the
+  questionnaire-created lawyer sleeper. It remained at US$11 before the
+  US$50 recruitment-material threshold; the candidate was explicitly not yet
+  eligible to join, so no political victory path opened.
+- Keep this as honest early-game blocker evidence, not victory evidence. All
+  95 captures were 80 columns with no bridge errors or new layout/translation
+  ticket. Artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-constitution-20260814/`.
+
 ## 2026-08-13 — constitution-focused route bootstrap blocker
 
 - The fresh stock-cheatless constitution route reached the Portuguese title
@@ -1798,3 +1810,22 @@ the residual queue.
   no translation/layout defect was confirmed. A disposable threshold fixture
   remains a possible coverage route, not replay evidence.
 - Probe report: \`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-police-residual-20260813/probe-report.md\`.
+
+## 2026-08-13 — stock CCS/politics route
+
+- Fresh strict stock-cheatless Portuguese session
+  `stock-ccs-politics-20260813` chose Clear Blue Skies and team initiative,
+  wrote Liberal Guardian articles, read the AM-radio news path, and reached
+  the Seattle AM-radio site map. It stopped at a normal site-mode help screen
+  on 9 January 2023 without victory or game-over.
+- All 53 bridge captures stayed within 80 columns with no errors or confirmed
+  translation/layout ticket. Keep the route as honest blocked evidence; do not
+  count it as `Ending.victory`. Artifacts are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-ccs-politics-20260813/`.
+
+## 2026-08-14 — PT-048/PT-148 residual re-audit
+
+- The police arrest/subdue wording and localized officer interpolation are
+  fixed and independently verified. Remaining random police-alarm seeds are
+  optional breadth coverage, not an open translation/layout defect.
+- Probe report: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-police-residual-20260814/probe-report.md`.

@@ -203,7 +203,7 @@
 | PT-361 | Medium | Site-map console layout | Courthouse special label overwrote the Portuguese `L:Carregar` command |
 | PT-363 | Medium | Bank-vault translation/coverage | Vault continuation fragments fell back to English and called an informática specialist `um computador` |
 | PT-364 | — | Playtest verification | Rebuilt police-fixture route stayed localized and width-safe; arrest/subdue branch remains unforced |
-| PT-365 | — | Playtest verification | Strict-headless police combat replay stayed localized and width-safe; normal subdue terminal remains residual |
+| PT-365 | — | Playtest verification | Strict-headless police combat replay stayed localized and width-safe; remaining random subdue seeds are optional coverage only |
 | PT-366 | Low | Translation telemetry / display boundary | Already-localized profile and site values were retranslated |
 | PT-371 | Medium | Clothing-crafting layout | Long localized difficulty collides with a four-digit craft cost |
 | PT-372 | Medium | Flag-crafting layout | Portuguese currency costs clip and difficulty touches the cost column |
@@ -1389,7 +1389,7 @@ regression tests assert the fixed-column limits.
 - Severity: Medium
 - Type: Contextual translation quality
 - Screen: Site mode → combat / car chase
-- Replay status: **Fixed in catalogs/source; core siege plus non-police terminal branches verified in strict-headless replays; police surrender/arrest variants remain open**
+- Replay status: **Fixed and independently verified; remaining random police-alarm surrender/arrest seeds are optional coverage-only follow-up with no confirmed translation or layout defect**
 
 The tooth-damage composition produced forms such as `está queimou!` and
 `está corte!`. Car-chase fragments also read awkwardly, and the sneak-miss
@@ -2091,7 +2091,7 @@ replay and context catalog test cover the complete line.
 - Severity: Medium
 - Type: Runtime interpolation / translation coverage
 - Screen: Police alarm → siege combat
-- Replay status: **Fixed on 2026-08-01; direct strict-headless routes verify roster, hit, injury, and non-police terminal branches; police surrender/arrest variants remain under PT-048**
+- Replay status: **Fixed and independently verified; remaining random police-alarm surrender/arrest seeds are optional coverage-only follow-up with no confirmed translation or layout defect**
 
 Combat messages passed raw generated creature names into attack, injury, loot,
 reaction, and death templates, so Portuguese combat could expose `SWAT
@@ -5416,8 +5416,18 @@ weapons and armor, hit/injury messages, and repeated `F - Lutar` rounds. The DOM
 bridge remained at 25 rows with a maximum width of 80; no document overflow or
 bridge errors appeared. No English fallback, key-prefix mutation, punctuation
 loss, or layout collision was observed. The normal `_fightSubdued` guard did not
-fire before the combat state changed, so PT-048 arrest/subdue coverage remains
-explicitly residual rather than being treated as verified.
+fire before the combat state changed; a separate deterministic replay verified
+that terminal wording, so remaining random seed variation is optional breadth
+coverage rather than an unverified translation or layout defect.
+
+### PT-048/PT-148 residual re-audit (2026-08-14)
+
+The code-only re-audit confirmed that canonical arrest wording and localized
+police-role interpolation are covered by focused tests and the prior
+deterministic strict-headless replay. No actual unverified translation or
+layout defect remains. Future random police-alarm seeds may broaden coverage,
+but they are not pending corrections. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-police-residual-20260814/probe-report.md`.
 
 ## PT-366: Already-localized profile and site values were retranslated
 

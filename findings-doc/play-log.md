@@ -1,5 +1,21 @@
 # Portuguese Play Log
 
+## 2026-08-14 — stock constitution-focused route blocked at recruitment threshold
+
+- Fresh session `stock-constitution-9297` used the strict headless wrapper and
+  Portuguese `?playtest=1` DOM bridge on port 9297. No debug flags, fixtures,
+  headed/CDP browser, or source edits were used.
+- The route selected the normal climate with CCS disabled, built a
+  persuasion-oriented founder, recruited university candidates, verified the
+  questionnaire-created lawyer sleeper at the Seattle courthouse, and ran
+  legal donations plus politics meetings. Persuasion reached 26.26 and funds
+  rose from US$7 to US$11.
+- It stopped on 3 January 2023 at a Desirée Swain meeting: the US$50 materials
+  option was unavailable and the candidate was not yet eligible to join. No
+  victory/game-over terminal or new translation/layout issue was found. The 95
+  captures stayed within 25×80 with no over-wide rows or bridge errors.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-constitution-20260814/`.
+
 ## 2026-08-13 — stock constitution-focused route bootstrap blocker
 
 - Fresh session `stock-constitution-9296` used the strict headless wrapper and
@@ -6411,3 +6427,29 @@ reached. Captures and source hashes are under
   `#lcs-playtest-errors`; no new translation/layout issue was confirmed.
   Evidence and the honest blocked summary are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-victory-liberalization-20260813/`.
+
+## 2026-08-13 — fresh stock CCS/politics route
+
+- Session `stock-ccs-politics-20260813` used a fresh Portuguese stock-cheatless
+  campaign on Flutter web-server port `9302`, through the strict headless
+  wrapper and `?playtest=1` DOM bridge only. It selected `Céu Azul e Límpido`
+  (Clear Blue Skies) and team initiative; no debug flags, save fixture, headed
+  browser, CDP attach, or production edit was used.
+- The founder wrote Liberal Guardian articles, waited to 9 January 2023,
+  reviewed the translated media overview, read the AM-radio headline/article,
+  planned and reached the AM-radio site map, and opened direct-action help.
+  The bounded route stopped at that normal site-mode screen; it reached neither
+  `Ending.victory` nor a game-over terminal.
+- 53 retained DOM captures stayed at `maxRow:80`, with zero over-wide rows and
+  an empty `#lcs-playtest-errors` channel. No new translation/layout issue was
+  confirmed. Evidence and route details are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/ten-strategies-20260813/stock-ccs-politics-20260813/`.
+
+## 2026-08-14 — PT-048/PT-148 residual re-audit
+
+- A code-only prober rechecked the police arrest/subdue guard, canonical
+  Portuguese terminal wording, localized police-role interpolation, focused
+  tests, and the prior deterministic strict-headless replay. No unverified
+  translation or layout defect remains; random police-alarm seeds are optional
+  breadth coverage only.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-police-residual-20260814/probe-report.md`.

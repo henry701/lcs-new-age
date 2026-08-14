@@ -6830,6 +6830,18 @@ reached. Captures and source hashes are under
   validation pass. PT-392 is **Fixed-pending-verification**; no browser replay
   has been run for this fixer handoff.
 
+## 2026-08-14 — PT-393 fixer handoff
+
+- Added canonical English fallbacks and Portuguese translations for the seven
+  missing generated CCS cover roles: `Soldier` → `Soldado`, `Transient` →
+  `Sem-teto`, `Crackhead` → `Cracudo`, `Telemarketer` → `Teleoperador`,
+  `Mailman` → `Carteiro`, `Hairstylist` → `Cabeleireiro`, and `Bartender` →
+  `Barman`. Existing role translations were preserved.
+- `test/sitemode/ccs_cover_role_translation_test.dart` covers the complete
+  fixed-role pool through the runtime localization helper. Focused/runtime/
+  static tests and canonical ARB validation pass. PT-393 is
+  **Fixed-pending-verification**; no browser replay was run for this fixer.
+
 ## 2026-08-14 — PT-392 independent verification closure
 
 - Fresh strict-headless session `verify-pt392-fresh-20260814` used a stock

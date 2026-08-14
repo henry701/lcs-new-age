@@ -2088,6 +2088,16 @@ routes are optional breadth coverage.
 - PT-392 is **Fixed-pending-verification**. A fresh strict-headless Portuguese
   replay remains required; no browser replay was run during this fixer pass.
 
+## 2026-08-14 — PT-393 fixer handoff
+
+- The seven missing generated CCS cover roles now have canonical English
+  fallbacks and natural Portuguese values: `Soldado`, `Sem-teto`, `Cracudo`,
+  `Teleoperador`, `Carteiro`, `Cabeleireiro`, and `Barman`.
+- Existing generated-role translations remain intact. The focused role-pool
+  regression, runtime/static catalog suites, and canonical ARB check pass.
+- PT-393 is **Fixed-pending-verification**. A fresh strict-headless Portuguese
+  combat replay remains required; no browser replay was run during this fixer.
+
 ## 2026-08-14 — PT-392 verification closure
 
 - Fresh session `verify-pt392-fresh-20260814` reached translated CCS newspaper

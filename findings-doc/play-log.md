@@ -7222,3 +7222,36 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-s-20260814/`.
 - No new translation or layout finding was confirmed. This is a bounded
   low-roster political-influence blocker, not victory evidence.
+
+## 2026-08-15 — funded Guardian-influence stock campaign U
+
+- `stock-victory-u-20260814` used a fresh Portuguese Clear Blue Skies campaign
+  with the $1,000-savings, high-persuasion/charisma founder route. It recruited
+  journalist Nancy Mann, assigned Guardian article writing, solicited
+  donations, and processed monthly turns through February 2024.
+- Funds reached $3,323 and the agenda showed President Ransom Singh in a first
+  mandate, but the Seattle homeless encampment could not be upgraded to a
+  video room and no upgradable safehouse was reached. The route stopped at that
+  clear infrastructure blocker with no victory or game-over terminal.
+- Evidence retained a clean Portuguese agenda/base/assignment set with all
+  assistance flags false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-u-20260814/`.
+- No new translation or layout finding was confirmed. This is a bounded
+  Guardian/video-room infrastructure blocker, not victory evidence.
+
+## 2026-08-15 — funded legislative stock campaign V
+
+- `stock-victory-v-20260814` used a fresh Portuguese Clear Blue Skies campaign
+  with a persuasion/law founder, US$1,000 starting savings, material-backed
+  political recruitment, and Liberal Guardian article writing.
+- Five recruits joined (six active Liberals total), and the route reached the
+  31 January 2023 monthly congressional deliberation plus the 1 February
+  legislative agenda and financing screens. Recruitment consumed US$850,
+  leaving US$150; no court purge, term-limit result, victory, or game-over
+  terminal appeared before the bound.
+- Evidence retained a clean 25×80 final capture with all assistance flags false
+  (no cheats/debug assistance, fixtures, save imports, CDP, headed browser, or
+  source edits). Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-v-20260814/`.
+- No new translation or layout finding was confirmed. This is a bounded
+  monthly-politics checkpoint, not victory evidence.

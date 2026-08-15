@@ -2329,3 +2329,26 @@ routes are optional breadth coverage.
 - Preserve `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-s-20260814/`
   as a clean low-roster blocker. Future stock victory work needs substantially
   faster recruitment/funding before monthly political processing.
+
+## 2026-08-15 — funded Guardian-influence stock campaign U
+
+- Route U validated the $1,000-savings/high-persuasion founder and reached
+  monthly agenda processing with $3,323 after funding donations and a
+  journalist's Guardian articles. The homeless encampment cannot host the
+  needed video room, so an upgradable safehouse remains the next route target.
+- Keep `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-u-20260814/`
+  as clean political-progress evidence. A future stock victory route needs to
+  secure an upgradable base before relying on Stream Guardian's stronger
+  influence multiplier.
+
+## 2026-08-15 — funded legislative stock campaign V
+
+- Route V combined a US$1,000 persuasion/law founder, five ordinary political
+  recruits, and Liberal Guardian writing. It reached the first monthly bill
+  deliberation and legislative agenda in Portuguese with six active Liberals.
+- The run still had only US$150 after recruitment and stopped before a second
+  political cycle; no constitutional purge, term-limit outcome, victory, or
+  game-over terminal was observed.
+- Preserve `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-v-20260814/`
+  as clean monthly-processing evidence. The next route should preserve funds
+  while scaling the active roster and then run multiple elections.

@@ -7588,3 +7588,16 @@ reached. Captures and source hashes are under
   and zero post-Portuguese raw-English matches. No new ticket, victory, or
   game-over terminal appeared. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy15-20260815/`.
+
+## 2026-08-15 — CCS-absent climate and legislative stock campaign #16
+
+- `playtester-strategy16-20260815` used a fresh Portuguese campaign with a
+  materially different `O fim do mundo como o conhecemos` climate. It created
+  journalist Laurie Hall and lawyers Flora Weller and Nelly Schumer as
+  infiltrated sleepers, assigned liberal advocacy, and reached the January 31
+  to February 1 legislative agenda and funding report.
+- The stock-cheatless route retained 357 captures with maximum width 80,
+  zero over-wide rows, bridge errors, empty buffers, or metadata anomalies,
+  and zero post-Portuguese raw-English matches. Both sampled resolutions were
+  defeated; no new ticket, victory, or game-over terminal appeared. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy16-20260815/`.

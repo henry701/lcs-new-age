@@ -2382,3 +2382,45 @@ routes are optional breadth coverage.
   future stock victory work needs substantially stronger public-mood growth and
   repeated chamber replacement. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-x-20260814/`.
+
+## 2026-08-15 — newspaper/media archive breadth
+
+- Exercise every television event branch (Police Brutality, Cable News anchor,
+  American Dream, New Anchor, Genius Mutant), then open each archived item
+  from `Visão geral da mídia` in Portuguese. Confirm the body is localized and
+  remains width-safe after PT-401 is fixed.
+- Keep an eye on dynamic show-name headlines: the overview currently returns
+  already-localized values unchanged but records them as false missing keys;
+  treat this as telemetry-only unless it becomes visible or affects catalog
+  audits.
+- Harness/report: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-newspaper-20260815/`.
+
+- PT-401 is fixed: keep raw TV bodies in the archive, add exact full-body
+  catalog entries, and verify translation through `addparagraph()` at read
+  time. Focused all-five coverage plus a fresh live replay of two archived
+  stories passed. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt401-20260815/final2/`.
+
+## 2026-08-15 — combat/police stock route Z
+
+- Start from a combat founder: choose the martial-arts, firearms, AK-102, and
+  gang-leader answers to create a five-person squad without cheats. Exercise
+  Seattle automobile factory, department-store, and police-station maps, then
+  wait through legislative, newspaper, and Supreme Court cycles.
+- The police station naturally reaches `CONSERVADORES ALARMADOS`; a future
+  continuation should deliberately pursue the encounter to a stock
+  game-over if possible. Preserve the route as `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-z-20260815/`.
+- PT-402 is a new follow-up: the Supreme Court surveillance screen writes long
+  Portuguese precedent descriptions from column zero and vote counts at
+  column 63, visibly joining/truncating text (`proprietários4`, `polí6`) while
+  remaining 80 cells wide. Fix and independently replay before closing.
+
+- PT-403 is a new follow-up from the independent turnover verifier: the
+  `{label} Justice` template receives an untranslated alignment parameter and
+  the departing-justice suffix remains English, producing mixed output such
+  as `Conservative Justiça ... is stepping down.`
+
+- PT-403 is now fixed: dynamic alignment labels and the departing suffix are
+  localized before rendering. Focused all-alignment coverage and a fresh June
+  stock-cheatless turnover replay passed with clean 80-column captures.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt403-20260815/`.

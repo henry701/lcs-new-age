@@ -6777,3 +6777,160 @@ Separação`, typed the localized phrase, and advanced to the post-disband scree
 rows stayed within 80 columns with no bridge errors or raw English in the
 targeted confirmation text. Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt400-20260815/{summary.json,verifier.md,31-disband-confirmation.json,32-type-c.json,33-type-localized-eval.txt,34-after-type.json}`.
+
+## PT-401: Television archive bodies bypass Portuguese newspaper translation
+
+- Severity: Medium
+- Type: Newspaper/media translation assembly
+- Screen: Portuguese `Visão geral da mídia` → archived Cable News or television story
+- Replay status: **Closed / Fixed**
+- Evidence: prober `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-newspaper-20260815/prober-report.md`; independent verifier `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt401-20260815/final2/verifier.md`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) campaign and let any television event
+   archive normally: Police Brutality, a Cable News anchor, The American
+   Dream, New Anchor, or Genius Mutant.
+2. Open `M - Visão geral da mídia` and select that archived story.
+3. Inspect the article body.
+
+### Actual
+
+`lib/newspaper/television.dart` assigns five complete English body paragraphs
+directly to `newsStories[n].body` (lines 27–29, 93–95, 159–161, 196–198, and
+233–235). The archive reader then passes the complete stored value to
+`addparagraph()` at `lib/basemode/media_overview.dart:212`. No complete body
+has a Portuguese catalog entry, so `LcsI18n.processString()` falls back to the
+English text and the opened Portuguese article visibly contains raw English.
+
+An independent current-build harness exercised all five body strings through
+the same `processString()`/`addparagraph()` path. Representative output rows
+were:
+
+```text
+A Cable News anchor just accidentally let a Liberal guest finish a sentence. / Many viewers across the nation were listening.
+A new show glamorizing the lives of the rich begins airing this week.  With the / nationwide advertising blitz, it's bound to be popular.
+A major Cable News channel has hired a slick new anchor for one of its news / shows.  Guided by impressive advertising, America tunes in.
+A mutant affected by nuclear power appears on a popular talk show and / demonstrates his superhuman intelligence and charisma, showcasing the upsides / of consuming nuclear waste.
+```
+
+The harness passed with maximum visible rows of 75–79 cells, no over-wide
+rows, and no bridge/runtime errors. This is a visible translation leak, not
+only a missing-translation telemetry event.
+
+### Expected
+
+Archived television articles should render complete Portuguese body text while
+retaining the existing satire and fixed-width layout. Translate each body as a
+complete template or compose its cataloged fragments before archiving; add a
+focused regression covering all five television branches through the article
+reader.
+
+### Fix / Verification
+
+Added exact `en_US`/`pt_BR` catalog entries for all five complete television
+bodies. The archive keeps raw English so changing locale still works on
+existing stories; `addparagraph()` translates at read time. The focused
+regression covers all five bodies, Portuguese width safety, raw-English
+absence, and exact `en_US` fallback. A fresh strict-headless Portuguese replay
+opened `Nova Âncora` and `MUTANTE GÊNIO`; both bodies were complete Portuguese,
+25×80, and bridge-error free. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt401-20260815/final2/`.
+
+## PT-402: Supreme Court surveillance vote counts overwrite long Portuguese precedents
+
+- Severity: Medium
+- Type: Fixed-width layout / political translation
+- Screen: Portuguese month-end → Suprema Corte → Vigilância da Suprema Corte
+- Replay status: **Closed / Fixed**
+- Evidence: prober `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-z-20260815/174-wait-batch-38.json`; independent verifier `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt402b-20260815/verifier.md`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) stock campaign with a combat-focused
+   founder and wait through the first Supreme Court cycle.
+2. When `Vigilância da Suprema Corte 2023` appears, advance through the vote
+   reveal until the right-side counts are shown.
+3. Inspect the 80-column console rows containing long Portuguese precedent
+   descriptions.
+
+### Actual
+
+The left precedent text is written from column zero while vote labels are
+written at column 63. Long localized values therefore collide with the vote
+count instead of being fitted. The fresh replay visibly rendered:
+
+```text
+Um novo precedente seria expandir os direitos dos proprietários4 pelo Status Quo
+Um novo precedente seria combater comportamento abusivo da polí6 pelo Status Quo
+```
+
+The `4` and `6` vote counts overwrite the final Portuguese glyphs/spaces;
+the visible sentence is truncated or joined with the right-hand column even
+though every captured row remains exactly 80 cells.
+
+### Expected
+
+Fit or ellipsize each localized precedent description to the available
+left-column width before writing vote counts at column 63 (or move the counts
+to a collision-free row/column). Preserve the complete meaning and tone in
+Portuguese, and add a focused regression covering long precedent values and
+the two right-side vote labels at 80 columns.
+
+### Fix / Verification
+
+The surveillance renderer now fits localized precedent text into the left
+column, reserves a period plus separator, and starts vote labels at column 63.
+The focused regression covers long Portuguese precedents and both vote labels.
+A fresh stock-cheatless Portuguese replay reached the natural Supreme Court
+vote reveal: the period was at column 61, a blank separator at column 62, and
+the count at column 63. All captures remained 80 columns with no bridge
+errors. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt402b-20260815/`.
+
+## PT-403: Supreme Court justice turnover interpolates English alignment text
+
+- Severity: Medium
+- Type: Translation interpolation leak
+- Screen: Portuguese month-end → Suprema Corte → troca de juiz
+- Replay status: **Closed / Fixed**
+- Evidence: discovery `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt402b-20260815/32-supreme-court-votes.json`; independent verifier `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt403-20260815/verifier.md`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) stock campaign and advance to a Supreme
+   Court turnover.
+2. When `Mudando a Guarda!` appears, inspect the departing-justice and
+   replacement-justice messages.
+
+### Actual
+
+The turnover screen mixes English alignment text into Portuguese output:
+
+```text
+Conservative Justiça Jennifer Wolfe is stepping down.
+```
+
+`lib/politics/supreme_court.dart` passes the raw
+`politics.court[j].label` value as the `{label}` parameter to the localized
+`{label} Justice ` template, and the trailing `is stepping down.` sentence has
+no Portuguese catalog entry. The replacement paragraph similarly interpolates
+the raw alignment label into the Portuguese template.
+
+### Expected
+
+Translate dynamic alignment labels before interpolation and localize the
+departing-justice sentence. The complete turnover sequence should remain
+Portuguese, preserve the existing colors/names, and fit the 80-column console.
+Add focused coverage for all five `DeepAlignment` labels and both turnover
+sentences.
+
+### Fix / Verification
+
+Translated dynamic alignment labels before interpolation, localized the
+departing-justice suffix, and kept generated names out of translation lookup.
+The focused regression covers all five alignments, both turnover messages,
+color boundaries, and 80-column fit. A fresh stock-cheatless Portuguese route
+reached a natural June turnover; every capture was 80 columns with no raw
+English alignment/suffix text, overflow, or bridge errors. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt403-20260815/`.

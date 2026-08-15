@@ -7306,3 +7306,66 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-x-20260814/`.
 - No new translation or layout finding was confirmed. This is a bounded
   political-influence checkpoint, not victory evidence.
+
+## 2026-08-15 — independent newspaper/media dynamic assembly probe
+
+- Prober audit targeted `lib/newspaper/television.dart` and the archived-story
+  reader in `lib/basemode/media_overview.dart` on current commit `cd589eb5`.
+- A disposable current-build harness replayed all five television body strings
+  through `LcsI18n.processString()` and `addparagraph()` in `pt_BR`. The bodies
+  remained English because no complete Portuguese catalog keys exist. Captured
+  rows were 75–79 cells wide, with no over-wide rows or bridge/runtime errors.
+- PT-401 was filed for the visible archived-article leak. The separate
+  already-localized dynamic Cable News headline false-missing telemetry was
+  recorded but not ticketed because its visible text is unchanged.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-newspaper-20260815/`.
+
+- PT-401 is now fixed and independently verified. Exact full-body catalog
+  entries translate all five stories at the media-reader boundary while raw
+  archive values remain locale-switchable. The focused regression covers all
+  five bodies; the fresh strict-headless replay opened two complete Portuguese
+  articles with 25×80, width-safe, bridge-error-free captures. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt401-20260815/final2/`.
+
+## 2026-08-15 — combat-focused gang and police-station stock campaign Z
+
+- `playtester-z-20260815` used a fresh Portuguese stock campaign on Flutter
+  web-server port 9404, with isolated strict-headless session
+  `playtester-z-20260815-9404`. The founder selected martial-arts, firearms,
+  gang-leader, and four-gang-member routes, then visited a Seattle automobile
+  factory, department store, and police station. The police visit reached
+  `CONSERVADORES ALARMADOS`; the route then advanced ordinary waits through
+  the first legislative, newspaper, and Supreme Court cycles.
+- The replay explicitly proved language selection with `a` → `p` and retained
+  179 JSON buffer captures. Every capture was 25×80 (`maxRow=80`), had zero
+  over-wide rows, zero DOM bridge errors, and ran as `HeadlessChrome/150.0.0.0`
+  through `?playtest=1`. No cheats, fixtures, save imports, source edits,
+  headed browser, or CDP attachment were used by the route.
+- The Supreme Court surveillance screen exposed PT-402: long Portuguese
+  precedent descriptions collide with vote counts rendered at column 63,
+  producing visible joins such as `proprietários4 pelo Status Quo` and
+  `polí6 pelo Status Quo`. The rows are still exactly 80 cells, so this is an
+  overlap/clipping defect rather than an over-wide-row or bridge error.
+- No victory or terminal game-over appeared before the route bound. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-z-20260815/`.
+
+- PT-402 is fixed and independently verified. The renderer now reserves the
+  period and separator before column 63; the fresh June vote reveal measured
+  period/space/count at columns 61/62/63 with 80-column, error-free captures.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt402b-20260815/`.
+
+## 2026-08-15 — independent Supreme Court turnover verifier
+
+- The fresh current-build Portuguese verifier replay reached the natural
+  Supreme Court surveillance vote reveal after the PT-402 separator fix.
+- The same turnover sequence exposed PT-403: the departing-justice line
+  rendered `Conservative Justiça Jennifer Wolfe is stepping down.` and the
+  replacement paragraph mixed a raw English alignment label into Portuguese.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt402b-20260815/32-supreme-court-votes.json`
+  and `33-supreme-court-votes.json`.
+
+- PT-403 is fixed and independently verified. A fresh stock-cheatless June
+  turnover rendered `Liberal (pol.) Justiça ... está deixando o cargo.` and a
+  fully Portuguese appointment sentence. All 21 captures were 80 columns with
+  no raw English alignment/suffix text, overflow, or bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt403-20260815/`.

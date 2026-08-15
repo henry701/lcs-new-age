@@ -7012,8 +7012,8 @@ empty buffers. Evidence:
 - Severity: Medium
 - Type: Translation interpolation/display leak
 - Screen: Portuguese recruitment meeting and infiltrated-agent assignment
-- Replay status: **Open**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-guardian13-20260815/`
+- Replay status: **Closed / Fixed**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt407-20260815/`
 
 ### Reproduction
 
@@ -7051,7 +7051,7 @@ was raised. The untranslated title appears in captures such as
 `38-journalist-outcome.json`, `82-after-join.json`, and
 `96-soraya-assign-menu.json`.
 
-### Fix (pending independent verification)
+### Fix (verified)
 
 Added the missing canonical `Activist` entry to both locale catalogs, with
 `Ativista` as the Portuguese value. `levelTitle(2, Alignment.liberal)` already
@@ -7059,10 +7059,78 @@ routes titles through `LcsI18n.tr`, so no gameplay logic change is required.
 Added `test/creature/level_translation_test.dart` to assert both the direct
 catalog lookup and the rendered level title under `pt_BR`.
 
+- Independent verification: fresh headless Portuguese replay from commit
+  `04b03d146c2e0b1590054c0bb8ca22298765f1ef` using server port `9996` and
+  session `verify-pt407-20260815`. The normal journalist recruitment header
+  rendered `Ativista` in captures `054-journalist-a-header-jan5.json` through
+  `058-ativista-talk-next.json`; no capture contained raw `Activist`.
+  Across 60 valid captures, maximum row width was 80, over-wide rows were 0,
+  bridge errors were 0, and empty buffers were 0. The focused regression
+  `flutter test test/creature/level_translation_test.dart` passed.
+
+## PT-408: Political Activist type name leaks English in Portuguese liberal profiles
+
+- Severity: Medium
+- Type: Missing translation / dynamic creature type display
+- Screen: Portuguese base mode → Review Liberals → active liberal profile
+- Replay status: **fixed-pending-verify**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-pt408-20260815/`
+
+### Reproduction
+
+1. Start a fresh stock Portuguese (`pt_BR`) campaign with cheats, debug state,
+   fixtures, and save import disabled.
+2. Open `Revisar Ativos e Formar Equipes`, select `Liberais Ativos`, and view
+   the founder's profile.
+3. Inspect the generated role in the profile heading and assignment screen.
+
+### Actual
+
+The profile is otherwise Portuguese but renders the generated founder role in
+English:
+
+```text
+Nome: Margaret bin LadenR, Ameaça Socialista (Political Activist)
+```
+
+The assignment flow was also exercised, while the raw role remained visible in
+the surrounding profile views. The source creature type is
+`CREATURE_POLITICALACTIVIST` with `<type_name>Political Activist</type_name>`
+in `assets/xml/creatures.xml`; neither locale catalog has an exact
+`Political Activist` entry.
+
+### Expected
+
+Render the role in Portuguese (for example, `Ativista Político`) in the full
+profile and task-assignment heading, preserving the generated-name fallback
+and 80-column layout. Add a focused catalog regression and verify the profile
+and assignment screens in a fresh headless replay.
+
+### Verification notes
+
+This was an isolated prober pass on commit `04b03d14` using a fresh Flutter
+web-server and session `prober-pt408-20260815`; no source or game state was
+injected. The route retained 51 DOM captures, all with 80-column buffers,
+zero over-wide rows, zero bridge errors, and zero empty buffers. The raw
+`Political Activist` role appeared in captures `32-profile.json`,
+`33-profile-more.json`, and `34-profile-assign.json`.
+
+### Fix (pending independent verification)
+
+Added the canonical `Political Activist` entry to both locale catalogs, with
+`Ativista Político` as the Portuguese value. The existing full-profile and
+assignment render path already passes creature types through `LcsI18n.tr`, so
+no gameplay logic change is required. Added
+`test/creature/political_activist_translation_test.dart` to assert the direct
+catalog lookup and the localized profile heading interpolation under `pt_BR`.
+
 - Replay status: **fixed-pending-verify**
 - Independent replay steps: start a fresh `pt_BR` stock campaign at
   `http://127.0.0.1:<port>/?playtest=1` using a new headless
-  `AGENT_BROWSER_SESSION`; recruit a level-2 liberal journalist (or inspect a
-  level-2 liberal infiltrated agent), then capture the recruitment/join and
-  assignment headers. Confirm they show `Ativista`, contain no raw `Activist`,
-  and remain within the 80-column console width.
+  `AGENT_BROWSER_SESSION`; open the active liberal founder profile and its
+  assignment view. Confirm both show `Ativista Político`, contain no raw
+  `Political Activist`, and remain within the 80-column console width.
+- Focused regression: `flutter test
+  test/creature/political_activist_translation_test.dart` passed.
+- Canonical catalog check: `dart run scripts/maintain_arb_catalogs.dart
+  --check --locale=en_US --locale=pt_BR` passed.

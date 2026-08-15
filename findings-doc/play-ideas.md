@@ -2424,3 +2424,47 @@ routes are optional breadth coverage.
   localized before rendering. Focused all-alignment coverage and a fresh June
   stock-cheatless turnover replay passed with clean 80-column captures.
   Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt403-20260815/`.
+
+## 2026-08-15 — stealth recruitment and terminal coverage
+
+- Repeat the stock New York stealth route with legal donations, ration
+  investment, university recruitment meetings, media overview, and Liberal
+  status. The fresh run reached 118 clean Portuguese captures but stopped
+  before sleeper conversion or a terminal; keep it as under-covered
+  recruitment/media saturation evidence.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-stealth-20260815/`.
+
+- A separate stock-cheatless combat route reached a Portuguese game-over at
+  Desert Eagle Bar e Grill with one founder killed by armed guards. It is a
+  second distinct terminal strategy and a clean 80-column baseline; preserve
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-terminal-combat-20260815/`.
+
+- The car-theft prober exercised RNG-dependent post-search variants. Only
+  translated messages appeared before a police chase interrupted the route;
+  do not file a duplicate ticket without deterministic reproduction of the
+  `Why me?`/`Oh no...` branches. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-pt404-car-theft-20260815/`.
+
+- The education/media route exercised Science practice, Liberal Arts teaching,
+  Guardian writing, and media overview in a fresh no-cheat New York campaign.
+  It was clean but bounded on 4 January 2023; preserve it as a distinct
+  under-covered assignment/media strategy while continuing the longer
+  political and terminal routes.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-pt405-education-media-20260815/`.
+
+- A long default illegal-activity route reached the natural Portuguese police
+  sting after 251 waits. Preserve it as a distinct arrest/checkpoint strategy
+  and use the same one-day advancement pattern for future terminal coverage;
+  it stayed width-safe and issue-free but did not reach game over.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-police-arrest-20260815/`.
+
+- The independent media breadth run opened four archived stories and all five
+  constitutional/status pages from a Washington Guardian-writing campaign.
+  It is clean current-HEAD evidence for the post-PT-401 media path and the
+  constitutional overview; continue with a separate endgame route for a
+  terminal rather than treating this bounded run as victory evidence.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-media-20260815/`.

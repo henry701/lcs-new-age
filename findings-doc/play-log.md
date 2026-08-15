@@ -7369,3 +7369,82 @@ reached. Captures and source hashes are under
   fully Portuguese appointment sentence. All 21 captures were 80 columns with
   no raw English alignment/suffix text, overflow, or bridge errors. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt403-20260815/`.
+
+## 2026-08-15 — stealth recruitment and media stock campaign
+
+- `playtester-stealth-20260815` used a fresh current-HEAD Portuguese game
+  with a New York founder focused on stealth, legal donations, ration
+  investment, low-profile recruitment, and repeated university meetings with
+  Fidel Cavill, César Hsu, and Wolf Díaz. It also opened media overview and
+  Liberal-status screens.
+- The route was stock-cheatless: no debug flags, fixtures, save imports,
+  headed browser, CDP, or source changes. It retained 118 captures; all were
+  80 columns with no over-wide rows, bridge errors, or targeted raw-English
+  UI markers. It ended during ordinary recruitment meetings without a
+  terminal, victory, or game-over. No new translation/layout issue was
+  confirmed. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-stealth-20260815/`.
+
+## 2026-08-15 — independent stock combat game-over
+
+- `verify-terminal-combat-20260815` started a fresh Portuguese game with
+  active CCS and easy combat, sent a lone founder to Desert Eagle Bar e Grill,
+  and deliberately engaged the armed bouncer/guards. The founder died in the
+  live fight and the route advanced through the Portuguese terminal to the
+  title screen.
+- This was stock-cheatless: no debug flags, fixtures, save imports, headed
+  browser, CDP, or source changes. The terminal states
+  `O Esquadrão do Crime Liberal foi morto em combate em Janeiro de 2023.`;
+  60 captures were 80 columns with zero over-wide rows, bridge errors, or new
+  defects. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-terminal-combat-20260815/`.
+
+## 2026-08-15 — car-theft residual probe (no ticket)
+
+- The independent prober audited `lib/daily/activities/car_theft.dart` and
+  replayed the post-search car-theft variants in a fresh Portuguese headless
+  session. Static catalog gaps for the RNG-only `Why me?`/`Oh no...` branches
+  were not visible: the strict route rendered only translated variants before
+  a police foot chase interrupted it.
+- All retained captures were 25×80 with no bridge errors. The branch remains
+  a plausible residual of closed PT-108, but without deterministic RNG proof
+  it is not a confirmed issue and no PT ticket was opened. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-pt404-car-theft-20260815/`.
+
+## 2026-08-15 — education, teaching, and Guardian media stock campaign
+
+- `playtester-pt405-education-media-20260815` used a fresh current-HEAD
+  Portuguese run with a New York founder. It exercised the education/science
+  questionnaire, Science practice, Liberal Arts teaching, Guardian Liberal
+  writing, and media overview across 1–4 January 2023.
+- The run was stock-cheatless: no debug flags, fixtures, save imports, headed
+  browser, CDP, or source changes. It retained 44 captures, all 80 columns,
+  with zero over-wide rows, bridge errors, or raw-English gameplay strings.
+  It ended on the main screen without victory, defeat, or game over. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-pt405-education-media-20260815/`.
+
+## 2026-08-15 — long illegal-activity police-arrest stock campaign
+
+- `playtester-police-arrest-20260815` started a fresh default Portuguese game,
+  assigned Kris Abbott to ordinary `Prostituição`, and advanced one day at a
+  time through generated newspaper and legislative pages. On 27 October 2023
+  the route naturally reached `A polícia deteve Kris Abbott em uma operação de
+  prostituição!`.
+- This was stock-cheatless: no debug flags, fixtures, save imports, headed
+  browser, CDP, or source changes. It retained 580 non-empty captures, all
+  25×80, with zero over-wide rows, bridge errors, or new defects. It is an
+  arrest checkpoint rather than victory or game over. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-police-arrest-20260815/`.
+
+## 2026-08-15 — media archive and constitutional-status stock campaign
+
+- `playtester-media-20260815` used a fresh Washington, DC Portuguese game
+  with a Guardian-writing founder. It waited through January, opened four
+  archived media stories (including television/radio and newspaper variants),
+  observed monthly congressional votes, and reviewed all five constitutional
+  status pages.
+- The stock-cheatless route retained 89 captures, all 80 columns, with zero
+  over-wide rows, bridge errors, or targeted raw-English UI markers. Archive
+  headlines and bodies were Portuguese; no new translation/layout defect was
+  confirmed. It did not reach victory or game over. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-media-20260815/`.

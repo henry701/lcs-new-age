@@ -7006,3 +7006,63 @@ Pistola 9 mm!`. Across 128 valid buffers there were zero raw `Secret Service`
 occurrences, max row 80, zero over-wide rows, zero bridge errors, and zero
 empty buffers. Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt406-20260815/`.
+
+## PT-407: liberal level title `Activist` leaks English in Portuguese recruitment screens
+
+- Severity: Medium
+- Type: Translation interpolation/display leak
+- Screen: Portuguese recruitment meeting and infiltrated-agent assignment
+- Replay status: **Open**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-guardian13-20260815/`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) stock campaign and form a recruitment
+   meeting with a liberal journalist or other level-2 liberal recruit.
+2. Open the recruitment conversation or the infiltrated-agent assignment
+   screen and inspect the recruit header beside the name.
+
+### Actual
+
+The otherwise Portuguese header renders the liberal level title in English:
+
+```text
+——Soraya Weygand,  Activist——————————————————————~110/110————
+```
+
+The leak recurred across 25 captures in the fresh route, including casual
+recruitment, join confirmation, and covert-action assignment screens. The
+source is `levelTitle()` in `lib/creature/level.dart`, where the liberal title
+list contains `"Activist"`; `LcsI18n.tr` has no matching catalog entry.
+
+### Expected
+
+Render the title in Portuguese (for example, `Ativista`) while preserving the
+existing level alignment and 80-column layout. Add a focused regression for
+the liberal level-2 title and verify recruitment/assignment headers in a
+fresh headless Portuguese replay.
+
+### Verification notes
+
+Route #13 was stock-cheatless (`pt_BR`, no cheats, debug state, fixture, save
+import, headed browser, or CDP). The route retained 212 captures at width 80
+with zero over-wide rows, bridge errors, or bad captures; no other new ticket
+was raised. The untranslated title appears in captures such as
+`38-journalist-outcome.json`, `82-after-join.json`, and
+`96-soraya-assign-menu.json`.
+
+### Fix (pending independent verification)
+
+Added the missing canonical `Activist` entry to both locale catalogs, with
+`Ativista` as the Portuguese value. `levelTitle(2, Alignment.liberal)` already
+routes titles through `LcsI18n.tr`, so no gameplay logic change is required.
+Added `test/creature/level_translation_test.dart` to assert both the direct
+catalog lookup and the rendered level title under `pt_BR`.
+
+- Replay status: **fixed-pending-verify**
+- Independent replay steps: start a fresh `pt_BR` stock campaign at
+  `http://127.0.0.1:<port>/?playtest=1` using a new headless
+  `AGENT_BROWSER_SESSION`; recruit a level-2 liberal journalist (or inspect a
+  level-2 liberal infiltrated agent), then capture the recruitment/join and
+  assignment headers. Confirm they show `Ativista`, contain no raw `Activist`,
+  and remain within the 80-column console width.

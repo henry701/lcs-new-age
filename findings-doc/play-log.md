@@ -7526,3 +7526,29 @@ reached. Captures and source hashes are under
   scanning was clean. No victory, arrest, defeat, or game-over terminal
   appeared. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy10-20260815/`.
+
+## 2026-08-15 — easier-climate sleeper and journalism stock campaign #11
+
+- `playtester-easy11-20260815` used a fresh Portuguese New York campaign with
+  the easier `Os tempos estão mudando` climate, `Céu Azul e Límpido`, and
+  `Poder para o povo`. Martina Irvin recruited a lawyer sleeper, reached
+  Câmara/Senado/Presidente legislative screens, assigned Guardian activity,
+  and continued through journalist/professor recruitment.
+- The stock-cheatless route retained 483 captures with `maxRow=80`, zero bad
+  captures, and zero targeted post-locale raw-English hits. It ended alive at
+  a journalist-candidate checkpoint with no victory or game-over terminal.
+  Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-easy11-20260815/`.
+
+## 2026-08-15 — lawyer and journalist sleeper stock campaign #12
+
+- `playtester-strategy12-20260815` used a fresh Portuguese Washington, DC
+  route. Barney Yerkovich was recruited as a lawyer sleeper and assigned
+  `Promovendo o Liberalismo`; journalist János Heath was then recruited,
+  sleeperized at Casa Branca, and assigned the same advocacy activity.
+- The stock-cheatless route retained 133 captures and ended on a live
+  Portuguese news page dated 16 March 2023. Width and bridge checks were
+  clean (`maxRow=80`, zero over-wide, empty, or bridge-error captures); the
+  only raw-English hits were two expected pre-language title lines. No new
+  ticket, victory, game-over, defeat, arrest, or terminal appeared. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy12-20260815/`.

@@ -226,6 +226,7 @@
 | PT-392 | Medium | Newspaper translation/context | Portuguese CCS squad stories expose hard-coded English spoof-location labels |
 | PT-393 | Medium | Combat translation | Portuguese CCS encounter roster and hit log expose the raw role `Soldier` |
 | PT-394 | Medium | Combat translation | Portuguese CCS bouncer and alarm messages expose hard-coded English text |
+| PT-406 | Medium | Combat translation | Portuguese White House Secret Service roster and hit logs expose the raw role `Secret Service` |
 
 ## PT-001: Save-management option is clipped
 
@@ -6934,3 +6935,74 @@ color boundaries, and 80-column fit. A fresh stock-cheatless Portuguese route
 reached a natural June turnover; every capture was 80 columns with no raw
 English alignment/suffix text, overflow, or bridge errors. Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt403-20260815/`.
+
+## PT-406: White House combat exposes the raw `Secret Service` role in Portuguese
+
+- Severity: Medium
+- Type: Combat translation
+- Screen: Portuguese White House infiltration → Secret Service encounter
+- Replay status: **Closed / Fixed**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-pt406-whitehouse-police-20260815/`
+
+### Reproduction
+
+1. Start a fresh stock Portuguese (`pt_BR`) campaign with all debug flags
+   disabled and choose Washington, DC as the founder city.
+2. Form the default five-member founder gang, open `Vá adiante para deter o
+   mal`, select `National Mall → Casa Branca`, and execute the visit.
+3. Move into the White House metal detector and fight the Secret Service
+   encounter until the route reaches the Portuguese combat terminal.
+
+### Actual
+
+The Portuguese White House encounter renders the creature role in English in
+both the encounter roster and combat narration. The live buffer shows:
+
+```text
+1 Secret Service    Terno preto      M4          160 +
+Secret Service POR ENGANO atira em Frank Truman com Pistola 9 mm!
+```
+
+The leak recurs in ordinary hit messages (`Secret Service atira ...`,
+`Secret Service acerta ...`) and remains in the roster through the final
+`CONSERVADORES ALARMADOS` captures. The generic ambush sentence is localized,
+but the dynamic creature name is not. The source creature type is
+`CREATURE_SECRET_SERVICE` with `<type_name>Secret Service</type_name>` and no
+matching `Secret Service` entry exists in the Portuguese ARB catalogs.
+
+The same stock-cheatless route ended naturally at the Portuguese game-over
+screen after the squad was killed in combat:
+
+```text
+O Esquadrão do Crime Liberal foi morto em combate em Janeiro de 2023.
+```
+
+### Expected
+
+Translate the dynamic `Secret Service` creature name before it is rendered in
+the encounter roster, combat narration, and any White House site messages
+(for example, `Serviço Secreto`). Preserve the existing proper-name fallback
+behavior for generated people while adding a focused regression for the role
+name in both the roster and combat hit text.
+
+### Verification notes
+
+The fresh route retained 116 captures at document width 1280; every capture
+had `maxRow: 80`, zero over-wide rows, and zero bridge errors. No source or
+debug state was changed. The raw role was visible in 83 captures, including
+the roster and hit log; the terminal itself was fully Portuguese.
+
+### Fix and independent verification
+
+The fixer added exact `Secret Service` catalog entries (`Secret Service` in
+`en_US`; `Serviço Secreto` in `pt_BR`) and the focused regression
+`test/sitemode/secret_service_role_translation_test.dart`. The focused test,
+CCS/context suites, canonical ARB check, and i18n static/runtime catalog
+smokes pass. An independent fresh strict-headless replay at current HEAD
+`6a14e480` used server `9984` with all debug flags false: capture
+`152-detector.json` rendered four `Serviço Secreto` roster entries and
+`157-secret-service-hit.json` rendered `Serviço Secreto golpeia Glen Inoue com
+Pistola 9 mm!`. Across 128 valid buffers there were zero raw `Secret Service`
+occurrences, max row 80, zero over-wide rows, zero bridge errors, and zero
+empty buffers. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt406-20260815/`.

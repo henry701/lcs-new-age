@@ -2468,3 +2468,25 @@ routes are optional breadth coverage.
   terminal rather than treating this bounded run as victory evidence.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-media-20260815/`.
+
+## 2026-08-15 — coalition and White House terminal routes
+
+- The Seattle coalition route combined legal funding, journalism, Guardian
+  writing, recruitment, and long ordinary waits through the Supreme Court
+  change-of-guard checkpoint. Its 257 stock-cheatless Portuguese captures
+  stayed within 80 columns and added no issue; it stopped at Congress
+  deliberation. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-coalition-20260815/`.
+- The separate Washington White House route reached a natural Portuguese
+  game-over after a Secret Service fight, but exposed the raw generated role
+  `Secret Service` in the roster and hit log. PT-406 was fixed with the
+  generated-role catalog entry and independently replayed with Portuguese
+  roster and hit narration. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-pt406-whitehouse-police-20260815/`.
+  Independent replay evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt406-20260815/`.
+- A fresh car-theft-focused route made two natural Pickup theft attempts and
+  returned to task assignment without a terminal. Its 173 Portuguese
+  stock-cheatless captures were width-safe and issue-free; preserve it as a
+  bounded eighth strategy while the endgame replay continues. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-whitehouse-20260815/`.

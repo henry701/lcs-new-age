@@ -7448,3 +7448,54 @@ reached. Captures and source hashes are under
   headlines and bodies were Portuguese; no new translation/layout defect was
   confirmed. It did not reach victory or game over. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-media-20260815/`.
+
+## 2026-08-15 — PT-406 White House Secret Service stock combat route
+
+- Fresh session `pt406b-wh-20260815` selected Português through the normal
+  language menu, chose Washington, DC, and sent a five-member stock squad from
+  the homeless camp to `National Mall → Casa Branca`. Debug flags remained
+  false; no fixtures, save imports, headed browser, CDP, or source changes were
+  used.
+- The White House metal detector triggered the normal four-agent Secret
+  Service encounter. Portuguese combat reached `CONSERVADORES ALARMADOS` and
+  ended in the natural game-over screen after all ten squad members were
+  martyred: `O Esquadrão do Crime Liberal foi morto em combate em Janeiro de
+  2023.`
+- PT-406 is confirmed: the encounter roster and hit narration repeatedly
+  rendered the raw English role `Secret Service`, including
+  `Secret Service POR ENGANO atira em Frank Truman com Pistola 9 mm!`. The
+  localized ambush sentence itself was fine; the dynamic role name lacked a
+  Portuguese catalog entry. This is a translation ticket, not a gameplay or
+  layout defect.
+- The route retained 116 captures, all 25×80 (`maxRow: 80`) with zero
+  over-wide rows and zero bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-pt406-whitehouse-police-20260815/`.
+- Independent verification after the catalog fix used a separate fresh
+  strict-headless session at `http://127.0.0.1:9984/?playtest=1`. Its 128
+  valid buffers rendered `Serviço Secreto` in both the roster and combat hit
+  narration, with no raw `Secret Service`, zero over-wide rows, and zero
+  bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt406-20260815/`.
+
+## 2026-08-15 — coalition, journalism, and Supreme Court stock campaign
+
+- `playtester-coalition-20260815` used a fresh Portuguese Seattle campaign
+  with founder Bobby Santiago, legal donations, a journalist-recruitment
+  attempt, Guardian article writing, and ordinary waits through the Supreme
+  Court change-of-guard checkpoint.
+- The route was stock-cheatless: no debug flags, fixtures, save imports,
+  headed browser, CDP, or source changes. It retained 257 captures, all with
+  `maxRow: 80`, zero over-wide rows, zero bridge errors, and no targeted raw
+  English UI markers. It stopped at the post-checkpoint Congress-deliberation
+  screen without victory or game-over. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-coalition-20260815/`.
+
+## 2026-08-15 — bounded car-theft stock campaign
+
+- `playtester-whitehouse-20260815` used a fresh Portuguese stock route focused
+  on two natural Pickup car-theft attempts, then returned to task assignment.
+- It used no cheats, debug flags, fixtures, save imports, headed browser, or
+  CDP. The 173 retained captures were all 80 columns, with zero over-wide
+  rows, errors, empty buffers, or new tickets. It ended alive at the bounded
+  car-theft checkpoint without victory or game-over. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-whitehouse-20260815/`.

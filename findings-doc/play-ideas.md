@@ -2309,3 +2309,23 @@ routes are optional breadth coverage.
   `stock-victory-r-20260814`; it is a clean, bounded navigation blocker rather
   than victory evidence. Future natural-victory work needs a verified way to
   neutralize or bypass the Secret Service encounter without debug assistance.
+
+## 2026-08-14 — bounded political recruitment stock campaign T
+
+- Route T tried a distinct political founder with Clear Blue Skies and
+  university/homeless candidate pools, using casual politics through repeated
+  follow-up meetings. The founder's US$7 balance made the US$50 materials path
+  unavailable before any recruit visibly joined.
+- Keep `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-t-20260814/`
+  as bounded recruitment evidence. A future political victory route needs a
+  way to fund recruitment and reach monthly agenda/election processing without
+  debug assistance.
+
+## 2026-08-14 — bounded political recruitment stock campaign S
+
+- Route S used a political founder, Clear Blue Skies, university recruitment,
+  Law practice, and Liberal Disobedience. Two recruits joined, but the run
+  reached only March 2023 with three active Liberals after 60 waits.
+- Preserve `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-s-20260814/`
+  as a clean low-roster blocker. Future stock victory work needs substantially
+  faster recruitment/funding before monthly political processing.

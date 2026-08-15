@@ -7191,3 +7191,34 @@ reached. Captures and source hashes are under
 - No new translation or layout finding was confirmed. This is a clean
   President-contact blocker; the only observed victory remains the disposable
   debug-assisted fixture.
+
+## 2026-08-14 — bounded political recruitment stock campaign T
+
+- `stock-victory-t-20260814` used a fresh Portuguese campaign with Clear Blue
+  Skies, a political founder, and a distinct university-plus-homeless
+  recruitment route. It exercised repeated casual political conversations and
+  follow-up meetings with named candidates.
+- The route stopped in a normal Virginia Sánchez follow-up meeting: the
+  founder had only US$7, so the US$50 materials option was unavailable and no
+  recruit had visibly joined before the bound. It reached neither monthly
+  elections nor a terminal.
+- Strict-headless evidence recorded a fresh stock run at commit `fa1e16b8`,
+  with all assistance flags false, 25×80 final capture, and no overflow,
+  bridge errors, or raw English in observed Portuguese buffers. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-t-20260814/`.
+- No new translation or layout finding was confirmed. This is a bounded
+  recruitment-throughput blocker, not victory evidence.
+
+## 2026-08-14 — bounded political recruitment stock campaign S
+
+- `stock-victory-s-20260814` used a fresh Portuguese Clear Blue Skies game with
+  a political founder, a Seattle homeless base, repeated university
+  recruitment, and a distinct Liberal Disobedience/Law-practice strategy.
+- The route recruited Mumtaz Tippett and Louis Lauder, then processed 60
+  bounded waits through 11 March 2023. The final roster contained three active
+  Liberals; no victory or game-over terminal appeared.
+- Evidence retained a clean final base/roster capture and explicit false flags
+  for source edits, save imports, and debug assistance. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-s-20260814/`.
+- No new translation or layout finding was confirmed. This is a bounded
+  low-roster political-influence blocker, not victory evidence.

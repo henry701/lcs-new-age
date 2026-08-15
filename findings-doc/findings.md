@@ -6648,3 +6648,49 @@ leakage or width overflow; the individual death fragment was not retained in
 the final live buffer because combat redraws replaced it. Focused map/death
 tests passed (`+9`). Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt396-397-20260814/verifier.md`.
+
+## PT-398: Constitutional ratification prompts overflow in Portuguese
+
+- Severity: Medium
+- Type: Fixed-width layout / constitutional-amendment translation
+- Screen: Portuguese month-end constitutional ratification and election
+  prompts
+- Replay status: **Closed / Not Reproducible**
+- Evidence: source probe `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-victory-20260814/probe-report.md` (pending final prober write-up); catalog values in `lib/l10n/app_pt_BR_part17.arb`, `part25.arb`, and `part21.arb`
+
+### Reproduction
+
+1. Start a fresh Portuguese campaign using the normal political route that
+   reaches the elite-liberal constitutional-amendment/ratification screens.
+2. Trigger the new-elections, Congressional-vote, and State-vote prompts.
+3. Inspect the 80-column console buffer for right-edge clipping or overflow.
+
+### Actual
+
+The Portuguese catalog translations exceed the fixed console width when
+written through `mvaddstr` at column zero:
+
+- `Press any key to hold new elections! ...` → 81 characters
+- `Press any key to watch the Congressional votes unfold. ...` → 83
+- `Press any key to watch the State votes unfold. ...` → 91
+
+The source call sites are `lib/politics/constitution.dart:164-168`,
+`:420-425`, and `:553-559`. The English source strings fit; the localized
+values do not.
+
+### Expected
+
+Every Portuguese constitutional prompt must fit the 80-column console without
+clipping or overwriting adjacent UI. Shorten the catalog values or render
+through the existing wrapping/layout helper, then add focused width regression
+coverage for all three prompts.
+
+### Triage / Resolution
+
+The source probe measured the full catalog values including intentional
+trailing alignment spaces, but `Console.addchar` clips only those spaces when
+the write reaches column 80. The visible Portuguese sentences are 54, 78, and
+77 columns respectively, all within the fixed width; no glyph truncation or
+adjacent-row overwrite is reproducible. No source or catalog change is needed.
+Closed as a false positive after independent source-level validation on
+2026-08-14.

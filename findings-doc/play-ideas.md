@@ -1,5 +1,14 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-15 — disband confirmation localization closed
+
+- The disband confirmation path now uses the same localized Portuguese phrase
+  for rendering and input matching. A fresh replay typed `Cláusula de
+  Separação` (including accents) successfully and returned to the campaign.
+- Keep the deterministic 22-key regression and the strict-headless capture as
+  the template for future localized prompt/input audits. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt400-20260815/`.
+
 ## 2026-08-14 — high-charisma sleeper route found PT-384
 
 - A fresh stock-cheatless Portuguese route reached a naturally recruited

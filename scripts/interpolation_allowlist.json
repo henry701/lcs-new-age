@@ -70,7 +70,7 @@
     },
     {
       "file": "basemode/liberal_agenda.dart",
-      "line": 411,
+      "line": 424,
       "text": "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ${LcsI18n.tr(issue)}",
       "reason": "Locale-neutral numeric percentage is combined with an already translated polling issue before layout fitting."
     },

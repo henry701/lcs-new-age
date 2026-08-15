@@ -1,5 +1,18 @@
 # Portuguese Play Log
 
+## 2026-08-15 — independent PT-399/PT-400 disband verifier pass
+
+- A fresh strict-headless Portuguese replay selected `Português` through the
+  normal `a` → `p` language path, opened Liberal Agenda → Dissolver e Esperar,
+  and rendered all targeted confirmation text within the 80-column console.
+- The four formerly clipped paragraph endings remained complete (`membros`,
+  `observar`, `necessário`, and `campanha.`), and the randomly selected issue
+  phrase was localized as `Cláusula de Separação` rather than raw English.
+- Typing the localized phrase, including its accented characters, advanced to
+  the post-disband screen. Focused deterministic coverage also exercised all
+  22 issue keys and the English fallback. No bridge errors or new findings.
+  Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt400-20260815/`.
+
 ## 2026-08-14 — independent PT-384 verifier pass
 
 - A fresh release build of the fixer source was served from a disposable copy

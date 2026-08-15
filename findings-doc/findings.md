@@ -6694,3 +6694,86 @@ the write reaches column 80. The visible Portuguese sentences are 54, 78, and
 adjacent-row overwrite is reproducible. No source or catalog change is needed.
 Closed as a false positive after independent source-level validation on
 2026-08-14.
+
+## PT-399: Portuguese disband confirmation paragraphs clip at the console edge
+
+- Severity: Medium
+- Type: Fixed-width layout / disband confirmation translation
+- Screen: Portuguese Liberal Agenda → Dissolver e esperar confirmation
+- Replay status: **Closed / Fixed**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-z-20260815/disband_width_test.dart`
+
+### Reproduction
+
+1. Initialize the Portuguese (`pt_BR`) catalog and an 80-column console.
+2. Open the Liberal Agenda and choose the disband-and-wait confirmation path.
+3. Inspect the rendered explanatory paragraphs at rows 2, 3, 6, and 7.
+
+### Actual
+
+`_confirmDisband()` in `lib/basemode/liberal_agenda.dart:103-115` writes the
+localized paragraphs with `mvaddstr` at column zero and no fitting or wrapping.
+The focused disposable harness reproduced silent clipping of visible
+Portuguese glyphs: row 3 loses the end of `Você poderá observar`, row 6 loses
+the end of `será necessário`, and row 7 loses the end of `reiniciar a campanha.`
+Row 2 is 79 cells, while the other affected rows exceed the 80-column console.
+
+### Expected
+
+Every visible Portuguese sentence must retain its complete meaning within the
+fixed console. Fit or wrap the paragraphs using the existing width-aware helper
+(or shorten only the Portuguese catalog values while preserving tone), and add
+a regression that asserts the visible endings remain intact at 80 columns.
+
+### Fix / Verification
+
+Shortened only the affected Portuguese catalog values while preserving the
+English fallbacks and tone. The focused regression and the independent strict-
+headless Portuguese replay both retained the complete `membros`, `observar`,
+`necessário`, and `campanha.` endings at 80 columns with no bridge errors. The
+separate replay also confirmed no raw English in the targeted rows. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt399-20260815/ptbr/verifier.md`.
+
+## PT-400: Disband confirmation phrase bypasses Portuguese i18n
+
+- Severity: Medium
+- Type: Translation leak / disband confirmation input
+- Screen: Portuguese Liberal Agenda → Dissolver e esperar confirmation phrase
+- Replay status: **Closed / Fixed**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-z-20260815/pt-400-report.md`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-z-20260815/disband_issue_word_test.dart`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) campaign.
+2. Open the Liberal Agenda, choose `D - Dissolver e Esperar`, and reach the
+   confirmation screen.
+3. Inspect the phrase shown on row 15 and compare it with the Portuguese issue
+   labels used elsewhere in the UI.
+
+### Actual
+
+`_confirmDisband()` selects one of 22 issue phrases and writes it character by
+character with `mvaddchar(15, x, word[x])`, bypassing `LcsI18n`. The independent
+ harness rendered all 22 candidates in English even though each has a distinct
+ Portuguese catalog value; for example, `Conflict Resolution` remains English
+ instead of `Resolução de Conflitos`. Because the player must type the displayed
+ phrase, input matching also currently uses the untranslated English codepoints.
+
+### Expected
+
+Render the localized phrase and match the player's keystrokes against that same
+localized string, preserving spaces, apostrophes, hyphens, and the confirmation
+flow. Add deterministic coverage for all 22 issue keys plus an independent
+strict-headless Portuguese replay.
+
+### Fix / Verification
+
+Centralized the 22 confirmation issue keys, localized the selected phrase with
+`LcsI18n.tr`, and matched input against that same localized phrase while
+preserving separator handling and the English fallback. The focused deterministic
+regression covered every key and codepoint, including accented characters. A
+separate fresh strict-headless Portuguese replay selected `Cláusula de
+Separação`, typed the localized phrase, and advanced to the post-disband screen;
+rows stayed within 80 columns with no bridge errors or raw English in the
+targeted confirmation text. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt400-20260815/{summary.json,verifier.md,31-disband-confirmation.json,32-type-c.json,33-type-localized-eval.txt,34-after-type.json}`.

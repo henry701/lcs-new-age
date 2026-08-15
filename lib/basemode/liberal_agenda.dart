@@ -19,6 +19,46 @@ enum AgendaVibe { ongoing, liberalVictory, conservativeVictory }
 
 enum AgendaPage { main, pollsA, pollsB, lawsA, lawsB }
 
+const List<String> disbandConfirmationIssues = [
+  "Racial Justice",
+  "Free Speech",
+  "Gay Marriage",
+  "Abortion Rights",
+  "Separation Clause",
+  "Racial Equality",
+  "Gun Control",
+  "Campaign Finance Reform",
+  "Animal Rights",
+  "Union Organizing",
+  "Black Lives Matter",
+  "Climate Change",
+  "Immigration Reform",
+  "Human Rights",
+  "Liberal Feminism",
+  "Trans Rights",
+  "Right To Privacy",
+  "Legalized Marijuana",
+  "Flag Burning",
+  "Criminal Justice Reform",
+  "Conflict Resolution",
+  "Progressive Taxation",
+];
+
+bool matchesDisbandConfirmationInput(String phrase, int position, int key) {
+  return position >= 0 &&
+      position < phrase.length &&
+      key == phrase[position].toLowerCase().codePoint;
+}
+
+int nextDisbandConfirmationPosition(String phrase, int position) {
+  final next = position + 1;
+  if (next < phrase.length &&
+      (phrase[next] == ' ' || phrase[next] == '\'' || phrase[next] == '-')) {
+    return next + 1;
+  }
+  return next;
+}
+
 Future<bool> liberalAgenda([AgendaVibe vibe = AgendaVibe.ongoing]) async {
   AgendaPage page = AgendaPage.main;
   while (true) {
@@ -60,30 +100,7 @@ Future<bool> liberalAgenda([AgendaVibe vibe = AgendaVibe.ongoing]) async {
 }
 
 Future<bool> _confirmDisband() async {
-  String word = [
-    "Racial Justice",
-    "Free Speech",
-    "Gay Marriage",
-    "Abortion Rights",
-    "Separation Clause",
-    "Racial Equality",
-    "Gun Control",
-    "Campaign Finance Reform",
-    "Animal Rights",
-    "Union Organizing",
-    "Black Lives Matter",
-    "Climate Change",
-    "Immigration Reform",
-    "Human Rights",
-    "Liberal Feminism",
-    "Trans Rights",
-    "Right To Privacy",
-    "Legalized Marijuana",
-    "Flag Burning",
-    "Criminal Justice Reform",
-    "Conflict Resolution",
-    "Progressive Taxation",
-  ].random;
+  final word = LcsI18n.tr(disbandConfirmationIssues.random);
 
   erase();
   mvaddstrc(0, 0, white, "Are you sure you want to disband?");
@@ -142,12 +159,8 @@ Future<bool> _confirmDisband() async {
       mvaddchar(15, x, word[x]);
     }
     int key = await getKey();
-    if (key == word[pos].toLowerCase().codePoint) {
-      pos++;
-      if (pos < word.length &&
-          (word[pos] == ' ' || word[pos] == '\'' || word[pos] == '-')) {
-        pos++;
-      }
+    if (matchesDisbandConfirmationInput(word, pos, key)) {
+      pos = nextDisbandConfirmationPosition(word, pos);
     } else if (key != Key.space) {
       return false;
     }

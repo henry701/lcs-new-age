@@ -7499,3 +7499,30 @@ reached. Captures and source hashes are under
   rows, errors, empty buffers, or new tickets. It ended alive at the bounded
   car-theft checkpoint without victory or game-over. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-whitehouse-20260815/`.
+
+## 2026-08-15 — political, education, and media stock campaign #9
+
+- `playtester-political9-20260815` used a fresh Portuguese Washington, DC
+  campaign with Myron Meffert. It assigned Guardian articles, attempted
+  university-student and journalist recruitment, trained Direito, and then
+  practiced law/discretion while advancing monthly politics.
+- The stock-cheatless route reached 1 September 2023 after 519 captures.
+  Repeated `Agenda Legislativa 2023` screens showed Câmara, Senado, and
+  Presidente stages. All captures were at most 80 columns with zero bad
+  captures; no targeted raw-English gameplay marker appeared. It remained
+  alive with no victory or game-over terminal. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-political9-20260815/`.
+
+## 2026-08-15 — direct police-combat stock campaign #10
+
+- `playtester-strategy10-20260815` used a fresh Portuguese route from the
+  base to a police site, provoking a normal two-officer combat encounter.
+  The squad survived at the bounded checkpoint (`Agnes 24/270`) on the live
+  police-site map.
+- The route was stock-cheatless: no debug flags, fixtures, save imports,
+  headed browser, CDP, or source edits. It retained 143 valid captures (one
+  malformed wrapper was excluded), all at most 80 columns, with zero bridge
+  errors, empty buffers, or new tickets. Post-language-switch raw-English
+  scanning was clean. No victory, arrest, defeat, or game-over terminal
+  appeared. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy10-20260815/`.

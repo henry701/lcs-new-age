@@ -7073,8 +7073,8 @@ catalog lookup and the rendered level title under `pt_BR`.
 - Severity: Medium
 - Type: Missing translation / dynamic creature type display
 - Screen: Portuguese base mode → Review Liberals → active liberal profile
-- Replay status: **fixed-pending-verify**
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-pt408-20260815/`
+- Replay status: **Closed / Fixed**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt408-20260815/`
 
 ### Reproduction
 
@@ -7115,21 +7115,26 @@ zero over-wide rows, zero bridge errors, and zero empty buffers. The raw
 `Political Activist` role appeared in captures `32-profile.json`,
 `33-profile-more.json`, and `34-profile-assign.json`.
 
-### Fix (pending independent verification)
+### Fix (verified)
 
 Added the canonical `Political Activist` entry to both locale catalogs, with
-`Ativista Político` as the Portuguese value. The existing full-profile and
-assignment render path already passes creature types through `LcsI18n.tr`, so
-no gameplay logic change is required. Added
+`Ativista Político` as the Portuguese value. The existing full-profile render
+path already passes creature types through `LcsI18n.tr`, so no gameplay logic
+change is required. The task-assignment header uses the liberal's level title
+rather than the creature type, so it does not render this type label. Added
 `test/creature/political_activist_translation_test.dart` to assert the direct
 catalog lookup and the localized profile heading interpolation under `pt_BR`.
 
-- Replay status: **fixed-pending-verify**
-- Independent replay steps: start a fresh `pt_BR` stock campaign at
-  `http://127.0.0.1:<port>/?playtest=1` using a new headless
-  `AGENT_BROWSER_SESSION`; open the active liberal founder profile and its
-  assignment view. Confirm both show `Ativista Político`, contain no raw
-  `Political Activist`, and remain within the 80-column console width.
+- Independent verification: fresh headless Portuguese replay from commit
+  `7743f9e086a0d1bf00cf0bc7a03936ca3e2d2acd` using server port `9997` and
+  session `verify-pt408-20260815`. The active founder profile rendered
+  `Ativista Político` in capture `022-profile.json`; the assignment view and
+  activism submenu were exercised in captures `023-assignment-view.json` and
+  `024-assignment-activism-options.json` and contained no raw `Political
+  Activist` (the assignment header intentionally displays the level title).
+  Across 25 valid captures, maximum row width was 80, over-wide rows were 0,
+  bridge errors were 0, and empty buffers were 0. The raw `Political Activist`
+  scan returned 0 matches, including after Portuguese selection.
 - Focused regression: `flutter test
   test/creature/political_activist_translation_test.dart` passed.
 - Canonical catalog check: `dart run scripts/maintain_arb_catalogs.dart

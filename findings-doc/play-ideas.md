@@ -2352,3 +2352,24 @@ routes are optional breadth coverage.
 - Preserve `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-v-20260814/`
   as clean monthly-processing evidence. The next route should preserve funds
   while scaling the active roster and then run multiple elections.
+
+## 2026-08-14 — funded New York studio stock campaign W
+
+- Route W validated the New York warehouse-to-video-studio path and sustained
+  four active Guardian TV streamers through June 2030. It produced 74% LCS
+  approval but only 42.5% Liberal views, with House/Senate/law gates still far
+  from victory. Preserve it as long-run saturation evidence, not a victory.
+- The ordinary Clear Blue Skies option defeated CCS without debug assistance;
+  all other assistance flags were false. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-w-20260814/`.
+
+## 2026-08-14 — funded New York studio stock campaign X
+
+- Route X confirmed a reproducible legal path to the New York warehouse video
+  room: seven active regulars, three Guardian TV streamers, and two Guardian
+  writers. It reached July 2023 with only about 43.6% public mood and no
+  constitutional or victory transition.
+- Preserve the strict-cheatless captures as political-influence evidence;
+  future stock victory work needs substantially stronger public-mood growth and
+  repeated chamber replacement. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-x-20260814/`.

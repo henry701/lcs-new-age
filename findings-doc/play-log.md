@@ -7255,3 +7255,41 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-v-20260814/`.
 - No new translation or layout finding was confirmed. This is a bounded
   monthly-politics checkpoint, not victory evidence.
+
+## 2026-08-14 — funded New York studio stock campaign W
+
+- `stock-victory-w-20260814` used a fresh Portuguese Clear Blue Skies game
+  from New York's ordinary warehouse-type base. It funded a video studio,
+  recruited three regular liberals plus three infiltrated journalist/teacher
+  sleepers, and assigned four active regulars to Stream Guardian TV.
+- The route advanced through roughly seven and a half in-game years to 5 June
+  2030. It reached one ordinary Supreme Court turnover (James Zapata replaced
+  by moderate Yolanda al-Sisi), but no term-limits amendment, court purge, or
+  victory prompt appeared. The final media view was 42.5% Liberal with 74%
+  LCS approval; House/Senate and active laws remained far from the strict
+  Elite-Liberal win gate.
+- The replay was strict headless and clean: `terminalReached:false`, no
+  source edits, save imports, debug flags, fixtures/state injection, headed
+  browser, or CDP attachment. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-w-20260814/`.
+- No new translation or layout finding was confirmed. This is long-run
+  political-progress evidence, not victory evidence.
+
+## 2026-08-14 — funded New York studio stock campaign X
+
+- `stock-victory-x-20260814` used a fresh Portuguese Clear Blue Skies game
+  with a high-persuasion/law founder, US$1,000 savings, seven ordinary active
+  Liberals, and a legal US$2,000 NYC warehouse video-room upgrade.
+- Three regulars streamed Guardian TV and two wrote Guardian articles while
+  two solicited donations. The route reached repeated monthly Congress,
+  election, and Supreme Court screens through 1 July 2023, but media showed
+  only 43.7% Liberal views and the law-status issue average was about 43.6%.
+  Chambers, laws, term limits, court purge, executive alignment, and the win
+  gate remained incomplete; no victory or game-over terminal appeared.
+- The final capture was a live NYC base screen (25×80, no overflow or bridge
+  errors). All assistance flags were false: no cheats/debug flags, fixtures,
+  save imports, headed browser, CDP attachment, or source/document edits.
+  Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/stock-victory-x-20260814/`.
+- No new translation or layout finding was confirmed. This is a bounded
+  political-influence checkpoint, not victory evidence.

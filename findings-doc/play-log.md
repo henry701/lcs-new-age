@@ -7601,3 +7601,16 @@ reached. Captures and source hashes are under
   and zero post-Portuguese raw-English matches. Both sampled resolutions were
   defeated; no new ticket, victory, or game-over terminal appeared. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy16-20260815/`.
+
+## 2026-08-15 — high-persuasion legislative stock campaign #17
+
+- `playtester-strategy17-20260815` used a fresh Portuguese campaign with
+  high-persuasion founder Lilly Clooney. It naturally attempted journalist
+  recruitment, assigned the existing Mohammed Rushworth sleeper to liberal
+  communications, switched the founder to Guardian articles, and reached the
+  January 31 legislative agenda and February 1 base.
+- The stock-cheatless route retained 183 snapshots, including six
+  bridge-backed captures, all at width 80 with zero over-wide rows, bridge
+  errors, or empty buffers. Selected raw-English scanning was clean; no new
+  ticket, victory, or game-over terminal appeared. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy17-20260815/`.

@@ -7552,3 +7552,39 @@ reached. Captures and source hashes are under
   only raw-English hits were two expected pre-language title lines. No new
   ticket, victory, game-over, defeat, arrest, or terminal appeared. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy12-20260815/`.
+
+## 2026-08-15 — Guardian media stock campaign #13
+
+- `playtester-guardian13-20260815` used a fresh Portuguese New York campaign
+  with Philip Copeland. It recruited journalist Soraya Weygand, placed her as
+  a cable-news sleeper, wrote Guardian articles, and advanced through the
+  January legislative agenda before returning to base on February 2.
+- The stock-cheatless route retained 212 captures at width 80 with zero
+  over-wide rows, bridge errors, or bad captures. It found PT-407, the raw
+  liberal level title `Activist`, which was fixed and independently verified;
+  no victory or game-over terminal appeared. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-guardian13-20260815/`.
+
+## 2026-08-15 — coalition sleeper and legislative stock campaign #14
+
+- `playtester-strategy14-20260815` used a fresh Portuguese Washington, DC
+  route with Bebe Washington. It recruited journalist Richie Bogart and
+  lawyer Rachael Mendoza, placed both as sleepers, assigned liberal advocacy,
+  and reached the January 31 legislative agenda before returning to base on
+  February 2.
+- The stock-cheatless route retained 117 valid captures with maximum width 80,
+  zero over-wide rows, zero actual bridge errors, and no new ticket. It ended
+  at a live base checkpoint without victory or game over. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy14-20260815/`.
+
+## 2026-08-15 — persuasion, sleepers, and legislative stock campaign #15
+
+- `playtester-strategy15-20260815` used a fresh Portuguese New York campaign
+  with Eloise Lombard. It activated lawyer Ben Ransom, later recruited Selma
+  Friend as a second lawyer sleeper, and reached the February 1 legislative
+  agenda after natural recruitment and legal-donation work.
+- The stock-cheatless route retained 337 captures with maximum width 80,
+  zero over-wide rows, bridge errors, empty buffers, or metadata anomalies,
+  and zero post-Portuguese raw-English matches. No new ticket, victory, or
+  game-over terminal appeared. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy15-20260815/`.

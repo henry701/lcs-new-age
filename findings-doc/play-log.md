@@ -8431,3 +8431,30 @@ reached. Captures and source hashes are under
   `flutter.lastGameId` (`657-localstorage.json`). No save/resume claim is made.
   Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy44-victory-20260821/`.
+
+## 2026-08-21 — Strategy45 full stock election-cycle replay
+
+- A fresh strict-headless stock `pt_BR` campaign used the ordinary Seattle
+  homeless-camp start with Clear Blue Skies, recruited four regulars, and ran
+  nonviolent Liberal Guardian writing, community service, and lay-low tasks.
+  It advanced through the full 2024 presidential, Senate, House, and state
+  election cycle without combat or runtime shortcuts.
+- The post-election agenda (`1298-agenda-post-election.json`) still showed
+  mixed institutions and laws: President David Day, House `68 Lib+ / 49 Lib /
+  51 moderate` with the remainder conservative, and Senate `18 Lib+ / 16 Lib /
+  7 moderate` with the remainder conservative. The strict `winCheck` gate was
+  therefore false. Media capture `1300-media-post-election.json` reported
+  35.9% Liberal views and 59.2% LCS support on 11 Nov 2024; support is not a
+  victory condition. No natural victory or game-over terminal appeared.
+- The run retained 1,297 nonempty gameplay captures (1,305 JSON files total;
+  eight intentional bufferless localStorage metadata files excluded), all at
+  most 80 columns wide with zero over-wide rows, bridge errors, or decisive
+  raw-English hits. No cheats, debug controls, fixtures, save imports, CDP,
+  headed browser, or source edits were used.
+- Persistence was verified repeatedly. The final normal lowercase `x` save
+  reached the title (`1302-x-nov11-title.json`), recorded
+  `flutter.lastGameId=4679123` (`1303-x-nov11-storage.json`), and lowercase
+  `c` resumed the same Portuguese campaign (`1304-resume-nov11.json`). The
+  owned browser/session and Flutter server were cleaned up afterward.
+  Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy45-victory-20260821/`.

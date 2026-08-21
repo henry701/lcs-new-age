@@ -8364,3 +8364,21 @@ reached. Captures and source hashes are under
   earlier direct localized site-alarm capture is still the only runtime alarm
   evidence. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt412-runtime-20260821/`.
+
+## 2026-08-21 — PT-412 final fresh nursing-home verifier
+
+- A fresh strict-headless stock `pt_BR` session on server `10184` followed the
+  ordinary NYC → Long Island → nursing-home route. The site reached the
+  localized `CONSERVADORES SUSPEITOS` state, but no `O` manager marker,
+  administrator line, or nested cry/alarm line appeared before normal exit.
+- The checked captures were nonempty, 25 rows, at most 80 columns wide, and
+  free of over-wide rows, raw-English gameplay text, bridge errors, and runtime
+  errors. PT-412 remains **Fixed-pending-verify** because the manager-specific
+  runtime line is still unverified. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt412-runtime-20260821/fresh-captures-final/`.
+- The verifier completed the persistence handoff: normal base-mode `X`
+  autosave returned to the title and recorded `flutter.lastGameId=9825324`
+  with `pt_BR`; same-session title `C` resumed the saved Portuguese base game.
+  A replacement isolated browser could not see that save because its storage
+  was separate. Evidence: `113-base-X-title.json`, `114-save-localstorage.json`,
+  and `120-same-session-C-resume.json` in the report directory.

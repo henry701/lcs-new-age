@@ -7371,3 +7371,44 @@ empty buffers, no raw English template hits, no bridge errors, and no rows
 over 80 columns. No cheats, debug flags, fixtures, save imports, source edits,
 headed browser, or CDP attachment were used. Evidence:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt411-20260821/`.
+
+## PT-412: Hostage-manager alarm lines bypass Portuguese i18n
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Portuguese nursing-home administrator or insurance CEO hostage
+  re-encounter
+- Replay status: **Open / Unverified**
+- Evidence: `lib/sitemode/map_specials.dart:1470-1480,1650-1654`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) campaign with cheats, debug flags,
+   fixtures, and save imports disabled.
+2. Free the nursing-home administrator or insurance CEO as a hostage while
+   sleeper conversion fails, leaving the conservative former hostage alive.
+3. Revisit that character's administrative or insurance office.
+4. Advance the encounter until the alarm message appears.
+
+### Actual
+
+The first line is localized through `LcsI18n.processString`, but the nested
+`line2` is passed with `noTranslate: true` and has no catalog entry. The
+Portuguese screen therefore exposes one of these raw English strings:
+
+```text
+"It's them!  They're back!  SECURITY, HELP ME!!!"
+"It's them!  They're back!  NURSES, HELP ME!!!"
+"It's them!  They're back for me again!  Help!!!"
+```
+
+The extractor does not discover these nested literals, and `rg` found no
+matching keys in either canonical ARB catalog. The candidate is source-level
+confirmed and awaits a fresh strict-headless runtime replay.
+
+### Expected
+
+Route each alarm line through the normal translation path while preserving the
+distinct security, nurses, and insurance variants, punctuation, tone, and
+80-column console layout. Add focused Portuguese regressions and an
+independent headless replay before closing the ticket.

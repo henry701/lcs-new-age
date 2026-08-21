@@ -8031,3 +8031,15 @@ reached. Captures and source hashes are under
 - The run captured the localized encounter `O Presidente está no Salão Oval.` and completed the Portuguese politics conversation. The persuasion check failed before a recruitment meeting; no sleeper conversion, victory, defeat, or literal game-over terminal appeared.
 - Integrity: 86 authoritative nonempty headless captures, maximum row width 80, zero over-wide rows, zero bridge errors, and no cheats, debug flags, fixtures, save imports, state injection, source edits, CDP, or headed browser. The browser and Flutter server were stopped cleanly.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy38-president-20260821/` (`summary.json`, `final-metrics.json`).
+
+## 2026-08-21 — prober PT-412 hostage-manager alarm audit
+
+- Static prober review found three reachable hostage re-encounter alarm
+  variants in `lib/sitemode/map_specials.dart` whose nested `line2` strings
+  are explicitly `noTranslate: true`: nursing-home security, nursing-home
+  nurses, and insurance CEO help calls. No matching canonical ARB keys exist.
+- PT-412 is open pending an independent strict-headless replay. No runtime
+  result or victory/game-over claim is inferred from the source audit.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy39-natural-20260821/`
+  (playtester route in progress) and the source locations recorded in
+  `findings-doc/findings.md`.

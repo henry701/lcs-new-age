@@ -2783,3 +2783,15 @@ routes are optional breadth coverage.
 - The high-intelligence/legal/science Washington route confirms that a fresh stock-cheatless Portuguese run can reach President Buckner and render the full Oval Office politics conversation without translation or layout defects.
 - The politics persuasion check failed before the normal recruitment meeting, so the President was not sleeperized and no victory gate was reached. Future work needs a stronger persuasion/recruitment setup or a different high-impact sleeper route; do not treat the office encounter as victory evidence.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy38-president-20260821/`.
+
+## 2026-08-21 — PT-412 hostage-manager alarm probe
+
+- Nursing-home administrator and insurance CEO hostage re-encounters contain
+  nested alarm lines marked `noTranslate: true`, so a Portuguese replay is
+  expected to expose raw English after failed sleeper conversion. The source
+  audit found no catalog keys; a verifier must reach both variants before the
+  ticket can close.
+- Preserve the current stock-cheatless playtester route separately; do not
+  use fixture or state injection to force a hostage state for victory claims.
+- Evidence: `findings-doc/findings.md` PT-412 and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy39-natural-20260821/`.

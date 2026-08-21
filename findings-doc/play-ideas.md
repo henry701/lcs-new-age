@@ -2777,3 +2777,9 @@ routes are optional breadth coverage.
 - The corrected White House route proves the Oval Office is reachable stock-cheatlessly and that the President politics conversation renders fully in Portuguese. It does not prove sleeper conversion: the first recruitment meeting's casual-politics choice failed, ending the relationship.
 - A follow-up should use a fresh founder with high intelligence, law, business, science, and available funds, then choose the normal materials/book option before attempting sleeper conversion. Preserve the failed meeting as no-victory evidence, not as a translation defect.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy37-president-20260821/`.
+
+## 2026-08-21 — strategy 38 President persuasion blocker
+
+- The high-intelligence/legal/science Washington route confirms that a fresh stock-cheatless Portuguese run can reach President Buckner and render the full Oval Office politics conversation without translation or layout defects.
+- The politics persuasion check failed before the normal recruitment meeting, so the President was not sleeperized and no victory gate was reached. Future work needs a stronger persuasion/recruitment setup or a different high-impact sleeper route; do not treat the office encounter as victory evidence.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy38-president-20260821/`.

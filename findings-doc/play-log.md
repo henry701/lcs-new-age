@@ -8024,3 +8024,10 @@ reached. Captures and source hashes are under
 - The run reached the Oval Office and captured the localized President encounter (`O Presidente está no Salão Oval.`), then completed the Portuguese politics conversation with President Zappa. The later recruitment meeting chose sleeper preparation `B`; President Zappa rejected the follow-up and stated there would be no further meeting. The run returned to base without a sleeper conversion, victory, defeat, or literal game-over.
 - Integrity: 136 authoritative nonempty headless captures, maximum row width 80, zero over-wide rows, zero bridge errors, and no cheats, debug harness, fixtures, save imports, source edits, CDP, or headed browser. The independent verifier stopped the browser and Flutter server cleanly.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy37-president-20260821/` (`summary.json`, `metrics.json`, `integrity.json`, and `route.md`).
+
+## 2026-08-21 — strategy 38 stock President skills route
+
+- Fresh Portuguese stock-cheatless campaign `playtester-strategy38-president-20260821` used Washington, DC, Clear Blue Skies, Power to the People, and a high-intelligence/legal/science founder. The authoritative `p38d` session walked the normal White House Level 2 route without alarm and reached President Buckner.
+- The run captured the localized encounter `O Presidente está no Salão Oval.` and completed the Portuguese politics conversation. The persuasion check failed before a recruitment meeting; no sleeper conversion, victory, defeat, or literal game-over terminal appeared.
+- Integrity: 86 authoritative nonempty headless captures, maximum row width 80, zero over-wide rows, zero bridge errors, and no cheats, debug flags, fixtures, save imports, state injection, source edits, CDP, or headed browser. The browser and Flutter server were stopped cleanly.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy38-president-20260821/` (`summary.json`, `final-metrics.json`).

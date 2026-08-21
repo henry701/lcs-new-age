@@ -2717,3 +2717,14 @@ routes are optional breadth coverage.
   stronger sleeper/media plan.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy28-natural-victory-20260821/`.
+
+## 2026-08-21 — strategy 31 true-defeat route
+
+- A one-founder high-risk police route reached a literal total-death terminal,
+  unlike the earlier squad-detained/trial checkpoints. Preserve capture 076 as
+  the stock-cheatless `Ending.gameOver` proof and captures 077–079 as the
+  high-score/title follow-up.
+- This supplies natural game-over evidence but does not change the unresolved
+  natural-victory result: no stock route has emitted `Ending.victory`.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy31-literal-gameover-20260821/`.

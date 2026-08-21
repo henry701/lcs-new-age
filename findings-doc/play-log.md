@@ -7949,3 +7949,18 @@ reached. Captures and source hashes are under
 - Integrity: 909 valid captures, every screen 25 rows with max width 80, zero
   over-wide rows, zero bridge errors, and no new translation/layout issue.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy28-natural-victory-20260821/`.
+
+## 2026-08-21 — strategy 31 literal stock game-over
+
+- Fresh Portuguese stock route `playtester-strategy31-literal-gameover-20260821`
+  used a one-founder high-risk police-combat path. It selected Portuguese
+  through the normal UI and used no cheats, debug flags, fixtures, save
+  imports, source edits, CDP, or headed browser.
+- Repeated ordinary police combat killed the entire liberal squad. Capture
+  `076-gameover-check.json` is the genuine high-score terminal:
+  `O Esquadrão do Crime Liberal foi morto em combate em Janeiro de 2023.`
+  Captures 077–079 return to the title/high-score screens; no victory fired.
+- Integrity: 78 captures, all nonempty, max row 80, zero over-wide rows, zero
+  bridge errors, and only the initial title/language screens in the raw-English
+  scan. Port 10143 and the browser session were stopped and verified clear.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy31-literal-gameover-20260821/`.

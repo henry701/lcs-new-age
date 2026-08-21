@@ -1,5 +1,20 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-21 — warehouse strategy 19 is PT-410, not victory (fixed)
+
+- Leaving the homeless camp for `SEA — Armazém` worked without a rent
+  purchase: the warehouse was already LCS-owned. That part of strategy 19 is
+  still the right anti-siege setup.
+- Ordinary journalist recruiting leaked English `"No."` beside translated
+  `<se vira>`. Ticket PT-410. Do not count this run as `Ending.victory`.
+- PT-410 is fixed and independently verified. A future warehouse replay can
+  resume from a fresh campaign: legal donations, journalist as a regular,
+  Guardian writing, then `sparse_campaign_loop.sh`. Do not visit the White
+  House combat corridor.
+- Still no stock-cheatless `O Triunfo da Agenda Liberal`.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy19-warehouse-20260819/terminal/54-pitch.json`.
+
 ## 2026-08-19 — homeless-camp siege briefing is PT-409, not victory
 
 - Stock-cheatless strategy 18 (CCS disabled, easy combat, Guardian at the
@@ -2646,3 +2661,19 @@ routes are optional breadth coverage.
   both chambers, and the executive.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy25-public-mood-20260821-rerun/`.
+
+## 2026-08-21 — strategy 27 high-risk police route
+
+- A normal Washington `Delegacia de Polícia` visit with `Sangue Ruim`, a
+  five-person gang, forced entry, and repeated `F` combat produced a clean
+  natural squad-defeat checkpoint. The Portuguese news page confirms the LCS
+  was detained; the surviving founder then reached a guilty plea and life
+  imprisonment.
+- Treat this as defeat/trial evidence, not `Ending.victory`: Clive survived
+  the site action, so the game continued into prison rather than emitting the
+  literal game-over ending. Future true-defeat work should target a police
+  siege or death-row outcome while preserving the same ordinary high-risk
+  controls.
+- No new raw-English or layout defect was confirmed: 97 valid captures, max
+  row 80, zero over-wide rows, zero bridge errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy27-gameover-20260821/`.

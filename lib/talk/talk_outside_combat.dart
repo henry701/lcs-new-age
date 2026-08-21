@@ -301,7 +301,7 @@ Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
         tk.isWillingToTalk = false;
       }
     } else {
-      addstr("\"No.\"");
+      addstr(LcsI18n.tr("\"No.\""), noTranslate: true);
       tk.isWillingToTalk = false;
     }
     addstrc(white, " <turns away>");

@@ -7270,3 +7270,59 @@ edits used only to make this random siege screen reachable were restored;
 
 Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verification-output-pt409/verification-report.md`,
 `briefing-metrics.json`, and `briefing-buffer.txt`.
+
+## PT-410: Recruitment rejection `"No."` leaks English next to translated `<se vira>`
+
+- Severity: Medium
+- Type: Missing translation / raw `addstr`
+- Screen: Portuguese recruitment (`Aventuras no Recrutamento Liberal`) after
+  `A - Puxe conversa sobre política` when the target is not interested
+- Replay status: **Closed after fixer tests and an independent verifier**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy19-warehouse-20260819/terminal/54-pitch.json`
+
+### Reproduction
+
+1. Start a fresh stock Portuguese (`pt_BR`) campaign. Cheats, debug flags,
+   fixtures, and save imports stay off.
+2. Assign the founder to `D - Recrutamento e Aquisição` → `1 - Recrutar`.
+3. Wait a day, choose `T - Jornalista`, open a candidate, and pick
+   `A - Puxe conversa sobre política`.
+4. Advance one screen after `"Quer ouvir algo perturbador?"` if the target
+   fails the persuasion / receptiveness check.
+
+### Actual
+
+Stock-cheatless HeadlessChrome capture on 3 January 2023, 25×80, zero
+over-wide rows, empty bridge-error channel:
+
+```text
+ Elsie Hewson diz,
+ "Quer ouvir algo perturbador?"
+
+ Jornalista responde,
+ "No." <se vira>
+```
+
+The opener and the `{name} responds,` / ` <turns away>` fragments are
+Portuguese. The refusal itself is still English `"No."`.
+
+`wannaHearSomethingDisturbing()` in `lib/talk/talk_outside_combat.dart`
+already localizes the success reply with `LcsI18n.tr("\"What?\"")`, but the
+uninterested branch uses raw `addstr("\"No.\"")`. The catalogs have no
+`"No."` entry.
+
+### Expected
+
+Route `"No."` through the same i18n path as `"What?"` (Portuguese `"Não."`).
+Keep the trailing ` <turns away>` / ` <se vira>` on one grammatical line
+inside 80 columns. Add a focused `pt_BR` regression that rejects a
+recruitment buffer containing `"No." <se vira>` and requires `"Não."`.
+
+### Fix and independent verification
+
+The refusal now uses `LcsI18n.tr` with the canonical `"No."` entries in both
+locale catalogs. The focused regression renders `"Não." <se vira>` and rejects
+the raw English refusal. Independent verification passed the focused test,
+112 relevant i18n/layout/recruitment tests, canonical catalog checks,
+interpolation checks, `flutter analyze`, formatting, and `git diff --check`.
+Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/` (verifier run).

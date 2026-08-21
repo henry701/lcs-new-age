@@ -1,5 +1,25 @@
 # Portuguese Play Log
 
+## 2026-08-21 — stock warehouse strategy 19 stopped on PT-410 (fixed)
+
+- Fresh strict-headless session `playtester-strategy19-warehouse-20260819`
+  used the repository wrapper on Flutter web-server port 10138 after 10128
+  never came up. Locale was `Português` via `A` then `P`. User-Agent
+  `HeadlessChrome/150.0.0.0`. No cheats, debug flags, fixtures, headed
+  browser, or CDP attach.
+- Seattle founder Elsie Hewson (Int 13, Cha 8, college / computers / law
+  biography) moved from `SEA — Sem-teto` to the already-owned `SEA — Armazém`.
+  Questionnaire option E produced lawyer sleeper Cooper Escobar at
+  `SEA — Fórum`. CCS stayed `Céu Azul e Límpido`; combat stayed `Poder para o
+  povo`.
+- Ordinary journalist recruiting on 3 January 2023 opened a politics talk.
+  The refusal line rendered `"No." <se vira>`. Ticket PT-410. The campaign
+  was stopped there; no `O Triunfo da Agenda Liberal` and no game-over. The
+  refusal was subsequently fixed and independently verified as `"Não." <se vira>`.
+- 75 DOM captures, all 25×80, `maxRow: 80`, zero over-wide rows, empty
+  bridge-error channel. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy19-warehouse-20260819/`.
+
 ## 2026-08-15 — independent PT-399/PT-400 disband verifier pass
 
 - A fresh strict-headless Portuguese replay selected `Português` through the
@@ -7855,3 +7875,20 @@ reached. Captures and source hashes are under
   news item.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy25-public-mood-20260821-rerun/`.
+
+## 2026-08-21 — strategy 27 police-combat defeat checkpoint
+
+- Fresh Portuguese stock route `playtester-strategy27-gameover-20260821` used
+  Washington, DC, a violent-gang founder origin, `Os tempos estão mudando`,
+  `Sangue Ruim`, and `Poder para o povo`. It planned and executed an ordinary
+  `Delegacia de Polícia` visit, forced a locked door, and fought escalating
+  police/SWAT encounters until the squad was incapacitated.
+- `091-game-over.json` / `092-after-game-over-news.json` captured the natural
+  Portuguese defeat/news checkpoint: `Felizmente, os marginais da LCS foram
+  detidos por cidadãos corajosos.` Clive survived into trial, pleaded guilty,
+  and received `prisão perpétua`; no `Ending.victory` or literal game-over
+  marker fired after the bounded squad-defeat screen.
+- Stock-cheatless integrity held: no debug flags, fixtures, save import, CDP,
+  headed browser, or source edits. Valid captures were width-safe (max row 80)
+  with zero over-wide rows and zero bridge errors. No new PT issue was found.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy27-gameover-20260821/`.

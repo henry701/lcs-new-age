@@ -2550,3 +2550,25 @@ routes are optional breadth coverage.
   sentence after `a6a07fbc`.
 - Natural campaign victory is still unproven; continue distinct political
   routes and keep debug/fixture victory evidence separate.
+
+## 2026-08-20 — strategy 21 follow-up
+
+- The executive/sleeper route reached January 31, 2025 with changed
+  president, cabinet, House, and Senate state but no campaign terminal. Keep
+  the sleeper-recruit/advocacy sequence as a distinct political strategy and
+  continue it toward a natural victory in a fresh run.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy21-executive-20260820/`.
+
+## 2026-08-20 — executive route follow-up
+
+- The fresh Portuguese sleeper coalition route reached January 31, 2025 and
+  naturally exercised a presidential succession, cabinet changes, and multiple
+  legislative vote screens. It stayed width-safe and issue-free but did not
+  reach a terminal; preserve it as executive-mechanics evidence rather than
+  victory evidence.
+- The route produced four ordinary infiltrated agents (two lawyers, a
+  secretary, and a janitor). Future victory work should seek higher-impact
+  sleeper professions such as an educator, corporate CEO, or president through
+  natural recruitment, then continue the same agenda/body capture loop.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy21-executive-20260820/`.

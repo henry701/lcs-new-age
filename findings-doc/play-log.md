@@ -7705,3 +7705,41 @@ reached. Captures and source hashes are under
   passed. Temporary debug-only siege reachability edits were restored and did
   not enter the fix commit. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verification-output-pt409/`.
+
+## 2026-08-20 — executive/sleeper stock campaign #21
+
+- `playtester-strategy21-executive-20260820` ran a fresh Portuguese Seattle
+  campaign with the normal `Os tempos estão mudando`, `Céu Azul e Límpido`, and
+  `Poder para o povo` options. The founder solicited donations while the
+  naturally created lawyer sleeper recruited a network; the route exercised
+  presidential succession, cabinet changes, sleeper advocacy, legislative
+  agendas, and votes through January 31, 2025.
+- The route was stock-cheatless: no debug flags, fixtures, save imports, CDP,
+  headed browser, or source edits. It retained 286 non-empty captures, maximum
+  width 80, zero over-wide rows, and zero bridge errors. It reached neither
+  `Ending.victory` nor game-over and confirmed no new translation/layout issue.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy21-executive-20260820/`.
+
+## 2026-08-20 — executive and presidential sleeper route #21
+
+- `playtester-strategy21-executive-20260820` used a fresh Portuguese Seattle
+  campaign with the stock `Os tempos estão mudando` climate, `Céu Azul e
+  Límpido` (CCS disabled), and `Poder para o povo`. The strict headless wrapper
+  and isolated session were used throughout on server `10129`; no debug flag,
+  fixture, save import, CDP attachment, headed browser, or source edit was
+  used.
+- Charisma/persuasion questionnaire choices, the age-18 law-student answer,
+  and the manifesto answer naturally created sleeper lawyer Valentina Howard.
+  The founder solicited legal donations; Valentina recruited Lily Nash
+  (secretary), Noam Straley (lawyer), and Lesley Reasoner (janitor). All four
+  were later assigned `Promovendo o Liberalismo`.
+- The route was extended through January 31, 2025. Agenda captures showed the
+  initial President Nicholas Zlotoff / Vice President Paige Xue and the later
+  President Carolina Varga / Vice President Sebastian Itô, with cabinet and
+  House/Senate changes. Legislative agenda and vote screens were also
+  exercised. The route stopped on a stable base screen without
+  `Ending.victory`, a conservative ending, or game-over.
+- The 286 retained captures were all non-empty, stayed within 80 columns, and
+  had zero bridge errors. No new Portuguese translation/layout issue was
+  confirmed. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy21-executive-20260820/`.

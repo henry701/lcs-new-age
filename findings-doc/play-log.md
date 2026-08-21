@@ -8458,3 +8458,32 @@ reached. Captures and source hashes are under
   owned browser/session and Flutter server were cleaned up afterward.
   Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy45-victory-20260821/`.
+
+## 2026-08-21 — Strategy46 active-CCS sleeper/election replay
+
+- A fresh strict-headless stock `pt_BR` campaign selected the normal active
+  CCS variant (`Nós não iniciamos o fogo`), used a Washington, DC founder with
+  the ordinary sleeper-lawyer questionnaire choice, and activated Shane Pelosi
+  (Advogado) as a normal `Promovendo o Liberalismo` sleeper. An ordinary
+  University Student, Justine O, joined later; the founder used nonviolent
+  community service. No cheats, debug controls, fixtures, save imports, CDP,
+  headed browser, or source edits were used.
+- The campaign completed the 2024 presidential, Senate, House, and state
+  election reporting sequence and returned to base on 1 Nov 2024. The active
+  CCS remained undefeated. A normal CCS route reached the DC planning map but
+  was blocked by the stock `O Esquadrão ainda não é Liberal o suficiente`
+  requirement, with no car or funds for another city; no intelligence-
+  supercomputer or backer-list prompt appeared. No natural victory or
+  game-over terminal was captured.
+- A rescan of 1,083 gameplay captures found every buffer nonempty with raw
+  newline-derived `maxRow=80`, no over-wide rows, no bridge/runtime errors,
+  and no raw-English UI/message hits (the intentional `Enter/Escape` control
+  label was excluded). Four inline-metadata evaluator outliers were corrected
+  by the authoritative raw-buffer rescan.
+- Persistence was verified before, after, and at the end of the election
+  cycle. Lowercase `x` reached the title and lowercase `c` resumed the same
+  Portuguese campaign in checkpoints `506`–`508`, `0857`–`0859`, and
+  `0862`–`0864`; each storage artifact recorded
+  `flutter.lastGameId=5729550`. The owned browser/session and Flutter server
+  were cleaned up afterward. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy46-victory-20260821/`.

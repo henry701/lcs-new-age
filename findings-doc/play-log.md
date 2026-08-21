@@ -8382,3 +8382,23 @@ reached. Captures and source hashes are under
   A replacement isolated browser could not see that save because its storage
   was separate. Evidence: `113-base-X-title.json`, `114-save-localstorage.json`,
   and `120-same-session-C-resume.json` in the report directory.
+
+## 2026-08-21 — PT-416 fresh safe/bank retry
+
+- A fresh strict-headless stock `pt_BR` session on server `10185` reached
+  `SEA — Seguros Cuidado Humano` through the normal route and verified the
+  localized claims terminal (`120-left-to-c.json` and
+  `121-terminal-use.json`). This is ancillary PT-413 evidence, not PT-416
+  closure evidence.
+- Both visible `$` positions tested in this run were ordinary ground loot:
+  `156-left-to-files-2.json` showed `Saque no chão!`, and normal `G` in
+  `158-pick-loot.json` produced `Notebook`. No insurance-safe prompt,
+  fitted-documents line, or bank-vault `V` prompt was reached. PT-416 remains
+  **Fixed-pending-verify**.
+- The run ended in a normal Portuguese alarmed encounter with movement blocked
+  while enemies remained. Its authoritative captures were nonempty, at most
+  80 columns wide, with no over-wide rows, raw-English gameplay text, bridge
+  errors, or runtime errors. The noticed-enemy state prevented a base-mode `X`
+  autosave and title `C` resume; the in-page `flutter.lastGameId=9189434` was
+  not treated as a save checkpoint. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt416-runtime-20260821/fresh-captures-v8/`.

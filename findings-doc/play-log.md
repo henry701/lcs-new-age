@@ -7706,20 +7706,6 @@ reached. Captures and source hashes are under
   not enter the fix commit. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verification-output-pt409/`.
 
-## 2026-08-20 — executive/sleeper stock campaign #21
-
-- `playtester-strategy21-executive-20260820` ran a fresh Portuguese Seattle
-  campaign with the normal `Os tempos estão mudando`, `Céu Azul e Límpido`, and
-  `Poder para o povo` options. The founder solicited donations while the
-  naturally created lawyer sleeper recruited a network; the route exercised
-  presidential succession, cabinet changes, sleeper advocacy, legislative
-  agendas, and votes through January 31, 2025.
-- The route was stock-cheatless: no debug flags, fixtures, save imports, CDP,
-  headed browser, or source edits. It retained 286 non-empty captures, maximum
-  width 80, zero over-wide rows, and zero bridge errors. It reached neither
-  `Ending.victory` nor game-over and confirmed no new translation/layout issue.
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy21-executive-20260820/`.
-
 ## 2026-08-20 — executive and presidential sleeper route #21
 
 - `playtester-strategy21-executive-20260820` used a fresh Portuguese Seattle
@@ -7743,3 +7729,22 @@ reached. Captures and source hashes are under
   had zero bridge errors. No new Portuguese translation/layout issue was
   confirmed. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy21-executive-20260820/`.
+
+## 2026-08-20 — political sleeper-network route #20
+
+- `playtester-strategy20-political-20260820` ran a fresh Portuguese Seattle
+  campaign from 2023-01-01 with `Céu Azul e Límpido` (CCS disabled), legal
+  donations, and Annis Garnier's sleeper-network activity. The route
+  recruited Stanley Slaten, Raven Simms, Vivian Drummond, Yoshi Alley,
+  Charlene Rexford, and Gina Cavallero; Robbie Kobayashi and Stanley formed
+  a two-person squad with .22 revolvers and ammunition.
+- It advanced through the 2024 Supreme Court/election cycle and the January
+  2025 agenda checkpoint. The visible political summary had President Shanna
+  Han, changed cabinet names, and liberal/minority House and Senate counts,
+  but the law page remained mixed. It stopped at a stable Seattle base on
+  2025-01-30 without `Ending.victory` or game-over.
+- This was stock-cheatless: no debug flags, fixtures, save import, CDP, or
+  headed browser. All 354 parsed captures were non-empty, maximum width 80,
+  with zero over-wide rows, zero bridge errors, and no exact raw-English UI
+  hits. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy20-political-20260820/`.

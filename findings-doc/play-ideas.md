@@ -2551,14 +2551,6 @@ routes are optional breadth coverage.
 - Natural campaign victory is still unproven; continue distinct political
   routes and keep debug/fixture victory evidence separate.
 
-## 2026-08-20 — strategy 21 follow-up
-
-- The executive/sleeper route reached January 31, 2025 with changed
-  president, cabinet, House, and Senate state but no campaign terminal. Keep
-  the sleeper-recruit/advocacy sequence as a distinct political strategy and
-  continue it toward a natural victory in a fresh run.
-- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy21-executive-20260820/`.
-
 ## 2026-08-20 — executive route follow-up
 
 - The fresh Portuguese sleeper coalition route reached January 31, 2025 and
@@ -2572,3 +2564,13 @@ routes are optional breadth coverage.
   natural recruitment, then continue the same agenda/body capture loop.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy21-executive-20260820/`.
+
+## 2026-08-20 — strategy 20 political follow-up
+
+- High-charisma/persuasion founder plus Annis's `A -> 3` sleeper network and
+  `A -> 2` energy fallback naturally produced six infiltrated personnel and
+  funded a two-person armed squad. The route reached a changed president,
+  cabinet, House, and Senate checkpoint by January 2025 without a terminal;
+  preserve it as political-mechanics evidence rather than victory evidence.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy20-political-20260820/`.

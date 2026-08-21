@@ -8017,3 +8017,10 @@ reached. Captures and source hashes are under
 - The route entered White House Level 2 and reached the normal security/Oval Office path. The President encounter was overshot while acknowledging movement/map prompts, so no President recruitment or sleeper conversion is claimed. The run returned naturally to the DC homeless base on 3 January 2023 without victory, defeat, or literal game-over.
 - Integrity: 116 parseable captures, 115 complete 25×80 frames, zero row-width defects, zero capture errors, and no cheats, debug flags, fixtures, save imports, source edits, CDP, or headed browser. No new Portuguese or layout issue was confirmed.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy36-political-20260821/`.
+
+## 2026-08-21 — strategy 37 stock President recruitment route
+
+- Fresh Portuguese stock-cheatless campaign `playtester-strategy37-president-20260821` used Washington, DC, the legal default climate, Clear Blue Skies, and the normal White House Level 2 route.
+- The run reached the Oval Office and captured the localized President encounter (`O Presidente está no Salão Oval.`), then completed the Portuguese politics conversation with President Zappa. The later recruitment meeting chose sleeper preparation `B`; President Zappa rejected the follow-up and stated there would be no further meeting. The run returned to base without a sleeper conversion, victory, defeat, or literal game-over.
+- Integrity: 136 authoritative nonempty headless captures, maximum row width 80, zero over-wide rows, zero bridge errors, and no cheats, debug harness, fixtures, save imports, source edits, CDP, or headed browser. The independent verifier stopped the browser and Flutter server cleanly.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy37-president-20260821/` (`summary.json`, `metrics.json`, `integrity.json`, and `route.md`).

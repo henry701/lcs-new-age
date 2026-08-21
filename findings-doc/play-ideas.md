@@ -2771,3 +2771,9 @@ routes are optional breadth coverage.
 - A follow-up route should re-enter the White House after a reset, walk the known CSV path to the office, capture the President encounter before sending extra movement keys, and choose normal politics/recruitment followed by sleeper `B` if the persuasion check succeeds.
 - No new Portuguese or layout defect appeared. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy36-political-20260821/`.
+
+## 2026-08-21 — strategy 37 President recruitment blocker
+
+- The corrected White House route proves the Oval Office is reachable stock-cheatlessly and that the President politics conversation renders fully in Portuguese. It does not prove sleeper conversion: the first recruitment meeting's casual-politics choice failed, ending the relationship.
+- A follow-up should use a fresh founder with high intelligence, law, business, science, and available funds, then choose the normal materials/book option before attempting sleeper conversion. Preserve the failed meeting as no-victory evidence, not as a translation defect.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy37-president-20260821/`.

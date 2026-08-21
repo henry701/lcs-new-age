@@ -2602,3 +2602,18 @@ routes are optional breadth coverage.
   amendment plus fresh elections as the first real endgame checkpoint.
 - This route is evidence of election and succession mechanics, not victory:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy23-constitutional-20260820/`.
+
+## 2026-08-20 — strategy 23 constellation route through April 2025
+
+- The Washington high-intelligence/science route kept the founder writing for
+  the Liberal Guardian, expanded a lawyer sleeper network, and naturally
+  recruited an education worker, a second lawyer, and a liberal judge. It
+  reached April 28, 2025 after legislative, state-ballot, presidential,
+  Senate, and House sequences without a constitutional prompt, terminal, or
+  campaign victory. The captured agenda still showed conservative/minimal
+  laws and 0% LCS awareness/support.
+- Preserve this as a high-intelligence coalition and election route, not
+  victory evidence. Future work still needs a public-mood breakthrough and
+  the term-limit/purge path before attempting the strict win gate.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy23-constellation-20260820/`.

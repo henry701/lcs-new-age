@@ -7792,3 +7792,22 @@ reached. Captures and source hashes are under
   untranslated gameplay UI English. One news article retained the proper book
   title `The Abortion Files`. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy23-constitutional-20260820/`.
+
+## 2026-08-20 — constellation route #23 extended to April 2025
+
+- `playtester-strategy23-constellation-20260820` was a fresh Portuguese,
+  stock-cheatless Washington run using the high-intelligence university/science
+  founder route, normal Liberal Guardian writing, and CCS disabled via the
+  stock `Céu Azul e Límpido` option. It used no debug flags, fixtures, save
+  imports, source edits, CDP, or headed browser.
+- The route naturally recruited Dwight Zumbach (lawyer), Meghan Skye
+  (education worker), Amelie Reading (lawyer), and Jillian Malone (liberal
+  judge). It exercised 2023 state ballots, 2024 legislation and vetoes, the
+  2024 presidential/Senate/House elections, and January 2025 agenda pages.
+  The final stable base was April 28, 2025; no term-limit amendment, Court
+  purge, `Ending.victory`, or game-over appeared. The agenda still showed
+  conservative/minimal laws and 0% LCS awareness/support.
+- Integrity metrics: 1,251/1,251 captures non-empty, maximum row width 80,
+  zero over-wide captures, zero bridge errors, and zero terminal captures.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy23-constellation-20260820/`.

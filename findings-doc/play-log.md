@@ -8402,3 +8402,19 @@ reached. Captures and source hashes are under
   autosave and title `C` resume; the in-page `flutter.lastGameId=9189434` was
   not treated as a save checkpoint. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt416-runtime-20260821/fresh-captures-v8/`.
+
+## 2026-08-21 — PT-418 fresh White House combat replay j
+
+- A fresh strict-headless stock `pt_BR` session on server `10186` followed the
+  ordinary Washington, DC → National Mall → Casa Branca route. Capture
+  `027-detector-entry.json` shows four localized `Serviço Secreto` enemies in
+  `Terno preto`; synchronized ordinary Daishō combat ran through capture 183.
+- No clothing-destruction line appeared. The only `destruído` hits described
+  squad body-organ damage. Capture `184-game-over-c.json` records the localized
+  natural defeat, and `185-game-over-enter.json` returns to the Portuguese
+  title. PT-418 remains **Fixed-pending-verify**.
+- All 207 fresh captures were nonempty, at most 80 columns wide, with no
+  over-wide rows, runtime errors, raw-English gameplay hits, or bridge errors.
+  Site defeat prevented base-mode `X` autosave and title `C` resume, so no save
+  claim is made. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt418-runtime-20260821/fresh-captures-j/`.

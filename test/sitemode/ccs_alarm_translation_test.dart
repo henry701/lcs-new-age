@@ -22,5 +22,12 @@ void main() {
       ),
       'Soldier observa sua atividade Liberal e solta um grito de alarme Conservador penetrante!',
     );
+    expect(
+      LcsI18n.processString(
+        '{name} observes your Liberal activity and shouts for help!',
+        {'name': 'Office Worker'},
+      ),
+      'Office Worker observa sua atividade Liberal e grita por ajuda!',
+    );
   });
 }

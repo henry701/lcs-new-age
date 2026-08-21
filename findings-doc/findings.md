@@ -7326,3 +7326,48 @@ the raw English refusal. Independent verification passed the focused test,
 112 relevant i18n/layout/recruitment tests, canonical catalog checks,
 interpolation checks, `flutter analyze`, formatting, and `git diff --check`.
 Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/` (verifier run).
+
+## PT-411: Liberal activity alarm leaks English in Portuguese stealth encounters
+
+- Severity: Medium
+- Type: Missing translation
+- Screen: Portuguese stealth encounter at an AM radio station when a liberal
+  witness notices the Squad
+- Replay status: **Closed / Fixed**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy34-victory-20260821/258-radio-door-prompt3.json`
+
+### Reproduction
+
+1. Start a fresh stock Portuguese (`pt_BR`) campaign with cheats, debug flags,
+   fixtures, and save imports disabled.
+2. Enter the AM radio station and perform a liberal action while an office
+   worker is present.
+3. Advance the stealth encounter until the witness notices the Squad.
+
+### Actual
+
+The 25×80 Portuguese capture rendered:
+
+```text
+Trabalhador de Escritório observes your Liberal activity and shouts for help!
+```
+
+`noticeCheck()` in `lib/sitemode/stealth.dart` passes the complete
+`{name} observes your Liberal activity and shouts for help!` template through
+`LcsI18n`, but the template was absent from both canonical locale catalogs.
+
+### Fix and independent verification
+
+The English source key and Portuguese translation were added through the
+hash-sharded ARB merge workflow. Portuguese now renders:
+`{name} observa sua atividade Liberal e grita por ajuda!`.
+`test/sitemode/ccs_alarm_translation_test.dart` covers the template and
+placeholder path. Focused catalog validation and the regression test pass.
+
+Independent fresh strict-headless stock replay `verify-pt411-20260821`
+rendered `Trabalhador de Escritório observa sua atividade Liberal e grita por
+ajuda!` in `witness-alarm.json`. The 107-capture authoritative window had no
+empty buffers, no raw English template hits, no bridge errors, and no rows
+over 80 columns. No cheats, debug flags, fixtures, save imports, source edits,
+headed browser, or CDP attachment were used. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt411-20260821/`.

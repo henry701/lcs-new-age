@@ -2587,3 +2587,18 @@ routes are optional breadth coverage.
   evidence.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy22-politics-20260820/`.
+
+## 2026-08-20 — strategy 23 constitutional route through 2025
+
+- The Seattle constitutional route reached January 20, 2025 after the 2024
+  presidential, Senate, and House elections, but public mood remained far
+  below the `publicMood() > 80` term-limit threshold and no constitutional
+  shortcut fired. The final laws were still conservative/minimal and the
+  final executive/body alignment was nowhere near the strict victory gate.
+- Future victory work should recruit high-impact sleepers (eminent scientist,
+  corporate CEO, police chief/educator, journalist/author) earlier and keep
+  at least one high-capacity agent on `A -> 3` while assigning low-capacity
+  agents to `A -> 2`. Capture the agenda every month and treat the term-limit
+  amendment plus fresh elections as the first real endgame checkpoint.
+- This route is evidence of election and succession mechanics, not victory:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy23-constitutional-20260820/`.

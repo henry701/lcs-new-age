@@ -7772,3 +7772,23 @@ reached. Captures and source hashes are under
   (1,171 non-empty), maximum width 80, zero over-wide rows, and zero bridge
   errors. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy22-politics-20260820/`.
+
+## 2026-08-20 — constitutional route #23 extended to 2025
+
+- `playtester-strategy23-constitutional-20260820` continued the fresh
+  Portuguese Seattle route from 2023-01-01 through January 20, 2025. It kept
+  CCS disabled, used legal donations, assigned Angela Ng's `A -> 3` sleeper
+  network, and naturally recruited Kayla Marshall, Suzie Slaten, and Malcolm
+  Toole. It remained stock-cheatless: no debug flags, fixture, save import,
+  headed browser, CDP, or source edit.
+- The route exercised the 2024 presidential, Senate, and House elections. The
+  final Liberal Agenda showed President Jacob Becker, House visible counts of
+  68 Lib+ / 60 Lib / 37 moderate, Senate visible counts of 19 Lib+ / 14 Lib /
+  8 moderate, low public-opinion values, and conservative/minimal laws. No
+  term-limit amendment, Supreme Court purge, `Ending.victory`, or game-over
+  event fired.
+- Correct aggregate metrics over 437 retained DOM captures: 437 non-empty,
+  maximum row width 80, zero over-wide rows, zero bridge errors, and no
+  untranslated gameplay UI English. One news article retained the proper book
+  title `The Abortion Files`. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy23-constitutional-20260820/`.

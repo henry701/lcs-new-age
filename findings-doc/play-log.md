@@ -7934,3 +7934,18 @@ reached. Captures and source hashes are under
   with zero over-wide rows and zero bridge errors. The only raw-English hits
   were the initial title and language screens.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy30-gameover-20260821/`.
+
+## 2026-08-21 — strategy 28 bounded media/legal route
+
+- Fresh Portuguese stock campaign `playtester-strategy28-natural-victory-20260821`
+  used Washington, DC, a charisma/persuasion-heavy legal activist founder, and
+  ordinary donations, community service, courthouse recruitment, and sleeper
+  advocacy. No cheats, fixtures, save imports, source edits, CDP, or headed
+  browser were used.
+- The route reached 1 November 2023 with 40.6% liberal views and 0.0% LCS
+  support. A natural Dom Sellers embezzlement event led to a Portuguese guilty
+  plea, clemency, and a two-month prison sentence; the founder returned to a
+  normal base screen. No victory, defeat, or literal game-over ending fired.
+- Integrity: 909 valid captures, every screen 25 rows with max width 80, zero
+  over-wide rows, zero bridge errors, and no new translation/layout issue.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy28-natural-victory-20260821/`.

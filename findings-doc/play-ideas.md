@@ -2705,3 +2705,15 @@ routes are optional breadth coverage.
   route must eliminate every liberal or reach a genuine high-score terminal.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy30-gameover-20260821/`.
+
+## 2026-08-21 — strategy 28 legal route checkpoint
+
+- The legal/activist Washington route reached 40.6% liberal views but no LCS
+  approval and no constitutional or victory gate. The natural embezzlement
+  trial rendered clean Portuguese and returned a sleeper to prison after
+  clemency; it did not end the campaign.
+- Washington's stock map lacked a reachable radio/cable station in this
+  bounded run, so a future victory route needs early intercity funds or a
+  stronger sleeper/media plan.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy28-natural-victory-20260821/`.

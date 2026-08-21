@@ -8487,3 +8487,26 @@ reached. Captures and source hashes are under
   `flutter.lastGameId=5729550`. The owned browser/session and Flutter server
   were cleaned up afterward. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy46-victory-20260821/`.
+
+## 2026-08-21 — Strategy47 intelligence-HQ natural game-over replay
+
+- A fresh strict-headless stock `pt_BR` campaign used a capability-focused
+  questionnaire (intelligence, computers, security, stealth, and sports car),
+  ordinary legal fundraising/recruitment, and the DC → Arlington → Intelligence
+  HQ route. Three locked doors were opened through normal prompts. No cheats,
+  debug controls, fixtures, save imports, CDP, headed browser, or source edits
+  were used.
+- An alarmed Secret Service/guard-dog encounter killed the lone founder before
+  the supercomputer/backer-list objective. Capture `185-intel-no-squad-c.json`
+  directly says `O Esquadrão do Crime Liberal foi morto em combate em Janeiro
+  de 2023.` (`gameOver=true`, `victory=false`); this is natural game-over, not
+  victory evidence.
+- All 185 captures were nonempty with maximum row width 80, no over-wide rows,
+  runtime errors, or bridge errors. English text was limited to the pre-locale
+  title/language screens and intentional key legends; no raw-English gameplay
+  sentence appeared after the Portuguese title.
+- No base-mode lowercase `x`/title `c` checkpoint is claimed: site combat killed
+  the sole founder before base return. Terminal storage recorded
+  `flutter.lastGameId=3884001` but null founder/date, so no save import or resume
+  was inferred. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy47-victory-20260821/`.

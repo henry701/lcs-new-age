@@ -2764,3 +2764,10 @@ routes are optional breadth coverage.
   optional evidence rather than the strict victory gate.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy35-broadcast-20260821/`.
+
+## 2026-08-21 — strategy 36 Oval Office prompt blocker
+
+- The stock Washington route reached White House Level 2 with a persuasion-oriented founder, but movement/map acknowledgement overshot the Oval Office President encounter. Preserve this as a bounded no-victory checkpoint, not as evidence that the President was unavailable or unrecruitable.
+- A follow-up route should re-enter the White House after a reset, walk the known CSV path to the office, capture the President encounter before sending extra movement keys, and choose normal politics/recruitment followed by sleeper `B` if the persuasion check succeeds.
+- No new Portuguese or layout defect appeared. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy36-political-20260821/`.

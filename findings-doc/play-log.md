@@ -8010,3 +8010,10 @@ reached. Captures and source hashes are under
   confirmed.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy35-broadcast-20260821/`.
+
+## 2026-08-21 — strategy 36 bounded Washington political route
+
+- Fresh Portuguese stock-cheatless campaign `playtester-strategy36-political-20260821` used Washington, DC, the default political climate, Clear Blue Skies, Power to the People, ordinary donations, and a normally obtained sports car.
+- The route entered White House Level 2 and reached the normal security/Oval Office path. The President encounter was overshot while acknowledging movement/map prompts, so no President recruitment or sleeper conversion is claimed. The run returned naturally to the DC homeless base on 3 January 2023 without victory, defeat, or literal game-over.
+- Integrity: 116 parseable captures, 115 complete 25×80 frames, zero row-width defects, zero capture errors, and no cheats, debug flags, fixtures, save imports, source edits, CDP, or headed browser. No new Portuguese or layout issue was confirmed.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy36-political-20260821/`.

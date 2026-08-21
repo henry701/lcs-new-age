@@ -7964,3 +7964,18 @@ reached. Captures and source hashes are under
   bridge errors, and only the initial title/language screens in the raw-English
   scan. Port 10143 and the browser session were stopped and verified clear.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy31-literal-gameover-20260821/`.
+
+## 2026-08-21 — strategy 32 bounded media attempt
+
+- Fresh Portuguese stock route `playtester-strategy32-media-victory-20260821`
+  used Seattle, Clear Blue Skies, Power to the People, a persuasion-oriented
+  founder, ordinary donations, and a normal vehicle purchase attempt. The
+  route reached the Seattle courthouse map with US$1,004; the cheapest car was
+  US$2,500, so intercity media access was unavailable.
+- A police encounter trapped the unarmed one-person squad in the courthouse
+  map at capture `089-forum-up3.json`. No victory, defeat, or game-over fired;
+  the route was bounded rather than inferring media or political progress.
+- Integrity: 89 nonempty captures, max row 80, zero over-wide rows, zero bridge
+  errors, no cheats/debug flags/fixtures/save imports/source edits/CDP/headed
+  browser, and only two initial English setup hits.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy32-media-victory-20260821/`.

@@ -2728,3 +2728,15 @@ routes are optional breadth coverage.
   natural-victory result: no stock route has emitted `Ending.victory`.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy31-literal-gameover-20260821/`.
+
+## 2026-08-21 — strategy 32 media blocker
+
+- The Seattle media attempt confirmed that a one-person founder with US$1,004
+  cannot reach an intercity broadcast station: the cheapest car purchase was
+  US$2,500, and a courthouse police encounter trapped the route before any
+  takeover. Preserve the clean bounded checkpoint, not inferred victory data.
+- The natural-victory gate remains unobserved; future media routes need early
+  recruitment and enough ordinary fundraising for travel before entering a
+  high-risk site.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy32-media-victory-20260821/`.

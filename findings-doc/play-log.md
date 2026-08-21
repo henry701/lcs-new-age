@@ -7993,3 +7993,20 @@ reached. Captures and source hashes are under
   zero bridge errors, no cheats/debug flags/fixtures/save imports/source edits,
   and no CDP/headed browser. No new Portuguese issue appeared.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy33-constitutional-20260821/`.
+
+## 2026-08-21 — strategy 35 bounded Seattle broadcast route
+
+- Fresh Portuguese stock-cheatless route `playtester-strategy35-broadcast-20260821`
+  selected Seattle, a civil founder, ordinary donations, a sports car, and
+  the normal AM Radio station visit. The locked-door path was forced through
+  the Portuguese `Sim` prompt, then the alarmed map was explored with visible
+  movement/flee actions.
+- The studio marker never appeared, so the broadcast prompt and political
+  gate were not reached. The run ended at the Seattle AM Radio map with no
+  victory, defeat, or literal game-over screen.
+- Integrity: 280 complete final-retry 25×80 captures, zero row-width defects,
+  zero capture errors, and no cheats, debug flags, fixtures, save imports,
+  source edits, CDP, or headed browser. No new translation/layout issue was
+  confirmed.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy35-broadcast-20260821/`.

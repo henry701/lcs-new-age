@@ -2752,3 +2752,15 @@ routes are optional breadth coverage.
   and direct broadcast takeovers rather than donation/recruitment alone.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy33-constitutional-20260821/`.
+
+## 2026-08-21 — strategy 35 broadcast-map blocker
+
+- The Seattle AM Radio route confirmed the normal Portuguese locked-door and
+  alarm flow, but 280 complete map captures never exposed the studio marker.
+  Treat this as a bounded media-map checkpoint, not broadcast or victory
+  evidence.
+- A future victory route should prioritize political sleeper influence and
+  early funding over prolonged random map exploration; media takeover remains
+  optional evidence rather than the strict victory gate.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy35-broadcast-20260821/`.

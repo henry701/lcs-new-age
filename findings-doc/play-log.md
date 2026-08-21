@@ -8510,3 +8510,29 @@ reached. Captures and source hashes are under
   `flutter.lastGameId=3884001` but null founder/date, so no save import or resume
   was inferred. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy47-victory-20260821/`.
+
+## 2026-08-21 — Strategy48 equipped Intelligence-HQ replay
+
+- A fresh strict-headless stock `pt_BR` campaign selected active CCS, used a
+  sports-car/intelligence/computer/security-oriented questionnaire, raised
+  funds normally, and recruited a five-member NYC squad. The final roster
+  included the founder, two gang members (9mm and knife), and two students;
+  all movement, recruitment, and equipment inputs were ordinary. No cheats,
+  debug controls, fixtures, save imports, CDP, headed browser, or source edits
+  were used.
+- The squad followed the normal Manhattan → Intelligence HQ route and opened a
+  Level 1 locked door through lowercase `s`. A Secret Service/secretary/
+  programmer encounter forced ordinary combat; the squad lost Noël and
+  hospitalized Jackie, then returned to base through the failed-raid newspaper
+  branch. The supercomputer/backer-list and safehouse-clearing routes were not
+  reached, so no natural victory or game-over terminal was captured.
+- The 260-capture integrity scan found all gameplay buffers nonempty with
+  maximum row width 80, no over-wide rows, runtime errors, bridge errors, or
+  post-locale raw-English gameplay text. The two empty buffers were intentional
+  localStorage metadata records; the only English UI hit was the pre-locale
+  title.
+- Persistence was verified twice. Lowercase `x`/title `c` checkpoints
+  `143`–`145` recorded `flutter.lastGameId=7882499` and resumed the same NYC
+  campaign on 10 Jan 2023; final checkpoints `265`–`267` recorded the same ID
+  and resumed on 17 Jan 2023. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy48-victory-20260821/`.

@@ -8418,3 +8418,16 @@ reached. Captures and source hashes are under
   Site defeat prevented base-mode `X` autosave and title `C` resume, so no save
   claim is made. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt418-runtime-20260821/fresh-captures-j/`.
+
+## 2026-08-21 — Strategy44 broad natural-victory campaign
+
+- A fresh stock `pt_BR` campaign used ordinary recruiting, infiltration,
+  writing, community service, and Liberal Disobedience assignments. By June 1,
+  the valid media overview reached 42.8% Liberal views and 60.6% LCS support
+  (`654-jun1-media.json`), with nonempty 80-column buffers and no errors.
+- The campaign produced no natural victory or game-over ending. The attempted
+  stop hit an `about:blank` reload before base-mode `X`; `655-current.json` is
+  excluded, and title `C` could not resume because localStorage had no
+  `flutter.lastGameId` (`657-localstorage.json`). No save/resume claim is made.
+  Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy44-victory-20260821/`.

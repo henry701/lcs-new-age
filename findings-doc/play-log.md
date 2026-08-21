@@ -7918,3 +7918,19 @@ reached. Captures and source hashes are under
   Four raw-English hits were found: two expected pre-Portuguese setup
   screens and two mixed/quoted news buffers.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy26-natural-victory-20260821-rerun/`.
+
+## 2026-08-21 — strategy 30 police-defeat rerun
+
+- Fresh Portuguese stock route `playtester-strategy30-gameover-20260821` used
+  Washington, DC, `Os tempos estão mudando`, `Céu Azul e Límpido` (CCS off),
+  `Poder para o povo`, and a five-person violent-gang founder.
+- The route entered `Delegacia de Polícia`, forced the normal locked-door path,
+  and sustained ordinary `F` combat until the squad was detained. Capture
+  `359-game-over-terminal.json` contains the natural Portuguese police report;
+  `360-after-game-over-news.json` says Andy Downing proceeded to trial. Because
+  a liberal survived, this is not literal all-liberals-dead `Ending.gameOver`.
+- Stock integrity held: no cheats, debug flags, fixtures, save imports, source
+  edits, headed browser, or CDP. All 360 captures were nonempty, max row 80,
+  with zero over-wide rows and zero bridge errors. The only raw-English hits
+  were the initial title and language screens.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy30-gameover-20260821/`.

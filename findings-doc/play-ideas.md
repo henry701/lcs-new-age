@@ -2695,3 +2695,13 @@ routes are optional breadth coverage.
   term-limit or purge path; an election checkpoint is not victory evidence.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy26-natural-victory-20260821-rerun/`.
+
+## 2026-08-21 — strategy 30 defeat interpretation
+
+- The police route confirms a clean stock-cheatless squad-defeat/news branch,
+  but not the literal game-over ending: Andy Downing survived into trial.
+- Preserve `359-game-over-terminal.json` as natural defeat evidence and
+  `360-after-game-over-news.json` as the survivor proof. A future total-death
+  route must eliminate every liberal or reach a genuine high-score terminal.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy30-gameover-20260821/`.

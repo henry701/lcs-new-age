@@ -7748,3 +7748,27 @@ reached. Captures and source hashes are under
   with zero over-wide rows, zero bridge errors, and no exact raw-English UI
   hits. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy20-political-20260820/`.
+
+## 2026-08-20 — New York political sleeper-network route #22
+
+- `playtester-strategy22-politics-20260820` used a fresh Portuguese New York
+  campaign with `Os tempos estão mudando`, `Céu Azul e Límpido` (CCS disabled),
+  and `Poder para o povo`. The founder was Karla Carberry; questionnaire keys
+  were `C C C D C C D D E D`, producing the age-18 lawyer sleeper Tucker
+  Newhook and the manifesto origin. The founder was assigned `Solicitar
+  Doações`; Tucker received `A -> 3` sleeper-network recruitment.
+- Natural recruitment later produced Raven Sasaki (lawyer), Barbie Zhang
+  (secretary), and Jeremy Fekete (environmental worker). All four sleepers were
+  assigned `Promovendo o Liberalismo`; Raven's `A -> 3` recruitment option was
+  stock-disabled pending more energy, so `A -> 2` was used.
+- The route reached the November 2024 `Eleições da Câmara 2024` screen. Before
+  the election, the agenda showed President Bashar Gu and Vice President Enzo
+  Kitchen. Afterward it showed President Luther Ramírez, Vice President Moshe
+  MacLeod, changed cabinet members, and changed House/Senate counts. It stopped
+  at a stable New York base on 7 January 2025 without `Ending.victory` or
+  game-over.
+- This was stock-cheatless: no debug flags, fixtures, save import, CDP,
+  headed browser, or source edits. It retained 1,172 valid DOM captures
+  (1,171 non-empty), maximum width 80, zero over-wide rows, and zero bridge
+  errors. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy22-politics-20260820/`.

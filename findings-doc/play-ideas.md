@@ -2574,3 +2574,16 @@ routes are optional breadth coverage.
   preserve it as political-mechanics evidence rather than victory evidence.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy20-political-20260820/`.
+
+## 2026-08-20 — strategy 22 New York election follow-up
+
+- A distinct New York founder route used an age-18 lawyer sleeper, legal
+  donations, `A -> 3` sleeper-network coverage, and four infiltrated agents
+  assigned to Liberal advocacy. It reached the November 2024 House election
+  and a changed president/cabinet/legislature checkpoint by January 2025.
+- The route stayed Portuguese and width-safe but did not reach a terminal.
+  Future victory work should continue from a naturally recruited higher-impact
+  sleeper network rather than treating this election checkpoint as victory
+  evidence.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy22-politics-20260820/`.

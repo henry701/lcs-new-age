@@ -7892,3 +7892,29 @@ reached. Captures and source hashes are under
   headed browser, or source edits. Valid captures were width-safe (max row 80)
   with zero over-wide rows and zero bridge errors. No new PT issue was found.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy27-gameover-20260821/`.
+
+## 2026-08-21 — strategy 26 stock natural-victory route through March 2025
+
+- The authoritative rerun
+  `playtester-strategy26-natural-victory-20260821-rerun` was a fresh
+  Portuguese, stock-cheatless Seattle route. CCS was explicitly disabled by
+  the stock `Céu Azul e Límpido` option. No cheats, debug flags, fixtures,
+  save imports, source edits, CDP, or headed browser were used.
+- Lex Patterson started the age-18 lawyer route. Zoë Schröder initially
+  expanded the sleeper network; when the UI later disabled `A -> 3` for lack
+  of energy/recruiter capacity, the route preserved that fact and assigned
+  the available agents to Liberal advocacy. Ordinary recruitment legally
+  produced Professor Bea Woodrow and Actor Maximilian Suzuki; both were
+  sleeperized with the normal `B` choice. The final six sleepers all showed
+  `Promovendo o Liberalismo`.
+- The route advanced through the 2024 elections, January 2025 legislation,
+  and an ordinary-wait extension to 17 March 2025. Final media showed 32.9%
+  liberal views and 0.0% LCS support; the agenda still showed conservative
+  laws, Jim Quirk as president, House 91 Lib+ / 50 Lib / 41 moderate, and
+  Senate 19 Lib+ / 13 Lib / 11 moderate. No constitutional shortcut,
+  `Ending.victory`, or game-over screen appeared.
+- Integrity: 977/977 recursive captures non-empty, max row 80, zero
+  over-wide rows, zero bridge errors, and zero victory/game-over captures.
+  Four raw-English hits were found: two expected pre-Portuguese setup
+  screens and two mixed/quoted news buffers.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy26-natural-victory-20260821-rerun/`.

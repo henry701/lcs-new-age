@@ -2677,3 +2677,21 @@ routes are optional breadth coverage.
 - No new raw-English or layout defect was confirmed: 97 valid captures, max
   row 80, zero over-wide rows, zero bridge errors. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy27-gameover-20260821/`.
+
+## 2026-08-21 — strategy 26 natural-victory findings
+
+- Legal ordinary recruitment can target page 2 Professor and page 3 Actor
+  candidates. Repeated stock political conversations raised eagerness to the
+  normal join threshold; choosing `C` and then sleeper `B` produced Bea
+  Woodrow and Maximilian Suzuki without fixtures or save manipulation.
+- A sleeper-network action that is visible but energy-disabled must be
+  recorded as disabled, not replayed as if it succeeded. After recruiter
+  capacity was exhausted, the route kept all six available sleepers on
+  Liberal advocacy. Future victory attempts need a higher-capacity network
+  earlier, then high-impact professions assigned to advocacy.
+- Even with legal graffiti, Guardian writing, a professor, and an actor, the
+  March 2025 checkpoint fell to 32.9% liberal views and 0.0% LCS support. The
+  bottleneck remains public-mood/LCS awareness plus the constitutional
+  term-limit or purge path; an election checkpoint is not victory evidence.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy26-natural-victory-20260821-rerun/`.

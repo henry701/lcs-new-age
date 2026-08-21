@@ -2617,3 +2617,17 @@ routes are optional breadth coverage.
   the term-limit/purge path before attempting the strict win gate.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy23-constellation-20260820/`.
+
+## 2026-08-21 — strategy 24 high-impact route through February 2025
+
+- The Seattle stock-cheatless route used a lawyer founder, legal donations,
+  Guardian writing, a lawyer sleeper network, and courthouse political
+  conversations. It reached February 1, 2025 with a changed President and
+  legislature, but only 28% liberal public views and 0% LCS support; no
+  constitutional shortcut or campaign victory fired.
+- Preserve this as a clean political/mechanics route. It found no new
+  Portuguese translation or layout issue: 475 captures were width-safe with
+  zero bridge errors, and the seven raw-English hits were setup/proper-name or
+  mixed-news exceptions rather than core UI.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy24-high-impact-20260820/`.

@@ -7811,3 +7811,23 @@ reached. Captures and source hashes are under
   zero over-wide captures, zero bridge errors, and zero terminal captures.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy23-constellation-20260820/`.
+
+## 2026-08-21 — high-impact route #24 through February 2025
+
+- `playtester-strategy24-high-impact-20260820` ran a fresh Portuguese Seattle
+  campaign from January 1, 2023 through February 1, 2025. It used the stock
+  `Os tempos estão mudando`, `Céu Azul e Límpido` (CCS disabled), and `Poder
+  para o povo` options; no debug flag, fixture, save import, source edit,
+  CDP attachment, or headed browser was used.
+- Jerome Damon took the age-18 lawyer route, assigned Roberta Jeong to
+  `A -> 3` sleeper expansion, recruited Mindy Zito, and exercised legal
+  courthouse conversations with police. The final agenda showed President
+  Tucker Africa, visible House counts 62 Lib+ / 58 Lib / 50 moderate, and
+  Senate counts 16 Lib+ / 16 Lib / 9 moderate. Media overview showed 28.0%
+  liberal views and 0.0% LCS support; laws remained conservative/right-
+  authoritarian. No term-limit amendment, Court purge, `Ending.victory`, or
+  game-over appeared.
+- Integrity metrics: 475/475 captures non-empty, maximum row width 80, zero
+  over-wide rows, zero bridge errors, and zero victory/game-over captures.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy24-high-impact-20260820/`.

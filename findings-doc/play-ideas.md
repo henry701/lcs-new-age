@@ -2740,3 +2740,15 @@ routes are optional breadth coverage.
   high-risk site.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy32-media-victory-20260821/`.
+
+## 2026-08-21 — strategy 33 bounded coalition route
+
+- The New York high-intelligence/high-charisma route reached two ordinary
+  journalist recruitment agreements and a clean 31 March 2023 base checkpoint,
+  but never reached media takeover or the constitutional term-limit/court-purge
+  path. Preserve it as no-victory evidence; no translation/layout issue was
+  observed.
+- Future victory attempts still need early car funding, more active sleepers,
+  and direct broadcast takeovers rather than donation/recruitment alone.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy33-constitutional-20260821/`.

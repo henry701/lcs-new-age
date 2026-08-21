@@ -7979,3 +7979,17 @@ reached. Captures and source hashes are under
   errors, no cheats/debug flags/fixtures/save imports/source edits/CDP/headed
   browser, and only two initial English setup hits.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy32-media-victory-20260821/`.
+
+## 2026-08-21 — strategy 33 bounded constitutional route
+
+- Fresh Portuguese stock campaign `playtester-strategy33-constitutional-20260821`
+  used New York, `Os tempos estão mudando`, `Céu Azul e Límpido`, `Poder para o
+  povo`, and a high-intelligence/high-charisma manifesto founder. Ordinary
+  donations and two journalist join-agreement conversations reached the NYC
+  school base on 31 March 2023.
+- The route stopped before sleeper influence, intercity media takeover, or
+  constitutional checks. No victory or game-over terminal fired.
+- Integrity: 205 nonempty captures, maximum row width 80, zero over-wide rows,
+  zero bridge errors, no cheats/debug flags/fixtures/save imports/source edits,
+  and no CDP/headed browser. No new Portuguese issue appeared.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy33-constitutional-20260821/`.

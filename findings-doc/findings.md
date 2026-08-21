@@ -227,6 +227,9 @@
 | PT-393 | Medium | Combat translation | Portuguese CCS encounter roster and hit log expose the raw role `Soldier` |
 | PT-394 | Medium | Combat translation | Portuguese CCS bouncer and alarm messages expose hard-coded English text |
 | PT-406 | Medium | Combat translation | Portuguese White House Secret Service roster and hit logs expose the raw role `Secret Service` |
+| PT-407 | Medium | Translation interpolation/display leak | Liberal level title `Activist` leaks English in Portuguese recruitment screens |
+| PT-408 | Medium | Missing translation / dynamic creature type | `Political Activist` type name leaks English in Portuguese liberal profiles |
+| PT-409 | Medium | Translation/context | Homeless-camp siege briefing concatenates a modal `terá que` with imperative `derrote`/`fuja` |
 
 ## PT-001: Save-management option is clipped
 
@@ -7139,3 +7142,131 @@ catalog lookup and the localized profile heading interpolation under `pt_BR`.
   test/creature/political_activist_translation_test.dart` passed.
 - Canonical catalog check: `dart run scripts/maintain_arb_catalogs.dart
   --check --locale=en_US --locale=pt_BR` passed.
+
+## PT-409: Homeless-camp siege briefing concatenates `terá que` with imperative verbs
+
+- Severity: Medium
+- Type: Translation/context (split-sentence catalog)
+- Screen: Portuguese homeless camp under police attack → `F - Lutar/Fugir`
+- Replay status: **Closed after fixer tests and an independent fresh strict-headless Portuguese replay**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy18-victory-20260819/091-siege-briefing.json`
+- Fix worktree: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-pt409-wt` (`codex/pt409-siege-briefing` at `b3fc6d56` plus the briefing merge)
+
+### Reproduction
+
+1. Start a fresh stock Portuguese (`pt_BR`) campaign. Cheats, debug flags,
+   fixtures, and save imports stay off.
+2. Remain at `SEA — Sem-teto` until the safehouse shows `Refúgio Sob Ataque`
+   / `Sob Ataque` and the wait row becomes `Não pode esperar até o cerco
+   terminar`.
+3. Choose `F - Lutar/Fugir` and read the briefing body.
+
+### Actual
+
+The 2026-08-19 stock-cheatless capture at current HEAD `b3fc6d56` is 25×80
+with zero over-wide rows and an empty bridge-error channel. Layout is fine;
+PT-381 remains closed. The Portuguese body is not grammatical:
+
+```text
+                          SOB ATAQUE: ACAMPAMENTO DE SEM-TETO
+
+                Você está prestes a montar uma defesa do acampamento de
+                sem-teto.
+           O inimigo está esperando resistência, e você terá que
+           derrote todos ou fuja para sobreviver a este encontro.
+```
+
+`renderHomelessCampSiegeBriefing()` in `lib/daily/siege.dart` translates two
+adjacent English fragments independently:
+
+- `The enemy is expecting resistance, and you will have to` → `O inimigo está esperando resistência, e você terá que`
+- `defeat them all or run away to survive this encounter.` → `derrote todos ou fuja para sobreviver a este encontro.`
+
+Portuguese `terá que` requires infinitives (`derrotar` / `fugir`), not the
+imperatives `derrote` / `fuja`. The nearby warehouse siege key
+`you will have to defeat them all or run away to survive this` already uses
+`derrotá-los todos ou fugir`. The focused test
+`Portuguese homeless-camp briefing wraps every translated line` currently
+asserts the split fragments, so it cannot catch this.
+
+### Expected
+
+Render one grammatical sentence, for example `O inimigo está esperando
+resistência, e você terá que derrotá-los todos ou fugir para sobreviver a
+este encontro.` Prefer merging the two source strings so translators see the
+modal and its verbs together. Keep the briefing inside 80 columns. Add a
+regression that rejects `terá que derrote` / `terá que fuja`.
+
+### Notes
+
+Stock-cheatless HeadlessChrome session
+`playtester-strategy18-victory-20260819` on `http://127.0.0.1:10118/?playtest=1`.
+This is not campaign `Ending.victory`; the only documented Elite Liberal
+triumph remains the disposable `debugInstantVictory` fixture from 2026-08-13.
+
+### Fix and verification handoff
+
+`renderHomelessCampSiegeBriefing()` now translates one complete English
+sentence instead of stitching a modal fragment onto an imperative fragment.
+Portuguese catalog value: `O inimigo está esperando resistência, e você terá
+que derrotá-los todos ou fugir para sobreviver a este encontro.` The merged
+key was added with `scripts/merge_arb_entries.dart` to
+`lib/l10n/app_en_US_part08.arb` and `lib/l10n/app_pt_BR_part08.arb`. The old
+split keys remain in the catalogs unused. `test/daily/siege_translation_test.dart`
+asserts that grammatical sentence, rejects `terá que derrote` / `terá que fuja`,
+and still requires every console row to stay within 80 columns.
+
+The fix was implemented in isolated worktree commit
+`75e9cfe83c845f8ae97fddb67dc9a6a3c5f11f10` and cherry-picked onto
+`feature/localization` as `a6a07fbc`. The playtester checkout and live `10118`
+server were not edited.
+
+Focused commands (from the worktree):
+
+```text
+dart run scripts/maintain_arb_catalogs.dart --check --locale=en_US --locale=pt_BR
+flutter test test/daily/siege_translation_test.dart
+```
+
+Replay procedure used for independent verification:
+
+1. Use only worktree
+   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-pt409-wt` on branch
+   `codex/pt409-siege-briefing`. Do not start from
+   `/home/henry/My_Programming/OpenSourceCopies/lcs-new-age` while it is
+   serving the live campaign.
+2. Do not attach to `AGENT_BROWSER_SESSION=playtester-strategy18-victory-20260819`
+   and do not use port `10118`.
+3. Re-run `flutter test test/daily/siege_translation_test.dart` and confirm it
+   still rejects `terá que derrote` / `terá que fuja`.
+4. Optional live check: from this worktree, `flutter run -d web-server
+   --web-hostname 127.0.0.1 --web-port 10121`. Drive it with
+   `agent-browser-headless.sh` and a fresh session such as
+   `verify-pt409-20260819` (or `fixer-pt409-20260819`). Open
+   `http://127.0.0.1:10121/?playtest=1`. Keep debug flags, fixtures, and save
+   imports off.
+5. Start a stock Portuguese campaign, remain at `SEA — Sem-teto` until
+   `Refúgio Sob Ataque` / `Sob Ataque` and the wait row is `Não pode esperar
+   até o cerco terminar`, then choose `F - Lutar/Fugir`.
+6. Capture `#lcs-playtest-buffer`. The briefing body must contain
+   `terá que derrotá-los todos ou fugir` and must not contain
+   `terá que derrote` or `terá que fuja`. Rows stay 25×80 with an empty
+   bridge-error channel. Title remains `SOB ATAQUE: ACAMPAMENTO DE SEM-TETO`.
+
+### Independent verification
+
+The isolated fix was independently checked from
+`75e9cfe83c845f8ae97fddb67dc9a6a3c5f11f10` in worktree
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt409-wt` using fresh
+headless Chromium session `verify-pt409-20260820` on `127.0.0.1:10121`.
+The Portuguese route reached `F - Lutar/Fugir`; the final DOM buffer had 25
+rows, maximum width 80, no over-wide rows, no browser errors, all expected
+Portuguese checks true, and no raw English or malformed fragments. Focused
+catalog validation, `test/daily/siege_translation_test.dart` (13 tests), and
+targeted `flutter analyze` all passed. Temporary `debugSiege` and homeless-base
+edits used only to make this random siege screen reachable were restored;
+`git diff` and the index are clean and committed values remain
+`debugSiege=false` / `SiteType.warehouse`.
+
+Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verification-output-pt409/verification-report.md`,
+`briefing-metrics.json`, and `briefing-buffer.txt`.

@@ -7614,3 +7614,94 @@ reached. Captures and source hashes are under
   errors, or empty buffers. Selected raw-English scanning was clean; no new
   ticket, victory, or game-over terminal appeared. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy17-20260815/`.
+
+## 2026-08-19 — stock police-station game-over #18
+
+- `parent-strategy18-gameover-police-20260819` used a fresh Portuguese Seattle
+  founder, Ferenc Meléndez, at current HEAD `b3fc6d56`. Climate stayed at
+  `Os tempos estão mudando`, CCS at `Sangue Ruim`, combat at zipper
+  `Bem-vindo à Selva`. The unarmed founder went from the homeless camp to
+  Centro de Seattle → Delegacia de Polícia and fought `Oficial de Polícia` /
+  `Unidade Policial` until death.
+- The route was stock-cheatless: no debug flags, fixtures, save imports,
+  headed browser, CDP, or source edits. UA `HeadlessChrome/150.0.0.0`. It
+  retained 47 captures, all width 80, zero over-wide rows, zero bridge
+  errors. No new translation/layout ticket. Terminal:
+  `A Elite Liberal` / `O Esquadrão do Crime Liberal foi morto em combate em
+  Janeiro de 2023.` Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy18-gameover-20260819/`.
+- This is a distinct stock game-over from White House Secret Service combat,
+  Desert Eagle combat, CCS assault, and disband-and-wait hiding. Campaign
+  victory is still only documented via the disposable 2026-08-13
+  `debugInstantVictory` fixture, not a stock run.
+
+## 2026-08-19 — stock homeless-camp siege briefing (PT-409)
+
+- `playtester-strategy18-victory-20260819` is a stock-cheatless Portuguese
+  Seattle campaign at HEAD `b3fc6d56`, CCS `Céu Azul e Límpido`, combat
+  `Poder para o povo`, founder Angelina Walden writing Guardian articles from
+  the homeless camp. UA `HeadlessChrome/150.0.0.0` on
+  `http://127.0.0.1:10118/?playtest=1`. No debug flags, fixtures, save
+  imports, headed browser, CDP, or source edits.
+- Waiting reached `7 de jun de 2023` with `Refúgio Sob Ataque`. A naive wait
+  loop stalled because `W - Esperar um dia` is replaced by `Não pode esperar
+  até o cerco terminar`. `F - Lutar/Fugir` opened the homeless-camp briefing.
+- Capture `091-siege-briefing.json` is 25×80, zero over-wide rows, empty
+  errors. Title `SOB ATAQUE: ACAMPAMENTO DE SEM-TETO` is localized. The body
+  concatenates `e você terá que` with imperative `derrote todos ou fuja`.
+  Filed PT-409. This is not `Ending.victory`.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy18-victory-20260819/`.
+
+## 2026-08-20 — Seattle legal funding and low-income-housing route #19
+
+- `playtester-strategy19-warehouse-20260820` used a fresh Portuguese Seattle
+  founder, Elio Hemingway, with `Os tempos estão mudando`, CCS disabled via
+  `Céu Azul e Límpido`, and `Poder para o povo`. UA was
+  `HeadlessChrome/150.0.0.0`; the dedicated server was `10128`.
+- The founder solicited donations legally. Archibald Blanchard joined as a
+  regular journalist and was assigned Liberal Guardian writing; sleeper lawyer
+  Beth Lennon remained infiltrated. Funds reached US$17 by 6 January 2023.
+- The squad visited `Conjuntos habitacionais da Rua Finn`, read the sign that
+  identifies the landlord's office as the first door on the left, and selected
+  Não on the locked-door force prompt. It exited to `SEA — Sem-teto` on 7
+  January before rent could be accepted; no combat, hiding, disband, cheat, or
+  fixture path was used.
+- This bounded run ended without `Ending.victory`, game-over, or a new PT
+  ticket. It retained 117 captures, all width 80, zero over-wide rows, zero
+  bridge errors, and no empty buffers. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy19-warehouse-20260820/`.
+
+## 2026-08-20 — remaining-catalog social-attack probe
+
+- `prober-remaining-catalog-20260820` ran at HEAD `b3fc6d56` in a fresh
+  Portuguese Seattle game through the isolated server `127.0.0.1:10120`.
+  The wrapper reported `HeadlessChrome/150.0.0.0`; no headed browser, CDP,
+  save import, debug flag, or source edit was used.
+- The route reached `Visitando Estação de Rádio AM`, entered site mode, and
+  exercised repeated `S - Parar` encounter cycles. The live roster showed
+  workers, janitors, and secretaries, but did not show `Radio Personality` or
+  an English social-attack fragment. Therefore this probe does not confirm a
+  new PT ticket.
+- Static audit found creature XML social-attack fragments such as `winks at`,
+  `smiles at`, and `debates abortion with` absent from both canonical
+  catalogs. They are parsed by `creature_type_xml.dart` and translated at
+  the `socialAttack(...)` render site, making this an unconfirmed follow-up
+  candidate only.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-remaining-catalog-20260820/`.
+
+## 2026-08-20 — PT-409 fixer and independent verification
+
+- Isolated commit `75e9cfe83c845f8ae97fddb67dc9a6a3c5f11f10` merged the
+  homeless-camp siege modal into one translatable sentence and added a focused
+  regression; it was cherry-picked onto `feature/localization` as `a6a07fbc`.
+- A separate verifier used worktree
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt409-wt`, server
+  `127.0.0.1:10121`, and session `verify-pt409-20260820`. The fresh Portuguese
+  headless route reached `F - Lutar/Fugir`; the expected `terá que derrotá-los`
+  wording was present, malformed `terá que derrote` / `terá que fuja` wording
+  was absent, and all 25 rows stayed within 80 columns with no browser errors.
+- Catalog validation, focused siege tests (13 passing), and targeted analyze
+  passed. Temporary debug-only siege reachability edits were restored and did
+  not enter the fix commit. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verification-output-pt409/`.

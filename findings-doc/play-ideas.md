@@ -1,5 +1,32 @@
 # Portuguese Playtest Scratch Pad
 
+## 2026-08-19 — homeless-camp siege briefing is PT-409, not victory
+
+- Stock-cheatless strategy 18 (CCS disabled, easy combat, Guardian at the
+  Seattle homeless camp) reached a police siege on 7 June 2023. `F` briefing
+  is width-safe; Portuguese grammar is not (`terá que derrote` / `fuja`).
+  Ticket PT-409. Do not count this as `Ending.victory`.
+- Wait loops must treat `Não pode esperar até o cerco terminar` as a siege
+  blocker and stop, not mash Enter. After a fixer/verifier pass, resume this
+  campaign through `F` then site combat, or start a warehouse-based victory
+  strategy so police sieges are rarer.
+- Still no stock-cheatless `O Triunfo da Agenda Liberal`. The only triumph
+  capture used `debugInstantVictory`.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy18-victory-20260819/091-siege-briefing.json`.
+
+## 2026-08-19 — police-station combat is a distinct stock game-over
+
+- Delegacia de Polícia in Seattle, zipper combat, unarmed founder, stock
+  Portuguese, current HEAD. Terminal is combat death, not Elite Liberal
+  triumph. Keep using this as game-over strategy #18. Do not confuse
+  `A Elite Liberal` high-score chrome with `O Triunfo da Agenda Liberal`.
+- Next missing gate: three distinct stock-cheatless `Ending.victory` runs.
+  Long Guardian / sleeper / easy-climate / CCS-disabled waiting is still the
+  honest path; do not reuse `debugInstantVictory`.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy18-gameover-20260819/`.
+
 ## 2026-08-15 — disband confirmation localization closed
 
 - The disband confirmation path now uses the same localized Portuguese phrase
@@ -2490,3 +2517,36 @@ routes are optional breadth coverage.
   stock-cheatless captures were width-safe and issue-free; preserve it as a
   bounded eighth strategy while the endgame replay continues. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-whitehouse-20260815/`.
+
+## 2026-08-20 — legal funding and rental progression
+
+- The Seattle legal-funding route recruited a journalist, assigned Guardian
+  writing, and reached the Finn Street low-income-housing site with a homeless
+  founder squad. The site sign points to the landlord's first left-hand door;
+  the door was locked and the stock-cheatless route correctly declined the
+  force-open prompt. Future replay should keep legal donation income running
+  until the US$200 low-income-housing deposit is available, then retry the
+  landlord conversation before spending on unrelated equipment.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy19-warehouse-20260820/`.
+
+## 2026-08-20 — unconfirmed remaining-catalog candidate
+
+- Static XML/catalog comparison found missing catalog entries for creature
+  `social_attack` fragments (`winks at`, `smiles at`, `smirks at`, `chats
+  warmly with`, `yells slogans at`, `debates abortion with`, and others).
+  The runtime path is `assets/xml/creatures.xml` →
+  `lib/creature/creature_type_xml.dart` → `lib/sitemode/fight.dart`.
+- The isolated AM Radio Portuguese route did not produce the candidate in a
+  live buffer, so do not file a PT ticket from this scan. If revisited, force
+  a Radio Personality encounter (low RNG weight) and capture the social
+  combat line before filing.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-remaining-catalog-20260820/`.
+
+## 2026-08-20 — PT-409 resolved
+
+- The homeless-camp siege sentence was merged at the source-key level and
+  independently replayed in Portuguese. Preserve the verifier artifacts and
+  do not reopen PT-409 unless a fresh stock route reproduces a malformed
+  sentence after `a6a07fbc`.
+- Natural campaign victory is still unproven; continue distinct political
+  routes and keep debug/fixture victory evidence separate.

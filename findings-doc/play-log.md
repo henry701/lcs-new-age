@@ -8043,3 +8043,324 @@ reached. Captures and source hashes are under
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy39-natural-20260821/`
   (playtester route in progress) and the source locations recorded in
   `findings-doc/findings.md`.
+
+## 2026-08-21 — static prober PT-413–PT-418 sitemode audit
+
+- Source review found three reachable Portuguese sitemode paths that translate
+  a template but pass raw English values through arbitrary interpolation
+  parameters: insurance claims (`map_specials.dart:1525-1617`), display cases
+  (`map_specials.dart:1825-1865`), and radio/Cable News broadcasts
+  (`miscactions.dart:387-555`, entered by `map_specials.dart:1781-1822`).
+- PT-413 covers claim/denial/short-label values; PT-414 covers selected display
+  case items; PT-415 covers broadcast takeover, issue, and viewer/listener
+  values plus the uncatalogued `talks about {issue}.` / `discuss {issue}.`
+  second-line templates. PT-416 separately records two 83-cell Portuguese
+  rows rendered directly by `encounterMessage`, one in the insurance safe and
+  one in the bank vault. These are distinct from PT-306's media register issue,
+  PT-342's stored media headline, PT-363's vault catalog gap, and the fixed
+  PT-412 nested alarm literals. The same pass found PT-417's generic bar
+  rejection reactions, distinct from PT-394's CCS-only bouncer/alarm strings,
+  and PT-418's combat clothing-destruction interpolation, distinct from
+  PT-279's daily clothing-repair fix.
+- `dart run scripts/find_translatable_strings.dart --json --glob='sitemode/**'`
+  completed the source inventory; `flutter test test/i18n_test.dart
+  --plain-name='processString'` passed all 8 focused cases; and
+  `dart run scripts/maintain_arb_catalogs.dart --check` reported both canonical
+  locales valid. No browser, playtester session, fixture, victory claim, or
+  source-code edit was used. All six tickets remain runtime-pending.
+- The next replay must inspect `#lcs-playtest-buffer` after each normal map
+  route and enforce non-empty 25×80 captures, no raw English, no bridge errors,
+  and no over-wide rows; `sitemodePrompt` and `encounterMessage` write rows
+  directly without fitting.
+
+## 2026-08-21 — strategy 40 coalition route
+
+- Fresh Portuguese stock-cheatless campaign
+  `playtester-strategy40-coalition-20260821` used Washington, DC and a
+  high-intelligence/high-charisma founder built through the normal questionnaire
+  with law, science, business, and persuasion emphasis. The route assigned
+  ordinary recruitment tasks and sleeperized Raghad Lin and Holly Bárány;
+  `185-sleepers-list.json` records both infiltrated agents in DC.
+- The route entered White House Level 2, followed the normal map path to the
+  Oval Office, and captured the localized message `O Presidente está no Salão
+  Oval.` at `317-oval-office-target.json`. The regular talk flow selected the
+  President and completed a politics conversation; `326-politics-final.json`
+  records President Takács agreeing to meet later that day.
+- After the conversation the two Secret Service agents raised a normal alarm.
+  With only the unarmed founder in the squad, movement toward the stairs was
+  blocked by the alarmed encounter; `349-alarm-roster-blocked.json` is the
+  bounded terminal capture. No literal `Ending.victory`, game-over screen, or
+  new translation/layout defect appeared.
+- Integrity: 348 nonempty headless captures, maximum row width 80, zero
+  over-wide rows, zero bridge errors, and only two initial English setup hits
+  before Portuguese was selected. No cheats, debug flags, fixtures, save
+  imports, game-state injection, source edits, CDP, or headed browser were
+  used. No production code was changed by this route.
+- Verdict: no natural stock victory and no cheat-assisted victory; the route
+  ended at an honest White House alarm blocker after a successful coalition,
+  sleeper, and President-politics checkpoint.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy40-coalition-20260821/`.
+
+## 2026-08-21 — independent verifier PT-412/PT-413 follow-up
+
+- PT-413 was replayed independently on a fresh rebuilt Flutter web-server and
+  a separate headless Portuguese session. The normal insurance-office route
+  reached the claims terminal and produced two localized variants:
+  `Solicitação: Exame de ressonância magnética.` / `Negada: Nenhuma
+  Autorização prévia...` and `Solicitação: Tomografia computadorizada.` /
+  `Negada: Nenhuma Autorização prévia...`. A stock `N` response cleared the
+  prompt and left the terminal map live.
+- PT-413 captures 116, 118, and 119 were non-empty, exactly 80 columns wide,
+  free of over-wide rows and bridge errors, and had no known raw-English claim
+  or error sentinels. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt413-runtime-20260821/`.
+  The stale 115 capture and all about:blank attempts are excluded. The
+  successful approval (`S`) message was not captured, so PT-413 remains
+  runtime-pending rather than being closed on prompt/denial evidence alone.
+- PT-412 received a separate fresh nursing-home replay on `10153`; it reached
+  the live Portuguese map and patient interactions with 80-column, no-error
+  buffers but no manager alarm. No `10155` artifact was present. PT-412 remains
+  pending, with `114-fresh-status-p412r4.json` as the valid status capture;
+  empty/about:blank captures 112 and 113 are excluded.
+- These verifier runs provide no victory or game-over evidence and used no
+  cheats, fixtures, save imports, debug flags, CDP, headed browser, or source
+  edits.
+
+## 2026-08-21 — PT-418 combat clothing interpolation fix
+
+- The combat `severloot` branch previously passed `cr.clothing.shortName`
+  directly into the Portuguese clothing-destruction template. It now calls
+  `LcsI18n.tr` before interpolation and uses the fitted console renderer,
+  preserving the named armor translation without clipping in live combat output.
+- The new focused regression
+  `test/sitemode/clothing_destruction_translation_test.dart` confirms
+  `Black Suit` renders as `Terno preto`, rejects the raw English value, and
+  stays within 80 columns. The test-first red run failed on the missing source
+  wiring; the green run passed after the one-line fix.
+- PT-418 is **Fixed-pending-verify**. A fresh strict-headless Portuguese combat
+  replay must still capture the live destruction message before closure.
+
+## 2026-08-21 — independent verifier PT-413 approval-success replay
+
+- A brand-new Flutter server (`10159`) and strict headless Portuguese session
+  reached the insurance claims terminal through the normal Seattle route. The
+  prompt capture `pt413-approval-20260821/001-approval-prompt.json` contains
+  localized `Solicitação: Dispositivo Assistivo.` and `Negada: Nenhuma
+  Autorização prévia... (Sim ou Não)`.
+- A normal `S` response produced the localized approval line in
+  `pt413-approval-20260821/002-approval-success.json`:
+  `Alexa Hann aprova a solicitação de dispositivo auxiliar.` Combined with
+  prior prompt/denial captures `pt413-runtime-20260821/116`, `118`, and `119`,
+  PT-413 has direct prompt, denial, and approval-success proof and is closed.
+- Both new captures are non-empty, max row 80, no over-wide rows, no bridge
+  errors, and no raw-English sentinels. The replay was stock-cheatless: no
+  cheats, debug flags, fixtures, save imports, source edits, CDP, or headed
+  browser. The earlier 10158 browser-argument mistake was excluded.
+
+## 2026-08-21 — independent verifier PT-414 courthouse display-case replay
+
+- A fresh Flutter web server (`10165`) and strict-headless Portuguese session
+  `p414courthouse_fresh_20260821/a` used the ordinary Seattle → Centro de
+  Seattle → Fórum route and triggered a courthouse display case with `U`.
+- The live prompt was `Você vê uma vitrine contendo um retrato de Ronald
+  Reagan.` followed by the localized `Quebrar isso? (Sim ou Não)` action. A
+  normal `S` response closed the prompt and removed the `Vitrine` legend.
+- Both captures were non-empty, exactly 80 columns wide, free of raw-English
+  values, over-wide rows, and bridge errors. No cheats, debug flags, fixtures,
+  save imports, CDP, headed browser, or source edits were used. PT-414 is
+  closed after direct live proof. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt414-courthouse-retry2-20260821/`.
+
+## 2026-08-21 — strategy 41 New York media / AM Radio alarm blocker
+
+- Fresh Portuguese stock-cheatless campaign
+  `playtester-strategy41-newyork-media-20260821` used New York and a normal
+  high-intelligence/high-charisma founder. Ordinary recruitment produced
+  journalist Vince Sheen, who was sleeperized at `Canal de Notícias a Cabo`,
+  and student Sonali Chen, who joined the active NYC squad.
+- The two-member squad reached both local media surfaces and executed a
+  normal `Estação de Rádio AM` visit. The Portuguese locked-door prompt was
+  answered with the ordinary `Sim` key; `211-am-radio-force-door.json` records
+  `Sonali Chen chuta a porta!`. An office worker then raised the alarm and
+  `214-final-alarm.json` records the literal
+  `NYC — Estação de Rádio AM, Nível 1: CONSERVADORES ALARMADOS` state.
+- The route stopped at that honest unarmed alarm encounter. No literal
+  `Ending.victory`, victory screen, `Ending.gameOver`, or game-over screen
+  appeared. No new Portuguese translation or layout defect was confirmed.
+- Integrity: 215/215 captures were nonempty headless frames, maximum row width
+  80, zero over-wide rows, zero bridge errors, and only the two expected title
+  / language setup frames contained English setup UI. No cheats, debug flags,
+  fixtures, save imports, game-state injection, source edits, CDP, or headed
+  browser were used; port 10155 and session `p41n` were closed cleanly.
+- Verdict: no fresh stock-cheatless natural victory and no cheat-assisted
+  victory. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy41-newyork-media-20260821/`.
+
+## 2026-08-21 — strategy 42 long Seattle monthly-politics campaign
+
+- Fresh strict-headless Portuguese stock route used `Os tempos estão mudando`,
+  `Céu Azul e Límpido` (the normal setup explicitly says the CCS never
+  appears), `Poder para o povo`, and a Seattle founder. Lavender Teige reached
+  the first task assignment with Int 10 / Charisma 14 after the normal
+  questionnaire. Setup evidence is `003-new-game.json`, `007-ccs-clear.json`,
+  `021-base.json`, and `023-founder-activity-menu.json`.
+- Normal recruitment produced journalists Racheal Winter and Carina Meléndez.
+  Both were sleeperized in Seattle and assigned `Promovendo o Liberalismo`;
+  Racheal later joined active service and was assigned
+  `Escrevendo para o Guardião Liberal`. After donations reached US$3,372, the
+  founder recruited engineer Willy Morton, sleeperized him at `SEA — Corp. HQ`,
+  and assigned `Bisbilhotando` to discover secrets. Evidence:
+  `091-racheal-sleeper-seattle.json`, `097-carina-sleeper-seattle.json`,
+  `106-sleeper-tasks-complete.json`, `127-racheal-write-guardian-confirm.json`,
+  `0934-willy-sleeper-corporate-hq.json`, and `0939-willy-task-confirm.json`.
+- The route then advanced ordinary days with bounded acknowledgements and
+  retained monthly legislative, state-ballot, financing-report, newspaper, and
+  related political screens through `SEA — Sem-teto, 23 de set de 2024` in
+  `1148-final-base.json`. The campaign was stopped as a parent-directed bounded
+  finish while still nonterminal; it did not reach a victory or game-over
+  screen.
+- Integrity: 679/679 retained captures were nonempty, max row width 80, zero
+  over-wide rows, zero bridge errors, and zero runtime raw-English files (the
+  only English file was the expected pre-localization title setup frame).
+  No cheats, debug flags, fixtures, save imports, state injection, CDP, headed
+  browser, or production source edits were used. No new translation/layout
+  defect was confirmed.
+- Verdict: no natural stock-cheatless victory, no cheat-assisted victory, and
+  no game-over. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy42-years-politics-20260821/`.
+
+## 2026-08-21 — independent verifier PT-415 AM-radio replay
+
+- Fresh strict-headless stock Portuguese session `pt415_radio_retry3_20260821`
+  on server `10175` used the ordinary AM-radio route. Before the bounded
+  checkpoint, the verifier used base-mode `X` to autosave and title-screen `C`
+  to resume `lastGameId=4870023` normally; it then continued from the saved
+  map instead of discarding the route.
+- The route dismissed the full-map pause, opened the normal force-door prompts,
+  walked to the `S` studio marker, used `U`, and answered `Sim`. The live
+  buffer contained `O Esquadrão assume o controle do microfone e` followed by
+  `fala sobre energia nuclear.`.
+- The authoritative capture was non-empty, maximum row width 80, free of raw
+  English and bridge errors, and used no cheats, debug flags, fixtures, save
+  imports, CDP, headed browser, or source edits. The focused regression covers
+  the shared TV, viewer/listener, and hostage variants; this live route claims
+  only the AM takeover/issue path. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt415-runtime-20260821/003-am-radio-broadcast.json`.
+
+## 2026-08-21 — prober operator-role candidate checkpoint
+
+- A fresh Portuguese strict-headless route reached the Seattle police station
+  with a generated `Police Officer`, rendered as `Oficial de Polícia`. The
+  officer remained Conservative; normal talk did not convert them, and the
+  unarmed founder died in combat before a Liberal could perform a lock, bash,
+  or hack action. No direct English operator-role leakage was observed, so no
+  PT ticket was opened.
+- The prober validated persistence independently: base-mode `X` autosave,
+  fresh session title-screen `C` resume at `SEA — Sem-teto`, then a final base
+  `X` autosave. Save `gameId=8666347`, in-game date `2023-01-01`; sessions
+  `operator-names-persist-20260821-a` → `-b`. Resources were cleaned.
+
+## 2026-08-21 — independent verifier PT-416 insurance-safe prompt retry
+
+- Fresh strict-headless stock Portuguese session
+  `pt416_insurance_bank_20260821` on server `10177` reached the unique
+  insurance safe. Normal `U` displayed `Você encontrou um cofre.` followed by
+  `Quebrar? (Sim ou Não)`; normal `S` then reported
+  `Você não consegue ninguém para fazer o trabalho.` because the generated
+  five-member squad had no security skill.
+- The capture was non-empty, maximum row width 80, free of raw-English
+  gameplay, over-wide rows, and bridge errors. The fitted documents line and
+  bank vault remain unverified; no ticket closure is claimed. The verifier
+  then exited the site normally, used base-mode `X` autosave, and resumed via
+  title-screen `C` with `flutter.lastGameId=3309341` (Hailey Rácz, 2 Jan 2023).
+  Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt416-runtime-20260821/001-insurance-safe-prompt.json`.
+  Save/resume evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt416-runtime-20260821/002-normal-save-resume.json`.
+
+## 2026-08-21 — independent verifier PT-412 nursing-home alarm retry
+
+- Fresh strict-headless stock Portuguese session `pt412_manager_20260821/a`
+  on server `10178` used the ordinary NYC → Long Island → Casa de repouso
+  Toque Feliz route, normal locked-door `S`, and ordinary combat/map inputs.
+  The live state was `NYC — Casa de repouso Toque Feliz, Nível 1:
+  CONSERVADORES ALARMADOS`; the nested manager cry/alarm marker remained
+  unreachable in the internal corridor.
+- The capture was non-empty, maximum row width 80, free of raw-English values,
+  over-wide rows, and bridge errors. A normal `X` attempt remained a site-map
+  movement key, so base-mode autosave/title `C` resume was impossible; no
+  gameId was claimed. PT-412 remains pending. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt412-runtime-20260821/001-nursing-alarm.json`
+  and `115-save-attempt-X.json`.
+
+## 2026-08-21 — independent verifier PT-417 naked bar-rejection replay
+
+- A fresh strict-headless Portuguese stock campaign stripped a one-member
+  squad through the ordinary equipment screen, entered Desert Eagle Bar e
+  Grill through the normal Seattle route, and triggered the nude bouncer
+  rejection.
+- The live line was `Porra! eu não queria ver seu bunda nu.`, proving the
+  dynamic expletive and body-part values were localized before interpolation.
+  The capture was non-empty, exactly 80 columns wide, free of raw-English
+  values, over-wide rows, and bridge errors.
+- No cheats, debug flags, fixtures, save imports, CDP, headed browser, or source
+  edits were used. PT-417 is closed after direct live proof; the focused
+  regression covers the remaining trans-person, no-profanity, and body-part
+  variants. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt417-runtime-20260821/`.
+
+## 2026-08-21 — independent verifier PT-418 White House combat replay
+
+- Fresh strict-headless stock Portuguese session `i` reached the White House
+  through the ordinary Washington route with Gerald March, an AK-102,
+  `Terno preto`, and four ordinary gang members. The detector capture lists
+  four localized `Serviço Secreto` enemies also wearing `Terno preto`.
+- A bounded 60-round normal combat replay used slow waits and produced valid
+  Portuguese combat buffers, but ended with only two Liberals alive while all
+  four Secret Service remained standing. Five ordinary flee cycles then
+  reached the Portuguese title after squad defeat; no live clothing-destruction
+  sentence was captured. The earlier valid session `f` likewise ended in
+  ordinary defeat before any `Terno preto` destruction line.
+- All retained route buffers were non-empty, at most 80 columns wide, had no
+  over-wide rows or bridge errors, and contained no raw-English clothing value.
+  No cheats, debug flags, fixtures, save imports, CDP, headed browser, or
+  source edits were used. PT-418 remains **Fixed-pending-verify**.
+- A separate same-server setup session `g` demonstrated the requested
+  persistence checkpoint: normal base-mode `X` recorded
+  `flutter.lastGameId=7235917`, then a fresh browser session reopened the
+  Portuguese title. The combat route itself reached site defeat before a
+  second base-mode save was possible. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt418-runtime-20260821/`.
+
+## 2026-08-21 — PT-416 bounded insurance retry with persistence checkpoint
+
+- A fresh strict-headless stock Portuguese retry on server `10182` opened the
+  insurance office through the normal localized door prompt. The apparent
+  `$` marker was tested directly: `042-insurance-on-safe.json` showed
+  `Saque no chão!`, and normal `G` revealed `Notebook` in
+  `043-pickup-floor-loot.json`; it was floor loot, not the insurance safe.
+- No fitted insurance-document line, safe prompt, or bank-vault requirement
+  was captured. Later exploratory map captures after a helper naming mistake
+  are explicitly excluded from integrity evidence. The authoritative captures
+  remain non-empty, at most 80 columns wide, with no over-wide rows or bridge
+  errors. PT-416 remains **Fixed-pending-verify**.
+- The verifier completed the requested persistence handoff before cleanup:
+  normal base-mode `X` recorded `flutter.lastGameId=172748` (Nick Grant,
+  `3 de jan de 2023`), and a fresh title-screen `C` resumed the Portuguese
+  base screen. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt416-runtime-20260821/`.
+
+## 2026-08-21 — PT-412 bounded manager rerun
+
+- A fresh strict-headless stock Portuguese session performed a normal base
+  `X` checkpoint, then started a fresh founder route and reached the normal
+  New York → Long Island site list. The nursing-home entry was visible in
+  Portuguese, but the route stopped before entering the site and before the
+  nested manager alarm marker could be reached.
+- The last retained setup buffers were non-empty, max row 80, and bridge-error
+  free. The input loop stalled during route progression; the owned server and
+  browser were then cleaned up. PT-412 remains **Fixed-pending-verify**; the
+  earlier direct localized site-alarm capture is still the only runtime alarm
+  evidence. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt412-runtime-20260821/`.

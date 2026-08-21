@@ -1012,19 +1012,19 @@
     },
     {
       "file": "sitemode/fight.dart",
-      "line": 2076,
+      "line": 2077,
       "text": "Making loot for ${cr.name} into $lootPile",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/miscactions.dart",
-      "line": 719,
+      "line": 725,
       "text": "${p.name} readies another ${p.weapon.getName()}.",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },
     {
       "file": "sitemode/miscactions.dart",
-      "line": 722,
+      "line": 728,
       "text": "${p.name} reloads.",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

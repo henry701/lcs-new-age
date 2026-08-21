@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/common_actions/common_actions.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -276,13 +277,17 @@ Future<void> specialBouncerAssessSquad() async {
             "\"No! No, you can't come in naked! God!!\"",
             LcsI18n.processString(
               "\"Naked? {comment} But no, you can't come in.\"",
-              {"comment": noProfanity ? "[I won't look.]" : "That's hot."},
+              {
+                "comment": LcsI18n.tr(
+                  noProfanity ? "[I won't look.]" : "That's hot.",
+                ),
+              },
             ),
             LcsI18n.processString(
               "\" {expletive} I did not want to see your naked {bodyPart}.\"",
               {
-                "expletive": noProfanity ? "[Yuck!]" : "Fuck!",
-                "bodyPart": noProfanity ? "[body]" : "ass",
+                "expletive": LcsI18n.tr(noProfanity ? "[Yuck!]" : "Fuck!"),
+                "bodyPart": LcsI18n.tr(noProfanity ? "[body]" : "ass"),
               },
             ),
           ].random,
@@ -314,16 +319,24 @@ Future<void> specialBouncerAssessSquad() async {
           [
             "\"I smell trangenderism. Get out.\"",
             LcsI18n.processString("\"Ugh, trans people. {reaction} no.\"", {
-              "reaction": noProfanity ? "[Heavens]" : "Hell",
+              "reaction": LcsI18n.tr(noProfanity ? "[Heavens]" : "Hell"),
             }),
             "\"Your gender is a disgrace against nature.\"",
             LcsI18n.processString(
               "\"Trans men are men, {comment}. Get out.\"",
-              {"comment": noProfanity ? "[fellow child of God]" : "idiot"},
+              {
+                "comment": LcsI18n.tr(
+                  noProfanity ? "[fellow child of God]" : "idiot",
+                ),
+              },
             ),
             LcsI18n.processString(
               "\"Trans women are women, {comment}. Leave.\"",
-              {"comment": noProfanity ? "[fellow child of God]" : "moron"},
+              {
+                "comment": LcsI18n.tr(
+                  noProfanity ? "[fellow child of God]" : "moron",
+                ),
+              },
             ),
           ].random,
         );
@@ -969,13 +982,36 @@ Future<void> encounterMessage(
   Color color = white,
   Map<String, dynamic>? params,
   bool noTranslate = false,
+  bool fitToWidth = false,
 }) async {
   clearMessageArea();
 
-  mvaddstrc(9, 1, color, message, params: params, noTranslate: noTranslate);
+  if (fitToWidth) {
+    mvaddstrcFitted(
+      9,
+      1,
+      color,
+      message,
+      console.width - 1,
+      params: params,
+      noTranslate: noTranslate,
+    );
+    if (line2 != null) {
+      mvaddstrFitted(
+        10,
+        1,
+        line2,
+        console.width - 1,
+        params: params,
+        noTranslate: noTranslate,
+      );
+    }
+  } else {
+    mvaddstrc(9, 1, color, message, params: params, noTranslate: noTranslate);
 
-  if (line2 != null) {
-    mvaddstr(10, 1, line2, params: params, noTranslate: noTranslate);
+    if (line2 != null) {
+      mvaddstr(10, 1, line2, params: params, noTranslate: noTranslate);
+    }
   }
 
   await getKey();
@@ -1469,13 +1505,17 @@ Future<void> specialNursingHomeManager() async {
       if (activeSite!.hasHighSecurity) {
         await encounterMessage(
           LcsI18n.processString("{name} cries, ", {"name": admin.name}),
-          line2: "\"It's them!  They're back!  SECURITY, HELP ME!!!\"",
+          line2: LcsI18n.tr(
+            "\"It's them!  They're back!  SECURITY, HELP ME!!!\"",
+          ),
           noTranslate: true,
         );
       } else {
         await encounterMessage(
           LcsI18n.processString("{name} cries, ", {"name": admin.name}),
-          line2: "\"It's them!  They're back!  NURSES, HELP ME!!!\"",
+          line2: LcsI18n.tr(
+            "\"It's them!  They're back!  NURSES, HELP ME!!!\"",
+          ),
           noTranslate: true,
         );
       }
@@ -1505,6 +1545,7 @@ Future<void> specialInsuranceSafe() async {
   if (result == UnlockResult.unlocked) {
     await encounterMessage(
       "The squad has found documents detailing the insurance company's malfeasance.",
+      fitToWidth: true,
     );
     _loot(Loot(LootTypeIds.insuranceFraudEvidence));
 
@@ -1586,11 +1627,17 @@ Future<void> specialInsuranceClaimsTerminal() async {
       claimDescriptionShort = "buggy";
   }
 
+  final localizedClaimDescription = LcsI18n.tr(claimDescription);
+  final localizedDenialReason = LcsI18n.tr(denialReason);
+  final localizedClaimDescriptionShort = LcsI18n.tr(claimDescriptionShort);
+
   bool approve = await sitemodePrompt(
-    LcsI18n.processString("Claim: {claim}.", {"claim": claimDescription}),
+    LcsI18n.processString("Claim: {claim}.", {
+      "claim": localizedClaimDescription,
+    }),
     LcsI18n.processString(
       "Denied: {reason}. Override and approve? (Yes or No)",
-      {"reason": denialReason},
+      {"reason": localizedDenialReason},
     ),
     noTranslate: true,
   );
@@ -1607,7 +1654,7 @@ Future<void> specialInsuranceClaimsTerminal() async {
     await encounterMessage(
       LcsI18n.processString("{name} approves the {claim} claim.", {
         "name": hacker.name,
-        "claim": claimDescriptionShort,
+        "claim": localizedClaimDescriptionShort,
       }),
       color: lightGreen,
       noTranslate: true,
@@ -1649,7 +1696,9 @@ Future<void> specialInsuranceCEO() async {
       printEncounter();
       await encounterMessage(
         LcsI18n.processString("{name} cries, ", {"name": ceo.name}),
-        line2: "\"It's them!  They're back for me again!  Help!!!\"",
+        line2: LcsI18n.tr(
+          "\"It's them!  They're back for me again!  Help!!!\"",
+        ),
         noTranslate: true,
       );
       siteAlarm = true;
@@ -1851,9 +1900,10 @@ Future<void> specialDisplayCase() async {
   String featuring = items.randomSeeded(
     locx + locy * 7 + locz + sites.indexOf(activeSite ?? sites[0]),
   );
+  final localizedFeaturing = LcsI18n.tr(featuring);
   bool smash = await sitemodePrompt(
     LcsI18n.processString("You see a display case containing {item}.", {
-      "item": featuring,
+      "item": localizedFeaturing,
     }),
     "Smash it? (Yes or No)",
   );
@@ -2160,6 +2210,7 @@ Future<void> specialBankVault() async {
   await encounterMessage(
     "The squad will need a security expert, a computer ",
     line2: "expert, and one of the bank managers.",
+    fitToWidth: true,
   );
 
   for (Creature p in pool) {

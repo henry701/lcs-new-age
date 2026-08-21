@@ -2795,3 +2795,76 @@ routes are optional breadth coverage.
   use fixture or state injection to force a hostage state for victory claims.
 - Evidence: `findings-doc/findings.md` PT-412 and
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy39-natural-20260821/`.
+
+## 2026-08-21 — PT-413–PT-418 source-confirmed replay routes
+
+- PT-413: use an ordinary Portuguese insurance-office route, accept the claims
+  terminal prompt, and repeat random variants. Verify both claim/denial rows
+  and the post-skill approval message; do not force a random seed with fixtures.
+- PT-414: visit display-case tiles in ordinary bar, courthouse, and default
+  sites. Capture the selected item sentence and reject any raw English item or
+  row wider than 80 columns.
+- PT-415: reach the normal radio and Cable News studios, accept the broadcast,
+  and capture takeover/issue lines, any Conservative hostage line, and the
+  highest-quality viewer/listener result. Existing strategy 35 was bounded
+  before the studio marker, so it is not runtime evidence for this ticket.
+- PT-416: separately capture the successful insurance-safe documents message
+  and the bank-vault security/computer requirement message. Measure their
+  rendered Portuguese rows at 80 columns; PT-363's vault translation replay
+  did not assess this newly identified width hazard.
+- PT-417: use normal bar entry rejection branches (nudity, dress/disguise, and
+  trans-gate variants) and capture every parameterized reply. Check for raw
+  reactions such as `That's hot.`, `Hell`, `idiot`, or `moron`, and preserve the
+  no-profanity setting used by each route.
+- PT-418: take a named-clothing combat route until torso or mask armor breaks;
+  capture the destruction sentence and reject raw `Black Suit`/other XML
+  short names. PT-279 covers daily repair only, so this combat branch needs a
+  separate stock-cheatless replay.
+- These routes need fresh stock-cheatless Portuguese sessions with no debug,
+  fixtures, save imports, source edits, headed browser, or CDP. Preserve the
+  exact mixed buffers as ticket evidence and do not infer victory from any
+  intermediate screen.
+
+## 2026-08-21 — strategy 40 coalition / White House alarm blocker
+
+- The high-intelligence/high-charisma founder plan successfully sleeperized
+  two ordinary DC recruits, reached the Oval Office, and completed the normal
+  Portuguese President politics conversation. `185-sleepers-list.json` and
+  `326-politics-final.json` are the useful checkpoints.
+- The follow-up alarmed the White House while the founder was alone and
+  unarmed. The next route should bring an armed active squad or explicitly
+  test the normal sneak/flee branch before attempting another President
+  meeting; do not treat the alarm map as a victory gate.
+- This route still provides no `Ending.victory` evidence. Preserve the strict
+  no-victory verdict and do not claim that the President follow-up or the two
+  sleeper agents changed the political victory conditions.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy40-coalition-20260821/`.
+
+## 2026-08-21 — strategy 41 New York media checkpoint
+
+- A fresh New York campaign reached local AM Radio and Cable News surfaces
+  normally, sleeperized one journalist into Cable News, and assembled a
+  two-member active squad. The AM Radio map's locked-door `Sim` branch worked
+  in Portuguese, then the office worker alarmed the site; this is a bounded
+  media checkpoint, not broadcast takeover or victory evidence.
+- The route did not produce `Ending.victory`, `Ending.gameOver`, or a new
+  translation/layout issue. Future long runs should use this recruitment and
+  squad-assembly pattern, buy ordinary equipment before an alarmed political
+  site, and prioritize monthly law/election progression rather than claiming
+  victory from media entry alone.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy41-newyork-media-20260821/`.
+
+## 2026-08-21 — strategy 42 Seattle monthly route
+
+- The long route confirms a workable normal setup for future victory attempts:
+  Clear Blue Skies, Seattle, a high-intelligence/high-charisma founder, two
+  Seattle journalist sleepers promoting liberalism, one active Guardian
+  writer, and an engineer sleeper at Corporate HQ discovering secrets.
+- Monthly legislative and ballot screens advance normally with no CCS when
+  `Céu Azul e Límpido` is selected. A future route should keep this network but
+  add reachable executive, court, House, and Senate recruitment before relying
+  on multi-year waiting; Strategy42 itself produced no `Ending.victory`.
+- Evidence and full integrity record:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy42-years-politics-20260821/`.

@@ -7378,8 +7378,8 @@ headed browser, or CDP attachment were used. Evidence:
 - Type: Missing translation
 - Screen: Portuguese nursing-home administrator or insurance CEO hostage
   re-encounter
-- Replay status: **Open / Unverified**
-- Evidence: `lib/sitemode/map_specials.dart:1470-1480,1650-1654`
+- Replay status: **Fixed-pending-verify**
+- Evidence: `lib/sitemode/map_specials.dart:1470-1484,1650-1658`; regression `test/sitemode/hostage_manager_alarm_translation_test.dart`
 
 ### Reproduction
 
@@ -7412,3 +7412,540 @@ Route each alarm line through the normal translation path while preserving the
 distinct security, nurses, and insurance variants, punctuation, tone, and
 80-column console layout. Add focused Portuguese regressions and an
 independent headless replay before closing the ticket.
+
+### Fix and verifier handoff
+
+Each nested `line2` now calls `LcsI18n.tr` before `encounterMessage` renders the
+already-localized line with `noTranslate: true`. The three canonical entries
+were merged into the hash-sharded `en_US` and `pt_BR` catalogs (parts 04 and
+31). Portuguese values are:
+
+```text
+"São eles! Eles voltaram! SEGURANÇA, AJUDEM-ME!!!"
+"São eles! Eles voltaram! ENFERMEIROS, AJUDEM-ME!!!"
+"São eles! Voltaram para me pegar de novo! SOCORRO!!!"
+```
+
+The focused regression `test/sitemode/hostage_manager_alarm_translation_test.dart`
+passes for all three exact source keys. The ticket remains
+**Fixed-pending-verify** until an independent fresh strict-headless replay
+confirms the live map-special branches.
+
+Verifier replay:
+
+1. Use a rebuilt Flutter web-server checkout containing this fix, a fresh
+   `AGENT_BROWSER_SESSION`, and the headless-only harness. Open
+   `http://127.0.0.1:<port>/?playtest=1`; do not use a headed browser, CDP,
+   cheats, debug flags, fixtures, save imports, or source edits.
+2. Start a fresh Portuguese (`pt_BR`) campaign, free the nursing-home
+   administrator or insurance CEO as a hostage, and deliberately let sleeper
+   conversion fail so the former hostage remains alive and Conservative.
+3. Revisit the nursing-home administrative office twice if needed: once at a
+   high-security site to exercise `SECURITY`, and once at a normal site to
+   exercise `NURSES`. Revisit the insurance CEO's office to exercise the
+   insurance-specific line.
+4. When each alarm appears, capture `#lcs-playtest-buffer`. Require the exact
+   Portuguese lines above, with no raw `It's them`, `SECURITY`, `NURSES`, or
+   `Help!!!` fragments. Confirm every capture is non-empty, at most 80 columns,
+   and has no bridge/browser errors.
+
+Independent verifier result (2026-08-21): no fresh `10155` artifact was
+available. A separate rebuilt Portuguese replay reached the nursing-home map,
+completed stock patient-room interactions, and stayed within 80 columns with
+no bridge errors, but it did not reach a manager alarm. The fresh status is
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt412-runtime-20260821/114-fresh-status-p412r4.json`.
+The `112-session-stalled.json` and `113-map-restart-stalled.json` captures are
+explicitly excluded because their tabs were `about:blank` and their buffers
+were empty. PT-412 remains **Fixed-pending-verify**.
+
+## PT-413: Insurance-claim terminal interpolates raw English claim labels
+
+- Severity: Medium
+- Type: Missing translation / dynamic interpolation
+- Screen: Portuguese site mode → insurance claims terminal
+- Replay status: **Closed — fixed and independently verified in strict-headless replay on 2026-08-21**
+- Evidence: `lib/sitemode/map_specials.dart:1525-1623`; regression
+  `test/sitemode/insurance_claim_translation_test.dart`; canonical entries in
+  `app_{en_US,pt_BR}_part02.arb`, `part18.arb`, `part19.arb`, `part22.arb`,
+  `part25.arb`, and `part32.arb`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) campaign with cheats, debug flags,
+   fixtures, and save imports disabled.
+2. Reach an insurance claims terminal through the normal site-map route and
+   inspect the claim prompt, denial prompt, and successful approval message.
+3. Repeat until at least two random claim variants appear; capture the full
+   25×80 buffer and check every row for raw English and overflow.
+
+### Actual
+
+`specialInsuranceClaimsTerminal()` selects raw English values such as
+`Chemotherapy`, `Missing Documentation`, and `chemo`, then inserts them into
+already translated templates with `LcsI18n.processString` and renders the
+results with `noTranslate: true`. `LcsI18n` only translates a fixed pronoun
+parameter set; arbitrary claim values remain unchanged. The Portuguese
+templates themselves exist, so a likely buffer is mixed, for example
+`Solicitação: Chemotherapy.` and `Negada: Missing Documentation. Substituir e
+aprovar? (Sim ou Não)`. The success line has the same bypass for its short
+claim label.
+
+### Expected
+
+Translate the selected claim, denial, and short-label values before
+interpolation (or use localized value helpers), then keep the rendered prompt
+and approval rows within the 80-column console. Add a focused regression and a
+fresh strict-headless route before closing the ticket.
+
+### Fix and verifier handoff
+
+`specialInsuranceClaimsTerminal()` now translates the selected full claim,
+denial reason, and short claim label with `LcsI18n.tr` before inserting them
+into the prompt and approval templates. The missing dynamic values were added
+through the canonical hash-sharded ARB merge workflow; existing catalogued
+values continue to use their established Portuguese translations. This keeps
+the final `noTranslate: true` renders localized without changing the terminal
+flow or random-variant selection.
+
+The focused regression
+`test/sitemode/insurance_claim_translation_test.dart` covers all fourteen
+claim/short-label variants, all denial reasons, the Portuguese prompt/denial/
+approval interpolation, and the source wiring. It also asserts representative
+rows stay within 80 columns. The independent fresh strict-headless replay
+below closes the ticket after confirming the live map-special branch.
+
+Verifier replay:
+
+1. Use a rebuilt Flutter web-server checkout containing this fix, a fresh
+   `AGENT_BROWSER_SESSION`, and the headless-only harness. Open
+   `http://127.0.0.1:<port>/?playtest=1`; do not use a headed browser, CDP,
+   cheats, debug flags, fixtures, save imports, or source edits.
+2. Start a fresh Portuguese (`pt_BR`) campaign and reach an insurance claims
+   terminal through the normal site-map route. Keep the run stock: no cheats,
+   debug flags, fixtures, save imports, or injected state.
+3. Exercise at least two random claim variants, including `Chemotherapy` or
+   `Insulin`, and capture the prompt plus denial buffer. Approve one claim and
+   capture the successful hacker message; repeat the terminal route as needed
+   for another variant.
+4. Inspect `#lcs-playtest-buffer` after each render. Require Portuguese
+   dynamic labels such as `Solicitação: Quimioterapia.`,
+   `Negada: Documentação ausente. Substituir e aprovar? (Sim ou Não)`, and a
+   success line ending in `solicitação de quimio.` or its selected equivalent.
+   Reject any raw English claim/reason/short label, any empty capture, any row
+   over 80 columns, and any bridge or browser error.
+
+Independent verifier result (2026-08-21): a fresh rebuilt headless Portuguese
+session reached the live insurance terminal through the normal site-map route.
+Captures `116-postfix-prompt-01.json` and `118-postfix-prompt-02.json` show two
+localized claim/denial variants; `119-postfix-denial-02.json` records a stock
+`N` response that clears the prompt and leaves the terminal map live. A second
+fresh server/session then captured `001-approval-prompt.json` with a localized
+claim and denial prompt, followed by normal `S` approval in
+`002-approval-success.json` (`Alexa Hann aprova a solicitação de dispositivo
+auxiliar.`). All five authoritative captures are non-empty, have `maxRow: 80`,
+no over-wide rows, no bridge errors, and no known raw-English claim/error
+sentinels. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt413-runtime-20260821/` and
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt413-approval-20260821/`.
+The stale-server `115-stale-server-baseline.json`, the earlier blank-tab
+attempt, and all empty/about:blank captures are excluded. PT-413 is closed
+after independent prompt, denial, and approval-success runtime proof.
+
+## PT-414: Display-case prompt interpolates raw English item descriptions
+
+- Severity: Medium
+- Type: Missing translation / dynamic interpolation
+- Screen: Portuguese site mode → bar, courthouse, or other display case
+- Replay status: **Closed — fixed and independently verified in strict-headless replay on 2026-08-21**
+- Evidence: `lib/sitemode/map_specials.dart:1831-1871`; regression
+  `test/sitemode/display_case_translation_test.dart`; Portuguese item entries
+  in the canonical hash-sharded catalogs
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) campaign without cheats, debug flags,
+   fixtures, or save imports.
+2. Enter a normal site containing a display-case tile and trigger it.
+3. Repeat across bar, courthouse, and default site types where possible;
+   capture the prompt and verify 25×80 row widths.
+
+### Actual
+
+The `items` lists contain raw English descriptions such as `some neo-Nazi
+memorabilia`, `a Confederate flag`, and `a portrait of Ronald Reagan`.
+`specialDisplayCase()` inserts the selected value into the translated
+`You see a display case containing {item}.` template, but the arbitrary
+`item` parameter is not translated. Portuguese therefore renders a mixed line
+such as `Você vê uma vitrine contendo some neo-Nazi memorabilia.` even though
+standalone catalog entries exist for several of those item strings.
+
+### Expected
+
+Translate the selected display-case item before interpolation and keep the
+prompt plus `Smash it? (Yes or No)` action inside the fixed console. Add a
+focused regression and a fresh strict-headless map replay before closing.
+
+### Fix and verifier handoff
+
+`specialDisplayCase()` now calls `LcsI18n.tr` for the selected `featuring` item
+before inserting it into the translated display-case template. All sixteen
+unique bar, courthouse, and default item descriptions already have canonical
+English and Portuguese catalog entries, so no duplicate ARB keys were added.
+The existing `Smash it? (Yes or No)` action remains on the normal translated
+prompt path.
+
+The focused regression
+`test/sitemode/display_case_translation_test.dart` covers every item variant,
+checks the Portuguese catalog values, renders each item through the translated
+template, asserts rows stay within 80 columns, and verifies the source no
+longer passes the raw item into interpolation.
+
+Independent verifier replay closed the ticket. A fresh server on port `10165`
+and fresh strict-headless Portuguese session `p414courthouse_fresh_20260821/a`
+used the ordinary Seattle → Centro de Seattle → Fórum route and triggered a
+courthouse display case with the normal `U` action. The live prompt was
+`Você vê uma vitrine contendo um retrato de Ronald Reagan.` followed by the
+localized `Quebrar isso? (Sim ou Não)` action. A normal `S` response closed the
+prompt and removed the `Vitrine` legend. Both captures were non-empty, exactly
+80 columns wide, free of raw-English values, over-wide rows, and bridge errors.
+No cheats, debug flags, fixtures, save imports, CDP, headed browser, or source
+edits were used. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt414-courthouse-retry2-20260821/`.
+
+PT-414 is **Closed — Fixed**.
+
+Historical verifier replay procedure:
+
+1. Use a rebuilt Flutter web-server checkout containing this fix, a fresh
+   `AGENT_BROWSER_SESSION`, and the headless-only harness. Open
+   `http://127.0.0.1:<port>/?playtest=1`; do not use a headed browser, CDP,
+   cheats, debug flags, fixtures, save imports, or source edits.
+2. Start a fresh Portuguese (`pt_BR`) campaign and reach a normal bar,
+   courthouse, and default site containing display-case tiles through the
+   ordinary site-map route. Keep the run stock: no cheats, debug flags,
+   fixtures, save imports, or injected state.
+3. Trigger a display case on each site type and repeat visits until at least
+   one item from each list appears, including a bar item, a courthouse item,
+   and the default `some Conservative memoribilia` or `some random pointless
+   shit` variant. Capture `#lcs-playtest-buffer` after each prompt.
+4. Require Portuguese item descriptions such as `alguns itens de memorabilia
+   neonazista`, `uma cópia da Constituição dos EUA`, or `alguma merda aleatória
+   sem sentido` inside `Você vê uma vitrine contendo ...`. Reject any raw
+   English item description, empty capture, row over 80 columns, or bridge /
+   browser error; confirm the translated `Quebrar isso? (Sim ou Não)` action
+   remains visible.
+
+## PT-415: Studio broadcast messages leave takeover, issue, and viewer labels in English
+
+- Severity: Medium
+- Type: Missing translation / dynamic interpolation
+- Screen: Portuguese radio or Cable News studio broadcast
+- Replay status: **Closed — fixed and independently verified in strict-headless replay on 2026-08-21**
+- Evidence: `lib/sitemode/map_specials.dart:1787-1828` and
+  `lib/sitemode/miscactions.dart:387-562`; regression
+  `test/sitemode/media_broadcast_translation_test.dart`; canonical entries in
+  `app_{en_US,pt_BR}_part01.arb`, `part07.arb`, `part10.arb`, `part14.arb`,
+  `part15.arb`, `part18.arb`, `part21.arb`, `part23.arb`, `part26.arb`,
+  `part27.arb`, and `part29.arb`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) campaign with cheats, debug flags,
+   fixtures, and save imports disabled.
+2. Reach a radio or Cable News studio through the normal site-map route and
+   accept the broadcast prompt.
+3. Capture the takeover, issue, hostage, and high-quality viewer/listener
+   messages, checking every row for raw English and width beyond 80 columns.
+
+### Actual
+
+`tvBroadcast()` and `radioBroadcast()` pass raw `camera`/`microphone` and
+`viewers`/`listeners` values into `_mediaBroadcast()`. The issue switch also
+returns raw English phrases such as `trans rights`, `taxes`, and
+`Conservative media bias`. `_mediaBroadcast()` passes these as arbitrary
+parameters; its line-2 templates `talks about {issue}.` and
+`discuss {issue}.` have no Portuguese catalog keys, while the catalogued line-1
+template still substitutes the raw takeover. The top-quality result similarly
+uses the raw viewer/listener label in `The Squad leaves {viewer} weeping for
+freedom!`.
+
+### Expected
+
+Catalog and translate the complete studio line-1/line-2 templates and all
+takeover, issue, and viewer/listener values before rendering. Preserve the
+two-line encounter layout within 80 columns, then add focused regressions and
+a fresh strict-headless radio/Cable News replay before closing.
+
+### Fix and verifier handoff
+
+`_mediaBroadcast()` now translates the takeover, selected issue, celebrity
+hostage issue, and top-quality viewer/listener label before passing them to the
+already-rendered encounter templates. The canonical catalogs now include the
+radio/TV labels, the ten previously missing issue values, and both missing
+line-2 templates. The Portuguese `camera`/`microphone` values carry the
+contextual articles (`da câmera`/`do microfone`) so the existing line-1
+template renders natural Portuguese for both studio paths.
+
+The focused regression
+`test/sitemode/media_broadcast_translation_test.dart` checks every random
+studio issue and both radio/TV label paths, renders the line-1, line-2,
+hostage, and high-quality messages in Portuguese, checks the source wiring, and
+asserts every representative row stays within 80 columns.
+
+Independent verifier retry 3 closed the ticket. A fresh strict-headless stock
+Portuguese session reached the AM studio, used the normal `X` autosave and
+title-screen `C` resume path (save `lastGameId=4870023`), then accepted the
+normal broadcast prompt. The live buffer contained `O Esquadrão assume o
+controle do microfone e` followed by `fala sobre energia nuclear.`, with a
+non-empty buffer, maximum row width 80, no raw-English values, and no bridge
+errors. The live capture proves the shared takeover/issue wiring; the focused
+regression covers the TV label plus viewer/listener and hostage variants that
+were not claimed by this route. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt415-runtime-20260821/003-am-radio-broadcast.json`.
+
+PT-415 is **Closed — Fixed**.
+
+Historical verifier replay procedure:
+
+1. Use a rebuilt Flutter web-server checkout containing this fix, a fresh
+   `AGENT_BROWSER_SESSION`, and the headless-only harness. Open
+   `http://127.0.0.1:<port>/?playtest=1`; do not use a headed browser, CDP,
+   cheats, debug flags, fixtures, save imports, or source edits.
+2. Start a fresh Portuguese (`pt_BR`) campaign and reach both a normal AM
+   Radio studio and Cable News studio through their ordinary site-map routes.
+   Keep the run stock; if a studio has a live Conservative blocker, use a
+   clean studio route rather than altering state.
+3. Accept each broadcast prompt and capture `#lcs-playtest-buffer` after the
+   takeover and line-2 rows. Repeat the broadcasts until representative random
+   issues appear; if a matching celebrity hostage is available, capture its
+   forced-on-air line too. Repeat a strong squad/clean route as needed for the
+   high-quality viewer/listener result.
+4. Require Portuguese output such as `O Esquadrão assume o controle da câmera
+   e` followed by `fala sobre impostos.`, `O Esquadrão assume o controle do
+   microfone e`, a hostage line ending in `discutir cuidados de saúde.`, and
+   `O Esquadrão deixa telespectadores` or `ouvintes` `chorando pela liberdade!`.
+   Reject raw `camera`, `microphone`, `viewers`, `listeners`, or English issue
+   labels, empty captures, any row over 80 columns, and bridge/browser errors.
+
+## PT-416: Catalogued insurance and bank-vault encounter rows exceed 80 columns
+
+- Severity: Medium
+- Type: Fixed-console layout
+- Screen: Portuguese insurance safe and First American Bank vault encounters
+- Replay status: **Fixed-pending-verify**
+- Evidence: `lib/sitemode/map_specials.dart:967-1006,1524-1538,2193-2202`;
+  regression `test/sitemode/insurance_vault_layout_test.dart`; Portuguese
+  values in `lib/l10n/app_pt_BR_part14.arb:137` and
+  `lib/l10n/app_pt_BR_part22.arb:146`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) campaign without cheats, debug flags,
+   fixtures, or save imports.
+2. Open an insurance safe through the normal site route and capture the
+   successful document message.
+3. Separately enter the normal First American Bank vault route and capture the
+   two-layer requirement message.
+4. Measure the rendered rows at the fixed 80-column console boundary.
+
+### Actual
+
+The Portuguese translation of `The squad has found documents detailing the
+insurance company's malfeasance.` is 83 cells and is rendered directly by
+`encounterMessage` at column 1. The Portuguese translation of `The squad will
+need a security expert, a computer ` is also 83 cells and follows the same
+unfitted path. The latter vault key was added under PT-363, but its fixed-width
+layout risk was not covered there or by another finding.
+
+### Expected
+
+Wrap or fit these encounter rows (preserving the two-line sequence where
+applicable) so every Portuguese cell stays within the 80-column console. Add a
+focused width regression and fresh strict-headless captures for both routes
+before closing.
+
+### Fix and verifier handoff
+
+`encounterMessage()` now has an opt-in `fitToWidth` path that uses the shared
+`mvaddstrcFitted()`/`mvaddstrFitted()` console helpers with the available width
+from column 1. Overlong localized rows receive the standard visible ellipsis
+instead of silently clipping at the buffer edge, while an encounter `line2`
+continues to render on its original second message row. The insurance-safe
+result and the bank-vault requirements row opt into this path; the surrounding
+message tone and two-line sequence are unchanged.
+
+The focused regression
+`test/sitemode/insurance_vault_layout_test.dart` asserts the exact Portuguese
+catalog values, renders both affected messages through `encounterMessage()`,
+checks the fitted first rows and preserved bank-vault second row, and verifies
+all rendered rows stay within 80 cells. The ticket remains
+**Fixed-pending-verify** until an independent fresh strict-headless replay
+confirms both live map-special routes.
+
+Verifier replay:
+
+1. Use a rebuilt Flutter web-server checkout containing this fix, a fresh
+   `AGENT_BROWSER_SESSION`, and the headless-only harness. Open
+   `http://127.0.0.1:<port>/?playtest=1`; do not use a headed browser, CDP,
+   cheats, debug flags, fixtures, save imports, or source edits.
+2. Start a fresh Portuguese (`pt_BR`) campaign and reach an insurance safe by
+   the ordinary site-map route. Crack it successfully and capture
+   `#lcs-playtest-buffer`; require the fitted row to show
+   `O esquadrão encontrou documentos que detalham a má conduta da companhia de
+   seg…` with no clipped tail or raw English.
+3. Reach the First American Bank vault through its normal route and capture
+   the second requirements encounter. Require the first row to show
+   `A equipe precisará de um especialista em segurança, um especialista em
+   informá…` and the unchanged second row `e um dos gerentes do banco.`. Confirm
+   the first vault-lock encounter remains in sequence before this requirement.
+4. Inspect every `#lcs-playtest-buffer` capture: all rows must be non-empty where
+   content is expected, at most 80 columns, with no raw English, bridge error,
+   or browser error. Do not touch PT-417 or PT-418 during verification.
+
+## PT-417: Bar rejection replies interpolate raw English reactions
+
+- Severity: Medium
+- Type: Missing translation / dynamic interpolation
+- Screen: Portuguese bar-and-grill entrance rejection
+- Replay status: **Closed — fixed and independently verified in strict-headless replay on 2026-08-21**
+- Evidence: `lib/sitemode/map_specials.dart:278-340`; regression
+  `test/sitemode/bar_rejection_translation_test.dart`; canonical dynamic
+  entries in `app_{en_US,pt_BR}_part05.arb`, `part09.arb`, `part10.arb`,
+  `part18.arb`, `part26.arb`, `part27.arb`, and `part30.arb`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) campaign without cheats, debug flags,
+   fixtures, or save imports.
+2. Enter a normal bar-and-grill site with a squad member who fails the ordinary
+   dress, nudity, or gender/disguise gate.
+3. Repeat rejected entries until a parameterized reply appears; capture the
+   full 25×80 buffer and inspect the interpolated reaction.
+
+### Actual
+
+The rejection lists call `LcsI18n.processString` for parameterized replies such
+as `Naked? {comment}...`, `{expletive} ... {bodyPart}`, and the trans-person
+replies, but pass raw values including `That's hot.`, `[I won't look.]`, `Fuck!`,
+`ass`, `[Heavens]`, `Hell`, `idiot`, and `moron`. The i18n formatter only
+translates its fixed pronoun parameter set, so these values survive inside the
+otherwise translated Portuguese sentence. PT-394 covers separate CCS bouncer
+and alarm literals, not these generic rejection interpolations.
+
+### Expected
+
+Translate the reaction, expletive, and body-part values before interpolation
+while preserving the tone setting, then verify the final rejection row stays
+inside 80 columns. Add a focused regression and fresh strict-headless bar
+replay before closing.
+
+### Fix and verifier handoff
+
+The five parameterized rejection maps now call `LcsI18n.tr` for each dynamic
+reaction, expletive, and body-part value before `LcsI18n.processString` renders
+the translated template. The five previously missing bracketed reaction keys
+were added to both canonical catalogs through the ARB merge workflow; existing
+entries for `That's hot.`, `Fuck!`, `ass`, `Hell`, `idiot`, and `moron` are
+reused. This preserves both profanity and no-profanity branches without
+changing the random response pool or entry-gate behavior.
+
+The focused regression `test/sitemode/bar_rejection_translation_test.dart`
+checks all eleven dynamic values, renders the naked, trans-person, and body
+replies under both tone settings, rejects raw English parameter values, checks
+the 80-column bound, and verifies every affected source parameter is translated
+before interpolation.
+
+Independent verifier replay closed the ticket. A fresh stock Portuguese
+strict-headless session stripped a one-member squad through the normal
+equipment screen, entered Desert Eagle Bar e Grill through the ordinary
+Seattle route, and triggered the live nude rejection. The rendered line was
+`Porra! eu não queria ver seu bunda nu.`, proving the dynamic `Porra!` and
+`bunda` values were translated before interpolation. The capture was
+non-empty, exactly 80 columns wide, free of raw-English values, over-wide rows,
+and bridge errors. No cheats, debug flags, fixtures, save imports, CDP,
+headed browser, or source edits were used. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/pt417-runtime-20260821/`.
+
+PT-417 is **Closed — Fixed**. The focused regression provides the broader
+trans-person, no-profanity, and body-part variant coverage; the live replay
+proves the ordinary nude rejection path.
+
+Verifier replay:
+
+1. Use a rebuilt Flutter web-server checkout containing this fix, a fresh
+   `AGENT_BROWSER_SESSION`, and the headless-only harness. Open
+   `http://127.0.0.1:<port>/?playtest=1`; do not use a headed browser, CDP,
+   cheats, debug flags, fixtures, save imports, or source edits.
+2. Start a fresh Portuguese (`pt_BR`) campaign and enter a normal bar-and-grill
+   through the ordinary site-map route with a squad member who fails the
+   ordinary nudity, dress, or gender/disguise gate. Keep the run stock; do not
+   inject rejection state.
+3. Repeat rejected entries until the parameterized naked and trans-person
+   replies appear. Capture `#lcs-playtest-buffer` after each rejection. Use the
+   normal in-game profanity setting for one pass, then toggle the normal
+   no-profanity option and repeat so both tone branches are observed.
+4. Require translated values such as `Isso é quente.`, `[Não vou olhar.]`,
+   `[Eca!]`, `Porra!`, `bunda`, `[Céus]`, `Inferno`, `[filho de Deus]`, and
+   `idiota` inside otherwise Portuguese replies. Reject raw `That's hot.`,
+   `[I won't look.]`, `Fuck!`, `ass`, `[Heavens]`, `Hell`, `idiot`, `moron`,
+   or `fellow child of God`; reject empty captures, rows over 80 columns, and
+   bridge/browser errors.
+
+## PT-418: Combat clothing-destruction message bypasses localized armor names
+
+- Severity: Medium
+- Type: Missing translation / dynamic interpolation
+- Screen: Portuguese site-mode combat after clothing armor is destroyed
+- Replay status: **Fixed-pending-verify**
+- Evidence: `lib/sitemode/fight.dart:2027-2045`,
+  `lib/items/clothing.dart:155`, Portuguese template
+  `lib/l10n/app_pt_BR_part16.arb:260`, and regression
+  `test/sitemode/clothing_destruction_translation_test.dart`
+
+### Reproduction
+
+1. Start a fresh Portuguese (`pt_BR`) campaign with cheats, debug flags,
+   fixtures, and save imports disabled.
+2. Enter an ordinary combat encounter wearing a named clothing item and keep
+   fighting until the torso or mask armor is destroyed.
+3. Capture the destruction message and inspect the clothing name and row width.
+
+### Actual
+
+The source template has Portuguese coverage (`a {clothing} de {name} foi
+destruída.`), and other UI paths explicitly call `LcsI18n.tr` for clothing
+short names. The combat branch instead passes `cr.clothing.shortName` directly
+to `mvaddstrc`, whose formatter does not translate arbitrary parameters. A
+Portuguese combat buffer can therefore read `a Black Suit de ... foi destruída.`
+even though `Black Suit` has a canonical `Terno preto` entry.
+
+### Expected
+
+Translate the clothing short name before interpolation (and fit the final
+combat row to the console), then add a focused regression and a fresh
+strict-headless combat replay before closing.
+
+### Fix and verifier handoff
+
+The combat destruction branch now passes `LcsI18n.tr(cr.clothing.shortName)`
+into the existing Portuguese template and uses `mvaddstrcFitted` at the
+console boundary, so named armor renders as `Terno preto` instead of `Black
+Suit` without clipping. The focused regression checks the canonical translation,
+the complete Portuguese interpolation, absence of the English clothing name,
+the 80-column bound, and the source wiring. It passes in the current worktree;
+the ticket remains **Fixed-pending-verify** until a fresh strict-headless combat
+replay captures the live destruction message.
+
+Verifier replay:
+
+1. Use a rebuilt Flutter web-server checkout containing this fix, a fresh
+   `AGENT_BROWSER_SESSION`, and the headless-only harness. Open
+   `http://127.0.0.1:<port>/?playtest=1`; do not use a headed browser, CDP,
+   cheats, debug flags, fixtures, save imports, or source edits.
+2. Start a fresh Portuguese (`pt_BR`) campaign and enter an ordinary combat
+   site with a named clothing item that covers the torso or head. Keep the run
+   stock and fight normally until that armor is destroyed.
+3. Capture `#lcs-playtest-buffer` immediately after the destruction message.
+   Require the clothing name to be Portuguese (for example `Terno preto`),
+   with no raw `Black Suit`/other English armor name, no empty capture, no row
+   over 80 columns, and no bridge/browser errors.

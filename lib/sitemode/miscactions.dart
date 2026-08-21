@@ -504,10 +504,13 @@ Future<bool> _mediaBroadcast(
 
   View viewhit = View.issues.random;
   View hostageviewhit = View.issues.random;
+  final localizedTakeover = LcsI18n.tr(takeover);
+  final localizedViewerName = LcsI18n.tr(viewername);
+  final localizedViewIssue = LcsI18n.tr(_mediaIssueDescription(viewhit));
   await encounterMessage(
     "The Squad takes control of the {takeover} and ",
     line2: "talks about {issue}.",
-    params: {"takeover": takeover, "issue": _mediaIssueDescription(viewhit)},
+    params: {"takeover": localizedTakeover, "issue": localizedViewIssue},
   );
 
   int segmentpower = _mediaSegmentPower();
@@ -519,12 +522,15 @@ Future<bool> _mediaBroadcast(
           p.prisoner?.type.id == celebrityType &&
           p.prisoner?.align == Alignment.conservative) {
         hostageviewhit = View.issues.random;
+        final localizedHostageViewIssue = LcsI18n.tr(
+          _mediaIssueDescription(hostageviewhit),
+        );
         await encounterMessage(
           "The hostage {name} is forced on air to ",
           line2: "discuss {issue}.",
           params: {
             "name": p.prisoner!.name,
-            "issue": _mediaIssueDescription(hostageviewhit),
+            "issue": localizedHostageViewIssue,
           },
         );
 
@@ -551,7 +557,7 @@ Future<bool> _mediaBroadcast(
   await encounterMessage(
     LcsI18n.processString(
       _mediaQualityDescriptionTemplate(segmentpower, medium, viewername),
-      {"medium": medium, "viewer": viewername},
+      {"medium": medium, "viewer": localizedViewerName},
     ),
   );
 

@@ -2028,14 +2028,15 @@ Future<void> severloot(Creature cr, List<Item> loot) async {
           cr.equippedClothing?.covers(body!.torso) == true ||
       (body?.head.missing == true && cr.equippedClothing?.type.mask == true)) {
     clearMessageArea();
-    mvaddstrc(
+    mvaddstrcFitted(
       9,
       1,
       yellow,
       "{name}'s {clothing} has been destroyed.",
+      console.width - 1,
       params: {
         "name": localizedCreatureName(cr),
-        "clothing": cr.clothing.shortName,
+        "clothing": LcsI18n.tr(cr.clothing.shortName),
       },
     );
 

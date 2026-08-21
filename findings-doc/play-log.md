@@ -7831,3 +7831,27 @@ reached. Captures and source hashes are under
   over-wide rows, zero bridge errors, and zero victory/game-over captures.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy24-high-impact-20260820/`.
+
+## 2026-08-21 — public-mood route #25 through January 2025
+
+- `playtester-strategy25-public-mood-20260821-rerun` ran a fresh Portuguese
+  Seattle campaign from January 1, 2023 through January 26, 2025. It used
+  the ordinary `Os tempos estão mudando`, `Céu Azul e Límpido` (CCS off), and
+  `Poder para o povo` options. Bella Carberry used legal graffiti and
+  Guardian writing; the route naturally recruited Zack Bacall and Juliana
+  Castro (lawyers), Gábor Downing (police officer), and Myron Thurgood
+  (education worker). All infiltrated agents were assigned legal Liberal
+  advocacy.
+- The final media page showed 34.9% liberal views and 0.0% LCS support. The
+  final agenda showed President Meghan Ginsberg, House counts of 86 Lib+ / 57
+  Lib / 43 moderate, Senate counts of 17 Lib+ / 17 Lib / 9 moderate, and
+  substantially conservative active laws. No `Ending.victory`, constitutional
+  shortcut, or game-over screen appeared.
+- This was stock-cheatless: no debug flags, fixtures, save import, source
+  edits, CDP, or headed browser. All 450 parsed captures were non-empty, the
+  maximum row width was 80, and there were zero over-wide rows, bridge errors,
+  victory markers, or game-over markers. The three known English hits were
+  the stock title/language screens and a quoted proper title in a Portuguese
+  news item.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy25-public-mood-20260821-rerun/`.

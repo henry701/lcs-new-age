@@ -2631,3 +2631,18 @@ routes are optional breadth coverage.
   mixed-news exceptions rather than core UI.
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy24-high-impact-20260820/`.
+
+## 2026-08-21 — strategy 25 public-mood route through January 2025
+
+- A Seattle route combined legal graffiti, sustained Liberal Guardian
+  writing, a lawyer sleeper network, and ordinary advocacy by naturally
+  recruited lawyers, a police officer, and an education worker. It reached
+  January 26, 2025 with 34.9% liberal media views but 0.0% LCS support; the
+  agenda still contained conservative laws and no natural victory or
+  game-over screen appeared.
+- Preserve this as a clean public-mood/endgame checkpoint, not victory
+  evidence. The next stock-victory attempt needs a much stronger rise in LCS
+  awareness/support and full Elite Liberal alignment across laws, the court,
+  both chambers, and the executive.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy25-public-mood-20260821-rerun/`.

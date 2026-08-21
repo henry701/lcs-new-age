@@ -256,10 +256,15 @@ void main() {
       20,
       _consoleLine,
     ).join(' ').replaceAll(RegExp(r'\s+'), ' ');
+    const resistanceSentence =
+        'The enemy is expecting resistance, and you will have to '
+        'defeat them all or run away to survive this encounter.';
+    const expectedResistanceSentence =
+        'O inimigo está esperando resistência, e você terá que '
+        'derrotá-los todos ou fugir para sobreviver a este encontro.';
     final translatedLines = [
       'You are about to mount a defense of the homeless camp.',
-      'The enemy is expecting resistance, and you will have to',
-      'defeat them all or run away to survive this encounter.',
+      resistanceSentence,
       'Some agitators are also turning out to resist with you.',
       'Your Squad has filled out to six members if any were ',
       'available.  If you have a larger pool of Liberals, they',
@@ -272,6 +277,9 @@ void main() {
       expect(body, contains(expected));
       expect(body, isNot(contains(source.trim())));
     }
+    expect(body, contains(expectedResistanceSentence));
+    expect(body, isNot(contains('terá que derrote')));
+    expect(body, isNot(contains('terá que fuja')));
 
     final prompt = _consoleLine(23);
     expect(

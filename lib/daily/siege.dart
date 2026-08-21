@@ -1819,9 +1819,8 @@ void renderHomelessCampSiegeBriefing() {
   addBriefingLine(16, "You are about to mount a defense of the homeless camp.");
   addBriefingLine(
     11,
-    "The enemy is expecting resistance, and you will have to",
+    "The enemy is expecting resistance, and you will have to defeat them all or run away to survive this encounter.",
   );
-  addBriefingLine(11, "defeat them all or run away to survive this encounter.");
   addBriefingLine(
     11,
     "Some agitators are also turning out to resist with you.",

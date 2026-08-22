@@ -8578,3 +8578,27 @@ reached. Captures and source hashes are under
   row width 80, no over-wide rows, runtime/bridge errors, or post-locale raw
   English. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy50-victory-20260821/`.
+
+## 2026-08-22 — Strategy51 stable hidden-CCS political replay
+
+- A fresh strict-headless stock `pt_BR` campaign selected `Céu Azul e Límpido`
+  (`O CCS nunca aparecerá`), used a Seattle founder with an infiltrated-lawyer
+  questionnaire path, activated Evan Nettles as a normal liberalism sleeper,
+  recruited Hayley Nguyen, and assigned community service/Liberal Guardian
+  work. The ordinary Seattle police-station route was entered and exited
+  normally. No cheats, debug controls, fixtures, save imports, CDP, headed
+  browser, or source edits were used.
+- The campaign advanced through July 2023 legislative/media screens without a
+  terminal. Public/media progress is not victory; the all-elite-liberal win
+  check was not reached (`victory=false`, `gameOver=false`).
+- Persistence was verified at setup and at the final July base. Lowercase
+  `x`/`c` captures `022`–`024` and `405`–`407` resumed the same campaign with
+  `flutter.lastGameId=9364255`, founder Don Pound, Seattle, and dates 1 Jan / 1
+  Jul 2023. A site-mode `X` at `387` was movement only and is excluded as a
+  save attempt.
+- All 324 captures were nonempty and raw-buffer rescans were at most 80 columns
+  with no actual over-wide rows, errors, or bridge errors. Fifty-three older
+  batch files had malformed stored width metadata from a literal-newline split;
+  their raw buffers independently rescanned at ≤80. Post-locale raw-English hits
+  were empty. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy51-victory-20260822/`.

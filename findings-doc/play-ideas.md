@@ -1,5 +1,27 @@
 # Portuguese Playtest Scratch Pad
 
+## Mandatory persistence protocol for long campaigns
+
+- Before any bounded stop, return to genuine base mode when possible and press
+  lowercase `x` for a normal autosave. Record the title screen, the resulting
+  `flutter.lastGameId`, locale/date/roster evidence, then press lowercase `c`
+  in the *same live browser session* and capture the restored base. Do not
+  treat uppercase site-mode `X` as saving.
+- Verify that the restored base, date, founder, and roster match before
+  treating the checkpoint as resumable.
+- If the campaign is inside a site, checkpoint at the last safe base state or,
+  only when combat is imminent, preserve the exact pre-risk buffer and leave
+  the browser/server alive. A terminal game-over does not require a later save.
+- An unfinished headless session must not be cleaned up. Isolated browser
+  namespaces can lose IndexedDB when closed, so a recorded `gameId` alone is
+  not recoverable evidence. The parent may re-invoke the same or another
+  playtester sub-agent with the same `AGENT_BROWSER_SESSION`, Flutter port,
+  artifact directory, route state, and latest verified checkpoint.
+- Only after a direct natural victory/game-over, an unrecoverable natural
+  blocker documented with captures, or explicit parent approval may the
+  playtester stop its browser and Flutter server. The final report must state
+  whether the run was resumed, still live, naturally terminal, or lost.
+
 ## 2026-08-21 — warehouse strategy 19 is PT-410, not victory (fixed)
 
 - Leaving the homeless camp for `SEA — Armazém` worked without a rent

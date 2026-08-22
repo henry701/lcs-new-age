@@ -8536,3 +8536,28 @@ reached. Captures and source hashes are under
   campaign on 10 Jan 2023; final checkpoints `265`–`267` recorded the same ID
   and resumed on 17 Jan 2023. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy48-victory-20260821/`.
+
+## 2026-08-21 — Strategy49 hidden-CCS political replay
+
+- A fresh strict-headless stock `pt_BR` route selected the ordinary `Céu Azul e
+  Límpido` option (`O CCS nunca aparecerá`), then used normal questionnaire,
+  sleeper advocacy, fundraising, recruitment, infiltration, and base actions.
+  The strongest valid v1 checkpoint had four active liberals and two infiltrated
+  agents. No cheats, debug controls, fixtures, save imports, CDP, headed browser,
+  or source edits were used.
+- V1 ended in an `about:blank` runtime reset immediately after the live review;
+  it had no terminal and no save checkpoint. A v2 restart reached a Portuguese
+  base and lowercase `x` title, but storage inspection reset the tab before a
+  game ID or resume could be established. These are runtime blockers, not
+  natural endings.
+- V3 provided authoritative persistence evidence: lowercase `x` title capture
+  `296`, metadata `297` with `flutter.lastGameId=2475442`, founder Annis McGee,
+  and 1 Jan 2023, then same-session lowercase `c` resume `298` with metadata
+  `299`. A replacement browser lost IndexedDB state and stayed at the English
+  title (`300`–`303`); that isolated-session failure is not inferred as a
+  continuation.
+- No natural victory or game-over terminal appeared. Across 292 retained
+  gameplay captures, every buffer was nonempty, maximum row width was 80,
+  over-wide rows and bridge errors were empty, and no raw-English gameplay UI
+  appeared after localization. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy49-victory-20260821/`.

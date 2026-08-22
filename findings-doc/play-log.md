@@ -8624,3 +8624,28 @@ reached. Captures and source hashes are under
   raw-buffer rescans found a maximum width of 80. Raw English was limited to
   the intentional pre-locale title/language captures. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy52-victory-20260822/`.
+
+## 2026-08-22 — Strategy53 active-CCS full-squad HQ replay
+
+- A fresh strict-headless stock `pt_BR` campaign kept the active CCS option
+  (`Sangue Ruim`), used Seattle founder Katelin Fekete with a normal
+  computer/security-oriented questionnaire, recruited and funded normally,
+  and formed a genuine five-member squad (Lowell, Raven, Melvin, Andrew, and
+  Katelin). No cheats, debug controls, fixtures, save imports, CDP, headed
+  browser, or source edits were used.
+- The full squad reached Intelligence Headquarters, unlocked the ordinary
+  doors, and entered the deeper site area. The alarmed Secret Service/Agent
+  encounters produced sustained normal combat; Lowell died, Melvin fell, and
+  later retreat attempts reached another three-guard encounter. The run
+  remained in hostile site combat before the Intelligence Supercomputer or
+  backer-list interaction, so no natural victory or game-over terminal was
+  captured. The final capture is explicitly an in-combat screen, not an
+  ending.
+- Persistence was verified before the HQ retry: lowercase `x` title capture
+  `539`, metadata `540` with `flutter.lastGameId=2713844` and `pt_BR`, then
+  lowercase `c` resume `541` with the same five-member base roster. Site combat
+  prevented a second base-mode save; the earlier checkpoint is authoritative.
+- Integrity over 710 JSON captures passed: all buffers nonempty, maximum row
+  width 80, zero over-wide rows, errors, bridge errors, or post-locale raw-
+  English hits. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy53-victory-20260822/`.

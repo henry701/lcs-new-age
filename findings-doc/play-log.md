@@ -8602,3 +8602,25 @@ reached. Captures and source hashes are under
   their raw buffers independently rescanned at ≤80. Post-locale raw-English hits
   were empty. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy51-victory-20260822/`.
+
+## 2026-08-22 — Strategy52 hidden-CCS election replay
+
+- A fresh strict-headless stock `pt_BR` campaign selected hidden CCS (`Céu Azul
+  e Límpido`, `O CCS nunca aparecerá`), used the distinct Sasha Tishman NYC
+  founder/questionnaire route, recruited seven ordinary liberals (five active
+  and two infiltrated sleepers), and assigned nonviolent community-service,
+  Liberal Guardian, and sleeper-liberalism work. No cheats, debug controls,
+  fixtures, save imports, CDP, headed browser, or source edits were used.
+- The campaign advanced through the complete 2024 legislative, presidential,
+  Senate, House, and statewide-ballot sequence, then continued normally to 29
+  Jan 2025. No natural victory or game-over terminal appeared; election,
+  support, and recruitment milestones are not treated as victory.
+- Persistence was verified repeatedly with normal base-mode lowercase `x` and
+  same-session lowercase `c`. The final checkpoint is captures `677`–`679`;
+  metadata records `flutter.lastGameId=7347674` and `pt_BR`, and the resumed
+  buffer is the same NYC base campaign.
+- Integrity over 2,818 JSON captures passed: zero empty buffers, `about:blank`
+  URLs, runtime errors, stored-width mismatches, or over-wide rows; independent
+  raw-buffer rescans found a maximum width of 80. Raw English was limited to
+  the intentional pre-locale title/language captures. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy52-victory-20260822/`.

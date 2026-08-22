@@ -8561,3 +8561,20 @@ reached. Captures and source hashes are under
   over-wide rows and bridge errors were empty, and no raw-English gameplay UI
   appeared after localization. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy49-victory-20260821/`.
+
+## 2026-08-22 — Strategy50 hidden-CCS service-route reset
+
+- A fresh strict-headless stock `pt_BR` campaign selected the ordinary hidden
+  CCS option (`Céu Azul e Límpido`, `O CCS nunca aparecerá`), used a normal DC
+  founder with sleeper/recruitment choices, and reached a Portuguese Community
+  Service base through ordinary input. No cheats, debug controls, fixtures,
+  save imports, CDP, headed browser, or source edits were used.
+- The valid v1 route ends at `108-base-service.json` with a nonempty 80-column
+  buffer. The owned app/tab then reset to `about:blank` before lowercase `x`, so
+  no game ID, `c` resume, election cycle, terminal, or victory can be claimed.
+  Fresh v2/v5 title resets are retained only as excluded diagnostics, not as
+  gameplay evidence.
+- Integrity over 106 retained gameplay captures passed: all nonempty, maximum
+  row width 80, no over-wide rows, runtime/bridge errors, or post-locale raw
+  English. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy50-victory-20260821/`.

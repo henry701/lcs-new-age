@@ -14,12 +14,14 @@ class EndGameException implements Exception {
   EndGameException();
 }
 
-Future<void> launchGame() async {
-  // Load game options first to get language setting
+Future<void> initializeStartupLocale() async {
+  // Restore persisted locale before any startup title data is rendered.
   await gameOptions.load();
-
-  // Initialize i18n system with selected language
   await LcsI18n.initialize(gameOptions.language);
+}
+
+Future<void> launchGame() async {
+  await initializeStartupLocale();
 
   await loadXmlData();
   await loadCpcGraphics();

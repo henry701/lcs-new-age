@@ -8983,3 +8983,19 @@ reached. Captures and source hashes are under
 - The same verifier reran `test/localization_layout_batch_c_regression_test.dart`
   and `test/daily/car_theft_translation_test.dart`; both passed. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt435-20260824/`.
+
+## 2026-08-24 — independent PT-452–PT-457 regression verification
+
+- The clean verifier suite at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/`
+  passed 47 focused tests, including the complete CCS victory actions,
+  remaining-safehouse guidance, corporate and rural-mob siege templates, and
+  canceled elite-journalist interview prose (PT-452–PT-456).
+- The same evidence records PT-458/PT-459 deterministic renders and fresh
+  Portuguese web-build/title checks. PT-457 independently passed
+  `test/daily/car_theft_translation_test.dart` in the clean
+  `verify-pt435-20260824` clone.
+- The bounded stock browser routes did not naturally reach the rare CCS/siege,
+  purge, or failed-car-search branches. Those reachability limits remain
+  explicit; the current-head deterministic render tests are the verification
+  evidence rather than fabricated live captures.

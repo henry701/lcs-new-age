@@ -9553,10 +9553,16 @@ Preserve the stock steps below.
 - Severity: Medium
 - Type: Dynamic-parameter translation / generated CCS siege report
 - Screen: Portuguese CCS final-safehouse victory terminal
-- Replay status: **Confirmed at origin `f4cba427`**
+- Replay status: **Fixed; independently verified on 2026-08-24 by the rare-siege regression suite (natural final CCS branch not reached in bounded stock play)**
 - Evidence:
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
-  and `lib/daily/siege.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
+  `lib/daily/siege.dart`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/focused-tests.log`
+
+- Independent result: `test/daily/siege_translation_test.dart` passed as part of
+  the 47-test verifier suite. The deterministic render checks cover all four
+  action values, including the banner grammar. The fresh stock browser route
+  did not reach a final CCS victory screen; no live-branch claim is made.
 
 ### Reproduction
 
@@ -9593,10 +9599,16 @@ gerund before its object.
 - Severity: Medium
 - Type: Missing translation / CCS intelligence report
 - Screen: Portuguese post-victory → remaining CCS safehouses → hidden note
-- Replay status: **Confirmed at origin `f4cba427`**
+- Replay status: **Fixed; independently verified on 2026-08-24 by the rare-siege regression suite (natural remaining-safehouse branch not reached in bounded stock play)**
 - Evidence:
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
-  and `lib/daily/siege.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
+  `lib/daily/siege.dart`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/focused-tests.log`
+
+- Independent result: the same verifier suite passed the two complete hidden-
+  safehouse paragraphs and their 78-column wrapping assertions. Its fresh stock
+  route did not reach the post-victory remaining-safehouse screen; deterministic
+  current-head evidence is the recorded proof.
 
 ### Reproduction
 
@@ -9625,10 +9637,16 @@ must explain how to reveal hidden safehouses without any English fallback.
 - Severity: Medium
 - Type: Missing translation / composed siege warning
 - Screen: Portuguese corporate siege warning and attack opening
-- Replay status: **Confirmed at origin `f4cba427`**
+- Replay status: **Fixed; independently verified on 2026-08-24 by the rare-siege regression suite (natural corporate siege branch not reached in bounded stock play)**
 - Evidence:
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
-  and `lib/daily/siege.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
+  `lib/daily/siege.dart`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/focused-tests.log`
+
+- Independent result: the verifier suite passed the complete corporate warning
+  and mercenary attack templates, including `{location}` interpolation and
+  Portuguese width checks. The bounded browser run did not naturally trigger a
+  corporate siege; no live-branch claim is made.
 
 ### Reproduction
 
@@ -9660,10 +9678,16 @@ established by prior siege tickets.
 - Severity: Medium
 - Type: Missing translation / composed siege warning
 - Screen: Portuguese rural-mob siege warning and approach screens
-- Replay status: **Confirmed at origin `f4cba427`**
+- Replay status: **Fixed; independently verified on 2026-08-24 by the rare-siege regression suite (natural rural-mob siege branch not reached in bounded stock play)**
 - Evidence:
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
-  and `lib/daily/siege.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
+  `lib/daily/siege.dart`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/focused-tests.log`
+
+- Independent result: the verifier suite passed the conspiracy, pickup-column,
+  and street-assault templates with localized parameters and bounded output.
+  Its stock route did not naturally trigger a rural-mob siege; deterministic
+  current-head evidence is the recorded proof.
 
 ### Reproduction
 
@@ -9696,10 +9720,16 @@ exclamation punctuation, and 80-column wrapping.
 - Severity: Medium
 - Type: Missing translation / elite journalist outcome
 - Screen: Portuguese compound siege → elite journalist interview failure
-- Replay status: **Confirmed at origin `f4cba427`**
+- Replay status: **Fixed; independently verified on 2026-08-24 by the rare-siege regression suite (natural elite-journalist failure branch not reached in bounded stock play)**
 - Evidence:
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
-  and `lib/daily/siege.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
+  `lib/daily/siege.dart`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/focused-tests.log`
+
+- Independent result: the verifier suite passed the canceled-interview and
+  Broadway-play template with preserved journalist/play-name parameters. The
+  bounded stock route did not reach the elite-journalist failure branch; no
+  live-branch claim is made.
 
 ### Reproduction
 
@@ -9731,10 +9761,17 @@ losing punctuation.
 - Severity: Medium
 - Type: Dynamic-parameter translation / car theft
 - Screen: Portuguese street activity → steal a car → failed search fallback
-- Replay status: **Confirmed at origin `f4cba427`; same defect class as resolved PT-318 but on a different call site**
+- Replay status: **Fixed; independently verified on 2026-08-24 by the car-theft regression and fresh strict-headless build (natural failed-search branch not reached in the bounded route)**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
-  `lib/daily/activities/car_theft.dart`, and `assets/xml/vehicles.xml`
+  `lib/daily/activities/car_theft.dart`, `assets/xml/vehicles.xml`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt435-20260824/focused-pt457-car-theft.log`,
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt435-20260824/verification.json`
+
+- Independent result: `test/daily/car_theft_translation_test.dart` passed and
+  the fresh strict-headless verifier reported no browser or asset errors. The
+  bounded stock route did not render a failed-search substitution; the focused
+  regression covers the XML-name interpolation path.
 
 ### Reproduction
 

@@ -3219,3 +3219,30 @@ routes are optional breadth coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/317-title-save-feb1.json` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/318-reloaded-feb1.json`.
   No confirmed localization/layout issue or natural victory/game-over was
   observed; continue the live political route.
+
+## 2026-08-24 — strategy62 April political checkpoint
+
+- The live route continued with two Guardian writers, two White House sleepers,
+  one art seller, and two donors. A natural attempt to recruit a Liberal Judge
+  failed through ordinary conversations; no issue was inferred from that
+  gameplay outcome.
+- March and April monthly screens covered legislative proposals, vote totals,
+  and funding. March ended at US$328 after +US$134 donations and +US$113 art;
+  April 1 ended at US$623 after +US$164 donations and +US$131 art.
+- The April 1 agenda showed the active laws still short of Liberal/Elite
+  Liberal. Public-interest rows had decayed to Baixo/Mínimo after the monthly
+  reset rather than producing a victory; this is useful evidence that slow
+  Guardian writing alone does not finish the political route quickly.
+- Exact evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/376-apr1-legislative-agenda.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/377-apr1-legislative-votes.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/378-apr1-president-result.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/379-apr1-finance-report.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/380-apr1-agenda-page1.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/381-apr1-agenda-page2.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/382-apr1-agenda-page3.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/383-title-save-apr1.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/384-reloaded-apr1.json`,
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/385-apr1-assignments-cash.json`.
+- The route remains live and resumable, but no natural victory/game-over or
+  confirmed localization/layout issue was reached.

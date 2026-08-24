@@ -8926,3 +8926,15 @@ reached. Captures and source hashes are under
   buffer/browser-error checks. Raw scan found six `lunges at` hits; filed as
   PT-460 with double-space evidence. Integrity/artifacts:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy59-distinct-terminal-20260824/`.
+
+## 2026-08-24 — weapon attack-description catalog audit (PT-461)
+
+- Enumerated every loaded `weaponTypes` XML attack description and compared it
+  with `LcsI18n.hasTranslation` under `pt_BR`.
+- The audit found twenty non-`swings at` variants absent from the catalogs;
+  this extends the live `lunges at` leak documented as PT-460. The exact list,
+  source trace, and independent replay route are recorded in PT-461.
+- Added catalog entries and a deterministic coverage test on the isolated
+  fixer branch. Treat the ticket as **fixed-pending-independent-replay** until
+  a fresh headless combat session exercises at least the social/music and
+  ranged/incendiary families.

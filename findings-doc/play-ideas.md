@@ -3118,6 +3118,9 @@ routes are optional breadth coverage.
 
 ## Independent replay priorities
 
+- PT-461: exercise at least one social/music weapon and one ranged or
+  incendiary weapon; verify every XML attack-description family is Portuguese
+  in the rendered combat row after the catalog-coverage fix.
 - PT-452: reach the final CCS safehouse twice if needed to cover pacifist
   conversion and lethal destruction banners.
 - PT-453: leave another CCS safehouse hidden after the first victory, then open

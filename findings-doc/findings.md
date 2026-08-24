@@ -9862,3 +9862,48 @@ exactly one visual space without regressing width or punctuation.
 3. Inspect row 10 when a knife attack uses `lunges at`; reject raw English.
 4. Continue until an officer dodges; require exactly one space before
    `desvia o ataque!`, `faz a esquiva Matrix!`, and sibling variants.
+
+## PT-461: XML weapon attack-description variants lack Portuguese catalog entries
+
+- Severity: Medium
+- Type: Missing dynamic attack-description translation
+- Screen: Portuguese site combat with non-knife weapons
+- Replay status: **Confirmed by source/catalog audit; fixed-pending-independent-replay**
+- Evidence: `assets/xml/weapons.xml`, `lib/items/weapon_type_xml.dart`,
+  `lib/sitemode/fight.dart`, and the coverage assertion in
+  `test/sitemode/fight_translation_test.dart`
+
+### Reproduction
+
+Initialize `pt_BR`, equip a weapon whose XML attack description is one of the
+following, and enter site combat: `breathes fire at`, `chops at`,
+`cuts loose on a roll at`, `fires at`, `hurls a molotov at`, `lunges toward`,
+`plays a song for`, `plays country songs at`, `plays protest songs at`,
+`pokes at`, `rips into a solo at`, `rocks out at`, `sings to`, `slashes at`,
+`stabs at`, `streams fire at`, `strums up a storm at`, `tries to enthuse`,
+`tries to inspire`, or `twangs away at`.
+
+### Actual
+
+The combat renderer translates the dynamic attack description through
+`LcsI18n`, but these XML values were absent from the canonical catalogs, so
+Portuguese combat could fall back to raw English. PT-460 exposed the same
+defect with `lunges at`; the remaining variants were confirmed by enumerating
+the loaded XML weapon definitions.
+
+### Expected
+
+Every XML `<attack_description>` has an English catalog identity and a
+Portuguese value, and the rendered attacker/action composition stays within
+the existing width and spacing rules.
+
+### Independent stock replay steps
+
+1. Start a fresh Portuguese campaign and acquire or equip a weapon with one
+   of the listed attack descriptions.
+2. Visit `Centro de Seattle → Delegacia de Polícia` (or another combat site)
+   and trigger that attack naturally.
+3. Require Portuguese prose in the action row; no listed XML phrase may
+   remain in English.
+4. Repeat with a social/music weapon and a ranged or incendiary weapon to
+   cover distinct description families.

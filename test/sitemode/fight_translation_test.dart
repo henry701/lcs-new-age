@@ -1,8 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
+import 'package:lcs_new_age/items/weapon_type.dart';
+
+import '../test_support.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(ensureGameDataLoaded);
 
   setUp(() async {
     await LcsI18n.initialize('pt_BR');
@@ -19,6 +24,18 @@ void main() {
         'action': LcsI18n.tr('dodges the attack!'),
       }),
       'Patton Meir desvia o ataque!',
+    );
+  });
+
+  test('Portuguese catalogs cover every XML weapon attack description', () {
+    final descriptions = weaponTypes.values
+        .expand((weapon) => weapon.attacks)
+        .expand((attack) => attack.attackDescription)
+        .toSet();
+
+    expect(
+      descriptions.where((description) => !LcsI18n.hasTranslation(description)),
+      isEmpty,
     );
   });
 }

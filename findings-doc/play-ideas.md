@@ -3231,3 +3231,9 @@ routes are optional breadth coverage.
 - The bar-security route provides a reproducible natural terminal distinct from the prior pursuit and police-station routes: a fate-selected unarmed founder can die to the two-conservative `Desert Eagle Bar e Grill` encounter under zipper combat. Preserve the live terminal/title session and the exact capture before attempting any new variation.
 - If additional combat breadth is needed, vary only normal founder fate/origin or destination after saving the current evidence; do not relabel the r4 arrest/trial branch as game-over. Current r5 integrity is clean: 67 captures, 25 rows, max width 80, zero post-locale raw-English hits, no ticket.
 - Evidence and integrity artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r5/route.md`, `integrity-summary.json`, and `evidence/025-terminal.json`.
+
+## 2026-08-24 — Strategy63 r6 dispersal terminal follow-up
+
+- R6 demonstrates another natural defeat route distinct from R3 pursuit and R5 bar combat: an armed five-member Washington, DC gang entering the Casa Branca and losing to Secret Service, ending through `Ending.dispersed`.
+- Preserve the exact R6 terminal/title/session evidence; if further breadth is needed, vary only normal founder/site conditions. Do not relabel still-live arrests or police news as terminal. The PT-406 Secret Service role was localized in this replay.
+- Evidence and integrity: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r6/route.md`, `integrity-summary.json`, and `evidence/032-terminal-continued.json`.

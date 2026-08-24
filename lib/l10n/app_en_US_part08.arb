@@ -222,6 +222,7 @@
   "{name1} and {name2} make plans for tonight.": "{name1} and {name2} make plans for tonight.",
   "{name} can manage {subordinateCount} more {subordinateLabel}.": "{name} can manage {subordinateCount} more {subordinateLabel}.",
   "{name} charges down an alley, smashing both side walls out!": "{name} charges down an alley, smashing both side walls out!",
+  "{name} cracks the window, but it is still somewhat intact.": "{name} cracks the window, but it is still somewhat intact.",
   "{name} drops {prisonerName}'s body.": "{name} drops {prisonerName}'s body.",
   "{name} gets drunk while out and rethinks this life.": "{name} gets drunk while out and rethinks this life.",
   "{name} grabbed a {weapon} from {location}.": "{name} grabbed a {weapon} from {location}.",

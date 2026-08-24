@@ -149,13 +149,16 @@ class CarTheftScene {
           entered = true;
         } else {
           final hasWeapon = (cr.weapon.type.meleeAttack?.damage ?? 0) > 10;
+          final windowFailureMessage = LcsI18n.tr(
+            hasWeapon
+                ? "{name} cracks the window with a {weapon}, but it is still somewhat intact."
+                : "{name} cracks the window, but it is still somewhat intact.",
+          );
           mvaddstrc(
             16,
             0,
             white,
-            hasWeapon
-                ? "{name} cracks the window with a {weapon}, but it is still somewhat intact."
-                : "{name} cracks the window, but it is still somewhat intact.",
+            windowFailureMessage,
             params: {
               "name": cr.name,
               "weapon": cr.weapon.getName(sidearm: true),

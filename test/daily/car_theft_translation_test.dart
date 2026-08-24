@@ -44,11 +44,21 @@ void main() {
       LcsI18n.tr('{name} cracks the window, but it is still somewhat intact.'),
       '{name} trinca a janela, mas ela ainda está parcialmente intacta.',
     );
+    const weaponFailureTemplate =
+        '{name} cracks the window with a {weapon}, but it is still somewhat intact.';
     expect(
-      LcsI18n.tr(
-        '{name} cracks the window with a {weapon}, but it is still somewhat intact.',
-      ),
-      '{name} trinca a janela com {weapon}, mas ela ainda está parcialmente intacta.',
+      LcsI18n.tr(weaponFailureTemplate),
+      '{name} trinca a janela com {weapon}, mas ainda está intacta.',
     );
+
+    final renderedWeaponFailure = LcsI18n.processString(weaponFailureTemplate, {
+      'name': 'Mel Clinton',
+      'weapon': 'Pist. .45',
+    });
+    expect(
+      renderedWeaponFailure,
+      'Mel Clinton trinca a janela com Pist. .45, mas ainda está intacta.',
+    );
+    expect(renderedWeaponFailure.length, lessThanOrEqualTo(80));
   });
 }

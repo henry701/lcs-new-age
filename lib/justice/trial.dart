@@ -485,12 +485,14 @@ Future<void> trial(Creature g) async {
         _ when defensepower <= 150 => "{name} makes a very powerful case.",
         _ => "{name} has the jury, judge, and prosecution crying for freedom.",
       };
-      mvaddstrc(
+      mvaddstr(
         10,
         1,
-        lightGray,
-        verdict,
-        params: {"name": g.name, "pronoun": g.gender.himselfHerself},
+        LcsI18n.processStringGendered(verdict, {
+          "name": g.name,
+          "pronoun": g.gender.himselfHerself,
+        }, gender: g.gender),
+        noTranslate: true,
       );
       if (defensepower > 150) {
         addjuice(g, 50, 1000); // That shit is legend

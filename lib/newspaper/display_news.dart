@@ -37,7 +37,8 @@ Future<void> displayStory(NewsStory ns, View? header) async {
   List<int> storyXEnd = [for (var i = 0; i < 25; i++) 78];
   displayAds(ns, liberalguardian, storyXStart, storyXEnd);
 
-  String city = ns.loc?.city.name ?? randomCityName();
+  String city =
+      ns.loc?.city.getName() ?? localizedCityDisplayName(randomCityName());
 
   void appendNews(String text) {
     story += LcsI18n.tr(text);

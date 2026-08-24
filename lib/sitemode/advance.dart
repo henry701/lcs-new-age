@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
@@ -275,7 +276,14 @@ Future<void> advancecreature(Creature cr) async {
       await creatureDie(cr, true);
     } else if (burndamage > 0) {
       setColor(darkRed);
-      mvaddstr(9, 1, "{name} is burned!", params: {"name": cr.name});
+      mvaddstr(
+        9,
+        1,
+        LcsI18n.processStringGendered("{name} is burned!", {
+          "name": cr.name,
+        }, gender: cr.gender),
+        noTranslate: true,
+      );
 
       await getKey();
     }

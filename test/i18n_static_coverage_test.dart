@@ -262,7 +262,10 @@ void main() {
     test('sleeper leak descriptions translate before insertion', () {
       final source = File('lib/monthly/sleeper_update.dart').readAsStringSync();
       expect(source, contains('"description": LcsI18n.tr(description)'));
-      expect(source, contains('LcsI18n.tr(e.type.name)'));
+      expect(
+        source,
+        contains('localizedProfessionName(e.type.name, e.gender)'),
+      );
     });
 
     test('creature type names translate before template insertion', () {

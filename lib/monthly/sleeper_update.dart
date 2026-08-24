@@ -769,7 +769,7 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
             // Convince the existing cabinet member to shift to the new alignment
             erase();
             setColor(lightGray);
-            String paragraphText = LcsI18n.processString(
+            String paragraphText = LcsI18n.processStringGendered(
               "News from our {gender} in the White House: Under "
               "intense pressure from the President, {position:color} "
               "{lastName:color} "
@@ -784,8 +784,9 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
                 "alignment": LcsI18n.tr(bestPossibleAlign.label),
                 "alignmentColor": newAlignColor,
               },
+              gender: cr.gender,
             );
-            addparagraph(6, 1, paragraphText);
+            addparagraph(6, 1, paragraphText, noTranslate: true);
             addjuice(cr, 25, 1000);
             await getKey();
             return;
@@ -805,7 +806,7 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
             erase();
             setColor(lightGray);
             if (positionToFill == Exec.vicePresident) {
-              String paragraphText = LcsI18n.processString(
+              String paragraphText = LcsI18n.processStringGendered(
                 "News from our {gender} in the White House: Under "
                 "intense pressure from the President, "
                 "{vicePresident:color} "
@@ -823,10 +824,11 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
                   "newFirstLast": politics.execName[positionToFill]!.firstLast,
                   "newFirstLastColor": newAlignColor,
                 },
+                gender: cr.gender,
               );
-              addparagraph(6, 1, paragraphText);
+              addparagraph(6, 1, paragraphText, noTranslate: true);
             } else {
-              String paragraphText = LcsI18n.processString(
+              String paragraphText = LcsI18n.processStringGendered(
                 "News from our {gender} in the White House: Under "
                 "intense pressure from the President, "
                 "{position:color} {oldLast:color} "
@@ -842,8 +844,9 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
                   "newFirstLast": politics.execName[positionToFill]!.firstLast,
                   "newFirstLastColor": newAlignColor,
                 },
+                gender: cr.gender,
               );
-              addparagraph(6, 1, paragraphText);
+              addparagraph(6, 1, paragraphText, noTranslate: true);
             }
 
             // Add juice for successful appointment, more for more Liberal appointments
@@ -861,7 +864,7 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
           String oldAlignColor = currentAlign.colorKey;
           erase();
           setColor(lightGray);
-          String paragraphText = LcsI18n.processString(
+          String paragraphText = LcsI18n.processStringGendered(
             "Update from our {gender} in the White House: "
             "Despite the President's best efforts, {position:color} "
             "{last:color} continues to "
@@ -875,8 +878,9 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
               "last": politics.execName[positionToFill]!.last,
               "lastColor": oldAlignColor,
             },
+            gender: cr.gender,
           );
-          addparagraph(6, 1, paragraphText);
+          addparagraph(6, 1, paragraphText, noTranslate: true);
 
           await getKey();
           return;
@@ -912,15 +916,21 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
         pool.add(e);
 
         erase();
+        final profession = localizedProfessionName(e.type.name, e.gender);
         mvaddstrc(
           6,
           1,
           lightGray,
-          LcsI18n.processString("{role} {name} has recruited a new {type}.", {
-            "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
-            "name": cr.name,
-            "type": LcsI18n.tr(e.type.name),
-          }),
+          LcsI18n.processStringGendered(
+            "{role} {name} has recruited a new {type}.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "name": cr.name,
+              "type": profession,
+            },
+            gender: e.gender,
+          ),
+          noTranslate: true,
         );
         mvaddstrc(
           8,

@@ -279,7 +279,12 @@ Future<bool> completeDate(DatingSession d, Creature p) async {
     ];
     final template = (city == null ? dateFailOnline : dateFail).random;
     move(console.y + 1, 0);
-    addstr(template, params: {"name": p.name});
+    addstr(
+      LcsI18n.processStringGendered(template, {
+        "name": p.name,
+      }, gender: p.gender),
+      noTranslate: true,
+    );
 
     await getKey();
 

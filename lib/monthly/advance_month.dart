@@ -475,12 +475,15 @@ Future<void> healIfOnClinic(Creature p) async {
     );
     if (hospital != null) {
       p.location = hospital;
-      mvaddstrc(
+      mvaddstr(
         8,
         1,
-        white,
-        "{name} has been transferred to {hospital}.",
-        params: {"name": p.name, "hospital": hospital.name},
+        LcsI18n.processStringGendered(
+          "{name} has been transferred to {hospital}.",
+          {"name": p.name, "hospital": hospital.name},
+          gender: p.gender,
+        ),
+        noTranslate: true,
       );
 
       await getKey();

@@ -15,6 +15,7 @@ import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/district.dart';
 import 'package:lcs_new_age/location/location.dart';
+import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/states.dart';
 import 'package:lcs_new_age/sitemode/stealth.dart';
@@ -47,6 +48,29 @@ String localizedCreatureNameValue(String creatureName, String typeName) {
 String localizedCreatureName(Creature creature) =>
     localizedCreatureNameValue(creature.name, creature.type.name);
 
+String localizedProfessionName(String typeName, Gender gender) {
+  final localized = LcsI18n.tr(typeName);
+  if (LcsI18n.currentLocale != 'pt_BR' || gender.simplified == Gender.male) {
+    return localized;
+  }
+
+  final words = localized.split(' ');
+  final last = words.last;
+  // Portuguese role nouns with an overt masculine -o ending have regular
+  // epicene forms; inherent common-gender nouns (dentista, pessoa) stay put.
+  if (!last.endsWith('o')) return localized;
+  final stem = last.substring(0, last.length - 1);
+  final inflected = stem + gender.simplified.adjectiveEnding;
+  words
+    ..removeLast()
+    ..add(inflected);
+  return words.join(' ');
+}
+
+/// Uses the guarded translator shared by filler and story datelines.
+String localizedCityDisplayName(String name) =>
+    LcsI18n.hasTranslation(name) ? LcsI18n.tr(name) : name;
+
 /// Builds the "about ..." connector for a workplace location.
 ///
 /// Portuguese needs a definite article for common site names but not for city
@@ -62,7 +86,14 @@ String localizedAboutLocation(Location location) {
 
   final String head = name.trim().split(RegExp(r'\s+')).first.toLowerCase();
   final bool feminine = RegExp(r'(ção|são|dade|agem|a)$').hasMatch(head);
-  return '${feminine ? 'a' : 'o'} $name';
+  final bool generatedPawnshopBrand =
+      location is Site &&
+      location.type == SiteType.pawnShop &&
+      name.contains(emDash);
+  return [
+    if (generatedPawnshopBrand || !feminine) 'o' else 'a',
+    name,
+  ].join(' ');
 }
 
 /// Uses a compact role label only where the fixed-width encounter roster

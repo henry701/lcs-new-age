@@ -9084,12 +9084,11 @@ agent form, and `A presidente` as applicable.
 - Severity: Medium
 - Type: Gender agreement / treatment and wound variants
 - Screen: Portuguese monthly clinic transfer or site fire injury
-- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Replay status: **Fixed-pending-verify**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/tests/prober_layout_d_red_probe_tmp_test.dart`,
-  `lib/monthly/advance_month.dart:477-487`, and
-  `lib/sitemode/advance.dart:276-280`
+  `test/localization_layout_batch_d_regression_test.dart`,
+  `lib/monthly/advance_month.dart`, and `lib/sitemode/advance.dart`
 
 ### Reproduction
 
@@ -9107,6 +9106,18 @@ female. The catalog has only the masculine forms.
 Use locale-aware feminine/nonbinary variants (`transferida`, `queimada`) keyed
 to the patient’s creature gender.
 
+### Fix and verifier handoff
+
+The two complete hospital/burn templates now use the shared
+`LcsI18n.processStringGendered` path once and are rendered without a second
+translation pass. Canonical Portuguese male/female/nonbinary variants cover
+`transferido/transferida/transferide` and `queimado/queimada/queimade`.
+`PT-443 hospital predicates agree across patient genders` verifies all three
+branches and rejects raw English fallbacks. The focused suite passes after the
+recorded red compile failure for the missing shared API. Natural clinic/fire
+replays remain pending independent verification; preserve the stock replay
+steps below.
+
 ### Independent stock replay steps
 
 1. In a fresh Portuguese campaign, place a female Liberal in the clinic until a
@@ -9121,10 +9132,11 @@ to the patient’s creature gender.
 - Severity: Low
 - Type: Gender agreement / rejection composition
 - Screen: Portuguese failed date → offline ambush/failure or online rejection
-- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Replay status: **Fixed-pending-verify**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
-  `lib/daily/dating.dart:249-272`
+  `test/localization_layout_batch_d_regression_test.dart`, and
+  `lib/daily/dating.dart`
 
 ### Reproduction
 
@@ -9142,6 +9154,17 @@ Templates such as `é humilhado em público`, `embriagado sozinho`,
 Provide gendered variants so failure adjectives and participles agree with the
 dater, including the project-approved nonbinary endings.
 
+### Fix and verifier handoff
+
+All offline and online failure selections are composed through one gendered
+complete-template call. Canonical Portuguese variants now cover masculine,
+feminine, and project-approved `-e` nonbinary forms for participles/adjectives;
+invariant phrases remain shared. The batch-D regression checks humiliation,
+drunkenness, expulsion, blocking, and the dark/couch branch, rejects raw English
+and masculine endings for women, and checks rendered width. Focused tests pass;
+natural dating failures remain pending fresh verification. Preserve the replay
+steps below.
+
 ### Independent stock replay steps
 
 1. Run a fresh Portuguese campaign and assign a female Liberal with multiple
@@ -9156,10 +9179,11 @@ dater, including the project-approved nonbinary endings.
 - Severity: Low
 - Type: Gender agreement / rejection composition
 - Screen: Portuguese failed recruitment → dangerous-extremist rejection
-- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Replay status: **Fixed-pending-verify**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
-  `lib/daily/recruitment.dart:391-407`
+  `test/localization_layout_batch_d_regression_test.dart`, and
+  `lib/daily/recruitment.dart`
 
 ### Reproduction
 
@@ -9177,6 +9201,15 @@ a male recruiter regardless of `pName.gender`.
 Select the noun phrase from the referenced recruiter’s gender, producing `uma
 extremista perigosa` and a project-approved nonbinary form.
 
+### Fix and verifier handoff
+
+The rejection template is selected by the referenced recruiter’s simplified
+gender, not the recruit. Portuguese renders `um extremista perigoso`,
+`uma extremista perigosa`, and `uma pessoa extremista perigosa`. The batch-D
+regression asserts all three exact phrases and punctuation. Focused tests pass;
+a natural failed recruitment remains pending fresh replay. Preserve the stock
+steps below.
+
 ### Independent stock replay steps
 
 1. In a fresh Portuguese campaign, assign a female recruiter whose persuasion
@@ -9189,10 +9222,11 @@ extremista perigosa` and a project-approved nonbinary form.
 - Severity: Medium
 - Type: Nested parameter gender agreement / sleeper recruitment
 - Screen: Portuguese monthly sleeper → Expand Network → recruited profession
-- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Replay status: **Fixed-pending-verify**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
-  `lib/monthly/sleeper_update.dart:913-925`
+  `test/localization_layout_batch_d_regression_test.dart`, and
+  `lib/monthly/sleeper_update.dart`
 
 ### Reproduction
 
@@ -9208,9 +9242,19 @@ the inserted profession’s own gendered spelling.
 
 ### Expected
 
-Keep the actual profession label unchanged and choose the article/number
-phrase from that profession’s Portuguese gender (`uma nova Enfermeira`); support
+Keep the actual profession label unchanged and choose the article/number phrase
+from that profession’s Portuguese gender (`uma nova Enfermeira`); support
 feminine and nonbinary profession variants consistently.
+
+### Fix and verifier handoff
+
+The recruited profession label is translated once through the typed
+`localizedProfessionName(e.type.name, e.gender)` helper, then inserted into a
+complete template selected by that same recruited gender. Nurse renders
+`Enfermeiro`, `Enfermeira`, or `Enfermeire`; the phrase uses `um novo`,
+`uma nova`, or `uma nova pessoa`. Regression covers all three outputs and
+articles. Focused tests pass; natural sleeper recruitment remains pending fresh
+verification. Preserve the stock steps below.
 
 ### Independent stock replay steps
 
@@ -9225,10 +9269,11 @@ feminine and nonbinary profession variants consistently.
 - Severity: Medium
 - Type: Fragmented composition / missing full-template translation
 - Screen: Portuguese monthly President sleeper → cabinet recruitment/update
-- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Replay status: **Fixed-pending-verify**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
-  `lib/monthly/sleeper_update.dart:763-882`
+  `test/localization_layout_batch_d_regression_test.dart`, and
+  `lib/monthly/sleeper_update.dart`
 
 ### Reproduction
 
@@ -9248,6 +9293,18 @@ Add complete templates for all four branches, translate every sentence, apply
 color markup without fragment retranslation, and use gender-aware possessor
 phrases (`Notícias da nossa mulher`, plus approved nonbinary wording).
 
+### Fix and verifier handoff
+
+All adoption, vice-presidential resignation, cabinet resignation, and holdout
+branches use complete gendered templates. The paragraph is translated exactly
+once before wrapping with `noTranslate: true`; dynamic color placeholders are
+restored after translation. Female copy uses `da nossa mulher` and `da
+Presidente`; nonbinary copy uses neutral possessive/reference wording. The
+batch-D test rejects all English tails, checks colored segments and possessor
+agreement, and measures actual wrapped console rows at 80 columns. Focused
+tests pass; natural President-sleeper branches remain pending fresh replay.
+Preserve the stock steps below.
+
 ### Independent stock replay steps
 
 1. Reach a female or nonbinary President sleeper in ordinary progression, with
@@ -9262,10 +9319,11 @@ phrases (`Notícias da nossa mulher`, plus approved nonbinary wording).
 - Severity: Medium
 - Type: Court gender agreement
 - Screen: Portuguese courthouse trial → self-defense performance narration
-- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Replay status: **Fixed-pending-verify**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
-  `lib/justice/trial.dart:480-495`
+  `test/localization_layout_batch_d_regression_test.dart`, and
+  `lib/justice/trial.dart`
 
 ### Reproduction
 
@@ -9282,6 +9340,15 @@ masculine even though the reflexive pronoun is feminine.
 Make `culpado/culpada` (and the nonbinary variant) agree with the defendant,
 while preserving natural reflexive phrasing.
 
+### Fix and verifier handoff
+
+The verdict template now selects the defendant-gender variant before parameter
+formatting and renders once. Portuguese covers `culpado`, `culpada`, and
+`culpade` while retaining the reflexive tail. Batch-D regression checks every
+gender and exact predicate. Focused tests pass; a natural low-persuasion
+self-defense trial remains pending fresh replay. Preserve the stock steps
+below.
+
 ### Independent stock replay steps
 
 1. In a fresh Portuguese campaign, let a female Liberal reach trial and choose
@@ -9296,11 +9363,11 @@ while preserving natural reflexive phrasing.
 - Severity: Medium
 - Type: Dynamic parameter retranslation / generated story dateline
 - Screen: Portuguese newspaper → squad/site action story dateline
-- Replay status: **Confirmed — deterministic widget probe (2026-08-24)**
+- Replay status: **Fixed-pending-verify**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/newspaper-red.log`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/tests/prober_layout_d_red_probe_tmp_test.dart`,
-  `lib/newspaper/display_news.dart:42-46`
+  `test/localization_layout_batch_d_regression_test.dart`, and
+  `lib/newspaper/display_news.dart`
 
 ### Reproduction
 
@@ -9318,6 +9385,16 @@ localized value. Other direct `city.name` assignments have the same defect.
 Use `ns.loc?.city.getName()` (or the same guarded translator used by filler)
 for every story dateline so catalog-backed city names render consistently.
 
+### Fix and verifier handoff
+
+Story datelines now call the location-backed `City.getName()`; uncatalogued
+fallback cities reuse the guarded `localizedCityDisplayName` helper shared with
+filler. Canonical Portuguese display values were corrected for Seattle and Los
+Angeles. The widget regression renders two archived stories and requires
+`Seattle, Washington -` and `Los Angeles, Califórnia -` with no canonical
+postal abbreviation. Focused tests pass; natural newspaper generation remains
+pending fresh replay. Preserve the stock steps below.
+
 ### Independent stock replay steps
 
 1. Start a fresh Portuguese campaign in Seattle and commit an ordinary squad
@@ -9331,11 +9408,11 @@ for every story dateline so catalog-backed city names render consistently.
 - Severity: Low
 - Type: Generated proper-noun article agreement
 - Screen: Portuguese interrogation → mapped/no-new-info workplace discussion
-- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Replay status: **Fixed-pending-verify**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/location-article-red.log`,
-  `lib/common_display/common_display.dart:50-66`, and
-  `lib/location/site.dart:634-643`
+  `test/localization_layout_batch_d_regression_test.dart`, and
+  `lib/common_display/common_display.dart`
 
 ### Reproduction
 
@@ -9356,6 +9433,15 @@ Use the grammatical head noun of the localized generated name, not its first
 token. This generated pawnshop template requires a stable masculine connector;
 names whose actual head noun is feminine must continue to select `a`.
 
+### Fix and verifier handoff
+
+Generated pawnshop brand names containing an em dash now receive their stable
+masculine business connector (`o Mira — ...`) based on the typed pawnshop
+location rather than surname spelling. Other workplaces retain feminine head-noun
+selection; the regression also asserts `a Loja Zhang`. Focused tests pass; a
+natural interrogation workplace discussion remains pending fresh replay.
+Preserve the stock steps below.
+
 ### Independent stock replay steps
 
 1. Start fresh Portuguese sessions until a hostage or recruit works at a
@@ -9371,10 +9457,11 @@ names whose actual head noun is feminine must continue to select `a`.
 - Severity: Low
 - Type: Constitutional amendment grammar
 - Screen: Portuguese arch-conservative constitutional repeal announcement
-- Replay status: **Confirmed — catalog/source audit (2026-08-24)**
+- Replay status: **Fixed-pending-verify**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/catalog-composition-audit.tsv`,
-  `lib/politics/constitution.dart:231-246`
+  `test/localization_layout_batch_d_regression_test.dart`, and
+  `lib/politics/constitution.dart`
 
 ### Reproduction
 
@@ -9391,6 +9478,15 @@ of `todas as decisões reais serão tomadas`.
 
 Correct number/gender agreement while retaining the intended line breaks and
 fixed-console boundaries.
+
+### Fix and verifier handoff
+
+Canonical Portuguese fixed-line values now render `reorganizados nos` and carry
+`todas as` across the existing row break into `decisões reais`. The regression
+joins adjacent displayed lines, asserts both agreements, rejects doubled or
+masculine forms, and checks each visible repeal row at 80 columns. Focused
+tests pass; natural Arch-Conservative ratification remains pending fresh replay.
+Preserve the stock steps below.
 
 ### Independent stock replay steps
 

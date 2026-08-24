@@ -8,9 +8,7 @@ String generateFiller(int amount) {
   // The generated city pool contains proper names that are intentionally not
   // catalogued. Keep those fallbacks verbatim instead of recording a missing
   // translation for every filler story.
-  final cityName = LcsI18n.hasTranslation(rawCityName)
-      ? LcsI18n.tr(rawCityName)
-      : rawCityName;
+  final cityName = localizedCityDisplayName(rawCityName);
   String fillerStory = LcsI18n.processString(
     "{city:red} - ",
     {"city": cityName},

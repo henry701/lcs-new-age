@@ -395,8 +395,12 @@ Future<bool> completeRecruitMeeting(RecruitmentSession r, Creature p) async {
           mvaddstr(
             y++,
             0,
-            "{recruitName} thinks {pName} is dangerous extremist.",
-            params: {"recruitName": recruitName, "pName": p.name},
+            LcsI18n.processStringGendered(
+              "{recruitName} thinks {pName} is dangerous extremist.",
+              {"recruitName": recruitName, "pName": p.name},
+              gender: p.gender,
+            ),
+            noTranslate: true,
           );
 
           mvaddstr(

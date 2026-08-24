@@ -591,12 +591,50 @@ class LcsI18n {
       final parameterName = match.group(1)!;
       final colorSpec = match.group(2);
       if (colorSpec != null) colorMappings[parameterName] = colorSpec;
-      return '{$parameterName}';
+      return ['{', parameterName, '}'].join();
     });
 
     final translated = noTranslate
         ? normalizedTemplate
         : translateComposed(normalizedTemplate);
+    if (params == null) return translated;
+
+    return _formatTranslatedTemplate(
+      translated,
+      params,
+      colorMappings,
+      baseColorKey,
+    );
+  }
+
+  /// Translates a complete template once with the gender-specific catalog
+  /// variant, then substitutes parameters and restores inline colors.
+  ///
+  /// This is the composition counterpart to [trGendered]: it prevents callers
+  /// from translating a localized sentence as an argument and accidentally
+  /// treating the result as a new source key.
+  static String processStringGendered(
+    String template,
+    Map<String, dynamic>? params, {
+    required Gender gender,
+    bool noTranslate = false,
+    String baseColorKey = 'w',
+  }) {
+    if (noTranslate) {
+      return format(template, params);
+    }
+
+    final colorMappings = <String, String>{};
+    final cleanTemplate = template.replaceAllMapped(_placeholderPattern, (
+      match,
+    ) {
+      final parameterName = match.group(1)!;
+      final colorSpec = match.group(2);
+      if (colorSpec != null) colorMappings[parameterName] = colorSpec;
+      return '{$parameterName}';
+    });
+
+    final translated = trGendered(cleanTemplate, gender: gender);
     if (params == null) return translated;
 
     return _formatTranslatedTemplate(

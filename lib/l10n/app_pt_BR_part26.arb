@@ -82,6 +82,7 @@
   "Money: {amount}": "Dinheiro: {amount}",
   "Music still ringing in their ears, the squad revels in their victory.\n\nThe CCS Founder wasn't here, but for now, their power has been severely weakened.  Once the safehouse cools off, this will make a fine base for our future Liberal operations.": "Com a música ainda ecoando em seus ouvidos, o esquadrão se deleita com sua vitória.\n\nO Fundador da CCS não estava aqui, mas, por ora, seu poder foi severamente enfraquecido. Quando o esconderijo esfriar, este será uma ótima base para nossas futuras operações Liberais.",
   "NHS CRISIS": "CRISE DO NHS",
+  "News from our {gender} in the White House: Under intense pressure from the President, {vicePresident:color} is resigning. The President already has a new second in mind: {newFirstLast:color} is expected to pass confirmation in both the House and the Senate. (nonbinary)": "Notícias sobre a nossa {gender} na Casa Branca: Sob intensa pressão do Presidente, {vicePresident} está renunciando. A Presidência já tem uma nova segunda pessoa em mente: {newFirstLast} deve passar pela confirmação na Câmara e no Senado.",
   "No Arms": "Sem braços",
   "Nonbinary": "Não binário",
   "Old Church": "Igreja Antiga",
@@ -127,6 +128,7 @@
   "Travel": "Viagens",
   "Unknown": "Desconhecido",
   "Unsaved": "Não salvo",
+  "Update from our {gender} in the White House: Despite the President's best efforts, {position:color} {last:color} continues to hold out against the internal push for more Liberal policies. The President is considering other options, but lacks the votes in Congress to confirm a more Liberal appointment. (nonbinary)": "Atualização sobre a nossa {gender} na Casa Branca: Apesar dos melhores esforços da Presidência, {position} {last} continua resistindo à pressão interna por políticas mais Liberais. A Presidência está considerando outras opções, mas não tem votos no Congresso para confirmar uma nomeação mais Liberal.",
   "V - View Changelog": "V - Ver registro de alterações",
   "Vegan Bar & Grill": "Bar e Grill Vegano",
   "Voice": "Voz",
@@ -224,6 +226,7 @@
   "{name} exhales loudly.": "{name} solta um suspiro ruidoso.",
   "{name} has been spotted by a passerby!": "Uma pessoa que passava avistou {name}!",
   "{name} has been transferred to {hospital}.": "{name} foi transferido para {hospital}.",
+  "{name} is quickly blocked. (female)": "{name} é rapidamente bloqueada.",
   "{name} lies down in a dumpster, where {heShe} belongs.": "{name} está deitado em uma lixeira, onde {heShe} pertence.",
   "{name} shouts in alarm at the squad's Liberal Trespassing!": "{name} grita alarmado com a Invasão Liberal do esquadrão!",
   "{name} smashes the window.": "{name} quebra a janela.",
@@ -237,5 +240,6 @@
   "{name}'s left eye is cut open!": "O olho esquerdo de {name} foi cortado!",
   "{name}'s right kidney is punctured!": "O rim direito de {name} foi perfurado!",
   "{name}'s tongue is removed!": "A língua de {name} foi removida!",
-  "{name}'s {part}": "{part} de {name}"
+  "{name}'s {part}": "{part} de {name}",
+  "{role} {name} has recruited a new {type}. (female)": "{role} {name} recrutou uma nova {type}."
 }

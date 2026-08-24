@@ -118,43 +118,31 @@
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 59,
+      "line": 83,
       "text": "the $name",
       "reason": "Portuguese definite-article connector composed around an already-localized location name."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 65,
-      "text": "${feminine ? ",
-      "reason": "Portuguese definite-article selection around an already-localized location name."
-    },
-    {
-      "file": "common_display/common_display.dart",
-      "line": 65,
-      "text": "} $name",
-      "reason": "Portuguese definite-article connector joined to an already-localized location name."
-    },
-    {
-      "file": "common_display/common_display.dart",
-      "line": 189,
+      "line": 220,
       "text": "$line $word",
       "reason": "Layout-only join of adjacent words while wrapping prose already localized by the caller."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 199,
+      "line": 230,
       "text": "Text requires ${lines.length} rows, limit is $maxLines",
       "reason": "Internal layout diagnostic; never rendered as player-facing prose."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 301,
+      "line": 332,
       "text": "Option requires $width columns, limit is ${console.width}",
       "reason": "Internal layout diagnostic; never rendered as player-facing prose."
     },
     {
       "file": "common_display/common_display.dart",
-      "line": 569,
+      "line": 600,
       "text": "$localizedHealth$armorSeparator$localizedArmor",
       "reason": "Layout-only join of health and armor strings already localized before rendering."
     },
@@ -670,19 +658,19 @@
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 594,
+      "line": 634,
       "text": "{$parameterName}",
       "reason": "Localization infrastructure for keys, placeholders, files, logging, or console controls; never gameplay text."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 615,
+      "line": 653,
       "text": "\\$$raw",
       "reason": "Currency formatter returns an English-locale dollar amount; the value is not a translatable sentence."
     },
     {
       "file": "i18n/i18n.dart",
-      "line": 628,
+      "line": 666,
       "text": "US\\$ $sign$groupedInteger$decimal",
       "reason": "Currency formatter assembles the locale-specific numeric amount after applying Brazilian separators."
     },
@@ -862,7 +850,7 @@
     },
     {
       "file": "newspaper/display_news.dart",
-      "line": 486,
+      "line": 487,
       "text": "typesum: $typesum",
       "reason": "Developer diagnostic or commented-out diagnostic; never rendered to players."
     },

@@ -16,6 +16,9 @@ build, played in Brazilian Portuguese.
 - Latest replay: 2026-07-26 headless Portuguese verification on
   `feature/localization`; it resolved PT-025–PT-035 and the replay details are
   recorded in `play-log.md`.
+- Latest bounded route: 2026-08-24 strict-headless Portuguese Strategy 61 r3
+  replay, recorded in `play-log.md`; it reached a durable May 1 checkpoint with
+  no natural victory, game-over, or new ticket.
 
 ## Lightweight agent method
 

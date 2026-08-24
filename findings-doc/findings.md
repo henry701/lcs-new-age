@@ -246,6 +246,15 @@
 | PT-440 | Low | Interrogation punctuation | Interrogation questions render with spaces inside quotation marks |
 | PT-441 | Medium | Ransom gender agreement | Female ransom leads receive masculine arrest participles |
 | PT-442 | Medium | Sleeper/president gender agreement | Female and nonbinary sleeper/president messages use masculine agent/president nouns |
+| PT-443 | Medium | Hospital/wound gender agreement | Monthly hospital transfer and burn narration force masculine participles |
+| PT-444 | Low | Dating rejection gender agreement | Dating failure narration forces masculine adjectives and participles |
+| PT-445 | Low | Recruitment rejection gender agreement | Rejection copy describes a female recruiter as a masculine extremist |
+| PT-446 | Medium | Sleeper recruitment gender agreement | Recruited profession nouns are forced into the masculine article |
+| PT-447 | Medium | Sleeper-president translation/composition | President recruitment reports mix one Portuguese fragment with English prose |
+| PT-448 | Medium | Trial gender agreement | Female self-defense defendants receive the masculine `culpado` |
+| PT-449 | Medium | Newspaper translation/retranslation | Story datelines bypass localized city values |
+| PT-450 | Low | Workplace article agreement | Pawnshop names beginning with an `a` surname get a feminine article for a masculine head noun |
+| PT-451 | Low | Constitutional amendment grammar | Repeal-amendment prose has number and gender agreement errors |
 
 ## PT-001: Save-management option is clipped
 
@@ -9069,3 +9078,324 @@ agent form, and `A presidente` as applicable.
    actions; allow exposure/leak outcomes naturally.
 3. Capture each monthly result and require the article/noun phrase to match the
    agent’s gender rather than always using the masculine form.
+
+## PT-443: Monthly hospital transfer and burn narration force masculine participles
+
+- Severity: Medium
+- Type: Gender agreement / treatment and wound variants
+- Screen: Portuguese monthly clinic transfer or site fire injury
+- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/tests/prober_layout_d_red_probe_tmp_test.dart`,
+  `lib/monthly/advance_month.dart:477-487`, and
+  `lib/sitemode/advance.dart:276-280`
+
+### Reproduction
+
+Initialize `pt_BR`, then process `{name} has been transferred to {hospital}.`
+and `{name} is burned!` exactly as those calls do, using the female name
+`Jamie Doe`.
+
+### Actual
+
+The templates render `foi transferido` and `é queimado` even though Jamie is
+female. The catalog has only the masculine forms.
+
+### Expected
+
+Use locale-aware feminine/nonbinary variants (`transferida`, `queimada`) keyed
+to the patient’s creature gender.
+
+### Independent stock replay steps
+
+1. In a fresh Portuguese campaign, place a female Liberal in the clinic until a
+   serious injury triggers university-hospital transfer; capture row 8.
+2. Separately walk a female Liberal through burning site terrain until the
+   burn message renders; capture row 9.
+3. Reject masculine participles after the female name and repeat a nonbinary
+   route when reachable.
+
+## PT-444: Dating failure narration forces masculine adjectives
+
+- Severity: Low
+- Type: Gender agreement / rejection composition
+- Screen: Portuguese failed date → offline ambush/failure or online rejection
+- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
+  `lib/daily/dating.dart:249-272`
+
+### Reproduction
+
+Initialize `pt_BR` and render the dating failure templates from the switch in
+`dateIntro` handling with `{name}` set to `Jamie Doe`, a female dater.
+
+### Actual
+
+Templates such as `é humilhado em público`, `embriagado sozinho`,
+`é expulso por uma multidão furiosa`, `completamente humilhado`,
+`rapidamente bloqueado`, and `ficar sentado no escuro` remain masculine.
+
+### Expected
+
+Provide gendered variants so failure adjectives and participles agree with the
+dater, including the project-approved nonbinary endings.
+
+### Independent stock replay steps
+
+1. Run a fresh Portuguese campaign and assign a female Liberal with multiple
+   dating partners.
+2. Repeat ordinary dates until an ambush/failure branch (or online equivalent)
+   occurs; capture all narration rows.
+3. Reject masculine `o` endings after the female name and require consistent
+   nonbinary forms when reachable.
+
+## PT-445: Recruitment rejection labels a female recruiter as masculine
+
+- Severity: Low
+- Type: Gender agreement / rejection composition
+- Screen: Portuguese failed recruitment → dangerous-extremist rejection
+- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
+  `lib/daily/recruitment.dart:391-407`
+
+### Reproduction
+
+Initialize `pt_BR` and process
+`{recruitName} thinks {pName} is dangerous extremist.` with recruiter `pName`
+set to the female name `Jamie Doe`.
+
+### Actual
+
+The output says `um extremista perigoso`; the adjective/noun phrase agrees with
+a male recruiter regardless of `pName.gender`.
+
+### Expected
+
+Select the noun phrase from the referenced recruiter’s gender, producing `uma
+extremista perigosa` and a project-approved nonbinary form.
+
+### Independent stock replay steps
+
+1. In a fresh Portuguese campaign, assign a female recruiter whose persuasion
+   check will fail against a conservative recruit.
+2. Advance the day and capture both rejection rows before the meeting ends.
+3. Require agreement with the recruiter, not the recruit, across genders.
+
+## PT-446: Sleeper-recruited professions get masculine articles
+
+- Severity: Medium
+- Type: Nested parameter gender agreement / sleeper recruitment
+- Screen: Portuguese monthly sleeper → Expand Network → recruited profession
+- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
+  `lib/monthly/sleeper_update.dart:913-925`
+
+### Reproduction
+
+Initialize `pt_BR` and process
+`{role} {name} has recruited a new {type}.` with a female sleeper and type
+`Nurse`.
+
+### Actual
+
+The output is `A agente infiltrada Jamie Doe recrutou um novo Enfermeiro.` The
+template forces the masculine article and the profession translation changes
+the inserted profession’s own gendered spelling.
+
+### Expected
+
+Keep the actual profession label unchanged and choose the article/number
+phrase from that profession’s Portuguese gender (`uma nova Enfermeira`); support
+feminine and nonbinary profession variants consistently.
+
+### Independent stock replay steps
+
+1. In a fresh Portuguese campaign, obtain a female sleeper at a workplace where
+   a feminine profession such as Nurse is available.
+2. Assign Expand Network until the monthly recruitment success screen appears.
+3. Capture rows 6 and 8; reject changed profession spellings and reject a
+   masculine article before a feminine profession.
+
+## PT-447: President sleeper-recruitment reports fall back to English fragments
+
+- Severity: Medium
+- Type: Fragmented composition / missing full-template translation
+- Screen: Portuguese monthly President sleeper → cabinet recruitment/update
+- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
+  `lib/monthly/sleeper_update.dart:763-882`
+
+### Reproduction
+
+Initialize `pt_BR` and process the exact four source-composed White House
+templates used by President recruitment, including their color placeholders.
+
+### Actual
+
+Only leading fragments such as `Notícias de nosso {gender} na Casa Branca: Sob `
+are translated. The remaining paragraphs stay English. The female sample also
+begins `Notícias de nosso mulher`; `nosso` does not agree with `mulher`. The
+equivalent update path starts `Atualização do nosso mulher`.
+
+### Expected
+
+Add complete templates for all four branches, translate every sentence, apply
+color markup without fragment retranslation, and use gender-aware possessor
+phrases (`Notícias da nossa mulher`, plus approved nonbinary wording).
+
+### Independent stock replay steps
+
+1. Reach a female or nonbinary President sleeper in ordinary progression, with
+   at least one non-Elite-Liberal cabinet position.
+2. Assign Expand Network monthly until a cabinet adoption, resignation, or
+   holdout report renders.
+3. Capture the paragraph and reject any of the four raw English tails; require
+   the possessor phrase to agree with the President.
+
+## PT-448: Self-defense trial narration forces masculine guilt
+
+- Severity: Medium
+- Type: Court gender agreement
+- Screen: Portuguese courthouse trial → self-defense performance narration
+- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/red-probe.log`,
+  `lib/justice/trial.dart:480-495`
+
+### Reproduction
+
+Initialize `pt_BR` and process `{name} just looks {pronoun} guilty.` exactly as
+the self-defense verdict path does, using a female defendant.
+
+### Actual
+
+The output is `Jamie Doe parece culpado até para ela mesma.` The predicate is
+masculine even though the reflexive pronoun is feminine.
+
+### Expected
+
+Make `culpado/culpada` (and the nonbinary variant) agree with the defendant,
+while preserving natural reflexive phrasing.
+
+### Independent stock replay steps
+
+1. In a fresh Portuguese campaign, let a female Liberal reach trial and choose
+   self-defense.
+2. Repeat low-persuasion trials until the weakest defense-performance branch
+   renders on row 10.
+3. Reject `culpado` after a female defendant and verify nonbinary wording when
+   reachable.
+
+## PT-449: Newspaper datelines skip localized city values
+
+- Severity: Medium
+- Type: Dynamic parameter retranslation / generated story dateline
+- Screen: Portuguese newspaper → squad/site action story dateline
+- Replay status: **Confirmed — deterministic widget probe (2026-08-24)**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/newspaper-red.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/tests/prober_layout_d_red_probe_tmp_test.dart`,
+  `lib/newspaper/display_news.dart:42-46`
+
+### Reproduction
+
+Initialize `pt_BR`, create a Seattle story location, and call `displayStory`
+for a squad-site action exactly as the news cycle does.
+
+### Actual
+
+The archived body begins `Seattle, WA -` although `City.getName()` localizes
+that canonical value to `Seattle, Washington` and filler already uses that
+localized value. Other direct `city.name` assignments have the same defect.
+
+### Expected
+
+Use `ns.loc?.city.getName()` (or the same guarded translator used by filler)
+for every story dateline so catalog-backed city names render consistently.
+
+### Independent stock replay steps
+
+1. Start a fresh Portuguese campaign in Seattle and commit an ordinary squad
+   action that generates a newspaper story.
+2. Open the story and inspect its first dateline and any filler datelines.
+3. Require both to use `Seattle, Washington`, not `Seattle, WA`; repeat another
+   catalog-backed city such as Los Angeles.
+
+## PT-450: Workplace article helper misreads pawnshop head nouns
+
+- Severity: Low
+- Type: Generated proper-noun article agreement
+- Screen: Portuguese interrogation → mapped/no-new-info workplace discussion
+- Replay status: **Confirmed — deterministic probe (2026-08-24)**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/logs/location-article-red.log`,
+  `lib/common_display/common_display.dart:50-66`, and
+  `lib/location/site.dart:634-643`
+
+### Reproduction
+
+Initialize `pt_BR`, create a pawn shop named
+`Mira — Casa de penhores e armas`, and pass it through
+`localizedAboutLocation`.
+
+### Actual
+
+The helper returns `a Mira — Casa de penhores e armas`. It infers gender from
+the first token (the owner surname), but the Portuguese head noun is the later
+phrase in this template. The visible article therefore attaches to a proper
+surname instead of the business name and cannot be correct for every owner.
+
+### Expected
+
+Use the grammatical head noun of the localized generated name, not its first
+token. This generated pawnshop template requires a stable masculine connector;
+names whose actual head noun is feminine must continue to select `a`.
+
+### Independent stock replay steps
+
+1. Start fresh Portuguese sessions until a hostage or recruit works at a
+   generated `{surname} — Casa de penhores e armas` location whose surname ends
+   in `a`.
+2. Map the workplace and choose firm interrogation until the workplace
+   discussion branch renders.
+3. Capture the sentence and reject an article selected from the owner surname;
+   require agreement with the business head noun.
+
+## PT-451: Constitutional repeal prose has agreement errors
+
+- Severity: Low
+- Type: Constitutional amendment grammar
+- Screen: Portuguese arch-conservative constitutional repeal announcement
+- Replay status: **Confirmed — catalog/source audit (2026-08-24)**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/catalog-composition-audit.tsv`,
+  `lib/politics/constitution.dart:231-246`
+
+### Reproduction
+
+Initialize `pt_BR` and display the fixed repeal-amendment lines under
+`tryToRepealConstitution`.
+
+### Actual
+
+The text reads `Os antigos Estados Unidos serão reorganizado nos ...` instead
+of `reorganizados`; it later reads `todos decisões reais serão tomadas` instead
+of `todas as decisões reais serão tomadas`.
+
+### Expected
+
+Correct number/gender agreement while retaining the intended line breaks and
+fixed-console boundaries.
+
+### Independent stock replay steps
+
+1. Advance an ordinary Portuguese campaign until the Arch-Conservative Congress
+   proposes the constitutional repeal amendment.
+2. Press `C` and inspect rows 4–6 and rows 15–17 before ratification.
+3. Require `reorganizados` for the plural United States and `todas as decisões`
+   for the later clause.

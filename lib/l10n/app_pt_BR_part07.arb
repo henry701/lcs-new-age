@@ -268,7 +268,7 @@
   "{name} was unable to find a {oldCar} but did find a {newCar}.": "{name} não conseguiu encontrar um {oldCar} mas encontrou um {newCar}.",
   "{name} will bake and sell weed brownies.": "{name} vai assar e vender brownies de maconha.",
   "{name} will stream for the Liberal Guardian.": "{name} vai transmitir para o Guardião Liberal.",
-  "{name} {action}": "{name}  {action}",
+  "{name} {action}": "{name} {action}",
   "{name}'s death sentence has been commuted to life, ": "a sentença de morte de {name} foi comutada para prisão perpétua, ",
   "{name}'s liver is torn!": "O fígado de {name} foi rasgado!",
   "{name}'s right kidney is blasted!": "O rim direito de {name} foi destruído!",

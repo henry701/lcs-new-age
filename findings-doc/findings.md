@@ -8296,3 +8296,294 @@ within 80 columns and contain no raw English.
 3. Require row 11 to be nonempty and Portuguese when recruitment finds nobody;
    require the complete localized sentence to end with a period, buffer height
    25, maximum width 80, and empty bridge/browser errors.
+
+## PT-427: Strategy54 web autosave had no IndexedDB save store
+
+- Severity: High
+- Type: Blocking playtest infrastructure — **not translation/layout scope**
+- Screen: Web title autosave/reload persistence
+- Replay status: **Closed — not reproducible at HEAD e682cadd**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy54-persistent-victory-20260822/tickets/PT-STR54-002-web-autosave-indexeddb-store-missing.md`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy54-persistent-victory-20260822/captures/3428-recovery-storage-metadata.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy57-fresh-current-20260823/captures/032-checkpoint01-metadata.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy57-fresh-current-20260823/captures/035-checkpoint01-durable-metadata.json`,
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy57-fresh-current-20260823/captures/036-checkpoint01-durable-restored.json`
+
+### Reconciled reproduction
+
+On the older Strategy54 live build, lowercase `x` set `flutter.lastGameId` in
+memory but recovery after the tab had reached `about:blank` found only the
+migration flag; `lcs_new_age` had zero object stores and IndexedDB had no save
+key. Same-session `c` therefore could not prove restart durability.
+
+### Current verification
+
+A fresh campaign on current HEAD produced gameId `9147028`, created the
+`saves` store, and stored key `9147028`. A full same-tab reload returned to the
+Portuguese title with the same metadata; lowercase `c` restored the same base,
+date, and roster. This closes the old Strategy54 infrastructure blocker for
+HEAD, but it does not retroactively recover the lost Strategy54 run.
+
+### Verifier replay
+
+1. Start a fresh stock `pt_BR` campaign in a new strict-headless session.
+2. Return to the title with lowercase `x`; require `flutter.lastGameId` to be
+   non-null, `lcs_new_age/saves` to contain that key, and language to be
+   `"pt_BR"`.
+3. Reload the same URL without restoring browser state; require those values
+   to remain identical.
+4. Press lowercase `c`; require the founder, base, date, and active-roster
+   counts shown immediately before `x` to be restored.
+
+## PT-428: Portuguese profile keeps a carrying-hostage clause in English
+
+- Severity: Medium
+- Type: Missing translation / generated-profile rendering
+- Screen: Portuguese regular or sleeper profile → carrying a hostage/body
+- Replay status: **Confirmed by deterministic console test on 2026-08-23**
+- Evidence:
+  `lib/common_display/print_creature_info.dart:75-84`,
+  `lib/l10n/app_pt_BR_part10.arb:24-26`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/red-test.log`
+
+### Reproduction
+
+1. Initialize `pt_BR` and load the stock data tables.
+2. Create a liberal profile whose `prisoner` is another creature.
+3. Call `printCreatureInfo` and inspect row 1.
+
+### Actual
+
+The observed profile begins
+`Alex Roe, Civil, holding Jamie Doe,`. The PT catalog value for
+`, {holding} {hostage}` is nearly identical to English and merely moves the
+comma after the hostage name, while `holding` remains an untranslated literal
+parameter.
+
+### Expected
+
+Render the carrying clause as Portuguese for every profile variant, without
+raw English and with punctuation attached to the localized sentence.
+
+### Independent stock replay steps
+
+1. In a fresh stock Portuguese campaign, take a prisoner during a normal site
+   action and open either the carrier's regular or sleeper profile.
+2. Capture row 1 while the carrier is holding the body.
+3. Require no `holding` text, a localized hostage/body label, and complete
+   punctuation within the fixed profile delimiter.
+
+## PT-429: Ballot-measure results expose English Yes/No parameters
+
+- Severity: Medium
+- Type: Direct interpolated parameter / election translation
+- Screen: Portuguese November elections → ballot measures → vote results
+- Replay status: **Confirmed by deterministic template test on 2026-08-23**
+- Evidence:
+  `lib/politics/elections.dart:408-441`,
+  `lib/l10n/app_pt_BR_part04.arb:244-246`,
+  `lib/l10n/app_pt_BR_part30.arb:229-231`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/red-test.log`
+
+### Reproduction
+
+Initialize `pt_BR` and process the two ballot templates exactly as the source
+does, passing literal `"Yes"` and `"No"` parameter values.
+
+### Actual
+
+The yes row renders `50.0% a favor (Yes)` and the no row renders
+`49.9% contra No`. The translated shells add redundant qualifiers around raw
+English labels instead of localizing those values.
+
+### Expected
+
+Show natural Portuguese result labels with no raw `Yes` or `No`; remove the
+redundant parenthetical/duplicated qualifier or make it grammatically useful.
+
+### Independent stock replay steps
+
+1. Advance a fresh Portuguese campaign to any November election and wait for
+   ballot-measure totals.
+2. Capture rows containing the final yes/no percentages before acknowledging.
+3. Require Portuguese labels only, with no `(Yes)`, `Yes`, or trailing `No`.
+
+## PT-430: Trial self-defense verdict interpolates English reflexive pronouns
+
+- Severity: Medium
+- Type: Direct pronoun interpolation / court translation
+- Screen: Portuguese courthouse trial → self-defense persuasion outcome
+- Replay status: **Confirmed by deterministic template test on 2026-08-23**
+- Evidence:
+  `lib/justice/trial.dart:476-494`,
+  `lib/i18n/i18n.dart:44-60 and 337-365`,
+  `lib/l10n/app_pt_BR_part08.arb:214-216`,
+  `lib/l10n/app_pt_BR_part15.arb:162-164`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/red-test.log`
+
+### Reproduction
+
+Initialize `pt_BR`, create a male defendant, and render
+`{name} just looks {pronoun} guilty.` with `pronoun` set directly from
+`gender.himselfHerself`.
+
+### Actual
+
+The sentence renders `Alex Roe parece culpado até para himself.` The generic
+parameter translator does not recognize `pronoun`; unlike nearby possessive
+use in the same file, the reflexive value is never passed through
+`LcsI18n.translatePronoun`. Nonbinary defendants additionally lack a
+`themselves` PT catalog entry.
+
+### Expected
+
+Translate reflexive pronouns by role and gender, including male, female, and
+nonbinary forms, so no English reflexive remains in the verdict.
+
+### Independent stock replay steps
+
+1. Reach a courthouse trial where the defendant chooses self-defense rather
+   than a lawyer in a fresh Portuguese campaign.
+2. Capture the self-defense outcome at row 10 for defendants of each gender.
+3. Require localized reflexive wording and no `himself`, `herself`, or
+   `themselves`.
+
+## PT-431: Dating vacation options lose their closing punctuation
+
+- Severity: Low
+- Type: Fixed-console option layout
+- Screen: Portuguese dating → vacation choices C
+- Replay status: **Confirmed by deterministic console test on 2026-08-23**
+- Evidence:
+  `lib/daily/dating.dart:382-404`,
+  `lib/l10n/app_pt_BR_part05.arb:55-57`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/red-test.log`
+
+### Reproduction
+
+Initialize `pt_BR` and render either same-city vacation template through
+`addOptionText(13 or 14, 0, "C", ...)` with the stock price `1000`.
+
+### Actual
+
+The first visible row ends `(cancela outros encontros)` and discards its final
+period. The injured variant is 85 cells wide and loses the final `).`. Both
+writes begin at column 0 in an 80-cell console.
+
+### Expected
+
+Keep both complete option labels inside columns 0–79, including their closing
+punctuation, by shortening the PT values or wrapping/fitting safely.
+
+### Independent stock replay steps
+
+1. Start a Portuguese dating activity with at least US$ 1,000.
+2. Capture option rows 13 and 14, including the uninjured branch.
+3. Require each visible C option to end with a period and stay within column
+   79.
+
+## PT-432: Media article impact grid overwrites adjacent columns
+
+- Severity: Medium
+- Type: Fixed-console newspaper layout
+- Screen: Portuguese media overview → article detail → public-opinion effects
+- Replay status: **Confirmed by deterministic console test on 2026-08-23**
+- Evidence:
+  `lib/basemode/media_overview.dart:210-238` and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/media-red.log`
+
+### Reproduction
+
+Initialize `pt_BR`, create an article with effects for Free Speech, Police
+Behavior, and LCS Known, call `readNewsStory`, and inspect effect row 5.
+
+### Actual
+
+All three impacts run together:
+`Liberdade de Expressão: -Comportamento Policial: -Conhecimento do LCS: +3.5%`.
+The first two labels exceed their nominal 26-column slots, so each later
+`mvaddstrx` overwrites the previous value; the third write also reaches the
+right-edge clipping boundary.
+
+### Expected
+
+Fit each localized label/value pair within its fixed grid cell (or use a safe
+wrapped layout), preserving separators, signs, values, and percent signs
+without cross-column collisions.
+
+### Independent stock replay steps
+
+1. Open article details from a fresh Portuguese media archive until the story
+   includes several long issue labels.
+2. Capture the effect grid immediately after the body renders.
+3. Require distinct columns, readable sign/value pairs for every effect, no
+   overwritten labels, and no write past column 79.
+
+## PT-433: Title universal-score counts overwrite the frame border
+
+- Severity: Low
+- Type: Fixed-console title layout / unbounded stat write
+- Screen: Portuguese title screen → universal Liberal statistics
+- Replay status: **Confirmed by deterministic console test on 2026-08-23**
+- Evidence:
+  `lib/title_screen/title_screen.dart:524-550` and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/red-test.log`
+
+### Reproduction
+
+Draw the title frame, initialize `pt_BR`, set right-column counts such as
+American losses/saved to `10000`, and call `titleScreenScores(startY: 17)`.
+
+### Actual
+
+The five-digit values extend beyond the fixed frame: cell 78 on affected rows
+contains the final count digit rather than the border space, and the rendered
+count is clipped at the console edge.
+
+### Expected
+
+Fit or compact localized score labels/values within the available right-hand
+region while preserving the title frame at columns 78–79.
+
+### Independent stock replay steps
+
+1. Load a durable Portuguese campaign with at least 10,000 losses and saved
+   Americans, or use a save prepared through ordinary long-run progression.
+2. Display the title screen and capture universal-stat rows 18–19.
+3. Require complete counts, no overwritten frame glyphs, and maximum width 80.
+
+## PT-434: Custom high-score slogans are written without width bounds
+
+- Severity: Low
+- Type: Fixed-console high-score layout
+- Screen: Portuguese game-over/high scores → custom squad slogan
+- Replay status: **Confirmed by deterministic runtime test on 2026-08-23**
+- Evidence:
+  `lib/title_screen/high_scores.dart:205-210` and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/red-test.log`
+
+### Reproduction
+
+Save a high score whose custom slogan exceeds 80 cells, initialize `pt_BR`,
+and call `viewHighScores`.
+
+### Actual
+
+Row 2 silently truncates after 79 visible characters with no ellipsis. The
+slogan write is unbounded even though neighboring ending lines already use the
+fitted renderer.
+
+### Expected
+
+Bound custom slogans to the console row with explicit ellipsis or wrap them
+without colliding with following score rows; built-in localized slogans should
+remain intact.
+
+### Independent stock replay steps
+
+1. In a fresh Portuguese campaign, use the normal slogan editor to enter a
+   phrase longer than 80 cells, then trigger any game-over ending naturally.
+2. Capture the high-score slogan row immediately after the screen opens.
+3. Require the visible slogan to be deliberately bounded with an ellipsis (or
+   occupy reserved wrapped rows) and remain within columns 0–79.

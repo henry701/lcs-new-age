@@ -2919,3 +2919,62 @@ routes are optional breadth coverage.
 - `New You` juice-bar word order is awkward but explicitly characterized by an
   existing site translation test; treat as accepted generated-name style unless
   product direction changes.
+
+## 2026-08-23 — strategy57 fresh-current recruitment and persistence route
+
+- Build a disposable release snapshot at the checked-out commit, serve it on a
+  fresh loopback port from `agent-tmp`, and use a new strict-headless session.
+  This avoids mixing an unfinished dev server's memory state with a durable
+  restart test. Keep the stock campaign cheatless unless explicitly testing
+  coverage that is reported separately from a natural ending.
+- A workable early route is: select active CCS (`Sangue Ruim`), make a Seattle
+  founder with persuasion/history choices, then use Assign Tasks → Recruiting →
+  College Student. The first key after “pergunta por aí…” can yield multiple
+  candidates. Talk politics repeatedly until a candidate agrees to meet; on the
+  next day choose ordinary political conversation again until the join option
+  loses its “still cannot enter” wording, choose it, and select regular member
+  rather than sleeper when prompted.
+- After two recruits joined, bulk-assign them to community service while the
+  founder continues recruiting. This produced a stable three-liberal June→July
+  checkpoint without violence or cheats. Future routes should add legal
+  fundraising, a second squad, and site visits before the next election cycle.
+- Before any risky site entry, perform lowercase `x`/metadata/reload/metadata/
+  lowercase `c` in the same session. At HEAD this proved gameId, language,
+  IndexedDB save-key, base, date, and three-member roster restoration. Do not
+  rely on same-session `c` alone as durable-save evidence.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy57-fresh-current-20260823/`.
+
+## 2026-08-23 — prober i18n/layout B static/live follow-up
+
+### Future routes / probes
+
+- Exercise article details with deliberately long Portuguese issue labels in
+  one story (`Liberdade de Expressão`, `Comportamento Policial`, and
+  `Conhecimento do LCS`). This is the fastest natural way to expose impact-grid
+  collisions; random archive reads may miss a three-long-label layout.
+- On title screens from very old/long campaigns, capture both universal-score
+  right-column rows and the frame border. Five-digit counters are the useful
+  boundary, not the one-digit fixtures already covered.
+- Use the normal slogan editor to create an >80-cell slogan before a natural
+  ending. This avoids fixture-only evidence for high-score truncation and also
+  gives a base-mode centered-slogan comparison.
+- For trial self-defense coverage, repeat with male, female, and nonbinary
+  defendants. The current catalog has no nonbinary reflexive PT value, so a fix
+  must add that case rather than merely wrapping the existing pronoun call.
+- Map editor preview remains a compact-widget probe candidate: its localized
+  status string is about 100 cells with sample coordinates and the `Text` is
+  not visibly bounded in source. PT-349 fixed toolbar overflow, but this later
+  preview status was not reproduced at a narrow viewport.
+
+### Rejected / accepted candidates
+
+- `loadingFeedback()` still has raw `File` through `{label}`, but it runs during
+  pre-locale XML loading. This repeats the prior prober-A candidate; do not file
+  unless a save/import or native path proves post-locale startup uses it.
+- The constitutional padded vote prompts remain harmless trailing alignment;
+  `Console.addchar` clips only those spaces. Do not reopen PT-398.
+- Long newspaper/help fragments are intentional composed/wrapped prose, not
+  fixed-row overruns, despite appearing in a naive >80-character catalog scan.
+- Direct display interpolations found by AST scan were internal color markup,
+  box-drawing repetition, or debug text; no new production i18n leak there.

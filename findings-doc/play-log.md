@@ -8650,6 +8650,56 @@ reached. Captures and source hashes are under
   English hits. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy53-victory-20260822/`.
 
+## 2026-08-23 — Strategy54 recovery / Strategy57 fresh-current continuation
+
+- Strategy54 session `str54-v1` was already `about:blank`. Navigation back to
+  the old server produced an English title; storage capture `3428` showed no
+  `flutter.lastGameId`, no language key, and a `lcs_new_age` database with no
+  usable save store. The prior campaign was therefore lost and was not treated
+  as recoverable. Evidence remains in the Strategy54 artifact.
+- A distinct stock-cheatless Strategy57 campaign was started at HEAD commit
+  `e682cadd` from a fresh release snapshot on port 10257 in new isolated strict
+  headless session `str57-a`. The founder is Kim Aguilera (Seattle,
+  manifesto/history route), gameId `9147028`, locale `pt_BR`.
+- Early persistence: lowercase `x`, metadata, full same-tab reload, metadata,
+  then lowercase `c` restored the campaign (`032`–`036`). This reconciles the
+  old Strategy54 IndexedDB blocker as fixed at current HEAD.
+- Explored location cycling across Seattle/New York/Los Angeles/DC safehouses,
+  all five Liberal Agenda pages, media overview, finance report, review screens,
+  activity assignment/bulk assignment, department clothing purchase, pawn-shop
+  liberal tools, Internet Café site entry/movement, and ordinary newspaper and
+  legislative event flows. No cheats, debug controls, fixtures, imports, CDP,
+  headed browser, or source edits were used.
+- Recruited Shenna Obama and Jenny Stripe through ordinary College Student
+  recruitment conversations and regular-member join prompts, then bulk-assigned
+  both to community service while Kim continued recruiting. A durable reload
+  checkpoint after June recruitment restored the three-member roster
+  (`checkpoint03-*`). The run advanced normally to 5 Jul 2023 with no natural
+  victory or game-over terminal.
+- Confirmed PT-426: the zero-result recruiting screen omits the expected
+  localized failure/success feedback and returns directly to base. Reconciled
+  PT-STR54-002 as PT-427, Closed — not reproducible at HEAD. Artifact-local
+  PT-STR54-001 remains gameplay logic outside translation/layout scope and was
+  not reproduced during this bounded continuation.
+
+## 2026-08-23 — prober i18n/layout B confirmation sweep
+
+- Audited pushed HEAD `dc459f66` on `feature/localization`, preserving the
+  concurrent uncommitted findings/workflow edits already present. Ran catalog,
+  interpolation, analyzer, and full Flutter validation. One exploratory
+  `find_translatable_strings.dart` invocation accidentally ran in its default
+  mutating mode; the generated catalog changes were restored immediately, and
+  all later extractor use was `--print-only`.
+- Built AST scans for direct interpolated display arguments, `.name`/enum-like
+  parameters, literal display parameters, and long PT values. Triaged the
+  results against existing tests/tickets. Deterministic red console/widget
+  tests confirmed seven new issues (PT-428 through PT-434); raw evidence and
+  scanner outputs are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/`.
+- Removed the temporary failing test after capturing evidence so the checkout
+  contains only documentation updates from this prober. No production code or
+  canonical ARB files were changed.
+
 ## 2026-08-23 — prober i18n/layout A static/live sweep
 
 - Audited current HEAD `e682cadd` on `feature/localization`. Catalog validation

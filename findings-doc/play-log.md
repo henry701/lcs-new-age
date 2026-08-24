@@ -8954,3 +8954,18 @@ reached. Captures and source hashes are under
   every combat-weapon variant. Those reachability limits are recorded rather
   than presented as fabricated live captures; deterministic current-head
   evidence closes the fixes.
+
+## 2026-08-24 — independent PT-435 verification
+
+- A clean detached clone at `ba0bce08` reran
+  `flutter test test/localization_layout_batch_c_regression_test.dart`: all 10
+  tests passed, including exact Portuguese nominee rows for all five
+  `DeepAlignment` values, one comma-space separator, and the 80-column bound.
+- Fresh strict-headless session `verify-pt435-independent-20260824` served the
+  isolated web build on `127.0.0.1:14563`, selected `pt_BR`, and advanced a
+  stock campaign from January 1 through January 31, 2023. Captures
+  `evidence/001`–`004` show Portuguese legislative agenda, vote totals,
+  president result, and finance report with no raw English UI or overflow.
+- The bounded stock route did not reach the November 2024 presidential nominee
+  branch; no live-branch claim is made beyond the deterministic regression.
+  Artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt435-independent-20260824/`.

@@ -8719,13 +8719,16 @@ an earlier base state. The over-80 high-score row therefore remains pending.
 - Severity: Medium
 - Type: Dynamic parameter / election composition
 - Screen: Portuguese November presidential election → nominee list
-- Replay status: **Fixed-pending-verify (2026-08-24)**
+- Replay status: **Fixed; independently verified on 2026-08-24 by deterministic regression and a fresh strict-headless Portuguese build (natural November nominee branch unreachable)**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/capture-004-pt435-election-2028.json` — fresh strict-headless Portuguese 2028 nominees,
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-pt435-spacing-20260824/focused-pt435-election.log`,
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-pt435-spacing-20260824/flutter-full-test.log`, and
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/tested-build.txt`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt435-independent-20260824/focused-election-spacing.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt435-independent-20260824/evidence/001-fresh-ptbr-legislative-agenda-2023.json` through
+  `004-fresh-ptbr-finance-report-2023.json`, and
   `lib/politics/elections.dart:193-199`
 - Independent result: the prior live replay localized alignments correctly but exposed two
   separator spaces (`Han,  Arqui-Conservador`; `Bárány,  moderado`) on build `2d10f02d`.
@@ -8738,6 +8741,12 @@ an earlier base state. The over-80 high-score row therefore remains pending.
   localized alignments as an exact `Alex Roe, <label>` row, rejects consecutive whitespace
   after the comma, and bounds every row to console width (80 columns). Catalog, interpolation
   default/all gates, translation coverage (100%), analyze, and full `flutter test` also pass.
+- Independent verification: the detached clean clone at `ba0bce08` reran
+  `test/localization_layout_batch_c_regression_test.dart` (10 tests, all pass) and a fresh
+  strict-headless Portuguese stock route from January 1 through January 31, 2023. The live
+  route showed Portuguese agenda, vote, president-result, and finance screens without raw
+  English or overflow; it did not reach the November 2024 nominee branch, so the live replay
+  does not extend beyond the deterministic regression.
 
 ### Reproduction
 

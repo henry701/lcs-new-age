@@ -50,6 +50,9 @@ class LcsI18n {
     'their',
     'they',
     'them',
+    'himself',
+    'herself',
+    'themselves',
   };
 
   static String _localeScopedKey(String locale, String englishText) =>

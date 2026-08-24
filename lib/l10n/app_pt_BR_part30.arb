@@ -227,7 +227,6 @@
   "{name}'s left eye is shot out!": "O olho esquerdo de {name} foi atingido!",
   "{name}'s verbal finesse leaves something to be desired.": "A habilidade verbal de {name} deixa a desejar.",
   "{name}, {align}": "{name},  {align}",
-  "{noPercent}% {no}": "{noPercent}% contra {no}",
   "{pName} is able to create a map of the site from this information.": "{pName} consegue criar um mapa do local com essa informação.",
   "{pName} mixes up the names of {name1} and {name2}. Things go downhill fast.": "{pName} confunde os nomes de {name1} e {name2}. As coisas pioram rapidamente.",
   "{pName} realizes {heshe} has committed to {count} calls at once. Things go downhill fast.": "{pName} percebe que {heshe} se comprometeu com {count} ligações de uma vez. As coisas pioram rapidamente.",

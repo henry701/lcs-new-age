@@ -1275,7 +1275,7 @@ void main() {
     );
     expect(
       catalog['C - Spend a week and {price} on a cheap vacation (stands up other dates).'],
-      'C - Passar uma semana e gastar {price} em férias baratas (cancela outros encontros).',
+      'C - Passar uma semana de férias por {price} (cancela outros encontros).',
     );
     expect(
       catalog['CABLE NEWS BIAS REVEALED'],

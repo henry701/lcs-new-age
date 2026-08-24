@@ -520,13 +520,13 @@ void titleScreenScores(HighScores? highScores, {int startY = 9}) {
   );
   mvaddstr(
     startY + 1,
-    44,
+    titleStatsRightColumnX,
     "Total Americans Lost: {count}",
     params: {'count': highScores.universalLosses},
   );
   mvaddstr(
     startY + 2,
-    44,
+    titleStatsRightColumnX,
     "Total Americans Saved: {count}",
     params: {'count': highScores.universalVictories},
   );

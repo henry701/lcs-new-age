@@ -235,10 +235,23 @@ Future<void> readNewsStory(NewsStory ns) async {
     });
   }).toList();
   setColor(lightGray);
+
+  // Impact text is locale-dependent, so fixed 26-column slots cannot safely
+  // bound translated labels. Flow to the next row whenever the next impact
+  // would cross the console edge instead of letting writes overlap.
   int y = console.y + 1;
-  for (int i = 0; i < effectText.length; i++) {
-    mvaddstrx(y + i ~/ 3, 26 * (i % 3), effectText.elementAt(i));
+  int x = 0;
+  for (final text in effectText) {
+    final fittedText = fitConsoleText(text, console.width);
+    final width = strLenX(fittedText);
+    if (x > 0 && x + width > console.width) {
+      y++;
+      x = 0;
+    }
+    mvaddstrx(y, x, fittedText, noTranslate: true);
+    x += strLenX(fittedText) + 1;
   }
+
   addOptionText(24, 0, "Any Key", "Press Any Key to Continue");
   await getKey();
 }

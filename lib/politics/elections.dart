@@ -419,7 +419,7 @@ Future<void> ballotMeasures() async {
         mvaddstr(
           p * 3 + 2,
           70,
-          "{yesPercent}% {yes}",
+          "Yes: {yesPercent}%",
           params: {
             "yesPercent": "${yesvotes ~/ 10}.${yesvotes % 10}",
             "yes": "Yes",
@@ -436,7 +436,7 @@ Future<void> ballotMeasures() async {
         mvaddstr(
           p * 3 + 3,
           70,
-          "{noPercent}% {no}",
+          "No: {noPercent}%",
           params: {
             "noPercent":
                 "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}",

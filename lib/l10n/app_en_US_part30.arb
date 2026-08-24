@@ -224,7 +224,6 @@
   "{name}'s left eye is shot out!": "{name}'s left eye is shot out!",
   "{name}'s verbal finesse leaves something to be desired.": "{name}'s verbal finesse leaves something to be desired.",
   "{name}, {align}": "{name}, {align}",
-  "{noPercent}% {no}": "{noPercent}% {no}",
   "{pName} is able to create a map of the site from this information.": "{pName} is able to create a map of the site from this information.",
   "{pName} mixes up the names of {name1} and {name2}. Things go downhill fast.": "{pName} mixes up the names of {name1} and {name2}. Things go downhill fast.",
   "{pName} realizes {heshe} has committed to {count} calls at once. Things go downhill fast.": "{pName} realizes {heshe} has committed to {count} calls at once. Things go downhill fast.",

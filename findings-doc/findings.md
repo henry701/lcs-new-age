@@ -8341,7 +8341,8 @@ HEAD, but it does not retroactively recover the lost Strategy54 run.
 - Severity: Medium
 - Type: Missing translation / generated-profile rendering
 - Screen: Portuguese regular or sleeper profile → carrying a hostage/body
-- Replay status: **Confirmed by deterministic console test on 2026-08-23**
+- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic console test on 2026-08-23); original: **Confirmed by deterministic console test on 2026-08-23**
+- Fix evidence: `lib/common_display/print_creature_info.dart`, `lib/l10n/app_en_US_part18.arb`, `lib/l10n/app_pt_BR_part18.arb`, and `test/localization_layout_batch_b_regression_test.dart` (“carrying-hostage profile clause is fully Portuguese”); logs: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-b-20260823/red-focused.log` and `green-focused.log`.
 - Evidence:
   `lib/common_display/print_creature_info.dart:75-84`,
   `lib/l10n/app_pt_BR_part10.arb:24-26`, and
@@ -8379,7 +8380,8 @@ raw English and with punctuation attached to the localized sentence.
 - Severity: Medium
 - Type: Direct interpolated parameter / election translation
 - Screen: Portuguese November elections → ballot measures → vote results
-- Replay status: **Confirmed by deterministic template test on 2026-08-23**
+- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic template test on 2026-08-23); original: **Confirmed by deterministic template test on 2026-08-23**
+- Fix evidence: `lib/politics/elections.dart`, canonical Yes/No templates in en_US/pt_BR catalogs, and the ballot template regression in `test/localization_layout_batch_b_regression_test.dart`; placeholder parity is preserved (`Sim: {yesPercent}%`, `Não: {noPercent}%`).
 - Evidence:
   `lib/politics/elections.dart:408-441`,
   `lib/l10n/app_pt_BR_part04.arb:244-246`,
@@ -8414,7 +8416,8 @@ redundant parenthetical/duplicated qualifier or make it grammatically useful.
 - Severity: Medium
 - Type: Direct pronoun interpolation / court translation
 - Screen: Portuguese courthouse trial → self-defense persuasion outcome
-- Replay status: **Confirmed by deterministic template test on 2026-08-23**
+- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic template test on 2026-08-23); original: **Confirmed by deterministic template test on 2026-08-23**
+- Fix evidence: Central reflexive-parameter recognition in `lib/i18n/i18n.dart`, nonbinary catalog entry in `lib/l10n/app_pt_BR_part02.arb`, and male/female/nonbinary regression in `test/localization_layout_batch_b_regression_test.dart`.
 - Evidence:
   `lib/justice/trial.dart:476-494`,
   `lib/i18n/i18n.dart:44-60 and 337-365`,
@@ -8454,7 +8457,8 @@ nonbinary forms, so no English reflexive remains in the verdict.
 - Severity: Low
 - Type: Fixed-console option layout
 - Screen: Portuguese dating → vacation choices C
-- Replay status: **Confirmed by deterministic console test on 2026-08-23**
+- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic console test on 2026-08-23); original: **Confirmed by deterministic console test on 2026-08-23**
+- Fix evidence: Shortened PT vacation templates plus shared `addOptionTextFitted`; all three branches are covered with period-ending and <=80-cell assertions in `test/localization_layout_batch_b_regression_test.dart`.
 - Evidence:
   `lib/daily/dating.dart:382-404`,
   `lib/l10n/app_pt_BR_part05.arb:55-57`, and
@@ -8488,7 +8492,8 @@ punctuation, by shortening the PT values or wrapping/fitting safely.
 - Severity: Medium
 - Type: Fixed-console newspaper layout
 - Screen: Portuguese media overview → article detail → public-opinion effects
-- Replay status: **Confirmed by deterministic console test on 2026-08-23**
+- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic console test on 2026-08-23); original: **Confirmed by deterministic console test on 2026-08-23**
+- Fix evidence: Width-measured impact flow rendering in `lib/basemode/media_overview.dart`; three-effect collision regression asserts separated rows, complete signs/values/percents, and <=80 cells.
 - Evidence:
   `lib/basemode/media_overview.dart:210-238` and
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/media-red.log`
@@ -8525,7 +8530,8 @@ without cross-column collisions.
 - Severity: Low
 - Type: Fixed-console title layout / unbounded stat write
 - Screen: Portuguese title screen → universal Liberal statistics
-- Replay status: **Confirmed by deterministic console test on 2026-08-23**
+- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic console test on 2026-08-23); original: **Confirmed by deterministic console test on 2026-08-23**
+- Fix evidence: Repositioned title stats at `titleStatsRightColumnX` and compacted PT labels; five-digit regression checks complete counts and empty frame cells 78–79 in `test/localization_layout_batch_b_regression_test.dart`.
 - Evidence:
   `lib/title_screen/title_screen.dart:524-550` and
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/red-test.log`
@@ -8558,7 +8564,8 @@ region while preserving the title frame at columns 78–79.
 - Severity: Low
 - Type: Fixed-console high-score layout
 - Screen: Portuguese game-over/high scores → custom squad slogan
-- Replay status: **Confirmed by deterministic runtime test on 2026-08-23**
+- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic runtime test on 2026-08-23); original: **Confirmed by deterministic runtime test on 2026-08-23**
+- Fix evidence: Bounded slogan rendering via `fitConsoleText` in `lib/title_screen/high_scores.dart`; explicit ellipsis/custom-slogan and intact built-in-slogan regressions are in `test/title_screen/high_scores_layout_test.dart`.
 - Evidence:
   `lib/title_screen/high_scores.dart:205-210` and
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-b-20260823/red-test.log`

@@ -75,11 +75,16 @@ void printCreatureInfo(
     params: {"name": localizedCreatureName(cr), "title": cr.title},
   );
   if (cr.isHoldingBody) {
+    final prisoner = cr.prisoner;
     addstr(
-      ", {holding} {hostage}",
+      ", carrying {hostage}",
       params: {
-        "holding": "holding",
-        "hostage": cr.prisoner?.type.hostageName ?? cr.prisoner?.name,
+        "hostage": prisoner == null
+            ? ""
+            : localizedCreatureNameValue(
+                prisoner.name,
+                prisoner.type.hostageName ?? prisoner.type.name,
+              ),
       },
     );
   }

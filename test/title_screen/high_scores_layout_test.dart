@@ -121,4 +121,68 @@ void main() {
       expect(_consoleLine(row).length, lessThanOrEqualTo(console.width));
     }
   });
+
+  test('Portuguese custom high-score slogans are explicitly bounded', () async {
+    const slogan =
+        'Uma palavra de ordem personalizada extremamente longa que precisa '
+        'permanecer legível sem sobrescrever o restante da tela.';
+    final score = HighScore(
+      slogan: slogan,
+      month: 9,
+      year: 2026,
+      statRecruits: 0,
+      statMartyrs: 0,
+      statKills: 0,
+      statKidnappings: 0,
+      statFunds: 0,
+      statSpent: 0,
+      statBuys: 0,
+      statBurns: 0,
+      endType: Ending.medicalSiege,
+    );
+    final highScores = HighScores()..scoreList.add(score);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('scoreVersion', scoreVersion);
+    await prefs.setString('score', jsonEncode(highScores.toJson()));
+
+    console.injectKey('Enter');
+    await viewHighScores(score);
+
+    final boundedSlogan = fitConsoleText(slogan, console.width);
+    expect(boundedSlogan, endsWith('…'));
+    expect(_consoleLine(2), equals(boundedSlogan));
+    expect(_consoleLine(2).length, lessThanOrEqualTo(console.width));
+  });
+
+  test(
+    'short built-in high-score slogans are localized without clipping',
+    () async {
+      const slogan = 'Revolution never comes with a warning!';
+      const localizedSlogan = 'A revolução nunca avisa quando vem!';
+      final score = HighScore(
+        slogan: slogan,
+        month: 9,
+        year: 2026,
+        statRecruits: 0,
+        statMartyrs: 0,
+        statKills: 0,
+        statKidnappings: 0,
+        statFunds: 0,
+        statSpent: 0,
+        statBuys: 0,
+        statBurns: 0,
+        endType: Ending.medicalSiege,
+      );
+      final highScores = HighScores()..scoreList.add(score);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('scoreVersion', scoreVersion);
+      await prefs.setString('score', jsonEncode(highScores.toJson()));
+
+      console.injectKey('Enter');
+      await viewHighScores(score);
+
+      expect(_consoleLine(2), equals(localizedSlogan));
+      expect(_consoleLine(2).length, lessThanOrEqualTo(console.width));
+    },
+  );
 }

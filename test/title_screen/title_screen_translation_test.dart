@@ -46,14 +46,17 @@ void main() {
     expect(console.buffer[23][79].glyph, ' ');
   });
 
-  test('Portuguese universal scores refer to people, not continents', () {
-    expect(
-      LcsI18n.tr('Total Americans Lost: {count}'),
-      equals('Total de Americanos Perdidos: {count}'),
-    );
-    expect(
-      LcsI18n.tr('Total Americans Saved: {count}'),
-      equals('Total de Americanos Salvos: {count}'),
-    );
-  });
+  test(
+    'Portuguese universal scores refer to people and preserve the frame',
+    () {
+      expect(
+        LcsI18n.tr('Total Americans Lost: {count}'),
+        equals('Americanos Perdidos: {count}'),
+      );
+      expect(
+        LcsI18n.tr('Total Americans Saved: {count}'),
+        equals('Americanos Salvos: {count}'),
+      );
+    },
+  );
 }

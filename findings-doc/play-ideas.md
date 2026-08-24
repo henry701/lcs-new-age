@@ -3270,3 +3270,22 @@ routes are optional breadth coverage.
 - R6 demonstrates another natural defeat route distinct from R3 pursuit and R5 bar combat: an armed five-member Washington, DC gang entering the Casa Branca and losing to Secret Service, ending through `Ending.dispersed`.
 - Preserve the exact R6 terminal/title/session evidence; if further breadth is needed, vary only normal founder/site conditions. Do not relabel still-live arrests or police news as terminal. The PT-406 Secret Service role was localized in this replay.
 - Evidence and integrity: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r6/route.md`, `integrity-summary.json`, and `evidence/032-terminal-continued.json`.
+
+## 2026-08-24 — strategy62 Clear Blue Skies route: PT-462 confirmed
+
+- The separate `strategy62-ccs-20260824` Portuguese stock/cheatless route
+  selected `Céu Azul e Límpido`, purchased the natural SEA video studio
+  (`clear-skies/evidence/765-video-studio-purchased.json`), and remained live
+  while attempting ordinary DC-to-SEA relocation. It reached a Nov 2023
+  car-theft/alarm branch, not Liberal Victory or game-over.
+- PT-462 is confirmed: the failed Pickup window branch in
+  `clear-skies/evidence/775-pickup-window-result.json` renders raw English
+  `Galaxina Riffle cracks the window, but it is still somewhat intact.`.
+  Source is `lib/daily/activities/car_theft.dart:157-158`; severity Medium/P2.
+  The line fits the 80-column console, so this is localization-only, not an
+  overflow. `777-pickup-window-result3.json` shows the neighboring success
+  branch localized. A post-fix replay is required before closing PT-462.
+- Integrity: 848 evidence files, 705 structured text captures, max width 80,
+  zero over-wide structured screens; the exact raw-English phrase appears only
+  in capture 775. Preserve this evidence while the isolated fixer verifies the
+  patch; do not edit or classify the shared source from this route.

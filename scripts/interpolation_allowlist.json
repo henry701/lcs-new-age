@@ -874,19 +874,19 @@
     },
     {
       "file": "politics/elections.dart",
-      "line": 264,
+      "line": 265,
       "text": "${votes[party]! ~/ 10}.${votes[party]! % 10}",
       "reason": "Locale-neutral numeric percentage value passed to a complete translated template or diagnostic."
     },
     {
       "file": "politics/elections.dart",
-      "line": 424,
+      "line": 425,
       "text": "${yesvotes ~/ 10}.${yesvotes % 10}",
       "reason": "Locale-neutral numeric percentage value passed to a complete translated template or diagnostic."
     },
     {
       "file": "politics/elections.dart",
-      "line": 442,
+      "line": 443,
       "text": "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}",
       "reason": "Locale-neutral numeric percentage value passed to a complete translated template or diagnostic."
     },

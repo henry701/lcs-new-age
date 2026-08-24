@@ -196,6 +196,7 @@ Future<void> presidentialElection() async {
           "name": nomineeName[party]!,
           "align": LcsI18n.tr(nomineeAlign[party]!.label),
         },
+        noTranslate: true,
       );
     }
 

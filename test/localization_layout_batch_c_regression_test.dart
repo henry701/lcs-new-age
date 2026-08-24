@@ -59,6 +59,14 @@ class _ArraySavePicker extends FilePicker {
 String _consoleLine(int y) =>
     console.buffer[y].map((character) => character.glyph).join().trimRight();
 
+const _expectedPtAlignmentLabels = {
+  DeepAlignment.archConservative: 'Arqui-Conservador',
+  DeepAlignment.conservative: 'Conservador',
+  DeepAlignment.moderate: 'moderado',
+  DeepAlignment.liberal: 'Liberal (pol.)',
+  DeepAlignment.eliteLiberal: 'Liberal de Elite',
+};
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -79,17 +87,16 @@ void main() {
   test('presidential nominee alignment is prose with one separator', () async {
     await LcsI18n.initialize('pt_BR');
     for (final alignment in DeepAlignment.values) {
+      final expectedLabel = _expectedPtAlignmentLabels[alignment]!;
+      expect(LcsI18n.tr(alignment.label), expectedLabel);
+
       final row = LcsI18n.processString('{name}, {align}', {
         'name': 'Alex Roe',
         'align': LcsI18n.tr(alignment.label),
-      });
+      }, noTranslate: true);
 
-      expect(row, startsWith('Alex Roe, '));
-      final ptCatalog =
-          jsonDecode(File('lib/l10n/app_pt_BR_part30.arb').readAsStringSync())
-              as Map<String, dynamic>;
-      expect(ptCatalog['{name}, {align}'], '{name},  {align}');
-      expect(RegExp(r' (?:L\+|C\+|[LmC] )$').hasMatch(row), isFalse);
+      expect(row, 'Alex Roe, $expectedLabel');
+      expect(row.contains(RegExp(r',\s{2,}')), isFalse);
       expect(row.length, lessThanOrEqualTo(console.width));
     }
   });

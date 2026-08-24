@@ -8700,20 +8700,25 @@ an earlier base state. The over-80 high-score row therefore remains pending.
 - Severity: Medium
 - Type: Dynamic parameter / election composition
 - Screen: Portuguese November presidential election → nominee list
-- Replay status: **Reopened (2026-08-24)**
+- Replay status: **Fixed-pending-verify (2026-08-24)**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/capture-004-pt435-election-2028.json` — fresh strict-headless Portuguese 2028 nominees,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-pt435-spacing-20260824/focused-pt435-election.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-pt435-spacing-20260824/flutter-full-test.log`, and
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/tested-build.txt`, and
   `lib/politics/elections.dart:193-199`
-- Independent result: live alignment values are Portuguese (`Arqui-Conservador`, `moderado`),
-  but both nominee rows still contain a doubled comma-space before the alignment. The buffer is
-  25×80 with no bridge errors; the separator defect is not fixed.
+- Independent result: the prior live replay localized alignments correctly but exposed two
+  separator spaces (`Han,  Arqui-Conservador`; `Bárány,  moderado`) on build `2d10f02d`.
 
-- Implementation: Presidential rows now pass `DeepAlignment.label` through
-  `LcsI18n.tr`, and the Portuguese nominee template uses one comma-space.
-- Fix validation: Batch C regressions cover all five alignments, raw-token and
-  doubled-separator rejection, and an 80-column bound.
+- Implementation: The shared nominee call now keeps the already-localized
+  `DeepAlignment.label` parameter and renders its universal `{name}, {align}` structure with
+  `noTranslate: true`; stale translatable catalog variants of that structural template were
+  removed so they cannot reintroduce spacing.
+- Fix validation: Focused and full suites pass. The regression checks each of the five
+  localized alignments as an exact `Alex Roe, <label>` row, rejects consecutive whitespace
+  after the comma, and bounds every row to console width (80 columns). Catalog, interpolation
+  default/all gates, translation coverage (100%), analyze, and full `flutter test` also pass.
 
 ### Reproduction
 
@@ -8724,9 +8729,8 @@ an earlier base state. The over-80 high-score row therefore remains pending.
 
 ### Actual
 
-The row renders `Alex Roe,  L `. The PT value contains two separator spaces,
-and every alignment remains an English-style grid token (`L `, `m `, `C `,
-or `C+`) instead of a localized political label.
+At build `2d10f02d`, the PT catalog doubled the structural separator, producing
+rows such as `Han,  Arqui-Conservador` while alignment text itself was localized.
 
 ### Expected
 
@@ -8735,12 +8739,14 @@ another locale-appropriate candidate qualifier) for each alignment.
 
 ### Independent stock replay steps
 
-1. In a fresh stock Portuguese campaign, advance normally to a November in a
-   year divisible by four.
-2. Capture the three presidential-nominee rows before acknowledging the
-   election prompt.
-3. Require no double separator spaces and no raw `L`, `m`, `C`, or `C+`
-   alignment tokens in the candidate prose.
+1. Check out the fix commit supplied with the verifier handoff and run:
+   `flutter test --plain-name 'presidential nominee alignment is prose with one separator' test/localization_layout_batch_c_regression_test.dart`.
+2. In a fresh stock Portuguese campaign, advance normally to a November in a year divisible by
+   four.
+3. Capture the presidential-nominee rows before acknowledging the election prompt.
+4. Require exactly one comma-space between each exact name and its localized
+   `DeepAlignment.label`, reject `,\s{2,}`, reject raw `L`, `m`, `C`, or `C+` tokens, and keep
+   every captured row within 80 columns.
 
 ## PT-436: Save import picker title remains English
 

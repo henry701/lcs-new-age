@@ -8749,3 +8749,30 @@ reached. Captures and source hashes are under
   buffer captures: height 25, maximum width 80, no over-wide rows, empty
   bridge/browser errors, and no raw English target fragments. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-b-20260823/`.
+## prober-i18n-layout-c route attempts
+- 2026-0824 audit started at origin HEAD a0aa9c79.
+- `find_translatable_strings.dart` mutated catalogs during discovery; restored immediately and did not use its additions as evidence.
+
+## 2026-08-24 — prober i18n/layout C dynamic-composition sweep
+
+- Audited origin HEAD `a0aa9c79`. Catalog validation, interpolation check, and
+  translation-status checks were clean before changes. Scoped extractor dry-runs
+  covered justice/hostage/chase/loot/sleeper/newspaper/politics/travel/editor/
+  save/help/score paths; no new missing PT key was found.
+- Deterministic probes confirmed PT-435 through PT-442: election alignment
+  composition, desktop import title, unbounded import diagnostics, narrow map
+  editor overflow, interrogation article/quoting, ransom gender agreement, and
+  sleeper/president noun agreement.
+- Runtime persistence probe used only wrapper session `prober-layout-c-r1`,
+  strict-headless Chromium, current rebuilt web assets, and localhost port
+  10873. Selecting Portuguese persisted under `flutter.language` and reload
+  restored the PT title. No bridge/runtime errors appeared.
+- Rejected for tickets: scoped extractor false positives (`Unknown`, computed
+  purge headings, numeric/display shells), constitutional Yea/Nay layout,
+  equipment stack labels, high-score ending/date/name rendering already covered,
+  and map validation dialog beyond the filed editor-layout issue.
+- Temporary red/widget tests were copied into the artifact and removed from the
+  checkout; documentation only remains from this prober.
+- Final validation passed: `git diff --check`, ARB catalog check,
+  interpolation check, `flutter analyze`, and six focused localization/layout
+  suites (23 tests).

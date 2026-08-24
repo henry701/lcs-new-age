@@ -2978,3 +2978,38 @@ routes are optional breadth coverage.
   fixed-row overruns, despite appearing in a naive >80-character catalog scan.
 - Direct display interpolations found by AST scan were internal color markup,
   box-drawing repetition, or debug text; no new production i18n leak there.
+
+# 2026-08-24 — prober C follow-ups / rejected candidates
+
+## Routes to verify fixes independently
+
+- PT-435: reach a natural divisible-by-four November presidential election;
+  capture all three nominee rows and reject doubled spaces/raw alignment tokens.
+- PT-436: verify the save-import picker on Windows/Linux, not web; the OS modal
+  title is the target surface.
+- PT-437: import a top-level JSON array naturally, then require wrapped or
+  explicitly ellipsized diagnostics without action-row collision.
+- PT-438: rerun the direct `MapEditorScreen` widget probe at 320×240 and
+  480×320; treat a manual title-flag route as developer-shortcut evidence.
+- PT-439/PT-440: repeat firm interrogation until both the mapped-workplace
+  fallback and each quoted question occur; capture complete paragraphs.
+- PT-441: use a female ransom lead and repeat ordinary ambush outcomes until
+  arrested and narrowly escaped branches render.
+- PT-442: exercise female and nonbinary sleeper exposure, leaks, embezzlement,
+  recruitment, and biometric vault paths; compare articles/nouns by gender.
+
+## Probe-only / rejected
+
+- Scoped static comparison found 1,086 keys with zero missing PT values. The
+  apparent EN gaps for computed purge headings, `Unknown`, and `Error` are
+  catalog asymmetry/extractor context issues, not visible PT leaks.
+- Constitutional vote prompts and Yea/Nay totals localize and stay inside their
+  fixed columns; trailing prompt padding is harmless.
+- Equipment/ammo stack labels (`x{count}`, selection totals) are structural and
+  do not need plural words; loaded-title and cell-fitting coverage already pass.
+- High-score ending/date/name variants remained covered by the existing fitted
+  ending and slogan regressions; no new defect was found.
+- Title language selection persisted as `flutter.language="pt_BR"` and reload
+  restored the Portuguese title in strict-headless runtime r1.
+- Map validation dialog itself added no distinct exception beyond the filed
+  palette/status overflow at the probed widths.

@@ -238,6 +238,15 @@
 | PT-424 | Low | Dialogue layout | Homeless-camp relocation note clips its closing punctuation |
 | PT-425 | Low | Launch layout | Conservative-interruption footers clip the final period |
 
+| PT-435 | Medium | Election translation/composition | Presidential nominees expose compact alignment tokens and a doubled separator |
+| PT-436 | Medium | Save import translation | Native file-picker title remains English in Portuguese mode |
+| PT-437 | Low | Save-import error layout | Long Portuguese error diagnostics are silently clipped without wrapping or ellipsis |
+| PT-438 | Medium | Map-editor widget layout | Narrow map editors overflow palette chips and the hover/status bar |
+| PT-439 | Medium | Interrogation interpolation | Workplace interrogation leaks the raw English article `the ` into Portuguese |
+| PT-440 | Low | Interrogation punctuation | Interrogation questions render with spaces inside quotation marks |
+| PT-441 | Medium | Ransom gender agreement | Female ransom leads receive masculine arrest participles |
+| PT-442 | Medium | Sleeper/president gender agreement | Female and nonbinary sleeper/president messages use masculine agent/president nouns |
+
 ## PT-001: Save-management option is clipped
 
 - Severity: High
@@ -8637,3 +8646,307 @@ remain intact.
 2. Capture the high-score slogan row immediately after the screen opens.
 3. Require the visible slogan to be deliberately bounded with an ellipsis (or
    occupy reserved wrapped rows) and remain within columns 0–79.
+
+## PT-435: Presidential nominees expose untranslated alignment shorthand
+
+- Severity: Medium
+- Type: Dynamic parameter / election composition
+- Screen: Portuguese November presidential election → nominee list
+- Replay status: **Confirmed by deterministic template capture on 2026-08-24**
+- Evidence:
+  `lib/politics/elections.dart:193-199`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/scoped-untranslated-candidates.json`
+
+### Reproduction
+
+1. Initialize `pt_BR`.
+2. Render the candidate shell exactly as the election loop does with
+   `{name}` set to a generated nominee and `{align}` set from
+   `DeepAlignment.liberal.veryShort`.
+
+### Actual
+
+The row renders `Alex Roe,  L `. The PT value contains two separator spaces,
+and every alignment remains an English-style grid token (`L `, `m `, `C `,
+or `C+`) instead of a localized political label.
+
+### Expected
+
+Use one comma-space separator and a full Portuguese alignment description (or
+another locale-appropriate candidate qualifier) for each alignment.
+
+### Independent stock replay steps
+
+1. In a fresh stock Portuguese campaign, advance normally to a November in a
+   year divisible by four.
+2. Capture the three presidential-nominee rows before acknowledging the
+   election prompt.
+3. Require no double separator spaces and no raw `L`, `m`, `C`, or `C+`
+   alignment tokens in the candidate prose.
+
+## PT-436: Save import picker title remains English
+
+- Severity: Medium
+- Type: Missing translation / native platform dialog
+- Screen: Portuguese title → import save → desktop file picker
+- Replay status: **Confirmed by source/catalog audit on 2026-08-24**
+- Evidence:
+  `lib/saveload/save_load.dart:418-424`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/scoped-dry-run.log`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/scoped-untranslated-candidates.json`
+
+### Reproduction
+
+Initialize `pt_BR` and inspect the literal passed to
+`FilePicker.platform.pickFiles(dialogTitle:)`.
+
+### Actual
+
+The literal is `Select an LCS: New Age Save File`; it has neither an English
+canonical entry nor a Portuguese catalog entry. On Windows/Linux desktops this
+raw English becomes the modal picker title while the surrounding game is
+Portuguese.
+
+### Expected
+
+Pass the dialog title through the locale boundary so supported desktop platforms
+render natural Portuguese such as `Selecionar um arquivo de salvamento do LCS:
+New Age`. Where a platform ignores titles, retain the translated call boundary.
+
+### Independent stock replay steps
+
+1. Run a Portuguese-capable desktop build (not web) at current HEAD.
+2. Select `I - Importar um salvamento` and observe the OS file-picker title.
+3. Require Portuguese wording and reject the exact English source title.
+   Browser-only verification is insufficient because file-picker titles are
+   platform-dependent.
+
+## PT-437: Save-import errors clip without a width-safe renderer
+
+- Severity: Low
+- Type: Fixed-console error layout / diagnostics
+- Screen: Portuguese title → import save → malformed save error
+- Replay status: **Confirmed by deterministic runtime test on 2026-08-24**
+- Evidence:
+  `lib/saveload/save_load.dart:437-445`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/save-import-error-probe.log`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/save_import_error_probe_tmp_test.dart`
+
+### Reproduction
+
+Initialize `pt_BR`, invoke `importSave` with a JSON array file (not a save
+object), acknowledge the result screen, then inspect console row 1.
+
+### Actual
+
+The rendered diagnostic exceeds one row and is silently cut at column 79. In the
+probe it ends `... subtype of type 'Map'` with no ellipsis or continuation,
+hiding the rest of the type error directly above action rows 3–4.
+
+### Expected
+
+Wrap the complete diagnostic across reserved rows or fit it with an explicit
+ellipsis while keeping action options visible; preserve as much actionable
+detail as possible within 25×80.
+
+### Independent stock replay steps
+
+1. In a fresh Portuguese session, choose normal save import and select a valid
+   JSON file whose top-level value is an array rather than a save object.
+2. Capture console row 1 immediately after the error screen opens.
+3. Require deliberate wrapping or an explicit ellipsis, no collision with rows
+   3–4, and no silent loss of the final clause.
+
+## PT-438: Narrow map editor overflows palette and status widgets
+
+- Severity: Medium
+- Type: Flutter widget layout / modding tools
+- Screen: Portuguese map editor at narrow viewport → palette, hover/status, preview
+- Replay status: **Confirmed by deterministic widget tests on 2026-08-24**
+- Evidence:
+  `lib/map_editor/map_editor_screen.dart:483-516`,
+  `lib/map_editor/tile_palette.dart:120-145 and 267-292`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/map-status-probe.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/map-validation-probe.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/map_status_probe_tmp_test.dart`
+- Shortcut note: the public title route requires the development map-editor
+  flag; the canonical evidence calls the public `MapEditorScreen` directly and
+  does not alter production state. A manual replay using that flag is therefore
+  developer-shortcut evidence, not stock campaign evidence.
+
+### Reproduction
+
+Initialize `pt_BR`, pump `MapEditorScreen(directLaunch: true)` at 320×240, load
+the bank map, and set hover to a special tile. Also pump the same screen at
+480×320 and inspect the non-preview status row.
+
+### Actual
+
+At 320×240 the test records 32 rendering exceptions. Palette chip rows overflow
+by up to 264px, the hover/status row overflows by 403px, and the root column
+overflows by 77px. At 480×320 the status row still overflows by 243px. Yellow
+overflow stripes make the tool difficult to use and can push the status bar out
+of view.
+
+### Expected
+
+Constrain and wrap or scroll palette chips, give the hover text a bounded/flex
+child, and reserve enough vertical space (or make the editor scrollable) so all
+localized status text remains visible without RenderFlex exceptions at narrow
+sizes.
+
+### Independent verifier replay
+
+1. Run the focused temporary widget probe copied under the artifact `tests/`
+   directory against current HEAD; require zero render exceptions at 320×240.
+2. For manual confirmation, build with the existing debug map-editor flag enabled
+   and mark that portion shortcut-only: open Mod Tools at 320×240 and 480×320,
+   hover a special tile, and screenshot the palette/status overflow.
+
+## PT-439: Interrogation workplace sentence leaks English `the`
+
+- Severity: Medium
+- Type: Raw parameter interpolation / interrogation translation
+- Screen: Portuguese hostage interrogation → hostage discusses mapped/no-new-info workplace
+- Replay status: **Confirmed by deterministic runtime capture on 2026-08-24**
+- Evidence:
+  `lib/daily/hostages/interrogate.dart:99-111`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/batch_c_red_probe_tmp_test.dart`
+
+### Reproduction
+
+Initialize `pt_BR` and process the generic workplace template exactly as the
+source does, passing `"the "` as `{article}` and a localized site name as
+`{location}`.
+
+### Actual
+
+The output is `Jamie Doe fala sobre the Centro Médico UW, ...` rather than a
+Portuguese article/contraction. The source hard-codes an English display value
+instead of selecting a locale-aware article.
+
+### Expected
+
+Remove the raw article parameter and use a complete locale-aware template or a
+Portuguese preposition/article helper (`sobre o`, `sobre a`, `sobre`), preserving
+correct grammar for site/district/city names.
+
+### Independent stock replay steps
+
+1. Start a fresh Portuguese campaign and recruit/take a hostage whose workplace
+   is already mapped or otherwise takes the “doesn’t seem to know anything new”
+   branch.
+2. Choose firm interrogation until the generic workplace discussion renders.
+3. Capture the paragraph and reject raw `the ` immediately before the location.
+
+## PT-440: Interrogation questions have spaces inside quotation marks
+
+- Severity: Low
+- Type: Punctuation / nested-parameter composition
+- Screen: Portuguese hostage interrogation → firm interrogation prompt
+- Replay status: **Confirmed by deterministic runtime capture on 2026-08-24**
+- Evidence:
+  `lib/daily/hostages/interrogate.dart:23-48`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/batch_c_red_probe_tmp_test.dart`
+
+### Reproduction
+
+Initialize `pt_BR` and render the firm-interrogation template with the `saying`
+action and `What do you know?` question.
+
+### Actual
+
+The output is
+`Alex Roe interroga Jamie Doe, dizendo " O que você sabe? "`. The PT shell adds
+a space just inside each quotation mark.
+
+### Expected
+
+Render `dizendo "O que você sabe?"` with punctuation attached to the quoted
+question for every action/question variant.
+
+### Independent stock replay steps
+
+1. In a fresh Portuguese campaign, assign an interrogator and hostage to firm
+   interrogation.
+2. Advance until the daily interrogation narration uses any quoted question.
+3. Capture the message and require no space between either quotation mark and
+   the enclosed question.
+
+## PT-441: Female ransom leads get masculine arrest participles
+
+- Severity: Medium
+- Type: Gender agreement / ransom outcome translation
+- Screen: Portuguese ransom pickup ambush → female lead arrested/narrow escape
+- Replay status: **Confirmed by deterministic template capture on 2026-08-24**
+- Evidence:
+  `lib/daily/hostages/ransom.dart:408-465`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/batch_c_red_probe_tmp_test.dart`
+
+### Reproduction
+
+Initialize `pt_BR`, compose `{subject} {action}.` with subject `Ela` and action
+`is quickly overwhelmed and arrested`, exactly as the ransom path composes its
+translated fragments.
+
+### Actual
+
+The sentence reads `ela é rapidamente dominado e preso.` Both participles remain
+masculine even though the subject pronoun identifies a female lead.
+
+### Expected
+
+Make the translated outcome agree with the lead’s gender (and support nonbinary
+wording consistently), across all arrest, custody, struggle, and escape
+participles.
+
+### Independent stock replay steps
+
+1. Run a fresh Portuguese route in which a female Liberal has sufficient street
+   smarts to become the ransom pickup lead.
+2. Repeat ordinary ransom-response pickups until an arrest branch occurs.
+3. Capture the outcome paragraph and reject masculine participles after `Ela`;
+   repeat narrowly escaped variants when RNG allows.
+
+## PT-442: Sleeper and President nouns force masculine agreement
+
+- Severity: Medium
+- Type: Generated noun gender agreement
+- Screen: Portuguese monthly sleepers → exposure, leak, embezzlement, recruitment, vault
+- Replay status: **Confirmed by deterministic template capture on 2026-08-24**
+- Evidence:
+  `lib/monthly/sleeper_update.dart:300-321, 365-383, 565-575, and 889-907`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/batch_c_red_probe_tmp_test.dart`
+
+### Reproduction
+
+Initialize `pt_BR` and render the existing sleeper templates with a feminine
+name such as `Jamie Doe`; separately render impeachment with that name.
+
+### Actual
+
+Templates render `O agente infiltrado Jamie Doe ...` and
+`O presidente Jamie Doe ...`. The same masculine nouns are reused for female and
+nonbinary agents/presidents in exposure, leaks, embezzlement, recruitment, and
+biometric-vault copy.
+
+### Expected
+
+Introduce a shared locale-aware agent/president noun phrase keyed to creature
+gender, producing forms such as `A agente infiltrada`, a project-approved nonbinary
+agent form, and `A presidente` as applicable.
+
+### Independent stock replay steps
+
+1. In separate fresh Portuguese campaigns, obtain female and nonbinary sleeper
+   agents (and, if reachable through ordinary progression, a female/nonbinary
+   President).
+2. Assign Uncover Secrets, Embezzle Funds, Expand Network, and biometric/vault
+   actions; allow exposure/leak outcomes naturally.
+3. Capture each monthly result and require the article/noun phrase to match the
+   agent’s gender rather than always using the masculine form.

@@ -8999,3 +8999,10 @@ reached. Captures and source hashes are under
   purge, or failed-car-search branches. Those reachability limits remain
   explicit; the current-head deterministic render tests are the verification
   evidence rather than fabricated live captures.
+
+## 2026-08-24 — Strategy63 r5 bar-security combat terminal (isolated replay)
+
+- Fresh isolated detached build at `4c4bbf761ffc0397197ed1cdd04ad696064d213e`; strict headless server `127.0.0.1:14665`, session `s63r5`, namespace `s63r5ns`. The earlier r3/r4 sessions and worktrees remained live and untouched.
+- This route materially differed from the prior founder → sports-car → pursuit and police-station pressure routes: Portuguese stock setup, active CCS, zipper combat, fate-selected Tawanda Channing, no weapon, and Seattle `Desert Eagle Bar e Grill` security combat.
+- The bouncer generated `Habitante do Interior` with `.44 Magnum` and `Fazendeiro` with `AR-15`. Repeated natural `F` combat killed the founder; `C - Reflita` reached the literal game-over screen at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r5/evidence/025-terminal.json`: `A Elite Liberal` and `O Esquadrão do Crime Liberal foi morto em combate em Janeiro de 2023.` The Portuguese title after Enter is captured at `evidence/026-after-terminal.json`.
+- 67 object captures were retained. All buffers had 25 rows and maximum width 80; zero over-wide rows, bridge errors, empty/invalid captures, or post-locale raw-English pattern hits. No new ticket was confirmed. Artifact root: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r5/`.

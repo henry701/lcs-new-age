@@ -3166,3 +3166,9 @@ routes are optional breadth coverage.
   weapons again, continue police/gang pressure, or broaden month-end/legal
   coverage. Artifact root:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy59-distinct-terminal-20260824/`.
+
+## 2026-08-24 — Strategy63 r5 terminal route follow-up
+
+- The bar-security route provides a reproducible natural terminal distinct from the prior pursuit and police-station routes: a fate-selected unarmed founder can die to the two-conservative `Desert Eagle Bar e Grill` encounter under zipper combat. Preserve the live terminal/title session and the exact capture before attempting any new variation.
+- If additional combat breadth is needed, vary only normal founder fate/origin or destination after saving the current evidence; do not relabel the r4 arrest/trial branch as game-over. Current r5 integrity is clean: 67 captures, 25 rows, max width 80, zero post-locale raw-English hits, no ticket.
+- Evidence and integrity artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r5/route.md`, `integrity-summary.json`, and `evidence/025-terminal.json`.

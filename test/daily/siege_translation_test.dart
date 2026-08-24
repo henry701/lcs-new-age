@@ -167,6 +167,42 @@ void main() {
     );
   });
 
+  test('Portuguese rare siege and interview templates stay localized', () {
+    const templates = {
+      'Hidden locations cannot be directly attacked until they are revealed by finding a CCS member in that city and either turning them to your cause, or capturing and interrogating them for information.':
+          'Locais ocultos não podem ser atacados diretamente',
+      "The Conservative Crime Squad doesn't usually advertise its members, but they can be found in cities where the CCS is active. CCS members often have clothing and weapons that don't match their cover identities.":
+          'O Esquadrão do Crime Conservador geralmente não anuncia',
+      'In a groundbreaking act of synergy, the Corporations have decided to diversify their operations into a micro-targeted deplatforming campaign with the goal of downsizing the LCS into a fine red mist.':
+          'Em um ato inovador de sinergia',
+      'Leveraging their unparalleled expertise in tactical engagement and displacement logistics, a globally recognized private military company has initiated a daylight operation against the {location} to seamlessly deliver live munitions into your skull.':
+          'Valendo-se de sua experiência incomparável',
+      'A loosely-organized column of pickup trucks sporting gun racks and Confederate flags is approaching the {location}.':
+          'Uma coluna pouco organizada de picapes',
+      'Overnight, a fringe far-right social media account published a detailed conspiracy theory about a building where an enclave of hundreds of Liberal elites were supposedly generating forgeries, deepfakes, and committing unspeakable crimes against innocent children.':
+          'Durante a noite, uma conta de mídia social de extrema-direita',
+      'Rallied by misguided calls to violence that swept through social media, the Conservative masses are pouring into {district} to assault the {location}!':
+          'Reunidas por apelos equivocados à violência',
+      '{journalist} canceled the interview halfway through and later used the material for a Broadway play called {playName}.':
+          'cancelou a entrevista no meio',
+    };
+
+    for (final entry in templates.entries) {
+      final rendered = LcsI18n.processString(entry.key, {
+        'location': 'o Antigo Motel',
+        'district': 'Centro de Seattle',
+        'journalist': 'Joyce Storm',
+        'playName': 'A Grande Farsa',
+      });
+
+      expect(rendered, contains(entry.value), reason: entry.key);
+      expect(rendered, isNot(contains('groundbreaking act of synergy')));
+      expect(rendered, isNot(contains('Leveraging their unparalleled')));
+      expect(rendered, isNot(contains('loosely-organized column')));
+      expect(rendered, isNot(contains('Broadway play called')));
+    }
+  });
+
   test('Portuguese elite journalist copy agrees with every outlet type', () {
     const template =
         'Elite Journalist {journalist} from the {newsType} {publication} '

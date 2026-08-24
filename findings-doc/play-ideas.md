@@ -3147,3 +3147,19 @@ routes are optional breadth coverage.
 - Prison labor/rehab showed a possible double-render in source review, but the
   branch was not isolated deterministically this pass; keep it out of confirmed
   findings until reproduced.
+
+## 2026-08-24 — strategy59 resumable combat-pressure checkpoint
+
+- Distinct from prior long nonviolent routes: ordinary police-station fights
+  caused wounds, member death, two arrests, newspapers, courts, guilty pleas,
+  and prison, all without cheats or imports. Survival remained viable, so this
+  is honestly still-live rather than a manufactured terminal.
+- Resume evidence: strict-headless session `str59-a`, namespace `strategy59`,
+  URL `http://127.0.0.1:18765/?playtest=1`, gameId `3377139`, checkpoint
+  `SEA — Sem-teto, 1 Aug 2023`. Active squad is `Coverage59` with Winifred;
+  Lindsey is alive/unassigned and Patton is dead.
+- Keep the browser/server alive because the unfinished headless IndexedDB state
+  is part of the checkpoint. Next pass can reform Lindsey into the squad, buy
+  weapons again, continue police/gang pressure, or broaden month-end/legal
+  coverage. Artifact root:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy59-distinct-terminal-20260824/`.

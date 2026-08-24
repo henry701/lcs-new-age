@@ -9816,3 +9816,49 @@ justice. Correct the source grammar without changing plural behavior.
 2. Press `C` and inspect row 2 above the listed justice.
 3. Reject masculine `ex-cidadão` for a female/nonbinary sole justice and verify
    the following paragraph remains grammatical.
+
+## PT-460: Knife melee prose leaks English `lunges at`
+
+- Severity: Medium
+- Type: Missing dynamic attack-description translation / spacing
+- Screen: Portuguese site combat → knife melee round
+- Replay status: **Confirmed in the stock isolated `b749efe3` snapshot; the missing catalog keys and PT double-space shell remain visible at fetched origin `d06bbe8`**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy59-distinct-terminal-20260824/evidence/124-police-combat3.json`,
+  `evidence/133-police-combat12.json`,
+  `evidence/135-police-combat14.json`, and
+  `evidence/integrity-summary.json`
+- Source trace: `assets/xml/weapons.xml`, `lib/items/weapon_type_xml.dart`,
+  `lib/sitemode/fight.dart`, and `lib/l10n/app_pt_BR_part07.arb`.
+
+### Reproduction
+
+Initialize `pt_BR`, enter a police station with a home-made-knife squad, move
+adjacent to officers, and press `F` repeatedly until the weapon selects its
+`lunges at` attack description.
+
+### Actual
+
+The otherwise Portuguese combat line renders raw XML copy, for example:
+
+`Patton Meir lunges at Oficial de Polícia com Faca caseira!`
+
+The related dodge line uses the PT shell `"{name} {action}" ->
+"{name}  {action}"`; because the translated action begins with a space, the
+rendered result contains two spaces (`Winifred Keitel  desvia o ataque!`).
+
+### Expected
+
+Canonicalize every XML attack-description phrase, including `lunges at` and
+`snarls and lunges at`, in both catalogs and route it through the standard
+translator. Normalize the name/action composition so localized actions receive
+exactly one visual space without regressing width or punctuation.
+
+### Independent stock replay steps
+
+1. Start a fresh Portuguese campaign, recruit/equip normally, and visit
+   `Centro de Seattle → Delegacia de Polícia`.
+2. Enter the site, stall until officers arrive, and fight adjacent officers.
+3. Inspect row 10 when a knife attack uses `lunges at`; reject raw English.
+4. Continue until an officer dodges; require exactly one space before
+   `desvia o ataque!`, `faz a esquiva Matrix!`, and sibling variants.

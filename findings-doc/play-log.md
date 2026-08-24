@@ -8895,3 +8895,34 @@ reached. Captures and source hashes are under
 - Focused red evidence passed as current-behavior assertions before its
   temporary repository file was removed. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/`.
+
+## 2026-08-24 — playtester strategy59 ordinary combat pressure
+
+- Built isolated web snapshot `b749efe355b3c1e2cdb3feaa57bb11190f7ddcd5` with
+  Flutter 3.35.4 after confirming that SHA matched pushed
+  `origin/feature/localization` at run start. Served only that snapshot on
+  loopback port `18765` with `/?playtest=1`.
+- Used fresh strict-headless wrapper session `str59-a` (namespace
+  `strategy59`; UA `HeadlessChrome/150.0.0.0`) with bridge keys only. No cheats,
+  debug fixtures, save imports, headed Chrome/CDP, runtime source edits, or
+  production changes.
+- Created a fresh Portuguese Changing Times/Bad Blood campaign. Bought a .45
+  pistol/ammo at the pawn shop, recruited Patton Meir and Winifred Keitel from
+  the drug house through ordinary meetings, formed squads, explored maps,
+  equipment, assignment options, media, agenda, sleepers, newspapers, trials,
+  prison, and interface options.
+- First three-member police fight produced wounds, Patton's natural death,
+  Winifred carrying him, arrest, newspaper coverage, acquittals, and return to
+  base. A later founder/Winifred police fight ended in another natural arrest;
+  both pleaded guilty, served sentences, and returned by 1 Aug 2023.
+- Performed two genuine durability checks with lowercase `x`, IndexedDB/
+  localStorage metadata, same-session reload, lowercase `c`: gameId `3377139`
+  restored the January equipment/date and later restored the August checkpoint.
+- The campaign remains live at SEA — Sem-teto on 1 Aug 2023 with Winifred active
+  in `Coverage59`; Lindsey is alive but unassigned and Patton is dead. No ending
+  was fabricated, so verdict is **still-live with checkpoint**, not game-over.
+- Machine integrity scanned 391 numbered gameplay buffers: all nonempty, height
+  25, maximum width <=80, no over-wide rows/collision suspects, and empty
+  buffer/browser-error checks. Raw scan found six `lunges at` hits; filed as
+  PT-460 with double-space evidence. Integrity/artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy59-distinct-terminal-20260824/`.

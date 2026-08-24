@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/i18n/untranslated_logger.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 
@@ -316,6 +317,16 @@ class LcsI18n {
     String? context,
     bool noTranslate = false,
   }) => translate(englishText, context: context, noTranslate: noTranslate);
+
+  /// Translates a phrase with a gender-specific catalog variant.
+  ///
+  /// The English catalog stores the same visible text for each variant, which
+  /// lets gendered locales agree articles, nouns, and participles without
+  /// scattering gender switches through gameplay code.
+  static String trGendered(String englishText, {required Gender gender}) =>
+      _currentLocale == 'en_US'
+      ? translate(englishText)
+      : translate('$englishText (${gender.simplified.translationVariant})');
 
   static String translatePronoun(String pronoun, {required PronounRole role}) {
     if (_currentLocale == 'en_US') {

@@ -278,5 +278,6 @@
   "{possessive} ribs were sticking out of {possessive} chest": "as costelas {possessive} ficassem expostas no peito {possessive}",
   "{recruiter} accidentally missed the meeting with {recruit}": "{recruiter} perdeu acidentalmente a reunião com {recruit}",
   "{recruiter} explains {gender} views on {law}.": "{recruiter} explica as visões {gender} sobre {law}.",
-  "{recruit} is skeptical about some of {recruiter}'s arguments.": "{recruit} é cético em relação a alguns dos argumentos de {recruiter}."
+  "{recruit} is skeptical about some of {recruiter}'s arguments.": "{recruit} é cético em relação a alguns dos argumentos de {recruiter}.",
+  "{role} {name} has been impeached for corruption.": "{role} {name} sofreu impeachment por corrupção."
 }

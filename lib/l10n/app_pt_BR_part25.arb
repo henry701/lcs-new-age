@@ -161,6 +161,7 @@
   "cap on how much you can learn. People with higher skill caps ": "limite de quanto você pode aprender. Pessoas com limites de habilidade mais altos ",
   "destroy the Capitol Building": "destruir o Capitólio",
   "dies.": "morreu.",
+  "finds a way to escape despite {possessive} mistakes (male)": "encontra um jeito de escapar apesar dos erros {possessive}",
   "firing squad": "esquadrão de fuzilamento",
   "hot date": "encontro",
   "identifies the weak point in their perimeter and exploits it": "identifica o ponto fraco no perímetro deles e o explora",
@@ -168,6 +169,7 @@
   "in the bugfield!": "no Campo de Bugs!",
   "increase a child's attention span": "aumentar o período de atenção de uma criança",
   "intelligence officials seemed very nervous about something.": "oficiais de inteligência pareciam muito nervosos sobre alguma coisa.",
+  "is completely boxed in and has no choice but to surrender (nonbinary)": "fica completamente encurralade e não tem escolha a não ser se render",
   "looks startled": "parece assustada",
   "methamphetamine": "metanfetamina",
   "nnBe on guard for retaliation.  These guys REALLY don't like to lose...": "nn Esteja atento a retaliações.  Esses caras REALMENTE não gostam de perder...",
@@ -232,5 +234,6 @@
   "{pName} realizes {heshe} has committed to eating {count} meals at once. Things go downhill fast.": "{pName} percebe que {heshe} se comprometeu a comer {count} refeições de uma vez. Tudo desanda rapidamente.",
   "{possessive} arm was broken in multiple places": "o braço {possessive} fosse quebrado em vários lugares",
   "{properName}, aka {name}, is arrested.": "As autoridades prendem {properName}, vulgo {name}.",
+  "{role} {name} can handle the biometrics, ": "{role} {name} pode lidar com a biometria, ",
   "{vehicle} draws dangerously close!": "{vehicle} se aproxima perigosamente!"
 }

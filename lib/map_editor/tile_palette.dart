@@ -138,11 +138,15 @@ class _TilePaletteState extends State<TilePalette> {
               color: active ? color : editorTextTertiary,
             ),
             const SizedBox(width: 6),
-            Text(
-              LcsI18n.tr(label),
-              style: TextStyle(
-                color: active ? editorTextPrimary : editorTextSecondary,
-                fontSize: 13,
+            Flexible(
+              child: Text(
+                LcsI18n.tr(label),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: active ? editorTextPrimary : editorTextSecondary,
+                  fontSize: 13,
+                ),
               ),
             ),
           ],
@@ -290,11 +294,15 @@ class _TilePaletteState extends State<TilePalette> {
               ),
             ),
             const SizedBox(width: 7),
-            Text(
-              LcsI18n.tr(brush.label),
-              style: TextStyle(
-                color: active ? editorAccent : editorTextPrimary,
-                fontSize: 13,
+            Flexible(
+              child: Text(
+                LcsI18n.tr(brush.label),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: active ? editorAccent : editorTextPrimary,
+                  fontSize: 13,
+                ),
               ),
             ),
           ],

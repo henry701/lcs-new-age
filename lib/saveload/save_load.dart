@@ -420,7 +420,7 @@ Future<SaveFile?> importSave() async {
     type: FileType.custom,
     allowedExtensions: ["json"],
     withData: true,
-    dialogTitle: "Select an LCS: New Age Save File",
+    dialogTitle: LcsI18n.tr("Select an LCS: New Age Save File"),
   );
   if (result != null) {
     Uint8List fileBytes = result.files.single.bytes!;
@@ -436,10 +436,9 @@ Future<SaveFile?> importSave() async {
       return saveFile;
     } catch (e) {
       erase();
-      mvaddstrc(
+      addparagraph(
         1,
         1,
-        lightGray,
         "Error importing save: {error}",
         params: {"error": e.toString()},
       );

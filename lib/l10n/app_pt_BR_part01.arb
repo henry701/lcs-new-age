@@ -240,6 +240,7 @@
   "{name}, you are sentenced to DEATH!": "{name}, você foi condenado à MORTE!",
   "{pronoun} cellphone": "o celular {pronoun}",
   "{rations} Daily Rations": "{rations} Rações diárias",
+  "{role} {name} is under too much pressure to leak.": "{role} {name} está sob pressão demais para vazar.",
   "{squad} couldn't afford to travel to {site}.": "{squad} não pôde pagar para viajar para {site}.",
   "{vehicle} can't keep up and disappears from view.": "{vehicle} não consegue acompanhar e some de vista."
 }

@@ -183,8 +183,11 @@ Future<void> specialBouncerAssessSquad() async {
     encounter[0] = sleeper;
     levelMap[locx][locy][locz].special = TileSpecial.none;
     await encounterMessage(
-      "Sleeper {name} smirks and lets the squad in.",
-      params: {"name": sleeper.name},
+      "{role} {name} smirks and lets the squad in.",
+      params: {
+        "role": LcsI18n.trGendered("Sleeper", gender: sleeper.gender),
+        "name": sleeper.name,
+      },
     );
   } else {
     levelMap[locx][locy][locz].special = TileSpecial.clubBouncerSecondVisit;
@@ -2218,9 +2221,12 @@ Future<void> specialBankVault() async {
         p.sleeperAgent &&
         p.base == activeSite) {
       await encounterMessage(
-        "Sleeper {name} can handle the biometrics, ",
+        "{role} {name} can handle the biometrics, ",
         line2: "but you'll still have to crack the other locks.",
-        params: {"name": p.name},
+        params: {
+          "role": LcsI18n.trGendered("Sleeper", gender: p.gender),
+          "name": p.name,
+        },
       );
       break;
     }
@@ -2292,9 +2298,12 @@ Future<void> specialBankVault() async {
           p.sleeperAgent &&
           p.type.id == CreatureTypeIds.bankManager) {
         await encounterMessage(
-          "Sleeper {name} opens the vault, ",
+          "{role} {name} opens the vault, ",
           line2: "and will join the active LCS to avoid arrest.",
-          params: {"name": p.name},
+          params: {
+            "role": LcsI18n.trGendered("Sleeper", gender: p.gender),
+            "name": p.name,
+          },
         );
         canbreakin = true;
         p.location = p.base = squad[0].base;

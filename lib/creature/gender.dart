@@ -29,9 +29,7 @@ enum Gender {
   /// Portuguese noun phrase rather than the bare `man`/`woman` label.
   String get manWomanWithIndefiniteArticle => switch (this) {
     Gender.nonbinary => 'a friend',
-    Gender.male ||
-    Gender.whiteMalePatriarch ||
-    Gender.maleBias => 'a man',
+    Gender.male || Gender.whiteMalePatriarch || Gender.maleBias => 'a man',
     Gender.female || Gender.femaleBias => 'a woman',
   };
 
@@ -44,6 +42,23 @@ enum Gender {
       Gender.female || Gender.femaleBias => Gender.female,
     };
   }
+
+  /// Stable qualifier used by contextual catalog keys for grammatical
+  /// agreement. English values collapse to one canonical form while gendered
+  /// locales can select distinct article/noun/participle variants.
+  String get translationVariant => switch (this) {
+    Gender.nonbinary => 'nonbinary',
+    Gender.female || Gender.femaleBias => 'female',
+    Gender.male || Gender.whiteMalePatriarch || Gender.maleBias => 'male',
+  };
+
+  /// Portuguese-style adjective/participle ending used by templates that need
+  /// predicate agreement after an already-localized noun phrase.
+  String get adjectiveEnding => switch (this) {
+    Gender.nonbinary => 'e',
+    Gender.female || Gender.femaleBias => 'a',
+    Gender.male || Gender.whiteMalePatriarch || Gender.maleBias => 'o',
+  };
 }
 
 Gender forceGenderBinary(Gender gender) {

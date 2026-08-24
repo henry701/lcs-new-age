@@ -206,6 +206,8 @@
   "hosts a \"paint your feelings\" session for {hostage}, where {hostagePronoun} ": "hospeda uma sessão \"pinte seus sentimentos\" para {hostage}, onde {hostagePronoun}",
   "housing": "moradia",
   "invent a new form of energy that would make the world a better place": "inventar uma nova forma de energia que tornaria o mundo um lugar melhor",
+  "is caught in the act of trying to escape (female)": "é pega em flagrante tentando escapar",
+  "is caught in the act of trying to escape (nonbinary)": "é pege em flagrante tentando escapar",
   "is too high!": "foi alto demais!",
   "killed {count} and wounded dozens more": "matado {count} e ferido dezenas de outras pessoas",
   "looks at {lead} with a mix of emotions.": "olha para {lead} com uma mistura de emoções.",
@@ -276,5 +278,6 @@
   "{name}'s {article} about this gets more views than usual. ": "{article} de {name} sobre isso recebe mais visualizações que o normal. ",
   "{pronounCap} can maintain {relationshipCount} more {relationshipLabel}, and has {dateCount} {dateLabel} lined up.": "{pronounCap} pode manter mais {relationshipCount} {relationshipLabel} e tem {dateCount} {dateLabel} marcados.",
   "{recruits} Recruits / {max} Max": "{recruits} Recrutas / {max} Máx",
+  "{role} {name} has embezzled {amount}.": "{role} {name} desviou {amount}.",
   "{vehicle}'S DRIVER IS DEAD!": "MOTORISTA DO {vehicle} ESTÁ MORTO!"
 }

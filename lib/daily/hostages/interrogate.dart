@@ -1,3 +1,4 @@
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
@@ -96,16 +97,14 @@ Future<void> handleFirmInterrogation(
         workSite.mapped = true;
         workSite.hidden = false;
       } else {
-        String the = cr.workLocation is Site ? "the " : "";
         addparagraph(
           y,
           0,
           LcsI18n.processString(
-            "{name} talks about {article}{location}, though it doesn't seem like {pronoun} knows anything new.",
+            "{name} talks about {location}, though it doesn't seem like {pronoun} knows anything new.",
             {
               "name": cr.name,
-              "article": the,
-              "location": cr.workLocation.name,
+              "location": localizedAboutLocation(cr.workLocation),
               "pronoun": cr.gender.heShe,
             },
           ),

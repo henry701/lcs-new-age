@@ -98,36 +98,139 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: editorBg,
-      body: SafeArea(
-        child: Focus(
-          focusNode: focusNode,
-          autofocus: true,
-          onKeyEvent: _onKey,
-          child: Column(
-            children: [
-              _live(_topBar),
-              _live(_toolStrip),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  color: editorBg,
-                  padding: const EdgeInsets.all(10),
-                  child: MapCanvas(controller, _transform),
-                ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Keep the map canvas alive as a flexible sibling even in tiny windows;
+        // the palette shrinks instead of forcing the root column to overflow.
+        final double paletteHeight = (constraints.maxHeight * 0.36).clamp(
+          48.0,
+          176.0,
+        );
+        return Scaffold(
+          backgroundColor: editorBg,
+          body: SafeArea(
+            child: Focus(
+              focusNode: focusNode,
+              autofocus: true,
+              onKeyEvent: _onKey,
+              child: Column(
+                children: [
+                  _live(_topBar),
+                  _live(_toolStrip),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      color: editorBg,
+                      padding: const EdgeInsets.all(10),
+                      child: MapCanvas(controller, _transform),
+                    ),
+                  ),
+                  Container(
+                    height: paletteHeight,
+                    width: double.infinity,
+                    color: editorPanelBg,
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                    child: _live(_palette),
+                  ),
+                  _live(_statusBar),
+                ],
               ),
-              Container(
-                height: 176,
-                width: double.infinity,
-                color: editorPanelBg,
-                padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                child: _live(_palette),
-              ),
-              _live(_statusBar),
-            ],
+            ),
           ),
+        );
+      },
+    );
+  }
+
+  Widget _compactStatus() {
+    return SizedBox(
+      height: 40,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(
+                  Icons.my_location,
+                  size: 14,
+                  color: editorTextTertiary,
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: Text(
+                    _hoverText(),
+                    style: const TextStyle(
+                      color: editorTextSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              [
+                LcsI18n.processString('Paint: {brush}', {
+                  'brush': LcsI18n.tr(controller.brush?.label ?? 'none'),
+                }),
+                LcsI18n.processString(
+                  '{width} × {height} · Floor {current}/{count}',
+                  {
+                    'width': MAPX,
+                    'height': MAPY,
+                    'current': controller.currentFloor + 1,
+                    'count': controller.floorCount,
+                  },
+                ),
+              ].join(' · '),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(color: editorTextSecondary, fontSize: 12),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _wideStatus() {
+    return Container(
+      color: editorPanelBg,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Row(
+        children: [
+          const Icon(Icons.my_location, size: 14, color: editorTextTertiary),
+          const SizedBox(width: 5),
+          Expanded(
+            child: Text(
+              _hoverText(),
+              style: const TextStyle(color: editorTextSecondary, fontSize: 12),
+            ),
+          ),
+          const SizedBox(width: 18),
+          Text(
+            LcsI18n.processString('Paint: {brush}', {
+              'brush': LcsI18n.tr(controller.brush?.label ?? 'none'),
+            }),
+            style: const TextStyle(color: editorTextSecondary, fontSize: 12),
+          ),
+          const Spacer(),
+          Text(
+            LcsI18n.processString(
+              '{width} × {height} · Floor {current}/{count}',
+              {
+                'width': MAPX,
+                'height': MAPY,
+                'current': controller.currentFloor + 1,
+                'count': controller.floorCount,
+              },
+            ),
+            style: const TextStyle(color: editorTextTertiary, fontSize: 12),
+          ),
+        ],
       ),
     );
   }
@@ -454,64 +557,9 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
   }
 
   Widget _statusBar() {
-    if (controller.previewMode) {
-      return Container(
-        color: editorChipActiveBg,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        child: Row(
-          children: [
-            const Icon(Icons.directions_walk, size: 14, color: editorAccent),
-            const SizedBox(width: 6),
-            Text(
-              LcsI18n.processString(
-                'Preview — arrow keys move, Esc exits · Floor '
-                '{current}/{count} · pos ({x}, {y})',
-                {
-                  'current': controller.currentFloor + 1,
-                  'count': controller.floorCount,
-                  'x': controller.playerX,
-                  'y': controller.playerY,
-                },
-              ),
-              style: const TextStyle(color: editorTextPrimary, fontSize: 12),
-            ),
-          ],
-        ),
-      );
-    }
-    return Container(
-      color: editorPanelBg,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: Row(
-        children: [
-          const Icon(Icons.my_location, size: 14, color: editorTextTertiary),
-          const SizedBox(width: 5),
-          Text(
-            _hoverText(),
-            style: const TextStyle(color: editorTextSecondary, fontSize: 12),
-          ),
-          const SizedBox(width: 18),
-          Text(
-            LcsI18n.processString('Paint: {brush}', {
-              'brush': LcsI18n.tr(controller.brush?.label ?? 'none'),
-            }),
-            style: const TextStyle(color: editorTextSecondary, fontSize: 12),
-          ),
-          const Spacer(),
-          Text(
-            LcsI18n.processString(
-              '{width} × {height} · Floor {current}/{count}',
-              {
-                'width': MAPX,
-                'height': MAPY,
-                'current': controller.currentFloor + 1,
-                'count': controller.floorCount,
-              },
-            ),
-            style: const TextStyle(color: editorTextTertiary, fontSize: 12),
-          ),
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) =>
+          constraints.maxWidth < 620 ? _compactStatus() : _wideStatus(),
     );
   }
 

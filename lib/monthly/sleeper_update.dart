@@ -304,8 +304,11 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
           6,
           1,
           LcsI18n.processString(
-            "President {name} has been impeached for corruption.",
-            {"name": cr.name},
+            "{role} {name} has been impeached for corruption.",
+            {
+              "role": LcsI18n.trGendered("President", gender: cr.gender),
+              "name": cr.name,
+            },
           ),
         );
         mvaddstr(8, 1, "The Ex-President is in disgrace.");
@@ -315,8 +318,12 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
           6,
           1,
           LcsI18n.processString(
-            "Sleeper {name} has been caught snooping around.",
-            {"name": cr.name},
+            "{role} {name} has been caught snooping around.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "oSuffix": cr.gender.simplified.adjectiveEnding,
+              "name": cr.name,
+            },
           ),
         );
         mvaddstr(8, 1, "The Liberal is now homeless and jobless...");
@@ -336,8 +343,11 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
           6,
           1,
           LcsI18n.processString(
-            "President {name} is under too much pressure to leak.",
-            {"name": cr.name},
+            "{role} {name} is under too much pressure to leak.",
+            {
+              "role": LcsI18n.trGendered("President", gender: cr.gender),
+              "name": cr.name,
+            },
           ),
         );
         mvaddstr(8, 1, "A corruption scandal is brewing...");
@@ -346,8 +356,12 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
           6,
           1,
           LcsI18n.processString(
-            "Sleeper {name} has been caught snooping around.",
-            {"name": cr.name},
+            "{role} {name} has been caught snooping around.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "oSuffix": cr.gender.simplified.adjectiveEnding,
+              "name": cr.name,
+            },
           ),
         );
         mvaddstr(8, 1, "The Liberal's infiltration score has taken a hit.");
@@ -363,25 +377,18 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
     Item it = Loot(itemType);
     homes?.loot.add(it);
     erase();
-    if (cr == uniqueCreatures.president) {
-      mvaddstr(
-        6,
-        1,
-        LcsI18n.processString("President {name} has leaked {description}.", {
-          "name": cr.name,
-          "description": LcsI18n.tr(description),
-        }),
-      );
-    } else {
-      mvaddstr(
-        6,
-        1,
-        LcsI18n.processString("Sleeper {name} has leaked {description}.", {
-          "name": cr.name,
-          "description": LcsI18n.tr(description),
-        }),
-      );
-    }
+    mvaddstr(
+      6,
+      1,
+      LcsI18n.processString("{role} {name} has leaked {description}.", {
+        "role": LcsI18n.trGendered(
+          cr == uniqueCreatures.president ? "President" : "Sleeper",
+          gender: cr.gender,
+        ),
+        "name": cr.name,
+        "description": LcsI18n.tr(description),
+      }),
+    );
     mvaddstr(7, 1, "The dead drop is at the homeless camp.");
 
     mvaddstr(9, 1, "An investigation is being launched to find the leaker.");
@@ -517,8 +524,11 @@ Future<void> sleeperEmbezzle(Creature cr, Map<View, int> libpower) async {
       if (cr == uniqueCreatures.president) {
         await showMessage(
           LcsI18n.processString(
-            "President {name} has been impeached for corruption.",
-            {"name": cr.name},
+            "{role} {name} has been impeached for corruption.",
+            {
+              "role": LcsI18n.trGendered("President", gender: cr.gender),
+              "name": cr.name,
+            },
           ),
         );
         criminalize(cr, Crime.embezzlement);
@@ -528,8 +538,12 @@ Future<void> sleeperEmbezzle(Creature cr, Map<View, int> libpower) async {
       } else {
         await showMessage(
           LcsI18n.processString(
-            "Sleeper {name} has been arrested while embezzling funds.",
-            {"name": cr.name},
+            "{role} {name} has been arrested while embezzling funds.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "oSuffix": cr.gender.simplified.adjectiveEnding,
+              "name": cr.name,
+            },
           ),
         );
         criminalize(cr, Crime.embezzlement);
@@ -567,7 +581,8 @@ Future<void> sleeperEmbezzle(Creature cr, Map<View, int> libpower) async {
     6,
     1,
     lightGray,
-    LcsI18n.processString("Sleeper {name} has embezzled {amount}.", {
+    LcsI18n.processString("{role} {name} has embezzled {amount}.", {
+      "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
       "name": cr.name,
       "amount": LcsI18n.currencyAmount(income),
     }),
@@ -609,8 +624,11 @@ Future<void> sleeperSteal(Creature cr, Map<View, int> libpower) async {
       if (cr == uniqueCreatures.president) {
         await showMessage(
           LcsI18n.processString(
-            "President {name} has been impeached for corruption.",
-            {"name": cr.name},
+            "{role} {name} has been impeached for corruption.",
+            {
+              "role": LcsI18n.trGendered("President", gender: cr.gender),
+              "name": cr.name,
+            },
           ),
         );
         criminalize(cr, Crime.theft);
@@ -620,8 +638,12 @@ Future<void> sleeperSteal(Creature cr, Map<View, int> libpower) async {
       } else {
         await showMessage(
           LcsI18n.processString(
-            "Sleeper {name} has been arrested while stealing things.",
-            {"name": cr.name},
+            "{role} {name} has been arrested while stealing things.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "oSuffix": cr.gender.simplified.adjectiveEnding,
+              "name": cr.name,
+            },
           ),
         );
         criminalize(cr, Crime.theft);
@@ -650,8 +672,11 @@ Future<void> sleeperSteal(Creature cr, Map<View, int> libpower) async {
     1,
     lightGray,
     LcsI18n.processString(
-      "Sleeper {name} has dropped a package off at the homeless camp.",
-      {"name": cr.name},
+      "{role} {name} has dropped a package off at the homeless camp.",
+      {
+        "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+        "name": cr.name,
+      },
     ),
   );
   if (takingHeat) {
@@ -891,7 +916,8 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
           6,
           1,
           lightGray,
-          LcsI18n.processString("Sleeper {name} has recruited a new {type}.", {
+          LcsI18n.processString("{role} {name} has recruited a new {type}.", {
+            "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
             "name": cr.name,
             "type": LcsI18n.tr(e.type.name),
           }),

@@ -194,7 +194,7 @@ Future<void> presidentialElection() async {
         "{name}, {align}",
         params: {
           "name": nomineeName[party]!,
-          "align": nomineeAlign[party]!.veryShort,
+          "align": LcsI18n.tr(nomineeAlign[party]!.label),
         },
       );
     }

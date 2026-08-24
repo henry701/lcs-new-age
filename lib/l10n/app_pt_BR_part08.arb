@@ -207,6 +207,7 @@
   "draining": "drenando",
   "due to an allergy attack.": "devido a um ataque de alergia.",
   "extends human life by a few minutes every bite": "estende a vida humana por alguns minutos a cada mordida",
+  "finds a way to escape despite {possessive} mistakes (female)": "encontra um jeito de escapar apesar dos erros {possessive}",
   "fixing roads": "consertar estradas",
   "forced binge-watching of THE AMERICAN DREAM until brain rot": "maratona forçada de THE AMERICAN DREAM até apodrecer o cérebro",
   "gasps in horror at the carnage.": "solta um suspiro de horror diante do massacre.",
@@ -215,6 +216,7 @@
   "himself": "ele mesmo",
   "increased empathy": "empatia aumentada",
   "insufficient military spending": "gasto militar insuficiente",
+  "is apprehended after a brief struggle (male)": "é apreendido após breve luta",
   "legalizing": "a legalização de ",
   "masturbated": "se masturbou",
   "multimedia website.nn": "Web site multimídia.nn",
@@ -261,6 +263,7 @@
   "{name} will undergo surgery.": "{name} vai passar por cirurgia.",
   "{name}'s right eye is torn out!": "O olho direito de {name} foi arrancado!",
   "{pName} seizes {eName} from behind and warns {himHer} {warnMessage}": "{pName} agarra {eName} por trás e avisa {himHer} {warnMessage}",
+  "{role} {name} has been outed by your bold attack!": "{role} {name} foi expost{oSuffix} pelo seu ataque ousado!",
   "{title} {selection}": "{title}: {selection}",
   "{vehicle} pulls alongside you!": "{vehicle} encosta ao seu lado!",
   "{vehicle} slides sideways into a building.": "{vehicle} desliza de lado contra um prédio."

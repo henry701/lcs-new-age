@@ -1908,8 +1908,12 @@ Future<void> _resolveSite() async {
           mvaddstr(
             8,
             1,
-            "Sleeper {name} has been outed by your bold attack!",
-            params: {"name": p.name},
+            "{role} {name} has been outed by your bold attack!",
+            params: {
+              "role": LcsI18n.trGendered("Sleeper", gender: p.gender),
+              "oSuffix": p.gender.simplified.adjectiveEnding,
+              "name": p.name,
+            },
           );
 
           mvaddstr(

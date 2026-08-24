@@ -280,6 +280,8 @@
   "{name} will solicit donations.": "{name} vai pedir doações.",
   "{obj} to visualize {possessive} feelings ": "{obj} para visualizar {possessive} sentimentos ",
   "{pName} has a hot date with {dateList}.": "{pName} tem um encontro quente com {dateList}.",
+  "{role} {name} has been arrested while embezzling funds.": "{role} {name} foi detid{oSuffix} enquanto desviava fundos.",
+  "{role} {name} has leaked {description}.": "{role} {name} vazou {description}.",
   "{vehicle} gives up as {driver} loses confidence.": "{vehicle} desiste quando {driver} perde a confiança.",
   "{vehicle} spins out and stops.": "{vehicle} gira fora de controle e para."
 }

@@ -218,6 +218,7 @@
   "politically charged murals that can influence public opinion on ": "murais carregados politicamente que podem influenciar a opinião pública sobre ",
   "responds": "responde",
   "smashes one of them in the jaw!": "esmaga um deles no queixo!",
+  "somehow manages to slip away in the confusion (nonbinary)": "de alguma forma consegue escapar na confusão",
   "strike down free speech limits": "derrubar limites à liberdade de expressão",
   "supporting the arts": "apoiar as artes",
   "than they deserve for their labor.": "do que merecem por seu trabalho.",
@@ -249,6 +250,7 @@
   "{name} organizes a group of inmates to beat up on a serial rapist.": "{name} organiza um grupo de detentos para espancar um estuprador em série.",
   "{name} sewed a {flag}.": "{name} costurou uma {flag}.",
   "{name} suggests the interrogation room could be better decorated.": "{name} sugere que a sala de interrogatório poderia ter uma decoração melhor.",
+  "{name} talks about {location}, though it doesn't seem like {pronoun} knows anything new.": "{name} fala sobre {location}, embora não pareça que {pronoun} saiba de algo novo.",
   "{name} was spotted by the police while {activity}!": "{name} foi visto pela polícia enquanto {activity}!",
   "{name} will build support for Liberal causes.": "{name} vai construir apoio para causas Liberais.",
   "{name} will procure a wheelchair.": "{name} vai conseguir uma cadeira de rodas.",
@@ -258,6 +260,7 @@
   "{name}'s neck bones are shattered!": "Os ossos do pescoço de {name} foram estilhaçados!",
   "{name}'s nose is blown off!": "O nariz de {name} foi destruído!",
   "{name}'s {clothing} has been destroyed.": "a {clothing} de {name} foi destruída.",
+  "{role} {name} has been arrested while stealing things.": "{role} {name} foi detid{oSuffix} enquanto roubava coisas.",
   "{vehicle} bows out as {driver} gives up.": "{vehicle} desiste da perseguição quando {driver} desiste.",
   "│     A major Cable News channel has hired a slick  │": "│     Um grande canal de notícias a cabo contratou um sofisticado  │",
   "│     A mutant affected by nuclear power appears on a   │": "│     Um mutante afetado por energia nuclear aparece em um   │"

@@ -12,6 +12,10 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
+import 'package:lcs_new_age/location/city.dart';
+import 'package:lcs_new_age/location/district.dart';
+import 'package:lcs_new_age/location/location.dart';
+import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/states.dart';
 import 'package:lcs_new_age/sitemode/stealth.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -42,6 +46,24 @@ String localizedCreatureNameValue(String creatureName, String typeName) {
 
 String localizedCreatureName(Creature creature) =>
     localizedCreatureNameValue(creature.name, creature.type.name);
+
+/// Builds the "about ..." connector for a workplace location.
+///
+/// Portuguese needs a definite article for common site names but not for city
+/// or district proper names. The article is inferred from the localized head
+/// noun so generated sites such as "Centro Médico UW" remain grammatical
+/// without maintaining a per-site switch.
+String localizedAboutLocation(Location location) {
+  final String name = location.getName();
+  if (LcsI18n.currentLocale != 'pt_BR') {
+    return location is Site ? 'the $name' : name;
+  }
+  if (location is City || location is District) return name;
+
+  final String head = name.trim().split(RegExp(r'\s+')).first.toLowerCase();
+  final bool feminine = RegExp(r'(ção|são|dade|agem|a)$').hasMatch(head);
+  return '${feminine ? 'a' : 'o'} $name';
+}
 
 /// Uses a compact role label only where the fixed-width encounter roster
 /// cannot fit the full Portuguese translation.

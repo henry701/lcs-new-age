@@ -413,7 +413,7 @@ Future<bool> handleRansomAmbush(
           0,
           LcsI18n.processString("{subject} {action}.", {
             "subject": lead.gender.heSheCap,
-            "action": LcsI18n.tr(
+            "action": LcsI18n.trGendered(
               [
                 "is quickly overwhelmed and arrested",
                 "is tackled to the ground by officers",
@@ -423,6 +423,7 @@ Future<bool> handleRansomAmbush(
                 "is taken into custody without incident",
                 "is handcuffed and led away",
               ].random,
+              gender: lead.gender,
             ),
           }),
         );
@@ -437,7 +438,7 @@ Future<bool> handleRansomAmbush(
           0,
           LcsI18n.processString("{subject} {action}...", {
             "subject": lead.gender.heSheCap,
-            "action": LcsI18n.tr(
+            "action": LcsI18n.trGendered(
               [
                 "somehow manages to slip away in the confusion",
                 "gets lucky and finds an escape route",
@@ -445,6 +446,7 @@ Future<bool> handleRansomAmbush(
                 "finds a way to escape despite {possessive} mistakes",
                 "gets away by the skin of {possessive} teeth",
               ].random,
+              gender: lead.gender,
             ),
             "possessive": lead.gender.hisHer,
           }),
@@ -472,7 +474,7 @@ Future<bool> handleRansomAmbush(
         0,
         LcsI18n.processString("{lead} {action}.", {
           "lead": lead.name,
-          "action": LcsI18n.tr(
+          "action": LcsI18n.trGendered(
             [
               "is quickly overwhelmed and arrested",
               "accidentally runs right into the arms of several waiting officers",
@@ -482,6 +484,7 @@ Future<bool> handleRansomAmbush(
               "has no path to escape and is quickly handcuffed",
               "is handcuffed and led away",
             ].random,
+            gender: lead.gender,
           ),
         }),
       );

@@ -8730,3 +8730,22 @@ reached. Captures and source hashes are under
 - All three tickets retain **Fixed-pending-verify**. Integrity summaries passed
   for 2,344 retained captures; no required success line was present. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pending-20260823/`.
+
+## 2026-08-24 — Batch B independent verification
+
+- Rebuilt artifact commit `a4e874ea` with Flutter 3.35.4 and served it from
+  localhost `10741`. Used fresh strict-headless wrapper sessions only; no
+  cheats, fixtures, imports, source edits during runtime, CDP, or headed
+  browsers.
+- Closed PT-419 through PT-421 on ordinary Portuguese disband, equipment, and
+  review routes. PT-422 through PT-425 remain pending because their natural
+  siege, anchor, landlord-cancel, and interruption branches did not occur or
+  were blocked before the target text rendered.
+- PT-426 remains pending after Engineer, Locksmith, and Sculptor recruiting
+  routes: every natural ask resolved to at least one candidate, so the
+  zero-result branch never rendered.
+- Focused layout and recruiting suites passed (9 tests), interpolation and ARB
+  catalog checks were clean, and machine integrity passed for 947 retained
+  buffer captures: height 25, maximum width 80, no over-wide rows, empty
+  bridge/browser errors, and no raw English target fragments. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-b-20260823/`.

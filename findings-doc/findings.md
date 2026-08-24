@@ -7990,10 +7990,17 @@ PT-418 remains **Fixed-pending-verify**.
 - Severity: Medium
 - Type: Fixed-console layout / translation
 - Screen: Portuguese disband summary → monthly continuation controls
-- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
+- Replay status: **Closed — passed independent stock replay on 2026-08-24**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
 - Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
+
+Independent verifier result (2026-08-24): a fresh strict-headless `pt_BR`
+disband replay at artifact build `a4e874ea` completed the ordinary confirmation
+route. Monthly capture
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-b-20260823/captures/760-pt419-monthly.json`
+shows both row-24 controls complete and separate, ends with `Próximo Mês`, and
+has height 25, maximum width 80, and empty bridge/browser errors.
 
 ### Reproduction
 
@@ -8028,10 +8035,15 @@ that renders both controls and asserts the full `Próximo Mês` ending.
 - Severity: Medium
 - Type: Fixed-console layout / translation
 - Screen: Portuguese Liberal Agenda → Dissolver e Esperar confirmation
-- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
+- Replay status: **Closed — passed independent stock replay on 2026-08-24**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
 - Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
+
+Independent verifier result (2026-08-24): fresh confirmation capture
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-b-20260823/captures/743-disband-confirm.json`
+wraps the prompt onto rows 14–15, ends `repensar):`, preserves the phrase row,
+and passes the height/width/error checks without raw English.
 
 ### Reproduction
 
@@ -8062,10 +8074,17 @@ A focused regression must assert the complete rendered ending.
 - Severity: Medium
 - Type: Fixed-console layout / equipment transfer
 - Screens: Portuguese squad review base picker and equipment base picker
-- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
+- Replay status: **Closed — passed independent stock replay on 2026-08-24**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
 - Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
+
+Independent verifier result (2026-08-24): equipment capture
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-b-20260823/captures/053-equipment-transfer.json`
+and review-picker capture
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-b-20260823/captures/534-review-picker-final.json`
+both retain the complete localized base instruction through
+`selecionar uma base.` at width 80 with no adjacent-row collision or errors.
 
 ### Reproduction
 
@@ -8099,10 +8118,14 @@ equipment transfer at 80 columns.
 - Severity: Medium
 - Type: Fixed-console layout / siege briefing
 - Screens: Portuguese police death-squad warning, corporate raid warning, and post-siege escape prompt
-- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-24; natural siege branches not reached**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
 - Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
+
+Independent verifier result (2026-08-24): no fresh police-death-squad,
+corporate-raid-countdown, or completed-siege-escape branch was reached during
+stock routes, so the ticket remains pending and was not closed.
 
 ### Reproduction
 
@@ -8141,10 +8164,15 @@ captures.
 - Severity: Low
 - Type: Fixed-console newspaper layout
 - Screen: Portuguese television news → `NEW ANCHOR` overlay
-- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-24; anchor event not reached**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
 - Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
+
+Independent verifier result (2026-08-24): 168 months of ordinary disband
+progression were polled through the strict-headless bridge after each monthly
+key. No conservative Cable News `NEW ANCHOR` event appeared; without fixtures
+the overlay remains unverifiable and the ticket remains pending.
 
 ### Reproduction
 
@@ -8178,10 +8206,15 @@ borders and add coverage for all five television overlay variants.
 - Severity: Low
 - Type: Fixed-console dialogue layout
 - Screen: Portuguese conversation → possessions moved to homeless camp
-- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-24; relocation note not reached**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
 - Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
+
+Independent verifier result (2026-08-24): an ordinary apartment route reached
+the landlord area, but locked offices, forced-entry alarms, civilian encounters,
+and blocked access to the landlord special prevented the normal rent/cancel
+branch from rendering the relocation note. The ticket remains pending.
 
 ### Reproduction
 
@@ -8211,10 +8244,14 @@ Assert the complete `de rua.>` ending in a fixed-width regression.
 - Severity: Low
 - Type: Fixed-console launch layout
 - Screen: Portuguese conservative interruption → continue/restart footer
-- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-24; interruption screen not reached**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
 - Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
+
+Independent verifier result (2026-08-24): no natural Conservative interruption
+or error screen occurred in stock runs, so neither footer has fresh runtime
+evidence. The ticket remains pending.
 
 ### Reproduction
 
@@ -8243,7 +8280,7 @@ Add a regression covering both continue and restart branches.
 - Severity: Medium
 - Type: Missing translation/layout / daily-activity rendering
 - Screen: Portuguese Assign Tasks → Recruit → “asks around” result
-- Replay status: **Fixed-pending-verify on 2026-08-23; independent stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-24; zero-result branch not reached naturally**
 - Evidence:
   `lib/daily/activities/recruiting.dart:50-60`,
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy57-fresh-current-20260823/captures/569-select-recruit-empty.json`,
@@ -8296,6 +8333,12 @@ within 80 columns and contain no raw English.
 3. Require row 11 to be nonempty and Portuguese when recruitment finds nobody;
    require the complete localized sentence to end with a period, buffer height
    25, maximum width 80, and empty bridge/browser errors.
+
+Independent verifier result (2026-08-24): repeated ordinary recruiting routes
+used Engineer, Locksmith, and Sculptor candidates across fresh campaigns. Every
+resolved ask produced one or more candidates rather than the zero-result branch;
+localized candidate/meeting feedback remained nonempty. Without fixtures or a
+natural zero-result event, closure remains blocked.
 
 ## PT-427: Strategy54 web autosave had no IndexedDB save store
 

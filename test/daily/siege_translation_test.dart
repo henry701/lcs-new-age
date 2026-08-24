@@ -293,6 +293,48 @@ void main() {
   });
 
   test(
+    'Portuguese CCS final victory translates action prose in context',
+    () async {
+      ccsBaseKills = 3;
+      ccsSiegeConverts = 11;
+      console
+        ..injectKey('c')
+        ..injectKey('c');
+
+      await conquerTextCCS();
+
+      final body = List.generate(
+        console.height,
+        _consoleLine,
+      ).join(' ').replaceAll(RegExp(r'\s+'), ' ');
+      expect(body, contains('A CCS foi completamente neutralizada.'));
+      expect(body, contains('POR CONVERTER O ESQUADRÃO DO CRIME CONSERVADOR'));
+      expect(body, isNot(contains('neutralized')));
+      expect(body, isNot(contains('CONVERTING')));
+      expect(body, isNot(contains('ERADICATING')));
+    },
+  );
+
+  test('Portuguese CCS final victory translates lethal action prose', () async {
+    ccsBaseKills = 3;
+    ccsSiegeKills = 11;
+    console
+      ..injectKey('c')
+      ..injectKey('c');
+
+    await conquerTextCCS();
+
+    final body = List.generate(
+      console.height,
+      _consoleLine,
+    ).join(' ').replaceAll(RegExp(r'\s+'), ' ');
+    expect(body, contains('A CCS foi completamente destruída.'));
+    expect(body, contains('POR ERRADICAR O ESQUADRÃO DO CRIME CONSERVADOR'));
+    expect(body, isNot(contains('destroyed')));
+    expect(body, isNot(contains('ERADICATING')));
+  });
+
+  test(
     'empty safehouse defenses return with a localized explanation',
     () async {
       final site = sites.first;

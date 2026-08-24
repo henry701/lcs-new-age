@@ -8700,11 +8700,15 @@ an earlier base state. The over-80 high-score row therefore remains pending.
 - Severity: Medium
 - Type: Dynamic parameter / election composition
 - Screen: Portuguese November presidential election → nominee list
-- Replay status: **Fixed-pending-verify (2026-08-24)**
+- Replay status: **Reopened (2026-08-24)**
 - Evidence:
-  `lib/politics/elections.dart:193-199`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/scoped-untranslated-candidates.json`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/capture-004-pt435-election-2028.json` — fresh strict-headless Portuguese 2028 nominees,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/tested-build.txt`, and
+  `lib/politics/elections.dart:193-199`
+- Independent result: live alignment values are Portuguese (`Arqui-Conservador`, `moderado`),
+  but both nominee rows still contain a doubled comma-space before the alignment. The buffer is
+  25×80 with no bridge errors; the separator defect is not fixed.
 
 - Implementation: Presidential rows now pass `DeepAlignment.label` through
   `LcsI18n.tr`, and the Portuguese nominee template uses one comma-space.
@@ -8743,11 +8747,14 @@ another locale-appropriate candidate qualifier) for each alignment.
 - Severity: Medium
 - Type: Missing translation / native platform dialog
 - Screen: Portuguese title → import save → desktop file picker
-- Replay status: **Fixed-pending-verify (2026-08-24)**
+- Replay status: **Verification-pending (2026-08-24)**
 - Evidence:
-  `lib/saveload/save_load.dart:418-424`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/scoped-dry-run.log`, and
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/scoped-untranslated-candidates.json`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/capture-006-web-import-blocker.json`, and
+  `lib/saveload/save_load.dart:418-424`
+- Independent result: the desktop dialog-title regression passes against build `2d10f02d`, but the
+  preserved replay requires a native Windows/Linux picker. The web probe leaves the Portuguese
+  title unchanged and exposes no file input, so this remains pending rather than passing.
 
 - Implementation: The desktop picker title now passes through `LcsI18n.tr`
   with the Portuguese catalog phrase.
@@ -8784,11 +8791,14 @@ New Age`. Where a platform ignores titles, retain the translated call boundary.
 - Severity: Low
 - Type: Fixed-console error layout / diagnostics
 - Screen: Portuguese title → import save → malformed save error
-- Replay status: **Fixed-pending-verify (2026-08-24)**
+- Replay status: **Verification-pending (2026-08-24)**
 - Evidence:
-  `lib/saveload/save_load.dart:437-445`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/save-import-error-probe.log`, and
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/save_import_error_probe_tmp_test.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/capture-006-web-import-blocker.json`, and
+  `lib/saveload/save_load.dart:437-445`
+- Independent result: the width-safe malformed-array widget regression passes against build
+  `2d10f02d`. The web import action exposes no file input for the required local malformed-file
+  replay, so complete live diagnostic wrapping remains pending.
 
 - Implementation: Import errors render through the console paragraph wrapper,
   reserving wrapped rows above the action options.
@@ -8825,13 +8835,16 @@ detail as possible within 25×80.
 - Severity: Medium
 - Type: Flutter widget layout / modding tools
 - Screen: Portuguese map editor at narrow viewport → palette, hover/status, preview
-- Replay status: **Fixed-pending-verify (2026-08-24)**
+- Replay status: **Verification-pending — coverage-only (2026-08-24)**
 - Evidence:
-  `lib/map_editor/map_editor_screen.dart:483-516`,
-  `lib/map_editor/tile_palette.dart:120-145 and 267-292`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/map-status-probe.log`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/map-validation-probe.log`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/map_status_probe_tmp_test.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-context-map.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/capture-001-title-pt.json`, and
+  `lib/map_editor/map_editor_screen.dart:483-516`
+- Independent result: direct `MapEditorScreen` probes pass at 320×240 and 480×320 with zero render
+  exceptions. The public title has no Mod Tools entry because the production debug flag is off;
+  without explicit authorization to enable that flag, stock/manual narrow-editor coverage remains
+  pending.
 - Shortcut note: the public title route requires the development map-editor
   flag; the canonical evidence calls the public `MapEditorScreen` directly and
   does not alter production state. A manual replay using that flag is therefore
@@ -8876,11 +8889,14 @@ sizes.
 - Severity: Medium
 - Type: Raw parameter interpolation / interrogation translation
 - Screen: Portuguese hostage interrogation → hostage discusses mapped/no-new-info workplace
-- Replay status: **Fixed-pending-verify (2026-08-24)**
+- Replay status: **Verification-pending (2026-08-24)**
 - Evidence:
-  `lib/daily/hostages/interrogate.dart:99-111`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/batch_c_red_probe_tmp_test.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-context-map.log`, and
+  `lib/daily/hostages/interrogate.dart:99-111`
+- Independent result: masculine/feminine article regressions pass against build `2d10f02d`. A fresh
+  ordinary interrogation route did not reach the mapped/no-new-info workplace branch during this
+  verification pass, so the required live buffer capture is still missing.
 
 - Implementation: Replaced the raw article parameter with a shared locale-aware
   location connector that chooses Portuguese definite articles.
@@ -8918,11 +8934,14 @@ correct grammar for site/district/city names.
 - Severity: Low
 - Type: Punctuation / nested-parameter composition
 - Screen: Portuguese hostage interrogation → firm interrogation prompt
-- Replay status: **Fixed-pending-verify (2026-08-24)**
+- Replay status: **Verification-pending (2026-08-24)**
 - Evidence:
-  `lib/daily/hostages/interrogate.dart:23-48`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/batch_c_red_probe_tmp_test.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-context-map.log`, and
+  `lib/daily/hostages/interrogate.dart:23-48`
+- Independent result: quoted-question punctuation regressions pass against build `2d10f02d`. The
+  ordinary interrogation branch was not reached in a live buffer during this verification pass;
+  keep pending until captured directly.
 
 - Implementation: Updated the Portuguese interrogation shell so punctuation is
   attached inside both quotation marks.
@@ -8958,11 +8977,14 @@ question for every action/question variant.
 - Severity: Medium
 - Type: Gender agreement / ransom outcome translation
 - Screen: Portuguese ransom pickup ambush → female lead arrested/narrow escape
-- Replay status: **Fixed-pending-verify (2026-08-24)**
+- Replay status: **Verification-pending (2026-08-24)**
 - Evidence:
-  `lib/daily/hostages/ransom.dart:408-465`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/batch_c_red_probe_tmp_test.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-context-map.log`, and
+  `lib/daily/hostages/ransom.dart:408-465`
+- Independent result: masculine/feminine/nonbinary ransom outcome regressions pass against build
+  `2d10f02d`. No female ransom-pickup arrest/narrow-escape branch was reached through ordinary
+  play in this pass, so live gendered-output evidence remains pending.
 
 - Implementation: Added typed gendered translation variants and applied them to
   arrest, custody, struggle, handcuff, and narrow-escape action branches.
@@ -8999,11 +9021,14 @@ participles.
 - Severity: Medium
 - Type: Generated noun gender agreement
 - Screen: Portuguese monthly sleepers → exposure, leak, embezzlement, recruitment, vault
-- Replay status: **Fixed-pending-verify (2026-08-24)**
+- Replay status: **Verification-pending (2026-08-24)**
 - Evidence:
-  `lib/monthly/sleeper_update.dart:300-321, 365-383, 565-575, and 889-907`,
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/logs/red-capture.log`, and
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-c-20260824/tests/batch_c_red_probe_tmp_test.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-batch-c.log`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-d-20260824/focused-context-map.log`, and
+  `lib/monthly/sleeper_update.dart:300-321, 365-383, 565-575, and 889-907`
+- Independent result: masculine/feminine/nonbinary Sleeper and President regressions pass against
+  build `2d10f02d`. Fresh female/nonbinary sleeper-President branches were not reached through
+  ordinary monthly play here; retain pending until direct captures exist.
 
 - Implementation: Added shared gendered Sleeper/President noun phrases and
   generalized adjective endings across sleeper exposure, leak, finance, theft,

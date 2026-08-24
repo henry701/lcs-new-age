@@ -8795,3 +8795,18 @@ reached. Captures and source hashes are under
   five-digit title counters were unreachable within bounded ordinary play.
 - Evidence and build manifest:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-c-20260824/`.
+
+## 2026-08-24 — independent verification PT-435–PT-442
+
+- Built isolated web snapshot `2d10f02d11e699fd50569b2656c15689eca35910` with Flutter
+  3.35.4 and replayed it strictly headless on loopback port 34855.
+- PT-435 is reopened: fresh Portuguese 2028 election nominees use localized alignment words but
+  still render doubled comma-space separators (`capture-004-pt435-election-2028.json`).
+- PT-436/PT-437 remain pending: focused regressions pass, but the web import action exposed no
+  file input, so the required native picker title and malformed-file diagnostic were unreachable.
+- PT-438 remains coverage-only pending: direct narrow map-editor widget probes pass, while the
+  stock public route stayed unavailable because the development flag was not enabled.
+- PT-439–PT-442 remain pending: gender/punctuation/article regressions pass against the isolated
+  build, but ordinary play did not reach their required live branches in this pass.
+- Focused batch C plus context/map suites passed (9 and 58 tests). Interpolation integrity found
+  zero unclassified items and ARB catalog validation passed for both locales.

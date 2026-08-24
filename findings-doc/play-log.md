@@ -8871,3 +8871,27 @@ reached. Captures and source hashes are under
 - PT-443 through PT-451 remain **Fixed-pending-verify**: none rendered its required success branch during bounded ordinary play. Dating produced a natural conversion rather than failure; a female-recruiter attempt did not reach dangerous-extremist copy; sleeper recruiting stayed juice-gated.
 - Batch-D focused suite passed 9/9 on the isolated source; interpolation check found zero missing/invalid items; ARB validation passed. Machine integrity passed for 1,088 numbered buffer captures: nonempty buffers, height 25, max width <=80, no overflow/collision issues, and four browser-error checkpoints were empty. Raw-target English scan had zero hits.
 - Evidence/build logs/integrity summary: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/`.
+
+## 2026-08-24 — prober i18n/layout E rare-branch sweep
+
+- Audited pushed origin HEAD `f4cba427` after fetch/rebase. Catalog validation,
+  interpolation check, translation status (100% source coverage), and an AST
+  inventory of 3,953 translation/display calls were clean or used only as audit
+  evidence. No production files were changed.
+- Deterministic probes confirmed PT-452 through PT-459: untranslated CCS final
+  actions and hidden-safehouse guidance, corporate/mob siege fallbacks, Broadway
+  interview cancellation, raw failed-car-search names, the paged-counter shell,
+  and masculine singular purge agreement.
+- Runtime smoke used only strict-headless wrapper session `prober-layout-e-r1`,
+  isolated current-HEAD web assets from commit `f4cba427`, and loopback port
+  `11725` with `?playtest=1`. Portuguese persisted as `flutter.language="pt_BR"`,
+  reload restored the PT title, options navigation produced no browser errors,
+  and the server/session were stopped after capture.
+- Rejected hospital dating/ransom/chase variants as covered or invariant;
+  rejected CCS victory paragraphs, backer reports, safehouse widths, high-score
+  endings/custom slogans, save/import errors/options, and map-editor narrow
+  layouts as already fixed or tested. A prison labor/rehab double-render remains
+  probe-only because it was not independently reproduced.
+- Focused red evidence passed as current-behavior assertions before its
+  temporary repository file was removed. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/`.

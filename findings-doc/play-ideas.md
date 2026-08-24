@@ -3113,3 +3113,37 @@ routes are optional breadth coverage.
 - Browser-error probes were captured at major checkpoints. The CLI returns a
   nonzero status when its error list is empty; raw files therefore contain the
   wrapper status line rather than a browser error payload.
+
+# 2026-08-24 — prober E additional rare branches
+
+## Independent replay priorities
+
+- PT-452: reach the final CCS safehouse twice if needed to cover pacifist
+  conversion and lethal destruction banners.
+- PT-453: leave another CCS safehouse hidden after the first victory, then open
+  the remaining-safehouse intelligence screen.
+- PT-454/PT-455: preserve a checkpoint before each corporate and rural-mob siege
+  warning so both warning and first attack screens can be captured.
+- PT-456: use an elite journalist compound-siege route and deliberately fail the
+  interview performance.
+- PT-457: repeat car theft until a failed search substitutes a vehicle type with
+  a translated long name such as Pickup Truck.
+- PT-458: find every paged surface that passes current/max; compare all key
+  layouts at width 80.
+- PT-459: time an Elite-Liberal purge for exactly one female or nonbinary
+  non-Elite justice.
+
+## Probe-only / rejected
+
+- Hospital death-of-injuries prose remains person-neutral in Portuguese.
+- Dating ambush copy uses an intentionally metaphorical masculine `cão`; other
+  failure branches are either invariant or gendered through PT-444 coverage.
+- Ransom arrest/narrow-escape branches already select lead-gender variants.
+- Chase crash/death/survival templates are complete and their possessive values
+  are translated; vehicle composition postposes colors without adjective
+  agreement.
+- CCS victory paragraph templates, backer discovery, safehouse rows, hidden
+  suffixes, and reachable widths were already localized/bounded.
+- Prison labor/rehab showed a possible double-render in source review, but the
+  branch was not isolated deterministically this pass; keep it out of confirmed
+  findings until reproduced.

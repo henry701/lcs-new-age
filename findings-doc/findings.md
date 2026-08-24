@@ -255,6 +255,14 @@
 | PT-449 | Medium | Newspaper translation/retranslation | Story datelines bypass localized city values |
 | PT-450 | Low | Workplace article agreement | Pawnshop names beginning with an `a` surname get a feminine article for a masculine head noun |
 | PT-451 | Low | Constitutional amendment grammar | Repeal-amendment prose has number and gender agreement errors |
+| PT-452 | Medium | CCS siege translation/composition | Final CCS victory inserts raw English action words into Portuguese prose |
+| PT-453 | Medium | CCS intelligence translation/coverage | Hidden-safehouse guidance remains English after a CCS victory |
+| PT-454 | Medium | Siege translation/coverage | Corporate siege warning and attack narration remain English |
+| PT-455 | Medium | Siege translation/coverage | Rural-mob siege conspiracy, approach, and assault remain English |
+| PT-456 | Medium | Interview translation/coverage | Canceled elite-journalist interview exposes an English Broadway sentence |
+| PT-457 | Medium | Vehicle translation/context | Failed car-theft search interpolates untranslated XML vehicle names |
+| PT-458 | Low | Interface translation/coverage | Paged-interface labels with counters fall back to English |
+| PT-459 | Low | Amendment gender agreement | Singular Supreme Court purge heading defaults to a masculine citizen |
 
 ## PT-001: Save-management option is clipped
 
@@ -9522,3 +9530,289 @@ Preserve the stock steps below.
 2. Press `C` and inspect rows 4–6 and rows 15–17 before ratification.
 3. Require `reorganizados` for the plural United States and `todas as decisões`
    for the later clause.
+
+## PT-452: Final CCS victory report inserts untranslated action words
+
+- Severity: Medium
+- Type: Dynamic-parameter translation / generated CCS siege report
+- Screen: Portuguese CCS final-safehouse victory terminal
+- Replay status: **Confirmed at origin `f4cba427`**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
+  and `lib/daily/siege.dart`
+
+### Reproduction
+
+1. Initialize `pt_BR`.
+2. Render the final CCS victory templates exactly as `daily/siege.dart`
+   does after translating `neutralized`, `destroyed`, `CONVERTING`, or
+   `ERADICATING`.
+3. Inspect the paragraph and juice banner.
+
+### Actual
+
+The surrounding sentence is Portuguese, but every action value falls back to
+English because none of those four strings has a catalog entry. Examples are
+`A CCS foi completamente neutralized.` and
+`+200 ENERGIA PARA TODOS POR ERADICATING O ESQUADRÃO DO CRIME CONSERVADOR`.
+
+### Expected
+
+Translate all four values in context. The completed sentences must preserve
+Portuguese agreement/word order, including a natural construction for the
+banner (for example `POR ELIMINAR O ...`), rather than inserting an English
+gerund before its object.
+
+### Independent stock replay steps
+
+1. In an ordinary Portuguese campaign with active CCS, progress to its final
+   safehouse and win the siege by conversion or force.
+2. Open the final victory screen.
+3. Reject raw `neutralized`, `destroyed`, `CONVERTING`, and `ERADICATING`;
+   repeat enough seeds to cover pacifist and lethal outcomes.
+
+## PT-453: Hidden CCS safehouse guidance remains English
+
+- Severity: Medium
+- Type: Missing translation / CCS intelligence report
+- Screen: Portuguese post-victory → remaining CCS safehouses → hidden note
+- Replay status: **Confirmed at origin `f4cba427`**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
+  and `lib/daily/siege.dart`
+
+### Reproduction
+
+Initialize `pt_BR` and translate the two explanatory paragraphs passed to
+`addparagraph` by `ccsRemainingSafehouseIntel`.
+
+### Actual
+
+Both complete paragraphs return unchanged English. The list header, site rows,
+hidden suffix, and continue action are otherwise localized.
+
+### Expected
+
+Localize both paragraphs while preserving their 78-column wrapped layout. They
+must explain how to reveal hidden safehouses without any English fallback.
+
+### Independent stock replay steps
+
+1. Defeat one ordinary Portuguese CCS safehouse while at least one other CCS
+   safehouse remains hidden.
+2. Continue through the victory screen into “Esconderijos restantes da CCS”.
+3. Inspect both explanation paragraphs below the list; reject all raw English.
+
+## PT-454: Corporate siege warning and attack narration remain English
+
+- Severity: Medium
+- Type: Missing translation / composed siege warning
+- Screen: Portuguese corporate siege warning and attack opening
+- Replay status: **Confirmed at origin `f4cba427`**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
+  and `lib/daily/siege.dart`
+
+### Reproduction
+
+Initialize `pt_BR` and process either the full corporate warning paragraph or
+the mercenary attack template used when that siege begins.
+
+### Actual
+
+The warning returns entirely unchanged. The attack narration also starts with
+raw `Leveraging their unparalleled expertise...`; only separately catalogued
+location fragments are translated elsewhere, not this complete template.
+
+### Expected
+
+Localize each complete branch once, including the `{location}` parameter, and
+preserve punctuation, line wrapping, and the feminine site-name agreement
+established by prior siege tickets.
+
+### Independent stock replay steps
+
+1. Advance an ordinary Portuguese campaign until corporations issue a siege
+   warning, then let the siege begin without leaving the site.
+2. Capture the warning screen and first attack-screen message area.
+3. Reject raw `groundbreaking act of synergy` and
+   `Leveraging their unparalleled expertise`.
+
+## PT-455: Rural-mob siege conspiracy and assault remain English
+
+- Severity: Medium
+- Type: Missing translation / composed siege warning
+- Screen: Portuguese rural-mob siege warning and approach screens
+- Replay status: **Confirmed at origin `f4cba427`**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
+  and `lib/daily/siege.dart`
+
+### Reproduction
+
+Initialize `pt_BR` and process the mob conspiracy paragraph plus the pickup-
+truck approach and assault templates exactly as the siege code does.
+
+### Actual
+
+All three dynamic paths fall back to English. The catalog contains unrelated
+fragments such as `detailed conspiracy theory about a building where an enclave
+of `, but the complete `processString` calls do not compose fragments.
+
+### Expected
+
+Provide complete Portuguese templates for the social-media conspiracy, truck
+column approach, and street assault. Preserve `{district}`/{location} context,
+exclamation punctuation, and 80-column wrapping.
+
+### Independent stock replay steps
+
+1. In a Portuguese campaign, trigger a rural mob siege through ordinary heat
+   and public-opinion progression.
+2. Capture the overnight conspiracy screen and subsequent approach/assault
+   messages.
+3. Reject `loosely-organized column`, `fringe far-right social media account`,
+   and `Conservative masses are pouring into`.
+
+## PT-456: Canceled elite-journalist interview exposes English Broadway tail
+
+- Severity: Medium
+- Type: Missing translation / elite journalist outcome
+- Screen: Portuguese compound siege → elite journalist interview failure
+- Replay status: **Confirmed at origin `f4cba427`**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
+  and `lib/daily/siege.dart`
+
+### Reproduction
+
+Initialize `pt_BR` and process
+`{journalist} canceled the interview halfway through and later used the
+material for a Broadway play called {playName}.` with the same parameters as
+the interview path.
+
+### Actual
+
+The complete template has no PT entry and renders unchanged, despite adjacent
+successful/boring interview branches being localized.
+
+### Expected
+
+Localize the cancellation/play adaptation sentence and keep the journalist and
+generated play names intact. Wrap it within the existing message area without
+losing punctuation.
+
+### Independent stock replay steps
+
+1. Host an elite journalist during an ordinary Portuguese compound siege and
+   fail the interview performance.
+2. Advance through the post-interview outcome.
+3. Require localized cancellation prose while rejecting `Broadway play called`.
+
+## PT-457: Failed car-theft search leaks XML vehicle names
+
+- Severity: Medium
+- Type: Dynamic-parameter translation / car theft
+- Screen: Portuguese street activity → steal a car → failed search fallback
+- Replay status: **Confirmed at origin `f4cba427`; same defect class as resolved PT-318 but on a different call site**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
+  `lib/daily/activities/car_theft.dart`, and `assets/xml/vehicles.xml`
+
+### Reproduction
+
+Initialize `pt_BR`, create a `PICKUP` vehicle type lookup, and pass
+`cartype.longName` directly as `oldCar`/`newCar` or `car`, as `_foundACar`
+does.
+
+### Actual
+
+The translated shell inserts `Pickup Truck`, so a player sees
+`não conseguiu encontrar um Pickup Truck mas encontrou um Pickup Truck`. The
+dealership and owned-vehicle renderers correctly show `Picape`.
+
+### Expected
+
+Translate each XML long name through the same guarded vehicle-name path used
+by `Vehicle.fullName()`/the dealership before interpolation. The result must be
+`Picape`, with gender/article wording reviewed across all vehicle types.
+
+### Independent stock replay steps
+
+1. Assign a Portuguese Liberal to steal a car repeatedly until the search fails
+   and substitutes another vehicle type.
+2. Inspect row 10 on the failed-search screen.
+3. Repeat until a translatable type such as `Pickup Truck` is selected; require
+   its localized name and no raw XML label.
+
+## PT-458: Paged-interface labels with counters fall back to English
+
+- Severity: Low
+- Type: Missing translation / paging composition
+- Screen: Portuguese paged Liberal lists showing `current/max`
+- Replay status: **Confirmed at origin `f4cba427`**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
+  `lib/utils/interface_options.dart`, and
+  `lib/l10n/app_pt_BR_part21.arb`
+
+### Reproduction
+
+Initialize `pt_BR` and call `pageStrWithCurrentAndMax(2, 9)`.
+
+### Actual
+
+The counter variant returns
+`[] - View other Liberal pages (2/9)`, while the variant without counters is
+translated. Existing tests exercise the untranslated shell directly and do not
+assert locale output.
+
+### Expected
+
+Add a PT key whose placeholder order and control prefix remain intact; ensure
+all four key layouts fit column 80 with `(current/max)`.
+
+### Independent stock replay steps
+
+1. Select Portuguese and open any paged surface whose renderer supplies both
+   current and max page values.
+2. Inspect the paging/status label.
+3. Require localized prose around the unchanged control keys and numeric
+   counter; compare bracket, semicolon/comma, and PGUP/PGDN layouts where
+   reachable.
+
+## PT-459: Singular Supreme Court purge heading forces masculine citizen
+
+- Severity: Low
+- Type: Gender agreement / constitutional amendment branch
+- Screen: Portuguese elite-liberal constitutional amendment → one non-Elite justice
+- Replay status: **Confirmed at origin `f4cba427`; distinct residual defect after PT-377 localization**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
+  and `lib/politics/constitution.dart`
+
+### Reproduction
+
+Initialize `pt_BR` and display the singular purge heading when exactly one
+Supreme Court justice is not Elite Liberal.
+
+### Actual
+
+PT-377 successfully localizes the heading, but the fixed singular copy says
+`O seguinte ex-cidadão...` even when that sole departing justice is female or
+nonbinary. The English source also has subject/verb disagreement (`citizen are`).
+
+### Expected
+
+Use a person-neutral Portuguese phrase (for example `A seguinte pessoa ex-
+membro...` or another approved formulation), or select agreement from the named
+justice. Correct the source grammar without changing plural behavior.
+
+### Independent stock replay steps
+
+1. Advance an ordinary Portuguese campaign to an Elite-Liberal purge amendment
+   when exactly one current justice is female or nonbinary and the rest are
+   Elite Liberal.
+2. Press `C` and inspect row 2 above the listed justice.
+3. Reject masculine `ex-cidadão` for a female/nonbinary sole justice and verify
+   the following paragraph remains grammatical.

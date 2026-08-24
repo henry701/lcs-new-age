@@ -7465,6 +7465,15 @@ The `112-session-stalled.json` and `113-map-restart-stalled.json` captures are
 explicitly excluded because their tabs were `about:blank` and their buffers
 were empty. PT-412 remains **Fixed-pending-verify**.
 
+Independent verifier result (2026-08-23): 16 fresh strict-headless stock
+`pt_BR` campaigns reached and unlocked the nursing-home entrance, but none of
+their generated explored maps exposed the manager `O` office. Without that
+first manager encounter, the required freed-hostage precondition could not be
+reached naturally. Integrity passed over 416 captures, but no alarm line was
+captured. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pending-20260823/pt412/`.
+PT-412 remains **Fixed-pending-verify**.
+
 ## PT-413: Insurance-claim terminal interpolates raw English claim labels
 
 - Severity: Medium
@@ -7809,6 +7818,15 @@ Verifier replay:
    content is expected, at most 80 columns, with no raw English, bridge error,
    or browser error. Do not touch PT-417 or PT-418 during verification.
 
+Independent verifier result (2026-08-23): a fresh strict-headless stock
+`pt_BR` route reached Seattle → Downtown → `Seguros Cruz Azul`, entered
+normally, and used the localized unlock path. Reached `$` candidates produced
+ground-loot behavior or no safe prompt; no insurance document row was captured,
+and the First American Bank vault was not reached. Integrity passed over 97
+captures. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pending-20260823/pt416/`.
+PT-416 remains **Fixed-pending-verify**.
+
 ## PT-417: Bar rejection replies interpolate raw English reactions
 
 - Severity: Medium
@@ -7956,6 +7974,16 @@ Verifier replay:
    Require the clothing name to be Portuguese (for example `Terno preto`),
    with no raw `Black Suit`/other English armor name, no empty capture, no row
    over 80 columns, and no bridge/browser errors.
+
+Independent verifier result (2026-08-23): three unique strict-headless stock
+routes (nursing home, corporate headquarters, and a five-member hidden-CCS gang
+campaign) fought normally while wearing named `Jaqueta Punk`. Internal doors
+were opened through normal prompts and hundreds of combat rounds were captured;
+some showed hits to `armadura de couro`, but none reached armor destruction.
+Integrity passed over 1,831 captures, with no destruction message or raw English
+armor name. Evidence:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pending-20260823/pt418/`.
+PT-418 remains **Fixed-pending-verify**.
 
 ## PT-419: Monthly disband footer clips the next-month action
 

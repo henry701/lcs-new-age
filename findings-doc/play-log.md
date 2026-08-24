@@ -8667,3 +8667,16 @@ reached. Captures and source hashes are under
 - Rejected trailing-space false positives for PT-398 and Cable News `ZERO`,
   plus extractor false positives from adjacent literals/localized fragments.
   Kept the pre-locale `File:` loading label as a probe candidate only.
+
+## 2026-08-23 — Pending-ticket independent verification
+
+- Verified current build `e682cadd` on localhost port 10732 with strict-headless
+  sessions only. PT-412 ran 16 fresh generated nursing-home campaigns; no `O`
+  manager office appeared, so the former-hostage alarm branch remained blocked.
+- PT-416 reached `Seguros Cruz Azul` normally, but reached `$` candidates did
+  not yield the safe prompt/document row; the First American Bank vault was not
+  reached. PT-418 exercised ordinary combat in three routes with `Jaqueta Punk`,
+  including hundreds of rounds, but never captured armor destruction.
+- All three tickets retain **Fixed-pending-verify**. Integrity summaries passed
+  for 2,344 retained captures; no required success line was present. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pending-20260823/`.

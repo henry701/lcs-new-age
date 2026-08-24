@@ -8999,3 +8999,34 @@ reached. Captures and source hashes are under
   purge, or failed-car-search branches. Those reachability limits remain
   explicit; the current-head deterministic render tests are the verification
   evidence rather than fabricated live captures.
+
+## 2026-08-24 — Strategy 61 r3 bounded victory route
+
+- A third independent strict-headless Portuguese session used an isolated
+  clone of shared `feature/localization` at
+  `4c4bbf761ffc0397197ed1cdd04ad696064d213e`; it served only the clone on
+  `127.0.0.1:14564` with session `str61-victory-20260824-r3`. The earlier r2
+  Strategy 61 session and save were left untouched.
+- The route selected the stock nightmare world, `Nós não iniciamos o fogo`
+  (CCS starts active at full strength), and `Poder para o povo`. It stayed in
+  `pt_BR`, used no cheats/debug flags/imported state, and started with founder
+  Marigold Talbot and no recruits. A hospital bill of US$7,140 against US$7
+  available was handled through the stock `Apenas saia` option.
+- After natural daily advances and CCS newspaper attacks, the founder formed a
+  one-person squad, visited the pawn shop/dungeon without buying unaffordable
+  equipment, then used legal fundraising. The monthly funding report recorded
+  donations +US$148, recruitment -US$200, net -US$52, and US$169 liquid assets.
+- Stock recruitment conversations added Emily Dent and Ellen Symonds as
+  sleeper agents and Ayn Coopersmith as an active liberal. Both sleepers were
+  assigned `Promovendo o Liberalismo`; the review screen showed two active
+  liberals and two infiltrated agents. The May 1 legislative agenda proposed
+  stronger abortion rights, gun-access restrictions, and defense-industry
+  regulation, but the recorded House/Senate votes remained conservative-heavy.
+- Lowercase `x` created the browser-backed save `3494351`; after resume, the
+  session was left live at SEA — Sem-teto on May 1. It did not reach Liberal
+  Victory or game-over, so neither is claimed. No new localization/layout issue
+  was confirmed and no PT ticket was filed.
+- Evidence and the full integrity summary are under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy61-victory-20260824-r3/`.
+  Eighteen DOM-buffer captures are valid JSON, all are 25×80 with maximum row
+  width 80, and the raw-English UI token scan returned no hits.

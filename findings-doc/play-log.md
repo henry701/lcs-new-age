@@ -9083,6 +9083,7 @@ reached. Captures and source hashes are under
 - This route materially differed from the prior founder → sports-car → pursuit and police-station pressure routes: Portuguese stock setup, active CCS, zipper combat, fate-selected Tawanda Channing, no weapon, and Seattle `Desert Eagle Bar e Grill` security combat.
 - The bouncer generated `Habitante do Interior` with `.44 Magnum` and `Fazendeiro` with `AR-15`. Repeated natural `F` combat killed the founder; `C - Reflita` reached the literal game-over screen at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r5/evidence/025-terminal.json`: `A Elite Liberal` and `O Esquadrão do Crime Liberal foi morto em combate em Janeiro de 2023.` The Portuguese title after Enter is captured at `evidence/026-after-terminal.json`.
 - 67 object captures were retained. All buffers had 25 rows and maximum width 80; zero over-wide rows, bridge errors, empty/invalid captures, or post-locale raw-English pattern hits. No new ticket was confirmed. Artifact root: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r5/`.
+
 ## 2026-08-24 — playtester strategy62 April political checkpoint
 
 - Continued the isolated Portuguese stock/cheatless route to 1 Apr 2023 with
@@ -9127,6 +9128,7 @@ reached. Captures and source hashes are under
 - This route materially differed from the R3 sportscar/pursuit and R5 Seattle bar routes: Portuguese stock setup, Washington, DC founder travel, a five-member armed gang led by Eve Chao, normal National Mall → Casa Branca movement, and four `Serviço Secreto` opponents.
 - Repeated natural `F` combat killed/dispersed the squad. After the normal `C - Reflita` and Enter death/contact flow, the literal `Ending.dispersed` terminal was captured at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r6/evidence/032-terminal-continued.json`: `A Elite Liberal` and `O Esquadrão do Crime Liberal foi dispersado em Janeiro de 2023.` The Portuguese title after Enter is `evidence/033-after-terminal.json`.
 - The replay retained 135 object captures. Every buffer had 25 rows and maximum width 80; there were zero over-wide rows, bridge errors, empty/invalid captures, or post-locale raw-English pattern hits. The `Serviço Secreto` role was localized, so no PT-406 reproduction or new ticket was confirmed. Artifact root: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r6/`.
+
 ## 2026-08-24 — Strategy 61 r3 bounded victory route
 
 - A third independent strict-headless Portuguese session used an isolated

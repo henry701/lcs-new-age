@@ -265,6 +265,7 @@
 | PT-459 | Low | Amendment gender agreement | Singular Supreme Court purge heading defaults to a masculine citizen |
 | PT-460 | Medium | Combat translation/spacing | Knife melee prose leaks English `lunges at` and doubles the localized dodge separator |
 | PT-461 | Medium | Combat translation/coverage | XML weapon attack-description variants lack Portuguese catalog entries |
+| PT-462 | Medium | Car-theft translation/layout | Failed window break-in branch renders raw English or clips a Portuguese weapon variant |
 
 ## PT-001: Save-management option is clipped
 
@@ -9993,7 +9994,7 @@ source-enumeration coverage test is the evidence for the remaining variants.
 - Severity: Medium (P2 localization regression; no gameplay loss observed)
 - Type: Missing dynamic activity-message translation
 - Screen: Portuguese stock car theft → failed window break-in
-- Replay status: **Confirmed on 2026-08-24; not fixed or independently reverified in this route**
+- Replay status: **Fixed and independently verified on 2026-08-24 against `770d35ef`**
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/clear-skies/evidence/775-pickup-window-result.json`
 - Source trace: `lib/daily/activities/car_theft.dart:157-158` in the
   `Attribute.strength` failure branch.
@@ -10024,21 +10025,24 @@ The failed-window sentence should be translated through the canonical
 Portuguese catalog while retaining the dynamic name and the existing 80-column
 layout.
 
-### PT-462 post-fix verification
+### PT-462 independent post-fix verification
 
-- Fix snapshot: `373183ad35af8f8ee9120375b02f634445f39503`
-  (`fix(i18n): translate car theft window failures`).
-- Focused verification in isolated `fix-pt462-car-window-wt` passed all 78
-  tests in `test/daily/car_theft_translation_test.dart` and
-  `test/i18n_static_coverage_test.dart`.
-- Fresh strict-headless `pt_BR`/CCS replay on `127.0.0.1:14566` reproduced the
-  original no-weapon branch after naturally disarming Mel Clinton. Capture
-  `.../verify-pt462-20260824/evidence/056-mel2-window-result.json` renders
-  `Mel Clinton trinca a janela, mas ela ainda está parcialmente intacta.`;
-  no raw English remains and the screen measures 80 columns.
-- The additional weapon variant is translated in
-  `.../evidence/046-mel-window-result.json`, but its full rendered Portuguese
-  sentence is 84 characters and the fixed-width screen clips it at
-  `...parcialmente intac`. Keep this width/content-loss follow-up separate;
-  do not close the broader failed-window coverage until the weapon variant is
-  shortened or otherwise laid out completely.
+- Translation fix `373183ad` was integrated as `b380cf75`; the focused car-
+  theft/i18n suites passed all 78 tests. The follow-up width fix `92a969de`
+  was integrated as `770d35ef`, shortening the weapon translation while
+  preserving the dynamic name and weapon placeholders.
+- Independent detached replay at `770d35ef6ba1abd1eff8d4a522312864655c3197`
+  used fresh strict-headless sessions `pt462fix3/pt462fix3ns` (no weapon) and
+  `pt462fix8/pt462fix8ns` (AK-102 weapon) on `127.0.0.1:14670`.
+- The no-weapon failure is complete Portuguese in
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt462-770d35ef-20260824/no-weapon-low-strength/evidence/031-no-weapon-failure.json`:
+  `Elizabeth Macy trinca a janela, mas ela ainda está parcialmente intacta.`
+- The weapon failure is complete Portuguese in
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt462-770d35ef-20260824/weapon-ak-r4/evidence/s02-result.json`:
+  `Adrianna López trinca a janela com AK-102, mas ainda está intacta.`
+- Independent integrity covers 31 no-weapon and 38 weapon captures: every
+  JSON object is valid, maximum text width is 80, unexpected raw-English hits
+  after Portuguese selection are empty, and bridge-error files are empty.
+  Intentional English on the pre-selection title/language screens is recorded
+  separately. The focused post-fix suite passed; the verifier report is
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt462-770d35ef-20260824/integrity-summary.json`.

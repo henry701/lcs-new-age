@@ -9196,6 +9196,26 @@ reached. Captures and source hashes are under
   intacta.` with no raw English and max row width 80.
 - The weapon branch was also localized, but
   `verify-pt462-20260824/evidence/046-mel-window-result.json` clips the 84-
-  character Portuguese result at the 80-column boundary. PT-462's original
-  raw-English branch is fixed by this replay; the weapon-variant width/content
-  issue remains a follow-up and is not silently classified as fixed.
+  character Portuguese result at the 80-column boundary. This was the
+  interim result; the width fix and independent closure are recorded below.
+
+## 2026-08-24 — PT-462 post-770 independent closure replay
+
+- An independent verifier rebuilt the web app from detached `770d35ef` and
+  used fresh strict-headless Portuguese sessions on `127.0.0.1:14670`:
+  `pt462fix3/pt462fix3ns` for a no-weapon failure and
+  `pt462fix8/pt462fix8ns` for an AK-102 weapon failure. The shared checkout
+  was not edited and no destructive Git operation was used.
+- The no-weapon result is complete Portuguese in
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt462-770d35ef-20260824/no-weapon-low-strength/evidence/031-no-weapon-failure.json`:
+  `Elizabeth Macy trinca a janela, mas ela ainda está parcialmente intacta.`
+- The weapon result is complete Portuguese in
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt462-770d35ef-20260824/weapon-ak-r4/evidence/s02-result.json`:
+  `Adrianna López trinca a janela com AK-102, mas ainda está intacta.`
+- The verifier integrity summary reports 31 no-weapon and 38 weapon JSON
+  captures, max text width 80, zero unexpected raw-English hits after
+  Portuguese selection, zero bridge-error files, valid JSON objects, and
+  strict HeadlessChrome user agents. Intentional pre-selection English is
+  recorded separately. The focused post-width suite passed all 2 car-theft
+  tests. PT-462 is therefore closed; no new translation or layout ticket was
+  found.

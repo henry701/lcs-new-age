@@ -3300,5 +3300,23 @@ routes are optional breadth coverage.
 - The weapon variant is Portuguese in
   `verify-pt462-20260824/evidence/046-mel-window-result.json`, but the full
   sentence is 84 characters and is clipped to `...intac` by the 80-column
-  console. Keep a separate width/content-loss follow-up; do not claim every
-  failed-window variant fully verified until it is shortened or laid out.
+  console. This was the interim finding; the width fix and independent
+  closure are recorded below.
+
+## 2026-08-24 — PT-462 width fix independently closed
+
+- The shared width follow-up `770d35ef` shortens the AK-102 Portuguese failed-
+  window value to `trinca a janela com {weapon}, mas ainda está intacta.`;
+  the representative rendered line is 66 characters and fits the 80-column
+  console. The no-weapon value remains complete and localized.
+- Independent detached replay from `770d35ef6ba1abd1eff8d4a522312864655c3197`
+  used fresh sessions `pt462fix3/pt462fix3ns` and `pt462fix8/pt462fix8ns` on
+  port 14670. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt462-770d35ef-20260824/`.
+  Both failed-window variants rendered Portuguese with no unexpected raw
+  English after locale selection or bridge errors; intentional pre-selection
+  English was recorded separately. All 69 captures were valid JSON and no row
+  exceeded 80.
+- The focused car-theft suite passed after the width change. PT-462 is closed;
+  retain the original raw-English capture 775 and the earlier clipped capture
+  046 as regression history, not as open defects.

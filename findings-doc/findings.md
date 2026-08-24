@@ -263,6 +263,8 @@
 | PT-457 | Medium | Vehicle translation/context | Failed car-theft search interpolates untranslated XML vehicle names |
 | PT-458 | Low | Interface translation/coverage | Paged-interface labels with counters fall back to English |
 | PT-459 | Low | Amendment gender agreement | Singular Supreme Court purge heading defaults to a masculine citizen |
+| PT-460 | Medium | Combat translation/spacing | Knife melee prose leaks English `lunges at` and doubles the localized dodge separator |
+| PT-461 | Medium | Combat translation/coverage | XML weapon attack-description variants lack Portuguese catalog entries |
 
 ## PT-001: Save-management option is clipped
 

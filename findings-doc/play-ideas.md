@@ -3166,3 +3166,27 @@ routes are optional breadth coverage.
   weapons again, continue police/gang pressure, or broaden month-end/legal
   coverage. Artifact root:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy59-distinct-terminal-20260824/`.
+
+## 2026-08-24 — strategy62 political/fundraising checkpoint
+
+- Strategy62 took a distinct stock/cheatless Portuguese route: the default
+  changing-times campaign kept **Sangue Ruim** active, moved founder Manuela
+  Matsumoto Seattle → New York → Chicago → Washington, DC, and used ordinary
+  White House sleeper recruitment rather than a combat-pressure loop.
+- By 17 Jan 2023, journalists Yann Rota and Josephine Falstaff were natural
+  White House sleepers advocating Liberalism. Manuela, Donovan Zhou, and
+  Manfred Lyles were soliciting donations; Donovan Rodham was recruiting; and
+  Matteo Varga was writing for the Liberal Guardian. The agenda pages show
+  visible public-interest movement (including Mínimo and Alto rows), while
+  conservative/moderate active laws and the CCS condition still leave the
+  campaign far from `winCheck`.
+- Exact agenda and save/resume evidence is retained at
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/252-jan17-agenda-page1.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/253-jan17-agenda-page2.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/254-jan17-agenda-page3.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/255-title-save-jan17.json`,
+  and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/256-reloaded-jan17.json`.
+- Continue with donor cash, Guardian/sleeper influence, CCS deactivation, and
+  the political route. This checkpoint found no confirmed localization or
+  layout issue and reached no natural victory/game-over screen.

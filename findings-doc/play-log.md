@@ -8999,3 +8999,39 @@ reached. Captures and source hashes are under
   purge, or failed-car-search branches. Those reachability limits remain
   explicit; the current-head deterministic render tests are the verification
   evidence rather than fabricated live captures.
+
+## 2026-08-24 — playtester strategy62 political/fundraising checkpoint
+
+- Built isolated pushed snapshot `4c4bbf761ffc0397197ed1cdd04ad696064d213e`
+  in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/worktree`.
+  Served only the release web build on `127.0.0.1:14562` with
+  `/?playtest=1`, using strict-headless session
+  `strategy62-victory-20260824` and namespace `lcs-new-age-strategy62`.
+- Ran a fresh Portuguese (`pt_BR`) stock/cheatless campaign with the default
+  changing-times climate, active **Sangue Ruim** CCS, **Poder para o povo**
+  combat, and founder Manuela Matsumoto moved Seattle → New York → Chicago →
+  Washington, DC. This was a distinct route from the earlier strategy61
+  campaign.
+- Natural progress reached the DC homeless base on 17 Jan 2023. Yann Rota and
+  Josephine Falstaff were recruited through ordinary meetings, selected as
+  White House sleepers, and assigned Liberal advocacy. At the checkpoint
+  Manuela, Donovan Zhou, and Manfred Lyles solicited donations; Donovan Rodham
+  recruited; Matteo Varga wrote for the Liberal Guardian. No cheats, imports,
+  runtime source edits, headed browser, or shared-checkout mutations were used.
+- Agenda captures show the Portuguese overview and opinion pages, including
+  125 Lib+ / 50 Lib House seats, 20 Lib+ / 15 Lib Senate seats, public-interest
+  movement to Mínimo/Alto on several issues, and 0% LCS awareness. The active
+  laws remain short of elite Liberal and CCS remains active, so no victory
+  condition was met. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/252-jan17-agenda-page1.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/253-jan17-agenda-page2.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/254-jan17-agenda-page3.json`.
+- A lowercase-`x` save followed by title-screen resume with lowercase-`c`
+  restored the Jan 17 base state. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/255-title-save-jan17.json`
+  and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/256-reloaded-jan17.json`.
+- The captured checkpoint surfaces were Portuguese, within the 80-column
+  console width, and had no confirmed issue. No natural victory/game-over was
+  reached or claimed; the browser/server and resumable state remain live for a
+  further bounded political route.

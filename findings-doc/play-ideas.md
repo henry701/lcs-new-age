@@ -3219,3 +3219,15 @@ routes are optional breadth coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/317-title-save-feb1.json` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/318-reloaded-feb1.json`.
   No confirmed localization/layout issue or natural victory/game-over was
   observed; continue the live political route.
+
+## 2026-08-24 — Strategy63 r4 follow-up ideas
+
+- The ordinary Seattle police-station route naturally produced a distinct arrest/trial/prison branch with an unarmed solo founder, but did not trigger `checkForDefeat` because the route became an incapacitation/arrest branch. Keep this honest as non-terminal evidence; do not relabel the Portuguese police-news screen as game-over.
+- A future bounded terminal attempt should vary only natural encounter conditions (founder gender/origin or destination city) to seek a lower-count police encounter that reaches total death, while preserving this r4 June 1 2023 checkpoint and the prior r3 literal-game-over session.
+- Evidence and integrity artifacts for r4: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r4/route.md`, `integrity-summary.json`, and `evidence/`.
+
+## 2026-08-24 — Strategy63 r5 terminal route follow-up
+
+- The bar-security route provides a reproducible natural terminal distinct from the prior pursuit and police-station routes: a fate-selected unarmed founder can die to the two-conservative `Desert Eagle Bar e Grill` encounter under zipper combat. Preserve the live terminal/title session and the exact capture before attempting any new variation.
+- If additional combat breadth is needed, vary only normal founder fate/origin or destination after saving the current evidence; do not relabel the r4 arrest/trial branch as game-over. Current r5 integrity is clean: 67 captures, 25 rows, max width 80, zero post-locale raw-English hits, no ticket.
+- Evidence and integrity artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r5/route.md`, `integrity-summary.json`, and `evidence/025-terminal.json`.

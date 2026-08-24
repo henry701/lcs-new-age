@@ -8935,6 +8935,22 @@ reached. Captures and source hashes are under
   this extends the live `lunges at` leak documented as PT-460. The exact list,
   source trace, and independent replay route are recorded in PT-461.
 - Added catalog entries and a deterministic coverage test on the isolated
-  fixer branch. Treat the ticket as **fixed-pending-independent-replay** until
-  a fresh headless combat session exercises at least the social/music and
-  ranged/incendiary families.
+  fixer branch. An independent verifier then tested commit `85419499` with 49
+  focused tests, a fresh web build, and a strict-headless Portuguese title
+  session with HTTP 200 assets and no browser errors. The natural route did not
+  render every weapon family, so source-enumeration coverage is the evidence
+  for the remaining variants; PT-461 is **fixed and independently verified**.
+
+## 2026-08-24 — independent verification of PT-458 through PT-461
+
+- Fresh verifier artifacts under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/`
+  cover the current fixes without modifying or resetting the shared checkout.
+- PT-458 asserted `[] - Ver outras páginas Liberais (2/9)`; PT-459 asserted
+  both singular and plural purge headings; PT-460 passed the exact knife and
+  one-space composition checks on `b75312bf`; PT-461 passed the XML attack
+  coverage test on `85419499`.
+- The verifier’s stock routes did not naturally reach the counter, purge, or
+  every combat-weapon variant. Those reachability limits are recorded rather
+  than presented as fabricated live captures; deterministic current-head
+  evidence closes the fixes.

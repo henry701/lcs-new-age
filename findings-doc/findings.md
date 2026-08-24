@@ -9750,11 +9750,12 @@ by `Vehicle.fullName()`/the dealership before interpolation. The result must be
 - Severity: Low
 - Type: Missing translation / paging composition
 - Screen: Portuguese paged Liberal lists showing `current/max`
-- Replay status: **Confirmed at origin `f4cba427`**
+- Replay status: **Fixed; independently verified on 2026-08-24 by deterministic render and fresh headless build (live current/max route unreachable)**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
-  `lib/utils/interface_options.dart`, and
-  `lib/l10n/app_pt_BR_part21.arb`
+  `lib/utils/interface_options.dart`,
+  `lib/l10n/app_pt_BR_part21.arb`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/focused-tests.log`
 
 ### Reproduction
 
@@ -9781,15 +9782,22 @@ all four key layouts fit column 80 with `(current/max)`.
    counter; compare bracket, semicolon/comma, and PGUP/PGDN layouts where
    reachable.
 
+Independent verification asserted the exact rendered value
+`[] - Ver outras páginas Liberais (2/9)`. The fresh route reached paged
+surfaces, but every reachable page had no more than one page of entries, so
+the current/max variant did not occur naturally; this is a reachability note,
+not an unverified fix.
+
 ## PT-459: Singular Supreme Court purge heading forces masculine citizen
 
 - Severity: Low
 - Type: Gender agreement / constitutional amendment branch
 - Screen: Portuguese elite-liberal constitutional amendment → one non-Elite justice
-- Replay status: **Confirmed at origin `f4cba427`; distinct residual defect after PT-377 localization**
+- Replay status: **Fixed; independently verified on 2026-08-24 by singular/plural render tests and fresh headless build (live purge route unreachable)**
 - Evidence:
-  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`
-  and `lib/politics/constitution.dart`
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-e-20260824/logs/red-probe.log`,
+  `lib/politics/constitution.dart`, and
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/focused-tests.log`
 
 ### Reproduction
 
@@ -9817,12 +9825,17 @@ justice. Correct the source grammar without changing plural behavior.
 3. Reject masculine `ex-cidadão` for a female/nonbinary sole justice and verify
    the following paragraph remains grammatical.
 
+Independent verification rendered and asserted both branches, including
+`A seguinte pessoa é classificada como Arqui-Conservadora:`. A bounded stock
+route did not reach month-end Supreme Court purge; the deterministic branch
+coverage is the current evidence.
+
 ## PT-460: Knife melee prose leaks English `lunges at`
 
 - Severity: Medium
 - Type: Missing dynamic attack-description translation / spacing
 - Screen: Portuguese site combat → knife melee round
-- Replay status: **Confirmed in the stock isolated `b749efe3` snapshot; the missing catalog keys and PT double-space shell remain visible at fetched origin `d06bbe8`**
+- Replay status: **Fixed; independently verified on 2026-08-24 against `b75312bf` by focused tests and a fresh headless Portuguese build**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy59-distinct-terminal-20260824/evidence/124-police-combat3.json`,
   `evidence/133-police-combat12.json`,
@@ -9863,15 +9876,24 @@ exactly one visual space without regressing width or punctuation.
 4. Continue until an officer dodges; require exactly one space before
    `desvia o ataque!`, `faz a esquiva Matrix!`, and sibling variants.
 
+Independent evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/pt460-focused-tests.log`,
+`pt460-flutter-build.log`, and `pt460-browser-pt-state.json`. The fresh
+Portuguese session had no browser/asset errors; the bounded live route did not
+need to fabricate another knife encounter because the exact combat and
+spacing assertions passed.
+
 ## PT-461: XML weapon attack-description variants lack Portuguese catalog entries
 
 - Severity: Medium
 - Type: Missing dynamic attack-description translation
 - Screen: Portuguese site combat with non-knife weapons
-- Replay status: **Confirmed by source/catalog audit; fixed-pending-independent-replay**
+- Replay status: **Fixed; independently verified on 2026-08-24 against `85419499` by catalog coverage, focused tests, and a fresh headless Portuguese build**
 - Evidence: `assets/xml/weapons.xml`, `lib/items/weapon_type_xml.dart`,
   `lib/sitemode/fight.dart`, and the coverage assertion in
-  `test/sitemode/fight_translation_test.dart`
+  `test/sitemode/fight_translation_test.dart`; verifier artifacts:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt458-459-20260824/pt461-focused-tests.log`,
+  `pt461-flutter-build.log`, `pt461-browser-pt-state.json`, and
+  `pt461-browser-errors.txt`
 
 ### Reproduction
 
@@ -9907,3 +9929,8 @@ the existing width and spacing rules.
    remain in English.
 4. Repeat with a social/music weapon and a ranged or incendiary weapon to
    cover distinct description families.
+
+The independent verifier ran 49 focused tests, built the web snapshot, and
+opened a fresh strict-headless Portuguese session with HTTP 200 assets and no
+browser errors. The natural route did not render every weapon family, so the
+source-enumeration coverage test is the evidence for the remaining variants.

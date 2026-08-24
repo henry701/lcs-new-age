@@ -230,6 +230,13 @@
 | PT-407 | Medium | Translation interpolation/display leak | Liberal level title `Activist` leaks English in Portuguese recruitment screens |
 | PT-408 | Medium | Missing translation / dynamic creature type | `Political Activist` type name leaks English in Portuguese liberal profiles |
 | PT-409 | Medium | Translation/context | Homeless-camp siege briefing concatenates a modal `terá que` with imperative `derrote`/`fuja` |
+| PT-419 | Medium | Disbanding layout | Monthly disband footer clips the Portuguese next-month action |
+| PT-420 | Medium | Agenda layout | Disband confirmation prompt clips its final Portuguese instruction |
+| PT-421 | Medium | Equipment/layout | Base-selection prompts lose their final Portuguese words |
+| PT-422 | Medium | Siege layout | Portuguese raid and escape warnings clip at the console edge |
+| PT-423 | Low | Newspaper layout | Cable News anchor overlay loses the right border in Portuguese |
+| PT-424 | Low | Dialogue layout | Homeless-camp relocation note clips its closing punctuation |
+| PT-425 | Low | Launch layout | Conservative-interruption footers clip the final period |
 
 ## PT-001: Save-management option is clipped
 
@@ -7949,3 +7956,249 @@ Verifier replay:
    Require the clothing name to be Portuguese (for example `Terno preto`),
    with no raw `Black Suit`/other English armor name, no empty capture, no row
    over 80 columns, and no bridge/browser errors.
+
+## PT-419: Monthly disband footer clips the next-month action
+
+- Severity: Medium
+- Type: Fixed-console layout / translation
+- Screen: Portuguese disband summary → monthly continuation controls
+- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+
+### Reproduction
+
+1. Initialize `pt_BR`, clear the fixed 25×80 console, and execute
+   `addOptionText(24, 54, "Any Other Key", "Any Other Key - Next Month")`.
+2. Read console row 24.
+
+### Actual
+
+The localized option is 34 cells wide at column 54. The buffer ends with
+`Qualquer Outra Tecla - Pró`; `ximo Mês` is silently discarded. The control no
+longer identifies the action that continues to the next month.
+
+### Expected
+
+Fit or reposition the translated footer so both the recreate and next-month
+actions remain complete and visually separate at 80 columns. Add a regression
+that renders both controls and asserts the full `Próximo Mês` ending.
+
+### Independent stock replay steps
+
+1. Start a fresh Portuguese campaign with the wrapper-only headless harness and
+   no debug/fixture assistance.
+2. Open the Liberal Agenda, choose disband-and-wait, complete the confirmation,
+   and capture the monthly summary row 24.
+3. Reject the clipped `R` action with another key and verify the visible label
+   ends with `Próximo Mês`, stays within row 24, and does not collide with the
+   recreate control.
+
+## PT-420: Disband confirmation prompt clips its final instruction
+
+- Severity: Medium
+- Type: Fixed-console layout / translation
+- Screen: Portuguese Liberal Agenda → Dissolver e Esperar confirmation
+- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+
+### Reproduction
+
+1. Initialize `pt_BR`, clear the console, and render the confirmation prompt
+   from `lib/basemode/liberal_agenda.dart` with `mvaddstrc(13, 0, ...)`.
+2. Read row 13.
+
+### Actual
+
+The row contains `Digite esta frase Liberal para confirmar (pressione uma letra
+errada para repens`. The closing characters `ar):` are discarded. PT-399
+bounded the explanatory paragraphs but missed this prompt.
+
+### Expected
+
+Wrap, fit, or shorten the prompt while preserving the instruction and colon.
+A focused regression must assert the complete rendered ending.
+
+### Independent stock replay steps
+
+1. Start a fresh stock Portuguese headless campaign.
+2. Choose Liberal Agenda → `D - Dissolver e Esperar`.
+3. Capture row 13 before typing the confirmation phrase; require it to end with
+   `repensar):`, occupy no more than 80 cells, and leave the phrase row intact.
+
+## PT-421: Base-selection prompts lose their final Portuguese words
+
+- Severity: Medium
+- Type: Fixed-console layout / equipment transfer
+- Screens: Portuguese squad review base picker and equipment base picker
+- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+
+### Reproduction
+
+1. Initialize `pt_BR` and render the review-mode prompt at row 21/column 0 or
+   the equipment prompt at row 22/column 0 using the source literals.
+2. Read the fixed console rows.
+
+### Actual
+
+Both 90-cell translations start at column zero and are cut at cell 80. Review
+mode ends after `selecionar`; equipment mode also loses the final
+`uma base.` The player receives an incomplete instruction on both routes.
+
+### Expected
+
+Use one shared width-safe two-line renderer or shortened catalog copy so both
+prompts retain `selecionar uma base.` Add regressions covering review and
+equipment transfer at 80 columns.
+
+### Independent stock replay steps
+
+1. In a fresh Portuguese headless campaign, open review mode and reach the
+   move/base picker with more than one base available; capture its footer.
+2. Return to base mode, open equipment transfer, and reach the equivalent base
+   picker; capture its footer.
+3. Require both visible prompts to end with `selecionar uma base.` without
+   overwriting adjacent rows or exceeding column 79.
+
+## PT-422: Siege warnings clip raid and escape instructions
+
+- Severity: Medium
+- Type: Fixed-console layout / siege briefing
+- Screens: Portuguese police death-squad warning, corporate raid warning, and post-siege escape prompt
+- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+
+### Reproduction
+
+Initialize `pt_BR` and render each source literal through its original wrapper
+and coordinates:
+
+1. death-squad warning at row 10/column 1;
+2. anonymous corporate warning at row 8/column 1;
+3. split-up-and-lay-low prompt at row 13/column 11.
+
+### Actual
+
+The death-squad warning loses its final period. The 104-cell corporate warning
+loses roughly 25 cells of important raid context. The escape prompt ends at
+`alguns` and loses ` dias`. All three writes are unbounded even though each
+fixed buffer remains exactly 80 cells wide.
+
+### Expected
+
+Wrap these warnings within the available briefing area (or provide complete
+two-line compositions) without losing the final qualification or instruction.
+Cover all three branches with deterministic width tests and fresh siege-route
+captures.
+
+### Independent stock replay steps
+
+1. Use fresh stock Portuguese routes for a police raid with Death Squads
+   enabled, an anonymous corporate raid countdown, and a completed siege
+   escape; do not inject siege state for the confirmation captures.
+2. Capture the full buffer immediately after each warning/prompt appears.
+3. Require the lethal-force sentence to end with a period, the corporate tip to
+   retain its complete LCS clause, and the escape prompt to end with ` dias`.
+
+## PT-423: Cable News anchor overlay loses the right border
+
+- Severity: Low
+- Type: Fixed-console newspaper layout
+- Screen: Portuguese television news → `NEW ANCHOR` overlay
+- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+
+### Reproduction
+
+1. Initialize `pt_BR`.
+2. Render the translated top box line from `lib/newspaper/television.dart` with
+   `mvaddstr(20, 13, ...)`.
+3. Inspect row 20 between columns 13 and 79.
+
+### Actual
+
+The Portuguese boxed line is 68 cells wide. Starting at column 13 requires 81
+cells, so the final right-border pipe is discarded. The observed row ends
+`sofisticado` with no closing border, breaking the four-line overlay frame.
+
+### Expected
+
+Keep every translated overlay line inside the drawn box by fitting the prose
+cell or shortening only the Portuguese value. Preserve matching left/right
+borders and add coverage for all five television overlay variants.
+
+### Independent stock replay steps
+
+1. Run a fresh stock Portuguese campaign until a conservative Cable News view
+   produces `NEW ANCHOR`; use ordinary monthly/news progression, not fixtures.
+2. Capture the television overlay before acknowledging it.
+3. Require rows 19–23 to have matching box borders, no raw English body text,
+   and no write beyond cell 79.
+
+## PT-424: Homeless relocation note clips its closing punctuation
+
+- Severity: Low
+- Type: Fixed-console dialogue layout
+- Screen: Portuguese conversation → possessions moved to homeless camp
+- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+
+### Reproduction
+
+Initialize `pt_BR` and render the translated possession note from
+`lib/talk/talk_outside_combat.dart` with `mvaddstrc(15, 1, white, ...)`.
+
+### Actual
+
+The 82-cell note starts at column 1. The visible line ends
+`...moradores de ru`; the final `a.>` is discarded. The sentence and delimiters
+are incomplete.
+
+### Expected
+
+Wrap the note onto two dialogue rows or shorten it without changing meaning.
+Assert the complete `de rua.>` ending in a fixed-width regression.
+
+### Independent stock replay steps
+
+1. In a fresh stock Portuguese route, trigger the normal conversation branch
+   that clears a room and moves possessions to the homeless camp.
+2. Capture dialogue row 15 immediately after it renders.
+3. Require `<Seus pertences...de rua.>` to be complete and width-safe.
+
+## PT-425: Conservative interruption footers clip the final period
+
+- Severity: Low
+- Type: Fixed-console launch layout
+- Screen: Portuguese conservative interruption → continue/restart footer
+- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+
+### Reproduction
+
+Initialize `pt_BR` and render either continue/restart literal from
+`lib/title_screen/launch_game.dart` at row 24/column 0.
+
+### Actual
+
+Both localized footers are 82 cells wide. Row 24 retains the meaningful words
+but discards the final period because the write needs 82 cells from column 0.
+
+### Expected
+
+Shorten the two catalog values or wrap them so sentence punctuation is visible.
+Add a regression covering both continue and restart branches.
+
+### Independent stock replay steps
+
+1. Reach the conservative-interruption sequence in a fresh Portuguese campaign
+   once while a resumable save exists and once without one.
+2. Capture row 24 for both continue and restart footers.
+3. Require each visible footer to end with a period and stay within column 79.

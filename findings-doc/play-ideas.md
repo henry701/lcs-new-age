@@ -2890,3 +2890,32 @@ routes are optional breadth coverage.
   on multi-year waiting; Strategy42 itself produced no `Ending.victory`.
 - Evidence and full integrity record:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy42-years-politics-20260821/`.
+
+## 2026-08-23 — prober i18n/layout A: remaining width routes
+
+- Disband monthly footer (PT-419), agenda confirmation prompt (PT-420), both
+  base-picker prompts (PT-421), the three siege warnings (PT-422), Cable News
+  NEW ANCHOR overlay (PT-423), homeless relocation note (PT-424), and launch
+  interruption footers (PT-425) need fixer/verifier passes.
+- For runtime verification, use fresh stock Portuguese sessions and capture
+  immediately at each ticket's named row; do not infer a fix from the focused
+  console harness alone.
+
+### Probe candidates / rejected candidates
+
+- `loadingFeedback()` exposes raw `File` through `{label}` and its PT value has
+  two spaces after the colon, but it currently runs before locale selection and
+  was not reproduced on a post-locale route. Keep as a pre-locale/telemetry
+  candidate unless a save/import or native-locale path initializes PT first.
+- Constitutional election/vote candidates from the static catalog-width scan
+  are false positives because their overruns are trailing alignment spaces that
+  `Console.addchar` clips harmlessly; PT-398 remains closed.
+- Cable News ` ZERO ` is also harmless: only the translated value's trailing
+  space crosses cell 79.
+- The extractor wants to add adjacent source-literal halves and localized
+  generated fragments (`Saudáveis`, `da União`, etc.) as new keys. These match
+  accepted composition/telemetry behavior under PT-173/PT-243/PT-246/PT-366;
+  do not reopen without a visible leak.
+- `New You` juice-bar word order is awkward but explicitly characterized by an
+  existing site translation test; treat as accepted generated-name style unless
+  product direction changes.

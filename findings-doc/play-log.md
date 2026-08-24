@@ -8649,3 +8649,21 @@ reached. Captures and source hashes are under
   width 80, zero over-wide rows, errors, bridge errors, or post-locale raw-
   English hits. Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy53-victory-20260822/`.
+
+## 2026-08-23 — prober i18n/layout A static/live sweep
+
+- Audited current HEAD `e682cadd` on `feature/localization`. Catalog validation
+  and interpolation checks were clean. Focused newspaper/siege/disband/core/
+  talk/startup/map-editor/site suites passed (100 tests).
+- Started a fresh strict-headless Portuguese campaign with wrapper session
+  `prober-i18n-layout-a-r1`, disposable HTTP port 10421, and no cheats, debug
+  controls, fixtures, save imports, CDP attach, headed browser, or production
+  edits. The route reached the PT base screen and captured title/new-game/
+  founder/base/equipment/assignment surfaces.
+- A deterministic 25×80 console harness reproduced seven fixed-width defect
+  groups, filed as PT-419 through PT-425. Evidence and exact stock verifier
+  routes are in `findings-doc/findings.md`; raw harness output is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/`.
+- Rejected trailing-space false positives for PT-398 and Cable News `ZERO`,
+  plus extractor false positives from adjacent literals/localized fragments.
+  Kept the pre-locale `File:` loading label as a probe candidate only.

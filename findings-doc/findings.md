@@ -9119,6 +9119,9 @@ replays remain pending independent verification; preserve the stock replay
 steps below.
 
 ### Independent stock replay steps
+### Verification evidence (2026-08-24)
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/` — hospital transfer/burn predicates: no qualifying live branch; 1,088-capture integrity clean. Status remains Fixed-pending-verify.
 
 1. In a fresh Portuguese campaign, place a female Liberal in the clinic until a
    serious injury triggers university-hospital transfer; capture row 8.
@@ -9166,6 +9169,9 @@ natural dating failures remain pending fresh verification. Preserve the replay
 steps below.
 
 ### Independent stock replay steps
+### Verification evidence (2026-08-24)
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/` — dating failure branches unreachable in ordinary route; conversion success captured instead. Status remains Fixed-pending-verify.
 
 1. Run a fresh Portuguese campaign and assign a female Liberal with multiple
    dating partners.
@@ -9211,6 +9217,9 @@ a natural failed recruitment remains pending fresh replay. Preserve the stock
 steps below.
 
 ### Independent stock replay steps
+### Verification evidence (2026-08-24)
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/` — dangerous-extremist rejection branch not reached; failed pickup and recruitment attempts captured. Status remains Fixed-pending-verify.
 
 1. In a fresh Portuguese campaign, assign a female recruiter whose persuasion
    check will fail against a conservative recruit.
@@ -9257,6 +9266,9 @@ articles. Focused tests pass; natural sleeper recruitment remains pending fresh
 verification. Preserve the stock steps below.
 
 ### Independent stock replay steps
+### Verification evidence (2026-08-24)
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/` — female sleeper Expand Network remained juice-gated before recruitment. Status remains Fixed-pending-verify.
 
 1. In a fresh Portuguese campaign, obtain a female sleeper at a workplace where
    a feminine profession such as Nurse is available.
@@ -9306,6 +9318,9 @@ tests pass; natural President-sleeper branches remain pending fresh replay.
 Preserve the stock steps below.
 
 ### Independent stock replay steps
+### Verification evidence (2026-08-24)
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/` — President-sleeper cabinet report branch not reached. Status remains Fixed-pending-verify.
 
 1. Reach a female or nonbinary President sleeper in ordinary progression, with
    at least one non-Elite-Liberal cabinet position.
@@ -9350,6 +9365,9 @@ self-defense trial remains pending fresh replay. Preserve the stock steps
 below.
 
 ### Independent stock replay steps
+### Verification evidence (2026-08-24)
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/` — self-defense trial branch not reached. Status remains Fixed-pending-verify.
 
 1. In a fresh Portuguese campaign, let a female Liberal reach trial and choose
    self-defense.
@@ -9396,6 +9414,9 @@ postal abbreviation. Focused tests pass; natural newspaper generation remains
 pending fresh replay. Preserve the stock steps below.
 
 ### Independent stock replay steps
+### Verification evidence (2026-08-24)
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/` — Seattle/Los Angeles story dateline branch not reached. Status remains Fixed-pending-verify.
 
 1. Start a fresh Portuguese campaign in Seattle and commit an ordinary squad
    action that generates a newspaper story.
@@ -9443,6 +9464,9 @@ natural interrogation workplace discussion remains pending fresh replay.
 Preserve the stock steps below.
 
 ### Independent stock replay steps
+### Verification evidence (2026-08-24)
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/` — generated pawnshop workplace discussion branch not reached. Status remains Fixed-pending-verify.
 
 1. Start fresh Portuguese sessions until a hostage or recruit works at a
    generated `{surname} — Casa de penhores e armas` location whose surname ends
@@ -9489,6 +9513,9 @@ tests pass; natural Arch-Conservative ratification remains pending fresh replay.
 Preserve the stock steps below.
 
 ### Independent stock replay steps
+### Verification evidence (2026-08-24)
+
+- `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/` — constitutional repeal announcement not reached. Status remains Fixed-pending-verify.
 
 1. Advance an ordinary Portuguese campaign until the Arch-Conservative Congress
    proposes the constitutional repeal amendment.

@@ -8863,3 +8863,11 @@ reached. Captures and source hashes are under
   buffers, height 25, max width <=80, no over-wide rows/collisions, empty
   bridge/browser errors at checkpoints, and zero raw-English scan hits in 373
   post-locale captures excluding accepted decisions/pre-locale title.
+
+## 2026-08-24 — Batch E verification attempt PT-443–PT-451
+
+- Built isolated web snapshot `b749efe355b3c1e2cdb3feaa57bb11190f7ddcd5` with Flutter 3.35.4 after fetch confirmed origin unchanged. Served only that snapshot on loopback port 38971 with `?playtest=1`.
+- Used fresh strict-headless session `verify-layout-e-setup-a` with ordinary routes, bridge keys, safe x/reload/c checkpoints, no cheats/debug flags/fixtures/imports/runtime source edits/CDP/headed browsers.
+- PT-443 through PT-451 remain **Fixed-pending-verify**: none rendered its required success branch during bounded ordinary play. Dating produced a natural conversion rather than failure; a female-recruiter attempt did not reach dangerous-extremist copy; sleeper recruiting stayed juice-gated.
+- Batch-D focused suite passed 9/9 on the isolated source; interpolation check found zero missing/invalid items; ARB validation passed. Machine integrity passed for 1,088 numbered buffer captures: nonempty buffers, height 25, max width <=80, no overflow/collision issues, and four browser-error checkpoints were empty. Raw-target English scan had zero hits.
+- Evidence/build logs/integrity summary: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-e-20260824/`.

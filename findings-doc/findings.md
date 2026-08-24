@@ -9987,3 +9987,39 @@ The independent verifier ran 49 focused tests, built the web snapshot, and
 opened a fresh strict-headless Portuguese session with HTTP 200 assets and no
 browser errors. The natural route did not render every weapon family, so the
 source-enumeration coverage test is the evidence for the remaining variants.
+
+## PT-462: Portuguese car-theft failed-window branch renders raw English
+
+- Severity: Medium (P2 localization regression; no gameplay loss observed)
+- Type: Missing dynamic activity-message translation
+- Screen: Portuguese stock car theft → failed window break-in
+- Replay status: **Confirmed on 2026-08-24; not fixed or independently reverified in this route**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/clear-skies/evidence/775-pickup-window-result.json`
+- Source trace: `lib/daily/activities/car_theft.dart:157-158` in the
+  `Attribute.strength` failure branch.
+
+### Reproduction
+
+1. Start the strict-headless stock campaign in `pt_BR` with `Céu Azul e
+   Límpido` selected.
+2. Assign Galaxina Riffle the natural `Roubando um Carro` activity.
+3. Select `Picape`, approach the vehicle, and choose `B - Quebrar a janela`.
+4. On a failed strength check, inspect the result row.
+
+### Actual
+
+The otherwise Portuguese result row contains the raw English sentence:
+
+`Galaxina Riffle cracks the window, but it is still somewhat intact.`
+
+The rendered capture remains within the fixed console width (`maxRow: 80`;
+no overflow), but the English sentence violates the Portuguese localization
+contract. The adjacent successful-window branch is localized in
+`evidence/777-pickup-window-result3.json`, so that branch does not disprove
+this finding.
+
+### Expected
+
+The failed-window sentence should be translated through the canonical
+Portuguese catalog while retaining the dynamic name and the existing 80-column
+layout.

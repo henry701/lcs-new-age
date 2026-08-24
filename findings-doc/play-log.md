@@ -9106,3 +9106,28 @@ reached. Captures and source hashes are under
 - The May 1 monthly transition rendered Portuguese legislative agenda/votes and finance screens. The three resolutions did not pass; funding was +US$175 donations, +US$160 art, net +US$335, ending at US$958. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/436-may1-legislative-agenda-spy.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/437-may1-legislative-votes-spy.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/438-may1-legislative-votes2-spy.json`, and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/439-may1-president-result-spy.json`.
 - After the catch, Yann was naturally returned to `Promovendo o Liberalismo`; both White House journalist sleepers now advocate Liberalism. A lowercase-`x` save and title-screen load restored the May 1 DC homeless base with US$958 and the updated sleeper assignment. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/448-sleepers-before-yann-reassign.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/452-yann-liberalism-confirmed.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/454-title-save-may1-spy-caught.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/455-load-menu-may1-spy-caught.json`, and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/456-reloaded-may1-spy-caught.json`.
 - All inspected route screens were Portuguese and within the 80-column console. Sangue Ruim/CCS remains active, the political agenda remains far from all-elite-Liberal laws and executive/court/legislative gates, and no natural victory/game-over screen was reached or claimed. The current session/server and May 1 save remain live.
+
+## 2026-08-24 — strategy62 Clear Blue Skies political/funding route and PT-462
+
+- A separate strict-headless Portuguese stock/cheatless route selected
+  `Céu Azul e Límpido` (CCS defeated at setup) and used session
+  `strategy62-ccs-20260824`, namespace `lcs-new-age-strategy62-ccs`, on
+  `127.0.0.1:14562`. The build came from isolated snapshot
+  `4c4bbf761ffc0397197ed1cdd04ad696064d213e`; no shared checkout, runtime
+  source, save, devtools, or cheat state was edited.
+- The natural route built a persuasion/fundraising squad, purchased the SEA
+  video studio for US$2,000 at the Oct 2023 checkpoint
+  (`clear-skies/evidence/765-video-studio-purchased.json`), and then attempted
+  normal car relocation from DC. The travel menu still required a car
+  (`evidence/820-travel-menu-nov2.json`). The route is live at a Nov 2023
+  alarm/car-theft branch (`evidence/881-fourth-bug-lock-result2.json`), with no
+  Liberal Victory or game-over screen.
+- A confirmed localization finding occurred during the first Pickup attempt:
+  `evidence/775-pickup-window-result.json` renders
+  `Galaxina Riffle cracks the window, but it is still somewhat intact.` in raw
+  English after a failed `B - Quebrar a janela`. This is PT-462, Medium/P2;
+  the line is 80 columns wide but is not localized. The adjacent successful
+  branch is localized in `evidence/777-pickup-window-result3.json`. Do not
+  classify this route as no-issue or claim PT-462 fixed until a post-fix replay.
+- Evidence integrity at this checkpoint: 848 files under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/clear-skies/evidence/`, including 706 JSON files (705 structured text captures and one retained legacy raw-text capture); 705 structured screens measured, maximum row width 80, zero over-wide screens. The exact PT-462 English phrase appears only in capture 775.

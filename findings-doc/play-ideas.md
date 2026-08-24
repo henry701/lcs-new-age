@@ -3253,3 +3253,22 @@ routes are optional breadth coverage.
 - The monthly agenda/votes/finance sequence remained fully localized and fit the 80-column console. Three resolutions failed; the finance report recorded +US$175 donations, +US$160 art, net +US$335, and US$958 cash. This is a political/funding checkpoint, not victory.
 - Yann was returned to `Promovendo o Liberalismo`, leaving both White House sleepers on Liberal advocacy. Save/title/load evidence restored the May 1 base and this assignment. Sangue Ruim remains active, so the route is still far from `winCheck` and no victory/game-over was claimed.
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/434-may1-transition-spy.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/435-may1-yann-caught-followup.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/436-may1-legislative-agenda-spy.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/439-may1-president-result-spy.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/452-yann-liberalism-confirmed.json`, and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/456-reloaded-may1-spy-caught.json`.
+
+## 2026-08-24 — strategy62 Clear Blue Skies route: PT-462 confirmed
+
+- The separate `strategy62-ccs-20260824` Portuguese stock/cheatless route
+  selected `Céu Azul e Límpido`, purchased the natural SEA video studio
+  (`clear-skies/evidence/765-video-studio-purchased.json`), and remained live
+  while attempting ordinary DC-to-SEA relocation. It reached a Nov 2023
+  car-theft/alarm branch, not Liberal Victory or game-over.
+- PT-462 is confirmed: the failed Pickup window branch in
+  `clear-skies/evidence/775-pickup-window-result.json` renders raw English
+  `Galaxina Riffle cracks the window, but it is still somewhat intact.`.
+  Source is `lib/daily/activities/car_theft.dart:157-158`; severity Medium/P2.
+  The line fits the 80-column console, so this is localization-only, not an
+  overflow. `777-pickup-window-result3.json` shows the neighboring success
+  branch localized. A post-fix replay is required before closing PT-462.
+- Integrity: 848 evidence files, 705 structured text captures, max width 80,
+  zero over-wide structured screens; the exact raw-English phrase appears only
+  in capture 775. Preserve this evidence while the isolated fixer verifies the
+  patch; do not edit or classify the shared source from this route.

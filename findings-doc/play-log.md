@@ -8969,3 +8969,17 @@ reached. Captures and source hashes are under
 - The bounded stock route did not reach the November 2024 presidential nominee
   branch; no live-branch claim is made beyond the deterministic regression.
   Artifacts: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt435-independent-20260824/`.
+
+## 2026-08-24 — PT-435 live election replay and PT-457 regression verification
+
+- A separate clean detached verifier at `ba0bce08` built the web app and ran
+  strict headless session `verify-pt435-20260824` on `127.0.0.1:19061` with no
+  browser or asset errors.
+- The fresh Portuguese replay reached `Eleição Geral Presidencial 2028` and
+  captured the transient nominee payload before the stock loop returned to the
+  November base screen. Live checks found one heading, two candidate rows,
+  localized `Arqui-Conservador`/`moderado` prose, zero doubled separators, zero
+  raw `L`/`m`/`C`/`C+` alignment shorthand, and maximum row width 80.
+- The same verifier reran `test/localization_layout_batch_c_regression_test.dart`
+  and `test/daily/car_theft_translation_test.dart`; both passed. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt435-20260824/`.

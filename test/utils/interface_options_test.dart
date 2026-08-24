@@ -179,6 +179,19 @@ void main() {
     });
   });
 
+  test(
+    'localizes paged labels that include current and maximum counts',
+    () async {
+      gameOptions.interfacePgUp = '[';
+      await LcsI18n.initialize('pt_BR');
+
+      expect(
+        pageStrWithCurrentAndMax(2, 9),
+        equals('[] - Ver outras páginas Liberais (2/9)'),
+      );
+    },
+  );
+
   test('paged interfaces report real page transitions', () async {
     final changedPages = <int>[];
     console.injectKey(']');

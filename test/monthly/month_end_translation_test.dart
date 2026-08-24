@@ -102,8 +102,8 @@ void main() {
       const expectedPortuguese = {
         'The following former citizens are branded Arch-Conservative:':
             'Os seguintes ex-cidadãos são classificados como Arqui-Conservadores:',
-        'The following former citizen are branded Arch-Conservative:':
-            'O seguinte ex-cidadão é classificado como Arqui-Conservador:',
+        'The following former citizen is branded Arch-Conservative:':
+            'A seguinte pessoa é classificada como Arqui-Conservadora:',
       };
 
       final constitution = File(
@@ -120,7 +120,7 @@ void main() {
       expect(
         constitution,
         contains(
-          '"The following former citizen are branded Arch-Conservative:"',
+          '"The following former citizen is branded Arch-Conservative:"',
         ),
       );
       expect(

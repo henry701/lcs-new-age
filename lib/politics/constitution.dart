@@ -49,7 +49,7 @@ Future<void> tryToPurgeSupremeCourt() async {
             "The following former citizens are branded Arch-Conservative:",
           )
         : LcsI18n.tr(
-            "The following former citizen are branded Arch-Conservative:",
+            "The following former citizen is branded Arch-Conservative:",
           );
     mvaddstr(2, 5, purgeHeading, noTranslate: true);
 

@@ -38,4 +38,17 @@ void main() {
       'Joana não conseguiu encontrar um Picape mas encontrou um Picape.',
     );
   });
+
+  test('Portuguese car-theft failed window messages are localized', () {
+    expect(
+      LcsI18n.tr('{name} cracks the window, but it is still somewhat intact.'),
+      '{name} trinca a janela, mas ela ainda está parcialmente intacta.',
+    );
+    expect(
+      LcsI18n.tr(
+        '{name} cracks the window with a {weapon}, but it is still somewhat intact.',
+      ),
+      '{name} trinca a janela com {weapon}, mas ela ainda está parcialmente intacta.',
+    );
+  });
 }

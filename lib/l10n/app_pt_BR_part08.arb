@@ -253,6 +253,7 @@
   "{name1} and {name2} make plans for tonight.": "{name1} e {name2} fazem planos para esta noite.",
   "{name} can manage {subordinateCount} more {subordinateLabel}.": "{name} pode gerenciar mais {subordinateCount} {subordinateLabel}.",
   "{name} charges down an alley, smashing both side walls out!": "{name} carrega em um beco, esmagando ambas as paredes laterais!",
+  "{name} cracks the window, but it is still somewhat intact.": "{name} trinca a janela, mas ela ainda está parcialmente intacta.",
   "{name} drops {prisonerName}'s body.": "{name} deixa cair o corpo de {prisonerName}.",
   "{name} escapes through the bathroom window. (nonbinary)": "{name} escapa pela janela do banheiro.",
   "{name} gets drunk while out and rethinks this life.": "{name} fica bêbado enquanto sai e repensa esta vida.",

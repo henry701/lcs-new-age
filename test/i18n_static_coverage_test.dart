@@ -307,6 +307,11 @@ void main() {
       expect(source, isNot(contains('smashes the window{weapon}')));
       expect(source, contains('smashes the window with a {weapon}.'));
       expect(source, contains('final breakInMessage = LcsI18n.tr('));
+      expect(source, contains('final windowFailureMessage = LcsI18n.tr('));
+      expect(
+        source,
+        contains('{name} cracks the window, but it is still somewhat intact.'),
+      );
       expect(source, contains('final securityFailure = LcsI18n.tr('));
       expect(source, contains('LcsI18n.tr(location)'));
       expect(source, contains('What type of car will {name} try to find'));

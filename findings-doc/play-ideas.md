@@ -3190,3 +3190,32 @@ routes are optional breadth coverage.
 - Continue with donor cash, Guardian/sleeper influence, CCS deactivation, and
   the political route. This checkpoint found no confirmed localization or
   layout issue and reached no natural victory/game-over screen.
+
+## 2026-08-24 — strategy62 Feb 1 influence/funding checkpoint
+
+- The route continued from Jan 17 without cheats: after the recruiter relationship
+  was interrupted to stop repeated US$50 materials spending, Manuela joined
+  Matteo Varga as a Liberal Guardian writer while Donovan Rodham sold art and
+  Donovan Zhou/Manfred Lyles continued soliciting donations.
+- The Jan 30 agenda showed broader public-interest movement than Jan 17,
+  including Mínimo rows for surveillance, free expression, judges, arms,
+  slavery, immigration, health, and pensions, while prison rehabilitation and
+  distrust of conservative cable news remained Alto. The active-law pages still
+  describe the conservative/moderate status quo.
+- The Feb 1 legislative agenda naturally reached three joint resolutions and
+  their Portuguese vote totals, followed by the monthly funding report showing
+  US$223 donations, US$51 art sales, a US$200 recruitment cost, and US$81 cash.
+  This is the next political/fundraising checkpoint, not victory.
+- Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/299-manuela-guardian-jan29.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/301-jan30-agenda-page1.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/302-jan30-agenda-page2.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/303-jan30-agenda-page3.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/312-feb1-legislative-agenda.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/313-feb1-legislative-votes.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/314-feb1-legislative-votes2.json`,
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/315-feb1-president-result.json`.
+- Lowercase-`x` save and lowercase-`c` resume evidence is in
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/317-title-save-feb1.json` and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/318-reloaded-feb1.json`.
+  No confirmed localization/layout issue or natural victory/game-over was
+  observed; continue the live political route.

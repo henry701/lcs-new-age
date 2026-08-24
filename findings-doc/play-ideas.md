@@ -3246,3 +3246,10 @@ routes are optional breadth coverage.
   and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/385-apr1-assignments-cash.json`.
 - The route remains live and resumable, but no natural victory/game-over or
   confirmed localization/layout issue was reached.
+
+## 2026-08-24 — strategy62 May 1 sleeper/CCS checkpoint
+
+- The distinct stock/cheatless Portuguese route reached 1 May 2023 with US$958 after two Guardian writers, one art seller, two donors, and two White House journalist sleepers. Yann Rota was tested on natural spying (`Descobrir Segredos`) and was caught by the next monthly transition; the localized event reduced infiltration effectiveness from 18% to 13%. No issue was inferred.
+- The monthly agenda/votes/finance sequence remained fully localized and fit the 80-column console. Three resolutions failed; the finance report recorded +US$175 donations, +US$160 art, net +US$335, and US$958 cash. This is a political/funding checkpoint, not victory.
+- Yann was returned to `Promovendo o Liberalismo`, leaving both White House sleepers on Liberal advocacy. Save/title/load evidence restored the May 1 base and this assignment. Sangue Ruim remains active, so the route is still far from `winCheck` and no victory/game-over was claimed.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/434-may1-transition-spy.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/435-may1-yann-caught-followup.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/436-may1-legislative-agenda-spy.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/439-may1-president-result-spy.json`, `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/452-yann-liberalism-confirmed.json`, and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/456-reloaded-may1-spy-caught.json`.

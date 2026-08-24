@@ -8810,3 +8810,56 @@ reached. Captures and source hashes are under
   build, but ordinary play did not reach their required live branches in this pass.
 - Focused batch C plus context/map suites passed (9 and 58 tests). Interpolation integrity found
   zero unclassified items and ARB catalog validation passed for both locales.
+
+## 2026-08-24 — prober i18n/layout D dynamic-path sweep
+
+- Audited pushed HEAD `eb80153f` after fetch/rebase. Catalog validation,
+  interpolation default/all checks, translation status (100% source coverage),
+  and analyzer were clean before checkout changes. Temporary red/widget tests
+  confirmed PT-443 through PT-451 and were copied to the artifact, then removed;
+  no production or canonical catalog files changed.
+- Deterministic probes covered hospital transfer/burn, dating and recruitment
+  rejection, sleeper profession recruitment, President cabinet reports, trial
+  self-defense, newspaper datelines, generated pawnshop articles, and repeal
+  amendment prose.
+- Runtime smoke used only strict-headless wrapper session `prober-layout-d-r1`,
+  isolated current-HEAD web assets from commit `eb80153f`, and loopback port
+  `11521` with `?playtest=1`. Portuguese selection persisted as
+  `flutter.language="pt_BR"`, reload restored the PT title, and options/help
+  navigation produced no browser errors. The session and server were stopped.
+- Rejected vehicle name/status composition, monthly finance/equipment summary
+  layout, save-menu fitted cells, options/help paging width, high-score fitted
+  variants, headline/caption/filler width, harmless constitutional trailing
+  spaces, quote-scan false positives, and reachable CCS safehouse widths.
+- Focused existing suites passed: batch C regression, interface options, high
+  scores, site translation, and vehicle layout (35 tests). Post-probe catalog
+  and interpolation-all checks passed. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-d-20260824/`.
+
+## 2026-08-24 — playtester strategy58 broad terminal
+
+- Rebuilt artifact commit `ef336d42` with Flutter 3.35.4 and served it from
+  localhost `10958` under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy58-broad-terminal-20260824`.
+  Used fresh strict-headless wrapper session `str58-a` with explicit persistence
+  flags; no cheats, fixtures, imports, source edits during runtime, CDP, headed
+  browsers, or production changes.
+- Started a fresh Portuguese Changing Times/Bad Blood Seattle campaign and
+  reached the first safe base checkpoint. Lowercase `x`, storage inspection,
+  reload, lowercase `c`, and resume proved gameId `9044896`, PT-BR locale,
+  IndexedDB save-key restoration, Seattle base, date, and founder roster.
+- Explored equipment, assignment, legal art fundraising, persuasion classes,
+  site planning/visits, media/radio surfaces, monthly legislature, review/
+  assets/load/high-score/changelog/options/import entry points, and repeated
+  journalist recruiting. Esmerelda Cosgrove and Moe Brandis joined as regular
+  members after ordinary meetings; a third journalist meeting remained pending.
+- Performed additional lowercase `x`/metadata/reload/metadata/lowercase `c`
+  checkpoints after February legislation and later recruitment. Final live
+  state resumed at SEA — Sem-teto on 22 Feb 2023 with three active Liberals.
+- No natural ending occurred, so this is a still-live checkpoint rather than
+  victory/game-over. Web exposes IndexedDB save management but no game-native
+  file export under `saves/`; that limitation is documented.
+- Machine integrity passed for 376 retained buffer captures: nonempty gameplay
+  buffers, height 25, max width <=80, no over-wide rows/collisions, empty
+  bridge/browser errors at checkpoints, and zero raw-English scan hits in 373
+  post-locale captures excluding accepted decisions/pre-locale title.

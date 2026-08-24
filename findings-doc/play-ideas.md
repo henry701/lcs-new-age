@@ -3013,3 +3013,103 @@ routes are optional breadth coverage.
   restored the Portuguese title in strict-headless runtime r1.
 - Map validation dialog itself added no distinct exception beyond the filed
   palette/status overflow at the probed widths.
+
+# 2026-08-24 — prober D additional dynamic paths
+
+## Independent replay priorities
+
+- PT-443: capture a female clinic transfer and a separate site-fire burn; both
+  require feminine (and later nonbinary) predicate agreement.
+- PT-444/PT-445: repeat failed dates and failed recruitment until female-lead
+  failure branches render; compare every adjective with the referenced person.
+- PT-446/PT-447: exercise female sleeper recruitment, especially Nurse and a
+  President cabinet branch; keep profession spelling intact and reject English
+  paragraph tails.
+- PT-448: use a low-skill female self-defense defendant until the weakest trial
+  narration appears.
+- PT-449: compare story and filler datelines in Seattle/Los Angeles after
+  selecting Portuguese.
+- PT-450: seed/repeat generated pawnshop owners until a surname ending in `a`
+  reaches mapped-workplace interrogation.
+- PT-451: inspect repeal-amendment rows naturally when that endgame is reached.
+
+## Probe-only / rejected
+
+- Vehicle display composition postposes colors (`Carro esportivo Preto`) and
+  avoids adjective agreement; year/status variants were clean.
+- Monthly income/expense labels all fit their fixed columns; liquid-asset value
+  composition remained within bounds.
+- Save-menu date/founder/version cells are explicitly fitted; localized headers
+  and accepted `Entre -` control wording are covered by existing regressions.
+- Options paging labels fit even with `PGUP/PGDN`; help bodies use the existing
+  paragraph wrapper. Runtime options/help navigation had no bridge errors.
+- High-score endings/slogans/stat flags already use fitted renderers and are
+  covered by current tests.
+- Newspaper headline fonts downshift/fitted captions and filler city values;
+  only the story dateline path produced a confirmed defect.
+- Constitutional ratification prompts contain harmless over-wide trailing
+  spaces; visible words remain inside column 80. Do not file those as clipping.
+- Straight-quote spacing differences in long newspaper catalogs were normal
+  punctuation, not the interior-space defect pattern fixed by PT-440.
+- CCS remaining-safehouse lines had enough width for actual CCS site names;
+  hidden suffixes stayed inside 80 columns for the reachable name pool.
+
+## 2026-08-24 — strategy58 broad terminal campaign
+
+### Route / checkpoints
+
+- Build and runtime evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy58-broad-terminal-20260824`.
+  The disposable release snapshot was rebuilt from the recorded commit
+  `ef336d42e2714b6cfb56a1b054c2043f2b9dbdf1` and served on loopback port 10958.
+  Session `str58-a` used only the strict-headless wrapper with explicit
+  `--restore str58-a --restore-save always`; no CDP, headed browser, cheats,
+  fixtures, or production edits occurred during the stock campaign.
+- The founder route used Changing Times, active CCS (Bad Blood), Seattle, a
+  persuasion/psychology/law-oriented founder, and the custom slogan
+  “Palavra e Voto: Uma Nova Era”.
+- Safe-base checkpoints used lowercase `x`, inspected localStorage/IndexedDB,
+  reloaded in the same live session, then lowercase `c`. The first checkpoint
+  restored gameId `9044896`, PT-BR locale, IndexedDB save key `9044896`,
+  Seattle base, and the founder roster. Later checkpoints confirmed the same
+  key through February legislation and recruitment.
+- The route covered title/new-game/founder setup, equipment and assignment,
+  activism/legal art fundraising, education/persuasion class, site planning and
+  visits to Internet Café Latte Elétrico, Old Station, AM Radio Station, and
+  downtown surfaces, monthly legislature through March, repeated journalist
+  recruiting, regular-member conversion for Esmerelda Cosgrove and Moe Brandis,
+  review/assets, load menu, high scores, changelog/options/import entry points,
+  and repeated safe reload/resume.
+- Natural coverage remained bounded. No natural victory/game-over rendered; the
+  final live state resumed at SEA — Sem-teto on 22 Feb 2023 with three active
+  Liberals and one conservative journalist meeting still pending.
+- Web has no game-native file export under `saves/`: the save facility is an
+  IndexedDB-backed Load & Manage Saves surface plus OS import. This limitation
+  is documented instead of claiming a file export.
+
+### Future routes
+
+- Continue from the three-member February checkpoint by adding legal funds and
+  equipment before entering police/courthouse/political sites.
+- Use the established journalist pipeline to sleeperize one member while
+  keeping at least two active members at base for siege/combat safety.
+- Reach divisible-by-four November elections and capture all presidential rows;
+  preserve the current save immediately before month end.
+- Exercise dating/vacation once funds exceed US$500 and use female/nonbinary
+  leads where possible to expose agreement variants.
+- Keep browser/server alive across bounded stops unless terminal/unrecoverable;
+  if lost, mark verdict **lost** and start Strategy59 in a separate artifact and
+  session rather than claiming continuation.
+
+### Integrity
+
+- Machine integrity passed for 376 retained JSON captures: every buffer was
+  nonempty, exactly height 25, maximum row width <=80, with no over-wide rows
+  or collisions. See
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy58-broad-terminal-20260824/integrity/integrity-summary.json`.
+- Raw-English scan found 0 hits across 373 post-locale captures, excluding the
+  accepted decisions/pre-locale title surfaces. See
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy58-broad-terminal-20260824/integrity/raw-english-scan.json`.
+- Browser-error probes were captured at major checkpoints. The CLI returns a
+  nonzero status when its error list is empty; raw files therefore contain the
+  wrapper status line rather than a browser error payload.

@@ -9083,3 +9083,33 @@ reached. Captures and source hashes are under
 - This route materially differed from the prior founder → sports-car → pursuit and police-station pressure routes: Portuguese stock setup, active CCS, zipper combat, fate-selected Tawanda Channing, no weapon, and Seattle `Desert Eagle Bar e Grill` security combat.
 - The bouncer generated `Habitante do Interior` with `.44 Magnum` and `Fazendeiro` with `AR-15`. Repeated natural `F` combat killed the founder; `C - Reflita` reached the literal game-over screen at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r5/evidence/025-terminal.json`: `A Elite Liberal` and `O Esquadrão do Crime Liberal foi morto em combate em Janeiro de 2023.` The Portuguese title after Enter is captured at `evidence/026-after-terminal.json`.
 - 67 object captures were retained. All buffers had 25 rows and maximum width 80; zero over-wide rows, bridge errors, empty/invalid captures, or post-locale raw-English pattern hits. No new ticket was confirmed. Artifact root: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r5/`.
+## 2026-08-24 — playtester strategy62 April political checkpoint
+
+- Continued the isolated Portuguese stock/cheatless route to 1 Apr 2023 with
+  two Liberal Guardian writers, two White House sleepers, one art seller, and
+  two donors. A natural Liberal Judge recruitment attempt ended without a
+  recruit after ordinary political conversations; it was not treated as a
+  defect. No cheats, imports, runtime source edits, or shared-checkout changes
+  were used.
+- The March monthly transition showed one joint resolution and Portuguese
+  legislative votes. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/376-apr1-legislative-agenda.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/377-apr1-legislative-votes.json`,
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/378-apr1-president-result.json`.
+  The corresponding funding report recorded +US$164 donations, +US$131 art,
+  net +US$295, and US$623 cash:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/379-apr1-finance-report.json`.
+- The April agenda overview and opinion pages showed Portuguese layout, active
+  laws still short of Liberal/Elite Liberal, and public-interest values mostly
+  Baixo/Mínimo after the monthly stale-value reset. Evidence:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/380-apr1-agenda-page1.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/381-apr1-agenda-page2.json`,
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/382-apr1-agenda-page3.json`.
+- Lowercase-`x` save and lowercase-`c` resume restored the Apr 1 DC homeless
+  base; assignment evidence records US$623 and the continuing activities:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/383-title-save-apr1.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/384-reloaded-apr1.json`,
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/evidence/385-apr1-assignments-cash.json`.
+- Captured surfaces were Portuguese and within 80 columns. No confirmed issue,
+  natural victory, or game-over was reached; the live server/session and
+  resumable save remain available for further bounded CCS/political progress.

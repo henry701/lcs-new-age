@@ -587,12 +587,7 @@ Future<bool> heyIWantToCancelMyRoom(Creature a, Creature tk) async {
 
   await getKey();
 
-  mvaddstrc(
-    15,
-    1,
-    white,
-    "<Your possessions at this location have been moved to the homeless camp.>",
-  );
+  printHomelessPossessionNote();
 
   await getKey();
 
@@ -611,6 +606,16 @@ Future<bool> heyIWantToCancelMyRoom(Creature a, Creature tk) async {
   activeSite!.businessFront = false;
 
   return true;
+}
+
+void printHomelessPossessionNote() {
+  setColor(white);
+  addparagraph(
+    15,
+    1,
+    "<Your possessions at this location have been moved to the homeless camp.>",
+    y2: 16,
+  );
 }
 
 Future<bool> heyINeedAGun(Creature a, Creature tk) async {

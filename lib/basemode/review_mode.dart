@@ -290,6 +290,15 @@ enum ReviewMode {
   }
 }
 
+void printReviewBaseAssignPrompt() {
+  setColor(lightGray);
+  mvaddstr(
+    21,
+    0,
+    "Press a letter to assign a base.  Press a number to select a base.",
+  );
+}
+
 Future<void> reviewMode(ReviewMode mode) async {
   List<Creature> temppool = [];
   Creature? swap;
@@ -1232,12 +1241,7 @@ Future<void> assignNewBasesToTheSquadless() async {
       );
     }
 
-    setColor(lightGray);
-    mvaddstr(
-      21,
-      0,
-      "Press a letter to assign a base.  Press a number to select a base.",
-    );
+    printReviewBaseAssignPrompt();
     mvaddstr(
       22,
       0,

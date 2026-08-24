@@ -143,6 +143,42 @@ String fitConsoleText(String text, int maxWidth, {bool showEllipsis = true}) {
   return fitted.toString();
 }
 
+/// Wraps plain console text without discarding any words or punctuation.
+///
+/// Unlike [fitConsoleText], this helper is for prose that may span multiple
+/// fixed-console rows. Inline color markers are not supported here; render
+/// colored prose through the paragraph helpers instead.
+List<String> wrapConsoleText(String text, int maxWidth, {int maxLines = 3}) {
+  if (maxWidth <= 0) {
+    throw RangeError.range(maxWidth, 1, null, 'maxWidth');
+  }
+  if (maxLines <= 0) {
+    throw RangeError.range(maxLines, 1, null, 'maxLines');
+  }
+
+  final lines = <String>[];
+  var line = '';
+  for (final word
+      in text.split(RegExp(r'\s+')).where((word) => word.isNotEmpty)) {
+    if (strLenX(word) > maxWidth) {
+      throw ArgumentError.value(word, 'text', 'word exceeds console width');
+    }
+
+    final candidate = line.isEmpty ? word : '$line $word';
+    if (line.isNotEmpty && strLenX(candidate) > maxWidth) {
+      lines.add(line);
+      line = word;
+    } else {
+      line = candidate;
+    }
+  }
+  if (line.isNotEmpty) lines.add(line);
+  if (lines.length > maxLines) {
+    throw StateError('Text requires ${lines.length} rows, limit is $maxLines');
+  }
+  return lines;
+}
+
 void mvaddstrFitted(
   int y,
   int x,
@@ -216,6 +252,45 @@ void addOptionTextFitted(
     highlightColorKey: highlightColorKey,
     disabledColorKey: disabledColorKey,
     noTranslate: true,
+  );
+}
+
+/// Places an option flush-right while preserving its complete localized label.
+void addOptionTextRightAligned(
+  int y,
+  String key,
+  String text, {
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final rendered = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  final width = strLenX(rendered);
+  if (width > console.width) {
+    throw StateError(
+      'Option requires $width columns, limit is ${console.width}',
+    );
+  }
+
+  addOptionText(
+    y,
+    console.width - width,
+    key,
+    text,
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+    params: params,
+    noTranslate: noTranslate,
   );
 }
 

@@ -61,6 +61,42 @@ const medicalDebtFinanceSpeech =
     'Please, we don\'t wanna shoot anyone, we\'re from the finance '
     'department!"';
 
+int printDeathSquadWarning(int y) {
+  addparagraph(
+    y,
+    1,
+    "They are ready to use lethal force if there is any hint of resistance.",
+  );
+  return console.y;
+}
+
+void printAnonymousCorporateRaidWarning() {
+  setColor(white);
+  addparagraph(
+    8,
+    1,
+    "You have received an anonymous tip that several Corporations are hiring mercenaries to attack the LCS.",
+  );
+}
+
+void printCeoCorporateRaidWarning(Creature ceoSleeper, Site location) {
+  setColor(white);
+  addparagraph(
+    8,
+    1,
+    "You have received a warning from {name} that several Corporations are hiring mercenaries to attack {location}.",
+    params: {
+      "name": ceoSleeper.name,
+      "location": location.getName(includeCity: true),
+    },
+  );
+}
+
+void printEscapeSiegePrompt() {
+  setColor(yellow);
+  mvaddstrRight(13, "Press any key to split up and lay low for a few days");
+}
+
 /* siege - updates upcoming sieges */
 Future<void> siegeCheck() async {
   if (disbanding) return;
@@ -206,11 +242,7 @@ Future<void> siegeCheck() async {
                   1,
                   "The police are planning to deploy heavily armed Death Squad units.",
                 );
-                mvaddstr(
-                  y++,
-                  1,
-                  "They are ready to use lethal force if there is any hint of resistance.",
-                );
+                y = printDeathSquadWarning(y++);
               } else {
                 mvaddstr(
                   y++,
@@ -468,23 +500,9 @@ Future<void> siegeCheck() async {
         if (ceoSleeper != null || oneIn(5)) {
           erase();
           if (ceoSleeper != null) {
-            mvaddstrc(
-              8,
-              1,
-              white,
-              "You have received a warning from {name} that several Corporations are hiring mercenaries to attack {location}.",
-              params: {
-                "name": ceoSleeper.name,
-                "location": l.getName(includeCity: true),
-              },
-            );
+            printCeoCorporateRaidWarning(ceoSleeper, l);
           } else {
-            mvaddstrc(
-              8,
-              1,
-              white,
-              "You have received an anonymous tip that several Corporations are hiring mercenaries to attack the LCS.",
-            );
+            printAnonymousCorporateRaidWarning();
           }
           await getKey();
         }
@@ -2120,12 +2138,7 @@ Future<void> escapeSiege(bool won) async {
       }
     }
 
-    mvaddstrc(
-      13,
-      11,
-      yellow,
-      "Press any key to split up and lay low for a few days",
-    );
+    printEscapeSiegePrompt();
 
     await getKey();
 

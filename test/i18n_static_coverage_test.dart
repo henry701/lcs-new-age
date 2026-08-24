@@ -197,7 +197,7 @@ void main() {
       expect(
         source,
         contains(
-          'Pressione qualquer tecla para reiniciar o jogo após esta interrupção Conservadora.',
+          'Pressione uma tecla para reiniciar o jogo após esta interrupção Conservadora.',
         ),
       );
     });

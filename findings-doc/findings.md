@@ -7962,9 +7962,10 @@ Verifier replay:
 - Severity: Medium
 - Type: Fixed-console layout / translation
 - Screen: Portuguese disband summary → monthly continuation controls
-- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+- Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
 
 ### Reproduction
 
@@ -7999,9 +8000,10 @@ that renders both controls and asserts the full `Próximo Mês` ending.
 - Severity: Medium
 - Type: Fixed-console layout / translation
 - Screen: Portuguese Liberal Agenda → Dissolver e Esperar confirmation
-- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+- Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
 
 ### Reproduction
 
@@ -8032,9 +8034,10 @@ A focused regression must assert the complete rendered ending.
 - Severity: Medium
 - Type: Fixed-console layout / equipment transfer
 - Screens: Portuguese squad review base picker and equipment base picker
-- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+- Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
 
 ### Reproduction
 
@@ -8068,9 +8071,10 @@ equipment transfer at 80 columns.
 - Severity: Medium
 - Type: Fixed-console layout / siege briefing
 - Screens: Portuguese police death-squad warning, corporate raid warning, and post-siege escape prompt
-- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+- Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
 
 ### Reproduction
 
@@ -8109,9 +8113,10 @@ captures.
 - Severity: Low
 - Type: Fixed-console newspaper layout
 - Screen: Portuguese television news → `NEW ANCHOR` overlay
-- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+- Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
 
 ### Reproduction
 
@@ -8145,9 +8150,10 @@ borders and add coverage for all five television overlay variants.
 - Severity: Low
 - Type: Fixed-console dialogue layout
 - Screen: Portuguese conversation → possessions moved to homeless camp
-- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+- Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
 
 ### Reproduction
 
@@ -8177,9 +8183,10 @@ Assert the complete `de rua.>` ending in a fixed-width regression.
 - Severity: Low
 - Type: Fixed-console launch layout
 - Screen: Portuguese conservative interruption → continue/restart footer
-- Replay status: **Confirmed by deterministic focused rendering on current HEAD; stock runtime replay pending**
+- Replay status: **Fixed-pending-verify on 2026-08-23; stock runtime replay pending**
 - Evidence:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober-i18n-layout-a-20260823/layout-repro-test.log`
+- Fix verification: focused suite, analyzer, catalog/interpolation checks, and full Flutter suite in `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-a-20260823/`.
 
 ### Reproduction
 

@@ -34,10 +34,23 @@ Future<bool> showDisbandingScreen() async {
 
   printMood();
 
-  addOptionText(24, 0, "R", "R - Recreate the Liberal Crime Squad");
-  addOptionText(24, 54, "Any Other Key", "Any Other Key - Next Month");
+  printDisbandingFooter();
 
   return await getKey() != Key.r;
+}
+
+void printDisbandingFooter() {
+  addOptionText(24, 0, "R", "R - Recreate the Liberal Crime Squad");
+  addOptionTextRightAligned(24, "Any Other Key", "Any Other Key - Next Month");
+}
+
+void printDisbandConfirmationPrompt() {
+  addparagraph(
+    13,
+    0,
+    "Type this Liberal phrase to confirm (press a wrong letter to rethink it):",
+    y2: 14,
+  );
 }
 
 void letTheUnworthyLeave() {

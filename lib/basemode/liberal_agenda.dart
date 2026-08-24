@@ -140,12 +140,7 @@ Future<bool> _confirmDisband() async {
   );
   mvaddstr(10, 0, "only the most devoted of your former members will return.");
 
-  mvaddstrc(
-    13,
-    0,
-    white,
-    "Type this Liberal phrase to confirm (press a wrong letter to rethink it):",
-  );
+  printDisbandConfirmationPrompt();
 
   for (int pos = 0; pos < word.length;) {
     for (int x = 0; x < word.length; x++) {

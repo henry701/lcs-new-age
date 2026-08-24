@@ -80,24 +80,21 @@ Future<void> errorScreen(Error e, {bool willContinue = false}) async {
     }
     y++;
   }
-  if (willContinue) {
-    mvaddstrc(
-      24,
-      0,
-      lightGreen,
-      "Press any key to continue the game after this Conservative interruption.",
-    );
-  } else {
-    mvaddstrc(
-      24,
-      0,
-      lightGreen,
-      "Press any key to restart the game after this Conservative interruption.",
-    );
-  }
+  printConservativeInterruptionFooter(willContinue);
   checkKey();
   await Future.delayed(const Duration(milliseconds: 250));
   await getKey();
+}
+
+void printConservativeInterruptionFooter(bool willContinue) {
+  mvaddstrc(
+    24,
+    0,
+    lightGreen,
+    willContinue
+        ? "Press any key to continue the game after this Conservative interruption."
+        : "Press any key to restart the game after this Conservative interruption.",
+  );
 }
 
 void endGame() {

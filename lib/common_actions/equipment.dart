@@ -526,12 +526,7 @@ Future<void> equipmentBaseAssign() async {
       addOptionText(12, 51, "0", "0 - More Bases");
     }
 
-    mvaddstrc(
-      22,
-      0,
-      lightGray,
-      "Press a Letter to assign a base.  Press a Number to select a base.",
-    );
+    printEquipmentBaseAssignPrompt();
     mvaddstr(23, 0, "Shift and a Number will move ALL items!");
     if (sortbytype) {
       addOptionText(24, 0, "T", "T - Sort by location");
@@ -660,6 +655,15 @@ Future<void> equipmentBaseAssign() async {
 
     if (isBackKey(c)) break;
   }
+}
+
+void printEquipmentBaseAssignPrompt() {
+  setColor(lightGray);
+  mvaddstr(
+    22,
+    0,
+    "Press a Letter to assign a base.  Press a Number to select a base.",
+  );
 }
 
 void consolidateLoot(List<Item>? loot, {bool sort = true}) {

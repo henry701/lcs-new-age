@@ -9157,3 +9157,25 @@ reached. Captures and source hashes are under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy61-victory-20260824-r3/`.
   Eighteen DOM-buffer captures are valid JSON, all are 25×80 with maximum row
   width 80, and the raw-English UI token scan returned no hits.
+
+## 2026-08-24 — Strategy61 R4b Clear Blue Skies political route (isolated replay)
+
+- Fresh strict-headless Portuguese stock/cheatless route from isolated source
+  `40f5a2c3d664afa73ff2d6cd99a7ee9dff824a02`, served on `127.0.0.1:14565` in
+  session `str61-victory-20260824-r4-ccs-b`. The shared checkout remained
+  untouched; stale title-only captures `024`–`036` were excluded after the
+  session mismatch was detected.
+- Normal Clear Blue Skies/People Power setup naturally recruited six
+  additional liberals, moved the seven active liberals to SEA Igreja Antiga,
+  and ran Guardian TV/articles through Dec 1 2024. Targeted assignments were
+  persisted by save `3610715`; no cheats, imported state, or runtime source
+  edits were used.
+- The route traversed monthly legislative screens, June Supreme Court
+  oversight (Arch-Conservative Mátyás Talbert appointed after a vacancy), and
+  the November state-ballot/election sequence. Mood remained about 42%; the
+  final Dec 1 reload did not show Liberal Victory or game-over. No terminal is
+  claimed.
+- The retained buffers were Portuguese and within 80 columns; the raw-English
+  UI scan returned zero hits. No new localization/layout ticket was confirmed.
+- Full evidence and integrity summary:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy61-victory-20260824-r4-ccs-20260824/`.

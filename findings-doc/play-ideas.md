@@ -3166,3 +3166,9 @@ routes are optional breadth coverage.
   weapons again, continue police/gang pressure, or broaden month-end/legal
   coverage. Artifact root:
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy59-distinct-terminal-20260824/`.
+
+## 2026-08-24 — Strategy63 r4 follow-up ideas
+
+- The ordinary Seattle police-station route naturally produced a distinct arrest/trial/prison branch with an unarmed solo founder, but did not trigger `checkForDefeat` because the route became an incapacitation/arrest branch. Keep this honest as non-terminal evidence; do not relabel the Portuguese police-news screen as game-over.
+- A future bounded terminal attempt should vary only natural encounter conditions (founder gender/origin or destination city) to seek a lower-count police encounter that reaches total death, while preserving this r4 June 1 2023 checkpoint and the prior r3 literal-game-over session.
+- Evidence and integrity artifacts for r4: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r4/route.md`, `integrity-summary.json`, and `evidence/`.

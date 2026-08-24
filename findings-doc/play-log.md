@@ -8999,3 +8999,11 @@ reached. Captures and source hashes are under
   purge, or failed-car-search branches. Those reachability limits remain
   explicit; the current-head deterministic render tests are the verification
   evidence rather than fabricated live captures.
+
+## 2026-08-24 — Strategy63 r4 police-station pressure route (isolated replay)
+
+- Fresh isolated detached build at `4c4bbf761ffc0397197ed1cdd04ad696064d213e`; strict headless server `127.0.0.1:14664`, agent-browser session `s63r4` / namespace `s63r4ns`. The prior r3 session remained live and untouched.
+- This route deliberately avoided the prior founder → sports-car → police-pursuit strategy. It selected Portuguese, `Céu Azul e Límpido` (CCS never appears), `Poder para o povo`, all-`A` founder answers, and one solo unarmed founder Zsigmond Kovács in Seattle.
+- The founder entered `Delegacia de Polícia, Nível 1` through normal destination/execute/movement flow and used unarmed `F` combat. The five-police encounter incapacitated the founder; the `C` reflect prompt is retained at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r4/evidence/088-police-fight-50-r4.json`.
+- Pressing `C` produced `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r4/evidence/089-gameover-reflect-r4.json`, Portuguese police-news detention, followed by natural trial, guilty plea, three-month prison sentence, release, and a June 1 2023 base checkpoint (`107-current-jun1-base-r4.json`). This is a natural defeat/arrest branch, **not** a literal game-over; no game-over claim is made.
+- 94 evidence JSON files were collected; 93 retained object captures after the empty about:blank probe. Post-locale scan: 25 rows, max width 80, zero over-wide rows, zero bridge errors, zero raw-English pattern hits, no ticket. Artifact root: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy63-gameover-20260824-r4/`.

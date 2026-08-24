@@ -10023,3 +10023,22 @@ this finding.
 The failed-window sentence should be translated through the canonical
 Portuguese catalog while retaining the dynamic name and the existing 80-column
 layout.
+
+### PT-462 post-fix verification
+
+- Fix snapshot: `373183ad35af8f8ee9120375b02f634445f39503`
+  (`fix(i18n): translate car theft window failures`).
+- Focused verification in isolated `fix-pt462-car-window-wt` passed all 78
+  tests in `test/daily/car_theft_translation_test.dart` and
+  `test/i18n_static_coverage_test.dart`.
+- Fresh strict-headless `pt_BR`/CCS replay on `127.0.0.1:14566` reproduced the
+  original no-weapon branch after naturally disarming Mel Clinton. Capture
+  `.../verify-pt462-20260824/evidence/056-mel2-window-result.json` renders
+  `Mel Clinton trinca a janela, mas ela ainda está parcialmente intacta.`;
+  no raw English remains and the screen measures 80 columns.
+- The additional weapon variant is translated in
+  `.../evidence/046-mel-window-result.json`, but its full rendered Portuguese
+  sentence is 84 characters and the fixed-width screen clips it at
+  `...parcialmente intac`. Keep this width/content-loss follow-up separate;
+  do not close the broader failed-window coverage until the weapon variant is
+  shortened or otherwise laid out completely.

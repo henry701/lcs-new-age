@@ -3289,3 +3289,16 @@ routes are optional breadth coverage.
   zero over-wide structured screens; the exact raw-English phrase appears only
   in capture 775. Preserve this evidence while the isolated fixer verifies the
   patch; do not edit or classify the shared source from this route.
+
+## 2026-08-24 — PT-462 fresh fix replay and width follow-up
+
+- Fix `373183ad` passed the focused 78-test car-theft/i18n verification.
+  Fresh PT_BR/CCS replay evidence
+  `verify-pt462-20260824/evidence/056-mel2-window-result.json` confirms the
+  original no-weapon failed-window message is now Portuguese and complete at
+  max width 80.
+- The weapon variant is Portuguese in
+  `verify-pt462-20260824/evidence/046-mel-window-result.json`, but the full
+  sentence is 84 characters and is clipped to `...intac` by the 80-column
+  console. Keep a separate width/content-loss follow-up; do not claim every
+  failed-window variant fully verified until it is shortened or laid out.

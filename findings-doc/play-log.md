@@ -9184,3 +9184,18 @@ reached. Captures and source hashes are under
   classify this route as no-issue or claim PT-462 fixed until a post-fix replay.
 - Evidence integrity at this checkpoint: 848 files under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy62-victory-20260824/clear-skies/evidence/`, including 706 JSON files (705 structured text captures and one retained legacy raw-text capture); 705 structured screens measured, maximum row width 80, zero over-wide screens. The exact PT-462 English phrase appears only in capture 775.
+
+## 2026-08-24 — PT-462 post-fix replay
+
+- The isolated fix snapshot `373183ad35af8f8ee9120375b02f634445f39503`
+  passed the focused car-theft and i18n coverage suites (78 tests).
+- A fresh Portuguese CCS build served on `127.0.0.1:14566` reproduced the
+  original no-weapon failed-window branch after the agent was disarmed through
+  the normal equipment UI. `verify-pt462-20260824/evidence/056-mel2-window-result.json`
+  rendered `Mel Clinton trinca a janela, mas ela ainda está parcialmente
+  intacta.` with no raw English and max row width 80.
+- The weapon branch was also localized, but
+  `verify-pt462-20260824/evidence/046-mel-window-result.json` clips the 84-
+  character Portuguese result at the 80-column boundary. PT-462's original
+  raw-English branch is fixed by this replay; the weapon-variant width/content
+  issue remains a follow-up and is not silently classified as fixed.

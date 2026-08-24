@@ -450,8 +450,8 @@ class CarTheftScene {
         "{name} was unable to find a {oldCar} but did find a {newCar}.",
         params: {
           "name": cr.name,
-          "oldCar": old.longName,
-          "newCar": cartype.longName,
+          "oldCar": LcsI18n.tr(old.longName),
+          "newCar": LcsI18n.tr(cartype.longName),
         },
       );
     } else {
@@ -459,7 +459,7 @@ class CarTheftScene {
         11,
         0,
         "{name} found a {car}.",
-        params: {"name": cr.name, "car": cartype.longName},
+        params: {"name": cr.name, "car": LcsI18n.tr(cartype.longName)},
       );
     }
     await getKey();
@@ -531,7 +531,7 @@ class CarTheftScene {
           0,
           lightGray,
           "{key} - {car}",
-          params: {"key": key, "car": v.longName},
+          params: {"key": key, "car": LcsI18n.tr(v.longName)},
         );
         addDifficultyText(y, 49, v.difficultyToFind);
       },

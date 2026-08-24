@@ -15,6 +15,7 @@ const Set<String> structuralTranslationKeys = {
   '{lead} {activity}',
   '{name} {escape}',
   // Runtime sentence shells composed from already-localized fragments.
+  '{name} {action}',
   '{name} {cower}',
   '{items}, {item}',
   '{name1} {versus} {name2}',

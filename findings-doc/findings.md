@@ -8209,3 +8209,62 @@ Add a regression covering both continue and restart branches.
    once while a resumable save exists and once without one.
 2. Capture row 24 for both continue and restart footers.
 3. Require each visible footer to end with a period and stay within column 79.
+
+## PT-426: Portuguese recruitment failure feedback is missing from the runtime buffer
+
+- Severity: Medium
+- Type: Missing translation/layout / daily-activity rendering
+- Screen: Portuguese Assign Tasks → Recruit → “asks around” result
+- Replay status: **Fixed-pending-verify on 2026-08-23; independent stock runtime replay pending**
+- Evidence:
+  `lib/daily/activities/recruiting.dart:50-60`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy57-fresh-current-20260823/captures/569-select-recruit-empty.json`,
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy57-fresh-current-20260823/captures/570-choose-student-empty.json`,
+  and `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy57-fresh-current-20260823/captures/571-resolve-recruit-empty.json`
+
+### Fix verification
+
+Investigation found that a rounded recruiting count below zero bypassed the
+`== 0` guard and could enter the multi-candidate flow before feedback. The
+failure branch now accepts every count below one, renders through the fitted
+console helper, bounds an unusually long recruiter name against the localized
+remainder, and still requires a second key before returning. The canonical
+PT-BR template already existed, so no ARB changes were needed.
+
+Red/green evidence is in
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-pt426-20260823/test-red3.log`
+and `test-green2.log`. Analyzer, catalog, interpolation, focused layout/i18n,
+and full-suite evidence is in the same `fix-pt426-20260823` directory; the full
+suite completed with 714 passing tests.
+
+### Reproduction
+
+1. Serve commit `e682cadd` from `http://127.0.0.1:10257/?playtest=1` in strict
+   headless session `str57-a`.
+2. Start a stock `pt_BR` campaign, assign Kim Aguilera to ordinary recruiting,
+   wait a day, select `Estudante Universitário`, and advance past the “Kim
+   Aguilera pergunta por aí…” screen.
+
+### Actual
+
+The next screen returns directly to the base. Row 11, where the source writes
+either “was unable to track down” or the successful meeting result, is blank.
+The player receives no failure/success feedback between the asking screen and
+the base. The successful multi-candidate branch was separately observed, so
+this repro is specifically the zero-result branch.
+
+### Expected
+
+Render the localized zero-result sentence (or an equivalent nonempty result
+screen) on row 11 before another key is required. The final row must stay
+within 80 columns and contain no raw English.
+
+### Verifier replay
+
+1. Repeat the route above with a rebuilt checkout containing the fix and a new
+   strict-headless session.
+2. Allow one event-loop turn after the key that resolves the asking screen so
+   the injected-key bridge can publish the resumed Dart render.
+3. Require row 11 to be nonempty and Portuguese when recruitment finds nobody;
+   require the complete localized sentence to end with a period, buffer height
+   25, maximum width 80, and empty bridge/browser errors.

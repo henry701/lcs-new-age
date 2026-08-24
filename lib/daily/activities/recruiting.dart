@@ -47,13 +47,8 @@ Future<void> doActivityRecruit(Creature cr) async {
     }
   }
 
-  if (recruitCount == 0) {
-    mvaddstr(
-      11,
-      0,
-      "{name} was unable to track down a {type}.",
-      params: {"name": cr.name, "type": LcsI18n.tr(name)},
-    );
+  if (recruitCount < 1) {
+    _printRecruitFailure(cr, name);
     await getKey();
     return;
   } else if (recruitCount == 1) {
@@ -138,6 +133,26 @@ Future<void> doActivityRecruit(Creature cr) async {
     }
     encounter.clear();
   }
+}
+
+void _printRecruitFailure(Creature cr, String recruitTypeName) {
+  const template = "{name} was unable to track down a {type}.";
+  final typeLabel = LcsI18n.tr(recruitTypeName);
+  final fixedPortion = LcsI18n.processString(template, {
+    "name": "",
+    "type": typeLabel,
+  });
+  var nameWidth = console.width - strLenX(fixedPortion);
+  if (nameWidth < 1) nameWidth = 1;
+
+  mvaddstrcFitted(
+    11,
+    0,
+    lightGray,
+    template,
+    console.width,
+    params: {"name": fitConsoleText(cr.name, nameWidth), "type": typeLabel},
+  );
 }
 
 class RecruitData {

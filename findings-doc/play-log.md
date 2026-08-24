@@ -8776,3 +8776,22 @@ reached. Captures and source hashes are under
 - Final validation passed: `git diff --check`, ARB catalog check,
   interpolation check, `flutter analyze`, and six focused localization/layout
   suites (23 tests).
+
+## 2026-08-24 — Batch C verification attempt
+
+- Rebuilt artifact commit `97bdd8d5` with Flutter 3.35.4 and served only that
+  snapshot on localhost `10751`. Used fresh strict-headless wrapper sessions
+  `verify-layout-c-setup-a` and `verify-layout-c-pt434-a`; no cheats, fixtures,
+  imports, source edits during runtime, CDP, or headed browsers.
+- Both focused suites passed: batch B localization/layout (6 tests) and
+  high-score layout (4 tests). Machine integrity passed for 728 retained buffer
+  captures: height 25, maximum width 80, no over-wide rows, and empty
+  bridge/browser errors.
+- PT-428 through PT-434 remain verification-pending because the required stock
+  success states did not render. Police-station attempts reached ordinary
+  civilian encounters and one natural death, but not a carrier profile; a long
+  custom slogan could not be retained through the natural death route. November
+  elections, courthouse self-defense, dating vacation, multi-effect media, and
+  five-digit title counters were unreachable within bounded ordinary play.
+- Evidence and build manifest:
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-layout-batch-c-20260824/`.

@@ -8393,7 +8393,7 @@ HEAD, but it does not retroactively recover the lost Strategy54 run.
 - Severity: Medium
 - Type: Missing translation / generated-profile rendering
 - Screen: Portuguese regular or sleeper profile → carrying a hostage/body
-- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic console test on 2026-08-23); original: **Confirmed by deterministic console test on 2026-08-23**
+- Replay status: **Verification-pending on 2026-08-24** (focused tests pass; required stock success capture absent)
 - Fix evidence: `lib/common_display/print_creature_info.dart`, `lib/l10n/app_en_US_part18.arb`, `lib/l10n/app_pt_BR_part18.arb`, and `test/localization_layout_batch_b_regression_test.dart` (“carrying-hostage profile clause is fully Portuguese”); logs: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/fix-layout-batch-b-20260823/red-focused.log` and `green-focused.log`.
 - Evidence:
   `lib/common_display/print_creature_info.dart:75-84`,
@@ -8427,12 +8427,20 @@ raw English and with punctuation attached to the localized sentence.
 3. Require no `holding` text, a localized hostage/body label, and complete
    punctuation within the fixed profile delimiter.
 
+### Independent verifier result (2026-08-24)
+
+Focused regression passed on artifact commit `97bdd8d5`, but the required stock
+hostage-carrying profile was not reached. Fresh Portuguese police-station
+routes encountered civilians or armed police; viable kidnap attempts did not
+produce a carrier profile before site escape/death branches intervened. Status
+remains pending.
+
 ## PT-429: Ballot-measure results expose English Yes/No parameters
 
 - Severity: Medium
 - Type: Direct interpolated parameter / election translation
 - Screen: Portuguese November elections → ballot measures → vote results
-- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic template test on 2026-08-23); original: **Confirmed by deterministic template test on 2026-08-23**
+- Replay status: **Verification-pending on 2026-08-24** (focused tests pass; required stock success capture absent)
 - Fix evidence: `lib/politics/elections.dart`, canonical Yes/No templates in en_US/pt_BR catalogs, and the ballot template regression in `test/localization_layout_batch_b_regression_test.dart`; placeholder parity is preserved (`Sim: {yesPercent}%`, `Não: {noPercent}%`).
 - Evidence:
   `lib/politics/elections.dart:408-441`,
@@ -8463,12 +8471,19 @@ redundant parenthetical/duplicated qualifier or make it grammatically useful.
 2. Capture rows containing the final yes/no percentages before acknowledging.
 3. Require Portuguese labels only, with no `(Yes)`, `Yes`, or trailing `No`.
 
+### Independent verifier result (2026-08-24)
+
+Focused template regression passed on artifact commit `97bdd8d5`. The fresh
+campaign remained in January 2023 after bounded ordinary day advancement, so no
+November ballot-measure totals were rendered. Stock-route closure remains
+pending.
+
 ## PT-430: Trial self-defense verdict interpolates English reflexive pronouns
 
 - Severity: Medium
 - Type: Direct pronoun interpolation / court translation
 - Screen: Portuguese courthouse trial → self-defense persuasion outcome
-- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic template test on 2026-08-23); original: **Confirmed by deterministic template test on 2026-08-23**
+- Replay status: **Verification-pending on 2026-08-24** (focused tests pass; required stock success capture absent)
 - Fix evidence: Central reflexive-parameter recognition in `lib/i18n/i18n.dart`, nonbinary catalog entry in `lib/l10n/app_pt_BR_part02.arb`, and male/female/nonbinary regression in `test/localization_layout_batch_b_regression_test.dart`.
 - Evidence:
   `lib/justice/trial.dart:476-494`,
@@ -8504,12 +8519,18 @@ nonbinary forms, so no English reflexive remains in the verdict.
 3. Require localized reflexive wording and no `himself`, `herself`, or
    `themselves`.
 
+### Independent verifier result (2026-08-24)
+
+Focused male/female/nonbinary regression passed on artifact commit `97bdd8d5`.
+No courthouse self-defense trial was reached through bounded ordinary play;
+closure remains pending without the required three-gender runtime captures.
+
 ## PT-431: Dating vacation options lose their closing punctuation
 
 - Severity: Low
 - Type: Fixed-console option layout
 - Screen: Portuguese dating → vacation choices C
-- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic console test on 2026-08-23); original: **Confirmed by deterministic console test on 2026-08-23**
+- Replay status: **Verification-pending on 2026-08-24** (focused tests pass; required stock success capture absent)
 - Fix evidence: Shortened PT vacation templates plus shared `addOptionTextFitted`; all three branches are covered with period-ending and <=80-cell assertions in `test/localization_layout_batch_b_regression_test.dart`.
 - Evidence:
   `lib/daily/dating.dart:382-404`,
@@ -8539,12 +8560,18 @@ punctuation, by shortening the PT values or wrapping/fitting safely.
 3. Require each visible C option to end with a period and stay within column
    79.
 
+### Independent verifier result (2026-08-24)
+
+Focused punctuation/width regression passed on artifact commit `97bdd8d5`.
+The bounded campaign had only US$ 7 and no dating vacation screen was reached;
+stock-route closure remains pending.
+
 ## PT-432: Media article impact grid overwrites adjacent columns
 
 - Severity: Medium
 - Type: Fixed-console newspaper layout
 - Screen: Portuguese media overview → article detail → public-opinion effects
-- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic console test on 2026-08-23); original: **Confirmed by deterministic console test on 2026-08-23**
+- Replay status: **Verification-pending on 2026-08-24** (focused tests pass; required stock success capture absent)
 - Fix evidence: Width-measured impact flow rendering in `lib/basemode/media_overview.dart`; three-effect collision regression asserts separated rows, complete signs/values/percents, and <=80 cells.
 - Evidence:
   `lib/basemode/media_overview.dart:210-238` and
@@ -8577,12 +8604,18 @@ without cross-column collisions.
 3. Require distinct columns, readable sign/value pairs for every effect, no
    overwritten labels, and no write past column 79.
 
+### Independent verifier result (2026-08-24)
+
+Focused collision regression passed on artifact commit `97bdd8d5`. The media
+archive was empty at the start of a fresh campaign and no multi-effect article
+detail rendered during bounded advancement; stock-route closure remains pending.
+
 ## PT-433: Title universal-score counts overwrite the frame border
 
 - Severity: Low
 - Type: Fixed-console title layout / unbounded stat write
 - Screen: Portuguese title screen → universal Liberal statistics
-- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic console test on 2026-08-23); original: **Confirmed by deterministic console test on 2026-08-23**
+- Replay status: **Verification-pending on 2026-08-24** (focused tests pass; required stock success capture absent)
 - Fix evidence: Repositioned title stats at `titleStatsRightColumnX` and compacted PT labels; five-digit regression checks complete counts and empty frame cells 78–79 in `test/localization_layout_batch_b_regression_test.dart`.
 - Evidence:
   `lib/title_screen/title_screen.dart:524-550` and
@@ -8611,12 +8644,19 @@ region while preserving the title frame at columns 78–79.
 2. Display the title screen and capture universal-stat rows 18–19.
 3. Require complete counts, no overwritten frame glyphs, and maximum width 80.
 
+### Independent verifier result (2026-08-24)
+
+Focused five-digit frame regression passed on artifact commit `97bdd8d5`.
+Fresh isolated runtime title counters were zero, and neither 10,000 losses nor
+10,000 victories is reachable without fixtures/import or impractical thousands
+of natural campaigns. The five-digit stock branch remains pending.
+
 ## PT-434: Custom high-score slogans are written without width bounds
 
 - Severity: Low
 - Type: Fixed-console high-score layout
 - Screen: Portuguese game-over/high scores → custom squad slogan
-- Replay status: **Fixed-pending-verify on 2026-08-24** (previously confirmed by deterministic runtime test on 2026-08-23); original: **Confirmed by deterministic runtime test on 2026-08-23**
+- Replay status: **Verification-pending on 2026-08-24** (focused tests pass; required stock success capture absent)
 - Fix evidence: Bounded slogan rendering via `fitConsoleText` in `lib/title_screen/high_scores.dart`; explicit ellipsis/custom-slogan and intact built-in-slogan regressions are in `test/title_screen/high_scores_layout_test.dart`.
 - Evidence:
   `lib/title_screen/high_scores.dart:205-210` and
@@ -8646,6 +8686,14 @@ remain intact.
 2. Capture the high-score slogan row immediately after the screen opens.
 3. Require the visible slogan to be deliberately bounded with an ellipsis (or
    occupy reserved wrapped rows) and remain within columns 0–79.
+
+### Independent verifier result (2026-08-24)
+
+Focused ellipsis/built-in-slogan regressions passed on artifact commit
+`97bdd8d5`. A fresh Portuguese campaign entered an over-80 slogan in the stock
+editor and later died naturally in police-site combat, but that death retained
+the built-in slogan because the long-slogan save/continue route restarted from
+an earlier base state. The over-80 high-score row therefore remains pending.
 
 ## PT-435: Presidential nominees expose untranslated alignment shorthand
 

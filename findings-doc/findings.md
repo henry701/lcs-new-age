@@ -10230,3 +10230,22 @@ Portuguese output, English preservation, and the 80-column combat line. The
 isolated fixer worktree passed the focused test plus i18n static coverage, ARB
 catalog validation, and a release web build. A fresh strict-headless runtime
 replay against the fixed build is still required before closing the ticket.
+
+## PT-468: Prison HOSTAGE SLAIN story leaks `[reproduction fiend]` in pt_BR
+
+- Severity: Medium (P2 localization regression)
+- Type: Missing dynamic newspaper translation
+- Replay status: **New finding; fix pending**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy70-victory-20260825/evidence/262-mar9-newspaper.json` (reproduced in captures 249–262)
+- Source trace: `lib/newspaper/major_event.dart:1960-1965`
+
+The fresh stock-cheatless Strategy70 route selected `pt_BR`, entered the
+nightmare/Bad Blood/Jungle setup, and naturally reached the March 9 newspaper.
+The Portuguese `HOSTAGE SLAIN` article repeatedly rendered raw English
+`[reproduction fiend]`. The source calls `LcsI18n.tr` for that key, but the
+Portuguese catalog has no entry. The other bracketed phrases in the article
+(`[estamos falando]`, `[machucar este policial]`, `[ferido]`, and
+`[também ferido]`) are localized conservative/no-profanity placeholders and
+are not separate English leaks. Route integrity is 264 JSON objects, max row
+80, zero over-wide/empty/invalid captures, and no cheats/imports/source edits.
+No Liberal Victory or game-over was claimed.

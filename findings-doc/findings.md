@@ -10134,7 +10134,7 @@ the exact fresh headless replay remains pending.
 
 - Severity: Medium (P2 localization regression)
 - Type: Television animation asset localization
-- Replay status: **Fixed; independent runtime replay pending**
+- Replay status: **Fixed; independently verified at runtime**
 - Original evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy66-victory-20260824/evidence/may-route-21.json`
 - Fix commit: `5306bae2` (`fix(i18n): localize glam-show animation titles`)
 
@@ -10156,8 +10156,10 @@ Portuguese.
 the original `glamshow.cmv` remains the `en_US` asset. Regression tests inspect
 all title glyph positions, assert the Portuguese replacements, preserve the
 English asset, and cover the runtime locale selector. Independent static,
-television, and i18n coverage passed; fresh browser title-frame/network replay
-is still pending.
+television, and i18n coverage passed. A fresh strict-headless replay loaded
+the Portuguese asset for `pt_BR` and retained the original asset for `en_US`,
+with no raw-English Portuguese title hits and rows at or below 80 columns;
+runtime evidence is under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt465-20260825/`.
 
 ## PT-466: Nonunion Worker encounter name is untranslated
 

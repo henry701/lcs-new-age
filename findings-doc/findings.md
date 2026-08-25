@@ -10087,6 +10087,13 @@ template, producing `mess` instead of the grammatical `meses`.
   `mess`/English fragment and its maximum row width is 80 columns.
 - Focused regression and localization coverage tests passed, and the
   canonical English/Portuguese shard check passed.
+- A second fresh clone of pushed commit `cf8fa5a21a6daa74745deae17ed592fd4b617138`
+  independently passed 77 focused tests and a web build, then replayed the
+  original Brian Lincoln route. Its machine-readable result is
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt463-20260824-r2/evidence/pt463-rendered.json`;
+  the rendered sentence is `Brian Lincoln, você foi condenado a 2 meses na
+  prisão.`, with maximum row width 54 and no raw-English hits. The verifier
+  summary is `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt463-20260824-r2/verification-summary.md`.
 
 ### Expected
 

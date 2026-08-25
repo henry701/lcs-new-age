@@ -12,6 +12,13 @@ import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
+// CMV title cards are rasterized, so use a translated copy rather than a
+// catalog lookup that cannot affect the movie's glyphs.
+String televisionMovieAssetFilename(String filename) =>
+    LcsI18n.currentLocale == 'pt_BR' && filename == 'glamshow.cmv'
+    ? 'glamshow_pt_BR.cmv'
+    : filename;
+
 void renderTelevisionOverlay({
   required int topY,
   required int x,
@@ -147,7 +154,7 @@ Future<void> runTelevisionNewsStories() async {
                 "A new show glamorizing the lives of the rich begins "
                 "airing this week.  With the nationwide advertising "
                 "blitz, it's bound to be popular.";
-            await movie.loadmovie("glamshow.cmv");
+            await movie.loadmovie(televisionMovieAssetFilename("glamshow.cmv"));
             await movie.playmovie(0, 0);
             renderTelevisionOverlay(
               topY: 19,

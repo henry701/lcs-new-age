@@ -3334,3 +3334,10 @@ routes are optional breadth coverage.
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy66-victory-20260824/evidence/apr1-votes-stable.json`.
 - The route remains live and resumable, with no natural Liberal Victory or
   game-over terminal. Do not claim PT-464 fixed without a post-fix replay.
+
+## 2026-08-25 — Strategy66 June institutional checkpoint and PT-465
+
+- The resumed PT_BR/Clear Blue Skies stock route advanced normally from the May 21 event to June 1, 2025. The June Supreme Court screen was localized: five cases appeared, with a 4–6/5–4 conservative decision split; Conservative Justice Rose Lee left and moderate Tracy Park was appointed. June legislation passed `Promover Energia Verde` through both chambers and the President signed it; `Expandir Pena de Morte` was vetoed. Finance remained US$612.
+- The route's June media report recorded 38.0% Liberal views and 8.3% LCS support. The status pages showed 87 Lib+ / 55 Lib in the House and 17 Lib+ / 14 Lib in the Senate; the route is far from the all-laws/all-institutions `winCheck` gates. No Liberal Victory or game-over terminal was reached.
+- A new PT-465 localization finding is confirmed in the transient `glamshow.cmv` television animation at May 21: `may-route-21.json` visibly renders `« Decadent Dining »` in English after Portuguese selection. `may21-event-stable.json` then shows the translated Portuguese story body. The frame fits 80 columns and is not an overflow. Ticket details and exact evidence are in `PT-465-ticket.md` and the findings log.
+- Save/reload integrity at the June checkpoint: `jun1-title-save-2025.json` -> `jun1-resumed-base-2025.json`, preserving game ID `6428010`.

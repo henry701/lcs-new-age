@@ -10092,3 +10092,31 @@ The no-bill status and reflection footer should be clean separate lines:
   with no key input.
 - The stable capture has `maxRow: 80`, zero over-wide rows, Portuguese UI,
   and no bridge errors. No source edit or cheat was used.
+
+## PT-465: `glamshow.cmv` animation title remains raw English in Portuguese
+
+- Severity: Low (P2 localization regression; no gameplay loss observed)
+- Type: Untranslated media-animation title
+- Screen: Portuguese stock Clear Blue Skies campaign, May 21, 2025 television event
+- Replay status: **Confirmed open on 2026-08-25**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy66-victory-20260824/evidence/may-route-21.json`
+- Corroborating evidence: `may21-event-stable.json` shows the Portuguese body after the animation advances; `may21-event-continue.json` returns to the Portuguese base screen.
+- Source trace: `lib/newspaper/television.dart` `View.ceoSalary` loads `assets/art/glamshow.cmv`; the binary movie frame renders the title.
+
+### Reproduction
+
+1. Start or resume the strict-headless stock campaign in `pt_BR` with `Céu Azul e Límpido` selected.
+2. Advance normally with `W` to May 21, 2025 while the CEO-salary television story is pending.
+3. Observe the `glamshow.cmv` animation before the translated story body.
+
+### Actual
+
+The animation visibly renders the centered raw-English title:
+
+`« Decadent Dining »`
+
+The next stable frame is translated Portuguese (`Um novo programa que glamoriza a vida dos ricos começa a ser exibido esta semana.`). The capture is exactly 80 columns wide with zero over-wide rows and no bridge errors.
+
+### Expected
+
+The television animation should avoid raw English after `pt_BR` selection, using a localized title frame or a locale-aware overlay while retaining the translated body.

@@ -9234,3 +9234,10 @@ reached. Captures and source hashes are under
   `apr1-votes-stable.json`. Both are localized, exactly 80 columns, and have
   no over-wide rows or bridge errors. No Liberal Victory/game-over terminal
   was reached; the browser/server remains live for continuation.
+
+## 2026-08-25 — Strategy66 June 1, 2025 CCS checkpoint and PT-465
+
+- Resumed the strict-headless stock PT_BR/Clear Blue Skies Strategy66 save (`6428010`) and advanced by normal `W` actions from May 21 to June 1, 2025. No shared checkout or source edits were used; the browser session/server remained live.
+- June evidence: `jun1-court-open-2025.json`, `jun1-court-decisions-2025.json`, and `jun1-court-change-result-2025.json` are localized and max-width 80. Rose Lee left the Supreme Court; moderate Tracy Park was appointed. `jun1-agenda-2025.json`, `jun1-votes-2025.json`, `jun1-president-2025.json`, and `jun1-finance-2025.json` record the legislative cycle and US$612. `jun1-media-2025.json` records 38.0% Liberal views and 8.3% LCS support. `jun1-status-page1-2025.json` through `jun1-status-page5-2025.json` show the current institutional/law state.
+- Save/title/load integrity was verified with `jun1-title-save-2025.json` -> `jun1-resumed-base-2025.json`; localStorage retained game ID `6428010`. No natural Liberal Victory or game-over screen was reached.
+- PT-465 is confirmed open: the May 21 television animation capture `may-route-21.json` contains centered raw English `« Decadent Dining »` after Portuguese selection. The following stable animation frame in `may21-event-stable.json` is translated, so this is a media-frame localization gap, not a general story-translation failure. The title is 80 columns wide with no overflow; exact ticket is `PT-465-ticket.md`.

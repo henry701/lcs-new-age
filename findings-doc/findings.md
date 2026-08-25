@@ -10281,6 +10281,16 @@ produce HOSTAGE SLAIN. Canonical capture
 has max row 80 with no over-wide rows or bridge errors. The exact natural
 runtime target remains pending; no closure is claimed.
 
+A second independent verifier replay used the same fixed commit in a fresh
+clone, server `127.0.0.1:14694`, and strict HeadlessChrome session/namespace
+`pt468verify-r2/lcs-new-age-pt468-verify-r2`. Focused translation plus static
+i18n tests (78) and a release web build passed. The fresh Los Angeles route
+advanced naturally from January 1 to April 28, 2023. Its 145 valid captures
+are all 25 rows with max width 80, zero invalid/empty/overwide files, and zero
+raw-English matches, but the random HOSTAGE SLAIN event did not occur. The
+fix therefore remains fixed-pending-runtime; canonical artifacts are under
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt468-9738f1fc-20260825-r2/`.
+
 ## PT-469: Low creature level titles leak English in pt_BR
 
 - Severity: Medium (P2 localization regression)

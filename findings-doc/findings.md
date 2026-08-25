@@ -10395,3 +10395,22 @@ made. Deterministic display-path verification rendered `Denise Smyth fala com Ca
 Integrity: 67 JSON objects, one intentional loading probe, max row width 80, zero
 over-wide rows, and zero post-locale raw `Mail Carrier` hits. Full verifier summary:
 `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt471-bd9234d3-20260825/verification-summary.md`.
+
+### PT-412/PT-416/PT-418 verifier batch (2026-08-25)
+
+A fresh isolated verifier ran the current `feature/localization` head
+`0c983344917a00a81735b57bad27e46b2e994a74` on strict HeadlessChrome `pt_BR`
+with unique server `127.0.0.1:14703` and namespace
+`lcs-new-age-verify-pending-batch-20260825`. The focused PT-412/PT-416/PT-418
+suites plus static i18n coverage passed (81 tests), and the release web build
+passed. Across the four bounded route attempts, every parsed capture was valid
+and 25 rows wide, max row width 80, with zero over-wide rows, empty buffers,
+bridge/browser errors, or target raw-English hits. Artifacts:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pending-batch-20260825/`.
+
+The natural branches remain honestly open rather than falsely closed: PT-412
+reached the nursing-home site/in-room interaction but not the former-hostage
+administrator alarm precondition; PT-416 reached the corrected insurance site
+map but not the safe/document prompt or bank vault; PT-418 reached the
+nursing-home patient-room map but not named-clothing-destruction combat.
+Statuses remain **Fixed-pending-verify** for those natural branch boundaries.

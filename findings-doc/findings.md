@@ -10100,3 +10100,12 @@ template, producing `mess` instead of the grammatical `meses`.
 The sentence must use complete singular/plural templates so that one month
 renders `1 mês na prisão` and two months renders `2 meses na prisão`, without
 English suffix fragments or width overflow.
+
+## PT-464: Congress no-bill result retained a stale vote-prompt suffix
+
+### Independent verifier status — 2026-08-25
+
+- Fix commit under test: `101d1c8d943400ac5374cc0cc1eb5023258833d` in isolated worktree `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt464-101d1c8d-20260825`.
+- The focused `test/politics/congress_layout_test.dart` regression passed, and the isolated release web build passed. The test asserts the exact Portuguese result `Nenhum dos itens chegou à mesa do Presidente.` and rejects the stale `desenrolar da votação` tail.
+- Fresh strict-headless PT_BR route attempts used server `127.0.0.1:14675`, sessions `s464n`/`n464v` and `s464z`/`n464z`. The 160 non-empty 25-row gameplay captures measured max width 80, zero over-wide rows, and zero bridge errors.
+- Runtime status remains **pending**: the natural one-founder routes reached 2024-era gameplay but the browser tab terminated to `about:blank` before a fresh exact no-bill result capture. The verifier therefore does not claim independent runtime closure. Existing original reproduction remains the stale-suffix capture in the Strategy66 evidence; a fresh result capture is still required for runtime closure.

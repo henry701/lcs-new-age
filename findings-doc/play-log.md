@@ -9219,3 +9219,7 @@ reached. Captures and source hashes are under
   recorded separately. The focused post-width suite passed all 2 car-theft
   tests. PT-462 is therefore closed; no new translation or layout ticket was
   found.
+
+### PT-464 independent verifier — 2026-08-25
+
+Built detached `101d1c8d943400ac5374cc0cc1eb5023258833d` in an isolated worktree and passed the focused Congress layout test plus release web build. Strict-headless Portuguese routes on `127.0.0.1:14675` produced 160 non-empty 25-row gameplay captures with max width 80, no over-wide rows, and no bridge errors. The code-level test confirms `Nenhum dos itens chegou à mesa do Presidente.` and rejects the stale vote-prompt suffix. The natural one-founder route did not yield a fresh no-bill result before the tab terminated to `about:blank`; runtime closure remains pending and is not claimed.

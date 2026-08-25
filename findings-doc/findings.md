@@ -10105,7 +10105,7 @@ English suffix fragments or width overflow.
 
 - Severity: Medium (P2 UI correctness/localization regression)
 - Type: Console line invalidation
-- Replay status: **Fixed; independent runtime replay pending**
+- Replay status: **Fixed; independent deterministic runtime verification passed (natural target pending)**
 - Original evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy66-victory-20260824/evidence/apr1-votes-stable.json`
 - Fix commit: `4833b64d` (`fix(ui): clear stale no-bill Congress result`)
 
@@ -10165,7 +10165,7 @@ runtime evidence is under `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify
 
 - Severity: Medium (P2 localization regression)
 - Type: Creature encounter label
-- Replay status: **Fixed; independent runtime replay pending**
+- Replay status: **Fixed; independent deterministic runtime verification passed (natural target pending)**
 - Original evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-strategy68-20260825/evidence/089-latte-talk.json` and `090-talk-nonunion-selected.json`
 - Fix commit: `6049ee41` (`fix(i18n): translate nonunion worker encounter name`)
 
@@ -10190,8 +10190,13 @@ missing key was a catalog gap rather than a type-name translation error.
 The English catalog now explicitly retains `Nonunion Worker`; the Portuguese
 catalog maps it to `Trabalhador Não Sindicalizado`. The regression test checks
 Portuguese output, English preservation, and the complete talk header at
-80-column width. Fresh isolated static tests and the release build passed;
-independent headless route replay is still pending.
+80-column width. The independent fixed-build deterministic probe rendered
+`Trabalhador Não Sindicalizado` and the full talk header at 68/80 columns while
+preserving `Nonunion Worker` in `en_US`. Focused/static tests (79), canonical
+catalog validation, and the release build passed. A fresh strict-headless
+smoke on unique server `127.0.0.1:14696` captured 22 valid pt_BR screens with
+max width 80 and zero bridge errors, but its random natural route did not
+encounter the target; natural target replay remains pending.
 
 ### PT-464 verifier addendum (2026-08-25)
 
@@ -10204,6 +10209,17 @@ A fresh strict-headless replay of the CEO-salary event against `d4ba28de47bea1d0
 ### PT-466 verifier addendum (2026-08-25)
 
 The independent verifier used a fresh clone of `eefc378cb8f05d6139b2337c3a3b4d4d727e6a4a`, server `127.0.0.1:14677`, and strict HeadlessChrome session/namespace `pt466verify/lcs-new-age-pt466-verify`. Focused tests passed (79 total) and the release web build passed. Fresh `pt_BR` CCS/Seattle routes used no save imports or source edits; bounded natural replay produced other localized latte NPCs rather than the target `Nonunion Worker`. The verifier therefore does **not** claim runtime closure. Current post-fix capture integrity is max row 80 with no errors at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt466-eefc378-20260825/evidence/current-talker-list-no-nonunion.json`; honest status is fixed-pending-runtime-verification in `runtime-status.md` in the same artifact root.
+
+A corrected independent verifier run used the fixed commit in a clean clone,
+unique server `127.0.0.1:14696`, and strict HeadlessChrome session/namespace
+`pt4666049c/lcs-new-pt466-6049c`. It captured 22 valid setup/latte-route
+screens, all max width 80 with zero bridge errors. The earlier 14692 captures
+were excluded because that port belonged to another live route. The
+deterministic display-path probe independently rendered
+`Trabalhador Não Sindicalizado`, the 68-column talk header, and English
+preservation; the natural browser route still did not encounter the random
+Nonunion Worker target. Canonical artifacts:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt466-6049ee41-20260825/`.
 
 ## PT-467: Eminent Scientist encounter role remains English in pt_BR
 

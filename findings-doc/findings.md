@@ -266,6 +266,7 @@
 | PT-460 | Medium | Combat translation/spacing | Knife melee prose leaks English `lunges at` and doubles the localized dodge separator |
 | PT-461 | Medium | Combat translation/coverage | XML weapon attack-description variants lack Portuguese catalog entries |
 | PT-462 | Medium | Car-theft translation/layout | Failed window break-in branch renders raw English or clips a Portuguese weapon variant |
+| PT-463 | Medium | Justice translation/grammar | Two-month prison sentence renders the English plural suffix as Portuguese `mess` |
 
 ## PT-001: Save-management option is clipped
 
@@ -10046,3 +10047,49 @@ layout.
   Intentional English on the pre-selection title/language screens is recorded
   separately. The focused post-fix suite passed; the verifier report is
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt462-770d35ef-20260824/integrity-summary.json`.
+
+## PT-463: Portuguese two-month sentence renders `mess`
+
+- Severity: Medium (P2 localization regression; no gameplay loss observed)
+- Type: Justice translation/number agreement
+- Screen: Portuguese stock police arrest → trial → two-month sentence
+- Replay status: **Fixed and independently verified on 2026-08-24**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy61-victory-20260824-r6-seattle-political-20260824/evidence/280-graffiti-sentence-options.json`
+- Independent post-fix evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt463-20260824/evidence/001-fixed-natural-sentence.json`
+- Source trace: `lib/justice/trial.dart` sentence display and the separate
+  singular/plural entries in `lib/l10n/app_pt_BR_part22.arb` and
+  `lib/l10n/app_pt_BR_part25.arb`; the legacy `{months} month{plural} in
+  prison` entry was removed.
+
+### Reproduction
+
+1. Start the strict-headless stock campaign in `pt_BR`.
+2. Use the natural Seattle graffiti route until the founder is arrested and
+   receives a two-month sentence.
+3. Inspect the Portuguese sentence-options screen.
+
+### Actual
+
+The otherwise Portuguese sentence reads:
+
+`Brian Lincoln, você foi condenado a 2 mess na prisão.`
+
+The English source supplies `plural: "s"` to a Portuguese `mes{plural}`
+template, producing `mess` instead of the grammatical `meses`.
+
+### PT-463 independent post-fix verification
+
+- A fresh strict-headless `pt_BR` session (`pt463fix2/pt463fix2ns`) on the
+  isolated build at `127.0.0.1:14674` repeated the natural Seattle graffiti
+  arrest, guilty plea, and two-month sentence route.
+- The fixed screen reads `Dwayne Cavallero, você foi condenado a 2 meses na
+  prisão.` in `evidence/001-fixed-natural-sentence.json`; it contains no
+  `mess`/English fragment and its maximum row width is 80 columns.
+- Focused regression and localization coverage tests passed, and the
+  canonical English/Portuguese shard check passed.
+
+### Expected
+
+The sentence must use complete singular/plural templates so that one month
+renders `1 mês na prisão` and two months renders `2 meses na prisão`, without
+English suffix fragments or width overflow.

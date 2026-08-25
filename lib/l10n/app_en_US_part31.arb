@@ -215,7 +215,6 @@
   "{headline} {str}": "{headline} {str}",
   "{label}: {fileName}": "{label}: {fileName}",
   "{modifier} {noun}: A new book further documenting the other side of Reagan.": "{modifier} {noun}: A new book further documenting the other side of Reagan.",
-  "{months} month{plural} in prison": "{months} month{plural} in prison",
   "{name} can manage {subordinateCount} more {subordinateLabel}, and has {meetingCount} {meetingLabel} scheduled.": "{name} can manage {subordinateCount} more {subordinateLabel}, and has {meetingCount} {meetingLabel} scheduled.",
   "{name} explains why {pronoun} disagrees.": "{name} explains why {pronoun} disagrees.",
   "{name} is haunted by the memory of the {action}.": "{name} is haunted by the memory of the {action}.",

@@ -941,13 +941,10 @@ Future<void> penalize(Creature g, bool lenient) async {
         params: {"years": (g.sentence ~/ 12).toString()},
       );
     } else {
-      addstr(
-        "{months} month{plural} in prison",
-        params: {
-          "months": g.sentence.toString(),
-          "plural": g.sentence > 1 ? "s" : "",
-        },
-      );
+      final sentenceTemplate = g.sentence == 1
+          ? "{months} month in prison"
+          : "{months} months in prison";
+      addstr(sentenceTemplate, params: {"months": g.sentence.toString()});
     }
 
     // Mash together compatible sentences.

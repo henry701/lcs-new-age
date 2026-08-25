@@ -10297,3 +10297,33 @@ covering all alignments, width, and English preservation. Focused tests (80),
 canonical catalog validation, and a release build passed. A fresh Portuguese
 smoke route confirmed setup/base screens but did not naturally reach a low-level
 profile; no runtime closure is claimed yet.
+
+## PT-470: Factory and union worker creature labels leak English in Portuguese
+
+- Severity: Medium (P2 localization regression)
+- Type: Creature XML role/type labels
+- Replay status: **Confirmed deterministic runtime display gap; fixer and natural replay pending**
+- Source snapshot: `e5fd92d089cf8c44f76abc55a8d2d4834d6dec36`
+- Exact probe: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober2-20250825-r2/creature-alias-probe.log`
+- Source: `assets/xml/creatures.xml:397-399,436-438`; display path `lib/common_display/common_display.dart:37-49` and `lib/common_display/print_creature_info.dart:70-76`
+
+### Actual
+
+`Factory Worker` is the XML type name for both factory-worker types, and
+`Union Worker` is the union encounter alias. Neither key exists in the
+Portuguese catalog. The runtime display helper therefore returns raw English:
+
+- `localizedCreatureNameValue('Factory Worker', 'Factory Worker')` -> `Factory Worker`
+- `localizedCreatureNameValue('Union Worker', 'Factory Worker')` -> `Union Worker`
+
+The same deterministic probe found adjacent missing labels `Amateur Magician`,
+`Cable News Anchor`, and `Mail Carrier`; those remain separate triage
+candidates, not silently included in PT-470.
+
+### Verification status
+
+The isolated Flutter probe passed and captured the exact outputs. This confirms
+a user-visible display path rather than only a static XML gap. No shared source
+was changed, and no natural headless closure is claimed. Suggested Portuguese
+values are `Trabalhador de Fábrica` and `Trabalhador Sindicalizado`, pending
+fixer review.

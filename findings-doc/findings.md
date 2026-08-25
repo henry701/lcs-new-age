@@ -10190,3 +10190,11 @@ catalog maps it to `Trabalhador Não Sindicalizado`. The regression test checks
 Portuguese output, English preservation, and the complete talk header at
 80-column width. Fresh isolated static tests and the release build passed;
 independent headless route replay is still pending.
+
+### PT-464 verifier addendum (2026-08-25)
+
+The isolated verifier ran the fixed commit `101d1c8d943400ac5374cc0cc1eb5023258833d` with fresh strict-headless namespaces `s464n/n464v` and `s464z/n464z` on `127.0.0.1:14675`. Its focused regression and release build passed, and 160 non-empty Portuguese gameplay captures were valid 25-row screens (max width 80, zero over-wide rows and bridge errors). The natural routes ended at `about:blank` before the exact no-bill runtime screen, so runtime closure remains pending; no false pass is claimed. Verifier artifacts and summary: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt464-101d1c8d-20260825/`.
+
+### PT-465 independent verification (2026-08-25)
+
+A fresh strict-headless replay of the CEO-salary event against `d4ba28de47bea1d0d600876d3ff5941a8b420953` loaded `glamshow_pt_BR.cmv` for `pt_BR` and the original `glamshow.cmv` for `en_US`. Portuguese stable body screens had max width 80, no bridge errors, and no raw-English title hits; glyph assertions found `MoradiasdeElite`, `JantarSuntuoso`, and `GRANA`, while English retained `PalacialEstates`, `DecadentDining`, and `MONEY`. Focused tests (3/3) and release build passed. Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt465-20260825/`; verifier docs commit `b3ea564c` is isolated and was not applied to the shared checkout.

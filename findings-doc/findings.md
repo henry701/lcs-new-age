@@ -10219,8 +10219,8 @@ fate-decided Fabio Reid) entered the naturally alarmed Latte Kiosk encounter.
 The roster and combat log repeatedly rendered raw English `Eminent Scientist`
 and related messages after Portuguese selection. The route remained valid
 (42 JSON captures, max row 80, no bridge errors) and ended in a separate literal
-natural game-over; no Liberal Victory was claimed. Fix and independent runtime
-verification are pending.
+natural game-over; no Liberal Victory was claimed. The source fix is integrated;
+independent runtime closure remains pending.
 
 ### PT-467 fix
 
@@ -10230,6 +10230,16 @@ Portuguese output, English preservation, and the 80-column combat line. The
 isolated fixer worktree passed the focused test plus i18n static coverage, ARB
 catalog validation, and a release web build. A fresh strict-headless runtime
 replay against the fixed build is still required before closing the ticket.
+
+### PT-467 independent verifier addendum (2026-08-25)
+
+The verifier used fresh clone `e67440b7` on server `127.0.0.1:14690` with
+strict HeadlessChrome session `pt467verify`. Focused tests (79), canonical ARB
+validation, and a release web build passed. Two fresh natural Los Angeles
+latte-kiosk routes reached other localized rosters but did not include
+`Eminent Scientist`; the canonical capture is
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt467-e67440b7-20260825/evidence/route2-current-latte-combat-no-eminent.json`.
+Runtime closure is therefore still pending and is not claimed.
 
 ## PT-468: Prison HOSTAGE SLAIN story leaks `[reproduction fiend]` in pt_BR
 

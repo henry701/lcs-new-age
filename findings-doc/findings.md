@@ -266,6 +266,7 @@
 | PT-460 | Medium | Combat translation/spacing | Knife melee prose leaks English `lunges at` and doubles the localized dodge separator |
 | PT-461 | Medium | Combat translation/coverage | XML weapon attack-description variants lack Portuguese catalog entries |
 | PT-462 | Medium | Car-theft translation/layout | Failed window break-in branch renders raw English or clips a Portuguese weapon variant |
+| PT-464 | Low | Agenda result layout | No-bill Congress result leaves the tail of the prior Portuguese voting prompt on the status line |
 
 ## PT-001: Save-management option is clipped
 
@@ -10046,3 +10047,48 @@ layout.
   Intentional English on the pre-selection title/language screens is recorded
   separately. The focused post-fix suite passed; the verifier report is
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt462-770d35ef-20260824/integrity-summary.json`.
+
+## PT-464: Portuguese no-bill Congress result leaves stale footer text
+
+- Severity: Low (P2 visual/readability defect; no gameplay loss observed)
+- Type: Agenda result layout / stale text
+- Screen: Portuguese legislative agenda result when every bill fails in both chambers
+- Replay status: **Confirmed open on 2026-08-25**
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy66-victory-20260824/evidence/apr1-votes-stable.json`
+- Source trace: `lib/politics/congress.dart` no-bill branch writes the shorter
+  `None of the items made it to the President's desk.` message at row 23
+  without clearing/padding the previous voting prompt.
+
+### Reproduction
+
+1. Resume the stock Portuguese Strategy66 save `6428010` at Jan 1, 2025.
+2. Advance normally with `W` to April 1, 2025.
+3. Let both chambers reject all agenda bills.
+4. Inspect the stable no-bill result screen.
+
+### Actual
+
+The result row renders:
+
+`Nenhum dos itens chegou à mesa do Presidente.senrolar da votação.`
+
+The suffix `senrolar da votação.` is stale text left from the preceding
+`Pressione qualquer tecla para acompanhar o desenrolar da votação.` prompt. The
+row is exactly 80 columns, so this is stale-text corruption rather than
+overflow.
+
+### Expected
+
+The no-bill status and reflection footer should be clean separate lines:
+
+`Nenhum dos itens chegou à mesa do Presidente.`
+
+`Pressione qualquer tecla para refletir sobre o que aconteceu.`
+
+### Evidence and integrity
+
+- `apr1-votes.json` first captured the issue;
+  `apr1-votes-stable.json` reproduced the identical line after 1.5 seconds
+  with no key input.
+- The stable capture has `maxRow: 80`, zero over-wide rows, Portuguese UI,
+  and no bridge errors. No source edit or cheat was used.

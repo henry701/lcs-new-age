@@ -9219,3 +9219,18 @@ reached. Captures and source hashes are under
   recorded separately. The focused post-width suite passed all 2 car-theft
   tests. PT-462 is therefore closed; no new translation or layout ticket was
   found.
+
+## 2026-08-25 — Strategy66 April no-bill agenda result (PT-464)
+
+- Resumed the live stock-cheatless PT_BR/Clear Blue Skies Strategy66 save
+  (`6428010`) and advanced by ordinary `W` actions from Jan 1 to April 1,
+  2025. No shared checkout or source edits were used.
+- Both chambers rejected every April bill. The Portuguese no-bill result
+  rendered `Nenhum dos itens chegou à mesa do Presidente.senrolar da votação.`
+  because the shorter status line did not clear the tail of the prior voting
+  prompt. The identical line persisted in a 1.5-second no-key replay. PT-464
+  is confirmed open; severity Low/P2, agenda-result stale-text layout.
+- Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy66-victory-20260824/evidence/apr1-votes.json` and
+  `apr1-votes-stable.json`. Both are localized, exactly 80 columns, and have
+  no over-wide rows or bridge errors. No Liberal Victory/game-over terminal
+  was reached; the browser/server remains live for continuation.

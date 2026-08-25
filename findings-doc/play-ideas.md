@@ -3320,3 +3320,17 @@ routes are optional breadth coverage.
 - The focused car-theft suite passed after the width change. PT-462 is closed;
   retain the original raw-English capture 775 and the earlier clipped capture
   046 as regression history, not as open defects.
+
+## 2026-08-25 — Strategy66 April no-bill agenda result (PT-464)
+
+- The live stock PT_BR/Clear Blue Skies campaign reached April 1, 2025.
+  Both chambers rejected every proposed bill, exposing a stale-text layout
+  defect in the no-bill result: `Nenhum dos itens chegou à mesa do
+  Presidente.senrolar da votação.`
+- PT-464 is confirmed open. The suffix is the tail of the preceding
+  `Pressione qualquer tecla para acompanhar o desenrolar da votação.` prompt;
+  a stable no-key replay reproduced the exact same line. The row is exactly
+  80 columns, so this is not an overflow. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy66-victory-20260824/evidence/apr1-votes-stable.json`.
+- The route remains live and resumable, with no natural Liberal Victory or
+  game-over terminal. Do not claim PT-464 fixed without a post-fix replay.

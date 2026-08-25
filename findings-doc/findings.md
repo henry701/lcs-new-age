@@ -10295,7 +10295,7 @@ fix therefore remains fixed-pending-runtime; canonical artifacts are under
 
 - Severity: Medium (P2 localization regression)
 - Type: Creature level-title translation
-- Replay status: **Fixed; independent natural low-level screen replay pending**
+- Replay status: **Fixed; independent deterministic runtime verification passed (natural route pending)**
 - Source: `lib/creature/level.dart:38-73`
 - Pre-fix deterministic probe: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober2-20250825-r1/pre-fix-level-title-probe.log`
 
@@ -10304,9 +10304,14 @@ and `Struggling` at levels -2/-1/0 for every alignment, plus `Peacemaker` for
 moderate level 6. The isolated fix adds the four English keys and Portuguese
 values `Em Crise`, `Instável`, `Em Dificuldades`, and `Pacificador`, with tests
 covering all alignments, width, and English preservation. Focused tests (80),
-canonical catalog validation, and a release build passed. A fresh Portuguese
-smoke route confirmed setup/base screens but did not naturally reach a low-level
-profile; no runtime closure is claimed yet.
+canonical catalog validation, and a release build passed. An independent
+deterministic display-path probe invoking `printCreatureInfo()` rendered
+`Em Crise`, `Instável`, `Em Dificuldades`, and `Pacificador`, with no raw
+English titles and all rows exactly 80 cells
+(`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt469-4fa2c40e-20260825/verification-summary.md`).
+A fresh strict-headless smoke route confirmed the pt_BR setup/base and DOM
+bridge. The natural low-level profile was not reached, so that remains an
+optional route-coverage gap rather than an unverified display-path fix.
 
 ## PT-470: Factory and union worker creature labels leak English in Portuguese
 

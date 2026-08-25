@@ -9298,3 +9298,16 @@ reached. Captures and source hashes are under
   empty probes, invalid 0, max row width 80, over-wide 0, and no post-locale
   raw-English issue files. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy80-victory-20260825/`.
+
+## 2026-08-25 — Strategy81 Washington DC CCS-off route
+
+- Strategy81 ran a fresh stock-cheatless Portuguese route with Phillipe Yi in
+  Washington DC on `127.0.0.1:14710` (session `str81-v1`). It traversed Jan–Nov
+  2023 monthly agenda/election chains and a bounded 12-day natural
+  `Causando Problemas` probe; the Nov 12 save/reload retained game id `4912063`.
+  Support reached 0.8%, but no literal Liberal Victory/game-over occurred.
+- No new localization/layout issue was observed. Fresh integrity verification
+  reports 470 valid object captures (468 post-locale), invalid/empty 0, max row
+  width 80, over-wide 0, strict HeadlessChrome 470/470, and no post-locale raw-
+  English hits. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy81-victory-20260825/`.

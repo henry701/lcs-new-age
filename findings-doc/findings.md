@@ -10203,7 +10203,7 @@ A fresh strict-headless replay of the CEO-salary event against `d4ba28de47bea1d0
 
 The independent verifier used a fresh clone of `eefc378cb8f05d6139b2337c3a3b4d4d727e6a4a`, server `127.0.0.1:14677`, and strict HeadlessChrome session/namespace `pt466verify/lcs-new-age-pt466-verify`. Focused tests passed (79 total) and the release web build passed. Fresh `pt_BR` CCS/Seattle routes used no save imports or source edits; bounded natural replay produced other localized latte NPCs rather than the target `Nonunion Worker`. The verifier therefore does **not** claim runtime closure. Current post-fix capture integrity is max row 80 with no errors at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt466-eefc378-20260825/evidence/current-talker-list-no-nonunion.json`; honest status is fixed-pending-runtime-verification in `runtime-status.md` in the same artifact root.
 
-## PT-468: Low creature level titles leak English in Portuguese
+## PT-469: Low creature level titles leak English in Portuguese
 
 - Severity: Medium (P2 localization regression)
 - Type: Creature level-title translation

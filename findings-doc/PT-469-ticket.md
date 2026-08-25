@@ -1,4 +1,4 @@
-# PT-468: Low creature level titles leak English in Portuguese
+# PT-469: Low creature level titles leak English in Portuguese
 
 - Severity: Medium (P2 localization regression)
 - Type: Creature level-title translation

@@ -10269,6 +10269,18 @@ tests (79 tests), canonical ARB validation, and a release web build. A fresh
 strict-headless replay against the fixed build is still required before closing
 the ticket.
 
+### PT-468 independent verifier addendum (2026-08-25)
+
+The verifier used commit `9738f1fc60179c499363e99e80387c078c190455` in an
+isolated clone, server `127.0.0.1:14691`, and strict HeadlessChrome session
+`pt468verify`. Focused tests plus static i18n coverage (78 tests) and a release
+web build passed. The fresh nightmare/Bad Blood/Jungle Los Angeles route
+advanced naturally from January 1 to March 25, but its random events did not
+produce HOSTAGE SLAIN. Canonical capture
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt468-9738f1fc-20260825/evidence/route2-mar25-final.json`
+has max row 80 with no over-wide rows or bridge errors. The exact natural
+runtime target remains pending; no closure is claimed.
+
 ## PT-469: Low creature level titles leak English in pt_BR
 
 - Severity: Medium (P2 localization regression)

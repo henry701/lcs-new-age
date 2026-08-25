@@ -10367,3 +10367,31 @@ maxing at 64 columns (`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt4
 The verifier's natural Plastic Factory route reached only an adjacent
 non-union worker, so no natural encounter claim is made; the actual display
 path is independently closed by the deterministic runtime proof.
+
+## PT-471: Mail Carrier encounter role leaked English in pt_BR
+
+- Severity: Medium (P2 localization regression)
+- Type: Missing dynamic creature-role translation
+- Replay status: **Fixed; independently verified (natural roster + deterministic talk header)**
+- Fix commit: `bd9234d334a2234170490ecaf79f7d3b9d70ac7a`
+- Original evidence: Strategy71/R7 captures `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy61-victory-20260825-r7-nightmare-badblood/evidence/037-latte-table-encounter.json`, `039-latte-talk-mail-carrier.json`, and `044-latte-dialogue-4.json`
+- Source: `assets/xml/creatures.xml:1351` (`Mail Carrier`)
+
+The dynamic encounter role had no catalog entry, so Portuguese encounter rosters and
+composed talk labels could fall back to raw English `Mail Carrier`. The fix adds the
+English identity entry and Portuguese value `Carteiro` to the canonical catalogs, plus
+regression coverage for Portuguese output, the composed talk header width, and English
+preservation.
+
+An independent verifier used detached fixed commit `bd9234d3` in a fresh strict-headless
+clone on `127.0.0.1:14701` (session `pt471-verify1`, namespace
+`lcs-new-age-pt471-verify1`). Focused Mail Carrier tests (3) and static/i18n coverage
+(79) passed, the release build passed, and a natural Portuguese juice-bar roster
+rendered `Carteiro` at
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt471-bd9234d3-20260825/evidence/058-natural-juice-roster-1.json`.
+The target rotated before natural talk selection, so no natural talk-header claim is
+made. Deterministic display-path verification rendered `Denise Smyth fala com Carteiro
+(50s, Masculino):` within 80 columns and preserved `Mail Carrier` in `en_US`.
+Integrity: 67 JSON objects, one intentional loading probe, max row width 80, zero
+over-wide rows, and zero post-locale raw `Mail Carrier` hits. Full verifier summary:
+`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt471-bd9234d3-20260825/verification-summary.md`.

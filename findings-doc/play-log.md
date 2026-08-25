@@ -9219,3 +9219,18 @@ reached. Captures and source hashes are under
   recorded separately. The focused post-width suite passed all 2 car-theft
   tests. PT-462 is therefore closed; no new translation or layout ticket was
   found.
+
+## 2026-08-25 — Strategy65 R2 continuation and Portuguese newspaper header
+
+- Resumed save `1520566` from Apr 2, 2025 and advanced naturally through Feb 1,
+  2026 in Portuguese with the nonviolent Guardian-writing/advocacy roster.
+- February 1 media was 6.8% Liberal views / 80.3% LCS support; Congress
+  remained non-Elite-Liberal. No term-limit reset, court purge, game-over, or
+  Liberal Victory was reached. Save/reload/resume evidence is `3016–3017`.
+- New finding: `evidence/2994-auto.json` reproduces raw English
+  `TRUE LIBERAL JUSTICE!` and `FREE` in the Portuguese Liberal Guardian
+  newspaper header. The same header occurs in `evidence/1887-nov24-w-22.json`.
+  Source is `lib/newspaper/layout.dart:123-129`; both screens remain 25×80.
+  This is a Medium/P2 localization finding; no source/shared-checkout edits.
+- Current integrity is 3,017 JSON files / 3,016 valid / 2,978 retained
+  structured screens, all max width 80, with two raw-English header hits.

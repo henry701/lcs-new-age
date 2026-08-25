@@ -9286,3 +9286,15 @@ reached. Captures and source hashes are under
   two intentional empty probes), invalid 0, max row width 80, over-wide 0, and
   no post-locale raw-English issue files. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy79-victory-20260825/`.
+
+## 2026-08-25 — Strategy80 New York CCS-off route
+
+- Strategy80 ran a fresh stock-cheatless Portuguese CCS-off route with Faye
+  Reekers in New York on `127.0.0.1:14709` (session `str80-v2`). It completed
+  the Nov 4 2023 state-election checkpoint and save/reload with game id
+  `5607472`; media was 38.2% Liberal views and 0.0% LCS support.
+- No literal Liberal Victory/game-over or new issue was observed. Fresh
+  integrity verification reports 493 valid JSON captures, two intentional
+  empty probes, invalid 0, max row width 80, over-wide 0, and no post-locale
+  raw-English issue files. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy80-victory-20260825/`.

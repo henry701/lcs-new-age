@@ -382,6 +382,7 @@ Future<void> congress() async {
       await getKey();
     }
   } else if (canSeeThings) {
+    eraseLine(23);
     mvaddstrc(
       23,
       0,

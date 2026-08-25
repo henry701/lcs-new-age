@@ -10235,7 +10235,8 @@ replay against the fixed build is still required before closing the ticket.
 
 - Severity: Medium (P2 localization regression)
 - Type: Missing dynamic newspaper translation
-- Replay status: **New finding; fix pending**
+- Replay status: **Fixed; independent runtime replay pending**
+- Fix commit: `9738f1fc` (`fix(i18n): translate prison newspaper role`)
 - Evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy70-victory-20260825/evidence/262-mar9-newspaper.json` (reproduced in captures 249–262)
 - Source trace: `lib/newspaper/major_event.dart:1960-1965`
 
@@ -10249,6 +10250,14 @@ Portuguese catalog has no entry. The other bracketed phrases in the article
 are not separate English leaks. Route integrity is 264 JSON objects, max row
 80, zero over-wide/empty/invalid captures, and no cheats/imports/source edits.
 No Liberal Victory or game-over was claimed.
+
+The fix adds the missing `en_US` identity and `pt_BR` value (`agressor
+sexual`) to the canonical hash shard and a focused regression covering
+Portuguese translation, English preservation, and the 80-column limit. The
+isolated fixer worktree passed the focused newspaper plus i18n static coverage
+tests (79 tests), canonical ARB validation, and a release web build. A fresh
+strict-headless replay against the fixed build is still required before closing
+the ticket.
 
 ## PT-469: Low creature level titles leak English in pt_BR
 

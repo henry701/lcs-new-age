@@ -2,7 +2,7 @@
 
 - Severity: Medium (P2 localization regression)
 - Type: Creature XML role/type labels
-- Status: Fix implemented; independent runtime verification pending
+- Status: Fixed; independent deterministic runtime verification passed
 - Source snapshot: `e5fd92d089cf8c44f76abc55a8d2d4834d6dec36`
 - Probe: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober2-20250825-r2/creature-alias-probe.log`
 
@@ -52,6 +52,9 @@ catalog changes.
   tests (10), i18n static coverage, canonical ARB validation, translation
   validation, and a release web build passed in the isolated fixer worktree.
 - The fix is integrated on `feature/localization` as `d2fefb68` and pushed to
-  the personal fork. No natural strict-headless replay has been completed yet;
-  independently replay a factory/union worker profile or talk screen before
-  closing the ticket.
+  the personal fork. An independent verifier's deterministic runtime probe
+  confirmed both Portuguese labels, English preservation, and composed rows
+  maxing at 64 columns (`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt470-8379420-20260825/deterministic-probe.json`).
+  Its natural Plastic Factory route reached only an adjacent non-union worker;
+  no natural target encounter is claimed, but the actual display path is
+  independently verified and the ticket is closed.

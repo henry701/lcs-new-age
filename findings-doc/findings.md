@@ -10312,7 +10312,7 @@ profile; no runtime closure is claimed yet.
 
 - Severity: Medium (P2 localization regression)
 - Type: Creature XML role/type labels
-- Replay status: **Fix implemented; independent runtime verification pending**
+- Replay status: **Fixed; independent deterministic runtime verification passed**
 - Source snapshot: `e5fd92d089cf8c44f76abc55a8d2d4834d6dec36`
 - Exact probe: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober2-20250825-r2/creature-alias-probe.log`
 - Source: `assets/xml/creatures.xml:397-399,436-438`; display path `lib/common_display/common_display.dart:37-49` and `lib/common_display/print_creature_info.dart:70-76`
@@ -10339,5 +10339,10 @@ a user-visible display path rather than only a static XML gap. Fix commit
 coverage, and width checks; focused creature tests, i18n static coverage, the
 canonical ARB check, translation validation, and a release build all pass.
 The fix is integrated on `feature/localization` as `d2fefb68` and pushed to the
-personal fork. A fresh strict-headless runtime replay remains pending; no
-natural headless closure is claimed yet.
+personal fork. An independent verifier on the detached fix commit passed 79
+focused/static tests and a release build. Its deterministic runtime probe
+confirmed both Portuguese labels and English preservation with composed rows
+maxing at 64 columns (`/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt470-8379420-20260825/deterministic-probe.json`).
+The verifier's natural Plastic Factory route reached only an adjacent
+non-union worker, so no natural encounter claim is made; the actual display
+path is independently closed by the deterministic runtime proof.

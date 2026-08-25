@@ -10209,7 +10209,7 @@ The independent verifier used a fresh clone of `eefc378cb8f05d6139b2337c3a3b4d4d
 
 - Severity: Medium (P2 localization regression)
 - Type: Missing dynamic creature-role translation
-- Replay status: **New finding; fix pending**
+- Replay status: **Fixed; independent runtime replay pending**
 - Evidence: Strategy69 captures `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy69-victory-20260825/evidence/031-combat.json` through `041-after-flee.json`
 - Source trace: `assets/xml/creatures.xml:170-171` defines the generated type name
   `Eminent Scientist`; no Portuguese catalog entry exists.
@@ -10221,3 +10221,12 @@ and related messages after Portuguese selection. The route remained valid
 (42 JSON captures, max row 80, no bridge errors) and ended in a separate literal
 natural game-over; no Liberal Victory was claimed. Fix and independent runtime
 verification are pending.
+
+### PT-467 fix
+
+Commit `d3b812f6` adds the canonical `Eminent Scientist` entry to both locale
+catalogs (`Cientista Eminente` in `pt_BR`) and a focused regression covering
+Portuguese output, English preservation, and the 80-column combat line. The
+isolated fixer worktree passed the focused test plus i18n static coverage, ARB
+catalog validation, and a release web build. A fresh strict-headless runtime
+replay against the fixed build is still required before closing the ticket.

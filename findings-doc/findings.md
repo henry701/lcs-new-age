@@ -10249,3 +10249,20 @@ Portuguese catalog has no entry. The other bracketed phrases in the article
 are not separate English leaks. Route integrity is 264 JSON objects, max row
 80, zero over-wide/empty/invalid captures, and no cheats/imports/source edits.
 No Liberal Victory or game-over was claimed.
+
+## PT-469: Low creature level titles leak English in pt_BR
+
+- Severity: Medium (P2 localization regression)
+- Type: Creature level-title translation
+- Replay status: **Fixed; independent natural low-level screen replay pending**
+- Source: `lib/creature/level.dart:38-73`
+- Pre-fix deterministic probe: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober2-20250825-r1/pre-fix-level-title-probe.log`
+
+The `levelTitle` call path returned raw English for `In Crisis`, `Unstable`,
+and `Struggling` at levels -2/-1/0 for every alignment, plus `Peacemaker` for
+moderate level 6. The isolated fix adds the four English keys and Portuguese
+values `Em Crise`, `Instável`, `Em Dificuldades`, and `Pacificador`, with tests
+covering all alignments, width, and English preservation. Focused tests (80),
+canonical catalog validation, and a release build passed. A fresh Portuguese
+smoke route confirmed setup/base screens but did not naturally reach a low-level
+profile; no runtime closure is claimed yet.

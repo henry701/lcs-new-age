@@ -9243,3 +9243,19 @@ reached. Captures and source hashes are under
   new issue was observed. Its 181 post-locale route captures are valid JSON,
   max-width 80, and raw-English clean. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy77-victory-20260825/`.
+
+## 2026-08-25 — Strategy78 Los Angeles CCS-off route
+
+- A fresh stock-cheatless Portuguese route selected `Céu Azul e Límpido` and
+  `Poder para o povo` in Los Angeles with a distinct founder, using server
+  `127.0.0.1:14706`, session `str78-v1`, and namespace
+  `lcs-new-age-strategy78`. The natural Latte Kiosk route exercised Portuguese
+  combat/roster screens and a real student recruitment conversation before the
+  route reached the 28 Feb 2023 Congress agenda banner.
+- No literal Liberal Victory or game-over occurred and no new translation or
+  layout issue was found. Integrity retained 194 post-locale gameplay objects
+  from 204 valid object captures (206 JSON files total), all max-width 80 with
+  zero over-wide/invalid captures and zero known raw-English tokens. Later
+  browser automation fell to `about:blank`; the agent reopened the title and
+  made no continuation claim. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy78-victory-20260825/`.

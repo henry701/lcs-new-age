@@ -2,7 +2,7 @@
 
 - Severity: Medium (P2 localization regression)
 - Type: Creature XML role/type labels
-- Status: Confirmed deterministic runtime display gap; fixer not started
+- Status: Fix implemented; independent runtime verification pending
 - Source snapshot: `e5fd92d089cf8c44f76abc55a8d2d4834d6dec36`
 - Probe: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/prober2-20250825-r2/creature-alias-probe.log`
 
@@ -47,7 +47,11 @@ catalog changes.
 
 - Isolated `flutter test /tmp/prober2_r2_creature_probe_test.dart`: passed; the
   probe log is the evidence artifact above.
-- Isolated clone generated 31 g.dart files locally only; no generated files or
-  source edits were made in the shared checkout.
-- No natural headless encounter replay was claimed. A fresh route should target
-  a factory/union worker profile or talk screen for closure.
+- Fix commit `8379420dee2ba6521106aaeeb7085c5945f0d8e9` adds the Portuguese
+  labels, English-preservation and width regression tests. Focused creature
+  tests (10), i18n static coverage, canonical ARB validation, translation
+  validation, and a release web build passed in the isolated fixer worktree.
+- The fix is integrated on `feature/localization` as `d2fefb68` and pushed to
+  the personal fork. No natural strict-headless replay has been completed yet;
+  independently replay a factory/union worker profile or talk screen before
+  closing the ticket.

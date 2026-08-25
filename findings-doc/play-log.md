@@ -9275,3 +9275,14 @@ reached. Captures and source hashes are under
   over-wide 0, post-locale raw-English issue files 0, and both terminal flags
   false. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy76-victory-20260825/`.
+
+## 2026-08-25 — Strategy79 Seattle CCS-off election route
+
+- Strategy79 ran a fresh stock-cheatless Portuguese CCS-off route with Dan Han
+  in Seattle on `127.0.0.1:14708` (session `str79-v1`). It reached the Nov 1
+  2024 general-election checkpoint and retained save/reload game id `7653220`.
+- No literal Liberal Victory/game-over or new issue was observed. Fresh
+  integrity verification reports 194 JSON captures (189 post-locale objects,
+  two intentional empty probes), invalid 0, max row width 80, over-wide 0, and
+  no post-locale raw-English issue files. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy79-victory-20260825/`.

@@ -9219,3 +9219,27 @@ reached. Captures and source hashes are under
   recorded separately. The focused post-width suite passed all 2 car-theft
   tests. PT-462 is therefore closed; no new translation or layout ticket was
   found.
+
+## 2026-08-25 — Strategy74/75/77 independent Portuguese routes
+
+- Strategy74 used a fresh Los Angeles, CCS-off, Portuguese stock route on
+  `127.0.0.1:14698` (session `str74-v2`). The post-studio route ended honestly
+  at a resumed Los Angeles homeless base on 1 Mar 2024 (game id `9487545`),
+  with no Liberal Victory/game-over and no new localization/layout issue.
+  Its retained evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy74-victory-20260825/`;
+  the first two collision captures are excluded, and 391 retained objects are
+  max-width 80 with zero post-locale raw-English hits.
+- Strategy75 used a distinct Washington DC nightmare/Bad Blood route on
+  `127.0.0.1:14702` (session `str75-v2`). Natural National Mall → White House
+  combat produced a literal Portuguese game-over on the unarmed founder:
+  `A Elite Liberal` / `O Esquadrão do Crime Liberal foi morto em combate em
+  Janeiro de 2023.` (`evidence/076-terminal-reflect.json`), followed by the
+  title screen in `077-after-terminal-title.json`. Integrity retained 77
+  post-locale screens, all 25×80, with no raw-English issue.
+- Strategy77 used a separate New York City route on `127.0.0.1:14705`
+  (session `str77-v1c`). It reached 1 Apr 2023 with five infiltrated agents,
+  45.5% Liberal views, and 0.0% LCS support; no Liberal Victory/game-over or
+  new issue was observed. Its 181 post-locale route captures are valid JSON,
+  max-width 80, and raw-English clean. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy77-victory-20260825/`.

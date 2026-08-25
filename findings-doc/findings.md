@@ -10204,3 +10204,20 @@ A fresh strict-headless replay of the CEO-salary event against `d4ba28de47bea1d0
 ### PT-466 verifier addendum (2026-08-25)
 
 The independent verifier used a fresh clone of `eefc378cb8f05d6139b2337c3a3b4d4d727e6a4a`, server `127.0.0.1:14677`, and strict HeadlessChrome session/namespace `pt466verify/lcs-new-age-pt466-verify`. Focused tests passed (79 total) and the release web build passed. Fresh `pt_BR` CCS/Seattle routes used no save imports or source edits; bounded natural replay produced other localized latte NPCs rather than the target `Nonunion Worker`. The verifier therefore does **not** claim runtime closure. Current post-fix capture integrity is max row 80 with no errors at `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/verify-pt466-eefc378-20260825/evidence/current-talker-list-no-nonunion.json`; honest status is fixed-pending-runtime-verification in `runtime-status.md` in the same artifact root.
+
+## PT-467: Eminent Scientist encounter role remains English in pt_BR
+
+- Severity: Medium (P2 localization regression)
+- Type: Missing dynamic creature-role translation
+- Replay status: **New finding; fix pending**
+- Evidence: Strategy69 captures `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy69-victory-20260825/evidence/031-combat.json` through `041-after-flee.json`
+- Source trace: `assets/xml/creatures.xml:170-171` defines the generated type name
+  `Eminent Scientist`; no Portuguese catalog entry exists.
+
+A fresh stock-cheatless `pt_BR` route (standard settings, active CCS, Los Angeles,
+fate-decided Fabio Reid) entered the naturally alarmed Latte Kiosk encounter.
+The roster and combat log repeatedly rendered raw English `Eminent Scientist`
+and related messages after Portuguese selection. The route remained valid
+(42 JSON captures, max row 80, no bridge errors) and ended in a separate literal
+natural game-over; no Liberal Victory was claimed. Fix and independent runtime
+verification are pending.

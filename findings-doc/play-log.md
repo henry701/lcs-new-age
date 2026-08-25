@@ -9259,3 +9259,19 @@ reached. Captures and source hashes are under
   browser automation fell to `about:blank`; the agent reopened the title and
   made no continuation claim. Evidence is under
   `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy78-victory-20260825/`.
+
+## 2026-08-25 — Strategy76 long DC political route
+
+- Strategy76 ran a distinct stock-cheatless Portuguese nightmare route with
+  `Sangue Ruim` active, Washington DC, and founder Theresa Matthews on server
+  `127.0.0.1:14704` (session `str76-v1`). It traversed the 2023 and 2024
+  state-election cycles and sustained natural nonviolent advocacy through the
+  Nov 1 2024 checkpoint. Media reported 96.1% LCS support, but only 6 Lib+ / 17
+  Lib House and 2 Lib+ / 16 Lib Senate; CCS remained active, so the Elite
+  Liberal win conditions were not met.
+- No literal Liberal Victory/game-over or new Portuguese localization/layout
+  issue occurred. Fresh integrity verification reports 2,465 valid JSON
+  captures, three intentional empty probes, invalid 0, max row width 80,
+  over-wide 0, post-locale raw-English issue files 0, and both terminal flags
+  false. Evidence is under
+  `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy76-victory-20260825/`.

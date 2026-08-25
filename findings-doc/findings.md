@@ -10100,3 +10100,93 @@ template, producing `mess` instead of the grammatical `meses`.
 The sentence must use complete singular/plural templates so that one month
 renders `1 mês na prisão` and two months renders `2 meses na prisão`, without
 English suffix fragments or width overflow.
+
+## PT-464: No-bill Congress result retains stale vote-prompt text
+
+- Severity: Medium (P2 UI correctness/localization regression)
+- Type: Console line invalidation
+- Replay status: **Fixed; independent runtime replay pending**
+- Original evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy66-victory-20260824/evidence/apr1-votes-stable.json`
+- Fix commit: `4833b64d` (`fix(ui): clear stale no-bill Congress result`)
+
+### Reproduction
+
+1. Start a stock `pt_BR` campaign and advance to a Congress agenda where every
+   item fails before reaching the President.
+2. Continue through the vote result screen.
+3. Inspect the no-bill result row.
+
+### Actual
+
+The result is followed by stale text from the preceding prompt:
+
+`Nenhum dos itens chegou à mesa do Presidente.senrolar da votação.`
+
+### Fix and verification status
+
+The no-bill branch now calls `eraseLine(23)` before writing the shorter result.
+`test/politics/congress_layout_test.dart` injects a no-bill Congress state and
+asserts the exact Portuguese result, absence of `desenrolar da votação`, and a
+separate row-24 continuation prompt. Independent static/i18n coverage passed;
+the exact fresh headless replay remains pending.
+
+## PT-465: Glam-show television title cards are rasterized English
+
+- Severity: Medium (P2 localization regression)
+- Type: Television animation asset localization
+- Replay status: **Fixed; independent runtime replay pending**
+- Original evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/playtester-strategy66-victory-20260824/evidence/may-route-21.json`
+- Fix commit: `5306bae2` (`fix(i18n): localize glam-show animation titles`)
+
+### Reproduction
+
+1. Start a stock `pt_BR` campaign and naturally trigger the CEO-salary
+   television event.
+2. Inspect the opening glam-show title frames.
+
+### Actual
+
+The rasterized cards show raw English titles such as `Palacial Estates`,
+`Decadent Dining`, and `MONEY`, even though the stable television body is
+Portuguese.
+
+### Fix and verification status
+
+`lib/newspaper/television.dart` selects `glamshow_pt_BR.cmv` only for `pt_BR`;
+the original `glamshow.cmv` remains the `en_US` asset. Regression tests inspect
+all title glyph positions, assert the Portuguese replacements, preserve the
+English asset, and cover the runtime locale selector. Independent static,
+television, and i18n coverage passed; fresh browser title-frame/network replay
+is still pending.
+
+## PT-466: Nonunion Worker encounter name is untranslated
+
+- Severity: Medium (P2 localization regression)
+- Type: Creature encounter label
+- Replay status: **Fixed; independent runtime replay pending**
+- Original evidence: `/home/henry/tmp/agent-tmp/lcs-new-age-playtest/probe-strategy68-20260825/evidence/089-latte-talk.json` and `090-talk-nonunion-selected.json`
+- Fix commit: `6049ee41` (`fix(i18n): translate nonunion worker encounter name`)
+
+### Reproduction
+
+1. Start a stock `pt_BR` campaign with `Os tempos estão mudando`,
+   `Céu Azul e Límpido`, `Poder para o povo`, Seattle, and the natural latte
+   kiosk route.
+2. Open the civilian list and select the `Nonunion Worker` encounter.
+
+### Actual
+
+The encounter list and talk header expose the raw English label:
+
+`Willy Snook fala com Nonunion Worker (50s, Masculino):`
+
+The XML encounter alias is distinct from the `Factory Worker` type name, so the
+missing key was a catalog gap rather than a type-name translation error.
+
+### Fix and verification status
+
+The English catalog now explicitly retains `Nonunion Worker`; the Portuguese
+catalog maps it to `Trabalhador Não Sindicalizado`. The regression test checks
+Portuguese output, English preservation, and the complete talk header at
+80-column width. Fresh isolated static tests and the release build passed;
+independent headless route replay is still pending.

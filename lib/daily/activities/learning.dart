@@ -4,6 +4,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 
 Future<void> doActivityTakeClasses(List<Creature> students) async {
   for (Creature student in students) {
@@ -12,7 +13,15 @@ Future<void> doActivityTakeClasses(List<Creature> students) async {
 
     if (student.skill(skill) >= 10) {
       await showMessage(
-          "${student.name} can't find any classes at $hisHer level in ${skill.displayName}.");
+        LcsI18n.processString(
+          "{name} can't find any classes at {hisHer} level in {skill}.",
+          {
+            "name": student.name,
+            "hisHer": hisHer,
+            "skill": LcsI18n.tr(skill.displayName),
+          },
+        ),
+      );
       student.activity = Activity.none();
       continue;
     }
@@ -30,7 +39,12 @@ Future<void> doActivityTakeClasses(List<Creature> students) async {
           _ => "a high-level",
         };
         await showMessage(
-            "${student.name} has passed $level class in ${skill.displayName}.");
+          LcsI18n.processString("{name} has passed {level} class in {skill}.", {
+            "name": student.name,
+            "level": LcsI18n.tr(level),
+            "skill": LcsI18n.tr(skill.displayName),
+          }),
+        );
         student.skillUp();
       }
     }
@@ -38,7 +52,15 @@ Future<void> doActivityTakeClasses(List<Creature> students) async {
     if (_maxed(student, skill)) {
       student.activity = Activity.none();
       await showMessage(
-          "${student.name} has reached $hisHer potential in ${skill.displayName}.");
+        LcsI18n.processString(
+          "{name} has reached {hisHer} potential in {skill}.",
+          {
+            "name": student.name,
+            "hisHer": hisHer,
+            "skill": LcsI18n.tr(skill.displayName),
+          },
+        ),
+      );
     }
   }
 }
@@ -55,7 +77,15 @@ Future<void> doActivityStudy(List<Creature> students) async {
         if (student.skill(skill) < student.skillCap(skill)) {
           // Only if not maxed
           await showMessage(
-              "${student.name} has reached level ${student.skill(skill)} in ${skill.displayName}.");
+            LcsI18n.processString(
+              "{name} has reached level {level} in {skill}.",
+              {
+                "name": student.name,
+                "level": student.skill(skill).toString(),
+                "skill": LcsI18n.tr(skill.displayName),
+              },
+            ),
+          );
         }
       }
     }
@@ -63,7 +93,15 @@ Future<void> doActivityStudy(List<Creature> students) async {
     if (_maxed(student, skill)) {
       student.activity = Activity.none();
       await showMessage(
-          "${student.name} has reached $hisHer potential in ${skill.displayName}.");
+        LcsI18n.processString(
+          "{name} has reached {hisHer} potential in {skill}.",
+          {
+            "name": student.name,
+            "hisHer": hisHer,
+            "skill": LcsI18n.tr(skill.displayName),
+          },
+        ),
+      );
     }
   }
 }

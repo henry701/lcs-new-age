@@ -6,9 +6,11 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/activities/recruiting.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
+import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -40,26 +42,47 @@ class Activity {
       clothingTypes[idString?.split(":ARMOR").firstOrNull];
   FlagType? get flagType => flagTypes[idString];
   ArmorUpgrade? get armorUpgrade => clothingType?.allowedArmor.elementAtOrNull(
-      int.tryParse(idString?.split(":ARMOR").lastOrNull ?? "0") ?? 0);
+    int.tryParse(idString?.split(":ARMOR").lastOrNull ?? "0") ?? 0,
+  );
   Site? get location =>
       gameState.sites.firstWhereOrNull((e) => e.idString == idString);
 
   String get description {
     switch (type) {
       case ActivityType.interrogation:
-        return "Tending to ${creature?.name ?? "a bug"}";
+        return LcsI18n.processString("Tending to {creature}", {
+          "creature": creature?.name ?? LcsI18n.tr("a bug"),
+        });
       case ActivityType.makeClothing:
-        return "Making ${clothingType?.shortName ?? "a bug"}";
+        return LcsI18n.processString("Making {clothing}", {
+          "clothing": clothingType?.shortName ?? LcsI18n.tr("a bug"),
+        });
       case ActivityType.makeFlag:
-        return "Making ${flagType?.shortName ?? "a bug"}";
+        return LcsI18n.processString("Making {flag}", {
+          "flag": flagType?.shortName ?? LcsI18n.tr("a bug"),
+        });
       case ActivityType.visit:
-        return "Visiting ${location?.name ?? "a bug"}";
+        final site = location;
+        final locationName = site == null
+            ? LcsI18n.tr("a bug")
+            : site.type == SiteType.pawnShop
+            ? site.getName(short: true)
+            : LcsI18n.hasTranslation(site.name)
+            ? LcsI18n.tr(site.name)
+            : site.name;
+        return LcsI18n.processString("Visiting {location}", {
+          "location": locationName,
+        });
       case ActivityType.study:
-        return "Practice ${skill?.displayName ?? "a bug"}";
+        return LcsI18n.processString("Practice {skill}", {
+          "skill": skill?.localizedName ?? LcsI18n.tr("a bug"),
+        });
       case ActivityType.takeClass:
-        return "Learning ${skill?.displayName ?? "a bug"}";
+        return LcsI18n.processString("Learning {skill}", {
+          "skill": skill?.localizedName ?? LcsI18n.tr("a bug"),
+        });
       default:
-        return type.label;
+        return LcsI18n.tr(type.label);
     }
   }
 

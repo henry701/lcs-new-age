@@ -141,10 +141,10 @@ class SixLeggedPigBody extends HumanoidBody {
 @JsonSerializable()
 class TankBody extends Body {
   TankBody()
-      : super(
-          Weapon("WEAPON_120MM_CANNON"),
-          Clothing("CLOTHING_COMPOSITE_ARMOR"),
-        );
+    : super(
+        Weapon("WEAPON_120MM_CANNON"),
+        Clothing("CLOTHING_COMPOSITE_ARMOR"),
+      );
   factory TankBody.fromJson(Map<String, dynamic> json) =>
       _$TankBodyFromJson(json);
   @override
@@ -182,34 +182,68 @@ class TankBody extends Body {
   @override
   int get teeth => 0;
 
-  BodyPart turretRear = BodyPart("Turret Rear",
-      size: 5, critical: true, weakSpot: true, naturalArmor: 10);
-  BodyPart turretFront =
-      BodyPart("Turret Front", size: 5, critical: true, naturalArmor: 20);
-  BodyPart frontArmor =
-      BodyPart("Front", size: 5, critical: true, naturalArmor: 20);
-  BodyPart rearArmor = BodyPart("Rear",
-      size: 3, critical: true, weakSpot: true, naturalArmor: 10);
-  BodyPart leftSide =
-      BodyPart("Left Side", size: 7, critical: true, naturalArmor: 15);
-  BodyPart rightSide =
-      BodyPart("Right Side", size: 7, critical: true, naturalArmor: 15);
-  BodyPart leftTrack =
-      BodyPart("Left Track", size: 4, weakSpot: true, naturalArmor: 10);
-  BodyPart rightTrack =
-      BodyPart("Right Track", size: 4, weakSpot: true, naturalArmor: 10);
+  BodyPart turretRear = BodyPart(
+    "Turret Rear",
+    size: 5,
+    critical: true,
+    weakSpot: true,
+    naturalArmor: 10,
+  );
+  BodyPart turretFront = BodyPart(
+    "Turret Front",
+    size: 5,
+    critical: true,
+    naturalArmor: 20,
+  );
+  BodyPart frontArmor = BodyPart(
+    "Front",
+    size: 5,
+    critical: true,
+    naturalArmor: 20,
+  );
+  BodyPart rearArmor = BodyPart(
+    "Rear",
+    size: 3,
+    critical: true,
+    weakSpot: true,
+    naturalArmor: 10,
+  );
+  BodyPart leftSide = BodyPart(
+    "Left Side",
+    size: 7,
+    critical: true,
+    naturalArmor: 15,
+  );
+  BodyPart rightSide = BodyPart(
+    "Right Side",
+    size: 7,
+    critical: true,
+    naturalArmor: 15,
+  );
+  BodyPart leftTrack = BodyPart(
+    "Left Track",
+    size: 4,
+    weakSpot: true,
+    naturalArmor: 10,
+  );
+  BodyPart rightTrack = BodyPart(
+    "Right Track",
+    size: 4,
+    weakSpot: true,
+    naturalArmor: 10,
+  );
 
   @override
   List<BodyPart> get parts => [
-        turretRear,
-        turretFront,
-        frontArmor,
-        rearArmor,
-        leftSide,
-        rightSide,
-        leftTrack,
-        rightTrack,
-      ];
+    turretRear,
+    turretFront,
+    frontArmor,
+    rearArmor,
+    leftSide,
+    rightSide,
+    leftTrack,
+    rightTrack,
+  ];
 
   @override
   Iterable<BodyPart> get arms => [];
@@ -221,19 +255,11 @@ class TankBody extends Body {
   bool get fellApart => false;
 }
 
-enum InjuryState {
-  healthy,
-  untreated,
-  treated,
-}
+enum InjuryState { healthy, untreated, treated }
 
 @JsonSerializable()
 class HumanoidBody extends Body {
-  HumanoidBody()
-      : super(
-          Weapon("WEAPON_NONE"),
-          Clothing("CLOTHING_NONE"),
-        );
+  HumanoidBody() : super(Weapon("WEAPON_NONE"), Clothing("CLOTHING_NONE"));
   factory HumanoidBody.fromJson(Map<String, dynamic> json) =>
       _$HumanoidBodyFromJson(json);
   @override
@@ -290,8 +316,14 @@ class HumanoidBody extends Body {
   @override
   String typeName = "Human";
   @override
-  List<BodyPart> get parts =>
-      [leftLeg, rightLeg, leftArm, rightArm, head, torso];
+  List<BodyPart> get parts => [
+    leftLeg,
+    rightLeg,
+    leftArm,
+    rightArm,
+    head,
+    torso,
+  ];
   @override
   bool get canWalk => intactLegs > 0 && !partialParalysis;
   @override

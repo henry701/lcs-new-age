@@ -2,12 +2,23 @@ import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/newspaper/squad_story_text.dart';
 import 'package:lcs_new_age/politics/views.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
+
+abstract final class MediaOverviewLayout {
+  static const int dateX = 36;
+  static const int sourceX = 55;
+  static const int impactX = 72;
+  static const int sourceWidth = impactX - sourceX - 1;
+}
+
+String localizedMediaHeadline(String headline) =>
+    headline.isEmpty ? headline : LcsI18n.tr(headline);
 
 Future<void> mediaOverview() async {
   List<NewsStory> newsArchive = gameState.newsArchive.reversed.toList();
@@ -18,31 +29,52 @@ Future<void> mediaOverview() async {
     double publicMood = gameState.politics.publicMood();
     double lcsSupport = gameState.politics.lcsApproval();
     makeDelimiter(y: 20);
-    mvaddstrx(21, 0,
-        "&G${gameState.politics.publicMood().toStringAsFixed(1)}%&w of people have Liberal views");
+    mvaddstrcx(
+      21,
+      0,
+      lightGreen,
+      "{mood:lightGreen}% of people have Liberal views",
+      params: {"mood": gameState.politics.publicMood().toStringAsFixed(1)},
+    );
     String lcsSupportColorKey = lcsSupport >= publicMood
         ? ColorKey.lightGreen
         : lcsSupport < publicMood - 20
-            ? ColorKey.red
-            : ColorKey.yellow;
+        ? ColorKey.red
+        : ColorKey.yellow;
     String lcsSupportString = lcsSupport.toStringAsFixed(1);
-    mvaddstrx(22, 0,
-        "&$lcsSupportColorKey$lcsSupportString%&w support the Liberal Crime Squad");
+    mvaddstrcx(
+      22,
+      0,
+      white,
+      "{support:color}% support the Liberal Crime Squad",
+      params: {"support": lcsSupportString, "supportColor": lcsSupportColorKey},
+    );
     setColor(midGray);
-    mvaddstrx(23, 0,
-        "  LCS activities will inspire supporters, but may alienate detractors.");
-    mvaddstrx(24, 0,
-        "  Avoiding violence will increase public support for your actions.");
+    mvaddstrx(
+      23,
+      0,
+      "  LCS activities will inspire supporters, but may alienate detractors.",
+    );
+    mvaddstrx(
+      24,
+      0,
+      "  Avoiding violence will increase public support for your actions.",
+    );
 
     await pagedInterface(
       headerPrompt: "Media Overview",
-      headerKey: {4: "HEADLINE", 40: "DATE", 53: "SOURCE", 72: "IMPACT"},
+      headerKey: {
+        4: "HEADLINE",
+        MediaOverviewLayout.dateX: "DATE",
+        MediaOverviewLayout.sourceX: "SOURCE",
+        MediaOverviewLayout.impactX: "IMPACT",
+      },
       footerPrompt: "Press a Letter to read a news article",
       count: gameState.newsArchive.length,
       pageSize: 17,
       lineBuilder: (y, key, index) {
         NewsStory ns = newsArchive[index];
-        String headline = ns.headline;
+        String headline = localizedMediaHeadline(ns.headline);
         if (headline.isEmpty) {
           switch (ns.type) {
             case NewsStories.squadSiteAction:
@@ -51,23 +83,31 @@ Future<void> mediaOverview() async {
                 name = squadStoryTextLocation(ns, false, includeOpening: false);
               }
               if (ns.liberalSpin) {
-                headline = "LCS Action $name";
+                headline = LcsI18n.processString("LCS Action {name}", {
+                  "name": name,
+                });
               } else {
-                headline = "LCS Rampage $name";
+                headline = LcsI18n.processString("LCS Rampage {name}", {
+                  "name": name,
+                });
               }
             case NewsStories.squadKilledInSiteAction:
-              headline = "Tragic LCS Strike";
+              headline = LcsI18n.tr("Tragic LCS Strike");
             case NewsStories.ccsKilledInSiteAction:
-              headline = "CCS Squad KIA";
+              headline = LcsI18n.tr("CCS Squad KIA");
             case NewsStories.ccsSiteAction:
               String name = "";
               if (ns.loc != null) {
                 name = squadStoryTextLocation(ns, true, includeOpening: false);
               }
               if (ns.liberalSpin) {
-                headline = "CCS Action $name";
+                headline = LcsI18n.processString("CCS Action {name}", {
+                  "name": name,
+                });
               } else {
-                headline = "CCS Rampage $name";
+                headline = LcsI18n.processString("CCS Rampage {name}", {
+                  "name": name,
+                });
               }
             default:
               headline = ns.body.split("\n").first.split(" - ").last;
@@ -77,23 +117,61 @@ Future<void> mediaOverview() async {
           headline = "${headline.substring(0, 32).trim()}...";
         }
         DateTime date = ns.date;
-        String dateString =
-            "${getMonthShort(date.month)} ${date.day}, ${date.year}";
-        mvaddstrc(y, 40, lightGray, dateString);
+        String dateString = LcsI18n.processString("{month} {day}, {year}", {
+          "month": getMonthShort(date.month),
+          "day": date.day,
+          "year": date.year,
+        });
+        mvaddstrc(
+          y,
+          MediaOverviewLayout.dateX,
+          lightGray,
+          dateString,
+          noTranslate: true,
+        );
         Map<View, double> impact = ns.effects;
         double totalImpact = impact.entries
             .where((e) => e.key != View.lcsKnown)
             .fold(0, (a, b) => a + b.value);
-        String headlineColorKey =
-            ns.unread ? ColorKey.lightBlue : ColorKey.lightGray;
-        addOptionText(y, 0, key, "$key - &$headlineColorKey$headline");
-        mvaddstrc(y, 53, ns.publicationAlignment.color, ns.publicationName);
+        String headlineColorKey = ns.unread
+            ? ColorKey.lightBlue
+            : ColorKey.lightGray;
+        addOptionText(
+          y,
+          0,
+          key,
+          "{key} - &{colorKey}{headline}",
+          params: {
+            "key": key,
+            "colorKey": headlineColorKey,
+            "headline": headline,
+          },
+        );
+        mvaddstrcFitted(
+          y,
+          MediaOverviewLayout.sourceX,
+          ns.publicationAlignment.color,
+          ns.publicationName,
+          MediaOverviewLayout.sourceWidth,
+        );
         if (totalImpact > 0) {
-          mvaddstrc(y, 72, lightGreen, "+${totalImpact.toStringAsFixed(1)}%");
+          mvaddstrc(
+            y,
+            MediaOverviewLayout.impactX,
+            lightGreen,
+            "+{impact}%",
+            params: {"impact": totalImpact.toStringAsFixed(1)},
+          );
         } else if (totalImpact < 0) {
-          mvaddstrc(y, 72, red, "${totalImpact.toStringAsFixed(1)}%");
+          mvaddstrc(
+            y,
+            MediaOverviewLayout.impactX,
+            red,
+            "{impact}%",
+            params: {"impact": totalImpact.toStringAsFixed(1)},
+          );
         } else {
-          mvaddstrc(y, 72, lightGray, "N/A");
+          mvaddstrc(y, MediaOverviewLayout.impactX, lightGray, "N/A");
         }
       },
       onChoice: (index) async {
@@ -117,7 +195,12 @@ Future<void> readNewsStory(NewsStory ns) async {
   ns.unread = false;
   erase();
   setColor(ns.publicationAlignment.color);
-  mvaddstrc(0, 0, ns.publicationAlignment.color, ns.publicationName);
+  mvaddstrc(
+    0,
+    0,
+    ns.publicationAlignment.color,
+    LcsI18n.tr(ns.publicationName),
+  );
   if (ns.headline.isNotEmpty) {
     addstrc(lightGray, " - ");
     addstrc(white, ns.headline);
@@ -131,18 +214,44 @@ Future<void> readNewsStory(NewsStory ns) async {
     renderNewsPic(ns.newspaperPhotoId!, console.y + 1, ns.remapSkinTones);
   }
   List<String> effectText = ns.effects.entries.map<String>((entry) {
-    String viewName = entry.key.label;
+    String viewName = LcsI18n.tr(entry.key.label);
     double effectValue = entry.value;
     String effectValueText = effectValue > 0
-        ? "&G+${effectValue.toStringAsFixed(1)}%&x"
-        : "&R${effectValue.toStringAsFixed(1)}%&x";
-    return "$viewName: $effectValueText";
+        ? LcsI18n.processString(
+            "+{value:lightGreen}%",
+            {"value": effectValue.toStringAsFixed(1)},
+            noTranslate: true,
+            baseColorKey: 'x',
+          )
+        : LcsI18n.processString(
+            "{value:red}%",
+            {"value": effectValue.toStringAsFixed(1)},
+            noTranslate: true,
+            baseColorKey: 'x',
+          );
+    return LcsI18n.processString('{viewName}: {effectValueText}', {
+      'viewName': viewName,
+      'effectValueText': effectValueText,
+    });
   }).toList();
   setColor(lightGray);
+
+  // Impact text is locale-dependent, so fixed 26-column slots cannot safely
+  // bound translated labels. Flow to the next row whenever the next impact
+  // would cross the console edge instead of letting writes overlap.
   int y = console.y + 1;
-  for (int i = 0; i < effectText.length; i++) {
-    mvaddstrx(y + i ~/ 3, 26 * (i % 3), effectText.elementAt(i));
+  int x = 0;
+  for (final text in effectText) {
+    final fittedText = fitConsoleText(text, console.width);
+    final width = strLenX(fittedText);
+    if (x > 0 && x + width > console.width) {
+      y++;
+      x = 0;
+    }
+    mvaddstrx(y, x, fittedText, noTranslate: true);
+    x += strLenX(fittedText) + 1;
   }
+
   addOptionText(24, 0, "Any Key", "Press Any Key to Continue");
   await getKey();
 }

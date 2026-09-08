@@ -1,7 +1,1 @@
-enum GameMode {
-  title,
-  base,
-  site,
-  carChase,
-  footChase,
-}
+enum GameMode { title, base, site, carChase, footChase }

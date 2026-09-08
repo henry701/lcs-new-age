@@ -1,0 +1,11 @@
+# Translation workspace - for local development work only
+# Files here should not be committed
+
+# Extracted translation batches
+untranslated_*.arb
+
+# Runtime untranslated string logs
+untranslated_strings_*.json
+
+# Translation status snapshots
+translation_status*.json

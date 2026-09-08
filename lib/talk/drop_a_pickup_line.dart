@@ -9,6 +9,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/dating.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/sitemode/site_display.dart';
@@ -18,7 +19,7 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
   int y = 12;
   clearSceneAreas();
-  mvaddstrc(9, 1, white, "${a.name} says, ");
+  mvaddstrc(9, 1, white, "{name} says, ", params: {"name": a.name});
   move(10, 1);
   setColor(lightGreen);
   int line;
@@ -47,7 +48,10 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           Gender.male => "boy",
           _ => "buddy",
         };
-        addstr("\"Hot damn.  You're built like a brick shithouse, $honey.\"");
+        addstr(
+          "\"Hot damn.  You're built like a brick shithouse, {honey}.\"",
+          params: {"honey": honey},
+        );
       case 4:
         addstr("\"I know I've seen you on the back of a milk carton, ");
         move(11, 1);
@@ -62,7 +66,9 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           _ => "yo",
         };
         addstr(
-            "\"Daaaaaamn $girl, I want to wrap your legs around my face and ");
+          "\"Daaaaaamn {girl}, I want to wrap your legs around my face and ",
+          params: {"girl": girl},
+        );
         move(11, 1);
         y++;
         addstr("wear you like a feed bag!\""); // Bill Hicks
@@ -71,11 +77,13 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           addstr("\"Let's play squirrel.  I'll bust a nut in your hole.\"");
         } else if (tk.gender == Gender.male) {
           addstr(
-              "\"Let's play squirrel.  I'll let you bust a nut in my hole.\"");
+            "\"Let's play squirrel.  I'll let you bust a nut in my hole.\"",
+          );
         } else {
           // Female to female
           addstr(
-              "\"Let's flip a coin.  Heads, you're mine, tails, I'm yours.\"");
+            "\"Let's flip a coin.  Heads, you're mine, tails, I'm yours.\"",
+          );
         }
       case 8:
         addstr("\"You know, if I were you, I'd have sex with me.\"");
@@ -85,37 +93,52 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           Gender.female => "chick",
           _ => "person",
         };
-        addstr("\"You don't sweat much for a fat $chick.\"");
+        addstr(
+          "\"You don't sweat much for a fat {chick}.\"",
+          params: {"chick": chick},
+        );
       case 10:
         addstr("\"Fuck me if I'm wrong but you want to kiss me, right?\"");
       case 11:
         if (a.gender == Gender.male) {
           addstr("\"Are you a communist?");
-          mvaddstr(11, 1,
-              "'Cause you're inspiring an uprising in my lower class.\"");
+          mvaddstr(
+            11,
+            1,
+            "'Cause you're inspiring an uprising in my lower class.\"",
+          );
           y++;
         } else if (tk.gender == Gender.male) {
           addstr("\"Are you a communist?");
-          mvaddstr(11, 1,
-              "'Cause I seem to be inspiring an uprising in your lower class.\"");
+          mvaddstr(
+            11,
+            1,
+            "'Cause I seem to be inspiring an uprising in your lower class.\"",
+          );
           y++;
         } else {
           addstr("\"Are you a communist?");
           mvaddstr(
-              11, 1, "'Cause you're bringing some heat to my lower class.\"");
+            11,
+            1,
+            "'Cause you're bringing some heat to my lower class.\"",
+          );
           y++;
         }
       case 12:
         addstr(
-            "\"Let's play trains...  you can sit on my face and I will chew chew chew.\"");
+          "\"Let's play trains...  you can sit on my face and I will chew chew chew.\"",
+        );
       case 13:
         addstr("\"Is it hot in here or is it just you?\"");
       case 14:
         addstr(
-            "\"I may not be Fred Flintstone, but I can make your bed rock!\"");
+          "\"I may not be Fred Flintstone, but I can make your bed rock!\"",
+        );
       case 15:
         addstr(
-            "\"What do you say we go behind a rock and get a little boulder?\"");
+          "\"What do you say we go behind a rock and get a little boulder?\"",
+        );
       case 16:
         String panties = switch (tk.gender) {
           Gender.male => "briefs",
@@ -123,18 +146,23 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           _ => "underwear",
         };
         addstr(
-            "\"Do you have stars on your $panties?  Your ass is outta this world!\"");
+          "\"Do you have stars on your {panties}?  Your ass is outta this world!\"",
+          params: {"panties": panties},
+        );
       case 17:
         addstr("\"Those pants would look great on the floor of my bedroom.\"");
       case 18:
         addstr(
-            "\"If I said you had a nice body, would you hold it against me?\"");
+          "\"If I said you had a nice body, would you hold it against me?\"",
+        );
       case 19:
         addstr(
-            "\"Are you tired?  You've been running around in my thoughts all day.\"");
+          "\"Are you tired?  You've been running around in my thoughts all day.\"",
+        );
       case 20:
         addstr(
-            "\"If I could change the alphabet baby, I would put the U and I together!\"");
+          "\"If I could change the alphabet baby, I would put the U and I together!\"",
+        );
       case 21:
         addstr("\"Your lips look sweet.  Can I taste them?\"");
       case 22:
@@ -148,7 +176,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           addstr("\"Hey pop tart, fancy coming in my toaster of love?\"");
         } else if (a.gender == Gender.male && tk.gender == Gender.female) {
           addstr(
-              "\"Hey, fancy letting my pop tart into your toaster of love?\"");
+            "\"Hey, fancy letting my pop tart into your toaster of love?\"",
+          );
         } else {
           addstr("\"Bi~ the way, are you free tonight?\"");
         }
@@ -166,12 +195,14 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
         y++;
         if (a.gender == Gender.male) {
           addstr(
-              "Because I could have sworn you were checking out my package.\"");
+            "Because I could have sworn you were checking out my package.\"",
+          );
         } else if (tk.gender == Gender.male) {
           addstr("Because I can't help but check out your package.\"");
         } else {
           addstr(
-              "\"Because I could have sworn you were checking out my packages.\"");
+            "\"Because I could have sworn you were checking out my packages.\"",
+          );
         }
       case 31:
         addstr("\"I'm not the most attractive person in here, ");
@@ -182,17 +213,20 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
         addstr("\"Hi.  I suffer from amnesia.  Do I come here often?\"");
       case 33:
         addstr(
-            "\"I'm new in town.  Could you give me directions to your apartment?\"");
+          "\"I'm new in town.  Could you give me directions to your apartment?\"",
+        );
       case 34:
         addstr("\"Stand still so I can pick you up!\"");
       case 35:
         addstr(
-            "\"Your daddy must have been a baker, cuz you've got a nice set of buns.\"");
+          "\"Your daddy must have been a baker, cuz you've got a nice set of buns.\"",
+        );
       case 36:
         addstr("\"If you were a laser, you'd be set on 'stunning'.\"");
       case 37:
         addstr(
-            "\"Is that a keg in your pants?  Cuz I'd love to tap that ass.\"");
+          "\"Is that a keg in your pants?  Cuz I'd love to tap that ass.\"",
+        );
       case 38:
         addstr("\"If I could be anything, I'd love to be your bathwater.\"");
       case 39:
@@ -218,7 +252,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
         addstr("\"Did it hurt when you fell from heaven?\"");
       case 46:
         addstr(
-            "\"Holy shit you're hot!  I want to have sex with you RIGHT NOW.\"");
+          "\"Holy shit you're hot!  I want to have sex with you RIGHT NOW.\"",
+        );
     }
   }
 
@@ -292,14 +327,21 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
   }
   if ((tk.type.animal && !animalsArePeopleToo && !a.type.animal) ||
       tk.type.tank) {
-    mvaddstrc(y++, 1, white, tk.name);
-
+    mvaddstrc(
+      y++,
+      1,
+      white,
+      "{name} says,",
+      params: {"name": localizedCreatureName(tk)},
+    );
+    move(y, 1);
+    setColor(red);
     if (tk.type.tank) {
-      addstr(" shakes its turret a firm 'no'.");
+      addstr(
+        "{name} shakes its turret a firm 'no'.",
+        params: {"name": localizedCreatureName(tk)},
+      );
     } else if (tk.type.dog) {
-      addstr(" says, ");
-      move(y, 1);
-      setColor(red);
       switch (lcsRandom(3)) {
         case 0:
           addstr("\"No! Wrong! I'm a dog!! Jesus.\"");
@@ -311,9 +353,6 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
       tk.align = Alignment.conservative;
       tk.isWillingToTalk = false;
     } else if (tk.type.id == CreatureTypeIds.genetic) {
-      addstr(" says, ");
-      move(y, 1);
-      setColor(red);
       switch (lcsRandom(8)) {
         case 0:
           addstr("\"Foolish human!\"");
@@ -335,7 +374,10 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
       tk.align = Alignment.conservative;
       tk.isWillingToTalk = false;
     } else {
-      addstr(" doesn't quite pick up on the subtext.");
+      addstr(
+        "{name} doesn't quite pick up on the subtext.",
+        params: {"name": localizedCreatureName(tk)},
+      );
     }
 
     await getKey();
@@ -346,7 +388,13 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
   a.train(Skill.seduction, 10);
 
   if (a.clothing.type.police && tk.type.id == CreatureTypeIds.sexWorker) {
-    mvaddstrc(y++, 1, white, "${tk.name} responds, ");
+    mvaddstrc(
+      y++,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     setColor(red);
     move(y++, 1);
 
@@ -356,32 +404,43 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
       _ => "person",
     };
 
-    addstr([
-      "\"Dirty. You know that's illegal, officer.\"",
-      "\"Sorry, I don't date cops.\"",
-      "\"I think you've mistaken me for someone else, sir.\"",
-      "\"I'm not that kind of $guyGirl, officer.\"",
-      "\"Nope. I don't do police roleplay.\"",
-      "\"I'm not interested, officer.\"",
-      "\"Um, officer, isn't that illegal?\"",
-    ].random);
+    addstr(
+      [
+        "\"Dirty. You know that's illegal, officer.\"",
+        "\"Sorry, I don't date cops.\"",
+        "\"I think you've mistaken me for someone else, sir.\"",
+        "\"I'm not that kind of {guyGirl}, officer.\"",
+        "\"Nope. I don't do police roleplay.\"",
+        "\"I'm not interested, officer.\"",
+        "\"Um, officer, isn't that illegal?\"",
+      ].random,
+      params: {"guyGirl": guyGirl},
+    );
 
     await getKey();
 
     tk.isWillingToTalk = false;
   } else if (tk.name == "Prisoner") {
-    mvaddstrc(y++, 1, white, "${tk.name} responds, ");
+    mvaddstrc(
+      y++,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     move(y++, 1);
     setColor(red);
-    addstr([
-      "\"I don't even know who the fuck you are.\"",
-      "\"Weird.\"",
-      "\"This is a prison, Hoss.\"",
-      "\"What the fuck?\"",
-      "\"That's hot.\"",
-      "\"Why are you talking to me?\"",
-      "\"Get a load of this idiot.\"",
-    ].random);
+    addstr(
+      [
+        "\"I don't even know who the fuck you are.\"",
+        "\"Weird.\"",
+        "\"This is a prison, Hoss.\"",
+        "\"What the fuck?\"",
+        "\"That's hot.\"",
+        "\"Why are you talking to me?\"",
+        "\"Get a load of this idiot.\"",
+      ].random,
+    );
 
     await getKey();
 
@@ -391,7 +450,16 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
     if (a.indecent) {
       responds = "openly stares";
     }
-    mvaddstrc(y++, 1, white, "${tk.name} $responds, ");
+    mvaddstrc(
+      y++,
+      1,
+      white,
+      "{name} {response}",
+      params: {
+        "name": localizedCreatureName(tk),
+        "response": LcsI18n.tr(responds),
+      },
+    );
     setColor(lightBlue);
     move(y++, 1);
 
@@ -415,14 +483,16 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           addstr("\"You bet, baby.\"");
         case 3:
           addstr(
-              "\"He he, I'll let that one slide.  Besides, I like country folk...\"");
+            "\"He he, I'll let that one slide.  Besides, I like country folk...\"",
+          );
         case 4:
           addstr("\"That's sick.  I can do sick tonight.\"");
         case 5:
           addstr("\"Oooo, let me see!\"");
         case 6:
           addstr(
-              "\"Wow, looks like I'm going to have to reward creativity tonight!\"");
+            "\"Wow, looks like I'm going to have to reward creativity tonight!\"",
+          );
         case 7:
           if (a.gender == Gender.male) {
             addstr("\"Winter's coming.  You'd better bust more than one.\"");
@@ -461,7 +531,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
             addstr("\"I'd be glad to whip out my rocket if you want a ride.\"");
           } else if (a.gender == Gender.male) {
             addstr(
-                "\"You'll have to whip out your rocket to get some.  Let's do it.\"");
+              "\"You'll have to whip out your rocket to get some.  Let's do it.\"",
+            );
           } else {
             addstr("\"Oh yeah?  Why don't you let me show you the moon.\"");
           }
@@ -474,10 +545,12 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
         case 20:
           if (tk.gender == Gender.male || a.gender == Gender.male) {
             addstr(
-                "\"As long as you put a condom between them, I'm all for it.\"");
+              "\"As long as you put a condom between them, I'm all for it.\"",
+            );
           } else {
             addstr(
-                "\"As long as you handle your letters with care, I'm all for it.\"");
+              "\"As long as you handle your letters with care, I'm all for it.\"",
+            );
           }
         case 21:
           if (tk.gender == Gender.female) {
@@ -486,7 +559,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
             addstr("\"I'm more interested in your lips, my dear.\"");
           } else {
             addstr(
-                "\"I think that one's meant to be used on girls, ya goof.\"");
+              "\"I think that one's meant to be used on girls, ya goof.\"",
+            );
           }
         case 22:
           switch (lcsRandom(3)) {
@@ -501,7 +575,8 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           addstr("\"My sex could do even more.\"");
         case 24:
           addstr(
-              "\"Let me invite you to visit my island paradise.  Tonight.\"");
+            "\"Let me invite you to visit my island paradise.  Tonight.\"",
+          );
         case 25:
           if (a.gender != tk.gender) {
             addstr("\"Oh, man...  just don't tell anybody I'm seeing you.\"");
@@ -511,10 +586,12 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
         case 26:
           if (tk.genderAssignedAtBirth == Gender.male) {
             addstr(
-                "\"I hope we're shooting blanks, soldier.  I'm out of condoms.\"");
+              "\"I hope we're shooting blanks, soldier.  I'm out of condoms.\"",
+            );
           } else {
             addstr(
-                "\"I'm not packing that kind of equipment, soldier, but I'm game.\"");
+              "\"I'm not packing that kind of equipment, soldier, but I'm game.\"",
+            );
           }
         case 27:
           addstr("\"You can lick all my decals off, baby.\"");
@@ -525,12 +602,14 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
         case 30:
           if (a.gender == Gender.male) {
             addstr(
-                "\"It looks like a letter bomb to me.  Let me blow it up.\"");
+              "\"It looks like a letter bomb to me.  Let me blow it up.\"",
+            );
           } else if (tk.gender == Gender.male) {
             addstr("\"It might be a letter bomb.  Why don't you blow it up?\"");
           } else {
             addstr(
-                "\"They seem like a good weight, but I'm sure I can hold them.\"");
+              "\"They seem like a good weight, but I'm sure I can hold them.\"",
+            );
           }
         case 31:
           addstr("\"Hey, I could do better.  But I'm feeling cheap tonight.\"");
@@ -538,22 +617,26 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           addstr("\"Yeah.  I hope you remember the lube this time.\"");
         case 33:
           addstr(
-              "\"But if we use a hotel, you won't get shot by an angry spouse tonight.\"");
+            "\"But if we use a hotel, you won't get shot by an angry spouse tonight.\"",
+          );
         case 34:
           addstr("\"I think you'll appreciate the way I move after tonight.\"");
         case 35:
           if (tk.gender == Gender.male) {
             addstr(
-                "\"And my mother was a butcher.  Want to taste my sausage?\"");
+              "\"And my mother was a butcher.  Want to taste my sausage?\"",
+            );
           } else {
             addstr("\"They make a yummy bedtime snack.\"");
           }
         case 36:
           addstr(
-              "\"Oh..  oh, God.  I can't believe I'm going to date a Trekkie.\"");
+            "\"Oh..  oh, God.  I can't believe I'm going to date a Trekkie.\"",
+          );
         case 37:
           addstr(
-              "\"Oh, it isn't safe for you to drive like that.  You'd better stay the night.\"");
+            "\"Oh, it isn't safe for you to drive like that.  You'd better stay the night.\"",
+          );
         case 38:
           addstr("\"Come over tonight and I can show you what it's like.\"");
         case 39:
@@ -565,41 +648,53 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
             addstr("\"I'd rather let you feel something swell.\"");
           } else {
             addstr(
-                "\"Can't help you there, but I can show you something slick.\"");
+              "\"Can't help you there, but I can show you something slick.\"",
+            );
           }
         case 41:
           addstr("\"You can apologize later if it isn't any good.\"");
         case 42:
           addstr(
-              "\"Yeah, and we tonight can try different positions together.\"");
+            "\"Yeah, and we tonight can try different positions together.\"",
+          );
         case 43:
           addstr("\"Don't you like it dirty?\"");
         case 44:
           addstr(
-              "\"It's you!!  Somebody set up us the bomb.  Move 'Zig'.  For great justice.\"");
+            "\"It's you!!  Somebody set up us the bomb.  Move 'Zig'.  For great justice.\"",
+          );
         case 45:
           String aSuccubus = switch (tk.gender) {
             Gender.male => "an incubus",
             _ => "a succubus",
           };
           addstr(
-              "\"Actually I'm $aSuccubus from hell, and you're my next victim.\"");
+            "\"Actually I'm {demon} from hell, and you're my next victim.\"",
+            params: {"demon": LcsI18n.tr(aSuccubus)},
+          );
         case 46:
           addstr(
-              "\"Can you wait a couple hours?  I got 6 other people to fuck first.\"");
+            "\"Can you wait a couple hours?  I got 6 other people to fuck first.\"",
+          );
       }
     }
 
     await getKey();
 
     mvaddstrc(
-        ++y, 1, white, "${a.name} and ${tk.name} make plans for tonight.");
+      ++y,
+      1,
+      white,
+      "{name1} and {name2} make plans for tonight.",
+      params: {"name1": a.name, "name2": tk.name},
+    );
 
     await getKey();
 
     if (!poolAndProspects.contains(tk)) {
-      DatingSession? newd =
-          datingSessions.firstWhereOrNull((element) => element.lcsMember == a);
+      DatingSession? newd = datingSessions.firstWhereOrNull(
+        (element) => element.lcsMember == a,
+      );
       if (newd == null) {
         newd = DatingSession(a.id, a.location!.city);
         datingSessions.add(newd);
@@ -615,11 +710,23 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
 
     encounter.remove(tk);
   } else {
-    String responds = "responds";
     if (a.indecent) {
-      responds = "looks away";
+      mvaddstrc(
+        y++,
+        1,
+        white,
+        "{name} looks away",
+        params: {"name": localizedCreatureName(tk)},
+      );
+    } else {
+      mvaddstrc(
+        y++,
+        1,
+        white,
+        "{name} responds",
+        params: {"name": localizedCreatureName(tk)},
+      );
     }
-    mvaddstrc(y++, 1, white, "${tk.name} $responds, ");
     setColor(red);
     move(y++, 1);
     if (tk.type.id == CreatureTypeIds.corporateCEO) {
@@ -636,7 +743,10 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           if (tk.align == Alignment.liberal) {
             addstr("\"[A different one.]\"");
           } else {
-            addstr("\"${randomChurchName()}. Why?\"");
+            addstr(
+              "\"{churchName}. Why?\"",
+              params: {"churchName": randomChurchName()},
+            );
           }
         case 1:
           if (tk.align == Alignment.liberal) {
@@ -654,7 +764,7 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
     } else if (lgbtPenalty > 0 &&
         tk.align == Alignment.conservative &&
         oneIn(2)) {
-      String response = "Somethin's kinda buggin' me.";
+      String response = LcsI18n.tr("Somethin's kinda buggin' me.");
       if (sameSex) {
         String gay;
         String aLesbian;
@@ -679,26 +789,60 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
         }
 
         response = [
-          "With you? How progressive.",
-          "Did somebody tell you I'm gay? 'Cause I'm not.",
-          "I'm not interested.",
-          "I like ${a.gender == Gender.female ? "guys" : "girls"}.",
-          "I don't swing that way.",
-          "Wait, with another ${a.gender.manWoman}? I... I could, but... no.",
-          "Damn it, I told ${firstName()}, my $gay era was only a phase!",
+          LcsI18n.tr("With you? How progressive."),
+          LcsI18n.tr("Did somebody tell you I'm gay? 'Cause I'm not."),
+          LcsI18n.tr("I'm not interested."),
+          LcsI18n.processString("I like {people}.", {
+            "people": LcsI18n.tr(a.gender == Gender.female ? "guys" : "girls"),
+          }),
+          LcsI18n.tr("I don't swing that way."),
+          LcsI18n.processString(
+            "Wait, with {person}? I... I could, but... no.",
+            {"person": LcsI18n.tr(a.gender.manWomanWithIndefiniteArticle)},
+          ),
+          LcsI18n.processString(
+            "Damn it, I told {name}, my {era} era was only a phase!",
+            {"name": firstName(), "era": LcsI18n.tr(gay)},
+          ),
           "Jesus...",
-          "Lord save me from these $gayPeople sayin' weird things.",
-          "Y'all $gayPeople need Jesus.",
-          "Jesus, not again! It's gotta be my $cologne, $gays are all over me!",
-          "I'm not gay.",
-          "I'm only bi when I'm drunk, and I'm not drunk.",
-          "Heh, that's funny. And gay.",
-          "No no no no, I'm not $aLesbian, I'm not $aLesbian, I swear!",
-          "Hot damn! This ${a.gender.manWoman}'s into me! I'm not even into $guys.",
-          "Great. The only person willing to be with me is another ${a.gender.manWoman}.",
-          "I'm straight.",
-          "Huh. ${capitalize(gayPeople)}.",
-          "I like ${a.gender == Gender.female ? "men" : "ladies"}.",
+          LcsI18n.processString(
+            "Lord save me from these {people} sayin' weird things.",
+            {"people": LcsI18n.tr(gayPeople)},
+          ),
+          LcsI18n.processString("Y'all {people} need Jesus.", {
+            "people": LcsI18n.tr(gayPeople),
+          }),
+          LcsI18n.processString(
+            "Jesus, not again! It's gotta be my {cologne}, {people} are all over me!",
+            {"cologne": LcsI18n.tr(cologne), "people": LcsI18n.tr(gays)},
+          ),
+          LcsI18n.tr("I'm not gay."),
+          LcsI18n.tr("I'm only bi when I'm drunk, and I'm not drunk."),
+          LcsI18n.tr("Heh, that's funny. And gay."),
+          LcsI18n.processString(
+            "No no no no, I'm not {person}, I'm not {person}, I swear!",
+            {"person": LcsI18n.tr(aLesbian)},
+          ),
+          LcsI18n.processString(
+            "Hot damn! {person} is into me! I'm not even into {people}.",
+            {
+              "person": capitalize(
+                LcsI18n.tr(a.gender.manWomanWithIndefiniteArticle),
+              ),
+              "people": LcsI18n.tr(guys),
+            },
+          ),
+          LcsI18n.processString(
+            "Great. The only person willing to be with me is {person}.",
+            {"person": LcsI18n.tr(a.gender.manWomanWithIndefiniteArticle)},
+          ),
+          LcsI18n.tr("I'm straight."),
+          LcsI18n.processString("Huh. {people}.", {
+            "people": capitalize(LcsI18n.tr(gayPeople)),
+          }),
+          LcsI18n.processString("I like {people}.", {
+            "people": LcsI18n.tr(a.gender == Gender.female ? "men" : "ladies"),
+          }),
         ].random;
       } else if (trans) {
         Gender perceivedGender = forceGenderBinary(a.gender);
@@ -707,161 +851,179 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
           Gender.female => "girl",
           _ => "person",
         };
+        String guyGirlPlural = switch (perceivedGender) {
+          Gender.male => "guys",
+          Gender.female => "girls",
+          _ => "people",
+        };
         response = [
-          "Jesus. Why are you trans ${guyGirl}s so fuckin' hot? Get outta here.",
-          "Nah, I don't find you trans folks attractive.",
-          "You some kinda queer?",
-          "Ho, shit! I dig it, but you know... I could never be seen sayin' yes.",
-          "No, I'm no chaser.",
-          "That's sweet of ye, but I like my gender as normative as possible.",
-          "Huh. I dig it. But no, I'm not gonna date a trans $guyGirl.",
-          "You're kinda hot for a trans $guyGirl, but I ain't that brave.",
-          "I'm not into that whole gender thing.",
-          "I find your gender confusing and that makes me uncomfortable.",
-          "Oh, uh... I don't think we can date, I don't have a pronoun.",
+          LcsI18n.processString(
+            "Jesus. Why are you trans {people} so fuckin' hot? Get outta here.",
+            {"people": LcsI18n.tr(guyGirlPlural)},
+          ),
+          LcsI18n.tr("Nah, I don't find you trans folks attractive."),
+          LcsI18n.tr("You some kinda queer?"),
+          LcsI18n.tr(
+            "Ho, shit! I dig it, but you know... I could never be seen sayin' yes.",
+          ),
+          LcsI18n.tr("No, I'm no chaser."),
+          LcsI18n.tr(
+            "That's sweet of ye, but I like my gender as normative as possible.",
+          ),
+          LcsI18n.processString(
+            "Huh. I dig it. But no, I'm not gonna date a trans {person}.",
+            {"person": LcsI18n.tr(guyGirl)},
+          ),
+          LcsI18n.processString(
+            "You're kinda hot for a trans {person}, but I ain't that brave.",
+            {"person": LcsI18n.tr(guyGirl)},
+          ),
+          LcsI18n.tr("I'm not into that whole gender thing."),
+          LcsI18n.tr(
+            "I find your gender confusing and that makes me uncomfortable.",
+          ),
+          LcsI18n.tr(
+            "Oh, uh... I don't think we can date, I don't have a pronoun.",
+          ),
           if (a.genderAssignedAtBirth == Gender.female)
-            "Why's your hair so short?"
+            LcsI18n.tr("Why's your hair so short?")
           else
-            "Why's your hair so long?",
-          "Heh, don't get hit on by a trans $guyGirl every day.",
-          "I don't know what gender you are and that makes me kinda frustrated.",
-          "Oh lawd have mercy, the libs are tryin' ta trans my gender.",
+            LcsI18n.tr("Why's your hair so long?"),
+          LcsI18n.processString(
+            "Heh, don't get hit on by a trans {person} every day.",
+            {"person": LcsI18n.tr(guyGirl)},
+          ),
+          LcsI18n.tr(
+            "I don't know what gender you are and that makes me kinda frustrated.",
+          ),
+          LcsI18n.tr(
+            "Oh lawd have mercy, the libs are tryin' ta trans my gender.",
+          ),
         ].random;
       }
-      addstr("\"$response\"");
+      addstr("\"{response}\"", params: {"response": response});
     } else {
       switch (line) {
         case 0:
-          addstr("\"You're such an asshole!\"");
           setColor(white);
-          addstr(" <pouts>");
+          addstr("\"You're such an asshole!\" <pouts>");
         case 1:
-          addstr("\"Sure, here ya go...\"");
           setColor(white);
-          addstr(" <writes wrong number>");
+          addstr("\"Sure, here ya go...\" <writes wrong number>");
         case 2:
-          addstr("\"I'm.. uh.. waiting for someone.\"");
           setColor(white);
-          addstr(" <turns away>");
+          addstr("\"I'm.. uh.. waiting for someone.\" <turns away>");
         case 3:
-          addstr("\"Go use a real bathroom, ya hick.\"");
           setColor(white);
-          addstr(" <points towards bathroom>");
+          addstr(
+            "\"Go use a real bathroom, ya hick.\" <points towards bathroom>",
+          );
         case 4:
-          addstr("\"That was a very traumatic incident.\"");
           setColor(white);
-          addstr(" <cries>");
+          addstr("\"That was a very traumatic incident.\" <cries>");
         case 5:
-          addstr("\"You're big everywhere, fatass.\"");
           setColor(white);
-          addstr(" <laughs>");
+          addstr("\"You're big everywhere, fatass.\" <laughs>");
         case 6:
-          addstr("\"You're disgusting.\"");
           setColor(white);
-          addstr(" <turns away>");
+          addstr("\"You're disgusting.\" <turns away>");
         case 7:
+          setColor(white);
           if (a.gender == Gender.male || tk.gender == Gender.male) {
-            addstr("\"You fuck squirrels?\"");
+            addstr("\"You fuck squirrels?\" <looks dumbfounded>");
           } else {
-            addstr("\"Huh?\"");
+            addstr("\"Huh?\" <looks dumbfounded>");
           }
-          setColor(white);
-          addstr(" <looks dumbfounded>");
         case 8:
-          addstr("\"So what you're saying is you masturbate a lot.\"");
           setColor(white);
-          addstr(" <wags finger>");
+          addstr(
+            "\"So what you're saying is you masturbate a lot.\" <wags finger>",
+          );
         case 9:
-          addstr("\"You're a pig.\"");
           setColor(white);
-          addstr(" <turns away>");
+          addstr("\"You're a pig.\" <turns away>");
         case 10:
-          addstr("\"Nice try, but no.\"");
           setColor(white);
-          addstr(" <sticks out tongue>");
+          addstr("\"Nice try, but no.\" <sticks out tongue>");
         case 11:
-          addstr("\"Your game is as dead as your ideology.\"");
           setColor(white);
-          addstr(" <turns away>");
+          addstr("\"Your game is as dead as your ideology.\" <turns away>");
         case 12:
-          addstr("\"You look like a biter.\"");
           setColor(white);
-          addstr(" <flinches>");
+          addstr("\"You look like a biter.\" <flinches>");
         case 13:
-          addstr("\"I'm way outta your league, scumbag.\"");
           setColor(white);
-          addstr(" <grabs pepper spray>");
+          addstr(
+            "\"I'm way outta your league, scumbag.\" <grabs pepper spray>",
+          );
         case 14:
-          addstr("\"You still watch cartoons?\"");
           setColor(white);
-          addstr(" <laughs>");
+          addstr("\"You still watch cartoons?\" <laughs>");
         case 15:
-          addstr("\"I hate puns!  You suck at comedy.\"");
           setColor(white);
-          addstr(" <frowns>");
+          addstr("\"I hate puns!  You suck at comedy.\" <frowns>");
         case 16:
-          addstr("\"Yes, I'm an alien, you inferior Earth scum.\"");
           setColor(white);
-          addstr(" <reaches for ray gun>");
+          addstr(
+            "\"Yes, I'm an alien, you inferior Earth scum.\" <reaches for ray gun>",
+          );
         case 17:
-          addstr("\"Not after I do this.\"");
           setColor(white);
-          addstr(" <shits pants>");
+          addstr("\"Not after I do this.\" <shits pants>");
         case 18:
-          addstr("\"Yes, I can't stand liars.\"");
           setColor(white);
-          addstr(" <crosses flabby arms>");
+          addstr("\"Yes, I can't stand liars.\" <crosses flabby arms>");
         case 19:
-          addstr("\"I don't remember doing that.\"");
           setColor(white);
-          addstr(" <looks confused>");
+          addstr("\"I don't remember doing that.\" <looks confused>");
         case 20:
-          addstr("\"We got a kindergarten dropout over here!\"");
           setColor(white);
-          addstr(" <points and laughs>");
+          addstr(
+            "\"We got a kindergarten dropout over here!\" <points and laughs>",
+          );
         case 21:
-          addstr("\"No, I don't want to infect anyone else with herpes.\"");
           setColor(white);
-          addstr(" <sighs>");
+          addstr(
+            "\"No, I don't want to infect anyone else with herpes.\" <sighs>",
+          );
         case 22:
-          addstr("\"Stop staring at my feet, you freak!\"");
           setColor(white);
-          addstr(" <kicks you>");
+          addstr("\"Stop staring at my feet, you freak!\" <kicks you>");
         case 23:
-          addstr("\"You're such a loser.\"");
           setColor(white);
-          addstr(" <makes L sign on forehead>");
+          addstr("\"You're such a loser.\" <makes L sign on forehead>");
         case 24:
-          addstr("\"I'm about to put a voodoo curse on yo ass...\"");
           setColor(white);
-          addstr(" <starts chanting>");
+          addstr(
+            "\"I'm about to put a voodoo curse on yo ass...\" <starts chanting>",
+          );
         case 25:
+          setColor(white);
           if (a.gender != tk.gender) {
-            addstr("\"I don't approve of your hi-carb diet.\"");
-            setColor(white);
-            addstr(" <starts ranting about nutrition>");
+            addstr(
+              "\"I don't approve of your hi-carb diet.\" <starts ranting about nutrition>",
+            );
           } else {
-            addstr("\"Not even remotely.\"");
-            setColor(white);
-            addstr(" <starts ranting about work>");
+            addstr("\"Not even remotely.\" <starts ranting about work>");
           }
         case 26:
-          addstr("\"Go back home to play with your G.I. Joe dolls.\"");
           setColor(white);
-          addstr(" <scoffs>");
+          addstr("\"Go back home to play with your G.I. Joe dolls.\" <scoffs>");
         case 27:
-          addstr("\"No, and stop acting like a lost puppy.\"");
           setColor(white);
-          addstr(" <hisses like a cat>");
+          addstr(
+            "\"No, and stop acting like a lost puppy.\" <hisses like a cat>",
+          );
         case 28:
-          addstr("\"Jesus...\"");
           setColor(white);
-          addstr(" <turns away>");
+          addstr("\"Jesus...\" <turns away>");
         case 29:
-          addstr("\"I don't believe in astrology, you ignoramus.\"");
           setColor(white);
-          addstr(" <blinds you with science>");
+          addstr(
+            "\"I don't believe in astrology, you ignoramus.\" <blinds you with science>",
+          );
         case 30:
+          setColor(white);
           if (a.gender == Gender.male) {
             addstr("\"Yes, and it's practically microscopic.\"");
             setColor(white);
@@ -871,74 +1033,59 @@ Future<bool> doYouComeHereOften(Creature a, Creature tk) async {
             setColor(white);
             addstr(" <turns away>");
           } else {
-            addstr("\"These boxes aren't addressed to you.\"");
             setColor(white);
-            addstr(" <turns away>");
+            addstr("\"These boxes aren't addressed to you.\" <turns away>");
           }
         case 31:
-          addstr("\"My spouse will be here soon to straighten things out.\"");
           setColor(white);
-          addstr(" <looks for spouse>");
+          addstr(
+            "\"My spouse will be here soon to straighten things out.\" <looks for spouse>",
+          );
         case 32:
-          addstr("\"You're not my type.  I like sane people.\"");
           setColor(white);
-          addstr(" <turns away>");
+          addstr("\"You're not my type.  I like sane people.\" <turns away>");
         case 33:
-          addstr("\"Yes, here you go...\"");
           setColor(white);
-          addstr(" <writes fake directions>");
+          addstr("\"Yes, here you go...\" <writes fake directions>");
         case 34:
-          addstr("\"Gotta go!  Bye!\"");
           setColor(white);
-          addstr(" <squirms away>");
+          addstr("\"Gotta go!  Bye!\" <squirms away>");
         case 35:
-          addstr("\"I don't do anal.\"");
           setColor(white);
-          addstr(" <puts hands over butt>");
+          addstr("\"I don't do anal.\" <puts hands over butt>");
         case 36:
-          addstr("\"Hey, look, a UFO!\"");
           setColor(white);
-          addstr(" <ducks away>");
+          addstr("\"Hey, look, a UFO!\" <ducks away>");
         case 37:
-          addstr("\"Go home, you're drunk.\"");
           setColor(white);
-          addstr(" <gestures away>");
+          addstr("\"Go home, you're drunk.\" <gestures away>");
         case 38:
-          addstr("\"At least then you'd be liquidated.\"");
           setColor(white);
-          addstr(" <stares intently>");
+          addstr("\"At least then you'd be liquidated.\" <stares intently>");
         case 39:
-          addstr("\"Is that the best you can do?\"");
           setColor(white);
-          addstr(" <looks bored>");
+          addstr("\"Is that the best you can do?\" <looks bored>");
         case 40:
-          addstr("\"Eew, no, gross.\"");
           setColor(white);
-          addstr(" <turns away>");
+          addstr("\"Eew, no, gross.\" <turns away>");
         case 41:
-          addstr("\"Just shove off.\"");
           setColor(white);
-          addstr(" <turns away>");
+          addstr("\"Just shove off.\" <turns away>");
         case 42:
-          addstr("\"What on earth are you on about?\"");
           setColor(white);
-          addstr(" <turns away>");
+          addstr("\"What on earth are you on about?\" <turns away>");
         case 43:
-          addstr("\"Nothing works, I can't help it.\"");
           setColor(white);
-          addstr(" <starts crying>");
+          addstr("\"Nothing works, I can't help it.\" <starts crying>");
         case 44:
-          addstr("\"That meme is older than dirt.\"");
           setColor(white);
-          addstr(" <shakes head>");
+          addstr("\"That meme is older than dirt.\" <shakes head>");
         case 45:
-          addstr("\"Yes, now go away.\"");
           setColor(white);
-          addstr(" <points to exit>");
+          addstr("\"Yes, now go away.\" <points to exit>");
         case 46:
-          addstr("\"Touch me and you'll regret it.\"");
           setColor(white);
-          addstr(" <crosses arms>");
+          addstr("\"Touch me and you'll regret it.\" <crosses arms>");
       }
     }
 
@@ -953,5 +1100,9 @@ String randomChurchName() {
   String first = ["Holy", "Sacred", "Abiding", "Faithful", "Eternal"].random;
   String second = ["Cross", "Hope", "Flame", "Family", "Refuge"].random;
   String third = ["Church", "Church", "Cathedral", "Temple", "Chapel"].random;
-  return "$first $second $third";
+  return LcsI18n.processString("{first} {second} {third}", {
+    "first": LcsI18n.tr(first),
+    "second": LcsI18n.tr(second),
+    "third": LcsI18n.tr(third),
+  });
 }

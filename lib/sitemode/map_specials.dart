@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/common_actions/common_actions.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -14,6 +15,7 @@ import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/ammo.dart';
 import 'package:lcs_new_age/items/ammo_type.dart';
 import 'package:lcs_new_age/items/clothing.dart';
@@ -181,7 +183,11 @@ Future<void> specialBouncerAssessSquad() async {
     encounter[0] = sleeper;
     levelMap[locx][locy][locz].special = TileSpecial.none;
     await encounterMessage(
-      "Sleeper ${sleeper.name} smirks and lets the squad in.",
+      "{role} {name} smirks and lets the squad in.",
+      params: {
+        "role": LcsI18n.trGendered("Sleeper", gender: sleeper.gender),
+        "name": sleeper.name,
+      },
     );
   } else {
     levelMap[locx][locy][locz].special = TileSpecial.clubBouncerSecondVisit;
@@ -272,8 +278,21 @@ Future<void> specialBouncerAssessSquad() async {
             "\"No shirt, no underpants, no service.\"",
             "\"Put some clothes on! That's disgusting.\"",
             "\"No! No, you can't come in naked! God!!\"",
-            "\"Naked? ${noProfanity ? "[I won't look.]" : "That's hot."} But no, you can't come in.\"",
-            "\"${noProfanity ? "[Yuck!]" : "Fuck!"} I did not want to see your naked ${noProfanity ? "[body]" : "ass"}.\"",
+            LcsI18n.processString(
+              "\"Naked? {comment} But no, you can't come in.\"",
+              {
+                "comment": LcsI18n.tr(
+                  noProfanity ? "[I won't look.]" : "That's hot.",
+                ),
+              },
+            ),
+            LcsI18n.processString(
+              "\" {expletive} I did not want to see your naked {bodyPart}.\"",
+              {
+                "expletive": LcsI18n.tr(noProfanity ? "[Yuck!]" : "Fuck!"),
+                "bodyPart": LcsI18n.tr(noProfanity ? "[body]" : "ass"),
+              },
+            ),
           ].random,
         );
       case REJECTED_UNDERAGE:
@@ -302,10 +321,26 @@ Future<void> specialBouncerAssessSquad() async {
         addstr(
           [
             "\"I smell trangenderism. Get out.\"",
-            "\"Ugh, trans people. ${noProfanity ? "[Heavens]" : "Hell"} no.\"",
+            LcsI18n.processString("\"Ugh, trans people. {reaction} no.\"", {
+              "reaction": LcsI18n.tr(noProfanity ? "[Heavens]" : "Hell"),
+            }),
             "\"Your gender is a disgrace against nature.\"",
-            "\"Trans men are men, ${noProfanity ? "[fellow child of God]" : "idiot"}. Get out.\"",
-            "\"Trans women are women, ${noProfanity ? "[fellow child of God]" : "moron"}. Leave.\"",
+            LcsI18n.processString(
+              "\"Trans men are men, {comment}. Get out.\"",
+              {
+                "comment": LcsI18n.tr(
+                  noProfanity ? "[fellow child of God]" : "idiot",
+                ),
+              },
+            ),
+            LcsI18n.processString(
+              "\"Trans women are women, {comment}. Leave.\"",
+              {
+                "comment": LcsI18n.tr(
+                  noProfanity ? "[fellow child of God]" : "moron",
+                ),
+              },
+            ),
           ].random,
         );
       case REJECTED_DRESSCODE:
@@ -494,8 +529,13 @@ Future<void> specialNuclearOnOff() async {
   }
 
   if (maxs != null) {
-    mvaddstrc(9, 1, white, maxs.name);
-    addstr(" presses the big red button!");
+    mvaddstrc(
+      9,
+      1,
+      white,
+      "{name} presses the big red button!",
+      params: {"name": maxs.name},
+    );
     await getKey();
 
     mvaddstr(10, 1, ".");
@@ -709,32 +749,37 @@ Future<void> specialCourthouseJury() async {
   if (succeed) {
     if (laws[Law.deathPenalty] == DeepAlignment.archConservative) {
       await encounterMessage(
-        "${maxp.name} works the room like in Twelve Angry Men, and the jury ",
-        line2: "concludes that $crime isn't worth yet another execution.",
+        "{name} works the room like in Twelve Angry Men, and the jury ",
+        line2: "concludes that {crime} isn't worth yet another execution.",
+        params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
       );
       addjuice(maxp, 25, 1000);
     } else {
       await encounterMessage(
-        "${maxp.name} works the room like in Twelve Angry Men, and the jury ",
-        line2: "concludes that $crime wasn't really wrong here.",
+        "{name} works the room like in Twelve Angry Men, and the jury ",
+        line2: "concludes that {crime} wasn't really wrong here.",
+        params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
       );
       addjuice(maxp, 25, 200);
     }
   } else {
     if (successPersuasion) {
       await encounterMessage(
-        "${maxp.name} charms the jury into not calling the guards, but fails ",
-        line2: "to show why $crime should go unpunished.",
+        "{name} charms the jury into not calling the guards, but fails ",
+        line2: "to show why {crime} should go unpunished.",
+        params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
       );
     } else if (successLaw) {
       await encounterMessage(
-        "${maxp.name} presents a complex lecture on the many nuances of ",
-        line2: "the law around $crime, but the jurors just fall asleep.",
+        "{name} presents a complex lecture on the many nuances of ",
+        line2: "the law around {crime}, but the jurors just fall asleep.",
+        params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
       );
     } else {
       await encounterMessage(
-        "${maxp.name} tries to work the room like in Twelve Angry Men, but ",
+        "{name} tries to work the room like in Twelve Angry Men, but ",
         line2: "only manages to produce Twelve Angry Jurors.",
+        params: {"name": maxp.name},
       );
       fillEncounter(CreatureTypeIds.juror, 12);
       printEncounter();
@@ -754,8 +799,12 @@ Future<void> specialPrisonControl(TileSpecial prisonControlType) async {
     TileSpecial.prisonControlHigh => "high security",
     _ => "",
   };
+  String promptText = LcsI18n.processString(
+    "You've found the {level} prison control room.",
+    {"level": LcsI18n.translate(level)},
+  );
   bool freeThem = await sitemodePrompt(
-    "You've found the $level prison control room.",
+    promptText,
     "Free the prisoners? (Yes or No)",
   );
   if (!freeThem) return;
@@ -905,23 +954,28 @@ Future<bool> sitemodePromptOneLine(String line) async {
   while (true) {
     int c = await getKey();
 
-    if (c == Key.y) return true;
-    if (c == Key.n) return false;
+    if (isYesKey(c)) return true;
+    if (isNoKey(c)) return false;
   }
 }
 
-Future<bool> sitemodePrompt(String line1, String line2) async {
+Future<bool> sitemodePrompt(
+  String line1,
+  String line2, {
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) async {
   clearMessageArea();
 
-  mvaddstrc(9, 1, white, line1);
+  mvaddstrc(9, 1, white, line1, params: params, noTranslate: noTranslate);
 
-  mvaddstr(10, 1, line2);
+  mvaddstr(10, 1, line2, params: params, noTranslate: noTranslate);
 
   while (true) {
     int c = await getKey();
 
-    if (c == Key.y) return true;
-    if (c == Key.n) return false;
+    if (isYesKey(c)) return true;
+    if (isNoKey(c)) return false;
   }
 }
 
@@ -929,13 +983,38 @@ Future<void> encounterMessage(
   String message, {
   String? line2,
   Color color = white,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool fitToWidth = false,
 }) async {
   clearMessageArea();
 
-  mvaddstrc(9, 1, color, message);
+  if (fitToWidth) {
+    mvaddstrcFitted(
+      9,
+      1,
+      color,
+      message,
+      console.width - 1,
+      params: params,
+      noTranslate: noTranslate,
+    );
+    if (line2 != null) {
+      mvaddstrFitted(
+        10,
+        1,
+        line2,
+        console.width - 1,
+        params: params,
+        noTranslate: noTranslate,
+      );
+    }
+  } else {
+    mvaddstrc(9, 1, color, message, params: params, noTranslate: noTranslate);
 
-  if (line2 != null) {
-    mvaddstr(10, 1, line2);
+    if (line2 != null) {
+      mvaddstr(10, 1, line2, params: params, noTranslate: noTranslate);
+    }
   }
 
   await getKey();
@@ -1038,7 +1117,7 @@ Future<void> specialCEOSafe() async {
       await encounterMessage(
         "There are some... very compromising photos here.",
       );
-      _loot(Loot(LootTypeIds.ceoPhotos));
+      _loot(Loot("LOOT_CEOPHOTOS"));
       empty = false;
     }
 
@@ -1052,7 +1131,7 @@ Future<void> specialCEOSafe() async {
         "Wow, get a load of these love letters.",
         line2: "The squad will take those.",
       );
-      _loot(Loot(LootTypeIds.ceoLoveLetters));
+      _loot(Loot("LOOT_CEOLOVELETTERS"));
       empty = false;
     }
 
@@ -1110,7 +1189,7 @@ class PatientState {
     this.skill, {
     this.difficulty = Difficulty.automatic,
     this.juice = 5,
-    this.failMessage = "%HELPER% isn't sure what to do about that.",
+    this.failMessage = "{helper} isn't sure what to do about that.",
   });
   String description;
   int juice;
@@ -1210,92 +1289,92 @@ PatientState _getPatientState(PatientPersonality personality) {
   switch (lcsRandomWeighted<PatientStateKey>(stateWeights)) {
     case PatientStateKey.lonely:
       return PatientState(
-        "%FIRSTLAST% is lonely and feels isolated here.",
-        "%HELPER% sits and talks with %FIRST% for a while.",
+        "{firstLast} is lonely and feels isolated here.",
+        "{helper} sits and talks with {first} for a while.",
         Skill.psychology,
       );
     case PatientStateKey.lyingInSamePosition:
       return PatientState(
-        "%FIRSTLAST% has been lying in the same position all day.",
-        "%HELPER% repositions %FIRST% so %HE% is more comfortable.",
+        "{firstLast} has been lying in the same position all day.",
+        "{helper} repositions {first} so {he} is more comfortable.",
         Skill.firstAid,
         difficulty: Difficulty.easy,
       );
     case PatientStateKey.pillsLookWrong:
       return PatientState(
-        "%FIRSTLAST% says the pills don't look right.",
-        "%HELPER% checks %FIRST%'s chart and gets %HIM% the right medication.",
+        "{firstLast} says the pills don't look right.",
+        "{helper} checks {first}'s chart and gets {him} the right medication.",
         Skill.firstAid,
         difficulty: Difficulty.average,
       );
     case PatientStateKey.bruiseOnLeftCheek:
       return PatientState(
-        "%FIRSTLAST% has a bruise on %HIS% left cheek.",
-        "%FIRST% confides in %HELPER% that one of the aides hit %HIM%.",
+        "{firstLast} has a bruise on {his} left cheek.",
+        "{first} confides in {helper} that one of the aides hit {him}.",
         Skill.psychology,
         difficulty: Difficulty.easy,
       );
     case PatientStateKey.leftInSoiledClothing:
       return PatientState(
-        "%FIRSTLAST% has been left in soiled clothing.",
-        "%HELPER% helps %FIRST% get into a new set of clothes.",
+        "{firstLast} has been left in soiled clothing.",
+        "{helper} helps {first} get into a new set of clothes.",
         Skill.firstAid,
       );
     case PatientStateKey.leftInRestraints:
       return PatientState(
-        "%FIRSTLAST% has been left in restraints as a punishment.",
-        "%HELPER% releases the restraints so %FIRST% can move.",
+        "{firstLast} has been left in restraints as a punishment.",
+        "{helper} releases the restraints so {first} can move.",
         Skill.security,
       );
     case PatientStateKey.gladToHaveVisitor:
       return PatientState(
-        "%FIRSTLAST% is glad to have a visitor.",
-        "%HELPER% sits and talks with %FIRST% for a while.",
+        "{firstLast} is glad to have a visitor.",
+        "{helper} sits and talks with {first} for a while.",
         Skill.psychology,
       );
     case PatientStateKey.hallucinatesDeceasedRelative:
       return PatientState(
-        "%FIRSTLAST% mistakes %HELPER% for a deceased relative.",
-        "%HELPER% helps %FIRST% remember them.",
+        "{firstLast} mistakes {helper} for a deceased relative.",
+        "{helper} helps {first} remember them.",
         Skill.psychology,
         difficulty: Difficulty.easy,
       );
     case PatientStateKey.suspectsTheft:
       return PatientState(
-        "%FIRSTLAST% asks if %HELPER% is here to steal from %HIM%.",
-        "%FIRST% confides in %HELPER% that one of the aides steals from %HIM%.",
+        "{firstLast} asks if {helper} is here to steal from {him}.",
+        "{first} confides in {helper} that one of the aides steals from {him}.",
         Skill.psychology,
         difficulty: Difficulty.average,
       );
     case PatientStateKey.swearsAtHelper:
       return PatientState(
-        "%FIRSTLAST% swears bitterly at %HELPER%.",
-        "%HELPER% talks with %FIRST% and learns the aides verbally abuse %HIM%.",
+        "{firstLast} swears bitterly at {helper}.",
+        "{helper} talks with {first} and learns the aides verbally abuse {him}.",
         Skill.psychology,
         difficulty: Difficulty.average,
       );
     case PatientStateKey.inGoodSpirits:
       return PatientState(
-        "%FIRSTLAST% seems to be in good spirits.",
-        "%HELPER% sits and talks with %FIRST%. It's nice to see %HIM% happy.",
+        "{firstLast} seems to be in good spirits.",
+        "{helper} sits and talks with {first}. It's nice to see {him} happy.",
         Skill.psychology,
       );
     case PatientStateKey.asksForBook:
       return PatientState(
-        "%FIRSTLAST% asks %HELPER% to bring %HIM% a book.",
-        "%HELPER% hands %FIRST% a book.",
+        "{firstLast} asks {helper} to bring {him} a book.",
+        "{helper} hands {first} a book.",
         Skill.writing,
       );
     case PatientStateKey.asksForChannelChange:
       return PatientState(
-        "%FIRSTLAST% asks %HELPER% to change the TV channel.",
-        "%HELPER% changes the channel.",
+        "{firstLast} asks {helper} to change the TV channel.",
+        "{helper} changes the channel.",
         Skill.computers,
       );
     case PatientStateKey.asksForRadio:
       return PatientState(
-        "%FIRSTLAST% asks %HELPER% to turn the radio on.",
-        "%HELPER% turns on the radio.",
+        "{firstLast} asks {helper} to turn the radio on.",
+        "{helper} turns on the radio.",
         Skill.music,
       );
   }
@@ -1312,13 +1391,22 @@ Future<void> specialNursingHomePatient({bool done = false}) async {
   String patientLastName = lastName();
   String patientFirstName = firstName(gender);
   String formal = patientLastName;
-  if (gender == Gender.male) formal = "Mr. $patientLastName";
-  if (gender == Gender.female) formal = "Mrs. $patientLastName";
+  if (gender == Gender.male) {
+    formal = LcsI18n.processString("Mr. {name}", {"name": patientLastName});
+  }
+  if (gender == Gender.female) {
+    formal = LcsI18n.processString("Mrs. {name}", {"name": patientLastName});
+  }
   PatientPersonality personality = PatientPersonality.values.random;
   nextRngSeed = oldSeed;
 
   if (done) {
-    await encounterMessage("The squad has already checked up on $formal.");
+    await encounterMessage(
+      LcsI18n.processString("The squad has already checked up on {name}.", {
+        "name": formal,
+      }),
+      noTranslate: true,
+    );
     return;
   }
 
@@ -1333,14 +1421,27 @@ Future<void> specialNursingHomePatient({bool done = false}) async {
   if (patientState.difficulty > Difficulty.automatic) experience = 10;
 
   // Indicate the squad is checking up on them
-  String squadName = squad.length > 1 ? "The squad" : squad[0].name;
-  await encounterMessage("$squadName checks up on $formal.");
+  String squadName = squad.length > 1 ? LcsI18n.tr("The squad") : squad[0].name;
+  await encounterMessage(
+    LcsI18n.processString("{squad} checks up on {name}.", {
+      "squad": squadName,
+      "name": formal,
+    }),
+    noTranslate: true,
+  );
 
   if (siteAlarm) {
     // Alarm prevents aiding residents
     await encounterMessage(
-      "$formal looks at the squad in fear and shouts for help.",
-      line2: "$squadName leaves ${gender.himHer} alone.",
+      LcsI18n.processString(
+        "{name} looks at the squad in fear and shouts for help.",
+        {"name": formal},
+      ),
+      line2: LcsI18n.processString("{squad} leaves {pronoun} alone.", {
+        "squad": squadName,
+        "pronoun": LcsI18n.tr(gender.himHer),
+      }),
+      noTranslate: true,
     );
   } else {
     // Resolve the attempt to aid the resident
@@ -1355,19 +1456,24 @@ Future<void> specialNursingHomePatient({bool done = false}) async {
     }
     helper.train(patientState.skill, experience);
 
-    // Fill in the variables in the state description and success/fail messages
-    String fillMessage(String message) => message
-        .replaceAll("%FIRSTLAST%", "$patientFirstName $patientLastName")
-        .replaceAll("%FIRST%", patientFirstName)
-        .replaceAll("%HIS%", gender.hisHer)
-        .replaceAll("%HIM%", gender.himHer)
-        .replaceAll("%HE%", gender.heShe)
-        .replaceAll("%HELPER%", helper.name);
+    // Translate the complete state template before rendering it for layout.
+    String fillMessage(String template) => LcsI18n.processString(template, {
+      "firstLast": LcsI18n.processString("{first} {last}", {
+        "first": patientFirstName,
+        "last": patientLastName,
+      }),
+      "first": patientFirstName,
+      "his": LcsI18n.tr(gender.hisHer),
+      "him": LcsI18n.tr(gender.himHer),
+      "he": LcsI18n.tr(gender.heShe),
+      "helper": helper.name,
+    });
 
     // Show the result
     await encounterMessage(
       fillMessage(patientState.description),
       line2: fillMessage(resultMessage),
+      noTranslate: true,
     );
 
     currentTile.special = TileSpecial.nursingHomePatientDone;
@@ -1401,13 +1507,19 @@ Future<void> specialNursingHomeManager() async {
       printEncounter();
       if (activeSite!.hasHighSecurity) {
         await encounterMessage(
-          "${admin.name} cries, ",
-          line2: "\"It's them!  They're back!  SECURITY, HELP ME!!!\"",
+          LcsI18n.processString("{name} cries, ", {"name": admin.name}),
+          line2: LcsI18n.tr(
+            "\"It's them!  They're back!  SECURITY, HELP ME!!!\"",
+          ),
+          noTranslate: true,
         );
       } else {
         await encounterMessage(
-          "${admin.name} cries, ",
-          line2: "\"It's them!  They're back!  NURSES, HELP ME!!!\"",
+          LcsI18n.processString("{name} cries, ", {"name": admin.name}),
+          line2: LcsI18n.tr(
+            "\"It's them!  They're back!  NURSES, HELP ME!!!\"",
+          ),
+          noTranslate: true,
         );
       }
       siteAlarm = true;
@@ -1436,6 +1548,7 @@ Future<void> specialInsuranceSafe() async {
   if (result == UnlockResult.unlocked) {
     await encounterMessage(
       "The squad has found documents detailing the insurance company's malfeasance.",
+      fitToWidth: true,
     );
     _loot(Loot(LootTypeIds.insuranceFraudEvidence));
 
@@ -1517,9 +1630,19 @@ Future<void> specialInsuranceClaimsTerminal() async {
       claimDescriptionShort = "buggy";
   }
 
+  final localizedClaimDescription = LcsI18n.tr(claimDescription);
+  final localizedDenialReason = LcsI18n.tr(denialReason);
+  final localizedClaimDescriptionShort = LcsI18n.tr(claimDescriptionShort);
+
   bool approve = await sitemodePrompt(
-    "Claim: $claimDescription.",
-    "Denied: $denialReason. Override and approve? (Yes or No)",
+    LcsI18n.processString("Claim: {claim}.", {
+      "claim": localizedClaimDescription,
+    }),
+    LcsI18n.processString(
+      "Denied: {reason}. Override and approve? (Yes or No)",
+      {"reason": localizedDenialReason},
+    ),
+    noTranslate: true,
   );
   if (!approve) return;
 
@@ -1532,8 +1655,12 @@ Future<void> specialInsuranceClaimsTerminal() async {
 
   if (success) {
     await encounterMessage(
-      "${hacker.name} approves the $claimDescriptionShort claim.",
+      LcsI18n.processString("{name} approves the {claim} claim.", {
+        "name": hacker.name,
+        "claim": localizedClaimDescriptionShort,
+      }),
       color: lightGreen,
+      noTranslate: true,
     );
     juiceparty(5, 200);
     changePublicOpinion(View.healthcare, 1, coloredByLcsOpinions: true);
@@ -1571,8 +1698,11 @@ Future<void> specialInsuranceCEO() async {
       encounter.add(ceo);
       printEncounter();
       await encounterMessage(
-        "${ceo.name} cries, ",
-        line2: "\"It's them!  They're back for me again!  Help!!!\"",
+        LcsI18n.processString("{name} cries, ", {"name": ceo.name}),
+        line2: LcsI18n.tr(
+          "\"It's them!  They're back for me again!  Help!!!\"",
+        ),
+        noTranslate: true,
       );
       siteAlarm = true;
 
@@ -1773,8 +1903,11 @@ Future<void> specialDisplayCase() async {
   String featuring = items.randomSeeded(
     locx + locy * 7 + locz + sites.indexOf(activeSite ?? sites[0]),
   );
+  final localizedFeaturing = LcsI18n.tr(featuring);
   bool smash = await sitemodePrompt(
-    "You see a display case containing $featuring.",
+    LcsI18n.processString("You see a display case containing {item}.", {
+      "item": localizedFeaturing,
+    }),
     "Smash it? (Yes or No)",
   );
   if (!smash) return;
@@ -2080,6 +2213,7 @@ Future<void> specialBankVault() async {
   await encounterMessage(
     "The squad will need a security expert, a computer ",
     line2: "expert, and one of the bank managers.",
+    fitToWidth: true,
   );
 
   for (Creature p in pool) {
@@ -2087,8 +2221,12 @@ Future<void> specialBankVault() async {
         p.sleeperAgent &&
         p.base == activeSite) {
       await encounterMessage(
-        "Sleeper ${p.name} can handle the biometrics, ",
+        "{role} {name} can handle the biometrics, ",
         line2: "but you'll still have to crack the other locks.",
+        params: {
+          "role": LcsI18n.trGendered("Sleeper", gender: p.gender),
+          "name": p.name,
+        },
       );
       break;
     }
@@ -2138,7 +2276,10 @@ Future<void> specialBankVault() async {
     if (c.type.id == CreatureTypeIds.bankManager) {
       manager = c;
       if (c.daysSinceJoined < 30 && !c.kidnapped) {
-        await encounterMessage("${c.name} opens the vault.");
+        await encounterMessage(
+          "{name} opens the vault.",
+          params: {"name": c.name},
+        );
         canbreakin = true;
         break;
       }
@@ -2157,8 +2298,12 @@ Future<void> specialBankVault() async {
           p.sleeperAgent &&
           p.type.id == CreatureTypeIds.bankManager) {
         await encounterMessage(
-          "Sleeper ${p.name} opens the vault, ",
+          "{role} {name} opens the vault, ",
           line2: "and will join the active LCS to avoid arrest.",
+          params: {
+            "role": LcsI18n.trGendered("Sleeper", gender: p.gender),
+            "name": p.name,
+          },
         );
         canbreakin = true;
         p.location = p.base = squad[0].base;
@@ -2181,7 +2326,10 @@ Future<void> specialBankVault() async {
     levelMap[locx][locy][locz].special = TileSpecial.none;
   } else {
     if (manager != null) {
-      await encounterMessage("${manager.name} is no longer recognized.");
+      await encounterMessage(
+        "{name} is no longer recognized.",
+        params: {"name": manager.name},
+      );
     } else {
       await encounterMessage("The squad has nobody that can do the job.");
     }
@@ -2286,17 +2434,14 @@ Future<void> specialOvalOffice() async {
       encounter.add(Creature.fromId(CreatureTypeIds.secretService));
       encounter.add(Creature.fromId(CreatureTypeIds.secretService));
       printEncounter();
-      if (squad.first.genderAssignedAtBirth == Gender.male) {
-        await encounterMessage(
-          "${uniqueCreatures.president.name} smirks,",
-          line2: "\"You got brass fucking balls, I'll give you that.\"",
-        );
-      } else {
-        await encounterMessage(
-          "${uniqueCreatures.president.name} smirks,",
-          line2: "\"You're a brave fucking girl, I'll give you that.\"",
-        );
-      }
+      String quote = squad.first.genderAssignedAtBirth == Gender.male
+          ? "\"You got brass fucking balls, I'll give you that.\""
+          : "\"You're a brave fucking girl, I'll give you that.\"";
+      await encounterMessage(
+        "{name} smirks,",
+        line2: quote,
+        params: {"name": uniqueCreatures.president.name},
+      );
       siteAlarm = true;
 
       await enemyattack(encounter);
@@ -2361,7 +2506,8 @@ Future<void> lootGroundBase() async {
     );
   } else if (numLooted > 1) {
     await encounterMessage(
-      "The squad picks up $numLooted items from the safehouse.",
+      "The squad picks up {count} items from the safehouse.",
+      params: {"count": numLooted.toString()},
     );
   } else if (numLooted == 1) {
     await encounterMessage("The squad picks up an item from the safehouse.");

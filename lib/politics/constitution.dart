@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/elections.dart';
 import 'package:lcs_new_age/politics/laws.dart';
@@ -43,13 +44,14 @@ Future<void> tryToPurgeSupremeCourt() async {
 
     amendmentHeading();
 
-    mvaddstr(2, 5, "The following former citizen");
-    if (tossnum != 1) {
-      addstr("s are");
-    } else {
-      addstr(" is");
-    }
-    addstr(" branded Arch-Conservative:");
+    final purgeHeading = tossnum != 1
+        ? LcsI18n.tr(
+            "The following former citizens are branded Arch-Conservative:",
+          )
+        : LcsI18n.tr(
+            "The following former citizen is branded Arch-Conservative:",
+          );
+    mvaddstr(2, 5, purgeHeading, noTranslate: true);
 
     int y = 4;
 
@@ -59,32 +61,19 @@ Future<void> tryToPurgeSupremeCourt() async {
       }
     }
 
-    mvaddstr(y + 1, 5, "In particular, the aforementioned former citizen");
-    if (tossnum != 1) addstr("s");
-    addstr(" may");
-    mvaddstr(y + 2, 0, "not serve on the Supreme Court.  Said former citizen");
-    if (tossnum != 1) addstr("s");
-    addstr(" will");
-    mvaddstr(y + 3, 0, "be deported to ");
-    if (tossnum != 1) {
-      addstr("Conservative countries");
+    if (tossnum == 1) {
+      addparagraph(
+        y + 1,
+        0,
+        "In particular, the aforementioned former citizen may not serve on the Supreme Court. Said former citizen will be deported to a Conservative country of the President's choosing to be replaced by a Proper Justice, also of the President's choosing with the advice and consent of the Senate.",
+      );
     } else {
-      addstr("a Conservative country");
+      addparagraph(
+        y + 1,
+        0,
+        "In particular, the aforementioned former citizens may not serve on the Supreme Court. Said former citizens will be deported to Conservative countries of the President's choosing to be replaced by Proper Justices, also of the President's choosing with the advice and consent of the Senate.",
+      );
     }
-    addstr(" of the President's");
-    mvaddstr(y + 4, 0, "choosing to be replaced by ");
-    if (tossnum != 1) {
-      addstr("Proper Justices");
-    } else {
-      addstr("a Proper Justice");
-    }
-    addstr(", also of");
-    mvaddstr(
-      y + 5,
-      0,
-      "the President's choosing with the advice and consent of",
-    );
-    mvaddstr(y + 6, 0, "the Senate.");
 
     mvaddstr(24, 0, "Press 'C' to watch the ratification process unfold.");
 
@@ -460,7 +449,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(2, 62, "$yesVotesHouse Yea");
+        mvaddstr(
+          2,
+          62,
+          "{votes} Yea",
+          params: {"votes": yesVotesHouse.toString()},
+        );
 
         if (l == house.length - 1 && !yesWinHouse) {
           setColor(white);
@@ -469,7 +463,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(3, 62, "${l + 1 - yesVotesHouse} Nay");
+        mvaddstr(
+          3,
+          62,
+          "{votes} Nay",
+          params: {"votes": (l + 1 - yesVotesHouse).toString()},
+        );
       }
 
       if (l % 4 == 0 && s < senate.length) {
@@ -499,7 +498,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(2, 70, "$yesVotesSenate Yea");
+        mvaddstr(
+          2,
+          70,
+          "{votes} Yea",
+          params: {"votes": yesVotesSenate.toString()},
+        );
 
         if (l == house.length - 1 && !yesWinSenate) {
           setColor(white);
@@ -508,7 +512,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(3, 70, "${s - yesVotesSenate} Nay");
+        mvaddstr(
+          3,
+          70,
+          "{votes} Nay",
+          params: {"votes": (s - yesVotesSenate).toString()},
+        );
 
         if (sw.elapsedMilliseconds < l * 10) {
           await pause(l * 10 - sw.elapsedMilliseconds);
@@ -590,7 +599,7 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(23, 50, "$yesstate Yea");
+        mvaddstr(23, 50, "{votes} Yea", params: {"votes": yesstate.toString()});
 
         if (s == states.length - 1 && yesstate >= states.length * 2 / 3) {
           setColor(darkGray);
@@ -599,7 +608,12 @@ Future<bool> ratifyConstitutionalAmendment(
         } else {
           setColor(lightGray);
         }
-        mvaddstr(23, 60, "${s + 1 - yesstate} Nay");
+        mvaddstr(
+          23,
+          60,
+          "{votes} Nay",
+          params: {"votes": (s + 1 - yesstate).toString()},
+        );
 
         if (sw.elapsedMilliseconds < s * 50) {
           await pause(s * 50 - sw.elapsedMilliseconds);
@@ -632,6 +646,7 @@ void amendmentHeading() {
     0,
     0,
     white,
-    "Proposed Amendment ${romanNumeral(politics.constitutionalAmendments + 1)} to the United States Constitution:",
+    "Proposed Amendment {number} to the United States Constitution:",
+    params: {"number": romanNumeral(politics.constitutionalAmendments + 1)},
   );
 }

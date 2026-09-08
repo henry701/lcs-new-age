@@ -3,11 +3,20 @@ import 'dart:ui';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/creature/creature_type.dart';
+import 'package:lcs_new_age/creature/gender.dart';
+import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
+import 'package:lcs_new_age/location/city.dart';
+import 'package:lcs_new_age/location/district.dart';
+import 'package:lcs_new_age/location/location.dart';
+import 'package:lcs_new_age/location/location_type.dart';
+import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/states.dart';
 import 'package:lcs_new_age/sitemode/stealth.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -17,29 +26,448 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 const emDash = "—";
 
+/// Localizes the built-in squad name while preserving player-created names.
+///
+/// Older saves store the default name in English, so rendering alone must
+/// handle both newly-created and legacy squads without translating arbitrary
+/// player input.
+String localizedSquadName(String name) =>
+    name == "The Liberal Crime Squad" ? LcsI18n.tr(name) : name;
+
+String localizedCreatureNameValue(String creatureName, String typeName) {
+  final normalizedName = creatureName.trim();
+  final normalizedTypeName = typeName.trim();
+  if (LcsI18n.hasTranslation(normalizedName)) {
+    return LcsI18n.tr(normalizedName);
+  }
+  final isGeneratedTypeName =
+      normalizedName.toLowerCase() == normalizedTypeName.toLowerCase();
+  return isGeneratedTypeName ? LcsI18n.tr(normalizedTypeName) : creatureName;
+}
+
+String localizedCreatureName(Creature creature) =>
+    localizedCreatureNameValue(creature.name, creature.type.name);
+
+String localizedProfessionName(String typeName, Gender gender) {
+  final localized = LcsI18n.tr(typeName);
+  if (LcsI18n.currentLocale != 'pt_BR' || gender.simplified == Gender.male) {
+    return localized;
+  }
+
+  final words = localized.split(' ');
+  final last = words.last;
+  // Portuguese role nouns with an overt masculine -o ending have regular
+  // epicene forms; inherent common-gender nouns (dentista, pessoa) stay put.
+  if (!last.endsWith('o')) return localized;
+  final stem = last.substring(0, last.length - 1);
+  final inflected = stem + gender.simplified.adjectiveEnding;
+  words
+    ..removeLast()
+    ..add(inflected);
+  return words.join(' ');
+}
+
+/// Uses the guarded translator shared by filler and story datelines.
+String localizedCityDisplayName(String name) =>
+    LcsI18n.hasTranslation(name) ? LcsI18n.tr(name) : name;
+
+/// Builds the "about ..." connector for a workplace location.
+///
+/// Portuguese needs a definite article for common site names but not for city
+/// or district proper names. The article is inferred from the localized head
+/// noun so generated sites such as "Centro Médico UW" remain grammatical
+/// without maintaining a per-site switch.
+String localizedAboutLocation(Location location) {
+  final String name = location.getName();
+  if (LcsI18n.currentLocale != 'pt_BR') {
+    return location is Site ? 'the $name' : name;
+  }
+  if (location is City || location is District) return name;
+
+  final String head = name.trim().split(RegExp(r'\s+')).first.toLowerCase();
+  final bool feminine = RegExp(r'(ção|são|dade|agem|a)$').hasMatch(head);
+  final bool generatedPawnshopBrand =
+      location is Site &&
+      location.type == SiteType.pawnShop &&
+      name.contains(emDash);
+  return [
+    if (generatedPawnshopBrand || !feminine) 'o' else 'a',
+    name,
+  ].join(' ');
+}
+
+/// Uses a compact role label only where the fixed-width encounter roster
+/// cannot fit the full Portuguese translation.
+String localizedEncounterCreatureName(Creature creature) {
+  final localizedName = localizedCreatureName(creature);
+  final isGeneratedRole =
+      creature.name.trim().toLowerCase() ==
+      creature.type.name.trim().toLowerCase();
+  if (LcsI18n.currentLocale == 'pt_BR' &&
+      creature.type.id == CreatureTypeIds.officeWorker &&
+      isGeneratedRole) {
+    return LcsI18n.tr('Office Worker (compact encounter label)');
+  }
+  return localizedName;
+}
+
+/// Lowercases a leading ordinary word while preserving leading acronyms.
+String lowercaseFirstCharacter(String value) {
+  if (value.isEmpty) return value;
+  final firstWord = value.split(RegExp(r'\s+')).first;
+  final isAcronym =
+      firstWord.length > 1 &&
+      firstWord == firstWord.toUpperCase() &&
+      firstWord != firstWord.toLowerCase();
+  if (isAcronym) return value;
+  return value[0].toLowerCase() + value.substring(1);
+}
+
+/// Formats a creature name for Portuguese possessive clauses.
+///
+/// Generated role labels need a contracted article ("do"/"da"), while
+/// proper names use the neutral "de" construction. English callers keep the
+/// original name because the source templates add their own possessive suffix.
+String localizedCreaturePossessiveName(Creature creature) {
+  final localizedName = localizedCreatureName(creature);
+  if (LcsI18n.currentLocale != 'pt_BR') return localizedName;
+
+  final isGeneratedRole =
+      creature.name.trim().toLowerCase() ==
+      creature.type.name.trim().toLowerCase();
+  String withArticle(String article) => [article, localizedName].join(' ');
+
+  if (!isGeneratedRole) return withArticle('de');
+
+  return switch (creature.gender) {
+    Gender.female => withArticle('da'),
+    Gender.male => withArticle('do'),
+    _ => withArticle('de'),
+  };
+}
+
+abstract final class ManagementTableLayout {
+  static const int consoleWidth = 80;
+  static const int nameX = 0;
+  static const int nameWidth = 23;
+  // Party roster headers start one cell before the five-cell skill summary so
+  // the translated label fits; the boundary cell before the weapon column is
+  // reserved as a visible separator.
+  static const int partySkillHeaderX = 23;
+  static const int partySkillX = 24;
+  static const int partyWeaponX = 30;
+  static const int partyWeaponWidth = partyArmorX - partyWeaponX - 1;
+  static const int partyArmorX = 44;
+  static const int partyHealthX = 59;
+  static const int partyArmorWidth = partyHealthX - partyArmorX - 1;
+  static const int partyHealthWidth = 10;
+  static const int transportX = 70;
+  static const int transportWidth = consoleWidth - transportX;
+  static const int skillX = 24;
+  static const int skillWidth = 7;
+  static const int healthX = 32;
+  static const int healthWidth = 9;
+  static const int locationX = 42;
+  static const int locationWidth = 14;
+  static const int trailingX = 57;
+  static const int trailingWidth = consoleWidth - trailingX;
+}
+
+String fitConsoleText(String text, int maxWidth, {bool showEllipsis = true}) {
+  if (maxWidth <= 0) return "";
+  if (strLenX(text) <= maxWidth) return text;
+
+  final visibleLimit = showEllipsis && maxWidth > 1 ? maxWidth - 1 : maxWidth;
+  final fitted = StringBuffer();
+  int visibleWidth = 0;
+  for (int i = 0; i < text.length && visibleWidth < visibleLimit; i++) {
+    if ((text[i] == "&" || text[i] == "^") &&
+        i + 1 < text.length &&
+        colorMap.containsKey(text[i + 1])) {
+      fitted
+        ..write(text[i])
+        ..write(text[++i]);
+      continue;
+    }
+    fitted.write(text[i]);
+    visibleWidth++;
+  }
+  if (showEllipsis && maxWidth > 1) fitted.write("…");
+  return fitted.toString();
+}
+
+/// Wraps plain console text without discarding any words or punctuation.
+///
+/// Unlike [fitConsoleText], this helper is for prose that may span multiple
+/// fixed-console rows. Inline color markers are not supported here; render
+/// colored prose through the paragraph helpers instead.
+List<String> wrapConsoleText(String text, int maxWidth, {int maxLines = 3}) {
+  if (maxWidth <= 0) {
+    throw RangeError.range(maxWidth, 1, null, 'maxWidth');
+  }
+  if (maxLines <= 0) {
+    throw RangeError.range(maxLines, 1, null, 'maxLines');
+  }
+
+  final lines = <String>[];
+  var line = '';
+  for (final word
+      in text.split(RegExp(r'\s+')).where((word) => word.isNotEmpty)) {
+    if (strLenX(word) > maxWidth) {
+      throw ArgumentError.value(word, 'text', 'word exceeds console width');
+    }
+
+    final candidate = line.isEmpty ? word : '$line $word';
+    if (line.isNotEmpty && strLenX(candidate) > maxWidth) {
+      lines.add(line);
+      line = word;
+    } else {
+      line = candidate;
+    }
+  }
+  if (line.isNotEmpty) lines.add(line);
+  if (lines.length > maxLines) {
+    throw StateError('Text requires ${lines.length} rows, limit is $maxLines');
+  }
+  return lines;
+}
+
+void mvaddstrFitted(
+  int y,
+  int x,
+  String text,
+  int maxWidth, {
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool showEllipsis = true,
+}) {
+  final rendered = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+  );
+  mvaddstr(
+    y,
+    x,
+    fitConsoleText(rendered, maxWidth, showEllipsis: showEllipsis),
+    noTranslate: true,
+  );
+}
+
+void mvaddstrcFitted(
+  int y,
+  int x,
+  Color color,
+  String text,
+  int maxWidth, {
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool showEllipsis = true,
+}) {
+  setColor(color);
+  mvaddstrFitted(
+    y,
+    x,
+    text,
+    maxWidth,
+    params: params,
+    noTranslate: noTranslate,
+    showEllipsis: showEllipsis,
+  );
+}
+
+void addOptionTextFitted(
+  int y,
+  int x,
+  String key,
+  String text,
+  int maxWidth, {
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final rendered = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  addOptionText(
+    y,
+    x,
+    key,
+    fitConsoleText(rendered, maxWidth),
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+    noTranslate: true,
+  );
+}
+
+/// Places an option flush-right while preserving its complete localized label.
+void addOptionTextRightAligned(
+  int y,
+  String key,
+  String text, {
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final rendered = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  final width = strLenX(rendered);
+  if (width > console.width) {
+    throw StateError(
+      'Option requires $width columns, limit is ${console.width}',
+    );
+  }
+
+  addOptionText(
+    y,
+    console.width - width,
+    key,
+    text,
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+    params: params,
+    noTranslate: noTranslate,
+  );
+}
+
+void printManagementTableHeader(String trailingHeader) {
+  makeDelimiter(y: 1);
+  mvaddstrFitted(1, 4, "CODE NAME", ManagementTableLayout.nameWidth - 4);
+  mvaddstrFitted(
+    1,
+    ManagementTableLayout.skillX,
+    "SKILL",
+    ManagementTableLayout.skillWidth,
+  );
+  mvaddstrFitted(
+    1,
+    ManagementTableLayout.healthX,
+    "HEALTH",
+    ManagementTableLayout.healthWidth,
+  );
+  mvaddstrFitted(
+    1,
+    ManagementTableLayout.locationX,
+    "LOCATION",
+    ManagementTableLayout.locationWidth,
+  );
+  mvaddstrFitted(
+    1,
+    ManagementTableLayout.trailingX,
+    trailingHeader,
+    ManagementTableLayout.trailingWidth,
+  );
+}
+
+void printManagementTableRow({
+  required int y,
+  required String key,
+  required Creature creature,
+  required String location,
+  required Color locationColor,
+  required String trailing,
+  required Color trailingColor,
+}) {
+  int skill = 0;
+  bool bright = false;
+  for (final skillType in Skill.values) {
+    skill += creature.rawSkill[skillType] ?? 0;
+    if ((creature.rawSkillXP[skillType] ?? 0) >=
+            100 + (10 * (creature.rawSkill[skillType] ?? 0)) &&
+        (creature.rawSkill[skillType] ?? 0) < creature.skillCap(skillType)) {
+      bright = true;
+    }
+  }
+  addOptionTextFitted(
+    y,
+    ManagementTableLayout.nameX,
+    key,
+    "{key} - {name}",
+    ManagementTableLayout.nameWidth,
+    params: {"key": key, "name": creature.name},
+  );
+  mvaddstrcFitted(
+    y,
+    ManagementTableLayout.skillX,
+    bright ? white : lightGray,
+    skill.toString(),
+    ManagementTableLayout.skillWidth,
+    noTranslate: true,
+  );
+  printHealthStat(
+    y,
+    ManagementTableLayout.healthX,
+    creature,
+    small: true,
+    maxWidth: ManagementTableLayout.healthWidth,
+  );
+  mvaddstrcFitted(
+    y,
+    ManagementTableLayout.locationX,
+    locationColor,
+    location,
+    ManagementTableLayout.locationWidth,
+    noTranslate: true,
+  );
+  mvaddstrcFitted(
+    y,
+    ManagementTableLayout.trailingX,
+    trailingColor,
+    trailing,
+    ManagementTableLayout.trailingWidth,
+    noTranslate: true,
+  );
+}
+
 bool clearScreenOnNextMessage = false;
 Future<void> showMessage(
   String message, {
   Color color = lightGray,
   bool delimeter = true,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) async {
   if (clearScreenOnNextMessage) {
     erase();
   } else if (delimeter) {
     makeDelimiter();
   }
-  mvaddstrc(8, 1, color, message);
+  mvaddstrc(8, 1, color, message, params: params, noTranslate: noTranslate);
   await getKey();
 }
 
-void printFunds({
-  int y = 0,
-  int offsetFromRight = 1,
-  String prefix = "Money: ",
-  Color color = lightGray,
-}) {
-  String str = "$prefix \$${ledger.funds}";
-  mvaddstrc(y, console.width - str.length - offsetFromRight, color, str);
+String fundsDisplayText() {
+  return LcsI18n.processString("Money: {amount}", {
+    "amount": LcsI18n.currencyAmount(ledger.funds),
+  });
+}
+
+void printFunds({int y = 0, int offsetFromRight = 1, Color color = lightGray}) {
+  final text = fundsDisplayText();
+  mvaddstrc(
+    y,
+    console.width - text.length - offsetFromRight,
+    color,
+    text,
+    noTranslate: true,
+  );
 }
 
 void printSquadActivityDescription(int y, int x, Squad squad) {
@@ -56,11 +484,15 @@ void printSquadActivityDescription(int y, int x, Squad squad) {
       previousActivity = true;
     }
     if (multipleActivities) {
-      str = "Acting Individually";
+      str = LcsI18n.tr("Acting Individually");
       setColor(white);
     }
   }
-  mvaddstr(y, x, str);
+  // Activity text shares the header's right-hand cell.  Phrase-level
+  // translations can be substantially longer than their English source, so
+  // keep the fixed-width console boundary intact.
+  console.eraseArea(startY: y, startX: x, endY: y + 1, endX: console.width);
+  mvaddstrFitted(y, x, str, console.width - x, noTranslate: true);
 }
 
 void makeDelimiter({int y = 8}) {
@@ -108,7 +540,23 @@ void setColorForArmor(Creature creature) {
   setColor(fg, background: bg);
 }
 
-void printHealthStat(int y, int x, Creature creature, {bool small = false}) {
+final _composedCompactStatusPattern = RegExp(
+  r'^(?:~?\d+(?:/\d+)?|\+~?\d+(?: \(.+\))?)$',
+);
+
+String _localizeCompactStatusValue(String value) {
+  return _composedCompactStatusPattern.hasMatch(value)
+      ? value
+      : LcsI18n.tr(value);
+}
+
+void printHealthStat(
+  int y,
+  int x,
+  Creature creature, {
+  bool small = false,
+  int? maxWidth,
+}) {
   move(y, x);
   bool bleeding = creature.body.parts.any((e) => e.bleeding > 0);
   setColor(lightGreen);
@@ -131,8 +579,49 @@ void printHealthStat(int y, int x, Creature creature, {bool small = false}) {
       small,
     );
   }
-  addstr(healthDisplay);
-  addstrc(lightBlue, creature.clothing.shortArmorDetail());
+
+  // Some compact status values are composed after translation (for example
+  // "~120/120" or "+~30 (proteção)"). Translating those rendered values a
+  // second time only produces false missing-key warnings and can never change
+  // their text. Translate only stable catalog entries such as "OK" or "+Lgt".
+  final localizedHealth = _localizeCompactStatusValue(healthDisplay);
+  final armor = creature.clothing.shortArmorDetail();
+  final localizedArmor = _localizeCompactStatusValue(armor);
+  if (maxWidth == null) {
+    addstr(localizedHealth, noTranslate: true);
+    if (localizedArmor.isNotEmpty) {
+      addstr(" ");
+      addstrc(lightBlue, localizedArmor, noTranslate: true);
+    }
+    return;
+  }
+
+  final armorSeparator = localizedArmor.isEmpty ? "" : " ";
+  final combined = "$localizedHealth$armorSeparator$localizedArmor";
+  if (strLenX(combined) <= maxWidth) {
+    addstr(localizedHealth, noTranslate: true);
+    if (localizedArmor.isNotEmpty) {
+      addstr(" ");
+      addstrc(lightBlue, localizedArmor, noTranslate: true);
+    }
+    return;
+  }
+
+  final healthWidth = strLenX(localizedHealth).clamp(0, maxWidth);
+  addstr(
+    fitConsoleText(localizedHealth, healthWidth, showEllipsis: false),
+    noTranslate: true,
+  );
+  final remainingWidth =
+      maxWidth - healthWidth - (localizedArmor.isEmpty ? 0 : 1);
+  if (remainingWidth > 0) {
+    if (localizedArmor.isNotEmpty) addstr(" ");
+    addstrc(
+      lightBlue,
+      _fitCompactArmorDetail(localizedArmor, remainingWidth),
+      noTranslate: true,
+    );
+  }
 }
 
 String _getVagueHealthDescription(Creature creature) {
@@ -146,13 +635,29 @@ String _getVagueHealthDescription(Creature creature) {
   return "Crit";
 }
 
+String _fitCompactArmorDetail(String armor, int maxWidth) {
+  if (maxWidth <= 0) return "";
+  if (strLenX(armor) <= maxWidth) return armor;
+
+  // The Portuguese precision label adds a parenthetical explanation. Keep
+  // the numeric armor token visible in the narrow roster health cell.
+  final compactArmor = armor.split(' ').first;
+  if (strLenX(compactArmor) <= maxWidth) return compactArmor;
+  // A one-character marker is more useful than an ellipsis when the encounter
+  // roster leaves only one or two cells after the health value.
+  return armor.startsWith('+') ? "+" : fitConsoleText(armor, maxWidth);
+}
+
 String _getHealthDisplayForSkill(
   Creature creature,
   int skillLevel,
   bool small,
 ) {
   // Formula for increasing precision: higher skill = more precise rounding
-  int currentHP = creature.blood;
+  // Combat keeps negative blood values to distinguish overkill outcomes in
+  // death messages. Health rendering must not expose that internal value or
+  // pass it as the upper bound of a non-negative clamp.
+  int currentHP = creature.blood < 0 ? 0 : creature.blood;
   int maxHP = creature.maxBlood;
   int precision;
   switch (skillLevel) {
@@ -164,15 +669,23 @@ String _getHealthDisplayForSkill(
       precision = 2;
     default:
       return small
-          ? "${creature.blood}"
-          : "${creature.blood}/${creature.maxBlood}";
+          ? LcsI18n.processString("{current}", {"current": creature.blood})
+          : LcsI18n.processString("{current}/{max}", {
+              "current": creature.blood,
+              "max": creature.maxBlood,
+            });
   }
   int roundedCurrent = (currentHP / precision).round() * precision;
   int roundedMax = (maxHP / precision).round() * precision;
   // Ensure we don't exceed actual values
   roundedCurrent = roundedCurrent.clamp(0, currentHP);
   roundedMax = roundedMax.clamp(roundedCurrent, maxHP);
-  return small ? "~$roundedCurrent" : "~$roundedCurrent/$roundedMax";
+  return small
+      ? LcsI18n.processString("~{current}", {"current": roundedCurrent})
+      : LcsI18n.processString("~{current}/{max}", {
+          "current": roundedCurrent,
+          "max": roundedMax,
+        });
 }
 
 String romanNumeral(int num) {
@@ -227,6 +740,8 @@ String romanNumeral(int num) {
 }
 
 String randomStateName() => states.random.name;
+
+const String sanBernardinoCity = "San Bernardino, CA";
 
 String randomCityName() => [
   /* City population < 100,000 = listed once if the city is somehow important
@@ -540,7 +1055,7 @@ String randomCityName() => [
   "Salt Lake City, UT",
   "San Antonio, TX", "San Antonio, TX", "San Antonio, TX",
   "San Antonio, TX", "San Antonio, TX",
-  "San Bernadino, CA", "San Bernadino, CA",
+  sanBernardinoCity, sanBernardinoCity,
   "San Diego, CA", "San Diego, CA", "San Diego, CA", "San Diego, CA",
   "San Diego, CA",
   "San Francisco, CA", "San Francisco, CA", "San Francisco, CA",
@@ -632,28 +1147,34 @@ String letterAPlus(int index, {bool capitalize = true}) {
   }
 }
 
-void addDifficultyText(int y, int x, int difficulty) {
+void addDifficultyText(int y, int x, int difficulty, {int? maxWidth}) {
   if (difficulty < 0) difficulty = 0;
   var (Color color, String text) = switch (difficulty) {
-    0 => (lightGreen, "Trivial"),
-    1 => (lightBlue, "Very Easy"),
-    2 => (blue, "Easy"),
-    3 => (blue, "Below Average"),
-    4 => (lightGray, "Average"),
-    5 => (lightGray, "Above Average"),
-    6 => (yellow, "Hard"),
-    7 => (yellow, "Very Hard"),
-    8 => (orange, "Extremely Difficult"),
-    9 => (red, "Almost Impossible"),
-    _ => (darkRed, "Impossible"),
+    0 => (lightGreen, LcsI18n.tr("Trivial")),
+    1 => (lightBlue, LcsI18n.tr("Very Easy")),
+    2 => (blue, LcsI18n.tr("Easy")),
+    3 => (blue, LcsI18n.tr("Below Average")),
+    4 => (lightGray, LcsI18n.tr("Average")),
+    5 => (lightGray, LcsI18n.tr("Above Average")),
+    6 => (yellow, LcsI18n.tr("Hard")),
+    7 => (yellow, LcsI18n.tr("Very Hard")),
+    8 => (orange, LcsI18n.tr("Extremely Difficult")),
+    9 => (red, LcsI18n.tr("Almost Impossible")),
+    _ => (darkRed, LcsI18n.tr("Impossible")),
   };
-  mvaddstrc(y, x, color, text);
+  if (maxWidth == null) {
+    mvaddstrc(y, x, color, text, noTranslate: true);
+  } else {
+    mvaddstrcFitted(y, x, color, text, maxWidth, noTranslate: true);
+  }
 }
 
 Future<void> pagedInterface({
   String headerPrompt = "",
+  Map<String, dynamic>? headerPromptParams,
   Map<int, String> headerKey = const {},
   String footerPrompt = "",
+  Map<String, dynamic>? footerPromptParams,
   int pageSize = 20,
   int linesPerOption = 1,
   int topY = 0,
@@ -663,15 +1184,16 @@ Future<void> pagedInterface({
   required void Function(int y, String key, int index) lineBuilder,
   required Future<bool> Function(int index) onChoice,
   bool Function(int key)? onOtherKey,
+  void Function(int page)? onPageChanged,
 }) async {
   int page = 0;
   int pageCount = (count / pageSize).ceil();
   while (true) {
     eraseArea(startY: topY, startX: 0, endY: pageSize + 3 + topY, endX: 80);
-    mvaddstrc(topY, 0, white, headerPrompt);
+    mvaddstrc(topY, 0, white, headerPrompt, params: headerPromptParams);
     addHeader(headerKey, y: topY + 1);
     setColor(lightGray);
-    mvaddstrx(pageSize + 2 + topY, 0, footerPrompt);
+    mvaddstrx(pageSize + 2 + topY, 0, footerPrompt, params: footerPromptParams);
     for (int i = 0; i + page * pageSize < count && i < pageSize; i++) {
       lineBuilder(
         i + 2 + topY,
@@ -698,8 +1220,10 @@ Future<void> pagedInterface({
     }
 
     int c = await getKey();
+    final previousPage = page;
     if (isPageUp(c) && page > 0) page--;
     if (isPageDown(c) && (page + 1) * pageSize < count) page++;
+    if (page != previousPage) onPageChanged?.call(page);
     if (c >= Key.a && c < Key.a + pageSize) {
       int index = page * pageSize ~/ linesPerOption + c - Key.a;
       if (index < count) {
@@ -743,4 +1267,17 @@ Future<void> defeatMessages(
   erase();
   mvaddstrc(12, 10, darkGray, dark);
   await getKey();
+}
+
+/// Renders a daily-result message without exposing text from the previous
+/// result when the new localized sentence is shorter.
+void showAdvanceDayMessage(
+  int y,
+  int x,
+  Color color,
+  String message, {
+  Map<String, dynamic>? params,
+}) {
+  eraseLine(y);
+  mvaddstrcFitted(y, x, color, message, console.width - x, params: params);
 }

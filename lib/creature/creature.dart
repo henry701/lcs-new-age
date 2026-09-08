@@ -73,6 +73,8 @@ class Creature {
   int hidingDaysLeft = 0;
   bool get inHiding => hidingDaysLeft != 0;
   @JsonKey(defaultValue: 0)
+  int clinicMonthsLeft = 0;
+  @JsonKey(defaultValue: 0)
   int medicalBills = 0;
   @JsonKey(defaultValue: 0)
   int daysHospitalized = 0;

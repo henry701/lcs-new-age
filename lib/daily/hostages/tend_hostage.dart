@@ -17,6 +17,7 @@ import 'package:lcs_new_age/daily/hostages/traumatize.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -105,7 +106,14 @@ Future<void> tendHostage(InterrogationSession intr) async {
             cr.attribute(Attribute.agility) / 2 +
             cr.attribute(Attribute.strength) / 2 +
             cr.daysSinceJoined * 2) {
-      await showMessage("${cr.name} has escaped!");
+      mvaddstrc(
+        8,
+        1,
+        lightGray,
+        "{name} has escaped!",
+        params: {"name": cr.name},
+      );
+      await getKey();
 
       for (Creature p in pool) {
         if (rapport[p.id] != null) {
@@ -178,14 +186,19 @@ Future<void> tendHostage(InterrogationSession intr) async {
   while (true) {
     erase();
     mvaddstrc(
-        0, 0, white, "The Education of ${cr.name}: Day ${cr.daysSinceJoined}");
+      0,
+      0,
+      white,
+      "The Education of {name}: Day {days}",
+      params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
+    );
     y = 2;
     if (techniques[Technique.kill] == true) {
       setColor(red);
       eraseLine(y);
       move(y, 0);
       y += 2;
-      addstr("The Execution of ${cr.name}   ");
+      addstr("The Execution of {name}   ", params: {"name": cr.name});
     } else {
       setColor(yellow);
       move(y, 0);
@@ -193,18 +206,35 @@ Future<void> tendHostage(InterrogationSession intr) async {
       addstr("Select a Liberal Education Plan");
     }
 
-    void planItem(Technique technique, String letter, String ifActive,
-        {int cost = 0, String colorKey = ColorKey.white, bool enabled = true}) {
+    void planItem(
+      Technique technique,
+      String letter,
+      String ifActive, {
+      int cost = 0,
+      String colorKey = ColorKey.white,
+      bool enabled = true,
+      Map<String, dynamic>? params,
+      bool noTranslate = false,
+    }) {
       move(y++, 0);
       bool active = techniques[technique] ?? false;
-      String text = ifActive;
+      String text = LcsI18n.processString(
+        ifActive,
+        params,
+        noTranslate: noTranslate,
+      );
       if (cost > 0) {
-        String costStr = "(\$$cost)";
-        text = text.padRight(30 - costStr.length, ' ') + costStr;
+        final costText = LcsI18n.currencyAmount(cost);
+        final labelWidth = (27 - costText.length).clamp(0, 27);
+        text = LcsI18n.processString("{label} ({cost})", {
+          "label": text.padRight(labelWidth),
+          "cost": costText,
+        });
       }
       addInlineOptionText(
         letter,
-        "$letter - $text",
+        "{letter} - {text}",
+        params: {"letter": letter, "text": text},
         enabledWhen: ledger.funds >= cost && enabled,
         baseColorKey: active ? colorKey : ColorKey.midGray,
       );
@@ -214,9 +244,13 @@ Future<void> tendHostage(InterrogationSession intr) async {
     planItem(Technique.props, "B", "Enlightening Activities", cost: 250);
     planItem(Technique.recruit, "C", "Attempt Recruitment");
     planItem(Technique.question, "D", "Demand Information");
-    planItem(Technique.ransom, "E", "Draft a Ransom Note",
-        enabled: !intr.ransomDemanded);
-    planItem(Technique.free, "F", "Set ${cr.name} Free");
+    planItem(
+      Technique.ransom,
+      "E",
+      "Draft a Ransom Note",
+      enabled: !intr.ransomDemanded,
+    );
+    planItem(Technique.free, "F", "Set {name} Free", params: {"name": cr.name});
     planItem(Technique.kill, "K", "Kill the Hostage", colorKey: ColorKey.red);
     y += 2;
     addOptionText(y++, 0, "Enter", "Enter - Confirm the Plan");
@@ -235,15 +269,16 @@ Future<void> tendHostage(InterrogationSession intr) async {
       techniques[Technique.free] = false;
       techniques[Technique.recruit] = false;
       techniques[switch (c) {
-        Key.a => Technique.talk,
-        Key.b => Technique.props,
-        Key.c => Technique.recruit,
-        Key.d => Technique.question,
-        Key.e => Technique.ransom,
-        Key.f => Technique.free,
-        Key.k => Technique.kill,
-        _ => Technique.talk,
-      }] = true;
+            Key.a => Technique.talk,
+            Key.b => Technique.props,
+            Key.c => Technique.recruit,
+            Key.d => Technique.question,
+            Key.e => Technique.ransom,
+            Key.f => Technique.free,
+            Key.k => Technique.kill,
+            _ => Technique.talk,
+          }] =
+          true;
     }
     if (isBackKey(c)) break;
   }
@@ -281,8 +316,13 @@ Future<void> tendHostage(InterrogationSession intr) async {
   // Recruitment attempt
   if (techniques[Technique.recruit] == true && cr.alive) {
     erase();
-    mvaddstrc(0, 0, white,
-        "The Recruitment of ${cr.name}: Day ${cr.daysSinceJoined}");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "The Recruitment of {name}: Day {days}",
+      params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
+    );
     y = 2;
     setColor(lightGray);
 
@@ -308,12 +348,12 @@ Future<void> tendHostage(InterrogationSession intr) async {
     if (successChance >= 100) {
       reaction = [
         "accepts the offer immediately.",
-        "seems to have been waiting for this ${cr.gender.hisHer} whole life.",
-        "looks like ${cr.gender.heShe} is about to say yes.",
+        "seems to have been waiting for this {hisHer} whole life.",
+        "looks like {heShe} is about to say yes.",
         "says yes without hesitation.",
         "says yes right away.",
         "jumps up and down in excitement.",
-        "mutters \"fuck yes\" under ${cr.gender.hisHer} breath.",
+        "mutters \"fuck yes\" under {hisHer} breath.",
       ].random;
     } else if (successChance < 0) {
       reaction = [
@@ -321,14 +361,14 @@ Future<void> tendHostage(InterrogationSession intr) async {
         "doesn't seem interested in joining.",
         "looks baffled by the suggestion.",
         "seems indignant at the suggestion.",
-        "looks like ${cr.gender.heShe} is about to say no.",
+        "looks like {heShe} is about to say no.",
       ].random;
     } else if (successChance < 25) {
       reaction = [
-        "doesn't react as ${lead.name} makes the pitch.",
+        "doesn't react as {leadName} makes the pitch.",
         "doesn't seem to know what to make of it.",
         "looks confused by the suggestion.",
-        "looks like ${cr.gender.heShe} is trying to figure out what to say.",
+        "looks like {heShe} is trying to figure out what to say.",
       ].random;
     } else {
       reaction = [
@@ -336,16 +376,34 @@ Future<void> tendHostage(InterrogationSession intr) async {
         "seems receptive to the idea.",
         "asks some probing questions.",
         "appears to be considering the offer.",
-        "looks like ${cr.gender.heShe} might be convinced.",
+        "looks like {heShe} might be convinced.",
         "asks a lot of questions and seems to be taking it seriously.",
       ].random;
     }
 
+    reaction = LcsI18n.processComposedString(reaction, {
+      "hisHer": cr.gender.hisHer,
+      "heShe": cr.gender.heShe,
+      "leadName": lead.name,
+    });
+
     addparagraph(
-        y,
-        0,
-        "${lead.name} attempts to recruit ${cr.name} to the Liberal Crime Squad. "
-        "As the pitch goes on, ${cr.gender.heShe} $reaction");
+      y,
+      0,
+      LcsI18n.processComposedString(
+        "{lead} attempts to recruit {name} to the Liberal Crime Squad. "
+        "As the pitch goes on, {gender} {reaction}",
+        {
+          "lead": lead.name,
+          "name": cr.name,
+          "gender": cr.gender.heShe,
+          "reaction": reaction,
+          "hisHer": cr.gender.hisHer,
+          "heShe": cr.gender.heShe,
+          "leadName": lead.name,
+        },
+      ),
+    );
     y = console.y + 1;
 
     await getKey();
@@ -353,25 +411,49 @@ Future<void> tendHostage(InterrogationSession intr) async {
     if (lcsRandom(100) < successChance) {
       String reaction = [
         "says getting kidnapped by the LCS is the best thing that ever happened "
-            "to ${cr.gender.himHer}, and laughs in a sort of shocked "
-            "and giddy way at how much ${cr.gender.hisHer} view of the "
+            "to {himHer}, and laughs in a sort of shocked "
+            "and giddy way at how much {hisHer} view of the "
             "world has been changed by the experience.",
-        "says ${cr.gender.heShe} has been waiting for this moment "
-            "${cr.gender.hisHer} whole life without knowing it, and "
-            "this is the first chance ${cr.gender.heShe} has to really "
-            "become the person ${cr.gender.heShe} was meant to be.",
-        "places ${cr.gender.hisHer} hand on ${cr.gender.hisHer} chest "
-            "and says ${cr.gender.heShe} has changed a lot since "
-            "coming here, and ${cr.gender.heShe} is grateful to have a chance "
-            "to prove it and make up for ${cr.gender.hisHer} past mistakes.",
-        "says ${cr.gender.heShe} will do anything ${lead.name} asks of "
-            "${cr.gender.himHer}. ${cr.gender.heSheCap} just hopes "
-            "${cr.gender.heShe} has the skills to do something useful.",
+        "says {heShe} has been waiting for this moment "
+            "{hisHer} whole life without knowing it, and "
+            "this is the first chance {heShe} has to really "
+            "become the person {heShe} was meant to be.",
+        "places {hisHer} hand on {hisHer} chest "
+            "and says {heShe} has changed a lot since "
+            "coming here, and {heShe} is grateful to have a chance "
+            "to prove it and make up for {hisHer} past mistakes.",
+        "says {heShe} will do anything {leadName} asks of "
+            "{himHer}. {heSheCap} just hopes "
+            "{heShe} has the skills to do something useful.",
       ].random;
 
       setColor(lightGreen);
-      addparagraph(y, 0,
-          "${cr.name} agrees to join the Liberal Crime Squad! ${cr.gender.heSheCap} $reaction");
+      reaction = LcsI18n.processComposedString(reaction, {
+        "himHer": cr.gender.himHer,
+        "hisHer": cr.gender.hisHer,
+        "heShe": cr.gender.heShe,
+        "heSheCap": cr.gender.heSheCap,
+        "leadName": lead.name,
+      });
+      addparagraph(
+        y,
+        0,
+        LcsI18n.processComposedString(
+          "{lead} attempts to recruit {name} to the Liberal Crime Squad. "
+          "As the pitch goes on, {gender} {reaction}",
+          {
+            "lead": lead.name,
+            "name": cr.name,
+            "gender": cr.gender.heShe,
+            "reaction": reaction,
+            "himHer": cr.gender.himHer,
+            "hisHer": cr.gender.hisHer,
+            "heShe": cr.gender.heShe,
+            "heSheCap": cr.gender.heSheCap,
+            "leadName": lead.name,
+          },
+        ),
+      );
       cr.hireId = lead.id;
       cr.juice = 0;
       cr.brainwashed = true;
@@ -386,39 +468,73 @@ Future<void> tendHostage(InterrogationSession intr) async {
     } else {
       String reaction;
       if (successChance < 0) {
+        String profanity = noProfanity ? "[politically incorrect]" : "God damn";
         reaction = [
-          "bites ${cr.gender.hisHer} tongue and just looks furious that "
-              "${lead.name} would even suggest such a thing.",
-          "accuses ${cr.name} of being a terrorist kidnapper who "
+          "bites {hisHer} tongue and just looks furious that "
+              "{leadName} would even suggest such a thing.",
+          "accuses {name} of being a terrorist kidnapper who "
               "should be shot on sight.",
           "declares that the LCS is a cult. A political cult, but still a "
-              "${noProfanity ? "[politically incorrect]" : "God damn"} cult. And "
-              "${cr.name} can take that joining bullshit and shove it where the "
+              "{profanity} cult. And "
+              "{name} can take that joining bullshit and shove it where the "
               "sun don't shine.",
-          "accuses ${lead.name} of being absolutely out of "
-              "${lead.gender.hisHer} mind if ${lead.gender.heShe} thinks "
-              "${cr.name} would ever join a left-wing terrorist organization.",
+          "accuses {leadName} of being absolutely out of "
+              "{leadHisHer} mind if {leadHeShe} thinks "
+              "{name} would ever join a left-wing terrorist organization.",
           "rants about how the LCS are a bunch of LIBERALS and that's the "
               "absolute worst thing you can be.",
-          "stands up and starts yelling about how ${cr.gender.heShe} "
-              "was KIDNAPPED and is a PRISONER and if ${lead.name} has "
-              "ANY DECENCY left at all, ${lead.gender.heShe} will let "
-              "${cr.gender.himHer} go RIGHT NOW.",
+          "stands up and starts yelling about how {heShe} "
+              "was KIDNAPPED and is a PRISONER and if {leadName} has "
+              "ANY DECENCY left at all, {leadHeShe} will let "
+              "{himHer} go RIGHT NOW.",
         ].random;
+        reaction = LcsI18n.processComposedString(reaction, {
+          "profanity": profanity,
+          "name": cr.name,
+          "hisHer": cr.gender.hisHer,
+          "leadName": lead.name,
+          "leadHisHer": lead.gender.hisHer,
+          "leadHeShe": lead.gender.heShe,
+          "heShe": cr.gender.heShe,
+          "himHer": cr.gender.himHer,
+        });
         rapport[lead.id] = (rapport[lead.id] ?? 0) - 2;
       } else {
         reaction = [
-          "says ${cr.gender.heShe} needs more time to think.",
-          "says it's worth considering, but ${cr.gender.heShe} isn't ready for "
+          "says {heShe} needs more time to think.",
+          "says it's worth considering, but {heShe} isn't ready for "
               "this kind of commitment.",
-          "says ${cr.gender.heShe} just wants to go back to ${cr.gender.hisHer} "
-              "normal life once ${lead.name} lets ${cr.gender.himHer} go.",
+          "says {heShe} just wants to go back to {hisHer} "
+              "normal life once {leadName} lets {himHer} go.",
           "seems to have second thoughts about the whole thing.",
         ].random;
+        reaction = LcsI18n.processComposedString(reaction, {
+          "hisHer": cr.gender.hisHer,
+          "heShe": cr.gender.heShe,
+          "leadName": lead.name,
+          "himHer": cr.gender.himHer,
+        });
       }
       setColor(red);
-      addparagraph(y, 0,
-          "${cr.name} rejects the offer to join. ${cr.gender.heSheCap} $reaction");
+      addparagraph(
+        y,
+        0,
+        LcsI18n.processComposedString(
+          "{name} rejects the offer to join. {gender} {reaction}",
+          {
+            "name": cr.name,
+            "gender": cr.gender.heSheCap,
+            "reaction": reaction,
+            "hisHer": cr.gender.hisHer,
+            "heShe": cr.gender.heShe,
+            "heSheCap": cr.gender.heSheCap,
+            "leadName": lead.name,
+            "leadHisHer": lead.gender.hisHer,
+            "leadHeShe": lead.gender.heShe,
+            "himHer": cr.gender.himHer,
+          },
+        ),
+      );
 
       // Failed recruitment attempt increases wisdom slightly
       if (cr.attribute(Attribute.heart) > 1) {
@@ -436,7 +552,12 @@ Future<void> tendHostage(InterrogationSession intr) async {
       // First time demanding ransom
       erase();
       mvaddstrc(
-          0, 0, white, "The Ransom of ${cr.name}: Day ${cr.daysSinceJoined}");
+        0,
+        0,
+        white,
+        "The Ransom of {name}: Day {days}",
+        params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
+      );
       y = 2;
       setColor(lightGray);
 
@@ -447,7 +568,12 @@ Future<void> tendHostage(InterrogationSession intr) async {
 
   erase();
   mvaddstrc(
-      0, 0, white, "The Education of ${cr.name}: Day ${cr.daysSinceJoined}");
+    0,
+    0,
+    white,
+    "The Education of {name}: Day {days}",
+    params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
+  );
   y = 2;
 
   if (intr.ransomDemanded &&
@@ -465,24 +591,12 @@ Future<void> tendHostage(InterrogationSession intr) async {
       }
       return;
     }
-  } else {
-    setColor(lightGray);
-    addparagraph(y, 0,
-        "${cr.name} is locked in a back room converted into a makeshift cell.");
-    y = console.y + 1;
-    if (intr.ransomDemanded &&
-        !intr.ransomPaid &&
-        cr.site?.siege.underSiege == false) {
-      // Waiting for response
-      intr.daysUntilRansomResponse--;
-    }
   }
 
   if (techniques[Technique.question] == true && cr.alive) // Firm Interrogation
   {
     await handleFirmInterrogation(lead, cr, rapport, y);
   }
-
   // Verbal Interrogation
   else if ((techniques[Technique.talk] == true ||
           techniques[Technique.props] == true) &&
@@ -504,10 +618,13 @@ Future<void> tendHostage(InterrogationSession intr) async {
     cr.die();
 
     stats.kills++;
-    move(++y, 0);
-    setColor(red);
-    addstr(cr.name);
-    addstr(" suddenly drops dead.");
+    mvaddstrc(
+      ++y,
+      0,
+      red,
+      "{name} suddenly drops dead.",
+      params: {"name": cr.name},
+    );
     setColor(lightGray);
     y++;
     //show_interrogation_sidebar(cr,a);
@@ -532,9 +649,18 @@ Future<int> maybeRevealSecrets(Creature cr, Creature lead, int y) async {
   if (workSite?.mapped == false &&
       (oneIn(5) || cr.align == Alignment.liberal)) {
     y++;
-    mvaddstr(y++, 0, "${cr.name} reveals details about the ${workSite!.name}.");
-    mvaddstr(y++, 0,
-        "${lead.name} was able to create a map of the site with this information.");
+    mvaddstr(
+      y++,
+      0,
+      "{hostage} reveals details about the {site}.",
+      params: {"hostage": cr.name, "site": workSite!.name},
+    );
+    mvaddstr(
+      y++,
+      0,
+      "{name} was able to create a map of the site with this information.",
+      params: {"name": lead.name},
+    );
 
     workSite.mapped = true;
     workSite.hidden = false;
@@ -561,55 +687,108 @@ void showInterrogationSidebar(InterrogationSession intr, Creature a) {
   setColor(lightGray);
   addstr("Prisoner: ");
   setColor(red);
-  addstr(cr.name);
+  addstr(cr.name, noTranslate: true);
   move(y += 2, 40);
   setColor(lightGray);
   addstr("Health: ");
   printHealthStat(y, 48, cr);
-  mvaddstrc(++y, 40, lightGray, "Heart: ${cr.attribute(Attribute.heart)}");
-  mvaddstr(++y, 40, "Wisdom: ${cr.attribute(Attribute.wisdom)}");
-  mvaddstr(++y, 40, "Health: ${cr.health}");
+  mvaddstrc(
+    ++y,
+    40,
+    lightGray,
+    "Heart: {heart}",
+    params: {"heart": cr.attribute(Attribute.heart).toString()},
+  );
+  mvaddstr(
+    ++y,
+    40,
+    "Wisdom: {wisdom}",
+    params: {"wisdom": cr.attribute(Attribute.wisdom).toString()},
+  );
+  mvaddstr(
+    ++y,
+    40,
+    "Health: {health}",
+    params: {"health": cr.health.toString()},
+  );
 
   move(y = 13, 40);
   setColor(lightGray);
   addstr("Lead Interrogator: ");
   setColor(lightGreen);
-  addstr(a.name);
+  addstr(a.name, noTranslate: true);
   move(y += 2, 40);
   setColor(lightGray);
   addstr("Health: ");
   printHealthStat(y, 48, a);
   mvaddstrc(
-      ++y, 40, lightGray, "Psychology Skill: ${a.skill(Skill.psychology)}");
+    ++y,
+    40,
+    lightGray,
+    "Psychology Skill: {skill}",
+    params: {"skill": a.skill(Skill.psychology).toString()},
+  );
   move(++y, 40);
   setColor(lightGray);
-  addstr("Heart: ${a.attribute(Attribute.heart)}");
-  mvaddstr(++y, 40, "Wisdom: ${a.attribute(Attribute.wisdom)}");
-  mvaddstr(++y, 40, "Outfit: ${a.clothing.longName}");
+  addstr(
+    "Heart: {heart}",
+    params: {"heart": a.attribute(Attribute.heart).toString()},
+  );
+  mvaddstr(
+    ++y,
+    40,
+    "Wisdom: {wisdom}",
+    params: {"wisdom": a.attribute(Attribute.wisdom).toString()},
+  );
+  mvaddstr(
+    ++y,
+    40,
+    "Outfit: {outfit}",
+    params: {"outfit": a.clothing.longName},
+  );
 
   //mvaddstr(++y, 40, "Rapport: ${rapport[a.id]?.toStringAsFixed(1) ?? 0}");
   move(y += 2, 40);
 
+  void addRapportText(String template, Map<String, dynamic> params) {
+    addparagraph(y, 40, template, y2: y + 1, x2: 79, params: params);
+    y += 2;
+  }
+
   if ((rapport[a.id] ?? 0) > 7) {
-    addstr("${cr.name} chats warmly with");
-    mvaddstr(++y, 40, "${cr.gender.hisHer} friend ${a.name}.");
+    addRapportText("{name} chats warmly with {pronoun} friend {friend}.", {
+      "name": cr.name,
+      "pronoun": cr.gender.hisHer,
+      "friend": a.name,
+    });
   } else if ((rapport[a.id] ?? 0) > 5) {
-    addstr("${cr.name} looks forward to");
-    mvaddstr(++y, 40, "these little chats.");
+    addRapportText("{name} looks forward to these little chats.", {
+      "name": cr.name,
+    });
   } else if ((rapport[a.id] ?? 0) > 3) {
-    addstr("${cr.name} has mutual respect");
-    mvaddstr(++y, 40, "for ${a.name}.");
+    addRapportText("{name} has mutual respect for {friend}.", {
+      "name": cr.name,
+      "friend": a.name,
+    });
   } else if ((rapport[a.id] ?? 0) > 1) {
-    addstr("${cr.name} lets ${cr.gender.hisHer}");
-    mvaddstr(++y, 40, "guard down a little.");
+    addRapportText("{name} lets {pronoun} guard down a little.", {
+      "name": cr.name,
+      "pronoun": cr.gender.hisHer,
+    });
   } else if ((rapport[a.id] ?? 0) > -1) {
-    addstr("${cr.name} is uncooperative");
-    mvaddstr(++y, 40, "toward ${a.name}.");
+    addRapportText("{name} is uncooperative toward {friend}.", {
+      "name": cr.name,
+      "friend": a.name,
+    });
   } else if ((rapport[a.id] ?? 0) > -4) {
-    addstr("${a.name} is losing");
-    mvaddstr(++y, 40, "patience with ${cr.name}.");
+    addRapportText("{name} is losing patience with {prisoner}.", {
+      "name": a.name,
+      "prisoner": cr.name,
+    });
   } else {
-    addstr("${a.name} is out of fucks");
-    mvaddstr(++y, 40, "to give about ${cr.name}.");
+    addRapportText("{name} is out of fucks to give about {prisoner}.", {
+      "name": a.name,
+      "prisoner": cr.name,
+    });
   }
 }

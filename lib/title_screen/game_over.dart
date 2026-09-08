@@ -5,12 +5,15 @@ import 'package:lcs_new_age/saveload/save_load.dart';
 import 'package:lcs_new_age/title_screen/high_scores.dart';
 import 'package:lcs_new_age/title_screen/launch_game.dart';
 
-Future<bool> checkForDefeat(
-    [Ending possibleEnding = Ending.unspecified]) async {
-  if (pool.any((p) =>
-      p.alive &&
-      p.align == Alignment.liberal &&
-      !(p.sleeperAgent && p.hireId != null))) {
+Future<bool> checkForDefeat([
+  Ending possibleEnding = Ending.unspecified,
+]) async {
+  if (pool.any(
+    (p) =>
+        p.alive &&
+        p.align == Alignment.liberal &&
+        !(p.sleeperAgent && p.hireId != null),
+  )) {
     return false;
   }
 

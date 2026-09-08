@@ -4,6 +4,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -14,8 +15,9 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 DeepAlignment getVoter([PoliticalParty? party]) {
   DeepAlignment voterAlignment = DeepAlignment.moderate;
   for (int i = 0; i < 2; i++) {
-    var weights =
-        politics.voterSpread(politics.publicOpinion[View.issues.random]!);
+    var weights = politics.voterSpread(
+      politics.publicOpinion[View.issues.random]!,
+    );
     if (party == politics.presidentParty) {
       // Less moderate when in power
       weights[DeepAlignment.moderate] = weights[DeepAlignment.moderate]! / 2;
@@ -64,12 +66,19 @@ Future<void> presidentialElection() async {
   if (canSeeThings) {
     erase();
 
-    mvaddstrc(0, 0, white, "Presidential General Election $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "Presidential General Election {year}",
+      params: {"year": year.toString()},
+    );
 
     setColor(lightGray);
     move(2, 0);
     addstr(
-        "After a long primary campaign, the people have rallied around two leaders...");
+      "After a long primary campaign, the people have rallied around two leaders...",
+    );
   }
 
   //Primaries
@@ -77,13 +86,13 @@ Future<void> presidentialElection() async {
   int veepOwnPartyApproval = 0;
   Map<PoliticalParty, Map<DeepAlignment, int>> primaryVotes = {
     for (var party in PoliticalParty.values)
-      party: {for (var alignment in DeepAlignment.values) alignment: 0}
+      party: {for (var alignment in DeepAlignment.values) alignment: 0},
   };
 
   // run primaries for 100 voters of each party
   for (int i = 0; i < 100; i++) {
     Map<PoliticalParty, DeepAlignment> voter = {
-      for (var party in PoliticalParty.values) party: getVoter(party)
+      for (var party in PoliticalParty.values) party: getVoter(party),
     };
     int differenceFromPresident =
         (voter[politics.presidentParty]!.index - exec[Exec.president]!.index)
@@ -94,9 +103,10 @@ Future<void> presidentialElection() async {
       presidentOwnPartyApproval++;
     }
     // vice-presidential approval within own party: 33% from adjacent
-    int differenceFromVP = (voter[politics.presidentParty]!.index -
-            exec[Exec.vicePresident]!.index)
-        .abs();
+    int differenceFromVP =
+        (voter[politics.presidentParty]!.index -
+                exec[Exec.vicePresident]!.index)
+            .abs();
     if (differenceFromVP == 0 || (differenceFromVP == 1 && oneIn(3))) {
       veepOwnPartyApproval++;
     }
@@ -107,7 +117,7 @@ Future<void> presidentialElection() async {
   }
 
   Map<PoliticalParty, DeepAlignment> nomineeAlign = {
-    for (var party in PoliticalParty.values) party: DeepAlignment.moderate
+    for (var party in PoliticalParty.values) party: DeepAlignment.moderate,
   };
   Map<PoliticalParty, FullName> nomineeName = {};
 
@@ -131,7 +141,8 @@ Future<void> presidentialElection() async {
   if (politics.execTerm == 1) // President running for re-election
   {
     debugPrint(
-        "President running for re-election with $presidentOwnPartyApproval% approval in their party.");
+      "President running for re-election with $presidentOwnPartyApproval% approval in their party.",
+    );
     if (presidentOwnPartyApproval >= 40) {
       nomineeAlign[politics.presidentParty] = politics.exec[Exec.president]!;
     }
@@ -179,7 +190,14 @@ Future<void> presidentialElection() async {
         addstr("Mrs. ");
       }
 
-      addstr("${nomineeName[party]!}, ${nomineeAlign[party]!.veryShort}");
+      addstr(
+        "{name}, {align}",
+        params: {
+          "name": nomineeName[party]!,
+          "align": LcsI18n.tr(nomineeAlign[party]!.label),
+        },
+        noTranslate: true,
+      );
     }
 
     if (!disbanding) {
@@ -194,7 +212,7 @@ Future<void> presidentialElection() async {
 
   PoliticalParty winner = PoliticalParty.republican;
   Map<PoliticalParty, int> votes = {
-    for (var party in PoliticalParty.values) party: 0
+    for (var party in PoliticalParty.values) party: 0,
   };
 
   Stopwatch sw = Stopwatch()..start();
@@ -211,12 +229,15 @@ Future<void> presidentialElection() async {
       // Get the aggregate opinion of an issue voter
       DeepAlignment vote = getVoter();
       // Rank the candidates by how close they are to the voter (randomize ties)
-      final rankedChoices = nomineeAlign
-          .map((key, value) => MapEntry(key, (vote.index - value.index).abs()))
-          .entries
-          .toList()
-        ..shuffle()
-        ..sort((a, b) => a.value.compareTo(b.value));
+      final rankedChoices =
+          nomineeAlign
+              .map(
+                (key, value) => MapEntry(key, (vote.index - value.index).abs()),
+              )
+              .entries
+              .toList()
+            ..shuffle()
+            ..sort((a, b) => a.value.compareTo(b.value));
       // Vote for the closest candidate
       votes.update(rankedChoices.first.key, (v) => v + 1);
     }
@@ -237,8 +258,12 @@ Future<void> presidentialElection() async {
         for (int c = 0; c < PoliticalParty.values.length; c++) {
           PoliticalParty party = PoliticalParty.values[c];
           setColor(party == winner ? white : darkGray);
-          mvaddstr(8 - ((c + 1) % 3) * 2, 45,
-              "${votes[party]! ~/ 10}.${votes[party]! % 10}%");
+          mvaddstr(
+            8 - ((c + 1) % 3) * 2,
+            45,
+            "{votes}%",
+            params: {"votes": "${votes[party]! ~/ 10}.${votes[party]! % 10}"},
+          );
           if (party == winner && recount && l == 999) {
             addstr(" (After Recount)");
           }
@@ -250,6 +275,7 @@ Future<void> presidentialElection() async {
   }
 
   if (canSeeThings) {
+    eraseLine(8);
     mvaddstrc(8, 0, lightGray, "Press any key to continue the elections.    ");
 
     checkKey();
@@ -278,7 +304,13 @@ Future<void> ballotMeasures() async {
   if (canSeeThings) {
     erase();
 
-    mvaddstrc(0, 0, white, "Important State Ballot Measures $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "Important State Ballot Measures {year}",
+      params: {"year": year.toString()},
+    );
   }
 
   int pnum = lcsRandom(4) + 4;
@@ -301,7 +333,8 @@ Future<void> ballotMeasures() async {
 
     pvote = laws[l]!.index * 25; //CALC PRIORITY
 
-    lawpriority[l] = 5 * (pvote - pmood).abs() +
+    lawpriority[l] =
+        5 * (pvote - pmood).abs() +
         lcsRandom(10) +
         politics.publicInterestForLaw(l);
   }
@@ -325,11 +358,14 @@ Future<void> ballotMeasures() async {
     double maxprior = lawpriority.entries
         .where((e) => lawtaken[e.key] != true)
         .reduce(
-            (value, element) => element.value > value.value ? element : value)
+          (value, element) => element.value > value.value ? element : value,
+        )
         .value;
     List<Law> canlaw = lawpriority.entries
-        .where((element) =>
-            element.value == maxprior && lawtaken[element.key] == false)
+        .where(
+          (element) =>
+              element.value == maxprior && lawtaken[element.key] == false,
+        )
         .map((e) => e.key)
         .toList();
     prop[p] = canlaw.random;
@@ -339,7 +375,7 @@ Future<void> ballotMeasures() async {
     if (canSeeThings) {
       move(p * 3 + 2, 0);
       setColor(white);
-      addstr("${propnums[p]}: ");
+      addstr("{prop}: ", params: {"prop": propnums[p]});
       setColor(propdir[p] > 0 ? lightGreen : red);
       addstr(billName(prop[p], propdir[p] > 0));
       setColor(lightGray);
@@ -381,7 +417,15 @@ Future<void> ballotMeasures() async {
         } else {
           setColor(lightGray);
         }
-        mvaddstr(p * 3 + 2, 70, "${yesvotes ~/ 10}.${yesvotes % 10}% Yes");
+        mvaddstr(
+          p * 3 + 2,
+          70,
+          "Yes: {yesPercent}%",
+          params: {
+            "yesPercent": "${yesvotes ~/ 10}.${yesvotes % 10}",
+            "yes": "Yes",
+          },
+        );
 
         if ((l != 999 && yesvotes < (l / 2 + 10)) || (l == 999 && !yeswin)) {
           setColor(white);
@@ -390,8 +434,16 @@ Future<void> ballotMeasures() async {
         } else {
           setColor(lightGray);
         }
-        mvaddstr(p * 3 + 3, 70,
-            "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}% No");
+        mvaddstr(
+          p * 3 + 3,
+          70,
+          "No: {noPercent}%",
+          params: {
+            "noPercent":
+                "${(l + 1 - yesvotes) ~/ 10}.${(l + 1 - yesvotes) % 10}",
+            "no": "No",
+          },
+        );
       }
 
       if (canSeeThings && recount) {
@@ -409,7 +461,11 @@ Future<void> ballotMeasures() async {
 
   if (canSeeThings) {
     mvaddstrc(
-        23, 0, lightGray, "Press any key to reflect on what has happened.");
+      23,
+      0,
+      lightGray,
+      "Press any key to reflect on what has happened.",
+    );
     checkKey();
     await getKey();
   }
@@ -421,7 +477,13 @@ Future<void> senateElections(int senmod) async {
   if (canSeeThings) {
     erase();
 
-    mvaddstrc(0, 0, white, "Senate Elections $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "Senate Elections {year}",
+      params: {"year": year.toString()},
+    );
   }
 
   int x = 0, y = 2, s = 0;
@@ -502,7 +564,8 @@ Future<void> senateElections(int senmod) async {
 
   if (canSeeThings) {
     _showWinner(change, mood, 2);
-    mvaddstr(23, 0, "Press any key to continue the elections.    ");
+    eraseLine(23);
+    mvaddstrc(23, 0, lightGray, "Press any key to continue the elections.    ");
     checkKey();
     await getKey();
   }
@@ -514,7 +577,13 @@ Future<void> houseElections() async {
   if (canSeeThings) {
     erase();
 
-    mvaddstrc(0, 0, white, "House Elections $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "House Elections {year}",
+      params: {"year": year.toString()},
+    );
   }
 
   int x = 0, y = 2;
@@ -589,7 +658,13 @@ Future<void> houseElections() async {
   if (canSeeThings) {
     _showWinner(change, mood, 6);
     if (!disbanding) {
-      mvaddstr(23, 0, "Press any key to continue the elections.    ");
+      eraseLine(23);
+      mvaddstrc(
+        23,
+        0,
+        lightGray,
+        "Press any key to continue the elections.    ",
+      );
 
       checkKey();
       await getKey();
@@ -601,22 +676,22 @@ Future<void> houseElections() async {
 
 void _showNetChange(List<int> change) {
   mvaddstrc(20, 0, lightGray, "Net change:");
-  addstr("   L+: ");
-  if (change[4] > 0) addstr("+");
-  addstr("${change[4]}");
-  addstr("   L: ");
-  if (change[3] > 0) addstr("+");
-  addstr("${change[3]}");
-  addstr("   m: ");
-  if (change[2] > 0) addstr("+");
-  addstr("${change[2]}");
-  addstr("   C: ");
-  if (change[1] > 0) addstr("+");
-  addstr("${change[1]}");
-  addstr("   C+: ");
-  if (change[0] > 0) addstr("+");
-  addstr("${change[0]}");
-  addstr("        ");
+  addstr("   L+: ", noTranslate: true);
+  if (change[4] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[4]}, noTranslate: true);
+  addstr("   L: ", noTranslate: true);
+  if (change[3] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[3]}, noTranslate: true);
+  addstr("   m: ", noTranslate: true);
+  if (change[2] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[2]}, noTranslate: true);
+  addstr("   C: ", noTranslate: true);
+  if (change[1] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[1]}, noTranslate: true);
+  addstr("   C+: ", noTranslate: true);
+  if (change[0] > 0) addstr("+", noTranslate: true);
+  addstr("{val}", params: {"val": change[0]}, noTranslate: true);
+  addstr("        ", noTranslate: true);
 }
 
 void _showWinner(List<int> change, double mood, int thresholdForVictory) {
@@ -653,20 +728,32 @@ void _showWinner(List<int> change, double mood, int thresholdForVictory) {
       if (change[0] > 0 && change[4] > 0) {
         mvaddstr(22, 0, "But the political center is disappearing.");
       } else if (change[0] > 0) {
-        mvaddstrc(22, 0, red,
-            "But the Arch Conservative far right still gained seats.");
+        mvaddstrc(
+          22,
+          0,
+          red,
+          "But the Arch Conservative far right still gained seats.",
+        );
       }
     case DeepAlignment.liberal:
       addstr("The Democratic Party is gaining ground.");
       if (change[0] > 0) {
-        mvaddstrc(22, 0, red,
-            "But the Arch Conservative far right also gained seats.");
+        mvaddstrc(
+          22,
+          0,
+          red,
+          "But the Arch Conservative far right also gained seats.",
+        );
       }
     case DeepAlignment.eliteLiberal:
       addstr("The Elite Liberal far left is growing!");
       if (change[0] > 0) {
-        mvaddstrc(22, 0, red,
-            "But the Arch Conservative far right also gained seats.");
+        mvaddstrc(
+          22,
+          0,
+          red,
+          "But the Arch Conservative far right also gained seats.",
+        );
       }
   }
   setColor(lightGray);
@@ -698,26 +785,77 @@ enum InitiativeStates {
 
 String nameBallotMeasure() {
   return switch (InitiativeStates.values.random) {
-    InitiativeStates.alaska => "AK Measure ${lcsRandom(3) + 1}",
-    InitiativeStates.arizona => "AZ Amendment ${lcsRandom(3) + 1}",
-    InitiativeStates.arkansas => "AR Amendment ${lcsRandom(3) + 1}",
-    InitiativeStates.california => "CA Proposition ${lcsRandom(10) + 1}",
-    InitiativeStates.colorado => "CO Proposition ${140 + lcsRandom(30)}",
-    InitiativeStates.idaho => "ID Amendment ${lcsRandom(5) + 1}",
-    InitiativeStates.maine => "ME Question ${lcsRandom(3) + 1}",
-    InitiativeStates.massachusetts => "MA Question ${lcsRandom(3) + 1}",
-    InitiativeStates.michigan => "MI Proposal ${lcsRandom(3) + 1}",
-    InitiativeStates.missouri => "MO Amendment ${lcsRandom(3) + 1}",
-    InitiativeStates.montana => "MT Amendment ${60 + lcsRandom(20)}",
-    InitiativeStates.nebraska => "NE Initiative ${440 + lcsRandom(100)}",
-    InitiativeStates.nevada => "NV Question ${lcsRandom(5) + 1}",
-    InitiativeStates.northDakota => "ND Measure ${lcsRandom(3) + 1}",
-    InitiativeStates.ohio => "OH Issue ${lcsRandom(3) + 1}",
-    InitiativeStates.oklahoma => "OK Question ${800 + lcsRandom(100)}",
-    InitiativeStates.oregon => "OR Measure ${120 + lcsRandom(20)}",
-    InitiativeStates.southDakota => "SD Measure ${30 + lcsRandom(10)}",
-    InitiativeStates.utah => "UT Amendment ${letterAPlus(lcsRandom(7))}",
-    InitiativeStates.washington => "WA Initiative ${900 + lcsRandom(1000)}",
-    InitiativeStates.wyoming => "WY Amendment ${letterAPlus(lcsRandom(3))}",
+    InitiativeStates.alaska => LcsI18n.processString("AK Measure {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.arizona => LcsI18n.processString("AZ Amendment {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.arkansas => LcsI18n.processString(
+      "AR Amendment {number}",
+      {"number": lcsRandom(3) + 1},
+    ),
+    InitiativeStates.california => LcsI18n.processString(
+      "CA Proposition {number}",
+      {"number": lcsRandom(10) + 1},
+    ),
+    InitiativeStates.colorado => LcsI18n.processString(
+      "CO Proposition {number}",
+      {"number": 140 + lcsRandom(30)},
+    ),
+    InitiativeStates.idaho => LcsI18n.processString("ID Amendment {number}", {
+      "number": lcsRandom(5) + 1,
+    }),
+    InitiativeStates.maine => LcsI18n.processString("ME Question {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.massachusetts => LcsI18n.processString(
+      "MA Question {number}",
+      {"number": lcsRandom(3) + 1},
+    ),
+    InitiativeStates.michigan => LcsI18n.processString("MI Proposal {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.missouri => LcsI18n.processString(
+      "MO Amendment {number}",
+      {"number": lcsRandom(3) + 1},
+    ),
+    InitiativeStates.montana => LcsI18n.processString("MT Amendment {number}", {
+      "number": 60 + lcsRandom(20),
+    }),
+    InitiativeStates.nebraska => LcsI18n.processString(
+      "NE Initiative {number}",
+      {"number": 440 + lcsRandom(100)},
+    ),
+    InitiativeStates.nevada => LcsI18n.processString("NV Question {number}", {
+      "number": lcsRandom(5) + 1,
+    }),
+    InitiativeStates.northDakota => LcsI18n.processString(
+      "ND Measure {number}",
+      {"number": lcsRandom(3) + 1},
+    ),
+    InitiativeStates.ohio => LcsI18n.processString("OH Issue {number}", {
+      "number": lcsRandom(3) + 1,
+    }),
+    InitiativeStates.oklahoma => LcsI18n.processString("OK Question {number}", {
+      "number": 800 + lcsRandom(100),
+    }),
+    InitiativeStates.oregon => LcsI18n.processString("OR Measure {number}", {
+      "number": 120 + lcsRandom(20),
+    }),
+    InitiativeStates.southDakota => LcsI18n.processString(
+      "SD Measure {number}",
+      {"number": 30 + lcsRandom(10)},
+    ),
+    InitiativeStates.utah => LcsI18n.processString("UT Amendment {number}", {
+      "number": letterAPlus(lcsRandom(7)),
+    }),
+    InitiativeStates.washington => LcsI18n.processString(
+      "WA Initiative {number}",
+      {"number": 900 + lcsRandom(1000)},
+    ),
+    InitiativeStates.wyoming => LcsI18n.processString("WY Amendment {number}", {
+      "number": letterAPlus(lcsRandom(3)),
+    }),
   };
 }

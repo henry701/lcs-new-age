@@ -60,15 +60,17 @@ bool testWorkLocation(CreatureType type, Site location) {
     case CreatureTypeIds.janitor:
       // Wherever you go, there they are
       // (short list of exceptions)
-      okaySite.addAll(SiteType.values.toList()
-        ..remove(SiteType.publicPark)
-        ..remove(SiteType.drugHouse)
-        ..remove(SiteType.homelessEncampment)
-        ..remove(SiteType.bombShelter)
-        ..remove(SiteType.bunker)
-        ..remove(SiteType.armyBase)
-        ..remove(SiteType.ceoHouse)
-        ..remove(SiteType.warehouse));
+      okaySite.addAll(
+        SiteType.values.toList()
+          ..remove(SiteType.publicPark)
+          ..remove(SiteType.drugHouse)
+          ..remove(SiteType.homelessEncampment)
+          ..remove(SiteType.bombShelter)
+          ..remove(SiteType.bunker)
+          ..remove(SiteType.armyBase)
+          ..remove(SiteType.ceoHouse)
+          ..remove(SiteType.warehouse),
+      );
     case CreatureTypeIds.sweatshopWorker:
       okaySite.add(SiteType.sweatshop);
     case CreatureTypeIds.unionWorker:
@@ -128,10 +130,7 @@ bool testWorkLocation(CreatureType type, Site location) {
         SiteType.cableNewsStation,
       ]);
     case CreatureTypeIds.genetic:
-      okaySite.addAll([
-        SiteType.geneticsLab,
-        SiteType.ceoHouse,
-      ]);
+      okaySite.addAll([SiteType.geneticsLab, SiteType.ceoHouse]);
     case CreatureTypeIds.guardDog:
       okaySite.addAll([
         SiteType.prison,
@@ -140,22 +139,12 @@ bool testWorkLocation(CreatureType type, Site location) {
         SiteType.armyBase,
       ]);
     case CreatureTypeIds.lawyer:
-      okaySite.addAll([
-        SiteType.courthouse,
-        SiteType.whiteHouse,
-      ]);
+      okaySite.addAll([SiteType.courthouse, SiteType.whiteHouse]);
     case CreatureTypeIds.doctor:
     case CreatureTypeIds.psychologist:
-      okaySite.addAll([
-        SiteType.clinic,
-        SiteType.universityHospital,
-      ]);
+      okaySite.addAll([SiteType.clinic, SiteType.universityHospital]);
     case CreatureTypeIds.nurse:
-      okaySite.addAll([
-        SiteType.clinic,
-        SiteType.universityHospital,
-        SiteType.nursingHome,
-      ]);
+      okaySite.addAll([SiteType.clinic, SiteType.universityHospital]);
     case CreatureTypeIds.ccsArchConservative:
     case CreatureTypeIds.ccsVigilante:
       okaySite.add(SiteType.bunker);
@@ -234,15 +223,9 @@ bool testWorkLocation(CreatureType type, Site location) {
     case CreatureTypeIds.journalist:
     case CreatureTypeIds.photographer:
     case CreatureTypeIds.hairstylist:
-      okaySite.addAll([
-        SiteType.cableNewsStation,
-        SiteType.whiteHouse,
-      ]);
+      okaySite.addAll([SiteType.cableNewsStation, SiteType.whiteHouse]);
     case CreatureTypeIds.chef:
-      okaySite.addAll([
-        SiteType.barAndGrill,
-        SiteType.whiteHouse,
-      ]);
+      okaySite.addAll([SiteType.barAndGrill, SiteType.whiteHouse]);
     case CreatureTypeIds.clerk:
       okaySite.addAll([
         SiteType.veganCoOp,
@@ -273,8 +256,9 @@ void giveWorkLocation(Creature cr, CreatureType type) {
   if (testWorkLocation(type, activeSite!)) {
     cr.workLocation = activeSite!;
   } else {
-    Iterable<Site> validWorkLocations =
-        activeSite!.city.sites.where((site) => testWorkLocation(type, site));
+    Iterable<Site> validWorkLocations = activeSite!.city.sites.where(
+      (site) => testWorkLocation(type, site),
+    );
     if (validWorkLocations.isNotEmpty) {
       cr.workLocation = validWorkLocations.random;
     } else {

@@ -5,7 +5,6 @@ import 'package:lcs_new_age/basemode/help_system.dart';
 import 'package:lcs_new_age/common_actions/equipment.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_creature_info.dart';
-import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/creature/sort_creatures.dart';
@@ -13,6 +12,7 @@ import 'package:lcs_new_age/daily/activities/fundraising.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
@@ -37,32 +37,30 @@ Future<void> activateRegulars() async {
     erase();
     printFunds();
     mvaddstr(0, 0, "Assign Tasks to Liberals");
-    makeDelimiter(y: 1);
-    mvaddstr(1, 4, "CODE NAME");
-    mvaddstr(1, 24, "SKILL");
-    mvaddstr(1, 32, "HEALTH");
-    mvaddstr(1, 41, "LOCATION");
-    mvaddstr(1, 57, "ACTIVITY");
+    printManagementTableHeader("ACTIVITY");
     int y = 2;
     for (int p = page * 19; p < tempPool.length && p < (page + 1) * 19; p++) {
       Creature c = tempPool[p];
       String key = letterAPlus(y - 2);
-      addOptionText(y, 0, key, "$key - ${c.name}");
-      printSkillSummary(y, 24, c, showWeaponSkill: false);
-      printHealthStat(y, 32, c, small: true);
-      mvaddstrc(
-        y,
-        41,
-        c.site?.isPartOfTheJusticeSystem == true ? yellow : lightGray,
-        c.location?.getName(short: true, includeCity: true) ?? "In Hiding",
+      printManagementTableRow(
+        y: y,
+        key: key,
+        creature: c,
+        location:
+            c.location?.getName(short: true, includeCity: true) ??
+            LcsI18n.tr("In Hiding"),
+        locationColor: c.site?.isPartOfTheJusticeSystem == true
+            ? yellow
+            : lightGray,
+        trailing: c.activity.description,
+        trailingColor: c.activity.color,
       );
-      mvaddstrc(y, 57, c.activity.color, c.activity.description);
       y++;
     }
     mvaddstrc(22, 0, lightGray, "Press a Letter to Assign an Activity.");
     addPageButtons(y: 23, x: 0);
-    addOptionText(24, 0, "T", "T - Sorting options");
-    addOptionText(24, 21, "Z", "Z - Assign simple tasks in bulk");
+    addOptionTextFitted(24, 0, "T", "T - Sorting options", 39);
+    addOptionTextFitted(24, 40, "Z", "Z - Assign simple tasks in bulk", 40);
     int c = await getKey();
     if (isPageUp(c) && page > 0) page--;
     if (isPageDown(c) && (page + 1) * 19 < tempPool.length) page++;
@@ -131,11 +129,24 @@ Future<void> assignTask(Creature c) async {
       true;
   while (true) {
     erase();
+    final fundsText = fundsDisplayText();
     printFunds();
     if (c.income > 0) {
-      mvaddstr(0, 0, "${c.name} made \$${c.income} yesterday. What now?");
+      mvaddstrFitted(
+        0,
+        0,
+        "{name} made {income} yesterday. What now?",
+        console.width - fundsText.length - 2,
+        params: {"name": c.name, "income": LcsI18n.currencyAmount(c.income)},
+      );
     } else {
-      mvaddstr(0, 0, "Taking Action: What will ${c.name} do today?");
+      mvaddstrFitted(
+        0,
+        0,
+        "Taking Action: What will {name} do today?",
+        console.width - fundsText.length - 2,
+        params: {"name": c.name},
+      );
     }
     printCreatureInfo(c, showCarPrefs: ShowCarPrefs.showPreferences);
     makeDelimiter();
@@ -185,7 +196,13 @@ Future<void> assignTask(Creature c) async {
     } else if (state == Key.m) {
       _medicalSubmenu(c);
     }
-    _activityFooter(c);
+    final categoryActivities = _activitiesForState(state);
+    _activityFooter(
+      c,
+      visible:
+          categoryActivities == null ||
+          categoryActivities.contains(c.activity.type),
+    );
     int key = await getKey();
     switch (key) {
       case Key.a:
@@ -251,6 +268,8 @@ Future<void> assignTask(Creature c) async {
 
 int _y = 10;
 ActivityType _highlightedActivity = ActivityType.none;
+const int _subActivityX = 40;
+const int _subActivityWidth = 40;
 void _category(
   List<ActivityType> category,
   String desc,
@@ -270,36 +289,67 @@ void _activity(
   bool ignore, {
   int x = 1,
   bool grayOut = false,
+  int? maxWidth,
 }) {
   String colorKey = "w";
   if (!ignore && activity == _highlightedActivity) {
     colorKey = "C";
   }
-  addOptionText(
-    _y++,
-    x,
-    desc[0],
-    desc,
-    baseColorKey: colorKey,
-    enabledWhen: !grayOut,
-  );
+  final y = _y++;
+  if (maxWidth == null) {
+    addOptionText(
+      y,
+      x,
+      desc[0],
+      desc,
+      baseColorKey: colorKey,
+      enabledWhen: !grayOut,
+    );
+  } else {
+    addOptionTextFitted(
+      y,
+      x,
+      desc[0],
+      desc,
+      maxWidth,
+      baseColorKey: colorKey,
+      enabledWhen: !grayOut,
+    );
+  }
 }
 
 void _subActivity(ActivityType activity, String desc, {bool greyOut = false}) {
-  _activity(activity, desc, false, x: 40, grayOut: greyOut);
+  _activity(
+    activity,
+    desc,
+    false,
+    x: _subActivityX,
+    grayOut: greyOut,
+    maxWidth: _subActivityWidth,
+  );
 }
+
+List<ActivityType>? _activitiesForState(int state) => switch (state) {
+  Key.a => _activism,
+  Key.b => _legal,
+  Key.c => _illegal,
+  Key.d => _acquisition,
+  Key.e => _study,
+  Key.t => _teaching,
+  Key.m => _medical,
+  _ => null,
+};
 
 void _activismSubmenu(Creature c) {
   _y = 10;
   _subActivity(ActivityType.communityService, "1 - Community Service");
   _subActivity(ActivityType.trouble, "2 - Liberal Disobedience");
   _subActivity(ActivityType.graffiti, "3 - Graffiti");
-  String needHackerDen = c.site?.compound.hackerDen != true
-      ? " (Need Den)"
-      : "";
   _subActivity(
     ActivityType.hacking,
-    "4 - Hacking$needHackerDen",
+    c.site?.compound.hackerDen != true
+        ? "4 - Hacking (Need Den)"
+        : "4 - Hacking",
     greyOut:
         c.rawSkill[Skill.computers]! == 0 || c.site?.compound.hackerDen != true,
   );
@@ -307,12 +357,11 @@ void _activismSubmenu(Creature c) {
     ActivityType.writeGuardian,
     "5 - Write Liberal Guardian Articles",
   );
-  String needVideoRoom = c.site?.compound.videoRoom != true
-      ? " (Need Studio)"
-      : "";
   _subActivity(
     ActivityType.streamGuardian,
-    "6 - Stream Guardian TV$needVideoRoom",
+    c.site?.compound.videoRoom != true
+        ? "6 - Stream Guardian TV (Need Studio)"
+        : "6 - Stream Guardian TV",
     greyOut: c.site?.compound.videoRoom != true,
   );
 }
@@ -389,12 +438,11 @@ void _illegalSubmenu(Creature c) {
     "2 - Prostitution",
     greyOut: c.age < 18,
   );
-  String needHackerDen = c.site?.compound.hackerDen != true
-      ? " (Need Den)"
-      : "";
   _subActivity(
     ActivityType.ccfraud,
-    "3 - Credit Card Fraud$needHackerDen",
+    c.site?.compound.hackerDen != true
+        ? "3 - Credit Card Fraud (Need Den)"
+        : "3 - Credit Card Fraud",
     greyOut:
         c.rawSkill[Skill.computers] == 0 || c.site?.compound.hackerDen != true,
   );
@@ -435,8 +483,20 @@ void _acquisitionSubmenu(Creature c) {
   );
 
   _y++;
-  mvaddstrc(_y++, 40, midGray, "Laundry and mending clothing are");
-  mvaddstrc(_y++, 40, midGray, "handled by Liberals set to Lay Low.");
+  mvaddstrcFitted(
+    _y++,
+    _subActivityX,
+    midGray,
+    "Laundry and mending clothing are",
+    _subActivityWidth,
+  );
+  mvaddstrcFitted(
+    _y++,
+    _subActivityX,
+    midGray,
+    "handled by Liberals set to Lay Low.",
+    _subActivityWidth,
+  );
 }
 
 Future<void> _acquisitionChoice(Creature c, int choice) async {
@@ -463,14 +523,10 @@ void _educationSubmenu(Creature c) {
 
 Future<void> _educationChoice(Creature c, int choice) async {
   if (choice == 1) {
-    await _selectSkillForEducation(c, "practice", ActivityType.study);
+    await _selectSkillForEducation(c, ActivityType.study);
   }
   if (choice == 2) {
-    await _selectSkillForEducation(
-      c,
-      "take classes in",
-      ActivityType.takeClass,
-    );
+    await _selectSkillForEducation(c, ActivityType.takeClass);
   }
 }
 
@@ -552,7 +608,8 @@ Future<void> _selectClothingToMake(Creature cr) async {
   erase();
   await pagedInterface(
     headerPrompt:
-        "Which will ${cr.name} try to make?  (Half cost if you have cloth)",
+        "Which will {name} try to make?  (Note: Half Cost if you have cloth)",
+    headerPromptParams: {"name": cr.name},
     headerKey: {4: "NAME", 37: "DIFFICULTY", 60: "COST"},
     footerPrompt: "Press a Letter to select a Type of Clothing",
     pageSize: 12,
@@ -563,17 +620,27 @@ Future<void> _selectClothingToMake(Creature cr) async {
       bool selected = selectedClothingIndex == index;
       String color = ColorKey.lightGray;
       if (selected) color = ColorKey.white;
-      addOptionText(
+      addOptionTextFitted(
         y,
         0,
         key,
-        "$key - ${craftable[index].name}",
+        "{key} - {name}",
+        36,
+        params: {"key": key, "name": LcsI18n.tr(craftable[index].name)},
         baseColorKey: color,
       );
-      addDifficultyText(y, 37, difficulty + 4);
-      String price =
-          "\$${craftable[index].makePrice + craftable[index].allowedArmor.first.makePrice}";
-      mvaddstrc(y, 64 - price.length, lightGreen, price);
+      String price = LcsI18n.currencyAmount(
+        craftable[index].makePrice +
+            craftable[index].allowedArmor.first.makePrice,
+      );
+      final priceX = 64 - price.length;
+      addDifficultyText(
+        y,
+        37,
+        difficulty + 4,
+        maxWidth: (priceX - 37 - 1).clamp(0, console.width - 37),
+      );
+      mvaddstrc(y, priceX, lightGreen, price, noTranslate: true);
     },
     onChoice: (index) async {
       selectedClothingIndex = index;
@@ -609,6 +676,13 @@ Future<void> _selectClothingToMake(Creature cr) async {
       }
       return false;
     },
+    onPageChanged: (_) {
+      // A selected row from the old page must not remain displayed below the
+      // new page. The pager invokes this only after a real page transition.
+      selectedClothingIndex = -1;
+      selectedArmorIndex = 0;
+      eraseArea(startY: 16);
+    },
   );
   if (selectedClothingIndex != -1) {
     cr.activity = Activity(
@@ -637,7 +711,7 @@ Future<void> _selectFlagToMake(Creature cr) async {
     renderFlagPreview(
       craftable[selected],
       difficulty: craftable[selected].makeDifficultyFor(cr),
-      costLine: "\$${craftable[selected].makePrice}",
+      costLine: LcsI18n.currencyAmount(craftable[selected].makePrice),
       costColor: lightGreen,
       cancelText: "Escape - Cancel Making Flag",
     );
@@ -647,13 +721,14 @@ Future<void> _selectFlagToMake(Creature cr) async {
 
   await pagedInterface(
     headerPrompt:
-        "Which will ${cr.name} try to make?  (Half cost if you have cloth)",
+        "Which will {name} try to make?  (Half cost if you have cloth)",
+    headerPromptParams: {"name": cr.name},
     headerKey: const {
       0: "FLAG",
       40: "ISSUE",
       56: "HEAT",
-      61: "DIFFICULTY",
-      75: "COST",
+      62: "DIFFICULTY",
+      74: "COST",
     },
     footerPrompt: "Crafted flags are stored in your safehouse inventory.",
     pageSize: 12,
@@ -661,18 +736,32 @@ Future<void> _selectFlagToMake(Creature cr) async {
     showBackButton: false,
     lineBuilder: (y, key, index) {
       FlagType flag = craftable[index];
-      addOptionText(
+      addOptionTextFitted(
         y,
         0,
         key,
-        "$key - ${flag.name}",
+        "{key} - {name}",
+        39,
+        params: {"key": key, "name": LcsI18n.tr(flag.name)},
         baseColorKey: index == selected ? ColorKey.white : ColorKey.lightGray,
       );
-      mvaddstrc(y, 40, lightGray, flag.view.label);
+      mvaddstrcFitted(y, 40, lightGray, flag.view.label, 15);
       var (secrecyText, secrecyColor) = flagSecrecyText(flag);
       mvaddstrc(y, 56, secrecyColor, secrecyText);
-      addDifficultyText(y, 61, flag.makeDifficultyFor(cr));
-      mvaddstrc(y, 75, lightGreen, "\$${flag.makePrice}");
+      const costX = 74;
+      addDifficultyText(
+        y,
+        62,
+        flag.makeDifficultyFor(cr),
+        maxWidth: costX - 62 - 1,
+      );
+      mvaddstrc(
+        y,
+        costX,
+        lightGreen,
+        LcsI18n.currencyAmount(flag.makePrice),
+        noTranslate: true,
+      );
       // pagedInterface clears graphics on every redraw, so re-draw the preview
       // once per frame, on the first row.
     },
@@ -689,8 +778,15 @@ Future<void> _selectFlagToMake(Creature cr) async {
       }
       return false;
     },
+    onPageChanged: (_) {
+      // A preview from the previous page must not remain displayed below the
+      // newly rendered rows. Clear the selection so Enter cannot confirm an
+      // off-page flag after navigation.
+      selected = -1;
+      eraseArea(startY: 16);
+    },
   );
-  if (confirmed) {
+  if (confirmed && selected != -1) {
     cr.activity = Activity(
       ActivityType.makeFlag,
       idString: craftable[selected].idName,
@@ -720,14 +816,35 @@ void _clothingDetailFooter(
       enabledWhen: armorIndex > 0,
       highlightColorKey: "W",
     );
-    addstrc(lightGray, "${clothing.name}, ");
-    addstrc(lightBlue, armor.name);
-    addstrc(lightGreen, " \$${clothing.makePrice + armor.makePrice}");
+    addstrc(
+      lightGray,
+      "{name}, ",
+      params: {"name": fitConsoleText(LcsI18n.tr(clothing.name), 24)},
+      noTranslate: true,
+    );
+    addstrc(
+      lightBlue,
+      fitConsoleText(LcsI18n.tr(armor.name), 24),
+      noTranslate: true,
+    );
+    addstrc(
+      lightGreen,
+      " {price}",
+      params: {
+        "price": LcsI18n.currencyAmount(clothing.makePrice + armor.makePrice),
+      },
+      noTranslate: true,
+    );
 
     if (clothing.allowedArmor.length > 1) {
       addstrc(
         lightGray,
-        " (${armorIndex + 1}/${clothing.allowedArmor.length})",
+        " ({current}/{total})",
+        params: {
+          "current": armorIndex + 1,
+          "total": clothing.allowedArmor.length,
+        },
+        noTranslate: true,
       );
     }
     addInlineOptionText(
@@ -744,7 +861,11 @@ void _clothingDetailFooter(
   } else {
     setColor(lightBlue);
   }
-  mvaddstrCenter(18, armor.description);
+  mvaddstrCenter(
+    18,
+    fitConsoleText(LcsI18n.tr(armor.description), console.width),
+    noTranslate: true,
+  );
 
   mvaddstrc(19, 20, lightGray, "Special Traits: ");
   List<String> traits = clothing.traitsList(
@@ -758,43 +879,70 @@ void _clothingDetailFooter(
       addstrc(darkGray, "None");
     }
   } else {
-    addstrc(lightBlue, traits.join(", "));
+    addstrc(
+      lightBlue,
+      fitConsoleText(traits.map(LcsI18n.tr).join(", "), 44),
+      noTranslate: true,
+    );
     if (alarming) {
       addstr(", ");
       addstrc(red, "Alarming");
     }
   }
+
+  const rightStatsX = 42;
+
+  void addArmorStat(int y, String label, int value) {
+    mvaddstrc(y, 20, lightGray, label);
+    final rendered = LcsI18n.processString("{armor} Armor", {
+      "armor": value.toString(),
+    });
+    addstrc(
+      lightBlue,
+      fitConsoleText(rendered, rightStatsX - console.x - 1),
+      noTranslate: true,
+    );
+  }
+
   int headArmor = armor.headArmor;
   if (headArmor == 0 && clothing.concealsFace) {
     headArmor = armor.limbArmor;
   }
-  mvaddstrc(20, 20, lightGray, "Head: ");
-  addstrc(lightBlue, "$headArmor Armor");
-  mvaddstrc(21, 20, lightGray, "Torso: ");
-  addstrc(lightBlue, "${armor.bodyArmor} Armor");
-  mvaddstrc(22, 20, lightGray, "Limbs: ");
-  addstrc(lightBlue, "${armor.limbArmor} Armor");
-  mvaddstrc(20, 40, lightGray, "Dodge: ");
+  addArmorStat(20, "Head: ", headArmor);
+  addArmorStat(21, "Torso: ", armor.bodyArmor);
+  addArmorStat(22, "Limbs: ", armor.limbArmor);
+  mvaddstrc(20, rightStatsX, lightGray, "Dodge: ");
   if (armor.dodgePenalty > 0) {
-    addstrc(red, "-${armor.dodgePenalty}");
+    addstrc(
+      red,
+      "-{penalty}",
+      params: {"penalty": armor.dodgePenalty.toString()},
+      noTranslate: true,
+    );
   } else {
     addstrc(lightGreen, "No Penalty");
   }
-  mvaddstrc(21, 40, lightGray, "Accuracy: ");
+  mvaddstrc(21, rightStatsX, lightGray, "Accuracy: ");
   if (armor.accuracyPenalty > 0) {
-    addstrc(red, "-${armor.accuracyPenalty}");
+    addstrc(
+      red,
+      "-{penalty}",
+      params: {"penalty": armor.accuracyPenalty.toString()},
+      noTranslate: true,
+    );
   } else {
     addstrc(lightGreen, "No Penalty");
   }
-  mvaddstrc(22, 40, lightGray, "Complexity: ");
+  mvaddstrc(22, rightStatsX, lightGray, "Complexity: ");
   int difficulty = clothing.makeDifficulty + armor.makeDifficulty + 4 - skill;
   addDifficultyText(console.y, console.x, difficulty);
 
   setColor(white);
   String enterText = "Enter - Confirm Selection";
   String escapeText = "Escape - Cancel Making Clothing";
-  String fullText = "$enterText   $escapeText";
-  int startX = centerString(fullText);
+  int footerWidth =
+      LcsI18n.tr(enterText).length + 3 + LcsI18n.tr(escapeText).length;
+  int startX = (console.width - footerWidth) ~/ 2;
   move(23, startX);
   addInlineOptionText("Enter", enterText);
   addstr("  ");
@@ -803,31 +951,43 @@ void _clothingDetailFooter(
 
 Future<void> _selectSkillForEducation(
   Creature cr,
-  String flavor,
   ActivityType activityType,
 ) async {
+  const descriptionX = 35;
   List<Skill> skills = Skill.values;
   if (activityType == ActivityType.takeClass) {
     skills = skills.where((s) => s.canTakeClasses).toList();
   }
   erase();
+  final headerPrompt = activityType == ActivityType.takeClass
+      ? "What skill will {name} take classes in?"
+      : "What skill will {name} practice?";
   await pagedInterface(
-    headerPrompt: "What skill will ${cr.name} $flavor?",
-    headerKey: {4: "SKILL", 21: "NOW", 27: "MAX", 34: "DESCRIPTION"},
+    headerPrompt: headerPrompt,
+    headerPromptParams: {"name": cr.name},
+    headerKey: {4: "SKILL", 23: "NOW", 29: "MAX", descriptionX: "DESCRIPTION"},
     footerPrompt: "Press a Letter to select a Skill",
     count: skills.length,
     lineBuilder: (y, key, index) {
       Skill skill = skills[index];
-      addOptionText(y, 0, key, "$key - ${skill.displayName}");
-      highlightColorForSkill(cr, skill);
-      printSkillValue(cr, skill, y, 20, emphasizePotential: true);
-      mvaddstrc(
+      addOptionTextFitted(
         y,
-        34,
+        0,
+        key,
+        "{key} - {skill}",
+        22,
+        params: {"key": key, "skill": LcsI18n.tr(skill.displayName)},
+      );
+      highlightColorForSkill(cr, skill);
+      printSkillValue(cr, skill, y, 23, emphasizePotential: true);
+      mvaddstrcFitted(
+        y,
+        descriptionX,
         lightGray,
         activityType == ActivityType.takeClass
             ? skill.classText
             : skill.description,
+        console.width - descriptionX,
       );
     },
     onChoice: (index) async {
@@ -837,159 +997,252 @@ Future<void> _selectSkillForEducation(
   );
 }
 
-void _activityFooter(Creature cr) {
-  mvaddstrc(22, 3, lightGray, "${cr.name} will");
-  switch (cr.activity.type) {
-    case ActivityType.none:
-      addstr(" lay low and tend to any laundry and mending.");
-    case ActivityType.visit:
-      addstr(" act with ${cr.gender.hisHer} squad.");
-      mvaddstrc(
-        23,
-        3,
-        midGray,
-        "Squad activities always take precedence even if you",
-      );
-      mvaddstr(24, 3, "assign a different individual activity.");
-    case ActivityType.augment:
-      addstr(" undergo surgery.");
-    case ActivityType.bury:
-      addstr(" bury the dead.");
-      mvaddstrc(23, 3, midGray, "Uses Street Smarts to avoid the police.");
-    case ActivityType.ccfraud:
-      addstr(" commit credit card fraud.");
-      mvaddstrc(23, 3, midGray, "Uses Computers.  Requires a Hacker Den.");
-    case ActivityType.clinic:
-      addstr(" go to the hospital.");
-    case ActivityType.communityService:
-      addstr(" volunteer for a local nonprofit.");
-      mvaddstrc(
-        23,
-        3,
-        midGray,
-        "A tiny bit of juice.  It's not *real* though, you know?",
-      );
-    case ActivityType.donations:
-      addstr(" solicit donations.");
-      mvaddstrc(23, 3, midGray, "Uses Persuasion and Street Smarts.");
-    case ActivityType.graffiti:
-      addstr(" spray graffiti.");
-      mvaddstrc(23, 3, midGray, "Uses Art.");
-    case ActivityType.hacking:
-      addstr(" hack into private networks.");
-      mvaddstrc(23, 3, midGray, "Uses Computers.  Requires a Hacker Den.");
-    case ActivityType.interrogation:
-      addstr(" tend to hostages.");
-      mvaddstrc(23, 3, midGray, "Uses Psychology and other social skills.");
-    case ActivityType.makeClothing:
-      addstr(" make clothing.");
-      mvaddstrc(23, 3, midGray, "Uses Tailoring.");
-    case ActivityType.prostitution:
-      addstr(" have sex for money.");
-      mvaddstrc(23, 3, midGray, "Uses Seduction.");
-    case ActivityType.recruiting:
-      addstr(" recruit new members.");
-      mvaddstrc(23, 3, midGray, "Uses Street Smarts to find likely recruits.");
-      mvaddstr(
-        24,
-        3,
-        "Persuasion or Seduction is used to convince them to join.",
-      );
-    case ActivityType.sellArt:
-      addstr(" make and sell art.");
-      mvaddstrc(23, 3, midGray, "Uses Art and Business.");
-    case ActivityType.sellDrugs:
-      addstr(" bake and sell weed brownies.");
-      mvaddstrc(23, 3, midGray, "Uses Street Smarts and Business.");
-    case ActivityType.sellMusic:
-      addstr(" perform live music for money.");
-      mvaddstrc(23, 3, midGray, "Uses Music and Business.");
-    case ActivityType.sellTshirts:
-      addstr(" make and sell clothing.");
-      mvaddstrc(23, 3, midGray, "Uses Tailoring and Business.");
-    case ActivityType.stealCars:
-      addstr(" steal a car.");
-      mvaddstrc(23, 3, midGray, "Uses Security and Street Smarts.");
-    case ActivityType.streamGuardian:
-      addstr(" stream for the Liberal Guardian.");
-      mvaddstrc(
-        23,
-        3,
-        midGray,
-        "Uses Persuasion and various knowledge skills.",
-      );
-    case ActivityType.study:
-      addstr(" independently study ${cr.activity.skill?.displayName}.");
-      mvaddstrc(23, 3, midGray, "Slowly and safely gains experience for free.");
-      mvaddstr(24, 3, "The only limit is your own potential.");
-    case ActivityType.takeClass:
-      addstr(" take classes in ${cr.activity.skill?.displayName}.");
-      mvaddstrc(
-        23,
-        3,
-        midGray,
-        "Quickly and safely gains experience for \$30/day.",
-      );
-      mvaddstr(
-        24,
-        3,
-        "Classes have a maximum level and not all skills are taught.",
-      );
-    case ActivityType.teachCovert:
-      mvaddstrc(
-        22,
-        3,
-        midGray,
-        "Trains: Computers, Security, Stealth, Disguise, Tailoring, Seduction,",
-      );
-      mvaddstr(23, 3, "        Driving, and Street Smarts");
-      mvaddstr(
-        24,
-        3,
-        "Classes cost up to \$60/day to conduct. All Liberals able will attend.",
-      );
-    case ActivityType.teachFighting:
-      mvaddstrc(
-        22,
-        3,
-        midGray,
-        "Trains: Martial Arts, Firearms, Throwing, Heavy Weapons, Dodge,",
-      );
-      mvaddstrc(23, 3, midGray, "        and First Aid");
-      mvaddstr(
-        24,
-        3,
-        "Classes cost up to \$100/day to conduct. All Liberals able will attend.",
-      );
-    case ActivityType.teachLiberalArts:
-      mvaddstrc(
-        22,
-        3,
-        midGray,
-        "Trains: Writing, Persuasion, Law, Religion, Science,",
-      );
-      mvaddstr(23, 3, "        Business, Psychology, Music, and Art");
-      mvaddstr(
-        24,
-        3,
-        "Classes cost up to \$20/day to conduct. All Liberals able will attend.",
-      );
-    case ActivityType.trouble:
-      addstr(" hit the streets and cause trouble.");
-      mvaddstrc(
-        23,
-        3,
-        midGray,
-        "Uses Street Smarts to avoid trouble of your own.",
-      );
-    case ActivityType.wheelchair:
-      addstr(" procure a wheelchair.");
-    case ActivityType.writeGuardian:
-      addstr(" write articles for the Liberal Guardian.");
-      mvaddstrc(23, 3, midGray, "Uses Writing and various knowledge skills.");
-    default:
-      addstr(" report a bug to the developers: ${cr.activity.type.name}.");
+void _activityFooter(Creature cr, {bool visible = true}) {
+  // The teaching view owns all three detail rows. Clear the previous
+  // activity first so a shorter translated line cannot leave stale text.
+  eraseLine(22);
+  eraseLine(23);
+  eraseLine(24);
+  if (!visible) return;
+
+  final activityMessageTemplate = switch (cr.activity.type) {
+    ActivityType.none =>
+      "{name} will lay low and tend to any laundry and mending.",
+    ActivityType.visit => "{name} will act with their squad.",
+    ActivityType.augment => "{name} will undergo surgery.",
+    ActivityType.bury => "{name} will bury the dead.",
+    ActivityType.ccfraud => "{name} will commit credit card fraud.",
+    ActivityType.clinic => "{name} will go to the hospital.",
+    ActivityType.communityService =>
+      "{name} will volunteer for a local nonprofit.",
+    ActivityType.donations => "{name} will solicit donations.",
+    ActivityType.graffiti => "{name} will spray graffiti.",
+    ActivityType.hacking => "{name} will hack into private networks.",
+    ActivityType.interrogation => "{name} will tend to hostages.",
+    ActivityType.makeClothing => "{name} will make clothing.",
+    ActivityType.prostitution => "{name} will have sex for money.",
+    ActivityType.recruiting => "{name} will recruit new members.",
+    ActivityType.sellArt => "{name} will make and sell art.",
+    ActivityType.sellDrugs => "{name} will bake and sell weed brownies.",
+    ActivityType.sellMusic => "{name} will perform live music for money.",
+    ActivityType.sellTshirts => "{name} will make and sell clothing.",
+    ActivityType.stealCars => "{name} will steal a car.",
+    ActivityType.streamGuardian =>
+      "{name} will stream for the Liberal Guardian.",
+    ActivityType.study => "{name} will independently study {skill}.",
+    ActivityType.takeClass => "{name} will take classes in {skill}.",
+    ActivityType.trouble => "{name} will hit the streets and cause trouble.",
+    ActivityType.wheelchair => "{name} will procure a wheelchair.",
+    ActivityType.writeGuardian =>
+      "{name} will write articles for the Liberal Guardian.",
+    _ => "{name} will report a bug to the developers: {activity}.",
+  };
+  final activityMessage = LcsI18n.processString(activityMessageTemplate, {
+    "name": cr.name,
+    "skill": LcsI18n.tr(cr.activity.skill?.displayName ?? "unknown skill"),
+    "activity": LcsI18n.tr(cr.activity.type.label),
+  });
+
+  // Determine if this activity needs additional info on line 23
+  bool needsLine23 = switch (cr.activity.type) {
+    ActivityType.visit ||
+    ActivityType.bury ||
+    ActivityType.ccfraud ||
+    ActivityType.communityService ||
+    ActivityType.donations ||
+    ActivityType.graffiti ||
+    ActivityType.hacking ||
+    ActivityType.interrogation ||
+    ActivityType.makeClothing ||
+    ActivityType.prostitution ||
+    ActivityType.recruiting ||
+    ActivityType.sellArt ||
+    ActivityType.sellDrugs ||
+    ActivityType.sellMusic ||
+    ActivityType.sellTshirts ||
+    ActivityType.stealCars ||
+    ActivityType.streamGuardian ||
+    ActivityType.study ||
+    ActivityType.takeClass ||
+    ActivityType.trouble ||
+    ActivityType.writeGuardian => true,
+    _ => false,
+  };
+
+  bool needsLine24 = switch (cr.activity.type) {
+    ActivityType.recruiting ||
+    ActivityType.study ||
+    ActivityType.takeClass ||
+    ActivityType.teachCovert ||
+    ActivityType.teachFighting ||
+    ActivityType.teachLiberalArts ||
+    ActivityType.trouble => true,
+    _ => false,
+  };
+
+  bool isTeaching = switch (cr.activity.type) {
+    ActivityType.teachCovert ||
+    ActivityType.teachFighting ||
+    ActivityType.teachLiberalArts => true,
+    _ => false,
+  };
+
+  if (!isTeaching) {
+    mvaddstrc(22, 3, lightGray, activityMessage, noTranslate: true);
   }
+
+  if (needsLine23) {
+    switch (cr.activity.type) {
+      case ActivityType.visit:
+        mvaddstrc(
+          23,
+          3,
+          midGray,
+          "Squad activities always take precedence even if you",
+        );
+        mvaddstr(24, 3, "assign a different individual activity.");
+      case ActivityType.bury:
+        mvaddstrc(23, 3, midGray, "Uses Street Smarts to avoid the police.");
+      case ActivityType.ccfraud:
+        mvaddstrc(23, 3, midGray, "Uses Computers.  Requires a Hacker Den.");
+      case ActivityType.communityService:
+        mvaddstrc(
+          23,
+          3,
+          midGray,
+          "A tiny bit of juice.  It's not *real* though, you know?",
+        );
+      case ActivityType.donations:
+        mvaddstrc(23, 3, midGray, "Uses Persuasion and Street Smarts.");
+      case ActivityType.graffiti:
+        mvaddstrc(23, 3, midGray, "Uses Art.");
+      case ActivityType.hacking:
+        mvaddstrc(23, 3, midGray, "Uses Computers.  Requires a Hacker Den.");
+      case ActivityType.interrogation:
+        mvaddstrc(23, 3, midGray, "Uses Psychology and other social skills.");
+      case ActivityType.makeClothing:
+        mvaddstrc(23, 3, midGray, "Uses Tailoring.");
+      case ActivityType.prostitution:
+        mvaddstrc(23, 3, midGray, "Uses Seduction.");
+      case ActivityType.recruiting:
+        mvaddstrc(
+          23,
+          3,
+          midGray,
+          "Uses Street Smarts to find likely recruits.",
+        );
+      case ActivityType.sellArt:
+        mvaddstrc(23, 3, midGray, "Uses Art and Business.");
+      case ActivityType.sellDrugs:
+        mvaddstrc(23, 3, midGray, "Uses Street Smarts and Business.");
+      case ActivityType.sellMusic:
+        mvaddstrc(23, 3, midGray, "Uses Music and Business.");
+      case ActivityType.sellTshirts:
+        mvaddstrc(23, 3, midGray, "Uses Tailoring and Business.");
+      case ActivityType.stealCars:
+        mvaddstrc(23, 3, midGray, "Uses Security and Street Smarts.");
+      case ActivityType.streamGuardian:
+        mvaddstrc(
+          23,
+          3,
+          midGray,
+          "Uses Persuasion and various knowledge skills.",
+        );
+      case ActivityType.study:
+        mvaddstrc(
+          23,
+          3,
+          midGray,
+          "Slowly and safely gains experience for free.",
+        );
+      case ActivityType.takeClass:
+        mvaddstrc(
+          23,
+          3,
+          midGray,
+          "Quickly and safely gains experience for \$30/day.",
+        );
+      case ActivityType.writeGuardian:
+        mvaddstrc(23, 3, midGray, "Uses Writing and various knowledge skills.");
+      case ActivityType.trouble:
+        mvaddstrc(
+          23,
+          3,
+          midGray,
+          "Uses Street Smarts to avoid trouble of your own.",
+        );
+      default:
+        break;
+    }
+  } else if (isTeaching) {
+    switch (cr.activity.type) {
+      case ActivityType.teachCovert:
+        mvaddstrc(
+          22,
+          3,
+          midGray,
+          "Trains: Computers, Security, Stealth, Disguise, Tailoring, Seduction,",
+        );
+        mvaddstr(23, 3, "        Driving, and Street Smarts");
+        mvaddstr(
+          24,
+          3,
+          "Classes cost up to \$60/day to conduct. All Liberals able will attend.",
+        );
+      case ActivityType.teachFighting:
+        mvaddstrc(
+          22,
+          3,
+          midGray,
+          "Trains: Martial Arts, Firearms, Throwing, Heavy Weapons, Dodge,",
+        );
+        mvaddstrc(23, 3, midGray, "        and First Aid");
+        mvaddstr(
+          24,
+          3,
+          "Classes cost up to \$100/day to conduct. All Liberals able will attend.",
+        );
+      case ActivityType.teachLiberalArts:
+        mvaddstrc(
+          22,
+          3,
+          midGray,
+          "Trains: Writing, Persuasion, Law, Religion, Science,",
+        );
+        mvaddstr(23, 3, "        Business, Psychology, Music, and Art");
+        mvaddstr(
+          24,
+          3,
+          "Classes cost up to \$20/day to conduct. All Liberals able will attend.",
+        );
+      default:
+        break;
+    }
+  }
+
+  if (needsLine24 && !isTeaching) {
+    switch (cr.activity.type) {
+      case ActivityType.recruiting:
+        mvaddstr(
+          24,
+          3,
+          "Persuasion or Seduction is used to convince them to join.",
+        );
+      case ActivityType.study:
+        mvaddstr(24, 3, "The only limit is your own potential.");
+      case ActivityType.takeClass:
+        mvaddstr(
+          24,
+          3,
+          "Classes have a maximum level and not all skills are taught.",
+        );
+      case ActivityType.trouble:
+        break;
+      default:
+        break;
+    }
+  }
+
   addOptionText(20, 40, "Enter", "Enter - Confirm Selection");
 }
 
@@ -1068,11 +1321,13 @@ Future<void> _activateBulk() async {
     addHeader({4: "CODE NAME", 25: "CURRENT ACTIVITY", 51: "BULK ACTIVITY"});
 
     void addOption(int i, BulkActivity activity) {
-      addOptionText(
+      addOptionTextFitted(
         i + 1,
         51,
-        "$i",
-        "$i - ${activity.name}",
+        i.toString(),
+        "{index} - {name}",
+        console.width - 51,
+        params: {"index": i.toString(), "name": LcsI18n.tr(activity.name)},
         baseColorKey: selectedActivity == activity ? "W" : "w",
       );
     }
@@ -1101,7 +1356,8 @@ Future<void> _activateBulk() async {
         y,
         0,
         letter,
-        "$letter - ${tempp.name}",
+        "{letter} - {name}",
+        params: {"letter": letter, "name": tempp.name},
         enabledWhen: isEnabled,
       );
 
@@ -1181,7 +1437,8 @@ Future<void> _selectTendHostage(Creature cr) async {
   }
   erase();
   await pagedInterface(
-    headerPrompt: "Which hostage will ${cr.name} be watching over?",
+    headerPrompt: "Which hostage will {name} be watching over?",
+    headerPromptParams: {"name": cr.name},
     headerKey: {
       4: "HOSTAGE NAME",
       25: "SKILL",
@@ -1193,19 +1450,38 @@ Future<void> _selectTendHostage(Creature cr) async {
     count: hostages.length,
     lineBuilder: (y, key, index) {
       Creature h = hostages[index];
-      mvaddstrc(y, 0, lightGray, "$key - ${h.name}");
-      mvaddstr(y, 25, "${h.rawSkill.values.reduce((a, b) => a + b)}");
+      mvaddstrc(
+        y,
+        0,
+        lightGray,
+        "{key} - {name}",
+        params: {"key": key, "name": h.name},
+      );
+      mvaddstr(
+        y,
+        25,
+        "{skillTotal}",
+        params: {
+          "skillTotal": h.rawSkill.values.reduce((a, b) => a + b).toString(),
+        },
+      );
       printHealthStat(y, 33, h, small: true);
       mvaddstrc(
         y,
         45,
         lightGray,
-        h.location?.getName(short: true, includeCity: true) ?? "Missing",
+        h.location?.getName(short: true, includeCity: true) ??
+            LcsI18n.tr("Missing"),
+        noTranslate: true,
       );
       mvaddstr(
         y,
         60,
-        "${h.daysSinceJoined} Day${h.daysSinceJoined == 1 ? "" : "s"}",
+        "{days} Day{s}",
+        params: {
+          "days": h.daysSinceJoined.toString(),
+          "s": h.daysSinceJoined == 1 ? "" : "s",
+        },
       );
     },
     onChoice: (index) async {

@@ -16,6 +16,7 @@ import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/city.dart';
@@ -37,6 +38,64 @@ import 'package:lcs_new_age/sitemode/sitemode.dart';
 import 'package:lcs_new_age/title_screen/game_over.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+
+const medicalDebtArrivalBriefing =
+    'A small fleet of ambulances surrounds the front of {location}. '
+    'As they open, a bunch of office workers in cheap suits climb out '
+    'while handling rifles that most of them look like they have '
+    'no idea how to use.';
+
+const medicalDebtCollectionSpeech =
+    'A gangly accountant climbs up onto one of the ambulances and '
+    'speaks into a loudspeaker: "Liberal Crime Squad! We\'re here '
+    'to collect on your unpaid hospital bills! We have no political '
+    'issue with you, we\'re not gonna try to bring you to justice '
+    'or anything like that, but you owe us a buncha money and '
+    'we\'re here to settle the debt!"';
+
+const medicalDebtFinanceSpeech =
+    'The accountant lifts an AR-15 haphazardly and continues: '
+    '"Open up and we\'ll have a nice chat! Without our guns even! '
+    'I have some sweet pens we can sign the paperwork with, and we '
+    'even brought doughnuts! They\'re gluten free, you\'ll like them! '
+    'Please, we don\'t wanna shoot anyone, we\'re from the finance '
+    'department!"';
+
+int printDeathSquadWarning(int y) {
+  addparagraph(
+    y,
+    1,
+    "They are ready to use lethal force if there is any hint of resistance.",
+  );
+  return console.y;
+}
+
+void printAnonymousCorporateRaidWarning() {
+  setColor(white);
+  addparagraph(
+    8,
+    1,
+    "You have received an anonymous tip that several Corporations are hiring mercenaries to attack the LCS.",
+  );
+}
+
+void printCeoCorporateRaidWarning(Creature ceoSleeper, Site location) {
+  setColor(white);
+  addparagraph(
+    8,
+    1,
+    "You have received a warning from {name} that several Corporations are hiring mercenaries to attack {location}.",
+    params: {
+      "name": ceoSleeper.name,
+      "location": location.getName(includeCity: true),
+    },
+  );
+}
+
+void printEscapeSiegePrompt() {
+  setColor(yellow);
+  mvaddstrRight(13, "Press any key to split up and lay low for a few days");
+}
 
 /* siege - updates upcoming sieges */
 Future<void> siegeCheck() async {
@@ -112,18 +171,16 @@ Future<void> siegeCheck() async {
         // Accumulate heat from liberals who have it,
         // but let them bleed it off in the process
         if (p.heat > 0) {
-          debugPrint("Heat from ${p.name}: ${p.heat} -> ${p.heat}");
-          crimes += p.heat;
-          p.heat -= min(max(1, (p.heat * 0.04).round()), p.heat);
+          debugPrint(
+            "Heat from ${p.name}: ${p.heat} -> ${sqrt(p.heat).ceil()}",
+          );
+          crimes += sqrt(p.heat).ceil();
+          p.heat -= min(max(1, p.heat ~/ 100), p.heat);
         }
       }
 
       // Update location heat
       int beforeCrimes = crimes;
-      int flagHeat = -flagSecrecyWhenFlying(l.flyingFlag);
-      if (flagHeat > 0) {
-        crimes += flagHeat;
-      }
       crimes =
           max(0, crimes - l.heatProtection) +
           max(0, pow(min(crimes, l.heatProtection), 0.75).ceil());
@@ -170,19 +227,14 @@ Future<void> siegeCheck() async {
 
           if (policeSleeperWarning) {
             erase();
-            mvaddstrc(
+            addparagraph(
               8,
               1,
-              white,
-              "You have received advance warning from one of your agents regarding ",
-            );
-            mvaddstr(
-              9,
-              1,
-              "a government raid on the ${l.getName(includeCity: true)}.",
+              "You have received advance warning from one of your agents regarding a government raid on the {location}.",
+              params: {"location": l.getName(includeCity: true)},
             );
 
-            int y = 11;
+            int y = console.y + 1;
             if (l.siege.escalationState == SiegeEscalation.police) {
               if (deathSquadsActive) {
                 mvaddstr(
@@ -190,11 +242,7 @@ Future<void> siegeCheck() async {
                   1,
                   "The police are planning to deploy heavily armed Death Squad units.",
                 );
-                mvaddstr(
-                  y++,
-                  1,
-                  "They are ready to use lethal force if there is any hint of resistance.",
-                );
+                y = printDeathSquadWarning(y++);
               } else {
                 mvaddstr(
                   y++,
@@ -288,7 +336,8 @@ Future<void> siegeCheck() async {
               8,
               1,
               white,
-              "The police are sweeping the ${l.getName()}!",
+              "The police are sweeping the {location}!",
+              params: {"location": l.getName()},
             );
             l.siege.underAttack = true;
           } else {
@@ -296,7 +345,8 @@ Future<void> siegeCheck() async {
               8,
               1,
               white,
-              "The police have surrounded the ${l.getName()}!",
+              "The police have surrounded the {location}!",
+              params: {"location": l.getName()},
             );
             l.siege.underAttack = false;
           }
@@ -338,18 +388,22 @@ Future<void> siegeCheck() async {
         } else {
           erase();
           if (l.type == SiteType.homelessEncampment) {
-            mvaddstrc(
+            mvaddstrcFitted(
               8,
               1,
               white,
-              "The cops have raided the ${l.getName()}.  No LCS members were present.",
+              "The cops have raided the {location}.  No LCS members were present.",
+              console.width - 1,
+              params: {"location": l.getName()},
             );
           } else {
-            mvaddstrc(
+            mvaddstrcFitted(
               8,
               1,
               white,
-              "The cops have raided the ${l.getName()}, an unoccupied safehouse.",
+              "The cops have raided the {location}, an unoccupied safehouse.",
+              console.width - 1,
+              params: {"location": l.getName()},
             );
           }
           await getKey();
@@ -358,14 +412,20 @@ Future<void> siegeCheck() async {
           for (Creature p in l.creaturesPresent.toList()) {
             if (!p.alive) {
               move(y++, 1);
-              addstr("${p.name}'s corpse has been recovered.");
+              addstr(
+                "{name}'s corpse has been recovered.",
+                params: {"name": localizedCreatureName(p)},
+              );
               await getKey();
               pool.remove(p);
               continue;
             }
             if (p.align != Alignment.liberal) {
               move(y++, 1);
-              addstr("${p.name} has been rescued.");
+              addstr(
+                "{name} has been rescued.",
+                params: {"name": localizedCreatureName(p)},
+              );
               await getKey();
               pool.remove(p);
               p.location = p.workLocation;
@@ -439,18 +499,10 @@ Future<void> siegeCheck() async {
         // CEO sleepers may give a warning before corp raids
         if (ceoSleeper != null || oneIn(5)) {
           erase();
-          mvaddstrc(8, 1, white, "You have received ");
           if (ceoSleeper != null) {
-            addstr("a warning from ${ceoSleeper.name} ");
+            printCeoCorporateRaidWarning(ceoSleeper, l);
           } else {
-            addstr("an anonymous tip");
-          }
-          addstr(" that several Corporations ");
-          mvaddstr(9, 1, "are hiring mercenaries to attack ");
-          if (ceoSleeper != null) {
-            addstr(l.getName(includeCity: true));
-          } else {
-            addstr("the LCS.");
+            printAnonymousCorporateRaidWarning();
           }
           await getKey();
         }
@@ -474,15 +526,15 @@ Future<void> siegeCheck() async {
         );
         await getKey();
         setColor(white);
-        addparagraph(
-          console.y + 1,
-          1,
+        String locationText = LcsI18n.processString(
           "Leveraging their unparalleled expertise in tactical engagement "
           "and displacement logistics, a globally recognized private "
           "military company has initiated a daylight operation against the "
-          "${l.getName()} to seamlessly deliver live munitions into your "
+          "{location} to seamlessly deliver live munitions into your "
           "skull.",
+          {"location": l.getName()},
         );
+        addparagraph(console.y + 1, 1, locationText, noTranslate: true);
         await getKey();
         mvaddstrc(
           console.y + 1,
@@ -494,7 +546,8 @@ Future<void> siegeCheck() async {
           console.y + 1,
           1,
           red,
-          "Corporate mercenaries are moving to liquidate the ${l.getName()}.",
+          "Corporate mercenaries are moving to liquidate the {location}.",
+          params: {"location": l.getName()},
         );
         await getKey();
 
@@ -544,23 +597,20 @@ Future<void> siegeCheck() async {
         // Occasional advance warning before the raid.
         if (medicalSleeper != null || oneIn(5)) {
           erase();
-          String message = "";
-          message = "You have received ";
-          if (medicalSleeper != null) {
-            message += "a warning from ${medicalSleeper.name} ";
-          } else {
-            message += "an anonymous tip ";
-          }
-          message += "that the medical industry has ";
-          message += "dispatched an accounting team to ";
-          if (medicalSleeper != null) {
-            message += l.getName(includeCity: true);
-          } else {
-            message += "the LCS";
-          }
-          message += " to secure payment of unpaid hospital bills.";
+          final message = medicalSleeper != null
+              ? LcsI18n.processString(
+                  "You have received a warning from {sleeper} that the medical industry has dispatched an accounting team to {location} to secure payment of unpaid hospital bills.",
+                  {
+                    "sleeper": medicalSleeper.name,
+                    "location": l.getName(includeCity: true),
+                  },
+                )
+              : LcsI18n.processString(
+                  "You have received an anonymous tip that the medical industry has dispatched an accounting team to the LCS to secure payment of unpaid hospital bills.",
+                  const {},
+                );
           setColor(white);
-          addparagraph(8, 1, message);
+          addparagraph(8, 1, message, noTranslate: true);
           await getKey();
         }
       } else if (l.siege.timeuntilmedical > 0 && !l.siege.underSiege) {
@@ -581,40 +631,21 @@ Future<void> siegeCheck() async {
         addparagraph(
           4,
           1,
-          "A small fleet of ambulances surrounds the front of ${l.getName()}. "
-          "As they open, a bunch of office workers in cheap suits climb out "
-          "while handling rifles that most of them look like they have "
-          "no idea how to use.",
+          medicalDebtArrivalBriefing,
+          params: {"location": l.getName()},
         );
         await getKey();
         setColor(white);
-        addparagraph(
-          console.y + 1,
-          1,
-          "A gangly accountant climbs up onto one of the ambulances and "
-          "speaks into a loudspeaker: \"Liberal Crime Squad! We're here "
-          "to collect on your unpaid hospital bills! We have no political "
-          "issue with you, we're not gonna try to bring you to justice "
-          "or anything like that, but you owe us a buncha money and "
-          "we're here to settle the debt!\"",
-        );
+        addparagraph(console.y + 1, 1, medicalDebtCollectionSpeech);
         await getKey();
-        addparagraph(
-          console.y + 1,
-          1,
-          "The accountant lifts an AR-15 haphazardly and continues: "
-          "\"Open up and we'll have a nice chat! Without our guns even! "
-          "I have some sweet pens we can sign the paperwork with, and we "
-          "even brought doughnuts! They're gluten free, you'll like them! "
-          "Please, we don't wanna shoot anyone, we're from the finance "
-          "department!\"",
-        );
+        addparagraph(console.y + 1, 1, medicalDebtFinanceSpeech);
         await getKey();
         setColor(lightBlue);
         addparagraph(
           console.y + 1,
           1,
-          "Hopsital debt collectors are moving to settle with the ${l.getName()}.",
+          "Hospital debt collectors are moving to settle with the {location}.",
+          params: {"location": l.getName()},
         );
         await getKey();
 
@@ -647,11 +678,16 @@ Future<void> siegeCheck() async {
           );
           if (ccsSleeper != null) {
             erase();
-            addparagraph(
+            mvaddstrc(
               8,
               1,
-              "You have received warning from ${ccsSleeper.name} that the CCS "
-              "is gearing up to attack ${l.getName()} in ${l.city.name}.",
+              white,
+              "You have received warning from {sleeper} that the CCS is gearing up to attack {location} in {city}.",
+              params: {
+                "sleeper": ccsSleeper.name,
+                "location": l.getName(),
+                "city": l.city.name,
+              },
             );
             await getKey();
           }
@@ -669,7 +705,8 @@ Future<void> siegeCheck() async {
             8,
             1,
             white,
-            "A screeching truck pulls up to ${l.getName()}!",
+            "A screeching truck pulls up to {location}!",
+            params: {"location": l.getName()},
           );
           await getKey();
 
@@ -710,7 +747,7 @@ Future<void> siegeCheck() async {
                     move(killedY, killedX);
                     pool[i].die();
                     setColor(pool[i].align.color);
-                    addstr("${pool[i].name}, ");
+                    addstr("{name}, ", params: {"name": pool[i].name});
                     killedX += namelength + 2;
                   } else {
                     if (injuredX + namelength > 78) {
@@ -720,7 +757,7 @@ Future<void> siegeCheck() async {
                     }
                     move(injuredY, injuredX);
                     setColor(pool[i].align.color);
-                    addstr("${pool[i].name}, ");
+                    addstr("{name}, ", params: {"name": pool[i].name});
                     injuredX += namelength + 2;
                   }
                 }
@@ -771,13 +808,12 @@ Future<void> siegeCheck() async {
         );
         if (agentsleeper != null) {
           erase();
-          mvaddstrc(
+          addparagraph(
             8,
             1,
-            white,
-            "${agentsleeper.name} has sent word that the CIA is planning ",
+            "{agent} has sent word that the CIA is planning to launch an attack on {location}!",
+            params: {"agent": agentsleeper.name, "location": l.getName()},
           );
-          mvaddstr(9, 1, "to launch an attack on ${l.getName()}!");
           await getKey();
         }
       } else if (l.siege.timeuntilcia > 0) {
@@ -790,12 +826,12 @@ Future<void> siegeCheck() async {
         // CIA raids!
         erase();
         setColor(red);
-        addparagraph(
-          6,
-          1,
+        String locationText = LcsI18n.processString(
           "In the dead of the night, a column of unmarked black vans with "
-          "tinted windows surrounds the ${l.getName()}.",
+          "tinted windows surrounds the {location}.",
+          {"location": l.getName()},
         );
+        addparagraph(6, 1, locationText, noTranslate: true);
         await getKey();
         final ciaSuspense = [
           "Hair stands on end... the air is charged with the sound of silence.",
@@ -830,27 +866,27 @@ Future<void> siegeCheck() async {
           ]);
         }
         if (compoundSuspense.isNotEmpty) {
-          mvaddstr(console.y + 2, 1, compoundSuspense.random);
+          addparagraph(console.y + 2, 1, compoundSuspense.random);
           await getKey();
         }
         if (l.compound.cameras) {
-          mvaddstr(console.y + 2, 1, "The camera feeds are dead.");
+          addparagraph(console.y + 2, 1, "The camera feeds are dead.");
           l.siege.camerasOff = true;
           await getKey();
         }
         if (l.compound.generator) {
-          mvaddstr(console.y + 2, 1, "The generator won't start.");
+          addparagraph(console.y + 2, 1, "The generator won't start.");
           await getKey();
         }
         if (l.compound.solarPanels) {
-          mvaddstr(
+          addparagraph(
             console.y + 2,
             1,
             "The solar batteries are suddenly reporting no charge.",
           );
           await getKey();
         }
-        mvaddstr(
+        addparagraph(
           console.y + 2,
           1,
           "The compound is plunged into darkness as the doors spontaneously unlock.",
@@ -887,12 +923,12 @@ Future<void> siegeCheck() async {
           numpres > 0) {
         erase();
         setColor(red);
-        addparagraph(
-          6,
-          1,
+        String locationText = LcsI18n.processString(
           "A loosely-organized column of pickup trucks sporting gun racks "
-          "and Confederate flags is approaching the ${l.getName()}.",
+          "and Confederate flags is approaching the {location}.",
+          {"location": l.getName()},
         );
+        addparagraph(6, 1, locationText, noTranslate: true);
         await getKey();
         setColor(white);
         addparagraph(
@@ -905,13 +941,13 @@ Future<void> siegeCheck() async {
           "children.",
         );
         await getKey();
-        addparagraph(
-          console.y + 1,
-          1,
+        String assaultText = LcsI18n.processString(
           "Rallied by misguided calls to violence that swept through social "
-          "media, the Conservative masses are pouring into ${l.district.name} "
-          "to assault the ${l.getName()}!",
+          "media, the Conservative masses are pouring into {district} "
+          "to assault the {location}!",
+          {"district": l.district.name, "location": l.getName()},
         );
+        addparagraph(console.y + 1, 1, assaultText, noTranslate: true);
         await getKey();
 
         l.siege.activeSiegeType = SiegeType.angryRuralMob;
@@ -944,10 +980,12 @@ Future<void> siegeTurn() async {
       erase();
       setColor(white);
 
-      mvaddstr(
+      mvaddstrFitted(
         8,
         1,
-        "Conservatives have raided the ${l.getName()}, an unoccupied safehouse.",
+        "Conservatives have raided the {location}, an unoccupied safehouse.",
+        console.width - 1,
+        params: {"location": l.getName()},
       );
 
       if (l.siege.activeSiegeType == SiegeType.ccs &&
@@ -963,14 +1001,25 @@ Future<void> siegeTurn() async {
         Creature p = pool[i];
         if (p.location != l) continue;
         if (!p.alive) {
-          mvaddstr(y++, 1, p.name);
-          addstr("'s corpse has been recovered.");
+          mvaddstrFitted(
+            y++,
+            1,
+            "{name}'s corpse has been recovered.",
+            console.width - 1,
+            params: {"name": localizedCreatureName(p)},
+          );
           await getKey();
           pool.remove(p);
           continue;
         }
         if (p.align != Alignment.liberal) {
-          mvaddstr(y++, 1, "${p.name} has been rescued.");
+          mvaddstrFitted(
+            y++,
+            1,
+            "{name} has been rescued.",
+            console.width - 1,
+            params: {"name": localizedCreatureName(p)},
+          );
           await getKey();
           pool.remove(p);
           continue;
@@ -1006,22 +1055,31 @@ Future<void> siegeTurn() async {
         // Check if liberal starved to death.
         if (p.blood <= 0) {
           p.die();
-          await showMessage("${p.name} has starved to death.");
+          mvaddstrc(
+            8,
+            1,
+            lightGray,
+            "{name} has starved to death.",
+            params: {"name": p.name},
+          );
+          await getKey();
         }
       }
-
-      String cops = l.siege.escalationState == SiegeEscalation.police
-          ? "cops"
-          : "troops";
 
       //ATTACK!
       bool attack = false;
       if (oneIn(12)) attack = true;
 
       if (attack) {
-        await showMessage(
-          "The $cops are moving in! They're about to breach the front door!",
-        );
+        final breachMessage = l.siege.escalationState == SiegeEscalation.police
+            ? LcsI18n.tr(
+                "The cops are moving in! They're about to breach the front door!",
+              )
+            : LcsI18n.tr(
+                "The troops are moving in! They're about to breach the front door!",
+              );
+        mvaddstrc(8, 1, lightGray, breachMessage, noTranslate: true);
+        await getKey();
         l.siege.underAttack = true;
       } else {
         bool nothingBadHappened = true;
@@ -1031,7 +1089,12 @@ Future<void> siegeTurn() async {
             !(l.compound.generator || l.compound.solarPanels) &&
             oneIn(10)) {
           nothingBadHappened = false;
-          await showMessage("The $cops have cut the lights!");
+          final lightsMessage =
+              l.siege.escalationState == SiegeEscalation.police
+              ? LcsI18n.tr("The cops have cut the lights!")
+              : LcsI18n.tr("The troops have cut the lights!");
+          mvaddstrc(8, 1, lightGray, lightsMessage, noTranslate: true);
+          await getKey();
           l.siege.lightsOff = true;
         }
 
@@ -1047,14 +1110,28 @@ Future<void> siegeTurn() async {
               .randomOrNull;
           if (target != null) {
             if (lcsRandom(100) > target.juice) {
-              await showMessage("A sniper takes out ${target.name}!");
+              mvaddstrc(
+                8,
+                1,
+                lightGray,
+                "A sniper takes out {name}!",
+                params: {"name": target.name},
+              );
+              await getKey();
               if (target.align == Alignment.liberal) {
                 liberalcount--;
               }
               target.squad = null;
               target.die();
             } else {
-              await showMessage("A sniper nearly hits ${target.name}!");
+              mvaddstrc(
+                8,
+                1,
+                lightGray,
+                "A sniper nearly hits {name}!",
+                params: {"name": target.name},
+              );
+              await getKey();
             }
           }
         }
@@ -1123,16 +1200,37 @@ Future<void> siegeTurn() async {
                   .randomOrNull;
               if (victim != null) {
                 if (lcsRandom(100) > victim.juice) {
-                  await showMessage("The blast kills ${victim.name}!");
+                  mvaddstrc(
+                    8,
+                    1,
+                    lightGray,
+                    "The blast kills {name}!",
+                    params: {"name": victim.name},
+                  );
+                  await getKey();
                   if (victim.align == Alignment.liberal) {
                     liberalcount--;
                   }
                   victim.squad = null;
                   victim.die();
                 } else if (oneIn(2)) {
-                  await showMessage("${victim.name} narrowly avoids death!");
+                  mvaddstrc(
+                    8,
+                    1,
+                    lightGray,
+                    "{name} narrowly avoids death!",
+                    params: {"name": victim.name},
+                  );
+                  await getKey();
                 } else {
-                  await showMessage("${victim.name} is injured in the blast!");
+                  mvaddstrc(
+                    8,
+                    1,
+                    lightGray,
+                    "{name} is injured in the blast!",
+                    params: {"name": victim.name},
+                  );
+                  await getKey();
                   victim.blood -= min(lcsRandom(50) + 50, victim.blood ~/ 2);
                   for (BodyPart bp in victim.body.parts) {
                     if (oneIn(2)) {
@@ -1190,16 +1288,34 @@ Future<void> siegeTurn() async {
 
           erase();
           setColor(lightGray);
-          String publicationName = "$newsNameA $newsNameB";
-          String newsBody =
-              "Elite Journalist ${repname.firstLast} from the $newsType $publicationName "
-              "got into the compound somehow!";
-          addparagraph(1, 1, newsBody);
+          String publicationName = LcsI18n.processString(
+            "{firstWord} {secondWord}",
+            {
+              "firstWord": LcsI18n.tr(newsNameA),
+              "secondWord": LcsI18n.tr(newsNameB),
+            },
+          );
+          String newsBody = LcsI18n.processString(
+            "Elite Journalist {journalist} from the {newsType} {publication} got into the compound somehow!",
+            {
+              "journalist": repname.firstLast,
+              "newsType": LcsI18n.tr(newsType),
+              "publication": publicationName,
+            },
+          );
+          addparagraph(1, 1, newsBody, noTranslate: true);
           await getKey();
+
+          void appendNewsParagraph(String paragraph) {
+            newsBody += "\n\n$paragraph";
+            addparagraph(console.y + 1, 1, paragraph, noTranslate: true);
+          }
 
           NewsStory ns = NewsStory.unpublished(NewsStories.majorEvent);
           ns.loc = l;
-          ns.byline = "By ${repname.firstLast}";
+          ns.byline = LcsI18n.processString("By {journalist}", {
+            "journalist": repname.firstLast,
+          });
           ns.publicationName = publicationName;
           ns.publicationAlignment = DeepAlignment.moderate;
           ns.headline = "INTERVIEW: LCS UNDER SIEGE";
@@ -1223,19 +1339,21 @@ Future<void> siegeTurn() async {
 
             if (sum > bestvalue) {
               best = i;
-              bestvalue = sum - p.juice ~/ 20;
+              bestvalue = sum;
             }
           }
 
-          String paragraph = "${pool[best].name} decides to give an interview.";
-          newsBody += "\n\n$paragraph";
-          addparagraph(console.y + 1, 1, paragraph);
+          String paragraph = LcsI18n.processString(
+            "{name} decides to give an interview.",
+            {"name": pool[best].name},
+          );
+          appendNewsParagraph(paragraph);
           await getKey();
 
-          paragraph =
-              "The interview is wide-ranging, covering a variety of topics.";
-          newsBody += "\n\n$paragraph";
-          addparagraph(console.y + 1, 1, paragraph);
+          paragraph = LcsI18n.tr(
+            "The interview is wide-ranging, covering a variety of topics.",
+          );
+          appendNewsParagraph(paragraph);
           await getKey();
 
           debugPrint("bestvalue: $bestvalue");
@@ -1245,53 +1363,103 @@ Future<void> siegeTurn() async {
           bool itsAboutDrugs = false;
 
           if (segmentpower < 15) {
-            String playName =
-                "${["Ridiculous", "Oblivious", "Clueless", "Inept", "The Wrong", "Semiconscious", "Empty-Headed", "Half-Baked", "Pot-Smoking", "Stoned"].random} ${["Liberal", "Socialist", "Anarchist", "Communist", "Marxist", "Green", "Leftist", "Guerrilla", "Rebel", "Radical", "Stoner"].random}";
+            String playName = LcsI18n.processString(
+              "{firstWord} {secondWord}",
+              {
+                "firstWord": LcsI18n.tr(
+                  [
+                    "Ridiculous",
+                    "Oblivious",
+                    "Clueless",
+                    "Inept",
+                    "The Wrong",
+                    "Semiconscious",
+                    "Empty-Headed",
+                    "Half-Baked",
+                    "Pot-Smoking",
+                    "Stoned",
+                  ].random,
+                ),
+                "secondWord": LcsI18n.tr(
+                  [
+                    "Liberal",
+                    "Socialist",
+                    "Anarchist",
+                    "Communist",
+                    "Marxist",
+                    "Green",
+                    "Leftist",
+                    "Guerrilla",
+                    "Rebel",
+                    "Radical",
+                    "Stoner",
+                  ].random,
+                ),
+              },
+            );
             ns.headline = playName.toUpperCase();
-            ns.publicationName = "On Broadway";
-            newsBody =
-                "&G${pool[best].name.toUpperCase()} (singing):\n"
-                "&wBarricaded tight, my snacks running low,\n"
-                "They're banging at the door, yelling \"Time to go!\"\n"
-                "The revolution's here, and the fight's at my door,\n"
-                "But I'd rather just get high and let my mind explore";
-            String paragraph =
-                "${repname.firstLast} canceled the interview halfway through "
-                "and later used the material for a Broadway play called "
-                "$playName.";
-            addparagraph(console.y + 1, 1, paragraph);
+            ns.publicationName = LcsI18n.tr("On Broadway");
+            newsBody = [
+              LcsI18n.processString("&G{name} (singing):", {
+                "name": pool[best].name.toUpperCase(),
+              }),
+              LcsI18n.tr("&wBarricaded tight, my snacks running low,"),
+              LcsI18n.tr(
+                "They're banging at the door, yelling \"Time to go!\"",
+              ),
+              LcsI18n.tr("The revolution's here, and the fight's at my door,"),
+              LcsI18n.tr(
+                "But I'd rather just get high and let my mind explore",
+              ),
+            ].join("\n");
+            String paragraph = LcsI18n.processString(
+              "{journalist} canceled the interview halfway through "
+              "and later used the material for a Broadway play called {playName}.",
+              {"journalist": repname.firstLast, "playName": playName},
+            );
+            addparagraph(console.y + 1, 1, paragraph, noTranslate: true);
             itsAboutDrugs = true;
           } else if (segmentpower < 20) {
-            String paragraph =
-                "But the interview is so boring that ${repname.firstLast} falls asleep.";
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            String paragraph = LcsI18n.processString(
+              "But the interview is so boring that {journalist} falls asleep.",
+              {"journalist": repname.firstLast},
+            );
+            appendNewsParagraph(paragraph);
           } else if (segmentpower < 25) {
-            String paragraph =
-                "But ${pool[best].name} stutters nervously the whole time.";
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            String paragraph = LcsI18n.processString(
+              "But {name} stutters nervously the whole time.",
+              {"name": pool[best].name},
+            );
+            appendNewsParagraph(paragraph);
           } else if (segmentpower < 30) {
-            String paragraph =
-                "${pool[best].name}'s verbal finesse leaves something to be desired.";
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            String paragraph = LcsI18n.processString(
+              "{name}'s verbal finesse leaves something to be desired.",
+              {"name": pool[best].name},
+            );
+            appendNewsParagraph(paragraph);
           } else if (segmentpower < 35) {
-            String paragraph = "${pool[best].name} represents the LCS well.";
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            String paragraph = LcsI18n.processString(
+              "{name} represents the LCS well.",
+              {"name": pool[best].name},
+            );
+            appendNewsParagraph(paragraph);
           } else if (segmentpower < 50) {
-            String paragraph =
-                "The discussion was exciting and dynamic. "
-                "Even the Cable News and AM Radio spend days talking about it.";
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            String paragraph = LcsI18n.tr(
+              "The discussion was exciting and dynamic. Even the Cable News and AM Radio spend days talking about it.",
+            );
+            appendNewsParagraph(paragraph);
           } else {
-            String paragraph =
-                "${repname.firstLast} later went on to win a Pulitzer for it. "
-                "Virtually everyone in America was moved by ${pool[best].name}'s words.";
-            newsBody += "\n\n$paragraph";
-            addparagraph(console.y + 1, 1, paragraph);
+            String paragraph = [
+              LcsI18n.processString(
+                "{journalist} later went on to win a Pulitzer for it. ",
+                {"journalist": repname.firstLast},
+              ),
+              LcsI18n.processString(
+                "Virtually everyone in America was moved by {name}'s words.",
+                {"name": pool[best].name},
+              ),
+            ].join();
+            appendNewsParagraph(paragraph);
           }
 
           await getKey();
@@ -1346,11 +1514,10 @@ Future<void> siegeDefeat() async {
     setColor(white);
     move(1, 1);
     if (loc.siege.escalationState == SiegeEscalation.police) {
-      addstr("The police");
+      addstr("The police confiscate everything, including Squad weapons.");
     } else {
-      addstr("The soldiers");
+      addstr("The soldiers confiscate everything, including Squad weapons.");
     }
-    addstr(" confiscate everything, including Squad weapons.");
 
     int kcount = 0, pcount = 0, icount = 0;
     String? kname, pname, pcname;
@@ -1397,23 +1564,40 @@ Future<void> siegeDefeat() async {
     }
 
     if (kcount == 1) {
-      mvaddstr(3, 1, "$kname is rehabilitated and freed.");
+      mvaddstr(
+        3,
+        1,
+        "{name} is rehabilitated and freed.",
+        params: {"name": kname},
+      );
     }
     if (kcount > 1) {
       mvaddstr(3, 1, "The kidnap victims are rehabilitated and freed.");
     }
     if (pcount == 1) {
-      mvaddstr(5, 1, pname!);
       if (pname != pcname) {
-        addstr(", aka $pcname,");
-        move(6, 1);
+        mvaddstr(
+          5,
+          1,
+          "{pname}, aka {pcname}, is taken to the police station.",
+          params: {"pname": pname, "pcname": pcname},
+        );
       } else {
-        addstr(" ");
+        mvaddstr(
+          5,
+          1,
+          "{name} is taken to the police station.",
+          params: {"name": pname},
+        );
       }
-      addstr("is taken to the police station.");
     }
     if (pcount > 1) {
-      mvaddstr(5, 1, "$pcount Liberals are taken to the police station.");
+      mvaddstr(
+        5,
+        1,
+        "{count} Liberals are taken to the police station.",
+        params: {"count": pcount},
+      );
     }
     if (ledger.funds > 0) {
       if (ledger.funds <= 2000) {
@@ -1427,7 +1611,8 @@ Future<void> siegeDefeat() async {
         mvaddstr(
           8,
           1,
-          "Law enforcement has confiscated \$$confiscated in LCS funds.",
+          "Law enforcement has confiscated {amount} in LCS funds.",
+          params: {"amount": LcsI18n.currencyAmount(confiscated)},
         );
         ledger.subtractFunds(confiscated, Expense.confiscated);
       }
@@ -1507,7 +1692,13 @@ Future<void> siegeDefeat() async {
     }
 
     erase();
-    mvaddstrc(1, 1, white, "Everyone in the ${loc.getName()} is slain.");
+    mvaddstrc(
+      1,
+      1,
+      white,
+      "Everyone in the {location} is slain.",
+      params: {"location": loc.getName()},
+    );
     await getKey();
 
     NewsStory.prepare(NewsStories.massacre)
@@ -1591,7 +1782,8 @@ Future<SallyForthResult> sallyForthPart3(Site loc) async {
     }
   }
 
-  chaseSequence = ChaseSequence(loc);
+  chaseSequence = ChaseSequence(loc)
+    ..canpullover = canSurrenderToEncounter(encounter);
   ChaseOutcome outcome = await footChaseSequence(
     showStandardText: false,
     autoPromoteFromSitePool: loc,
@@ -1628,34 +1820,54 @@ Future<SallyForthResult> sallyForthPart3(Site loc) async {
   }
 }
 
+void renderHomelessCampSiegeBriefing() {
+  // Keep the briefing inside the fixed console while allowing translated
+  // sentences to wrap instead of silently clipping their final words.
+  erase();
+  mvaddstrc(1, 26, red, "UNDER ATTACK: HOMELESS CAMP");
+
+  setColor(lightGray);
+  var y = 3;
+
+  void addBriefingLine(int x, String text) {
+    addparagraph(y, x, text, y2: 21, x2: console.width - 1);
+    y = console.y;
+  }
+
+  addBriefingLine(16, "You are about to mount a defense of the homeless camp.");
+  addBriefingLine(
+    11,
+    "The enemy is expecting resistance, and you will have to defeat them all or run away to survive this encounter.",
+  );
+  addBriefingLine(
+    11,
+    "Some agitators are also turning out to resist with you.",
+  );
+
+  // Preserve the original section break before the squad instructions.
+  y++;
+  addBriefingLine(11, "Your Squad has filled out to six members if any were ");
+  addBriefingLine(
+    11,
+    "available.  If you have a larger pool of Liberals, they",
+  );
+  addBriefingLine(11, "will provide cover fire and hang back until needed.");
+
+  mvaddstrcFitted(
+    23,
+    11,
+    red,
+    "Press any key to Confront the Conservative Aggressors",
+    console.width - 11,
+  );
+}
+
 Future<void> fightHomelessCampSiege() async {
   Site? loc = activeSafehouse ?? activeSquad?.members.firstOrNull?.site;
   if (loc == null) return;
 
   //GIVE INFO SCREEN
-  erase();
-  mvaddstrc(1, 26, red, "UNDER ATTACK: HOMELESS CAMP");
-
-  mvaddstrc(
-    3,
-    16,
-    lightGray,
-    "You are about to mount a defense of the homeless camp.",
-  );
-  mvaddstr(4, 11, "The enemy is expecting resistance, and you will have to");
-  mvaddstr(5, 11, "defeat them all or run away to survive this encounter.");
-  mvaddstr(6, 11, "Some agitators are also turning out to resist with you.");
-
-  mvaddstr(8, 11, "Your Squad has filled out to six members if any were ");
-  mvaddstr(9, 11, "available.  If you have a larger pool of Liberals, they");
-  mvaddstr(10, 11, "will provide cover fire and hang back until needed.");
-
-  mvaddstrc(
-    23,
-    11,
-    red,
-    "Press any key to Confront the Conservative Aggressors",
-  );
+  renderHomelessCampSiegeBriefing();
 
   await getKey();
 
@@ -1718,7 +1930,9 @@ Future<void> sallyForthPart2(Site loc) async {
   // No squads at the location? Form a new one.
   if (activeSquad == null) {
     squads.add(Squad());
-    squads.last.name = "${activeSafehouse!.getName(short: true)} Defense";
+    squads.last.name = LcsI18n.processString("{location} Defense", {
+      "location": activeSafehouse!.getName(short: true),
+    });
     int i = 0;
     for (Creature p in pool) {
       if (p.location == activeSafehouse &&
@@ -1754,70 +1968,62 @@ Future<void> sallyForthPart2(Site loc) async {
 }
 
 /* siege - prepares for entering site mode to fight the siege */
+bool hasAvailableSafehouseDefenders(Site loc) {
+  if (loc.creaturesPresent.any((p) => p.isActiveLiberal)) return true;
+  return activeSquad?.members.any((p) => p.isActiveLiberal) ?? false;
+}
+
 Future<void> escapeOrEngage() async {
   Site? loc = activeSafehouse ?? activeSquad?.members.firstOrNull?.site;
   if (loc == null) return;
+
+  if (!hasAvailableSafehouseDefenders(loc)) {
+    erase();
+    addparagraph(
+      3,
+      2,
+      "There are no available Liberals to defend this safehouse.",
+      y2: 21,
+      x2: console.width - 1,
+    );
+    addOptionText(23, 1, "any key", "Press any key to continue.");
+    await getKey();
+    return;
+  }
 
   //GIVE INFO SCREEN
   erase();
   mvaddstrc(1, 26, red, "UNDER ATTACK: ESCAPE OR ENGAGE");
 
-  mvaddstrc(
-    3,
-    16,
-    lightGray,
+  final engagementBriefing = <String>[
     "You are about to engage Conservative forces in battle.",
-  );
-  mvaddstr(
-    4,
-    11,
-    "You will find yourself in the Liberal safehouse, and it will",
-  );
-  mvaddstr(5, 11, "be swarming with Conservative units.  The Liberal Crime");
-  mvaddstr(
-    6,
-    11,
-    "Squad will be located far from the entrance to the safehouse.",
-  );
-  mvaddstr(
-    7,
-    11,
-    "It is your task to bring your squad out to safety, or fight",
-  );
-  mvaddstr(
-    8,
-    11,
-    "off the Conservatives within the perimeter.  Either way you",
-  );
-  mvaddstr(
-    9,
-    11,
-    "choose, any equipment from the safehouse which isn't held by a",
-  );
-  mvaddstr(10, 11, "Liberal will be scattered about the compound.  Save what");
-  mvaddstr(11, 11, "you can.  You might notice your Squad has filled out to");
-  mvaddstr(
-    12,
-    11,
-    "six members if any were available.  If you have a larger pool",
-  );
-  mvaddstr(13, 11, "of Liberals, they will be traveling behind the Squad.");
-  mvaddstr(14, 11, "There is a new button, (R)eorganize, which reflects this.");
-  mvaddstr(15, 11, "Squad members in the back with firearms can provide cover");
-  mvaddstr(
-    16,
-    11,
-    "fire.  If you have at least six people total, then six must",
-  );
-  mvaddstr(17, 11, "be in the Squad.  If less than six, then they all must.");
+    "You will find yourself in the Liberal safehouse, and it will be swarming "
+        "with Conservative units. The Liberal Crime Squad will be located far "
+        "from the entrance to the safehouse. It is your task to bring your "
+        "squad out to safety, or fight off the Conservatives within the "
+        "perimeter. Either way you choose, any equipment from the safehouse "
+        "which isn't held by a Liberal will be scattered about the compound. "
+        "Save what you can. You might notice your Squad has filled out to six "
+        "members if any were available. If you have a larger pool of Liberals, "
+        "they will be traveling behind the Squad. There is a new button, "
+        "(R)eorganize, which reflects this. Squad members in the back with "
+        "firearms can provide cover fire. If you have at least six people total, "
+        "then six must be in the Squad. If less than six, then they all must.",
+    if (loc.compound.cameras)
+      "Your security cameras let you see units on the (M)ap.",
+    if (loc.compound.boobyTraps)
+      "Your traps will harass the enemy, but not the Squad.",
+  ].map((line) => LcsI18n.tr(line).trim()).join(" ");
 
-  int y = 19;
-  if (loc.compound.cameras) {
-    mvaddstr(y++, 16, "Your security cameras let you see units on the (M)ap.");
-  }
-  if (loc.compound.boobyTraps) {
-    mvaddstr(y++, 16, "Your traps will harass the enemy, but not the Squad.");
-  }
+  setColor(lightGray);
+  addparagraph(
+    3,
+    2,
+    engagementBriefing,
+    y2: 21,
+    x2: console.width - 1,
+    noTranslate: true,
+  );
 
   mvaddstrc(
     23,
@@ -1844,7 +2050,9 @@ Future<void> escapeOrEngage() async {
   // No squads at the location? Form a new one.
   if (activeSquad == null) {
     squads.add(Squad());
-    squads.last.name = "${activeSafehouse!.getName(short: true)} Defense";
+    squads.last.name = LcsI18n.processString("{location} Defense", {
+      "location": activeSafehouse!.getName(short: true),
+    });
     for (Creature p in activeSafehouse!.creaturesPresent.where(
       (p) => p.isActiveLiberal,
     )) {
@@ -1855,6 +2063,13 @@ Future<void> escapeOrEngage() async {
       }
     }
     activeSquad = squads.last;
+  }
+
+  // A siege can outlive the last Liberal at a safehouse while the briefing
+  // is on screen. Do not pass an empty squad into site mode.
+  if (activeSquad?.members.isEmpty ?? true) {
+    activeSquad = null;
+    return;
   }
 
   //MAKE SURE PARTY IS ORGANIZED
@@ -1917,18 +2132,13 @@ Future<void> escapeSiege(bool won) async {
     if (squad != null) {
       if (squad.members.isNotEmpty) {
         homes = findSiteInSameCity(
-          squad.members.first.site!.city,
+          activeSquad!.members.first.site!.city,
           SiteType.homelessEncampment,
         );
       }
     }
 
-    mvaddstrc(
-      13,
-      11,
-      yellow,
-      "Press any key to split up and lay low for a few days",
-    );
+    printEscapeSiegePrompt();
 
     await getKey();
 
@@ -1983,6 +2193,14 @@ Future<void> escapeSiege(bool won) async {
     }
     loc.siege.activeSiegeType = SiegeType.none;
   }
+
+  // If you won, increase the heat and escalate the siege
+  if (won && activeSite!.siege.activeSiegeType == SiegeType.police) {
+    activeSite!.heat += 1000;
+    activeSite!.siege.escalationState = activeSite!.siege.escalationState
+        .escalate();
+  }
+  activeSite!.siege.activeSiegeType = SiegeType.none;
 }
 
 /* siege - flavor text when you fought off the raid */
@@ -2017,64 +2235,86 @@ Future<void> conquerTextCCS() async {
   erase();
   mvaddstrc(1, 26, lightGreen, "* * * * *   VICTORY   * * * * *");
 
-  String text = "";
+  late final String text;
   if (ccsBaseKills < 3) {
     if (ccsSiegeConverts > 10) {
-      text +=
-          "Music still ringing in their ears, the squad revels in "
-          "their victory.\n\n";
-    } else if (ccsBossConverts > 0) {
-      text +=
-          "The CCS Lieutenant lost in self-realization, the squad "
-          "slips away.\n\n";
-    } else if (ccsSiegeKills > 10) {
-      text +=
-          "Gunfire still ringing in their ears, the squad revels in "
-          "their victory.\n\n";
-    } else {
-      text +=
-          "The CCS Lieutenant lying dead at their feet, the squad "
-          "slips away.\n\n";
-    }
-    text +=
-        "The CCS Founder wasn't here, but for now, their power has been "
-        "severely weakened.  Once the safehouse cools off, this will make a "
-        "fine base for our future Liberal operations.";
-  } else {
-    bool pacifist = false;
-    if (ccsSiegeConverts > 10) {
-      text +=
-          "Music still ringing in their ears, the squad revels in "
-          "their final victory.\n\n"
-          "As your Liberals speak to the former CCS members, it is increasingly "
-          "clear that this was the CCS's last safehouse.\n\n";
-      pacifist = true;
-    } else if (ccsBossConverts > 0) {
-      text +=
-          "The CCS Founder lost in self-realization, the squad "
-          "slips away.\n\n"
-          "With even its Founder swearing off Conservatism forever, the last "
-          "of the CCS's morale and confidence is shattered.\n\n";
-      pacifist = true;
-    } else if (ccsSiegeKills > 10) {
-      text +=
-          "Gunfire still ringing in their ears, the squad revels in their "
-          "final victory.\n\n"
-          "As your Liberals pick through the remains of the safehouse, it is "
-          "increasingly clear that this was the CCS's last safehouse.\n\n";
-    } else {
-      text +=
-          "The CCS Founder lying dead at their feet, the squad "
-          "slips away.\n\n"
-          "With its leadership crushed by the forces of Liberalism, the last "
-          "of the CCS's morale and confidence is shattered.\n\n";
-    }
+      text = LcsI18n.processString(
+        """Music still ringing in their ears, the squad revels in their victory.
 
-    text +=
-        "The CCS has been completely ${pacifist ? "neutralized" : "destroyed"}.  Now wasn't there a "
-        "revolution to attend to?\n\n";
-    text +=
-        "+200 JUICE TO EVERYONE FOR ${pacifist ? "CONVERTING" : "ERADICATING"} THE CONSERVATIVE CRIME SQUAD";
+The CCS Founder wasn't here, but for now, their power has been severely weakened.  Once the safehouse cools off, this will make a fine base for our future Liberal operations.""",
+        null,
+      );
+    } else if (ccsBossConverts > 0) {
+      text = LcsI18n.processString(
+        """The CCS Lieutenant lost in self-realization, the squad slips away.
+
+The CCS Founder wasn't here, but for now, their power has been severely weakened.  Once the safehouse cools off, this will make a fine base for our future Liberal operations.""",
+        null,
+      );
+    } else if (ccsSiegeKills > 10) {
+      text = LcsI18n.processString(
+        """Gunfire still ringing in their ears, the squad revels in their victory.
+
+The CCS Founder wasn't here, but for now, their power has been severely weakened.  Once the safehouse cools off, this will make a fine base for our future Liberal operations.""",
+        null,
+      );
+    } else {
+      text = LcsI18n.processString(
+        """The CCS Lieutenant lying dead at their feet, the squad slips away.
+
+The CCS Founder wasn't here, but for now, their power has been severely weakened.  Once the safehouse cools off, this will make a fine base for our future Liberal operations.""",
+        null,
+      );
+    }
+  } else {
+    final pacifist = ccsSiegeConverts > 10 || ccsBossConverts > 0;
+    final pacifistAction = LcsI18n.tr(pacifist ? "neutralized" : "destroyed");
+    final ccsAction = LcsI18n.tr(pacifist ? "CONVERTING" : "ERADICATING");
+    if (ccsSiegeConverts > 10) {
+      text = LcsI18n.processString(
+        """Music still ringing in their ears, the squad revels in their final victory.
+
+As your Liberals speak to the former CCS members, it is increasingly clear that this was the CCS's last safehouse.
+
+The CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?
+
++200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD""",
+        {"pacifistAction": pacifistAction, "ccsAction": ccsAction},
+      );
+    } else if (ccsBossConverts > 0) {
+      text = LcsI18n.processString(
+        """The CCS Founder lost in self-realization, the squad slips away.
+
+With even its Founder swearing off Conservatism forever, the last of the CCS's morale and confidence is shattered.
+
+The CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?
+
++200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD""",
+        {"pacifistAction": pacifistAction, "ccsAction": ccsAction},
+      );
+    } else if (ccsSiegeKills > 10) {
+      text = LcsI18n.processString(
+        """Gunfire still ringing in their ears, the squad revels in their final victory.
+
+As your Liberals pick through the remains of the safehouse, it is increasingly clear that this was the CCS's last safehouse.
+
+The CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?
+
++200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD""",
+        {"pacifistAction": pacifistAction, "ccsAction": ccsAction},
+      );
+    } else {
+      text = LcsI18n.processString(
+        """The CCS Founder lying dead at their feet, the squad slips away.
+
+With its leadership crushed by the forces of Liberalism, the last of the CCS's morale and confidence is shattered.
+
+The CCS has been completely {pacifistAction}.  Now wasn't there a revolution to attend to?
+
++200 JUICE TO EVERYONE FOR {ccsAction} THE CONSERVATIVE CRIME SQUAD""",
+        {"pacifistAction": pacifistAction, "ccsAction": ccsAction},
+      );
+    }
 
     for (Creature p in pool) {
       addjuice(p, 200, 1000);
@@ -2118,7 +2358,14 @@ Future<void> ccsRemainingSafehouseIntel(List<Site> remaining) async {
   mvaddstr(y++, 1, "Remaining CCS safehouses:");
   for (Site s in remaining) {
     setColor(lightGray);
-    mvaddstr(y++, 5, "${s.getName()} in ${s.city.getName()}");
+    mvaddstr(
+      y++,
+      5,
+      LcsI18n.processString("{site} in {city}", {
+        "site": s.getName(),
+        "city": s.city.getName(),
+      }),
+    );
     if (s.hidden) {
       anyHidden = true;
       addstrc(red, " (hidden CCS safehouse)");
@@ -2175,7 +2422,9 @@ Future<void> stateBrokenLaws(Site loc) async {
   bool kidnappedThePresident =
       hostages.firstWhereOrNull((h) => h == uniqueCreatures.president) != null;
   if (kidnappedThePresident) {
-    kname = "President ${uniqueCreatures.president.properName.split(" ").last}";
+    kname = LcsI18n.processString("President {lastName}", {
+      "lastName": uniqueCreatures.president.properName.split(" ").last,
+    });
   }
   int typenum = brokenLaws.length;
 
@@ -2203,18 +2452,49 @@ Future<void> stateBrokenLaws(Site loc) async {
 
   //KIDNAP VICTIM
   if (kidnapped > 0) {
-    addstr("Release $kname");
-    if (kidnapped > 1) addstr(" and the others");
-    addstr(" unharmed!");
+    if (kidnapped > 1) {
+      mvaddstrc(
+        4,
+        1,
+        lightGray,
+        "Release {name} and the others unharmed!",
+        params: {"name": kname},
+      );
+    } else {
+      mvaddstrc(
+        4,
+        1,
+        lightGray,
+        "Release {name} unharmed!",
+        params: {"name": kname},
+      );
+    }
   } else {
-    String crimeName =
-        Crime.values
-            .firstWhereOrNull((c) => brokenLaws.contains(c))
-            ?.wantedFor ??
-        "questioning";
-    addstr("You are wanted for $crimeName");
-    if (typenum > 1) addstr(" and other crimes");
-    addstr("!");
+    String crimeName = LcsI18n.tr(
+      Crime.values
+              .firstWhereOrNull((c) => brokenLaws.contains(c))
+              ?.chargedWith ??
+          "questioning",
+    );
+    if (typenum == 0) {
+      mvaddstrc(4, 1, red, "You are wanted for questioning!");
+    } else if (typenum > 1) {
+      mvaddstrc(
+        4,
+        1,
+        red,
+        "You are wanted for {crime} and other crimes!",
+        params: {"crime": crimeName},
+      );
+    } else {
+      mvaddstrc(
+        4,
+        1,
+        red,
+        "You are wanted for {crime}!",
+        params: {"crime": crimeName},
+      );
+    }
   }
 
   await getKey();

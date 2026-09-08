@@ -30,6 +30,6 @@ DeepAlignment? parseAlignment(String value) {
     "m" || "moderate" => DeepAlignment.moderate,
     "c" || "conservative" => DeepAlignment.conservative,
     "c+" || "arch conservative" => DeepAlignment.archConservative,
-    _ => null
+    _ => null,
   };
 }

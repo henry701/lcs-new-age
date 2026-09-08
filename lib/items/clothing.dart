@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/body.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/clothing_type.dart';
 import 'package:lcs_new_age/items/item.dart';
@@ -16,14 +17,14 @@ part 'clothing.g.dart';
 @JsonSerializable(ignoreUnannotated: true)
 class Clothing extends Item {
   Clothing(super.typeName, {super.stackSize, this.armorId})
-      : super.superConstructor() {
+    : super.superConstructor() {
     armorId ??= type.allowedArmor.first.idName;
     damaged = false;
   }
   Clothing.fromType(ClothingType type, ArmorUpgrade armor, {int quality = 1})
-      : _quality = quality,
-        armorId = armor.idName,
-        super.superConstructor(type.idName) {
+    : _quality = quality,
+      armorId = armor.idName,
+      super.superConstructor(type.idName) {
     armorId ??= type.allowedArmor.first.idName;
     damaged = false; // Setting damaged to false will set up the armor values
   }
@@ -35,10 +36,11 @@ class Clothing extends Item {
   @JsonKey()
   bool bloody = false;
   @JsonKey(
-      includeToJson: true,
-      includeFromJson: true,
-      defaultValue: false,
-      name: "damaged")
+    includeToJson: true,
+    includeFromJson: true,
+    defaultValue: false,
+    name: "damaged",
+  )
   bool _damaged = false;
   bool get damaged =>
       _damaged ||
@@ -155,9 +157,11 @@ class Clothing extends Item {
     if (quality > type.durability) {
       return "Tattered Rags";
     } else if (damaged) {
-      return "${type.name} (d)";
+      return LcsI18n.processString("{clothing} (d)", {
+        "clothing": LcsI18n.tr(type.name),
+      });
     } else {
-      return type.name;
+      return LcsI18n.tr(type.name);
     }
   }
 
@@ -185,7 +189,8 @@ class Clothing extends Item {
       limbArmorAvg += (4 - _limbArmor.length) * maxLimbArmor;
     }
     limbArmorAvg /= max(4, _limbArmor.length);
-    double totalArmor = (bodyArmor + bodyArmor + limbArmorAvg + headArmor) /
+    double totalArmor =
+        (bodyArmor + bodyArmor + limbArmorAvg + headArmor) /
         (maxBodyArmor + maxBodyArmor + maxLimbArmor + maxHeadArmor) *
         bodyArmor;
     if (totalArmor < 0) totalArmor = 0;
@@ -217,18 +222,18 @@ class Clothing extends Item {
       case 7:
         precision = 2;
       default:
-        return "+$armorValue";
+        return LcsI18n.processString("+{armor}", {"armor": armorValue});
     }
     int roundedArmor = (armorValue / precision).round() * precision;
     roundedArmor = roundedArmor.clamp(0, armorValue);
-    return "+~$roundedArmor";
+    return LcsI18n.processString("+~{armor}", {"armor": roundedArmor});
   }
 
   @override
   String equipTitle({bool full = false}) {
-    String et = full ? type.name : type.shortName;
+    String et = full ? LcsI18n.tr(type.name) : LcsI18n.tr(type.shortName);
     if (quality > type.qualityLevels) {
-      et = "Tattered Rags";
+      et = LcsI18n.tr("Tattered Rags");
     }
     et += "&C${shortArmorDetail()}&x";
     if ((quality > 1 && quality <= type.qualityLevels) || bloody || damaged) {
@@ -248,12 +253,19 @@ class Clothing extends Item {
   }
 
   @override
-  void printEquipTitle(
-      {bool full = false, Color baseColor = lightGray, bool armor = true}) {
+  void printEquipTitle({
+    bool full = false,
+    Color baseColor = lightGray,
+    bool armor = true,
+  }) {
     if (quality > type.qualityLevels) {
-      addstrc(baseColor, "Tattered Rags");
+      addstrc(baseColor, LcsI18n.tr("Tattered Rags"), noTranslate: true);
     } else {
-      addstrc(baseColor, full ? type.name : type.shortName);
+      addstrc(
+        baseColor,
+        LcsI18n.tr(full ? type.name : type.shortName),
+        noTranslate: true,
+      );
     }
     if (armor) {
       addstrc(lightBlue, shortArmorDetail());
@@ -287,13 +299,15 @@ class Clothing extends Item {
     if (headArmor < other.headArmor) return -1;
     if (headArmor > other.headArmor) return 1;
     for (String key in _limbArmor.keys) {
-      int comp = _limbArmor[key]!
-          .compareTo(other._limbArmor[key] ?? other.maxLimbArmor);
+      int comp = _limbArmor[key]!.compareTo(
+        other._limbArmor[key] ?? other.maxLimbArmor,
+      );
       if (comp != 0) return comp;
     }
     for (String key in other._limbArmor.keys) {
-      int comp =
-          (_limbArmor[key] ?? maxLimbArmor).compareTo(other._limbArmor[key]!);
+      int comp = (_limbArmor[key] ?? maxLimbArmor).compareTo(
+        other._limbArmor[key]!,
+      );
       if (comp != 0) return comp;
     }
     if (bloody && !other.bloody) return -1;

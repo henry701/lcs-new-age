@@ -5,9 +5,9 @@ Map<String, VehicleType> vehicleTypes = {};
 
 class VehicleType {
   VehicleType(String definition)
-      : longName = definition,
-        shortName = definition,
-        idName = definition {
+    : longName = definition,
+      shortName = definition,
+      idName = definition {
     vehicleTypes[idName] = this;
   }
   String longName;

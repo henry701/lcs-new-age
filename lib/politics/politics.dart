@@ -73,12 +73,12 @@ class Politics {
   Map<String, dynamic> toJson() => _$PoliticsToJson(this);
 
   Map<View, double> publicOpinion = {
-    for (View v in View.values) v: 35 + lcsRandomDouble(20)
+    for (View v in View.values) v: 35 + lcsRandomDouble(20),
   };
   Map<View, int> publicInterest = {for (View v in View.values) v: 0};
   Map<View, int> backgroundInfluence = {for (View v in View.values) v: 0};
   Map<Law, DeepAlignment> laws = {
-    for (Law l in Law.values) l: DeepAlignment.conservative
+    for (Law l in Law.values) l: DeepAlignment.conservative,
   };
   List<DeepAlignment> senate = List.generate(100, (s) {
     if (s < 40) return DeepAlignment.archConservative;
@@ -108,10 +108,10 @@ class Politics {
     }
   }).toList();
   Map<Exec, DeepAlignment> exec = {
-    for (Exec e in Exec.values) e: DeepAlignment.archConservative
+    for (Exec e in Exec.values) e: DeepAlignment.archConservative,
   };
   Map<Exec, FullName> execName = {
-    for (Exec e in Exec.values) e: generateFullName(Gender.whiteMalePatriarch)
+    for (Exec e in Exec.values) e: generateFullName(Gender.whiteMalePatriarch),
   };
   int execTerm = 1;
   PoliticalParty presidentParty = PoliticalParty.republican;
@@ -125,11 +125,15 @@ class Politics {
   void promoteVP() {
     exec[Exec.president] = exec[Exec.vicePresident]!;
     execName[Exec.president] = execName[Exec.vicePresident]!;
-    if ([DeepAlignment.archConservative, DeepAlignment.conservative]
-        .contains(exec[Exec.president])) {
+    if ([
+      DeepAlignment.archConservative,
+      DeepAlignment.conservative,
+    ].contains(exec[Exec.president])) {
       presidentParty = PoliticalParty.republican;
-    } else if ([DeepAlignment.eliteLiberal, DeepAlignment.liberal]
-        .contains(exec[Exec.president])) {
+    } else if ([
+      DeepAlignment.eliteLiberal,
+      DeepAlignment.liberal,
+    ].contains(exec[Exec.president])) {
       presidentParty = PoliticalParty.democrat;
     }
     uniqueCreatures.newPresident();
@@ -179,7 +183,8 @@ class Politics {
       double moralAuthority = lcsPopularity + extraMoralAuthority;
       power = power * (20 + moralAuthority) / 100;
     } else if (coloredByCcsOpinions) {
-      power = power *
+      power =
+          power *
           (100 - publicOpinion[View.ccsHated]! + extraMoralAuthority) /
           100;
     }
@@ -273,21 +278,26 @@ class Politics {
     Iterable<MapEntry<DeepAlignment, double>> possibleSupporters;
     if (partisan) {
       if (presidentParty == PoliticalParty.democrat) {
-        possibleSupporters = voters.entries
-            .where((e) => e.key.index >= DeepAlignment.moderate.index);
+        possibleSupporters = voters.entries.where(
+          (e) => e.key.index >= DeepAlignment.moderate.index,
+        );
       } else {
-        possibleSupporters = voters.entries
-            .where((e) => e.key.index <= DeepAlignment.moderate.index);
+        possibleSupporters = voters.entries.where(
+          (e) => e.key.index <= DeepAlignment.moderate.index,
+        );
       }
     } else {
       possibleSupporters = voters.entries;
     }
     double accumulateSupport(
-            double value, MapEntry<DeepAlignment, double> voter) =>
-        value + voter.value / ((voter.key.index - align.index).abs() + 1);
+      double value,
+      MapEntry<DeepAlignment, double> voter,
+    ) => value + voter.value / ((voter.key.index - align.index).abs() + 1);
 
-    double actualSupport =
-        possibleSupporters.fold<double>(0, accumulateSupport);
+    double actualSupport = possibleSupporters.fold<double>(
+      0,
+      accumulateSupport,
+    );
     return (actualSupport * 100).round();
   }
 
@@ -311,32 +321,32 @@ class Politics {
   }
 
   List<View> viewsForLaw(Law law) => switch (law) {
-        Law.abortion => [View.womensRights],
-        Law.animalRights => [View.animalResearch],
-        Law.policeReform => [View.policeBehavior],
-        Law.privacy => [View.intelligence],
-        Law.deathPenalty => [View.deathPenalty],
-        Law.nuclearPower => [View.nuclearPower],
-        Law.pollution => [View.pollution],
-        Law.labor => [View.sweatshops],
-        Law.lgbtRights => [View.lgbtRights],
-        Law.corporate => [View.corporateCulture],
-        Law.freeSpeech => [View.freeSpeech],
-        Law.flagBurning => [View.freeSpeech],
-        Law.gunControl => [View.gunControl],
-        Law.taxes => [View.taxes],
-        Law.genderEquality => [View.womensRights],
-        Law.civilRights => [View.civilRights],
-        Law.drugs => [View.drugs],
-        Law.immigration => [View.immigration],
-        Law.elections => [View.freeSpeech, View.justices],
-        Law.military => [View.military],
-        Law.prisons => [View.prisons],
-        Law.torture => [View.intelligence, View.policeBehavior],
-        Law.housing => [View.housing],
-        Law.healthcare => [View.healthcare],
-        Law.retirement => [View.retirement],
-      };
+    Law.abortion => [View.womensRights],
+    Law.animalRights => [View.animalResearch],
+    Law.policeReform => [View.policeBehavior],
+    Law.privacy => [View.intelligence],
+    Law.deathPenalty => [View.deathPenalty],
+    Law.nuclearPower => [View.nuclearPower],
+    Law.pollution => [View.pollution],
+    Law.labor => [View.sweatshops],
+    Law.lgbtRights => [View.lgbtRights],
+    Law.corporate => [View.corporateCulture],
+    Law.freeSpeech => [View.freeSpeech],
+    Law.flagBurning => [View.freeSpeech],
+    Law.gunControl => [View.gunControl],
+    Law.taxes => [View.taxes],
+    Law.genderEquality => [View.womensRights],
+    Law.civilRights => [View.civilRights],
+    Law.drugs => [View.drugs],
+    Law.immigration => [View.immigration],
+    Law.elections => [View.freeSpeech, View.justices],
+    Law.military => [View.military],
+    Law.prisons => [View.prisons],
+    Law.torture => [View.intelligence, View.policeBehavior],
+    Law.housing => [View.housing],
+    Law.healthcare => [View.healthcare],
+    Law.retirement => [View.retirement],
+  };
 
   double publicSupportForLaw(Law law) {
     List<View> views = viewsForLaw(law);
@@ -371,7 +381,4 @@ enum Exec {
   }
 }
 
-enum PoliticalParty {
-  democrat,
-  republican,
-}
+enum PoliticalParty { democrat, republican }

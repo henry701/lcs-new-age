@@ -39,46 +39,59 @@ void assignPublicationsToNewspaperStories() {
     case CCSStrength.inHiding:
       conservativeStarChance = 0;
     case CCSStrength.active:
-      conservativeStarChance =
-          max(0, 30 * politics.publicOpinion[View.ccsHated]! / 100);
+      conservativeStarChance = max(
+        0,
+        30 * politics.publicOpinion[View.ccsHated]! / 100,
+      );
     case CCSStrength.attacks:
-      conservativeStarChance =
-          max(0, 70 * politics.publicOpinion[View.ccsHated]! / 100);
+      conservativeStarChance = max(
+        0,
+        70 * politics.publicOpinion[View.ccsHated]! / 100,
+      );
     case CCSStrength.sieges:
-      conservativeStarChance =
-          max(0, 100 * politics.publicOpinion[View.ccsHated]! / 100);
+      conservativeStarChance = max(
+        0,
+        100 * politics.publicOpinion[View.ccsHated]! / 100,
+      );
     case CCSStrength.defeated:
       conservativeStarChance = 0;
   }
 
   // Calculate Liberal Guardian chance based on active liberals' skills
   double liberalGuardianChance = 0;
-  int cumulativeLiberalGuardianSkill = pool
-          .where((c) =>
-              c.isActiveLiberal &&
-              c.activity.type == ActivityType.writeGuardian)
-          .fold(
-              0,
-              (sum, c) =>
-                  sum +
-                  c.skill(Skill.writing) +
-                  c.skill(Skill.religion) +
-                  c.skill(Skill.law) +
-                  c.skill(Skill.science) +
-                  c.skill(Skill.business)) +
+  int cumulativeLiberalGuardianSkill =
       pool
-          .where((c) =>
-              c.isActiveLiberal &&
-              c.activity.type == ActivityType.streamGuardian)
+          .where(
+            (c) =>
+                c.isActiveLiberal &&
+                c.activity.type == ActivityType.writeGuardian,
+          )
           .fold(
-              0,
-              (sum, c) =>
-                  sum +
-                  c.skill(Skill.persuasion) +
-                  c.skill(Skill.religion) +
-                  c.skill(Skill.law) +
-                  c.skill(Skill.science) +
-                  c.skill(Skill.business));
+            0,
+            (sum, c) =>
+                sum +
+                c.skill(Skill.writing) +
+                c.skill(Skill.religion) +
+                c.skill(Skill.law) +
+                c.skill(Skill.science) +
+                c.skill(Skill.business),
+          ) +
+      pool
+          .where(
+            (c) =>
+                c.isActiveLiberal &&
+                c.activity.type == ActivityType.streamGuardian,
+          )
+          .fold(
+            0,
+            (sum, c) =>
+                sum +
+                c.skill(Skill.persuasion) +
+                c.skill(Skill.religion) +
+                c.skill(Skill.law) +
+                c.skill(Skill.science) +
+                c.skill(Skill.business),
+          );
 
   // Train skills for active liberals
   for (Creature c in pool.where((c) => c.isActiveLiberal)) {
@@ -200,8 +213,9 @@ Future<void> generateRandomEventNewsStories() async {
 
 Future<void> displayNewsStories() async {
   for (NewsStory n in newsStories) {
-    Map<View, double> beforeOpinion =
-        Map.from(gameState.politics.publicOpinion);
+    Map<View, double> beforeOpinion = Map.from(
+      gameState.politics.publicOpinion,
+    );
     View? issueFocus;
 
     if (n.type == NewsStories.majorEvent) {
@@ -228,10 +242,9 @@ Future<void> displayNewsStories() async {
         SiteType.ceoHouse => View.ceoSalary,
         SiteType.amRadioStation => View.amRadio,
         SiteType.cableNewsStation => View.cableNews,
-        SiteType.upscaleApartment => View.housing,
-        SiteType.insuranceOffice => View.healthcare,
-        SiteType.nursingHome => View.retirement,
-        SiteType.barAndGrill || SiteType.bank => View.taxes,
+        SiteType.upscaleApartment ||
+        SiteType.barAndGrill ||
+        SiteType.bank => View.taxes,
         _ => null,
       };
     }
@@ -239,10 +252,14 @@ Future<void> displayNewsStories() async {
     await displayStory(n, issueFocus);
     handlePublicOpinionImpact(n);
 
-    n.effects = Map.fromEntries(gameState.politics.publicOpinion.entries
-        .where((entry) => entry.value != beforeOpinion[entry.key])
-        .map((entry) =>
-            MapEntry(entry.key, entry.value - beforeOpinion[entry.key]!)));
+    n.effects = Map.fromEntries(
+      gameState.politics.publicOpinion.entries
+          .where((entry) => entry.value != beforeOpinion[entry.key])
+          .map(
+            (entry) =>
+                MapEntry(entry.key, entry.value - beforeOpinion[entry.key]!),
+          ),
+    );
     n.unread = false;
     archiveNewsStory(n);
   }
@@ -349,7 +366,7 @@ void handlePublicOpinionImpact(NewsStory ns) {
     NewsStories.squadKilledInSiegeEscape,
     NewsStories.squadKilledInSiteAction,
     NewsStories.ccsSiteAction,
-    NewsStories.ccsKilledInSiteAction
+    NewsStories.ccsKilledInSiteAction,
   ];
 
   if (!okayTypes.contains(ns.type)) {
@@ -357,7 +374,8 @@ void handlePublicOpinionImpact(NewsStory ns) {
   }
 
   // Determine if this is a CCS or LCS story
-  bool isCCSStory = ns.type == NewsStories.ccsSiteAction ||
+  bool isCCSStory =
+      ns.type == NewsStories.ccsSiteAction ||
       ns.type == NewsStories.ccsKilledInSiteAction;
 
   // Calculate base impact
@@ -389,77 +407,60 @@ void handlePublicOpinionImpact(NewsStory ns) {
     SiteType.cosmeticsLab => [View.animalResearch, View.womensRights],
     SiteType.geneticsLab => [View.animalResearch, View.genetics],
     SiteType.policeStation => [
-        View.policeBehavior,
-        View.prisons,
-        View.drugs,
-        View.gunControl
-      ],
+      View.policeBehavior,
+      View.prisons,
+      View.drugs,
+      View.gunControl,
+    ],
     SiteType.fireStation => [if (noProfanity) View.freeSpeech],
     SiteType.courthouse || SiteType.whiteHouse => [
-        View.deathPenalty,
-        View.justices,
-        View.freeSpeech,
-        View.lgbtRights,
-        View.womensRights,
-        View.civilRights,
-      ],
+      View.deathPenalty,
+      View.justices,
+      View.freeSpeech,
+      View.lgbtRights,
+      View.womensRights,
+      View.civilRights,
+    ],
     SiteType.prison => [
-        View.deathPenalty,
-        View.drugs,
-        View.torture,
-        View.prisons,
-      ],
+      View.deathPenalty,
+      View.drugs,
+      View.torture,
+      View.prisons,
+    ],
     SiteType.armyBase => [View.torture, View.military, View.gunControl],
     SiteType.intelligenceHQ => [View.intelligence, View.torture, View.prisons],
     SiteType.sweatshop => [View.sweatshops, View.immigration],
     SiteType.dirtyIndustry => [View.sweatshops, View.pollution],
     SiteType.nuclearPlant => [View.nuclearPower],
     SiteType.corporateHQ => [
-        View.taxes,
-        View.corporateCulture,
-        View.womensRights,
-      ],
-    SiteType.ceoHouse => [View.taxes, View.ceoSalary, View.housing],
+      View.taxes,
+      View.corporateCulture,
+      View.womensRights,
+    ],
+    SiteType.ceoHouse => [View.taxes, View.ceoSalary],
     SiteType.amRadioStation => [
-        View.amRadio,
-        View.freeSpeech,
-        View.lgbtRights,
-        View.womensRights,
-        View.civilRights
-      ],
+      View.amRadio,
+      View.freeSpeech,
+      View.lgbtRights,
+      View.womensRights,
+      View.civilRights,
+    ],
     SiteType.cableNewsStation => [
-        View.cableNews,
-        View.freeSpeech,
-        View.lgbtRights,
-        View.womensRights,
-        View.civilRights
-      ],
-    SiteType.upscaleApartment => [
-        View.taxes,
-        View.ceoSalary,
-        View.gunControl,
-        View.housing,
-        View.retirement
-      ],
-    SiteType.apartment => [View.housing],
-    SiteType.tenement => [View.housing],
-    SiteType.homelessEncampment => [View.housing],
+      View.cableNews,
+      View.freeSpeech,
+      View.lgbtRights,
+      View.womensRights,
+      View.civilRights,
+    ],
+    SiteType.upscaleApartment => [View.taxes, View.ceoSalary, View.gunControl],
     SiteType.barAndGrill => [
-        View.taxes,
-        View.ceoSalary,
-        View.womensRights,
-        View.gunControl,
-        View.lgbtRights
-      ],
-    SiteType.bank => [
-        View.taxes,
-        View.ceoSalary,
-        View.corporateCulture,
-        View.retirement,
-        View.housing
-      ],
-    SiteType.insuranceOffice => [View.healthcare, View.corporateCulture],
-    SiteType.nursingHome => [View.housing, View.retirement, View.healthcare],
+      View.taxes,
+      View.ceoSalary,
+      View.womensRights,
+      View.gunControl,
+      View.lgbtRights,
+    ],
+    SiteType.bank => [View.taxes, View.ceoSalary, View.corporateCulture],
     _ => [],
   };
 
@@ -478,8 +479,12 @@ void handlePublicOpinionImpact(NewsStory ns) {
       changePublicOpinion(View.gunControl, finalImpact ~/ 5);
     }
     for (View issue in issues) {
-      changePublicOpinion(issue, -finalImpact,
-          coloredByCcsOpinions: true, extraMoralAuthority: extraMoralAuthority);
+      changePublicOpinion(
+        issue,
+        -finalImpact,
+        coloredByCcsOpinions: true,
+        extraMoralAuthority: extraMoralAuthority,
+      );
     }
   } else {
     // Handle LCS story impact
@@ -501,8 +506,12 @@ void handlePublicOpinionImpact(NewsStory ns) {
       changePublicOpinion(View.gunControl, -finalImpact ~/ 5);
     }
     for (View issue in issues) {
-      changePublicOpinion(issue, finalImpact,
-          coloredByLcsOpinions: true, extraMoralAuthority: extraMoralAuthority);
+      changePublicOpinion(
+        issue,
+        finalImpact,
+        coloredByLcsOpinions: true,
+        extraMoralAuthority: extraMoralAuthority,
+      );
     }
   }
   for (View issue in issues) {
@@ -513,7 +522,8 @@ void handlePublicOpinionImpact(NewsStory ns) {
         changePublicOpinion(View.lcsLiked, swayed.round());
       }
     } else {
-      double swayed = (100 - publicOpinion[issue]!) / 10 -
+      double swayed =
+          (100 - publicOpinion[issue]!) / 10 -
           (100 - publicOpinion[View.ccsHated]!);
       if (swayed > 0) {
         changePublicOpinion(View.ccsHated, -swayed.round());
@@ -721,10 +731,12 @@ void setpriority(NewsStory ns) {
 
 void setSiteStoryPositive(NewsStory ns) {
   // Using guns, or killing people, is frowned upon by moderate media
-  bool hasViolence = ns.drama.any((d) =>
-      d == Drama.killedSomebody ||
-      d == Drama.legalGunUsed ||
-      d == Drama.illegalGunUsed);
+  bool hasViolence = ns.drama.any(
+    (d) =>
+        d == Drama.killedSomebody ||
+        d == Drama.legalGunUsed ||
+        d == Drama.illegalGunUsed,
+  );
 
   if (ns.type == NewsStories.ccsSiteAction ||
       ns.type == NewsStories.ccsKilledInSiteAction) {

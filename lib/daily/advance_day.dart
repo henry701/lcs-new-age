@@ -19,6 +19,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/compound.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -101,9 +102,17 @@ Future<void> _advanceSquads() async {
       for (Creature c in s.members) {
         if (c.activity.type != ActivityType.none &&
             c.activity.type != s.activity.type) {
-          await showMessage(
-            "${c.name} acted with ${s.name} instead of ${c.activity.description}.",
+          final message = c.activity.type == ActivityType.recruiting
+              ? "{member} acted with {squad} instead of recruiting."
+              : "{member} acted with {squad} instead of carrying out the planned activity.";
+          showAdvanceDayMessage(
+            8,
+            1,
+            lightGray,
+            message,
+            params: {"member": c.name, "squad": localizedSquadName(s.name)},
           );
+          await getKey();
         }
         c.activity = s.activity;
       }
@@ -111,17 +120,27 @@ Future<void> _advanceSquads() async {
     if (s.activity.type == ActivityType.visit) {
       Site site = s.activity.location!;
       if (site.isClosed || site.siege.underSiege) {
-        await showMessage(
-          "${s.name} decided ${site.name} was too hot to risk.",
+        showAdvanceDayMessage(
+          8,
+          1,
+          lightGray,
+          "{squad} decided {site} was too hot to risk.",
+          params: {"squad": localizedSquadName(s.name), "site": site.getName()},
         );
+        await getKey();
         s.activity = Activity(ActivityType.none);
         continue;
       }
       await _carUpSquad(s, vehiclesInUse);
       if (site.area != s.site?.area && s.members.first.car == null) {
-        await showMessage(
-          "${s.name} didn't have a car to get to ${site.name}.",
+        showAdvanceDayMessage(
+          8,
+          1,
+          lightGray,
+          "{squad} didn't have a car to get to {site}.",
+          params: {"squad": localizedSquadName(s.name), "site": site.getName()},
         );
+        await getKey();
         s.activity = Activity(ActivityType.none);
         continue;
       }
@@ -142,13 +161,32 @@ Future<void> _advanceSquads() async {
         );
         int price = s.members.length * 100;
         if (ledger.funds < price) {
-          await showMessage(
-            "${s.name} couldn't afford to travel to ${site.name}.",
+          showAdvanceDayMessage(
+            8,
+            1,
+            lightGray,
+            "{squad} couldn't afford to travel to {site}.",
+            params: {
+              "squad": localizedSquadName(s.name),
+              "site": site.getName(),
+            },
           );
+          await getKey();
           canDepart = false;
         } else {
           ledger.subtractFunds(price, Expense.travel);
-          await showMessage("${s.name} paid $price to travel to ${site.name}.");
+          showAdvanceDayMessage(
+            8,
+            1,
+            lightGray,
+            "{squad} paid {price} to travel to {site}.",
+            params: {
+              "squad": localizedSquadName(s.name),
+              "price": price,
+              "site": site.getName(),
+            },
+          );
+          await getKey();
         }
       }
       if (canDepart) {
@@ -170,7 +208,17 @@ Future<void> _carUpSquad(Squad squad, List<Vehicle> vehiclesInUse) async {
       .toList();
   for (Vehicle v in desiredVehicles) {
     if (vehiclesInUse.contains(v)) {
-      await showMessage("${squad.name} couldn't use the ${v.fullName()}.");
+      showAdvanceDayMessage(
+        8,
+        1,
+        lightGray,
+        "{squad} couldn't use the {vehicle}.",
+        params: {
+          "squad": localizedSquadName(squad.name),
+          "vehicle": v.fullName(),
+        },
+      );
+      await getKey();
     }
   }
   desiredVehicles.removeWhere((v) => vehiclesInUse.contains(v));
@@ -237,20 +285,30 @@ Future<void> _ageThings() async {
           c.permanentHealthDamage = c.permanentHealthDamage + 1;
         } else {
           c.die();
-          await showMessageOrLog(
-            "${c.name} has passed away at the age of ${c.age}.",
+          mvaddstrc(
+            8,
+            1,
+            lightGray,
+            "{name} has passed away at the age of {age}.",
+            params: {"name": c.name, "age": c.age},
           );
-          if (canSeeThings) {
-            await showMessage(
-              "Their Heart finally gave out.  The Liberal will be missed.",
-            );
-          }
+          await getKey();
+          await showMessage(
+            "Their Heart finally gave out.  The Liberal will be missed.",
+          );
         }
       }
     }
     if (month == c.birthDate.month && day == c.birthDate.day) {
       if (!disbanding && canSeeThings) {
-        await showMessage("${c.name} is now ${c.age} years old.");
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          "{name} is now {age} years old.",
+          params: {"name": c.name, "age": c.age},
+        );
+        await getKey();
       }
       if (c.age == 13) {
         c.type = creatureTypes[CreatureTypeIds.teenager]!;
@@ -267,7 +325,14 @@ Future<void> _ageThings() async {
           if (!c.imprisoned) {
             c.location = c.base;
           }
-          await showMessage("${c.name} regains contact with the LCS.");
+          mvaddstrc(
+            8,
+            1,
+            lightGray,
+            "{name} regains contact with the LCS.",
+            params: {"name": c.name},
+          );
+          await getKey();
         }
       }
     }
@@ -294,11 +359,12 @@ Future<void> _squadDepart(Squad s) async {
     );
     return;
   }
-  if (s.members.first.base == site) {
-    await showMessage("${s.name} looks around ${site.name}.");
-  } else {
-    await showMessage("${s.name} has arrived at ${site.name}.");
-  }
+  showSquadArrivalMessage(
+    squadName: LcsI18n.tr(s.name),
+    siteName: site.getName(),
+    sameBase: s.members.first.base == site,
+  );
+  await getKey();
   int c = Key.t;
 
   if (site.controller == SiteController.lcs && s.members.first.base != site) {
@@ -310,6 +376,7 @@ Future<void> _squadDepart(Squad s) async {
     if (!raidableSafehouses.contains(site.type)) {
       c = Key.s;
     } else {
+      eraseLine(8);
       mvaddstrc(
         8,
         1,
@@ -357,6 +424,23 @@ Future<void> _squadDepart(Squad s) async {
     c.location = c.base;
     c.car?.locationId = c.site?.id;
   }
+}
+
+/// Keeps the generated destination name inside the fixed-width daily message row.
+void showSquadArrivalMessage({
+  required String squadName,
+  required String siteName,
+  required bool sameBase,
+}) {
+  showAdvanceDayMessage(
+    8,
+    1,
+    lightGray,
+    sameBase
+        ? "{squad} looks around {site}."
+        : "{squad} has arrived at {site}.",
+    params: {"squad": squadName, "site": siteName},
+  );
 }
 
 enum DispersalTypes {
@@ -532,25 +616,47 @@ Future<void> dispersalCheck() async {
               8,
               1,
               white,
-              "${p.name} lost touch with the Liberal Crime Squad.",
+              "{name} has lost touch with the Liberal Crime Squad.",
+              params: {"name": p.name},
             );
             await getKey();
             mvaddstrc(9, 1, lightGreen, "The Liberal has gone into hiding...");
             await getKey();
-            logBlindEvent("${p.name} lost touch with the Liberal Crime Squad.");
+            logBlindEvent(
+              LcsI18n.processString(
+                "{name} lost touch with the Liberal Crime Squad.",
+                {"name": p.name},
+              ),
+            );
           } else if (dispersalStatus[p] == DispersalTypes.abandonLCS) {
-            mvaddstrc(8, 1, white, "${p.name} abandoned the LCS.");
+            mvaddstrc(
+              8,
+              1,
+              white,
+              "{name} has abandoned the LCS.",
+              params: {"name": p.name},
+            );
             await getKey();
-            logBlindEvent("${p.name} abandoned the LCS.");
+            logBlindEvent(
+              LcsI18n.processString("{name} abandoned the LCS.", {
+                "name": p.name,
+              }),
+            );
           } else if (dispersalStatus[p] == DispersalTypes.noContact) {
             mvaddstrc(
               8,
               1,
               white,
-              "${p.name} lost touch with the Liberal Crime Squad.",
+              "{name} has lost touch with the Liberal Crime Squad.",
+              params: {"name": p.name},
             );
             await getKey();
-            logBlindEvent("${p.name} lost touch with the Liberal Crime Squad.");
+            logBlindEvent(
+              LcsI18n.processString(
+                "{name} lost touch with the Liberal Crime Squad.",
+                {"name": p.name},
+              ),
+            );
           }
         }
 
@@ -612,12 +718,13 @@ Future<Creature?> _promoteSubordinates(Creature cr) async {
         subordinates.isNotEmpty) // Disintegration of the LCS
     {
       erase();
-      mvaddstrc(8, 1, white, "${cr.name} has died.");
+      mvaddstrc(8, 1, white, "{name} has died.", params: {"name": cr.name});
       await getKey();
       mvaddstr(
         10,
         1,
         "There are none left with the courage and conviction to lead....",
+        params: {},
       );
       await getKey();
     }
@@ -641,23 +748,34 @@ Future<Creature?> _promoteSubordinates(Creature cr) async {
 
   if (bigboss != null) {
     // Normal promotion
-    mvaddstrc(8, 1, white, "${bigboss.name} has promoted ${newboss.name}");
-    mvaddstr(9, 1, "due to the death of ${cr.name}.");
+    mvaddstrc(
+      8,
+      1,
+      white,
+      "{bigboss} has promoted {newboss}",
+      params: {"bigboss": bigboss.name, "newboss": newboss.name},
+    );
+    mvaddstr(9, 1, "due to the death of {cr}.", params: {"cr": cr.name});
     if (subordinates.isNotEmpty) {
-      mvaddstr(11, 1, "${newboss.name} will take over for ");
-      addstr("${cr.name} in the command chain.");
+      mvaddstr(
+        11,
+        1,
+        "{newboss} will take over for ",
+        params: {"newboss": newboss.name},
+      );
+      addstr("{cr} in the command chain.", params: {"cr": cr.name});
     }
     await getKey();
   } else {
     // Founder level promotion
-    mvaddstrc(8, 1, white, "${cr.name} has died.");
+    mvaddstrc(8, 1, white, "{name} has died.", params: {"name": cr.name});
     await getKey();
 
     mvaddstr(
       10,
       1,
-      "${newboss.name} is the new leader "
-      "of the Liberal Crime Squad!",
+      "{newboss} is the new leader of the Liberal Crime Squad!",
+      params: {"newboss": newboss.name},
     );
     await getKey();
 
@@ -770,7 +888,14 @@ Future<void> _dailyHealing() async {
       }
       if (p.alive && p.blood < 0) {
         p.die();
-        await showMessageOrLog("${p.name} has died of injuries.");
+        showAdvanceDayMessage(
+          8,
+          1,
+          lightGray,
+          "{name} has died of injuries.",
+          params: {"name": p.name},
+        );
+        await getKey();
       }
       for (BodyPart w in p.body.parts) {
         // Limbs blown off
@@ -907,8 +1032,13 @@ Future<void> _dailyHealing() async {
           p.align == Alignment.liberal &&
           p.site!.controller == SiteController.lcs &&
           p.site!.type != SiteType.universityHospital) {
-        setColor(white);
-        mvaddstr(8, 1, "${p.name}'s injuries require professional treatment.");
+        showAdvanceDayMessage(
+          8,
+          1,
+          white,
+          "{name}'s injuries require professional treatment.",
+          params: {"name": p.name},
+        );
         p.activity = Activity(ActivityType.clinic);
         await getKey();
       }
@@ -925,13 +1055,27 @@ Future<void> _dailyHealing() async {
       if (p.medicalBills > 0) {
         erase();
         setColor(lightGray);
-        mvaddstr(6, 1, "${p.name} is being discharged from ${p.site!.name}.");
+        mvaddstr(
+          6,
+          1,
+          "{name} is being discharged from {site}.",
+          params: {"name": p.name, "site": p.site!.getName()},
+        );
         mvaddstrx(
           8,
           1,
-          "&w${p.name}'s hospital bill comes to &R\$${p.medicalBills}&w.",
+          "&w{name}'s hospital bill comes to &R{bill}&w.",
+          params: {
+            "name": p.name,
+            "bill": LcsI18n.currencyAmount(p.medicalBills),
+          },
         );
-        mvaddstrx(9, 1, "The LCS has &G\$${ledger.funds}&w available.");
+        mvaddstrx(
+          9,
+          1,
+          "The LCS has &G{funds}&w available.",
+          params: {"funds": LcsI18n.currencyAmount(ledger.funds)},
+        );
         addOptionText(
           11,
           1,
@@ -953,7 +1097,8 @@ Future<void> _dailyHealing() async {
         }
       } else {
         await showMessage(
-          "${p.name} has been discharged from ${p.site!.name}.",
+          "{name} has been discharged from {site}.",
+          params: {"name": p.name, "site": p.site!.getName()},
         );
       }
 
@@ -1035,9 +1180,14 @@ Future<void> _doRent() async {
           ledger.subtractFunds(l.rent, Expense.rent);
         } else {
           //EVICTED!!!!!!!!!
-          await showMessageOrLog(
-            "EVICTION NOTICE: ${l.name}.  Possessions dumped on the street.",
+          mvaddstrc(
+            8,
+            1,
+            lightGray,
+            "EVICTION NOTICE: {location}.  Possessions dumped on the street.",
+            params: {"location": l.name},
           );
+          await getKey();
 
           l.controller = SiteController.unaligned;
 

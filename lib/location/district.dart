@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/city.dart';
 import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -10,7 +11,7 @@ part 'district.g.dart';
 @JsonSerializable(ignoreUnannotated: true)
 class District implements Location {
   District(this.shortName, this.name, this.cityId, {required this.area})
-      : id = gameState.nextDistrictId++;
+    : id = gameState.nextDistrictId++;
   factory District.fromJson(Map<String, dynamic> json) =>
       _$DistrictFromJson(json);
   Map<String, dynamic> toJson() => _$DistrictToJson(this);
@@ -39,12 +40,15 @@ class District implements Location {
   @override
   String getName({bool short = false, bool includeCity = false}) {
     if (short) {
-      return shortName;
+      return LcsI18n.tr(shortName);
     } else {
       if (includeCity) {
-        return "$name, ${city.name}";
+        return LcsI18n.processString("{district}, {city}", {
+          "district": LcsI18n.tr(name),
+          "city": city.getName(),
+        });
       } else {
-        return name;
+        return LcsI18n.tr(name);
       }
     }
   }

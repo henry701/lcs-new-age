@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
@@ -30,11 +31,12 @@ Future<void> creatureadvance() async {
         if (p.prisoner!.align != Alignment.liberal) {
           clearMessageArea();
           setColor(white);
-          move(9, 1);
-          addstr(p.name);
-          addstr(" drops ");
-          addstr(p.prisoner!.name);
-          addstr("'s body.");
+          mvaddstr(
+            9,
+            1,
+            "{name} drops {prisonerName}'s body.",
+            params: {"name": p.name, "prisonerName": p.prisoner!.name},
+          );
 
           makeLoot(p.prisoner!, groundLoot);
 
@@ -225,12 +227,12 @@ Future<void> advancecreature(Creature cr) async {
           topmedical.skillCheck(Skill.firstAid, Difficulty.hard)) {
         clearMessageArea();
         setColor(lightGreen);
-        move(9, 1);
-        addstr(topmedical.name);
-        addstr(" was able to slow the bleeding of");
-        move(10, 1);
-        addstr(cr.name);
-        addstr("'s wounds.");
+        mvaddstr(
+          9,
+          1,
+          "{medic} was able to slow the bleeding of {patient}'s wounds.",
+          params: {"medic": topmedical.name, "patient": cr.name},
+        );
 
         topmedical.train(Skill.firstAid, 50);
         w.bleeding = 0;
@@ -247,8 +249,9 @@ Future<void> advancecreature(Creature cr) async {
       !oneIn(3) &&
       (levelMap[locx][locy][locz].firePeak ||
           levelMap[locx][locy][locz].fireEnd)) {
-    int burndamage =
-        (levelMap[locx][locy][locz].firePeak) ? lcsRandom(10) : lcsRandom(5);
+    int burndamage = (levelMap[locx][locy][locz].firePeak)
+        ? lcsRandom(10)
+        : lcsRandom(5);
     clearMessageArea();
 
     // Firefighter's bunker gear reduces burn damage
@@ -273,9 +276,14 @@ Future<void> advancecreature(Creature cr) async {
       await creatureDie(cr, true);
     } else if (burndamage > 0) {
       setColor(darkRed);
-      move(9, 1);
-      addstr(cr.name);
-      addstr(" is burned!");
+      mvaddstr(
+        9,
+        1,
+        LcsI18n.processStringGendered("{name} is burned!", {
+          "name": cr.name,
+        }, gender: cr.gender),
+        noTranslate: true,
+      );
 
       await getKey();
     }

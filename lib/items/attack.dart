@@ -50,8 +50,4 @@ class Fire {
   int chanceCausesDebris = 0;
 }
 
-enum SeverType {
-  none,
-  clean,
-  nasty,
-}
+enum SeverType { none, clean, nasty }

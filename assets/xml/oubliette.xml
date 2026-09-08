@@ -92,7 +92,7 @@
     <department>
         <entry>Purchase Medieval Armor</entry>
         <letter>a</letter>
-        <ui>clothes</ui>
+        <ui>armor</ui>
         <exit>Done</exit>
         <item>
             <class>ARMOR</class>

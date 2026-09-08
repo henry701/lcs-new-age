@@ -17,31 +17,52 @@ int displayStoryHeader(NewsStory ns, View? header) {
   switch (ns.type) {
     case NewsStories.presidentImpeached:
       displayCenteredNewsFont(
-          getLastNameForHeadline(politics.oldPresidentName), 5, ns);
+        getLastNameForHeadline(politics.oldPresidentName),
+        5,
+        ns,
+      );
       displayCenteredNewsFont("IMPEACHED", 11, ns);
     case NewsStories.presidentBelievedDead:
       displayCenteredNewsFont(
-          getLastNameForHeadline(politics.oldPresidentName), 5, ns);
+        getLastNameForHeadline(politics.oldPresidentName),
+        5,
+        ns,
+      );
       displayCenteredNewsFont("BELIEVED DEAD", 11, ns);
     case NewsStories.presidentFoundDead:
       displayCenteredNewsFont(
-          getLastNameForHeadline(politics.oldPresidentName), 5, ns);
+        getLastNameForHeadline(politics.oldPresidentName),
+        5,
+        ns,
+      );
       displayCenteredNewsFont("FOUND DEAD", 11, ns);
     case NewsStories.presidentFound:
       displayCenteredNewsFont(
-          getLastNameForHeadline(politics.oldPresidentName), 5, ns);
+        getLastNameForHeadline(politics.oldPresidentName),
+        5,
+        ns,
+      );
       displayCenteredNewsFont("RESCUED", 11, ns);
     case NewsStories.presidentKidnapped:
       displayCenteredNewsFont(
-          getLastNameForHeadline(politics.oldPresidentName), 5, ns);
+        getLastNameForHeadline(politics.oldPresidentName),
+        5,
+        ns,
+      );
       displayCenteredNewsFont("KIDNAPPED", 11, ns);
     case NewsStories.presidentMissing:
       displayCenteredNewsFont(
-          getLastNameForHeadline(politics.oldPresidentName), 5, ns);
+        getLastNameForHeadline(politics.oldPresidentName),
+        5,
+        ns,
+      );
       displayCenteredNewsFont("MISSING", 11, ns);
     case NewsStories.presidentAssassinated:
       displayCenteredNewsFont(
-          getLastNameForHeadline(politics.oldPresidentName), 5, ns);
+        getLastNameForHeadline(politics.oldPresidentName),
+        5,
+        ns,
+      );
       displayCenteredNewsFont("ASSASSINATED", 11, ns);
     case NewsStories.ccsNoBackers:
       displayCenteredNewsFont("FBI HUNTS CCS", 5, ns);
@@ -102,7 +123,10 @@ int displayStoryHeader(NewsStory ns, View? header) {
             if (ns.priority > 250) {
               y = 11;
               displayCenteredNewsFont(
-                  ["HUGE LCS HIT", "UNSTOPPABLE"].random, 5, ns);
+                ["HUGE LCS HIT", "UNSTOPPABLE"].random,
+                5,
+                ns,
+              );
             } else {
               y = 11;
               displayCenteredNewsFont("LCS STRIKES", 5, ns);
@@ -111,112 +135,121 @@ int displayStoryHeader(NewsStory ns, View? header) {
             y = 11;
             if (ns.priority > 150) {
               if (header != null) {
-                changePublicOpinion(header, 5,
-                    coloredByLcsOpinions: true); // Bonus for big story
+                changePublicOpinion(
+                  header,
+                  5,
+                  coloredByLcsOpinions: true,
+                ); // Bonus for big story
               }
               switch (header) {
                 case View.taxes:
                   displayCenteredNewsFont(
-                      ["TAX EVASION", "TAX THE RICH", "INEQUALITY"].random,
-                      5,
-                      ns);
+                    ["TAX EVASION", "TAX THE RICH", "INEQUALITY"].random,
+                    5,
+                    ns,
+                  );
                 case View.sweatshops:
                   displayCenteredNewsFont(
-                      ["HUMAN TOLL", "BROKEN LIVES", "FORCED LABOR"].random,
-                      5,
-                      ns);
+                    ["HUMAN TOLL", "BROKEN LIVES", "FORCED LABOR"].random,
+                    5,
+                    ns,
+                  );
                 case View.ceoSalary:
                   displayCenteredNewsFont(
-                      ["WEALTH HOARDED", "LAVISH LIES", "RICH TYRANT"].random,
-                      5,
-                      ns);
+                    ["WEALTH HOARDED", "LAVISH LIES", "RICH TYRANT"].random,
+                    5,
+                    ns,
+                  );
                 case View.nuclearPower:
                   displayCenteredNewsFont(
-                      ["MELTDOWN RISK", "TOXIC LEGACY", "NUCLEAR DREAD"].random,
-                      5,
-                      ns);
+                    ["MELTDOWN RISK", "TOXIC LEGACY", "NUCLEAR DREAD"].random,
+                    5,
+                    ns,
+                  );
                 case View.policeBehavior:
                   displayCenteredNewsFont(
-                      ["FUCK THE COPS", "PUBLIC FEAR", "NO AUTHORITY"].random,
-                      5,
-                      ns);
+                    ["FUCK THE COPS", "PUBLIC FEAR", "NO AUTHORITY"].random,
+                    5,
+                    ns,
+                  );
                 case View.prisons:
                 case View.deathPenalty:
                   displayCenteredNewsFont(
-                      ["FREE THEM NOW", "FREEDOM SOLD", "INMATE ABUSE"].random,
-                      5,
-                      ns);
+                    ["FREE THEM NOW", "FREEDOM SOLD", "INMATE ABUSE"].random,
+                    5,
+                    ns,
+                  );
                 case View.intelligence:
                   if (nineteenEightyFour) {
                     displayCenteredNewsFont(
-                        ["NO LOVE LOST", "LOVE OR FEAR", "LOVE IS DEAD"].random,
-                        5,
-                        ns);
+                      ["NO LOVE LOST", "LOVE OR FEAR", "LOVE IS DEAD"].random,
+                      5,
+                      ns,
+                    );
                   } else {
                     displayCenteredNewsFont(
-                        ["FUCK THE CIA", "COVERT CHAOS", "SPY WARS"].random,
-                        5,
-                        ns);
+                      ["FUCK THE CIA", "COVERT CHAOS", "SPY WARS"].random,
+                      5,
+                      ns,
+                    );
                   }
                 case View.animalResearch:
                 case View.genetics:
                   displayCenteredNewsFont(
-                      ["ANIMAL RIGHTS", "LAB CRUELTY", "ETHICS IGNORED"].random,
-                      5,
-                      ns);
+                    ["ANIMAL RIGHTS", "LAB CRUELTY", "ETHICS IGNORED"].random,
+                    5,
+                    ns,
+                  );
                 case View.freeSpeech:
                 case View.lgbtRights:
                 case View.justices:
                   displayCenteredNewsFont(
-                      ["FOR JUSTICE", "FOR RIGHTS", "INJUSTICE"].random, 5, ns);
+                    ["FOR JUSTICE", "FOR RIGHTS", "INJUSTICE"].random,
+                    5,
+                    ns,
+                  );
                 case View.pollution:
                   displayCenteredNewsFont(
-                      ["SAVING EARTH", "TOXIC PROFIT", "CHOKED SKIES"].random,
-                      5,
-                      ns);
+                    ["SAVING EARTH", "TOXIC PROFIT", "CHOKED SKIES"].random,
+                    5,
+                    ns,
+                  );
                 case View.corporateCulture:
                   displayCenteredNewsFont(
-                      ["GREED REIGNS", "WHAT ETHICS", "WAGE THEFT"].random,
-                      5,
-                      ns);
+                    ["GREED REIGNS", "WHAT ETHICS", "WAGE THEFT"].random,
+                    5,
+                    ns,
+                  );
                 case View.amRadio:
                   displayCenteredNewsFont(
-                      ["DEAD AIR", "NO SIGNAL", "TUNING OUT"].random, 5, ns);
+                    ["DEAD AIR", "NO SIGNAL", "TUNING OUT"].random,
+                    5,
+                    ns,
+                  );
                 case View.cableNews:
                   displayCenteredNewsFont(
-                      ["SPIN CYCLE", "BIAS TOWN", "PUNDITS DOWN"].random,
-                      5,
-                      ns);
-                case View.healthcare:
-                  displayCenteredNewsFont(
-                      ["HEALTHCARE", "SICK SYSTEM", "UNCARING"].random, 5, ns);
-                case View.retirement:
-                  displayCenteredNewsFont(
-                      ["ELDER ABUSE", "FOR SENIORS", "FOR GRANDMA"].random,
-                      5,
-                      ns);
-                case View.housing:
-                  displayCenteredNewsFont(
-                      ["RENT SEEKERS", "HOUSE CRISIS", "HOMELESS"].random,
-                      5,
-                      ns);
+                    ["SPIN CYCLE", "BIAS TOWN", "PUNDITS DOWN"].random,
+                    5,
+                    ns,
+                  );
                 default:
                   displayCenteredNewsFont(
-                      [
-                        "HEROIC STRIKE",
-                        "BOLD STRIKE",
-                        "JUSTICE WON",
-                        "SPARK OF HOPE",
-                        "LIBERAL WIN",
-                        "BOLD DEFIANCE",
-                        "HEROIC ACTION",
-                        "HOPE IGNITED",
-                        "TRUTH WINS",
-                        "HEROES RISE",
-                        "LIBERTY TODAY",
-                      ].random,
-                      5,
-                      ns);
+                    [
+                      "HEROIC STRIKE",
+                      "BOLD STRIKE",
+                      "JUSTICE WON",
+                      "SPARK OF HOPE",
+                      "LIBERAL WIN",
+                      "BOLD DEFIANCE",
+                      "HEROIC ACTION",
+                      "HOPE IGNITED",
+                      "TRUTH WINS",
+                      "HEROES RISE",
+                      "LIBERTY TODAY",
+                    ].random,
+                    5,
+                    ns,
+                  );
               }
             } else {
               displayCenteredNewsFont(["LCS STRIKES"].random, 5, ns);

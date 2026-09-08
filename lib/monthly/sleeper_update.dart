@@ -11,6 +11,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/loot.dart';
 import 'package:lcs_new_age/items/loot_type.dart';
@@ -48,7 +49,8 @@ Future<void> sleeperEffect(Creature cr, Map<View, int> libpower) async {
 }
 
 void sleeperInfluence(Creature cr, Map<View, int> libpower) {
-  int power = cr.attribute(Attribute.charisma) +
+  int power =
+      cr.attribute(Attribute.charisma) +
       cr.attribute(Attribute.heart) +
       cr.attribute(Attribute.intelligence) +
       cr.skill(Skill.persuasion);
@@ -147,11 +149,15 @@ void sleeperInfluence(Creature cr, Map<View, int> libpower) {
     case CreatureTypeIds.radioPersonality:
       changePublicOpinion(View.amRadio, 1);
       addIssues(
-          View.issues, power * (100 - publicOpinion[View.amRadio]!) ~/ 100);
+        View.issues,
+        power * (100 - publicOpinion[View.amRadio]!) ~/ 100,
+      );
     case CreatureTypeIds.newsAnchor:
       changePublicOpinion(View.cableNews, 1);
       addIssues(
-          View.issues, power * (100 - publicOpinion[View.cableNews]!) ~/ 100);
+        View.issues,
+        power * (100 - publicOpinion[View.cableNews]!) ~/ 100,
+      );
     /* Cultural leaders block - influences cultural issues */
     case CreatureTypeIds.televangelist:
     case CreatureTypeIds.priest:
@@ -262,8 +268,11 @@ void sleeperInfluence(Creature cr, Map<View, int> libpower) {
       return;
     /* Miscellaneous block -- includes everyone else */
     case CreatureTypeIds.president:
-      addIssues(
-          [View.issues.random, View.issues.random, View.issues.random], power);
+      addIssues([
+        View.issues.random,
+        View.issues.random,
+        View.issues.random,
+      ], power);
     case CreatureTypeIds.ccsArchConservative:
     case CreatureTypeIds.ccsVigilante:
     case CreatureTypeIds.neoNazi:
@@ -281,8 +290,10 @@ void sleeperInfluence(Creature cr, Map<View, int> libpower) {
 }
 
 Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
-  Site? homes =
-      findSiteInSameCity(cr.workLocation.city, SiteType.homelessEncampment);
+  Site? homes = findSiteInSameCity(
+    cr.workLocation.city,
+    SiteType.homelessEncampment,
+  );
 
   if (lcsRandom(100) > 100 * cr.infiltration) {
     cr.infiltration -= 0.05;
@@ -290,11 +301,31 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
       erase();
       if (cr == uniqueCreatures.president) {
         mvaddstr(
-            6, 1, "President ${cr.name} has been impeached for corruption.");
+          6,
+          1,
+          LcsI18n.processString(
+            "{role} {name} has been impeached for corruption.",
+            {
+              "role": LcsI18n.trGendered("President", gender: cr.gender),
+              "name": cr.name,
+            },
+          ),
+        );
         mvaddstr(8, 1, "The Ex-President is in disgrace.");
         politics.promoteVP();
       } else {
-        mvaddstr(6, 1, "Sleeper ${cr.name} has been caught snooping around.");
+        mvaddstr(
+          6,
+          1,
+          LcsI18n.processString(
+            "{role} {name} has been caught snooping around.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "oSuffix": cr.gender.simplified.adjectiveEnding,
+              "name": cr.name,
+            },
+          ),
+        );
         mvaddstr(8, 1, "The Liberal is now homeless and jobless...");
       }
       await getKey();
@@ -309,10 +340,30 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
       erase();
       if (cr == uniqueCreatures.president) {
         mvaddstr(
-            6, 1, "President ${cr.name} is under too much pressure to leak.");
+          6,
+          1,
+          LcsI18n.processString(
+            "{role} {name} is under too much pressure to leak.",
+            {
+              "role": LcsI18n.trGendered("President", gender: cr.gender),
+              "name": cr.name,
+            },
+          ),
+        );
         mvaddstr(8, 1, "A corruption scandal is brewing...");
       } else {
-        mvaddstr(6, 1, "Sleeper ${cr.name} has been caught snooping around.");
+        mvaddstr(
+          6,
+          1,
+          LcsI18n.processString(
+            "{role} {name} has been caught snooping around.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "oSuffix": cr.gender.simplified.adjectiveEnding,
+              "name": cr.name,
+            },
+          ),
+        );
         mvaddstr(8, 1, "The Liberal's infiltration score has taken a hit.");
       }
       await getKey();
@@ -326,11 +377,18 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
     Item it = Loot(itemType);
     homes?.loot.add(it);
     erase();
-    if (cr == uniqueCreatures.president) {
-      mvaddstr(6, 1, "President ${cr.name} has leaked $description.");
-    } else {
-      mvaddstr(6, 1, "Sleeper ${cr.name} has leaked $description.");
-    }
+    mvaddstr(
+      6,
+      1,
+      LcsI18n.processString("{role} {name} has leaked {description}.", {
+        "role": LcsI18n.trGendered(
+          cr == uniqueCreatures.president ? "President" : "Sleeper",
+          gender: cr.gender,
+        ),
+        "name": cr.name,
+        "description": LcsI18n.tr(description),
+      }),
+    );
     mvaddstr(7, 1, "The dead drop is at the homeless camp.");
 
     mvaddstr(9, 1, "An investigation is being launched to find the leaker.");
@@ -354,8 +412,10 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
       if (ccsExposure.index >= CCSExposure.lcsGotData.index || !ccsActive) {
         await leak(LootTypeIds.secretDocuments, "secret intelligence files");
       } else {
-        await leak(LootTypeIds.ccsBackerList,
-            "a list of the CCS's government backers");
+        await leak(
+          "LOOT_CCS_BACKERLIST",
+          "a list of the CCS's government backers",
+        );
         ccsExposure = CCSExposure.lcsGotData;
       }
     case CreatureTypeIds.deathSquad:
@@ -373,7 +433,9 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
       await leak(LootTypeIds.prisonFiles, "internal prison records");
     case CreatureTypeIds.newsAnchor:
       await leak(
-          LootTypeIds.cableNewsFiles, "proof of systemic Cable News bias");
+        LootTypeIds.cableNewsFiles,
+        "proof of systemic Cable News bias",
+      );
     case CreatureTypeIds.radioPersonality:
       await leak(LootTypeIds.amRadioFiles, "proof of systemic AM Radio bias");
     case CreatureTypeIds.labTech:
@@ -382,20 +444,28 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
     case CreatureTypeIds.conservativeJudge:
     case CreatureTypeIds.liberalJudge:
       await leak(
-          LootTypeIds.judgeFiles, "compromising files about another Judge");
+        LootTypeIds.judgeFiles,
+        "compromising files about another Judge",
+      );
     case CreatureTypeIds.ccsArchConservative:
       if (ccsExposure.index >= CCSExposure.lcsGotData.index) break;
       await leak(
-          LootTypeIds.ccsBackerList, "a list of the CCS's government backers");
+        "LOOT_CCS_BACKERLIST",
+        "a list of the CCS's government backers",
+      );
       ccsExposure = CCSExposure.lcsGotData;
     case CreatureTypeIds.landlord:
       await leak(LootTypeIds.landlordPapers, "evidence of landlord misconduct");
     case CreatureTypeIds.insuranceCEO:
-      await leak(LootTypeIds.insuranceFraudEvidence,
-          "evidence of fraudulent insurance practices");
+      await leak(
+        LootTypeIds.insuranceFraudEvidence,
+        "evidence of fraudulent insurance practices",
+      );
     case CreatureTypeIds.nursingHomeAdmin:
       await leak(
-          LootTypeIds.elderAbuseEvidence, "evidence of systemic elder abuse");
+        LootTypeIds.elderAbuseEvidence,
+        "evidence of systemic elder abuse",
+      );
     default:
       // 2/3 chance of not leaking anything
       if (!oneIn(3)) break;
@@ -403,10 +473,14 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
       switch (cr.workSite?.type) {
         case SiteType.amRadioStation:
           await leak(
-              LootTypeIds.amRadioFiles, "proof of systemic AM Radio bias");
+            LootTypeIds.amRadioFiles,
+            "proof of systemic AM Radio bias",
+          );
         case SiteType.cableNewsStation:
           await leak(
-              LootTypeIds.cableNewsFiles, "proof of systemic Cable News bias");
+            "LOOT_CABLENEWSFILES",
+            "proof of systemic Cable News bias",
+          );
         case SiteType.whiteHouse:
         case SiteType.intelligenceHQ:
           await leak(LootTypeIds.secretDocuments, "secret intelligence files");
@@ -415,16 +489,22 @@ Future<void> sleeperSpy(Creature cr, Map<View, int> libpower) async {
         case SiteType.geneticsLab:
         case SiteType.cosmeticsLab:
           await leak(
-              LootTypeIds.researchFiles, "internal animal research reports");
+            LootTypeIds.researchFiles,
+            "internal animal research reports",
+          );
         case SiteType.corporateHQ:
         case SiteType.ceoHouse:
           await leak(LootTypeIds.corpFiles, "secret corporate documents");
         case SiteType.nursingHome:
-          await leak(LootTypeIds.elderAbuseEvidence,
-              "evidence of systemic elder abuse");
+          await leak(
+            LootTypeIds.elderAbuseEvidence,
+            "evidence of systemic elder abuse",
+          );
         case SiteType.insuranceOffice:
-          await leak(LootTypeIds.insuranceFraudEvidence,
-              "evidence of fraudulent insurance practices");
+          await leak(
+            LootTypeIds.insuranceFraudEvidence,
+            "evidence of fraudulent insurance practices",
+          );
         default:
           break;
       }
@@ -443,14 +523,29 @@ Future<void> sleeperEmbezzle(Creature cr, Map<View, int> libpower) async {
     if (cr.infiltration < 0) {
       if (cr == uniqueCreatures.president) {
         await showMessage(
-            "President ${cr.name} has been impeached for corruption.");
+          LcsI18n.processString(
+            "{role} {name} has been impeached for corruption.",
+            {
+              "role": LcsI18n.trGendered("President", gender: cr.gender),
+              "name": cr.name,
+            },
+          ),
+        );
         criminalize(cr, Crime.embezzlement);
         await captureCreature(cr);
         politics.promoteVP();
         return;
       } else {
         await showMessage(
-            "Sleeper ${cr.name} has been arrested while embezzling funds.");
+          LcsI18n.processString(
+            "{role} {name} has been arrested while embezzling funds.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "oSuffix": cr.gender.simplified.adjectiveEnding,
+              "name": cr.name,
+            },
+          ),
+        );
         criminalize(cr, Crime.embezzlement);
         await captureCreature(cr);
         return;
@@ -482,25 +577,43 @@ Future<void> sleeperEmbezzle(Creature cr, Map<View, int> libpower) async {
   ledger.addFunds(income, Income.embezzlement);
 
   erase();
-  mvaddstrc(6, 1, lightGray, "Sleeper ${cr.name} has embezzled \$$income.");
+  mvaddstrc(
+    6,
+    1,
+    lightGray,
+    LcsI18n.processString("{role} {name} has embezzled {amount}.", {
+      "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+      "name": cr.name,
+      "amount": LcsI18n.currencyAmount(income),
+    }),
+    noTranslate: true,
+  );
 
   if (takingHeat) {
     erase();
     if (cr == uniqueCreatures.president) {
       mvaddstr(
-          8, 1, "Unfortunately, watchdogs have noticed the mislaid funds.");
+        8,
+        1,
+        "Unfortunately, watchdogs have noticed the mislaid funds.",
+      );
       mvaddstr(9, 1, "A corruption scandal is brewing...");
     } else {
-      mvaddstr(8, 1,
-          "Unfortunately, Conservatives have noticed funds are going missing.");
+      mvaddstr(
+        8,
+        1,
+        "Unfortunately, Conservatives have noticed funds are going missing.",
+      );
       mvaddstr(9, 1, "The Liberal's infiltration score has taken a hit.");
     }
   }
 }
 
 Future<void> sleeperSteal(Creature cr, Map<View, int> libpower) async {
-  Site? camp =
-      findSiteInSameCity(cr.workSite?.city, SiteType.homelessEncampment);
+  Site? camp = findSiteInSameCity(
+    cr.workSite?.city,
+    SiteType.homelessEncampment,
+  );
   if (camp == null) return;
 
   bool takingHeat = false;
@@ -510,14 +623,29 @@ Future<void> sleeperSteal(Creature cr, Map<View, int> libpower) async {
     if (cr.infiltration < 0) {
       if (cr == uniqueCreatures.president) {
         await showMessage(
-            "President ${cr.name} has been impeached for corruption.");
+          LcsI18n.processString(
+            "{role} {name} has been impeached for corruption.",
+            {
+              "role": LcsI18n.trGendered("President", gender: cr.gender),
+              "name": cr.name,
+            },
+          ),
+        );
         criminalize(cr, Crime.theft);
         await captureCreature(cr);
         politics.promoteVP();
         return;
       } else {
         await showMessage(
-            "Sleeper ${cr.name} has been arrested while stealing things.");
+          LcsI18n.processString(
+            "{role} {name} has been arrested while stealing things.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "oSuffix": cr.gender.simplified.adjectiveEnding,
+              "name": cr.name,
+            },
+          ),
+        );
         criminalize(cr, Crime.theft);
         await captureCreature(cr);
         return;
@@ -539,16 +667,32 @@ Future<void> sleeperSteal(Creature cr, Map<View, int> libpower) async {
     if (item != null) camp.loot.add(item);
   }
   erase();
-  mvaddstrc(6, 1, lightGray,
-      "Sleeper ${cr.name} has dropped a package off at the homeless camp.");
+  mvaddstrc(
+    6,
+    1,
+    lightGray,
+    LcsI18n.processString(
+      "{role} {name} has dropped a package off at the homeless camp.",
+      {
+        "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+        "name": cr.name,
+      },
+    ),
+  );
   if (takingHeat) {
     if (cr == uniqueCreatures.president) {
-      mvaddstr(8, 1,
-          "Unfortunately, observers have noticed the President's actions.");
+      mvaddstr(
+        8,
+        1,
+        "Unfortunately, observers have noticed the President's actions.",
+      );
       mvaddstr(9, 1, "A corruption scandal is brewing...");
     } else {
-      mvaddstr(8, 1,
-          "Unfortunately, the Conservatives have noticed things are going missing.");
+      mvaddstr(
+        8,
+        1,
+        "Unfortunately, the Conservatives have noticed things are going missing.",
+      );
       mvaddstr(9, 1, "The Liberal's infiltration score has taken a hit.");
     }
   }
@@ -561,9 +705,11 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
     if (cr == uniqueCreatures.president) {
       // Find a cabinet position that isn't already Elite Liberal
       Exec? positionToFill = Exec.values
-          .where((e) =>
-              e != Exec.president &&
-              politics.exec[e] != DeepAlignment.eliteLiberal)
+          .where(
+            (e) =>
+                e != Exec.president &&
+                politics.exec[e] != DeepAlignment.eliteLiberal,
+          )
           .randomOrNull;
 
       if (positionToFill != null) {
@@ -577,13 +723,16 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
         }
 
         // President's charisma and juice can help convince some Senators
-        int bonusVotes = (cr.attribute(Attribute.charisma) / 10).round() +
+        int bonusVotes =
+            (cr.attribute(Attribute.charisma) / 10).round() +
             (cr.juice / 100).round();
 
         // Try each more Liberal alignment until we find the most Liberal one that can get confirmed
-        for (int i = currentAlign.index + 1;
-            i < DeepAlignment.values.length;
-            i++) {
+        for (
+          int i = currentAlign.index + 1;
+          i < DeepAlignment.values.length;
+          i++
+        ) {
           DeepAlignment testAlign = DeepAlignment.values[i];
           int votesFor = 0;
           int houseVotesFor = 0;
@@ -620,14 +769,24 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
             // Convince the existing cabinet member to shift to the new alignment
             erase();
             setColor(lightGray);
-            addparagraph(
-                6,
-                1,
-                "News from our ${cr.gender.manWoman} in the White House: Under "
-                "intense pressure from the President, &$oldAlignColor${positionToFill.displayName} "
-                "&$oldAlignColor${politics.execName[positionToFill]!.last}&w "
-                "has agreed to adopt &$newAlignColor${bestPossibleAlign.label}&w "
-                "policies.");
+            String paragraphText = LcsI18n.processStringGendered(
+              "News from our {gender} in the White House: Under "
+              "intense pressure from the President, {position:color} "
+              "{lastName:color} "
+              "has agreed to adopt {alignment:color} "
+              "policies.",
+              {
+                "gender": LcsI18n.tr(cr.gender.manWoman),
+                "position": LcsI18n.tr(positionToFill.displayName),
+                "positionColor": oldAlignColor,
+                "lastName": politics.execName[positionToFill]!.last,
+                "lastNameColor": oldAlignColor,
+                "alignment": LcsI18n.tr(bestPossibleAlign.label),
+                "alignmentColor": newAlignColor,
+              },
+              gender: cr.gender,
+            );
+            addparagraph(6, 1, paragraphText, noTranslate: true);
             addjuice(cr, 25, 1000);
             await getKey();
             return;
@@ -635,42 +794,67 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
             // Appoint the new cabinet member
             FullName oldName = politics.execName[positionToFill]!;
             // Generate a new name for the cabinet member
-            politics.execName[positionToFill] =
-                generateFullName(switch (bestPossibleAlign) {
-              DeepAlignment.archConservative => Gender.whiteMalePatriarch,
-              DeepAlignment.conservative => Gender.male,
-              DeepAlignment.eliteLiberal => Gender.nonbinary,
-              _ => Gender.maleBias,
-            });
+            politics.execName[positionToFill] = generateFullName(
+              switch (bestPossibleAlign) {
+                DeepAlignment.archConservative => Gender.whiteMalePatriarch,
+                DeepAlignment.conservative => Gender.male,
+                DeepAlignment.eliteLiberal => Gender.nonbinary,
+                _ => Gender.maleBias,
+              },
+            );
 
             erase();
             setColor(lightGray);
             if (positionToFill == Exec.vicePresident) {
-              addparagraph(
-                  6,
-                  1,
-                  "News from our ${cr.gender.manWoman} in the White House: Under "
-                  "intense pressure from the President, "
-                  "&${oldAlignColor}Vice President ${oldName.last}&w "
-                  "is resigning. The President already has a new second "
-                  "in mind: &$newAlignColor${politics.execName[positionToFill]!.firstLast}&w "
-                  "is expected to pass confirmation in both the House and the "
-                  "Senate.");
+              String paragraphText = LcsI18n.processStringGendered(
+                "News from our {gender} in the White House: Under "
+                "intense pressure from the President, "
+                "{vicePresident:color} "
+                "is resigning. The President already has a new second "
+                "in mind: {newFirstLast:color} "
+                "is expected to pass confirmation in both the House and the "
+                "Senate.",
+                {
+                  "gender": LcsI18n.tr(cr.gender.manWoman),
+                  "vicePresident": LcsI18n.processString(
+                    "Vice President {last}",
+                    {"last": oldName.last},
+                  ),
+                  "vicePresidentColor": oldAlignColor,
+                  "newFirstLast": politics.execName[positionToFill]!.firstLast,
+                  "newFirstLastColor": newAlignColor,
+                },
+                gender: cr.gender,
+              );
+              addparagraph(6, 1, paragraphText, noTranslate: true);
             } else {
-              addparagraph(
-                  6,
-                  1,
-                  "News from our ${cr.gender.manWoman} in the White House: Under "
-                  "intense pressure from the President, "
-                  "&$oldAlignColor${positionToFill.displayName} ${oldName.last}&w "
-                  "is resigning. The President already has a new cabinet member "
-                  "in mind: &$newAlignColor${politics.execName[positionToFill]!.firstLast}&w "
-                  "is expected to pass confirmation in the Senate.");
+              String paragraphText = LcsI18n.processStringGendered(
+                "News from our {gender} in the White House: Under "
+                "intense pressure from the President, "
+                "{position:color} {oldLast:color} "
+                "is resigning. The President already has a new cabinet member "
+                "in mind: {newFirstLast:color} "
+                "is expected to pass confirmation in the Senate.",
+                {
+                  "gender": LcsI18n.tr(cr.gender.manWoman),
+                  "position": LcsI18n.tr(positionToFill.displayName),
+                  "positionColor": oldAlignColor,
+                  "oldLast": oldName.last,
+                  "oldLastColor": oldAlignColor,
+                  "newFirstLast": politics.execName[positionToFill]!.firstLast,
+                  "newFirstLastColor": newAlignColor,
+                },
+                gender: cr.gender,
+              );
+              addparagraph(6, 1, paragraphText, noTranslate: true);
             }
 
             // Add juice for successful appointment, more for more Liberal appointments
             addjuice(
-                cr, (bestPossibleAlign.index - currentAlign.index) * 25, 1000);
+              cr,
+              (bestPossibleAlign.index - currentAlign.index) * 25,
+              1000,
+            );
 
             await getKey();
             return;
@@ -680,15 +864,23 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
           String oldAlignColor = currentAlign.colorKey;
           erase();
           setColor(lightGray);
-          addparagraph(
-              6,
-              1,
-              "Update from our ${cr.gender.manWoman} in the White House: "
-              "Despite the President's best efforts, &$oldAlignColor${positionToFill.displayName} "
-              "${politics.execName[positionToFill]!.last}&w continues to "
-              "hold out against the internal push for more Liberal policies. "
-              "The President is considering other options, but lacks the "
-              "votes in Congress to confirm a more Liberal appointment.");
+          String paragraphText = LcsI18n.processStringGendered(
+            "Update from our {gender} in the White House: "
+            "Despite the President's best efforts, {position:color} "
+            "{last:color} continues to "
+            "hold out against the internal push for more Liberal policies. "
+            "The President is considering other options, but lacks the "
+            "votes in Congress to confirm a more Liberal appointment.",
+            {
+              "gender": LcsI18n.tr(cr.gender.manWoman),
+              "position": LcsI18n.tr(positionToFill.displayName),
+              "positionColor": oldAlignColor,
+              "last": politics.execName[positionToFill]!.last,
+              "lastColor": oldAlignColor,
+            },
+            gender: cr.gender,
+          );
+          addparagraph(6, 1, paragraphText, noTranslate: true);
 
           await getKey();
           return;
@@ -701,10 +893,14 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
 
     // Normal sleeper recruitment logic for non-Presidents
     activeSite = cr.workSite;
-    activeSite ??=
-        findSiteInSameCity(cr.workLocation.city, SiteType.publicPark);
-    activeSite ??=
-        findSiteInSameCity(cr.workLocation.city, SiteType.homelessEncampment);
+    activeSite ??= findSiteInSameCity(
+      cr.workLocation.city,
+      SiteType.publicPark,
+    );
+    activeSite ??= findSiteInSameCity(
+      cr.workLocation.city,
+      SiteType.homelessEncampment,
+    );
     if (activeSite == null) return;
     prepareEncounter(activeSite!.type, false);
     for (Creature e in encounter) {
@@ -720,10 +916,31 @@ Future<void> sleeperRecruit(Creature cr, Map<View, int> libpower) async {
         pool.add(e);
 
         erase();
-        mvaddstrc(6, 1, lightGray,
-            "Sleeper ${cr.name} has recruited a new ${e.type.name}.");
-        mvaddstrc(8, 1, lightGray,
-            "${e.name} looks forward serving the Liberal cause!");
+        final profession = localizedProfessionName(e.type.name, e.gender);
+        mvaddstrc(
+          6,
+          1,
+          lightGray,
+          LcsI18n.processStringGendered(
+            "{role} {name} has recruited a new {type}.",
+            {
+              "role": LcsI18n.trGendered("Sleeper", gender: cr.gender),
+              "name": cr.name,
+              "type": profession,
+            },
+            gender: e.gender,
+          ),
+          noTranslate: true,
+        );
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          LcsI18n.processString(
+            "{name} looks forward serving the Liberal cause!",
+            {"name": e.name},
+          ),
+        );
 
         await getKey();
 

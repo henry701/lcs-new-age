@@ -2,23 +2,35 @@
 import 'dart:math';
 
 import 'package:lcs_new_age/basemode/blind_time_log.dart';
+
 import 'package:lcs_new_age/common_actions/common_actions.dart';
+
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/skills.dart';
+
 import 'package:lcs_new_age/engine/engine.dart';
+
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+
+import 'package:lcs_new_age/i18n/i18n.dart';
+
 import 'package:lcs_new_age/items/clothing.dart';
+
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/justice/prison.dart';
+
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
+
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
+
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
+/* monthly - hold trial on a liberal */
 enum TrialOutcome { retrial, acquittal, guilty, lenience }
 
 Future<void> trial(Creature g) async {
@@ -32,8 +44,7 @@ Future<void> trial(Creature g) async {
   g.location = g.base;
 
   erase();
-  mvaddstrc(1, 1, white, g.name);
-  addstr(" is standing trial.");
+  mvaddstrc(1, 1, white, "{name} is standing trial.", params: {"name": g.name});
   await getKey();
 
   setColor(lightGray);
@@ -50,13 +61,12 @@ Future<void> trial(Creature g) async {
     weakEvidencePenalty = 60;
   }
 
-  int typenum = 0, scarefactor = 0;
+  int scarefactor = 0;
   // *JDS* Scarefactor is the severity of the case against you; if you're a really
   // nasty person with a wide variety of major charges against you, then scarefactor
   // can get up there
 
   for (var c in g.wantedForCrimes.entries.where((e) => e.value > 0)) {
-    typenum++;
     scarefactor += sqrt(crimeHeat(c.key) * c.value).round();
   }
 
@@ -84,28 +94,54 @@ Future<void> trial(Creature g) async {
   move(3, 1);
   if (sleeperjudge != null) {
     addstr(
-      "Sleeper ${sleeperjudge.name} reads the charges, trying to hide a smile:",
+      "Sleeper {judge} reads the charges, trying to hide a smile:",
+      params: {"judge": sleeperjudge.name},
     );
     g.confessions = 0; // Sleeper judge prevents these lunatics from testifying
   } else {
     addstr("The judge reads the charges:");
   }
 
-  String charges = "The defendant, ${g.properName}, is charged with ";
+  final chargeItems = <String>[];
+
+  String formatChargeList() {
+    if (chargeItems.length == 1) return chargeItems.single;
+    if (chargeItems.length == 2) {
+      return LcsI18n.processString("{first} and {second}", {
+        "first": chargeItems.first,
+        "second": chargeItems.last,
+      });
+    }
+    String leadingItems = chargeItems.first;
+    for (final item in chargeItems.skip(1).take(chargeItems.length - 2)) {
+      leadingItems = LcsI18n.processString("{items}, {item}", {
+        "items": leadingItems,
+        "item": item,
+      });
+    }
+    return LcsI18n.processString("{items}, and {last}", {
+      "items": leadingItems,
+      "last": chargeItems.last,
+    });
+  }
 
   Future<void> listCrime(Crime crime) async {
-    typenum--;
-    if (g.wantedForCrimes[crime]! > 0) {
-      if (g.wantedForCrimes[crime]! > 1) {
-        charges += "${g.wantedForCrimes[crime]!} counts of ";
-      }
-      charges += crime.chargedWith;
-    }
-    if (typenum > 1) charges += ", ";
-    if (typenum == 1) charges += " and ";
-    if (typenum == 0) charges += ".";
+    final count = g.wantedForCrimes[crime]!;
+    final translatedCrime = LcsI18n.tr(crime.chargedWith);
+    chargeItems.add(
+      count > 1
+          ? LcsI18n.processString("{count} counts of {crime}", {
+              "count": count,
+              "crime": translatedCrime,
+            })
+          : translatedCrime,
+    );
+    final charges = LcsI18n.processString(
+      "The defendant, {name}, is charged with {charges}.",
+      {"name": g.properName, "charges": formatChargeList()},
+    );
     setColor(red);
-    addparagraph(5, 1, charges);
+    addparagraph(5, 1, charges, noTranslate: true);
     await getKey();
   }
 
@@ -120,22 +156,28 @@ Future<void> trial(Creature g) async {
     if (g.confessions > 1) {
       if (sleeperjudge != null) {
         addstr(
-          "The judge has blocked ${g.confessions} ex-LCS members from testifying against ${g.name}.",
+          "The judge has blocked {count} ex-LCS members from testifying against {name}.",
+          params: {"count": g.confessions.toString(), "name": g.name},
         );
         g.confessions = 0;
       } else {
         addstr(
-          "${g.confessions} former LCS members will testify against ${g.name}.",
+          "{count} former LCS members will testify against {name}.",
+          params: {"count": g.confessions.toString(), "name": g.name},
         );
       }
     } else {
       if (sleeperjudge != null) {
         addstr(
-          "The judge has blocked an ex-LCS member from testifying against ${g.name}.",
+          "The judge has blocked an ex-LCS member from testifying against {name}.",
+          params: {"name": g.name},
         );
         g.confessions = 0;
       } else {
-        addstr("A former LCS member will testify against ${g.name}.");
+        addstr(
+          "A former LCS member will testify against {name}.",
+          params: {"name": g.name},
+        );
       }
     }
 
@@ -153,7 +195,8 @@ Future<void> trial(Creature g) async {
     y++,
     1,
     "D",
-    "D - Pay \$5000 to hire Elite Liberal Attorney ${uniqueCreatures.aceLiberalAttorney.name}",
+    "D - Pay \$5000 to hire Elite Liberal Attorney {attorney}",
+    params: {"attorney": uniqueCreatures.aceLiberalAttorney.name},
     enabledWhen: ledger.funds >= 5000,
   );
   if (sleeperlawyer != null) {
@@ -161,16 +204,42 @@ Future<void> trial(Creature g) async {
       y++,
       1,
       "E",
-      "E - Accept sleeper ${sleeperlawyer.name}'s offer to assist pro bono",
+      "E - Accept sleeper {lawyer}'s offer to assist pro bono",
+      params: {"lawyer": sleeperlawyer.name},
     );
   }
   mvaddstrc(++y, 5, lightGray, "Your relevant skills if you defend yourself: ");
-  mvaddstr(++y, 5, "Law: ${g.skill(Skill.law)}");
-  mvaddstr(y, 25, "Persuasion: ${g.skill(Skill.persuasion)}");
+  mvaddstr(
+    ++y,
+    5,
+    "Law: {law}",
+    params: {"law": g.skill(Skill.law).toString()},
+  );
+  mvaddstr(
+    y,
+    25,
+    "Persuasion: {persuasion}",
+    params: {"persuasion": g.skill(Skill.persuasion).toString()},
+  );
   if (sleeperlawyer != null) {
-    mvaddstr(++y, 5, "${sleeperlawyer.name}'s relevant skills: ");
-    mvaddstr(++y, 5, "Law: ${sleeperlawyer.skill(Skill.law)}");
-    mvaddstr(y, 25, "Persuasion: ${sleeperlawyer.skill(Skill.persuasion)}");
+    mvaddstr(
+      ++y,
+      5,
+      "{name}'s relevant skills: ",
+      params: {"name": sleeperlawyer.name},
+    );
+    mvaddstr(
+      ++y,
+      5,
+      "Law: {law}",
+      params: {"law": sleeperlawyer.skill(Skill.law).toString()},
+    );
+    mvaddstr(
+      y,
+      25,
+      "Persuasion: {persuasion}",
+      params: {"persuasion": sleeperlawyer.skill(Skill.persuasion).toString()},
+    );
   }
 
   int defense;
@@ -208,8 +277,13 @@ Future<void> trial(Creature g) async {
     int prosecution = 0;
     erase();
 
-    mvaddstrc(1, 1, white, g.name);
-    addstr(" is standing trial.");
+    mvaddstrc(
+      1,
+      1,
+      white,
+      "{name} is standing trial.",
+      params: {"name": g.name},
+    );
 
     //TRIAL MESSAGE
     mvaddstrc(3, 1, lightGray, "The trial proceeds.  Jury selection is first.");
@@ -228,7 +302,8 @@ Future<void> trial(Creature g) async {
     {
       if (!oneIn(10)) {
         addstr(
-          "$attorneyname ensures the jury is stacked in ${g.name}'s favor!",
+          "{attorney} ensures the jury is stacked in {name}'s favor!",
+          params: {"attorney": attorneyname, "name": g.name},
         );
 
         if (jury > 0) jury = 0;
@@ -236,7 +311,8 @@ Future<void> trial(Creature g) async {
       } else {
         setColor(red);
         addstr(
-          "$attorneyname's CONSERVATIVE ARCH-NEMESIS will represent the prosecution!!!",
+          "{attorney}'s CONSERVATIVE ARCH-NEMESIS will represent the prosecution!!!",
+          params: {"attorney": attorneyname},
         );
 
         jury = 0;
@@ -246,7 +322,10 @@ Future<void> trial(Creature g) async {
       setColor(lightGreen);
       switch (lcsRandom(4)) {
         case 0:
-          addstr("${g.name}'s best friend from childhood on the jury.");
+          addstr(
+            "{gname}'s best friend from childhood on the jury.",
+            params: {"gname": g.name},
+          );
         case 1:
           addstr("The jury is Flaming Liberal.");
         case 2:
@@ -295,9 +374,15 @@ Future<void> trial(Creature g) async {
     move(7, 1);
 
     if (prosecution <= 0) {
-      addstr("The police seem to have confused ${g.name} with someone else.");
+      addstr(
+        "The police seem to have confused {name} with someone else.",
+        params: {"name": g.name},
+      );
     } else if (prosecution <= 25) {
-      addstr("The accusations against ${g.name} are largely baseless.");
+      addstr(
+        "The accusations against {name} are largely baseless.",
+        params: {"name": g.name},
+      );
     } else if (prosecution <= 50) {
       addstr("The prosecution's case seems pretty fragile.");
     } else if (prosecution <= 75) {
@@ -359,7 +444,8 @@ Future<void> trial(Creature g) async {
       } else {
         if (prosecution < 100) {
           addstr(
-            "$attorneyname's arguments make several of the jurors stand up ",
+            "{attorney}'s arguments make several of the jurors stand up ",
+            params: {"attorney": attorneyname},
           );
           mvaddstr(
             10,
@@ -368,8 +454,10 @@ Future<void> trial(Creature g) async {
           );
           if (defense == 4) addjuice(sleeperlawyer!, 50, 1000); // Bow please
         } else {
-          addstr(attorneyname!);
-          addstr(" conducts an incredible defense.");
+          addstr(
+            "{attorney}! conducts an incredible defense.",
+            params: {"attorney": attorneyname},
+          );
         }
       }
     }
@@ -387,21 +475,26 @@ Future<void> trial(Creature g) async {
       g.train(Skill.persuasion, prosecution);
       g.train(Skill.law, prosecution);
 
-      addstr(g.name);
-      if (defensepower <= 0) {
-        addstr(" just makes ${g.gender.himselfHerself} look guilty.");
-      } else if (defensepower <= 25) {
-        addstr("'s case really sucks.");
-      } else if (defensepower <= 50) {
-        addstr(" does all right, but makes some mistakes.");
-      } else if (defensepower <= 75) {
-        addstr("'s arguments are pretty good.");
-      } else if (defensepower <= 100) {
-        addstr(" works the jury very well.");
-      } else if (defensepower <= 150) {
-        addstr(" makes a very powerful case.");
-      } else {
-        addstr(" has the jury, judge, and prosecution crying for freedom.");
+      String verdict = switch (defensepower) {
+        _ when defensepower <= 0 => "{name} just looks {pronoun} guilty.",
+        _ when defensepower <= 25 => "{name}'s case really sucks.",
+        _ when defensepower <= 50 =>
+          "{name} does all right, but makes some mistakes.",
+        _ when defensepower <= 75 => "{name}'s arguments are pretty good.",
+        _ when defensepower <= 100 => "{name} works the jury very well.",
+        _ when defensepower <= 150 => "{name} makes a very powerful case.",
+        _ => "{name} has the jury, judge, and prosecution crying for freedom.",
+      };
+      mvaddstr(
+        10,
+        1,
+        LcsI18n.processStringGendered(verdict, {
+          "name": g.name,
+          "pronoun": g.gender.himselfHerself,
+        }, gender: g.gender),
+        noTranslate: true,
+      );
+      if (defensepower > 150) {
         addjuice(g, 50, 1000); // That shit is legend
       }
     }
@@ -487,12 +580,20 @@ Future<void> trial(Creature g) async {
 
   if (trialOutcome == TrialOutcome.acquittal) {
     if (g.sentence == 0) {
-      mvaddstrc(5, 1, lightGreen, g.name);
-      addstr(" is free!");
+      mvaddstrc(5, 1, lightGreen, "{name} is free!", params: {"name": g.name});
     } else {
-      mvaddstrc(5, 1, lightGray, g.name);
-      addstr(
-        " will be returned to prison to resume ${g.gender.hisHer} earlier sentence.",
+      mvaddstrc(
+        5,
+        1,
+        lightGray,
+        "{name} will be returned to prison to resume {pronoun} earlier sentence.",
+        params: {
+          "name": g.name,
+          "pronoun": LcsI18n.translatePronoun(
+            g.gender.hisHer,
+            role: PronounRole.possessive,
+          ),
+        },
       );
       g.sentence--;
       if (g.deathPenalty) {
@@ -523,34 +624,70 @@ Future<void> trial(Creature g) async {
   }
   switch (trialOutcome) {
     case TrialOutcome.retrial:
-      (String text) {
-        if (!canSeeThings) logBlindEvent(text);
-      }("${g.name}'s trial was hung and will be re-tried.");
+      final text = LcsI18n.processString(
+        "{name}'s trial was hung and will be re-tried.",
+        {"name": g.name},
+      );
+      if (!canSeeThings) logBlindEvent(text);
     case TrialOutcome.acquittal:
       if (g.sentence == 0) {
-        logBlindEvent("${g.name} was acquitted and set free.");
+        logBlindEvent(
+          LcsI18n.processString("{name} was acquitted and set free.", {
+            "name": g.name,
+          }),
+        );
       } else {
         logBlindEvent(
-          "${g.name} was acquitted but returns to prison to serve time.",
+          LcsI18n.processString(
+            "{name} was acquitted but returns to prison to serve time.",
+            {"name": g.name},
+          ),
         );
       }
     case TrialOutcome.guilty:
     case TrialOutcome.lenience:
       if (g.deathPenalty) {
-        logBlindEvent("${g.name} was sentenced to death.");
+        logBlindEvent(
+          LcsI18n.processString("{name} was sentenced to death.", {
+            "name": g.name,
+          }),
+        );
       } else if (g.sentence < 0) {
-        logBlindEvent("${g.name} was sentenced to life in prison.");
+        logBlindEvent(
+          LcsI18n.processString("{name} was sentenced to life in prison.", {
+            "name": g.name,
+          }),
+        );
       } else if (g.sentence == 0) {
-        logBlindEvent("${g.name} was sentenced to time served and set free.");
+        logBlindEvent(
+          LcsI18n.processString(
+            "{name} was sentenced to time served and set free.",
+            {"name": g.name},
+          ),
+        );
       } else if (g.sentence >= 36) {
         logBlindEvent(
-          "${g.name} was sentenced to ${g.sentence ~/ 12} years in prison.",
+          LcsI18n.processString(
+            "{name} was sentenced to {years} years in prison.",
+            {"name": g.name, "years": g.sentence ~/ 12},
+          ),
         );
       } else {
-        logBlindEvent(
-          "${g.name} was sentenced to ${g.sentence} "
-          "month${g.sentence > 1 ? "s" : ""} in prison.",
-        );
+        if (g.sentence == 1) {
+          logBlindEvent(
+            LcsI18n.processString(
+              "{name} was sentenced to {months} month in prison.",
+              {"name": g.name, "months": g.sentence},
+            ),
+          );
+        } else {
+          logBlindEvent(
+            LcsI18n.processString(
+              "{name} was sentenced to {months} months in prison.",
+              {"name": g.name, "months": g.sentence},
+            ),
+          );
+        }
       }
   }
 }
@@ -689,8 +826,13 @@ Future<void> penalize(Creature g, bool lenient) async {
   if (olddeathPenalty) {
     g.deathPenalty = true;
     g.sentence = 3;
-    mvaddstrc(7, 1, red, g.properName);
-    addstr(", your previous death sentence will be carried out.");
+    mvaddstrc(
+      7,
+      1,
+      red,
+      "{name}, your previous death sentence will be carried out.",
+      params: {"name": g.properName},
+    );
 
     await getKey();
 
@@ -705,8 +847,12 @@ Future<void> penalize(Creature g, bool lenient) async {
   } else if (g.deathPenalty) {
     g.sentence = 3;
     setColor(yellow, background: darkRed);
-    mvaddstr(7, 1, g.properName);
-    addstr(", you are sentenced to DEATH!");
+    mvaddstr(
+      7,
+      1,
+      "{name}, you are sentenced to DEATH!",
+      params: {"name": g.properName},
+    );
 
     await getKey();
 
@@ -723,8 +869,13 @@ Future<void> penalize(Creature g, bool lenient) async {
   else if ((g.sentence >= 0 && oldsentence < 0) ||
       (g.sentence == 0 && oldsentence > 0)) {
     g.sentence = oldsentence;
-    mvaddstrc(7, 1, lightGray, g.properName);
-    addstr(", the court sees no need to add to your existing sentence.");
+    mvaddstrc(
+      7,
+      1,
+      lightGray,
+      "{name}, the court sees no need to add to your existing sentence.",
+      params: {"name": g.properName},
+    );
     mvaddstr(
       8,
       1,
@@ -733,20 +884,33 @@ Future<void> penalize(Creature g, bool lenient) async {
 
     await getKey();
   } else if (g.sentence == 0) {
-    mvaddstrc(7, 1, lightGray, g.properName);
-    addstr(", you are sentenced to time served.  You are free to go.");
+    mvaddstrc(
+      7,
+      1,
+      lightGray,
+      "{name}, you are sentenced to time served.  You are free to go.",
+      params: {"name": g.properName},
+    );
 
     await getKey();
   } else {
     if (g.sentence >= 36) g.sentence -= g.sentence % 12;
 
-    mvaddstrc(7, 1, lightGray, g.properName);
-    addstr(", you are sentenced to ");
+    mvaddstrc(
+      7,
+      1,
+      lightGray,
+      "{name}, you are sentenced to ",
+      params: {"name": g.properName},
+    );
     if (g.sentence > 1200) g.sentence ~/= -1200;
 
     if (g.sentence <= -1) {
       if (g.sentence < -1) {
-        addstr("${-g.sentence} consecutive life terms in prison");
+        addstr(
+          "{lifeTerms} consecutive life terms in prison",
+          params: {"lifeTerms": -g.sentence},
+        );
 
         // Don't bother saying this if the convicted already has one or
         // more life sentences. Makes the 'consecutively' and 'concurrently'
@@ -756,18 +920,31 @@ Future<void> penalize(Creature g, bool lenient) async {
 
           await getKey();
 
-          mvaddstr(9, 1, "Have a nice day, ");
-          addstr(g.properName);
+          mvaddstr(
+            9,
+            1,
+            "Have a nice day, {name}.",
+            params: {"name": g.properName},
+          );
         }
       } else {
-        addstr("life in prison");
+        mvaddstr(
+          9,
+          1,
+          "{years} years in prison",
+          params: {"years": (g.sentence ~/ 12).toString()},
+        );
       }
     } else if (g.sentence >= 36) {
-      addstr("${g.sentence ~/ 12} years in prison");
+      addstr(
+        "{years} years in prison",
+        params: {"years": (g.sentence ~/ 12).toString()},
+      );
     } else {
-      addstr("${g.sentence} month");
-      if (g.sentence > 1) addstr("s");
-      addstr(" in prison");
+      final sentenceTemplate = g.sentence == 1
+          ? "{months} month in prison"
+          : "{months} months in prison";
+      addstr(sentenceTemplate, params: {"months": g.sentence.toString()});
     }
 
     // Mash together compatible sentences.

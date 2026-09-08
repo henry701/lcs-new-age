@@ -18,12 +18,18 @@ enum Publication {
   post("The Post", DeepAlignment.moderate, lightGray),
   globe("The Globe", DeepAlignment.moderate, lightGray),
   daily("The Daily", DeepAlignment.moderate, lightGray),
-  liberalGuardian("Liberal Guardian", DeepAlignment.eliteLiberal,
-      liberalGuardianBackground),
+  liberalGuardian(
+    "Liberal Guardian",
+    DeepAlignment.eliteLiberal,
+    liberalGuardianBackground,
+  ),
   cableNews("Cable News", DeepAlignment.archConservative, cableNewsBackground),
   amRadio("AM Radio", DeepAlignment.archConservative, amRadioBackground),
-  conservativeStar("Conservative Star", DeepAlignment.archConservative,
-      conservativeCrusaderBackground);
+  conservativeStar(
+    "Conservative Star",
+    DeepAlignment.archConservative,
+    conservativeCrusaderBackground,
+  );
 
   const Publication(this.name, this.alignment, this.backgroundColor);
 
@@ -78,8 +84,10 @@ class NewsStory {
   Publication? _publication;
   @JsonKey(includeToJson: false, includeFromJson: false)
   Publication get publication {
-    _publication ??= Publication.values
-            .firstWhereOrNull((element) => element.name == publicationName) ??
+    _publication ??=
+        Publication.values.firstWhereOrNull(
+          (element) => element.name == publicationName,
+        ) ??
         Publication.times;
     return _publication!;
   }
@@ -110,12 +118,18 @@ class NewsStory {
 }
 
 String newsprintToWebFormat(String text) {
-  return text.splitMapJoin(RegExp(r'(&r)+'), onMatch: (m) {
-    return "\n\n";
-  }, onNonMatch: (n) {
-    if (n.contains("~")) return "";
-    return n.trim().replaceAll(RegExp(r'\s+'), " ");
-  }).trimRight();
+  return text
+      .splitMapJoin(
+        RegExp(r'(&r)+'),
+        onMatch: (m) {
+          return "\n\n";
+        },
+        onNonMatch: (n) {
+          if (n.contains("~")) return "";
+          return n.trim().replaceAll(RegExp(r'\s+'), " ");
+        },
+      )
+      .trimRight();
 }
 
 // For things not covered by the crimes list that are still newsworthy

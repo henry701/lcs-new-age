@@ -18,6 +18,7 @@ import 'package:lcs_new_age/daily/siege.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -42,6 +43,17 @@ import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+
+void showFullSiteMap() {
+  // The full map uses rows 1–23, so clear the underlying party and command
+  // legends before drawing it and reserve row 24 for the dismissal prompt.
+  eraseArea(startY: 1, endY: console.height, startX: 0, endX: console.width);
+  for (final tile in levelMap.allOnFloor(locz)) {
+    move(tile.y + 1, tile.x + 5);
+    drawTileContent(tile);
+  }
+  addOptionText(24, 1, 'any key', 'Press any key to continue.');
+}
 
 Future<void> siteMode(Site loc) async {
   activeSite = loc;
@@ -249,8 +261,14 @@ Future<void> _siteModeAux() async {
     erase();
 
     if (activeSiteUnderSiege) {
-      mvaddstrc(0, 0, red, activeSite!.getName(includeCity: true));
-      addstr(", Level ${locz + 1}: Escape or Engage");
+      mvaddstrc(
+        0,
+        0,
+        red,
+        activeSite!.getName(includeCity: true),
+        noTranslate: true,
+      );
+      addstr(", Level {level}: Escape or Engage", params: {"level": locz + 1});
     } else {
       if (postAlarmTimer > 80) {
         setColor(red);
@@ -259,8 +277,8 @@ Future<void> _siteModeAux() async {
       } else {
         setColor(lightGray);
       }
-      mvaddstr(0, 0, activeSite!.getName(includeCity: true));
-      addstr(", Level ${locz + 1}");
+      mvaddstr(0, 0, activeSite!.getName(includeCity: true), noTranslate: true);
+      addstr(", Level {level}", params: {"level": locz + 1});
 
       if (postAlarmTimer > 80) {
         switch (activeSite!.type) {
@@ -309,35 +327,36 @@ Future<void> _siteModeAux() async {
 
     //PRINT SITE INSTRUCTIONS
     if (partyalive) {
+      void addSiteOption(String key, String label, {bool enabledWhen = true}) {
+        addInlineOptionTextWrapped(
+          key,
+          label,
+          leftMargin: 1,
+          rightMargin: 1,
+          enabledWhen: enabledWhen,
+          compactLayout: true,
+        );
+      }
+
       if (!enemy || !siteAlarm) {
         setColor(lightGray);
       } else {
         setColor(darkGray);
       }
-      mvaddstrc(23, 1, blue, "W");
-      addstrc(lightGray, ",");
-      addstrc(blue, "A");
-      addstrc(lightGray, ",");
-      addstrc(blue, "D");
-      addstrc(lightGray, ",");
-      addstrc(blue, "X");
-      addstrc(lightGray, "-Move, ");
-      addstrc(groundLoot.isNotEmpty || currentTile.loot ? blue : darkGray, "G");
-      addstrc(
-        groundLoot.isNotEmpty || currentTile.loot ? lightGray : darkGray,
-        "et, ",
+      mvaddstr(23, 0, " ".padRight(console.width), noTranslate: true);
+      mvaddstr(24, 57, " ".padRight(console.width - 57), noTranslate: true);
+      move(23, 1);
+      addSiteOption("W", "W,A,D,X - Move, ");
+      addSiteOption(
+        "G",
+        "G - Get, ",
+        enabledWhen: groundLoot.isNotEmpty || currentTile.loot,
       );
-      addstrc(blue, "M");
-      addstrc(lightGray, "ap, ");
-      addstrc(blue, "E");
-      addstrc(lightGray, "quip, ");
-      addstrc(blue, "S");
-      addstrc(lightGray, "tall, ");
-      addstrc(!enemy || !siteAlarm ? lightGray : darkGray, "re");
-      addstrc(!enemy || !siteAlarm ? blue : darkGray, "L");
-      addstrc(!enemy || !siteAlarm ? lightGray : darkGray, "oad, ");
-      addstrc(partysize > 1 ? blue : darkGray, "O");
-      addstrc(partysize > 1 ? lightGray : darkGray, "rder,");
+      addSiteOption("M", "M - Map, ");
+      addSiteOption("E", "E - Equip, ");
+      addSiteOption("S", "S - Stall, ");
+      addSiteOption("L", "L - Load, ", enabledWhen: !enemy || !siteAlarm);
+      addSiteOption("O", "O - Order, ", enabledWhen: partysize > 1);
       bool graffiti = false;
       bool useColor;
       if (currentTile.special != TileSpecial.none &&
@@ -360,10 +379,10 @@ Future<void> _siteModeAux() async {
       } else {
         useColor = false;
       }
-      mvaddstrc(24, 1, useColor ? blue : darkGray, "U");
-      addstrc(
-        useColor ? lightGray : darkGray,
-        graffiti ? "-graffiti, " : "se, ",
+      addSiteOption(
+        "U",
+        graffiti ? "U - Graffiti, " : "U - Use, ",
+        enabledWhen: useColor,
       );
       if (enemy && siteAlarm) {
         bool cantSneak = false;
@@ -374,43 +393,31 @@ Future<void> _siteModeAux() async {
             break;
           }
         }
-        addstrc(blue, "V");
-        if (!cantSneak) {
-          addstrc(lightGray, "-Sneak, ");
-        } else {
-          addstrc(lightGray, "-Flee, ");
-        }
+        addSiteOption("V", cantSneak ? "V - Flee, " : "V - Sneak, ");
       } else {
-        setColor(darkGray);
-        addstr("V-Flee, ");
+        addSiteOption("V", "V - Flee, ", enabledWhen: false);
       }
-      addstrc(enemy ? blue : darkGray, "F");
-      addstrc(enemy ? lightGray : darkGray, "ight, ");
-      addstrc(enemy ? blue : darkGray, "K");
-      addstrc(enemy ? lightGray : darkGray, "idnap, ");
-      addstrc(talkers > 0 ? blue : darkGray, "T");
-      addstrc(talkers > 0 ? lightGray : darkGray, "alk, ");
+      addSiteOption("F", "F - Fight, ", enabledWhen: enemy);
+      addSiteOption("K", "K - Kidnap, ", enabledWhen: enemy);
+      addSiteOption("T", "T - Talk, ", enabledWhen: talkers > 0);
       if (!activeSiteUnderSiege) {
         if (freeable > 0 && (!enemy || !siteAlarm)) {
-          addstrc(blue, "R");
-          addstrc(lightGray, "escue, ");
+          addSiteOption("R", "R - Rescue, ");
         } else {
           if (hostages > 0) {
-            addstrc(blue, "R");
-            addstrc(lightGray, "elease, ");
+            addSiteOption("R", "R - Release, ");
           } else {
-            addstrc(darkGray, "Release, ");
+            addSiteOption("R", "R - Release, ", enabledWhen: false);
           }
         }
       } else {
         if (libnum > 6) {
-          addstrc(blue, "R");
-          addstrc(lightGray, "eorganize, ");
+          addSiteOption("R", "R - Reorganize, ");
         } else {
-          addstrc(darkGray, "Reorganize, ");
+          addSiteOption("R", "R - Reorganize, ", enabledWhen: false);
         }
       }
-      addstrc(blue, "?");
+      addstr("?", noTranslate: true);
     } else {
       //DESTROY ALL CARS BROUGHT ALONG WITH PARTY
       if (!activeSiteUnderSiege) {
@@ -648,14 +655,28 @@ Future<void> _siteModeAux() async {
             for (Creature p in activeSquad!.livingMembers) {
               int i = squad.indexOf(p);
               if (p.alive) {
-                addOptionText(y, 1, "${i + 1}", "${i + 1} - ${p.name}");
+                addOptionText(
+                  y,
+                  1,
+                  "{index}",
+                  "{index} - {name}",
+                  params: {"index": (i + 1).toString(), "name": p.name},
+                );
                 printSkillValue(p, Skill.persuasion, y, 34, showCap: false);
                 addstr(
-                  " (${p.maxSubordinates - p.subordinatesLeft}/${p.maxSubordinates})",
+                  " ({current}/{total})",
+                  params: {
+                    "current": p.maxSubordinates - p.subordinatesLeft,
+                    "total": p.maxSubordinates,
+                  },
                 );
                 printSkillValue(p, Skill.seduction, y, 51, showCap: false);
                 addstr(
-                  " (${p.maxRelationships - p.relationshipsLeft}/${p.maxRelationships})",
+                  " ({current}/{total})",
+                  params: {
+                    "current": p.maxRelationships - p.relationshipsLeft,
+                    "total": p.maxRelationships,
+                  },
                 );
                 printSkillValue(p, Skill.disguise, y, 66, showCap: false);
                 y++;
@@ -694,9 +715,15 @@ Future<void> _siteModeAux() async {
                   int i = encounter.indexOf(t);
                   move(y, x);
                   String letter = letterAPlus(i);
+                  String ageGender = creatureAgeAndGender(t);
                   addInlineOptionText(
                     letter,
-                    "$letter - ${t.name} ${creatureAgeAndGender(t)}",
+                    "{letter} - {name} {ageGender}",
+                    params: {
+                      "letter": letter,
+                      "name": LcsI18n.tr(t.name),
+                      "ageGender": ageGender,
+                    },
                     baseColorKey: ColorKey.fromColor(t.align.color),
                     enabledWhen: t.alive && t.isWillingToTalk,
                   );
@@ -717,8 +744,13 @@ Future<void> _siteModeAux() async {
                           (!siteAlarm || encounter[tk].type.animal)) {
                         clearSceneAreas();
 
-                        mvaddstrc(9, 1, white, encounter[tk].name);
-                        addstr(" won't talk to you.");
+                        mvaddstrc(
+                          9,
+                          1,
+                          white,
+                          "{name} won't talk to you.",
+                          params: {"name": LcsI18n.tr(encounter[tk].name)},
+                        );
 
                         await getKey();
                       } else if (!encounter[tk].isEnemy && siteAlarm && enemy) {
@@ -777,11 +809,7 @@ Future<void> _siteModeAux() async {
       if (c == '0'.codePoint) activeSquadMemberIndex = -1;
 
       if (c == Key.m) {
-        for (SiteTile tile in levelMap.allOnFloor(locz)) {
-          move(tile.y + 1, tile.x + 5);
-          drawTileContent(tile);
-        }
-
+        showFullSiteMap();
         await getKey();
       }
 
@@ -881,13 +909,21 @@ Future<void> _siteModeAux() async {
         if (followers > 0) {
           clearMessageArea();
 
-          mvaddstrc(9, 1, white, "You free ");
           if (followers > 1) {
-            addstr("some Oppressed Liberals");
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "You free some Oppressed Liberals from the Conservatives.",
+            );
           } else {
-            addstr("an Oppressed Liberal");
+            mvaddstrc(
+              9,
+              1,
+              white,
+              "You free an Oppressed Liberal from the Conservatives.",
+            );
           }
-          addstr(" from the Conservatives.");
 
           if (actgot < followers) {
             await getKey();
@@ -896,16 +932,15 @@ Future<void> _siteModeAux() async {
 
             setColor(white);
             move(9, 1);
-            if (actgot == 0 && followers > 1) {
-              addstr("They all leave");
-            } else if (followers - actgot > 1) {
-              addstr("Some leave");
-            } else if (actgot == 0) {
-              addstr("The Liberal leaves");
-            } else {
-              addstr("One Liberal leaves");
-            }
-            addstr(" you, feeling safer getting out alone.");
+            String leaverMessage = switch (actgot) {
+              0 when followers > 1 =>
+                "They all leave you, feeling safer getting out alone.",
+              _ when followers - actgot > 1 =>
+                "Some leave you, feeling safer getting out alone.",
+              0 => "The Liberal leaves you, feeling safer getting out alone.",
+              _ => "One Liberal leaves you, feeling safer getting out alone.",
+            };
+            addstr(leaverMessage);
             // 3 juice for every person you free who doesn't join up
             // This might need to be nerfed in the future because it's so easy,
             // but it's thematically appropriate, so the nerf should probably
@@ -1715,32 +1750,42 @@ Future<void> _siteModeAux() async {
                 if (conservative != null) {
                   printEncounter();
                   if (currentTile.megaBloody) {
-                    String message = [
-                      "looks around wildly, shocked by the gore.",
-                      "is looking around with great fear.",
-                      "is searching for the source of the blood.",
-                      "gasps in horror at the carnage.",
-                      "is looking around near the bloody mess.",
-                      "is trying to figure out who did this.",
-                      "is inspecting the crime scene.",
-                      "looks very on edge about the bloody mess.",
-                    ].random;
                     await encounterMessage(
-                      "${conservative.type.name} $message",
+                      "{type} {reaction}",
+                      params: {
+                        "type": LcsI18n.tr(conservative.type.name),
+                        "reaction": LcsI18n.tr(
+                          [
+                            "looks around wildly, shocked by the gore.",
+                            "is looking around with great fear.",
+                            "is searching for the source of the blood.",
+                            "gasps in horror at the carnage.",
+                            "is looking around near the bloody mess.",
+                            "is trying to figure out who did this.",
+                            "is inspecting the crime scene.",
+                            "looks very on edge about the bloody mess.",
+                          ].random,
+                        ),
+                      },
                     );
                   } else {
-                    String message = [
-                      "looks at the blood nervously.",
-                      "glances at the blood anxiously.",
-                      "seems agitated by the blood.",
-                      "is investigating the blood.",
-                      "glances around nervously.",
-                      "seems more on guard than usual.",
-                      "is looking around for threats.",
-                      "looks confused and upset.",
-                    ].random;
                     await encounterMessage(
-                      "${conservative.type.name} $message",
+                      "{type} {reaction}",
+                      params: {
+                        "type": LcsI18n.tr(conservative.type.name),
+                        "reaction": LcsI18n.tr(
+                          [
+                            "looks at the blood nervously.",
+                            "glances at the blood anxiously.",
+                            "seems agitated by the blood.",
+                            "is investigating the blood.",
+                            "glances around nervously.",
+                            "seems more on guard than usual.",
+                            "is looking around for threats.",
+                            "looks confused and upset.",
+                          ].random,
+                        ),
+                      },
                     );
                   }
                 }
@@ -1860,9 +1905,16 @@ Future<void> _resolveSite() async {
           p.sleeperAgent = false;
           erase();
           setColor(lightGray);
-          mvaddstr(8, 1, "Sleeper ");
-          addstr(p.name);
-          addstr(" has been outed by your bold attack!");
+          mvaddstr(
+            8,
+            1,
+            "{role} {name} has been outed by your bold attack!",
+            params: {
+              "role": LcsI18n.trGendered("Sleeper", gender: p.gender),
+              "oSuffix": p.gender.simplified.adjectiveEnding,
+              "name": p.name,
+            },
+          );
 
           mvaddstr(
             10,
@@ -1923,11 +1975,15 @@ Future<void> _fightSubdued() async {
   mvaddstrc(9, 1, purple, "The police subdue and arrest the squad.");
 
   if (hostagefreed > 0) {
-    mvaddstr(10, 1, "Your hostage");
     if (hostagefreed > 1) {
-      addstr("s are free.");
+      mvaddstr(
+        10,
+        1,
+        "{count} hostages are free.",
+        params: {"count": hostagefreed.toString()},
+      );
     } else {
-      addstr(" is free.");
+      mvaddstr(10, 1, "Your hostage is free.");
     }
   }
 
@@ -1939,7 +1995,9 @@ Future<void> _openDoor(bool restricted) async {
   bool locked = currentTile.flag & SITEBLOCK_LOCKED > 0,
       alarmed = currentTile.flag & SITEBLOCK_ALARMED > 0,
       vaultDoor = currentTile.flag & SITEBLOCK_METAL > 0,
-      cantUnlock = currentTile.flag & SITEBLOCK_CLOCK > 0;
+          //   known_locked=currentTile.flag&SITEBLOCK_KLOCK>0,
+          cantUnlock =
+          currentTile.flag & SITEBLOCK_CLOCK > 0;
 
   if (vaultDoor) {
     // Vault door, not usable by bumping
@@ -1979,9 +2037,9 @@ Future<void> _openDoor(bool restricted) async {
     while (true) {
       int c = await getKey();
 
-      if (c == Key.y) {
+      if (isYesKey(c)) {
         break;
-      } else if (c == Key.n) {
+      } else if (isNoKey(c)) {
         return;
       }
     }
@@ -2006,7 +2064,7 @@ Future<void> _openDoor(bool restricted) async {
 
       clearMessageArea();
 
-      if (c == Key.y) {
+      if (isYesKey(c)) {
         UnlockResult result = await unlock(UnlockTypes.door);
         // If the unlock was successful
 
@@ -2050,7 +2108,7 @@ Future<void> _openDoor(bool restricted) async {
           await noticeCheck();
         }
         return;
-      } else if (c == Key.n) {
+      } else if (isNoKey(c)) {
         return;
       }
     }
@@ -2061,9 +2119,11 @@ Future<void> _openDoor(bool restricted) async {
       setColor(white);
       move(9, 1);
       if (locked) {
-        addstr("You shake the handle but it is ");
-        if (hasSecurity) addstr("still ");
-        addstr("locked.");
+        if (hasSecurity) {
+          addstr("You shake the handle but it is still locked.");
+        } else {
+          addstr("You shake the handle but it is locked.");
+        }
       } else {
         addstr("It's locked from the other side.");
       }
@@ -2072,7 +2132,7 @@ Future<void> _openDoor(bool restricted) async {
 
       int c = await getKey();
 
-      if (c == Key.y) {
+      if (isYesKey(c)) {
         UnlockResult result = await bash(BashTypes.door);
 
         if (result == UnlockResult.unlocked || result == UnlockResult.bashed) {
@@ -2115,7 +2175,7 @@ Future<void> _openDoor(bool restricted) async {
         }
 
         break;
-      } else if (c == Key.n) {
+      } else if (isNoKey(c)) {
         break;
       }
     }

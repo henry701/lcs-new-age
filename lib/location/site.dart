@@ -7,6 +7,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/money.dart';
@@ -174,11 +175,19 @@ class Site extends Location {
 
   @override
   String getName({bool short = false, bool includeCity = false}) {
-    String fullName = short
-        ? (frontShortName ?? shortName)
-        : (frontName ?? name);
+    final rawName = short ? (frontShortName ?? shortName) : (frontName ?? name);
+    // Generated site names are already localized when the world is created.
+    // Only pass stable catalog keys through the translator; otherwise a name
+    // such as "Base do Exército Sullivan" is incorrectly reported as a
+    // missing English key on every render.
+    final fullName = LcsI18n.hasTranslation(rawName)
+        ? LcsI18n.tr(rawName)
+        : rawName;
     if (includeCity && multipleCityMode) {
-      return '$fullName, ${city.getName(short: true)}';
+      return LcsI18n.processString("{site}, {city}", {
+        "site": fullName,
+        "city": city.getName(short: true),
+      });
     } else {
       return fullName;
     }
@@ -244,6 +253,173 @@ class Site extends Location {
   }
 }
 
+String localizedGeneratedSiteName(String adjective, String siteType) {
+  final fullName = '$adjective $siteType';
+  if (LcsI18n.hasTranslation(fullName)) return LcsI18n.tr(fullName);
+
+  if (LcsI18n.currentLocale == 'pt_BR') {
+    final translatedAdjective = _ptBrGeneratedAdjective(
+      adjective,
+      _ptBrFeminineGeneratedSiteTypes.contains(siteType),
+    );
+    if (translatedAdjective != null) {
+      return [LcsI18n.tr(siteType), translatedAdjective].join(' ');
+    }
+  }
+
+  return LcsI18n.processString('{adjective} {siteType}', {
+    'adjective': LcsI18n.tr(adjective),
+    'siteType': LcsI18n.tr(siteType),
+  });
+}
+
+String localizedGeneratedNursingHomeName(String adjective, String noun) {
+  final fullName = [adjective, noun, 'Nursing Home'].join(' ');
+  if (LcsI18n.hasTranslation(fullName)) return LcsI18n.tr(fullName);
+
+  final translatedAdjective = LcsI18n.currentLocale == 'pt_BR'
+      ? _ptBrNursingHomeAdjective(adjective, noun)
+      : LcsI18n.tr(adjective);
+  return LcsI18n.processString('{adjective} {noun} Nursing Home', {
+    'adjective': translatedAdjective,
+    'noun': LcsI18n.tr(noun),
+  });
+}
+
+String localizedGeneratedJuiceBarName(String adjective, String noun) {
+  final fullName = [adjective, noun, 'Juice Bar'].join(' ');
+  if (LcsI18n.hasTranslation(fullName)) return LcsI18n.tr(fullName);
+
+  if (LcsI18n.currentLocale != 'pt_BR') {
+    return LcsI18n.processString('{adjective} {noun} Juice Bar', {
+      'adjective': LcsI18n.tr(adjective),
+      'noun': LcsI18n.tr(noun),
+    });
+  }
+
+  return LcsI18n.processString('{juiceBar} {noun} {adjective}', {
+    'juiceBar': LcsI18n.tr('Juice Bar'),
+    'noun': LcsI18n.tr(noun),
+    'adjective': _ptBrJuiceBarAdjective(adjective, noun),
+  }, noTranslate: true);
+}
+
+String localizedGeneratedInternetCafeName(String adjective, String noun) {
+  final fullName = [adjective, noun, 'Internet Cafe'].join(' ');
+  if (LcsI18n.hasTranslation(fullName)) return LcsI18n.tr(fullName);
+
+  if (LcsI18n.currentLocale != 'pt_BR') {
+    return LcsI18n.processString('{adjective} {noun} Internet Cafe', {
+      'adjective': LcsI18n.tr(adjective),
+      'noun': LcsI18n.tr(noun),
+    });
+  }
+
+  // "Latte" is translated as "Café latte" as a standalone label, but that
+  // would duplicate the café noun in this generated brand name.
+  final translatedNoun = noun == 'Latte' ? 'Latte' : LcsI18n.tr(noun);
+  return LcsI18n.processString(LcsI18n.tr('{adjective} {noun} Internet Cafe'), {
+    'noun': translatedNoun,
+    'adjective': LcsI18n.tr(adjective),
+  }, noTranslate: true);
+}
+
+const _ptBrFeminineNursingHomeNouns = <String>{
+  'Journey',
+  'Compass',
+  'Reflections',
+};
+
+const _ptBrPluralNursingHomeNouns = <String>{'Moments', 'Reflections'};
+
+String _ptBrNursingHomeAdjective(String adjective, String noun) {
+  final base = switch (adjective) {
+    'Happy' => 'Feliz',
+    'Gentle' => 'Gentil',
+    'Quiet' => 'Silencioso',
+    'Radiant' => 'Radiante',
+    'Loving' => 'Amoroso',
+    'Tender' => 'Carinhoso',
+    'Joyful' => 'Alegre',
+    _ => LcsI18n.tr(adjective),
+  };
+  final feminine = _ptBrFeminineNursingHomeNouns.contains(noun);
+  final plural = _ptBrPluralNursingHomeNouns.contains(noun);
+
+  return switch ((base, feminine, plural)) {
+    ('Feliz', _, true) => 'Felizes',
+    ('Feliz', _, false) => 'Feliz',
+    ('Gentil', _, true) => 'Gentis',
+    ('Gentil', _, false) => 'Gentil',
+    ('Alegre', _, true) => 'Alegres',
+    ('Alegre', _, false) => 'Alegre',
+    ('Radiante', _, true) => 'Radiantes',
+    ('Radiante', _, false) => 'Radiante',
+    ('Silencioso', true, true) => 'Silenciosas',
+    ('Silencioso', true, false) => 'Silenciosa',
+    ('Silencioso', false, true) => 'Silenciosos',
+    ('Silencioso', false, false) => 'Silencioso',
+    ('Amoroso', true, true) => 'Amorosas',
+    ('Amoroso', true, false) => 'Amorosa',
+    ('Amoroso', false, true) => 'Amorosos',
+    ('Amoroso', false, false) => 'Amoroso',
+    ('Carinhoso', true, true) => 'Carinhosas',
+    ('Carinhoso', true, false) => 'Carinhosa',
+    ('Carinhoso', false, true) => 'Carinhosos',
+    ('Carinhoso', false, false) => 'Carinhoso',
+    _ => base,
+  };
+}
+
+const _ptBrFeminineJuiceBarNouns = <String>{'Diet', 'Orange', 'Carrot'};
+
+const _ptBrPluralJuiceBarNouns = <String>{'Methods'};
+
+String _ptBrJuiceBarAdjective(String adjective, String noun) {
+  final base = switch (adjective) {
+    'Harmonious' => 'Harmonioso',
+    _ => LcsI18n.tr(adjective),
+  };
+  final feminine = _ptBrFeminineJuiceBarNouns.contains(noun);
+  final plural = _ptBrPluralJuiceBarNouns.contains(noun);
+
+  return switch ((base, feminine, plural)) {
+    ('Natural', _, true) => 'Naturais',
+    ('Relaxante', _, true) => 'Relaxantes',
+    ('Saudável', _, true) => 'Saudáveis',
+    ('Harmonioso', true, true) => 'Harmoniosas',
+    ('Harmonioso', true, false) => 'Harmoniosa',
+    ('Harmonioso', false, true) => 'Harmoniosos',
+    ('Harmonioso', false, false) => 'Harmonioso',
+    _ => base,
+  };
+}
+
+const _ptBrFeminineGeneratedSiteTypes = <String>{
+  'Paper Mill',
+  'Schoolhouse',
+  'Bus Garage',
+  'Steel Plant',
+  'Church',
+  'Toy Factory',
+  'Train Station',
+  'Auto Plant',
+  'Textile Mill',
+  'Cannery',
+  'Brewery',
+  'Clinic',
+  'Library',
+};
+
+String? _ptBrGeneratedAdjective(String adjective, bool feminine) =>
+    switch (adjective) {
+      'Abandoned' => feminine ? 'Abandonada' : 'Abandonado',
+      'Forgotten' => feminine ? 'Esquecida' : 'Esquecido',
+      'Old' => feminine ? 'Velha' : 'Velho',
+      'Haunted' => feminine ? 'Assombrada' : 'Assombrado',
+      _ => null,
+    };
+
 enum SiteController { lcs, ccs, unaligned }
 
 Site? findSiteInSameCity(City? city, SiteType type) =>
@@ -277,11 +453,16 @@ void initSiteName(Site loc) {
       if (laws[Law.prisons] == DeepAlignment.archConservative) {
         const adjective = ["Happy", "Cheery", "Quiet", "Green", "Nectar"];
         const noun = ["Valley", "Meadow", "Hills", "Glade", "Forest"];
-        loc.name = "${adjective.random} ${noun.random} Forced Labor Camp";
+        loc.name =
+            LcsI18n.processString("{adjective} {noun} Forced Labor Camp", {
+              "adjective": LcsI18n.tr(adjective.random),
+              "noun": LcsI18n.tr(noun.random),
+            });
         loc.shortName = "Joycamp";
       } else {
-        loc.name = "${lastName(Gender.whiteMalePatriarch)} Prison";
-        loc.shortName = "Prison";
+        final owner = lastName(Gender.whiteMalePatriarch);
+        loc.name = LcsI18n.processString("{name} Prison", {"name": owner});
+        loc.shortName = LcsI18n.tr("Prison");
       }
     case SiteType.universityHospital:
       switch (loc.cityId) {
@@ -320,12 +501,18 @@ void initSiteName(Site loc) {
         "Care",
         "Reflections",
       ];
-      loc.name = "${adjective.random} ${noun.random} Nursing Home";
+      loc.name = localizedGeneratedNursingHomeName(
+        adjective.random,
+        noun.random,
+      );
       loc.shortName = "NursingHome";
     case SiteType.insuranceOffice:
       const adjective = ["United", "Human", "Blue", "First", "Golden"];
       const noun = ["Cross", "Health", "Care", "Life", "Well"];
-      loc.name = "${adjective.random} ${noun.random} Insurance";
+      loc.name = LcsI18n.processString("{adjective} {noun} Insurance", {
+        "adjective": LcsI18n.tr(adjective.random),
+        "noun": LcsI18n.tr(noun.random),
+      });
       loc.shortName = "Insurance";
     case SiteType.nuclearPlant:
       if (laws[Law.nuclearPower] == DeepAlignment.eliteLiberal) {
@@ -343,15 +530,16 @@ void initSiteName(Site loc) {
       if (nineteenEightyFour) {
         loc.rename("Ministry of Peace", "Minipax");
       } else {
-        loc.name = "${lastName(Gender.whiteMalePatriarch)} Army Base";
-        loc.shortName = "Army Base";
+        final owner = lastName(Gender.whiteMalePatriarch);
+        loc.name = LcsI18n.processString("{name} Army Base", {"name": owner});
+        loc.shortName = LcsI18n.tr("Army Base");
       }
     case SiteType.pawnShop:
       String name = lastName();
       if (laws[Law.gunControl] == DeepAlignment.eliteLiberal) {
-        loc.name = "$name's Pawnshop";
+        loc.name = LcsI18n.processString("{name}'s Pawnshop", {"name": name});
       } else {
-        loc.name = "$name Pawn & Gun";
+        loc.name = LcsI18n.processString("{name} Pawn & Gun", {"name": name});
       }
       loc.shortName = "Pawnshop";
     case SiteType.ceoHouse:
@@ -362,66 +550,71 @@ void initSiteName(Site loc) {
       }
     case SiteType.warehouse:
       do {
-        loc.name = ["Abandoned ", "Forgotten ", "Old ", "Haunted "].random;
+        final adjective = ["Abandoned", "Forgotten", "Old", "Haunted"].random;
+        late final String siteType;
         switch (lcsRandom(10)) {
           case 0:
-            loc.name += "Meat Plant";
+            siteType = "Meat Plant";
             loc.shortName = "Meat Plant";
           case 1:
-            loc.name += "Warehouse";
+            siteType = "Warehouse";
             loc.shortName = "Warehouse";
           case 2:
-            loc.name += "Paper Mill";
+            siteType = "Paper Mill";
             loc.shortName = "Paper Mill";
           case 3:
-            loc.name += "Schoolhouse";
+            siteType = "Schoolhouse";
             loc.shortName = "School";
           case 4:
-            loc.name += "Motel";
+            siteType = "Motel";
             loc.shortName = "Old Motel";
           case 5:
-            loc.name += "Bus Garage";
+            siteType = "Bus Garage";
             loc.shortName = "Bus Garage";
           case 6:
-            loc.name += "Steel Plant";
+            siteType = "Steel Plant";
             loc.shortName = "Steel Plant";
           case 7:
-            loc.name += "Church";
+            siteType = "Church";
             loc.shortName = "Old Church";
           case 8:
-            loc.name += "Toy Factory";
+            siteType = "Toy Factory";
             loc.shortName = "Toymakers";
           case 9:
-            loc.name += "Train Station";
+            siteType = "Train Station";
             loc.shortName = "Station";
           case 10:
-            loc.name += "Auto Plant";
+            siteType = "Auto Plant";
             loc.shortName = "Auto Plant";
           case 11:
-            loc.name += "Textile Mill";
+            siteType = "Textile Mill";
             loc.shortName = "Textile Mill";
           case 12:
-            loc.name += "Cannery";
+            siteType = "Cannery";
             loc.shortName = "Cannery";
           case 13:
-            loc.name += "Office Building";
+            siteType = "Office Building";
             loc.shortName = "Offices";
           case 14:
-            loc.name += "Brewery";
+            siteType = "Brewery";
             loc.shortName = "Brewery";
           case 15:
-            loc.name += "Clinic";
+            siteType = "Clinic";
             loc.shortName = "Old Clinic";
           case 16:
-            loc.name += "Library";
+            siteType = "Library";
             loc.shortName = "Library";
           case 17:
-            loc.name += "Museum";
+            siteType = "Museum";
             loc.shortName = "Museum";
           case 18:
-            loc.name += "Restaurant";
+            siteType = "Restaurant";
             loc.shortName = "Restaurant";
+          default:
+            siteType = "Warehouse";
+            loc.shortName = "Warehouse";
         }
+        loc.name = localizedGeneratedSiteName(adjective, siteType);
       } while (loc.isDuplicateLocation());
     case SiteType.dirtyIndustry:
       switch (lcsRandom(5)) {
@@ -440,13 +633,13 @@ void initSiteName(Site loc) {
       do {
         String name = lastName();
         loc.shortName = "Condos";
-        loc.name = "$name Condominiums";
+        loc.name = LcsI18n.processString("{name} Condominiums", {"name": name});
       } while (loc.isDuplicateLocation());
     case SiteType.apartment:
       do {
         String name = lastName();
         loc.shortName = "Apartment";
-        loc.name = "$name Apartments";
+        loc.name = LcsI18n.processString("{name} Apartments", {"name": name});
       } while (loc.isDuplicateLocation());
     case SiteType.tenement:
       do {
@@ -454,48 +647,73 @@ void initSiteName(Site loc) {
         do {
           name = lastName();
         } while (name.length > 7);
-        loc.name = "$name St. Housing Projects";
+        loc.name = LcsI18n.processString('{name} St. Housing Projects', {
+          'name': name,
+        });
         loc.shortName = "Projects";
       } while (loc.isDuplicateLocation());
     case SiteType.geneticsLab:
-      loc.name = "${lastName()} Genetics";
+      loc.name = LcsI18n.processString("{name} Genetics", {"name": lastName()});
       loc.shortName = "Genetics";
     case SiteType.cosmeticsLab:
-      loc.name = "${lastName()} Cosmetics";
+      loc.name = LcsI18n.processString("{name} Cosmetics", {
+        "name": lastName(),
+      });
       loc.shortName = "Cosmetics";
     case SiteType.carDealership:
       String name = firstName(Gender.whiteMalePatriarch);
-      loc.name = "$name's Used Cars";
+      loc.name = LcsI18n.processString("{name}'s Used Cars", {"name": name});
       loc.shortName = "Car Dealer";
     case SiteType.departmentStore:
-      loc.name = "${lastName()}'s Department Store";
+      loc.name = LcsI18n.processString("{name}'s Department Store", {
+        "name": lastName(),
+      });
       loc.shortName = "Dept. Store";
     case SiteType.sweatshop:
-      loc.name = "${lastName()} Garment Makers";
+      loc.name = LcsI18n.processString("{name} Garment Makers", {
+        "name": lastName(),
+      });
       loc.shortName = "Sweatshop";
     case SiteType.drugHouse:
       if (loc.controller == SiteController.lcs) {
         String name = loc.name.split(" ").first;
-        loc.name = "$name St. Safehouse";
+        loc.name = LcsI18n.processString('{name} St. Safehouse', {
+          'name': name,
+        });
         loc.shortName = "Safehouse";
       } else {
         do {
-          String name = lastName();
-          loc.name = "$name St. ";
+          final name = lastName();
+          final int choice = lcsRandom(4);
           if (laws[Law.drugs] == DeepAlignment.eliteLiberal) {
-            switch (lcsRandom(4)) {
+            switch (choice) {
               case 0:
-                loc.name += "Recreational Drugs Center";
+                loc.name = LcsI18n.processString(
+                  '{name} St. Recreational Drugs Center',
+                  {'name': name},
+                );
                 loc.shortName = "Drug Shop";
               case 1:
-                loc.name += "Cannabis Lounge";
+                loc.name = LcsI18n.processString('{name} St. Cannabis Lounge', {
+                  'name': name,
+                });
                 loc.shortName = "Pot Lounge";
               case 2:
-                loc.name += "Marijuana Dispensary";
+                loc.name = LcsI18n.processString(
+                  '{name} St. Marijuana Dispensary',
+                  {'name': name},
+                );
                 loc.shortName = "Dispensary";
+              default:
+                loc.name = LcsI18n.processString('{name} St. Drug House', {
+                  'name': name,
+                });
+                loc.shortName = "Drug House";
             }
           } else {
-            loc.name += "Drug House";
+            loc.name = LcsI18n.processString('{name} St. Drug House', {
+              'name': name,
+            });
             loc.shortName = "Drug House";
           }
         } while (loc.isDuplicateLocation());
@@ -503,25 +721,31 @@ void initSiteName(Site loc) {
     case SiteType.juiceBar:
       const adj = ["Natural", "Harmonious", "Restful", "Healthy", "New You"];
       const noun = ["Diet", "Methods", "Plan", "Orange", "Carrot"];
-      loc.name = "${adj.random} ${noun.random} Juice Bar";
+      loc.name = localizedGeneratedJuiceBarName(adj.random, noun.random);
       loc.shortName = "Juice Bar";
     case SiteType.veganCoOp:
       const veggie = ["Asparagus", "Tofu", "Broccoli", "Radish", "Eggplant"];
       const noun = ["Forest", "Rainbow", "Garden", "Farm", "Meadow"];
-      loc.name = "${veggie.random} ${noun.random} Vegan Co-op";
+      loc.name = LcsI18n.processString("{vegetable} {noun} Vegan Co-op", {
+        "vegetable": LcsI18n.tr(veggie.random),
+        "noun": LcsI18n.tr(noun.random),
+      });
       loc.shortName = "Vegan";
     case SiteType.internetCafe:
       const adj = ["Electric", "Wired", "Nano", "Micro", "Techno"];
       const noun = ["Panda", "Troll", "Latte", "Unicorn", "Pixie"];
-      loc.name = "${adj.random} ${noun.random} Internet Cafe";
+      loc.name = localizedGeneratedInternetCafeName(adj.random, noun.random);
       loc.shortName = "Net Cafe";
     case SiteType.latteStand:
       const adj = ["Frothy", "Milky", "Caffeine", "Morning", "Evening"];
       const noun = ["Mug", "Cup", "Jolt", "Wonder", "Express"];
-      loc.name = "${adj.random} ${noun.random} Latte Stand";
+      loc.name = LcsI18n.processString("{adjective} {noun} Latte Stand", {
+        "adjective": LcsI18n.tr(adj.random),
+        "noun": LcsI18n.tr(noun.random),
+      });
       loc.shortName = "Latte";
     case SiteType.publicPark:
-      loc.name = "${lastName()} Park";
+      loc.name = LcsI18n.processString("{name} Park", {"name": lastName()});
       loc.shortName = "Park";
     case SiteType.barAndGrill:
       if (loc.controller == SiteController.lcs) {

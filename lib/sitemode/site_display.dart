@@ -5,6 +5,7 @@ import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/politics.dart';
 import 'package:lcs_new_age/sitemode/sitemap.dart';
@@ -54,13 +55,23 @@ void printSiteMap(int x, int y, int z) {
   int xscreen, xsite, yscreen, ysite;
 
   // Build the frame
-  mvaddstrc(8, 53, lightGray,
-      "\u252C${"".padRight(25, "\u2500")}\u252C"); // 27 characters - top of map
-  mvaddstr(24, 53,
-      "\u2514${"".padRight(25, "\u2500")}\u2518"); // 27 characters - bottom of map
+  mvaddstrc(
+    8,
+    53,
+    lightGray,
+    "\u252C${"".padRight(25, "\u2500")}\u252C",
+  ); // 27 characters - top of map
+  mvaddstr(
+    24,
+    53,
+    "\u2514${"".padRight(25, "\u2500")}\u2518",
+  ); // 27 characters - bottom of map
   for (yscreen = 9; yscreen < 24; yscreen++) {
-    mvaddstr(yscreen, 53,
-        "\u2502                         \u2502"); // 27 characters - the map itself
+    mvaddstr(
+      yscreen,
+      53,
+      "\u2502                         \u2502",
+    ); // 27 characters - the map itself
   }
 
   // Do a preliminary Line of Sight iteration for better Line of Sight detection
@@ -167,7 +178,9 @@ void printSiteMap(int x, int y, int z) {
       str = "";
   }
   if (levelMap[locx][locy][locz].special != TileSpecial.none) {
-    mvaddstrc(24, 67 - (str.length >> 1), white, str);
+    final localizedLabel = _fitSiteSpecialLabel(str, 27);
+    final labelX = 53 + ((27 - strLenX(localizedLabel)) ~/ 2);
+    mvaddstrc(24, labelX, white, localizedLabel, noTranslate: true);
   }
 
   //PRINT PARTY
@@ -215,7 +228,7 @@ void drawTileContent(SiteTile tile) {
   } else {
     bool canSeeFoes =
         ((activeSite!.compound.cameras) && !activeSite!.siege.camerasOff) ||
-            tile.inLOS;
+        tile.inLOS;
     setColor(lightGray);
     if (tile.wall) {
       Color bg = darkGray;
@@ -294,7 +307,7 @@ void drawTileContent(SiteTile tile) {
       TileSpecial.cagedRabbits,
       TileSpecial.cagedMonsters,
       TileSpecial.polluterEquipment,
-      TileSpecial.sweatshopEquipment
+      TileSpecial.sweatshopEquipment,
     ].contains(tile.special)) {
       setColor(yellow);
       addchar("*");
@@ -309,9 +322,7 @@ void drawTileContent(SiteTile tile) {
         TileSpecial.ovalOfficeNW ||
         TileSpecial.ovalOfficeNE ||
         TileSpecial.ovalOfficeSW ||
-        TileSpecial.ovalOfficeSE =>
-          politics.exec[Exec.president]!.color,
-        TileSpecial.nursingHomePatientDone => darkBlue,
+        TileSpecial.ovalOfficeSE => politics.exec[Exec.president]!.color,
         _ => yellow,
       });
       addchar(switch (tile.special) {
@@ -396,7 +407,23 @@ void drawTileContent(SiteTile tile) {
   }
 }
 
+void printGroundLootIndicator() {
+  mvaddstrc(22, 1, purple, "Loot on the ground!");
+}
+
 void printSiteMapSmall(int x, int y, int z) {
+  // The compact map's label normally sits on row 23 at x=57. Clear that
+  // footer range before painting it so a previous label cannot survive a
+  // shorter one. If the action legend already occupies that range, use the
+  // map's bottom border as a dedicated label footer instead of overwriting
+  // the controls.
+  final bool actionLegendUsesMapFooter = console.buffer[23]
+      .skip(57)
+      .any((character) => character.glyph != ' ');
+  if (!actionLegendUsesMapFooter) {
+    eraseArea(startY: 23, endY: 24, startX: 57, endX: console.width);
+  }
+
   // Build the frame
   // top, bottom
   mvaddstrc(11, 55, lightGray, "\u250C${"".padRight(23, "\u2500")}\u2510");
@@ -458,6 +485,10 @@ void printSiteMapSmall(int x, int y, int z) {
       }
     }
   }
+
+  // Keep the left side of the last map row free for the persistent loot
+  // indicator; the encounter roster ends on row 21 (ENCMAX is ten).
+  eraseArea(startY: 22, endY: 23, startX: 0, endX: 55);
 
   //PRINT SPECIAL
   String str;
@@ -543,9 +574,20 @@ void printSiteMapSmall(int x, int y, int z) {
     default:
       str = "";
   }
-  move(23, 57);
   if (str != "") {
-    addstrc(yellow, str);
+    final label = _fitSiteSpecialLabel(str, 23);
+    if (actionLegendUsesMapFooter) {
+      mvaddstr(
+        22,
+        55,
+        "\u2514${"".padRight(23, "\u2500")}\u2518",
+        noTranslate: true,
+      );
+      mvaddstrc(22, 56, yellow, label.padRight(23), noTranslate: true);
+    } else {
+      move(23, 57);
+      addstrc(yellow, label, noTranslate: true);
+    }
   }
   if (levelMap[locx][locy][locz].burning) {
     if (str != "") addstr(" ");
@@ -575,9 +617,14 @@ void printSiteMapSmall(int x, int y, int z) {
   }
 
   if (groundLoot.isNotEmpty || levelMap[locx][locy][locz].loot) {
-    mvaddstrc(24, 57, purple, "Loot on the ground!");
     printEncounter();
+    printGroundLootIndicator();
   }
+}
+
+String _fitSiteSpecialLabel(String englishLabel, int maxWidth) {
+  if (englishLabel.isEmpty) return englishLabel;
+  return fitConsoleText(LcsI18n.tr(englishLabel), maxWidth);
 }
 
 const wallUp = 0;
@@ -1113,7 +1160,11 @@ void clearMessageArea() {
 
 void clearEncounterArea() {
   eraseArea(
-      startY: 11, endY: 23, startX: 0, endX: mode == GameMode.site ? 55 : 80);
+    startY: 11,
+    endY: 23,
+    startX: 0,
+    endX: mode == GameMode.site ? 55 : 80,
+  );
 }
 
 void clearMapArea({bool lower = true, bool upper = true}) {
@@ -1132,50 +1183,85 @@ void printEncounter() {
 void printBasicEncounter() {
   clearEncounterArea();
 
-  for (int i = 0; i < encounter.length; i++) {
-    Creature e = encounter[i];
-    //if (!e.alive) continue;
-    int y = 12 + i;
-    mvaddstrc(y, 0, darkGray, ((i + 1) % 10).toString());
-    String name = e.name;
-    if (!e.alive) {
-      setColor(darkGray);
-    } else {
-      setColor(e.align.color);
-      if (e.align == Alignment.conservative && e.calculateWillRunAway()) {
-        name = name.toLowerCase();
-        setColor(darkRed);
-      }
+  int y = 12;
+  int displayIndex = 0;
+  for (final e in encounter) {
+    // A target can remain in the encounter list until the attack caller
+    // removes it. Do not expose its transient negative blood value in that
+    // redraw; the death message already communicates the terminal state.
+    if (!e.alive) continue;
+
+    mvaddstrc(y, 0, darkGray, ((displayIndex + 1) % 10).toString());
+    String name = localizedEncounterCreatureName(e);
+    setColor(e.align.color);
+    if (e.align == Alignment.conservative && e.calculateWillRunAway()) {
+      name = lowercaseFirstCharacter(name);
+      setColor(darkRed);
     }
-    mvaddstr(y, 2, name);
-    mvaddstrc(y, 20, lightGray, e.clothing.shortName);
-    mvaddstrc(y, 36, lightGray, e.weapon.type.shortName);
-    printHealthStat(y, 47, e, small: true);
+    mvaddstrFitted(y, 2, name, 17, noTranslate: true);
+    setColor(lightGray);
+    mvaddstrFitted(
+      y,
+      20,
+      LcsI18n.tr(e.clothing.shortName),
+      16,
+      noTranslate: true,
+    );
+    // Keep localized armor and weapon labels visually separated. The armor
+    // column is exactly 16 cells wide, so a full Portuguese label would
+    // otherwise run directly into the weapon column.
+    mvaddstr(y, 36, " ", noTranslate: true);
+    mvaddstrFitted(
+      y,
+      37,
+      LcsI18n.tr(e.weapon.type.shortName),
+      11,
+      noTranslate: true,
+    );
+    // The map preview begins at column 55; keep the compact health cell
+    // within the six available columns so armor text cannot overwrite it.
+    printHealthStat(y, 49, e, small: true, maxWidth: 6);
+    y++;
+    displayIndex++;
   }
 }
 
 /* prints the names of creatures you see in car chases */
 void printChaseEncounter() {
   if (chaseSequence?.enemycar.isNotEmpty == true) {
-    int startingY = 14;
-    eraseArea(startY: startingY - 1, endY: 21, startX: 0, endX: 80);
+    // Keep the row below the action legend available for wrapped Portuguese
+    // labels before drawing the vehicle roster.
+    int startingY = 15;
+    eraseArea(startY: startingY - 1, endY: 22, startX: 0, endX: 80);
     List<int> carsy = [
       startingY + 1,
       startingY + 1,
       startingY + 1,
-      startingY + 1
+      startingY + 1,
     ];
 
     for (int v = 0; v < chaseSequence!.enemycar.length; v++) {
       mvaddstrc(
-          startingY, v * 20 + 1, white, chaseSequence!.enemycar[v].fullName());
+        startingY,
+        v * 20 + 1,
+        white,
+        chaseSequence!.enemycar[v].fullName(),
+      );
     }
 
     for (Creature e in encounter) {
       for (int v = 0; v < chaseSequence!.enemycar.length; v++) {
         if (chaseSequence!.enemycar[v].id == e.carId) {
-          mvaddstrc(carsy[v], v * 20 + 1, e.align.color, e.name);
-          if (e.isDriver) addstr("-D");
+          mvaddstrcx(
+            carsy[v],
+            v * 20 + 1,
+            e.align.color,
+            "{name}{driver}",
+            params: {
+              "name": localizedCreatureName(e),
+              "driver": e.isDriver ? "-D" : "",
+            },
+          );
           carsy[v]++;
         }
       }

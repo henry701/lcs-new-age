@@ -8,8 +8,14 @@ enum Gender {
   maleBias("his", "he", "him", "himself", "s", "man"),
   femaleBias("her", "she", "she", "herself", "s", "woman");
 
-  const Gender(this.hisHer, this.heShe, this.himHer, this.himselfHerself,
-      this.s, this.manWoman);
+  const Gender(
+    this.hisHer,
+    this.heShe,
+    this.himHer,
+    this.himselfHerself,
+    this.s,
+    this.manWoman,
+  );
   final String hisHer;
   String get hisHerCap => hisHer[0].toUpperCase() + hisHer.substring(1);
   final String heShe;
@@ -19,16 +25,40 @@ enum Gender {
   final String s;
   final String manWoman;
 
+  /// Article-bearing noun used by dialogue templates that need a complete
+  /// Portuguese noun phrase rather than the bare `man`/`woman` label.
+  String get manWomanWithIndefiniteArticle => switch (this) {
+    Gender.nonbinary => 'a friend',
+    Gender.male || Gender.whiteMalePatriarch || Gender.maleBias => 'a man',
+    Gender.female || Gender.femaleBias => 'a woman',
+  };
+
   Gender get simplified {
     return switch (this) {
       Gender.nonbinary => Gender.nonbinary,
       Gender.male ||
       Gender.maleBias ||
-      Gender.whiteMalePatriarch =>
-        Gender.male,
+      Gender.whiteMalePatriarch => Gender.male,
       Gender.female || Gender.femaleBias => Gender.female,
     };
   }
+
+  /// Stable qualifier used by contextual catalog keys for grammatical
+  /// agreement. English values collapse to one canonical form while gendered
+  /// locales can select distinct article/noun/participle variants.
+  String get translationVariant => switch (this) {
+    Gender.nonbinary => 'nonbinary',
+    Gender.female || Gender.femaleBias => 'female',
+    Gender.male || Gender.whiteMalePatriarch || Gender.maleBias => 'male',
+  };
+
+  /// Portuguese-style adjective/participle ending used by templates that need
+  /// predicate agreement after an already-localized noun phrase.
+  String get adjectiveEnding => switch (this) {
+    Gender.nonbinary => 'e',
+    Gender.female || Gender.femaleBias => 'a',
+    Gender.male || Gender.whiteMalePatriarch || Gender.maleBias => 'o',
+  };
 }
 
 Gender forceGenderBinary(Gender gender) {
@@ -38,6 +68,9 @@ Gender forceGenderBinary(Gender gender) {
     } else {
       gender = Gender.female;
     }
+  }
+  if (gender == Gender.whiteMalePatriarch) {
+    gender = Gender.male;
   }
   if (gender == Gender.maleBias) {
     if (lcsRandom(4) > 0) {

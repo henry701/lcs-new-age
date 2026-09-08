@@ -9,6 +9,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
@@ -16,6 +17,46 @@ import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/sitemode/stealth.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/vehicles/vehicle.dart';
+
+const int _fullCreatureBasePageCount = 3;
+const int _specialInjuryPageStartRow = 5;
+const int _specialInjuryPageSize = 17;
+const int _compactSpecialInjuryStartRow = 12;
+const int _compactSpecialInjuryVisibleRows = 11;
+const int _fullProfileSkillColumnWidth = 40;
+const int _fullProfileSkillLabelWidth = 19;
+const int _fullProfileSkillCurrentOffset = 20;
+const int _fullProfileSkillMaxOffset = 28;
+const int _fullProfileCrimeColumnWidth = 40;
+const int _fullProfileCrimeLabelWidth = 35;
+const int _fullProfileCrimeNumberOffset = 36;
+
+int fullCreatureProfilePageCount(Creature cr) {
+  final injuryCount = cr.body.allSpecialInjuries().length;
+  if (injuryCount == 0) return _fullCreatureBasePageCount;
+  return _fullCreatureBasePageCount +
+      (injuryCount + _specialInjuryPageSize - 1) ~/ _specialInjuryPageSize;
+}
+
+void printFullCreatureProfilePage(
+  Creature cr,
+  int page, {
+  bool reserveFooter = false,
+}) {
+  switch (page) {
+    case 0:
+      printFullCreatureStats(cr, reserveFooter: reserveFooter);
+    case 1:
+      printFullCreatureSkills(cr);
+    case 2:
+      printFullCreatureCrimes(cr);
+    default:
+      printFullCreatureSpecialInjuries(
+        cr,
+        page: page - _fullCreatureBasePageCount,
+      );
+  }
+}
 
 void printCreatureInfo(
   Creature cr, {
@@ -26,9 +67,26 @@ void printCreatureInfo(
       ? ShowCarPrefs.showPreferences
       : ShowCarPrefs.showActualCar;
   makeDelimiter(y: 1);
-  mvaddstrc(1, 2, lightGray, "${cr.name}, ${cr.title}");
+  mvaddstrc(
+    1,
+    2,
+    lightGray,
+    "{name}, {title}",
+    params: {"name": localizedCreatureName(cr), "title": cr.title},
+  );
   if (cr.isHoldingBody) {
-    addstr(", holding ${cr.prisoner?.type.hostageName ?? cr.prisoner?.name}");
+    final prisoner = cr.prisoner;
+    addstr(
+      ", carrying {hostage}",
+      params: {
+        "hostage": prisoner == null
+            ? ""
+            : localizedCreatureNameValue(
+                prisoner.name,
+                prisoner.type.hostageName ?? prisoner.type.name,
+              ),
+      },
+    );
   }
   printAttributesAsKnowledgePermits(cr, knowledge);
 
@@ -43,7 +101,7 @@ void printCreatureInfo(
   mvaddstr(7, 0, "Clothes: ");
   addstr(cr.clothing.shortName);
 
-  printTopSkills(2, 31, cr, 5, knowledge: knowledge);
+  printTopSkills(2, 31, cr, 5, knowledge: knowledge, maxWidth: 17);
 
   printHealthStat(1, 49, cr);
   if (cr.body.parts.any((p) => p.wounded)) {
@@ -53,12 +111,51 @@ void printCreatureInfo(
 }
 
 void printAttributesAsKnowledgePermits(Creature creature, int knowledge) {
-  mvaddstr(2, 0, "Str: ${creature.attribute(Attribute.strength)}");
-  mvaddstr(3, 0, "Agi: ${creature.attribute(Attribute.agility)}");
-  mvaddstr(4, 0, "Hrt: ${creature.attribute(Attribute.heart)}");
-  mvaddstr(2, 11, "Int: ${creature.attribute(Attribute.intelligence)}");
-  mvaddstr(3, 11, "Cha: ${creature.attribute(Attribute.charisma)}");
-  mvaddstr(4, 11, "Wis: ${creature.attribute(Attribute.wisdom)}");
+  const attributeCellWidth = 11;
+  const secondAttributeColumn = 12;
+
+  mvaddstrFitted(
+    2,
+    0,
+    "Str: {str}",
+    attributeCellWidth,
+    params: {"str": creature.attribute(Attribute.strength).toString()},
+  );
+  mvaddstrFitted(
+    3,
+    0,
+    "Agi: {agi}",
+    attributeCellWidth,
+    params: {"agi": creature.attribute(Attribute.agility).toString()},
+  );
+  mvaddstrFitted(
+    4,
+    0,
+    "Hrt: {hrt}",
+    attributeCellWidth,
+    params: {"hrt": creature.attribute(Attribute.heart).toString()},
+  );
+  mvaddstrFitted(
+    2,
+    secondAttributeColumn,
+    "Int: {int}",
+    attributeCellWidth,
+    params: {"int": creature.attribute(Attribute.intelligence).toString()},
+  );
+  mvaddstrFitted(
+    3,
+    secondAttributeColumn,
+    "Cha: {cha}",
+    attributeCellWidth,
+    params: {"cha": creature.attribute(Attribute.charisma).toString()},
+  );
+  mvaddstrFitted(
+    4,
+    secondAttributeColumn,
+    "Wis: {wis}",
+    attributeCellWidth,
+    params: {"wis": creature.attribute(Attribute.wisdom).toString()},
+  );
 }
 
 enum ShowCarPrefs {
@@ -67,24 +164,41 @@ enum ShowCarPrefs {
   showPreferences, // "1"
 }
 
-void printTransportation(Creature cr, ShowCarPrefs showCarPrefs) {
+void printTransportation(
+  Creature cr,
+  ShowCarPrefs showCarPrefs, {
+  int? maxWidth,
+}) {
   Vehicle? v;
   if (showCarPrefs == ShowCarPrefs.showActualCar) v = cr.car;
   if (showCarPrefs == ShowCarPrefs.showPreferences) v = cr.preferredCar;
   if (v != null) {
-    addstr(v.shortName);
-    if (showCarPrefs == ShowCarPrefs.showPreferences
-        ? cr.preferredDriver
-        : cr.isDriver) {
-      addstr("-D");
-    }
+    final driverSuffix =
+        (showCarPrefs == ShowCarPrefs.showPreferences
+            ? cr.preferredDriver
+            : cr.isDriver)
+        ? "-D"
+        : "";
+    final vehicleWidth = maxWidth == null
+        ? null
+        : maxWidth - driverSuffix.length;
+    final vehicleName = LcsI18n.tr(v.shortName);
+    final fittedVehicleName = vehicleWidth == null
+        ? vehicleName
+        : fitConsoleText(vehicleName, vehicleWidth);
+    addstr("$fittedVehicleName$driverSuffix", noTranslate: true);
   } else {
     int legok = cr.body.legs.where((l) => !l.missing).length;
-    if (cr.hasWheelchair) {
-      addstr("Wheelchair");
-    } else {
-      addstr(legok >= 1 ? "On Foot" : "On \"Foot\"");
-    }
+    final transportName = cr.hasWheelchair
+        ? "Wheelchair"
+        : (legok >= 1 ? "On Foot" : "On \"Foot\"");
+    final localizedTransportName = LcsI18n.tr(transportName);
+    addstr(
+      maxWidth == null
+          ? localizedTransportName
+          : fitConsoleText(localizedTransportName, maxWidth),
+      noTranslate: true,
+    );
   }
 }
 
@@ -103,31 +217,100 @@ void setWeaponColor(Creature cr) {
   }
 }
 
-void printWeapon(Creature cr) {
+void printWeapon(Creature cr, {int? maxWidth}) {
+  if (maxWidth != null) {
+    addstr(fitConsoleText(_weaponDisplayText(cr), maxWidth), noTranslate: true);
+    return;
+  }
+
   if (cr.equippedWeapon == null && cr.type.socialAttacks.isNotEmpty) {
     addstr("Voice");
     return;
   }
-  addstr(cr.weapon.type.shortName);
+  // _localizedWeaponShortName already resolves the catalog key. Passing its
+  // result through the normal wrapper again makes Portuguese values such as
+  // "Nenhuma" and "Daishō" look like missing English keys.
+  addstr(_localizedWeaponShortName(cr), noTranslate: true);
   setColor(lightGray);
   if (cr.weapon.type.usesAmmo) {
     if (cr.weapon.ammo > 0) {
-      addstr(" ${cr.weapon.ammo}/${cr.spareAmmo?.stackSize ?? 0}");
+      addstr(
+        " {ammo}/{spare}",
+        params: {
+          "ammo": cr.weapon.ammo.toString(),
+          "spare": (cr.spareAmmo?.stackSize ?? 0).toString(),
+        },
+        noTranslate: true,
+      );
     } else {
       setColor(darkGray);
       if ((cr.spareAmmo?.stackSize ?? 0) > 0) {
-        addstr(" ${cr.spareAmmo!.stackSize}");
+        addstr(
+          " {spare}",
+          params: {"spare": cr.spareAmmo!.stackSize.toString()},
+          noTranslate: true,
+        );
       } else {
         addstr(" 0");
       }
     }
   } else if (cr.weapon.type.thrown) {
-    addstr(" ${cr.weapon.stackSize}");
+    addstr(
+      " {count}",
+      params: {"count": cr.weapon.stackSize.toString()},
+      noTranslate: true,
+    );
   }
 }
 
-void printTopSkills(int y, int x, Creature cr, int numberToPrint,
-    {int knowledge = 255}) {
+String _weaponDisplayText(Creature cr) {
+  if (cr.equippedWeapon == null && cr.type.socialAttacks.isNotEmpty) {
+    return LcsI18n.tr("Voice");
+  }
+
+  final weaponName = _localizedWeaponShortName(cr);
+  if (cr.weapon.type.usesAmmo) {
+    if (cr.weapon.ammo > 0) {
+      return (StringBuffer(weaponName)
+            ..write(' ')
+            ..write(cr.weapon.ammo)
+            ..write('/')
+            ..write(cr.spareAmmo?.stackSize ?? 0))
+          .toString();
+    }
+    final spare = cr.spareAmmo?.stackSize ?? 0;
+    if (spare > 0) {
+      return (StringBuffer(weaponName)
+            ..write(' ')
+            ..write(spare))
+          .toString();
+    }
+    return (StringBuffer(weaponName)..write(' 0')).toString();
+  }
+  if (cr.weapon.type.thrown) {
+    return (StringBuffer(weaponName)
+          ..write(' ')
+          ..write(cr.weapon.stackSize))
+        .toString();
+  }
+  return weaponName;
+}
+
+String _localizedWeaponShortName(Creature cr) {
+  if (cr.equippedWeapon == null && cr.weapon.type.idName == "WEAPON_NONE") {
+    return LcsI18n.tr("No weapon equipped");
+  }
+  return LcsI18n.tr(cr.weapon.type.shortName);
+}
+
+void printTopSkills(
+  int y,
+  int x,
+  Creature cr,
+  int numberToPrint, {
+  int knowledge = 255,
+  int? maxWidth,
+}) {
   // Get skills sorted by level and experience
   List<MapEntry<Skill, int>> skills = List.generate(
     Skill.values.length,
@@ -140,7 +323,9 @@ void printTopSkills(int y, int x, Creature cr, int numberToPrint,
   skills.sort((a, b) => b.value.compareTo(a.value));
   skills = skills.where((s) => s.value > 0).take(numberToPrint).toList();
   if (skills.isNotEmpty) {
-    mvaddstrc(y, x, lightGray, "Top Skills:");
+    // Keep the translated heading inside the compact profile's skill column;
+    // the wound table begins at column 49.
+    mvaddstrcFitted(y, x, lightGray, "Top Skills:", maxWidth ?? 49 - x - 1);
   }
   for (int i = 0; i < skills.length; i++) {
     Skill s = skills[i].key;
@@ -158,45 +343,85 @@ void printTopSkills(int y, int x, Creature cr, int numberToPrint,
     } else {
       setColor(lightGray);
     }
-    move(y + i + 1, x);
-    if (knowledge > i) {
-      addstr(s.displayName);
-    } else {
-      addstr("???????");
-    }
-    addstr(": ");
+    final skillName = knowledge > i
+        ? (maxWidth == null ? s.localizedName : _compactProfileSkillName(s))
+        : "???????";
+    String value;
     if (knowledge > i + 2) {
       if (levelXP < 100) {
-        addstr("$level.");
-        if (levelXP < 10) {
-          addstr("0");
-        }
-        addstr(levelXP.toString());
+        final paddedLevel = levelXP < 10 ? '0' : '';
+        value =
+            (StringBuffer(levelXP)
+                  ..write('.')
+                  ..write(paddedLevel)
+                  ..write(levelXP))
+                .toString();
       } else {
-        addstr("$level.99+");
+        value = (StringBuffer(levelXP)..write('.99+')).toString();
       }
     } else {
-      addstr("?");
+      value = "?";
     }
+
+    move(y + i + 1, x);
+    if (maxWidth == null) {
+      addstr(skillName, noTranslate: true);
+      addstr(": ", noTranslate: true);
+      addstr(value, noTranslate: true);
+      continue;
+    }
+
+    final labelWidth = (maxWidth - strLenX(value) - 1).clamp(1, maxWidth);
+    final skillLabel = StringBuffer(skillName)..write(':');
+    addstr(
+      fitConsoleText(skillLabel.toString(), labelWidth),
+      noTranslate: true,
+    );
+    addstr(" ", noTranslate: true);
+    addstr(fitConsoleText(value, maxWidth - labelWidth - 1), noTranslate: true);
   }
 }
 
-void printWounds(Creature cr, {int y = 2, int x = 49}) {
+void printWounds(Creature cr, {int y = 2, int x = 49, int? maxWidth}) {
+  final nameWidth = maxWidth == null ? 11 : (maxWidth - 10).clamp(1, 12);
+  final statusX = x + nameWidth + (maxWidth == null ? 1 : 0);
+  final statusWidth = maxWidth == null ? null : maxWidth - nameWidth;
   for (int i = 0; i < cr.body.parts.length; i++) {
     BodyPart p = cr.body.parts[i];
     setColor(p.bleeding > 0 ? red : lightGray);
-    mvaddstr(y + i, x, "${p.name}: ");
-    move(y + i, x + 12);
+    if (maxWidth == null) {
+      mvaddstrFitted(
+        y + i,
+        x,
+        "{name}:",
+        nameWidth,
+        params: {"name": LcsI18n.tr(p.name)},
+        noTranslate: true,
+      );
+    } else {
+      mvaddstrFitted(
+        y + i,
+        x,
+        "{name}:",
+        nameWidth - 1,
+        params: {"name": _compactProfileBodyPartName(p.name)},
+        noTranslate: true,
+      );
+    }
+    move(y + i, statusX);
     if (p.nastyOff) {
-      addstr("Ripped off");
+      _addWoundStatus("Ripped off", statusWidth);
     } else if (p.cleanOff) {
-      addstr("Clean sever");
+      _addWoundStatus("Clean sever", statusWidth);
     } else if (!p.wounded) {
       setColor(lightGreen);
       if (cr.type.animal) {
-        addstr("Animal");
+        _addWoundStatus("Animal", statusWidth);
       } else {
-        addstr(cr.align == Alignment.liberal ? "Liberal" : "Healthy");
+        _addWoundStatus(
+          cr.align == Alignment.liberal ? "Liberal (body status)" : "Healthy",
+          statusWidth,
+        );
       }
     } else {
       List<String> injuries = [];
@@ -205,64 +430,136 @@ void printWounds(Creature cr, {int y = 2, int x = 49}) {
       if (p.cut) injuries.add("Cut");
       if (p.torn) injuries.add("Trn");
       if (p.burned) injuries.add("Brn");
-      addstr(injuries.join(","));
+      _addWoundStatus(injuries.join(","), statusWidth);
     }
     if (!p.cleanOff && !p.nastyOff) {
       int armor = cr.clothing.getArmorForLocation(p);
       if (armor > 0) {
-        addstrc(lightBlue, "+$armor");
+        final armorText = LcsI18n.processString("+{armor}", {
+          "armor": armor.toString(),
+        });
+        final armorTextWithSeparator = " $armorText";
+        final remainingWidth = statusWidth == null
+            ? null
+            : statusWidth - (console.x - statusX);
+        if (remainingWidth == null) {
+          addstrc(lightBlue, armorTextWithSeparator, noTranslate: true);
+        } else if (remainingWidth > 0) {
+          addstrc(
+            lightBlue,
+            fitConsoleText(armorTextWithSeparator, remainingWidth),
+            noTranslate: true,
+          );
+        }
       }
     }
   }
 }
 
+void _addWoundStatus(String status, int? maxWidth) {
+  // Injury codes are composed at runtime (for example, "Sht,Brs,Cut"), so
+  // translate each component instead of looking up an unavailable compound
+  // key in the catalog.
+  final rendered = status.split(",").map(LcsI18n.tr).join(",");
+  if (maxWidth == null) {
+    addstr(rendered, noTranslate: true);
+    return;
+  }
+  addstr(fitConsoleText(rendered, maxWidth), noTranslate: true);
+}
+
 String creatureAgeAndGender(Creature person) {
-  String age;
+  final age = person.age;
+  late final String ageDescription;
   if (person.body is! HumanoidBody) {
     // Animals and machines; +-2
-    age = "${person.age + person.birthDate.day % 5 - 2}?";
+    ageDescription = LcsI18n.processString("{age}?", {
+      "age": age + person.birthDate.day % 5 - 2,
+    });
   } else if (person.age < 20) {
     // Children and teens; +-1
-    age = "${person.age + person.birthDate.day % 3 - 1}?";
+    ageDescription = LcsI18n.processString("{age}?", {
+      "age": age + person.birthDate.day % 3 - 1,
+    });
   } else {
     // Adults; just assess a decade
-    age = "${person.age - (person.age % 10)}s";
+    ageDescription = LcsI18n.processString("{age}s", {"age": age - (age % 10)});
   }
 
-  // Assess their gender Liberally
-  String trans = person.gender != person.genderAssignedAtBirth ? ", Trans" : "";
-  return "($age, ${capitalize(person.gender.name)}$trans)";
+  final gender = switch (person.gender.simplified) {
+    Gender.nonbinary => LcsI18n.tr("Nonbinary"),
+    Gender.male => LcsI18n.tr("Male"),
+    Gender.female => LcsI18n.tr("Female"),
+    _ => throw StateError('Unexpected simplified gender'),
+  };
+  return LcsI18n.processString(
+    person.gender == person.genderAssignedAtBirth
+        ? "({age}, {gender})"
+        : "({age}, {gender}, Trans)",
+    {"age": ageDescription, "gender": gender},
+  );
+}
+
+void addProfileNavigationOptions(
+  int y,
+  int x,
+  String firstKey,
+  String firstText,
+  String secondKey,
+  String secondText,
+) {
+  const separator = " / ";
+  final firstWidth = strLenX(LcsI18n.processString(firstText, null));
+  final separatorWidth = strLenX(separator);
+  final availableWidth = console.width - x;
+  final fittedFirstWidth = firstWidth.clamp(
+    1,
+    availableWidth - separatorWidth - 1,
+  );
+  final secondX = x + fittedFirstWidth + separatorWidth;
+  final secondWidth = console.width - secondX;
+
+  addOptionTextFitted(y, x, firstKey, firstText, fittedFirstWidth);
+  mvaddstr(y, x + fittedFirstWidth, separator, noTranslate: true);
+  addOptionTextFitted(y, secondX, secondKey, secondText, secondWidth);
 }
 
 /* full character sheet with surrounding interface */
 Future<void> fullCreatureInfoScreen(Creature cr) async {
   if (activeSquad == null) return;
 
-  const int pagenum = 3;
   int page = 0;
 
   while (true) {
+    final pageCount = fullCreatureProfilePageCount(cr);
+    if (page >= pageCount) page = 0;
     erase();
 
     setColor(lightGreen);
     move(0, 0);
     addstr("Profile of a Liberal");
 
-    if (page == 0) printFullCreatureStats(cr);
-    if (page == 1) printFullCreatureSkills(cr);
-    if (page == 2) printFullCreatureCrimes(cr);
+    printFullCreatureProfilePage(cr, page);
 
     addOptionText(23, 0, "N", "N - Change Name");
     addOptionText(23, 26, "G", "G - Change Gender");
     if ((activeSquad?.members.length ?? 0) > 1) {
-      addOptionText(23, 50, "LEFT", "LEFT");
-      addstr(" / ");
-      addOptionText(23, 57, "RIGHT", "RIGHT - Other Liberals");
+      addProfileNavigationOptions(
+        23,
+        50,
+        "LEFT",
+        "LEFT",
+        "RIGHT",
+        "RIGHT - Other Liberals",
+      );
     }
-    mvaddstr(24, 0, "Any Other Key - Continue the Struggle");
-    addOptionText(24, 52, "UP", "UP");
-    addstr(" / ");
-    addOptionText(24, 57, "DOWN", "DOWN - More Info");
+    addOptionText(
+      24,
+      0,
+      "Any Other Key",
+      "Any Other Key - Continue the Struggle",
+    );
+    addProfileNavigationOptions(24, 52, "UP", "UP", "DOWN", "DOWN - More Info");
 
     int c = await getKey();
 
@@ -274,17 +571,23 @@ Future<void> fullCreatureInfoScreen(Creature cr) async {
       cr = squad[index % squad.length];
     } else if (c == Key.downArrow || c == Key.x) {
       page++;
-      page %= pagenum;
+      page %= pageCount;
     } else if (c == Key.upArrow || c == Key.w) {
       page--;
-      if (page < 0) page = pagenum - 1;
-      page %= pagenum;
+      if (page < 0) page = pageCount - 1;
+      page %= pageCount;
     } else if (c == Key.n) {
       setColor(lightGray);
-      mvaddstr(23, 0,
-          "What is the new code name?                                                      "); // 80 characters
-      mvaddstr(24, 0,
-          "                                                                                "); // 80 spaces
+      mvaddstr(
+        23,
+        0,
+        "What is the new code name?                                                      ",
+      ); // 80 characters
+      mvaddstr(
+        24,
+        0,
+        "                                                                                ",
+      ); // 80 spaces
 
       cr.name = await enterName(24, 0, cr.name);
     } else if (c == Key.g) {
@@ -310,42 +613,60 @@ void printFullCreatureSkills(Creature cr) {
   // Add name
   printFullCreatureNameBlock(cr);
 
-  // Add all skills
+  // Two wider columns keep the longest localized skill names readable. The
+  // previous three-column layout gave each label only 13 cells, which turned
+  // useful Portuguese names such as "Primeiros Socorros" into fragments.
   for (int s = 0; s < Skill.values.length; s++) {
     Skill skill = Skill.values[s];
-    if (s % 3 == 0 && s < 9) {
+    final columnX = _fullProfileSkillColumnWidth * (s % 2);
+    final row = 5 + s ~/ 2;
+    if (s < 2) {
       setColor(lightGray);
-      move(4, 27 * (s ~/ 3));
+      move(4, columnX);
       addstr("SKILL");
-      move(4, 15 + 27 * (s ~/ 3));
-      addstr("NOW   MAX");
+      move(4, columnX + _fullProfileSkillCurrentOffset);
+      addstr("NOW");
+      addstr("  ", noTranslate: true);
+      move(4, columnX + _fullProfileSkillMaxOffset);
+      addstr("MAX");
     }
 
     highlightColorForSkill(cr, skill);
 
-    move(5 + s ~/ 3, 27 * (s % 3));
-    addstr(skill.displayName);
-    addstr(": ");
-    printSkillValue(cr, skill, 5 + s ~/ 3, 14 + 27 * (s % 3));
+    mvaddstrFitted(
+      row,
+      columnX,
+      "{skill}:",
+      _fullProfileSkillLabelWidth,
+      params: {"skill": skill.localizedName},
+      noTranslate: true,
+    );
+    printSkillValue(
+      cr,
+      skill,
+      row,
+      columnX + _fullProfileSkillCurrentOffset,
+      maxOffset: _fullProfileSkillMaxOffset - _fullProfileSkillCurrentOffset,
+    );
   }
   setColor(lightGray);
 }
 
-void printSkillValue(Creature cr, Skill skill, int y, int x,
-    {bool emphasizePotential = false, bool showCap = true}) {
+void printSkillValue(
+  Creature cr,
+  Skill skill,
+  int y,
+  int x, {
+  bool emphasizePotential = false,
+  bool showCap = true,
+  int maxOffset = 6,
+}) {
   move(y, x);
   addstr("{:2d}.".format(cr.skill(skill)));
-  int xpPercent =
-      ((cr.skillXP(skill) / skillXpNeeded(cr.skill(skill))) * 100).round();
+  int xpPercent = ((cr.skillXP(skill) / skillXpNeeded(cr.skill(skill))) * 100)
+      .round();
   if (xpPercent < 100) {
-    if (xpPercent != 0) {
-      if (xpPercent < 10) {
-        addstr("0");
-      }
-      addstr("$xpPercent");
-    } else {
-      addstr("00");
-    }
+    addstr("{xpPercent}", params: {"xpPercent": xpPercent.toString()});
   } else {
     addstr("99+");
   }
@@ -360,21 +681,44 @@ void printSkillValue(Creature cr, Skill skill, int y, int x,
         setColor(darkGray);
       }
     }
-    move(y, x + 6);
+    move(y, x + maxOffset);
     addstr("{:2d}.00".format(cr.skillCap(skill)));
   }
 }
 
 /* full screen character sheet */
-void printFullCreatureStats(Creature cr,
-    {ShowCarPrefs showCarPrefs = ShowCarPrefs.showPreferences}) {
+void printFullCreatureStats(
+  Creature cr, {
+  ShowCarPrefs showCarPrefs = ShowCarPrefs.showPreferences,
+  bool reserveFooter = false,
+}) {
+  const attributeWidth = 15;
+  const vitalityX = 16;
+  const vitalityWidth = 13;
+  const skillX = 30;
+  const skillWidth = 15;
+  const currentSkillX = 46;
+  const maxSkillX = 53;
+  const woundsX = 59;
+
   setColor(lightGray);
 
   // Add name
   printFullCreatureNameBlock(cr);
   // Add birthdate
-  mvaddstr(3, 0, "Born ${getMonth(cr.birthDate.month)} ${cr.birthDate.day}, ");
-  addstr("${cr.birthDate.year} (Age ${cr.age}, ");
+  mvaddstr(
+    3,
+    0,
+    "Born {month} {day}, ",
+    params: {
+      "month": getMonthInSentence(cr.birthDate.month),
+      "day": cr.birthDate.day,
+    },
+  );
+  addstr(
+    "{year} (Age {age}, ",
+    params: {"year": cr.birthDate.year.toString(), "age": cr.age.toString()},
+  );
   if (cr.gender == Gender.male) {
     addstr("Male");
   } else if (cr.gender == Gender.female) {
@@ -393,40 +737,74 @@ void printFullCreatureStats(Creature cr,
   setColor(lightGray);
 
   // Add juice
-  move(9, 16);
-  addstr("Juice: ${cr.juice}");
+  mvaddstrFitted(
+    9,
+    vitalityX,
+    "Juice: {juice}",
+    vitalityWidth,
+    params: {"juice": cr.juice},
+  );
   if (cr.juice < 1000) {
-    move(10, 16);
-    addstr("Next:  ");
-    if (cr.juice < 0) {
-      addstr("0");
-    } else if (cr.juice < 10) {
-      addstr("10");
-    } else if (cr.juice < 50) {
-      addstr("50");
-    } else if (cr.juice < 100) {
-      addstr("100");
-    } else if (cr.juice < 200) {
-      addstr("200");
-    } else if (cr.juice < 500) {
-      addstr("500");
-    } else {
-      addstr("1000");
-    }
+    final next = switch (cr.juice) {
+      < 0 => "0",
+      < 10 => "10",
+      < 50 => "50",
+      < 100 => "100",
+      < 200 => "200",
+      < 500 => "500",
+      _ => "1000",
+    };
+    mvaddstrFitted(
+      10,
+      vitalityX,
+      "Next:  {next}",
+      vitalityWidth,
+      params: {"next": next},
+    );
   }
   // Add attributes
-  move(5, 0);
-  addstr("Heart: ${cr.attribute(Attribute.heart)}");
-  move(6, 0);
-  addstr("Intelligence: ${cr.attribute(Attribute.intelligence)}");
-  move(7, 0);
-  addstr("Wisdom: ${cr.attribute(Attribute.wisdom)}");
-  move(8, 0);
-  addstr("Agility: ${cr.attribute(Attribute.agility)}");
-  move(9, 0);
-  addstr("Strength: ${cr.attribute(Attribute.strength)}");
-  move(10, 0);
-  addstr("Charisma: ${cr.attribute(Attribute.charisma)}");
+  mvaddstrFitted(
+    5,
+    0,
+    "Heart: {heart}",
+    attributeWidth,
+    params: {"heart": cr.attribute(Attribute.heart).toString()},
+  );
+  mvaddstrFitted(
+    6,
+    0,
+    "Intelligence: {int}",
+    attributeWidth,
+    params: {"int": cr.attribute(Attribute.intelligence).toString()},
+  );
+  mvaddstrFitted(
+    7,
+    0,
+    "Wisdom: {wis}",
+    attributeWidth,
+    params: {"wis": cr.attribute(Attribute.wisdom).toString()},
+  );
+  mvaddstrFitted(
+    8,
+    0,
+    "Agility: {agi}",
+    attributeWidth,
+    params: {"agi": cr.attribute(Attribute.agility).toString()},
+  );
+  mvaddstrFitted(
+    9,
+    0,
+    "Strength: {str}",
+    attributeWidth,
+    params: {"str": cr.attribute(Attribute.strength).toString()},
+  );
+  mvaddstrFitted(
+    10,
+    0,
+    "Charisma: {cha}",
+    attributeWidth,
+    params: {"cha": cr.attribute(Attribute.charisma).toString()},
+  );
 
   // Add highest skills
   Map<Skill, bool> used = {for (Skill s in Skill.values) s: false};
@@ -434,10 +812,9 @@ void printFullCreatureStats(Creature cr,
   int skillsMax = 16;
   bool printed = true;
 
-  move(5, 28);
-  addstr("SKILL");
-  move(5, 43);
-  addstr("NOW   MAX");
+  mvaddstrFitted(5, skillX, "SKILL", skillWidth);
+  mvaddstrFitted(5, currentSkillX, "NOW", maxSkillX - currentSkillX - 1);
+  mvaddstrFitted(5, maxSkillX, "MAX", woundsX - maxSkillX - 1);
   for (int skillsShown = 0; skillsShown < skillsMax && printed; skillsShown++) {
     printed = false;
 
@@ -459,14 +836,21 @@ void printFullCreatureStats(Creature cr,
 
       highlightColorForSkill(cr, skill);
 
-      move(6 + skillsShown, 28);
-      addstr(skill.displayName);
-      addstr(": ");
-      move(6 + skillsShown, 42);
+      mvaddstrFitted(
+        6 + skillsShown,
+        skillX,
+        "{skill}:",
+        skillWidth,
+        params: {"skill": _compactProfileSkillName(skill)},
+      );
+      move(6 + skillsShown, currentSkillX);
       addstr("{:2d}.".format(cr.skill(skill)));
       if (cr.skillXP(skill) < 100 + (10 * cr.skill(skill))) {
-        addstr("{:02d}".format(
-            (cr.skillXP(skill) * 100) ~/ (100 + (10 * cr.skill(skill)))));
+        addstr(
+          "{:02d}".format(
+            (cr.skillXP(skill) * 100) ~/ (100 + (10 * cr.skill(skill))),
+          ),
+        );
       } else {
         addstr("99+");
       }
@@ -474,7 +858,7 @@ void printFullCreatureStats(Creature cr,
       if (cr.skillCap(skill) == 0 || cr.skill(skill) < cr.skillCap(skill)) {
         setColor(darkGray);
       }
-      move(6 + skillsShown, 48);
+      move(6 + skillsShown, maxSkillX);
       addstr("{:2d}.00".format(cr.skillCap(skill)));
     }
   }
@@ -482,7 +866,14 @@ void printFullCreatureStats(Creature cr,
   // Add task
   mvaddstrc(12, 0, lightGray, "Task: ");
   setColor(cr.activity.color);
-  addparagraph(12, 6, cr.activity.description, y2: 14, x2: 26);
+  addparagraph(
+    12,
+    8,
+    cr.activity.description,
+    y2: 14,
+    x2: skillX - 1,
+    noTranslate: true,
+  );
   setColor(lightGray);
   // addstrc(cr.activity.color, cr.activity.description);
 
@@ -494,41 +885,51 @@ void printFullCreatureStats(Creature cr,
   mvaddstrc(console.y + 1, 0, lightGray, "Clothes: ");
   cr.clothing.printEquipTitle(full: true, armor: false);
 
-  // Add vehicle
-  mvaddstrc(console.y + 1, 0, lightGray, "Car: ");
+  // Add vehicle, keeping the description inside the left profile column.
   Vehicle? v;
   if (showCarPrefs == ShowCarPrefs.showPreferences) {
     v = cr.preferredCar;
   } else {
     v = cr.car;
   }
+  String carName;
   if (v != null && showCarPrefs != ShowCarPrefs.onFoot) {
-    addstr(v.fullName());
+    carName = _compactProfileVehicleName(v);
     bool d;
     if (showCarPrefs == ShowCarPrefs.showPreferences) {
       d = cr.preferredDriver;
     } else {
       d = cr.isDriver;
     }
-    if (d) addstr("-D");
+    if (d) carName += "-D";
   } else {
     int legok = cr.body.legok;
     if (cr.hasWheelchair) {
-      addstr("Wheelchair");
+      carName = LcsI18n.tr("Wheelchair");
     } else if (legok >= 1) {
-      addstr("On Foot");
+      carName = LcsI18n.tr("On Foot");
     } else {
-      addstr("On \"Foot\"");
+      carName = LcsI18n.tr("On \"Foot\"");
     }
   }
+  mvaddstrFitted(
+    console.y + 1,
+    0,
+    LcsI18n.tr("Car: ") + carName,
+    skillX - 1,
+    noTranslate: true,
+  );
 
   // Add recruit stats
   if (!cr.brainwashed) {
     move(19, 0);
-    addstr((cr.maxSubordinates - cr.subordinatesLeft).toString());
-    addstr(" Recruits / ");
-    addstr(cr.maxSubordinates.toString());
-    addstr(" Max");
+    addstr(
+      "{recruits} Recruits / {max} Max",
+      params: {
+        "recruits": cr.maxSubordinates - cr.subordinatesLeft,
+        "max": cr.maxSubordinates,
+      },
+    );
   } else {
     move(19, 0);
     addstr("Enlightened Can't Recruit");
@@ -543,9 +944,10 @@ void printFullCreatureStats(Creature cr,
   move(20, 0);
   int lovers = cr.relationships.length;
   int maxLovers = cr.maxRelationships;
-  addstr("$lovers Lover");
-  if (lovers != 1) addstr("s");
-  addstr(" / $maxLovers Max");
+  addstr(
+    lovers == 1 ? "{lovers} Lover / {max} Max" : "{lovers} Lovers / {max} Max",
+    params: {"lovers": lovers, "max": maxLovers},
+  );
   // Any dates with potential love interests scheduled?
   if (cr.scheduldeDates > 0) {
     move(20, 55);
@@ -554,19 +956,100 @@ void printFullCreatureStats(Creature cr,
   }
 
   // Add wound status
-  printWounds(cr, y: 5, x: 55);
+  printWounds(
+    cr,
+    y: 5,
+    x: woundsX,
+    maxWidth: ManagementTableLayout.consoleWidth - woundsX,
+  );
   setColor(lightGray);
 
   //SPECIAL WOUNDS
   setColor(red);
 
-  int y = 12;
-  int x = 55;
   List<String> injuries = cr.body.allSpecialInjuries();
-  for (String injury in injuries) {
-    mvaddstr(y++, x, injury);
+  final x = woundsX;
+  final width = ManagementTableLayout.consoleWidth - x;
+  final availableRows = reserveFooter
+      ? _compactSpecialInjuryVisibleRows - 1
+      : _compactSpecialInjuryVisibleRows;
+  final visibleCount = injuries.length > availableRows
+      ? availableRows - 1
+      : injuries.length;
+  for (int i = 0; i < visibleCount; i++) {
+    mvaddstrFitted(_compactSpecialInjuryStartRow + i, x, injuries[i], width);
+  }
+  if (visibleCount < injuries.length) {
+    mvaddstrFitted(
+      _compactSpecialInjuryStartRow + visibleCount,
+      x,
+      "+{count} more - DOWN",
+      width,
+      params: {"count": injuries.length - visibleCount},
+    );
   }
 
+  setColor(lightGray);
+}
+
+String _compactProfileBodyPartName(String bodyPartName) {
+  final compactKey = switch (bodyPartName) {
+    "Left Leg" => "Left Leg (compact profile label)",
+    "Right Leg" => "Right Leg (compact profile label)",
+    "Left Arm" => "Left Arm (compact profile label)",
+    "Right Arm" => "Right Arm (compact profile label)",
+    _ => null,
+  };
+  return compactKey == null ? LcsI18n.tr(bodyPartName) : LcsI18n.tr(compactKey);
+}
+
+String _compactProfileSkillName(Skill skill) {
+  if (skill == Skill.streetSmarts) {
+    return LcsI18n.tr("Street Smarts (compact profile label)");
+  }
+  return skill.localizedName;
+}
+
+String _compactProfileVehicleName(Vehicle vehicle) {
+  if (LcsI18n.currentLocale == 'pt_BR' && vehicle.heat > 0) {
+    return LcsI18n.processString("Stolen {vehicle} (compact profile label)", {
+      "vehicle": LcsI18n.tr(vehicle.type.shortName),
+    });
+  }
+  return vehicle.fullName();
+}
+
+void printFullCreatureSpecialInjuries(Creature cr, {required int page}) {
+  final injuries = cr.body.allSpecialInjuries();
+  if (injuries.isEmpty) return;
+
+  final pageCount =
+      (injuries.length + _specialInjuryPageSize - 1) ~/ _specialInjuryPageSize;
+  final boundedPage = page.clamp(0, pageCount - 1);
+  final start = boundedPage * _specialInjuryPageSize;
+  final end = (start + _specialInjuryPageSize < injuries.length)
+      ? start + _specialInjuryPageSize
+      : injuries.length;
+
+  printFullCreatureNameBlock(cr);
+  setColor(lightGray);
+  mvaddstrFitted(
+    3,
+    0,
+    "Special Injuries (Page {page} of {pages})",
+    ManagementTableLayout.consoleWidth,
+    params: {"page": boundedPage + 1, "pages": pageCount},
+  );
+
+  setColor(red);
+  for (int i = start; i < end; i++) {
+    mvaddstrFitted(
+      _specialInjuryPageStartRow + i - start,
+      0,
+      injuries[i],
+      ManagementTableLayout.consoleWidth,
+    );
+  }
   setColor(lightGray);
 }
 
@@ -595,7 +1078,10 @@ void printFullCreatureCrimes(Creature cr) {
     } else {
       mvaddstr(3, 0, "Escaped prisoner sentenced to ");
     }
-    addstr("${cr.sentence} months in prison.");
+    addstr(
+      "{sentence} months in prison.",
+      params: {"sentence": cr.sentence.toString()},
+    );
   }
 
   // Add all crimes
@@ -603,8 +1089,9 @@ void printFullCreatureCrimes(Creature cr) {
     Crime crime = Crime.values[i];
     if (i % 2 == 0 && i < 4) {
       setColor(lightGray);
-      mvaddstr(4, 40 * (i ~/ 2), "CRIME");
-      mvaddstr(4, 30 + 40 * (i ~/ 2), "NUM");
+      final columnX = _fullProfileCrimeColumnWidth * (i ~/ 2);
+      mvaddstr(4, columnX, "CRIME");
+      mvaddstr(4, columnX + _fullProfileCrimeNumberOffset, "NUM");
     }
 
     // Commited crimes are yellow
@@ -614,18 +1101,54 @@ void printFullCreatureCrimes(Creature cr) {
       setColor(darkGray);
     }
 
-    mvaddstr(5 + i ~/ 2, 40 * (i % 2), "${crime.wantedFor}: ");
-    mvaddstr(5 + i ~/ 2, 30 + 40 * (i % 2),
-        "{:02d}".format(cr.wantedForCrimes[crime]!));
+    mvaddstrFitted(
+      5 + i ~/ 2,
+      _fullProfileCrimeColumnWidth * (i % 2),
+      "{crime}: ",
+      _fullProfileCrimeLabelWidth,
+      params: {"crime": _profileCrimeLabel(crime)},
+      noTranslate: true,
+    );
+    mvaddstrFitted(
+      5 + i ~/ 2,
+      _fullProfileCrimeNumberOffset + _fullProfileCrimeColumnWidth * (i % 2),
+      "{:02d}".format(cr.wantedForCrimes[crime]!),
+      _fullProfileCrimeColumnWidth - _fullProfileCrimeNumberOffset,
+      noTranslate: true,
+    );
   }
 
   setColor(lightGray);
 }
 
+String _profileCrimeLabel(Crime crime) {
+  final localizedDescription = LcsI18n.tr(crime.chargedWith);
+  if (strLenX(localizedDescription) + 2 <= _fullProfileCrimeLabelWidth) {
+    return localizedDescription;
+  }
+
+  final compactKey = switch (crime) {
+    Crime.drugDistribution => "Drug Distribution",
+    Crime.cyberTerrorism => "Digital Terrorism",
+    Crime.cyberVandalism => "Digital Vandalism",
+    _ => null,
+  };
+  if (compactKey == null) return localizedDescription;
+  return LcsI18n.tr(compactKey).toLowerCase();
+}
+
 void printFullCreatureNameBlock(Creature cr) {
-  mvaddstrc(2, 0, lightGray, "Name: ");
-  addstrc(white, cr.name);
-  addstrc(lightGray, ", ${cr.title} (${cr.type.name})");
+  mvaddstrcx(
+    2,
+    0,
+    lightGray,
+    "Name: {name:white}, {title} ({type})",
+    params: {
+      "name": cr.name,
+      "title": cr.title,
+      "type": LcsI18n.tr(cr.type.name),
+    },
+  );
 }
 
 void highlightColorForSkill(Creature cr, Skill skill) {
@@ -681,9 +1204,11 @@ void printWantedFor(Creature cr) {
   } else if (wanted[Crime.escapingPrison] == true) {
     addstr("ESCAPING PRISON");
   } else if (wanted[Crime.flagBurning] == true) {
-    addstr(laws[Law.freeSpeech] == DeepAlignment.archConservative
-        ? "FLAG MURDER"
-        : "FLAG BURNING");
+    addstr(
+      laws[Law.freeSpeech] == DeepAlignment.archConservative
+          ? "FLAG MURDER"
+          : "FLAG BURNING",
+    );
   } else if (wanted[Crime.unlawfulSpeech] == true) {
     addstr("HARMFUL SPEECH");
   } else if (wanted[Crime.drugDistribution] == true) {
@@ -707,9 +1232,11 @@ void printWantedFor(Creature cr) {
   } else if (wanted[Crime.prostitution] == true) {
     addstr("PROSTITUTION");
   } else if (wanted[Crime.harboring] == true) {
-    addstr(laws[Law.immigration]! < DeepAlignment.liberal
-        ? "HIRING ILLEGAL ALIENS"
-        : "HIRING UNDOCUMENTED");
+    addstr(
+      laws[Law.immigration]! < DeepAlignment.liberal
+          ? "HIRING ILLEGAL ALIENS"
+          : "HIRING UNDOCUMENTED",
+    );
   } else if (wanted[Crime.cyberTerrorism] == true) {
     addstr("CYBER TERRORISM");
   } else if (wanted[Crime.dataTheft] == true) {

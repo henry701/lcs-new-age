@@ -1,6 +1,7 @@
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/skills.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/armor_upgrade.dart';
 import 'package:lcs_new_age/items/item_type.dart';
 import 'package:lcs_new_age/items/weapon_type.dart';
@@ -54,19 +55,30 @@ class ClothingType extends ItemType {
     } else {
       armors.add(armorUpgrades.values.first);
     }
-    armors.addAll(allowedArmorIds
-        .map((id) => armorUpgrades[id]!)
-        .where((a) => !armors.contains(a)));
+    armors.addAll(
+      allowedArmorIds
+          .map((id) => armorUpgrades[id]!)
+          .where((a) => !armors.contains(a)),
+    );
     if (upgradable && intrinsicArmorId == null) {
       if (allowVisibleArmor) {
-        armors.addAll(armorUpgrades.values
-            .where((a) => a.visible && !a.restricted && !armors.contains(a)));
+        armors.addAll(
+          armorUpgrades.values.where(
+            (a) => a.visible && !a.restricted && !armors.contains(a),
+          ),
+        );
       }
-      armors.addAll(armorUpgrades.values
-          .where((a) => !a.visible && !a.restricted && !armors.contains(a)));
+      armors.addAll(
+        armorUpgrades.values.where(
+          (a) => !a.visible && !a.restricted && !armors.contains(a),
+        ),
+      );
       if (!allowVisibleArmor) {
-        armors.addAll(armorUpgrades.values
-            .where((a) => a.visible && !a.restricted && !armors.contains(a)));
+        armors.addAll(
+          armorUpgrades.values.where(
+            (a) => a.visible && !a.restricted && !armors.contains(a),
+          ),
+        );
       }
     }
     return armors;
@@ -76,15 +88,18 @@ class ClothingType extends ItemType {
   List<String> culture = [];
   String? genderString;
   Gender get gender => switch (genderString) {
-        "MALE" => Gender.male,
-        "FEMALE" => Gender.female,
-        "NONBINARY" => Gender.nonbinary,
-        "MALE_BIAS" => Gender.male,
-        "FEMALE_BIAS" => Gender.female,
-        _ => Gender.nonbinary,
-      };
-  List<String> traitsList(bool includeArmor,
-      {ArmorUpgrade? specifiedArmorUpgrade}) {
+    "MALE" => Gender.male,
+    "FEMALE" => Gender.female,
+    "NONBINARY" => Gender.nonbinary,
+    "MALE_BIAS" => Gender.male,
+    "FEMALE_BIAS" => Gender.female,
+    _ => Gender.nonbinary,
+  };
+
+  List<String> traitsList(
+    bool includeArmor, {
+    ArmorUpgrade? specifiedArmorUpgrade,
+  }) {
     List<String> traits = [];
     specifiedArmorUpgrade ??= intrinsicArmor;
     if (concealsFace) {
@@ -99,7 +114,11 @@ class ClothingType extends ItemType {
       }
     }
     if (includeArmor && (specifiedArmorUpgrade?.bodyArmor ?? 0) > 0) {
-      traits.add("Armor [${specifiedArmorUpgrade!.bodyArmor}]");
+      traits.add(
+        LcsI18n.processString("Armor [{armor}]", {
+          "armor": specifiedArmorUpgrade!.bodyArmor,
+        }),
+      );
     }
     if (specifiedArmorUpgrade?.fireResistant ?? false) {
       traits.add("Fire Resistant");

@@ -5,8 +5,10 @@ import 'package:lcs_new_age/creature/dice.dart';
 import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/activities/arrest.dart';
+import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -14,18 +16,21 @@ import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/views.dart';
+import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Future<void> doActivitySolicitDonations(List<Creature> solicit) async {
   for (Creature solicitor in solicit) {
-    if (await checkForArrest(solicitor, "soliciting donations")) continue;
+    if (await checkForArrest(solicitor, LcsI18n.tr("soliciting donations"))) {
+      continue;
+    }
     _earnMoney(solicitor, Income.donations, estimateDonationsIncome(solicitor));
   }
 }
 
 Future<void> doActivitySellTshirts(List<Creature> tshirts) async {
   for (Creature seller in tshirts) {
-    if (await checkForArrest(seller, "selling shirts")) continue;
+    if (await checkForArrest(seller, LcsI18n.tr("selling shirts"))) continue;
     _backgroundInfluenceCheck(seller, Skill.tailoring);
     _earnMoney(seller, Income.tshirts, estimateTshirtIncome(seller));
   }
@@ -33,7 +38,7 @@ Future<void> doActivitySellTshirts(List<Creature> tshirts) async {
 
 Future<void> doActivitySellArt(List<Creature> art) async {
   for (Creature artist in art) {
-    if (await checkForArrest(artist, "selling art")) continue;
+    if (await checkForArrest(artist, LcsI18n.tr("selling art"))) continue;
     _backgroundInfluenceCheck(artist, Skill.art);
     _earnMoney(artist, Income.artSales, estimateArtIncome(artist));
   }
@@ -41,7 +46,7 @@ Future<void> doActivitySellArt(List<Creature> art) async {
 
 Future<void> doActivitySellMusic(List<Creature> music) async {
   for (Creature musician in music) {
-    if (await checkForArrest(musician, "playing music")) continue;
+    if (await checkForArrest(musician, LcsI18n.tr("playing music"))) continue;
     _backgroundInfluenceCheck(musician, Skill.music);
     _earnMoney(musician, Income.busking, estimateMusicIncome(musician));
   }
@@ -55,7 +60,7 @@ Future<void> doActivitySellBrownies(List<Creature> brownies) async {
       if (busted && !baker.skillCheck(Skill.streetSmarts, Difficulty.average)) {
         sitestory = NewsStory.prepare(NewsStories.arrestGoneWrong);
         criminalize(baker, Crime.drugDistribution);
-        await attemptArrest(baker, "selling brownies");
+        await attemptArrest(baker, LcsI18n.tr("selling brownies"));
       }
     }
 
@@ -68,23 +73,40 @@ Future<void> doActivityProstitution(List<Creature> prostitutes) async {
     // Business once every three days or so
     if (!oneIn(3)) continue;
 
-    int fundgain = estimateProstitutionIncome(prostitute) *
+    int fundgain =
+        estimateProstitutionIncome(prostitute) *
         3; // Multiply by 3 since we only do business 1/3 of days
 
     if (oneIn(50)) {
       // Police sting!
       // Street Smarts to avoid
       if (prostitute.skillCheck(Skill.streetSmarts, Difficulty.average)) {
-        await showMessage(
-            "${prostitute.name} avoided getting caught a prostitution sting.");
+        makeDelimiter();
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          "{name} avoided getting caught a prostitution sting.",
+          params: {"name": prostitute.name},
+        );
+        await getKey();
         prostitute.train(Skill.streetSmarts, 25);
       } else {
-        await showMessage(
-            "${prostitute.name} has been arrested in a prostitution sting!");
+        makeDelimiter();
+        mvaddstrc(
+          8,
+          1,
+          lightGray,
+          "{name} has been arrested in a prostitution sting!",
+          params: {"name": prostitute.name},
+        );
+        await getKey();
         prostitute.squad = null;
         prostitute.carId = null;
-        prostitute.location =
-            findSiteInSameCity(prostitute.base!.city, SiteType.policeStation);
+        prostitute.location = findSiteInSameCity(
+          prostitute.base!.city,
+          SiteType.policeStation,
+        );
         prostitute.dropWeaponAndAmmo();
         prostitute.activity = Activity.none();
         criminalize(prostitute, Crime.prostitution);
@@ -116,10 +138,12 @@ int _roll(Creature c, List<Skill> skills, {bool estimate = false}) {
             .round() +
         7;
   }
-  return (skills.map((skill) {
-                c.train(skill, 5);
-                return c.skill(skill);
-              }).reduce((a, b) => a + b) /
+  return (skills
+                  .map((skill) {
+                    c.train(skill, 5);
+                    return c.skill(skill);
+                  })
+                  .reduce((a, b) => a + b) /
               skills.length)
           .round() +
       Dice.r2d6.roll();
@@ -147,8 +171,10 @@ double _multiplierFromBan(Law law) {
 
 /// Calculates expected daily income from soliciting donations
 int estimateDonationsIncome(Creature solicitor, {bool estimate = false}) {
-  return (_roll(solicitor, [Skill.persuasion, Skill.streetSmarts],
-              estimate: estimate) *
+  return (_roll(solicitor, [
+            Skill.persuasion,
+            Skill.streetSmarts,
+          ], estimate: estimate) *
           _multiplierFromPublicMood(highImpact: true) *
           (solicitor.clothing.type.professionalism + 1) *
           0.5)
@@ -171,8 +197,10 @@ int estimateArtIncome(Creature artist, {bool estimate = false}) {
 
 /// Calculates expected daily income from performing music
 int estimateMusicIncome(Creature musician, {bool estimate = false}) {
-  return (_roll(musician, [Skill.music, Skill.streetSmarts],
-              estimate: estimate) *
+  return (_roll(musician, [
+            Skill.music,
+            Skill.streetSmarts,
+          ], estimate: estimate) *
           _multiplierFromPublicMood() *
           (musician.weapon.type.instrument ? 1 : 0.25))
       .round();
@@ -180,20 +208,23 @@ int estimateMusicIncome(Creature musician, {bool estimate = false}) {
 
 /// Calculates expected daily income from selling brownies
 int estimateBrownieIncome(Creature baker, {bool estimate = false}) {
-  int cash = _roll(
-    baker,
-    [Skill.persuasion, Skill.business, Skill.streetSmarts],
-    estimate: estimate,
-  );
+  int cash = _roll(baker, [
+    Skill.persuasion,
+    Skill.business,
+    Skill.streetSmarts,
+  ], estimate: estimate);
   return (cash * _multiplierFromBan(Law.drugs) * 3).round();
 }
 
 /// Calculates expected daily income from prostitution
 /// Note: This is an average over multiple days since prostitution only occurs ~1/3 of days
 int estimateProstitutionIncome(Creature prostitute, {bool estimate = false}) {
-  int performance = _roll(prostitute,
-      [Skill.seduction, Skill.seduction, Skill.streetSmarts, Skill.business],
-      estimate: estimate);
+  int performance = _roll(prostitute, [
+    Skill.seduction,
+    Skill.seduction,
+    Skill.streetSmarts,
+    Skill.business,
+  ], estimate: estimate);
   // Average of 2d(2*performance) + 2*performance
   int averageRoll = (2 * performance + 1) + 2 * performance;
   // Only happens 1/3 of days

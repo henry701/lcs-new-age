@@ -50,12 +50,14 @@ void addjuice(Creature cr, int juice, int cap) {
 /* common - Displays options to choose from and returns an int corresponding
             to the index of the option in the vector. */
 Future<int> choiceprompt(
-    String firstline,
-    String secondline,
-    List<String> option,
-    String optiontypename,
-    bool allowexitwochoice,
-    String exitString) async {
+  String firstline,
+  String secondline,
+  List<String> option,
+  String optiontypename,
+  bool allowexitwochoice,
+  String exitString, {
+  String? optionPrompt,
+}) async {
   int page = 0;
 
   while (true) {
@@ -64,33 +66,59 @@ Future<int> choiceprompt(
     mvaddstrc(1, 0, lightGray, secondline);
 
     //Write options
-    for (int p = page * 19, y = 2;
-        p < option.length && p < page * 19 + 19;
-        p++, y++) {
+    for (
+      int p = page * 19, y = 2;
+      p < option.length && p < page * 19 + 19;
+      p++, y++
+    ) {
       String letter = letterAPlus(y - 2);
-      addOptionText(y, 0, letter, "$letter - ${option[p]}");
+      addOptionText(
+        y,
+        0,
+        letter,
+        "{letter} - {option}",
+        params: {"letter": letter, "option": option[p]},
+      );
     }
 
     setColor(lightGray);
     move(22, 0);
-    switch (optiontypename[0]) {
-      case 'a':
-      case 'e':
-      case 'i':
-      case 'o':
-      case 'u':
-      case 'A':
-      case 'E':
-      case 'I':
-      case 'O':
-      case 'U':
-        addstr("Press a Letter to select an $optiontypename");
-      default:
-        addstr("Press a Letter to select a $optiontypename");
+    if (optionPrompt != null) {
+      addstr(optionPrompt);
+    } else {
+      switch (optiontypename[0]) {
+        case 'a':
+        case 'e':
+        case 'i':
+        case 'o':
+        case 'u':
+        case 'A':
+        case 'E':
+        case 'I':
+        case 'O':
+        case 'U':
+          addstr(
+            "Press a Letter to select an {optiontypename}",
+            params: {"optiontypename": optiontypename},
+          );
+        default:
+          addstr(
+            "Press a Letter to select a {optiontypename}",
+            params: {"optiontypename": optiontypename},
+          );
+      }
     }
     move(23, 0);
-    addstr(pageStr);
-    if (allowexitwochoice) addOptionText(24, 0, "Enter", "Enter - $exitString");
+    addstr(pageStr, noTranslate: true);
+    if (allowexitwochoice) {
+      addOptionText(
+        24,
+        0,
+        "Enter",
+        "Enter - {exit}",
+        params: {"exit": exitString},
+      );
+    }
 
     int c = await getKey();
 

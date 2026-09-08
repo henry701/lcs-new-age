@@ -72,6 +72,15 @@ void main() {
     }
   });
 
+  test('Portuguese empty courthouse jury message translates both lines', () {
+    expect(LcsI18n.hasTranslation('vacated in a hurry.'), isTrue);
+    expect(
+      LcsI18n.tr('It appears as if this room has been '),
+      'Parece que este quarto foi ',
+    );
+    expect(LcsI18n.tr('vacated in a hurry.'), 'evacuado às pressas.');
+  });
+
   test(
     'map-special source retains the encounter wrapper for every affected key',
     () {

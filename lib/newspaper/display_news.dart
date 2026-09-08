@@ -476,7 +476,9 @@ Future<void> displayStory(NewsStory ns, View? header) async {
                 );
                 appendNews("engaged in ");
               } else {
-                appendNews("  The Liberal Crime Squad ");
+                story += "  ";
+                appendNews("The Liberal Crime Squad");
+                story += " ";
               }
             } else {
               appendNews(

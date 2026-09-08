@@ -274,6 +274,7 @@
   "{name} works the room like in Twelve Angry Men, and the jury ": "{name} convence a sala como em Doze Homens e uma Sentença, e o júri ",
   "{name} {school}": "{school} {name}",
   "{name}'s Pawnshop": "Casa de Penhores de {name}",
+  "{name}'s arguments are pretty good. (female)": "Os argumentos de {name} são muito bons.",
   "{name}'s nose is burned away!": "O nariz de {name} foi queimado!",
   "{name}'s {article} about this gets more views than usual. ": "{article} de {name} sobre isso recebe mais visualizações que o normal. ",
   "{pronounCap} can maintain {relationshipCount} more {relationshipLabel}, and has {dateCount} {dateLabel} lined up.": "{pronounCap} pode manter mais {relationshipCount} {relationshipLabel} e tem {dateCount} {dateLabel} marcados.",

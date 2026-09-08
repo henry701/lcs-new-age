@@ -1270,6 +1270,24 @@ void main() {
       expect(displayNews, isNot(contains('story += "arson"')));
     });
 
+    test('crime news squad prefix translates without padded-key lookup', () {
+      final displayNews = File(
+        'lib/newspaper/display_news.dart',
+      ).readAsStringSync();
+      expect(
+        displayNews,
+        contains(
+          'story += "  ";\n'
+          '                appendNews("The Liberal Crime Squad");\n'
+          '                story += " ";',
+        ),
+      );
+      expect(
+        displayNews,
+        isNot(contains('appendNews("  The Liberal Crime Squad ")')),
+      );
+    });
+
     test('massacre news story fragments translate before story assembly', () {
       final displayNews = File(
         'lib/newspaper/display_news.dart',

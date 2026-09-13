@@ -75,9 +75,11 @@ void _giveAttributes(Creature creature, CreatureType type) {
         minPoints + lcsRandom(maxPoints - minPoints + 1);
   }
   int total = creature.rawAttributes.values.reduce((a, b) => a + b);
-  int roll = type.extraAttributePoints.$1 +
+  int roll =
+      type.extraAttributePoints.$1 +
       lcsRandom(
-          type.extraAttributePoints.$2 - type.extraAttributePoints.$1 + 1);
+        type.extraAttributePoints.$2 - type.extraAttributePoints.$1 + 1,
+      );
   int extraAttributePoints = roll + 35 - total;
   int extraPointValue = extraAttributePoints.sign;
   for (int i = 0; i < extraAttributePoints.abs(); i++) {
@@ -172,8 +174,10 @@ void _giveGender(Creature creature, CreatureType type) {
 
 void _giveSkills(Creature creature, CreatureType type) {
   for (MapEntry<Skill, (int, int)> entry in type.skillPoints.entries) {
-    creature.rawSkill[entry.key] = min(creature.skillCap(entry.key),
-        entry.value.$1 + lcsRandom(entry.value.$2 - entry.value.$1 + 1));
+    creature.rawSkill[entry.key] = min(
+      creature.skillCap(entry.key),
+      entry.value.$1 + lcsRandom(entry.value.$2 - entry.value.$1 + 1),
+    );
   }
   int randomskills = lcsRandom(4) + 4;
   if (creature.age > 20) {

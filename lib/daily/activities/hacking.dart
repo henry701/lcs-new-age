@@ -5,12 +5,15 @@ import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
+import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/loot.dart';
 import 'package:lcs_new_age/items/loot_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/politics/views.dart';
+import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Future<void> doActivityHacking(List<Creature> hack) async {
@@ -84,20 +87,20 @@ Future<void> doActivityHacking(List<Creature> hack) async {
   } else {
     // Minor hack
     crime = Crime.cyberVandalism;
-    const hacks = [
-      "defaced",
-      "knocked out",
-      "crashed",
-      "hacked",
-    ];
+    const hacks = ["defaced", "knocked out", "crashed", "hacked"];
     const targets = [
       "corporate website",
       "Conservative forum",
       "Conservative blog",
       "news website",
-      "government website"
+      "government website",
     ];
-    msg += "${hacks.random} a ${targets.random}.";
+    String hackAction = hacks.random;
+    String target = targets.random;
+    msg += LcsI18n.processString("{action} a {target}.", {
+      "action": hackAction,
+      "target": target,
+    });
     changePublicOpinion(issue, 1);
   }
 
@@ -140,5 +143,13 @@ Future<void> doActivityCCFraud(List<Creature> cc) async {
     }
   }
 
-  await showMessage("Your hackers have stolen \$$fundgain from credit cards.");
+  makeDelimiter();
+  mvaddstrc(
+    8,
+    1,
+    lightGray,
+    "Your hackers have stolen {amount} from credit cards.",
+    params: {"amount": LcsI18n.currencyAmount(fundgain)},
+  );
+  await getKey();
 }

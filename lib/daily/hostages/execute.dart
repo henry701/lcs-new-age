@@ -5,6 +5,7 @@ import 'package:lcs_new_age/daily/hostages/tend_hostage.dart';
 import 'package:lcs_new_age/daily/hostages/traumatize.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -20,7 +21,8 @@ Future<int> handleExecution(
     0,
     0,
     white,
-    "The Final Education of ${cr.name}: Day ${cr.daysSinceJoined}",
+    "The Final Education of {name}: Day {days}",
+    params: {"name": cr.name, "days": cr.daysSinceJoined.toString()},
   );
   Creature? killer;
 
@@ -39,16 +41,24 @@ Future<int> handleExecution(
     setColor(purple);
     cr.die();
     stats.kills++;
-    String method = [
-      "burning photos of Ronald Reagan in front of ${cr.gender.himHer}.",
-      "telling ${cr.gender.himHer} that taxes have been increased.",
-      "forcing ${cr.gender.himHer} to listen to right-wing radio for 24 hours straight.",
-      "showing ${cr.gender.himHer} a graph of rising global temperatures.",
-      "forcing ${cr.gender.himHer} to actually read a book.",
-    ].random;
-    addparagraph(y++, 0, "${lead.name} executes ${cr.name} by $method");
-
-    y = console.y + 1;
+    mvaddstr(
+      y++,
+      0,
+      "{killer} executes {victim} by ",
+      params: {"killer": lead.name, "victim": cr.name},
+    );
+    addstr(
+      LcsI18n.processString(
+        [
+          "burning photos of Ronald Reagan in front of {himHer}.",
+          "telling {himHer} that taxes have been increased.",
+          "forcing {himHer} to listen to right-wing radio for 24 hours straight.",
+          "showing {himHer} a graph of rising global temperatures.",
+          "forcing {himHer} to actually read a book.",
+        ].random,
+        {"himHer": cr.gender.himHer},
+      ),
+    );
 
     await getKey();
 
@@ -58,8 +68,15 @@ Future<int> handleExecution(
     }
   } else {
     setColor(brown);
-    mvaddstr(y++, 0, "There is no one able to get up the nerve to ");
-    mvaddstr(y++, 0, "execute ${cr.name} in cold blood.");
+    addparagraph(
+      y,
+      0,
+      "There is no one able to get up the nerve to execute {name} in cold blood.",
+      y2: y + 1,
+      x2: 79,
+      params: {"name": cr.name},
+    );
+    y += 2;
 
     await getKey();
   }

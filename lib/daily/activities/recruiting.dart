@@ -5,6 +5,7 @@ import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/talk/talk.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
@@ -23,7 +24,13 @@ Future<void> doActivityRecruit(Creature cr) async {
   printCreatureInfo(cr, showCarPrefs: ShowCarPrefs.onFoot);
   makeDelimiter();
 
-  mvaddstrc(10, 0, lightGray, "${cr.name} asks around for a $name...");
+  mvaddstrc(
+    10,
+    0,
+    lightGray,
+    "{name} asks around for a {type}...",
+    params: {"name": cr.name, "type": LcsI18n.tr(name)},
+  );
 
   await getKey();
 
@@ -32,22 +39,33 @@ Future<void> doActivityRecruit(Creature cr) async {
 
   if (difficulty < 10) {
     // Generate recruitment candidates
-    recruitCount =
-        (cr.skillRoll(Skill.streetSmarts, take10: true) / difficulty).round();
+    recruitCount = (cr.skillRoll(Skill.streetSmarts, take10: true) / difficulty)
+        .round();
     if (recruitCount > 10) recruitCount = 10;
     for (int i = 0; i < recruitCount; i++) {
       encounter.add(Creature.fromId(recruit.type.id));
     }
   }
 
-  if (recruitCount == 0) {
-    mvaddstr(11, 0, "${cr.name} was unable to track down a $name.");
+  if (recruitCount < 1) {
+    _printRecruitFailure(cr, name);
     await getKey();
     return;
   } else if (recruitCount == 1) {
-    mvaddstr(11, 0, "${cr.name} managed to set up a meeting with ");
-    addstrc(encounter[0].align.color,
-        "${encounter[0].name} ${creatureAgeAndGender(encounter[0])}");
+    mvaddstr(
+      11,
+      0,
+      "{name} managed to set up a meeting with ",
+      params: {"name": cr.name},
+    );
+    addstrc(
+      encounter[0].align.color,
+      "{name} {ageGender}",
+      params: {
+        "name": localizedCreatureName(encounter[0]),
+        "ageGender": creatureAgeAndGender(encounter[0]),
+      },
+    );
     addstrc(lightGray, ".");
     await getKey();
 
@@ -63,15 +81,35 @@ Future<void> doActivityRecruit(Creature cr) async {
       printCreatureInfo(cr, showCarPrefs: ShowCarPrefs.onFoot);
       makeDelimiter();
 
-      mvaddstrc(10, 0, lightGray,
-          "${cr.name} was able to get information on multiple people.");
+      mvaddstrc(
+        10,
+        0,
+        lightGray,
+        "{name} was able to get information on multiple people.",
+        params: {"name": cr.name},
+      );
       for (int i = 0; i < recruitCount; i++) {
         String letter = letterAPlus(i);
-        addOptionText(12 + i, 0, letter,
-            "$letter - &${ColorKey.fromColor(encounter[i].align.color)}${encounter[i].name} ${creatureAgeAndGender(encounter[i])}");
+        addOptionText(
+          12 + i,
+          0,
+          letter,
+          "{letter} - &{color}{name} {ageGender}",
+          params: {
+            "letter": letter,
+            "color": ColorKey.fromColor(encounter[i].align.color),
+            "name": localizedCreatureName(encounter[i]),
+            "ageGender": creatureAgeAndGender(encounter[i]),
+          },
+          noTranslate: true,
+        );
       }
-      addOptionText(12 + recruitCount + 1, 0, "Enter/Escape",
-          "Enter/Escape - Call it a day");
+      addOptionText(
+        12 + recruitCount + 1,
+        0,
+        "Enter/Escape",
+        "Enter/Escape - Call it a day",
+      );
 
       int c = await getKey();
 
@@ -95,6 +133,26 @@ Future<void> doActivityRecruit(Creature cr) async {
     }
     encounter.clear();
   }
+}
+
+void _printRecruitFailure(Creature cr, String recruitTypeName) {
+  const template = "{name} was unable to track down a {type}.";
+  final typeLabel = LcsI18n.tr(recruitTypeName);
+  final fixedPortion = LcsI18n.processString(template, {
+    "name": "",
+    "type": typeLabel,
+  });
+  var nameWidth = console.width - strLenX(fixedPortion);
+  if (nameWidth < 1) nameWidth = 1;
+
+  mvaddstrcFitted(
+    11,
+    0,
+    lightGray,
+    template,
+    console.width,
+    params: {"name": fitConsoleText(cr.name, nameWidth), "type": typeLabel},
+  );
 }
 
 class RecruitData {
@@ -131,6 +189,7 @@ List<RecruitData> get recruitableCreatures {
     }
   }
   recruitData.sort(
-      (a, b) => (a.difficulty - b.difficulty) * 2 + a.name.compareTo(b.name));
+    (a, b) => (a.difficulty - b.difficulty) * 2 + a.name.compareTo(b.name),
+  );
   return recruitData;
 }

@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:lcs_new_age/basemode/disbanding.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -14,6 +18,46 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 enum AgendaVibe { ongoing, liberalVictory, conservativeVictory }
 
 enum AgendaPage { main, pollsA, pollsB, lawsA, lawsB }
+
+const List<String> disbandConfirmationIssues = [
+  "Racial Justice",
+  "Free Speech",
+  "Gay Marriage",
+  "Abortion Rights",
+  "Separation Clause",
+  "Racial Equality",
+  "Gun Control",
+  "Campaign Finance Reform",
+  "Animal Rights",
+  "Union Organizing",
+  "Black Lives Matter",
+  "Climate Change",
+  "Immigration Reform",
+  "Human Rights",
+  "Liberal Feminism",
+  "Trans Rights",
+  "Right To Privacy",
+  "Legalized Marijuana",
+  "Flag Burning",
+  "Criminal Justice Reform",
+  "Conflict Resolution",
+  "Progressive Taxation",
+];
+
+bool matchesDisbandConfirmationInput(String phrase, int position, int key) {
+  return position >= 0 &&
+      position < phrase.length &&
+      key == phrase[position].toLowerCase().codePoint;
+}
+
+int nextDisbandConfirmationPosition(String phrase, int position) {
+  final next = position + 1;
+  if (next < phrase.length &&
+      (phrase[next] == ' ' || phrase[next] == '\'' || phrase[next] == '-')) {
+    return next + 1;
+  }
+  return next;
+}
 
 Future<bool> liberalAgenda([AgendaVibe vibe = AgendaVibe.ongoing]) async {
   AgendaPage page = AgendaPage.main;
@@ -56,30 +100,7 @@ Future<bool> liberalAgenda([AgendaVibe vibe = AgendaVibe.ongoing]) async {
 }
 
 Future<bool> _confirmDisband() async {
-  String word = [
-    "Racial Justice",
-    "Free Speech",
-    "Gay Marriage",
-    "Abortion Rights",
-    "Separation Clause",
-    "Racial Equality",
-    "Gun Control",
-    "Campaign Finance Reform",
-    "Animal Rights",
-    "Union Organizing",
-    "Black Lives Matter",
-    "Climate Change",
-    "Immigration Reform",
-    "Human Rights",
-    "Liberal Feminism",
-    "Trans Rights",
-    "Right To Privacy",
-    "Legalized Marijuana",
-    "Flag Burning",
-    "Criminal Justice Reform",
-    "Conflict Resolution",
-    "Progressive Taxation",
-  ].random;
+  final word = LcsI18n.tr(disbandConfirmationIssues.random);
 
   erase();
   mvaddstrc(0, 0, white, "Are you sure you want to disband?");
@@ -119,12 +140,7 @@ Future<bool> _confirmDisband() async {
   );
   mvaddstr(10, 0, "only the most devoted of your former members will return.");
 
-  mvaddstrc(
-    13,
-    0,
-    white,
-    "Type this Liberal phrase to confirm (press a wrong letter to rethink it):",
-  );
+  printDisbandConfirmationPrompt();
 
   for (int pos = 0; pos < word.length;) {
     for (int x = 0; x < word.length; x++) {
@@ -138,12 +154,8 @@ Future<bool> _confirmDisband() async {
       mvaddchar(15, x, word[x]);
     }
     int key = await getKey();
-    if (key == word[pos].toLowerCase().codePoint) {
-      pos++;
-      if (pos < word.length &&
-          (word[pos] == ' ' || word[pos] == '\'' || word[pos] == '-')) {
-        pos++;
-      }
+    if (matchesDisbandConfirmationInput(word, pos, key)) {
+      pos = nextDisbandConfirmationPosition(word, pos);
     } else if (key != Key.space) {
       return false;
     }
@@ -190,8 +202,10 @@ void _mainPage(AgendaVibe vibe) {
     mvaddstr(6, 61, "By Corporate");
     mvaddstr(7, 60, "Ethics Officers");
   } else {
-    printHouse(10);
-    printSenate(11);
+    // Court names begin at column 56. Bound summaries to the left panel so
+    // the full court roster remains visible even when it has ten members.
+    printHouse(10, maxWidth: 55);
+    printSenate(11, maxWidth: 55);
     for (int c = 0; c < politics.court.length; c++) {
       mvaddstrc(
         3 + c,
@@ -270,20 +284,20 @@ void _printSingleLaw(AgendaVibe vibe, int i) {
   }
   int y = 14 + i ~/ 3, x = i % 3 * 26;
   mvaddstr(y, x, "<—————>");
-  mvaddstrc(y, x + 8, laws[law]!.color, law.label);
+  mvaddstrcFitted(y, x + 8, laws[law]!.color, law.label, 18);
   mvaddstr(y, x + 5 - laws[law]!.index, "O");
 }
 
 void _alignmentKey(int y) {
   mvaddstrc(y, 0, DeepAlignment.eliteLiberal.color, "Elite Liberal");
-  addstrc(lightGray, "  -  ");
+  addstrc(lightGray, " - ");
   addstrc(DeepAlignment.liberal.color, "Liberal");
-  addstrc(lightGray, "  -  ");
+  addstrc(lightGray, " - ");
   addstrc(DeepAlignment.moderate.color, "moderate");
-  addstrc(lightGray, "  -  ");
+  addstrc(lightGray, " - ");
   addstrc(DeepAlignment.conservative.color, "Conservative");
-  addstrc(lightGray, "  -  ");
-  addstrc(DeepAlignment.archConservative.color, "Arch-Conservative");
+  addstrc(lightGray, " - ");
+  addstrc(DeepAlignment.archConservative.color, "Arch Conservative");
 }
 
 void _lawsPage(int start, AgendaVibe vibe) {
@@ -297,7 +311,7 @@ void _lawsPage(int start, AgendaVibe vibe) {
     } else {
       setColor(laws[law]!.color);
     }
-    mvaddstr(y, 0, _lawDescription(law, laws[law]!, vibe));
+    mvaddstrFitted(y, 0, _lawDescription(law, laws[law]!, vibe), console.width);
   }
 }
 
@@ -322,12 +336,20 @@ void _pollsPage(int start) {
         .reduce((a, b) => a.value >= b.value ? a : b)
         .key;
     int approval = politics.presidentialApproval();
-    mvaddstrc(4, 0, lightGray, "$approval% have a favorable opinion of ");
-    String president = "President";
-    if (politics.constitutionalAmendments == 0) president = "King";
+    final president = politics.constitutionalAmendments == 0
+        ? "King {name}"
+        : "President {name}";
+    mvaddstrc(
+      4,
+      0,
+      lightGray,
+      "{approval}% have a favorable opinion of ",
+      params: {"approval": approval.toString()},
+    );
     addstrc(
       exec[Exec.president]!.color,
-      "$president ${execName[Exec.president]!.firstLast}",
+      president,
+      params: {"name": execName[Exec.president]!.firstLast},
     );
     addstrc(lightGray, ".");
     String concern = "";
@@ -336,7 +358,12 @@ void _pollsPage(int start) {
     } else {
       concern = _concernString(maxView);
     }
-    mvaddstr(5, 0, "The people are most concerned about $concern.");
+    mvaddstr(
+      5,
+      0,
+      "The people are most concerned about {concern}.",
+      params: {"concern": LcsI18n.tr(concern)},
+    );
     mvaddstr(7, 0, header);
     y = 8;
   } else {
@@ -349,107 +376,125 @@ void _pollsPage(int start) {
             ccsState == CCSStrength.defeated)) {
       continue;
     }
-    mvaddstrc(y, 4, lightGray, "".padRight(57, "."));
     int interest = politics.publicInterest[v]!;
+    String interestLabel;
+    Color interestColor;
     if (interest > 16) {
-      addstrc(red, "Huge");
+      interestLabel = LcsI18n.tr("Huge");
+      interestColor = red;
     } else if (interest > 8) {
-      addstrc(orange, "High");
+      interestLabel = LcsI18n.tr("High");
+      interestColor = orange;
     } else if (interest > 4) {
-      addstrc(yellow, "Moderate");
+      interestLabel = LcsI18n.tr("Moderate");
+      interestColor = yellow;
     } else if (interest > 2) {
-      addstrc(lightGray, "Low");
+      interestLabel = LcsI18n.tr("Low");
+      interestColor = lightGray;
     } else if (interest > 0) {
-      addstrc(midGray, "Minimal");
+      interestLabel = LcsI18n.tr("Minimal");
+      interestColor = midGray;
     } else {
-      addstrc(darkGray, "None");
+      interestLabel = LcsI18n.tr("None");
+      interestColor = darkGray;
     }
 
     double survey = politics.publicOpinion[v]!;
     if (v == View.lcsLiked) survey = politics.lcsApproval();
     if (v == View.ccsHated) survey = politics.ccsApproval();
+    final Color surveyColor;
     if (survey < 20) {
-      setColor(DeepAlignment.archConservative.color);
+      surveyColor = DeepAlignment.archConservative.color;
     } else if (survey < 40) {
-      setColor(DeepAlignment.conservative.color);
+      surveyColor = DeepAlignment.conservative.color;
     } else if (survey < 60) {
-      setColor(DeepAlignment.moderate.color);
+      surveyColor = DeepAlignment.moderate.color;
     } else if (survey < 80) {
-      setColor(DeepAlignment.liberal.color);
+      surveyColor = DeepAlignment.liberal.color;
     } else {
-      setColor(DeepAlignment.eliteLiberal.color);
+      surveyColor = DeepAlignment.eliteLiberal.color;
     }
-    move(y, 0);
-    if (survey < 10) addchar('0');
-    addstr(
-      "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ",
-    );
-    switch (v) {
-      case View.lgbtRights:
-        addstr("support LGBTQ+ rights");
-      case View.deathPenalty:
-        addstr("oppose the death penalty");
-      case View.taxes:
-        addstr("are in favor of higher taxes");
-      case View.nuclearPower:
-        addstr("are terrified of nuclear power");
-      case View.animalResearch:
-        addstr("deplore animal research");
-      case View.policeBehavior:
-        addstr("are critical of the police");
-      case View.torture:
-        addstr("want stronger measures to prevent torture");
-      case View.intelligence:
-        addstr("want to stop government mass surveillance");
-      case View.freeSpeech:
-        addstr("want more freedom to criticize the government");
-      case View.genetics:
-        addstr("support regulation of genetic research");
-      case View.justices:
-        addstr("are for the appointment of Liberal Justices");
-      case View.gunControl:
-        addstr("are concerned about gun violence");
-      case View.sweatshops:
-        addstr("avoid companies that use sweatshops");
-      case View.pollution:
-        addstr("call for stricter environmental regulations");
-      case View.corporateCulture:
-        addstr("are disgusted by corporate malfeasance");
-      case View.ceoSalary:
-        addstr("believe that CEO salaries are too high");
-      case View.womensRights:
-        addstr("favor doing more for gender equality");
-      case View.civilRights:
-        addstr("agree that more work is needed for racial equality");
-      case View.drugs:
-        if (laws[Law.drugs]! >= DeepAlignment.liberal) {
-          addstr("support keeping marijuana legal");
-        } else {
-          addstr("want to legalize marijuana");
-        }
-      case View.immigration:
-        addstr("support Liberal immigration policy");
-      case View.military:
-        addstr("believe that military spending is too high");
-      case View.prisons:
-        addstr("want prisons to focus on rehabilitation");
-      case View.amRadio:
-        addstr("find Conservative AM Radio distasteful");
-      case View.cableNews:
-        addstr("do not trust Conservative Cable News");
-      case View.lcsKnown:
-        addstr("have heard of the Liberal Crime Squad");
-      case View.lcsLiked:
-        addstr("consider the Liberal Crime Squad a force for good");
-      case View.ccsHated:
-        addstr("want the Conservative Crime Squad brought to justice");
-      case View.housing:
-        addstr("want the government to provide affordable housing");
-      case View.healthcare:
-        addstr("support universal healthcare");
-      case View.retirement:
-        addstr("want a government-run retirement system");
+    final String issue = _pollingIssue(v);
+    final String renderedIssue =
+        "${survey.floor()}.${(survey * 10 - survey.floor() * 10).floor()}% ${LcsI18n.tr(issue)}";
+    setColor(surveyColor);
+    mvaddstr(y, 0, fitConsoleText(renderedIssue, 61), noTranslate: true);
+    if (console.x < 61) {
+      mvaddstr(
+        y,
+        console.x,
+        "".padRight(61 - console.x, "."),
+        noTranslate: true,
+      );
     }
+    mvaddstrc(y, 61, interestColor, interestLabel, noTranslate: true);
+  }
+}
+
+String _pollingIssue(View view) {
+  switch (view) {
+    case View.lgbtRights:
+      return "support LGBTQ+ rights";
+    case View.deathPenalty:
+      return "oppose the death penalty";
+    case View.taxes:
+      return "are in favor of higher taxes";
+    case View.nuclearPower:
+      return "are terrified of nuclear power";
+    case View.animalResearch:
+      return "deplore animal research";
+    case View.policeBehavior:
+      return "are critical of the police";
+    case View.torture:
+      return "want stronger measures to prevent torture";
+    case View.intelligence:
+      return "want to stop government mass surveillance";
+    case View.freeSpeech:
+      return "want more freedom to criticize the government";
+    case View.genetics:
+      return "support regulation of genetic research";
+    case View.justices:
+      return "are for the appointment of Liberal Justices";
+    case View.gunControl:
+      return "are concerned about gun violence";
+    case View.sweatshops:
+      return "avoid companies that use sweatshops";
+    case View.pollution:
+      return "call for stricter environmental regulations";
+    case View.corporateCulture:
+      return "are disgusted by corporate malfeasance";
+    case View.ceoSalary:
+      return "believe that CEO salaries are too high";
+    case View.womensRights:
+      return "favor doing more for gender equality";
+    case View.civilRights:
+      return "agree that more work is needed for racial equality";
+    case View.drugs:
+      return laws[Law.drugs]! >= DeepAlignment.liberal
+          ? "support keeping marijuana legal"
+          : "want to legalize marijuana";
+    case View.immigration:
+      return "support Liberal immigration policy";
+    case View.military:
+      return "believe that military spending is too high";
+    case View.prisons:
+      return "want prisons to focus on rehabilitation";
+    case View.amRadio:
+      return "find Conservative AM Radio distasteful";
+    case View.cableNews:
+      return "do not trust Conservative Cable News";
+    case View.lcsKnown:
+      return "have heard of the Liberal Crime Squad";
+    case View.lcsLiked:
+      return "consider the Liberal Crime Squad a force for good";
+    case View.ccsHated:
+      return "want the Conservative Crime Squad brought to justice";
+    case View.housing:
+      return "want the government to provide affordable housing";
+    case View.healthcare:
+      return "support universal healthcare";
+    case View.retirement:
+      return "want a government-run retirement system";
   }
 }
 

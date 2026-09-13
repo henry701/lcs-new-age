@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -128,7 +130,13 @@ Future<void> surrenderAndDie(Site loc) async {
   }
 
   erase();
-  mvaddstrc(1, 1, lightGray, "Everyone in the ${loc.name} is slain.");
+  mvaddstrc(
+    1,
+    1,
+    lightGray,
+    "Everyone in the {location} is slain.",
+    params: {"location": loc.name},
+  );
   await getKey();
 
   if (killNumber > 3) {
@@ -172,11 +180,19 @@ Future<void> surrenderToAuthorities(Site loc) async {
   } else {
     raiders = "software bugs";
   }
-  mvaddstr(
-    1,
-    1,
-    "The $raiders confiscate everything, including Squad weapons.",
-  );
+  final confiscation = switch (raiders) {
+    "police" => LcsI18n.tr(
+      "The police confiscate everything, including Squad weapons.",
+    ),
+    "soldiers" => LcsI18n.tr(
+      "The soldiers confiscate everything, including Squad weapons.",
+    ),
+    _ => LcsI18n.processString(
+      "The {raiders} confiscate everything, including Squad weapons.",
+      {"raiders": LcsI18n.tr(raiders)},
+    ),
+  };
+  mvaddstr(1, 1, confiscation, noTranslate: true);
 
   Iterable<Creature> present = pool
       .where((e) => e.location == loc && e.alive)
@@ -224,23 +240,43 @@ Future<void> surrenderToAuthorities(Site loc) async {
     mvaddstr(
       y += 2,
       1,
-      "${rescued.first.name} is taken into custody and rehabilitated.",
+      "{name} is taken into custody and rehabilitated.",
+      params: {"name": localizedCreatureName(rescued.first)},
     );
   } else if (rescued.length > 1) {
     mvaddstr(
       y += 2,
       1,
-      "${rescued.length} people who went missing are taken into custody and rehabilitated.",
+      "{count} people who went missing are taken into custody and rehabilitated.",
+      params: {"count": rescued.length.toString()},
     );
   }
   if (arrested.length == 1) {
-    mvaddstr(y += 2, 1, arrested.first.properName);
     if (arrested.first.properName != arrested.first.name) {
-      addstr(", aka ${arrested.first.name},");
+      mvaddstr(
+        y += 2,
+        1,
+        "{properName}, aka {name}, is arrested.",
+        params: {
+          "properName": arrested.first.properName,
+          "name": localizedCreatureName(arrested.first),
+        },
+      );
+    } else {
+      mvaddstr(
+        y += 2,
+        1,
+        "{name} is arrested.",
+        params: {"name": arrested.first.properName},
+      );
     }
-    addstr(" is arrested.");
   } else if (arrested.length > 1) {
-    mvaddstr(y += 2, 1, "${arrested.length} Liberals are arrested.");
+    mvaddstr(
+      y += 2,
+      1,
+      "{count} Liberals are arrested.",
+      params: {"count": arrested.length},
+    );
   }
 
   if (ledger.funds > 0) {
@@ -257,7 +293,8 @@ Future<void> surrenderToAuthorities(Site loc) async {
       mvaddstr(
         y += 2,
         1,
-        "Law enforcement has confiscated \$$confiscated in LCS funds.",
+        "Law enforcement has confiscated {amount} in LCS funds.",
+        params: {"amount": LcsI18n.currencyAmount(confiscated)},
       );
       ledger.subtractFunds(confiscated, Expense.confiscated);
     }
@@ -361,20 +398,31 @@ Future<void> surrenderToMedicalIndustry(Site loc) async {
   }
 
   void receiptLine(int row, String label, int amount) {
+    final renderedLabel = fitConsoleText(
+      LcsI18n.tr(label),
+      moneyCol - textLeft,
+    );
     setColor(black, background: lightGray);
-    mvaddstr(row, textLeft, label);
-    int dotStart = textLeft + label.length;
+    mvaddstr(row, textLeft, renderedLabel, noTranslate: true);
+    int dotStart = textLeft + strLenX(renderedLabel);
     if (moneyCol > dotStart) {
       mvaddstr(row, dotStart, "".padRight(moneyCol - dotStart, "."));
     }
-    mvaddstr(row, moneyCol, "\$$amount");
+    mvaddstr(
+      row,
+      moneyCol,
+      "{amount}",
+      params: {"amount": LcsI18n.currencyAmount(amount)},
+      noTranslate: true,
+    );
   }
 
   setColor(black, background: lightGray);
   addparagraph(
     slipTop + 1,
     textLeft,
-    "MEDICAL DEBT COLLECTION RECEIPT FOR ${loc.name.toUpperCase()}:",
+    "MEDICAL DEBT COLLECTION RECEIPT FOR {location}:",
+    params: {"location": loc.getName().toUpperCase()},
     y2: 4,
     x2: textRight,
   );

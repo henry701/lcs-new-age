@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 
 String get interfacePgUp => gameOptions.interfacePgUp;
@@ -46,7 +47,7 @@ String get previousPageStr {
   } else {
     str = "PGUP";
   }
-  return "$str - Previous";
+  return LcsI18n.processString("{key} - Previous", {"key": str});
 }
 
 String get nextPageStr {
@@ -58,7 +59,7 @@ String get nextPageStr {
   } else {
     str = "PGDN";
   }
-  return "$str - Next";
+  return LcsI18n.processString("{key} - Next", {"key": str});
 }
 
 String get pageStr {
@@ -72,7 +73,9 @@ String get pageStr {
   } else {
     str = "PGUP/PGDN";
   }
-  return "$str - View other Liberal pages";
+  return LcsI18n.processString("{keys} - View other Liberal pages", {
+    "keys": str,
+  });
 }
 
 String pageStrWithCurrentAndMax(int current, int max) {
@@ -86,11 +89,19 @@ String pageStrWithCurrentAndMax(int current, int max) {
   } else {
     str = "PGUP/PGDN";
   }
-  return "$str - View other Liberal pages ($current/$max)";
+  return LcsI18n.processString(
+    "{keys} - View other Liberal pages ({current}/{max})",
+    {"keys": str, "current": current, "max": max},
+  );
 }
 
-void addPageButtons(
-    {int? y, int? x, int? current, int? max, bool short = false}) {
+void addPageButtons({
+  int? y,
+  int? x,
+  int? current,
+  int? max,
+  bool short = false,
+}) {
   y ??= console.y;
   x ??= console.x;
   move(y, x);
@@ -110,17 +121,33 @@ void addPageButtons(
     pageDownStr = "PGDN";
   }
   if (short) {
-    addInlineOptionText(pageUpStr, "$pageUpStr - Prev");
+    addInlineOptionText(pageUpStr, "{key} - Prev", params: {"key": pageUpStr});
     console.x += 2;
-    addInlineOptionText(pageDownStr, "$pageDownStr - Next");
+    addInlineOptionText(
+      pageDownStr,
+      "{key} - Next",
+      params: {"key": pageDownStr},
+    );
   } else {
-    addInlineOptionText(pageUpStr, "$pageUpStr - Previous Page");
+    addInlineOptionText(
+      pageUpStr,
+      "{key} - Previous Page",
+      params: {"key": pageUpStr},
+    );
     console.x += 2;
-    addInlineOptionText(pageDownStr, "$pageDownStr - Next Page");
+    addInlineOptionText(
+      pageDownStr,
+      "{key} - Next Page",
+      params: {"key": pageDownStr},
+    );
   }
   if (current != null && max != null) {
     console.x += 1;
-    addstr("($current/$max)");
+    addstr(
+      "({current}/{max})",
+      params: {"current": current, "max": max},
+      noTranslate: true,
+    );
   }
 }
 
@@ -132,10 +159,10 @@ void addBackButton({int? y, int? x, String? text}) {
 }
 
 String pageStrWithCurrentAndMaxX(int current, int max) {
-  return pageStrWithCurrentAndMax(current, max)
-      .split(" ")
-      .mapIndexed((i, s) => i == 0 ? "&B$s&x" : s)
-      .join(" ");
+  return pageStrWithCurrentAndMax(
+    current,
+    max,
+  ).split(" ").mapIndexed((i, s) => i == 0 ? "&B$s&x" : s).join(" ");
 }
 
 bool isBackKey(int c) =>

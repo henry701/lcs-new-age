@@ -55,3 +55,6 @@ windows/flutter/generated_plugin_registrant.h
 windows/flutter/generated_plugins.cmake
 build.bat
 build_test.bat
+
+# Coverage
+coverage/

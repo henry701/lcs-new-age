@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
 class _BlindLogEntry {
@@ -56,7 +57,11 @@ void displayBlindLog() {
     addparagraph(
       y,
       startX,
-      "${entry.month}/${entry.year}: ${entry.text}",
+      LcsI18n.processString("{month}/{year}: {text}", {
+        "month": entry.month.toString(),
+        "year": entry.year.toString(),
+        "text": entry.text,
+      }),
       y2: maxRow,
     );
     y = console.y;

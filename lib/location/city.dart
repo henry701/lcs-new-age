@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/district.dart';
 import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -10,8 +11,8 @@ part 'city.g.dart';
 @JsonSerializable()
 class City extends Location {
   City(this.name, this.shortName, this.description, {int? area})
-      : id = gameState.nextCityId++,
-        area = area ?? gameState.nextCityId - 1;
+    : id = gameState.nextCityId++,
+      area = area ?? gameState.nextCityId - 1;
   factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
   Map<String, dynamic> toJson() => _$CityToJson(this);
 
@@ -42,7 +43,17 @@ class City extends Location {
 
   @override
   String getName({bool short = false, bool includeCity = false}) {
-    return short ? shortName : name;
+    // City short names are stable map/roster codes (for example, NYC or DC),
+    // not prose labels. Translating them creates false missing-key warnings.
+    if (short) return shortName;
+
+    // The generated city pool contains many proper names that intentionally
+    // remain unchanged in Portuguese. Only send catalog-backed names through
+    // the translator so those names do not create false missing-key telemetry.
+    final displayName = repairLegacyMojibake(name);
+    return LcsI18n.hasTranslation(displayName)
+        ? LcsI18n.tr(displayName)
+        : displayName;
   }
 
   void addCommercialDistrict() {
@@ -54,10 +65,17 @@ class City extends Location {
     ]);
   }
 
-  District addDistrict(String name, String description,
-      {bool outOfTown = false}) {
-    District d =
-        District(name, description, id, area: outOfTown ? -area : area);
+  District addDistrict(
+    String name,
+    String description, {
+    bool outOfTown = false,
+  }) {
+    District d = District(
+      name,
+      description,
+      id,
+      area: outOfTown ? -area : area,
+    );
     districts.add(d);
     return d;
   }

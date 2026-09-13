@@ -1,15 +1,59 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
+import 'package:lcs_new_age/gamestate/crime_squad.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/saveload/save_load.dart';
 import 'package:lcs_new_age/title_screen/game_over.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const int scoreVersion = 1;
+
+String _highScoreAmount(int amount) {
+  if (LcsI18n.currentLocale == 'pt_BR') {
+    return LcsI18n.currencyAmount(amount);
+  }
+  return amount.toString();
+}
+
+const int _highScoreStatColumnWidth = 20;
+const int _highScoreFlagColumnX = 60;
+
+String _fitHighScoreFlagCount(String template, String parameter, int count) {
+  final countText = count.toString();
+  final translated = LcsI18n.processString(template, {parameter: count});
+  final countStart = translated.lastIndexOf(countText);
+  if (countStart < 0) {
+    return fitConsoleText(translated, _highScoreStatColumnWidth);
+  }
+
+  final label = translated.substring(0, countStart).trimRight();
+  final labelWidth = max(0, _highScoreStatColumnWidth - strLenX(countText) - 1);
+  final result = StringBuffer()
+    ..write(fitConsoleText(label, labelWidth, showEllipsis: false))
+    ..write(' ')
+    ..write(countText);
+  return result.toString();
+}
+
+void _printHighScoreFlagCount({
+  required int y,
+  required String template,
+  required String parameter,
+  required int count,
+}) {
+  mvaddstr(
+    y,
+    _highScoreFlagColumnX,
+    _fitHighScoreFlagCount(template, parameter, count),
+    noTranslate: true,
+  );
+}
 
 class HighScores {
   HighScores({
@@ -162,7 +206,8 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
     } else {
       setColor(red);
     }
-    mvaddstr(y, 0, s.slogan);
+    final slogan = CrimeSquad.localizedSlogan(s.slogan);
+    mvaddstr(y, 0, fitConsoleText(slogan, console.width), noTranslate: true);
     if (s.score == yourScore?.score &&
         s.daysSince2000 == yourScore?.daysSince2000) {
       if (s.endType == Ending.victory) {
@@ -173,50 +218,88 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
     } else {
       setColor(lightGray);
     }
-    move(y + 1, 0);
-    switch (s.endType) {
-      case Ending.victory:
-        addstr("The Liberal Crime Squad liberalized the country in ");
-      case Ending.policeSiege:
-        addstr("The Liberal Crime Squad was brought to justice in ");
-      case Ending.ciaSiege:
-        addstr("The Liberal Crime Squad was blotted out in ");
-      case Ending.hicksSiege:
-        addstr("The Liberal Crime Squad was mobbed in ");
-      case Ending.corporateSiege:
-        addstr("The Liberal Crime Squad was downsized in ");
-      case Ending.medicalSiege:
-        addstr("The Liberal Crime Squad was billed to death in ");
-      case Ending.dead:
-        addstr("The Liberal Crime Squad was KIA in ");
-      case Ending.reaganified:
-        addstr("The country was Reaganified in ");
-      case Ending.prison:
-        addstr("The Liberal Crime Squad died in prison in ");
-      case Ending.executed:
-        addstr("The Liberal Crime Squad was executed in ");
-      case Ending.dating:
-        addstr("The Liberal Crime Squad was on vacation in ");
-      case Ending.hiding:
-        addstr("The Liberal Crime Squad was in permanent hiding in ");
-      case Ending.disbandLoss:
-        addstr("The Liberal Crime Squad was hunted down in ");
-      case Ending.dispersed:
-        addstr("The Liberal Crime Squad was scattered in ");
-      case Ending.ccsSiege:
-        addstr("The Liberal Crime Squad was out-Crime Squadded in ");
-      case Ending.unspecified:
-        addstr("The Liberal Crime Squad was defeated in ");
-    }
-    addstr("${getMonth(s.month)} ${s.year}.");
-    mvaddstr(y + 2, 0, "Recruits: ${s.statRecruits}");
-    mvaddstr(y + 3, 0, "Martyrs: ${s.statMartyrs}");
-    mvaddstr(y + 2, 20, "Kills: ${s.statKills}");
-    mvaddstr(y + 3, 20, "Kidnappings: ${s.statKidnappings}");
-    mvaddstr(y + 2, 40, "\$ Taxed: ${s.statFunds}");
-    mvaddstr(y + 3, 40, "\$ Spent: ${s.statSpent}");
-    mvaddstr(y + 2, 60, "Flags Bought: ${s.statBuys}");
-    mvaddstr(y + 3, 60, "Flags Burned: ${s.statBurns}");
+    final endingTemplate = switch (s.endType) {
+      Ending.victory =>
+        "The Liberal Crime Squad liberalized the country in {month} {year}.",
+      Ending.policeSiege =>
+        "The Liberal Crime Squad was brought to justice in {month} {year}.",
+      Ending.ciaSiege =>
+        "The Liberal Crime Squad was blotted out in {month} {year}.",
+      Ending.hicksSiege =>
+        "The Liberal Crime Squad was mobbed in {month} {year}.",
+      Ending.corporateSiege =>
+        "The Liberal Crime Squad was downsized in {month} {year}.",
+      Ending.medicalSiege =>
+        "The Liberal Crime Squad was billed to death in {month} {year}.",
+      Ending.dead => "The Liberal Crime Squad was KIA in {month} {year}.",
+      Ending.reaganified => "The country was Reaganified in {month} {year}.",
+      Ending.prison =>
+        "The Liberal Crime Squad died in prison in {month} {year}.",
+      Ending.executed =>
+        "The Liberal Crime Squad was executed in {month} {year}.",
+      Ending.dating =>
+        "The Liberal Crime Squad was on vacation in {month} {year}.",
+      Ending.hiding =>
+        "The Liberal Crime Squad was in permanent hiding in {month} {year}.",
+      Ending.disbandLoss =>
+        "The Liberal Crime Squad was hunted down in {month} {year}.",
+      Ending.dispersed =>
+        "The Liberal Crime Squad was scattered in {month} {year}.",
+      Ending.ccsSiege =>
+        "The Liberal Crime Squad was out-Crime Squadded in {month} {year}.",
+      Ending.unspecified =>
+        "The Liberal Crime Squad was defeated in {month} {year}.",
+    };
+    mvaddstrFitted(
+      y + 1,
+      0,
+      endingTemplate,
+      console.width,
+      params: {"month": getMonth(s.month), "year": s.year},
+    );
+    mvaddstr(
+      y + 2,
+      0,
+      "Recruits: {recruits}",
+      params: {"recruits": s.statRecruits},
+    );
+    mvaddstr(
+      y + 3,
+      0,
+      "Martyrs: {martyrs}",
+      params: {"martyrs": s.statMartyrs},
+    );
+    mvaddstr(y + 2, 20, "Kills: {kills}", params: {"kills": s.statKills});
+    mvaddstr(
+      y + 3,
+      20,
+      "Kidnappings: {kidnappings}",
+      params: {"kidnappings": s.statKidnappings},
+    );
+    mvaddstr(
+      y + 2,
+      40,
+      "\$ Taxed: {taxed}",
+      params: {"taxed": _highScoreAmount(s.statFunds)},
+    );
+    mvaddstr(
+      y + 3,
+      40,
+      "\$ Spent: {spent}",
+      params: {"spent": _highScoreAmount(s.statSpent)},
+    );
+    _printHighScoreFlagCount(
+      y: y + 2,
+      template: "Flags Bought: {buys}",
+      parameter: "buys",
+      count: s.statBuys,
+    );
+    _printHighScoreFlagCount(
+      y: y + 3,
+      template: "Flags Burned: {burns}",
+      parameter: "burns",
+      count: s.statBurns,
+    );
     y += 4;
   }
 
@@ -224,14 +307,54 @@ Future<void> viewHighScores([HighScore? yourScore]) async {
 
   //UNIVERSAL STATS
   mvaddstr(22, 0, "Universal Liberal Statistics:");
-  mvaddstr(23, 0, "Recruits: ${highScores.universalRecruits}");
-  mvaddstr(24, 0, "Martyrs: ${highScores.universalMartyrs}");
-  mvaddstr(23, 20, "Kills: ${highScores.universalKills}");
-  mvaddstr(24, 20, "Kidnappings: ${highScores.universalKidnappings}");
-  mvaddstr(23, 40, "\$ Taxed: ${highScores.universalFunds}");
-  mvaddstr(24, 40, "\$ Spent: ${highScores.universalSpent}");
-  mvaddstr(23, 60, "Flags Bought: ${highScores.universalFlagBuys}");
-  mvaddstr(24, 60, "Flags Burned: ${highScores.universalFlagBurns}");
+  mvaddstr(
+    23,
+    0,
+    "Recruits: {count}",
+    params: {'count': highScores.universalRecruits},
+  );
+  mvaddstr(
+    24,
+    0,
+    "Martyrs: {count}",
+    params: {'count': highScores.universalMartyrs},
+  );
+  mvaddstr(
+    23,
+    20,
+    "Kills: {count}",
+    params: {'count': highScores.universalKills},
+  );
+  mvaddstr(
+    24,
+    20,
+    "Kidnappings: {count}",
+    params: {'count': highScores.universalKidnappings},
+  );
+  mvaddstr(
+    23,
+    40,
+    "\$ Taxed: {count}",
+    params: {'count': _highScoreAmount(highScores.universalFunds)},
+  );
+  mvaddstr(
+    24,
+    40,
+    "\$ Spent: {count}",
+    params: {'count': _highScoreAmount(highScores.universalSpent)},
+  );
+  _printHighScoreFlagCount(
+    y: 23,
+    template: "Flags Bought: {count}",
+    parameter: "count",
+    count: highScores.universalFlagBuys,
+  );
+  _printHighScoreFlagCount(
+    y: 24,
+    template: "Flags Burned: {count}",
+    parameter: "count",
+    count: highScores.universalFlagBurns,
+  );
   await getKey();
 }
 

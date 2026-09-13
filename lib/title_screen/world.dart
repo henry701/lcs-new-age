@@ -89,9 +89,11 @@ void makeWorld() {
       SiteType.drugHouse,
       SiteType.publicPark,
     ])
-    ..addDistrict("Outskirts", "Upstate New York", outOfTown: true).addSites([
-      SiteType.nuclearPlant,
-    ]);
+    ..addDistrict(
+      "Outskirts",
+      "Upstate New York",
+      outOfTown: true,
+    ).addSites([SiteType.nuclearPlant]);
 
   City losAngeles = City("Los Angeles, CA", "LA", "Hollywood and Trade");
   cities.add(losAngeles);
@@ -126,8 +128,11 @@ void makeWorld() {
       SiteType.sweatshop,
       SiteType.drugHouse,
     ])
-    ..addDistrict("Outskirts", "Outskirts & Orange County", outOfTown: true)
-        .addSites([
+    ..addDistrict(
+      "Outskirts",
+      "Outskirts & Orange County",
+      outOfTown: true,
+    ).addSites([
       SiteType.prison,
       SiteType.nuclearPlant,
       SiteType.armyBase,
@@ -142,21 +147,14 @@ void makeWorld() {
       SiteType.upscaleApartment,
       SiteType.policeStation,
       SiteType.courthouse,
-      SiteType.latteStand,
-      SiteType.publicPark,
-      SiteType.whiteHouse,
-    ])
-    ..addDistrict("Wards", "Outer Wards").addSites([
-      SiteType.upscaleApartment,
-      SiteType.apartment,
-      SiteType.tenement,
-      SiteType.homelessEncampment,
-      SiteType.nursingHome,
-      SiteType.insuranceOffice,
-      SiteType.universityHospital,
       SiteType.bank,
-      SiteType.publicPark,
+      SiteType.universityHospital,
+      SiteType.homelessEncampment,
     ])
+    ..addDistrict(
+      "Mall",
+      "National Mall",
+    ).addSites([SiteType.publicPark, SiteType.whiteHouse])
     ..addDistrict("Arlington", "Arlington, VA").addSites([
       SiteType.warehouse,
       SiteType.prison,
@@ -166,10 +164,15 @@ void makeWorld() {
 
   // If the CCS is active, give them control of their safehouses
   if (ccsActive) {
-    for (Site s in sites.where((s) =>
-        s.controller == SiteController.unaligned &&
-        [SiteType.barAndGrill, SiteType.bombShelter, SiteType.bunker]
-            .contains(s.type))) {
+    for (Site s in sites.where(
+      (s) =>
+          s.controller == SiteController.unaligned &&
+          [
+            SiteType.barAndGrill,
+            SiteType.bombShelter,
+            SiteType.bunker,
+          ].contains(s.type),
+    )) {
       s.controller = SiteController.ccs;
     }
   }

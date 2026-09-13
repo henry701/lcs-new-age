@@ -59,8 +59,10 @@ class CursesMovie {
 
   Future<void> playmovie(int x, int y, {bool remapSkinTones = false}) async {
     int timer = 0;
-    int finalframe =
-        frame.fold(0, (ff, frame) => ff > frame.stop ? ff : frame.stop);
+    int finalframe = frame.fold(
+      0,
+      (ff, frame) => ff > frame.stop ? ff : frame.stop,
+    );
     bool pted;
     List<CursesMovieFrame> lastFramesPainted = [];
 
@@ -70,8 +72,9 @@ class CursesMovie {
     do {
       pted = false;
 
-      List<CursesMovieFrame> framesToPaint =
-          frame.where((f) => f.start <= timer && f.stop >= timer).toList();
+      List<CursesMovieFrame> framesToPaint = frame
+          .where((f) => f.start <= timer && f.stop >= timer)
+          .toList();
       if (framesToPaint.any((e) => !lastFramesPainted.contains(e)) ||
           lastFramesPainted.any((e) => !framesToPaint.contains(e))) {
         lastFramesPainted = framesToPaint;
@@ -85,8 +88,10 @@ class CursesMovie {
               }
 
               move(fy + y, fx + x);
-              drawCPCGlyph(movie.picture[f.frame][fx][fy],
-                  remapSkinTones: remapSkinTones);
+              drawCPCGlyph(
+                movie.picture[f.frame][fx][fy],
+                remapSkinTones: remapSkinTones,
+              );
             }
           }
           pted = true;

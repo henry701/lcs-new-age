@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/common_actions/common_actions.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_party.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/body.dart';
@@ -15,6 +16,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/attack.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/item.dart';
@@ -171,32 +173,33 @@ Future<void> squadMemberAttacks(
   }
 }
 
+// Action phrases (no leading space or possessive fragment). Used via {name} {action} or inserted.
 const List<String> escapeCrawling = [
-  " crawls off moaning...",
-  " crawls off whimpering...",
-  " crawls off trailing blood...",
-  " crawls off screaming...",
-  " crawls off crying...",
-  " crawls off sobbing...",
-  " crawls off whispering...",
-  " crawls off praying...",
-  " crawls off cursing...",
+  "crawls off moaning...",
+  "crawls off whimpering...",
+  "crawls off trailing blood...",
+  "crawls off screaming...",
+  "crawls off crying...",
+  "crawls off sobbing...",
+  "crawls off whispering...",
+  "crawls off praying...",
+  "crawls off cursing...",
 ];
 const List<String> escapeRunning = [
-  " makes a break for it!",
-  " escapes crying!",
-  " runs away!",
-  " gets out of there!",
-  " runs hollering!",
-  " bolts out of there!",
-  " runs away screaming!",
+  "makes a break for it!",
+  "escapes crying!",
+  "runs away!",
+  "gets out of there!",
+  "runs hollering!",
+  "bolts out of there!",
+  "runs away screaming!",
 ];
 const List<String> cowerInCombat = [
-  " cowers in fear.",
-  " cowers in the corner.",
-  " stays in cover.",
-  " looks around in panic.",
-  " stays low to the ground.",
+  "cowers in fear.",
+  "cowers in the corner.",
+  "stays in cover.",
+  "looks around in panic.",
+  "stays low to the ground.",
 ];
 
 Future<void> enemyattack(List<Creature> possibleEnemies) async {
@@ -233,16 +236,21 @@ Future<bool> enemyMemberAttacks(
     if (runsAway && e.body is HumanoidBody) {
       clearMessageArea();
 
-      mvaddstrc(9, 1, white, e.name);
-      if (e.body.legok < 2 || e.blood < e.maxBlood * 0.45) {
-        if (gameOptions.lighterTone) {
-          addstr("crawls off...");
-        } else {
-          addstr(escapeCrawling.random);
-        }
-      } else {
-        addstr(escapeRunning.random);
-      }
+      final escapeAction = (e.body.legok < 2 || e.blood < e.maxBlood * 0.45)
+          ? gameOptions.lighterTone
+                ? "crawls off..."
+                : escapeCrawling.random
+          : escapeRunning.random;
+      mvaddstrc(
+        9,
+        1,
+        white,
+        "{name} {escape}",
+        params: {
+          "name": localizedCreatureName(e),
+          "escape": LcsI18n.tr(escapeAction),
+        },
+      );
 
       encounter.remove(e);
       possibleEnemies.remove(e);
@@ -259,8 +267,16 @@ Future<bool> enemyMemberAttacks(
         e.incapacitatedThisRound = true;
       } else if (e.equippedWeapon != null) {
         clearMessageArea();
-        mvaddstrc(9, 1, white, e.name);
-        addstr(cowerInCombat.random);
+        mvaddstrc(
+          9,
+          1,
+          white,
+          "{name} {cower}",
+          params: {
+            "name": localizedCreatureName(e),
+            "cower": LcsI18n.tr(cowerInCombat.random),
+          },
+        );
         await getKey();
       }
       return true;
@@ -311,23 +327,35 @@ Future<bool> enemyMemberAttacks(
   if (canmistake) {
     // Resolve hits on hostages and hauled liberals
     if (e.isEnemy && target.prisoner != null && oneIn(2)) {
-      await attack(e, target.prisoner!, true);
-      if (!target.prisoner!.alive) {
-        if (target.prisoner!.align != Alignment.liberal ||
-            target.prisoner!.body.fellApart) {
-          CreatureType prisonerType = target.prisoner!.type;
+      final prisoner = target.prisoner!;
+      await attack(e, prisoner, true);
+      if (!prisoner.alive) {
+        if (prisoner.align != Alignment.liberal || prisoner.body.fellApart) {
+          CreatureType prisonerType = prisoner.type;
 
           if (prisonerType.majorEnemy) {
             siteCrime += 30;
           }
 
-          makeLoot(target.prisoner!, groundLoot);
+          makeLoot(prisoner, groundLoot);
 
-          String bodyDesc = target.prisoner!.body.fellApart
-              ? "the bloody mess"
-              : "${target.prisoner!.name}'s body";
-
-          await encounterMessage("${target.name} drops $bodyDesc.");
+          if (prisoner.body.fellApart) {
+            await encounterMessage(
+              "{attacker} drops {body}",
+              params: {
+                "attacker": localizedCreatureName(target),
+                "body": LcsI18n.tr("the bloody mess"),
+              },
+            );
+          } else {
+            await encounterMessage(
+              "{name} drops {prisonerName}'s body.",
+              params: {
+                "name": localizedCreatureName(target),
+                "prisonerName": localizedCreatureName(prisoner),
+              },
+            );
+          }
           target.prisoner = null;
         }
       }
@@ -448,10 +476,16 @@ Future<bool> attack(
     move(9, 1);
     if (a.hasThrownWeapon) {
       a.readyAnotherThrowingWeapon();
-      addstr("${a.name} readies another ${a.weapon.getName()}.");
+      addstr(
+        "{name} readies another {weapon}.",
+        params: {
+          "name": localizedCreatureName(a),
+          "weapon": a.weapon.getName(),
+        },
+      );
     } else {
       a.reload(true);
-      addstr("${a.name} reloads.");
+      addstr("{name} reloads.", params: {"name": localizedCreatureName(a)});
     }
 
     printParty();
@@ -490,77 +524,81 @@ Future<bool> attack(
   int maxNumberOfAttacks = attackUsed.numberOfAttacks;
   double damageMultiplier = 1;
 
-  mvaddstr(9, 1, "${a.name} ");
-  if (mistake) addstr("MISTAKENLY ");
+  String action = attackUsed.attackDescription.isEmpty
+      ? ''
+      : LcsI18n.tr(attackUsed.attackDescription.random);
   if (a.weapon.type.idName == "WEAPON_NONE") {
     int result = a.skillRoll(Skill.martialArts);
     if (a.body is HumanoidBody) {
       if (result < Difficulty.easy) {
-        addstr("flails at");
+        action = LcsI18n.tr("flails at");
         maxNumberOfAttacks = 1;
         damageMultiplier = 0.5;
       } else if (result < Difficulty.average) {
-        addstr("punches");
+        action = LcsI18n.tr("punches");
         maxNumberOfAttacks = 1;
         damageMultiplier = 1;
       } else if (result < Difficulty.hard) {
-        addstr("kicks");
+        action = LcsI18n.tr("kicks");
         maxNumberOfAttacks = 1;
         damageMultiplier = 1;
       } else if (result < Difficulty.mythic) {
         switch (lcsRandom(3)) {
           case 0:
-            addstr("pummels");
+            action = LcsI18n.tr("pummels");
             maxNumberOfAttacks = 6;
             damageMultiplier = 1;
           case 1:
-            addstr("combos");
+            action = LcsI18n.tr("combos");
             maxNumberOfAttacks = 4;
             damageMultiplier = 2;
           case 2:
-            addstr("jump kicks");
+            action = LcsI18n.tr("jump kicks");
             maxNumberOfAttacks = 1;
             damageMultiplier = 5;
         }
       } else {
         switch (lcsRandom(9)) {
           case 0:
-            addstr("unleashes ${a.gender.hisHer} Stand on");
+            action = LcsI18n.processString(
+              "unleashes {gender_his_her} Stand on",
+              {"gender_his_her": LcsI18n.tr(a.gender.hisHer)},
+            );
             maxNumberOfAttacks = 12;
             damageMultiplier = 1.5;
           case 1:
-            addstr("launches a flurry of kicks at");
+            action = LcsI18n.tr("launches a flurry of kicks at");
             maxNumberOfAttacks = 8;
             damageMultiplier = 2;
           case 2:
-            addstr("slows time and touches");
+            action = LcsI18n.tr("slows time and touches");
             addNastyOff = true;
             maxNumberOfAttacks = 1;
             damageMultiplier = 12;
           case 3:
-            addstr("leaps into the air and descends upon");
+            action = LcsI18n.tr("leaps into the air and descends upon");
             maxNumberOfAttacks = 3;
             damageMultiplier = 5;
           case 4:
-            addstr("suddenly appears behind");
+            action = LcsI18n.tr("suddenly appears behind");
             maxNumberOfAttacks = 4;
             damageMultiplier = 4;
           case 5:
-            addstr("hurls a ball of energy at");
+            action = LcsI18n.tr("hurls a ball of energy at");
             addNastyOff = true;
             maxNumberOfAttacks = 1;
             damageMultiplier = 12;
           case 6:
-            addstr("throws a stunning palm strike at");
+            action = LcsI18n.tr("throws a stunning palm strike at");
             addStun = true;
             maxNumberOfAttacks = 1;
             damageMultiplier = 0.5;
           case 7:
-            addstr("leaps into a spinning kick against");
+            action = LcsI18n.tr("leaps into a spinning kick against");
             maxNumberOfAttacks = 2;
             damageMultiplier = 6;
           case 8:
-            addstr("delivers the Bleeding Heart punch to");
+            action = LcsI18n.tr("delivers the Bleeding Heart punch to");
             addAutoConvert = true;
             torsoOnly = true;
             maxNumberOfAttacks = 1;
@@ -568,11 +606,11 @@ Future<bool> attack(
         }
       }
     } else if (a.weapon.typeName == "WEAPON_BITE") {
-      addstr("lunges with fangs out at");
+      action = LcsI18n.tr("lunges with fangs out at");
       maxNumberOfAttacks = 1;
       damageMultiplier = 1;
     } else {
-      addstr("attacks");
+      action = LcsI18n.tr("attacks");
       maxNumberOfAttacks = 1;
       damageMultiplier = 1;
     }
@@ -580,7 +618,7 @@ Future<bool> attack(
     if (attackUsed.canBackstab && a.align == Alignment.liberal && !mistake) {
       if (!t.noticedParty && !siteAlarm) {
         sneakAttack = true;
-        addstr("sneaks up on");
+        action = LcsI18n.tr("sneaks up on");
         if (siteAlarmTimer > 10 || siteAlarmTimer < 0) siteAlarmTimer = 10;
         t.noticedParty = true;
         t.isWillingToTalk = false;
@@ -588,17 +626,25 @@ Future<bool> attack(
     }
 
     if (!sneakAttack) {
-      addstr(attackUsed.attackDescription.random);
       siteAlarm = true;
     }
   }
 
-  addstr(" ${t.name}");
-
-  if (a.equippedWeapon != null && !attackUsed.thrown) {
-    addstr(" with a ${a.weapon.getName(primary: true)}");
-  }
-  addstr("!");
+  final attackParams = {
+    "attacker": localizedCreatureName(a),
+    "action": action,
+    "target": localizedCreatureName(t),
+    if (a.equippedWeapon != null && !attackUsed.thrown)
+      "weapon": a.weapon.getName(primary: true),
+  };
+  final attackTemplate = a.equippedWeapon != null && !attackUsed.thrown
+      ? (mistake
+            ? "{attacker} MISTAKENLY {action} {target} with a {weapon}!"
+            : "{attacker} {action} {target} with a {weapon}!")
+      : (mistake
+            ? "{attacker} MISTAKENLY {action} {target}!"
+            : "{attacker} {action} {target}!");
+  mvaddstr(9, 1, attackTemplate, params: attackParams);
 
   await getKey();
 
@@ -755,15 +801,20 @@ Future<bool> attack(
       if (alternate.attribute(Attribute.heart) > 8 &&
           alternate.attribute(Attribute.agility) > 4) {
         clearMessageArea();
-        mvaddstrc(9, 1, lightGreen, alternate.name);
-        if (!t.alive) {
-          addstr(" misguidedly");
-        } else {
-          addstr(" heroically");
-        }
-        addstr(" shields ${t.name}");
-        if (!t.alive) addstr("'s corpse");
-        addstr("!");
+        final shieldMessage = !t.alive
+            ? LcsI18n.tr("{name1} misguidedly shields {name2}'s corpse!")
+            : LcsI18n.tr("{name1} heroically shields {name2}!");
+        mvaddstrc(
+          9,
+          1,
+          lightGreen,
+          shieldMessage,
+          params: {
+            "name1": localizedCreatureName(alternate),
+            "name2": localizedCreatureName(t),
+          },
+          noTranslate: true,
+        );
 
         //Instant juice!! Way to take the bullet!!
         addjuice(alternate, 10, 1000);
@@ -821,55 +872,107 @@ Future<bool> attack(
 
   if (hitPart != null && aroll + bonus > droll) {
     //HIT!
-    String str = a.name;
+    // Build the target description based on conditions
+    String targetDescTemplate;
+    Map<String, dynamic> targetDescParams = {};
     if (addAutoConvert) {
-      str += " punches the ${t.align.ism} out of ${t.name}";
-    } else if (sneakAttack) {
-      str += " stabs the ";
-    } else if (bursthits == 1 || attackUsed.ranged) {
-      str += " hits ";
-    }
-
-    if (addAutoConvert) {
-    } else if (bursthits > 1 && !attackUsed.ranged) {
-      str += " strikes true";
+      targetDescTemplate = "";
     } else if (t.clothing.covers(hitPart)) {
-      str += "${t.name}'s ";
       if (hitPart.weakSpot && t.human) {
         if (t.clothing.headArmor > 4) {
-          str += "helmet";
+          targetDescTemplate = "{name}'s helmet";
+          targetDescParams = {"name": localizedCreatureName(t)};
         } else {
-          str += hitPart.name.toLowerCase();
+          targetDescTemplate = "{name}'s {part}";
+          targetDescParams = {
+            "name": localizedCreatureName(t),
+            "part": LcsI18n.tr(hitPart.name).toLowerCase(),
+          };
         }
       } else if (hitPart.critical && t.clothing.bodyArmor > 4 && t.human) {
-        str += t.clothing.armor?.name.split(",").first.toLowerCase() ?? "armor";
+        targetDescTemplate = "{name}'s {armor}";
+        targetDescParams = {
+          "name": localizedCreatureName(t),
+          "armor": LcsI18n.tr(
+            t.clothing.armor?.name.split(",").first.trim() ?? "armor",
+          ).toLowerCase(),
+        };
       } else if (t.clothing.getLimbArmor(hitPart) > 4) {
-        str += "${hitPart.name.toLowerCase()} armor";
+        targetDescTemplate = "{name}'s {part} armor";
+        targetDescParams = {
+          "name": localizedCreatureName(t),
+          "part": LcsI18n.tr(hitPart.name).toLowerCase(),
+        };
       } else {
-        str += hitPart.name.toLowerCase();
+        targetDescTemplate = "{name}'s {part}";
+        targetDescParams = {
+          "name": localizedCreatureName(t),
+          "part": LcsI18n.tr(hitPart.name).toLowerCase(),
+        };
       }
     } else {
-      str += "${t.name}'s ";
-      str += hitPart.name.toLowerCase();
+      targetDescTemplate = "{part}";
+      targetDescParams = {"part": LcsI18n.tr(hitPart.name).toLowerCase()};
+    }
+    final targetDesc = LcsI18n.processString(
+      targetDescTemplate,
+      targetDescParams,
+    );
+
+    final describeHit = attackUsed.alwaysDescribeHit || bursthits > 1;
+    final attackMessageParams = <String, dynamic>{
+      "attacker": localizedCreatureName(a),
+      "target": targetDesc,
+      if (describeHit) "description": LcsI18n.tr(attackUsed.hitDescription),
+      if (bursthits > 1) "times": bursthits,
+    };
+
+    String attackMessageTemplate;
+    if (addAutoConvert) {
+      attackMessageParams["ism"] = switch (t.align) {
+        Alignment.liberal => LcsI18n.tr("Liberalism"),
+        Alignment.moderate => LcsI18n.tr("moderation"),
+        Alignment.conservative => LcsI18n.tr("Conservatism"),
+      };
+      if (bursthits > 1) {
+        attackMessageTemplate =
+            "{attacker} punches the {ism} out of {target}, {description} {times} times!";
+      } else if (describeHit) {
+        attackMessageTemplate =
+            "{attacker} punches the {ism} out of {target}, {description}!";
+      } else {
+        attackMessageTemplate = "{attacker} punches the {ism} out of {target}!";
+      }
+    } else if (bursthits > 1 && !attackUsed.ranged) {
+      attackMessageTemplate =
+          "{attacker} strikes true on {target}, {description} {times} times.";
+    } else if (sneakAttack) {
+      if (bursthits > 1) {
+        attackMessageTemplate =
+            "{attacker} stabs {target}, {description} {times} times.";
+      } else if (describeHit) {
+        attackMessageTemplate = "{attacker} stabs {target}, {description}.";
+      } else {
+        attackMessageTemplate = "{attacker} stabs {target}.";
+      }
+    } else if (bursthits > 1) {
+      attackMessageTemplate =
+          "{attacker} hits {target}, {description} {times} times.";
+    } else if (describeHit) {
+      attackMessageTemplate = "{attacker} hits {target}, {description}.";
+    } else {
+      attackMessageTemplate = "{attacker} hits {target}.";
     }
 
-    // show multiple hits
-    if (attackUsed.alwaysDescribeHit || bursthits > 1) {
-      String multiHit = switch (bursthits) {
-        1 => "",
-        2 => " twice",
-        3 => " three times",
-        4 => " four times",
-        5 => " five times",
-        _ => " $bursthits times",
-      };
-      str += ", ${attackUsed.hitDescription}$multiHit";
-    }
-    if (addAutoConvert) {
-      addstr("$str!");
-    } else {
-      addstr("$str.");
-    }
+    clearMessageArea();
+    addparagraph(
+      9,
+      1,
+      LcsI18n.processString(attackMessageTemplate, attackMessageParams),
+      y2: 10,
+      x2: console.width - 1,
+      noTranslate: true,
+    );
     await getKey();
 
     bool aliveBefore = t.alive;
@@ -938,43 +1041,69 @@ Future<bool> attack(
         t.blood > 70 &&
         t.human &&
         t.getAttack(false, true, true) != null) {
-      mvaddstr(10, 1, "${t.name} knocks the blow aside and counters!");
+      mvaddstr(
+        10,
+        1,
+        "{name} knocks the blow aside and counters!",
+        params: {"name": localizedCreatureName(t)},
+      );
       await getKey();
       await attack(t, a, false, forceMelee: true);
     } else {
       move(10, 1);
       if (sneakAttack) {
-        addstr(t.name);
         addstr(
           [
-            " notices at the last moment!",
-            " notices before the attack connects!",
-            " spins and blocks the attack!",
-            " jumps back and cries out in alarm!",
+            "{name} notices at the last moment!",
+            "{name} notices before the attack connects!",
+            "{name} spins and blocks the attack!",
+            "{name} jumps back and cries out in alarm!",
           ].random,
+          params: {"name": localizedCreatureName(t)},
         );
         siteAlarm = true;
       } else if (mode == GameMode.carChase) {
+        final carChaseResult = [
+          "misses!",
+          "goes wide!",
+          "hits the car!",
+          "hits the road!",
+          "hits the sidewalk!",
+          "hits a building!",
+          "hits a tree!",
+          "hits a parked car!",
+          "ricochets off the car!",
+          "ricochets off the road!",
+          "is too high!",
+        ].random;
         addstr(
-          "${a.name}'s shot ${["misses!", "goes wide!", "hits the car!", "hits the road!", "hits the sidewalk!", "hits a building!", "hits a tree!", "hits a parked car!", "ricochets off the car!", "ricochets off the road!", "is too high!"].random}",
+          "{name}'s shot {result}",
+          params: {
+            "name": localizedCreatureName(a),
+            "result": LcsI18n.tr(carChaseResult),
+          },
         );
       } else if (t.skillCheck(
         Skill.dodge,
         Difficulty.average,
       )) //Awesome dodge or regular one?
       {
-        addstr(t.name);
+        final dodgeMessage = [
+          "dodges the attack!",
+          "leaps out of the way!",
+          "does the Matrix dodge!",
+          "sidesteps the attack!",
+          "dodges into cover!",
+        ].random;
         addstr(
-          [
-            " dodges the attack!",
-            " leaps out of the way!",
-            " does the Matrix dodge!",
-            " sidesteps the attack!",
-            " dodges into cover!",
-          ].random,
+          "{name} {action}",
+          params: {
+            "name": localizedCreatureName(t),
+            "action": LcsI18n.tr(dodgeMessage),
+          },
         );
       } else {
-        addstr("${a.name} misses.");
+        addstr("{name} misses.", params: {"name": localizedCreatureName(a)});
       }
 
       printParty();
@@ -1086,6 +1215,7 @@ Future<void> hit(
 
   if (damamount > 0) {
     Creature target = t;
+    final targetDisplayName = localizedCreatureName(target);
 
     if (bruiseOnly) {
       hitPart.bruised = true;
@@ -1106,25 +1236,24 @@ Future<void> hit(
       severamount += t.maxBlood * 2;
     }
 
+    Map<String, dynamic>? severMessageParams;
     if (severtype != SeverType.none &&
         damamount >= severamount &&
         !bruiseOnly) {
-      String NAME = // ignore: non_constant_identifier_names
-      t.name
-          .toUpperCase();
-      String PART = // ignore: non_constant_identifier_names
-      hitPart.name
-          .toUpperCase();
+      severMessageParams = {
+        "name": targetDisplayName.toUpperCase(),
+        "part": hitPart.name.toUpperCase(),
+      };
       if (severtype == SeverType.clean) {
         hitPart.cleanOff = true;
         if (hitPart.critical && !hitPart.weakSpot) {
-          str += "$NAME'S $PART IS SLICED IN HALF!";
+          str = "{name}'S {part} IS SLICED IN HALF!";
         } else {
-          str += "$NAME'S $PART IS SLICED OFF!";
+          str = "{name}'S {part} IS SLICED OFF!";
         }
       } else if (severtype == SeverType.nasty) {
         hitPart.nastyOff = true;
-        str += "$NAME'S $PART IS BLOWN APART!";
+        str = "{name}'S {part} IS BLOWN APART!";
       }
     }
 
@@ -1150,7 +1279,7 @@ Future<void> hit(
 
     if (str != "") {
       clearMessageArea();
-      mvaddstrc(9, 1, a.align.color, str);
+      mvaddstrc(9, 1, a.align.color, str, params: severMessageParams);
       printParty();
       printEncounter();
       await getKey();
@@ -1262,18 +1391,19 @@ Future<void> hit(
                     !body.missingRightEye ||
                     !body.missingNose) &&
                 heavydam) {
-              mvaddstr(9, 1, target.name);
+              String faceMessage;
               if (attackUsed.shoots) {
-                addstr("'s face is blasted off!");
+                faceMessage = "{name}'s face is blasted off!";
               } else if (attackUsed.burns) {
-                addstr("'s face is burned away!");
+                faceMessage = "{name}'s face is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s face is torn off!");
+                faceMessage = "{name}'s face is torn off!";
               } else if (attackUsed.cuts) {
-                addstr("'s face is cut away!");
+                faceMessage = "{name}'s face is cut away!";
               } else {
-                addstr("'s face is removed!");
+                faceMessage = "{name}'s face is removed!";
               }
+              mvaddstr(9, 1, faceMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1288,26 +1418,56 @@ Future<void> hit(
 
               move(9, 1);
               if (teethminus > 1) {
-                if (teethminus == body.teeth) {
-                  addstr("All ");
-                }
-                addstr("$teethminus of ${target.name}'s teeth are ");
+                final pluralTeethTemplate = switch (true) {
+                  _ when attackUsed.shoots =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are shot out!"
+                        : "{teethminus} of {name}'s teeth are shot out!",
+                  _ when attackUsed.burns =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are burned away!"
+                        : "{teethminus} of {name}'s teeth are burned away!",
+                  _ when attackUsed.tears =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are gouged out!"
+                        : "{teethminus} of {name}'s teeth are gouged out!",
+                  _ when attackUsed.cuts =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are cut out!"
+                        : "{teethminus} of {name}'s teeth are cut out!",
+                  _ =>
+                    teethminus == body.teeth
+                        ? "All {teethminus} of {name}'s teeth are knocked out!"
+                        : "{teethminus} of {name}'s teeth are knocked out!",
+                };
+                addstr(
+                  pluralTeethTemplate,
+                  params: {"teethminus": teethminus, "name": targetDisplayName},
+                );
               } else if (body.teeth > 1) {
-                addstr("One of ${target.name}'s teeth is ");
+                addstr(
+                  "One of {name}'s teeth is ",
+                  params: {"name": targetDisplayName},
+                );
               } else {
-                addstr("${target.name}'s last tooth is ");
+                addstr(
+                  "{name}'s last tooth is ",
+                  params: {"name": targetDisplayName},
+                );
               }
 
-              if (attackUsed.shoots) {
-                addstr("shot out!");
-              } else if (attackUsed.burns) {
-                addstr("burned away!");
-              } else if (attackUsed.tears) {
-                addstr("gouged out!");
-              } else if (attackUsed.cuts) {
-                addstr("cut out!");
-              } else {
-                addstr("knocked out!");
+              if (teethminus == 1) {
+                if (attackUsed.shoots) {
+                  addstr("shot out!");
+                } else if (attackUsed.burns) {
+                  addstr("burned away!");
+                } else if (attackUsed.tears) {
+                  addstr("gouged out!");
+                } else if (attackUsed.cuts) {
+                  addstr("cut out!");
+                } else {
+                  addstr("knocked out!");
+                }
               }
 
               await getKey();
@@ -1316,18 +1476,19 @@ Future<void> hit(
             }
           case 2:
             if (!body.missingRightEye && heavydam) {
-              mvaddstr(9, 1, target.name);
+              String eyeMessage;
               if (attackUsed.shoots) {
-                addstr("'s right eye is shot out!");
+                eyeMessage = "{name}'s right eye is shot out!";
               } else if (attackUsed.burns) {
-                addstr("'s right eye is burned away!");
+                eyeMessage = "{name}'s right eye is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s right eye is torn out!");
+                eyeMessage = "{name}'s right eye is torn out!";
               } else if (attackUsed.cuts) {
-                addstr("'s right eye is cut open!");
+                eyeMessage = "{name}'s right eye is cut open!";
               } else {
-                addstr("'s right eye is removed!");
+                eyeMessage = "{name}'s right eye is removed!";
               }
+              mvaddstr(9, 1, eyeMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1336,18 +1497,19 @@ Future<void> hit(
             }
           case 3:
             if (!body.missingLeftEye && heavydam) {
-              mvaddstr(9, 1, target.name);
+              String eyeMessage;
               if (attackUsed.shoots) {
-                addstr("'s left eye is shot out!");
+                eyeMessage = "{name}'s left eye is shot out!";
               } else if (attackUsed.burns) {
-                addstr("'s left eye is burned away!");
+                eyeMessage = "{name}'s left eye is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s left eye is torn out!");
+                eyeMessage = "{name}'s left eye is torn out!";
               } else if (attackUsed.cuts) {
-                addstr("'s left eye is cut open!");
+                eyeMessage = "{name}'s left eye is cut open!";
               } else {
-                addstr("'s left eye is removed!");
+                eyeMessage = "{name}'s left eye is removed!";
               }
+              mvaddstr(9, 1, eyeMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1356,18 +1518,24 @@ Future<void> hit(
             }
           case 4:
             if (!body.missingTongue && heavydam) {
-              mvaddstr(9, 1, target.name);
+              String tongueMessage;
               if (attackUsed.shoots) {
-                addstr("'s tongue is blown off!");
+                tongueMessage = "{name}'s tongue is blown off!";
               } else if (attackUsed.burns) {
-                addstr("'s tongue is burned away!");
+                tongueMessage = "{name}'s tongue is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s tongue is torn out!");
+                tongueMessage = "{name}'s tongue is torn out!";
               } else if (attackUsed.cuts) {
-                addstr("'s tongue is cut off!");
+                tongueMessage = "{name}'s tongue is cut off!";
               } else {
-                addstr("'s tongue is removed!");
+                tongueMessage = "{name}'s tongue is removed!";
               }
+              mvaddstr(
+                9,
+                1,
+                tongueMessage,
+                params: {"name": targetDisplayName},
+              );
 
               await getKey();
 
@@ -1376,18 +1544,19 @@ Future<void> hit(
             }
           case 5:
             if (!body.missingNose && heavydam) {
-              mvaddstr(9, 1, target.name);
+              String noseMessage;
               if (attackUsed.shoots) {
-                addstr("'s nose is blown off!");
+                noseMessage = "{name}'s nose is blown off!";
               } else if (attackUsed.burns) {
-                addstr("'s nose is burned away!");
+                noseMessage = "{name}'s nose is burned away!";
               } else if (attackUsed.tears) {
-                addstr("'s nose is torn off!");
+                noseMessage = "{name}'s nose is torn off!";
               } else if (attackUsed.cuts) {
-                addstr("'s nose is cut off!");
+                noseMessage = "{name}'s nose is cut off!";
               } else {
-                addstr("'s nose is removed!");
+                noseMessage = "{name}'s nose is removed!";
               }
+              mvaddstr(9, 1, noseMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1396,12 +1565,13 @@ Future<void> hit(
             }
           case 6:
             if (!body.brokenNeck && breakdam) {
-              mvaddstr(9, 1, target.name);
+              String neckMessage;
               if (attackUsed.shoots) {
-                addstr("'s neck bones are shattered!");
+                neckMessage = "{name}'s neck bones are shattered!";
               } else {
-                addstr("'s neck is broken!");
+                neckMessage = "{name}'s neck is broken!";
               }
+              mvaddstr(9, 1, neckMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1414,18 +1584,19 @@ Future<void> hit(
         clearMessageArea();
         setColor(a.align.color);
 
-        int roll = lcsRandom(10 + body.ribs > 0 ? 4 : 0);
+        int roll = lcsRandom(10 + (body.ribs > 0 ? 4 : 0));
         if (bruiseOnly) roll = 11;
 
         switch (roll) {
           case 0:
             if (!body.brokenUpperSpine && breakdam) {
-              mvaddstr(9, 1, target.name);
+              String spineMessage;
               if (attackUsed.shoots) {
-                addstr("'s upper spine is shattered!");
+                spineMessage = "{name}'s upper spine is shattered!";
               } else {
-                addstr("'s upper spine is broken!");
+                spineMessage = "{name}'s upper spine is broken!";
               }
+              mvaddstr(9, 1, spineMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1434,12 +1605,13 @@ Future<void> hit(
             }
           case 1:
             if (!body.brokenLowerSpine && breakdam) {
-              mvaddstr(9, 1, target.name);
+              String spineMessage;
               if (attackUsed.shoots) {
-                addstr("'s lower spine is shattered!");
+                spineMessage = "{name}'s lower spine is shattered!";
               } else {
-                addstr("'s lower spine is broken!");
+                spineMessage = "{name}'s lower spine is broken!";
               }
+              mvaddstr(9, 1, spineMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1448,14 +1620,15 @@ Future<void> hit(
             }
           case 2:
             if (!body.puncturedRightLung && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String lungMessage;
               if (attackUsed.shoots) {
-                addstr("'s right lung is blasted!");
+                lungMessage = "{name}'s right lung is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s right lung is torn!");
+                lungMessage = "{name}'s right lung is torn!";
               } else {
-                addstr("'s right lung is punctured!");
+                lungMessage = "{name}'s right lung is punctured!";
               }
+              mvaddstr(9, 1, lungMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1464,14 +1637,15 @@ Future<void> hit(
             }
           case 3:
             if (!body.puncturedLeftLung && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String lungMessage;
               if (attackUsed.shoots) {
-                addstr("'s left lung is blasted!");
+                lungMessage = "{name}'s left lung is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s left lung is torn!");
+                lungMessage = "{name}'s left lung is torn!";
               } else {
-                addstr("'s left lung is punctured!");
+                lungMessage = "{name}'s left lung is punctured!";
               }
+              mvaddstr(9, 1, lungMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1480,14 +1654,20 @@ Future<void> hit(
             }
           case 4:
             if (!body.puncturedHeart && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String heartMessage;
               if (attackUsed.shoots) {
-                addstr("'s heart is blasted!");
+                heartMessage = "{name}'s heart is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s heart is torn!");
+                heartMessage = "{name}'s heart is torn!";
               } else {
-                addstr("'s heart is punctured!");
+                heartMessage = "{name}'s heart is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                heartMessage,
+                params: {"name": localizedCreaturePossessiveName(target)},
+              );
 
               await getKey();
 
@@ -1498,14 +1678,15 @@ Future<void> hit(
             }
           case 5:
             if (!body.puncturedLiver && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String liverMessage;
               if (attackUsed.shoots) {
-                addstr("'s liver is blasted!");
+                liverMessage = "{name}'s liver is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s liver is torn!");
+                liverMessage = "{name}'s liver is torn!";
               } else {
-                addstr("'s liver is punctured!");
+                liverMessage = "{name}'s liver is punctured!";
               }
+              mvaddstr(9, 1, liverMessage, params: {"name": targetDisplayName});
 
               await getKey();
 
@@ -1514,14 +1695,20 @@ Future<void> hit(
             }
           case 6:
             if (!body.puncturedStomach && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String stomachMessage;
               if (attackUsed.shoots) {
-                addstr("'s stomach is blasted!");
+                stomachMessage = "{name}'s stomach is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s stomach is torn!");
+                stomachMessage = "{name}'s stomach is torn!";
               } else {
-                addstr("'s stomach is punctured!");
+                stomachMessage = "{name}'s stomach is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                stomachMessage,
+                params: {"name": targetDisplayName},
+              );
 
               await getKey();
 
@@ -1530,46 +1717,42 @@ Future<void> hit(
             }
           case 7:
             if (!body.puncturedRightKidney && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String kidneyMessage;
               if (attackUsed.shoots) {
-                addstr("'s right kidney is blasted!");
+                kidneyMessage = "{name}'s right kidney is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s right kidney is torn!");
+                kidneyMessage = "{name}'s right kidney is torn!";
               } else {
-                addstr("'s right kidney is punctured!");
+                kidneyMessage = "{name}'s right kidney is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                kidneyMessage,
+                params: {"name": targetDisplayName},
+              );
 
               await getKey();
 
               body.puncturedRightKidney = true;
               maxBlood(0.5);
             }
-          case 8:
-            if (!body.puncturedLeftKidney && pokedam) {
-              mvaddstr(9, 1, target.name);
-              if (attackUsed.shoots) {
-                addstr("'s left kidney is blasted!");
-              } else if (attackUsed.tears) {
-                addstr("'s left kidney is torn!");
-              } else {
-                addstr("'s left kidney is punctured!");
-              }
-
-              await getKey();
-
-              body.puncturedLeftKidney = true;
-              maxBlood(0.5);
-            }
           case 9:
             if (!body.puncturedSpleen && pokedam) {
-              mvaddstr(9, 1, target.name);
+              String spleenMessage;
               if (attackUsed.shoots) {
-                addstr("'s spleen is blasted!");
+                spleenMessage = "{name}'s spleen is blasted!";
               } else if (attackUsed.tears) {
-                addstr("'s spleen is torn!");
+                spleenMessage = "{name}'s spleen is torn!";
               } else {
-                addstr("'s spleen is punctured!");
+                spleenMessage = "{name}'s spleen is punctured!";
               }
+              mvaddstr(
+                9,
+                1,
+                spleenMessage,
+                params: {"name": targetDisplayName},
+              );
 
               await getKey();
 
@@ -1583,23 +1766,35 @@ Future<void> hit(
             if (body.ribs > 0 && breakdam) {
               int ribminus = lcsRandom(min(body.ribs, damamount ~/ 20)) + 1;
 
-              move(9, 1);
-              if (ribminus > 1) {
-                if (ribminus == body.ribs) {
-                  addstr("All ");
-                }
-                addstr("$ribminus of ${target.name}'s ribs are ");
-              } else if (body.ribs > 1) {
-                addstr("One of ${target.name}'s ribs is ");
-              } else {
-                addstr("${target.name}'s last unbroken rib is ");
-              }
-
-              if (attackUsed.shoots) {
-                addstr("shattered!");
-              } else {
-                addstr("broken!");
-              }
+              final ribMessage = switch ((
+                ribminus,
+                body.ribs,
+                attackUsed.shoots,
+              )) {
+                (final brokenCount, final totalRibs, true)
+                    when brokenCount == totalRibs =>
+                  "All {ribminus} of {name}'s ribs are shattered!",
+                (final brokenCount, _, true) when brokenCount > 1 =>
+                  "{ribminus} of {name}'s ribs are shattered!",
+                (1, final totalRibs, true) when totalRibs > 1 =>
+                  "One of {name}'s ribs is shattered!",
+                (1, _, true) => "{name}'s last unbroken rib is shattered!",
+                (final brokenCount, final totalRibs, false)
+                    when brokenCount == totalRibs =>
+                  "All {ribminus} of {name}'s ribs are broken!",
+                (final brokenCount, _, false) when brokenCount > 1 =>
+                  "{ribminus} of {name}'s ribs are broken!",
+                (1, final totalRibs, false) when totalRibs > 1 =>
+                  "One of {name}'s ribs is broken!",
+                (1, _, false) => "{name}'s last unbroken rib is broken!",
+                _ => "One of {name}'s ribs is broken!",
+              };
+              mvaddstr(
+                9,
+                1,
+                ribMessage,
+                params: {"ribminus": ribminus, "name": targetDisplayName},
+              );
 
               await getKey();
 
@@ -1623,7 +1818,12 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
     9,
     1,
     white,
-    "${a.name} ${attackUsed.attackDescription.random} ${t.name}!",
+    "{attacker} {attack} {target}!",
+    params: {
+      "attacker": localizedCreatureName(a),
+      "attack": LcsI18n.tr(attackUsed.attackDescription.random),
+      "target": localizedCreatureName(t),
+    },
   );
 
   int attack = a.skillRoll(attackUsed.skill);
@@ -1640,32 +1840,70 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
   }
 
   if (t.type.tank || (a.isEnemy && t.brainwashed)) {
-    mvaddstr(10, 1, "${t.name} is immune to the attack!");
+    mvaddstr(
+      10,
+      1,
+      "{name} is immune to the attack!",
+      params: {"name": localizedCreatureName(t)},
+    );
   } else if (a.align == t.align) {
-    mvaddstr(10, 1, "${t.name} already agrees with ${a.name}.");
+    mvaddstr(
+      10,
+      1,
+      "{name1} already agrees with {name2}.",
+      params: {
+        "name1": localizedCreatureName(t),
+        "name2": localizedCreatureName(a),
+      },
+    );
   } else if (attack > resist) {
     if (attackUsed.stuns) {
       t.stunned += (attack - resist) ~/ 4;
     }
     if (a.isEnemy) {
       if (t.juice > 100) {
-        mvaddstr(10, 1, "${t.name} loses juice!");
+        mvaddstr(
+          10,
+          1,
+          "{name} loses juice!",
+          params: {"name": localizedCreatureName(t)},
+        );
         addjuice(t, -50, 100);
       } else if (lcsRandom(15) > t.attribute(Attribute.wisdom) ||
           t.attribute(Attribute.wisdom) < t.attribute(Attribute.heart)) {
-        mvaddstr(10, 1, "${t.name} is tainted with Wisdom!");
+        mvaddstr(
+          10,
+          1,
+          "{name} is tainted with Wisdom!",
+          params: {"name": localizedCreatureName(t)},
+        );
         t.adjustAttribute(Attribute.wisdom, 1);
       } else if (t.align == Alignment.liberal && t.seduced) {
-        mvaddstr(10, 1, "${t.name} can't bear to leave!");
+        mvaddstr(
+          10,
+          1,
+          "{name} can't bear to leave!",
+          params: {"name": localizedCreatureName(t)},
+        );
       } else {
         if (a.align == Alignment.conservative) {
-          mvaddstr(10, 1, "${t.name} is turned Conservative");
+          mvaddstr(
+            10,
+            1,
+            "{name} is turned Conservative",
+            params: {"name": localizedCreatureName(t)},
+          );
           if (t.prisoner != null) {
             await freehostage(t, FreeHostageMessage.continueLine);
           }
           addstr("!");
         } else {
-          mvaddstr(10, 1, "${t.name} doesn't want to fight anymore");
+          mvaddstr(
+            10,
+            1,
+            "{name} doesn't want to fight anymore",
+            params: {"name": localizedCreatureName(t)},
+          );
           if (t.prisoner != null) {
             await freehostage(t, FreeHostageMessage.continueLine);
           }
@@ -1697,12 +1935,22 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
       }
     } else {
       if (t.juice >= 1) {
-        mvaddstr(10, 1, "${t.name} seems less badass!");
+        mvaddstr(
+          10,
+          1,
+          "{name} seems less badass!",
+          params: {"name": localizedCreatureName(t)},
+        );
         addjuice(t, -100, 0);
         t.stunned += lcsRandom(2);
       } else if (!t.attributeCheck(Attribute.heart, Difficulty.average) ||
           t.attribute(Attribute.heart) < t.attribute(Attribute.wisdom)) {
-        mvaddstr(10, 1, "${t.name}'s Heart swells!");
+        mvaddstr(
+          10,
+          1,
+          "{name}'s Heart swells!",
+          params: {"name": localizedCreatureName(t)},
+        );
         t.adjustAttribute(Attribute.heart, 1);
         t.stunned += lcsRandom(2);
       } else {
@@ -1715,7 +1963,12 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
           }
         }
 
-        mvaddstr(10, 1, "${t.name} has turned Liberal!");
+        mvaddstr(
+          10,
+          1,
+          "{name} has turned Liberal!",
+          params: {"name": localizedCreatureName(t)},
+        );
         t.stunned = 0;
 
         liberalize(t);
@@ -1726,7 +1979,7 @@ Future<bool> socialAttack(Creature a, Creature t, Attack attackUsed) async {
       }
     }
   } else {
-    mvaddstr(10, 1, "${t.name} remains strong.");
+    addstr("{name} misses.", params: {"name": localizedCreatureName(a)});
   }
 
   printParty();
@@ -1746,11 +1999,16 @@ Future<void> severloot(Creature cr, List<Item> loot) async {
 
   if (cr.equippedWeapon != null && armok == 0) {
     clearMessageArea();
-    mvaddstrc(9, 1, yellow, "The ");
-    addstr(cr.weapon.getName());
-    addstr(" slips from");
-    mvaddstr(10, 1, cr.name);
-    addstr("'s grasp.");
+    mvaddstrc(
+      9,
+      1,
+      yellow,
+      "The {weapon} slips from {name}'s grasp.",
+      params: {
+        "weapon": cr.weapon.getName(),
+        "name": localizedCreatureName(cr),
+      },
+    );
 
     await getKey();
 
@@ -1770,10 +2028,17 @@ Future<void> severloot(Creature cr, List<Item> loot) async {
           cr.equippedClothing?.covers(body!.torso) == true ||
       (body?.head.missing == true && cr.equippedClothing?.type.mask == true)) {
     clearMessageArea();
-    mvaddstrc(9, 1, yellow, cr.name);
-    addstr("'s ");
-    addstr(cr.clothing.shortName);
-    addstr(" has been destroyed.");
+    mvaddstrcFitted(
+      9,
+      1,
+      yellow,
+      "{name}'s {clothing} has been destroyed.",
+      console.width - 1,
+      params: {
+        "name": localizedCreatureName(cr),
+        "clothing": LcsI18n.tr(cr.clothing.shortName),
+      },
+    );
 
     await getKey();
 
@@ -1830,16 +2095,18 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
       if (noncombat) {
         clearMessageArea();
 
-        mvaddstrc(9, 1, white, "The ");
-        addstr(a.name);
-        switch (lcsRandom(3)) {
-          case 0:
-            addstr(" smokes...");
-          case 1:
-            addstr(" smolders.");
-          case 2:
-            addstr(" burns...");
-        }
+        mvaddstrc(
+          9,
+          1,
+          white,
+          "The {name} {reaction}",
+          params: {
+            "name": localizedCreatureName(a),
+            "reaction": LcsI18n.tr(
+              ["smokes...", "smolders.", "burns..."].random,
+            ),
+          },
+        );
 
         printed = true;
       }
@@ -1847,20 +2114,21 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
       a.incapacitatedThisRound = false;
       if (noncombat) {
         clearMessageArea();
-        mvaddstrc(9, 1, white, "The ");
-        addstr(a.name);
-        switch (lcsRandom(3)) {
-          case 0:
-            addstr(" yelps in pain...");
-          case 1:
-            if (noProfanity) {
-              addstr(" [makes a stinky].");
-            } else {
-              addstr(" soils the floor.");
-            }
-          case 2:
-            addstr(" yowls pitifully...");
-        }
+        final reaction = switch (lcsRandom(3)) {
+          0 => LcsI18n.tr("yelps in pain..."),
+          1 =>
+            noProfanity
+                ? LcsI18n.tr("[makes a stinky].")
+                : LcsI18n.tr("soils the floor."),
+          _ => LcsI18n.tr("yowls pitifully..."),
+        };
+        mvaddstrc(
+          9,
+          1,
+          white,
+          "The {name} {reaction}",
+          params: {"name": localizedCreatureName(a), "reaction": reaction},
+        );
 
         printed = true;
       }
@@ -1868,156 +2136,100 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
       a.incapacitatedThisRound = false;
       if (noncombat && !gameOptions.lighterTone) {
         clearMessageArea();
-        mvaddstrc(9, 1, white, a.name);
         if (a.squad == null && !a.type.majorEnemy) a.nonCombatant = true;
-        switch (lcsRandom(54)) {
-          case 0:
-            addstr(" desperately cries out to Jesus.");
-          case 1:
-            if (noProfanity) {
-              addstr(" [makes a stinky].");
-            } else {
-              addstr(" soils the floor.");
-            }
-          case 2:
-            addstr(" whimpers in a corner.");
-          case 3:
-            addstr(" begins to weep.");
-          case 4:
-            addstr(" vomits.");
-          case 5:
-            addstr(" chortles...");
-          case 6:
-            addstr(" screams in pain.");
-          case 7:
-            addstr(" asks for mother.");
-          case 8:
-            addstr(" prays softly...");
-          case 9:
-            addstr(" clutches at the wounds.");
-          case 10:
-            addstr(" reaches out and moans.");
-          case 11:
-            addstr(" hollers in pain.");
-          case 12:
-            addstr(" groans in agony.");
-          case 13:
-            addstr(" begins hyperventilating.");
-          case 14:
-            addstr(" shouts a prayer.");
-          case 15:
-            addstr(" coughs up blood.");
-          case 16:
-            if (mode != GameMode.carChase) {
-              addstr(" stumbles against a wall.");
-            } else {
-              addstr(" leans against the door.");
-            }
-          case 17:
-            addstr(" begs for forgiveness.");
-          case 18:
-            addstr(" shouts \"Why have you forsaken me?\"");
-          case 19:
-            addstr(" murmurs \"Why Lord?   Why?\"");
-          case 20:
-            addstr(" whispers \"Am I dead?\"");
-          case 21:
-            if (noProfanity) {
-              addstr(" [makes a mess], moaning.");
-            } else {
-              addstr(" pisses on the floor, moaning.");
-            }
-          case 22:
-            addstr(" whispers incoherently.");
-          case 23:
-            if (a.body.eyeok > 1) {
-              addstr(" stares off into space.");
-            } else if (a.body.eyeok == 1) {
-              addstr(" stares into space with one empty eye.");
-            } else {
-              addstr(" stares out with hollow sockets.");
-            }
-          case 24:
-            addstr(" cries softly.");
-          case 25:
-            addstr(" yells until the scream cracks dry.");
-          case 26:
-            if (a.body.teeth > 1) {
-              addstr("'s teeth start chattering.");
-            } else if (a.body.teeth == 1) {
-              addstr("'s tooth starts chattering.");
-            } else {
-              addstr("'s gums start chattering.");
-            }
-          case 27:
-            addstr(" starts shaking uncontrollably.");
-          case 28:
-            addstr(" looks strangely calm.");
-          case 29:
-            addstr(" nods off for a moment.");
-          case 30:
-            addstr(" starts drooling.");
-          case 31:
-            addstr(" seems lost in memories.");
-          case 32:
-            addstr(" shakes with fear.");
-          case 33:
-            addstr(" murmurs \"I'm so afraid...\"");
-          case 34:
-            addstr(" cries \"It can't be like this...\"");
-          case 35:
-            if (a.age < 20 && !a.type.animal) {
-              addstr(" cries \"Mommy!\"");
-            } else if (a.type.dog) {
-              addstr(" murmurs \"What about my puppies?\"");
-            } else {
-              addstr(" murmurs \"What about my offspring?\"");
-            }
-          case 36:
-            addstr(" shudders quietly.");
-          case 37:
-            addstr(" yowls pitifully.");
-          case 38:
-            addstr(" begins losing faith in God.");
-          case 39:
-            addstr(" muses quietly about death.");
-          case 40:
-            addstr(" asks for a blanket.");
-          case 41:
-            addstr(" shivers softly.");
-          case 42:
-            if (noProfanity) {
-              addstr(" [makes a mess].");
-            } else {
-              addstr(" vomits up a clot of blood.");
-            }
-          case 43:
-            if (noProfanity) {
-              addstr(" [makes a mess].");
-            } else {
-              addstr(" spits up a cluster of bloody bubbles.");
-            }
-          case 44:
-            addstr(" pleads for mercy.");
-          case 45:
-            addstr(" quietly asks for coffee.");
-          case 46:
-            addstr(" looks resigned.");
-          case 47:
-            addstr(" scratches at the air.");
-          case 48:
-            addstr(" starts to giggle uncontrollably.");
-          case 49:
-            addstr(" wears a look of pain.");
-          case 50:
-            addstr(" questions God.");
-          case 51:
-            addstr(" whispers \"Mama baby.  Baby loves mama.\"");
-          case 52:
-            addstr(" asks for childhood toys frantically.");
-          case 53:
-            addstr(" murmurs \"But I go to church...\"");
-        }
+        final reaction = switch (lcsRandom(54)) {
+          0 => LcsI18n.tr("desperately cries out to Jesus."),
+          1 =>
+            noProfanity
+                ? LcsI18n.tr("[makes a stinky].")
+                : LcsI18n.tr("soils the floor."),
+          2 => LcsI18n.tr("whimpers in a corner."),
+          3 => LcsI18n.tr("begins to weep."),
+          4 => LcsI18n.tr("vomits."),
+          5 => LcsI18n.tr("chortles..."),
+          6 => LcsI18n.tr("screams in pain."),
+          7 => LcsI18n.tr("asks for mother."),
+          8 => LcsI18n.tr("prays softly..."),
+          9 => LcsI18n.tr("clutches at the wounds."),
+          10 => LcsI18n.tr("reaches out and moans."),
+          11 => LcsI18n.tr("hollers in pain."),
+          12 => LcsI18n.tr("groans in agony."),
+          13 => LcsI18n.tr("begins hyperventilating."),
+          14 => LcsI18n.tr("shouts a prayer."),
+          15 => LcsI18n.tr("coughs up blood."),
+          16 =>
+            mode != GameMode.carChase
+                ? LcsI18n.tr("stumbles against a wall.")
+                : LcsI18n.tr("leans against the door."),
+          17 => LcsI18n.tr("begs for forgiveness."),
+          18 => LcsI18n.tr("shouts \"Why have you forsaken me?\""),
+          19 => LcsI18n.tr("murmurs \"Why Lord?   Why?\""),
+          20 => LcsI18n.tr("whispers \"Am I dead?\""),
+          21 =>
+            noProfanity
+                ? LcsI18n.tr("[makes a mess], moaning.")
+                : LcsI18n.tr("pisses on the floor, moaning."),
+          22 => LcsI18n.tr("whispers incoherently."),
+          23 =>
+            a.body.eyeok > 1
+                ? LcsI18n.tr("stares off into space.")
+                : a.body.eyeok == 1
+                ? LcsI18n.tr("stares into space with one empty eye.")
+                : LcsI18n.tr("stares out with hollow sockets."),
+          24 => LcsI18n.tr("cries softly."),
+          25 => LcsI18n.tr("yells until the scream cracks dry."),
+          26 =>
+            a.body.teeth > 1
+                ? LcsI18n.tr("teeth start chattering.")
+                : a.body.teeth == 1
+                ? LcsI18n.tr("tooth starts chattering.")
+                : LcsI18n.tr("gums start chattering."),
+          27 => LcsI18n.tr("starts shaking uncontrollably."),
+          28 => LcsI18n.tr("looks strangely calm."),
+          29 => LcsI18n.tr("nods off for a moment."),
+          30 => LcsI18n.tr("starts drooling."),
+          31 => LcsI18n.tr("seems lost in memories."),
+          32 => LcsI18n.tr("shakes with fear."),
+          33 => LcsI18n.tr("murmurs \"I'm so afraid...\""),
+          34 => LcsI18n.tr("cries \"It can't be like this...\""),
+          35 =>
+            a.age < 20 && !a.type.animal
+                ? LcsI18n.tr("cries \"Mommy!\"")
+                : a.type.dog
+                ? LcsI18n.tr("murmurs \"What about my puppies?\"")
+                : LcsI18n.tr("murmurs \"What about my offspring?\""),
+          36 => LcsI18n.tr("shudders quietly."),
+          37 => LcsI18n.tr("yowls pitifully."),
+          38 => LcsI18n.tr("begins losing faith in God."),
+          39 => LcsI18n.tr("muses quietly about death."),
+          40 => LcsI18n.tr("asks for a blanket."),
+          41 => LcsI18n.tr("shivers softly."),
+          42 =>
+            noProfanity
+                ? LcsI18n.tr("[makes a mess].")
+                : LcsI18n.tr("vomits up a clot of blood."),
+          43 =>
+            noProfanity
+                ? LcsI18n.tr("[makes a mess].")
+                : LcsI18n.tr("spits up a cluster of bloody bubbles."),
+          44 => LcsI18n.tr("pleads for mercy."),
+          45 => LcsI18n.tr("quietly asks for coffee."),
+          46 => LcsI18n.tr("looks resigned."),
+          47 => LcsI18n.tr("scratches at the air."),
+          48 => LcsI18n.tr("starts to giggle uncontrollably."),
+          49 => LcsI18n.tr("wears a look of pain."),
+          50 => LcsI18n.tr("questions God."),
+          51 => LcsI18n.tr("whispers \"Mama baby.  Baby loves mama.\""),
+          52 => LcsI18n.tr("asks for childhood toys frantically."),
+          _ => LcsI18n.tr("murmurs \"But I go to church...\""),
+        };
+        mvaddstrc(
+          9,
+          1,
+          white,
+          "The {name} {reaction}",
+          params: {"name": localizedCreatureName(a), "reaction": reaction},
+        );
 
         printed = true;
       }
@@ -2026,31 +2238,26 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
     if (noncombat) {
       a.stunned--;
       clearMessageArea();
-      mvaddstrc(9, 1, white, a.name);
-      switch (lcsRandom(11)) {
-        case 0:
-          addstr(" seems hesitant.");
-        case 1:
-          addstr(" is caught in self-doubt.");
-        case 2:
-          addstr(" looks around uneasily.");
-        case 3:
-          addstr(" begins to weep.");
-        case 4:
-          addstr(" asks \"Is this right?\"");
-        case 5:
-          addstr(" asks for guidance.");
-        case 6:
-          addstr(" is caught in indecision.");
-        case 7:
-          addstr(" feels numb.");
-        case 8:
-          addstr(" prays quietly.");
-        case 9:
-          addstr(" searches for the truth.");
-        case 10:
-          addstr(" tears up.");
-      }
+      final reaction = switch (lcsRandom(11)) {
+        0 => LcsI18n.tr("seems hesitant."),
+        1 => LcsI18n.tr("is caught in self-doubt."),
+        2 => LcsI18n.tr("looks around uneasily."),
+        3 => LcsI18n.tr("begins to weep."),
+        4 => LcsI18n.tr("asks \"Is this right?\""),
+        5 => LcsI18n.tr("asks for guidance."),
+        6 => LcsI18n.tr("is caught in indecision."),
+        7 => LcsI18n.tr("feels numb."),
+        8 => LcsI18n.tr("prays quietly."),
+        9 => LcsI18n.tr("searches for the truth."),
+        _ => LcsI18n.tr("tears up."),
+      };
+      mvaddstrc(
+        9,
+        1,
+        white,
+        "{name} {reaction}",
+        params: {"name": localizedCreatureName(a), "reaction": reaction},
+      );
 
       printed = true;
     }
@@ -2058,19 +2265,20 @@ Future<bool> incapacitated(Creature a, bool noncombat) async {
   } else if (!incapacitated && a.body.fullParalysis) {
     if (!noncombat) {
       clearMessageArea();
-      mvaddstrc(9, 1, white, a.name);
-      switch (lcsRandom(5)) {
-        case 0:
-          addstr(" looks on with authority.");
-        case 1:
-          addstr(" waits patiently.");
-        case 2:
-          addstr(" sits in thought.");
-        case 3:
-          addstr(" breathes slowly.");
-        case 4:
-          addstr(" considers the situation.");
-      }
+      final reaction = switch (lcsRandom(5)) {
+        0 => LcsI18n.tr("looks on with authority."),
+        1 => LcsI18n.tr("waits patiently."),
+        2 => LcsI18n.tr("sits in thought."),
+        3 => LcsI18n.tr("breathes slowly."),
+        _ => LcsI18n.tr("considers the situation."),
+      };
+      mvaddstrc(
+        9,
+        1,
+        white,
+        "{name} {reaction}",
+        params: {"name": localizedCreatureName(a), "reaction": reaction},
+      );
 
       printed = true;
     }
@@ -2116,6 +2324,18 @@ Future<void> captureCreature(Creature t) async {
   t.squad = null;
 }
 
+void _addDeathMessageText(String message, {Map<String, dynamic>? params}) {
+  final rendered = LcsI18n.processString(message, params);
+  addparagraph(
+    9,
+    1,
+    rendered,
+    y2: 10,
+    x2: console.width - 1,
+    noTranslate: true,
+  );
+}
+
 /* describes a character's death */
 void addDeathMessage(Creature cr) {
   clearMessageArea();
@@ -2130,158 +2350,103 @@ void addDeathMessage(Creature cr) {
       "is dead.",
       "is gone.",
     ].random;
-    addstr("${cr.name} $deathMessage");
+    _addDeathMessageText(
+      "{name} {deathMessage}",
+      params: {
+        "name": localizedCreatureName(cr),
+        "deathMessage": LcsI18n.tr(deathMessage),
+      },
+    );
     return;
   }
-
-  String str = "";
 
   BodyPart? head = cr.body.parts.firstWhereOrNull((bp) => bp.name == "Head");
   BodyPart? body = cr.body.parts.firstWhereOrNull((bp) => bp.name == "Torso");
 
   if (head?.missing == true) {
-    str = cr.name;
-    switch (lcsRandom(4)) {
-      case 0:
-        str += " reaches once where there ";
-        addstr(str);
-        move(10, 1);
-        if (mode != GameMode.carChase) {
-          addstr("is no head, and falls.");
-        } else {
-          addstr("is no head, and slumps over.");
-        }
-      case 1:
-        if (mode != GameMode.carChase) {
-          str += " stands headless for a ";
-        } else {
-          str += " sits headless for a ";
-        }
-        addstr(str);
-        mvaddstr(10, 1, "moment then crumples over.");
-      case 2:
-        str += " squirts ";
-        if (noProfanity) {
-          str += "[red water]";
-        } else {
-          str += "blood";
-        }
-        str += " out of the ";
-        addstr(str);
-        move(10, 1);
-        if (mode != GameMode.carChase) {
-          addstr("neck and runs down the hall.");
-        } else {
-          addstr("neck and falls to the side.");
-        }
-      case 3:
-        str += " sucks a last breath through ";
-        addstr(str);
-        mvaddstr(10, 1, "the neck hole, then is quiet.");
-    }
+    final message = switch (lcsRandom(4)) {
+      0 =>
+        mode != GameMode.carChase
+            ? "{name} reaches once where there is no head, and falls."
+            : "{name} reaches once where there is no head, and slumps over.",
+      1 =>
+        mode != GameMode.carChase
+            ? "{name} stands headless for a moment then crumples over."
+            : "{name} sits headless for a moment then crumples over.",
+      2 =>
+        mode != GameMode.carChase
+            ? noProfanity
+                  ? "{name} squirts [red water] out of the neck and runs down the hall."
+                  : "{name} squirts blood out of the neck and runs down the hall."
+            : noProfanity
+            ? "{name} squirts [red water] out of the neck and falls to the side."
+            : "{name} squirts blood out of the neck and falls to the side.",
+      _ => "{name} sucks a last breath through the neck hole, then is quiet.",
+    };
+    _addDeathMessageText(message, params: {"name": localizedCreatureName(cr)});
   } else if (body?.missing == true) {
-    str = cr.name;
-    switch (lcsRandom(2)) {
-      case 0:
-        str += " breaks into pieces.";
-      case 1:
-        str += " falls apart and is dead.";
-    }
-    addstr(str);
+    final message = switch (lcsRandom(2)) {
+      0 => "{name} breaks into pieces.",
+      _ => "{name} falls apart and is dead.",
+    };
+    _addDeathMessageText(message, params: {"name": localizedCreatureName(cr)});
   } else if (cr.blood < cr.maxBlood * -2) {
-    str = cr.name;
-    switch (lcsRandom(2)) {
-      case 0:
-        str += " is dead before ${cr.gender.hisHer} body hits the ground.";
-        addstr(str);
-      case 1:
-        str += " collapses lifelessly.";
-        addstr(str);
-      case 2:
-        str += " doesn't even make sound.";
-        addstr(str);
-      case 3:
-        str += " is very much dead.";
-        addstr(str);
-      case 4:
-        str += " didn't even know what hit ${cr.gender.himHer}.";
-        addstr(str);
-      case 5:
-        str += " dies instantly.";
-        addstr(str);
-      case 6:
-        str += "'s body slumps to the floor.";
-        addstr(str);
-      case 7:
-        str += "'s body hits the ground with a dull thump.";
-        addstr(str);
-    }
+    final message = switch (lcsRandom(8)) {
+      0 => "{name} is dead before {hisHer} body hits the ground.",
+      1 => "{name} collapses lifelessly.",
+      2 => "{name} doesn't even make sound.",
+      3 => "{name} is very much dead.",
+      4 => "{name} didn't even know what hit {himHer}.",
+      5 => "{name} dies instantly.",
+      6 => "{name}'s body slumps to the floor.",
+      _ => "{name}'s body hits the ground with a dull thump.",
+    };
+    _addDeathMessageText(
+      message,
+      params: {
+        "name": localizedCreatureName(cr),
+        "hisHer": switch (cr.gender.hisHer) {
+          "his" => LcsI18n.tr("his (possessive)"),
+          "her" => LcsI18n.tr("her (possessive)"),
+          "their" => LcsI18n.tr("their (possessive)"),
+          _ => cr.gender.hisHer,
+        },
+        "himHer": LcsI18n.tr(cr.gender.himHer),
+      },
+    );
   } else {
-    str = cr.name;
-    switch (lcsRandom(11)) {
-      case 0:
-        str += " cries out one last time ";
-        addstr(str);
-        mvaddstr(10, 1, "then is quiet.");
-      case 1:
-        str += " gasps a last breath and ";
-        addstr(str);
-        move(10, 1);
-        if (noProfanity) {
-          addstr("[makes a mess].");
-        } else {
-          addstr("soils the floor.");
-        }
-      case 2:
-        str += " murmurs quietly, breathing softly.";
-        addstr(str);
-        mvaddstr(10, 1, "Then all is silent.");
-      case 3:
-        str += " shouts \"FATHER!  Why have you ";
-        addstr(str);
-        mvaddstr(10, 1, "forsaken me?\" and dies in a heap.");
-      case 4:
-        str += " cries silently for mother, ";
-        addstr(str);
-        mvaddstr(10, 1, "breathing slowly, then not at all.");
-      case 5:
-        str += " breathes heavily, coughing up ";
-        addstr(str);
-        mvaddstr(10, 1, "blood...  then is quiet.");
-      case 6:
-        str += " silently drifts away, and ";
-        addstr(str);
-        mvaddstr(10, 1, "is gone.");
-      case 7:
-        str += " sweats profusely, murmurs ";
-        addstr(str);
-        move(10, 1);
-        if (noProfanity) {
-          addstr("something [good] about Jesus, and dies.");
-        } else {
-          addstr("something about Jesus, and dies.");
-        }
-      case 8:
-        str += " whines loudly, voice crackling, ";
-        addstr(str);
-        mvaddstr(10, 1, "then curls into a ball, unmoving.");
-      case 9:
-        str += " shivers silently, whispering ";
-        addstr(str);
-        mvaddstr(10, 1, "a prayer, then all is still.");
-      case 10:
-        str += " speaks these final words: ";
-        addstr(str);
-        move(10, 1);
-        switch (cr.align) {
-          case Alignment.liberal:
-            addstr(slogan);
-          case Alignment.moderate:
-            addstr("\"A plague on both your houses...\"");
-          default:
-            addstr("\"Better dead than liberal...\"");
-        }
-    }
+    final line1 = switch (lcsRandom(11)) {
+      0 => "{name} cries out one last time then is quiet.",
+      1 =>
+        noProfanity
+            ? "{name} gasps a last breath and [makes a mess]."
+            : "{name} gasps a last breath and soils the floor.",
+      2 => "{name} murmurs quietly, breathing softly. Then all is silent.",
+      3 =>
+        "{name} shouts \"FATHER!  Why have you forsaken me?\" and dies in a heap.",
+      4 =>
+        "{name} cries silently for mother, breathing slowly, then not at all.",
+      5 => "{name} breathes heavily, coughing up blood...  then is quiet.",
+      6 => "{name} silently drifts away, and is gone.",
+      7 =>
+        noProfanity
+            ? "{name} sweats profusely, murmurs something [good] about Jesus, and dies."
+            : "{name} sweats profusely, murmurs something about Jesus, and dies.",
+      8 =>
+        "{name} whines loudly, voice crackling, then curls into a ball, unmoving.",
+      9 => "{name} shivers silently, whispering a prayer, then all is still.",
+      10 =>
+        cr.align == Alignment.liberal
+            ? "{name} speaks these final words: {slogan}"
+            : cr.align == Alignment.moderate
+            ? "{name} speaks these final words: \"A plague on both your houses...\""
+            : "{name} speaks these final words: \"Better dead than liberal...\"",
+      _ => "{name} is gone.", // Fallback (lcsRandom(11) returns 0-10)
+    };
+    _addDeathMessageText(
+      line1,
+      params: {"name": localizedCreatureName(cr), "slogan": slogan},
+    );
   }
 }
 

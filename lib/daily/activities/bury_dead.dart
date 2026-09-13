@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/difficulty.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/activities/arrest.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/sitemode/fight.dart';
 
@@ -17,16 +18,25 @@ Future<void> doActivityBury(List<Creature> bury) async {
       pool.remove(body);
       continue;
     }
-    Creature? burier =
-        bury.firstWhereOrNull((p) => p.site?.city == body.site!.city);
+    Creature? burier = bury.firstWhereOrNull(
+      (p) => p.site?.city == body.site!.city,
+    );
     if (burier == null) continue;
     makeLoot(body, burier.site!.loot);
     pool.remove(body);
     if (burier.skillCheck(Skill.streetSmarts, Difficulty.easy)) {
-      await showMessage("${burier.name} disposes of ${body.name}'s body.");
+      await showMessage(
+        LcsI18n.processString("{burier} disposes of {body}'s body.", {
+          "burier": burier.name,
+          "body": body.name,
+        }),
+      );
     } else {
       criminalize(burier, Crime.unlawfulBurial);
-      await attemptArrest(burier, "burying ${body.name}'s body");
+      await attemptArrest(
+        burier,
+        LcsI18n.processString("burying {body}'s body", {"body": body.name}),
+      );
       bury.remove(burier); // Call it a day, even if got away
     }
     burier.train(Skill.streetSmarts, 50);

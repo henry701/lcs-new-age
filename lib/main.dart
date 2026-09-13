@@ -22,6 +22,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Color.lerp(darkGray, black, 0.8),
         body: Stack(

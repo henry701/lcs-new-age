@@ -23,6 +23,9 @@ void parseShop(Shop shop, XmlElement xml) {
           case "clothing":
           case "clothes":
             shop.ui = ShopUI.clothes;
+          case "armor":
+          case "armour":
+            shop.ui = ShopUI.armor;
         }
       case "allow_selling":
         shop.allowSelling = parseBool(element.innerText) ?? shop.allowSelling;

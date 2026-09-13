@@ -7,10 +7,10 @@ import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 
-void printParty({
-  bool fullParty = false,
-  ShowCarPrefs? showCarPrefs,
-}) {
+const int _partyFirstRow = 2;
+const int _partyVisibleRows = 6;
+
+void printParty({bool fullParty = false, ShowCarPrefs? showCarPrefs}) {
   showCarPrefs ??= mode == GameMode.base
       ? ShowCarPrefs.showPreferences
       : ShowCarPrefs.showActualCar;
@@ -24,27 +24,76 @@ void printParty({
     addHeader({
       0: "#",
       2: "CODE NAME",
-      23: "SKILL",
-      29: "WEAPON",
+      ManagementTableLayout.partySkillHeaderX: "SKILL",
+      ManagementTableLayout.partyWeaponX: "WEAPON",
       44: "ARMOR",
       59: "HEALTH",
-      70: "TRANSPORT",
+      ManagementTableLayout.transportX: "TRANSPORT",
     });
-    for (int p = 0; p < party.length; p++) {
-      addOptionText(p + 2, 0, String.fromCharCode('1'.codePoint + p),
-          "${String.fromCharCode('1'.codePoint + p)} ${party[p].name}",
-          baseColorKey: ColorKey.white);
-      if (party[p].isHoldingBody) addstrc(pink, "+H");
-      printSkillSummary(p + 2, 23, party[p], showWeaponSkill: true);
-      move(p + 2, 29);
-      setWeaponColor(party[p]);
-      printWeapon(party[p]);
-      setColorForArmor(party[p]);
-      mvaddstr(p + 2, 44, party[p].clothing.shortName);
-      printHealthStat(p + 2, 59, party[p], small: true);
+    // The fixed console reserves rows 2–7 for the roster and row 8 for its
+    // delimiter. Imported/debug saves can contain more members than the
+    // normal six-person squad, so reserve the last roster row for an overflow
+    // marker instead of letting extra rows overwrite the frame below.
+    final visiblePartyCount = party.length > _partyVisibleRows
+        ? _partyVisibleRows - 1
+        : party.length;
+    for (int p = 0; p < visiblePartyCount; p++) {
+      final member = party[p];
+      addOptionTextFitted(
+        _partyFirstRow + p,
+        0,
+        String.fromCharCode('1'.codePoint + p),
+        "{key} {name}",
+        ManagementTableLayout.nameWidth,
+        params: {
+          "key": String.fromCharCode('1'.codePoint + p),
+          "name": member.name,
+        },
+        noTranslate: true,
+        baseColorKey: ColorKey.white,
+      );
+      if (member.isHoldingBody) addstrc(pink, "+H");
+      printSkillSummary(
+        _partyFirstRow + p,
+        ManagementTableLayout.partySkillX,
+        member,
+        showWeaponSkill: true,
+      );
+      move(_partyFirstRow + p, ManagementTableLayout.partyWeaponX);
+      setWeaponColor(member);
+      printWeapon(member, maxWidth: ManagementTableLayout.partyWeaponWidth);
+      setColorForArmor(member);
+      mvaddstrFitted(
+        _partyFirstRow + p,
+        ManagementTableLayout.partyArmorX,
+        member.clothing.shortName,
+        ManagementTableLayout.partyArmorWidth,
+      );
+      // Keep one separator column before the transport cell; Portuguese armor
+      // labels can be longer than their English counterparts.
+      printHealthStat(
+        _partyFirstRow + p,
+        ManagementTableLayout.partyHealthX,
+        member,
+        small: true,
+        maxWidth: ManagementTableLayout.partyHealthWidth,
+      );
       setColor(lightGray);
-      move(p + 2, 70);
-      printTransportation(party[p], showCarPrefs);
+      move(_partyFirstRow + p, ManagementTableLayout.transportX);
+      printTransportation(
+        member,
+        showCarPrefs,
+        maxWidth: ManagementTableLayout.transportWidth,
+      );
+    }
+    if (visiblePartyCount < party.length) {
+      mvaddstrFitted(
+        _partyFirstRow + visiblePartyCount,
+        0,
+        "+${party.length - visiblePartyCount}…",
+        console.width,
+        noTranslate: true,
+      );
     }
   }
   makeDelimiter();
@@ -66,6 +115,8 @@ void printSkillSummary(
     }
   }
   setColor(bright ? white : lightGray);
-  mvaddstr(y, x, "$skill");
-  if (showWeaponSkill) addstr("/${c.weaponSkill}");
+  final summary = showWeaponSkill
+      ? "$skill/${c.weaponSkill}"
+      : skill.toString();
+  mvaddstrFitted(y, x, summary, 5, noTranslate: true);
 }

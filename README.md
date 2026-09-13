@@ -30,3 +30,42 @@ Liberal Crime Squad: New Age welcomes the efforts of Liberal Freedom Fighters wh
 `flutter build web --source-maps --base-href /lcs-new-age`  
     -  For a windows build  
     `flutter build windows`
+
+## Testing
+
+Run tests with `flutter test`.
+
+Run focused suites with:
+`flutter test test/politics/alignment_test.dart test/utils/interface_options_test.dart`
+
+Run only the interface options behavior suite (paging key mapping and button rendering):
+`flutter test test/utils/interface_options_test.dart`
+
+## Localization Workflow
+
+Use the canonical workflow in `TRANSLATION_WORKFLOW.md`.
+
+Minimal loop:
+
+```bash
+dart run scripts/interpolation_status.dart --limit=40
+dart run scripts/interpolation_status.dart --check --json
+dart run scripts/find_translatable_strings.dart
+dart run scripts/translation_status.dart
+dart run scripts/get_untranslated_strings.dart --locale=pt_BR --limit=50 --output=translation_workspace/untranslated_pt_BR.arb
+dart run scripts/merge_arb_entries.dart --locale=pt_BR --source=translation_workspace/untranslated_pt_BR.arb
+dart run scripts/maintain_arb_catalogs.dart --check
+```
+
+Canonical locale catalogs are hash-sharded:
+`lib/l10n/app_<locale>_part01.arb` ... `lib/l10n/app_<locale>_part32.arb`.
+
+See `TRANSLATION_WORKFLOW.md`, `TRANSLATION_PROGRESS.md`, and `scripts/README.md` for the full rules and caveats.
+
+### Pre-commit Hooks
+
+Install pre-commit hooks to run tests automatically:
+
+```bash
+dart run tool/setup_git_hooks.dart
+```

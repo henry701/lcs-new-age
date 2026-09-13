@@ -2838,15 +2838,7 @@ List<String> countryPrefixes = [
   "Wan",
 ];
 
-List<String> countryMiddle = [
-  "",
-  "rek",
-  "saz",
-  "tov",
-  "in",
-  "iak",
-  "ast",
-];
+List<String> countryMiddle = ["", "rek", "saz", "tov", "in", "iak", "ast"];
 
 List<String> countrySuffixes = [
   "avia",

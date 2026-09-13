@@ -8,6 +8,7 @@ import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/hostages/tend_hostage.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -78,7 +79,13 @@ Future<void> kidnapattempt() async {
       int x = 1, y = 11;
       for (int t2 = 0; t2 < viableTargets.length; t2++) {
         String letter = letterAPlus(t2);
-        addOptionText(y++, x, letter, "$letter - ${viableTargets[t2].name}");
+        addOptionText(
+          y++,
+          x,
+          letter,
+          "{letter} - {name}",
+          params: {"letter": letter, "name": viableTargets[t2].name},
+        );
 
         if (y == 17) {
           y = 11;
@@ -105,17 +112,19 @@ Future<void> kidnapattempt() async {
     }
     if (guard != null) {
       bool proceed = await sitemodePrompt(
-        "${guard.name} stays close to ${target.name}, watching for trouble.",
-        "Try to take ${target.name} anyway? (Yes or No)",
+        "{guard} stays close to {target}, watching for trouble.",
+        "Try to take {target} anyway? (Yes or No)",
+        params: {"guard": guard.name, "target": target.name},
       );
       if (!proceed) return;
 
       if (guard.noticedParty ||
           !kidnapper.skillCheck(Skill.stealth, Difficulty.formidable)) {
         await encounterMessage(
-          "${guard.name} steps between the squad and ${target.name},",
+          "{guard} steps between the squad and {target},",
           line2: "eyeing the Liberals with suspicion.",
           color: purple,
+          params: {"guard": guard.name, "target": target.name},
         );
 
         int time =
@@ -148,47 +157,48 @@ Future<void> kidnapattempt() async {
       //HIT!
       if (aroll > droll) {
         setColor(white);
-        move(9, 1);
-        addstr(kidnapper.name);
-        addstr(" snatches ");
-        addstr(target.name);
-        addstr("!");
+        mvaddstrc(
+          9,
+          1,
+          lightGreen,
+          "{kidnapper} snatches {target}!",
+          params: {"kidnapper": kidnapper.name, "target": target.name},
+        );
 
         kidnapper.prisoner = target;
 
         await getKey();
 
         setColor(red);
-        move(10, 1);
-        addstr(target.name);
-        addstr(" is struggling and screaming!");
+        mvaddstrc(
+          10,
+          1,
+          lightGray,
+          "{target} is struggling and screaming!",
+          params: {"target": target.name},
+        );
 
         await getKey();
 
         success = true;
       } else {
         await encounterMessage(
-          "${kidnapper.name} grabs at ${target.name}",
-          line2: "but ${target.name} writhes away!",
+          "{kidnapper} grabs at {target}",
+          line2: "but {target2} writhes away!",
           color: purple,
+          params: {
+            "kidnapper": kidnapper.name,
+            "target": target.name,
+            "target2": target.name,
+          },
         );
         success = false;
       }
     } else {
       clearMessageArea();
 
-      setColor(white);
-      move(9, 1);
-      addstr(kidnapper.name);
-      addstr(" shows ");
-      addstr(target.name);
-      addstr(" the ");
-      addstr(kidnapper.weapon.getName(sidearm: true));
-      addstr(" ");
-      move(10, 1);
-      addstr("and says, ");
-      setColor(lightGreen);
-      String quote = [
+      setColor(lightGray);
+      final phrase = [
         "Please, be cool.",
         "No sudden moves now.",
         "Nobody needs to get hurt.",
@@ -227,7 +237,18 @@ Future<void> kidnapattempt() async {
         "I prefer the term 'activist' myself.",
         "Don't worry, I'm not a cop.",
       ].random;
-      addstr("\"$quote\"");
+      mvaddstrc(
+        9,
+        1,
+        lightGray,
+        "{kidnapper} shows {target} the {weapon} and says, \"{phrase}\"",
+        params: {
+          "kidnapper": kidnapper.name,
+          "target": target.name,
+          "weapon": kidnapper.weapon.getName(sidearm: true),
+          "phrase": LcsI18n.tr(phrase),
+        },
+      );
 
       kidnapper.prisoner = target;
 
@@ -249,8 +270,9 @@ Future<void> kidnapattempt() async {
     if (yellForHelp || guard != null) {
       if (guard != null) {
         await encounterMessage(
-          "${guard.name}: \"10-78! Principal in danger!\"",
+          "{guard}: \"10-78! Principal in danger!\"",
           color: purple,
+          params: {"guard": guard.name},
         );
       }
       bool present = encounter.any((e) => e.alive);
@@ -339,16 +361,12 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
 
   if (prisoner.alive) {
     if (situation == FreeHostageMessage.continueLine) {
-      if (prisoner.hireId == null) {
-        addstr(" and a hostage is freed");
-      } else {
-        addstr(" and ${prisoner.name}");
-        if (prisoner.justEscaped) {
-          addstr(" is recaptured");
-        } else {
-          addstr(" is captured");
-        }
-      }
+      final captureStatus = prisoner.hireId == null
+          ? "and a hostage is freed"
+          : prisoner.justEscaped
+          ? "and {name} is recaptured"
+          : "and {name} is captured";
+      addstr(captureStatus, params: {"name": prisoner.name});
     } else if (situation == FreeHostageMessage.newLine) {
       clearMessageArea();
       setColor(white);
@@ -356,12 +374,10 @@ Future<void> freehostage(Creature cr, FreeHostageMessage situation) async {
       if (prisoner.hireId == null) {
         addstr("A hostage escapes!");
       } else {
-        addstr(prisoner.name);
-        if (prisoner.justEscaped) {
-          addstr(" is recaptured.");
-        } else {
-          addstr(" is captured.");
-        }
+        final captureStatus = prisoner.justEscaped
+            ? "{name} is recaptured."
+            : "{name} is captured.";
+        addstr(captureStatus, params: {"name": prisoner.name});
       }
     }
 
@@ -399,11 +415,13 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
         p.prisoner != null) {
       clearMessageArea();
       setColor(yellow);
-      move(9, 1);
-      addstr(p.name);
-      addstr(" can no longer handle ");
-      addstr(p.prisoner!.name);
-      addstr(".");
+      mvaddstrc(
+        9,
+        1,
+        lightGray,
+        "{carrier} can no longer handle {prisoner}.",
+        params: {"carrier": p.name, "prisoner": p.prisoner!.name},
+      );
 
       await getKey();
 
@@ -420,10 +438,12 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
           if (!p.alive) {
             clearMessageArea();
             setColor(yellow);
-            move(9, 1);
-            addstr("Nobody can carry Martyr ");
-            addstr(p.name);
-            addstr(".");
+            mvaddstr(
+              9,
+              1,
+              "Nobody can carry Martyr {name}.",
+              params: {"name": p.name},
+            );
 
             //DROP LOOT
             makeLoot(p, groundLoot);
@@ -434,8 +454,7 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
             clearMessageArea();
             setColor(yellow);
             move(9, 1);
-            addstr(p.name);
-            addstr(" is left to be captured.");
+            addstr("{name} is left to be captured.", params: {"name": p.name});
 
             await captureCreature(p);
           }
@@ -450,10 +469,10 @@ Future<void> squadHaulImmobileAllies(bool dead) async {
               clearMessageArea();
               setColor(yellow);
               move(9, 1);
-              addstr(p2.name);
-              addstr(" hauls ");
-              addstr(p.name);
-              addstr(".");
+              addstr(
+                "{hauler} hauls {carried}.",
+                params: {"hauler": p2.name, "carried": p.name},
+              );
               //New line.
               break;
             }
@@ -496,15 +515,17 @@ Future<void> kidnaptransfer(Creature cr, {Creature? kidnapper}) async {
   erase();
 
   setColor(white);
-  move(0, 0);
-  addstr("The Education of ");
-  addstr(cr.properName);
+  mvaddstr(0, 0, "The Education of {name}", params: {"name": cr.properName});
 
   move(2, 0);
   setColor(lightGray);
-  addstr("What name will you use for this ");
-  addstr(cr.type.name);
-  addstr(" in ${cr.gender.hisHer} presence?");
+  addstr(
+    "What name will you use for this {type} in {pronoun} presence?",
+    params: {
+      "type": LcsI18n.tr(cr.type.name),
+      "pronoun": LcsI18n.tr(cr.gender.heShe),
+    },
+  );
 
   cr.name = await enterName(4, 0, cr.properName, prefill: true);
 

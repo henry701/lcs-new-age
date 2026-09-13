@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/common_display/print_creature_info.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
@@ -10,6 +11,7 @@ import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/money.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/location/compound.dart';
@@ -24,76 +26,188 @@ import 'package:lcs_new_age/talk/talk_about_issues.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
-Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
-  bool nude = a.indecent;
-  String whileNaked = nude ? " while naked" : "";
-  clearSceneAreas();
-  mvaddstrc(9, 1, white, a.name);
-  addstrc(lightGray, " talks to ");
-  addstrc(tk.align.color, tk.name);
-  setColor(white);
-  addstr(" ${creatureAgeAndGender(tk)}");
-  addstr(":");
+String _translateCapitalizedPronoun(String pronoun) {
+  final translated = LcsI18n.tr(pronoun.toLowerCase());
+  if (translated.isEmpty) {
+    return translated;
+  }
+  return translated[0].toUpperCase() + translated.substring(1);
+}
 
-  addOptionText(console.y + 2, 1, "A",
-      "A - Strike up a conversation about politics$whileNaked.");
-  addOptionText(console.y + 1, 1, "B", "B - Drop a pickup line$whileNaked.",
-      enabledWhen: tk.canDate(a));
-  addOptionText(console.y + 1, 1, "C",
-      "C - On second thought, don't say anything$whileNaked.");
+String _localizedCountLabel(int count, String singular, String plural) {
+  return count == 1 ? LcsI18n.tr(singular) : LcsI18n.tr(plural);
+}
+
+Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
+  String optionText(String normal, String naked) => a.indecent ? naked : normal;
+  clearSceneAreas();
+  mvaddstrcx(
+    9,
+    1,
+    white,
+    "{name:white} talks to {target:color} {ageGender}:",
+    params: {
+      "name": a.name,
+      "target": localizedCreatureName(tk),
+      "targetColor": tk.align.colorKey,
+      "ageGender": creatureAgeAndGender(tk),
+    },
+  );
+
+  addOptionText(
+    console.y + 2,
+    1,
+    "A",
+    optionText(
+      "A - Strike up a conversation about politics.",
+      "A - Strike up a conversation about politics while naked.",
+    ),
+  );
+  addOptionText(
+    console.y + 1,
+    1,
+    "B",
+    optionText(
+      "B - Drop a pickup line.",
+      "B - Drop a pickup line while naked.",
+    ),
+    enabledWhen: tk.canDate(a),
+  );
+  addOptionText(
+    console.y + 1,
+    1,
+    "C",
+    optionText(
+      "C - On second thought, don't say anything.",
+      "C - On second thought, don't say anything while naked.",
+    ),
+  );
 
   if (tk.type.id == CreatureTypeIds.landlord) {
     if (activeSite?.controller == SiteController.unaligned) {
-      addOptionText(14, 1, "D", "D - Rent a room$whileNaked.");
+      addOptionText(
+        14,
+        1,
+        "D",
+        optionText("D - Rent a room.", "D - Rent a room while naked."),
+      );
     } else if (activeSite?.controller == SiteController.lcs) {
-      addOptionText(14, 1, "D", "D - Stop renting a room$whileNaked.");
+      addOptionText(
+        14,
+        1,
+        "D",
+        optionText(
+          "D - Stop renting a room.",
+          "D - Stop renting a room while naked.",
+        ),
+      );
     }
   } else if (tk.type.id == CreatureTypeIds.gangMember ||
       tk.type.id == CreatureTypeIds.merc) {
-    addOptionText(14, 1, "D", "D - Buy weapons$whileNaked.");
+    addOptionText(
+      14,
+      1,
+      "D",
+      optionText("D - Buy weapons.", "D - Buy weapons while naked."),
+    );
   } else if (tk.type.id == CreatureTypeIds.bankTeller) {
-    addOptionText(14, 1, "D", "D - Rob the bank$whileNaked.");
+    addOptionText(
+      14,
+      1,
+      "D",
+      optionText("D - Rob the bank.", "D - Rob the bank while naked."),
+    );
   }
 
   // relationship/recruits status
-  String recruitOverview = "";
+  final recruitOverview = StringBuffer();
+  final pronounCap = _translateCapitalizedPronoun(a.gender.heSheCap);
   if (a.subordinatesLeft <= 0) {
-    recruitOverview +=
-        "&m${a.name} cannot manage any${a.maxSubordinates > 0 ? " more " : " "}subordinates";
-    if (a.scheduledMeetings > 0) {
-      recruitOverview +=
-          ", but still has &W${a.scheduledMeetings}&m meeting${a.scheduledMeetings > 1 ? "s" : ""} scheduled";
-    }
+    final subordinateTemplate = a.maxSubordinates > 0
+        ? a.scheduledMeetings > 0
+              ? "{name:midGray} cannot manage any more subordinates, but still has {meetingCount:white} {meetingLabel:midGray} scheduled."
+              : "{name:midGray} cannot manage any more subordinates."
+        : a.scheduledMeetings > 0
+        ? "{name:midGray} cannot manage any subordinates, but still has {meetingCount:white} {meetingLabel:midGray} scheduled."
+        : "{name:midGray} cannot manage any subordinates.";
+    recruitOverview.write(
+      LcsI18n.processString(subordinateTemplate, {
+        "name": a.name,
+        "meetingCount": a.scheduledMeetings,
+        "meetingLabel": _localizedCountLabel(
+          a.scheduledMeetings,
+          "meeting",
+          "meetings",
+        ),
+      }),
+    );
   } else {
-    recruitOverview +=
-        "&w${a.name} can manage &W${a.subordinatesLeft}&w more subordinate${a.subordinatesLeft > 1 ? "s" : ""}";
-    if (a.scheduledMeetings > 0) {
-      recruitOverview +=
-          ", and has &W${a.scheduledMeetings}&w meeting${a.scheduledMeetings > 1 ? "s" : ""} scheduled";
-    }
+    final subordinateTemplate = a.scheduledMeetings > 0
+        ? "{name:lightGray} can manage {subordinateCount:white} more {subordinateLabel:lightGray}, and has {meetingCount:white} {meetingLabel:lightGray} scheduled."
+        : "{name:lightGray} can manage {subordinateCount:white} more {subordinateLabel:lightGray}.";
+    recruitOverview.write(
+      LcsI18n.processString(subordinateTemplate, {
+        "name": a.name,
+        "subordinateCount": a.subordinatesLeft,
+        "subordinateLabel": _localizedCountLabel(
+          a.subordinatesLeft,
+          "subordinate",
+          "subordinates",
+        ),
+        "meetingCount": a.scheduledMeetings,
+        "meetingLabel": _localizedCountLabel(
+          a.scheduledMeetings,
+          "meeting",
+          "meetings",
+        ),
+      }),
+    );
   }
-  recruitOverview += ". ";
+  recruitOverview.write(" ");
+
   if (a.relationshipsLeft <= 0) {
-    recruitOverview +=
-        "&m${a.gender.heSheCap} cannot maintain any${a.maxRelationships > 0 ? " more " : " "}relationships";
-    if (a.scheduldeDates > 0) {
-      recruitOverview +=
-          ", but still has &W${a.scheduldeDates}&m hot date${a.scheduldeDates > 1 ? "s" : ""} lined up. ";
-    } else {
-      recruitOverview += ". ";
-    }
+    final relationshipTemplate = a.maxRelationships > 0
+        ? a.scheduldeDates > 0
+              ? "{pronounCap:midGray} cannot maintain any more relationships, but still has {dateCount:white} {dateLabel:midGray} lined up."
+              : "{pronounCap:midGray} cannot maintain any more relationships."
+        : a.scheduldeDates > 0
+        ? "{pronounCap:midGray} cannot maintain any relationships, but still has {dateCount:white} {dateLabel:midGray} lined up."
+        : "{pronounCap:midGray} cannot maintain any relationships.";
+    recruitOverview.write(
+      LcsI18n.processString(relationshipTemplate, {
+        "pronounCap": pronounCap,
+        "dateCount": a.scheduldeDates,
+        "dateLabel": _localizedCountLabel(
+          a.scheduldeDates,
+          "hot date",
+          "hot dates",
+        ),
+      }),
+    );
   } else {
-    recruitOverview +=
-        "&w${a.gender.heSheCap} can maintain &W${a.relationshipsLeft}&w more relationship${a.relationshipsLeft > 1 ? "s" : ""}";
-    if (a.scheduldeDates == 0) {
-      recruitOverview += ". ";
-    } else {
-      recruitOverview +=
-          ", and has &W${a.scheduldeDates}&w hot date${a.scheduldeDates > 1 ? "s" : ""} lined up. ";
-    }
+    final relationshipTemplate = a.scheduldeDates > 0
+        ? "{pronounCap:lightGray} can maintain {relationshipCount:white} more {relationshipLabel:lightGray}, and has {dateCount:white} {dateLabel:lightGray} lined up."
+        : "{pronounCap:lightGray} can maintain {relationshipCount:white} more {relationshipLabel:lightGray}.";
+    recruitOverview.write(
+      LcsI18n.processString(relationshipTemplate, {
+        "pronounCap": pronounCap,
+        "relationshipCount": a.relationshipsLeft,
+        "relationshipLabel": _localizedCountLabel(
+          a.relationshipsLeft,
+          "relationship",
+          "relationships",
+        ),
+        "dateCount": a.scheduldeDates,
+        "dateLabel": _localizedCountLabel(
+          a.scheduldeDates,
+          "hot date",
+          "hot dates",
+        ),
+      }),
+    );
   }
 
-  addparagraph(console.y + 2, 1, recruitOverview);
+  addparagraph(console.y + 2, 1, recruitOverview.toString(), noTranslate: true);
 
   while (true) {
     int c = await getKey();
@@ -124,12 +238,13 @@ Future<bool> talkOutsideCombat(Creature a, Creature tk) async {
 
 Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
   clearSceneAreas();
-  mvaddstrc(9, 1, white, "${a.name} says, ");
+  mvaddstrc(9, 1, white, "{name} says, ", params: {"name": a.name});
   mvaddstrc(10, 1, lightGreen, "\"Do you want to hear something disturbing?\"");
 
   await getKey();
 
-  bool interested = tk.type.talkReceptive ||
+  bool interested =
+      tk.type.talkReceptive ||
       a.skillCheck(Skill.persuasion, Difficulty.average);
   if (a.indecent) {
     interested = interested && lcsRandom(3) == 0;
@@ -140,26 +255,42 @@ Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
           tk.align != Alignment.liberal &&
           !animalsArePeopleToo) ||
       tk.type.tank) {
-    mvaddstrc(12, 1, white, tk.name);
-    if (tk.type.tank) {
-      addstr(" rumbles disinterestedly.");
-    } else if (tk.type.dog) {
-      addstr(" barks.");
-    } else {
-      addstr(" doesn't understand.");
-    }
+    final reaction = tk.type.tank
+        ? LcsI18n.tr("rumbles disinterestedly.")
+        : tk.type.dog
+        ? LcsI18n.tr("barks.")
+        : LcsI18n.tr("doesn't understand.");
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} {reaction}",
+      params: {"name": localizedCreatureName(tk), "reaction": reaction},
+    );
 
     await getKey();
     return true;
   } else if (tk.name != "Prisoner" && interested) {
-    mvaddstrc(12, 1, white, "${tk.name} responds, ");
-    mvaddstrc(13, 1, lightBlue, "\"What?\"");
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
+    mvaddstrc(13, 1, lightBlue, LcsI18n.tr("\"What?\""));
 
     await getKey();
 
     return talkAboutIssues(a, tk);
   } else {
-    mvaddstrc(12, 1, white, "${tk.name} responds, ");
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     setColor(lightBlue);
     move(13, 1);
     if (tk.name == "Prisoner") {
@@ -170,7 +301,7 @@ Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
         tk.isWillingToTalk = false;
       }
     } else {
-      addstr("\"No.\"");
+      addstr(LcsI18n.tr("\"No.\""), noTranslate: true);
       tk.isWillingToTalk = false;
     }
     addstrc(white, " <turns away>");
@@ -182,17 +313,25 @@ Future<bool> wannaHearSomethingDisturbing(Creature a, Creature tk) async {
 
 Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
   clearSceneAreas();
-  mvaddstrc(9, 1, white, a.name);
-  addstr(" says, ");
+  mvaddstrc(9, 1, white, "{name} says, ", params: {"name": a.name});
   mvaddstrc(10, 1, lightGreen, "\"I'd like to rent a room.\"");
 
   await getKey();
 
   if (a.indecent) {
-    mvaddstrc(12, 1, white, tk.name);
-    addstr(" responds, ");
     mvaddstrc(
-        13, 1, lightBlue, "\"Put some clothes on before I call the cops.\"");
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
+    mvaddstrc(
+      13,
+      1,
+      lightBlue,
+      "\"Put some clothes on before I call the cops.\"",
+    );
 
     await getKey();
 
@@ -209,11 +348,27 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
       rent = 200;
   }
 
-  mvaddstrc(12, 1, white, tk.name);
-  addstr(" responds, ");
-  mvaddstrc(13, 1, lightBlue, "\"It'll be \$$rent a month.");
+  mvaddstrc(
+    12,
+    1,
+    white,
+    "{name} responds, ",
+    params: {"name": localizedCreatureName(tk)},
+  );
+  mvaddstrc(
+    13,
+    1,
+    lightBlue,
+    "\"It'll be {rent} a month.",
+    params: {"rent": LcsI18n.currencyAmount(rent)},
+  );
 
-  mvaddstr(14, 1, "I'll need \$$rent now as a security deposit.\"");
+  mvaddstr(
+    14,
+    1,
+    "I'll need {rent} now as a security deposit.\"",
+    params: {"rent": LcsI18n.currencyAmount(rent)},
+  );
 
   await getKey();
 
@@ -234,21 +389,31 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
         if (ledger.funds < rent) break;
 
         clearSceneAreas();
-        mvaddstrc(9, 1, white, a.name);
-        addstr(" says, ");
+        mvaddstrc(9, 1, white, "{name} says, ", params: {"name": a.name});
         mvaddstrc(10, 1, lightGreen, "\"I'll take it.\"");
 
         await getKey();
 
-        mvaddstrc(12, 1, white, tk.name);
-        addstr(" responds, ");
         mvaddstrc(
-            13, 1, lightBlue, "\"Rent is due by the third of every month.");
+          12,
+          1,
+          white,
+          "{name} responds, ",
+          params: {"name": localizedCreatureName(tk)},
+        );
+        mvaddstrc(
+          13,
+          1,
+          lightBlue,
+          "\"Rent is due by the third of every month.",
+        );
 
-        mvaddstr(14, 1, "We'll start next month.\"");
-
-        setColor(white);
-        addstr(" <turns away>");
+        mvaddstr(
+          14,
+          1,
+          "We'll start next month.\" {name} <turns away>",
+          params: {"name": localizedCreatureName(tk)},
+        );
 
         await getKey();
 
@@ -262,18 +427,30 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
 
       case Key.b: // Refuse rent deal
         clearSceneAreas();
-        mvaddstrc(9, 1, white, a.name);
-        addstr(" says, ");
-        mvaddstrc(10, 1, lightGreen,
-            "\"Whoa, I was looking for something cheaper.\"");
+        mvaddstrc(9, 1, white, "{name} says, ", params: {"name": a.name});
+        mvaddstrc(
+          10,
+          1,
+          lightGreen,
+          "\"Whoa, I was looking for something cheaper.\"",
+        );
 
         await getKey();
 
-        mvaddstrc(12, 1, white, tk.name);
-        addstr(" responds, ");
-        mvaddstrc(13, 1, lightBlue, "\"Not my problem...\"");
-        setColor(white);
-        addstr(" <turns away>");
+        mvaddstrc(
+          12,
+          1,
+          white,
+          "{name} responds, ",
+          params: {"name": localizedCreatureName(tk)},
+        );
+        mvaddstrc(
+          13,
+          1,
+          lightBlue,
+          "\"Not my problem...\" {name} <turns away>",
+          params: {"name": localizedCreatureName(tk)},
+        );
 
         await getKey();
 
@@ -282,20 +459,30 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
       case Key.c: // Threaten landlord
         clearSceneAreas();
         setColor(white);
-        Creature? armedLiberal = activeSquad?.members
-            .firstWhereOrNull((c) => c.weapon.type.threatening);
+        Creature? armedLiberal = activeSquad?.members.firstWhereOrNull(
+          (c) => c.weapon.type.threatening,
+        );
         if (armedLiberal != null) {
-          mvaddstr(9, 1, armedLiberal.name);
-          addstr(" brandishes the ");
-          addstr(armedLiberal.weapon.getName(sidearm: true));
-          addstr(".");
+          mvaddstr(
+            9,
+            1,
+            "{name} brandishes the {weapon}.",
+            params: {
+              "name": armedLiberal.name,
+              "weapon": armedLiberal.weapon.getName(sidearm: true),
+            },
+          );
 
           await getKey();
           clearSceneAreas();
         }
-        mvaddstr(9, 1, "${a.name} says, ");
-        mvaddstrc(10, 1, lightGreen,
-            "\"What's the price for the Liberal Crime Squad?\"");
+        mvaddstr(9, 1, "{name} says, ", params: {"name": a.name});
+        mvaddstrc(
+          10,
+          1,
+          lightGreen,
+          "\"What's the price for the Liberal Crime Squad?\"",
+        );
 
         await getKey();
 
@@ -310,19 +497,33 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
         }
 
         if (roll < difficulty - 4) {
-          mvaddstrc(12, 1, white, tk.name);
-          addstr(" responds, ");
-          mvaddstrc(13, 1, lightBlue, "\"I think you'd better leave.\"");
-          setColor(white);
-          addstr(" <crosses arms>");
+          mvaddstrc(
+            12,
+            1,
+            white,
+            "{name} responds, ",
+            params: {"name": localizedCreatureName(tk)},
+          );
+          mvaddstrc(
+            13,
+            1,
+            lightBlue,
+            "\"I think you'd better leave.\" {name} <crosses arms>",
+            params: {"name": localizedCreatureName(tk)},
+          );
 
           await getKey();
 
           tk.isWillingToTalk = false;
           return true;
         } else {
-          mvaddstrc(12, 1, white, tk.name);
-          addstr(" responds, ");
+          mvaddstrc(
+            12,
+            1,
+            white,
+            "{name} responds, ",
+            params: {"name": localizedCreatureName(tk)},
+          );
           mvaddstrc(13, 1, lightBlue, "\"Jesus... it's yours...\"");
 
           await getKey();
@@ -353,31 +554,40 @@ Future<bool> heyIWantToRentARoom(Creature a, Creature tk) async {
 
 Future<bool> heyIWantToCancelMyRoom(Creature a, Creature tk) async {
   clearSceneAreas();
-  mvaddstrc(9, 1, white, a.name);
-  addstr(" says, ");
+  mvaddstrc(9, 1, white, "{name} says, ", params: {"name": a.name});
   mvaddstrc(10, 1, lightGreen, "\"I'd like to cancel my room.\"");
-
   await getKey();
 
   if (a.indecent) {
-    mvaddstrc(12, 1, white, tk.name);
-    addstr(" responds, ");
     mvaddstrc(
-        13, 1, lightBlue, "\"Put some clothes on before I call the cops.\"");
-
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
+    mvaddstrc(
+      13,
+      1,
+      lightBlue,
+      "\"Put some clothes on before I call the cops.\"",
+    );
     await getKey();
-
     return true;
   }
 
-  mvaddstrc(12, 1, white, tk.name);
-  addstr(" responds, ");
+  mvaddstrc(
+    12,
+    1,
+    white,
+    "{name} responds, ",
+    params: {"name": localizedCreatureName(tk)},
+  );
   mvaddstrc(13, 1, lightBlue, "\"Fine.  Clear out your room.\"");
 
   await getKey();
 
-  mvaddstrc(15, 1, white,
-      "<Your possessions at this location have been moved to the homeless camp.>");
+  printHomelessPossessionNote();
 
   await getKey();
 
@@ -398,30 +608,54 @@ Future<bool> heyIWantToCancelMyRoom(Creature a, Creature tk) async {
   return true;
 }
 
+void printHomelessPossessionNote() {
+  setColor(white);
+  addparagraph(
+    15,
+    1,
+    "<Your possessions at this location have been moved to the homeless camp.>",
+    y2: 16,
+  );
+}
+
 Future<bool> heyINeedAGun(Creature a, Creature tk) async {
   clearSceneAreas();
-  mvaddstrc(9, 1, white, a.name);
-  addstr(" says, ");
+  mvaddstrc(9, 1, white, "{name} says, ", params: {"name": a.name});
   mvaddstrc(10, 1, lightGreen, "\"Hey, I need a gun.\"");
   await getKey();
 
   if (a.indecent) {
-    mvaddstrc(12, 1, white, tk.name);
-    addstr(" responds, ");
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     mvaddstrc(13, 1, lightBlue, "\"Jesus...\"");
     await getKey();
     return true;
   }
   if (a.clothing.type.police) {
-    mvaddstrc(12, 1, white, tk.name);
-    addstr(" responds, ");
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     mvaddstrc(13, 1, lightBlue, "\"I don't sell guns, officer.\"");
     await getKey();
     return true;
   }
   if (siteAlarm) {
-    mvaddstrc(12, 1, white, tk.name);
-    addstr(" responds, ");
+    mvaddstrc(
+      12,
+      1,
+      white,
+      "{name} responds, ",
+      params: {"name": localizedCreatureName(tk)},
+    );
     mvaddstrc(13, 1, lightBlue, "\"We can talk when things are calm.\"");
     await getKey();
     return true;
@@ -438,8 +672,13 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
     case SiteType.homelessEncampment:
     case SiteType.warehouse:
     case null:
-      mvaddstrc(12, 1, white, tk.name);
-      addstr(" responds, ");
+      mvaddstrc(
+        12,
+        1,
+        white,
+        "{name} responds, ",
+        params: {"name": localizedCreatureName(tk)},
+      );
       mvaddstrc(13, 1, lightBlue, "\"What exactly do you need?\"");
       await getKey();
       Squad? oldSquad;
@@ -451,9 +690,11 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
         tk.squad = newSquad;
         activeSquad = tk.squad;
       }
-      await armsdealer(activeSite ??
-          Site(SiteType.armsDealer, tk.base!.city, tk.base!.district)
-        ..name = "Secluded Alley");
+      await armsdealer(
+        activeSite ??
+              Site(SiteType.armsDealer, tk.base!.city, tk.base!.district)
+          ..name = "Secluded Alley",
+      );
       if (newSquad != null) {
         squads.remove(newSquad);
       }
@@ -464,8 +705,13 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
       }
       return true;
     default:
-      mvaddstrc(12, 1, white, tk.name);
-      addstr(" responds, ");
+      mvaddstrc(
+        12,
+        1,
+        white,
+        "{name} responds, ",
+        params: {"name": localizedCreatureName(tk)},
+      );
       mvaddstrc(13, 1, lightBlue, "\"Uhhh... not a good place for this.\"");
       await getKey();
       return true;
@@ -475,70 +721,80 @@ Future<bool> heyINeedAGun(Creature a, Creature tk) async {
 Future<bool> talkToBankTeller(Creature a, Creature tk) async {
   clearSceneAreas();
   setColor(lightGray);
-  addOptionText(11, 1, "A", "A - Quietly pass the teller a robbery note");
-  if (a.indecent) addstr(" while naked");
-  addstr(".");
+  String optionText(String normal, String naked) => a.indecent ? naked : normal;
   addOptionText(
-      12, 1, "B", "B - Threaten bystanders and demand access to the vault");
-  if (a.indecent) addstr(" while naked");
-  addstr(".");
-  addOptionText(13, 1, "C", "C - On second thought, don't rob the bank");
-  if (a.indecent) addstr(" while naked");
-  addstr(".");
+    11,
+    1,
+    "A",
+    optionText(
+      "A - Quietly pass the teller a robbery note.",
+      "A - Quietly pass the teller a robbery note while naked.",
+    ),
+  );
+  addOptionText(
+    12,
+    1,
+    "B",
+    optionText(
+      "B - Threaten bystanders and demand access to the vault.",
+      "B - Threaten bystanders and demand access to the vault while naked.",
+    ),
+  );
+  addOptionText(
+    13,
+    1,
+    "C",
+    optionText(
+      "C - On second thought, don't rob the bank.",
+      "C - On second thought, don't rob the bank while naked.",
+    ),
+  );
 
   int c;
   do {
     c = await getKey();
-  } while (c < Key.a && c > Key.c);
+  } while (c < Key.a || c > Key.c);
 
   switch (c) {
     case Key.a:
       clearSceneAreas();
-      mvaddstrc(9, 1, white, a.name);
-      addstr(" slips the teller a note: ");
-      setColor(lightGreen);
-      move(10, 1);
-      switch (lcsRandom(10)) {
-        case 0:
-          addstr("KINDLY PUT MONEY IN BAG. OR ELSE.");
-        case 1:
-          addstr("I AM LIBERATING YOUR MONEY SUPPLY.");
-        case 2:
-          addstr("THIS IS A ROBBERY. GIVE ME THE MONEY.");
-        case 3:
-          addstr("I HAVE A GUN. CASH PLEASE.");
-        case 4:
-          addstr("THE LIBERAL CRIME SQUAD REQUESTS CASH.");
-        case 5:
-          addstr("I AM MAKING A WITHDRAWAL. ALL YOUR MONEY.");
-        case 6:
-          addstr("YOU ARE BEING ROBBED. GIVE ME YOUR MONEY.");
-        case 7:
-          addstr("PLEASE PLACE LOTS OF DOLLARS IN THIS BAG.");
-        case 8:
-          addstr("SAY NOTHING. YOU ARE BEING ROBBED.");
-        case 9:
-          addstr("ROBBERY. GIVE ME CASH. NO FUNNY MONEY.");
-      }
+      final robberyNote = [
+        "KINDLY PUT MONEY IN BAG. OR ELSE.",
+        "I AM LIBERATING YOUR MONEY SUPPLY.",
+        "THIS IS A ROBBERY. GIVE ME THE MONEY.",
+        "I HAVE A GUN. CASH PLEASE.",
+        "THE LIBERAL CRIME SQUAD REQUESTS CASH.",
+        "I AM MAKING A WITHDRAWAL. ALL YOUR MONEY.",
+        "YOU ARE BEING ROBBED. GIVE ME YOUR MONEY.",
+        "PLEASE PLACE LOTS OF DOLLARS IN THIS BAG.",
+        "SAY NOTHING. YOU ARE BEING ROBBED.",
+        "ROBBERY. GIVE ME CASH. NO FUNNY MONEY.",
+      ].random;
+      mvaddstrcx(
+        9,
+        1,
+        white,
+        "{name} slips the teller a note: &G{note}",
+        params: {"name": a.name, "note": LcsI18n.tr(robberyNote)},
+      );
 
       await getKey();
 
       if (activeSite!.hasHighSecurity) {
-        mvaddstrc(11, 1, white, "The bank teller reads the note, ");
-        switch (lcsRandom(5)) {
-          case 0:
-            addstr("gestures, ");
-          case 1:
-            addstr("signals, ");
-          case 2:
-            addstr("shouts, ");
-          case 3:
-            addstr("screams, ");
-          case 4:
-            addstr("gives a warning, ");
-        }
-        mvaddstr(
-            12, 1, "and dives for cover as the guards move in on the squad!");
+        final reaction = [
+          "gestures",
+          "signals",
+          "shouts",
+          "screams",
+          "gives a warning",
+        ].random;
+        mvaddstrc(
+          11,
+          1,
+          white,
+          "The bank teller reads the note, {reaction}, and dives for cover as the guards move in on the squad!",
+          params: {"reaction": LcsI18n.tr(reaction)},
+        );
 
         await getKey();
 
@@ -551,21 +807,20 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
         encounter.add(Creature.fromId(CreatureTypeIds.merc));
         encounter.add(Creature.fromId(CreatureTypeIds.merc));
       } else {
-        mvaddstrc(11, 1, white, "The bank teller reads the note, ");
-        switch (lcsRandom(5)) {
-          case 0:
-            addstr("nods calmly, ");
-          case 1:
-            addstr("looks startled, ");
-          case 2:
-            addstr("inhales sharply, ");
-          case 3:
-            addstr("sets the paper aside, ");
-          case 4:
-            addstr("looks up, ");
-        }
-        mvaddstr(
-            12, 1, "and slips several bricks of cash into the squad's bag.");
+        final reaction = [
+          "nods calmly",
+          "looks startled",
+          "inhales sharply",
+          "sets the paper aside",
+          "looks up",
+        ].random;
+        mvaddstrc(
+          11,
+          1,
+          white,
+          "The bank teller reads the note, {reaction}, and slips several bricks of cash into the squad's bag.",
+          params: {"reaction": LcsI18n.tr(reaction)},
+        );
 
         await getKey();
 
@@ -580,16 +835,29 @@ Future<bool> talkToBankTeller(Creature a, Creature tk) async {
     case Key.b:
       clearSceneAreas();
       setColor(white);
-      Creature? armedLiberal =
-          squad.firstWhereOrNull((p) => p.weapon.type.threatening);
+      Creature? armedLiberal = squad.firstWhereOrNull(
+        (p) => p.weapon.type.threatening,
+      );
       if (armedLiberal != null) {
         String weaponName = armedLiberal.weapon.getName(sidearm: true);
-        mvaddstr(9, 1, "${armedLiberal.name} brandishes the $weaponName.");
+        mvaddstr(
+          9,
+          1,
+          "{name} brandishes the {weapon}.",
+          params: {"name": armedLiberal.name, "weapon": weaponName},
+        );
         await getKey();
         clearMessageArea();
       }
-      mvaddstr(10, 1, "${a.name} says, ");
-      mvaddstrc(11, 1, lightGreen, "\"$slogan");
+      mvaddstr(10, 1, "{name} says, ", params: {"name": a.name});
+      mvaddstrc(
+        11,
+        1,
+        lightGreen,
+        "\"{slogan}",
+        params: {"slogan": slogan},
+        noTranslate: true,
+      );
       mvaddstr(12, 1, "OPEN THE VAULT, NOW!\"");
 
       await getKey();

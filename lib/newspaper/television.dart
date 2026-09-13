@@ -1,7 +1,9 @@
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/newspaper/display_news.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/politics/views.dart';
@@ -9,6 +11,40 @@ import 'package:lcs_new_age/saveload/load_cmv_movies.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/game_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
+
+// CMV title cards are rasterized, so use a translated copy rather than a
+// catalog lookup that cannot affect the movie's glyphs.
+String televisionMovieAssetFilename(String filename) =>
+    LcsI18n.currentLocale == 'pt_BR' && filename == 'glamshow.cmv'
+    ? 'glamshow_pt_BR.cmv'
+    : filename;
+
+void renderTelevisionOverlay({
+  required int topY,
+  required int x,
+  required int frameWidth,
+  required String body,
+}) {
+  final border = '─' * (frameWidth - 2);
+  final lines = wrapConsoleText(
+    LcsI18n.processString(body, null),
+    frameWidth - 2,
+  );
+  if (lines.length > 3) {
+    throw StateError('Television body exceeds three prose rows');
+  }
+
+  setColor(white);
+  final topBorder = ['┌', border, '┐'].join();
+  console.mvaddstr(topY, x, topBorder, noTranslate: true);
+  for (var i = 0; i < 3; i++) {
+    final prose = i < lines.length ? lines[i].padRight(frameWidth - 2) : '';
+    final framedProse = ['│', prose, '│'].join();
+    console.mvaddstr(topY + 1 + i, x, framedProse, noTranslate: true);
+  }
+  final bottomBorder = ['└', border, '┘'].join();
+  console.mvaddstr(topY + 4, x, bottomBorder, noTranslate: true);
+}
 
 Future<void> runTelevisionNewsStories() async {
   for (int n = newsStories.length - 1; n >= 0; n--) {
@@ -29,31 +65,11 @@ Future<void> runTelevisionNewsStories() async {
               await movie.loadmovie("lacops.cmv");
               await movie.playmovie(0, 0, remapSkinTones: true);
 
-              mvaddstrc(
-                19,
-                13,
-                white,
-                "┌───────────────────────────────────────────────────┐",
-              );
-              mvaddstr(
-                20,
-                13,
-                "│     The police have brutally beaten a black man   │",
-              );
-              mvaddstr(
-                21,
-                13,
-                "│   in Los Angeles.  The entire thing is caught on  │",
-              );
-              mvaddstr(
-                22,
-                13,
-                "│   video by a passerby and it saturates the news.  │",
-              );
-              mvaddstr(
-                23,
-                13,
-                "└───────────────────────────────────────────────────┘",
+              renderTelevisionOverlay(
+                topY: 19,
+                x: 13,
+                frameWidth: 65,
+                body: newsStories[n].body,
               );
 
               await getKey();
@@ -62,27 +78,31 @@ Future<void> runTelevisionNewsStories() async {
             }
           case View.cableNews:
             newsStories[n].publication = Publication.cableNews;
-            String str = "Tonight on a Cable News channel: ";
-            String showName = [
+            final showFirstWord = [
               "Inside",
               "Hard",
               "Lightning",
               "Washington",
               "Capital",
             ].random;
-            showName += [
-              " Record",
-              " Night",
-              " Talk",
-              " Insider",
-              " Report",
+            final showSecondWord = [
+              "Record",
+              "Night",
+              "Talk",
+              "Insider",
+              "Report",
             ].random;
-            showName += " with ";
-            String bname = generateFullName(
-              Gender.whiteMalePatriarch,
-            ).firstLast;
-            showName += bname;
-            str += showName;
+            final bname = generateFullName(Gender.whiteMalePatriarch).firstLast;
+            final showName =
+                LcsI18n.processString("{first} {second} with {host}", {
+                  "first": LcsI18n.tr(showFirstWord),
+                  "second": LcsI18n.tr(showSecondWord),
+                  "host": bname,
+                });
+            final str = LcsI18n.processString(
+              "Tonight on a Cable News channel: {showName}",
+              {"showName": showName},
+            );
             newsStories[n].headline = showName.toUpperCase();
             newsStories[n].body =
                 "A Cable News anchor just accidentally let a Liberal guest "
@@ -115,31 +135,11 @@ Future<void> runTelevisionNewsStories() async {
             }
             await movie.loadmovie("newscast.cmv");
             await movie.playmovie(1, 1, remapSkinTones: true);
-            mvaddstrc(
-              19,
-              13,
-              white,
-              "┌───────────────────────────────────────────────────┐",
-            );
-            mvaddstr(
-              20,
-              13,
-              "│     A Cable News anchor just accidentally let a   │",
-            );
-            mvaddstr(
-              21,
-              13,
-              "│   bright Liberal guest finish a sentence.  Many   │",
-            );
-            mvaddstr(
-              22,
-              13,
-              "│   viewers across the nation were listening.       │",
-            );
-            mvaddstr(
-              23,
-              13,
-              "└───────────────────────────────────────────────────┘",
+            renderTelevisionOverlay(
+              topY: 19,
+              x: 13,
+              frameWidth: 65,
+              body: newsStories[n].body,
             );
             await getKey();
             del = true;
@@ -154,33 +154,13 @@ Future<void> runTelevisionNewsStories() async {
                 "A new show glamorizing the lives of the rich begins "
                 "airing this week.  With the nationwide advertising "
                 "blitz, it's bound to be popular.";
-            await movie.loadmovie("glamshow.cmv");
+            await movie.loadmovie(televisionMovieAssetFilename("glamshow.cmv"));
             await movie.playmovie(0, 0);
-            mvaddstrc(
-              19,
-              13,
-              white,
-              "┌───────────────────────────────────────────────────┐",
-            );
-            mvaddstr(
-              20,
-              13,
-              "│     A new show glamorizing the lives of the rich  │",
-            );
-            mvaddstr(
-              21,
-              13,
-              "│   begins airing this week.  With the nationwide   │",
-            );
-            mvaddstr(
-              22,
-              13,
-              "│   advertising blitz, it's bound to be popular.    │",
-            );
-            mvaddstr(
-              23,
-              13,
-              "└───────────────────────────────────────────────────┘",
+            renderTelevisionOverlay(
+              topY: 19,
+              x: 13,
+              frameWidth: 65,
+              body: newsStories[n].body,
             );
             await getKey();
             del = true;
@@ -193,31 +173,11 @@ Future<void> runTelevisionNewsStories() async {
                 "advertising, America tunes in.";
             await movie.loadmovie("anchor.cmv");
             await movie.playmovie(0, 0, remapSkinTones: true);
-            mvaddstrc(
-              19,
-              13,
-              white,
-              "┌───────────────────────────────────────────────────┐",
-            );
-            mvaddstr(
-              20,
-              13,
-              "│     A major Cable News channel has hired a slick  │",
-            );
-            mvaddstr(
-              21,
-              13,
-              "│   new anchor for one of its news shows.  Guided   │",
-            );
-            mvaddstr(
-              22,
-              13,
-              "│   by impressive advertising, America tunes in.    │",
-            );
-            mvaddstr(
-              23,
-              13,
-              "└───────────────────────────────────────────────────┘",
+            renderTelevisionOverlay(
+              topY: 19,
+              x: 13,
+              frameWidth: 65,
+              body: newsStories[n].body,
             );
             await getKey();
             del = true;
@@ -231,36 +191,11 @@ Future<void> runTelevisionNewsStories() async {
             erase();
             await movie.loadmovie("abort.cmv");
             await movie.playmovie(0, 0, remapSkinTones: true);
-            mvaddstrc(
-              18,
-              11,
-              white,
-              "┌───────────────────────────────────────────────────────┐",
-            );
-            mvaddstr(
-              19,
-              11,
-              "│     A mutant affected by nuclear power appears on a   │",
-            );
-            mvaddstr(
-              20,
-              11,
-              "│   popular talk show and demonstrates his superhuman   │",
-            );
-            mvaddstr(
-              21,
-              11,
-              "│   intelligence and charisma, showcasing the upsides   │",
-            );
-            mvaddstr(
-              22,
-              11,
-              "│   of consuming nuclear waste.                         │",
-            );
-            mvaddstr(
-              23,
-              11,
-              "└───────────────────────────────────────────────────────┘",
+            renderTelevisionOverlay(
+              topY: 18,
+              x: 11,
+              frameWidth: 65,
+              body: newsStories[n].body,
             );
             await getKey();
             del = true;

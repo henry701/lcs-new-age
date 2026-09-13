@@ -1,8 +1,10 @@
 import 'package:lcs_new_age/basemode/base_mode.dart';
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/compound_upgrades.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -11,7 +13,36 @@ import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
+String _formatInvestmentCost(int amount) {
+  return LcsI18n.currencyAmount(amount);
+}
+
+void _addInvestmentOption(
+  int y,
+  String key,
+  String text, {
+  bool enabledWhen = true,
+  Map<String, dynamic>? params,
+}) {
+  addOptionTextFitted(
+    y,
+    1,
+    key,
+    text,
+    console.width - 1,
+    enabledWhen: enabledWhen,
+    params: params,
+  );
+}
+
 Future<void> investInLocation(Site loc) async {
+  int solarCost = switch (laws[Law.pollution]!) {
+    DeepAlignment.archConservative => 60000,
+    DeepAlignment.conservative => 40000,
+    DeepAlignment.moderate => 30000,
+    DeepAlignment.liberal => 20000,
+    DeepAlignment.eliteLiberal => 10000,
+  };
   int dieselCost = switch (laws[Law.pollution]!) {
     DeepAlignment.archConservative => 300,
     DeepAlignment.conservative => 500,
@@ -26,127 +57,117 @@ Future<void> investInLocation(Site loc) async {
     printLocation(loc);
     if (loc.upgradable) {
       if (!loc.compound.fortified) {
-        String fortifyText = "Fortify the compound for a siege";
+        String fortifyText = LcsI18n.tr("Fortify the compound for a siege");
         if (loc.type == SiteType.bunker) {
-          fortifyText = "Repair the bunker fortifications";
+          fortifyText = LcsI18n.tr("Repair the bunker fortifications");
         } else if (loc.type == SiteType.bombShelter) {
-          fortifyText = "Fortify the bomb shelter entrances";
+          fortifyText = LcsI18n.tr("Fortify the bomb shelter entrances");
         }
-        addOptionText(
+        _addInvestmentOption(
           8,
-          1,
           "W",
-          "W - $fortifyText (\$${CompoundUpgrade.fortify.price})",
-          enabledWhen: ledger.funds >= CompoundUpgrade.fortify.price,
+          "W - {action} (\$2000)",
+          params: {"action": fortifyText},
+          enabledWhen: ledger.funds >= 2000,
         );
       }
       if (!loc.compound.cameras) {
-        addOptionText(
+        _addInvestmentOption(
           9,
-          1,
           "C",
-          "C - Place Security Cameras around the compound (\$${CompoundUpgrade.cameras.price})",
-          enabledWhen: ledger.funds >= CompoundUpgrade.cameras.price,
+          "C - Place Security Cameras around the compound (\$2000)",
+          enabledWhen: ledger.funds >= 2000,
         );
       }
       if (!loc.compound.boobyTraps) {
-        addOptionText(
+        _addInvestmentOption(
           10,
-          1,
           "T",
-          "T - Place Booby Traps throughout the compound (\$${CompoundUpgrade.boobyTraps.price})",
-          enabledWhen: ledger.funds >= CompoundUpgrade.boobyTraps.price,
+          "T - Place Booby Traps throughout the compound (\$3000)",
+          enabledWhen: ledger.funds >= 3000,
         );
       }
       if (!loc.compound.bollards) {
-        addOptionText(
+        _addInvestmentOption(
           11,
-          1,
           "B",
-          "B - Install heavy Bollards to keep vehicles away (\$${CompoundUpgrade.bollards.price})",
-          enabledWhen: ledger.funds >= CompoundUpgrade.bollards.price,
+          "B - Install heavy Bollards to keep vehicles away (\$3000)",
+          enabledWhen: ledger.funds >= 3000,
         );
       }
       if (!loc.compound.generator) {
-        addOptionText(
+        _addInvestmentOption(
           12,
-          1,
           "G",
-          "G - Install a backup diesel generator for the compound (\$${CompoundUpgrade.generator.price})",
-          enabledWhen: ledger.funds >= CompoundUpgrade.generator.price,
+          "G - Install a backup diesel generator for the compound (\$3000)",
+          enabledWhen: ledger.funds >= 3000,
         );
       }
       if (!loc.compound.aaGun && !loc.compound.solarPanels) {
-        addOptionText(
+        _addInvestmentOption(
           13,
-          1,
           "P",
-          "P - Install a battery and Solar Panel array on the roof (\$${CompoundUpgrade.solarPanels.price ~/ 1000},000)",
-          enabledWhen: ledger.funds >= CompoundUpgrade.solarPanels.price,
+          "P - Install a battery and Solar Panel array on the roof ({cost})",
+          params: {"cost": _formatInvestmentCost(solarCost)},
+          enabledWhen: ledger.funds >= solarCost,
         );
         if (laws[Law.gunControl] == DeepAlignment.archConservative) {
-          addOptionText(
+          _addInvestmentOption(
             14,
-            1,
             "A",
-            "A - Install a perfectly legal Anti-Aircraft gun on the roof (\$${CompoundUpgrade.aaGun.price ~/ 1000},000)",
-            enabledWhen: ledger.funds >= CompoundUpgrade.aaGun.price,
+            "A - Install a perfectly legal Anti-Aircraft gun on the roof (\$35,000)",
+            enabledWhen: ledger.funds >= 35000,
           );
         } else {
-          addOptionText(
+          _addInvestmentOption(
             14,
-            1,
             "A",
-            "A - Install and conceal an illegal Anti-Aircraft gun on the roof (\$${CompoundUpgrade.aaGun.price ~/ 1000},000)",
-            enabledWhen: ledger.funds >= CompoundUpgrade.aaGun.price,
+            "A - Install and conceal an illegal Anti-Aircraft gun on the roof (\$200,000)",
+            enabledWhen: ledger.funds >= 200000,
           );
         }
       }
       if (!loc.compound.videoRoom) {
-        addOptionText(
+        _addInvestmentOption(
           15,
-          1,
           "V",
-          "V - Prepare a room as a Video Studio (\$${CompoundUpgrade.videoRoom.price})",
-          enabledWhen: ledger.funds >= CompoundUpgrade.videoRoom.price,
+          "V - Prepare a room as a Video Studio (\$2000)",
+          enabledWhen: ledger.funds >= 2000,
         );
       }
       if (!loc.compound.hackerDen) {
-        addOptionText(
+        _addInvestmentOption(
           16,
-          1,
           "H",
-          "H - Prepare a room as a Hacker Den (\$${CompoundUpgrade.hackerDen.price})",
-          enabledWhen: ledger.funds >= CompoundUpgrade.hackerDen.price,
+          "H - Prepare a room as a Hacker Den (\$4000)",
+          enabledWhen: ledger.funds >= 4000,
         );
       }
       if (!loc.businessFront && !loc.discreet) {
-        addOptionText(
+        _addInvestmentOption(
           17,
-          1,
           "F",
-          "F - Set up a Business Front to ward off suspicion (\$${CompoundUpgrade.businessFront.price})",
-          enabledWhen: ledger.funds >= CompoundUpgrade.businessFront.price,
+          "F - Set up a Business Front to ward off suspicion (\$3000)",
+          enabledWhen: ledger.funds >= 3000,
         );
       }
     }
     if (loc.compound.generator) {
-      addOptionText(
+      _addInvestmentOption(
         18,
-        1,
         "D",
-        "D - Stockpile 5 days of diesel for the generator (\$$dieselCost)",
+        "D - Stockpile 5 days of diesel for the generator ({cost})",
+        params: {"cost": _formatInvestmentCost(dieselCost)},
         enabledWhen: ledger.funds >= dieselCost,
       );
     }
-    addOptionText(
+    _addInvestmentOption(
       19,
-      1,
       "R",
       "R - Stockpile 20 daily rations of food (\$150)",
       enabledWhen: ledger.funds >= 150,
     );
-    addOptionText(20, 1, "Enter", "Enter - Done");
+    _addInvestmentOption(20, "Enter", "Enter - Done");
     int c = await getKey();
     if (isBackKey(c)) break;
     if (loc.upgradable) {
@@ -237,26 +258,30 @@ Future<void> investInLocation(Site loc) async {
         loc.businessFront = true;
         do {
           String first = lastName(), second = lastName(), third = lastName();
-          String short, long;
-          (short, long) = [
-            ("Life Ins.", "$first Life Insurance"),
-            ("Manpower", "$first Manpower, LLC"),
-            ("Holding", "$first Holding Company"),
-            ("Services", "$first Elite Services"),
-            ("Design", "$first Design Agency"),
-            ("Realty", "$first Real Estate"),
-            ("Disposal", "$first Waste Disposal"),
-            ("Accounts", "$first & $second Accounts"),
-            ("Advisory", "$first Advisory"),
-            ("Finance", "$first $second Finance"),
-            ("Legal", "$first & $second Legal"),
-            ("Software", "$first Software"),
-            ("Technic", "$first Technical"),
-            ("Global", "$first Global"),
-            ("Partners", "$first $second $third Partnership"),
+          String short, longTemplate;
+          (short, longTemplate) = [
+            ("Life Ins.", "{first} Life Insurance"),
+            ("Manpower", "{first} Manpower, LLC"),
+            ("Holding", "{first} Holding Company"),
+            ("Services", "{first} Elite Services"),
+            ("Design", "{first} Design Agency"),
+            ("Realty", "{first} Real Estate"),
+            ("Disposal", "{first} Waste Disposal"),
+            ("Accounts", "{first} & {second} Accounts"),
+            ("Advisory", "{first} Advisory"),
+            ("Finance", "{first} {second} Finance"),
+            ("Legal", "{first} & {second} Legal"),
+            ("Software", "{first} Software"),
+            ("Technic", "{first} Technical"),
+            ("Global", "{first} Global"),
+            ("Partners", "{first} {second} {third} Partnership"),
             ("Acme", "Acme LLC Co. Inc."),
           ].random;
-          loc.frontName = long;
+          loc.frontName = LcsI18n.processString(longTemplate, {
+            "first": first,
+            "second": second,
+            "third": third,
+          });
           loc.shortName = short;
         } while (sites.where((l) => l.shortName == loc.shortName).length > 1);
       }

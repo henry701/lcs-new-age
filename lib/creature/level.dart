@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
 import 'package:lcs_new_age/creature/creature.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 
 int levelFromXP(int juice) {
@@ -80,8 +81,11 @@ String levelTitle(int level, Alignment align) {
     titleList = conservativeTitles;
   }
   if (level <= 7) {
-    return titleList[level + 2];
+    return LcsI18n.tr(titleList[level + 2]);
   } else {
-    return "${titleList[9]} ${romanNumeral(level - 6)}";
+    return LcsI18n.processString("{title} {numeral}", {
+      "title": LcsI18n.tr(titleList[9]),
+      "numeral": romanNumeral(level - 6),
+    });
   }
 }

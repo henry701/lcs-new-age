@@ -24,6 +24,7 @@ import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/flag.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/location/location_type.dart';
@@ -133,7 +134,12 @@ Future<bool> baseMode() async {
           if (forceWait && day == 1) {
             erase();
             mvaddstrc(7, 5, lightGray, "Time passes...");
-            mvaddstr(9, 12, "${getMonth(month)} $day, $year");
+            mvaddstr(
+              9,
+              12,
+              "{month} {day}, {year}",
+              params: {"month": getMonth(month), "day": day, "year": year},
+            );
             displayBlindLog();
             refresh();
             await Future.delayed(const Duration(milliseconds: 100));
@@ -216,23 +222,18 @@ void printLocation(Site loc) {
       mvaddstrc(2, 1, yellow, "The police have surrounded this location.");
     } else {
       setColor(red);
-      switch (loc.siege.activeSiegeType) {
-        case SiegeType.police:
-          mvaddstr(2, 1, "The police are raiding");
-        case SiegeType.cia:
-          mvaddstr(2, 1, "The CIA is raiding");
-        case SiegeType.angryRuralMob:
-          mvaddstr(2, 1, "An angry mob is storming");
-        case SiegeType.corporateMercs:
-          mvaddstr(2, 1, "Corporate mercs are attacking");
-        case SiegeType.medicalDebtCollectors:
-          mvaddstr(2, 1, "Debt collectors are raiding");
-        case SiegeType.ccs:
-          mvaddstr(2, 1, "The CCS is attacking");
-        default:
-          mvaddstr(2, 1, "Software bugs are attacking");
-      }
-      addstr(" this location!");
+      String attacker = switch (loc.siege.activeSiegeType) {
+        SiegeType.police => "The police are raiding this location!",
+        SiegeType.cia => "The CIA is raiding this location!",
+        SiegeType.angryRuralMob => "An angry mob is storming this location!",
+        SiegeType.corporateMercs =>
+          "Corporate mercs are attacking this location!",
+        SiegeType.medicalDebtCollectors =>
+          "Debt collectors are raiding this location!",
+        SiegeType.ccs => "The CCS is attacking this location!",
+        _ => "Software bugs are attacking this location!",
+      };
+      mvaddstr(2, 1, attacker);
     }
   } else {
     mvaddstrc(2, 1, lightGray, "You are not under siege... yet.");
@@ -266,47 +267,49 @@ void printLocation(Site loc) {
     }
     if (loc.compound.cameras) {
       if (loc.siege.underSiege && loc.siege.camerasOff) {
-        mvaddstrc(5, 1, red, "CAMERAS OFF");
+        mvaddstrcFitted(5, 1, red, "CAMERAS OFF", 20);
       } else {
-        mvaddstrc(5, 1, lightGreen, "CAMERAS ON");
+        mvaddstrcFitted(5, 1, lightGreen, "CAMERAS ON", 20);
       }
     }
     if (loc.compound.boobyTraps) {
-      mvaddstrc(5, 17, red, "BOOBY TRAPS");
+      mvaddstrcFitted(5, 22, red, "BOOBY TRAPS", 12);
     }
     if (loc.compound.aaGun) {
-      mvaddstrc(5, 33, orange, "AA GUN");
+      mvaddstrcFitted(5, 35, orange, "AA GUN", 9);
     }
     if (loc.compound.bollards) {
-      mvaddstrc(5, 45, yellow, "BOLLARDS");
+      mvaddstrcFitted(5, 45, yellow, "BOLLARDS", 12);
     }
     if (loc.siege.underSiege && loc.siege.lightsOff) {
-      mvaddstrc(5, 58, lightGray, "LIGHTS OUT");
+      mvaddstrcFitted(5, 58, lightGray, "LIGHTS OUT", 22);
     } else if (loc.compound.solarPanels) {
-      mvaddstrc(5, 58, lightGreen, "SOLAR POWER");
+      mvaddstrcFitted(5, 58, lightGreen, "SOLAR POWER", 22);
     } else if (loc.compound.generator) {
-      mvaddstrc(5, 59, white, "GENERATOR");
+      mvaddstrcFitted(5, 58, white, "GENERATOR", 22);
     }
     int eaters = numberEating(loc), days = foodDaysLeft(loc);
     if (eaters > 0) {
       if (days >= 1) {
-        mvaddstrc(
-          6,
-          50,
-          lightGray,
-          "$days day${days > 1 ? "s" : ""} of Food Left.",
-        );
+        final foodLeftText = days == 1
+            ? "1 day of Food Left."
+            : "{days} days of Food Left.";
+        mvaddstrc(6, 50, lightGray, foodLeftText, params: {"days": days});
       } else if (days == 0) {
         mvaddstrc(6, 50, red, "Not Enough Food");
       }
     }
+    final rationText = loc.compound.rations == 1
+        ? "1 Daily Ration"
+        : "{rations} Daily Rations";
     mvaddstrc(
       6,
       1,
       lightGray,
-      "${loc.compound.rations} Daily Ration${loc.compound.rations > 1 ? "s" : ""}",
+      rationText,
+      params: {"rations": loc.compound.rations},
     );
-    mvaddstr(6, 30, "$eaters Eating");
+    mvaddstr(6, 30, "{eaters} Eating", params: {"eaters": eaters});
   }
 }
 
@@ -320,10 +323,30 @@ void locHeader([Site? loc]) {
     } else if (loc.siege.underSiege) {
       setColor(yellow);
     }
-    if (activeSquad == null) addstr("No Squad Selected, ");
-    addstr("${loc.getName(includeCity: true)}, ");
+    final locationPrefix = activeSquad == null
+        ? LcsI18n.tr("No Squad Selected, ")
+        : "";
+    final locationText = StringBuffer()
+      ..write(loc.getName(short: true, includeCity: true))
+      ..write(', ');
+    final dateText = LcsI18n.processString("{month} {day}, {year}", {
+      "month": getMonthShort(month),
+      "day": day,
+      "year": year,
+    });
+    final header = StringBuffer()
+      ..write(locationPrefix)
+      ..write(locationText)
+      ..write(dateText);
+    mvaddstrFitted(0, 0, header.toString(), 40, noTranslate: true);
+  } else {
+    final dateText = LcsI18n.processString("{month} {day}, {year}", {
+      "month": getMonthShort(month),
+      "day": day,
+      "year": year,
+    });
+    mvaddstrFitted(0, 0, dateText, 40, noTranslate: true);
   }
-  addstr("${getMonthShort(month)} $day, $year");
   if (loc == null) {
     mvaddstrc(3, 6, darkGray, "To form a new squad:");
     mvaddstr(4, 6, "1) R - Review Assets and Form Squads");
@@ -336,6 +359,17 @@ void locHeader([Site? loc]) {
 }
 
 void baseModeOptionsDisplay(Site? loc) {
+  const leftColumnX = 1;
+  const leftColumnWidth = 38;
+  const rightColumnX = 40;
+  const rightColumnWidth = ManagementTableLayout.consoleWidth - rightColumnX;
+  const farRightColumnX = 64;
+
+  // Base options reuse rows that may contain a longer daily-arrival message.
+  // Clear them first so shorter Portuguese labels cannot inherit stale tails.
+  eraseLine(8);
+  eraseLine(9);
+
   int squadSize = activeSquad?.members.length ?? 0;
   Site? site = loc;
   bool sieged = site?.siege.underSiege ?? false;
@@ -344,104 +378,145 @@ void baseModeOptionsDisplay(Site? loc) {
 
   mvaddstrc(18, 10, lightGray, "=== ACTIVISM ===");
   mvaddstr(18, 51, "=== PLANNING ===");
-  addOptionText(19, 40, "e", "E - Equip Squad", enabledWhen: squadSize > 0);
-  addOptionText(
+  addOptionTextFitted(
     19,
-    60,
+    rightColumnX,
+    "e",
+    "E - Equip Squad",
+    farRightColumnX - rightColumnX - 1,
+    enabledWhen: squadSize > 0,
+  );
+  addOptionTextFitted(
+    19,
+    farRightColumnX,
     "v",
     "V - Vehicles",
+    ManagementTableLayout.consoleWidth - farRightColumnX,
     enabledWhen: vehiclePool.isNotEmpty && squadSize > 0,
   );
-  addOptionText(
+  addOptionTextFitted(
     20,
-    40,
+    rightColumnX,
     "r",
     "R - Review Assets and Form Squads",
+    rightColumnWidth,
     enabledWhen: pool.isNotEmpty,
   );
-  //eraseLine(8);
   Site? aSafehouse = activeSafehouse;
   if (sieged && site != null) {
     if (site.siege.underAttack) {
       mvaddstrc(8, 1, red, "Safehouse Under Attack");
     } else {
-      mvaddstrc(8, 1, yellow, "Safehouse Under Siege");
-      if (site.compound.rations <= 0) {
-        addstr(" (No Food)");
-      }
+      mvaddstrc(
+        8,
+        1,
+        yellow,
+        site.compound.rations <= 0
+            ? "Safehouse Under Siege (No Food)"
+            : "Safehouse Under Siege",
+      );
     }
   } else if (aSafehouse != null) {
     if ((aSafehouse.upgradable) && !aSafehouse.siege.underSiege) {
-      addOptionText(8, 1, "i", "I - Invest in this location");
+      addOptionTextFitted(
+        8,
+        leftColumnX,
+        "i",
+        "I - Invest in this location",
+        29,
+      );
     } else if (!aSafehouse.upgradable) {
       mvaddstrc(8, 1, midGray, "This location cannot be upgraded");
     }
   }
-  if (squadSize > 1 && !sieged) addOptionText(8, 31, "o", "O - Reorder");
+  if (squadSize > 1 && !sieged) {
+    addOptionTextFitted(9, 31, "o", "O - Reorder", 25);
+  }
   if (squadSize > 0 && !sieged) {
     // don't cover up info about siege with irrelevant squad name of a squad
     // that will be disbanded during the siege anyway
-    mvaddstrc(8, 1, lightGray, activeSquad?.name ?? "");
+    mvaddstrcFitted(
+      8,
+      leftColumnX,
+      lightGray,
+      localizedSquadName(activeSquad?.name ?? ""),
+      29,
+      noTranslate: true,
+    );
   }
-  addOptionText(
+  addOptionTextFitted(
     8,
-    45,
+    rightColumnX,
     "n",
     "N - Next Squad",
+    rightColumnWidth,
     enabledWhen:
         squads.length > 1 || (activeSquad == null && squads.isNotEmpty),
   );
-  addOptionText(
-    8,
-    62,
+  addOptionTextFitted(
+    9,
+    57,
     "z",
     "Z - Next Location",
+    ManagementTableLayout.consoleWidth - 57,
     enabledWhen: safehouseCount > 0,
   );
-  addOptionText(21, 40, "l", "L - The Status of the Liberal Agenda");
-  addOptionText(
+  addOptionTextFitted(
     21,
-    1,
+    rightColumnX,
+    "l",
+    "L - The Status of the Liberal Agenda",
+    rightColumnWidth,
+  );
+  addOptionTextFitted(
+    21,
+    leftColumnX,
     "a",
     "A - Assign Tasks",
+    leftColumnWidth,
     enabledWhen: pool.any(
       (p) =>
           p.isActiveLiberal &&
           (p.squad == null || p.squad?.activity.type == ActivityType.none),
     ),
   );
-  addOptionText(
-    21,
-    20,
+  addOptionTextFitted(
+    24,
+    leftColumnX,
     "b",
     "B - Sleeper Agents",
+    leftColumnWidth,
     enabledWhen: pool.any((p) => p.sleeperAgent),
   );
-  addOptionText(
+  addOptionTextFitted(
     20,
-    1,
+    leftColumnX,
     "c",
     "C - Cancel Departure",
+    leftColumnWidth,
     enabledWhen:
         squadSize > 0 && activeSquad?.activity.type != ActivityType.none,
   );
 
   if (sieged) {
-    addOptionText(
+    addOptionTextFitted(
       19,
-      1,
+      leftColumnX,
       "f",
       "F - Fight/Escape",
+      leftColumnWidth,
       enabledWhen:
-          squadSize > 0 || pool.any((p) => p.site?.siege.underAttack ?? false),
+          squadSize > 0 ||
+          (site != null && hasAvailableSafehouseDefenders(site)),
     );
-    addOptionText(19, 23, "g", "G - Give Up");
+    addOptionTextFitted(24, rightColumnX, "g", "G - Give Up", rightColumnWidth);
   } else {
-    addOptionText(
+    addOptionTextFitted(
       19,
-      1,
+      leftColumnX,
       "f",
       "F - Go Forth to Stop Evil",
+      leftColumnWidth,
       enabledWhen: squadSize > 0,
     );
   }
@@ -450,21 +525,41 @@ void baseModeOptionsDisplay(Site? loc) {
     if (sieged) {
       mvaddstrc(23, 1, red, "Cannot Wait until Siege Resolved");
     } else {
-      addOptionText(
+      addOptionTextFitted(
         23,
-        1,
+        leftColumnX,
         "w",
         "W - Select Siege Location",
+        leftColumnWidth,
         baseColorKey: ColorKey.red,
       );
     }
   } else {
     if (sieged) {
-      addOptionText(23, 1, "w", "W - Wait out the siege");
+      addOptionTextFitted(
+        23,
+        leftColumnX,
+        "w",
+        "W - Wait out the siege",
+        leftColumnWidth,
+      );
     } else if (squads.any((s) => s.activity.type == ActivityType.visit)) {
-      addOptionText(23, 1, "w", "W - Carry out your plans", baseColorKey: "G");
+      addOptionTextFitted(
+        23,
+        leftColumnX,
+        "w",
+        "W - Carry out your plans",
+        leftColumnWidth,
+        baseColorKey: "G",
+      );
     } else {
-      addOptionText(23, 1, "w", "W - Wait a day");
+      addOptionTextFitted(
+        23,
+        leftColumnX,
+        "w",
+        "W - Wait a day",
+        leftColumnWidth,
+      );
     }
     if (date.add(const Duration(days: 1)).month != month) {
       addstrc(lightGray, " (next month)");
@@ -472,24 +567,57 @@ void baseModeOptionsDisplay(Site? loc) {
   }
   int unreadNewsCount = gameState.newsArchive.where((ns) => ns.unread).length;
   if (unreadNewsCount > 0) {
-    addOptionText(
+    addOptionTextFitted(
       22,
-      40,
+      rightColumnX,
       "m",
-      "M - Media Overview & Impact &C($unreadNewsCount)",
+      "M - Media Overview & Impact &C({unreadNewsCount})",
+      rightColumnWidth,
+      params: {"unreadNewsCount": unreadNewsCount},
     );
   } else {
-    addOptionText(22, 40, "m", "M - Media Overview & Impact");
+    addOptionTextFitted(
+      22,
+      rightColumnX,
+      "m",
+      "M - Media Overview & Impact",
+      rightColumnWidth,
+    );
   }
-  addOptionText(23, 40, "x", "X - Exit to the Title Screen");
+  addOptionTextFitted(
+    23,
+    rightColumnX,
+    "x",
+    "X - Exit to the Title Screen",
+    rightColumnWidth,
+  );
 
-  if (loc != null) {
-    addFlagButton(22, 1, loc);
+  if (loc?.hasFlag ?? false) {
+    addOptionTextFitted(
+      22,
+      leftColumnX,
+      "p",
+      "P - Protest: Burn the flag",
+      leftColumnWidth,
+      baseColorKey: sieged ? "G" : "w",
+    );
+  } else {
+    addOptionTextFitted(
+      22,
+      leftColumnX,
+      "p",
+      "P - Pride: Fly a flag here (\$20)",
+      leftColumnWidth,
+      enabledWhen:
+          (activeSafehouse != null || activeSquad != null) &&
+          ledger.funds >= 20 &&
+          !sieged,
+    );
   }
 
   setColor(lightGray);
   int y = (loc?.hasFlag ?? false) ? 16 : 15;
-  mvaddstrCenter(y++, slogan);
+  mvaddstrCenter(y++, gameState.lcs.displaySlogan, noTranslate: true);
   addCenteredOptionText(y++, "s", "(S - Change the Slogan)", baseColorKey: "m");
   if (loc != null) {
     printSafehouseSecurityBox(loc);
@@ -532,13 +660,16 @@ void addFlagButton(int y, int x, Site loc) {
     highlight = false;
   } else {
     bool canSwitch = ownsAnyFlag || ledger.funds >= 20;
-    String price = ownsAnyFlag ? "" : "(\$20)";
     enabled = canSwitch;
     highlight = false;
     if (loc.hasFlag) {
-      label = "P - Pride: Switch flags $price";
+      label = ownsAnyFlag
+          ? "P - Pride: Switch flags"
+          : "P - Pride: Switch flags (\$20)";
     } else {
-      label = "P - Pride: Fly a flag here $price";
+      label = ownsAnyFlag
+          ? "P - Pride: Fly a flag here"
+          : "P - Pride: Fly a flag here (\$20)";
     }
   }
 
@@ -562,16 +693,30 @@ void printSafehouseSecurityBox(Site site) {
   mvaddstr(11, 1, "│                │");
   mvaddstr(12, 1, "└────────────────┘");
 
-  mvaddstr(9, 2, site.getName(short: true, includeCity: true));
+  mvaddstrFitted(
+    9,
+    2,
+    site.getName(short: true, includeCity: true),
+    16,
+    noTranslate: true,
+  );
   if (site.siege.underAttack) {
     mvaddstrc(10, 3, red, "Under Attack");
   } else if (site.siege.underSiege) {
     mvaddstrc(10, 3, yellow, "Under Siege");
   } else {
     mvaddstrc(10, 2, lightGray, "Heat: ");
-    addstrc(heat > heatProtection ? red : darkGray, "$heat");
+    addstrc(
+      heat > heatProtection ? red : darkGray,
+      "{heat}",
+      params: {"heat": heat.toString()},
+    );
     mvaddstrc(11, 2, lightGray, "Secrecy: ");
-    addstrc(heat > heatProtection ? red : darkGray, "$heatProtection");
+    addstrc(
+      heat > heatProtection ? red : darkGray,
+      "{protection}",
+      params: {"protection": heatProtection.toString()},
+    );
   }
   int extrajudicialHeat = [
     site.extraHeatFromCIA ~/ 2,

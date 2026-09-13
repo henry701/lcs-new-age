@@ -246,8 +246,7 @@ set activeSquadMember(Creature? value) {
 }
 
 List<Creature> get relevantLiberals {
-  Iterable<Creature> relevantLibIter = pool
-        .where((c) => c.isActiveLiberal);
+  Iterable<Creature> relevantLibIter = pool.where((c) => c.isActiveLiberal);
   // Check context to determine which pool to use
   switch (mode) {
     case GameMode.site:
@@ -259,7 +258,9 @@ List<Creature> get relevantLiberals {
     case GameMode.footChase:
       // In chase modes, filter by location to handle large groups fleeing sieges
       if (activeSite != null) {
-        relevantLibIter = relevantLibIter.where((c) => c.location == activeSite);
+        relevantLibIter = relevantLibIter.where(
+          (c) => c.location == activeSite,
+        );
       }
     case GameMode.base:
     case GameMode.title:

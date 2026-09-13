@@ -6,6 +6,7 @@ import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -13,13 +14,35 @@ import 'package:lcs_new_age/talk/drop_a_pickup_line.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
+const supremeCourtVoteColumn = 63;
+
+String localizedSupremeCourtAlignment(DeepAlignment alignment) =>
+    LcsI18n.tr(alignment.label);
+
+/// Fits a localized precedent into the left column of the surveillance vote.
+///
+/// Vote totals start at [supremeCourtVoteColumn], so the description must
+/// leave room for the translated prefix, its trailing period, and a separator
+/// before the right-hand vote totals.
+String fitSupremeCourtPrecedent(String precedent) {
+  final prefix = LcsI18n.processString("A new precedent would ", null);
+  final availableWidth = supremeCourtVoteColumn - strLenX(prefix) - 2;
+  return fitConsoleText(LcsI18n.processString(precedent, null), availableWidth);
+}
+
 Future<void> supremeCourt() async {
   int c;
   if (canSeeThings) {
     await showMessage("The Supreme court is handing down decisions!");
 
     erase();
-    mvaddstrc(0, 0, white, "Supreme Court Watch $year");
+    mvaddstrc(
+      0,
+      0,
+      white,
+      "Supreme Court Watch {year}",
+      params: {"year": year.toString()},
+    );
     setColor(lightGray);
   }
 
@@ -73,13 +96,10 @@ Future<void> supremeCourt() async {
           scase[c] == Law.corporate ||
           scase[c] == Law.animalRights ||
           scase[c] == Law.pollution) {
-        name2 = "${lastName(Gender.whiteMalePatriarch)}, ${[
-          "Inc.",
-          "L.L.C.",
-          "Corp.",
-          "Co.",
-          "Ltd."
-        ].random}";
+        name2 = LcsI18n.processString("{last}, {suffix}", {
+          "last": lastName(Gender.whiteMalePatriarch),
+          "suffix": ["Inc.", "L.L.C.", "Corp.", "Co.", "Ltd."].random,
+        });
       }
       if (oneIn(2)) {
         String swap = name1;
@@ -87,173 +107,176 @@ Future<void> supremeCourt() async {
         name2 = swap;
       }
 
-      addstr(name1);
-      addstr(" v. ");
-      addstr(name2);
+      addstr(
+        "{name1} {versus} {name2}",
+        params: {"name1": name1, "versus": "v.", "name2": name2},
+      );
 
-      mvaddstr(c * 3 + 3, 0, "A new precedent would ");
-      if (scasedir[c] == 1) {
-        setColor(lightGreen);
-      } else {
-        setColor(red);
-      }
+      final precedentPrefix = LcsI18n.processString(
+        "A new precedent would ",
+        null,
+      );
+      mvaddstr(c * 3 + 3, 0, precedentPrefix, noTranslate: true);
+      setColor(scasedir[c] == 1 ? lightGreen : red);
+      String precedent = "";
       switch (scase[c]) {
         case Law.animalRights:
           if (scasedir[c] == 1) {
-            addstr("guarantee rights for animals");
+            precedent = "guarantee rights for animals";
           } else {
-            addstr("strike down animal welfare laws");
+            precedent = "strike down animal welfare laws";
           }
         case Law.policeReform:
           if (scasedir[c] == 1) {
-            addstr("curtail abusive police behavior");
+            precedent = "curtail abusive police behavior";
           } else {
-            addstr("allow abusive police behavior");
+            precedent = "allow abusive police behavior";
           }
         case Law.privacy:
           if (scasedir[c] == 1) {
-            addstr("guarantee more privacy rights");
+            precedent = "guarantee more privacy rights";
           } else {
-            addstr("strike down privacy laws");
+            precedent = "strike down privacy laws";
           }
         case Law.deathPenalty:
           if (scasedir[c] == 1) {
-            addstr("restrict use of the death penalty");
+            precedent = "restrict use of the death penalty";
           } else {
-            addstr("permit more executions");
+            precedent = "permit more executions";
           }
         case Law.nuclearPower:
           if (scasedir[c] == 1) {
-            addstr("restrict use of nuclear power");
+            precedent = "restrict use of nuclear power";
           } else {
-            addstr("allow broad use of nuclear power");
+            precedent = "allow broad use of nuclear power";
           }
         case Law.pollution:
           if (scasedir[c] == 1) {
-            addstr("restrict industrial pollution");
+            precedent = "restrict industrial pollution";
           } else {
-            addstr("strike down environmental regulations");
+            precedent = "strike down environmental regulations";
           }
         case Law.labor:
           if (scasedir[c] == 1) {
-            addstr("guarantee new labor protections");
+            precedent = "guarantee new labor protections";
           } else {
-            addstr("restrict the rights of unions");
+            precedent = "restrict the rights of unions";
           }
         case Law.lgbtRights:
           if (scasedir[c] == 1) {
-            addstr("strike down anti-LGBT laws");
+            precedent = "strike down anti-LGBT laws";
           } else {
-            addstr("support anti-LGBT discrimination");
+            precedent = "support anti-LGBT discrimination";
           }
         case Law.corporate:
           if (scasedir[c] == 1) {
-            addstr("create limits on corporate power");
+            precedent = "create limits on corporate power";
           } else {
-            addstr("strike down corporate regulations");
+            precedent = "strike down corporate regulations";
           }
         case Law.freeSpeech:
           if (scasedir[c] == 1) {
-            addstr("strike down free speech limits");
+            precedent = "strike down free speech limits";
           } else {
-            addstr("allow limits on free speech");
+            precedent = "allow limits on free speech";
           }
         case Law.taxes:
           if (scasedir[c] == 1) {
-            addstr("allow broader wealth redistribution");
+            precedent = "allow broader wealth redistribution";
           } else {
-            addstr("strike down redistributive taxes");
+            precedent = "strike down redistributive taxes";
           }
         case Law.flagBurning:
           if (scasedir[c] == 1) {
-            addstr("strike down flag burning laws");
+            precedent = "strike down flag burning laws";
           } else {
-            addstr("place limits on flag burning");
+            precedent = "place limits on flag burning";
           }
         case Law.gunControl:
           if (scasedir[c] == 1) {
-            addstr("allow more restrictions on guns");
+            precedent = "allow more restrictions on guns";
           } else {
-            addstr("strike down gun control laws");
+            precedent = "strike down gun control laws";
           }
         case Law.genderEquality:
           if (scasedir[c] == 1) {
-            addstr("guarantee rights for women");
+            precedent = "guarantee rights for women";
           } else {
-            addstr("allow gender-based discrimination");
+            precedent = "allow gender-based discrimination";
           }
         case Law.abortion:
           if (scasedir[c] == 1) {
-            addstr("strike down anti-abortion laws");
+            precedent = "strike down anti-abortion laws";
           } else {
-            addstr("encourage anti-abortion laws");
+            precedent = "encourage anti-abortion laws";
           }
         case Law.civilRights:
           if (scasedir[c] == 1) {
-            addstr("guarantee rights for racial minorities");
+            precedent = "guarantee rights for racial minorities";
           } else {
-            addstr("permit racial discrimination");
+            precedent = "permit racial discrimination";
           }
         case Law.drugs:
           if (scasedir[c] == 1) {
-            addstr("strike down anti-drug laws");
+            precedent = "strike down anti-drug laws";
           } else {
-            addstr("expand the war on drugs");
+            precedent = "expand the war on drugs";
           }
         case Law.immigration:
           if (scasedir[c] == 1) {
-            addstr("guarantee rights to noncitizens");
+            precedent = "guarantee rights to noncitizens";
           } else {
-            addstr("limit protections for noncitizens");
+            precedent = "limit protections for noncitizens";
           }
         case Law.elections:
           if (scasedir[c] == 1) {
-            addstr("increase fairness in elections");
+            precedent = "increase fairness in elections";
           } else {
-            addstr("bias elections toward incumbents");
+            precedent = "bias elections toward incumbents";
           }
         case Law.military:
           if (scasedir[c] == 1) {
-            addstr("weaken the military-industrial complex");
+            precedent = "weaken the military-industrial complex";
           } else {
-            addstr("strengthen the defense industry");
+            precedent = "strengthen the defense industry";
           }
         case Law.torture:
           if (scasedir[c] == 1) {
-            addstr("ban torture in interrogations");
+            precedent = "ban torture in interrogations";
           } else {
-            addstr("allow torture in interrogations");
+            precedent = "allow torture in interrogations";
           }
         case Law.prisons:
           if (scasedir[c] == 1) {
             if (laws[Law.prisons] == DeepAlignment.liberal) {
-              addstr("require prisons to focus on rehabilitation");
+              precedent = "require prisons to focus on rehabilitation";
             } else {
-              addstr("guarantee rights to prisoners");
+              precedent = "guarantee rights to prisoners";
             }
           } else {
-            addstr("permit harsh treatment of prisoners");
+            precedent = "permit harsh treatment of prisoners";
           }
         case Law.housing:
           if (scasedir[c] == 1) {
-            addstr("expand tenant rights");
+            precedent = "expand tenant rights";
           } else {
-            addstr("expand landlord rights");
+            precedent = "expand landlord rights";
           }
         case Law.healthcare:
           if (scasedir[c] == 1) {
-            addstr("extend healthcare rights");
+            precedent = "extend healthcare rights";
           } else {
-            addstr("reduce healthcare access");
+            precedent = "reduce healthcare access";
           }
         case Law.retirement:
           if (scasedir[c] == 1) {
-            addstr("guarantee retirement benefits");
+            precedent = "guarantee retirement benefits";
           } else {
-            addstr("limit retirement benefits");
+            precedent = "limit retirement benefits";
           }
       }
-      addstrc(lightGray, ".");
+      addstr(fitSupremeCourtPrecedent(precedent), noTranslate: true);
+      addstrc(lightGray, ". ");
 
       refresh();
     }
@@ -299,7 +322,12 @@ Future<void> supremeCourt() async {
       } else {
         setColor(darkGray);
       }
-      mvaddstr(c * 3 + 2, 63, "$yesvotes for Change");
+      mvaddstr(
+        c * 3 + 2,
+        63,
+        "{votes} for Change",
+        params: {"votes": yesvotes.toString()},
+      );
 
       if (!yeswin) {
         setColor(white);
@@ -307,7 +335,11 @@ Future<void> supremeCourt() async {
         setColor(darkGray);
       }
       mvaddstr(
-          c * 3 + 3, 63, "${politics.court.length - yesvotes} for Status Quo");
+        c * 3 + 3,
+        63,
+        "{votes} for Status Quo",
+        params: {"votes": (politics.court.length - yesvotes).toString()},
+      );
 
       await pause(400);
     }
@@ -319,7 +351,11 @@ Future<void> supremeCourt() async {
 
   if (canSeeThings) {
     mvaddstrc(
-        23, 0, lightGray, "Press any key to reflect on what has happened.");
+      23,
+      0,
+      lightGray,
+      "Press any key to reflect on what has happened.",
+    );
     checkKey();
     await getKey();
   }
@@ -335,8 +371,18 @@ Future<void> supremeCourt() async {
     int j = lcsRandom(politics.court.length);
 
     if (canSeeThings) {
-      mvaddstrc(2, 0, white, "${politics.court[j].label} Justice ");
-      addstrc(politics.court[j].color, politics.courtName[j].firstLast);
+      mvaddstrc(
+        2,
+        0,
+        white,
+        "{label} Justice ",
+        params: {"label": localizedSupremeCourtAlignment(politics.court[j])},
+      );
+      addstrc(
+        politics.court[j].color,
+        politics.courtName[j].firstLast,
+        noTranslate: true,
+      );
       addstrc(white, " is stepping down.");
 
       mvaddstrc(7, 0, lightGray, "Press any key to see what happens.");
@@ -374,24 +420,42 @@ Future<void> supremeCourt() async {
 
     if (canSeeThings) {
       mvaddstr(
-          4, 0, "After much debate and televised testimony, a new justice,");
+        4,
+        0,
+        "After much debate and televised testimony, a new justice,",
+      );
       move(5, 0);
       addstr("the Honorable ");
-      addstrc(politics.court[j].color, politics.courtName[j].firstLast);
-      addstrc(lightGray,
-          ", ${politics.court[j].label}, is appointed to the bench.");
+      addstrc(
+        politics.court[j].color,
+        politics.courtName[j].firstLast,
+        noTranslate: true,
+      );
+      addstrc(
+        lightGray,
+        ", {alignment}, is appointed to the bench.",
+        params: {
+          "alignment": localizedSupremeCourtAlignment(politics.court[j]),
+        },
+      );
 
       mvaddstrc(
-          7, 0, lightGray, "Press any key to reflect on what has happened.");
+        7,
+        0,
+        lightGray,
+        "Press any key to reflect on what has happened.",
+      );
       checkKey();
       await getKey();
     }
     // Sort justices by alignment
     Map<FullName, DeepAlignment> justices = {
-      for (int i = 0; i < court.length; i++) politics.courtName[i]: court[i]
+      for (int i = 0; i < court.length; i++) politics.courtName[i]: court[i],
     };
     List<MapEntry> sorted = justices.entries.sortedByCompare(
-        (element) => element.value.index, (a, b) => a.compareTo(b));
+      (element) => element.value.index,
+      (a, b) => a.compareTo(b),
+    );
     for (int i = 0; i < sorted.length; i++) {
       politics.courtName[i] = sorted[i].key;
       court[i] = sorted[i].value;

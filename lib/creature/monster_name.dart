@@ -1,4 +1,5 @@
 import 'package:lcs_new_age/creature/name_lists.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 /// Capitalizes the first letter of a string
@@ -21,12 +22,27 @@ String generateMonsterName() {
   }
 
   if (form < 3) {
-    return "$first ${capitalize(last)}";
+    return LcsI18n.processString("{first} {last}", {
+      "first": first,
+      "last": capitalize(last),
+    });
   } else if (form < 6) {
-    return "$first ${colors.random}$last";
+    return LcsI18n.processString("{first} {middle}{last}", {
+      "first": first,
+      "middle": colors.random,
+      "last": last,
+    });
   } else if (form < 9) {
-    return "$first ${metals.random}$last";
+    return LcsI18n.processString("{first} {middle}{last}", {
+      "first": first,
+      "middle": metals.random,
+      "last": last,
+    });
   } else {
-    return "$first ${gemstones.random}$last";
+    return LcsI18n.processString("{first} {middle}{last}", {
+      "first": first,
+      "middle": gemstones.random,
+      "last": last,
+    });
   }
 }

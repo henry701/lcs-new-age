@@ -3,6 +3,7 @@ import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/sitemode/chase_sequence.dart';
@@ -10,7 +11,12 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 
 Future<void> attemptArrest(Creature liberal, String? s) async {
   if (s != null) {
-    await showMessage("${liberal.name} is accosted by police while $s!");
+    await showMessage(
+      LcsI18n.processString("{name} is accosted by police while {action}!", {
+        "name": liberal.name,
+        "action": s,
+      }),
+    );
   }
 
   // Chase sequence! Wee!

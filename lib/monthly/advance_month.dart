@@ -1,16 +1,17 @@
 import 'dart:math';
 
 import 'package:lcs_new_age/basemode/activities.dart';
-import 'package:lcs_new_age/basemode/blind_time_log.dart';
 import 'package:lcs_new_age/basemode/disbanding.dart';
 import 'package:lcs_new_age/basemode/liberal_agenda.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/attributes.dart';
+import 'package:lcs_new_age/creature/body.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/daily/advance_day.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/loot_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
@@ -239,8 +240,6 @@ Future<void> advanceMonth() async {
       "The Liberal Crime Squad is now just a memory.",
       "The last LCS members have all been hunted down.",
       "They will never see the utopia they dreamed of...",
-      gentle:
-          "The Liberal Crime Squad faded into history, its work unfinished.",
     );
     HighScore yourScore = await saveHighScore(Ending.disbandLoss);
     await deleteSaveGame();
@@ -260,8 +259,11 @@ Future<void> advanceMonth() async {
     if (p.sleeperAgent) continue;
     if (p.site?.type == SiteType.policeStation) {
       if (p.missing) {
-        await showMessageOrLog(
-          "Cops re-polluted ${p.name}'s mind with Conservatism!",
+        await showMessage(
+          LcsI18n.processString(
+            "Cops re-polluted {name}'s mind with Conservatism!",
+            {"name": p.name},
+          ),
           color: purple,
         );
         p.squad = null;
@@ -272,8 +274,12 @@ Future<void> advanceMonth() async {
         bool execute =
             laws[Law.deathPenalty] == DeepAlignment.archConservative &&
             laws[Law.immigration] == DeepAlignment.archConservative;
-        await showMessageOrLog(
-          "${p.name} has been handed over to ICE and ${execute ? "executed" : "deported"}!",
+        String deportationText = execute ? "executed" : "deported";
+        await showMessage(
+          LcsI18n.processString(
+            "{name} has been handed over to ICE and {action}!",
+            {"name": p.name, "action": deportationText},
+          ),
           color: purple,
         );
 
@@ -322,33 +328,49 @@ Future<void> advanceMonth() async {
           //Issue a raid on this guy's base!
           p.base?.heat += 300;
 
-          String headline = p.brainwashed
-              ? "${p.name} reverted to Conservatism in police custody!"
-              : "${p.name} broke under pressure and ratted you out!";
-          if (canSeeThings) {
-            erase();
-            mvaddstrc(8, 1, white, headline);
-
-            await getKey();
-
+          erase();
+          if (p.brainwashed) {
             mvaddstrc(
-              9,
+              8,
               1,
               white,
-              "The traitor will testify in court, and safehouses may be compromised.",
+              LcsI18n.processString(
+                "{name} has reverted to Conservatism in police custody!",
+                {"name": p.name},
+              ),
             );
-
-            await getKey();
           } else {
-            logBlindEvent(headline);
+            mvaddstrc(
+              8,
+              1,
+              white,
+              LcsI18n.processString(
+                "{name} has broken under the pressure and ratted you out!",
+                {"name": p.name},
+              ),
+            );
           }
+
+          await getKey();
+
+          mvaddstrc(
+            9,
+            1,
+            white,
+            "The traitor will testify in court, and safehouses may be compromised.",
+          );
+
+          await getKey();
           p.squad = null;
           pool.remove(p);
           continue; //no trial for this person; skip to next person
         }
 
-        await showMessageOrLog(
-          "${p.name} is moved to the courthouse for trial.",
+        await showMessage(
+          LcsI18n.processString(
+            "{name} is moved to the courthouse for trial.",
+            {"name": p.name},
+          ),
         );
 
         p.location = findSiteInSameCity(p.site!.city, SiteType.courthouse);
@@ -384,6 +406,111 @@ Future<void> advanceMonth() async {
   if (canSeeThings) await fundReport(false);
   ledger.resetMonthlyAmounts();
   if (clearScreenOnNextMessage) erase();
+
+  //HEAL CLINIC PE[OPLE
+  if (!disbanding) {
+    for (Creature p in pool) {
+      await healIfOnClinic(p);
+    }
+  }
+}
+
+Future<void> healIfOnClinic(Creature p) async {
+  if (!p.alive) return;
+  if (p.clinicMonthsLeft <= 0) return;
+
+  p.clinicMonthsLeft--;
+
+  for (BodyPart w in p.body.parts) {
+    w.heal();
+  }
+
+  int healthdamage = 0;
+  HumanoidBody? body = p.body is HumanoidBody ? p.body as HumanoidBody : null;
+  if (body != null) {
+    if (body.puncturedRightLung) {
+      body.puncturedRightLung = false;
+      if (oneIn(2)) healthdamage++;
+    }
+    if (body.puncturedLeftLung) {
+      body.puncturedLeftLung = false;
+      if (oneIn(2)) healthdamage++;
+    }
+    if (body.puncturedHeart) {
+      body.puncturedHeart = false;
+      if (!oneIn(3)) healthdamage++;
+    }
+    body.puncturedLiver = false;
+    body.puncturedStomach = false;
+    body.puncturedRightKidney = false;
+    body.puncturedLeftKidney = false;
+    body.puncturedSpleen = false;
+    body.ribs = body.maxRibs;
+    if (body.neck == InjuryState.untreated) {
+      body.neck = InjuryState.treated;
+    }
+    if (body.upperSpine == InjuryState.untreated) {
+      body.upperSpine = InjuryState.treated;
+    }
+    if (body.lowerSpine == InjuryState.untreated) {
+      body.lowerSpine = InjuryState.treated;
+    }
+
+    // Inflict permanent health damage
+    p.permanentHealthDamage += healthdamage;
+  }
+
+  if (p.blood <= p.maxBlood * 0.5 && p.clinicMonthsLeft <= 2) {
+    p.blood = (p.maxBlood * 0.5).floor();
+  }
+  if (p.blood <= p.maxBlood * 0.75 && p.clinicMonthsLeft <= 1) {
+    p.blood = (p.maxBlood * 0.75).floor();
+  }
+
+  // If at clinic and in critical condition, transfer to university hospital
+  if (p.clinicMonthsLeft > 2 && p.site?.type == SiteType.clinic) {
+    Site? hospital = findSiteInSameCity(
+      p.site!.city,
+      SiteType.universityHospital,
+    );
+    if (hospital != null) {
+      p.location = hospital;
+      mvaddstr(
+        8,
+        1,
+        LcsI18n.processStringGendered(
+          "{name} has been transferred to {hospital}.",
+          {"name": p.name, "hospital": hospital.name},
+          gender: p.gender,
+        ),
+        noTranslate: true,
+      );
+
+      await getKey();
+    }
+  }
+
+  // End treatment
+  if (p.clinicMonthsLeft == 0) {
+    p.blood = p.maxBlood;
+    p.activity = Activity.none();
+    await showMessage(
+      LcsI18n.processString("{name} has left the {site}.", {
+        "name": p.name,
+        "site": p.site!.name,
+      }),
+    );
+
+    Site? hs = findSiteInSameCity(p.site!.city, SiteType.homelessEncampment);
+
+    if (hs != null &&
+        (p.base?.siege.underSiege != false ||
+            p.base?.controller != SiteController.lcs)) {
+      p.base = hs;
+    }
+
+    p.location = p.base;
+  }
 }
 
 Future<void> winCheck() async {

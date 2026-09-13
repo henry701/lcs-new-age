@@ -12,6 +12,7 @@ import 'package:lcs_new_age/engine/console_graphic.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/ledger.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/flag.dart';
 import 'package:lcs_new_age/items/flag_type.dart';
 import 'package:lcs_new_age/justice/crimes.dart';
@@ -65,9 +66,9 @@ bool flagOwned(Site loc, FlagType flag) =>
     c = lightGray;
   }
   if (s > 0) {
-    return ("+$s", c);
+    return (LcsI18n.processString("+{value}", {"value": s}), c);
   } else if (s < 0) {
-    return ("$s", c);
+    return (LcsI18n.processString("{value}", {"value": s}), c);
   } else {
     return ("0", c);
   }
@@ -87,18 +88,30 @@ void flagMenuDetail(
     row = console.y + 1;
   }
   row = 20;
-  mvaddstrx(row, x, "&wIssue: &G${flag.view.label}");
+  mvaddstrx(
+    row,
+    x,
+    "&wIssue: &G{label}",
+    params: {"label": LcsI18n.tr(flag.view.label)},
+  );
   row++;
-  mvaddstrc(row, x, lightGray, "Heat: ");
+  final heatLabel = LcsI18n.tr("Heat: ");
+  mvaddstrc(row, x, lightGray, heatLabel, noTranslate: true);
   var (secrecyText, secrecyColor) = flagSecrecyText(flag);
   addstrc(secrecyColor, secrecyText);
   if (difficulty != null) {
-    mvaddstrc(row, x, lightGray, "Difficulty: ");
-    addDifficultyText(row, x + 12, difficulty);
+    final difficultyLabel = LcsI18n.tr("Difficulty: ");
+    final difficultyX = x + strLenX(heatLabel) + strLenX(secrecyText) + 2;
+    mvaddstrc(row, difficultyX, lightGray, difficultyLabel, noTranslate: true);
+    addDifficultyText(
+      row,
+      difficultyX + strLenX(difficultyLabel),
+      difficulty,
+      maxWidth: CONSOLE_WIDTH - difficultyX - strLenX(difficultyLabel),
+    );
   }
   row++;
-  mvaddstrc(row, x, lightGray, "Cost: ");
-  addstrc(costColor, costLine);
+  mvaddstrc(row, x, costColor, costLine, noTranslate: true);
 }
 
 Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
@@ -126,10 +139,10 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
   }
 
   String costText(FlagType flag) {
-    if (isFlying(flag)) return "Flying";
-    if (flagOwned(loc, flag)) return "Free";
-    if (lawBanned(flag)) return "Banned";
-    return "\$20";
+    if (isFlying(flag)) return LcsI18n.tr("Flying");
+    if (flagOwned(loc, flag)) return LcsI18n.tr("Free");
+    if (lawBanned(flag)) return LcsI18n.tr("Banned");
+    return LcsI18n.currencyAmount(20);
   }
 
   Color costColor(FlagType flag) {
@@ -141,10 +154,12 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
   }
 
   String costLine(FlagType flag) {
-    if (isFlying(flag)) return "Currently flying";
-    if (flagOwned(loc, flag)) return "Cost: Free (in storage)";
-    if (lawBanned(flag)) return "Cost: Banned";
-    return "Cost: \$20";
+    if (isFlying(flag)) return LcsI18n.tr("Currently flying");
+    if (flagOwned(loc, flag)) {
+      return LcsI18n.tr("Cost: Free (in storage)");
+    }
+    if (lawBanned(flag)) return LcsI18n.tr("Cost: Banned");
+    return LcsI18n.tr("Cost: \$20");
   }
 
   Color costLineColor(FlagType flag) {
@@ -161,12 +176,10 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
   }
   bool confirmed = false;
 
-  String prompt;
-  if (loc.hasFlag) {
-    prompt = "Change the flag flying over the ${loc.getName(short: true)}:";
-  } else {
-    prompt = "Fly a flag over the ${loc.getName(short: true)}:";
-  }
+  final prompt = loc.hasFlag
+      ? "Change the flag flying over the {site}:"
+      : "Fly a flag over the {site}:";
+  final promptParams = {"site": loc.getName(short: true)};
   String footer;
   if (ownedOnly) {
     footer = "Under siege: only flags already in your inventory can be raised.";
@@ -177,7 +190,10 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
 
   await pagedInterface(
     headerPrompt: prompt,
-    headerKey: const {0: "FLAG", 40: "ISSUE", 57: "HEAT", 70: "COST"},
+    headerPromptParams: promptParams,
+    // Give translated political-issue names enough room to remain legible;
+    // the heat and cost cells still retain their fixed right-hand boundaries.
+    headerKey: const {0: "FLAG", 40: "ISSUE", 64: "HEAT", 70: "COST"},
     footerPrompt: footer,
     pageSize: 12,
     count: flags.length,
@@ -185,18 +201,20 @@ Future<void> selectAndFlyFlag(Site loc, {bool ownedOnly = false}) async {
     lineBuilder: (y, key, index) {
       FlagType flag = flags[index];
       bool en = enabled(flag);
-      addOptionText(
+      addOptionTextFitted(
         y,
         0,
         key,
-        "$key - ${flag.name}",
+        "{key} - {name}",
+        40,
+        params: {"key": key, "name": LcsI18n.tr(flag.name)},
         baseColorKey: index == selected ? ColorKey.white : ColorKey.lightGray,
         enabledWhen: en,
       );
-      mvaddstrc(y, 40, lightGray, flag.view.label);
+      mvaddstrcFitted(y, 40, lightGray, flag.view.label, 24);
       var (secrecyText, secrecyColor) = flagSecrecyText(flag);
-      mvaddstrc(y, 57, secrecyColor, secrecyText);
-      mvaddstrc(y, 70, costColor(flag), costText(flag));
+      mvaddstrc(y, 64, secrecyColor, secrecyText);
+      mvaddstrc(y, 70, costColor(flag), costText(flag), noTranslate: true);
       // pagedInterface clears graphics on every redraw, so re-draw the preview
       // (including the flag image) once per frame, on the first row.
       if (key == letterAPlus(0)) {
@@ -262,7 +280,7 @@ void renderFlagPreview(
   eraseArea(startY: 16);
   makeDelimiter(y: 16);
   _drawFlagGraphic(flag, top: 17, left: 10);
-  mvaddstrc(17, 40, white, flag.name);
+  mvaddstrcFitted(17, 40, white, flag.name, CONSOLE_WIDTH - 40);
   flagMenuDetail(
     flag,
     difficulty: difficulty,
@@ -271,8 +289,9 @@ void renderFlagPreview(
   );
   setColor(white);
   String enterText = "Enter - Confirm Selection";
-  String fullText = "$enterText   $cancelText";
-  move(23, centerString(fullText));
+  final footerWidth =
+      LcsI18n.tr(enterText).length + 3 + LcsI18n.tr(cancelText).length;
+  move(23, (console.width - footerWidth) ~/ 2);
   addInlineOptionText("Enter", enterText);
   addstr("  ");
   addInlineOptionText("Escape", cancelText);
@@ -299,8 +318,11 @@ Future<void> burnFlag(Site loc) async {
       notoriety += 20;
     }
     changePublicOpinion(lcs.View.lcsKnown, impact + notoriety);
-    changePublicOpinion(flag.view, impact, coloredByLcsOpinions: true);
-    loc.siege.flagBurnUsed = true;
+    changePublicOpinion(
+      lcs.View.freeSpeech,
+      impact,
+      coloredByLcsOpinions: true,
+    );
   }
   await burnFlagAnimation(flag);
   loc.hasFlag = false;
@@ -442,8 +464,42 @@ class _FlagBurningAnimationState extends State<FlagBurningAnimation>
   );
 }
 
-/// A gleam of light sweeping across the flag, played when a flag is waved in
-/// defiance during a siege.
+enum BurnState {
+  unburned,
+  ignition,
+  ignition2,
+  burning,
+  burning2,
+  burned,
+  burned2,
+  burned3,
+  gone;
+
+  bool get ignited => this != unburned;
+  Color get color {
+    switch (this) {
+      case unburned:
+        return Colors.transparent;
+      case ignition:
+        return yellow.withValues(alpha: 0.5);
+      case ignition2:
+        return yellow;
+      case burning:
+        return red;
+      case burning2:
+        return darkRed;
+      case burned:
+        return darkGray;
+      case burned2:
+        return const Color(0xFF333333);
+      case burned3:
+        return const Color(0xFF222222);
+      case gone:
+        return black;
+    }
+  }
+}
+
 class FlagGleamAnimation extends StatefulWidget {
   const FlagGleamAnimation({
     required this.assetPath,
@@ -544,42 +600,6 @@ Shader gleamShader(Rect bounds, double phase, double fade) {
     const [0.0, 0.05, 0.25, 0.45, 0.5, 0.5, 0.55, 0.75, 0.95, 1.0],
     TileMode.repeated,
   );
-}
-
-enum BurnState {
-  unburned,
-  ignition,
-  ignition2,
-  burning,
-  burning2,
-  burned,
-  burned2,
-  burned3,
-  gone;
-
-  bool get ignited => this != unburned;
-  Color get color {
-    switch (this) {
-      case unburned:
-        return Colors.transparent;
-      case ignition:
-        return yellow.withValues(alpha: 0.5);
-      case ignition2:
-        return yellow;
-      case burning:
-        return red;
-      case burning2:
-        return darkRed;
-      case burned:
-        return darkGray;
-      case burned2:
-        return const Color(0xFF333333);
-      case burned3:
-        return const Color(0xFF222222);
-      case gone:
-        return black;
-    }
-  }
 }
 
 class BurnPainter extends CustomPainter {

@@ -19,6 +19,7 @@ import 'package:lcs_new_age/daily/activities/trouble.dart';
 import 'package:lcs_new_age/daily/shopsnstuff.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/loot_type.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/location/site.dart';
@@ -30,13 +31,24 @@ Future<void> _selectRecruitTarget(Creature cr) async {
   erase();
   cr.activity = Activity(ActivityType.recruiting);
   await pagedInterface(
-    headerPrompt:
-        "What type of person will ${cr.name} try to meet and recruit?",
+    headerPrompt: LcsI18n.processString(
+      "What type of person will {name} try to meet and recruit?",
+      {"name": cr.name},
+    ),
     headerKey: {4: "TYPE", 49: "DIFFICULTY TO ARRANGE MEETING"},
     footerPrompt: "Press a Letter to select a Profession",
     count: recruitableCreatures.length,
     lineBuilder: (y, key, index) {
-      addOptionText(y, 0, key, "$key - ${recruitableCreatures[index].name}");
+      addOptionText(
+        y,
+        0,
+        key,
+        "{key} - {name}",
+        params: {
+          "key": key,
+          "name": LcsI18n.tr(recruitableCreatures[index].name),
+        },
+      );
       addDifficultyText(y, 49, recruitableCreatures[index].difficulty);
     },
     onChoice: (index) async {
@@ -201,8 +213,10 @@ Future<void> soloActivities(bool disbanding) async {
         if (disbanding) continue;
         for (Creature p in people) {
           if (p.site?.city == null) continue;
-          Site? hospital =
-              findSiteInSameCity(p.site!.city, SiteType.universityHospital);
+          Site? hospital = findSiteInSameCity(
+            p.site!.city,
+            SiteType.universityHospital,
+          );
           if (hospital == null) continue;
           await hospitalize(hospital, p);
         }
@@ -216,7 +230,11 @@ Future<void> soloActivities(bool disbanding) async {
 }
 
 Future<void> doActivityGetWheelchair(Creature p) async {
-  await showMessage("${p.name} has procured a wheelchair.");
+  await showMessage(
+    LcsI18n.processString("{name} has procured a wheelchair.", {
+      "name": p.name,
+    }),
+  );
   p.hasWheelchair = true;
   p.activity = Activity.none();
 }

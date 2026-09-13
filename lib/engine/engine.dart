@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/changelog.dart';
 import 'package:lcs_new_age/engine/console.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
 
@@ -10,15 +11,35 @@ Future<KeyEvent> getKeyEvent() async => await console.getKeyEvent();
 Future<String> getKeyCaseSensitive() async => console.getkey();
 int checkKey() => console.checkkey().codePoint;
 String checkKeyCaseSensitive() => console.checkkey();
+
+bool isYesKey(int key) =>
+    key == Key.y || (LcsI18n.currentLocale == 'pt_BR' && key == Key.s);
+
+bool isNoKey(int key) => key == Key.n;
+
 void setColor(Color foreground, {Color background = black}) =>
     console.setColor(foreground, background);
 void addchar(String c) => console.addchar(c);
 void mvaddchar(int y, int x, String c) => console.mvaddchar(y, x, c);
 
-void addstr(String s) => console.addstr(s);
-void addstrc(Color fg, String s, {Color? bg}) {
+void addstr(
+  String s, {
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.addstr(result, noTranslate: noTranslate);
+}
+
+void addstrc(
+  Color fg,
+  String s, {
+  Color? bg,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
   setColor(fg, background: bg ?? black);
-  addstr(s);
+  addstr(s, params: params, noTranslate: noTranslate);
 }
 
 void addparagraph(
@@ -27,9 +48,16 @@ void addparagraph(
   String s, {
   int y2 = CONSOLE_HEIGHT - 1,
   int x2 = CONSOLE_WIDTH - 1,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
+  final renderedParagraph = LcsI18n.processString(
+    s,
+    params,
+    noTranslate: noTranslate,
+  );
   console.move(y1, x1);
-  List<String> lines = s.split("\n");
+  List<String> lines = renderedParagraph.split("\n");
   for (int i = 0; i < lines.length; i++) {
     List<String> words = lines[i].split(" ");
     for (int j = 0; j < words.length; j++) {
@@ -38,9 +66,9 @@ void addparagraph(
         if (console.y > y2) return;
         if (words[j].isEmpty) continue;
       } else if (j != 0) {
-        addstr(" ");
+        addstr(" ", noTranslate: true);
       }
-      addstrx(words[j], restoreOldColor: false);
+      addstrx(words[j], restoreOldColor: false, noTranslate: true);
     }
     move(console.y + 1, x1);
     if (console.y > y2) return;
@@ -67,7 +95,79 @@ void addInlineOptionText(
   String baseColorKey = "w",
   String highlightColorKey = "B",
   String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
+  final renderedText = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+
+  _addRenderedOptionText(
+    key,
+    renderedText,
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+  );
+}
+
+void addInlineOptionTextWrapped(
+  String key,
+  String text, {
+  int leftMargin = 0,
+  int rightMargin = 0,
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool compactLayout = false,
+}) {
+  var renderedText = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  if (compactLayout) {
+    renderedText = renderedText.replaceFirst(" - ", ":");
+  }
+  if (compactLayout && renderedText.endsWith(", ")) {
+    renderedText = '${renderedText.substring(0, renderedText.length - 2)} ';
+  }
+  final rightEdgeExclusive = CONSOLE_WIDTH - rightMargin;
+  if (console.x > leftMargin &&
+      console.x + strLenX(renderedText) > rightEdgeExclusive) {
+    move(console.y + 1, leftMargin);
+  }
+
+  _addRenderedOptionText(
+    key,
+    renderedText,
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+  );
+}
+
+void _addRenderedOptionText(
+  String key,
+  String renderedText, {
+  bool enabledWhen = true,
+  String baseColorKey = "w",
+  String highlightColorKey = "B",
+  String disabledColorKey = "K",
+}) {
+  if (renderedText.isEmpty) {
+    return;
+  }
+
   key = key.toUpperCase();
   String mouseClickKey = key;
   if (key.length > 1) {
@@ -96,26 +196,34 @@ void addInlineOptionText(
   }
   String beforeKey = "";
   String afterKey = "";
-  int keyIndex = text.toUpperCase().indexOf(key);
+  int keyIndex = renderedText.toUpperCase().indexOf(key);
   if (keyIndex == -1) {
-    key = text[0];
+    key = renderedText[0];
     keyIndex = 0;
   }
-  key = text.substring(keyIndex, keyIndex + key.length);
-  beforeKey = text.substring(0, keyIndex);
-  afterKey = text.substring(keyIndex + key.length);
+  key = renderedText.substring(keyIndex, keyIndex + key.length);
+  beforeKey = renderedText.substring(0, keyIndex);
+  afterKey = renderedText.substring(keyIndex + key.length);
   if (enabledWhen) {
-    addstrx(
-        "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
-        mouseClickKey: mouseClickKey);
+    console.addstrx(
+      "&$baseColorKey$beforeKey&$highlightColorKey$key&$baseColorKey$afterKey",
+      restoreOldColor: true,
+      mouseClickKey: mouseClickKey,
+    );
   } else {
-    addstrx("&$disabledColorKey$text");
+    console.addstrx("&$disabledColorKey$renderedText");
   }
 }
 
 void registerFullScreenMouseRegion(String key) {
-  console.registerMouseRegion(0, 0, CONSOLE_WIDTH, CONSOLE_HEIGHT, key,
-      noHighlight: true);
+  console.registerMouseRegion(
+    0,
+    0,
+    CONSOLE_WIDTH,
+    CONSOLE_HEIGHT,
+    key,
+    noHighlight: true,
+  );
 }
 
 void registerMouseRegion(int y, int x, int width, int height, String key) {
@@ -131,13 +239,20 @@ void addOptionText(
   String baseColorKey = "w",
   String highlightColorKey = "B",
   String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
   move(y, x);
-  addInlineOptionText(key, text,
-      enabledWhen: enabledWhen,
-      baseColorKey: baseColorKey,
-      highlightColorKey: highlightColorKey,
-      disabledColorKey: disabledColorKey);
+  addInlineOptionText(
+    key,
+    text,
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+    params: params,
+    noTranslate: noTranslate,
+  );
 }
 
 void addCenteredOptionText(
@@ -148,42 +263,187 @@ void addCenteredOptionText(
   String baseColorKey = "w",
   String highlightColorKey = "B",
   String disabledColorKey = "K",
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
 }) {
-  int x = centerString(text);
+  final renderedText = LcsI18n.processString(
+    text,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  int x = centerString(renderedText);
   move(y, x);
-  addInlineOptionText(key, text,
-      enabledWhen: enabledWhen,
-      baseColorKey: baseColorKey,
-      highlightColorKey: highlightColorKey,
-      disabledColorKey: disabledColorKey);
+  _addRenderedOptionText(
+    key,
+    renderedText,
+    enabledWhen: enabledWhen,
+    baseColorKey: baseColorKey,
+    highlightColorKey: highlightColorKey,
+    disabledColorKey: disabledColorKey,
+  );
 }
 
-void mvaddstr(int y, int x, String s) => console.mvaddstr(y, x, s);
+void mvaddstr(
+  int y,
+  int x,
+  String s, {
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.mvaddstr(y, x, result, noTranslate: noTranslate);
+}
 
 /// Adds a string at the specified y coordinate, aligned to the right with an optional right margin
 /// [y] The y coordinate (row)
 /// [s] The string to display
 /// [marginX] Optional right margin (defaults to 0)
-void mvaddstrRight(int y, String s, {int marginX = 0}) {
-  int x = CONSOLE_WIDTH - s.length - marginX;
-  mvaddstr(y, x, s);
+void mvaddstrRight(
+  int y,
+  String s, {
+  int marginX = 0,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final processed = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  int x = CONSOLE_WIDTH - strLenX(processed) - marginX;
+  console.mvaddstr(y, x, processed, noTranslate: true);
 }
 
-void mvaddstrc(int y, int x, Color fg, String s, {Color? bg}) {
+void mvaddstrc(
+  int y,
+  int x,
+  Color fg,
+  String s, {
+  Color? bg,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
   setColor(fg, background: bg ?? black);
-  mvaddstr(y, x, s);
+  mvaddstr(y, x, s, params: params, noTranslate: noTranslate);
 }
 
-void addstrx(String s, {bool restoreOldColor = true, String? mouseClickKey}) =>
-    console.addstrx(s,
-        restoreOldColor: restoreOldColor, mouseClickKey: mouseClickKey);
-void mvaddstrx(int y, int x, String s,
-        {bool restoreOldColor = true, String? mouseClickKey}) =>
-    console.mvaddstrx(y, x, s,
-        restoreOldColor: restoreOldColor, mouseClickKey: mouseClickKey);
+/// mvaddstr with inline color syntax and template parameters
+///
+/// Inline color syntax: {param:color} where color is a color name or "color" for dynamic
+///
+/// Examples:
+///   // Static colors:
+///   mvaddstrcx(9, 1, white, "{name:white} coughs.", params: {"name": squaddie.name});
+///
+///   // Dynamic colors from param:
+///   mvaddstrcx(9, 1, white, "{name:white} talks to {target:color}",
+///     params: {"name": a.name, "target": tk.name, "targetColor": "G"});
+///
+/// Available colors: white, lightGray, darkGray, black, lightGreen, green,
+/// lightBlue, blue, darkBlue, red, darkRed, yellow, orange, purple, pink, brown
+void mvaddstrcx(
+  int y,
+  int x,
+  Color fg,
+  String s, {
+  Color? bg,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool restoreOldColor = true,
+}) {
+  setColor(fg, background: bg ?? black);
+  final baseColorKey = ColorKey.fromColor(fg);
+  final result = LcsI18n.processString(
+    s,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  console.mvaddstrx(y, x, result, restoreOldColor: restoreOldColor);
+}
 
-void mvaddstrCenter(int y, String s, {int x = 39}) =>
-    mvaddstr(y, centerString(s, x: x), s);
+void addstrx(
+  String s, {
+  bool restoreOldColor = true,
+  String? mouseClickKey,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.addstrx(
+    result,
+    restoreOldColor: restoreOldColor,
+    mouseClickKey: mouseClickKey,
+  );
+}
+
+/// addstr with inline color syntax and template parameters
+///
+/// Inline color syntax: {param:color} where color is a color name or "color" for dynamic
+///
+/// Examples:
+///   // Static colors:
+///   addstrcx(white, "{name:white} coughs.", params: {"name": squaddie.name});
+///
+///   // Dynamic colors from param:
+///   addstrcx(white, "{name:white} talks to {target:color}",
+///     params: {"name": a.name, "target": tk.name, "targetColor": "G"});
+void addstrcx(
+  Color fg,
+  String s, {
+  Color? bg,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+  bool restoreOldColor = true,
+  String? mouseClickKey,
+}) {
+  setColor(fg, background: bg ?? black);
+  final baseColorKey = ColorKey.fromColor(fg);
+  final result = LcsI18n.processString(
+    s,
+    params,
+    noTranslate: noTranslate,
+    baseColorKey: baseColorKey,
+  );
+  console.addstrx(
+    result,
+    restoreOldColor: restoreOldColor,
+    mouseClickKey: mouseClickKey,
+  );
+}
+
+void mvaddstrx(
+  int y,
+  int x,
+  String s, {
+  bool restoreOldColor = true,
+  String? mouseClickKey,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final result = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.mvaddstrx(
+    y,
+    x,
+    result,
+    restoreOldColor: restoreOldColor,
+    mouseClickKey: mouseClickKey,
+  );
+}
+
+void mvaddstrCenter(
+  int y,
+  String s, {
+  int x = 39,
+  Map<String, dynamic>? params,
+  bool noTranslate = false,
+}) {
+  final processed = LcsI18n.processString(s, params, noTranslate: noTranslate);
+  console.mvaddstr(
+    y,
+    centerString(processed, x: x),
+    processed,
+    noTranslate: true,
+  );
+}
+
 void move(int y, int x) => console.move(y, x);
 void flush() => console.flush();
 void refresh() => flush();
@@ -197,15 +457,16 @@ void eraseArea({
   int startX = 0,
   int endY = CONSOLE_HEIGHT,
   int endX = CONSOLE_WIDTH,
-}) =>
-    console.eraseArea(startY: startY, startX: startX, endY: endY, endX: endX);
+}) => console.eraseArea(startY: startY, startX: startX, endY: endY, endX: endX);
 void eraseLine(int y) => console.eraseLine(y);
-int centerString(String s, {int x = 39}) => (x - s.length / 2).round();
+int centerString(String s, {int x = 39}) => (x - strLenX(s) / 2).round();
 void moveCenterString(int y, String s) => move(y, centerString(s));
 Future<void> pressAnyKey() => getKey();
-void setColorConditional(bool active,
-        {Color ifTrue = lightGray, Color ifFalse = darkGray}) =>
-    setColor(active ? ifTrue : ifFalse);
+void setColorConditional(
+  bool active, {
+  Color ifTrue = lightGray,
+  Color ifFalse = darkGray,
+}) => setColor(active ? ifTrue : ifFalse);
 
 Future<void> pause(int milliseconds) async {
   refresh();
@@ -291,7 +552,7 @@ extension CodePointExtension on String {
 
 Future<String> mvgetstr(int y, int x, {String? starting}) async {
   String s = starting ?? "";
-  mvaddstr(y, x, "$s▂");
+  mvaddstr(y, x, "{text}▂", params: {"text": s}, noTranslate: true);
   while (true) {
     String c = await getKeyCaseSensitive();
     if (isBackKey(c.codePoint) &&
@@ -305,13 +566,17 @@ Future<String> mvgetstr(int y, int x, {String? starting}) async {
       }
     } else if (c.length == 1) {
       s += c;
-      mvaddstr(y, x, "$s▂");
+      mvaddstr(y, x, "{text}▂", params: {"text": s}, noTranslate: true);
     }
   }
 }
 
-Future<String> enterName(int y, int x, String fallback,
-    {bool prefill = false}) async {
+Future<String> enterName(
+  int y,
+  int x,
+  String fallback, {
+  bool prefill = false,
+}) async {
   String s = await mvgetstr(y, x, starting: prefill ? fallback : null);
   if (s.isEmpty) return fallback;
   return s;

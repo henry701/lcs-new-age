@@ -8,7 +8,7 @@ part 'loot.g.dart';
 class Loot extends Item {
   Loot(super.typeName, {super.stackSize}) : super.superConstructor();
   Loot.fromType(LootType type, {super.stackSize})
-      : super.superConstructor(type.idName);
+    : super.superConstructor(type.idName);
   factory Loot.fromJson(Map<String, dynamic> json) => _$LootFromJson(json);
   @override
   Map<String, dynamic> toJson() => _$LootToJson(this);

@@ -60,7 +60,7 @@ enum Income {
   busking,
   thievery,
   tshirts,
-  ransom;
+  ransom,
 }
 
 enum Expense {

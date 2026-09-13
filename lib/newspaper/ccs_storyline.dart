@@ -15,20 +15,23 @@ import 'package:lcs_new_age/utils/lcsrandom.dart';
 NewsStory ccsStrikesStory() {
   // Only pick sites from cities where CCS has presence
   List<Site> validSites = sites
-      .where((s) =>
-          s.controller == SiteController.unaligned &&
-          s.city.sites.any((cs) => cs.controller == SiteController.ccs))
+      .where(
+        (s) =>
+            s.controller == SiteController.unaligned &&
+            s.city.sites.any((cs) => cs.controller == SiteController.ccs),
+      )
       .toList();
 
   if (validSites.isEmpty) {
     // Fallback to any unaligned site if no CCS cities found
-    validSites =
-        sites.where((s) => s.controller == SiteController.unaligned).toList();
+    validSites = sites
+        .where((s) => s.controller == SiteController.unaligned)
+        .toList();
   }
 
   return NewsStory.prepare(
-      oneIn(10) ? NewsStories.ccsKilledInSiteAction : NewsStories.ccsSiteAction)
-    ..loc = validSites.isNotEmpty ? validSites.random : null;
+    oneIn(10) ? NewsStories.ccsKilledInSiteAction : NewsStories.ccsSiteAction,
+  )..loc = validSites.isNotEmpty ? validSites.random : null;
 }
 
 Future<void> advanceCCSDefeatStoryline() async {
@@ -48,10 +51,13 @@ NewsStory ccsBackerArrestStory() {
   ccsExposure = CCSExposure.nobackers;
   // arrest eight senators
   List<int> conservativeSenators = senate
-      .mapIndexed<int>((i, s) => (s == DeepAlignment.archConservative ||
-              s == DeepAlignment.conservative)
-          ? i
-          : -1)
+      .mapIndexed<int>(
+        (i, s) =>
+            (s == DeepAlignment.archConservative ||
+                s == DeepAlignment.conservative)
+            ? i
+            : -1,
+      )
       .whereNot((i) => i == -1)
       .shuffled();
   for (int i = 0; i < min(8, conservativeSenators.length); i++) {
@@ -59,10 +65,13 @@ NewsStory ccsBackerArrestStory() {
   }
   // arrest seventeen representatives
   List<int> conservativeHouse = house
-      .mapIndexed<int>((i, s) => (s == DeepAlignment.archConservative ||
-              s == DeepAlignment.conservative)
-          ? i
-          : -1)
+      .mapIndexed<int>(
+        (i, s) =>
+            (s == DeepAlignment.archConservative ||
+                s == DeepAlignment.conservative)
+            ? i
+            : -1,
+      )
       .whereNot((i) => i == -1)
       .shuffled();
   for (int i = 0; i < min(17, conservativeHouse.length); i++) {
@@ -70,9 +79,10 @@ NewsStory ccsBackerArrestStory() {
   }
   // change police regulation issue to be more liberal
   laws.update(
-      Law.policeReform,
-      (v) => DeepAlignment
-          .values[min(DeepAlignment.values.length - 1, v.index + 2)]);
+    Law.policeReform,
+    (v) =>
+        DeepAlignment.values[min(DeepAlignment.values.length - 1, v.index + 2)],
+  );
   changePublicOpinion(View.policeBehavior, 50);
   changePublicOpinion(View.ccsHated, 50);
 

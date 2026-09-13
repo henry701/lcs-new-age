@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lcs_new_age/creature/skills.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/ammo.dart';
 import 'package:lcs_new_age/items/ammo_type.dart';
 import 'package:lcs_new_age/items/attack.dart';
@@ -21,7 +22,8 @@ class Weapon extends Item {
     if (fullammo && type.usesAmmo && type.ammoCapacity > 0) {
       w.ammo = type.ammoCapacity;
       w.loadedAmmoType = ammoTypes.values.firstWhere(
-          (a) => type.attacks.any((attack) => attack.cartridge == a.cartridge));
+        (a) => type.attacks.any((attack) => attack.cartridge == a.cartridge),
+      );
     }
     return w;
   }
@@ -60,25 +62,34 @@ class Weapon extends Item {
   String getName({bool sidearm = false, bool primary = false}) {
     if (year >= 2100) {
       if (primary) {
-        return type.futureLargeSubtypeName ??
-            type.largeSubtypeName ??
-            type.name;
+        return LcsI18n.tr(
+          type.futureLargeSubtypeName ??
+              type.largeSubtypeName ??
+              type.name,
+        );
       }
       if (sidearm) {
-        return type.futureSmallSubtypeShortName ??
-            type.smallSubtypeShortName ??
-            type.shortName;
+        return LcsI18n.tr(
+          type.futureSmallSubtypeShortName ??
+              type.smallSubtypeShortName ??
+              type.shortName,
+        );
       }
     }
-    if (primary) return type.largeSubtypeName ?? type.name;
-    if (sidearm) return type.smallSubtypeShortName ?? type.shortName;
-    return type.name;
+    if (primary) return LcsI18n.tr(type.largeSubtypeName ?? type.name);
+    if (sidearm) return LcsI18n.tr(type.smallSubtypeShortName ?? type.shortName);
+    return LcsI18n.tr(type.name);
   }
 
   @override
   String equipTitle({bool full = false}) {
-    String et = type.name;
-    if (ammo > 0) et += " ($ammo)";
+    String et = LcsI18n.tr(type.name);
+    if (ammo > 0) {
+      et = LcsI18n.processString("{weapon} ({ammo})", {
+        "weapon": et,
+        "ammo": ammo,
+      });
+    }
     return et;
   }
 

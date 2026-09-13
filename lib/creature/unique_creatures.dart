@@ -4,6 +4,7 @@ import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
 import 'package:lcs_new_age/creature/name.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -34,7 +35,9 @@ class UniqueCreatures {
   Creature get president {
     _president ??= Creature.fromId(CreatureTypeIds.president)
       ..properName = politics.execName[Exec.president]!.firstLast
-      ..name = "President ${politics.execName[Exec.president]!.last}"
+      ..name = LcsI18n.processString("President {last}", {
+        "last": politics.execName[Exec.president]!.last,
+      })
       ..gender = politics.execName[Exec.president]!.gender
       ..genderAssignedAtBirth = politics.execName[Exec.president]!.gender
       ..align = politics.exec[Exec.president]!.shallow
@@ -51,12 +54,14 @@ class UniqueCreatures {
   @JsonKey(includeFromJson: false, includeToJson: false)
   Creature get aceLiberalAttorney {
     _aceLiberalAttorney ??= Creature.fromId(CreatureTypeIds.lawyer)
-      ..name =
-          "${[
-            "Huang", "Astraea", "Saleem", "Imani", //
-          ].random} ${[
-            "Truth", "Justice", "Liberty", "Peace", //
-          ].random}";
+      ..name = LcsI18n.processString("{first} {last}", {
+        "first": [
+          "Huang", "Astraea", "Saleem", "Imani", //
+        ].random,
+        "last": [
+          "Truth", "Justice", "Liberty", "Peace", //
+        ].random,
+      });
     return _aceLiberalAttorney!;
   }
 
@@ -119,14 +124,6 @@ class UniqueCreatures {
         (p) => p.id == _president!.id,
         orElse: () => _president!,
       );
-    }
-    for (var siteCreatureList in _siteCreatures.values) {
-      for (var entry in siteCreatureList.entries) {
-        siteCreatureList[entry.key] = poolAndProspects.firstWhere(
-          (p) => p.id == entry.value.id,
-          orElse: () => entry.value,
-        );
-      }
     }
   }
 

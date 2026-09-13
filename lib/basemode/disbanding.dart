@@ -1,6 +1,8 @@
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
 import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/politics/politics.dart';
@@ -16,7 +18,13 @@ Future<bool> showDisbandingScreen() async {
   letTheUnworthyLeave();
 
   erase();
-  mvaddstrc(0, 0, white, "${getMonth(month)} $year");
+  mvaddstrc(
+    0,
+    0,
+    white,
+    "{month} {year}",
+    params: {"month": getMonth(month), "year": year.toString()},
+  );
 
   printExec();
   printHouse(2);
@@ -26,10 +34,23 @@ Future<bool> showDisbandingScreen() async {
 
   printMood();
 
-  addOptionText(24, 0, "R", "R - Recreate the Liberal Crime Squad");
-  addOptionText(24, 54, "Any Other Key", "Any Other Key - Next Month");
+  printDisbandingFooter();
 
   return await getKey() != Key.r;
+}
+
+void printDisbandingFooter() {
+  addOptionText(24, 0, "R", "R - Recreate the Liberal Crime Squad");
+  addOptionTextRightAligned(24, "Any Other Key", "Any Other Key - Next Month");
+}
+
+void printDisbandConfirmationPrompt() {
+  addparagraph(
+    13,
+    0,
+    "Type this Liberal phrase to confirm (press a wrong letter to rethink it):",
+    y2: 14,
+  );
 }
 
 void letTheUnworthyLeave() {
@@ -45,8 +66,16 @@ void letTheUnworthyLeave() {
 }
 
 void printExec() {
-  mvaddstrc(1, 0, exec[Exec.president]!.color,
-      "President: ${execName[Exec.president]}, ${exec[Exec.president]!.label}");
+  mvaddstrc(
+    1,
+    0,
+    exec[Exec.president]!.color,
+    "President: {name}, {label}",
+    params: {
+      "name": execName[Exec.president]!.firstLast,
+      "label": LcsI18n.tr(exec[Exec.president]!.label),
+    },
+  );
   if (politics.execTerm == 1) {
     addstr(", 1st Term");
   } else {
@@ -54,22 +83,40 @@ void printExec() {
   }
 }
 
-void printHouse(int y) {
+void printHouse(int y, {int maxWidth = 80}) {
   List<int> housemake = summarizePoliticalBody(house);
   setPoliticalBodyColor(housemake);
-  mvaddstr(y, 0, "House: ${summaryText(housemake)}");
+  mvaddstrFitted(
+    y,
+    0,
+    "House: {summary}",
+    maxWidth,
+    params: {"summary": summaryText(housemake)},
+  );
 }
 
-void printSenate(int y) {
+void printSenate(int y, {int maxWidth = 80}) {
   List<int> senatemake = summarizePoliticalBody(senate);
   setPoliticalBodyColor(senatemake);
-  mvaddstr(y, 0, "Senate: ${summaryText(senatemake)}");
+  mvaddstrFitted(
+    y,
+    0,
+    "Senate: {summary}",
+    maxWidth,
+    params: {"summary": summaryText(senatemake)},
+  );
 }
 
-void printCourtBrief(int y) {
+void printCourtBrief(int y, {int maxWidth = 80}) {
   List<int> courtmake = summarizePoliticalBody(court);
   setPoliticalBodyColor(courtmake);
-  mvaddstr(y, 0, "Court: ${summaryText(courtmake)}");
+  mvaddstrFitted(
+    y,
+    0,
+    "Court: {summary}",
+    maxWidth,
+    params: {"summary": summaryText(courtmake)},
+  );
 }
 
 void printLaws() {
@@ -109,7 +156,12 @@ void printMood() {
 }
 
 String summaryText(List<int> body) => List.generate(
-    5, (i) => "${body[4 - i]} ${DeepAlignment.values[4 - i].short}").join(", ");
+  5,
+  (i) => LcsI18n.processString("{count} {alignment}", {
+    "count": body[4 - i],
+    "alignment": LcsI18n.tr(DeepAlignment.values[4 - i].short),
+  }),
+).join(", ");
 
 List<int> summarizePoliticalBody(List<DeepAlignment> body) {
   List<int> summary = [0, 0, 0, 0, 0];

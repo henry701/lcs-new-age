@@ -10,6 +10,7 @@ import 'package:lcs_new_age/engine/console.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/squad.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/ammo.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/item.dart';
@@ -18,6 +19,19 @@ import 'package:lcs_new_age/items/weapon_type.dart';
 import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/utils/colors.dart';
 import 'package:lcs_new_age/utils/interface_options.dart';
+
+const int equipmentItemCellWidth = 26;
+
+String compactEquipmentTitle(Item item) {
+  if (item case Weapon weapon when weapon.ammo > 0) {
+    return (StringBuffer(weapon.getName())
+          ..write(' (')
+          ..write(weapon.ammo)
+          ..write(')'))
+        .toString();
+  }
+  return item.equipTitle();
+}
 
 Future<void> equip(List<Item>? loot) async {
   if (activeSquad == null || loot == null) return;
@@ -45,13 +59,27 @@ Future<void> equip(List<Item>? loot) async {
     int x = 1, y = 10;
     for (int l = page * 18; l < loot.length && l < page * 18 + 18; l++) {
       String let = letterAPlus(l - page * 18, capitalize: true);
-      addOptionText(y, x, let, "$let - ${loot[l].equipTitle()}");
-      if (loot[l].stackSize > 1 && !loot[l].type.isMoney) {
-        addstrc(lightGray, " x${loot[l].stackSize}");
-      }
+      final stackSuffix = loot[l].stackSize > 1 && !loot[l].type.isMoney
+          ? LcsI18n.processString("x{count}", {"count": loot[l].stackSize})
+          : "";
+      addOptionTextFitted(
+        y,
+        x,
+        let,
+        "{letter} - {title} {stackSuffix}",
+        min(equipmentItemCellWidth, console.width - x),
+        params: {
+          "letter": let,
+          "title": compactEquipmentTitle(loot[l]),
+          "stackSuffix": stackSuffix,
+        },
+      );
 
-      x += 26;
-      if (x > 53) {
+      // Leave a separator column between localized item options.  The final
+      // column is one cell narrower so its fitted text still ends at the
+      // console border.
+      x += 27;
+      if ((l - page * 18 + 1) % 3 == 0) {
         x = 1;
         y++;
       }
@@ -59,30 +87,37 @@ Future<void> equip(List<Item>? loot) async {
 
     //PAGE UP
     if (page > 0) {
-      mvaddstr(17, 1, previousPageStr);
+      mvaddstr(17, 1, previousPageStr, noTranslate: true);
     }
     //PAGE DOWN
     if ((page + 1) * 18 < loot.length) {
-      mvaddstr(17, 53, nextPageStr);
+      mvaddstr(17, 53, nextPageStr, noTranslate: true);
     }
 
     mvaddstrc(19, 1, lightGray, "Press a letter to equip a Liberal item");
-    mvaddstr(20, 1,
-        "Press a number to drop that Squad member's Conservative weapon");
+    mvaddstr(
+      20,
+      1,
+      "Press a number to drop that Squad member's Conservative weapon",
+    );
     addOptionText(21, 1, "S", "S - Liberally Strip a Squad member");
     addOptionText(
-        22, 1, "Cursors", "Cursors - Increase or decrease ammo allocation");
+      22,
+      1,
+      "Cursors",
+      "Cursors - Increase or decrease ammo allocation",
+    );
 
     if (site != null &&
         site.controller == SiteController.lcs &&
         loot != site.loot) {
       setColorConditional(site.loot.isNotEmpty);
       addOptionText(23, 1, "Y", "Y - Get things from ");
-      addstr(site.getName(short: true));
+      addstr(site.getName(short: true), noTranslate: true);
 
       setColorConditional(loot.isNotEmpty);
       addOptionText(23, 40, "Z", "Z - Stash things at ");
-      addstr(site.getName(short: true));
+      addstr(site.getName(short: true), noTranslate: true);
     }
 
     addOptionText(24, 1, "Enter", "Enter - Done");
@@ -94,7 +129,15 @@ Future<void> equip(List<Item>? loot) async {
     if ((c >= Key.a && c <= Key.r) || increaseammo || decreaseammo) {
       int slot = c - Key.a + page * 18;
       debugPrint(
-          "Key: ${String.fromCharCode(c)} Slot: $slot LootLength: ${loot.length}");
+        [
+          'Key:',
+          String.fromCharCode(c),
+          'Slot:',
+          slot,
+          'LootLength:',
+          loot.length,
+        ].join(' '),
+      );
       if (increaseammo || decreaseammo) {
         slot = -999;
       } else {
@@ -102,8 +145,9 @@ Future<void> equip(List<Item>? loot) async {
 
         bool isWeapon = loot[slot] is Weapon;
         bool isArmor = loot[slot] is Clothing;
-        bool isAmmo =
-            squad.any((m) => m.weapon.acceptableAmmo.contains(loot[slot].type));
+        bool isAmmo = squad.any(
+          (m) => m.weapon.acceptableAmmo.contains(loot[slot].type),
+        );
         if (!isWeapon && !isArmor && !isAmmo) {
           errmsg = "You can't equip that.";
           continue;
@@ -174,14 +218,16 @@ Future<void> equip(List<Item>? loot) async {
 
           if (loot[slot] is Weapon && armok > 0) {
             debugPrint(
-                "Giving weapon ${loot[slot].type.name} to ${squaddie.name}");
+              "Giving weapon ${loot[slot].type.name} to ${squaddie.name}",
+            );
             Weapon w = loot[slot] as Weapon;
             squaddie.giveWeapon(w, loot);
 
             if (page * 18 >= loot.length && page != 0) page--;
           } else if (loot[slot] is Clothing) {
             debugPrint(
-                "Giving armor ${loot[slot].type.name} to ${squaddie.name}");
+              "Giving armor ${loot[slot].type.name} to ${squaddie.name}",
+            );
             Clothing a = loot[slot] as Clothing;
             squaddie.giveArmor(a, loot);
 
@@ -190,14 +236,16 @@ Future<void> equip(List<Item>? loot) async {
             if (page * 18 >= loot.length && page != 0) page--;
           } else if (squaddie.weapon.acceptableAmmo.contains(loot[slot].type) &&
               armok > 0) {
-            int space = 9 * squaddie.weapon.type.ammoCapacity -
+            int space =
+                9 * squaddie.weapon.type.ammoCapacity -
                 (squaddie.spareAmmo?.stackSize ?? 0);
 
             if (!squaddie.weapon.type.usesAmmo) {
               errmsg = "Can't carry ammo without a gun.";
               continue;
-            } else if (!squaddie.weapon.acceptableAmmo
-                .contains(loot[slot].type)) {
+            } else if (!squaddie.weapon.acceptableAmmo.contains(
+              loot[slot].type,
+            )) {
               errmsg = "That ammo doesn't fit.";
               continue;
             } else if (space < 1) {
@@ -206,12 +254,16 @@ Future<void> equip(List<Item>? loot) async {
             } else {
               int amount = 1;
               if (loot[slot].stackSize > 1 && !increaseammo) {
-                amount =
-                    await promptAmount(0, min(loot[slot].stackSize, space));
+                amount = await promptAmount(
+                  0,
+                  min(loot[slot].stackSize, space),
+                );
               }
               if (increaseammo) {
                 amount = min(
-                    loot[slot].stackSize, squaddie.weapon.type.ammoCapacity);
+                  loot[slot].stackSize,
+                  squaddie.weapon.type.ammoCapacity,
+                );
               }
 
               squaddie.takeAmmo(loot[slot] as Ammo, loot, amount);
@@ -293,22 +345,30 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
 
     for (int l = page * 18; l < source.length && l < page * 18 + 18; l++) {
       String str = letterAPlus(l - page * 18, capitalize: true);
-      mvaddstrc(y, x, lightGray, "$str - ");
+      mvaddstrc(y, x, lightGray, "{letter} - ", params: {"letter": str});
 
       Color baseColor = selected[l] > 0 ? lightGreen : lightGray;
-      source[l].printEquipTitle(baseColor: baseColor);
-
-      String s = "";
+      String selection = "";
       if (source[l].stackSize > 1) {
-        s += " ";
         if (selected[l] > 0) {
-          s += "${selected[l]}/";
+          selection = LcsI18n.processString("{selected}/{total}", {
+            "selected": selected[l],
+            "total": source[l].stackSize,
+          });
         } else {
-          s += "x";
+          selection = LcsI18n.processString("x{total}", {
+            "total": source[l].stackSize,
+          });
         }
-        s += source[l].stackSize.toString();
       }
-      addstrc(baseColor, s);
+      addstrc(
+        baseColor,
+        "{title} {selection}",
+        params: {
+          "title": compactEquipmentTitle(source[l]),
+          "selection": selection,
+        },
+      );
 
       x += 26;
       if (x > 53) {
@@ -320,11 +380,11 @@ Future<void> moveLoot(List<Item> dest, List<Item> source) async {
     //PAGE UP
     setColor(lightGray);
     if (page > 0) {
-      mvaddstr(17, 1, previousPageStr);
+      mvaddstr(17, 1, previousPageStr, noTranslate: true);
     }
     //PAGE DOWN
     if ((page + 1) * 18 < source.length) {
-      mvaddstr(17, 53, nextPageStr);
+      mvaddstr(17, 53, nextPageStr, noTranslate: true);
     }
 
     mvaddstrc(23, 1, lightGray, "Press a letter to select an item.");
@@ -404,13 +464,42 @@ Future<void> equipmentBaseAssign() async {
     addHeader({4: "ITEM", 25: "CURRENT LOCATION", 51: "NEW LOCATION"});
 
     int y = 2;
-    for (p = pageLoot * 19;
-        p < items.length && p < pageLoot * 19 + 19;
-        p++, y++) {
-      addOptionText(y, 0, "${letterAPlus(y - 2)} - ",
-          "${letterAPlus(y - 2)} - ${items[p].equipTitle()}${items[p].stackSize > 1 ? " x${items[p].stackSize}" : ""}");
-      mvaddstrc(y, 25, lightGray,
-          siteFromItem[items[p]]!.getName(short: true, includeCity: true));
+    for (
+      p = pageLoot * 19;
+      p < items.length && p < pageLoot * 19 + 19;
+      p++, y++
+    ) {
+      final params = {
+        "letter": letterAPlus(y - 2),
+        "item": compactEquipmentTitle(items[p]),
+        "count": items[p].stackSize,
+      };
+      if (items[p].stackSize > 1) {
+        addOptionText(
+          y,
+          0,
+          letterAPlus(y - 2),
+          "{letter} - {item} x{count}",
+          params: params,
+        );
+      } else {
+        addOptionTextFitted(
+          y,
+          0,
+          letterAPlus(y - 2),
+          "{letter} - {item}",
+          24,
+          params: params,
+        );
+      }
+      mvaddstrcFitted(
+        y,
+        25,
+        lightGray,
+        siteFromItem[items[p]]!.getName(short: true, includeCity: true),
+        25,
+        noTranslate: true,
+      );
     }
 
     y = 2;
@@ -420,17 +509,24 @@ Future<void> equipmentBaseAssign() async {
       } else {
         setColor(lightGray);
       }
-      addOptionText(y, 51, "${y - 1}",
-          "${y - 1} - ${bases[p].getName(short: true, includeCity: true)}",
-          baseColorKey:
-              p == selectedbase ? ColorKey.white : ColorKey.lightGray);
+      addOptionTextFitted(
+        y,
+        51,
+        (y - 1).toString(),
+        "{index} - {base}",
+        29,
+        params: {
+          "index": (y - 1).toString(),
+          "base": bases[p].getName(short: true, includeCity: true),
+        },
+        baseColorKey: p == selectedbase ? ColorKey.white : ColorKey.lightGray,
+      );
     }
     if (bases.length > 9) {
       addOptionText(12, 51, "0", "0 - More Bases");
     }
 
-    mvaddstrc(22, 0, lightGray,
-        "Press a Letter to assign a base.  Press a Number to select a base.");
+    printEquipmentBaseAssignPrompt();
     mvaddstr(23, 0, "Shift and a Number will move ALL items!");
     if (sortbytype) {
       addOptionText(24, 0, "T", "T - Sort by location");
@@ -522,7 +618,8 @@ Future<void> equipmentBaseAssign() async {
     };
     if (HardwareKeyboard.instance.isShiftPressed) {
       debugPrint(
-          "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}");
+        "Shift pressed with ${keyEvent.physicalKey.usbHidUsage.toRadixString(16)}",
+      );
     }
     int index = -1;
     if (HardwareKeyboard.instance.isShiftPressed &&
@@ -558,6 +655,15 @@ Future<void> equipmentBaseAssign() async {
 
     if (isBackKey(c)) break;
   }
+}
+
+void printEquipmentBaseAssignPrompt() {
+  setColor(lightGray);
+  mvaddstr(
+    22,
+    0,
+    "Press a Letter to assign a base.  Press a Number to select a base.",
+  );
 }
 
 void consolidateLoot(List<Item>? loot, {bool sort = true}) {

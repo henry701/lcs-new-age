@@ -18,6 +18,17 @@ enum Alignment {
     }
   }
 
+  String get colorKey {
+    switch (this) {
+      case liberal:
+        return ColorKey.lightGreen;
+      case moderate:
+        return ColorKey.yellow;
+      case conservative:
+        return ColorKey.red;
+    }
+  }
+
   String get label => name;
   String get ism {
     switch (this) {

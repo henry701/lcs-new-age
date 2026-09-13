@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/location_type.dart';
 import 'package:lcs_new_age/main.dart';
 import 'package:lcs_new_age/map_editor/editor_tools.dart';
@@ -97,36 +98,139 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: editorBg,
-      body: SafeArea(
-        child: Focus(
-          focusNode: focusNode,
-          autofocus: true,
-          onKeyEvent: _onKey,
-          child: Column(
-            children: [
-              _live(_topBar),
-              _live(_toolStrip),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  color: editorBg,
-                  padding: const EdgeInsets.all(10),
-                  child: MapCanvas(controller, _transform),
-                ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Keep the map canvas alive as a flexible sibling even in tiny windows;
+        // the palette shrinks instead of forcing the root column to overflow.
+        final double paletteHeight = (constraints.maxHeight * 0.36).clamp(
+          48.0,
+          176.0,
+        );
+        return Scaffold(
+          backgroundColor: editorBg,
+          body: SafeArea(
+            child: Focus(
+              focusNode: focusNode,
+              autofocus: true,
+              onKeyEvent: _onKey,
+              child: Column(
+                children: [
+                  _live(_topBar),
+                  _live(_toolStrip),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      color: editorBg,
+                      padding: const EdgeInsets.all(10),
+                      child: MapCanvas(controller, _transform),
+                    ),
+                  ),
+                  Container(
+                    height: paletteHeight,
+                    width: double.infinity,
+                    color: editorPanelBg,
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                    child: _live(_palette),
+                  ),
+                  _live(_statusBar),
+                ],
               ),
-              Container(
-                height: 176,
-                width: double.infinity,
-                color: editorPanelBg,
-                padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                child: _live(_palette),
-              ),
-              _live(_statusBar),
-            ],
+            ),
           ),
+        );
+      },
+    );
+  }
+
+  Widget _compactStatus() {
+    return SizedBox(
+      height: 40,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(
+                  Icons.my_location,
+                  size: 14,
+                  color: editorTextTertiary,
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: Text(
+                    _hoverText(),
+                    style: const TextStyle(
+                      color: editorTextSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              [
+                LcsI18n.processString('Paint: {brush}', {
+                  'brush': LcsI18n.tr(controller.brush?.label ?? 'none'),
+                }),
+                LcsI18n.processString(
+                  '{width} × {height} · Floor {current}/{count}',
+                  {
+                    'width': MAPX,
+                    'height': MAPY,
+                    'current': controller.currentFloor + 1,
+                    'count': controller.floorCount,
+                  },
+                ),
+              ].join(' · '),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(color: editorTextSecondary, fontSize: 12),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _wideStatus() {
+    return Container(
+      color: editorPanelBg,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Row(
+        children: [
+          const Icon(Icons.my_location, size: 14, color: editorTextTertiary),
+          const SizedBox(width: 5),
+          Expanded(
+            child: Text(
+              _hoverText(),
+              style: const TextStyle(color: editorTextSecondary, fontSize: 12),
+            ),
+          ),
+          const SizedBox(width: 18),
+          Text(
+            LcsI18n.processString('Paint: {brush}', {
+              'brush': LcsI18n.tr(controller.brush?.label ?? 'none'),
+            }),
+            style: const TextStyle(color: editorTextSecondary, fontSize: 12),
+          ),
+          const Spacer(),
+          Text(
+            LcsI18n.processString(
+              '{width} × {height} · Floor {current}/{count}',
+              {
+                'width': MAPX,
+                'height': MAPY,
+                'current': controller.currentFloor + 1,
+                'count': controller.floorCount,
+              },
+            ),
+            style: const TextStyle(color: editorTextTertiary, fontSize: 12),
+          ),
+        ],
       ),
     );
   }
@@ -142,72 +246,81 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
     return Container(
       color: editorPanelBg,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        children: [
-          const Icon(Icons.map_outlined, size: 18, color: editorTextSecondary),
-          const SizedBox(width: 8),
-          const Text(
-            'Map editor',
-            style: TextStyle(
-              color: editorTextPrimary,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.map_outlined,
+              size: 18,
+              color: editorTextSecondary,
             ),
-          ),
-          const SizedBox(width: 16),
-          _siteDropdown(),
-          const SizedBox(width: 16),
-          _floorStepper(),
-          const Spacer(),
-          if (controller.dirty)
-            const Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Text(
-                'Unsaved',
-                style: TextStyle(color: Color(0xFFE0A23A), fontSize: 12),
+            const SizedBox(width: 8),
+            Text(
+              LcsI18n.tr('Map editor'),
+              style: TextStyle(
+                color: editorTextPrimary,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
               ),
             ),
-          _iconButton(
-            Icons.undo,
-            'Undo',
-            enabled: controller.canUndo,
-            onTap: controller.undo,
-          ),
-          _iconButton(
-            Icons.redo,
-            'Redo',
-            enabled: controller.canRedo,
-            onTap: controller.redo,
-          ),
-          const SizedBox(width: 8),
-          _iconButton(
-            controller.previewMode ? Icons.visibility_off : Icons.visibility,
-            controller.previewMode ? 'Exit preview' : 'Preview (walk-through)',
-            onTap: _togglePreview,
-          ),
-          _iconButton(Icons.checklist, 'Validate map', onTap: _validate),
-          _iconButton(
-            Icons.upload_file,
-            'Import CSV map (.csv files)',
-            onTap: () => unawaited(_import()),
-          ),
-          _iconButton(
-            Icons.note_add_outlined,
-            'New blank map',
-            onTap: controller.newBlankMap,
-          ),
-          _iconButton(
-            Icons.download,
-            'Export all floors (.zip)',
-            onTap: () => unawaited(_export()),
-          ),
-          if (!widget.directLaunch)
+            const SizedBox(width: 16),
+            _siteDropdown(),
+            const SizedBox(width: 16),
+            _floorStepper(),
+            if (controller.dirty)
+              Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Text(
+                  LcsI18n.tr('Unsaved'),
+                  style: TextStyle(color: Color(0xFFE0A23A), fontSize: 12),
+                ),
+              ),
             _iconButton(
-              Icons.close,
-              'Close',
-              onTap: () => unawaited(Navigator.maybePop(context)),
+              Icons.undo,
+              'Undo',
+              enabled: controller.canUndo,
+              onTap: controller.undo,
             ),
-        ],
+            _iconButton(
+              Icons.redo,
+              'Redo',
+              enabled: controller.canRedo,
+              onTap: controller.redo,
+            ),
+            const SizedBox(width: 8),
+            _iconButton(
+              controller.previewMode ? Icons.visibility_off : Icons.visibility,
+              controller.previewMode
+                  ? 'Exit preview'
+                  : 'Preview (walk-through)',
+              onTap: _togglePreview,
+            ),
+            _iconButton(Icons.checklist, 'Validate map', onTap: _validate),
+            _iconButton(
+              Icons.upload_file,
+              'Import CSV map (.csv files)',
+              onTap: () => unawaited(_import()),
+            ),
+            _iconButton(
+              Icons.note_add_outlined,
+              'New blank map',
+              onTap: controller.newBlankMap,
+            ),
+            _iconButton(
+              Icons.download,
+              'Export all floors (.zip)',
+              onTap: () => unawaited(_export()),
+            ),
+            if (!widget.directLaunch)
+              _iconButton(
+                Icons.close,
+                'Close',
+                onTap: () => unawaited(Navigator.maybePop(context)),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -242,7 +355,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
   Widget _siteItem(SiteType type, {bool compact = false}) {
     final bool hasMap = _sitesWithMap.contains(type);
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Icon(
           hasMap ? Icons.check_circle : Icons.radio_button_unchecked,
@@ -250,17 +363,21 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
           color: hasMap ? const Color(0xFF5FA85A) : editorTextTertiary,
         ),
         const SizedBox(width: 8),
-        Text(
-          type.name,
-          style: TextStyle(
-            color: hasMap ? editorTextPrimary : editorTextSecondary,
-            fontSize: 13,
+        Flexible(
+          child: Text(
+            LcsI18n.tr(type.name),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: hasMap ? editorTextPrimary : editorTextSecondary,
+              fontSize: 13,
+            ),
           ),
         ),
         if (!compact && hasMap) ...[
           const SizedBox(width: 8),
-          const Text(
-            '· has map',
+          Text(
+            LcsI18n.tr('· has map'),
             style: TextStyle(color: Color(0xFF5FA85A), fontSize: 11),
           ),
         ],
@@ -280,7 +397,10 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
         SizedBox(
           width: 78,
           child: Text(
-            'Floor ${controller.currentFloor + 1} / ${controller.floorCount}',
+            LcsI18n.processString('Floor {current} / {count}', {
+              'current': controller.currentFloor + 1,
+              'count': controller.floorCount,
+            }),
             textAlign: TextAlign.center,
             style: const TextStyle(color: editorTextPrimary, fontSize: 13),
           ),
@@ -393,7 +513,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
     return Padding(
       padding: const EdgeInsets.only(right: 6),
       child: Tooltip(
-        message: tip,
+        message: LcsI18n.tr(tip),
         child: GestureDetector(
           onTap: () => controller.selectTool(tool),
           child: Container(
@@ -422,7 +542,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
     bool enabled = true,
   }) {
     return Tooltip(
-      message: tip,
+      message: LcsI18n.tr(tip),
       child: IconButton(
         icon: Icon(icon, size: 18),
         color: editorTextSecondary,
@@ -437,62 +557,32 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
   }
 
   Widget _statusBar() {
-    if (controller.previewMode) {
-      return Container(
-        color: editorChipActiveBg,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        child: Row(
-          children: [
-            const Icon(Icons.directions_walk, size: 14, color: editorAccent),
-            const SizedBox(width: 6),
-            Text(
-              'Preview — arrow keys move, Esc exits · Floor '
-              '${controller.currentFloor + 1}/${controller.floorCount} · '
-              'pos (${controller.playerX}, ${controller.playerY})',
-              style: const TextStyle(color: editorTextPrimary, fontSize: 12),
-            ),
-          ],
-        ),
-      );
-    }
-    return Container(
-      color: editorPanelBg,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: Row(
-        children: [
-          const Icon(Icons.my_location, size: 14, color: editorTextTertiary),
-          const SizedBox(width: 5),
-          Text(
-            _hoverText(),
-            style: const TextStyle(color: editorTextSecondary, fontSize: 12),
-          ),
-          const SizedBox(width: 18),
-          Text(
-            'Paint: ${controller.brush?.label ?? 'none'}',
-            style: const TextStyle(color: editorTextSecondary, fontSize: 12),
-          ),
-          const Spacer(),
-          Text(
-            '$MAPX × $MAPY · Floor ${controller.currentFloor + 1}/${controller.floorCount}',
-            style: const TextStyle(color: editorTextTertiary, fontSize: 12),
-          ),
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) =>
+          constraints.maxWidth < 620 ? _compactStatus() : _wideStatus(),
     );
   }
 
   String _hoverText() {
     final (int, int)? hov = controller.hover;
-    if (hov == null) return 'Hover the map';
+    if (hov == null) return LcsI18n.tr('Hover the map');
     final SiteTile tile = levelMap[hov.$1][hov.$2][controller.currentFloor];
     final String desc = tile.special != TileSpecial.none
         ? specialLabel(tile.special)
         : tileTerrainLabel(tile);
     final int specialId = csvIdForSpecial(tile.special);
     final String ids = specialId > 0
-        ? 'tile ${csvIdForTile(tile)}, special $specialId'
-        : 'tile ${csvIdForTile(tile)}';
-    return '(${hov.$1}, ${hov.$2}) — $desc  [$ids]';
+        ? LcsI18n.processString('tile {tile}, special {special}', {
+            'tile': csvIdForTile(tile),
+            'special': specialId,
+          })
+        : LcsI18n.processString('tile {tile}', {'tile': csvIdForTile(tile)});
+    return LcsI18n.processString('({x}, {y}) — {description}  [{ids}]', {
+      'x': hov.$1,
+      'y': hov.$2,
+      'description': LcsI18n.tr(desc),
+      'ids': ids,
+    });
   }
 
   // True when a text field (e.g. the specials filter) has focus, so editor
@@ -619,15 +709,24 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
     if (!mounted) return;
     if (tiles.isEmpty) {
       messenger.showSnackBar(
-        const SnackBar(
-          content: Text('No mapCSV_*_Tiles.csv files in the selection.'),
+        SnackBar(
+          content: Text(
+            LcsI18n.tr('No mapCSV_*_Tiles.csv files in the selection.'),
+          ),
         ),
       );
       return;
     }
     controller.loadImportedCsv(base, tiles, specials);
     messenger.showSnackBar(
-      SnackBar(content: Text('Imported "$base" (${tiles.length} floor(s)).')),
+      SnackBar(
+        content: Text(
+          LcsI18n.processString('Imported "{name}" ({count} floor(s)).', {
+            'name': base,
+            'count': tiles.length,
+          }),
+        ),
+      ),
     );
   }
 
@@ -639,12 +738,16 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
         builder: (context) => AlertDialog(
           backgroundColor: editorPanelBg,
           title: Text(
-            issues.isEmpty ? 'No issues found' : '${issues.length} issue(s)',
+            issues.isEmpty
+                ? LcsI18n.tr('No issues found')
+                : LcsI18n.processString('{count} issue(s)', {
+                    'count': issues.length,
+                  }),
             style: const TextStyle(color: editorTextPrimary, fontSize: 16),
           ),
           content: issues.isEmpty
-              ? const Text(
-                  'The map passed all checks.',
+              ? Text(
+                  LcsI18n.tr('The map passed all checks.'),
                   style: TextStyle(color: editorTextSecondary),
                 )
               : SizedBox(
@@ -683,7 +786,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
+              child: Text(LcsI18n.tr('Close')),
             ),
           ],
         ),
@@ -725,14 +828,23 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
       messenger.showSnackBar(
         SnackBar(
           content: Text(
-            'Exported ${controller.floorCount} floor(s) to mapCSV_$base.zip',
+            LcsI18n.processString('Exported {count} floor(s) to {filename}', {
+              'count': controller.floorCount,
+              'filename': 'mapCSV_$base.zip',
+            }),
           ),
           duration: const Duration(seconds: 3),
         ),
       );
     } catch (e) {
       if (!mounted) return;
-      messenger.showSnackBar(SnackBar(content: Text('Export failed: $e')));
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            LcsI18n.processString('Export failed: {error}', {'error': e}),
+          ),
+        ),
+      );
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/sitemode/sitemap.dart';
 
 // The drawing tools available in the map editor. `pan` is a navigation mode
@@ -11,7 +12,7 @@ enum EditorTool {
   eraser,
   eyedropper,
   select,
-  pan
+  pan,
 }
 
 // The mutually-exclusive terrain identities a tile can have. These map onto the
@@ -51,7 +52,8 @@ const Set<TerrainKind> _opaqueKinds = {
 // Sets a tile's terrain to [kind], clearing every conflicting terrain bit first
 // so contradictory tiles (e.g. wall+door) can't be produced.
 void applyTerrain(SiteTile tile, TerrainKind kind) {
-  const int clearMask = SITEBLOCK_BLOCK |
+  const int clearMask =
+      SITEBLOCK_BLOCK |
       SITEBLOCK_DOOR |
       SITEBLOCK_LOCKED |
       SITEBLOCK_EXIT |
@@ -76,9 +78,14 @@ void applyTerrain(SiteTile tile, TerrainKind kind) {
 
 // Paints a door with independently-combinable modifiers. Locked, alarmed and
 // metal are separate flag bits (matching the game), not mutually exclusive.
-void applyDoor(SiteTile tile,
-    {required bool locked, required bool alarmed, required bool metal}) {
-  const int clearMask = SITEBLOCK_BLOCK |
+void applyDoor(
+  SiteTile tile, {
+  required bool locked,
+  required bool alarmed,
+  required bool metal,
+}) {
+  const int clearMask =
+      SITEBLOCK_BLOCK |
       SITEBLOCK_DOOR |
       SITEBLOCK_LOCKED |
       SITEBLOCK_EXIT |
@@ -114,29 +121,31 @@ TerrainKind terrainKindOf(SiteTile tile) {
 }
 
 String terrainLabel(TerrainKind kind) => switch (kind) {
-      TerrainKind.floor => 'Floor',
-      TerrainKind.wall => 'Wall',
-      TerrainKind.metalWall => 'Metal wall',
-      TerrainKind.door => 'Door',
-      TerrainKind.exit => 'Exit',
-      TerrainKind.grass => 'Grass',
-      TerrainKind.chainlink => 'Chainlink fence',
-      TerrainKind.restricted => 'Restricted area',
-    };
+  TerrainKind.floor => 'Floor',
+  TerrainKind.wall => 'Wall',
+  TerrainKind.metalWall => 'Metal wall',
+  TerrainKind.door => 'Door',
+  TerrainKind.exit => 'Exit',
+  TerrainKind.grass => 'Grass',
+  TerrainKind.chainlink => 'Chainlink fence',
+  TerrainKind.restricted => 'Restricted area',
+};
 
 // Hover/status label including a door's modifiers (e.g. "Locked alarmed door").
 String tileTerrainLabel(SiteTile tile) {
   if (tile.door) {
-    final List<String> mods = <String>[
-      if (tile.locked) 'locked',
-      if (tile.alarm) 'alarmed',
-      if (tile.metal) 'metal',
-    ];
-    if (mods.isEmpty) return 'Door';
-    final String joined = mods.join(' ');
-    return '${joined[0].toUpperCase()}${joined.substring(1)} door';
+    return switch ((tile.locked, tile.alarm, tile.metal)) {
+      (true, true, true) => LcsI18n.tr('Locked alarmed metal door'),
+      (true, true, false) => LcsI18n.tr('Locked alarmed door'),
+      (true, false, true) => LcsI18n.tr('Locked metal door'),
+      (false, true, true) => LcsI18n.tr('Alarmed metal door'),
+      (true, false, false) => LcsI18n.tr('Locked door'),
+      (false, true, false) => LcsI18n.tr('Alarmed door'),
+      (false, false, true) => LcsI18n.tr('Metal door'),
+      (false, false, false) => LcsI18n.tr('Door'),
+    };
   }
-  return terrainLabel(terrainKindOf(tile));
+  return LcsI18n.tr(terrainLabel(terrainKindOf(tile)));
 }
 
 // Swatch/marker color for a terrain kind. Used for BOTH the palette swatch and
@@ -144,15 +153,15 @@ String tileTerrainLabel(SiteTile tile) {
 // dark to read well on the black map; the palette swatch adds a border so dark
 // colors stay visible on the panel.
 Color terrainColor(TerrainKind kind) => switch (kind) {
-      TerrainKind.floor => const Color(0xFF24262C),
-      TerrainKind.wall => const Color(0xFF6B7079),
-      TerrainKind.metalWall => const Color(0xFF4F7FC0),
-      TerrainKind.door => const Color(0xFFFFA000),
-      TerrainKind.exit => const Color(0xFF31363F),
-      TerrainKind.grass => const Color(0xFF5F9F43),
-      TerrainKind.chainlink => const Color(0xFF3FA890),
-      TerrainKind.restricted => const Color(0xFF2A3A57),
-    };
+  TerrainKind.floor => const Color(0xFF24262C),
+  TerrainKind.wall => const Color(0xFF6B7079),
+  TerrainKind.metalWall => const Color(0xFF4F7FC0),
+  TerrainKind.door => const Color(0xFFFFA000),
+  TerrainKind.exit => const Color(0xFF31363F),
+  TerrainKind.grass => const Color(0xFF5F9F43),
+  TerrainKind.chainlink => const Color(0xFF3FA890),
+  TerrainKind.restricted => const Color(0xFF2A3A57),
+};
 
 // Door cell color by its modifiers (priority metal > alarmed > locked > plain),
 // so the distinct door variants remain visually distinguishable on the map.
@@ -165,13 +174,13 @@ Color doorColor(SiteTile tile) {
 
 // Marker color for a special, keyed by its palette category.
 Color specialCategoryColor(SpecialCategory category) => switch (category) {
-      SpecialCategory.navigation => const Color(0xFF5B9BDD),
-      SpecialCategory.objective => const Color(0xFF9A8CF0),
-      SpecialCategory.security => const Color(0xFFE2706F),
-      SpecialCategory.containment => const Color(0xFFE08A5E),
-      SpecialCategory.industry => const Color(0xFFE0A23A),
-      SpecialCategory.furniture => const Color(0xFFB6BAC2),
-    };
+  SpecialCategory.navigation => const Color(0xFF5B9BDD),
+  SpecialCategory.objective => const Color(0xFF9A8CF0),
+  SpecialCategory.security => const Color(0xFFE2706F),
+  SpecialCategory.containment => const Color(0xFFE08A5E),
+  SpecialCategory.industry => const Color(0xFFE0A23A),
+  SpecialCategory.furniture => const Color(0xFFB6BAC2),
+};
 
 // A selectable brush in the palette. Terrain brushes set the tile's terrain;
 // special brushes stamp an objective/feature without touching terrain.
@@ -227,55 +236,148 @@ const List<TerrainBrush> terrainBrushes = <TerrainBrush>[
 
 const List<SpecialBrush> specialBrushes = <SpecialBrush>[
   SpecialBrush(
-      TileSpecial.stairsUp, SpecialCategory.navigation, 'Stairs up', '^'),
+    TileSpecial.stairsUp,
+    SpecialCategory.navigation,
+    'Stairs up',
+    '^',
+  ),
   SpecialBrush(
-      TileSpecial.stairsDown, SpecialCategory.navigation, 'Stairs down', 'v'),
+    TileSpecial.stairsDown,
+    SpecialCategory.navigation,
+    'Stairs down',
+    'v',
+  ),
   SpecialBrush(TileSpecial.bankVault, SpecialCategory.objective, 'Vault', 'V'),
-  SpecialBrush(TileSpecial.bankTeller, SpecialCategory.objective, 'Teller', 'T'),
+  SpecialBrush(
+    TileSpecial.bankTeller,
+    SpecialCategory.objective,
+    'Teller',
+    'T',
+  ),
   SpecialBrush(TileSpecial.bankMoney, SpecialCategory.objective, 'Money', '\$'),
   SpecialBrush(TileSpecial.armory, SpecialCategory.objective, 'Armory', 'A'),
   SpecialBrush(TileSpecial.ceoSafe, SpecialCategory.objective, 'CEO safe', 'S'),
   SpecialBrush(
-      TileSpecial.ceoOffice, SpecialCategory.objective, 'CEO office', 'O'),
+    TileSpecial.ceoOffice,
+    SpecialCategory.objective,
+    'CEO office',
+    'O',
+  ),
   SpecialBrush(
-      TileSpecial.corporateFiles, SpecialCategory.objective, 'Files', 'F'),
-  SpecialBrush(TileSpecial.radioBroadcastStudio, SpecialCategory.objective,
-      'Radio studio', 'R'),
-  SpecialBrush(TileSpecial.cableBroadcastStudio, SpecialCategory.objective,
-      'Cable studio', 'C'),
-  SpecialBrush(TileSpecial.intelSupercomputer, SpecialCategory.objective,
-      'Intel computer', 'I'),
-  SpecialBrush(TileSpecial.nuclearControlRoom, SpecialCategory.objective,
-      'Nuclear control', 'N'),
-  SpecialBrush(TileSpecial.securityCheckpoint, SpecialCategory.security,
-      'Checkpoint', 'K'),
-  SpecialBrush(TileSpecial.securityMetalDetectors, SpecialCategory.security,
-      'Metal detectors', 'M'),
+    TileSpecial.corporateFiles,
+    SpecialCategory.objective,
+    'Files',
+    'F',
+  ),
   SpecialBrush(
-      TileSpecial.clubBouncer, SpecialCategory.security, 'Bouncer', 'B'),
-  SpecialBrush(TileSpecial.apartmentLandlord, SpecialCategory.security,
-      'Landlord', 'L'),
-  SpecialBrush(TileSpecial.policeStationLockup, SpecialCategory.containment,
-      'Police lockup', 'P'),
-  SpecialBrush(TileSpecial.courthouseLockup, SpecialCategory.containment,
-      'Courthouse lockup', 'H'),
-  SpecialBrush(TileSpecial.courthouseJuryRoom, SpecialCategory.containment,
-      'Jury room', 'J'),
-  SpecialBrush(TileSpecial.prisonControl, SpecialCategory.containment,
-      'Prison control', 'G'),
-  SpecialBrush(TileSpecial.cagedRabbits, SpecialCategory.containment,
-      'Caged rabbits', 'r'),
-  SpecialBrush(TileSpecial.cagedMonsters, SpecialCategory.containment,
-      'Caged monsters', 'm'),
-  SpecialBrush(TileSpecial.sweatshopEquipment, SpecialCategory.industry,
-      'Sweatshop equip.', 'E'),
-  SpecialBrush(TileSpecial.polluterEquipment, SpecialCategory.industry,
-      'Polluter equip.', 'Q'),
+    TileSpecial.radioBroadcastStudio,
+    SpecialCategory.objective,
+    'Radio studio',
+    'R',
+  ),
+  SpecialBrush(
+    TileSpecial.cableBroadcastStudio,
+    SpecialCategory.objective,
+    'Cable studio',
+    'C',
+  ),
+  SpecialBrush(
+    TileSpecial.intelSupercomputer,
+    SpecialCategory.objective,
+    'Intel computer',
+    'I',
+  ),
+  SpecialBrush(
+    TileSpecial.nuclearControlRoom,
+    SpecialCategory.objective,
+    'Nuclear control',
+    'N',
+  ),
+  SpecialBrush(
+    TileSpecial.securityCheckpoint,
+    SpecialCategory.security,
+    'Checkpoint',
+    'K',
+  ),
+  SpecialBrush(
+    TileSpecial.securityMetalDetectors,
+    SpecialCategory.security,
+    'Metal detectors',
+    'M',
+  ),
+  SpecialBrush(
+    TileSpecial.clubBouncer,
+    SpecialCategory.security,
+    'Bouncer',
+    'B',
+  ),
+  SpecialBrush(
+    TileSpecial.apartmentLandlord,
+    SpecialCategory.security,
+    'Landlord',
+    'L',
+  ),
+  SpecialBrush(
+    TileSpecial.policeStationLockup,
+    SpecialCategory.containment,
+    'Police lockup',
+    'P',
+  ),
+  SpecialBrush(
+    TileSpecial.courthouseLockup,
+    SpecialCategory.containment,
+    'Courthouse lockup',
+    'H',
+  ),
+  SpecialBrush(
+    TileSpecial.courthouseJuryRoom,
+    SpecialCategory.containment,
+    'Jury room',
+    'J',
+  ),
+  SpecialBrush(
+    TileSpecial.prisonControl,
+    SpecialCategory.containment,
+    'Prison control',
+    'G',
+  ),
+  SpecialBrush(
+    TileSpecial.cagedRabbits,
+    SpecialCategory.containment,
+    'Caged rabbits',
+    'r',
+  ),
+  SpecialBrush(
+    TileSpecial.cagedMonsters,
+    SpecialCategory.containment,
+    'Caged monsters',
+    'm',
+  ),
+  SpecialBrush(
+    TileSpecial.sweatshopEquipment,
+    SpecialCategory.industry,
+    'Sweatshop equip.',
+    'E',
+  ),
+  SpecialBrush(
+    TileSpecial.polluterEquipment,
+    SpecialCategory.industry,
+    'Polluter equip.',
+    'Q',
+  ),
   SpecialBrush(TileSpecial.table, SpecialCategory.furniture, 'Table', '='),
   SpecialBrush(
-      TileSpecial.computer, SpecialCategory.furniture, 'Computer', 'c'),
+    TileSpecial.computer,
+    SpecialCategory.furniture,
+    'Computer',
+    'c',
+  ),
   SpecialBrush(
-      TileSpecial.parkBench, SpecialCategory.furniture, 'Park bench', 'b'),
+    TileSpecial.parkBench,
+    SpecialCategory.furniture,
+    'Park bench',
+    'b',
+  ),
   SpecialBrush(TileSpecial.signOne, SpecialCategory.furniture, 'Sign 1', '1'),
   SpecialBrush(TileSpecial.signTwo, SpecialCategory.furniture, 'Sign 2', '2'),
   SpecialBrush(TileSpecial.signThree, SpecialCategory.furniture, 'Sign 3', '3'),
@@ -283,8 +385,8 @@ const List<SpecialBrush> specialBrushes = <SpecialBrush>[
 
 final Map<TileSpecial, SpecialBrush> _specialBrushIndex =
     <TileSpecial, SpecialBrush>{
-  for (final SpecialBrush b in specialBrushes) b.special: b,
-};
+      for (final SpecialBrush b in specialBrushes) b.special: b,
+    };
 
 // Marker color for any special on the map. Specials outside the curated palette
 // (oval office, "second visit" variants, etc.) still render with a fallback so
@@ -298,7 +400,33 @@ String specialGlyph(TileSpecial special) =>
 // Display name for a special, used in hover/status. Falls back to the enum name
 // for specials that aren't offered as brushes.
 String specialLabel(TileSpecial special) =>
-    _specialBrushIndex[special]?.label ?? special.name;
+    _specialBrushIndex[special]?.label ??
+    switch (special) {
+      // These states are loaded from existing maps but are intentionally not
+      // paintable palette entries. Keep their hover/status labels user-facing
+      // instead of leaking Dart enum names such as `ovalOfficeNW`.
+      TileSpecial.prisonControlLow => 'Low-security prison control room',
+      TileSpecial.prisonControlMedium => 'Medium-security prison control room',
+      TileSpecial.prisonControlHigh => 'High-security prison control room',
+      TileSpecial.labEquipment => 'Lab Equipment',
+      TileSpecial.tent => 'Tent',
+      TileSpecial.clubBouncerSecondVisit => 'Bouncer',
+      TileSpecial.securitySecondVisit => 'Checkpoint',
+      TileSpecial.ccsBoss => 'CCS Boss',
+      TileSpecial.displayCase => 'Display Case',
+      TileSpecial.ovalOfficeNW ||
+      TileSpecial.ovalOfficeNE ||
+      TileSpecial.ovalOfficeSW ||
+      TileSpecial.ovalOfficeSE => 'Oval Office',
+      TileSpecial.nursingHomeFiles => 'Nursing home files',
+      TileSpecial.nursingHomeManager => 'Nursing home manager',
+      TileSpecial.nursingHomePatient ||
+      TileSpecial.nursingHomePatientDone => 'Nursing home patient',
+      TileSpecial.insuranceFiles => 'Insurance files',
+      TileSpecial.insuranceCEO => 'Insurance CEO',
+      TileSpecial.insuranceClaimsTerminal => 'Claims Terminal',
+      _ => special.name,
+    };
 
 // The palette brush that best matches an existing tile, for the eyedropper:
 // its special if it has a palette-known one, otherwise its terrain.

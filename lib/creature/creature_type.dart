@@ -43,10 +43,10 @@ class CreatureType {
       date.subtract(Duration(days: (365 * (age.rollDouble())).round()));
   (int, int) extraAttributePoints = (0, 0);
   Map<Attribute, (int, int)> attributePoints = {
-    for (Attribute a in Attribute.values) a: (1, 10)
+    for (Attribute a in Attribute.values) a: (1, 10),
   };
   Map<Skill, (int, int)> skillPoints = {
-    for (Skill s in Skill.values) s: (0, 0)
+    for (Skill s in Skill.values) s: (0, 0),
   };
   (int, int) money = (20, 40);
   (int, int) juice = (0, 0);

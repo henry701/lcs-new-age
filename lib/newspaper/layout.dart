@@ -1,8 +1,11 @@
+import 'dart:math';
 import 'dart:ui';
 
+import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/engine/engine.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/gamestate/time.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/newspaper/news_story.dart';
 import 'package:lcs_new_age/saveload/load_cpc_images.dart';
 import 'package:lcs_new_age/utils/colors.dart';
@@ -44,8 +47,12 @@ void preparePage(NewsStory ns, bool liberalguardian) {
 
     // DATE
     setColor(black, background: bgColor);
-    mvaddstr(0, 66 + (day < 10 ? 1 : 0), getMonthShort(month));
-    addstr(" $day, $year");
+    final dateText = LcsI18n.processString("{month} {day}, {year}", {
+      "month": getMonthShort(month),
+      "day": day,
+      "year": year,
+    });
+    mvaddstr(0, max(0, 79 - dateText.length), dateText, noTranslate: true);
   } else {
     // PAGE
     setColor(black, background: bgColor);
@@ -66,7 +73,7 @@ void conservativeStarTop() {
   print3x3NewsText(1, 1, "Conservative Star");
   setColor(black, background: bgColor);
   mvaddstr(1, 68, "DEO VINDICE");
-  mvaddstr(2, 68, "WE KNOW OUR");
+  mvaddstrFitted(2, 68, "WE KNOW OUR", console.width - 68);
   setColor(white, background: darkRed);
   mvaddstr(3, 68, "  ENEMIES  ");
   setColor(black, background: bgColor);
@@ -77,7 +84,14 @@ void cableNewsTop() {
   Color bgColor = Publication.cableNews.backgroundColor;
   setColor(black, background: bgColor);
   mvaddstr(0, 1, " USA NEWS ");
-  addstrc(black, bg: bgColor, "  POLITICS   OPINION   SPORTS   MONEY   MORE");
+  setColor(black, background: bgColor);
+  mvaddstrcFitted(
+    0,
+    11,
+    black,
+    "  POLITICS   OPINION   SPORTS   MONEY   MORE",
+    52,
+  );
   print3x3NewsText(1, 1, "Balanced");
   setColor(darkRed, background: bgColor);
   print3x3NewsText(1, 35, "Cable News");
@@ -106,7 +120,7 @@ void amRadioTop() {
 void liberalGuardianTop() {
   Color bgColor = Publication.liberalGuardian.backgroundColor;
   setColor(black, background: bgColor);
-  mvaddstr(0, 2, slogan.toUpperCase());
+  mvaddstr(0, 2, slogan.toUpperCase(), noTranslate: true);
   setColor(green, background: bgColor);
   print3x3NewsText(1, 1, "Liberal Guardian");
   setColor(black, background: bgColor);
@@ -122,7 +136,7 @@ void thePostTop() {
   mvaddstr(0, 2, "U.S.   POLITICS   BUSINESS   WORLD   FOOD   LIFESTYLE");
   print3x5NewsText(1, 1, "The Post");
   mvaddstr(1, 63, "PLEASE SUPPORT");
-  mvaddstr(2, 61, "OUR PULITZER PRIZE");
+  mvaddstrFitted(2, 61, "OUR PULITZER PRIZE", console.width - 61);
   mvaddstr(3, 61, "WINNING JOURNALISM");
   _addDivider(Publication.post);
 }
@@ -131,10 +145,15 @@ void theHeraldTop() {
   Color bgColor = Publication.herald.backgroundColor;
   setColor(black, background: bgColor);
   mvaddstr(0, 2, "U.S.   POLITICS   BUSINESS   WORLD   FOOD   LIFESTYLE");
-  print3x5NewsText(1, 1, "The Herald");
-  mvaddstr(1, 64, "SUBSCRIBE \$3/WK");
-  mvaddstr(2, 64, "FOR FULL ACCESS");
-  mvaddstr(3, 64, "DIGITAL EDITION");
+  print3x5NewsText(1, 1, LcsI18n.tr("The Herald"));
+  mvaddstrRight(
+    1,
+    "SUBSCRIBE {price} WEEKLY",
+    marginX: 1,
+    params: {"price": LcsI18n.currencyAmount(3)},
+  );
+  mvaddstrRight(2, "FOR FULL ACCESS", marginX: 1);
+  mvaddstrRight(3, "DIGITAL EDITION", marginX: 1);
   _addDivider(Publication.herald);
 }
 
@@ -159,11 +178,26 @@ void theGlobeTop() {
 void theDailyTop() {
   Color bgColor = Publication.daily.backgroundColor;
   setColor(black, background: bgColor);
-  mvaddstr(0, 2, "U.S.   WORLD   BUSINESS   ARTS   LIFESTYLE   OPINION");
-  print3x5NewsText(1, 1, "The Daily");
-  mvaddstr(1, 65, "FOR JUST \$1/WK");
-  mvaddstr(2, 67, "SUBSCRIBE TO");
-  mvaddstr(3, 61, "AMERICA'S NEWSROOM");
+  mvaddstr(
+    0,
+    2,
+    LcsI18n.tr("U.S.   WORLD   BUSINESS   ARTS   LIFESTYLE   OPINION"),
+    noTranslate: true,
+  );
+  print3x5NewsText(1, 1, LcsI18n.tr("The Daily"));
+  mvaddstrRight(
+    1,
+    LcsI18n.tr("FOR JUST \$1/WK"),
+    marginX: 1,
+    noTranslate: true,
+  );
+  mvaddstrRight(2, LcsI18n.tr("SUBSCRIBE TO"), marginX: 1, noTranslate: true);
+  mvaddstrRight(
+    3,
+    LcsI18n.tr("AMERICA'S NEWSROOM"),
+    marginX: 1,
+    noTranslate: true,
+  );
   _addDivider(Publication.daily);
 }
 
@@ -180,9 +214,22 @@ void _addStockTicker(int y, int x, String name, Color bgColor) {
   double performance = lcsRandomDouble(4) - 2;
   if (performance > 0) {
     mvaddstrc(
-        y, x + 7, green, bg: bgColor, "+${performance.toStringAsFixed(1)}%");
+      y,
+      x + 7,
+      green,
+      bg: bgColor,
+      "+{performance}%",
+      params: {"performance": performance.toStringAsFixed(1)},
+    );
   } else {
-    mvaddstrc(y, x + 7, red, bg: bgColor, "${performance.toStringAsFixed(1)}%");
+    mvaddstrc(
+      y,
+      x + 7,
+      red,
+      bg: bgColor,
+      "{performance}%",
+      params: {"performance": performance.toStringAsFixed(1)},
+    );
   }
 }
 

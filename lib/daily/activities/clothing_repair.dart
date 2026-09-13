@@ -1,6 +1,7 @@
 import 'package:lcs_new_age/common_display/common_display.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/skills.dart';
+import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/items/clothing.dart';
 import 'package:lcs_new_age/items/item.dart';
 import 'package:lcs_new_age/items/loot.dart';
@@ -35,8 +36,12 @@ Future<void> doActivityRepairClothing(Creature cr) async {
 
   if (armor == null) return;
 
-  String armorName = armor.type.name;
-  String aan = pile ? aOrAn(armorName) : cr.gender.hisHer;
+  String armorName = LcsI18n.tr(armor.type.name);
+  String aan = LcsI18n.currentLocale == 'pt_BR'
+      ? "peça de roupa chamada"
+      : pile
+      ? aOrAn(armor.type.name)
+      : cr.gender.hisHer;
   bool repairFailed = true;
   bool armorDestroyed = armor.quality > armor.type.qualityLevels;
   if (armor.damaged) {
@@ -51,12 +56,30 @@ Future<void> doActivityRepairClothing(Creature cr) async {
 
   if (armorDestroyed) {
     await showMessage(
-        "${cr.name} recycles the remains of $aan $armorName into cloth.",
-        color: red);
+      LcsI18n.processString(
+        "{name} recycles the remains of {article} {armor} into cloth.",
+        {"name": cr.name, "article": aan, "armor": armorName},
+      ),
+      color: red,
+    );
   } else if (repairFailed && armor.bloody) {
-    await showMessage("${cr.name} washes $aan $armorName.", color: lightBlue);
+    await showMessage(
+      LcsI18n.processString("{name} washes {article} {armor}.", {
+        "name": cr.name,
+        "article": aan,
+        "armor": armorName,
+      }),
+      color: lightBlue,
+    );
   } else {
-    await showMessage("${cr.name} repairs $aan $armorName.", color: lightGreen);
+    await showMessage(
+      LcsI18n.processString("{name} repairs {article} {armor}.", {
+        "name": cr.name,
+        "article": aan,
+        "armor": armorName,
+      }),
+      color: lightGreen,
+    );
   }
 
   armor.bloody = false;

@@ -21,11 +21,15 @@ class Console {
   int? hoverY;
   int get width => CONSOLE_WIDTH;
   int get height => CONSOLE_HEIGHT;
-  final List<List<ConsoleChar>> buffer = List.generate(CONSOLE_HEIGHT,
-      (y) => List.generate(CONSOLE_WIDTH, (x) => ConsoleChar.blank()));
+  final List<List<ConsoleChar>> buffer = List.generate(
+    CONSOLE_HEIGHT,
+    (y) => List.generate(CONSOLE_WIDTH, (x) => ConsoleChar.blank()),
+  );
   final List<KeyEvent> keyEvents = [];
+  final List<String> injectedKeys = [];
   final List<ConsoleGraphic> graphics = [];
   Completer<KeyEvent>? nextKeyEvent;
+  Completer<void>? nextInjectedKey;
   KeyEvent? lastKey;
   bool stale = true;
   void Function() flush = () {};
@@ -78,11 +82,13 @@ class Console {
         buffer[y][x] = ConsoleChar.blank();
       }
     }
-    graphics.removeWhere((g) =>
-        g.left < endX &&
-        g.right > startX &&
-        g.top < endY &&
-        g.bottom > startY);
+    graphics.removeWhere(
+      (g) =>
+          g.left < endX &&
+          g.right > startX &&
+          g.top < endY &&
+          g.bottom > startY,
+    );
   }
 
   void eraseLine(int y) => eraseArea(startY: y, endY: y + 1);
@@ -91,17 +97,31 @@ class Console {
     if (y >= buffer.length) return;
     if (x >= buffer[y].length) return;
     if (c == '█') {
-      buffer[y][x] = ConsoleChar(' ', currentForeground, currentForeground,
-          mouseClickKey: mouseClickKey);
+      buffer[y][x] = ConsoleChar(
+        ' ',
+        currentForeground,
+        currentForeground,
+        mouseClickKey: mouseClickKey,
+      );
     } else {
-      buffer[y][x] = ConsoleChar(c, currentForeground, currentBackground,
-          mouseClickKey: mouseClickKey);
+      buffer[y][x] = ConsoleChar(
+        c,
+        currentForeground,
+        currentBackground,
+        mouseClickKey: mouseClickKey,
+      );
     }
     x++;
   }
 
-  void registerMouseRegion(int y, int x, int width, int height, String key,
-      {bool noHighlight = false}) {
+  void registerMouseRegion(
+    int y,
+    int x,
+    int width,
+    int height,
+    String key, {
+    bool noHighlight = false,
+  }) {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         buffer[y + i][x + j].mouseClickKey = key;
@@ -115,12 +135,14 @@ class Console {
     if (!gameOptions.mouseInput) return;
     String? key = buffer[y][x].mouseClickKey;
     key ??= "`";
-    keyEvent(KeyDownEvent(
-      logicalKey: LogicalKeyboardKey.keyA,
-      physicalKey: PhysicalKeyboardKey.keyA,
-      character: key,
-      timeStamp: const Duration(),
-    ));
+    keyEvent(
+      KeyDownEvent(
+        logicalKey: LogicalKeyboardKey.keyA,
+        physicalKey: PhysicalKeyboardKey.keyA,
+        character: key,
+        timeStamp: const Duration(),
+      ),
+    );
   }
 
   void mvaddchar(int y, int x, String c, {String? mouseClickKey}) {
@@ -128,15 +150,30 @@ class Console {
     addchar(c, mouseClickKey: mouseClickKey);
   }
 
-  void addstr(String s, {String? mouseClickKey}) {
+  void addstr(String s, {String? mouseClickKey, bool noTranslate = false}) {
+    // Skip translation for noTranslate strings
+    if (noTranslate) {
+      for (var i = 0; i < s.length; i++) {
+        addchar(s[i]);
+      }
+      return;
+    }
+
+    // Normal translation flow
     for (var i = 0; i < s.length; i++) {
       addchar(s[i]);
     }
   }
 
-  void mvaddstr(int y, int x, String s, {String? mouseClickKey}) {
+  void mvaddstr(
+    int y,
+    int x,
+    String s, {
+    String? mouseClickKey,
+    bool noTranslate = false,
+  }) {
     move(y, x);
-    addstr(s);
+    addstr(s, noTranslate: noTranslate);
   }
 
   void addstrx(String s, {bool restoreOldColor = true, String? mouseClickKey}) {
@@ -165,8 +202,13 @@ class Console {
     }
   }
 
-  void mvaddstrx(int y, int x, String s,
-      {bool restoreOldColor = true, String? mouseClickKey}) {
+  void mvaddstrx(
+    int y,
+    int x,
+    String s, {
+    bool restoreOldColor = true,
+    String? mouseClickKey,
+  }) {
     move(y, x);
     addstrx(s, restoreOldColor: restoreOldColor, mouseClickKey: mouseClickKey);
   }
@@ -176,38 +218,69 @@ class Console {
     nextKeyEvent?.complete(event);
   }
 
+  /// Injects a key for headless playtests without requiring Flutter focus.
+  void injectKey(String key) {
+    final normalizedKey = switch (key) {
+      'Enter' => 'Enter',
+      'Escape' => 'Escape',
+      'ArrowUp' => 'Up',
+      'ArrowDown' => 'Down',
+      'ArrowLeft' => 'Left',
+      'ArrowRight' => 'Right',
+      'Tab' => 'Tab',
+      'Backspace' => 'Backspace',
+      _ => key,
+    };
+    if (normalizedKey.isEmpty) return;
+    injectedKeys.add(normalizedKey);
+    nextInjectedKey?.complete();
+  }
+
   Future<String> getkey() async {
     flush();
     String character = '';
     while (character == '') {
-      while (lastKey == null) {
+      while (lastKey == null && injectedKeys.isEmpty) {
         nextKeyEvent = Completer<KeyEvent>();
-        await nextKeyEvent!.future;
+        nextInjectedKey = Completer<void>();
+        await Future.any([nextKeyEvent!.future, nextInjectedKey!.future]);
         nextKeyEvent = null;
+        nextInjectedKey = null;
       }
-      character = keyEventToString(lastKey!);
-      lastKey = null;
+      if (injectedKeys.isNotEmpty) {
+        character = injectedKeys.removeAt(0);
+      } else {
+        character = keyEventToString(lastKey!);
+        lastKey = null;
+      }
     }
     return character;
   }
 
   Future<KeyEvent> getKeyEvent() async {
     flush();
-    KeyEvent? result = lastKey;
-    while (result == null || keyEventToString(result) == '') {
-      while (lastKey == null) {
-        nextKeyEvent = Completer<KeyEvent>();
-        await nextKeyEvent!.future;
-        nextKeyEvent = null;
+    while (true) {
+      if (injectedKeys.isNotEmpty) {
+        return _keyEventFromInjected(injectedKeys.removeAt(0));
       }
-      result = lastKey;
-      lastKey = null;
+
+      final result = lastKey;
+      if (result != null) {
+        lastKey = null;
+        if (keyEventToString(result).isNotEmpty) return result;
+      }
+
+      nextKeyEvent = Completer<KeyEvent>();
+      nextInjectedKey = Completer<void>();
+      await Future.any([nextKeyEvent!.future, nextInjectedKey!.future]);
+      nextKeyEvent = null;
+      nextInjectedKey = null;
     }
-    return result;
   }
 
   String checkkey() {
     flush();
+    if (injectedKeys.isNotEmpty) return injectedKeys.removeAt(0);
     String character = lastKey?.character ?? '';
     lastKey = null;
     return character;
@@ -216,6 +289,29 @@ class Console {
   void addGraphic(ConsoleGraphic graphic) {
     graphics.add(graphic);
   }
+}
+
+KeyEvent _keyEventFromInjected(String key) {
+  final (logicalKey, physicalKey) = switch (key) {
+    'Enter' => (LogicalKeyboardKey.enter, PhysicalKeyboardKey.enter),
+    'Escape' => (LogicalKeyboardKey.escape, PhysicalKeyboardKey.escape),
+    'Up' => (LogicalKeyboardKey.arrowUp, PhysicalKeyboardKey.arrowUp),
+    'Down' => (LogicalKeyboardKey.arrowDown, PhysicalKeyboardKey.arrowDown),
+    'Left' => (LogicalKeyboardKey.arrowLeft, PhysicalKeyboardKey.arrowLeft),
+    'Right' => (LogicalKeyboardKey.arrowRight, PhysicalKeyboardKey.arrowRight),
+    'Tab' => (LogicalKeyboardKey.tab, PhysicalKeyboardKey.tab),
+    'Backspace' => (
+      LogicalKeyboardKey.backspace,
+      PhysicalKeyboardKey.backspace,
+    ),
+    _ => (LogicalKeyboardKey.keyA, PhysicalKeyboardKey.keyA),
+  };
+  return KeyDownEvent(
+    logicalKey: logicalKey,
+    physicalKey: physicalKey,
+    character: key.length == 1 ? key : null,
+    timeStamp: Duration.zero,
+  );
 }
 
 String keyEventToString(KeyEvent event) {

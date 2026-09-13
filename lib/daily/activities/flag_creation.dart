@@ -19,14 +19,17 @@ Future<void> doActivityMakeFlag(Creature cr) async {
   int dif = flag.makeDifficultyFor(cr);
 
   // Halve the supply cost if there is cloth on hand to repurpose.
-  Iterable<Item>? cloths =
-      cr.site?.loot.where((e) => e is Loot && e.type.cloth);
+  Iterable<Item>? cloths = cr.site?.loot.where(
+    (e) => e is Loot && e.type.cloth,
+  );
   Item? foundCloth;
   if (cloths != null && cloths.isNotEmpty) {
-    foundCloth = cloths.reduce((previousValue, element) =>
-        previousValue.type.fenceValue > element.type.fenceValue
-            ? element
-            : previousValue);
+    foundCloth = cloths.reduce(
+      (previousValue, element) =>
+          previousValue.type.fenceValue > element.type.fenceValue
+          ? element
+          : previousValue,
+    );
   }
   if (foundCloth != null) {
     cost = cost ~/ 2;
@@ -38,7 +41,10 @@ Future<void> doActivityMakeFlag(Creature cr) async {
   }
 
   if (ledger.funds < cost) {
-    await showMessage("${cr.name} doesn't have enough money to make a flag.");
+    await showMessage(
+      "{name} doesn't have enough money to make a flag.",
+      params: {"name": cr.name},
+    );
     cr.activity = Activity.none();
     return;
   }
@@ -49,29 +55,48 @@ Future<void> doActivityMakeFlag(Creature cr) async {
   // ruined (no second-rate flag).
   if (max(lcsRandom(10), lcsRandom(10)) >= dif) {
     cr.site?.loot.add(Flag.fromType(flag));
-    await showMessage("${cr.name} sewed a ${flag.name}.");
+    await showMessage(
+      "{name} sewed a {flag}.",
+      params: {"name": cr.name, "flag": flag.name},
+    );
     cr.activity = Activity.none();
   } else {
     switch (lcsRandom(7)) {
       case 0:
         await showMessage(
-            "${cr.name} messed up and made an ugly, unusable flag.");
+          "{name} messed up and made an ugly, unusable flag.",
+          params: {"name": cr.name},
+        );
       case 1:
         await showMessage(
-            "${cr.name} wasted the materials for a ${flag.name}.");
+          "{name} wasted the materials for a {flag}.",
+          params: {"name": cr.name, "flag": flag.name},
+        );
       case 2:
         await showMessage(
-            "${cr.name} tried to make a ${flag.name}, but failed.");
+          "{name} tried to make a {flag}, but failed.",
+          params: {"name": cr.name, "flag": flag.name},
+        );
       case 3:
-        await showMessage("${cr.name} made a nightmarish flag monster.");
+        await showMessage(
+          "{name} made a nightmarish flag monster.",
+          params: {"name": cr.name},
+        );
       case 4:
-        await showMessage("${cr.name} mixed up the colors on a ${flag.name}.");
+        await showMessage(
+          "{name} mixed up the colors on a {flag}.",
+          params: {"name": cr.name, "flag": flag.name},
+        );
       case 5:
         await showMessage(
-            "${cr.name} really messed up trying to make a ${flag.name}.");
+          "{name} really messed up trying to make a {flag}.",
+          params: {"name": cr.name, "flag": flag.name},
+        );
       case 6:
         await showMessage(
-            "${cr.name} got feet and inches mixed up and made a flag for ants.");
+          "{name} got feet and inches mixed up and made a flag for ants.",
+          params: {"name": cr.name},
+        );
     }
     cr.site?.loot.add(Loot(LootTypeIds.recycledCloth));
   }

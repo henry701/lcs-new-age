@@ -35,14 +35,14 @@ String localizedSquadName(String name) =>
     name == "The Liberal Crime Squad" ? LcsI18n.tr(name) : name;
 
 String localizedCreatureNameValue(String creatureName, String typeName) {
-  final normalizedName = creatureName.trim();
-  final normalizedTypeName = typeName.trim();
+  final normalizedName = repairLegacyMojibake(creatureName.trim());
+  final normalizedTypeName = repairLegacyMojibake(typeName.trim());
   if (LcsI18n.hasTranslation(normalizedName)) {
     return LcsI18n.tr(normalizedName);
   }
   final isGeneratedTypeName =
       normalizedName.toLowerCase() == normalizedTypeName.toLowerCase();
-  return isGeneratedTypeName ? LcsI18n.tr(normalizedTypeName) : creatureName;
+  return isGeneratedTypeName ? LcsI18n.tr(normalizedTypeName) : normalizedName;
 }
 
 String localizedCreatureName(Creature creature) =>

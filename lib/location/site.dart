@@ -175,7 +175,7 @@ class Site extends Location {
 
   @override
   String getName({bool short = false, bool includeCity = false}) {
-    final rawName = short ? (frontShortName ?? shortName) : (frontName ?? name);
+    final rawName = repairLegacyMojibake(short ? (frontShortName ?? shortName) : (frontName ?? name));
     // Generated site names are already localized when the world is created.
     // Only pass stable catalog keys through the translator; otherwise a name
     // such as "Base do Exército Sullivan" is incorrectly reported as a

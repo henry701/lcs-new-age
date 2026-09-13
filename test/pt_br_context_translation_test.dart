@@ -65,6 +65,18 @@ void main() {
     );
   });
 
+  test('Portuguese display repairs legacy UTF-8 mojibake in saved names', () {
+    expect(
+      localizedCreatureNameValue('RenÃ©e Gelbart', 'Civilian'),
+      'Renée Gelbart',
+    );
+    expect(localizedCreatureNameValue('PrisÃ£o Ness', 'Prison'), 'Prisão Ness');
+    expect(
+      localizedCreatureNameValue('PÂNICO DAS DROGAS', 'Civilian'),
+      'PÂNICO DAS DROGAS',
+    );
+  });
+
   test(
     'Portuguese translations preserve every source placeholder occurrence',
     () {

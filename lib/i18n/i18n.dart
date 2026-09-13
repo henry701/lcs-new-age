@@ -676,3 +676,23 @@ class LcsI18n {
     _fileLoggedUntranslatedKeys.clear();
   }
 }
+
+/// Repairs strings persisted by older builds that decoded UTF-8 as Latin-1.
+///
+/// The marker check avoids touching legitimate Portuguese text such as
+/// "PÂNICO"; decoding is attempted only for byte-shaped mojibake sequences.
+String repairLegacyMojibake(String value) {
+  final hasUtf8MojibakeMarker = RegExp(
+    r'(?:Ã[\u0080-\u00BF]|Â[\u0080-\u00BF]|â[\u0080-\u00BF]{2})',
+  ).hasMatch(value);
+  if (!hasUtf8MojibakeMarker) return value;
+
+  try {
+    final repaired = utf8.decode(latin1.encode(value));
+    return repaired == value ? value : repaired;
+  } on FormatException {
+    return value;
+  } on ArgumentError {
+    return value;
+  }
+}

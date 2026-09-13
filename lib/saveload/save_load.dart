@@ -518,6 +518,7 @@ int compareVersionStrings(String a, String b) {
 }
 
 void applyBugFixes(String version) {
+  _repairLegacyMojibakeInLoadedState();
   gameState.uniqueCreatures.syncWithPool();
   for (RecruitmentSession recruitmentSession in gameState.recruitmentSessions) {
     recruitmentSession.recruiter = pool.firstWhere(
@@ -605,5 +606,39 @@ void applyBugFixes(String version) {
     gameState.politics.publicOpinion[view] ??= publicMood;
     gameState.politics.publicInterest[view] ??= 0;
     gameState.politics.backgroundInfluence[view] ??= 0;
+  }
+}
+
+void _repairLegacyMojibakeInLoadedState() {
+  for (final creature in pool) {
+    creature.name = repairLegacyMojibake(creature.name);
+    creature.properName = repairLegacyMojibake(creature.properName);
+  }
+  for (final city in gameState.cities) {
+    city.name = repairLegacyMojibake(city.name);
+    city.shortName = repairLegacyMojibake(city.shortName);
+    city.description = repairLegacyMojibake(city.description);
+    for (final district in city.districts) {
+      district.name = repairLegacyMojibake(district.name);
+      district.shortName = repairLegacyMojibake(district.shortName);
+      for (final site in district.sites) {
+        site.name = repairLegacyMojibake(site.name);
+        site.shortName = repairLegacyMojibake(site.shortName);
+        site.frontName = site.frontName == null
+            ? null
+            : repairLegacyMojibake(site.frontName!);
+        site.frontShortName = site.frontShortName == null
+            ? null
+            : repairLegacyMojibake(site.frontShortName!);
+      }
+    }
+  }
+  for (final story in gameState.newsArchive) {
+    story.headline = repairLegacyMojibake(story.headline);
+    story.body = repairLegacyMojibake(story.body);
+    story.byline = story.byline == null
+        ? null
+        : repairLegacyMojibake(story.byline!);
+    story.publicationName = repairLegacyMojibake(story.publicationName);
   }
 }

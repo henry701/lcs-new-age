@@ -50,7 +50,10 @@ class City extends Location {
     // The generated city pool contains many proper names that intentionally
     // remain unchanged in Portuguese. Only send catalog-backed names through
     // the translator so those names do not create false missing-key telemetry.
-    return LcsI18n.hasTranslation(name) ? LcsI18n.tr(name) : name;
+    final displayName = repairLegacyMojibake(name);
+    return LcsI18n.hasTranslation(displayName)
+        ? LcsI18n.tr(displayName)
+        : displayName;
   }
 
   void addCommercialDistrict() {

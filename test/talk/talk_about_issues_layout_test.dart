@@ -38,6 +38,24 @@ void main() {
     erase();
   });
 
+  test('Portuguese privacy argument agrees across translated fragments', () {
+    final argument = [
+      LcsI18n.tr(
+        'The intelligence community monitors innocent citizens, treating your',
+      ),
+      LcsI18n.tr(
+        'private life like a library book they can check out at any time.',
+      ),
+    ].join(' ');
+
+    expect(
+      argument,
+      'A comunidade de inteligência monitora cidadãos inocentes, tratando sua '
+      'vida privada como um livro de biblioteca que pode pegar emprestado a '
+      'qualquer momento.',
+    );
+  });
+
   test(
     'failed issue-talk response starts below its localized response label',
     () async {

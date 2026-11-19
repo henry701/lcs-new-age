@@ -51,7 +51,15 @@ Future<void> noticeCheck({
       final template = e.align == Alignment.conservative
           ? "{name} observes your Liberal activity and lets forth a piercing Conservative alarm cry!"
           : "{name} observes your Liberal activity and shouts for help!";
-      mvaddstrc(9, 1, red, template, params: {"name": LcsI18n.tr(e.name)});
+      setColor(red);
+      addparagraph(
+        9,
+        1,
+        template,
+        y2: 10,
+        x2: console.width - 1,
+        params: {"name": LcsI18n.tr(e.name)},
+      );
 
       siteAlarm = true;
 

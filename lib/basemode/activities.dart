@@ -55,11 +55,11 @@ class Activity {
         });
       case ActivityType.makeClothing:
         return LcsI18n.processString("Making {clothing}", {
-          "clothing": clothingType?.shortName ?? LcsI18n.tr("a bug"),
+          "clothing": LcsI18n.tr(clothingType?.shortName ?? "a bug"),
         });
       case ActivityType.makeFlag:
         return LcsI18n.processString("Making {flag}", {
-          "flag": flagType?.shortName ?? LcsI18n.tr("a bug"),
+          "flag": LcsI18n.tr(flagType?.shortName ?? "a bug"),
         });
       case ActivityType.visit:
         final site = location;

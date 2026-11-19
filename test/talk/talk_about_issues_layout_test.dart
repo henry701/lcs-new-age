@@ -8,6 +8,7 @@ import 'package:lcs_new_age/gamestate/game_mode.dart';
 import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/politics/alignment.dart';
+import 'package:lcs_new_age/politics/laws.dart';
 import 'package:lcs_new_age/talk/talk_about_issues.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -37,6 +38,38 @@ void main() {
     LcsI18n.reset();
     erase();
   });
+
+  test(
+    'Portuguese drug policy discussion renders a grammatical argument',
+    () async {
+      final speaker = Creature()
+        ..name = 'Alex'
+        ..rawAttributes[Attribute.intelligence] = 100000
+        ..rawAttributes[Attribute.charisma] = 1
+        ..rawSkill[Skill.persuasion] = -100;
+      final target = Creature.fromId(CreatureTypeIds.gangUnit)
+        ..align = Alignment.moderate;
+      laws[Law.drugs] = DeepAlignment.moderate;
+      nextRngSeed = 7;
+      console
+        ..injectKey(' ')
+        ..injectKey(' ');
+
+      await talkAboutIssues(speaker, target);
+
+      final argument = List.generate(
+        4,
+        (row) => _consoleLine(10 + row).trim(),
+      ).join(' ').replaceAll(RegExp(r'\s+'), ' ');
+      expect(
+        argument,
+        contains(
+          'Precisamos parar de lotar prisões com usuários de drogas e '
+          'intervir apenas quando as pessoas realmente precisam de ajuda.',
+        ),
+      );
+    },
+  );
 
   test(
     'failed issue-talk response starts below its localized response label',

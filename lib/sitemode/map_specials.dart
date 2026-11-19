@@ -1412,9 +1412,12 @@ Future<void> specialNursingHomePatient({bool done = false}) async {
 
   // What state are they in?
   PatientState patientState = _getPatientState(personality);
-  Creature helper = squad
-      .sortedBy<num>((a) => a.skill(patientState.skill))
-      .first;
+  Creature helper = activeSquad!.livingMembers.reduce(
+    (best, candidate) =>
+        candidate.skill(patientState.skill) > best.skill(patientState.skill)
+        ? candidate
+        : best,
+  );
   bool success = helper.skillCheck(patientState.skill, patientState.difficulty);
   int juice = patientState.juice;
   int experience = 2;

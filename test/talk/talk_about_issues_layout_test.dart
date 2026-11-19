@@ -56,6 +56,21 @@ void main() {
     );
   });
 
+  test('Portuguese tax argument preserves the class structure meaning', () {
+    final argument = [
+      LcsI18n.tr(
+        'The tax code has been designed to perpetuate an unjust class',
+      ),
+      LcsI18n.tr('structure that is keeping you oppressed.'),
+    ].join(' ');
+
+    expect(
+      argument,
+      'O código tributário foi projetado para perpetuar uma estrutura de '
+      'classes injusta que mantém você oprimido.',
+    );
+  });
+
   test(
     'failed issue-talk response starts below its localized response label',
     () async {

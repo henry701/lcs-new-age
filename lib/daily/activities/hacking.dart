@@ -49,7 +49,7 @@ Future<void> doActivityHacking(List<Creature> hack) async {
     juiceval = 10;
     crime = Crime.dataTheft;
 
-    switch (lcsRandom(6)) {
+    switch (lcsRandom(7)) {
       case 0:
         msg += "pilfered files from a Corporate server.";
         loot(LootTypeIds.corpFiles);

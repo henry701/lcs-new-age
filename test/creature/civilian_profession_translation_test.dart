@@ -17,6 +17,7 @@ void main() {
     'Construction Worker': 'Profissional de Obras',
     'Nursing Home Admin': 'Gerente de Asilos',
     'Servant': 'Criado',
+    'Teenager': 'Adolescente',
   };
 
   setUp(() async {
@@ -28,6 +29,11 @@ void main() {
   test('Portuguese localizes encounter labels and alternate names', () {
     for (final entry in translations.entries) {
       expect(LcsI18n.hasTranslation(entry.key), isTrue, reason: entry.key);
+      expect(
+        localizedCreatureNameValue(entry.key, entry.key),
+        entry.value,
+        reason: entry.key,
+      );
       expect(
         localizedCreatureNameValue(entry.key, 'Some Other Type'),
         entry.value,

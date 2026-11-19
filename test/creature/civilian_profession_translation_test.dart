@@ -16,6 +16,7 @@ void main() {
     'Camera Operator': 'Cinegrafista',
     'Construction Worker': 'Profissional de Obras',
     'Nursing Home Admin': 'Gerente de Asilos',
+    'Servant': 'Criado',
   };
 
   setUp(() async {
@@ -36,6 +37,7 @@ void main() {
   });
 
   test('sleeper roles use the existing gender inflection where supported', () {
+    expect(localizedProfessionName('Servant', Gender.female), 'Criada');
     expect(localizedProfessionName('Firefighter', Gender.female), 'Bombeira');
     expect(localizedProfessionName('Retiree', Gender.female), 'Aposentada');
     expect(

@@ -1346,6 +1346,22 @@ void printname(Creature cr) {
   );
 }
 
+Creature? _promotionContact(Creature person) {
+  final currentContact = pool.firstWhereOrNull(
+    (candidate) => candidate.alive && candidate.id == person.hireId,
+  );
+  if (currentContact?.hireId == null) return null;
+  return pool.firstWhereOrNull(
+    (candidate) => candidate.alive && candidate.id == currentContact!.hireId,
+  );
+}
+
+bool _canPromote(Creature person, Creature? contact) =>
+    person.hidingDaysLeft == 0 &&
+    !person.seduced &&
+    contact != null &&
+    (person.brainwashed || contact.subordinatesLeft > 0);
+
 /* base - review - promote liberals */
 Future<void> promoteliberals() async {
   const int pageLength = 19;
@@ -1358,8 +1374,6 @@ Future<void> promoteliberals() async {
 
   //SORT
   sortbyhire(temppool, level);
-  debugPrint(temppool.toString());
-
   //PROMOTE
   int page = 0;
 
@@ -1385,29 +1399,35 @@ Future<void> promoteliberals() async {
       p++
     ) {
       Creature tempp = temppool[p];
+      final newContact = _promotionContact(tempp);
       setColor(lightGray);
       String letter = letterAPlus(y - 2);
-      addOptionText(y, 0, letter, "{letter} - ", params: {"letter": letter});
+      addOptionText(
+        y,
+        0,
+        letter,
+        "{letter} - ",
+        params: {"letter": letter},
+        enabledWhen: _canPromote(tempp, newContact),
+      );
 
       move(y, 27);
       int p2 = 0;
 
       for (p2 = 0; p2 < pool.length; p2++) {
-        int p3 = 0;
         if (pool[p2].alive && pool[p2].id == tempp.hireId) {
           printname(pool[p2]);
 
           move(y, 54);
-          for (p3 = 0; p3 < pool.length; p3++) {
-            if (pool[p3].alive && pool[p3].id == pool[p2].hireId) {
-              if (tempp.seduced) {
-                addstr("<Refuses Promotion>");
-              } else if (pool[p3].subordinatesLeft == 0 && !tempp.brainwashed) {
-                addstr("<Can't Lead More>");
-              } else {
-                printname(pool[p3]);
-              }
-              break;
+          if (tempp.seduced) {
+            addstr("<Refuses Promotion>");
+          } else if (pool[p2].hireId == null) {
+            addstr("<Already Top Level>");
+          } else if (newContact != null) {
+            if (newContact.subordinatesLeft <= 0 && !tempp.brainwashed) {
+              addstr("<Can't Lead More>");
+            } else {
+              printname(newContact);
             }
           }
 
@@ -1463,27 +1483,14 @@ Future<void> promoteliberals() async {
       page++;
     }
 
-    if (c >= Key.a && c <= Key.a + pageLength) {
+    if (c >= Key.a && c < Key.a + pageLength) {
       int p = page * pageLength + c - Key.a;
-      Creature tempp = temppool[p];
-      // can't promote liberals in hiding or seduced
-      if (p < temppool.length && tempp.hidingDaysLeft == 0 && !tempp.seduced) {
-        for (int p2 = 0; p2 < pool.length; p2++) {
-          if (pool[p2].alive && pool[p2].id == tempp.hireId) {
-            addstr(pool[p2].name);
-
-            for (int p3 = 0; p3 < pool.length; p3++) {
-              // Can't promote if new boss can't accept more subordinates
-              if (pool[p3].alive &&
-                  pool[p3].id == pool[p2].hireId &&
-                  (tempp.brainwashed || pool[p3].subordinatesLeft > 0)) {
-                tempp.hireId = pool[p2].hireId;
-                sortbyhire(temppool, level);
-                break;
-              }
-            }
-            break;
-          }
+      if (p < temppool.length) {
+        final person = temppool[p];
+        final newContact = _promotionContact(person);
+        if (_canPromote(person, newContact)) {
+          person.hireId = newContact!.id;
+          sortbyhire(temppool, level);
         }
       }
     }

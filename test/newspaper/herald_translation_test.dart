@@ -142,6 +142,49 @@ void main() {
     expect(rendered, isNot(contains('dele crença')));
   });
 
+  test('Justice Amok does not assign judges a contradictory gender', () {
+    reseedRNG(seed: 701);
+    final story = NewsStory.unpublished(NewsStories.majorEvent)
+      ..publication = Publication.herald;
+    final observedPossessives = <String>{};
+
+    for (var i = 0; i < 100; i++) {
+      final article = generateMajorEventContent(
+        View.justices,
+        false,
+        story,
+      ).storyText!;
+      expect(article, contains('pela Justiça Federal'));
+      expect(article, isNot(contains('juíza')));
+      expect(article, isNot(contains('juiz federal')));
+      if (article.contains('na opinião dele')) observedPossessives.add('dele');
+      if (article.contains('na opinião dela')) observedPossessives.add('dela');
+    }
+
+    expect(observedPossessives, {'dele', 'dela'});
+  });
+
+  test('Justice Amok keeps the original English possessives', () async {
+    await LcsI18n.initialize('en_US');
+    reseedRNG(seed: 701);
+    final story = NewsStory.unpublished(NewsStories.majorEvent)
+      ..publication = Publication.herald;
+    final observedPossessives = <String>{};
+
+    for (var i = 0; i < 100; i++) {
+      final article = generateMajorEventContent(
+        View.justices,
+        false,
+        story,
+      ).storyText!;
+      if (article.contains('based on his ')) observedPossessives.add('his');
+      if (article.contains('based on her ')) observedPossessives.add('her');
+      expect(article, isNot(contains('(possessive)')));
+    }
+
+    expect(observedPossessives, {'his', 'her'});
+  });
+
   test(
     'generated country titles use Portuguese names in military articles',
     () {

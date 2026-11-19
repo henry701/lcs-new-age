@@ -2199,7 +2199,10 @@ MajorEventContent generateMajorEventContent(
               "city": randomCityName(),
               "serialKiller": serialKiller.firstLast,
               "judge": judge.firstLast,
-              "judgePossessive": LcsI18n.tr(judgeGender.hisHer),
+              "judgePossessive": LcsI18n.translatePronoun(
+                judgeGender.hisHer,
+                role: PronounRole.possessive,
+              ),
               "judgeReason": judgeReason,
               "serialKillerLast": serialKiller.last,
               "judgeLast": judge.last,

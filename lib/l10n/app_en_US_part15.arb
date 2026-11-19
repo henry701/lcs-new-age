@@ -204,6 +204,7 @@
   "{first} {middle}{last}": "{first} {middle}{last}",
   "{last}, {suffix}": "{last}, {suffix}",
   "{letter} - ": "{letter} - ",
+  "{months} month": "{months} month",
   "{name} cannot manage any subordinates, but still has {meetingCount} {meetingLabel} scheduled.": "{name} cannot manage any subordinates, but still has {meetingCount} {meetingLabel} scheduled.",
   "{name} collapses lifelessly.": "{name} collapses lifelessly.",
   "{name} is due to be executed in {months} months.": "{name} is due to be executed in {months} months.",

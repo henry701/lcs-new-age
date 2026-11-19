@@ -730,17 +730,18 @@ void printSafehouseSecurityBox(Site site) {
     mvaddstr(13, 1, "│                │");
     mvaddstr(14, 1, "└────────────────┘");
     Color color = darkGray;
-    String description = "Possible";
+    String description = LcsI18n.tr("Possible\nSurveillance");
     if (extrajudicialHeat > heatProtection * 0.6) {
       color = midGray;
-      description = "Likely";
+      description = LcsI18n.tr("Likely\nSurveillance");
     }
     if (extrajudicialHeat > heatProtection * 0.9) {
       color = red;
-      description = "Overt";
+      description = LcsI18n.tr("Overt\nSurveillance");
     }
-    mvaddstrc(12, 4, color, description);
-    mvaddstrc(13, 4, color, "Surveillance");
+    final lines = description.split('\n');
+    mvaddstrc(12, 4, color, lines[0], noTranslate: true);
+    mvaddstrc(13, 4, color, lines[1], noTranslate: true);
   }
 }
 

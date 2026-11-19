@@ -208,6 +208,7 @@
   "{first} {middle}{last}": "{first} {middle}{last}",
   "{last}, {suffix}": "{last}, {suffix}",
   "{letter} - ": "{letter} - ",
+  "{months} month": "{months} mês",
   "{name} cannot manage any subordinates, but still has {meetingCount} {meetingLabel} scheduled.": "{name} não pode gerenciar subordinados, mas ainda tem {meetingCount} {meetingLabel} na agenda.",
   "{name} collapses lifelessly.": "{name} colapsa sem vida.",
   "{name} is burned! (nonbinary)": "{name} é queimade!",

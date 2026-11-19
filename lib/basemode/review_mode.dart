@@ -462,14 +462,12 @@ Future<void> reviewMode(ReviewMode mode) async {
           if (tempp.site?.type == SiteType.prison) {
             if (tempp.deathPenalty && tempp.sentence != 0) {
               setColor(red);
-              addstr("DEATH ROW: ");
-              addstr(tempp.sentence.toString());
-              addstr(" ");
-              if (tempp.sentence > 1) {
-                addstr("Months");
-              } else {
-                addstr("Month");
-              }
+              addstr(
+                tempp.sentence > 1
+                    ? "DEATH ROW: {months} months"
+                    : "DEATH ROW: {months} month",
+                params: {"months": tempp.sentence},
+              );
             } else if (tempp.sentence <= -1) {
               setColor(lightGray);
               if (tempp.sentence < -1) {
@@ -480,13 +478,10 @@ Future<void> reviewMode(ReviewMode mode) async {
               }
             } else if (tempp.sentence != 0) {
               setColor(yellow);
-              addstr(tempp.sentence.toString());
-              addstr(" ");
-              if (tempp.sentence > 1) {
-                addstr("Months");
-              } else {
-                addstr("Month");
-              }
+              addstr(
+                tempp.sentence > 1 ? "{months} months" : "{months} month",
+                params: {"months": tempp.sentence},
+              );
             }
           } else {
             setColor(darkGray);

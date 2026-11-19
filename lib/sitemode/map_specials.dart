@@ -749,37 +749,37 @@ Future<void> specialCourthouseJury() async {
   if (succeed) {
     if (laws[Law.deathPenalty] == DeepAlignment.archConservative) {
       await encounterMessage(
-        "{name} works the room like in Twelve Angry Men, and the jury ",
-        line2: "concludes that {crime} isn't worth yet another execution.",
+        "{name} works the room like in Twelve Angry Men, and the jury concludes that {crime} isn't worth yet another execution.",
         params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
+        paginateOverflow: true,
       );
       addjuice(maxp, 25, 1000);
     } else {
       await encounterMessage(
-        "{name} works the room like in Twelve Angry Men, and the jury ",
-        line2: "concludes that {crime} wasn't really wrong here.",
+        "{name} works the room like in Twelve Angry Men, and the jury concludes that {crime} wasn't really wrong here.",
         params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
+        paginateOverflow: true,
       );
       addjuice(maxp, 25, 200);
     }
   } else {
     if (successPersuasion) {
       await encounterMessage(
-        "{name} charms the jury into not calling the guards, but fails ",
-        line2: "to show why {crime} should go unpunished.",
+        "{name} charms the jury into not calling the guards, but fails to show why {crime} should go unpunished.",
         params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
+        paginateOverflow: true,
       );
     } else if (successLaw) {
       await encounterMessage(
-        "{name} presents a complex lecture on the many nuances of ",
-        line2: "the law around {crime}, but the jurors just fall asleep.",
+        "{name} presents a complex lecture on the many nuances of the law around {crime}, but the jurors just fall asleep.",
         params: {"name": maxp.name, "crime": LcsI18n.tr(crime)},
+        paginateOverflow: true,
       );
     } else {
       await encounterMessage(
-        "{name} tries to work the room like in Twelve Angry Men, but ",
-        line2: "only manages to produce Twelve Angry Jurors.",
+        "{name} tries to work the room like in Twelve Angry Men, but only manages to produce Twelve Angry Jurors.",
         params: {"name": maxp.name},
+        paginateOverflow: true,
       );
       fillEncounter(CreatureTypeIds.juror, 12);
       printEncounter();
@@ -986,7 +986,30 @@ Future<void> encounterMessage(
   Map<String, dynamic>? params,
   bool noTranslate = false,
   bool fitToWidth = false,
+  bool paginateOverflow = false,
 }) async {
+  if (paginateOverflow) {
+    final lines = <String>[];
+    for (final part in [message, ?line2]) {
+      final rendered = LcsI18n.processString(
+        part,
+        params,
+        noTranslate: noTranslate,
+      );
+      lines.addAll(
+        wrapConsoleText(rendered, console.width - 1, maxLines: 1000),
+      );
+    }
+    for (var index = 0; index < lines.length; index += 2) {
+      clearMessageArea();
+      mvaddstrc(9, 1, color, lines[index], noTranslate: true);
+      if (index + 1 < lines.length) {
+        mvaddstr(10, 1, lines[index + 1], noTranslate: true);
+      }
+      await getKey();
+    }
+    return;
+  }
   clearMessageArea();
 
   if (fitToWidth) {
@@ -1474,6 +1497,7 @@ Future<void> specialNursingHomePatient({bool done = false}) async {
       fillMessage(patientState.description),
       line2: fillMessage(resultMessage),
       noTranslate: true,
+      paginateOverflow: true,
     );
 
     currentTile.special = TileSpecial.nursingHomePatientDone;

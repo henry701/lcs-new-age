@@ -225,6 +225,7 @@
   "{name} shakes its turret a firm 'no'.": "{name} balança sua torre em um firme 'não'.",
   "{name} speaks these final words: \"Better dead than liberal...\"": "{name} profere suas últimas palavras: \"Melhor morrer do que ser liberal...\"",
   "{name} unlocks the door!": "{name} destranca a porta!",
+  "{name} works the room like in Twelve Angry Men, and the jury concludes that {crime} isn't worth yet another execution.": "{name} convence o júri, como em Doze Homens e uma Sentença, de que {crime} não merece mais uma execução.",
   "{name}'s left eye is shot out!": "O olho esquerdo de {name} foi atingido!",
   "{name}'s verbal finesse leaves something to be desired.": "A habilidade verbal de {name} deixa a desejar.",
   "{pName} is able to create a map of the site from this information.": "{pName} consegue criar um mapa do local com essa informação.",

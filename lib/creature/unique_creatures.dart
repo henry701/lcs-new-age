@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lcs_new_age/basemode/activities.dart';
 import 'package:lcs_new_age/creature/creature.dart';
 import 'package:lcs_new_age/creature/creature_type.dart';
 import 'package:lcs_new_age/creature/gender.dart';
@@ -7,6 +9,7 @@ import 'package:lcs_new_age/gamestate/game_state.dart';
 import 'package:lcs_new_age/i18n/i18n.dart';
 import 'package:lcs_new_age/location/location.dart';
 import 'package:lcs_new_age/location/location_type.dart';
+import 'package:lcs_new_age/location/site.dart';
 import 'package:lcs_new_age/politics/politics.dart';
 import 'package:lcs_new_age/utils/lcsrandom.dart';
 
@@ -110,7 +113,56 @@ class UniqueCreatures {
   }
 
   void newCEO() => _ceo = null;
-  void newPresident() => _president = null;
+  void newPresident() {
+    final former = _president;
+    _president = null;
+    if (former != null && former.sleeperAgent && pool.contains(former)) {
+      _retirePresidentSleeper(former);
+    }
+    reconcileFormerPresidentSleepers();
+  }
+
+  void reconcileFormerPresidentSleepers() {
+    final currentName = politics.execName[Exec.president]?.firstLast;
+    if (currentName == null || currentName.isEmpty) return;
+    if (_president != null &&
+        _president!.properName.isNotEmpty &&
+        _president!.properName != currentName) {
+      _president = null;
+    }
+    for (final person in pool.where(
+      (p) =>
+          p.typeId == CreatureTypeIds.president &&
+          p.sleeperAgent &&
+          p.properName.isNotEmpty &&
+          p.properName != currentName,
+    )) {
+      _retirePresidentSleeper(person);
+    }
+  }
+
+  void _retirePresidentSleeper(Creature person) {
+    final viable = sites.where(
+      (site) => site.controller == SiteController.lcs && !site.siege.underSiege,
+    );
+    final location =
+        viable.firstWhereOrNull(
+          (site) => site.city == person.site?.city && site.numberEating > 0,
+        ) ??
+        viable.firstWhereOrNull((site) => site.city == person.site?.city) ??
+        viable.firstOrNull;
+    person.activity = Activity.none();
+    person.sleeperAgent = false;
+    person.workLocation = null;
+    person.base = location;
+    if (person.alive &&
+        !person.kidnapped &&
+        !person.missing &&
+        !person.imprisoned &&
+        !person.hospitalized) {
+      person.location = location ?? person.location?.city;
+    }
+  }
 
   void syncWithPool() {
     if (_ceo != null) {
@@ -134,8 +186,8 @@ class UniqueCreatures {
   }
 
   void replace(Creature cr) {
-    if (cr == ceo) newCEO();
-    if (cr == president) {
+    if (cr == _ceo) newCEO();
+    if (cr == _president) {
       politics.promoteVP();
     }
     for (var siteCreatureList in _siteCreatures.values) {

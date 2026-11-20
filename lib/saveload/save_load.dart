@@ -520,6 +520,7 @@ int compareVersionStrings(String a, String b) {
 void applyBugFixes(String version) {
   _repairLegacyMojibakeInLoadedState();
   gameState.uniqueCreatures.syncWithPool();
+  gameState.uniqueCreatures.reconcileFormerPresidentSleepers();
   for (RecruitmentSession recruitmentSession in gameState.recruitmentSessions) {
     recruitmentSession.recruiter = pool.firstWhere(
       (p) => p.id == recruitmentSession.recruiterId,
